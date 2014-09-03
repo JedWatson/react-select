@@ -44,7 +44,7 @@ function watchBundle(target, name, dest) {
 			doBundle(target, name, dest);
 		})
 		.on('time', function (time) {
-			gutil.log(chalk.green('Scripts built in ' + (Math.round(time / 10) / 100) + 's'));
+			gutil.log(chalk.green(name + ' built in ' + (Math.round(time / 10) / 100) + 's'));
 		});
 }
 
