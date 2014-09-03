@@ -10,8 +10,19 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "underscore": "^1.6.0",
-    "react": "^0.11.0"
+    "underscore": "~1.7.0",
+    "react": "~0.11.1"
+  },
+  "devDependencies": {
+    "browserify": "^5.9.1",
+    "chalk": "~0.5.1",
+    "del": "~0.1.2",
+    "gulp": "~3.8.5",
+    "gulp-util": "~3.0.0",
+    "merge-stream": "~0.1.5",
+    "reactify": "~0.14.0",
+    "vinyl-source-stream": "~0.1.1",
+    "watchify": "~1.0.1"
   },
   "scripts": {
     "test": "echo \"no tests yet\" && exit 0"
@@ -19,6 +30,7 @@
   "tags": [
     "react",
     "combobox",
-    "select"
+    "select",
+    "ui"
   ]
 }
