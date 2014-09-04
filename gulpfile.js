@@ -64,12 +64,15 @@ function buildExamples(watch) {
 		.require('react')
 		.require('./lib/select.js', { expose: 'react-select' });
 	
-	var bundleFn = watch ? watchBundle : doBundle;
-	
-	return merge(
-		bundleFn(app, 'app-bundle.js', dest),
-		bundleFn(common, 'global-bundle.js', dest)
-	);
+	if (watch) {
+		watchBundle(app, 'app-bundle.js', dest);
+		watchBundle(common, 'global-bundle.js', dest);
+	} else {
+		return merge(
+			doBundle(app, 'app-bundle.js', dest),
+			doBundle(common, 'global-bundle.js', dest)
+		);
+	}
 	
 }
 
