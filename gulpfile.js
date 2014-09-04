@@ -1,6 +1,7 @@
 var del = require('del'),
 	gulp = require('gulp'),
 	gutil = require('gulp-util'),
+	less = require('gulp-less'),
 	browserify = require('browserify'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
@@ -15,6 +16,17 @@ var del = require('del'),
 gulp.task('clean', function(done) {
 	del(['./examples/public/build'], done);
 });
+
+/**
+ * Build Default theme from LESS
+ */
+
+gulp.task('less', function() {
+	return gulp.src('less/default.less')
+		.pipe(less())
+		.pipe(gulp.dest('dist'));
+});
+
 
 /**
  * Build Examples
