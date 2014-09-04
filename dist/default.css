@@ -1,0 +1,118 @@
+/**
+ * React Select
+ * ============
+ * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/
+ * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs
+ * MIT License: https://github.com/keystonejs/react-select
+*/
+.Select-control {
+  background-color: white;
+  border: 1px solid #000000;
+  border-color: #0d0d0d #000000 #000000;
+  border-radius: 5px;
+  color: #000000;
+  cursor: pointer;
+  outline: none;
+  padding: 5px 5px;
+}
+.Select-control:hover {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+.is-open > .Select-control {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background: white;
+  border-color: #000000 #000000 #0d0d0d;
+}
+.is-focused > .Select-control {
+  border-color: #0000ff #1a1aff #1a1aff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 0, 255, 0.5);
+  cursor: text;
+}
+.Select-control:after {
+  border-color: #999999 transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  content: " ";
+  display: block;
+  height: 0;
+  margin-top: -3px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  width: 0;
+}
+.is-open > .Select-control:after {
+  border-color: transparent transparent #999999;
+  border-width: 0 5px 5px;
+}
+.Select-input {
+  cursor: pointer;
+  border: 0 none;
+  background: none transparent;
+  outline: none;
+  -webkit-appearance: none;
+}
+.Select-input::-moz-placeholder {
+  color: #aaaaaa;
+  opacity: 1;
+}
+.Select-input:-ms-input-placeholder {
+  color: #aaaaaa;
+}
+.Select-input::-webkit-input-placeholder {
+  color: #aaaaaa;
+}
+.is-focused .Select-input {
+  cursor: text;
+}
+.Select-clear {
+  color: #999999;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.1em;
+  padding: 5px 5px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+.Select-clear:hover {
+  color: #ff0000;
+}
+.Select-menu {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: white;
+  border: 1px solid #000000;
+  border-top-color: #808080;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  margin-top: -1px;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 10000;
+}
+.Select-option {
+  color: #333333;
+  cursor: pointer;
+  display: block;
+  padding: 5px 5px;
+}
+.Select-option:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.Select-option.is-focused {
+  background-color: #f2f9fc;
+  color: #000000;
+}
+.Select-noresults {
+  color: #666666;
+  cursor: default;
+  display: block;
+  padding: 5px 5px;
+}
+.Select-noresults:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
