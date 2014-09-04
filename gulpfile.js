@@ -42,7 +42,6 @@ function doBundle(target, name, dest) {
 }
 
 function watchBundle(target, name, dest) {
-	doBundle(target, name, dest);
 	return watchify(target)
 		.on('update', function (scriptIds) {
 			scriptIds = scriptIds
@@ -62,35 +61,44 @@ function watchBundle(target, name, dest) {
 
 function buildExamples(watch) {
 	
-	var ops = watch ? watchify.args : {};
+	var opts = watch ? watchify.args : {};
+	
+	// opts.debug = true;
 	
 	var dest = './examples/public/build';
 	
-	var app = browserify(ops)
+	var common = browserify(opts)
+		.require('react')
+		.require('underscore');
+	
+	var select = browserify(opts)
+		.exclude('react')
+		.exclude('underscore')
+		.require('./lib/select.js', { expose: 'react-select' });
+	
+	var app = browserify(opts)
 		.add('./examples/src/app.js')
 		.exclude('react')
 		.exclude('react-select')
 		.transform(reactify);
 	
-	var common = browserify(ops)
-		.require('react')
-		.require('./lib/select.js', { expose: 'react-select' });
-	
-	var exampleCSS = gulp.src('examples/src/example.less')
+	var css = gulp.src('examples/src/example.less')
 		.pipe(less())
-		.pipe(gulp.dest('examples/public/build'));
+		.pipe(gulp.dest(dest));
 	
 	if (watch) {
 		watchBundle(app, 'app-bundle.js', dest);
+		watchBundle(select, 'select-bundle.js', dest);
 		watchBundle(common, 'global-bundle.js', dest);
 		// TODO: Watch LESS
-	} else {
-		return merge(
-			doBundle(app, 'app-bundle.js', dest),
-			doBundle(common, 'global-bundle.js', dest),
-			exampleCSS
-		);
 	}
+	
+	return merge(
+		doBundle(app, 'app-bundle.js', dest),
+		doBundle(select, 'select-bundle.js', dest),
+		doBundle(common, 'global-bundle.js', dest),
+		css
+	);
 	
 }
 
