@@ -312,4 +312,4 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"react":undefined,"underscore":undefined}]},{},[]);
+},{"react":false,"underscore":false}]},{},[]);
