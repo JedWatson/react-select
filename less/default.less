@@ -1,0 +1,39 @@
+/**
+ * React Select
+ * ============
+ * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/
+ * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs
+ * MIT License: https://github.com/keystonejs/react-select
+*/
+
+// 
+// Select Variables
+// ------------------------------
+
+@select-text-color:            black;
+@select-input-border-color:    black;
+@select-input-border-radius:   5px;
+@select-input-placeholder:     #aaa;
+@select-input-border-focus:    blue;
+
+@select-padding-vertical:      5px;
+@select-padding-horizontal:    5px;
+
+@select-arrow-color:           #999;
+
+@select-menu-zindex:           10000;
+
+@select-option-color:          lighten(@select-text-color, 20%);
+@select-option-focused-color:  @select-text-color;
+@select-option-focused-bg:     #f2f9fc; // pale blue
+
+@select-noresults-color:       lighten(@select-text-color, 40%);
+
+@select-clear-color:           #999;
+@select-clear-hover-color:     red;
+
+// 
+// Imports
+// ------------------------------
+@import "select-control.less";
+@import "select-menu.less";
