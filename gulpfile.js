@@ -76,13 +76,19 @@ function buildExamples(watch) {
 		.require('react')
 		.require('./lib/select.js', { expose: 'react-select' });
 	
+	var exampleCSS = gulp.src('examples/src/example.less')
+		.pipe(less())
+		.pipe(gulp.dest('examples/public/build'));
+	
 	if (watch) {
 		watchBundle(app, 'app-bundle.js', dest);
 		watchBundle(common, 'global-bundle.js', dest);
+		// TODO: Watch LESS
 	} else {
 		return merge(
 			doBundle(app, 'app-bundle.js', dest),
-			doBundle(common, 'global-bundle.js', dest)
+			doBundle(common, 'global-bundle.js', dest),
+			exampleCSS
 		);
 	}
 	
