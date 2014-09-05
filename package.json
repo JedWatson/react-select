@@ -14,7 +14,7 @@
     "react": "~0.11.1"
   },
   "devDependencies": {
-    "browserify": "^5.9.1",
+    "browserify": "~5.11.1",
     "chalk": "~0.5.1",
     "del": "~0.1.2",
     "gulp": "~3.8.5",
