@@ -3,13 +3,6 @@
 // ------------------------------
 
 
-// wrapper
-
-.Select {
-	position: relative;
-}
-
-
 // base
 
 .Select-control {
@@ -17,10 +10,12 @@
 	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
+	box-sizing: border-box;
 	color: @select-text-color;
 	cursor: pointer;
 	outline: none;
 	padding: @select-padding-vertical @select-padding-horizontal;
+	transition: all 200ms ease;
 
 	&:hover {
 		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -34,7 +29,7 @@
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
 }
 
-.is-focused > .Select-control {
+.is-focused:not(.is-open) > .Select-control {
 	border-color: @select-input-border-focus lighten(@select-input-border-focus, 5%) lighten(@select-input-border-focus, 5%);
 	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus,50%);
 	cursor: text;
@@ -68,9 +63,11 @@
 // the actual <input> element users type in
 
 .Select-input {
-	cursor: pointer;
-	border: 0 none;
 	background: none transparent;
+	border: 0 none;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: inherit;
 	outline: none;
 	-webkit-appearance: none;
 

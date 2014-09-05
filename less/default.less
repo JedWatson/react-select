@@ -10,18 +10,18 @@
 // Select Variables
 // ------------------------------
 
-@select-text-color:            black;
-@select-input-border-color:    black;
-@select-input-border-radius:   5px;
+@select-text-color:            #333;
+@select-input-border-color:    #ccc;
+@select-input-border-radius:   4px;
 @select-input-placeholder:     #aaa;
-@select-input-border-focus:    blue;
+@select-input-border-focus:    #08c; // blue
 
-@select-padding-vertical:      5px;
-@select-padding-horizontal:    5px;
+@select-padding-vertical:      6px;
+@select-padding-horizontal:    10px;
 
 @select-arrow-color:           #999;
 
-@select-menu-zindex:           10000;
+@select-menu-zindex:           1000;
 
 @select-option-color:          lighten(@select-text-color, 20%);
 @select-option-focused-color:  @select-text-color;
@@ -30,7 +30,14 @@
 @select-noresults-color:       lighten(@select-text-color, 40%);
 
 @select-clear-color:           #999;
-@select-clear-hover-color:     red;
+@select-clear-hover-color:     #c0392b; // red
+
+
+// wrapper
+
+.Select {
+	position: relative;
+}
 
 // 
 // Imports

@@ -8,7 +8,10 @@ var SelectField = React.createClass({
 		var ops = [
 			{ label: 'First', value: 'one' },
 			{ label: 'Second', value: 'two' },
-			{ label: 'Third', value: 'three' }
+			{ label: 'Third', value: 'three' },
+			{ label: 'Fourth', value: 'four' },
+			{ label: 'Fifth', value: 'five' },
+			{ label: 'Sixth', value: 'six' }
 		];
 		return <div>
 			{this.props.label}
