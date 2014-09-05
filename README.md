@@ -3,6 +3,19 @@ React-Select
 
 A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
 
+## Demo & Examples
+
+Live example: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+
+To build the examples locally:
+
+```
+gulp build-examples
+```
+
+Then open `./examples/public/index.html` in a browser.
+
+
 ## Project Status
 
 This is currently a work in progress.
@@ -11,7 +24,7 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 TODO:
 
-- CSS Styles and theme support
+- CSS Styles and theme support (in progress)
 - Multiselect
 - Remote options loading
 - Custom options rendering
