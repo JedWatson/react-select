@@ -6,21 +6,23 @@ var React = require('react'),
 var SelectField = React.createClass({
 	render: function() {
 		var ops = [
-			{ label: 'First', value: 'one' },
-			{ label: 'Second', value: 'two' },
-			{ label: 'Third', value: 'three' },
-			{ label: 'Fourth', value: 'four' },
-			{ label: 'Fifth', value: 'five' },
-			{ label: 'Sixth', value: 'six' }
+			{ label: 'Australian Capital Territory', value: 'australian-capital-territory' },
+			{ label: 'New South Wales', value: 'new-south-wales' },
+			{ label: 'Victoria', value: 'victoria' },
+			{ label: 'Queensland', value: 'queensland' },
+			{ label: 'Western Australia', value: 'western-australia' },
+			{ label: 'South Australia', value: 'south-australia' },
+			{ label: 'Tasmania', value: 'tasmania' },
+			{ label: 'Northern Territory', value: 'northern-territory' }
 		];
 		return <div>
-			{this.props.label}
+			<label>{this.props.label}</label>
 			<Select options={ops} value={this.props.value} />
 		</div>;
 	}
 });
 
 React.renderComponent(
-	<SelectField label="Choose:"/>,
+	<SelectField label="State:"/>,
 	document.getElementById('example')
 );

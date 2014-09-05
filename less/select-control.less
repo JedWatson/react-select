@@ -27,6 +27,13 @@
 	border-bottom-right-radius: 0;
 	background: white;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+	cursor: text;
+
+	// flip the arrow so its pointing up when the menu is open
+	> .Select-indicator {
+		border-color: transparent transparent @select-arrow-color;
+		border-width: 0 5px 5px;
+	}
 }
 
 .is-focused:not(.is-open) > .Select-control {
@@ -38,7 +45,7 @@
 
 // indicator arrow
 
-.Select-control:after {
+.Select-indicator {
 	border-color: @select-arrow-color transparent transparent;
 	border-style: solid;
 	border-width: 5px 5px 0;
@@ -50,13 +57,6 @@
 	right: @select-padding-horizontal;
 	top: 50%;
 	width: 0;
-
-	// flip the arrow so its pointing up when the menu is open
-
-	.is-open > & {
-		border-color: transparent transparent @select-arrow-color;
-		border-width: 0 5px 5px;
-	}
 }
 
 
@@ -69,6 +69,7 @@
 	font-family: inherit;
 	font-size: inherit;
 	outline: none;
+	width: 100%;
 	-webkit-appearance: none;
 
 			 &::-moz-placeholder { color: @select-input-placeholder;
