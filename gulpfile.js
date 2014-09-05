@@ -63,7 +63,8 @@ function buildExamples(watch) {
 	
 	var opts = watch ? watchify.args : {};
 	
-	// opts.debug = true;
+	opts.debug = true;
+	opts.hasExports = true;
 	
 	var dest = './examples/public/build';
 	
@@ -82,14 +83,13 @@ function buildExamples(watch) {
 		.exclude('react-select')
 		.transform(reactify);
 	
-	var css = gulp.src('examples/src/example.less')
+	var lessToCSS = gulp.src('examples/src/example.less')
 		.pipe(less())
 		.pipe(gulp.dest(dest));
 	
 	if (watch) {
 		watchBundle(app, 'app-bundle.js', dest);
 		watchBundle(select, 'select-bundle.js', dest);
-		watchBundle(common, 'global-bundle.js', dest);
 		// TODO: Watch LESS
 	}
 	
@@ -97,7 +97,7 @@ function buildExamples(watch) {
 		doBundle(app, 'app-bundle.js', dest),
 		doBundle(select, 'select-bundle.js', dest),
 		doBundle(common, 'global-bundle.js', dest),
-		css
+		lessToCSS
 	);
 	
 }
