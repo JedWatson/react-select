@@ -5,11 +5,12 @@ A Select control built with and for [React](http://facebook.github.io/react/inde
 
 ## Demo & Examples
 
-Live example: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
 
-To build the examples locally:
+To build the examples locally, run:
 
 ```
+npm install
 gulp build-examples
 ```
 
