@@ -6,8 +6,7 @@
 // wrapper
 
 .Select-menu {
-	border-bottom-left-radius: @select-input-border-radius;
-	border-bottom-right-radius: @select-input-border-radius;
+	.border-bottom-radius( @select-input-border-radius );
 	background-color: white;
 	border: 1px solid @select-input-border-color;
 	border-top-color: mix(white, @select-input-border-color, 50%);
@@ -34,8 +33,7 @@
 	padding: @select-padding-vertical @select-padding-horizontal;
 
 	&:last-child {
-		border-bottom-left-radius: @select-input-border-radius;
-		border-bottom-right-radius: @select-input-border-radius;
+		.border-bottom-radius( @select-input-border-radius );
 	}
 	
 	&.is-focused {
@@ -54,9 +52,4 @@
 	cursor: default;
 	display: block;
 	padding: @select-padding-vertical @select-padding-horizontal;
-
-	&:last-child {
-		border-bottom-left-radius: @select-input-border-radius;
-		border-bottom-right-radius: @select-input-border-radius;
-	}
 }
