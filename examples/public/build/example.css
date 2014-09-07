@@ -15,7 +15,7 @@ a:hover {
 .container {
   margin-left: auto;
   margin-right: auto;
-  max-width: 600px;
+  max-width: 400px;
   padding: 1em;
 }
 .footer {
@@ -105,13 +105,13 @@ label {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 .is-open > .Select-control {
-  border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
   background: white;
   border-color: #b3b3b3 #cccccc #d9d9d9;
   cursor: text;
 }
-.is-open > .Select-control > .Select-indicator {
+.is-open > .Select-control > .Select-arrow {
   border-color: transparent transparent #999999;
   border-width: 0 5px 5px;
 }
@@ -120,7 +120,7 @@ label {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
   cursor: text;
 }
-.Select-indicator {
+.Select-arrow {
   border-color: #999999 transparent transparent;
   border-style: solid;
   border-width: 5px 5px 0;
@@ -132,6 +132,23 @@ label {
   right: 10px;
   top: 50%;
   width: 0;
+}
+.Select-loading {
+  -webkit-animation: spin 400ms infinite linear;
+  -o-animation: spin 400ms infinite linear;
+  animation: spin 400ms infinite linear;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid #cccccc;
+  border-right-color: #333333;
+  display: inline-block;
+  position: relative;
+  margin-top: -8px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
 }
 .Select-input {
   background: none transparent;
@@ -170,8 +187,8 @@ label {
   color: #c0392b;
 }
 .Select-menu {
-  border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
   background-color: white;
   border: 1px solid #cccccc;
   border-top-color: #e6e6e6;
@@ -194,8 +211,8 @@ label {
   padding: 6px 10px;
 }
 .Select-option:last-child {
-  border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .Select-option.is-focused {
   background-color: #f2f9fc;
@@ -208,7 +225,13 @@ label {
   display: block;
   padding: 6px 10px;
 }
-.Select-noresults:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(1turn);
+  }
 }
