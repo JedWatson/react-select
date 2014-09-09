@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Select control built with and for React",
   "main": "lib/select.js",
   "author": "Jed Watson",
@@ -31,6 +31,7 @@
   },
   "tags": [
     "react",
+    "react-component",
     "combobox",
     "select",
     "ui"
