@@ -2,6 +2,7 @@ var del = require('del'),
 	gulp = require('gulp'),
 	gutil = require('gulp-util'),
 	less = require('gulp-less'),
+	deploy = require("gulp-gh-pages"),
 	browserify = require('browserify'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
@@ -109,3 +110,10 @@ gulp.task('build-examples', ['clean'], function() {
 gulp.task('watch-examples', ['clean'], function() {
 	return buildExamples(true);
 });
+
+gulp.task('deploy', ['build-examples'], function() {
+	return gulp.src("examples/public/**/*")
+		.pipe(deploy());
+});
+
+
