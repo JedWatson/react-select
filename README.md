@@ -26,10 +26,12 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 TODO:
 
 - CSS Styles and theme support (in progress)
+- Remote options loading (in progress)
+- Cleanup of focus state management (in progress)
+- Standalone build & publish to Bower (in progress)
+- Documentation website (currently just examples)
 - Multiselect
-- Remote options loading
 - Custom options rendering
-- Cleanup of focus state management
 
 ## Installation
 
@@ -61,3 +63,38 @@ var options = [
 	options={options}
 }>
 ```
+
+### Async options
+
+If you want to load options asynchronously, instead of providing an `options` Array, provide a `asyncOptions` Function.
+
+The function takes two arguments `String input, Function callback`and will be called when the input text is changed.
+
+When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
+
+The select control will intelligently cache options for input strings that have already been fetched. Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
+
+Unless you specify the property `autoload="false"` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
+
+```
+var Select = require('react-select');
+
+var getOptions = function(input, callback) {
+	setTimeout(function() {
+		callback(null, {
+			options: [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' }
+			],
+			complete: true
+		});
+	}, 500);
+};
+
+<Select 
+	name="form-field-name"
+	value="one"
+	asyncOptions={getOptions}
+}>
+```
+
