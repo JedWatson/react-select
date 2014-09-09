@@ -111,6 +111,26 @@ gulp.task('watch-examples', ['clean'], function() {
 	return buildExamples(true);
 });
 
+gulp.task('build', function() {
+	
+	var dest = './dist';
+	
+	var select = browserify({
+			hasExports: true
+		})
+		.exclude('react')
+		.exclude('underscore')
+		.require('./lib/select.js', { expose: 'react-select' });
+	
+	return merge(
+		doBundle(select, 'select.js', dest),
+		gulp.src('less/default.less')
+			.pipe(less())
+			.pipe(gulp.dest(dest))
+	);
+
+});
+
 gulp.task('deploy', ['build-examples'], function() {
 	return gulp.src("examples/public/**/*")
 		.pipe(deploy());
