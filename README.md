@@ -43,7 +43,7 @@ You can also use the standalone build by including `dist/select.js` and `dist/de
 npm install react-select --save
 ```
 
-### Using the built 
+### Using the built
 
 ## Usage
 
@@ -59,11 +59,11 @@ var options = [
 	{ value: 'two', label: 'Two' }
 ];
 
-<Select 
+<Select
 	name="form-field-name"
 	value="one"
 	options={options}
-}>
+/>
 ```
 
 ### Async options
@@ -93,10 +93,10 @@ var getOptions = function(input, callback) {
 	}, 500);
 };
 
-<Select 
+<Select
 	name="form-field-name"
 	value="one"
 	asyncOptions={getOptions}
-}>
+/>
 ```
 
