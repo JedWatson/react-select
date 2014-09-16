@@ -71,10 +71,27 @@ var RemoteSelectField = React.createClass({
 	}
 });
 
+/*
+var MultiSelectField = React.createClass({
+	render: function() {
+		var ops = [
+			{ label: 'Chocolate', value: 'chocolate' },
+			{ label: 'Vanilla', value: 'vanilla' },
+			{ label: 'Strawberry', value: 'strawberry' }
+		];
+		return <div>
+			<label>{this.props.label}</label>
+			<Select multi={true} options={ops} value={this.props.value} />
+		</div>;
+	}
+});
+*/
+
 React.renderComponent(
 	<div>
 		<SelectField label="State:"/>
 		<RemoteSelectField label="Remote:"/>
+		{{/*<MultiSelectField label="Multi:"/>*/}}
 	</div>,
 	document.getElementById('example')
 );
