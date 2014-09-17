@@ -78,6 +78,12 @@ function buildExamples(watch) {
 		.exclude('react')
 		.exclude('underscore')
 		.require('./lib/select.js', { expose: 'react-select' });
+
+	var app = browserify(opts)
+		.add('./examples/src/app.js')
+		.exclude('react')
+		.exclude('react-select')
+		.transform(reactify);
 	
 	/*
 	var standalone = browserify(opts)
@@ -87,39 +93,34 @@ function buildExamples(watch) {
 		.transform(reactify)
 		.transform(shim)
 	*/
-
-	var app = browserify(opts)
-		.add('./examples/src/app.js')
-		.exclude('react')
-		.exclude('react-select')
-		.transform(reactify);
-	
-	var lessToCSS = gulp.src('examples/src/example.less')
-		.pipe(less())
-		.pipe(gulp.dest(dest));
 	
 	if (watch) {
 		watchBundle(app, 'app-bundle.js', dest);
 		watchBundle(select, 'select-bundle.js', dest);
 		// watchBundle(standalone, 'select-standalone.js', dest);
-		// TODO: Watch LESS
 	}
 	
 	return merge(
 		doBundle(common, 'global-bundle.js', dest),
 		doBundle(select, 'select-bundle.js', dest),
+		doBundle(app, 'app-bundle.js', dest)
 		// doBundle(standalone, 'select-standalone.js', dest),
-		doBundle(app, 'app-bundle.js', dest),
-		lessToCSS
 	);
 	
 }
 
-gulp.task('build-examples', ['clean'], function() {
+gulp.task('build-example-css', function() {
+	return gulp.src('examples/src/example.less')
+		.pipe(less())
+		.pipe(gulp.dest('./examples/public/build'));
+});
+
+gulp.task('build-examples', function() {
 	return buildExamples();
 });
 
-gulp.task('watch-examples', ['clean'], function() {
+gulp.task('watch-examples', ['build-example-css'], function() {
+	gulp.watch(['examples/src/example.less', 'less/**/*.less'], ['build-example-css']);
 	return buildExamples(true);
 });
 
