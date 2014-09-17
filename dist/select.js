@@ -78,22 +78,43 @@ var Select = React.createClass({
 		};
 	},
 	
-	keyboardActions: {
-		13: 'selectFocusedOption',
-		27: 'closeOnEscape',
-		38: 'focusPreviousOption',
-		40: 'focusNextOption'
-	},
-	
 	handleKeyDown: function(event) {
-		logEvent('------');
-		logEvent(event);
-		var action = this.keyboardActions[event.keyCode];
-		if (!action) {
-			return;
+		
+		logEvent('Key down: ' + event.keyCode);
+		
+		switch (event.keyCode) {
+			
+			case 9: // tab
+				if (event.shiftKey || !this.state.isOpen) {
+					return;
+				}
+				this.selectFocusedOption();
+			break;
+			
+			case 13: // enter
+				this.selectFocusedOption();
+			break;
+			
+			case 27: // escape
+				if (this.state.isOpen) {
+					this.closeOnEscape();
+				} else {
+					this.clearValue();
+				}
+			break;
+			
+			case 38: // up
+				this.focusPreviousOption();
+			break;
+			
+			case 40: // down
+				this.focusNextOption();
+			break;
+			
+			default: return;
 		}
+		
 		event.preventDefault();
-		this[action].call(this);
 	},
 	
 	handleMouseDown: function() {
@@ -356,6 +377,7 @@ var Select = React.createClass({
 		var clear = this.state.value ? React.DOM.span({ className: "Select-clear", onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;' } }) : null;
 		
 		var selectClass = classes('Select', {
+			'is-multi': this.props.multi,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused
 		});
