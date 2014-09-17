@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "underscore": "~1.7.0",
-    "react": "~0.11.1"
+    "react": "~0.11.2"
   },
   "devDependencies": {
     "browserify": "~5.11.2",
