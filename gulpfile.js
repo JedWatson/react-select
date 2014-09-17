@@ -4,6 +4,7 @@ var del = require('del'),
 	less = require('gulp-less'),
 	deploy = require("gulp-gh-pages"),
 	browserify = require('browserify'),
+	shim = require('browserify-shim'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
 	source = require('vinyl-source-stream'),
@@ -78,6 +79,15 @@ function buildExamples(watch) {
 		.exclude('underscore')
 		.require('./lib/select.js', { expose: 'react-select' });
 	
+	/*
+	var standalone = browserify(opts)
+		.exclude('react')
+		.exclude('underscore')
+		.add('./lib/select.js', { expose: 'react-select' })
+		.transform(reactify)
+		.transform(shim)
+	*/
+
 	var app = browserify(opts)
 		.add('./examples/src/app.js')
 		.exclude('react')
@@ -91,13 +101,15 @@ function buildExamples(watch) {
 	if (watch) {
 		watchBundle(app, 'app-bundle.js', dest);
 		watchBundle(select, 'select-bundle.js', dest);
+		// watchBundle(standalone, 'select-standalone.js', dest);
 		// TODO: Watch LESS
 	}
 	
 	return merge(
-		doBundle(app, 'app-bundle.js', dest),
-		doBundle(select, 'select-bundle.js', dest),
 		doBundle(common, 'global-bundle.js', dest),
+		doBundle(select, 'select-bundle.js', dest),
+		// doBundle(standalone, 'select-standalone.js', dest),
+		doBundle(app, 'app-bundle.js', dest),
 		lessToCSS
 	);
 	
