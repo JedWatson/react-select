@@ -37,7 +37,7 @@
   "scripts": {
     "test": "echo \"no tests yet\" && exit 0"
   },
-  "tags": [
+  "keywords": [
     "react",
     "react-component",
     "combobox",
