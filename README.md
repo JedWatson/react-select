@@ -37,13 +37,11 @@ TODO:
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore. (they must be available through a browserify-style `require()` call, global support is coming soon)
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore. (they must be available through a browserify-style `require()` call, standalone support is coming soon)
 
 ```
 npm install react-select --save
 ```
-
-### Using the built 
 
 ## Usage
 
