@@ -3,6 +3,7 @@ React-Select
 
 A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
 
+
 ## Demo & Examples
 
 Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
@@ -33,6 +34,7 @@ TODO:
 - Multiselect
 - Custom options rendering
 
+
 ## Installation
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
@@ -42,6 +44,7 @@ You can also use the standalone build by including `dist/select.js` and `dist/de
 ```
 npm install react-select --save
 ```
+
 
 ## Usage
 
@@ -57,11 +60,11 @@ var options = [
 	{ value: 'two', label: 'Two' }
 ];
 
-<Select 
+<Select
 	name="form-field-name"
 	value="one"
 	options={options}
-}>
+/>
 ```
 
 ### Async options
@@ -91,10 +94,10 @@ var getOptions = function(input, callback) {
 	}, 500);
 };
 
-<Select 
+<Select
 	name="form-field-name"
 	value="one"
 	asyncOptions={getOptions}
-}>
+/>
 ```
 
