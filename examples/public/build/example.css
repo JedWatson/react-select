@@ -155,6 +155,9 @@ label {
   right: 30px;
   top: 50%;
 }
+.has-value > .Select-control > .Select-loading {
+  right: 46px;
+}
 .Select-input {
   background: none transparent;
   border: 0 none;
