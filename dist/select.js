@@ -381,7 +381,9 @@ var Select = React.createClass({displayName: 'Select',
 		var selectClass = classes('Select', {
 			'is-multi': this.props.multi,
 			'is-open': this.state.isOpen,
-			'is-focused': this.state.isFocused
+			'is-focused': this.state.isFocused,
+			'is-loading': this.state.isLoading,
+			'has-value': this.state.value
 		});
 		
 		return React.DOM.div({ className: selectClass }, 
