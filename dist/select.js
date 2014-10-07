@@ -31,7 +31,7 @@ var classes = function() {
 
 var requestId = 0;
 
-var Select = React.createClass({
+var Select = React.createClass({displayName: 'Select',
 	
 	getDefaultProps: function() {
 		return {
@@ -64,9 +64,9 @@ var Select = React.createClass({
 	},
 	
 	getStateFromValue: function(value) {
-		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options, { value: value }) : value;
+		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options || this.state.options, { value: value }) : value;
 		return selectedOption ? {
-			value: value,
+			value: selectedOption.value,
 			inputValue: selectedOption.label,
 			placeholder: selectedOption.label,
 			focusedOption: selectedOption
@@ -156,13 +156,18 @@ var Select = React.createClass({
 		if (!this._controlIsFocused) return;
 		this._controlIsFocused = false;
 		clearTimeout(this.blurTimer);
-		this.blurTimer = setTimeout(function() {
+
+		var _blur = function() {
 			logEvent('blur: control');
 			var blurState = this.getStateFromValue(this.state.value);
 			blurState.isFocused = false;
 			blurState.isOpen = false;
-			this.setState(blurState);
-		}.bind(this), 100);
+			if (this.isMounted()) {
+				this.setState(blurState);
+			}
+		}.bind(this);
+
+		this.blurTimer = setTimeout(_blur, 100);
 	},
 	
 	handleInputMouseDown: function(event) {
@@ -338,8 +343,8 @@ var Select = React.createClass({
 	
 	buildMenu: function() {
 		
-		var ops = {};
-		
+		var ops = [];
+
 		_.each(this.filterOptions(), function(op) {
 			
 			var optionClass = classes({
@@ -351,17 +356,17 @@ var Select = React.createClass({
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectOption.bind(this, op);
 			
-			ops[op.value] = React.DOM.div({
+			ops.push(React.DOM.div({
 				className: optionClass,
 				onMouseEnter: mouseEnter,
 				onMouseLeave: mouseLeave,
 				onMouseDown: mouseDown
-			}, op.label);
+			}, op.label));
 			
 		}, this);
 		
 		if (_.isEmpty(ops)) {
-			ops._no_ops = React.DOM.div({className: "Select-noresults"}, "No results found");
+			ops.push(React.DOM.div({className: "Select-noresults"}, "No results found"));
 		}
 		
 		return ops;
@@ -379,7 +384,9 @@ var Select = React.createClass({
 		var selectClass = classes('Select', {
 			'is-multi': this.props.multi,
 			'is-open': this.state.isOpen,
-			'is-focused': this.state.isFocused
+			'is-focused': this.state.isFocused,
+			'is-loading': this.state.isLoading,
+			'has-value': this.state.value
 		});
 		
 		return React.DOM.div({ className: selectClass }, 
