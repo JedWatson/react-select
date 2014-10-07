@@ -64,7 +64,7 @@ var Select = React.createClass({displayName: 'Select',
 	},
 	
 	getStateFromValue: function(value) {
-		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options, { value: value }) : value;
+		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options || this.state.options, { value: value }) : value;
 		return selectedOption ? {
 			value: selectedOption.value,
 			inputValue: selectedOption.label,
@@ -156,7 +156,8 @@ var Select = React.createClass({displayName: 'Select',
 		if (!this._controlIsFocused) return;
 		this._controlIsFocused = false;
 		clearTimeout(this.blurTimer);
-		this.blurTimer = setTimeout(function() {
+
+		var _blur = function() {
 			logEvent('blur: control');
 			var blurState = this.getStateFromValue(this.state.value);
 			blurState.isFocused = false;
@@ -164,7 +165,9 @@ var Select = React.createClass({displayName: 'Select',
 			if (this.isMounted()) {
 				this.setState(blurState);
 			}
-		}.bind(this), 100);
+		}.bind(this);
+
+		this.blurTimer = setTimeout(_blur, 100);
 	},
 	
 	handleInputMouseDown: function(event) {
