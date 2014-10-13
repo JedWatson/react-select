@@ -1,19 +1,5 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"react-select":[function(require,module,exports){
-/** @jsx React.DOM */
-
-var _ = require('underscore'),
-	React = require('react');
-
-var noop = function() {};
-
-var logEvent = function(msg) {
-	console.log(msg);
-};
-
-// comment out this line to debug the control state
-logEvent = noop;
-
-var classes = function() {
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+function classes() {
 	var rtn = [];
 	for (var i = 0; i < arguments.length; i++) {
 		if ('string' === typeof arguments[i]) {
@@ -29,9 +15,26 @@ var classes = function() {
 	return rtn.join(' ') || undefined;
 }
 
+module.exports = classes;
+},{}],"react-select":[function(require,module,exports){
+/** @jsx React.DOM */
+
+var _ = require('underscore'),
+	React = require('react'),
+	classes = require('./classes');
+
+var nofn = function() {};
+
+var logEvent = function(msg) {
+	console.log(msg);
+};
+
+// comment out this line to debug the control state
+logEvent = nofn;
+
 var requestId = 0;
 
-var Select = React.createClass({
+var Select = React.createClass({displayName: 'Select',
 	
 	getDefaultProps: function() {
 		return {
@@ -66,7 +69,7 @@ var Select = React.createClass({
 	getStateFromValue: function(value) {
 		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options, { value: value }) : value;
 		return selectedOption ? {
-			value: value,
+			value: selectedOption.value,
 			inputValue: selectedOption.label,
 			placeholder: selectedOption.label,
 			focusedOption: selectedOption
@@ -161,7 +164,9 @@ var Select = React.createClass({
 			var blurState = this.getStateFromValue(this.state.value);
 			blurState.isFocused = false;
 			blurState.isOpen = false;
-			this.setState(blurState);
+			if (this.isMounted()) {
+				this.setState(blurState);
+			}
 		}.bind(this), 100);
 	},
 	
@@ -379,7 +384,9 @@ var Select = React.createClass({
 		var selectClass = classes('Select', {
 			'is-multi': this.props.multi,
 			'is-open': this.state.isOpen,
-			'is-focused': this.state.isFocused
+			'is-focused': this.state.isFocused,
+			'is-loading': this.state.isLoading,
+			'has-value': this.state.value
 		});
 		
 		return React.DOM.div({ className: selectClass }, 
@@ -398,4 +405,4 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"react":undefined,"underscore":undefined}]},{},[]);
+},{"./classes":1,"react":undefined,"underscore":undefined}]},{},[]);

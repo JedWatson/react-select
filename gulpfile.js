@@ -77,7 +77,7 @@ function buildExamples(watch) {
 	var select = browserify(opts)
 		.exclude('react')
 		.exclude('underscore')
-		.require('./lib/select.js', { expose: 'react-select' });
+		.require('./lib/Select.js', { expose: 'react-select' });
 
 	var app = browserify(opts)
 		.add('./examples/src/app.js')
@@ -89,7 +89,7 @@ function buildExamples(watch) {
 	var standalone = browserify(opts)
 		.exclude('react')
 		.exclude('underscore')
-		.add('./lib/select.js', { expose: 'react-select' })
+		.add('./lib/Select.js', { expose: 'react-select' })
 		.transform(reactify)
 		.transform(shim)
 	*/
@@ -133,7 +133,7 @@ gulp.task('build', function() {
 		})
 		.exclude('react')
 		.exclude('underscore')
-		.require('./lib/select.js', { expose: 'react-select' });
+		.require('./lib/Select.js', { expose: 'react-select' });
 	
 	return merge(
 		doBundle(select, 'select.js', dest),
