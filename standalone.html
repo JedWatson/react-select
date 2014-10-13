@@ -1,0 +1,31 @@
+<!doctype html>
+<head>
+	<title>React-Select Example</title>
+	<link rel="stylesheet" href="build/example.css">
+</head>
+<body>
+	<div class="container">
+		<h1>React Select</h1>
+		<h2>Standalone example</h2>
+		<form>
+			<!-- the React application is loaded in the #example element -->
+			<div id="example"></div>
+			<!-- sample toolbar, just an additional element to focus in the form -->
+			<div class="form-toolbar"><button type="submit">Submit</button></div>
+		</form>
+		<div class="footer">
+			Copyright &copy; Jed Watson 2014. MIT Licensed.
+		</div>
+	</div>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.2/JSXTransformer.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.2/react.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
+	<!-- <script src="build/select-standalone.js"> -->
+	<script type="text/jsx">
+		/** @jsx React.DOM */
+		React.renderComponent(
+			<div>Select goes here</div>,
+			document.getElementById('example')
+		);
+	</script>
+</body>
