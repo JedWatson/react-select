@@ -1,4 +1,6 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var _ = require('underscore');
+
 function classes() {
 	var rtn = [];
 	for (var i = 0; i < arguments.length; i++) {
@@ -16,25 +18,193 @@ function classes() {
 }
 
 module.exports = classes;
-},{}],"react-select":[function(require,module,exports){
+},{"underscore":undefined}],2:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],3:[function(require,module,exports){
+(function (process){
+/**
+ * Copyright 2013-2014 Facebook, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @providesModule copyProperties
+ */
+
+/**
+ * Copy properties from one or more objects (up to 5) into the first object.
+ * This is a shallow copy. It mutates the first object and also returns it.
+ *
+ * NOTE: `arguments` has a very significant performance penalty, which is why
+ * we don't support unlimited arguments.
+ */
+function copyProperties(obj, a, b, c, d, e, f) {
+  obj = obj || {};
+
+  if ("production" !== process.env.NODE_ENV) {
+    if (f) {
+      throw new Error('Too many arguments passed to copyProperties');
+    }
+  }
+
+  var args = [a, b, c, d, e];
+  var ii = 0, v;
+  while (args[ii]) {
+    v = args[ii++];
+    for (var k in v) {
+      obj[k] = v[k];
+    }
+
+    // IE ignores toString in object iteration.. See:
+    // webreflection.blogspot.com/2007/07/quick-fix-internet-explorer-and.html
+    if (v.hasOwnProperty && v.hasOwnProperty('toString') &&
+        (typeof v.toString != 'undefined') && (obj.toString !== v.toString)) {
+      obj.toString = v.toString;
+    }
+  }
+
+  return obj;
+}
+
+module.exports = copyProperties;
+
+}).call(this,require('_process'))
+},{"_process":2}],4:[function(require,module,exports){
+/**
+ * Copyright 2013-2014 Facebook, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @providesModule emptyFunction
+ */
+
+var copyProperties = require("./copyProperties");
+
+function makeEmptyFunction(arg) {
+  return function() {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+function emptyFunction() {}
+
+copyProperties(emptyFunction, {
+  thatReturns: makeEmptyFunction,
+  thatReturnsFalse: makeEmptyFunction(false),
+  thatReturnsTrue: makeEmptyFunction(true),
+  thatReturnsNull: makeEmptyFunction(null),
+  thatReturnsThis: function() { return this; },
+  thatReturnsArgument: function(arg) { return arg; }
+});
+
+module.exports = emptyFunction;
+
+},{"./copyProperties":3}],"react-select":[function(require,module,exports){
 /** @jsx React.DOM */
 
 var _ = require('underscore'),
 	React = require('react'),
 	classes = require('./classes');
 
-var nofn = function() {};
-
 var logEvent = function(msg) {
 	console.log(msg);
 };
 
 // comment out this line to debug the control state
-logEvent = nofn;
+logEvent = require('react/lib/emptyFunction');
 
 var requestId = 0;
 
-var Select = React.createClass({displayName: 'Select',
+var Select = React.createClass({
+	
+	displayName: 'Select',
 	
 	getDefaultProps: function() {
 		return {
@@ -66,8 +236,12 @@ var Select = React.createClass({displayName: 'Select',
 		
 	},
 	
+	componentWillUnmount: function() {
+		clearTimeout(this.blurTimer);
+	},
+	
 	getStateFromValue: function(value) {
-		var selectedOption = ('string' === typeof value) ? _.findWhere(this.props.options, { value: value }) : value;
+		var selectedOption = ('string' === typeof value) ? _.findWhere(this.state.options, { value: value }) : value;
 		return selectedOption ? {
 			value: selectedOption.value,
 			inputValue: selectedOption.label,
@@ -343,9 +517,7 @@ var Select = React.createClass({displayName: 'Select',
 	
 	buildMenu: function() {
 		
-		var ops = {};
-		
-		_.each(this.filterOptions(), function(op) {
+		var ops = _.map(this.filterOptions(), function(op) {
 			
 			var optionClass = classes({
 				'Select-option': true,
@@ -356,7 +528,8 @@ var Select = React.createClass({displayName: 'Select',
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectOption.bind(this, op);
 			
-			ops[op.value] = React.DOM.div({
+			return React.DOM.div({
+				key: 'option-' + op.value,
 				className: optionClass,
 				onMouseEnter: mouseEnter,
 				onMouseLeave: mouseLeave,
@@ -365,11 +538,7 @@ var Select = React.createClass({displayName: 'Select',
 			
 		}, this);
 		
-		if (_.isEmpty(ops)) {
-			ops._no_ops = React.DOM.div({className: "Select-noresults"}, "No results found");
-		}
-		
-		return ops;
+		return ops.length ? ops : React.DOM.div({ className: "Select-noresults" }, "No results found");
 		
 	},
 	
@@ -396,7 +565,7 @@ var Select = React.createClass({displayName: 'Select',
 				React.DOM.span({ className: "Select-arrow" }),
 				loading,
 				clear
-			), 
+			),
 			menu
 		);
 	}
@@ -405,4 +574,4 @@ var Select = React.createClass({displayName: 'Select',
 
 module.exports = Select;
 
-},{"./classes":1,"react":undefined,"underscore":undefined}]},{},[]);
+},{"./classes":1,"react":undefined,"react/lib/emptyFunction":4,"underscore":undefined}]},{},[]);
