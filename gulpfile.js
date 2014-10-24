@@ -4,7 +4,6 @@ var del = require('del'),
 	less = require('gulp-less'),
 	deploy = require("gulp-gh-pages"),
 	browserify = require('browserify'),
-	shim = require('browserify-shim'),
 	watchify = require('watchify'),
 	reactify = require('reactify'),
 	source = require('vinyl-source-stream'),
@@ -91,7 +90,6 @@ function buildExamples(watch) {
 		.exclude('underscore')
 		.add('./lib/Select.js', { expose: 'react-select' })
 		.transform(reactify)
-		.transform(shim)
 	*/
 	
 	if (watch) {
