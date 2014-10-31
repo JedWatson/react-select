@@ -114,7 +114,7 @@ gulp.task('build-example-css', function() {
 		.pipe(gulp.dest('./examples/public/build'));
 });
 
-gulp.task('build-examples', function() {
+gulp.task('build-examples', ['build-example-css'], function() {
 	return buildExamples();
 });
 
