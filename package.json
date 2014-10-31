@@ -15,16 +15,16 @@
     "reactify": "~0.14.0"
   },
   "devDependencies": {
-    "browserify": "~5.11.2",
+    "browserify": "~6.2.0",
     "chalk": "~0.5.1",
     "del": "~0.1.3",
-    "gulp": "~3.8.8",
-    "gulp-gh-pages": "^0.3.4",
-    "gulp-less": "~1.3.5",
+    "gulp": "~3.8.9",
+    "gulp-gh-pages": "~0.4.0",
+    "gulp-less": "~1.3.6",
     "gulp-util": "~3.0.1",
-    "merge-stream": "~0.1.5",
+    "merge-stream": "~0.1.6",
     "vinyl-source-stream": "~1.0.0",
-    "watchify": "~1.0.2"
+    "watchify": "~2.1.0"
   },
   "browserify": {
     "transform": ["reactify"]
