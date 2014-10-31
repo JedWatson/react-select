@@ -87,7 +87,7 @@ var MultiSelectField = React.createClass({
 });
 */
 
-React.renderComponent(
+React.render(
 	<div>
 		<SelectField label="State:"/>
 		<RemoteSelectField label="Remote:"/>
