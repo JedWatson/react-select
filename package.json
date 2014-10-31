@@ -29,10 +29,6 @@
   "browserify": {
     "transform": ["reactify"]
   },
-  "browserify-shim": {
-    "react": "global:React",
-    "underscore": "_"
-  },
   "scripts": {
     "test": "echo \"no tests yet\" && exit 0"
   },
