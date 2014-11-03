@@ -2,6 +2,9 @@ var React = require('react'),
 	Select = require('react-select');
  
 var SelectField = React.createClass({
+	changed: function(value) {
+		console.log('Select value changed: ' + value);
+	},
 	render: function() {
 		var ops = [
 			{ label: 'Australian Capital Territory', value: 'australian-capital-territory' },
@@ -15,7 +18,7 @@ var SelectField = React.createClass({
 		];
 		return <div>
 			<label>{this.props.label}</label>
-			<Select options={ops} value={this.props.value} />
+			<Select options={ops} value={this.props.value} onChange={this.changed} />
 		</div>;
 	}
 });
