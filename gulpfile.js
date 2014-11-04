@@ -1,5 +1,6 @@
 var del = require('del'),
 	gulp = require('gulp'),
+	connect = require('gulp-connect'),
 	gutil = require('gulp-util'),
 	less = require('gulp-less'),
 	deploy = require("gulp-gh-pages"),
@@ -16,6 +17,18 @@ var del = require('del'),
 
 gulp.task('clean', function(done) {
 	del(['./examples/public/build'], done);
+});
+
+/**
+ * Serve the examples
+ */
+
+gulp.task('serve', function() {
+	connect.server({
+		root: 'examples/public',
+		port: 8000,
+		livereload: true
+	});
 });
 
 /**
@@ -39,7 +52,8 @@ function doBundle(target, name, dest) {
 			gutil.log('Browserify Error', e);
 		})
 		.pipe(source(name))
-		.pipe(gulp.dest(dest));
+		.pipe(gulp.dest(dest))
+		.pipe(connect.reload());
 }
 
 function watchBundle(target, name, dest) {
@@ -110,14 +124,15 @@ function buildExamples(watch) {
 gulp.task('build-example-css', function() {
 	return gulp.src('examples/src/example.less')
 		.pipe(less())
-		.pipe(gulp.dest('./examples/public/build'));
+		.pipe(gulp.dest('./examples/public/build'))
+		.pipe(connect.reload());
 });
 
 gulp.task('build-examples', ['build-example-css'], function() {
 	return buildExamples();
 });
 
-gulp.task('watch-examples', ['build-example-css'], function() {
+gulp.task('watch-examples', ['build-example-css', 'serve'], function() {
 	gulp.watch(['examples/src/example.less', 'less/**/*.less'], ['build-example-css']);
 	return buildExamples(true);
 });
