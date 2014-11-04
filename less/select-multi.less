@@ -1,0 +1,68 @@
+// 
+// Multi-Select
+// ------------------------------
+
+
+// Base
+
+.Select.is-multi {
+
+	// control: reduce padding to allow for items
+	.Select-control {
+		padding: (@select-padding-vertical - @select-item-gutter) (@select-padding-horizontal - @select-item-gutter);
+	}
+	// input: shrink when there's items
+	.Select-input {
+		width: 1px;
+	}
+
+	// remove the arrow if there's items
+	&.has-value .Select-arrow {
+		display: none;
+	}
+}
+
+
+// Items
+
+.Select-item {
+	background-color: @select-item-bg;
+	border-radius: @select-item-border-radius;
+	border: 1px solid @select-item-border-color;
+	color: @select-item-color;
+	cursor: pointer;
+	display: inline-block;
+	font-size: @select-item-font-size;
+	line-height: 1;
+	margin: @select-item-gutter;
+}
+
+// common
+.Select-item-icon,
+.Select-item-label {
+	display: inline-block;
+	padding: @select-item-padding-vertical @select-item-padding-horizontal;
+
+	&:hover,
+	&:focus {
+		background-color: @select-item-hover-bg;
+		color: @select-item-hover-color;
+	}
+	&:active {
+		background-color: @select-item-border-color;
+	}
+}
+
+// icon
+.Select-item-icon {
+	.border-left-radius( @select-item-border-radius );
+	border-right: 1px solid @select-item-border-color;
+	// font-weight: 500;
+}
+
+// label
+.Select-item-label {
+	.border-right-radius( @select-item-border-radius );
+	display: inline-block;
+	padding: @select-item-padding-vertical @select-item-padding-horizontal;
+}

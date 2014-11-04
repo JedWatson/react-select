@@ -31,7 +31,7 @@
 	// flip the arrow so its pointing up when the menu is open
 	> .Select-arrow {
 		border-color: transparent transparent @select-arrow-color;
-		border-width: 0 5px 5px;
+		border-width: 0 @select-arrow-width @select-arrow-width;
 	}
 }
 
@@ -47,11 +47,11 @@
 .Select-arrow {
 	border-color: @select-arrow-color transparent transparent;
 	border-style: solid;
-	border-width: 5px 5px 0;
+	border-width: @select-arrow-width @select-arrow-width 0;
 	content: " ";
 	display: block;
 	height: 0;
-	margin-top: -3px;
+	margin-top: -ceil(@select-arrow-width / 2);
 	position: absolute;
 	right: @select-padding-horizontal;
 	top: 50%;

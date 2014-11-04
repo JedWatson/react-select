@@ -10,27 +10,39 @@
 // Select Variables
 // ------------------------------
 
-@select-text-color:            #333;
-@select-input-border-color:    #ccc;
-@select-input-border-radius:   4px;
-@select-input-placeholder:     #aaa;
-@select-input-border-focus:    #08c; // blue
+@select-text-color:                #333;
+@select-input-border-color:        #ccc;
+@select-input-border-radius:       4px;
+@select-input-placeholder:         #aaa;
+@select-input-border-focus:        #08c; // blue
 
-@select-padding-vertical:      6px;
-@select-padding-horizontal:    10px;
+@select-padding-vertical:          6px;
+@select-padding-horizontal:        10px;
 
-@select-arrow-color:           #999;
+@select-arrow-color:               #999;
+@select-arrow-width:               5px;
 
-@select-menu-zindex:           1000;
+@select-menu-zindex:               1000;
 
-@select-option-color:          lighten(@select-text-color, 20%);
-@select-option-focused-color:  @select-text-color;
-@select-option-focused-bg:     #f2f9fc; // pale blue
+@select-option-color:              lighten(@select-text-color, 20%);
+@select-option-focused-color:      @select-text-color;
+@select-option-focused-bg:         #f2f9fc; // pale blue
 
-@select-noresults-color:       lighten(@select-text-color, 40%);
+@select-noresults-color:           lighten(@select-text-color, 40%);
 
-@select-clear-color:           #999;
-@select-clear-hover-color:     #c0392b; // red
+@select-clear-color:               #999;
+@select-clear-hover-color:         #c0392b; // red
+
+@select-item-border-radius:        2px;
+@select-item-gutter:               2px;
+@select-item-padding-vertical:     3px;
+@select-item-padding-horizontal:   5px;
+@select-item-font-size:            .95em;
+@select-item-color:                #08c; // pale blue
+@select-item-bg:                   #f2f9fc;
+@select-item-border-color:         darken(@select-item-bg, 10%);
+@select-item-hover-color:          darken(@select-item-color, 5%); // pale blue
+@select-item-hover-bg:             darken(@select-item-bg, 5%);
 
 
 // wrapper
@@ -45,4 +57,5 @@
 @import "select-control.less";
 @import "select-menu.less";
 @import "select-mixins.less";
+@import "select-multi.less";
 @import "select-spinner.less";

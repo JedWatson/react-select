@@ -132,7 +132,7 @@ label {
   content: " ";
   display: block;
   height: 0;
-  margin-top: -3px;
+  margin-top: -ceil(2.5px);
   position: absolute;
   right: 10px;
   top: 50%;
@@ -232,6 +232,53 @@ label {
   cursor: default;
   display: block;
   padding: 6px 10px;
+}
+.Select.is-multi .Select-control {
+  padding: 4px 8px;
+}
+.Select.is-multi .Select-input {
+  width: 1px;
+}
+.Select.is-multi.has-value .Select-arrow {
+  display: none;
+}
+.Select-item {
+  background-color: #f2f9fc;
+  border-radius: 2px;
+  border: 1px solid #c9e6f2;
+  color: #0088cc;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.95em;
+  line-height: 1;
+  margin: 2px;
+}
+.Select-item-icon,
+.Select-item-label {
+  display: inline-block;
+  padding: 3px 5px;
+}
+.Select-item-icon:hover,
+.Select-item-label:hover,
+.Select-item-icon:focus,
+.Select-item-label:focus {
+  background-color: #ddeff7;
+  color: #0077b3;
+}
+.Select-item-icon:active,
+.Select-item-label:active {
+  background-color: #c9e6f2;
+}
+.Select-item-icon {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+  border-right: 1px solid #c9e6f2;
+}
+.Select-item-label {
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  display: inline-block;
+  padding: 3px 5px;
 }
 @keyframes spin {
   to {
