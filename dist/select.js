@@ -1,166 +1,31 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var _ = require('underscore');
-
-function classes() {
-	var rtn = [];
-	for (var i = 0; i < arguments.length; i++) {
-		if ('string' === typeof arguments[i]) {
-			rtn.push(arguments[i]);
-		} else if (_.isObject(arguments[i])) {
-			_.each(arguments[i], function(val, key) {
-				if (val) {
-					rtn.push(key);
-				}
-			});
+function classnames() {
+	var args = arguments, classes = [];
+	for (var i = 0; i < args.length; i++) {
+		if (args[i] && 'string' === typeof args[i]) {
+			classes.push(args[i]);
+		} else if ('object' === typeof args[i]) {
+			classes = classes.concat(Object.keys(args[i]).filter(function(cls) {
+				return args[i][cls];
+			}));
 		}
 	}
-	return rtn.join(' ') || undefined;
+	return classes.join(' ') || undefined;
 }
 
-module.exports = classes;
-},{"underscore":undefined}],2:[function(require,module,exports){
-// shim for using process in browser
+module.exports = classnames;
 
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-}
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],3:[function(require,module,exports){
-(function (process){
+},{}],2:[function(require,module,exports){
 /**
- * Copyright 2013-2014 Facebook, Inc.
+ * Copyright 2013-2014, Facebook, Inc.
+ * All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * @providesModule copyProperties
- */
-
-/**
- * Copy properties from one or more objects (up to 5) into the first object.
- * This is a shallow copy. It mutates the first object and also returns it.
- *
- * NOTE: `arguments` has a very significant performance penalty, which is why
- * we don't support unlimited arguments.
- */
-function copyProperties(obj, a, b, c, d, e, f) {
-  obj = obj || {};
-
-  if ("production" !== process.env.NODE_ENV) {
-    if (f) {
-      throw new Error('Too many arguments passed to copyProperties');
-    }
-  }
-
-  var args = [a, b, c, d, e];
-  var ii = 0, v;
-  while (args[ii]) {
-    v = args[ii++];
-    for (var k in v) {
-      obj[k] = v[k];
-    }
-
-    // IE ignores toString in object iteration.. See:
-    // webreflection.blogspot.com/2007/07/quick-fix-internet-explorer-and.html
-    if (v.hasOwnProperty && v.hasOwnProperty('toString') &&
-        (typeof v.toString != 'undefined') && (obj.toString !== v.toString)) {
-      obj.toString = v.toString;
-    }
-  }
-
-  return obj;
-}
-
-module.exports = copyProperties;
-
-}).call(this,require('_process'))
-},{"_process":2}],4:[function(require,module,exports){
-/**
- * Copyright 2013-2014 Facebook, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule emptyFunction
  */
-
-var copyProperties = require("./copyProperties");
 
 function makeEmptyFunction(arg) {
   return function() {
@@ -175,23 +40,19 @@ function makeEmptyFunction(arg) {
  */
 function emptyFunction() {}
 
-copyProperties(emptyFunction, {
-  thatReturns: makeEmptyFunction,
-  thatReturnsFalse: makeEmptyFunction(false),
-  thatReturnsTrue: makeEmptyFunction(true),
-  thatReturnsNull: makeEmptyFunction(null),
-  thatReturnsThis: function() { return this; },
-  thatReturnsArgument: function(arg) { return arg; }
-});
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function() { return this; };
+emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{"./copyProperties":3}],"react-select":[function(require,module,exports){
-/** @jsx React.DOM */
-
+},{}],"react-select":[function(require,module,exports){
 var _ = require('underscore'),
 	React = require('react'),
-	classes = require('./classes');
+	classes = require('classnames');
 
 var logEvent = function(msg) {
 	console.log(msg);
@@ -205,6 +66,17 @@ var requestId = 0;
 var Select = React.createClass({
 	
 	displayName: 'Select',
+
+	propTypes: {
+		value: React.PropTypes.any,				// initial field value
+		options: React.PropTypes.array,			// array of options
+		asyncOptions: React.PropTypes.func,		// function to call to get options
+		autoload: React.PropTypes.bool,			// whether to auto-load the default async options set
+		placeholder: React.PropTypes.string,	// field placeholder, displayed when there's no value
+		name: React.PropTypes.string,			// field name, for hidden <input /> tag
+		onChange: React.PropTypes.func,			// onChange handler: function(newValue) {}
+		className: React.PropTypes.string		// className for the outer element
+	},
 	
 	getDefaultProps: function() {
 		return {
@@ -434,6 +306,9 @@ var Select = React.createClass({
 	setValue: function(option) {
 		var newState = this.getStateFromValue(option);
 		newState.isOpen = false;
+		if (newState.value !== this.state.value && this.props.onChange) {
+			this.props.onChange(newState.value);
+		}
 		this.setState(newState);
 	},
 	
@@ -528,7 +403,7 @@ var Select = React.createClass({
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectOption.bind(this, op);
 			
-			return React.DOM.div({
+			return React.createElement('div', {
 				key: 'option-' + op.value,
 				className: optionClass,
 				onMouseEnter: mouseEnter,
@@ -538,7 +413,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : React.DOM.div({ className: "Select-noresults" }, "No results found");
+		return ops.length ? ops : React.createElement('div', { className: "Select-noresults" }, "No results found");
 		
 	},
 	
@@ -546,11 +421,11 @@ var Select = React.createClass({
 		
 		logEvent('render');
 		
-		var menu = this.state.isOpen ? React.DOM.div({ className: "Select-menu" }, this.buildMenu()) : null;
-		var loading = this.state.isLoading ? React.DOM.span({ className: "Select-loading" }) : null;
-		var clear = this.state.value ? React.DOM.span({ className: "Select-clear", onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;' } }) : null;
+		var menu = this.state.isOpen ? React.createElement('div', { className: "Select-menu" }, this.buildMenu()) : null;
+		var loading = this.state.isLoading ? React.createElement('span', { className: "Select-loading" }) : null;
+		var clear = this.state.value ? React.createElement('span', { className: "Select-clear", onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;' } }) : null;
 		
-		var selectClass = classes('Select', {
+		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
@@ -558,11 +433,11 @@ var Select = React.createClass({
 			'has-value': this.state.value
 		});
 		
-		return React.DOM.div({ className: selectClass }, 
-			React.DOM.input({ type: "hidden", ref: "value", name: this.props.name, value: this.state.value }), 
-			React.DOM.div({ className: "Select-control", tabIndex: "-1", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onFocus: this.handleFocus, onBlur: this.handleBlur }, 
-				React.DOM.input({ className: "Select-input", placeholder: this.state.placeholder, ref: "input", onMouseDown: this.handleInputMouseDown, value: this.state.inputValue, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur, onChange: this.handleInputChange }), 
-				React.DOM.span({ className: "Select-arrow" }),
+		return React.createElement('div', { className: selectClass }, 
+			React.createElement('input', { type: "hidden", ref: "value", name: this.props.name, value: this.state.value }), 
+			React.createElement('div', { className: "Select-control", tabIndex: "-1", ref: "control", onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onFocus: this.handleFocus, onBlur: this.handleBlur }, 
+				React.createElement('input', { className: "Select-input", placeholder: this.state.placeholder, ref: "input", onMouseDown: this.handleInputMouseDown, value: this.state.inputValue, onFocus: this.handleInputFocus, onBlur: this.handleInputBlur, onChange: this.handleInputChange }), 
+				React.createElement('span', { className: "Select-arrow" }),
 				loading,
 				clear
 			),
@@ -574,4 +449,4 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./classes":1,"react":undefined,"react/lib/emptyFunction":4,"underscore":undefined}]},{},[]);
+},{"classnames":1,"react":undefined,"react/lib/emptyFunction":2,"underscore":undefined}]},{},[]);
