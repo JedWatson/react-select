@@ -10,9 +10,10 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "underscore": "~1.7.0",
+    "classnames": "~1.0.0",
     "react": "~0.12.0",
-    "reactify": "~0.15.2"
+    "reactify": "~0.15.2",
+    "underscore": "~1.7.0"
   },
   "devDependencies": {
     "browserify": "~6.2.0",
