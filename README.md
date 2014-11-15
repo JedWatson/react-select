@@ -12,10 +12,10 @@ To build the examples locally, run:
 
 ```
 npm install
-gulp build-examples
+gulp watch-examples
 ```
 
-Then open `./examples/public/index.html` in a browser.
+Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 
 ## Project Status
@@ -26,12 +26,12 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 TODO:
 
-- CSS Styles and theme support (in progress)
-- Remote options loading (in progress)
-- Cleanup of focus state management (in progress)
+- CSS Styles and theme support (working, could be improved)
+- Remote options loading (working)
+- Cleanup of focus state management (done)
 - Standalone build & publish to Bower (in progress)
 - Documentation website (currently just examples)
-- Multiselect
+- Multiselect (working)
 - Custom options rendering
 
 
