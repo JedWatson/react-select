@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.2.2 / 2014-11-15
+
+* fixed; backspace event being incorrectly cancelled
+
 ## v0.2.1 / 2014-11-15
 
 * fixed; issue where backspace incorrectly clears the value (#14)
