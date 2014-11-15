@@ -48,9 +48,11 @@ npm install react-select --save
 
 ## Usage
 
-React-Select generates a hidden text field containing the selected value, so you can submit it as part of a standard form.
+React-Select generates a hidden text field containing the selected value, so you can submit it as part of a standard form. You can also listen for changes with the `onChange` event property.
 
 Options should be provided as an `Array` of `Object`s, each with a `value` and `label` property for rendering and searching.
+
+When the value is changed, `onChange(newValue, [selectedOptions])` will fire.
 
 ```
 var Select = require('react-select');
@@ -60,12 +62,25 @@ var options = [
 	{ value: 'two', label: 'Two' }
 ];
 
+function logChange(val) {
+	console.log("Selected: " + val);
+}
+
 <Select
 	name="form-field-name"
 	value="one"
 	options={options}
 />
 ```
+
+### Multiselect options
+
+You can enable multi-value selection by setting `multi="true"`. In this mode:
+
+* Selected options will be removed from the dropdown menu
+* The values of the selected items are joined using the `delimiter` property to create the input value
+* A simple value, if provided, will be split using the `delimiter` property
+* The `onChange` event provides an array of the selected options as the second argument
 
 ### Async options
 
