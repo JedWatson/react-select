@@ -6,15 +6,18 @@
 // base
 
 .Select-control {
+	position: relative;
+	overflow: hidden;
 	background-color: white;
 	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
 	box-sizing: border-box;
 	color: @select-text-color;
-	cursor: pointer;
+	cursor: default;
 	outline: none;
-	padding: @select-padding-vertical @select-padding-horizontal;
+	// right padding allows for arrow, clear button and loading indicator
+	padding: @select-padding-vertical (@select-padding-horizontal * 3) + 22 @select-padding-vertical @select-padding-horizontal;
 	transition: all 200ms ease;
 
 	&:hover {
@@ -41,21 +44,41 @@
 	cursor: text;
 }
 
+// placeholder
 
-// arrow indicator
-
-.Select-arrow {
-	border-color: @select-arrow-color transparent transparent;
-	border-style: solid;
-	border-width: @select-arrow-width @select-arrow-width 0;
-	content: " ";
-	display: block;
-	height: 0;
-	margin-top: -ceil(@select-arrow-width / 2);
+.Select-placeholder {
+	color: @select-input-placeholder;
+	padding: @select-padding-vertical @select-padding-horizontal;
 	position: absolute;
-	right: @select-padding-horizontal;
-	top: 50%;
-	width: 0;
+	top: 0;
+	left: 0;
+}
+
+.has-value > .Select-control > .Select-placeholder {
+	color: @select-text-color;
+}
+
+
+// the <input> element users type in
+
+.Select-input {
+	
+	input {
+		cursor: default;
+		background: none transparent;
+		border: 0 none;
+		padding: 0;
+		font-family: inherit;
+		font-size: inherit;
+		outline: none;
+		display: inline-block;
+		-webkit-appearance: none;
+		
+		.is-focused & {
+			cursor: text;
+		}
+	}
+
 }
 
 
@@ -74,29 +97,6 @@
 }
 
 
-// the actual <input> element users type in
-
-.Select-input {
-	background: none transparent;
-	border: 0 none;
-	cursor: pointer;
-	font-family: inherit;
-	font-size: inherit;
-	outline: none;
-	width: 100%;
-	-webkit-appearance: none;
-
-			 &::-moz-placeholder { color: @select-input-placeholder;
-			 					   opacity: 1; }
-		 &:-ms-input-placeholder { color: @select-input-placeholder; }
-	&::-webkit-input-placeholder { color: @select-input-placeholder; }
-	
-	.is-focused & {
-		cursor: text;
-	}
-}
-
-
 // the little cross that clears the field
 
 .Select-clear {
@@ -104,13 +104,34 @@
 	color: @select-clear-color;
 	cursor: pointer;
 	display: inline-block;
-	font-size: 1.1em; // make a bit more visible and fix line-height issue
-	padding: @select-padding-vertical @select-padding-horizontal;
+	font-size: 16px;
+	padding: @select-padding-vertical - 2 @select-padding-horizontal;
 	position: absolute;
-	right: (@select-padding-horizontal * 2);
+	right: @select-padding-horizontal + @select-arrow-width + 2;
 	top: 0;
 
 	&:hover {
 		color: @select-clear-hover-color;
 	}
+	
+	> span {
+		font-size: 1.1em;
+	}
+}
+
+
+// arrow indicator
+
+.Select-arrow {
+	border-color: @select-arrow-color transparent transparent;
+	border-style: solid;
+	border-width: @select-arrow-width @select-arrow-width 0;
+	content: " ";
+	display: block;
+	height: 0;
+	margin-top: -ceil(@select-arrow-width / 2);
+	position: absolute;
+	right: @select-padding-horizontal;
+	top: @select-padding-vertical + @select-arrow-width + 1;
+	width: 0;
 }

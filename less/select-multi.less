@@ -9,17 +9,21 @@
 
 	// control: reduce padding to allow for items
 	.Select-control {
-		padding: (@select-padding-vertical - @select-item-gutter) (@select-padding-horizontal - @select-item-gutter);
+		padding: 
+			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
+			@select-padding-horizontal * 3 + 22
+			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
+			@select-padding-horizontal - @select-item-gutter - @select-item-padding-horizontal
 	}
-	// input: shrink when there's items
+	
+	// add margin to the input element
 	.Select-input {
-		width: 1px;
+		vertical-align: middle;
+		border: 1px solid transparent;
+		margin: @select-item-gutter;
+		padding: @select-item-padding-vertical 0;
 	}
-
-	// remove the arrow if there's items
-	&.has-value .Select-arrow {
-		display: none;
-	}
+	
 }
 
 
@@ -30,10 +34,8 @@
 	border-radius: @select-item-border-radius;
 	border: 1px solid @select-item-border-color;
 	color: @select-item-color;
-	cursor: pointer;
 	display: inline-block;
 	font-size: @select-item-font-size;
-	line-height: 1;
 	margin: @select-item-gutter;
 }
 
@@ -41,7 +43,24 @@
 .Select-item-icon,
 .Select-item-label {
 	display: inline-block;
+	vertical-align: middle;
+}
+
+// label
+.Select-item-label {
+	cursor: default;
+	.border-right-radius( @select-item-border-radius );
 	padding: @select-item-padding-vertical @select-item-padding-horizontal;
+}
+
+// icon
+.Select-item-icon {
+	cursor: pointer;
+	.border-left-radius( @select-item-border-radius );
+	border-right: 1px solid @select-item-border-color;
+	
+	// move the baseline up by 1px
+	padding: @select-item-padding-vertical - 1 @select-item-padding-horizontal @select-item-padding-vertical + 1;
 
 	&:hover,
 	&:focus {
@@ -51,18 +70,4 @@
 	&:active {
 		background-color: @select-item-border-color;
 	}
-}
-
-// icon
-.Select-item-icon {
-	.border-left-radius( @select-item-border-radius );
-	border-right: 1px solid @select-item-border-color;
-	// font-weight: 500;
-}
-
-// label
-.Select-item-label {
-	.border-right-radius( @select-item-border-radius );
-	display: inline-block;
-	padding: @select-item-padding-vertical @select-item-padding-horizontal;
 }
