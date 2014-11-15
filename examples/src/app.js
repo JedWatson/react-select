@@ -6,6 +6,17 @@ function logChange(value) {
 }
  
 var SelectField = React.createClass({
+	getInitialState: function() {
+		return {
+			selectValue: 'new-south-wales'
+		}
+	},
+	updateValue: function(newValue) {
+		logChange(newValue);
+		this.setState({
+			selectValue: newValue
+		});
+	},
 	render: function() {
 		var ops = [
 			{ label: 'Australian Capital Territory', value: 'australian-capital-territory' },
@@ -19,7 +30,7 @@ var SelectField = React.createClass({
 		];
 		return <div>
 			<label>{this.props.label}</label>
-			<Select options={ops} value='new-south-wales' onChange={logChange} />
+			<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} />
 		</div>;
 	}
 });
