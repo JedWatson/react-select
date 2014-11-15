@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.2.1 / 2014-11-15
+
+* fixed; issue where backspace incorrectly clears the value (#14)
+
 ## v0.2.0 / 2014-11-15
 
 * changed; Major rewrite to improve focus handling and internal state management
