@@ -1,10 +1,11 @@
 var React = require('react'),
 	Select = require('react-select');
+
+function logChange(value) {
+	console.log('Select value changed: ' + value);
+}
  
 var SelectField = React.createClass({
-	changed: function(value) {
-		console.log('Select value changed: ' + value);
-	},
 	render: function() {
 		var ops = [
 			{ label: 'Australian Capital Territory', value: 'australian-capital-territory' },
@@ -18,13 +19,15 @@ var SelectField = React.createClass({
 		];
 		return <div>
 			<label>{this.props.label}</label>
-			<Select options={ops} value={this.props.value} onChange={this.changed} />
+			<Select options={ops} value='new-south-wales' onChange={logChange} />
 		</div>;
 	}
 });
  
 var RemoteSelectField = React.createClass({
 	loadOptions: function(input, callback) {
+		
+		input = input.toLowerCase();
 		
 		var rtn = {
 			options: [
@@ -67,7 +70,7 @@ var RemoteSelectField = React.createClass({
 	render: function() {
 		return <div>
 			<label>{this.props.label}</label>
-			<Select asyncOptions={this.loadOptions} value={this.props.value} className="remote-example" />
+			<Select asyncOptions={this.loadOptions} className="remote-example" />
 		</div>;
 	}
 });
@@ -78,11 +81,14 @@ var MultiSelectField = React.createClass({
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
 			{ label: 'Vanilla', value: 'vanilla' },
-			{ label: 'Strawberry', value: 'strawberry' }
+			{ label: 'Strawberry', value: 'strawberry' },
+			{ label: 'Caramel', value: 'caramel' },
+			{ label: 'Cookies and Cream', value: 'cookiescream' },
+			{ label: 'Peppermint', value: 'peppermint' }
 		];
 		return <div>
 			<label>{this.props.label}</label>
-			<Select multi={true} options={ops} value={this.props.value} />
+			<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} />
 		</div>;
 	}
 });
@@ -90,73 +96,9 @@ var MultiSelectField = React.createClass({
 
 React.render(
 	<div>
-		<SelectField label="State:"/>
-		<RemoteSelectField label="Remote:"/>
-		{{/*<MultiSelectField label="Multi:"/>*/}}
-		{{/*<label>Multi:</label>
-		<div className="Select is-multi is-focused has-value">
-			<input type="hidden" value="" />
-			<div className="Select-control">
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Chocolate</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Vanilla</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Strawberry</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Caramel</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Lime</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Mint</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Mango</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Coffee</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Cookies and Cream</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Banana</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Apple</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Pear</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Orange</span>
-				</div>
-				<div className="Select-item">
-					<span className="Select-item-icon">&times;</span>
-					<span className="Select-item-label">Pineapple</span>
-				</div>
-				<input className="Select-input" placeholder="Select..." value="" />
-				<span className="Select-arrow" />
-			</div>
-		</div>*/}}
+		<SelectField label="Select:"/>
+		<MultiSelectField label="Multiselect:"/>
+		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')
 );
