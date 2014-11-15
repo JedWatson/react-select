@@ -335,6 +335,7 @@ var Select = React.createClass({
 				if (!this.state.inputValue) {
 					this.popValue();
 				}
+				return;
 			break;
 			
 			case 9: // tab
