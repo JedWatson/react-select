@@ -2,7 +2,7 @@
   "name": "react-select",
   "version": "0.2.2",
   "description": "A Select control built with and for ReactJS",
-  "main": "lib/Select.js",
+  "main": "dist/react-select.js",
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {
@@ -29,6 +29,7 @@
     "vinyl-source-stream": "~1.0.0",
     "watchify": "~2.1.1"
   },
+  "browser": "src/Select.js",
   "browserify": {
     "transform": [
       "reactify"
