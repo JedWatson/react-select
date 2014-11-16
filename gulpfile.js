@@ -280,16 +280,18 @@ gulp.task('bump:major', getBumpTask('major'));
  * (version *must* be bumped first)
  */
 
-gulp.task('publish:tag', function() {
+gulp.task('publish:tag', function(done) {
 	var pkg = require('./package.json');
 	var v = 'v' + pkg.version;
 	var message = 'Release ' + v;
 
-	return gulp.src('./')
-		.pipe(git.commit(message))
-		.pipe(git.tag(v, message))
-		.pipe(git.push('origin', 'master', '--tags'))
-		.pipe(gulp.dest('./'));
+	git.tag(v, message, function (err) {
+		if (err) throw err;
+		git.push('origin', v, function (err) {
+			if (err) throw err;
+			done();
+		});
+	});
 });
 
 
