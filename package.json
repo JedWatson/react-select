@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.js",
   "author": "Jed Watson",
