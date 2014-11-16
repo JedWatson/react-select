@@ -43,7 +43,8 @@
   },
   "browserify-shim": {
     "react": "global:React",
-    "underscore": "_"
+    "react-input-autosize": "global:AutosizeInput",
+    "underscore": "global:_"
   },
   "scripts": {
     "test": "echo \"no tests yet\" && exit 0"
