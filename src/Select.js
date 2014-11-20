@@ -2,7 +2,7 @@ var _ = require('underscore'),
 	React = require('react'),
 	Input = require('react-input-autosize'),
 	classes = require('classnames'),
-	Value = require('./value');
+	Value = require('./Value');
 
 var requestId = 0;
 
