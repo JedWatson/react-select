@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
 	<title>React-Select Example</title>
-	<link rel="stylesheet" href="build/example.css">
+	<link rel="stylesheet" href="example.css">
 </head>
 <body>
 	<div class="container">
@@ -20,10 +20,16 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/JSXTransformer.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
-	<!-- <script src="build/select-standalone.js"> -->
+	<script src="http://jedwatson.github.io/react-input-autosize/standalone.js"></script>
+	<script src="standalone.js"></script>
 	<script type="text/jsx">
+		var ops = [
+			{ label: 'One', value: 1 },
+			{ label: 'Two', value: 2 },
+			{ label: 'Three', value: 3 },
+		];
 		React.render(
-			<div>Select goes here</div>,
+			<Select options={ops} />,
 			document.getElementById('example')
 		);
 	</script>
