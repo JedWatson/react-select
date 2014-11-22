@@ -13,6 +13,7 @@ var Select = React.createClass({
 	propTypes: {
 		value: React.PropTypes.any,             // initial field value
 		multi: React.PropTypes.bool,            // multi-value input
+		customOptions: React.PropTypes.bool,    // custom value input
 		options: React.PropTypes.array,         // array of options
 		delimiter: React.PropTypes.string,      // delimiter to use to join multiple values
 		asyncOptions: React.PropTypes.func,     // function to call to get options
@@ -299,6 +300,9 @@ var Select = React.createClass({
 	},
 	
 	selectFocusedOption: function() {
+		if (this.props.customOptions && !this.state.focusedOption) {
+			return this.selectValue(this.state.inputValue);
+		}
 		return this.selectValue(this.state.focusedOption);
 	},
 	
