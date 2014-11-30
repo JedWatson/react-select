@@ -18388,7 +18388,7 @@ var AutosizeInput = React.createClass({
 
 module.exports = AutosizeInput;
 
-},{"react":undefined}],"react":[function(require,module,exports){
+},{"react":"react"}],"react":[function(require,module,exports){
 module.exports = require('./lib/React');
 
 },{"./lib/React":29}],"underscore":[function(require,module,exports){
