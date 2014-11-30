@@ -72,7 +72,7 @@ var Select = React.createClass({
 		if (newProps.value !== this.state.value) {
 			this.setState(this.getStateFromValue(newProps.value));
 		}
-		if (newProps.options !== this.props.options) {
+		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({ options: newProps.options });
 		}
 	},
