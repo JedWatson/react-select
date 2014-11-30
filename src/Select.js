@@ -242,9 +242,11 @@ var Select = React.createClass({
 	},
 	
 	handleInputChange: function(event) {
-		// use an internal variable because we need to use
+		
+		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
+		
 		if (this.props.asyncOptions) {
 			this.setState({
 				isLoading: true,
@@ -255,12 +257,15 @@ var Select = React.createClass({
 				isOpen: true
 			});
 		} else {
+			var filteredOptions = this.filterOptions(this.state.options);
 			this.setState({
 				isOpen: true,
 				inputValue: event.target.value,
-				filteredOptions: this.filterOptions(this.state.options)
+				filteredOptions: filteredOptions,
+				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			});
 		}
+		
 	},
 	
 	autoloadAsyncOptions: function() {
