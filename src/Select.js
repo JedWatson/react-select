@@ -110,15 +110,18 @@ var Select = React.createClass({
 	
 	getStateFromValue: function(value) {
 		
+		// reset internal filter string
+		this._optionsFilterString = '';
+		
 		var values = this.initValuesArray(value);
 		
 		return {
 			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
-			filteredOptions: this.state.options,
+			filteredOptions: this.filterOptions(this.state.options, values),
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
-			focusedOption: !this.props.multi ? values[0] : null
+			focusedOption: !this.props.multi ? this.state.options[0] : null
 		};
 		
 	},
@@ -296,13 +299,13 @@ var Select = React.createClass({
 		
 	},
 	
-	filterOptions: function(options) {
+	filterOptions: function(options, values) {
 		var filterValue = this._optionsFilterString;
-		var values = this.state.values.map(function(i) {
+		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
 		});
 		var filterOption = function(op) {
-			if (this.props.multi && _.contains(values, op.value)) return false;
+			if (this.props.multi && _.contains(exclude, op.value)) return false;
 			return (
 				!filterValue
 				|| op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0
@@ -384,11 +387,13 @@ var Select = React.createClass({
 	
 	buildMenu: function() {
 		
+		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		
 		var ops = _.map(this.state.filteredOptions, function(op) {
 			
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': this.state.focusedOption === op
+				'is-focused': focusedValue === op.value
 			});
 			
 			var mouseEnter = this.focusOption.bind(this, op),
