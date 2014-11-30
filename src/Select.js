@@ -113,15 +113,16 @@ var Select = React.createClass({
 		// reset internal filter string
 		this._optionsFilterString = '';
 		
-		var values = this.initValuesArray(value);
+		var values = this.initValuesArray(value),
+			filteredOptions = this.filterOptions(this.state.options, values);
 		
 		return {
 			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
-			filteredOptions: this.filterOptions(this.state.options, values),
+			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
-			focusedOption: !this.props.multi ? this.state.options[0] : null
+			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 		
 	},
