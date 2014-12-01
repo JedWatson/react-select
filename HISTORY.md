@@ -1,5 +1,11 @@
 # React-Select
 
+## v0.2.7 / 2014-12-01
+
+* fixed; screen-readers will now read "clear value" instead of "times" for the clear button
+* fixed; non-left-click mousedown events aren't blocked by the control
+
+
 ## v0.2.6 / 2014-11-30
 
 * improved; better comparison of changes to [options] in `willReceiveProps`
