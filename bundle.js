@@ -197,7 +197,12 @@ var Select = React.createClass({
 		this.setValue(_.without(this.state.values, value));
 	},
 	
-	clearValue: function() {
+	clearValue: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, ignore it.
+		if (event && event.type == 'mousedown' && event.button !== 0) {
+			return;
+		}
 		this.setValue(null);
 	},
 	
@@ -212,6 +217,11 @@ var Select = React.createClass({
 	},
 	
 	handleMouseDown: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, ignore it.
+		if (event.type == 'mousedown' && event.button !== 0) {
+			return;
+		}
 		event.stopPropagation();
 		event.preventDefault();
 		if (this.state.isFocused) {
@@ -486,8 +496,8 @@ var Select = React.createClass({
 			value.push(React.createElement("div", {className: "Select-placeholder", key: "placeholder"}, this.state.placeholder));
 		}
 		
-		var loading = this.state.isLoading ? React.createElement('span', { className: "Select-loading" }) : null;
-		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", 'aria-hidden': "true"}) : null;
+		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", 'aria-label': "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
 		var menu = this.state.isOpen ? React.createElement("div", {className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
