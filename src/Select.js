@@ -450,8 +450,8 @@ var Select = React.createClass({
 			value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
 		}
 		
-		var loading = this.state.isLoading ? React.createElement('span', { className: "Select-loading" }) : null;
-		var clear = this.state.value ? <span className="Select-clear" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
+		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
