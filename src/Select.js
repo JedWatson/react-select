@@ -151,7 +151,12 @@ var Select = React.createClass({
 		this.setValue(_.without(this.state.values, value));
 	},
 	
-	clearValue: function() {
+	clearValue: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, ignore it.
+		if (event && event.type == 'mousedown' && event.button !== 0) {
+			return;
+		}
 		this.setValue(null);
 	},
 	
@@ -166,6 +171,11 @@ var Select = React.createClass({
 	},
 	
 	handleMouseDown: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, ignore it.
+		if (event.type == 'mousedown' && event.button !== 0) {
+			return;
+		}
 		event.stopPropagation();
 		event.preventDefault();
 		if (this.state.isFocused) {
