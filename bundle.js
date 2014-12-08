@@ -66,7 +66,9 @@ var Select = React.createClass({
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
-		className: React.PropTypes.string       // className for the outer element
+		className: React.PropTypes.string,      // className for the outer element
+		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string       // (any|label|value) which option property to filter on
 	},
 	
 	getDefaultProps: function() {
@@ -79,7 +81,9 @@ var Select = React.createClass({
 			placeholder: '',
 			name: undefined,
 			onChange: undefined,
-			className: undefined
+			className: undefined,
+			matchPos: 'any',
+			matchProp: 'any'
 		};
 	},
 	
@@ -368,10 +372,13 @@ var Select = React.createClass({
 		});
 		var filterOption = function(op) {
 			if (this.props.multi && _.contains(exclude, op.value)) return false;
-			return (
-				!filterValue
-				|| op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0
-				|| op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0
+			if (this.props.filterOption) return this.props.filterOption.call(this, option, filterValue);
+			return !filterValue || (this.props.matchPos === 'start') ? (
+				(this.props.matchProp !== 'label' && op.value.toLowerCase().substr(0, filterValue.length) === filterValue) ||
+				(this.props.matchProp !== 'value' && op.label.toLowerCase().substr(0, filterValue.length) === filterValue)
+			) : (
+				(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
+				(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 			);
 		}
 		return _.filter(options, filterOption, this);
