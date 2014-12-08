@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.2.8 / 2014-12-08
+
+* added; `matchPos` option to control whether to match the `start` or `any` position in the string when filtering options (default: `any`)
+* added; `matchProp` option to control whether to match the `value`, `label` or `any` property of each option when filtering (default: `any`)
+
 ## v0.2.7 / 2014-12-01
 
 * fixed; screen-readers will now read "clear value" instead of "times" for the clear button
