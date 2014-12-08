@@ -116,3 +116,15 @@ var getOptions = function(input, callback) {
 />
 ```
 
+### Filtering optons
+
+You can control how options are filtered with the following properties:
+
+* `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
+* `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
+
+Both properties default to `"any"`.
+
+
+
+
