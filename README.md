@@ -26,12 +26,12 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 TODO:
 
-- CSS Styles and theme support (working, could be improved)
-- Remote options loading (working)
+- Remote options loading (done)
 - Cleanup of focus state management (done)
-- Standalone build & publish to Bower (in progress)
+- Standalone build & publish to Bower (done)
+- Multiselect (done)
+- CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
-- Multiselect (working)
 - Custom options rendering
 
 
