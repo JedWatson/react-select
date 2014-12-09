@@ -427,7 +427,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement('div', { className: "Select-noresults" }, "No results found");
+		return ops.length ? ops : <div className="Select-noresults">No results found</div>;
 		
 	},
 	
@@ -449,7 +449,7 @@ var Select = React.createClass({
 					key: val.value,
 					onRemove: this.removeValue.bind(this, val)
 				}, val);
-				value.push(React.createElement(Value, props));
+				value.push(<Value {...props} />);
 			}, this);
 		}
 		

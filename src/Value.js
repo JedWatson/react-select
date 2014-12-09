@@ -15,10 +15,12 @@ var Option = React.createClass({
 	},
 	
 	render: function() {
-		return <div className="Select-item">
-			<span className="Select-item-icon" onMouseDown={this.blockEvent} onClick={this.props.onRemove}>&times;</span>
-			<span className="Select-item-label">{this.props.label}</span>
-		</div>;
+		return (
+			<div className="Select-item">
+				<span className="Select-item-icon" onMouseDown={this.blockEvent} onClick={this.props.onRemove}>&times;</span>
+				<span className="Select-item-label">{this.props.label}</span>
+			</div>
+		);
 	}
 	
 });
