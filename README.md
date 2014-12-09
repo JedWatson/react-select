@@ -125,6 +125,16 @@ You can control how options are filtered with the following properties:
 
 Both properties default to `"any"`.
 
+#### Advanced filters
+
+You can also completely replace the method used to filter either a single option, or the entire options array (allowing custom sort mechanisms, etc.)
+
+* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos` and `matchProp` options.
+* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos` and `matchProp` options.
+
+For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
 
+# License
 
+MIT Licensed. Copyright (c) Jed Watson 2014.
