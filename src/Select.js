@@ -21,6 +21,8 @@ var Select = React.createClass({
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
+		filterOption: React.PropTypes.func,     // method to filter a single option: function(option, filterString)
+		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string       // (any|label|value) which option property to filter on
 	},
@@ -324,18 +326,22 @@ var Select = React.createClass({
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
 		});
-		var filterOption = function(op) {
-			if (this.props.multi && _.contains(exclude, op.value)) return false;
-			if (this.props.filterOption) return this.props.filterOption.call(this, option, filterValue);
-			return !filterValue || (this.props.matchPos === 'start') ? (
-				(this.props.matchProp !== 'label' && op.value.toLowerCase().substr(0, filterValue.length) === filterValue) ||
-				(this.props.matchProp !== 'value' && op.label.toLowerCase().substr(0, filterValue.length) === filterValue)
-			) : (
-				(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
-				(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
-			);
+		if (this.props.filterOptions) {
+			return this.props.filterOptions.call(this, options, filterValue, exclude);
+		} else {
+			var filterOption = function(op) {
+				if (this.props.multi && _.contains(exclude, op.value)) return false;
+				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
+				return !filterValue || (this.props.matchPos === 'start') ? (
+					(this.props.matchProp !== 'label' && op.value.toLowerCase().substr(0, filterValue.length) === filterValue) ||
+					(this.props.matchProp !== 'value' && op.label.toLowerCase().substr(0, filterValue.length) === filterValue)
+				) : (
+					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
+					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
+				);
+			}
+			return _.filter(options, filterOption, this);
 		}
-		return _.filter(options, filterOption, this);
 	},
 	
 	selectFocusedOption: function() {
