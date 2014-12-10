@@ -150,10 +150,14 @@ label {
 }
 .Select-placeholder {
   color: #aaaaaa;
-  padding: 8px 10px;
+  padding: 8px 52px 8px 10px;
   position: absolute;
   top: 0;
   left: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipses;
+  white-space: nowrap;
 }
 .has-value > .Select-control > .Select-placeholder {
   color: #333333;

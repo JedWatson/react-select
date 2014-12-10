@@ -8,7 +8,7 @@ function logChange(value) {
 	console.log('Select value changed: ' + value);
 }
 
-var CountrySelect = React.createClass({displayName: "CountrySelect",
+var CountrySelect = React.createClass({displayName: 'CountrySelect',
 	onClick: function() {
 		this.props.onSelect(this.props.value);
 	},
@@ -18,7 +18,7 @@ var CountrySelect = React.createClass({displayName: "CountrySelect",
 	}
 });
  
-var StatesField = React.createClass({displayName: "StatesField",
+var StatesField = React.createClass({displayName: 'StatesField',
 	getInitialState: function() {
 		return {
 			country: 'AU',
@@ -54,7 +54,7 @@ var StatesField = React.createClass({displayName: "StatesField",
 	}
 });
  
-var RemoteSelectField = React.createClass({displayName: "RemoteSelectField",
+var RemoteSelectField = React.createClass({displayName: 'RemoteSelectField',
 	loadOptions: function(input, callback) {
 		
 		input = input.toLowerCase();
@@ -106,7 +106,7 @@ var RemoteSelectField = React.createClass({displayName: "RemoteSelectField",
 });
 
 
-var MultiSelectField = React.createClass({displayName: "MultiSelectField",
+var MultiSelectField = React.createClass({displayName: 'MultiSelectField',
 	render: function() {
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
