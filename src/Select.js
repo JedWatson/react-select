@@ -44,7 +44,8 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			clearable: true,
-			noResultsLabel: 'No results found'
+			noResultsLabel: 'No results found',
+			inputTooShortLabel: 'Type to search'
 		};
 	},
 	
