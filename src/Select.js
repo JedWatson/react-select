@@ -25,7 +25,8 @@ var Select = React.createClass({
 		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,      // (any|label|value) which option property to filter on
-		clearable: React.PropTypes.bool         // should it be possible to reset value
+		clearable: React.PropTypes.bool,        // should it be possible to reset value
+		noResultsLabel: React.PropTypes.string  // label when no results are found
 	},
 	
 	getDefaultProps: function() {
@@ -41,7 +42,8 @@ var Select = React.createClass({
 			className: undefined,
 			matchPos: 'any',
 			matchProp: 'any',
-			clearable: true
+			clearable: true,
+			noResultsLabel: 'No results found'
 		};
 	},
 	
@@ -435,7 +437,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : <div className="Select-noresults">No results found</div>;
+		return ops.length ? ops : <div className="Select-noresults">{this.props.noResultsLabel}</div>;
 		
 	},
 	
