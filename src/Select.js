@@ -11,22 +11,23 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any,             // initial field value
-		multi: React.PropTypes.bool,            // multi-value input
-		options: React.PropTypes.array,         // array of options
-		delimiter: React.PropTypes.string,      // delimiter to use to join multiple values
-		asyncOptions: React.PropTypes.func,     // function to call to get options
-		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
-		name: React.PropTypes.string,           // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
-		className: React.PropTypes.string,      // className for the outer element
-		filterOption: React.PropTypes.func,     // method to filter a single option: function(option, filterString)
-		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string,      // (any|label|value) which option property to filter on
-		clearable: React.PropTypes.bool,        // should it be possible to reset value
-		noResultsLabel: React.PropTypes.string  // label when no results are found
+		value: React.PropTypes.any,                 // initial field value
+		multi: React.PropTypes.bool,                // multi-value input
+		options: React.PropTypes.array,             // array of options
+		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values
+		asyncOptions: React.PropTypes.func,         // function to call to get options
+		autoload: React.PropTypes.bool,             // whether to auto-load the default async options set
+		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
+		name: React.PropTypes.string,               // field name, for hidden <input /> tag
+		onChange: React.PropTypes.func,             // onChange handler: function(newValue) {}
+		className: React.PropTypes.string,          // className for the outer element
+		filterOption: React.PropTypes.func,         // method to filter a single option: function(option, filterString)
+		filterOptions: React.PropTypes.func,        // method to filter the options array: function([options], filterString, [values])
+		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
+		clearable: React.PropTypes.bool,            // should it be possible to reset value
+		noResultsLabel: React.PropTypes.string,     // label when no results are found
+		inputTooShortLabel: React.PropTypes.string  // label when there is no input
 	},
 	
 	getDefaultProps: function() {
@@ -437,7 +438,10 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : <div className="Select-noresults">{this.props.noResultsLabel}</div>;
+		return ops.length ? ops :
+			<div className="Select-noresults">
+				{this.state.inputValue ? this.props.noResultsLabel : this.props.inputTooShortLabel}
+			</div>;
 		
 	},
 	
