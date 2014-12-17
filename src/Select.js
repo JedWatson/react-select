@@ -24,7 +24,8 @@ var Select = React.createClass({
 		filterOption: React.PropTypes.func,     // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,    // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,       // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string       // (any|label|value) which option property to filter on
+		matchProp: React.PropTypes.string,      // (any|label|value) which option property to filter on
+		clearable: React.PropTypes.bool         // should it be possible to reset value
 	},
 	
 	getDefaultProps: function() {
@@ -39,7 +40,8 @@ var Select = React.createClass({
 			onChange: undefined,
 			className: undefined,
 			matchPos: 'any',
-			matchProp: 'any'
+			matchProp: 'any',
+			clearable: true
 		};
 	},
 	
@@ -464,7 +466,7 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.props.clearable && this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
