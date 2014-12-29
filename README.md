@@ -112,7 +112,7 @@ var getOptions = function(input, callback) {
 />
 ```
 
-### Filtering optons
+### Filtering options
 
 You can control how options are filtered with the following properties:
 
