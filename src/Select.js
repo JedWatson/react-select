@@ -18,6 +18,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,     // function to call to get options
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
@@ -35,6 +36,7 @@ var Select = React.createClass({
 			asyncOptions: undefined,
 			autoload: true,
 			placeholder: '',
+			noResultsText: 'No results found',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -433,7 +435,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : <div className="Select-noresults">No results found</div>;
+		return ops.length ? ops : <div className="Select-noresults">{this.props.noResultsText}</div>;
 		
 	},
 	
