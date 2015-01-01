@@ -104,9 +104,9 @@ var Select = React.createClass({
 			if ('string' === typeof values) {
 				values = values.split(this.props.delimiter);
 			} else {
-				values = values ? [values] : []
+				values = values ? [values] : [];
 			}
-		};
+		}
 		
 		return values.map(function(val) {
 			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
@@ -123,7 +123,7 @@ var Select = React.createClass({
 			filteredOptions = this.filterOptions(this.state.options, values);
 		
 		return {
-			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
@@ -339,7 +339,7 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			}
+			};
 			return _.filter(options, filterOption, this);
 		}
 	},
