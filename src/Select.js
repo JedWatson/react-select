@@ -80,7 +80,7 @@ var Select = React.createClass({
 	
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value));
+			this.setState(this.getStateFromValue(newProps.value, newProps.options));
 		}
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({
@@ -100,7 +100,30 @@ var Select = React.createClass({
 		}
 	},
 	
-	initValuesArray: function(values) {
+	getStateFromValue: function(value, options) {
+		
+		if (!options) {
+			options = this.state.options;
+		}
+		
+		// reset internal filter string
+		this._optionsFilterString = '';
+		
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
+		
+		return {
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			values: values,
+			inputValue: '',
+			filteredOptions: filteredOptions,
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
+			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
+		};
+		
+	},
+	
+	initValuesArray: function(values, options) {
 		
 		if (!Array.isArray(values)) {
 			if ('string' === typeof values) {
@@ -111,27 +134,8 @@ var Select = React.createClass({
 		}
 		
 		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
+			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
 		}.bind(this));
-		
-	},
-	
-	getStateFromValue: function(value) {
-		
-		// reset internal filter string
-		this._optionsFilterString = '';
-		
-		var values = this.initValuesArray(value),
-			filteredOptions = this.filterOptions(this.state.options, values);
-		
-		return {
-			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
-			values: values,
-			inputValue: '',
-			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
-			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
-		};
 		
 	},
 	
