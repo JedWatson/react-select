@@ -1,5 +1,16 @@
 # React-Select
 
+## v0.2.10 / 2015-01-01
+
+* fixed; More specific mixin name to avoid conflicts (css)
+* fixed; Example CSS now correctly rebuilds on changes in development
+* fixed; Values are now expanded correctly when options change (see #28)
+* added; Option to specify "No results found" label as prop for i18n, thanks [Julen Ruiz Aizpuru](https://github.com/julen)
+
+## v0.2.9 / 2014-12-09
+
+* added; `filterOption` and `filterOptions` props for more control over filtering
+
 ## v0.2.8 / 2014-12-08
 
 * added; `matchPos` option to control whether to match the `start` or `any` position in the string when filtering options (default: `any`)
@@ -18,7 +29,6 @@
 * fixed; fixed focused option behaviour on value change
 * fixed; when filtering, there is always a focused option (#19)
 * changed; using ^ in package.json to compare dependencies
-
 
 ## v0.2.5 / 2014-11-20
 
