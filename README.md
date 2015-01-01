@@ -26,10 +26,6 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 TODO:
 
-- Remote options loading (done)
-- Cleanup of focus state management (done)
-- Standalone build & publish to Bower (done)
-- Multiselect (done)
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
 - Custom options rendering
@@ -39,7 +35,7 @@ TODO:
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore. (they must be available through a browserify-style `require()` call, standalone support is coming soon)
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore.
 
 ```
 npm install react-select --save
@@ -116,7 +112,7 @@ var getOptions = function(input, callback) {
 />
 ```
 
-### Filtering optons
+### Filtering options
 
 You can control how options are filtered with the following properties:
 
