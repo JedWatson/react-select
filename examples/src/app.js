@@ -1,37 +1,55 @@
 var React = require('react'),
 	Select = require('react-select');
 
+var STATES = require('./data/states');
+
 function logChange(value) {
 	console.log('Select value changed: ' + value);
 }
+
+var CountrySelect = React.createClass({
+	onClick: function() {
+		this.props.onSelect(this.props.value);
+	},
+	render: function() {
+		var className = this.props.value === this.props.selected ? 'active' : 'link';
+		return <span onClick={this.onClick} className={className}>{this.props.children}</span>;
+	}
+});
  
-var SelectField = React.createClass({
+var StatesField = React.createClass({
 	getInitialState: function() {
 		return {
+			country: 'AU',
 			selectValue: 'new-south-wales'
 		}
 	},
+	switchCountry: function(newCountry) {
+		console.log('Country changed to ' + newCountry);
+		this.setState({
+			country: newCountry,
+			selectValue: null
+		});
+	},
 	updateValue: function(newValue) {
-		logChange(newValue);
+		logChange('State changed to ' + newValue);
 		this.setState({
 			selectValue: newValue
 		});
 	},
 	render: function() {
-		var ops = [
-			{ label: 'Australian Capital Territory', value: 'australian-capital-territory' },
-			{ label: 'New South Wales', value: 'new-south-wales' },
-			{ label: 'Victoria', value: 'victoria' },
-			{ label: 'Queensland', value: 'queensland' },
-			{ label: 'Western Australia', value: 'western-australia' },
-			{ label: 'South Australia', value: 'south-australia' },
-			{ label: 'Tasmania', value: 'tasmania' },
-			{ label: 'Northern Territory', value: 'northern-territory' }
-		];
-		return <div>
-			<label>{this.props.label}</label>
-			<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} />
-		</div>;
+		var ops = STATES[this.state.country];
+		return (
+			<div>
+				<label>States:</label>
+				<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} />
+				<div className="switcher">
+					Country:
+					<CountrySelect value="AU" selected={this.state.country} onSelect={this.switchCountry}>Australia</CountrySelect>
+					<CountrySelect value="US" selected={this.state.country} onSelect={this.switchCountry}>US</CountrySelect>
+				</div>
+			</div>
+		);
 	}
 });
  
@@ -107,7 +125,7 @@ var MultiSelectField = React.createClass({
 
 React.render(
 	<div>
-		<SelectField label="Select:"/>
+		<StatesField />
 		<MultiSelectField label="Multiselect:"/>
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
