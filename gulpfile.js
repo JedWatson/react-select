@@ -186,7 +186,7 @@ gulp.task('watch:examples', [
 	'dev:build:example:scripts'
 ], function() {
 	gulp.watch(EXAMPLE_FILES.map(function(i) { return EXAMPLE_SRC_PATH + '/' + i }), ['dev:build:example:files']);
-	gulp.watch([EXAMPLE_SRC_PATH + './' + EXAMPLE_LESS], ['dev:build:example:styles']);
+	gulp.watch([EXAMPLE_SRC_PATH + '/' + EXAMPLE_LESS], ['dev:build:example:styles']);
 });
 
 
