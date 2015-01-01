@@ -66,6 +66,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,     // function to call to get options
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
@@ -83,6 +84,7 @@ var Select = React.createClass({
 			asyncOptions: undefined,
 			autoload: true,
 			placeholder: '',
+			noResultsText: 'No results found',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -126,7 +128,7 @@ var Select = React.createClass({
 	
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value));
+			this.setState(this.getStateFromValue(newProps.value, newProps.options));
 		}
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			this.setState({
@@ -146,38 +148,42 @@ var Select = React.createClass({
 		}
 	},
 	
-	initValuesArray: function(values) {
+	getStateFromValue: function(value, options) {
 		
-		if (!Array.isArray(values)) {
-			if ('string' === typeof values) {
-				values = values.split(this.props.delimiter);
-			} else {
-				values = values ? [values] : []
-			}
-		};
-		
-		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
-		}.bind(this));
-		
-	},
-	
-	getStateFromValue: function(value) {
+		if (!options) {
+			options = this.state.options;
+		}
 		
 		// reset internal filter string
 		this._optionsFilterString = '';
 		
-		var values = this.initValuesArray(value),
-			filteredOptions = this.filterOptions(this.state.options, values);
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
 		
 		return {
-			value: values.map(function(v) { return v.value }).join(this.props.delimiter),
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
+		
+	},
+	
+	initValuesArray: function(values, options) {
+		
+		if (!Array.isArray(values)) {
+			if ('string' === typeof values) {
+				values = values.split(this.props.delimiter);
+			} else {
+				values = values ? [values] : [];
+			}
+		}
+		
+		return values.map(function(val) {
+			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+		}.bind(this));
 		
 	},
 	
@@ -387,7 +393,7 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			}
+			};
 			return _.filter(options, filterOption, this);
 		}
 	},
@@ -481,7 +487,7 @@ var Select = React.createClass({
 			
 		}, this);
 		
-		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, "No results found");
+		return ops.length ? ops : React.createElement("div", {className: "Select-noresults"}, this.props.noResultsText);
 		
 	},
 	
@@ -511,8 +517,8 @@ var Select = React.createClass({
 			value.push(React.createElement("div", {className: "Select-placeholder", key: "placeholder"}, this.state.placeholder));
 		}
 		
-		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", 'aria-hidden': "true"}) : null;
-		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", 'aria-label': "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
+		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", "aria-label": "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
 		var menu = this.state.isOpen ? React.createElement("div", {className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (

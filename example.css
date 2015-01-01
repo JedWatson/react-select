@@ -35,6 +35,27 @@ h6 {
   font-weight: 100;
   margin: 1em 0 0.5em 0;
 }
+.switcher {
+  font-size: 12px;
+  margin: 10px 0;
+  color: #999;
+  cursor: default;
+  text-transform: uppercase;
+}
+.switcher span.link {
+  margin-left: 10px;
+  color: #08c;
+  font-weight: bold;
+  cursor: pointer;
+}
+.switcher span.link:hover {
+  text-decoration: underline;
+}
+.switcher span.active {
+  margin-left: 10px;
+  color: #666;
+  font-weight: bold;
+}
 label {
   color: #999;
   display: inline-block;
