@@ -100,15 +100,15 @@ var Select = React.createClass({
 		}
 
 		if (this._focusedOptionReveal) {
-			if (this.refs.selected && this.refs.menu) {
-				var selectedDOM = this.refs.selected.getDOMNode();
+			if (this.refs.focused && this.refs.menu) {
+				var focusedDOM = this.refs.focused.getDOMNode();
 				var menuDOM = this.refs.menu.getDOMNode();
-				var selectedRect = selectedDOM.getBoundingClientRect();
+				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
 
-				if (selectedRect.bottom > menuRect.bottom ||
-					selectedRect.top < menuRect.top) {
-					menuDOM.scrollTop = (selectedDOM.offsetTop + selectedDOM.clientHeight - menuDOM.offsetHeight);
+				if (focusedRect.bottom > menuRect.bottom ||
+					focusedRect.top < menuRect.top) {
+					menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
 				}
 			}
 
@@ -449,7 +449,7 @@ var Select = React.createClass({
 				'is-focused': isFocused
 			});
 
-			var ref = isFocused ? 'selected' : null;
+			var ref = isFocused ? 'focused' : null;
 			
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
