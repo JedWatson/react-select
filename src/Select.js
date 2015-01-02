@@ -98,6 +98,22 @@ var Select = React.createClass({
 				this._focusAfterUpdate = false;
 			}.bind(this), 50);
 		}
+
+		if (this._focusedOptionReveal) {
+			if (this.refs.selected && this.refs.menu) {
+				var selectedDOM = this.refs.selected.getDOMNode();
+				var menuDOM = this.refs.menu.getDOMNode();
+				var selectedRect = selectedDOM.getBoundingClientRect();
+				var menuRect = menuDOM.getBoundingClientRect();
+
+				if (selectedRect.bottom > menuRect.bottom ||
+					selectedRect.top < menuRect.top) {
+					menuDOM.scrollTop = (selectedDOM.offsetTop + selectedDOM.clientHeight - menuDOM.offsetHeight);
+				}
+			}
+
+			this._focusedOptionReveal = false;
+		}
 	},
 	
 	getStateFromValue: function(value, options) {
@@ -369,6 +385,7 @@ var Select = React.createClass({
 	},
 	
 	focusAdjacentOption: function(dir) {
+		this._focusedOptionReveal = true;
 		
 		var ops = this.state.filteredOptions;
 		
@@ -425,17 +442,20 @@ var Select = React.createClass({
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		
 		var ops = _.map(this.state.filteredOptions, function(op) {
+			var isFocused = focusedValue === op.value;
 			
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': focusedValue === op.value
+				'is-focused': isFocused
 			});
+
+			var ref = isFocused ? 'selected' : null;
 			
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
 			
-			return <div key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown}>{op.label}</div>;
+			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown}>{op.label}</div>;
 			
 		}, this);
 		
@@ -471,7 +491,7 @@ var Select = React.createClass({
 		
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
 		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
-		var menu = this.state.isOpen ? <div className="Select-menu">{this.buildMenu()}</div> : null;
+		var menu = this.state.isOpen ? <div ref="menu" className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
 			<div ref="wrapper" className={selectClass}>
