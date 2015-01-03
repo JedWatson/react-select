@@ -66,6 +66,7 @@ function logChange(val) {
 	name="form-field-name"
 	value="one"
 	options={options}
+	onChange={logChange}
 />
 ```
 
