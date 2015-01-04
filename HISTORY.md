@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.2.11 / 2015-01-04
+
+* fixed; Options in the dropdown now scroll into view when they are focused, thanks [Adam](https://github.com/fmovlex)
+* improved; Example dist is now excluded from the npm package
+
 ## v0.2.10 / 2015-01-01
 
 * fixed; More specific mixin name to avoid conflicts (css)
