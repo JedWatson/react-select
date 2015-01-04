@@ -100,6 +100,22 @@ var Select = React.createClass({
 				this._focusAfterUpdate = false;
 			}.bind(this), 50);
 		}
+
+		if (this._focusedOptionReveal) {
+			if (this.refs.focused && this.refs.menu) {
+				var focusedDOM = this.refs.focused.getDOMNode();
+				var menuDOM = this.refs.menu.getDOMNode();
+				var focusedRect = focusedDOM.getBoundingClientRect();
+				var menuRect = menuDOM.getBoundingClientRect();
+
+				if (focusedRect.bottom > menuRect.bottom ||
+					focusedRect.top < menuRect.top) {
+					menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+				}
+			}
+
+			this._focusedOptionReveal = false;
+		}
 	},
 	
 	getStateFromValue: function(value, options) {
@@ -371,6 +387,7 @@ var Select = React.createClass({
 	},
 	
 	focusAdjacentOption: function(dir) {
+		this._focusedOptionReveal = true;
 		
 		var ops = this.state.filteredOptions;
 		
@@ -427,17 +444,20 @@ var Select = React.createClass({
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		
 		var ops = _.map(this.state.filteredOptions, function(op) {
+			var isFocused = focusedValue === op.value;
 			
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': focusedValue === op.value
+				'is-focused': isFocused
 			});
+
+			var ref = isFocused ? 'focused' : null;
 			
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
 			
-			return React.createElement("div", {key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown}, op.label);
+			return React.createElement("div", {ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown}, op.label);
 			
 		}, this);
 		
@@ -473,7 +493,7 @@ var Select = React.createClass({
 		
 		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
 		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", "aria-label": "Clear value", onMouseDown: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
-		var menu = this.state.isOpen ? React.createElement("div", {className: "Select-menu"}, this.buildMenu()) : null;
+		var menu = this.state.isOpen ? React.createElement("div", {ref: "menu", className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
 			React.createElement("div", {ref: "wrapper", className: selectClass}, 
