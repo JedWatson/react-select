@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.2.12 / 2015-01-04
+
+* fixed; UI now responds to touch events, and works on mobile devices! thanks [Fraser Xu](https://github.com/fraserxu)
+
 ## v0.2.11 / 2015-01-04
 
 * fixed; Options in the dropdown now scroll into view when they are focused, thanks [Adam](https://github.com/fmovlex)
