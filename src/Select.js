@@ -455,7 +455,7 @@ var Select = React.createClass({
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
 			
-			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown}>{op.label}</div>;
+			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
 			
 		}, this);
 		
@@ -490,13 +490,13 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div ref="menu" className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
 			<div ref="wrapper" className={selectClass}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} />
-				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown}>
+				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
 					<Input className="Select-input" tabIndex={this.props.tabIndex} ref="input" value={this.state.inputValue} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} onChange={this.handleInputChange} minWidth="5" />
 					<span className="Select-arrow" />
