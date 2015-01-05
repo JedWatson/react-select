@@ -51,18 +51,19 @@
 .has-value > .Select-control > .Select-placeholder {
   color: #333333;
 }
-.Select-input input {
+.Select-input > input {
   cursor: default;
   background: none transparent;
   border: 0 none;
-  padding: 0;
   font-family: inherit;
   font-size: inherit;
+  margin: 0;
+  padding: 0;
   outline: none;
   display: inline-block;
   -webkit-appearance: none;
 }
-.is-focused .Select-input input {
+.is-focused .Select-input > input {
   cursor: text;
 }
 .Select-loading {

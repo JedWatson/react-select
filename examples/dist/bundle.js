@@ -67,6 +67,8 @@ var Select = React.createClass({
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
 		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
+		clearValueText: React.PropTypes.string, // title for the "clear" control
+		clearAllText: React.PropTypes.string,   // title for the "clear" control when multi: true
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,         // onChange handler: function(newValue) {}
 		className: React.PropTypes.string,      // className for the outer element
@@ -83,8 +85,10 @@ var Select = React.createClass({
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
-			placeholder: '',
+			placeholder: 'Select...',
 			noResultsText: 'No results found',
+			clearValueText: 'Clear value',
+			clearAllText: 'Clear all',
 			name: undefined,
 			onChange: undefined,
 			className: undefined,
@@ -181,7 +185,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder || 'Select...',
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 		
@@ -538,7 +542,7 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
-		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", "aria-label": "Clear value", onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var clear = this.state.value ? React.createElement("span", {className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
 		var menu = this.state.isOpen ? React.createElement("div", {ref: "menu", className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
