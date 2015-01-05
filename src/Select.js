@@ -490,7 +490,7 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.state.value ? <span className="Select-clear" aria-label="Clear value" onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.state.value ? <span className="Select-clear" title={this.props.multi ? "Clear all" : "Clear value"} aria-label={this.props.multi ? "Clear all" : "Clear value"} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div ref="menu" className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
