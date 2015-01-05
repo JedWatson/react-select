@@ -34,7 +34,7 @@ var StatesField = React.createClass({
 	updateValue: function(newValue) {
 		logChange('State changed to ' + newValue);
 		this.setState({
-			selectValue: newValue
+			selectValue: newValue || null
 		});
 	},
 	render: function() {
