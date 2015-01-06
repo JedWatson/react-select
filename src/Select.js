@@ -19,6 +19,7 @@ var Select = React.createClass({
 		autoload: React.PropTypes.bool,         // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,    // field placeholder, displayed when there's no value
 		noResultsText: React.PropTypes.string,  // placeholder displayed when there are no matching search results
+		clearable: React.PropTypes.bool,        // should it be possible to reset value
 		clearValueText: React.PropTypes.string, // title for the "clear" control
 		clearAllText: React.PropTypes.string,   // title for the "clear" control when multi: true
 		name: React.PropTypes.string,           // field name, for hidden <input /> tag
@@ -39,6 +40,7 @@ var Select = React.createClass({
 			autoload: true,
 			placeholder: 'Select...',
 			noResultsText: 'No results found',
+			clearable: true,
 			clearValueText: 'Clear value',
 			clearAllText: 'Clear all',
 			name: undefined,
@@ -494,7 +496,7 @@ var Select = React.createClass({
 		}
 		
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.state.value ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.props.clearable && this.state.value ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div ref="menu" className="Select-menu">{this.buildMenu()}</div> : null;
 		
 		return (
