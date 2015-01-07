@@ -469,7 +469,7 @@ var Select = React.createClass({
 		
 		return ops.length ? ops : (
 			<div className="Select-noresults">
-				{this.state.inputValue ? this.props.noResultsText : this.props.searchPromptText}
+				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
 			</div>
 		);
 		
