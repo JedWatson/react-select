@@ -1,8 +1,13 @@
 # React-Select
 
+## v0.2.14 / 2015-01-07
+
+* added; `searchPromptText` property that is displayed when `asyncOptions` is set and there are (a) no options loaded, and (b) no input entered to search on, thanks [Anton Fedchenko](https://github.com/kompot)
+* added; `clearable` property (defaults to `true`) to control whether the "clear" control is available, thanks [Anton Fedchenko](https://github.com/kompot)
+
 ## v0.2.13 / 2015-01-05
 
-* fixed; height issues in Safari
+* fixed; height issues in Safari, thanks [Joss Mackison](https://github.com/jossmac)
 * added; Option to specify "Clear value" label as prop for i18n
 
 ## v0.2.12 / 2015-01-04
