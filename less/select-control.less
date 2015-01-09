@@ -17,7 +17,7 @@
 	cursor: default;
 	outline: none;
 	// right padding allows for arrow, clear button and loading indicator
-	padding: @select-padding-vertical (@select-padding-horizontal * 3) + 22 @select-padding-vertical @select-padding-horizontal;
+	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
 	transition: all 200ms ease;
 
 	&:hover {
@@ -48,10 +48,16 @@
 
 .Select-placeholder {
 	color: @select-input-placeholder;
-	padding: @select-padding-vertical @select-padding-horizontal;
+	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
 	position: absolute;
 	top: 0;
 	left: 0;
+
+	// crop text
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipses;
+	white-space: nowrap;
 }
 
 .has-value > .Select-control > .Select-placeholder {
