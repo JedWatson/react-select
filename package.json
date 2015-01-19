@@ -12,12 +12,12 @@
   "dependencies": {
     "classnames": "^1.0.0",
     "react": "^0.12.2",
-    "react-input-autosize": "^0.2.3",
+    "react-input-autosize": "^0.3.1",
     "reactify": "^0.17.1",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
-    "browserify": "^8.0.2",
+    "browserify": "^8.1.1",
     "browserify-shim": "^3.8.2",
     "chalk": "^0.5.1",
     "del": "^1.1.1",
@@ -25,13 +25,13 @@
     "gulp-bump": "^0.1.11",
     "gulp-connect": "^2.2.0",
     "gulp-gh-pages": "^0.4.0",
-    "gulp-git": "^0.5.5",
+    "gulp-git": "^0.5.6",
     "gulp-less": "^2.0.1",
     "gulp-rename": "^1.2.0",
     "gulp-streamify": "^0.0.5",
-    "gulp-uglify": "^1.0.2",
-    "gulp-util": "^3.0.1",
-    "merge-stream": "^0.1.6",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.2",
+    "merge-stream": "^0.1.7",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.2.1"
   },
