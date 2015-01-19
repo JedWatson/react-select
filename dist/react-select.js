@@ -126,6 +126,22 @@ var Select = React.createClass({
 		}
 	},
 	
+	initValuesArray: function(values) {
+		
+		if (!Array.isArray(values)) {
+			if ('string' === typeof values) {
+				values = values.split(this.props.delimiter);
+			} else {
+				values = values ? [values] : [];
+			}
+		};
+		
+		return values.map(function(val) {
+			return ('string' === typeof val || 'number' === typeof val) ? val = _.findWhere(this.state.options, { value: val }) || { value: val, label: val } : val;
+		}.bind(this));
+
+	},
+	
 	getStateFromValue: function(value, options) {
 		
 		if (!options) {
@@ -136,32 +152,23 @@ var Select = React.createClass({
 		this._optionsFilterString = '';
 		
 		var values = this.initValuesArray(value, options),
-			filteredOptions = this.filterOptions(options, values);
-		
+			filteredOptions = this.filterOptions(options, values),
+			val;
+
+		if (this.props.multi) {
+			val = values.map(function(v) { return v.value });
+		} else {
+			val = values.length > 0 ? values[0].value : null;
+		}
+
 		return {
-			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			value: val,
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
-		
-	},
-	
-	initValuesArray: function(values, options) {
-		
-		if (!Array.isArray(values)) {
-			if ('string' === typeof values) {
-				values = values.split(this.props.delimiter);
-			} else {
-				values = values ? [values] : [];
-			}
-		}
-		
-		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
-		}.bind(this));
 		
 	},
 	
@@ -365,11 +372,11 @@ var Select = React.createClass({
 				if (this.props.multi && _.contains(exclude, op.value)) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
 				return !filterValue || (this.props.matchPos === 'start') ? (
-					(this.props.matchProp !== 'label' && op.value.toLowerCase().substr(0, filterValue.length) === filterValue) ||
-					(this.props.matchProp !== 'value' && op.label.toLowerCase().substr(0, filterValue.length) === filterValue)
+					(this.props.matchProp !== 'label' && op.value.toString().toLowerCase().substr(0, filterValue.length) === filterValue) ||
+					(this.props.matchProp !== 'value' && op.label.toString().toLowerCase().substr(0, filterValue.length) === filterValue)
 				) : (
-					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
-					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
+					(this.props.matchProp !== 'label' && op.value.toString().toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
+					(this.props.matchProp !== 'value' && op.label.toString().toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
 			};
 			return _.filter(options, filterOption, this);
@@ -503,8 +510,8 @@ var Select = React.createClass({
 			value.push(React.createElement("div", {className: "Select-placeholder", key: "placeholder"}, this.state.placeholder));
 		}
 		
-		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", "aria-hidden": "true"}) : null;
-		var clear = this.props.clearable && this.state.value ? React.createElement("span", {className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
+		var loading = this.state.isLoading ? React.createElement("span", {className: "Select-loading", 'aria-hidden': "true"}) : null;
+		var clear = this.props.clearable && this.state.value ? React.createElement("span", {className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, 'aria-label': this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: '&times;'}}) : null;
 		var menu = this.state.isOpen ? React.createElement("div", {ref: "menu", className: "Select-menu"}, this.buildMenu()) : null;
 		
 		return (
@@ -556,7 +563,10 @@ var Option = React.createClass({
 	displayName: 'Value',
 	
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		label: React.PropTypes.oneOfType([
+			React.PropTypes.string,
+			React.PropTypes.number
+		]).isRequired
 	},
 	
 	blockEvent: function(event) {

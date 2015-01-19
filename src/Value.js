@@ -7,7 +7,10 @@ var Option = React.createClass({
 	displayName: 'Value',
 	
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		label: React.PropTypes.oneOfType([
+			React.PropTypes.string,
+			React.PropTypes.number
+		]).isRequired
 	},
 	
 	blockEvent: function(event) {
