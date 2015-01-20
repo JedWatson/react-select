@@ -3,6 +3,7 @@ var browserify = require('browserify'),
 	chalk = require('chalk'),
 	del = require('del'),
 	gulp = require('gulp'),
+	to5 = require('gulp-6to5'),
 	bump = require('gulp-bump'),
 	connect = require('gulp-connect'),
 	deploy = require("gulp-gh-pages"),
@@ -23,6 +24,7 @@ var browserify = require('browserify'),
  */
 
 var SRC_PATH = 'src';
+var LIB_PATH = 'lib';
 var DIST_PATH = 'dist';
 
 var PACKAGE_FILE = 'Select.js';
@@ -214,7 +216,22 @@ gulp.task('dev', [
 
 
 /**
- * Build task
+ * Build lib
+ */
+
+gulp.task('prepare:lib', function(done) {
+	del([LIB_PATH], done);
+});
+
+gulp.task('build:lib', ['prepare:lib'], function(done) {
+	return gulp.src(SRC_PATH + '/**/*.js')
+		.pipe(to5())
+		.pipe(gulp.dest(LIB_PATH));
+});
+
+
+/**
+ * Build dist
  */
 
 gulp.task('prepare:dist', function(done) {
