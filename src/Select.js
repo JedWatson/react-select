@@ -489,7 +489,7 @@ var Select = React.createClass({
 		
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
-				props = _.extend({
+				var props = _.extend({
 					key: val.value,
 					onRemove: this.removeValue.bind(this, val)
 				}, val);
