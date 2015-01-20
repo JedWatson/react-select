@@ -16,6 +16,7 @@
     "underscore": "^1.7.0"
   },
   "devDependencies": {
+    "6to5ify": "^3.1.2",
     "browserify": "^8.1.1",
     "browserify-shim": "^3.8.2",
     "chalk": "^0.5.1",
@@ -32,7 +33,6 @@
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.2",
     "merge-stream": "^0.1.7",
-    "reactify": "^0.17.1",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^2.2.1"
   },
