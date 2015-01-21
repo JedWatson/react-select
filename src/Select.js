@@ -6,8 +6,12 @@ var _ = require('underscore'),
 
 var requestId = 0;
 
+function defaultSuggestionGenerator(inputValue, op) {
+	return op.suggestion ? op.suggestion : op.label;
+}
+
 var Select = React.createClass({
-	
+
 	displayName: 'Select',
 
 	propTypes: {
@@ -29,9 +33,10 @@ var Select = React.createClass({
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string          // (any|label|value) which option property to filter on
+		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		suggestionGenerator: React.PropTypes.func  // handler to generate suggestions elements that are displayed in the selection box function(inputValue, optionValue)
 	},
-	
+
 	getDefaultProps: function() {
 		return {
 			value: undefined,
@@ -49,10 +54,11 @@ var Select = React.createClass({
 			onChange: undefined,
 			className: undefined,
 			matchPos: 'any',
-			matchProp: 'any'
-		};
+			matchProp: 'any',
+			suggestionGenerator: defaultSuggestionGenerator
+        };
 	},
-	
+
 	getInitialState: function() {
 		return {
 			/*
@@ -462,9 +468,9 @@ var Select = React.createClass({
 			var mouseEnter = this.focusOption.bind(this, op),
 				mouseLeave = this.unfocusOption.bind(this, op),
 				mouseDown = this.selectValue.bind(this, op);
-			
-			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
-			
+
+			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{this.props.suggestionGenerator(this.state.inputValue, op)}</div>;
+
 		}, this);
 		
 		return ops.length ? ops : (
