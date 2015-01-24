@@ -558,7 +558,7 @@ var Select = React.createClass({
     var clear = this.props.clearable && this.state.value ? React.createElement("span", { className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: "&times;" } }) : null;
     var menu = this.state.isOpen ? React.createElement(
       "div",
-      { ref: "menu", className: "Select-menu" },
+      { ref: "menu", onMouseDown: this.handleMouseDown, className: "Select-menu" },
       this.buildMenu()
     ) : null;
 
