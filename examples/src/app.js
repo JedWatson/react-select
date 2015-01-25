@@ -18,11 +18,18 @@ var CountrySelect = React.createClass({
 });
  
 var StatesField = React.createClass({
+	getDefaultProps: function () {
+		return {
+			searchable: true,
+			label: 'States:',
+		};
+	},
+
 	getInitialState: function() {
 		return {
 			country: 'AU',
 			selectValue: 'new-south-wales'
-		}
+		};
 	},
 	switchCountry: function(newCountry) {
 		console.log('Country changed to ' + newCountry);
@@ -41,8 +48,8 @@ var StatesField = React.createClass({
 		var ops = STATES[this.state.country];
 		return (
 			<div>
-				<label>States:</label>
-				<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} />
+				<label>{this.props.label}</label>
+				<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
 				<div className="switcher">
 					Country:
 					<CountrySelect value="AU" selected={this.state.country} onSelect={this.switchCountry}>Australia</CountrySelect>
@@ -126,6 +133,7 @@ var MultiSelectField = React.createClass({
 React.render(
 	<div>
 		<StatesField />
+		<StatesField label="States (non-searchable):" searchable={false} />
 		<MultiSelectField label="Multiselect:"/>
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,

@@ -22,6 +22,7 @@ var Select = React.createClass({
 		clearable: React.PropTypes.bool,           // should it be possible to reset value
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
+		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
@@ -44,6 +45,7 @@ var Select = React.createClass({
 			clearable: true,
 			clearValueText: 'Clear value',
 			clearAllText: 'Clear all',
+			searchable: true,
 			searchPromptText: 'Type to search',
 			name: undefined,
 			onChange: undefined,
@@ -102,7 +104,7 @@ var Select = React.createClass({
 		if (this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
 			this._focusTimeout = setTimeout(function() {
-				this.refs.input.focus();
+				this.getInputNode().focus();
 				this._focusAfterUpdate = false;
 			}.bind(this), 50);
 		}
@@ -204,6 +206,11 @@ var Select = React.createClass({
 		this.setValue(this.state.value);
 	},
 
+	getInputNode: function () {
+		var input = this.refs.input;
+		return this.props.searchable ? input : input.getDOMNode();
+	},
+
 	fireChangeEvent: function(newState) {
 		if (newState.value !== this.state.value && this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
@@ -224,7 +231,7 @@ var Select = React.createClass({
 			});
 		} else {
 			this._openAfterFocus = true;
-			this.refs.input.focus();
+			this.getInputNode().focus();
 		}
 	},
 
@@ -356,6 +363,10 @@ var Select = React.createClass({
 	},
 
 	filterOptions: function(options, values) {
+		if (!this.props.searchable) {
+			return options;
+		}
+
 		var filterValue = this._optionsFilterString;
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
@@ -483,6 +494,7 @@ var Select = React.createClass({
 
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
+			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.state.isLoading,
@@ -509,12 +521,27 @@ var Select = React.createClass({
 		var clear = this.props.clearable && this.state.value ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div ref="menu" onMouseDown={this.handleMouseDown} className="Select-menu">{this.buildMenu()}</div> : null;
 
+		var commonProps = {
+			ref: 'input',
+			className: 'Select-input',
+			tabIndex: this.props.tabIndex || 0,
+			onFocus: this.handleInputFocus,
+			onBlur: this.handleInputBlur,
+		};
+		var input;
+
+		if (this.props.searchable) {
+			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...commonProps} />;
+		} else {
+			input = <div {...commonProps}>&nbsp;</div>;
+		}
+
 		return (
 			<div ref="wrapper" className={selectClass}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
-					<Input className="Select-input" tabIndex={this.props.tabIndex} ref="input" value={this.state.inputValue} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} onChange={this.handleInputChange} minWidth="5" />
+					{input}
 					<span className="Select-arrow" />
 					{loading}
 					{clear}
