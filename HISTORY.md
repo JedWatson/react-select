@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.3.2 / 2015-01-30
+
+* fixed; issue adding undefined values to multiselect, thanks [Tejas Dinkar](https://github.com/gja)
+
 ## v0.3.1 / 2015-01-20
 
 * fixed; missing `var` statement
