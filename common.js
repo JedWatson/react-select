@@ -2,69 +2,39 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 // shim for using process in browser
 
 var process = module.exports = {};
+var queue = [];
+var draining = false;
 
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canMutationObserver = typeof window !== 'undefined'
-    && window.MutationObserver;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
+function drainQueue() {
+    if (draining) {
+        return;
     }
-
-    var queue = [];
-
-    if (canMutationObserver) {
-        var hiddenDiv = document.createElement("div");
-        var observer = new MutationObserver(function () {
-            var queueList = queue.slice();
-            queue.length = 0;
-            queueList.forEach(function (fn) {
-                fn();
-            });
-        });
-
-        observer.observe(hiddenDiv, { attributes: true });
-
-        return function nextTick(fn) {
-            if (!queue.length) {
-                hiddenDiv.setAttribute('yes', 'no');
-            }
-            queue.push(fn);
-        };
+    draining = true;
+    var currentQueue;
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        var i = -1;
+        while (++i < len) {
+            currentQueue[i]();
+        }
+        len = queue.length;
     }
-
-    if (canPost) {
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
+    draining = false;
+}
+process.nextTick = function (fun) {
+    queue.push(fun);
+    if (!draining) {
+        setTimeout(drainQueue, 0);
     }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
+};
 
 process.title = 'browser';
 process.browser = true;
 process.env = {};
 process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
 
 function noop() {}
 
@@ -85,6 +55,7 @@ process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
+process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
 /**
@@ -18312,105 +18283,104 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 },{"./emptyFunction":108,"_process":1}],"react-input-autosize":[function(require,module,exports){
-var React = require('react');
+"use strict";
 
-var sizerStyle = { position: 'absolute', visibility: 'hidden', height: 0, width: 0, overflow: 'scroll', whiteSpace: 'nowrap' };
+var React = require("react");
+
+var sizerStyle = { position: "absolute", visibility: "hidden", height: 0, width: 0, overflow: "scroll", whiteSpace: "nowrap" };
 
 var AutosizeInput = React.createClass({
-	
-	displayName: 'AutosizeInput',
 
-	propTypes: {
-		value: React.PropTypes.any,                 // field value
-		defaultValue: React.PropTypes.any,          // default field value
-		onChange: React.PropTypes.func,             // onChange handler: function(newValue) {}
-		style: React.PropTypes.object,              // css styles for the outer element
-		className: React.PropTypes.string,          // className for the outer element
-		inputStyle: React.PropTypes.object,         // css styles for the input element
-		inputClassName: React.PropTypes.string      // className for the input element
-	},
-	
-	getDefaultProps: function() {
-		return {
-			minWidth: 1
-		};
-	},
-	
-	getInitialState: function() {
-		return {
-			inputWidth: this.props.minWidth
-		};
-	},
-	
-	componentDidMount: function() {
-		this.copyInputStyles();
-		this.updateInputWidth();
-	},
-	
-	componentDidUpdate: function() {
-		this.updateInputWidth();
-	},
-	
-	copyInputStyles: function() {
-		if (!this.isMounted() || !window.getComputedStyle) {
-			return;
-		}
-		var inputStyle = window.getComputedStyle(this.refs.input.getDOMNode());
-		var widthNode = this.refs.sizer.getDOMNode();
-		widthNode.style.fontSize = inputStyle.fontSize;
-		widthNode.style.fontFamily = inputStyle.fontFamily;
-	},
-	
-	updateInputWidth: function() {
-		if (!this.isMounted()) {
-			return;
-		}
-		var newInputWidth = this.refs.sizer.getDOMNode().scrollWidth + 2;
-		if (newInputWidth < this.props.minWidth) {
-			newInputWidth = this.props.minWidth;
-		}
-		if (newInputWidth !== this.state.inputWidth) {
-			this.setState({
-				inputWidth: newInputWidth
-			});
-		}
-	},
-	
-	getInput: function() {
-		return this.refs.input;
-	},
-	
-	focus: function() {
-		this.refs.input.getDOMNode().focus();
-	},
-	
-	select: function() {
-		this.refs.input.getDOMNode().select();
-	},
-	
-	render: function() {
-		
-		var nbspValue = (this.props.value || '').replace(/ /g, '&nbsp;');
-		
-		var wrapperStyle = this.props.style || {};
-		wrapperStyle.display = 'inline-block';
-		
-		var inputStyle = this.props.inputStyle || {};
-		inputStyle.width = this.state.inputWidth;
-		
-		return (
-			React.createElement("div", {className: this.props.className, style: wrapperStyle}, 
-				React.createElement("input", React.__spread({},  this.props, {ref: "input", className: this.props.inputClassName, style: inputStyle})), 
-				React.createElement("div", {ref: "sizer", style: sizerStyle, dangerouslySetInnerHTML: { __html: nbspValue}})
-			)
-		);
-		
-	}
-	
+  displayName: "AutosizeInput",
+
+  propTypes: {
+    value: React.PropTypes.any, // field value
+    defaultValue: React.PropTypes.any, // default field value
+    onChange: React.PropTypes.func, // onChange handler: function(newValue) {}
+    style: React.PropTypes.object, // css styles for the outer element
+    className: React.PropTypes.string, // className for the outer element
+    inputStyle: React.PropTypes.object, // css styles for the input element
+    inputClassName: React.PropTypes.string // className for the input element
+  },
+
+  getDefaultProps: function () {
+    return {
+      minWidth: 1
+    };
+  },
+
+  getInitialState: function () {
+    return {
+      inputWidth: this.props.minWidth
+    };
+  },
+
+  componentDidMount: function () {
+    this.copyInputStyles();
+    this.updateInputWidth();
+  },
+
+  componentDidUpdate: function () {
+    this.updateInputWidth();
+  },
+
+  copyInputStyles: function () {
+    if (!this.isMounted() || !window.getComputedStyle) {
+      return;
+    }
+    var inputStyle = window.getComputedStyle(this.refs.input.getDOMNode());
+    var widthNode = this.refs.sizer.getDOMNode();
+    widthNode.style.fontSize = inputStyle.fontSize;
+    widthNode.style.fontFamily = inputStyle.fontFamily;
+  },
+
+  updateInputWidth: function () {
+    if (!this.isMounted()) {
+      return;
+    }
+    var newInputWidth = this.refs.sizer.getDOMNode().scrollWidth + 2;
+    if (newInputWidth < this.props.minWidth) {
+      newInputWidth = this.props.minWidth;
+    }
+    if (newInputWidth !== this.state.inputWidth) {
+      this.setState({
+        inputWidth: newInputWidth
+      });
+    }
+  },
+
+  getInput: function () {
+    return this.refs.input;
+  },
+
+  focus: function () {
+    this.refs.input.getDOMNode().focus();
+  },
+
+  select: function () {
+    this.refs.input.getDOMNode().select();
+  },
+
+  render: function () {
+    var nbspValue = (this.props.value || "").replace(/ /g, "&nbsp;");
+
+    var wrapperStyle = this.props.style || {};
+    wrapperStyle.display = "inline-block";
+
+    var inputStyle = this.props.inputStyle || {};
+    inputStyle.width = this.state.inputWidth;
+
+    return React.createElement(
+      "div",
+      { className: this.props.className, style: wrapperStyle },
+      React.createElement("input", React.__spread({}, this.props, { ref: "input", className: this.props.inputClassName, style: inputStyle })),
+      React.createElement("div", { ref: "sizer", style: sizerStyle, dangerouslySetInnerHTML: { __html: nbspValue } })
+    );
+  }
+
 });
 
 module.exports = AutosizeInput;
-
 },{"react":"react"}],"react":[function(require,module,exports){
 module.exports = require('./lib/React');
 
