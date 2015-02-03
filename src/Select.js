@@ -136,6 +136,7 @@ var Select = React.createClass({
 		return {
 			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
 			values: values,
+			options: options,
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
