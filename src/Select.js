@@ -13,7 +13,7 @@ var Select = React.createClass({
 	propTypes: {
 		value: React.PropTypes.any,                // initial field value
 		multi: React.PropTypes.bool,               // multi-value input
-		disabled: React.PropTypes.bool,             // whether the element is disabled or not
+		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		options: React.PropTypes.array,            // array of options
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
 		asyncOptions: React.PropTypes.func,        // function to call to get options
