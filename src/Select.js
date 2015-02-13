@@ -13,6 +13,7 @@ var Select = React.createClass({
 	propTypes: {
 		value: React.PropTypes.any,                // initial field value
 		multi: React.PropTypes.bool,               // multi-value input
+		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		options: React.PropTypes.array,            // array of options
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
 		asyncOptions: React.PropTypes.func,        // function to call to get options
@@ -37,6 +38,7 @@ var Select = React.createClass({
 		return {
 			value: undefined,
 			options: [],
+			disabled: false,
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
@@ -219,8 +221,8 @@ var Select = React.createClass({
 
 	handleMouseDown: function(event) {
 		// if the event was triggered by a mousedown and not the primary
-		// button, ignore it.
-		if (event.type == 'mousedown' && event.button !== 0) {
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type == 'mousedown' && event.button !== 0)) {
 			return;
 		}
 		event.stopPropagation();
@@ -254,6 +256,9 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function(event) {
+
+		if(this.state.disabled)
+			return;
 
 		switch (event.keyCode) {
 
@@ -498,6 +503,7 @@ var Select = React.createClass({
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.state.isLoading,
+			'is-disabled' : this.props.disabled,
 			'has-value': this.state.value
 		});
 
@@ -513,12 +519,12 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (!this.state.inputValue && (!this.props.multi || !value.length)) {
+		if (this.props.disabled || (!this.state.inputValue && (!this.props.multi || !value.length))) {
 			value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
 		}
 
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.props.clearable && this.state.value ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 		var menu = this.state.isOpen ? <div ref="menu" onMouseDown={this.handleMouseDown} className="Select-menu">{this.buildMenu()}</div> : null;
 
 		var commonProps = {
@@ -530,7 +536,7 @@ var Select = React.createClass({
 		};
 		var input;
 
-		if (this.props.searchable) {
+		if (this.props.searchable && !this.props.disabled) {
 			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...commonProps} />;
 		} else {
 			input = <div {...commonProps}>&nbsp;</div>;
@@ -538,7 +544,7 @@ var Select = React.createClass({
 
 		return (
 			<div ref="wrapper" className={selectClass}>
-				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} />
+				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
 					{input}
