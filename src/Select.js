@@ -31,7 +31,9 @@ var Select = React.createClass({
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string          // (any|label|value) which option property to filter on
+		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
+
+		onLabelClick: React.PropTypes.func
 	},
 
 	getDefaultProps: function() {
@@ -53,7 +55,9 @@ var Select = React.createClass({
 			onChange: undefined,
 			className: undefined,
 			matchPos: 'any',
-			matchProp: 'any'
+			matchProp: 'any',
+
+			onLabelClick: undefined
 		};
 	},
 
@@ -194,7 +198,7 @@ var Select = React.createClass({
 	removeValue: function(value) {
 		this.setValue(_.without(this.state.values, value));
 	},
-
+	
 	clearValue: function(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, ignore it.
@@ -225,6 +229,7 @@ var Select = React.createClass({
 		if (this.props.disabled || (event.type == 'mousedown' && event.button !== 0)) {
 			return;
 		}
+		
 		event.stopPropagation();
 		event.preventDefault();
 		if (this.state.isFocused) {
@@ -495,6 +500,14 @@ var Select = React.createClass({
 
 	},
 
+	handleLabelClick: function (value, event) {
+		var onLabelClick = this.props.onLabelClick;
+		
+		if (onLabelClick) {
+			onLabelClick(value, event);
+		}
+	},
+	
 	render: function() {
 
 		var selectClass = classes('Select', this.props.className, {
@@ -513,8 +526,10 @@ var Select = React.createClass({
 			this.state.values.forEach(function(val) {
 				var props = _.extend({
 					key: val.value,
+					labelClick: !!this.props.onLabelClick,
+					onLabelClick: this.handleLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val)
-				}, val);
+				}, val); 
 				value.push(<Value {...props} />);
 			}, this);
 		}
@@ -532,7 +547,7 @@ var Select = React.createClass({
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
-			onBlur: this.handleInputBlur,
+			onBlur: this.handleInputBlur
 		};
 		var input;
 
