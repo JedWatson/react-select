@@ -17,12 +17,12 @@ var Option = React.createClass({
 	render: function() {
 		var label = this.props.label;
 		
-		if (this.props.labelClick) {
+		if (this.props.optionLabelClick) {
 			label = (
 				<a className="Select-item-label__a"
 				   onMouseDown={this.blockEvent}
-				   onTouchEnd={this.props.onLabelClick}
-				   onClick={this.props.onLabelClick}>
+				   onTouchEnd={this.props.onOptionLabelClick}
+				   onClick={this.props.onOptionLabelClick}>
 					{label}
 				</a>
 			);

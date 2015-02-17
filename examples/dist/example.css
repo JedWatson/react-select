@@ -302,6 +302,7 @@ label {
   padding: 3px 5px;
 }
 .Select-item-label .Select-item-label__a {
+  color: #0088cc;
   cursor: pointer;
 }
 .Select-item-icon {

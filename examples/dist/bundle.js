@@ -50,13 +50,13 @@ var Option = React.createClass({
   render: function () {
     var label = this.props.label;
 
-    if (this.props.labelClick) {
+    if (this.props.optionLabelClick) {
       label = React.createElement(
         "a",
         { className: "Select-item-label__a",
           onMouseDown: this.blockEvent,
-          onTouchEnd: this.props.onLabelClick,
-          onClick: this.props.onLabelClick },
+          onTouchEnd: this.props.onOptionLabelClick,
+          onClick: this.props.onOptionLabelClick },
         label
       );
     }
@@ -119,7 +119,7 @@ var Select = React.createClass({
     matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
     matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 
-    onLabelClick: React.PropTypes.func
+    onOptionLabelClick: React.PropTypes.func
   },
 
   getDefaultProps: function () {
@@ -143,7 +143,7 @@ var Select = React.createClass({
       matchPos: "any",
       matchProp: "any",
 
-      onLabelClick: undefined
+      onOptionLabelClick: undefined
     };
   },
 
@@ -575,11 +575,11 @@ var Select = React.createClass({
     );
   },
 
-  handleLabelClick: function (value, event) {
-    var onLabelClick = this.props.onLabelClick;
+  handleOptionLabelClick: function (value, event) {
+    var handler = this.props.onOptionLabelClick;
 
-    if (onLabelClick) {
-      onLabelClick(value, event);
+    if (handler) {
+      handler(value, event);
     }
   },
 
@@ -600,8 +600,8 @@ var Select = React.createClass({
       this.state.values.forEach(function (val) {
         var props = _.extend({
           key: val.value,
-          labelClick: !!this.props.onLabelClick,
-          onLabelClick: this.handleLabelClick.bind(this, val),
+          optionLabelClick: !!this.props.onOptionLabelClick,
+          onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
           onRemove: this.removeValue.bind(this, val)
         }, val);
         value.push(React.createElement(Value, props));

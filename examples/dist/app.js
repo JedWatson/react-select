@@ -163,7 +163,7 @@ var SelectedValuesField = React.createClass({
         this.props.label
       ),
       React.createElement(Select, {
-        onLabelClick: this.onLabelClick,
+        onOptionLabelClick: this.onLabelClick,
         value: "chocolate,vanilla,strawberry",
         multi: true,
         placeholder: "Select your favourite(s)",
