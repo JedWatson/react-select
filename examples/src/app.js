@@ -129,9 +129,54 @@ var MultiSelectField = React.createClass({
 	}
 });
 
+var PrePopulatedField = React.createClass({
+	render: function() {
+		var ops = [
+			{ label: 'Chocolate', value: 'chocolate', selected: true },
+			{ label: 'Vanilla', value: 'vanilla' },
+			{ label: 'Strawberry', value: 'strawberry', selected: true },
+			{ label: 'Caramel', value: 'caramel', selected: true },
+			{ label: 'Cookies and Cream', value: 'cookiescream' },
+			{ label: 'Peppermint', value: 'peppermint' }
+		];
+		return <div>
+			<label>{this.props.label}</label>
+			<Select multi={true} options={ops} />
+		</div>;
+	}
+});
+
+var RemoteSelectedField = React.createClass({
+	loadOptions: function(input, callback) {
+
+		setTimeout(function() {
+			callback(null, {
+				options: [
+					{ label: 'Chocolate', value: 'chocolate', selected: true },
+					{ label: 'Vanilla', value: 'vanilla' },
+					{ label: 'Strawberry', value: 'strawberry', selected: true },
+					{ label: 'Caramel', value: 'caramel', selected: true },
+					{ label: 'Cookies and Cream', value: 'cookiescream' },
+					{ label: 'Peppermint', value: 'peppermint' }
+				],
+				complete: true
+			});
+		}, 500);
+
+	},
+	render: function() {
+		return <div>
+			<label>{this.props.label}</label>
+			<Select multi={true} asyncOptions={this.loadOptions} className="remote-example" />
+		</div>;
+	}
+});
+
 
 React.render(
 	<div>
+		<PrePopulatedField label="Pre populated field" />
+		<RemoteSelectedField label="Pre populated field (from remote)" />
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
 		<MultiSelectField label="Multiselect:"/>
