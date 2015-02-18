@@ -1,6 +1,5 @@
 var _ = require('underscore'),
-	React = require('react'),
-	classes = require('classnames');
+	React = require('react');
 
 var Option = React.createClass({
 	
@@ -23,6 +22,7 @@ var Option = React.createClass({
 				   onMouseDown={this.blockEvent}
 				   onTouchEnd={this.props.onOptionLabelClick}
 				   onClick={this.props.onOptionLabelClick}>
+					
 					{label}
 				</a>
 			);
@@ -30,7 +30,11 @@ var Option = React.createClass({
 		
 		return (
 			<div className="Select-item">
-				<span className="Select-item-icon" onMouseDown={this.blockEvent} onClick={this.props.onRemove} onTouchEnd={this.props.onRemove}>&times;</span>
+				<span className="Select-item-icon"
+				      onMouseDown={this.blockEvent}
+				      onClick={this.props.onRemove}
+				      onTouchEnd={this.props.onRemove}>&times;</span>
+				
 				<span className="Select-item-label">{label}</span>
 			</div>
 		);

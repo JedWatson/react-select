@@ -33,6 +33,13 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
 
+		/*
+		
+		* Allow user to make option label clickable. When this handler is defined we should
+		* wrap label into <a>label</a> tag.
+		* 
+		* onOptionLabelClick handler: function (value, event) {}
+		* */
 		onOptionLabelClick: React.PropTypes.func
 	},
 

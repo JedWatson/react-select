@@ -37,6 +37,13 @@ var Select = React.createClass({
     matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
     matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 
+    /*
+    
+    * Allow user to make option label clickable. When this handler is defined we should
+    * wrap label into <a>label</a> tag.
+    * 
+    * onOptionLabelClick handler: function (value, event) {}
+    * */
     onOptionLabelClick: React.PropTypes.func
   },
 
@@ -618,8 +625,7 @@ if (typeof module !== 'undefined' && module.exports) {
 "use strict";
 
 var _ = (typeof window !== "undefined" ? window._ : typeof global !== "undefined" ? global._ : null),
-    React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),
-    classes = require("classnames");
+    React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 var Option = React.createClass({
 
@@ -652,7 +658,10 @@ var Option = React.createClass({
       { className: "Select-item" },
       React.createElement(
         "span",
-        { className: "Select-item-icon", onMouseDown: this.blockEvent, onClick: this.props.onRemove, onTouchEnd: this.props.onRemove },
+        { className: "Select-item-icon",
+          onMouseDown: this.blockEvent,
+          onClick: this.props.onRemove,
+          onTouchEnd: this.props.onRemove },
         "×"
       ),
       React.createElement(
@@ -668,5 +677,5 @@ var Option = React.createClass({
 module.exports = Option;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"classnames":2}]},{},[1])(1)
+},{}]},{},[1])(1)
 });
