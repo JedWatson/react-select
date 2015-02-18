@@ -27,6 +27,12 @@ var CountrySelect = React.createClass({
 
 var StatesField = React.createClass({
   displayName: "StatesField",
+  getDefaultProps: function () {
+    return {
+      searchable: true,
+      label: "States:" };
+  },
+
   getInitialState: function () {
     return {
       country: "AU",
@@ -54,9 +60,9 @@ var StatesField = React.createClass({
       React.createElement(
         "label",
         null,
-        "States:"
+        this.props.label
       ),
-      React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue }),
+      React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
       React.createElement(
         "div",
         { className: "switcher" },
@@ -138,11 +144,55 @@ var MultiSelectField = React.createClass({
   }
 });
 
+var PrePopulatedField = React.createClass({
+  displayName: "PrePopulatedField",
+  render: function () {
+    var ops = [{ label: "Chocolate", value: "chocolate", selected: true }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry", selected: true }, { label: "Caramel", value: "caramel", selected: true }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        null,
+        this.props.label
+      ),
+      React.createElement(Select, { multi: true, options: ops })
+    );
+  }
+});
+
+var RemoteSelectedField = React.createClass({
+  displayName: "RemoteSelectedField",
+  loadOptions: function (input, callback) {
+    setTimeout(function () {
+      callback(null, {
+        options: [{ label: "Chocolate", value: "chocolate", selected: true }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry", selected: true }, { label: "Caramel", value: "caramel", selected: true }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }],
+        complete: true
+      });
+    }, 500);
+  },
+  render: function () {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        null,
+        this.props.label
+      ),
+      React.createElement(Select, { multi: true, asyncOptions: this.loadOptions, className: "remote-example" })
+    );
+  }
+});
+
 
 React.render(React.createElement(
   "div",
   null,
+  React.createElement(PrePopulatedField, { label: "Pre populated field" }),
+  React.createElement(RemoteSelectedField, { label: "Pre populated field (from remote)" }),
   React.createElement(StatesField, null),
+  React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
   React.createElement(MultiSelectField, { label: "Multiselect:" }),
   React.createElement(RemoteSelectField, { label: "Remote Options:" })
 ), document.getElementById("example"));

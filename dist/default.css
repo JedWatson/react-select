@@ -25,21 +25,25 @@
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
+.is-searchable.is-open > .Select-control {
+  cursor: text;
+}
 .is-open > .Select-control {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   background: white;
   border-color: #b3b3b3 #cccccc #d9d9d9;
-  cursor: text;
 }
 .is-open > .Select-control > .Select-arrow {
   border-color: transparent transparent #999999;
   border-width: 0 5px 5px;
 }
+.is-searchable.is-focused:not(.is-open) > .Select-control {
+  cursor: text;
+}
 .is-focused:not(.is-open) > .Select-control {
   border-color: #0088cc #0099e6 #0099e6;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
-  cursor: text;
 }
 .Select-placeholder {
   color: #aaaaaa;
@@ -49,7 +53,7 @@
   left: 0;
   max-width: 100%;
   overflow: hidden;
-  text-overflow: ellipses;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 .has-value > .Select-control > .Select-placeholder {
@@ -69,6 +73,9 @@
 }
 .is-focused .Select-input > input {
   cursor: text;
+}
+.Select-control:not(.is-searchable) > .Select-input {
+  outline: none;
 }
 .Select-loading {
   -webkit-animation: spin 400ms infinite linear;
