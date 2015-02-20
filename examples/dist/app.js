@@ -27,6 +27,12 @@ var CountrySelect = React.createClass({
 
 var StatesField = React.createClass({
   displayName: "StatesField",
+  getDefaultProps: function () {
+    return {
+      searchable: true,
+      label: "States:" };
+  },
+
   getInitialState: function () {
     return {
       country: "AU",
@@ -54,9 +60,9 @@ var StatesField = React.createClass({
       React.createElement(
         "label",
         null,
-        "States:"
+        this.props.label
       ),
-      React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue }),
+      React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
       React.createElement(
         "div",
         { className: "switcher" },
@@ -138,11 +144,42 @@ var MultiSelectField = React.createClass({
   }
 });
 
+var SelectedValuesField = React.createClass({
+  displayName: "SelectedValuesField",
+
+
+  onLabelClick: function (data, event) {
+    console.log(data);
+  },
+
+  render: function () {
+    var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "label",
+        null,
+        this.props.label
+      ),
+      React.createElement(Select, {
+        onOptionLabelClick: this.onLabelClick,
+        value: "chocolate,vanilla,strawberry",
+        multi: true,
+        placeholder: "Select your favourite(s)",
+        options: ops,
+        onChange: logChange })
+    );
+  }
+});
+
 
 React.render(React.createElement(
   "div",
   null,
+  React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
   React.createElement(StatesField, null),
+  React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
   React.createElement(MultiSelectField, { label: "Multiselect:" }),
   React.createElement(RemoteSelectField, { label: "Remote Options:" })
 ), document.getElementById("example"));
