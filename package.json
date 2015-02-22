@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "classnames": "^1.1.4",
+    "lodash": "^3.3.0",
     "react": "^0.12.2",
-    "react-input-autosize": "^0.3.1",
-    "underscore": "^1.8.1"
+    "react-input-autosize": "^0.3.1"
   },
   "devDependencies": {
     "6to5ify": "^4.1.1",
@@ -39,7 +39,7 @@
   "browserify-shim": {
     "react": "global:React",
     "react-input-autosize": "global:AutosizeInput",
-    "underscore": "global:_"
+    "lodash": "global:_"
   },
   "scripts": {
     "test": "echo \"no tests yet\" && exit 0"
