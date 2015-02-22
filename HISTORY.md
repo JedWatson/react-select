@@ -1,5 +1,12 @@
 # React-Select
 
+## v0.3.3 / 2015-02-22
+
+* added; `disabled` prop, thanks [Danny Shaw](https://github.com/dannyshaw)
+* added; `searchable` prop - set to `false` to disable the search box, thanks [Julen Ruiz Aizpuru](https://github.com/julen)
+* added; `onOptionLabelClick` prop - see [#66](https://github.com/JedWatson/react-select/pull/66) for docs, thanks [Dmitry Smirnov](https://github.com/dmitry-smirnov)
+* fixed; `text-overflow: ellipsis;` typo, thanks [Andru Vallance](https://github.com/andru)
+
 ## v0.3.2 / 2015-01-30
 
 * fixed; issue adding undefined values to multiselect, thanks [Tejas Dinkar](https://github.com/gja)
