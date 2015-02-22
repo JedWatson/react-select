@@ -7,181 +7,181 @@ var React = require("react"),
 var STATES = require("./data/states");
 
 function logChange(value) {
-  console.log("Select value changed: " + value);
+	console.log("Select value changed: " + value);
 }
 
 var CountrySelect = React.createClass({
-  displayName: "CountrySelect",
-  onClick: function () {
-    this.props.onSelect(this.props.value);
-  },
-  render: function () {
-    var className = this.props.value === this.props.selected ? "active" : "link";
-    return React.createElement(
-      "span",
-      { onClick: this.onClick, className: className },
-      this.props.children
-    );
-  }
+	displayName: "CountrySelect",
+	onClick: function () {
+		this.props.onSelect(this.props.value);
+	},
+	render: function () {
+		var className = this.props.value === this.props.selected ? "active" : "link";
+		return React.createElement(
+			"span",
+			{ onClick: this.onClick, className: className },
+			this.props.children
+		);
+	}
 });
 
 var StatesField = React.createClass({
-  displayName: "StatesField",
-  getDefaultProps: function () {
-    return {
-      searchable: true,
-      label: "States:" };
-  },
+	displayName: "StatesField",
+	getDefaultProps: function () {
+		return {
+			searchable: true,
+			label: "States:" };
+	},
 
-  getInitialState: function () {
-    return {
-      country: "AU",
-      selectValue: "new-south-wales"
-    };
-  },
-  switchCountry: function (newCountry) {
-    console.log("Country changed to " + newCountry);
-    this.setState({
-      country: newCountry,
-      selectValue: null
-    });
-  },
-  updateValue: function (newValue) {
-    logChange("State changed to " + newValue);
-    this.setState({
-      selectValue: newValue || null
-    });
-  },
-  render: function () {
-    var ops = STATES[this.state.country];
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "label",
-        null,
-        this.props.label
-      ),
-      React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
-      React.createElement(
-        "div",
-        { className: "switcher" },
-        "Country:",
-        React.createElement(
-          CountrySelect,
-          { value: "AU", selected: this.state.country, onSelect: this.switchCountry },
-          "Australia"
-        ),
-        React.createElement(
-          CountrySelect,
-          { value: "US", selected: this.state.country, onSelect: this.switchCountry },
-          "US"
-        )
-      )
-    );
-  }
+	getInitialState: function () {
+		return {
+			country: "AU",
+			selectValue: "new-south-wales"
+		};
+	},
+	switchCountry: function (newCountry) {
+		console.log("Country changed to " + newCountry);
+		this.setState({
+			country: newCountry,
+			selectValue: null
+		});
+	},
+	updateValue: function (newValue) {
+		logChange("State changed to " + newValue);
+		this.setState({
+			selectValue: newValue || null
+		});
+	},
+	render: function () {
+		var ops = STATES[this.state.country];
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"label",
+				null,
+				this.props.label
+			),
+			React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
+			React.createElement(
+				"div",
+				{ className: "switcher" },
+				"Country:",
+				React.createElement(
+					CountrySelect,
+					{ value: "AU", selected: this.state.country, onSelect: this.switchCountry },
+					"Australia"
+				),
+				React.createElement(
+					CountrySelect,
+					{ value: "US", selected: this.state.country, onSelect: this.switchCountry },
+					"US"
+				)
+			)
+		);
+	}
 });
 
 var RemoteSelectField = React.createClass({
-  displayName: "RemoteSelectField",
-  loadOptions: function (input, callback) {
-    input = input.toLowerCase();
+	displayName: "RemoteSelectField",
+	loadOptions: function (input, callback) {
+		input = input.toLowerCase();
 
-    var rtn = {
-      options: [{ label: "One", value: "one" }, { label: "Two", value: "two" }, { label: "Three", value: "three" }],
-      complete: true
-    };
+		var rtn = {
+			options: [{ label: "One", value: "one" }, { label: "Two", value: "two" }, { label: "Three", value: "three" }],
+			complete: true
+		};
 
-    if (input.slice(0, 1) === "a") {
-      if (input.slice(0, 2) === "ab") {
-        rtn = {
-          options: [{ label: "AB", value: "ab" }, { label: "ABC", value: "abc" }, { label: "ABCD", value: "abcd" }],
-          complete: true
-        };
-      } else {
-        rtn = {
-          options: [{ label: "A", value: "a" }, { label: "AA", value: "aa" }, { label: "AB", value: "ab" }],
-          complete: false
-        };
-      }
-    } else if (!input.length) {
-      rtn.complete = false;
-    }
+		if (input.slice(0, 1) === "a") {
+			if (input.slice(0, 2) === "ab") {
+				rtn = {
+					options: [{ label: "AB", value: "ab" }, { label: "ABC", value: "abc" }, { label: "ABCD", value: "abcd" }],
+					complete: true
+				};
+			} else {
+				rtn = {
+					options: [{ label: "A", value: "a" }, { label: "AA", value: "aa" }, { label: "AB", value: "ab" }],
+					complete: false
+				};
+			}
+		} else if (!input.length) {
+			rtn.complete = false;
+		}
 
-    setTimeout(function () {
-      callback(null, rtn);
-    }, 500);
-  },
-  render: function () {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "label",
-        null,
-        this.props.label
-      ),
-      React.createElement(Select, { asyncOptions: this.loadOptions, className: "remote-example" })
-    );
-  }
+		setTimeout(function () {
+			callback(null, rtn);
+		}, 500);
+	},
+	render: function () {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"label",
+				null,
+				this.props.label
+			),
+			React.createElement(Select, { asyncOptions: this.loadOptions, className: "remote-example" })
+		);
+	}
 });
 
 
 var MultiSelectField = React.createClass({
-  displayName: "MultiSelectField",
-  render: function () {
-    var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "label",
-        null,
-        this.props.label
-      ),
-      React.createElement(Select, { multi: true, placeholder: "Select your favourite(s)", options: ops, onChange: logChange })
-    );
-  }
+	displayName: "MultiSelectField",
+	render: function () {
+		var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"label",
+				null,
+				this.props.label
+			),
+			React.createElement(Select, { multi: true, placeholder: "Select your favourite(s)", options: ops, onChange: logChange })
+		);
+	}
 });
 
 var SelectedValuesField = React.createClass({
-  displayName: "SelectedValuesField",
+	displayName: "SelectedValuesField",
 
 
-  onLabelClick: function (data, event) {
-    console.log(data);
-  },
+	onLabelClick: function (data, event) {
+		console.log(data);
+	},
 
-  render: function () {
-    var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "label",
-        null,
-        this.props.label
-      ),
-      React.createElement(Select, {
-        onOptionLabelClick: this.onLabelClick,
-        value: "chocolate,vanilla,strawberry",
-        multi: true,
-        placeholder: "Select your favourite(s)",
-        options: ops,
-        onChange: logChange })
-    );
-  }
+	render: function () {
+		var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"label",
+				null,
+				this.props.label
+			),
+			React.createElement(Select, {
+				onOptionLabelClick: this.onLabelClick,
+				value: "chocolate,vanilla,strawberry",
+				multi: true,
+				placeholder: "Select your favourite(s)",
+				options: ops,
+				onChange: logChange })
+		);
+	}
 });
 
 
 React.render(React.createElement(
-  "div",
-  null,
-  React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
-  React.createElement(StatesField, null),
-  React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
-  React.createElement(MultiSelectField, { label: "Multiselect:" }),
-  React.createElement(RemoteSelectField, { label: "Remote Options:" })
+	"div",
+	null,
+	React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
+	React.createElement(StatesField, null),
+	React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
+	React.createElement(MultiSelectField, { label: "Multiselect:" }),
+	React.createElement(RemoteSelectField, { label: "Remote Options:" })
 ), document.getElementById("example"));
 
 },{"./data/states":2,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
