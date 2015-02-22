@@ -248,7 +248,7 @@ gulp.task('build:styles', ['prepare:dist'], function() {
 	return gulp.src('less/default.less')
 		.pipe(less())
 		.pipe(gulp.dest('dist'));
-})
+});
 
 gulp.task('build:scripts', ['prepare:dist'], function() {
 	
@@ -321,7 +321,7 @@ gulp.task('publish:tag', function(done) {
 
 /**
  * npm publish task
- * * (version *must* be bumped first)
+ * (version *must* be bumped first)
  */
 
 gulp.task('publish:npm', function(done) {
