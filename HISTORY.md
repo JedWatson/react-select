@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.3.4 / 2015-02-23
+
+* fixed; issues with the underscore/lodash dependency change, thanks [Aaron Powell](https://github.com/aaronpowell)
+
 ## v0.3.3 / 2015-02-22
 
 * added; `disabled` prop, thanks [Danny Shaw](https://github.com/dannyshaw)
