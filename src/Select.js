@@ -1,4 +1,4 @@
-var _ = require('underscore'),
+var _ = require('lodash'),
 	React = require('react'),
 	Input = require('react-input-autosize'),
 	classes = require('classnames'),
