@@ -4,7 +4,7 @@
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _ = require("underscore"),
+var _ = (typeof window !== "undefined" ? window._ : typeof global !== "undefined" ? global._ : null),
     React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),
     Input = (typeof window !== "undefined" ? window.AutosizeInput : typeof global !== "undefined" ? global.AutosizeInput : null),
     classes = require("classnames"),
@@ -592,7 +592,7 @@ var Select = React.createClass({
 module.exports = Select;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Value":3,"classnames":2,"underscore":undefined}],2:[function(require,module,exports){
+},{"./Value":3,"classnames":2}],2:[function(require,module,exports){
 function classNames() {
 	var args = arguments;
 	var classes = [];
@@ -626,7 +626,7 @@ if (typeof module !== 'undefined' && module.exports) {
 (function (global){
 "use strict";
 
-var _ = require("underscore"),
+var _ = (typeof window !== "undefined" ? window._ : typeof global !== "undefined" ? global._ : null),
     React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 var Option = React.createClass({
@@ -679,5 +679,5 @@ var Option = React.createClass({
 module.exports = Option;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"underscore":undefined}]},{},[1])(1)
+},{}]},{},[1])(1)
 });

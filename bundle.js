@@ -31,7 +31,7 @@ if (typeof module !== 'undefined' && module.exports) {
 },{}],2:[function(require,module,exports){
 "use strict";
 
-var _ = require("underscore"),
+var _ = require("lodash"),
     React = require("react");
 
 var Option = React.createClass({
@@ -83,12 +83,12 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"react":undefined,"underscore":undefined}],"react-select":[function(require,module,exports){
+},{"lodash":undefined,"react":undefined}],"react-select":[function(require,module,exports){
 "use strict";
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _ = require("underscore"),
+var _ = require("lodash"),
     React = require("react"),
     Input = require("react-input-autosize"),
     classes = require("classnames"),
@@ -675,4 +675,4 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./Value":2,"classnames":1,"react":undefined,"react-input-autosize":undefined,"underscore":undefined}]},{},[]);
+},{"./Value":2,"classnames":1,"lodash":undefined,"react":undefined,"react-input-autosize":undefined}]},{},[]);
