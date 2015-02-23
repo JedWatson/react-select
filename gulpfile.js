@@ -34,7 +34,7 @@ var COMPONENT_NAME = 'Select';
 var DEPENDENCIES = [
 	'react',
 	'react-input-autosize',
-	'underscore'
+	'lodash'
 ];
 
 var EXAMPLE_SRC_PATH = 'examples/src';
