@@ -27,6 +27,7 @@ var Select = React.createClass({
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
+		onNoFound: React.PropTypes.func,           // onNoFound handler: function(value){}
 		className: React.PropTypes.string,         // className for the outer element
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
@@ -60,6 +61,7 @@ var Select = React.createClass({
 			searchPromptText: 'Type to search',
 			name: undefined,
 			onChange: undefined,
+			onNofound: undefined,
 			className: undefined,
 			matchPos: 'any',
 			matchProp: 'any',
@@ -498,7 +500,9 @@ var Select = React.createClass({
 			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
 
 		}, this);
-
+		if(!ops.length && this.props.onNoFound){
+			this.props.onNoFound(this.state.inputValue);
+		}
 		return ops.length ? ops : (
 			<div className="Select-noresults">
 				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
