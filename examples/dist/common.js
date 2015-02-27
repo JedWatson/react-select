@@ -18286,10 +18286,10 @@ module.exports = warning;
 (function (global){
 /**
  * @license
- * lodash 3.3.0 (Custom Build) <https://lodash.com/>
+ * lodash 3.3.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern -d -o ./index.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
@@ -18299,7 +18299,7 @@ module.exports = warning;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '3.3.0';
+  var VERSION = '3.3.1';
 
   /** Used to compose bitmasks for wrapper metadata. */
   var BIND_FLAG = 1,
@@ -20090,7 +20090,7 @@ module.exports = warning;
       var index = -1,
           indexOf = getIndexOf(),
           isCommon = indexOf == baseIndexOf,
-          cache = isCommon && values.length >= 200 && createCache(values),
+          cache = (isCommon && values.length >= 200) ? createCache(values) : null,
           valuesLength = values.length;
 
       if (cache) {
@@ -20910,7 +20910,7 @@ module.exports = warning;
           length = array.length,
           isCommon = indexOf == baseIndexOf,
           isLarge = isCommon && length >= 200,
-          seen = isLarge && createCache(),
+          seen = isLarge ? createCache() : null,
           result = [];
 
       if (seen) {
@@ -21962,8 +21962,11 @@ module.exports = warning;
       } else {
         prereq = type == 'string' && index in object;
       }
-      var other = object[index];
-      return prereq && (value === value ? value === other : other !== other);
+      if (prereq) {
+        var other = object[index];
+        return value === value ? value === other : other !== other;
+      }
+      return false;
     }
 
     /**
@@ -22689,7 +22692,7 @@ module.exports = warning;
      * // => 2
      *
      * // using the `_.matches` callback shorthand
-     * _.findLastIndex(users, { user': 'barney', 'active': true });
+     * _.findLastIndex(users, { 'user': 'barney', 'active': true });
      * // => 0
      *
      * // using the `_.matchesProperty` callback shorthand
@@ -22800,7 +22803,7 @@ module.exports = warning;
      * @example
      *
      * _.indexOf([1, 2, 1, 2], 2);
-     * // => 2
+     * // => 1
      *
      * // using `fromIndex`
      * _.indexOf([1, 2, 1, 2], 2, 2);
@@ -22873,7 +22876,7 @@ module.exports = warning;
         var value = arguments[argsIndex];
         if (isArray(value) || isArguments(value)) {
           args.push(value);
-          caches.push(isCommon && value.length >= 120 && createCache(argsIndex && value));
+          caches.push((isCommon && value.length >= 120) ? createCache(argsIndex && value) : null);
         }
       }
       argsLength = args.length;
@@ -24941,7 +24944,7 @@ module.exports = warning;
      * ];
      *
      * // using the `_.matches` callback shorthand
-     * _.some(users, { user': 'barney', 'active': false });
+     * _.some(users, { 'user': 'barney', 'active': false });
      * // => false
      *
      * // using the `_.matchesProperty` callback shorthand
@@ -25477,7 +25480,7 @@ module.exports = warning;
      * @memberOf _
      * @category Function
      * @param {Function} func The function to debounce.
-     * @param {number} wait The number of milliseconds to delay.
+     * @param {number} [wait=0] The number of milliseconds to delay.
      * @param {Object} [options] The options object.
      * @param {boolean} [options.leading=false] Specify invoking on the leading
      *  edge of the timeout.
@@ -25535,7 +25538,7 @@ module.exports = warning;
       if (typeof func != 'function') {
         throw new TypeError(FUNC_ERROR_TEXT);
       }
-      wait = wait < 0 ? 0 : wait;
+      wait = wait < 0 ? 0 : (+wait || 0);
       if (options === true) {
         var leading = true;
         trailing = false;
@@ -26056,7 +26059,7 @@ module.exports = warning;
      * @memberOf _
      * @category Function
      * @param {Function} func The function to throttle.
-     * @param {number} wait The number of milliseconds to throttle invocations to.
+     * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
      * @param {Object} [options] The options object.
      * @param {boolean} [options.leading=true] Specify invoking on the leading
      *  edge of the timeout.
@@ -28373,10 +28376,10 @@ module.exports = warning;
      * var compiled = _.template('hi <%= data.user %>!', { 'variable': 'data' });
      * compiled.source;
      * // => function(data) {
-     *   var __t, __p = '';
-     *   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
-     *   return __p;
-     * }
+     * //   var __t, __p = '';
+     * //   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
+     * //   return __p;
+     * // }
      *
      * // using the `source` property to inline compiled templates for meaningful
      * // line numbers in error messages and a stack trace
@@ -29490,15 +29493,13 @@ module.exports = warning;
 
     // Add `LazyWrapper` methods that accept an `iteratee` value.
     arrayEach(['filter', 'map', 'takeWhile'], function(methodName, index) {
-      var isFilter = index == LAZY_FILTER_FLAG,
-          isWhile = index == LAZY_WHILE_FLAG;
+      var isFilter = index == LAZY_FILTER_FLAG || index == LAZY_WHILE_FLAG;
 
       LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
         var result = this.clone(),
-            filtered = result.__filtered__,
             iteratees = result.__iteratees__ || (result.__iteratees__ = []);
 
-        result.__filtered__ = filtered || isFilter || (isWhile && result.__dir__ < 0);
+        result.__filtered__ = result.__filtered__ || isFilter;
         iteratees.push({ 'iteratee': getCallback(iteratee, thisArg, 3), 'type': index });
         return result;
       };
@@ -29565,9 +29566,14 @@ module.exports = warning;
     };
 
     LazyWrapper.prototype.dropWhile = function(predicate, thisArg) {
-      var done;
+      var done,
+          lastIndex,
+          isRight = this.__dir__ < 0;
+
       predicate = getCallback(predicate, thisArg, 3);
       return this.filter(function(value, index, array) {
+        done = done && (isRight ? index < lastIndex : index > lastIndex);
+        lastIndex = index;
         return done || (done = !predicate(value, index, array));
       });
     };

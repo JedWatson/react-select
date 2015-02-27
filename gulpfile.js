@@ -205,7 +205,7 @@ gulp.task('watch:examples', [
 gulp.task('dev:server', function() {
 	connect.server({
 		root: EXAMPLE_DIST_PATH,
-		port: 8000,
+		port: 8001,
 		livereload: true
 	});
 });

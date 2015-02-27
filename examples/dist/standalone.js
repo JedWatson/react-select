@@ -545,11 +545,25 @@ var Select = React.createClass({
 
 		var loading = this.state.isLoading ? React.createElement("span", { className: "Select-loading", "aria-hidden": "true" }) : null;
 		var clear = this.props.clearable && this.state.value && !this.props.disabled ? React.createElement("span", { className: "Select-clear", title: this.props.multi ? this.props.clearAllText : this.props.clearValueText, "aria-label": this.props.multi ? this.props.clearAllText : this.props.clearValueText, onMouseDown: this.clearValue, onClick: this.clearValue, dangerouslySetInnerHTML: { __html: "&times;" } }) : null;
-		var menu = this.state.isOpen ? React.createElement(
-			"div",
-			{ ref: "menu", onMouseDown: this.handleMouseDown, className: "Select-menu" },
-			this.buildMenu()
-		) : null;
+
+		var menu;
+		var menuProps;
+		if (this.state.isOpen) {
+			menuProps = {
+				ref: "menu",
+				className: "Select-menu"
+			};
+			if (this.props.multi) {
+				menuProps.onMouseDown = this.handleMouseDown;
+			}
+			menu = React.createElement(
+				"div",
+				menuProps,
+				this.buildMenu()
+			);
+		} else {
+			menu = null;
+		}
 
 		var commonProps = {
 			ref: "input",
