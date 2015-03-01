@@ -548,34 +548,31 @@ var Select = React.createClass({
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
 		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 
-    var menu;
-    var menuProps;
-    if (this.state.isOpen) {
-      menuProps = {
-        ref: "menu",
-        className: "Select-menu"
-      };
-      if (this.props.multi) {
-        menuProps.onMouseDown = this.handleMouseDown;
-      }
-      menu = <div {...menuProps}>{this.buildMenu()}</div>;
-    } else {
-      menu = null;
-    }
+		var menu;
+		var menuProps;
+		if (this.state.isOpen) {
+			menuProps = {
+				ref: "menu",
+				className: "Select-menu"
+			};
+			if (this.props.multi) {
+				menuProps.onMouseDown = this.handleMouseDown;
+			}
+			menu = <div {...menuProps}>{this.buildMenu()}</div>;
+		}
 
-		var commonProps = {
+		var input;
+		var inputProps = {
 			ref: 'input',
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
 			onBlur: this.handleInputBlur
 		};
-		var input;
-
 		if (this.props.searchable && !this.props.disabled) {
-			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...commonProps} />;
+			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
 		} else {
-			input = <div {...commonProps}>&nbsp;</div>;
+			input = <div {...inputProps}>&nbsp;</div>;
 		}
 
 		return (
