@@ -101,16 +101,13 @@ var Select = React.createClass({
 		clearTimeout(this._focusTimeout);
 	},
 
-	componentWillReceiveProps: function(newProps) {
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
-		}
+	componentWillReceiveProps: function (newProps) {
+		var newState = this.getStateFromValue(newProps.value, newProps.options);
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
-			this.setState({
-				options: newProps.options,
-				filteredOptions: this.filterOptions(newProps.options)
-			});
+			newState.options = newProps.options;
+			newState.filteredOptions = this.filterOptions(newProps.options);
 		}
+		this.setState(newState);
 	},
 
 	componentDidUpdate: function() {
