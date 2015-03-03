@@ -3,9 +3,14 @@
 // ------------------------------
 
 
-// wrapper
+// wrapper around the menu
 
-.Select-menu {
+.Select-menu-outer {
+	// Unfortunately, having both border-radius and allows scrolling using overflow defined on the same
+	// element forces the browser to repaint on scroll.  However, if these definitions are split into an 
+	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not 
+	// have to repaint on scroll.
+
 	.border-bottom-radius( @select-input-border-radius );
 	background-color: white;
 	border: 1px solid @select-input-border-color;
@@ -13,13 +18,20 @@
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
-	max-height: 200px;
-	overflow-y: auto;
+	max-height: @select-menu-max-height;
 	position: absolute;
 	top: 100%;
 	width: 100%;
 	z-index: @select-menu-zindex;
 	-webkit-overflow-scrolling: touch;
+}
+
+
+// wrapper
+
+.Select-menu {
+	max-height: @select-menu-max-height - 2px;
+	overflow-y: auto;
 }
 
 
