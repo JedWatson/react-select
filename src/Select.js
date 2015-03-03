@@ -558,7 +558,11 @@ var Select = React.createClass({
 			if (this.props.multi) {
 				menuProps.onMouseDown = this.handleMouseDown;
 			}
-			menu = <div {...menuProps}>{this.buildMenu()}</div>;
+			menu = (
+				<div className="Select-menu-outer">
+					<div {...menuProps}>{this.buildMenu()}</div>
+				</div>
+			);
 		}
 
 		var input;
