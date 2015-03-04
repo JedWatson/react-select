@@ -27,6 +27,8 @@ var Select = React.createClass({
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
+		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
+		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
 		className: React.PropTypes.string,         // className for the outer element
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
@@ -249,12 +251,16 @@ var Select = React.createClass({
 		}
 	},
 
-	handleInputFocus: function() {
+	handleInputFocus: function(event) {
 		this.setState({
 			isFocused: true,
 			isOpen: this.state.isOpen || this._openAfterFocus
 		});
 		this._openAfterFocus = false;
+		
+		if (this.props.onFocus) {
+			this.props.onFocus(event);
+		}
 	},
 
 	handleInputBlur: function(event) {
@@ -265,6 +271,10 @@ var Select = React.createClass({
 				isFocused: false
 			});
 		}.bind(this), 50);
+		
+		if (this.props.onBlur) {
+			this.props.onBlur(event);
+		}
 	},
 
 	handleKeyDown: function(event) {
