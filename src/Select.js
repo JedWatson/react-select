@@ -348,6 +348,8 @@ var Select = React.createClass({
 
 	loadAsyncOptions: function(input, state) {
 
+		var thisRequestId = this._currentRequestId = requestId++;
+
 		for (var i = 0; i <= input.length; i++) {
 			var cacheKey = input.slice(0, i);
 			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
@@ -359,8 +361,6 @@ var Select = React.createClass({
 				return;
 			}
 		}
-
-		var thisRequestId = this._currentRequestId = requestId++;
 
 		this.props.asyncOptions(input, function(err, data) {
 
