@@ -19,6 +19,7 @@
     "react-component-gulp-tasks": "^0.4.0"
   },
   "browserify-shim": {
+    "classnames": "global:classnames",
     "react": "global:React",
     "react-input-autosize": "global:AutosizeInput",
     "lodash": "global:_"
