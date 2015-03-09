@@ -406,12 +406,13 @@ var Select = React.createClass({
 			var filterOption = function(op) {
 				if (this.props.multi && _.contains(exclude, op.value)) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
+				var valueTest = String(op.value), labelTest = String(op.label);
 				return !filterValue || (this.props.matchPos === 'start') ? (
-					(this.props.matchProp !== 'label' && op.value.toLowerCase().substr(0, filterValue.length) === filterValue) ||
-					(this.props.matchProp !== 'value' && op.label.toLowerCase().substr(0, filterValue.length) === filterValue)
+					(this.props.matchProp !== 'label' && valueTest.toLowerCase().substr(0, filterValue.length) === filterValue) ||
+					(this.props.matchProp !== 'value' && labelTest.toLowerCase().substr(0, filterValue.length) === filterValue)
 				) : (
-					(this.props.matchProp !== 'label' && op.value.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
-					(this.props.matchProp !== 'value' && op.label.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
+					(this.props.matchProp !== 'label' && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
+					(this.props.matchProp !== 'value' && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
 			};
 			return _.filter(options, filterOption, this);
