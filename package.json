@@ -16,25 +16,7 @@
     "react-input-autosize": "^0.3.1"
   },
   "devDependencies": {
-    "6to5ify": "^4.1.1",
-    "browserify": "^9.0.3",
-    "browserify-shim": "^3.8.3",
-    "chalk": "^1.0.0",
-    "del": "^1.1.1",
-    "gulp": "^3.8.11",
-    "gulp-6to5": "^3.0.0",
-    "gulp-bump": "^0.2.2",
-    "gulp-connect": "^2.2.0",
-    "gulp-gh-pages": "^0.4.0",
-    "gulp-git": "^1.0.0",
-    "gulp-less": "^3.0.1",
-    "gulp-rename": "^1.2.0",
-    "gulp-streamify": "^0.0.5",
-    "gulp-uglify": "^1.1.0",
-    "gulp-util": "^3.0.4",
-    "merge-stream": "^0.1.7",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.4.0"
+    "react-component-gulp-tasks": "^0.4.0"
   },
   "browserify-shim": {
     "react": "global:React",
