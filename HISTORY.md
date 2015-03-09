@@ -1,5 +1,14 @@
 # React-Select
 
+## v0.3.5 / 2015-03-09
+
+* improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
+* added; `onBlur` and `onFocus` event handlers, thanks [Jonas Budelmann](https://github.com/cloudkite)
+* added; support for `inputProps` prop, passed to the `<input>` component, thanks [Yann Plantevin](https://github.com/YannPl)
+* changed; now using [react-component-gulp-tasks](https://github.com/JedWatson/react-component-gulp-tasks) for build
+* fixed; issue w/ remote callbacks overriding cached options, thanks [Corey McMahon](https://github.com/coreymcmahon)
+* fixed; if not `this.props.multi`, menu doesn't need handleMouseDown, thanks [wenbing](https://github.com/wenbing)
+
 ## v0.3.4 / 2015-02-23
 
 * fixed; issues with the underscore/lodash dependency change, thanks [Aaron Powell](https://github.com/aaronpowell)
