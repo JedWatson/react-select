@@ -33,7 +33,8 @@ var Select = React.createClass({
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
+		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 		/*
 		
@@ -65,6 +66,7 @@ var Select = React.createClass({
 			className: undefined,
 			matchPos: 'any',
 			matchProp: 'any',
+			inputProps: {},
 
 			onOptionLabelClick: undefined
 		};
@@ -576,13 +578,14 @@ var Select = React.createClass({
 		}
 
 		var input;
-		var inputProps = {
+		var inputProps = _.extend({
 			ref: 'input',
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
 			onBlur: this.handleInputBlur
-		};
+		}, this.props.inputProps);
+		
 		if (this.props.searchable && !this.props.disabled) {
 			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
 		} else {
