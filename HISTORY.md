@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.4.0 / 2015-03-12
+
+* updated; compatible with React 0.13
+
 ## v0.3.5 / 2015-03-09
 
 * improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
