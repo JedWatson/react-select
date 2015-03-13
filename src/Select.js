@@ -499,6 +499,10 @@ var Select = React.createClass({
 
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 
+		if(this.state.filteredOptions.length > 0) {
+			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+		}
+
 		var ops = _.map(this.state.filteredOptions, function(op) {
 			var isFocused = focusedValue === op.value;
 
