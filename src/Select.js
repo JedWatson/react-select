@@ -384,7 +384,7 @@ var Select = React.createClass({
 			if (thisRequestId !== this._currentRequestId) {
 				return;
 			}
-			var filteredOptions = this.filterOptions(options);
+			var filteredOptions = this.filterOptions(data.options);
 
 			this.setState(_.extend({
 				options: data.options,
