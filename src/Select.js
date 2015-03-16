@@ -550,6 +550,8 @@ var Select = React.createClass({
 			this.state.values.forEach(function(val) {
 				var props = _.extend({
 					key: val[this.props.valueFieldName],
+					label: val[this.props.labelFieldName],
+					labelFieldName: this.props.labelFieldName,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val)
