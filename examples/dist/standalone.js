@@ -18,6 +18,8 @@ var Select = React.createClass({
 
 	propTypes: {
 		value: React.PropTypes.any, // initial field value
+		valueFieldName: React.PropTypes.string, // name of the field in values to use as the 'value'
+		labelFieldName: React.PropTypes.string, // name of the field in values to use as the 'label'
 		multi: React.PropTypes.bool, // multi-value input
 		disabled: React.PropTypes.bool, // whether the Select is disabled or not
 		options: React.PropTypes.array, // array of options
@@ -43,10 +45,9 @@ var Select = React.createClass({
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 		/*
-  
-  * Allow user to make option label clickable. When this handler is defined we should
+  		* Allow user to make option label clickable. When this handler is defined we should
   * wrap label into <a>label</a> tag.
-  * 
+  *
   * onOptionLabelClick handler: function (value, event) {}
   * */
 		onOptionLabelClick: React.PropTypes.func
@@ -55,6 +56,8 @@ var Select = React.createClass({
 	getDefaultProps: function getDefaultProps() {
 		return {
 			value: undefined,
+			valueFieldName: "value",
+			labelFieldName: "label",
 			options: [],
 			disabled: false,
 			delimiter: ",",
@@ -161,13 +164,13 @@ var Select = React.createClass({
 		    filteredOptions = this.filterOptions(options, values);
 
 		return {
-			value: values.map(function (v) {
-				return v.value;
-			}).join(this.props.delimiter),
+			value: values.map((function (v) {
+				return v[this.props.valueFieldName];
+			}).bind(this)).join(this.props.delimiter),
 			values: values,
 			inputValue: "",
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			placeholder: !this.props.multi && values.length ? values[0][this.props.labelFieldName] : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 	},
@@ -183,7 +186,11 @@ var Select = React.createClass({
 		}
 
 		return values.map((function (val) {
-			return "string" === typeof val ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+			return "string" === typeof val ? val = _.find(options, (function (o) {
+				return o[this.props.valueFieldName] === val;
+			}).bind(this)) || (function () {
+				var res = {};res[this.props.valueFieldName] = val;res[this.props.labelFieldName] = val;return res;
+			}).bind(this)() : val;
 		}).bind(this));
 	},
 
@@ -411,13 +418,13 @@ var Select = React.createClass({
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
 			var filterOption = function filterOption(op) {
-				if (this.props.multi && _.contains(exclude, op.value)) {
+				if (this.props.multi && _.contains(exclude, op[this.props.valueFieldName])) {
 					return false;
 				}if (this.props.filterOption) {
 					return this.props.filterOption.call(this, op, filterValue);
-				}var valueTest = String(op.value),
-				    labelTest = String(op.label);
-				return !filterValue || this.props.matchPos === "start" ? this.props.matchProp !== "label" && valueTest.toLowerCase().substr(0, filterValue.length) === filterValue || this.props.matchProp !== "value" && labelTest.toLowerCase().substr(0, filterValue.length) === filterValue : this.props.matchProp !== "label" && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0 || this.props.matchProp !== "value" && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0;
+				}var valueTest = String(op[this.props.valueFieldName]),
+				    labelTest = String(op[this.props.labelFieldName]);
+				return !filterValue || this.props.matchPos === "start" ? (this.props.matchProp !== "label" || this.props.labelFieldName) && valueTest.toLowerCase().substr(0, filterValue.length) === filterValue || (this.props.matchProp !== "value" || this.props.valueFieldName) && labelTest.toLowerCase().substr(0, filterValue.length) === filterValue : (this.props.matchProp !== "label" || this.props.labelFieldName) && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0 || (this.props.matchProp !== "value" || this.props.valueFieldName) && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0;
 			};
 			return _.filter(options, filterOption, this);
 		}
@@ -495,10 +502,10 @@ var Select = React.createClass({
 
 	buildMenu: function buildMenu() {
 
-		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		var focusedValue = this.state.focusedOption ? this.state.focusedOption[this.props.valueFieldName] : null;
 
 		var ops = _.map(this.state.filteredOptions, function (op) {
-			var isFocused = focusedValue === op.value;
+			var isFocused = focusedValue === op[this.props.valueFieldName];
 
 			var optionClass = classes({
 				"Select-option": true,
@@ -513,8 +520,8 @@ var Select = React.createClass({
 
 			return React.createElement(
 				"div",
-				{ ref: ref, key: "option-" + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
-				op.label
+				{ ref: ref, key: "option-" + op[this.props.valueFieldName], className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
+				op[this.props.labelFieldName]
 			);
 		}, this);
 
@@ -550,7 +557,7 @@ var Select = React.createClass({
 		if (this.props.multi) {
 			this.state.values.forEach(function (val) {
 				var props = _.extend({
-					key: val.value,
+					key: val[this.props.valueFieldName],
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val)
