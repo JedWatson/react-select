@@ -160,10 +160,10 @@ var SelectedValuesField = React.createClass({
 
 React.render(
 	<div>
-		<SelectedValuesField label="Clickable labels (labels as links):" />
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
 		<MultiSelectField label="Multiselect:"/>
+		<SelectedValuesField label="Clickable labels (labels as links):" />
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')
