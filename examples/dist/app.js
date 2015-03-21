@@ -179,10 +179,10 @@ var SelectedValuesField = React.createClass({
 React.render(React.createElement(
 	"div",
 	null,
-	React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
 	React.createElement(StatesField, null),
 	React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
 	React.createElement(MultiSelectField, { label: "Multiselect:" }),
+	React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
 	React.createElement(RemoteSelectField, { label: "Remote Options:" })
 ), document.getElementById("example"));
 
