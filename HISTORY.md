@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.4.1 / 2015-03-12
+
+* fixed; IE11 issue: clicking on scrollbar within menu no longer closes menu, thanks [Rohit Kalkur](https://github.com/rovolution)
+
 ## v0.4.0 / 2015-03-12
 
 * updated; compatible with React 0.13
