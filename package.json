@@ -10,7 +10,7 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "classnames": "^1.1.4",
+    "classnames": "^1.2.0",
     "lodash": "^3.5.0",
     "react": ">=0.12.0",
     "react-input-autosize": "^0.4.0"
