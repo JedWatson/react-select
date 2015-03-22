@@ -37,12 +37,12 @@ var Select = React.createClass({
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 		/*
-		
 		* Allow user to make option label clickable. When this handler is defined we should
 		* wrap label into <a>label</a> tag.
-		* 
+		*
 		* onOptionLabelClick handler: function (value, event) {}
-		* */
+		*
+		*/
 		onOptionLabelClick: React.PropTypes.func
 	},
 
@@ -171,17 +171,15 @@ var Select = React.createClass({
 	},
 
 	clickedOutsideElement: function(element, event) {
-	  var eventTarget = (event.target) ? event.target : event.srcElement;
-	  while(eventTarget != null) {
-	    if(eventTarget == element)
-	      return false;
-	    eventTarget = eventTarget.offsetParent;
-	  }
-	  return true;
+		var eventTarget = (event.target) ? event.target : event.srcElement;
+		while (eventTarget != null) {
+			if (eventTarget === element) return false;
+			eventTarget = eventTarget.offsetParent;
+		}
+		return true;
 	},
 
 	getStateFromValue: function(value, options) {
-
 		if (!options) {
 			options = this.state.options;
 		}
@@ -200,13 +198,11 @@ var Select = React.createClass({
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
-
 	},
 
 	initValuesArray: function(values, options) {
-
 		if (!Array.isArray(values)) {
-			if ('string' === typeof values) {
+			if (typeof values === 'string') {
 				values = values.split(this.props.delimiter);
 			} else {
 				values = values ? [values] : [];
@@ -214,9 +210,8 @@ var Select = React.createClass({
 		}
 
 		return values.map(function(val) {
-			return ('string' === typeof val) ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
-		}.bind(this));
-
+			return (typeof val === 'string') ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+		});
 	},
 
 	setValue: function(value) {
@@ -247,11 +242,11 @@ var Select = React.createClass({
 	removeValue: function(value) {
 		this.setValue(_.without(this.state.values, value));
 	},
-	
+
 	clearValue: function(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, ignore it.
-		if (event && event.type == 'mousedown' && event.button !== 0) {
+		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
 		this.setValue(null);
@@ -275,10 +270,10 @@ var Select = React.createClass({
 	handleMouseDown: function(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type == 'mousedown' && event.button !== 0)) {
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
-		
+
 		event.stopPropagation();
 		event.preventDefault();
 		if (this.state.isFocused) {
@@ -301,11 +296,11 @@ var Select = React.createClass({
 				this._bindCloseMenuIfClickedOutside();
 			}
 			else {
-				this._unbindCloseMenuIfClickedOutside();	
+				this._unbindCloseMenuIfClickedOutside();
 			}
 		});
 		this._openAfterFocus = false;
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -318,16 +313,14 @@ var Select = React.createClass({
 				isFocused: false
 			});
 		}.bind(this), 50);
-		
+
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
 		}
 	},
 
 	handleKeyDown: function(event) {
-
-		if(this.state.disabled)
-			return;
+		if (this.state.disabled) return;
 
 		switch (event.keyCode) {
 
@@ -335,8 +328,7 @@ var Select = React.createClass({
 				if (!this.state.inputValue) {
 					this.popValue();
 				}
-				return;
-			break;
+			return;
 
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
@@ -369,11 +361,9 @@ var Select = React.createClass({
 		}
 
 		event.preventDefault();
-
 	},
 
 	handleInputChange: function(event) {
-
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
@@ -396,7 +386,6 @@ var Select = React.createClass({
 				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			}, this._bindCloseMenuIfClickedOutside);
 		}
-
 	},
 
 	autoloadAsyncOptions: function() {
@@ -404,7 +393,6 @@ var Select = React.createClass({
 	},
 
 	loadAsyncOptions: function(input, state) {
-
 		var thisRequestId = this._currentRequestId = requestId++;
 
 		for (var i = 0; i <= input.length; i++) {
@@ -424,6 +412,8 @@ var Select = React.createClass({
 
 		this.props.asyncOptions(input, function(err, data) {
 
+			if (err) throw err;
+
 			this._optionsCache[input] = data;
 
 			if (thisRequestId !== this._currentRequestId) {
@@ -438,7 +428,6 @@ var Select = React.createClass({
 			}, state));
 
 		}.bind(this));
-
 	},
 
 	filterOptions: function(options, values) {
@@ -541,7 +530,6 @@ var Select = React.createClass({
 	},
 
 	buildMenu: function() {
-
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 
 		if(this.state.filteredOptions.length > 0) {
@@ -571,26 +559,24 @@ var Select = React.createClass({
 				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
 			</div>
 		);
-
 	},
 
 	handleOptionLabelClick: function (value, event) {
 		var handler = this.props.onOptionLabelClick;
-		
+
 		if (handler) {
 			handler(value, event);
 		}
 	},
-	
-	render: function() {
 
+	render: function() {
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.state.isLoading,
-			'is-disabled' : this.props.disabled,
+			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
 
@@ -603,7 +589,7 @@ var Select = React.createClass({
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val)
-				}, val); 
+				}, val);
 				value.push(<Value {...props} />);
 			}, this);
 		}
@@ -619,8 +605,8 @@ var Select = React.createClass({
 		var menuProps;
 		if (this.state.isOpen) {
 			menuProps = {
-				ref: "menu",
-				className: "Select-menu"
+				ref: 'menu',
+				className: 'Select-menu'
 			};
 			if (this.props.multi) {
 				menuProps.onMouseDown = this.handleMouseDown;
@@ -640,7 +626,7 @@ var Select = React.createClass({
 			onFocus: this.handleInputFocus,
 			onBlur: this.handleInputBlur
 		}, this.props.inputProps);
-		
+
 		if (this.props.searchable && !this.props.disabled) {
 			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
 		} else {
@@ -660,7 +646,6 @@ var Select = React.createClass({
 				{menu}
 			</div>
 		);
-
 	}
 
 });
