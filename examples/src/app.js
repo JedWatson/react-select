@@ -16,15 +16,14 @@ var CountrySelect = React.createClass({
 		return <span onClick={this.onClick} className={className}>{this.props.children}</span>;
 	}
 });
- 
+
 var StatesField = React.createClass({
 	getDefaultProps: function () {
 		return {
 			searchable: true,
-			label: 'States:',
+			label: 'States:'
 		};
 	},
-
 	getInitialState: function() {
 		return {
 			country: 'AU',
@@ -59,12 +58,11 @@ var StatesField = React.createClass({
 		);
 	}
 });
- 
+
 var RemoteSelectField = React.createClass({
 	loadOptions: function(input, callback) {
-		
 		input = input.toLowerCase();
-		
+
 		var rtn = {
 			options: [
 				{ label: 'One', value: 'one' },
@@ -73,9 +71,9 @@ var RemoteSelectField = React.createClass({
 			],
 			complete: true
 		};
-		
-		if (input.slice(0,1) === 'a') {
-			if (input.slice(0,2) === 'ab') {
+
+		if (input.slice(0, 1) === 'a') {
+			if (input.slice(0, 2) === 'ab') {
 				rtn = {
 					options: [
 						{ label: 'AB', value: 'ab' },
@@ -97,17 +95,18 @@ var RemoteSelectField = React.createClass({
 		} else if (!input.length) {
 			rtn.complete = false;
 		}
-		
+
 		setTimeout(function() {
 			callback(null, rtn);
 		}, 500);
-		
 	},
 	render: function() {
-		return <div>
-			<label>{this.props.label}</label>
-			<Select asyncOptions={this.loadOptions} className="remote-example" />
-		</div>;
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select asyncOptions={this.loadOptions} className="remote-example" />
+			</div>
+		);
 	}
 });
 
@@ -134,7 +133,7 @@ var SelectedValuesField = React.createClass({
 	onLabelClick: function (data, event) {
 		console.log(data);
 	},
-	
+
 	render: function() {
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
