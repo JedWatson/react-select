@@ -72,7 +72,7 @@ function logChange(val) {
 
 ### Multiselect options
 
-You can enable multi-value selection by setting `multi="true"`. In this mode:
+You can enable multi-value selection by setting `multi={true}`. In this mode:
 
 * Selected options will be removed from the dropdown menu
 * The values of the selected items are joined using the `delimiter` property to create the input value
