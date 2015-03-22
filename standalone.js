@@ -7,7 +7,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _ = (typeof window !== "undefined" ? window._ : typeof global !== "undefined" ? global._ : null),
     React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null),
     Input = (typeof window !== "undefined" ? window.AutosizeInput : typeof global !== "undefined" ? global.AutosizeInput : null),
-    classes = (typeof window !== "undefined" ? window.classnames : typeof global !== "undefined" ? global.classnames : null),
+    classes = (typeof window !== "undefined" ? window.classNames : typeof global !== "undefined" ? global.classNames : null),
     Value = require("./Value");
 
 var requestId = 0;
@@ -43,12 +43,12 @@ var Select = React.createClass({
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 		/*
-  
   * Allow user to make option label clickable. When this handler is defined we should
   * wrap label into <a>label</a> tag.
-  * 
+  *
   * onOptionLabelClick handler: function (value, event) {}
-  * */
+  *
+  */
 		onOptionLabelClick: React.PropTypes.func
 	},
 
@@ -178,7 +178,7 @@ var Select = React.createClass({
 	clickedOutsideElement: function clickedOutsideElement(element, event) {
 		var eventTarget = event.target ? event.target : event.srcElement;
 		while (eventTarget != null) {
-			if (eventTarget == element) {
+			if (eventTarget === element) {
 				return false;
 			}eventTarget = eventTarget.offsetParent;
 		}
@@ -186,7 +186,6 @@ var Select = React.createClass({
 	},
 
 	getStateFromValue: function getStateFromValue(value, options) {
-
 		if (!options) {
 			options = this.state.options;
 		}
@@ -210,18 +209,17 @@ var Select = React.createClass({
 	},
 
 	initValuesArray: function initValuesArray(values, options) {
-
 		if (!Array.isArray(values)) {
-			if ("string" === typeof values) {
+			if (typeof values === "string") {
 				values = values.split(this.props.delimiter);
 			} else {
 				values = values ? [values] : [];
 			}
 		}
 
-		return values.map((function (val) {
-			return "string" === typeof val ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
-		}).bind(this));
+		return values.map(function (val) {
+			return typeof val === "string" ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+		});
 	},
 
 	setValue: function setValue(value) {
@@ -256,7 +254,7 @@ var Select = React.createClass({
 	clearValue: function clearValue(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, ignore it.
-		if (event && event.type == "mousedown" && event.button !== 0) {
+		if (event && event.type === "mousedown" && event.button !== 0) {
 			return;
 		}
 		this.setValue(null);
@@ -280,7 +278,7 @@ var Select = React.createClass({
 	handleMouseDown: function handleMouseDown(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || event.type == "mousedown" && event.button !== 0) {
+		if (this.props.disabled || event.type === "mousedown" && event.button !== 0) {
 			return;
 		}
 
@@ -329,7 +327,6 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function handleKeyDown(event) {
-
 		if (this.state.disabled) {
 			return;
 		}switch (event.keyCode) {
@@ -340,7 +337,6 @@ var Select = React.createClass({
 					this.popValue();
 				}
 				return;
-				break;
 
 			case 9:
 				// tab
@@ -382,7 +378,6 @@ var Select = React.createClass({
 	},
 
 	handleInputChange: function handleInputChange(event) {
-
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
@@ -412,16 +407,18 @@ var Select = React.createClass({
 	},
 
 	loadAsyncOptions: function loadAsyncOptions(input, state) {
-
 		var thisRequestId = this._currentRequestId = requestId++;
 
 		for (var i = 0; i <= input.length; i++) {
 			var cacheKey = input.slice(0, i);
 			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
 				var options = this._optionsCache[cacheKey].options;
+				var filteredOptions = this.filterOptions(options);
+
 				this.setState(_.extend({
 					options: options,
-					filteredOptions: this.filterOptions(options)
+					filteredOptions: filteredOptions,
+					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 				}, state));
 				return;
 			}
@@ -429,15 +426,19 @@ var Select = React.createClass({
 
 		this.props.asyncOptions(input, (function (err, data) {
 
+			if (err) throw err;
+
 			this._optionsCache[input] = data;
 
 			if (thisRequestId !== this._currentRequestId) {
 				return;
 			}
+			var filteredOptions = this.filterOptions(data.options);
 
 			this.setState(_.extend({
 				options: data.options,
-				filteredOptions: this.filterOptions(data.options)
+				filteredOptions: filteredOptions,
+				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			}, state));
 		}).bind(this));
 	},
@@ -538,8 +539,11 @@ var Select = React.createClass({
 	},
 
 	buildMenu: function buildMenu() {
-
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+
+		if (this.state.filteredOptions.length > 0) {
+			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+		}
 
 		var ops = _.map(this.state.filteredOptions, function (op) {
 			var isFocused = focusedValue === op.value;
@@ -578,7 +582,6 @@ var Select = React.createClass({
 	},
 
 	render: function render() {
-
 		var selectClass = classes("Select", this.props.className, {
 			"is-multi": this.props.multi,
 			"is-searchable": this.props.searchable,
@@ -680,8 +683,7 @@ module.exports = Select;
 (function (global){
 "use strict";
 
-var _ = (typeof window !== "undefined" ? window._ : typeof global !== "undefined" ? global._ : null),
-    React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 var Option = React.createClass({
 
