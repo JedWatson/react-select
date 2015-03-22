@@ -101,6 +101,8 @@ var getOptions = function(input, callback) {
 				{ value: 'one', label: 'One' },
 				{ value: 'two', label: 'Two' }
 			],
+			// CAREFUL! Only set this to true when there are no more options,
+			// or more specific queries will not be sent to the server.
 			complete: true
 		});
 	}, 500);
