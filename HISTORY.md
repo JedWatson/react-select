@@ -1,6 +1,13 @@
 # React-Select
 
-## v0.4.1 / 2015-03-12
+## v0.4.2 / 2015-03-23
+
+* added; ESLint and contributing guide
+* fixed; incorrect `classnames` variable assignement in window scope
+* fixed; all ESLint errors and warnings (except invalid JSX undefined/unused vars due to ESLint bug)
+* fixed; first option is now focused correctly, thanks [Eivind Siqveland Larsen](https://github.com/esiqveland)
+
+## v0.4.1 / 2015-03-20
 
 * fixed; IE11 issue: clicking on scrollbar within menu no longer closes menu, thanks [Rohit Kalkur](https://github.com/rovolution)
 
