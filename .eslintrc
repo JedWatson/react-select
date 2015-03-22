@@ -1,0 +1,21 @@
+{
+	"parser": "babel-eslint",
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"plugins": [
+		"react"
+	],
+	"rules": {
+		"curly": [2, "multi-line"],
+		"no-shadow": 0,
+		"no-underscore-dangle": 0,
+		"no-unused-expressions": 0,
+		"quotes": [2, "single", "avoid-escape"],
+		"react/jsx-uses-react": 1,
+		"react/jsx-uses-vars": 1,
+		"semi": 2,
+		"strict": 0
+	}
+}

@@ -16,6 +16,9 @@
     "react-input-autosize": "^0.4.0"
   },
   "devDependencies": {
+    "babel-eslint": "^2.0.2",
+    "eslint": "^0.17.1",
+    "eslint-plugin-react": "^1.5.0",
     "gulp": "^3.8.11",
     "react-component-gulp-tasks": "^0.4.2"
   },
@@ -26,7 +29,8 @@
     "lodash": "global:_"
   },
   "scripts": {
-    "test": "echo \"no tests yet\" && exit 0"
+    "test": "echo \"no tests yet\" && exit 0",
+    "lint": "eslint ./; true"
   },
   "keywords": [
     "react",
