@@ -109,7 +109,7 @@ var RemoteSelectField = React.createClass({
 		return (
 			<div>
 				<label>{this.props.label}</label>
-				<Select asyncOptions={this.loadOptions} className="remote-example" />
+				<Select asyncOptions={this.loadOptions} className="remote-example" createable={true} />
 			</div>
 		);
 	}
@@ -128,7 +128,7 @@ var MultiSelectField = React.createClass({
 		];
 		return <div>
 			<label>{this.props.label}</label>
-			<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} />
+			<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} createable={true} />
 		</div>;
 	}
 });
@@ -166,9 +166,9 @@ React.render(
 	<div>
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
-		<MultiSelectField label="Multiselect:"/>
+		<MultiSelectField label="Multiselect (createable):"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
-		<RemoteSelectField label="Remote Options:"/>
+		<RemoteSelectField label="Remote Options (createable):"/>
 	</div>,
 	document.getElementById('example')
 );
