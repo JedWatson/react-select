@@ -411,9 +411,12 @@ var Select = React.createClass({
 			var cacheKey = input.slice(0, i);
 			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
 				var options = this._optionsCache[cacheKey].options;
+				var filteredOptions = this.filterOptions(options);
+
 				this.setState(_.extend({
 					options: options,
-					filteredOptions: this.filterOptions(options)
+					filteredOptions: filteredOptions,
+					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 				}, state));
 				return;
 			}
@@ -426,10 +429,12 @@ var Select = React.createClass({
 			if (thisRequestId !== this._currentRequestId) {
 				return;
 			}
+			var filteredOptions = this.filterOptions(data.options);
 
 			this.setState(_.extend({
 				options: data.options,
-				filteredOptions: this.filterOptions(data.options)
+				filteredOptions: filteredOptions,
+				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			}, state));
 
 		}.bind(this));
@@ -538,6 +543,10 @@ var Select = React.createClass({
 	buildMenu: function() {
 
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+
+		if(this.state.filteredOptions.length > 0) {
+			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+		}
 
 		var ops = _.map(this.state.filteredOptions, function(op) {
 			var isFocused = focusedValue === op.value;
