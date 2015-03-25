@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -13,14 +13,16 @@
     "classnames": "^1.2.0",
     "lodash": "^3.5.0",
     "react": ">=0.12.0",
-    "react-input-autosize": "^0.4.0"
+    "react-input-autosize": "^0.4.2"
   },
   "devDependencies": {
     "babel-eslint": "^2.0.2",
+    "babel-jest": "^4.0.0",
     "eslint": "^0.17.1",
-    "eslint-plugin-react": "^1.5.0",
+    "eslint-plugin-react": "^1.6.1",
     "gulp": "^3.8.11",
-    "react-component-gulp-tasks": "^0.4.2"
+    "jest-cli": "^0.4.0",
+    "react-component-gulp-tasks": "^0.4.3"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
@@ -29,8 +31,17 @@
     "lodash": "global:_"
   },
   "scripts": {
-    "test": "echo \"no tests yet\" && exit 0",
+    "test": "jest; true",
     "lint": "eslint ./; true"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
+    "testPathDirs": [
+      "<rootDir>/src"
+    ]
   },
   "keywords": [
     "react",

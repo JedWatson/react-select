@@ -89,7 +89,7 @@ When your async process finishes getting the options, pass them to `callback(err
 
 The select control will intelligently cache options for input strings that have already been fetched. Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
 
-Unless you specify the property `autoload="false"` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
+Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
 ```
 var Select = require('react-select');
