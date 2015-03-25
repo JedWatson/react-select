@@ -28,7 +28,7 @@ describe('Select test', function() {
             onChange={logChange}/>
     );
 
-	var selectInputElement = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
+	var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
 
 	it('should assign the given name', function() {
 		expect(selectInputElement.getDOMNode().name).toEqual('form-field-name');
