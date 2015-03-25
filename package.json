@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -36,8 +36,12 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
-    "testPathDirs": ["<rootDir>/src"]
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
+    "testPathDirs": [
+      "<rootDir>/src"
+    ]
   },
   "keywords": [
     "react",
