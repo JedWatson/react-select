@@ -18,11 +18,11 @@
   "devDependencies": {
     "babel-eslint": "^2.0.2",
     "eslint": "^0.17.1",
-    "eslint-plugin-react": "^1.5.0",
+    "eslint-plugin-react": "^1.6.1",
     "gulp": "^3.8.11",
     "jest-cli": "^0.4.0",
     "react-component-gulp-tasks": "^0.4.2",
-    "react-tools": "^0.12.1"
+    "react-tools": "^0.13.1"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
