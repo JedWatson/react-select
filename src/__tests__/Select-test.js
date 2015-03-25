@@ -1,5 +1,6 @@
 'use strict';
 /*global describe, it, jest, expect*/
+
 jest.dontMock('../Select');
 jest.dontMock('../Value');
 
@@ -32,4 +33,5 @@ describe('Select test', function() {
 	it('should assign the given name', function() {
 		expect(selectInputElement.getDOMNode().name).toEqual('form-field-name');
 	});
+
 });

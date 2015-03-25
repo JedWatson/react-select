@@ -17,12 +17,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^2.0.2",
+    "babel-jest": "^4.0.0",
     "eslint": "^0.17.1",
     "eslint-plugin-react": "^1.6.1",
     "gulp": "^3.8.11",
     "jest-cli": "^0.4.0",
-    "react-component-gulp-tasks": "^0.4.2",
-    "react-tools": "^0.13.1"
+    "react-component-gulp-tasks": "^0.4.2"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
@@ -35,16 +35,9 @@
     "lint": "eslint ./; true"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
-    ],
-    "testFileExtensions": [
-      "js"
-    ],
-    "testPathDirs": [
-      "<rootDir>/src"
-    ]
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"],
+    "testPathDirs": ["<rootDir>/src"]
   },
   "keywords": [
     "react",
