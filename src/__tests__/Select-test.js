@@ -1,5 +1,5 @@
-/** @jsx React.DOM */
 'use strict';
+/*global describe, it, jest, expect*/
 jest.dontMock('../Select');
 jest.dontMock('../Value');
 
