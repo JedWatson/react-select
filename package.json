@@ -31,7 +31,7 @@
     "lodash": "global:_"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest; true",
     "lint": "eslint ./; true"
   },
   "jest": {
