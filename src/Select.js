@@ -100,7 +100,7 @@ var Select = React.createClass({
 		}
 
 		this._closeMenuIfClickedOutside = function(event) {
-			if (this.state.isOpen) {
+			if (!this.state.isOpen) {
 				return;
 			}
 			var menuElem = this.refs.selectMenuContainer.getDOMNode();
@@ -110,7 +110,7 @@ var Select = React.createClass({
 			var eventOccuredOutsideControl = this.clickedOutsideElement(controlElem, event);
 
 			// Hide dropdown menu if click occurred outside of menu
-			if(eventOccuredOutsideMenu && eventOccuredOutsideControl) {
+			if (eventOccuredOutsideMenu && eventOccuredOutsideControl) {
 				this.setState({
 					isOpen: false
 				}, this._unbindCloseMenuIfClickedOutside);
