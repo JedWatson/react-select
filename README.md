@@ -1,7 +1,7 @@
 React-Select
 ============
 
-A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
+A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
 ## Demo & Examples
@@ -20,15 +20,13 @@ Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 ## Project Status
 
-This is currently a work in progress.
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
-
-TODO:
+This project is quite stable and ready for production use, however there are plans to improve it including:
 
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
 - Custom options rendering
+
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
