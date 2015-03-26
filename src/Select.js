@@ -100,6 +100,9 @@ var Select = React.createClass({
 		}
 
 		this._closeMenuIfClickedOutside = function(event) {
+			if (this.state.isOpen) {
+				return;
+			}
 			var menuElem = this.refs.selectMenuContainer.getDOMNode();
 			var controlElem = this.refs.control.getDOMNode();
 
