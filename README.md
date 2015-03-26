@@ -136,4 +136,4 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2014.
+MIT Licensed. Copyright (c) Jed Watson 2015.
