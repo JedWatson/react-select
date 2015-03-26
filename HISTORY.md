@@ -1,5 +1,14 @@
 # React-Select
 
+## v0.4.4 / 2015-03-26
+
+* fixed; error handling click events when the menu is closed, thanks [Ilya Petrov](https://github.com/muromec)
+* fixed; issue where options will not be filtered in certain conditions, thanks [G. Kay Lee](https://github.com/gsklee)
+
+## v0.4.3 / 2015-03-25
+
+* added tests and updated dependencies
+
 ## v0.4.2 / 2015-03-23
 
 * added; ESLint and contributing guide
