@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.4.5 / 2015-03-28
+
+* fixed; issue with long options overlapping arrow and clear icons, thanks [Rohit Kalkur](https://github.com/rovolution)
+
 ## v0.4.4 / 2015-03-26
 
 * fixed; error handling click events when the menu is closed, thanks [Ilya Petrov](https://github.com/muromec)
