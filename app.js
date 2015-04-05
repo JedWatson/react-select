@@ -4,27 +4,27 @@ Note: ESLint is currently misreporting unused / undeclared variables for JSX.
 These errors can be ignored until the bug has been fixed.
  */
 
-"use strict";
+'use strict';
 
-var React = require("react"),
-    Select = require("react-select");
+var React = require('react'),
+    Select = require('react-select');
 
-var STATES = require("./data/states");
+var STATES = require('./data/states');
 
 function logChange(value) {
-	console.log("Select value changed: " + value);
+	console.log('Select value changed: ' + value);
 }
 
 var CountrySelect = React.createClass({
-	displayName: "CountrySelect",
+	displayName: 'CountrySelect',
 
 	onClick: function onClick() {
 		this.props.onSelect(this.props.value);
 	},
 	render: function render() {
-		var className = this.props.value === this.props.selected ? "active" : "link";
+		var className = this.props.value === this.props.selected ? 'active' : 'link';
 		return React.createElement(
-			"span",
+			'span',
 			{ onClick: this.onClick, className: className },
 			this.props.children
 		);
@@ -32,29 +32,29 @@ var CountrySelect = React.createClass({
 });
 
 var StatesField = React.createClass({
-	displayName: "StatesField",
+	displayName: 'StatesField',
 
 	getDefaultProps: function getDefaultProps() {
 		return {
 			searchable: true,
-			label: "States:"
+			label: 'States:'
 		};
 	},
 	getInitialState: function getInitialState() {
 		return {
-			country: "AU",
-			selectValue: "new-south-wales"
+			country: 'AU',
+			selectValue: 'new-south-wales'
 		};
 	},
 	switchCountry: function switchCountry(newCountry) {
-		console.log("Country changed to " + newCountry);
+		console.log('Country changed to ' + newCountry);
 		this.setState({
 			country: newCountry,
 			selectValue: null
 		});
 	},
 	updateValue: function updateValue(newValue) {
-		logChange("State changed to " + newValue);
+		logChange('State changed to ' + newValue);
 		this.setState({
 			selectValue: newValue || null
 		});
@@ -62,27 +62,27 @@ var StatesField = React.createClass({
 	render: function render() {
 		var ops = STATES[this.state.country];
 		return React.createElement(
-			"div",
+			'div',
 			null,
 			React.createElement(
-				"label",
+				'label',
 				null,
 				this.props.label
 			),
 			React.createElement(Select, { options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
 			React.createElement(
-				"div",
-				{ className: "switcher" },
-				"Country:",
+				'div',
+				{ className: 'switcher' },
+				'Country:',
 				React.createElement(
 					CountrySelect,
-					{ value: "AU", selected: this.state.country, onSelect: this.switchCountry },
-					"Australia"
+					{ value: 'AU', selected: this.state.country, onSelect: this.switchCountry },
+					'Australia'
 				),
 				React.createElement(
 					CountrySelect,
-					{ value: "US", selected: this.state.country, onSelect: this.switchCountry },
-					"US"
+					{ value: 'US', selected: this.state.country, onSelect: this.switchCountry },
+					'US'
 				)
 			)
 		);
@@ -90,25 +90,25 @@ var StatesField = React.createClass({
 });
 
 var RemoteSelectField = React.createClass({
-	displayName: "RemoteSelectField",
+	displayName: 'RemoteSelectField',
 
 	loadOptions: function loadOptions(input, callback) {
 		input = input.toLowerCase();
 
 		var rtn = {
-			options: [{ label: "One", value: "one" }, { label: "Two", value: "two" }, { label: "Three", value: "three" }],
+			options: [{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }],
 			complete: true
 		};
 
-		if (input.slice(0, 1) === "a") {
-			if (input.slice(0, 2) === "ab") {
+		if (input.slice(0, 1) === 'a') {
+			if (input.slice(0, 2) === 'ab') {
 				rtn = {
-					options: [{ label: "AB", value: "ab" }, { label: "ABC", value: "abc" }, { label: "ABCD", value: "abcd" }],
+					options: [{ label: 'AB', value: 'ab' }, { label: 'ABC', value: 'abc' }, { label: 'ABCD', value: 'abcd' }],
 					complete: true
 				};
 			} else {
 				rtn = {
-					options: [{ label: "A", value: "a" }, { label: "AA", value: "aa" }, { label: "AB", value: "ab" }],
+					options: [{ label: 'A', value: 'a' }, { label: 'AA', value: 'aa' }, { label: 'AB', value: 'ab' }],
 					complete: false
 				};
 			}
@@ -122,58 +122,58 @@ var RemoteSelectField = React.createClass({
 	},
 	render: function render() {
 		return React.createElement(
-			"div",
+			'div',
 			null,
 			React.createElement(
-				"label",
+				'label',
 				null,
 				this.props.label
 			),
-			React.createElement(Select, { asyncOptions: this.loadOptions, className: "remote-example" })
+			React.createElement(Select, { asyncOptions: this.loadOptions, className: 'remote-example' })
 		);
 	}
 });
 
 var MultiSelectField = React.createClass({
-	displayName: "MultiSelectField",
+	displayName: 'MultiSelectField',
 
 	render: function render() {
-		var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 		return React.createElement(
-			"div",
+			'div',
 			null,
 			React.createElement(
-				"label",
+				'label',
 				null,
 				this.props.label
 			),
-			React.createElement(Select, { multi: true, placeholder: "Select your favourite(s)", options: ops, onChange: logChange })
+			React.createElement(Select, { multi: true, placeholder: 'Select your favourite(s)', options: ops, onChange: logChange })
 		);
 	}
 });
 
 var SelectedValuesField = React.createClass({
-	displayName: "SelectedValuesField",
+	displayName: 'SelectedValuesField',
 
 	onLabelClick: function onLabelClick(data, event) {
-		console.log(data);
+		console.log(data, event);
 	},
 
 	render: function render() {
-		var ops = [{ label: "Chocolate", value: "chocolate" }, { label: "Vanilla", value: "vanilla" }, { label: "Strawberry", value: "strawberry" }, { label: "Caramel", value: "caramel" }, { label: "Cookies and Cream", value: "cookiescream" }, { label: "Peppermint", value: "peppermint" }];
+		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 		return React.createElement(
-			"div",
+			'div',
 			null,
 			React.createElement(
-				"label",
+				'label',
 				null,
 				this.props.label
 			),
 			React.createElement(Select, {
 				onOptionLabelClick: this.onLabelClick,
-				value: "chocolate,vanilla,strawberry",
+				value: 'chocolate,vanilla,strawberry',
 				multi: true,
-				placeholder: "Select your favourite(s)",
+				placeholder: 'Select your favourite(s)',
 				options: ops,
 				onChange: logChange })
 		);
@@ -181,20 +181,20 @@ var SelectedValuesField = React.createClass({
 });
 
 React.render(React.createElement(
-	"div",
+	'div',
 	null,
 	React.createElement(StatesField, null),
-	React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
-	React.createElement(MultiSelectField, { label: "Multiselect:" }),
-	React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
-	React.createElement(RemoteSelectField, { label: "Remote Options:" })
-), document.getElementById("example"));
+	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
+	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
+	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
+	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
+), document.getElementById('example'));
 
 },{"./data/states":2,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
-exports.AU = [{ value: "australian-capital-territory", label: "Australian Capital Territory" }, { value: "new-south-wales", label: "New South Wales" }, { value: "victoria", label: "Victoria" }, { value: "queensland", label: "Queensland" }, { value: "western-australia", label: "Western Australia" }, { value: "south-australia", label: "South Australia" }, { value: "tasmania", label: "Tasmania" }, { value: "northern-territory", label: "Northern Territory" }];
+exports.AU = [{ value: 'australian-capital-territory', label: 'Australian Capital Territory' }, { value: 'new-south-wales', label: 'New South Wales' }, { value: 'victoria', label: 'Victoria' }, { value: 'queensland', label: 'Queensland' }, { value: 'western-australia', label: 'Western Australia' }, { value: 'south-australia', label: 'South Australia' }, { value: 'tasmania', label: 'Tasmania' }, { value: 'northern-territory', label: 'Northern Territory' }];
 
-exports.US = [{ value: "AL", label: "Alabama" }, { value: "AK", label: "Alaska" }, { value: "AS", label: "American Samoa" }, { value: "AZ", label: "Arizona" }, { value: "AR", label: "Arkansas" }, { value: "CA", label: "California" }, { value: "CO", label: "Colorado" }, { value: "CT", label: "Connecticut" }, { value: "DE", label: "Delaware" }, { value: "DC", label: "District Of Columbia" }, { value: "FM", label: "Federated States Of Micronesia" }, { value: "FL", label: "Florida" }, { value: "GA", label: "Georgia" }, { value: "GU", label: "Guam" }, { value: "HI", label: "Hawaii" }, { value: "ID", label: "Idaho" }, { value: "IL", label: "Illinois" }, { value: "IN", label: "Indiana" }, { value: "IA", label: "Iowa" }, { value: "KS", label: "Kansas" }, { value: "KY", label: "Kentucky" }, { value: "LA", label: "Louisiana" }, { value: "ME", label: "Maine" }, { value: "MH", label: "Marshall Islands" }, { value: "MD", label: "Maryland" }, { value: "MA", label: "Massachusetts" }, { value: "MI", label: "Michigan" }, { value: "MN", label: "Minnesota" }, { value: "MS", label: "Mississippi" }, { value: "MO", label: "Missouri" }, { value: "MT", label: "Montana" }, { value: "NE", label: "Nebraska" }, { value: "NV", label: "Nevada" }, { value: "NH", label: "New Hampshire" }, { value: "NJ", label: "New Jersey" }, { value: "NM", label: "New Mexico" }, { value: "NY", label: "New York" }, { value: "NC", label: "North Carolina" }, { value: "ND", label: "North Dakota" }, { value: "MP", label: "Northern Mariana Islands" }, { value: "OH", label: "Ohio" }, { value: "OK", label: "Oklahoma" }, { value: "OR", label: "Oregon" }, { value: "PW", label: "Palau" }, { value: "PA", label: "Pennsylvania" }, { value: "PR", label: "Puerto Rico" }, { value: "RI", label: "Rhode Island" }, { value: "SC", label: "South Carolina" }, { value: "SD", label: "South Dakota" }, { value: "TN", label: "Tennessee" }, { value: "TX", label: "Texas" }, { value: "UT", label: "Utah" }, { value: "VT", label: "Vermont" }, { value: "VI", label: "Virgin Islands" }, { value: "VA", label: "Virginia" }, { value: "WA", label: "Washington" }, { value: "WV", label: "West Virginia" }, { value: "WI", label: "Wisconsin" }, { value: "WY", label: "Wyoming" }];
+exports.US = [{ value: 'AL', label: 'Alabama' }, { value: 'AK', label: 'Alaska' }, { value: 'AS', label: 'American Samoa' }, { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' }, { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' }, { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' }, { value: 'DC', label: 'District Of Columbia' }, { value: 'FM', label: 'Federated States Of Micronesia' }, { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' }, { value: 'GU', label: 'Guam' }, { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' }, { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' }, { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' }, { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' }, { value: 'ME', label: 'Maine' }, { value: 'MH', label: 'Marshall Islands' }, { value: 'MD', label: 'Maryland' }, { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' }, { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' }, { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' }, { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' }, { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' }, { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' }, { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' }, { value: 'MP', label: 'Northern Mariana Islands' }, { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' }, { value: 'OR', label: 'Oregon' }, { value: 'PW', label: 'Palau' }, { value: 'PA', label: 'Pennsylvania' }, { value: 'PR', label: 'Puerto Rico' }, { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' }, { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' }, { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' }, { value: 'VT', label: 'Vermont' }, { value: 'VI', label: 'Virgin Islands' }, { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }];
 
 },{}]},{},[1]);
