@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "classnames": "^1.2.0",
-    "lodash": "^3.6.0",
-    "react": ">=0.12.0",
+    "lodash": "^3.5.0",
     "react-input-autosize": "^0.4.2"
   },
   "devDependencies": {
@@ -22,7 +21,11 @@
     "eslint-plugin-react": "^2.0.2",
     "gulp": "^3.8.11",
     "jest-cli": "^0.4.0",
+    "react": ">=0.12.0",
     "react-component-gulp-tasks": "^0.4.3"
+  },
+  "peerDependencies": {
+    "react": ">=0.12.0"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
