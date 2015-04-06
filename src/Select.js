@@ -49,7 +49,7 @@ var Select = React.createClass({
 	getDefaultProps: function() {
 		return {
 			value: undefined,
-			options: null,
+			options: undefined,
 			disabled: false,
 			delimiter: ',',
 			asyncOptions: undefined,
@@ -392,10 +392,14 @@ var Select = React.createClass({
 	},
 
 	autoloadAsyncOptions: function() {
-		this.loadAsyncOptions('', {}, function() {});
+		var self = this;
+		this.loadAsyncOptions("", {}, function () {
+			// update with fetched
+			self.setValue(self.props.value);
+		});
 	},
 
-	loadAsyncOptions: function(input, state) {
+	loadAsyncOptions: function(input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
 
 		for (var i = 0; i <= input.length; i++) {
@@ -409,6 +413,7 @@ var Select = React.createClass({
 					filteredOptions: filteredOptions,
 					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 				}, state));
+				if(callback) callback({});
 				return;
 			}
 		}
@@ -429,6 +434,8 @@ var Select = React.createClass({
 				filteredOptions: filteredOptions,
 				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			}, state));
+
+			if(callback) callback({});
 
 		}.bind(this));
 	},
