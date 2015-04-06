@@ -49,7 +49,7 @@ var Select = React.createClass({
 	getDefaultProps: function() {
 		return {
 			value: undefined,
-			options: [],
+			options: null,
 			disabled: false,
 			delimiter: ',',
 			asyncOptions: undefined,
