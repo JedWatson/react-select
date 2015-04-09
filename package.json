@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "classnames": "^1.2.0",
-    "lodash": "^3.5.0",
+    "object-assign": "^2.0.0",
     "react-input-autosize": "^0.4.3"
   },
   "devDependencies": {

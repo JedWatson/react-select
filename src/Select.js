@@ -1,4 +1,4 @@
-var _ = require('lodash'),
+var assign = require('object-assign'),
 	React = require('react'),
 	Input = require('react-input-autosize'),
 	classes = require('classnames'),
@@ -213,7 +213,9 @@ var Select = React.createClass({
 		}
 
 		return values.map(function(val) {
-			return (typeof val === 'string') ? val = _.findWhere(options, { value: val }) || { value: val, label: val } : val;
+			return (typeof val === 'string') ? val = options.filter(function (option) {
+				return option.value === val;
+			})[0] || { value: val, label: val } : val;
 		});
 	},
 
@@ -239,11 +241,13 @@ var Select = React.createClass({
 	},
 
 	popValue: function() {
-		this.setValue(_.initial(this.state.values));
+		this.setValue(this.state.values.slice(0, -1));
 	},
 
 	removeValue: function(value) {
-		this.setValue(_.without(this.state.values, value));
+		this.setValue(this.state.values.filter(function(val){
+			return val !== value;
+		}));
 	},
 
 	clearValue: function(event) {
@@ -386,7 +390,7 @@ var Select = React.createClass({
 				isOpen: true,
 				inputValue: event.target.value,
 				filteredOptions: filteredOptions,
-				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
+				focusedOption: filteredOptions.indexOf(this.state.focusedOption) > -1 ? this.state.focusedOption : filteredOptions[0]
 			}, this._bindCloseMenuIfClickedOutside);
 		}
 	},
@@ -408,11 +412,13 @@ var Select = React.createClass({
 				var options = this._optionsCache[cacheKey].options;
 				var filteredOptions = this.filterOptions(options);
 
-				this.setState(_.extend({
+				// React already takes care of extending state.
+				// `setState` does not replace, but extends state.
+				this.setState(assign({
 					options: options,
 					filteredOptions: filteredOptions,
-					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
-				}, state));
+					focusedOption: filteredOptions.indexOf(this.state.focusedOption) > -1 ? this.state.focusedOption : filteredOptions[0]
+				}, this.state));
 				if(callback) callback({});
 				return;
 			}
@@ -429,11 +435,13 @@ var Select = React.createClass({
 			}
 			var filteredOptions = this.filterOptions(data.options);
 
-			this.setState(_.extend({
+			// React already takes care of extending state.
+			// `setState` does not replace, but extends state.
+			this.setState(assign({
 				options: data.options,
 				filteredOptions: filteredOptions,
-				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
-			}, state));
+				focusedOption: filteredOptions.indexOf(this.state.focusedOption) > -1 ? this.state.focusedOption : filteredOptions[0]
+			}, this.state));
 
 			if(callback) callback({});
 
@@ -453,7 +461,7 @@ var Select = React.createClass({
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
 			var filterOption = function(op) {
-				if (this.props.multi && _.contains(exclude, op.value)) return false;
+				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
 				var valueTest = String(op.value), labelTest = String(op.label);
 				return !filterValue || (this.props.matchPos === 'start') ? (
@@ -463,8 +471,8 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'label' && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
 					(this.props.matchProp !== 'value' && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
 				);
-			};
-			return _.filter(options, filterOption, this);
+			}.bind(this);
+			return (options||[]).filter(filterOption);
 		}
 	},
 
@@ -546,7 +554,7 @@ var Select = React.createClass({
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
 
-		var ops = _.map(this.state.filteredOptions, function(op) {
+		var ops = this.state.filteredOptions.map(function(op) {
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
@@ -562,7 +570,7 @@ var Select = React.createClass({
 
 			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
 
-		}, this);
+		}.bind(this));
 
 		return ops.length ? ops : (
 			<div className="Select-noresults">
@@ -594,7 +602,7 @@ var Select = React.createClass({
 
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
-				var props = _.extend({
+				var props = assign({
 					key: val.value,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
@@ -629,7 +637,7 @@ var Select = React.createClass({
 		}
 
 		var input;
-		var inputProps = _.extend({
+		var inputProps = assign({
 			ref: 'input',
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
