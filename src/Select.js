@@ -412,13 +412,11 @@ var Select = React.createClass({
 				var options = this._optionsCache[cacheKey].options;
 				var filteredOptions = this.filterOptions(options);
 
-				// React already takes care of extending state.
-				// `setState` does not replace, but extends state.
-				this.setState(assign({
+				this.setState({
 					options: options,
 					filteredOptions: filteredOptions,
 					focusedOption: filteredOptions.indexOf(this.state.focusedOption) > -1 ? this.state.focusedOption : filteredOptions[0]
-				}, this.state));
+				});
 				if(callback) callback({});
 				return;
 			}
@@ -435,13 +433,11 @@ var Select = React.createClass({
 			}
 			var filteredOptions = this.filterOptions(data.options);
 
-			// React already takes care of extending state.
-			// `setState` does not replace, but extends state.
-			this.setState(assign({
+			this.setState({
 				options: data.options,
 				filteredOptions: filteredOptions,
 				focusedOption: filteredOptions.indexOf(this.state.focusedOption) > -1 ? this.state.focusedOption : filteredOptions[0]
-			}, this.state));
+			});
 
 			if(callback) callback({});
 
