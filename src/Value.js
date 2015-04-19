@@ -31,7 +31,7 @@ var Option = React.createClass({
 				<span className="Select-item-icon"
 					onMouseDown={this.blockEvent}
 					onClick={this.props.onRemove}
-					onTouchEnd={this.props.onRemove}>&times;</span>
+					onTouchEnd={this.props.onRemove}>{String.fromCharCode(215)}</span>
 				<span className="Select-item-label">{label}</span>
 			</div>
 		);
