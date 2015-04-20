@@ -408,11 +408,11 @@ var Select = React.createClass({
 				var options = this._optionsCache[cacheKey].options;
 				var filteredOptions = this.filterOptions(options);
 
-				this.setState(_.extend({
+				this.setState({
 					options: options,
 					filteredOptions: filteredOptions,
 					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
-				}, state));
+				});
 				if(callback) callback({});
 				return;
 			}
