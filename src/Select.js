@@ -304,6 +304,19 @@ var Select = React.createClass({
 		});
 		this._openAfterFocus = false;
 
+		if (this.props.asyncOptions) {
+			this.setState({
+				isLoading: true,
+				inputValue: event.target.value,
+				options: [],
+				filteredOptions: []
+			});
+
+			this.loadAsyncOptions(event.target.value, {
+				isLoading: false
+			});
+		}
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -395,7 +408,11 @@ var Select = React.createClass({
 		var self = this;
 		this.loadAsyncOptions("", {}, function () {
 			// update with fetched
-			self.setValue(self.props.value);
+			this._focusAfterUpdate = false;
+			var newState = this.getStateFromValue(self.props.value);
+			newState.isOpen = false;
+			this.fireChangeEvent(newState);
+			this.setState(newState);
 		});
 	},
 
