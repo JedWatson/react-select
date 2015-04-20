@@ -393,7 +393,7 @@ var Select = React.createClass({
 
 	autoloadAsyncOptions: function() {
 		var self = this;
-		this.loadAsyncOptions("", {}, function () {
+		this.loadAsyncOptions('', {}, function () {
 			// update with fetched
 			self.setValue(self.props.value);
 		});
