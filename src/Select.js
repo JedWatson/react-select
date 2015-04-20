@@ -12,6 +12,7 @@ var Select = React.createClass({
 
 	propTypes: {
 		value: React.PropTypes.any,                // initial field value
+		disableCache: React.PropTypes.bool,		   // if need to disable options cache
 		multi: React.PropTypes.bool,               // multi-value input
 		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		options: React.PropTypes.array,            // array of options
@@ -51,6 +52,7 @@ var Select = React.createClass({
 			value: undefined,
 			options: undefined,
 			disabled: false,
+			disableCache: false,
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
@@ -304,6 +306,19 @@ var Select = React.createClass({
 		});
 		this._openAfterFocus = false;
 
+		if (this.props.asyncOptions) {
+			this.setState({
+				isLoading: true,
+				inputValue: event.target.value,
+				options: [],
+				filteredOptions: []
+			});
+
+			this.loadAsyncOptions(event.target.value, {
+				isLoading: false
+			});
+		}
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -395,27 +410,33 @@ var Select = React.createClass({
 		var self = this;
 		this.loadAsyncOptions('', {}, function () {
 			// update with fetched
-			self.setValue(self.props.value);
+			this._focusAfterUpdate = false;
+			var newState = self.getStateFromValue(self.props.value);
+			newState.isOpen = false;
+			this.fireChangeEvent(newState);
+			this.setState(newState);
 		});
 	},
 
 	loadAsyncOptions: function(input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
 
-		for (var i = 0; i <= input.length; i++) {
-			var cacheKey = input.slice(0, i);
-			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
-				var options = this._optionsCache[cacheKey].options;
-				var filteredOptions = this.filterOptions(options);
-
-				this.setState(_.extend({
-					options: options,
-					filteredOptions: filteredOptions,
-					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
-				}, state));
-				if(callback) callback({});
-				return;
-			}
+		if (this.props.disableCache !== true) {
+			for (var i = 0; i <= input.length; i++) {
+				var cacheKey = input.slice(0, i);
+				if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
+					var options = this._optionsCache[cacheKey].options;
+					var filteredOptions = this.filterOptions(options);
+	
+					this.setState(_.extend({
+						options: options,
+						filteredOptions: filteredOptions,
+						focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
+					}, state));
+					if(callback) callback({});
+					return;
+				}
+			}            
 		}
 
 		this.props.asyncOptions(input, function(err, data) {
