@@ -94,6 +94,7 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		clearCache: React.PropTypes.bool, // Clear async cache
 
 		/*
   * Allow user to make option label clickable. When this handler is defined we should
@@ -108,7 +109,7 @@ var Select = React.createClass({
 	getDefaultProps: function getDefaultProps() {
 		return {
 			value: undefined,
-			options: [],
+			options: undefined,
 			disabled: false,
 			delimiter: ',',
 			asyncOptions: undefined,
@@ -126,6 +127,7 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			inputProps: {},
+			clearCache: false,
 
 			onOptionLabelClick: undefined
 		};
@@ -459,10 +461,14 @@ var Select = React.createClass({
 	},
 
 	autoloadAsyncOptions: function autoloadAsyncOptions() {
-		this.loadAsyncOptions('', {}, function () {});
+		var self = this;
+		this.loadAsyncOptions('', {}, function () {
+			// update with fetched
+			self.setValue(self.props.value);
+		});
 	},
 
-	loadAsyncOptions: function loadAsyncOptions(input, state) {
+	loadAsyncOptions: function loadAsyncOptions(input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
 
 		for (var i = 0; i <= input.length; i++) {
@@ -476,6 +482,7 @@ var Select = React.createClass({
 					filteredOptions: filteredOptions,
 					focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 				}, state));
+				if (callback) callback({});
 				return;
 			}
 		}
@@ -496,6 +503,8 @@ var Select = React.createClass({
 				filteredOptions: filteredOptions,
 				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
 			}, state));
+
+			if (callback) callback({});
 		}).bind(this));
 	},
 
@@ -647,6 +656,13 @@ var Select = React.createClass({
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
+
+		if (this.props.clearCache) {
+			this._optionsCache = {};
+			this.setProps({
+				clearCache: false
+			});
+		}
 
 		var value = [];
 
