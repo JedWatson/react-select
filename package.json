@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "classnames": "^1.2.0",
-    "lodash": "^3.7.0",
     "react-input-autosize": "^0.4.3"
   },
   "devDependencies": {
@@ -30,8 +29,7 @@
   "browserify-shim": {
     "classnames": "global:classNames",
     "react": "global:React",
-    "react-input-autosize": "global:AutosizeInput",
-    "lodash": "global:_"
+    "react-input-autosize": "global:AutosizeInput"
   },
   "scripts": {
     "test": "jest; true",
