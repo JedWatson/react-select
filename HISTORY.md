@@ -1,5 +1,13 @@
 # React-Select
 
+## v0.4.7 / 2015-04-21
+
+* improved; lodash is no longer a dependency, thanks [Daniel Lo Nigro](Daniel15)
+
+## v0.4.6 / 2015-04-06
+
+* updated; dependencies, build process and input-autosize component
+
 ## v0.4.5 / 2015-03-28
 
 * fixed; issue with long options overlapping arrow and clear icons, thanks [Rohit Kalkur](https://github.com/rovolution)
