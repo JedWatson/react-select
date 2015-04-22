@@ -412,7 +412,7 @@ var Select = React.createClass({
 
 		var filterValue = this._optionsFilterString;
 		var exclude = (values || this.state.values).map(function (i) {
-			return i.value;
+			return i[this.props.valueFieldName];
 		});
 		if (this.props.filterOptions) {
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
@@ -558,6 +558,7 @@ var Select = React.createClass({
 			this.state.values.forEach(function (val) {
 				var props = _.extend({
 					key: val[this.props.valueFieldName],
+					label: val[this.props.labelFieldName],
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
 					onRemove: this.removeValue.bind(this, val)
