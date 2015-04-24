@@ -261,14 +261,14 @@ var Select = React.createClass({
 		this.setValue(null);
 	},
 
-	resetValue: function() {
+	resetValue: function resetValue() {
 		if (this.props.resetToValueAndPlaceholder) {
-			this.setValue(this.state.value);
-		} else {
 			this.setValue([{
 				label: this.state.placeholder,
 				value: this.state.value
 			}]);
+		} else {
+			this.setValue(this.state.value);
 		}
 	},
 
