@@ -603,15 +603,15 @@ var Select = React.createClass({
 		if (ops.length) {
 			return ops;
 		} else {
-			var noResultsText = (function() {
-	            if (this.state.isLoading) {
-	                return this.props.searchingText;
-	            } else if (this.state.inputValue || !this.props.asyncOptions) {
-	                return this.props.noResultsText;
-	            } else {
-	                return this.props.searchPromptText;
-	            }
-	        }.bind(this))();
+			var noResultsText = (function () {
+				if (this.state.isLoading) {
+					return this.props.searchingText;
+				} else if (this.state.inputValue || !this.props.asyncOptions) {
+					return this.props.noResultsText;
+				} else {
+					return this.props.searchPromptText;
+				}
+			}.bind(this))();
 			return (
 				<div className="Select-noresults">
 					{noResultsText}
