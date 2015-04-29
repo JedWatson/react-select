@@ -118,11 +118,11 @@ var Select = React.createClass({
 
 		this._bindCloseMenuIfClickedOutside = function() {
 			document.addEventListener('click', this._closeMenuIfClickedOutside);
-		};
+		}.bind(this);
 
 		this._unbindCloseMenuIfClickedOutside = function() {
 			document.removeEventListener('click', this._closeMenuIfClickedOutside);
-		};
+		}.bind(this);
 	},
 
 	componentWillUnmount: function() {
