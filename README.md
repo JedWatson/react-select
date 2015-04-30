@@ -33,7 +33,7 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Lodash.
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React.
 
 ```
 npm install react-select --save
