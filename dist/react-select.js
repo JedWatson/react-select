@@ -395,7 +395,7 @@ var Select = React.createClass({
 			this.loadAsyncOptions(event.target.value, {
 				isLoading: false,
 				isOpen: true
-			}, this._bindCloseMenuIfClickedOutside);
+			}, this._bindCloseMenuIfClickedOutside.bind(this));
 		} else {
 			var filteredOptions = this.filterOptions(this.state.options);
 			this.setState({
@@ -403,7 +403,7 @@ var Select = React.createClass({
 				inputValue: event.target.value,
 				filteredOptions: filteredOptions,
 				focusedOption: _.contains(filteredOptions, this.state.focusedOption) ? this.state.focusedOption : filteredOptions[0]
-			}, this._bindCloseMenuIfClickedOutside);
+			}, this._bindCloseMenuIfClickedOutside.bind(this));
 		}
 	},
 
