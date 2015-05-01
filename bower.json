@@ -12,6 +12,10 @@
     "globals",
     "node"
   ],
+  "dependencies": {
+    "classnames": "^1.2.2",
+    "react-input-autosize": "^0.4.3"
+  },
   "keywords": [
     "react",
     "react-component",
