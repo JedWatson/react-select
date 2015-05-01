@@ -175,13 +175,13 @@ var Select = React.createClass({
 			}
 		}).bind(this);
 
-		this._bindCloseMenuIfClickedOutside = function () {
+		this._bindCloseMenuIfClickedOutside = (function () {
 			document.addEventListener('click', this._closeMenuIfClickedOutside);
-		};
+		}).bind(this);
 
-		this._unbindCloseMenuIfClickedOutside = function () {
+		this._unbindCloseMenuIfClickedOutside = (function () {
 			document.removeEventListener('click', this._closeMenuIfClickedOutside);
-		};
+		}).bind(this);
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -206,7 +206,7 @@ var Select = React.createClass({
 	},
 
 	componentDidUpdate: function componentDidUpdate() {
-		if (this._focusAfterUpdate) {
+		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
 			this._focusTimeout = setTimeout((function () {
 				this.getInputNode().focus();
