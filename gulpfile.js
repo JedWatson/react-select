@@ -5,7 +5,10 @@ var taskConfig = {
 
 	component: {
 		name: 'Select',
-		less: 'less/default.less'
+		less: {
+			path: 'less',
+			entry: 'default.less'
+		}
 	},
 
 	example: {
