@@ -1,8 +1,16 @@
 # React-Select
 
+## v0.4.8 / 2015-05-02
+
+* fixed; restored `dist/default.css`
+* fixed; standalone example works again
+* fixed; clarified dependency documentation and added dependencies for Bower
+* fixed; Scoping issues in `_bindCloseMenuIfClickedOutside`, thanks [bannaN](https://github.com/bannaN)
+* fixed; Doesnt try to set focus afterupdate if component is disabled, thanks [bannaN](https://github.com/bannaN)
+
 ## v0.4.7 / 2015-04-21
 
-* improved; lodash is no longer a dependency, thanks [Daniel Lo Nigro](Daniel15)
+* improved; lodash is no longer a dependency, thanks [Daniel Lo Nigro](https://github.com/Daniel15)
 
 ## v0.4.6 / 2015-04-06
 
