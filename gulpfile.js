@@ -14,6 +14,7 @@ var taskConfig = {
 	example: {
 		src: 'examples/src',
 		dist: 'examples/dist',
+		standalone: true,
 		files: [
 			'index.html',
 			'standalone.html',
