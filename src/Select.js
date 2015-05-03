@@ -410,11 +410,11 @@ var Select = React.createClass({
 		var self = this;
 		this.loadAsyncOptions("", {}, function () {
 			// update with fetched
-			this._focusAfterUpdate = false;
+			self._focusAfterUpdate = false;
 			var newState = self.getStateFromValue(self.props.value);
 			newState.isOpen = false;
-			this.fireChangeEvent(newState);
-			this.setState(newState);
+			self.fireChangeEvent(newState);
+			self.setState(newState);
 		});
 	},
 
