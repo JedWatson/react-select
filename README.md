@@ -26,7 +26,7 @@ This project is quite stable and ready for production use, however there are pla
 - Documentation website (currently just examples)
 - Custom options rendering
 
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
