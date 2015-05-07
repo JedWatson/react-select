@@ -136,6 +136,11 @@ You can also completely replace the method used to filter either a single option
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
 
+# Contributing
+
+See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
+
+
 # License
 
 MIT Licensed. Copyright (c) Jed Watson 2015.
