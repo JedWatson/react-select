@@ -126,17 +126,19 @@ var MultiSelectField = React.createClass({
 			{ label: 'Cookies and Cream', value: 'cookiescream' },
 			{ label: 'Peppermint', value: 'peppermint' }
 		];
-		return <div>
-			<label>{this.props.label}</label>
-			<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} />
-		</div>;
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} />
+			</div>
+		);
 	}
 });
 
 var SelectedValuesField = React.createClass({
 
 	onLabelClick: function (data, event) {
-		console.log(data);
+		console.log(data, event);
 	},
 
 	render: function() {
@@ -148,16 +150,18 @@ var SelectedValuesField = React.createClass({
 			{ label: 'Cookies and Cream', value: 'cookiescream' },
 			{ label: 'Peppermint', value: 'peppermint' }
 		];
-		return <div>
-			<label>{this.props.label}</label>
-			<Select
-				onOptionLabelClick={this.onLabelClick}
-				value="chocolate,vanilla,strawberry"
-				multi={true}
-				placeholder="Select your favourite(s)"
-				options={ops}
-				onChange={logChange} />
-		</div>;
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					onOptionLabelClick={this.onLabelClick}
+					value="chocolate,vanilla,strawberry"
+					multi={true}
+					placeholder="Select your favourite(s)"
+					options={ops}
+					onChange={logChange} />
+			</div>
+		);
 	}
 });
 

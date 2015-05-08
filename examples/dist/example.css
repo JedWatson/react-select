@@ -158,6 +158,7 @@ label {
   position: absolute;
   top: 0;
   left: 0;
+  right: -15px;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -185,9 +186,9 @@ label {
   outline: none;
 }
 .Select-loading {
-  -webkit-animation: spin 400ms infinite linear;
-  -o-animation: spin 400ms infinite linear;
-  animation: spin 400ms infinite linear;
+  -webkit-animation: Select-animation-spin 400ms infinite linear;
+  -o-animation: Select-animation-spin 400ms infinite linear;
+  animation: Select-animation-spin 400ms infinite linear;
   width: 16px;
   height: 16px;
   box-sizing: border-box;
@@ -323,12 +324,12 @@ label {
 .Select-item-icon:active {
   background-color: #c9e6f2;
 }
-@keyframes spin {
+@keyframes Select-animation-spin {
   to {
     transform: rotate(1turn);
   }
 }
-@-webkit-keyframes spin {
+@-webkit-keyframes Select-animation-spin {
   to {
     -webkit-transform: rotate(1turn);
   }

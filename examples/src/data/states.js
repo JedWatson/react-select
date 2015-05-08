@@ -10,7 +10,7 @@ exports.AU = [
 ];
 
 exports.US = [
-    { value: 'AL', label: 'Alabama' },
+    { value: 'AL', label: 'Alabama', disabled: true },
     { value: 'AK', label: 'Alaska' },
     { value: 'AS', label: 'American Samoa' },
     { value: 'AZ', label: 'Arizona' },

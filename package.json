@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.4.2",
+  "version": "0.4.8",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -10,27 +10,39 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "classnames": "^1.2.0",
-    "lodash": "^3.5.0",
-    "react": ">=0.12.0",
-    "react-input-autosize": "^0.4.0"
+    "classnames": "^1.2.2",
+    "react-input-autosize": "^0.4.3"
   },
   "devDependencies": {
-    "babel-eslint": "^2.0.2",
-    "eslint": "^0.17.1",
-    "eslint-plugin-react": "^1.5.0",
+    "babel-eslint": "^3.0.1",
+    "babel-jest": "^5.0.1",
+    "eslint": "^0.20.0",
+    "eslint-plugin-react": "^2.2.0",
     "gulp": "^3.8.11",
-    "react-component-gulp-tasks": "^0.4.2"
+    "jest-cli": "^0.4.0",
+    "react": ">=0.13.2",
+    "react-component-gulp-tasks": "^0.6.1"
+  },
+  "peerDependencies": {
+    "react": ">=0.12.0"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
     "react": "global:React",
-    "react-input-autosize": "global:AutosizeInput",
-    "lodash": "global:_"
+    "react-input-autosize": "global:AutosizeInput"
   },
   "scripts": {
-    "test": "echo \"no tests yet\" && exit 0",
+    "test": "jest; true",
     "lint": "eslint ./; true"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
+    "testPathDirs": [
+      "<rootDir>/src"
+    ]
   },
   "keywords": [
     "react",

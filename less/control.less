@@ -2,6 +2,9 @@
 // Control
 // ------------------------------
 
+.Select {
+	position: relative;
+}
 
 // base
 
@@ -62,6 +65,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	right: -(@select-arrow-width + @select-padding-horizontal);
 
 	// crop text
 	max-width: 100%;

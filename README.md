@@ -1,7 +1,7 @@
 React-Select
 ============
 
-A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
+A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
 ## Demo & Examples
@@ -20,26 +20,28 @@ Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 ## Project Status
 
-This is currently a work in progress.
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
-
-TODO:
+This project is quite stable and ready for production use, however there are plans to improve it including:
 
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
 - Custom options rendering
+
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Lodash.
-
 ```
 npm install react-select --save
 ```
+
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies: 
+
+* [React](http://facebook.github.io/react/)
+* [classNames](http://jedwatson.github.io/classnames/)
+* [react-input-autosize](https://github.com/JedWatson/react-input-autosize)
 
 
 ## Usage
@@ -134,6 +136,11 @@ You can also completely replace the method used to filter either a single option
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
 
+# Contributing
+
+See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
+
+
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2014.
+MIT Licensed. Copyright (c) Jed Watson 2015.

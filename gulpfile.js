@@ -5,12 +5,16 @@ var taskConfig = {
 
 	component: {
 		name: 'Select',
-		less: 'less/default.less'
+		less: {
+			path: 'less',
+			entry: 'default.less'
+		}
 	},
 
 	example: {
 		src: 'examples/src',
 		dist: 'examples/dist',
+		standalone: true,
 		files: [
 			'index.html',
 			'standalone.html',
