@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "classnames": "^1.2.2",
+    "pinyin": "^2.3.3",
     "react-input-autosize": "^0.4.3"
   },
   "devDependencies": {
