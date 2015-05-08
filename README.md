@@ -135,6 +135,36 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+### Further options
+
+
+	Property			|	Type		|	Description
+:-----------------------|:--------------|:--------------------------------
+	value 				|	any			|	 initial field value
+	multi 				|	bool		|	 multi-value input
+	disabled 			|	bool		|	 whether the Select is disabled or not
+	options 			|	array		|	 array of options
+	delimiter 			|	string		|	 delimiter to use to join multiple values
+	asyncOptions 		|	func		|	 function to call to get options
+	autoload 			|	bool		|	 whether to auto-load the default async options set
+	placeholder 		|	string		|	 field placeholder, displayed when there's no value
+	noResultsText 		|	string		|	 placeholder displayed when there are no matching search results
+	clearable 			|	bool		|	 should it be possible to reset value
+	clearValueText 		|	string		|	 title for the "clear" control
+	clearAllText 		|	string		|	 title for the "clear" control when multi: true
+	searchable 			|	bool		|	 whether to enable searching feature or not
+	searchPromptText 	|	string		|	 label to prompt for search input
+	name 				|	string		|	 field name, for hidden <input /> tag
+	onChange 			|	func		|	 onChange handler: function(newValue) {}
+	onFocus 			|	func		|	 onFocus handler: function(event) {}
+	onBlur 				|	func		|	 onBlur handler: function(event) {}
+	className 			|	string		|	 className for the outer element
+	filterOption 		|	func		|	 method to filter a single option: function(option, filterString)
+	filterOptions 		|	func		|	 method to filter the options array: function([options], filterString, [values])
+	matchPos 			|	string		|	 (any, start) match the start or entire string when filtering
+	matchProp 			|	string		|	 (any, label, value) which option property to filter on
+	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+
 
 # Contributing
 
