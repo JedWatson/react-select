@@ -98,31 +98,32 @@ var Select = React.createClass({
 			this.autoloadAsyncOptions();
 		}
 
+		var self = this;
 		this._closeMenuIfClickedOutside = function(event) {
-			if (!this.state.isOpen) {
+			if (!self.state.isOpen) {
 				return;
 			}
-			var menuElem = this.refs.selectMenuContainer.getDOMNode();
-			var controlElem = this.refs.control.getDOMNode();
+			var menuElem = self.refs.selectMenuContainer.getDOMNode();
+			var controlElem = self.refs.control.getDOMNode();
 
-			var eventOccuredOutsideMenu = this.clickedOutsideElement(menuElem, event);
-			var eventOccuredOutsideControl = this.clickedOutsideElement(controlElem, event);
+			var eventOccuredOutsideMenu = self.clickedOutsideElement(menuElem, event);
+			var eventOccuredOutsideControl = self.clickedOutsideElement(controlElem, event);
 
 			// Hide dropdown menu if click occurred outside of menu
 			if (eventOccuredOutsideMenu && eventOccuredOutsideControl) {
-				this.setState({
+				self.setState({
 					isOpen: false
-				}, this._unbindCloseMenuIfClickedOutside);
+				}, self._unbindCloseMenuIfClickedOutside);
 			}
-		}.bind(this);
+		};
 
-		this._bindCloseMenuIfClickedOutside = (function() {
-			document.addEventListener('click', this._closeMenuIfClickedOutside);
-		}).bind(this);
+		this._bindCloseMenuIfClickedOutside = function() {
+			document.addEventListener('click', self._closeMenuIfClickedOutside);
+		};
 
-		this._unbindCloseMenuIfClickedOutside = (function() {
-			document.removeEventListener('click', this._closeMenuIfClickedOutside);
-		}).bind(this);
+		this._unbindCloseMenuIfClickedOutside = function() {
+			document.removeEventListener('click', self._closeMenuIfClickedOutside);
+		};
 	},
 
 	componentWillUnmount: function() {
@@ -147,12 +148,15 @@ var Select = React.createClass({
 	},
 
 	componentDidUpdate: function() {
+		var self = this;
+
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
+
 			this._focusTimeout = setTimeout(function() {
-				this.getInputNode().focus();
-				this._focusAfterUpdate = false;
-			}.bind(this), 50);
+				self.getInputNode().focus();
+				self._focusAfterUpdate = false;
+			}, 50);
 		}
 
 		if (this._focusedOptionReveal) {
@@ -320,12 +324,15 @@ var Select = React.createClass({
 	},
 
 	handleInputBlur: function(event) {
+		var self = this;
+
 		this._blurTimeout = setTimeout(function() {
-			if (this._focusAfterUpdate) return;
-			this.setState({
+			if (self._focusAfterUpdate) return;
+
+			self.setState({
 				isFocused: false
 			});
-		}.bind(this), 50);
+		}, 50);
 
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
@@ -445,32 +452,33 @@ var Select = React.createClass({
 			}
 		}
 
+		var self = this;
 		this.props.asyncOptions(input, function(err, data) {
 
 			if (err) throw err;
 
-			this._optionsCache[input] = data;
+			self._optionsCache[input] = data;
 
-			if (thisRequestId !== this._currentRequestId) {
+			if (thisRequestId !== self._currentRequestId) {
 				return;
 			}
-			var filteredOptions = this.filterOptions(data.options);
+			var filteredOptions = self.filterOptions(data.options);
 
 			var newState = {
 				options: data.options,
 				filteredOptions: filteredOptions,
-				focusedOption: this._getNewFocusedOption(filteredOptions)
+				focusedOption: self._getNewFocusedOption(filteredOptions)
 			};
 			for (var key in state) {
 				if (state.hasOwnProperty(key)) {
 					newState[key] = state[key];
 				}
 			}
-			this.setState(newState);
+			self.setState(newState);
 
 			if(callback) callback({});
 
-		}.bind(this));
+		});
 	},
 
 	filterOptions: function(options, values) {
