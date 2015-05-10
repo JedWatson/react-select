@@ -34,6 +34,8 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		createable: React.PropTypes.bool,          // whether a new option can be created by giving a name
+		createText: React.PropTypes.string,        // text to be displayed after the new option
 
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
@@ -66,6 +68,8 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			inputProps: {},
+			createable: false,
+			createText: '(create new)',
 
 			onOptionLabelClick: undefined
 		};
@@ -410,6 +414,8 @@ var Select = React.createClass({
 			}, this._bindCloseMenuIfClickedOutside);
 		} else {
 			var filteredOptions = this.filterOptions(this.state.options);
+			filteredOptions = this.addCreateOption(filteredOptions, event.target.value);
+
 			this.setState({
 				isOpen: true,
 				inputValue: event.target.value,
@@ -435,6 +441,7 @@ var Select = React.createClass({
 			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
 				var options = this._optionsCache[cacheKey].options;
 				var filteredOptions = this.filterOptions(options);
+				filteredOptions = this.addCreateOption(filteredOptions, input);
 
 				var newState = {
 					options: options,
@@ -463,6 +470,7 @@ var Select = React.createClass({
 				return;
 			}
 			var filteredOptions = self.filterOptions(data.options);
+			filteredOptions = self.addCreateOption(filteredOptions, input);
 
 			var newState = {
 				options: data.options,
@@ -623,6 +631,17 @@ var Select = React.createClass({
 		if (handler) {
 			handler(value, event);
 		}
+	},
+
+	addCreateOption: function(options, input) {
+		options = _.cloneDeep(options);
+		if (this.props.createable && input && !_.findWhere(options, {'label': input})) {
+			options.push({
+				'value': input,
+				'label': input + ' ' + this.props.createText
+			});
+		}
+		return options;
 	},
 
 	render: function() {

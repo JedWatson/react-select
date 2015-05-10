@@ -269,6 +269,10 @@ label {
   background-color: #f2f9fc;
   color: #333333;
 }
+.Select-option.is-disabled {
+  color: #cccccc;
+  cursor: not-allowed;
+}
 .Select-noresults {
   box-sizing: border-box;
   color: #999999;
