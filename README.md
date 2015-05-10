@@ -1,7 +1,7 @@
 React-Select
 ============
 
-A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
+A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
 ## Demo & Examples
@@ -20,26 +20,28 @@ Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 ## Project Status
 
-This is currently a work in progress.
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
-
-TODO:
+This project is quite stable and ready for production use, however there are plans to improve it including:
 
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
 - Custom options rendering
+
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Lodash.
-
 ```
 npm install react-select --save
 ```
+
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies: 
+
+* [React](http://facebook.github.io/react/)
+* [classNames](http://jedwatson.github.io/classnames/)
+* [react-input-autosize](https://github.com/JedWatson/react-input-autosize)
 
 
 ## Usage
@@ -133,7 +135,42 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+### Further options
+
+
+	Property			|	Type		|	Description
+:-----------------------|:--------------|:--------------------------------
+	value 				|	any			|	 initial field value
+	multi 				|	bool		|	 multi-value input
+	disabled 			|	bool		|	 whether the Select is disabled or not
+	options 			|	array		|	 array of options
+	delimiter 			|	string		|	 delimiter to use to join multiple values
+	asyncOptions 		|	func		|	 function to call to get options
+	autoload 			|	bool		|	 whether to auto-load the default async options set
+	placeholder 		|	string		|	 field placeholder, displayed when there's no value
+	noResultsText 		|	string		|	 placeholder displayed when there are no matching search results
+	clearable 			|	bool		|	 should it be possible to reset value
+	clearValueText 		|	string		|	 title for the "clear" control
+	clearAllText 		|	string		|	 title for the "clear" control when multi: true
+	searchable 			|	bool		|	 whether to enable searching feature or not
+	searchPromptText 	|	string		|	 label to prompt for search input
+	name 				|	string		|	 field name, for hidden <input /> tag
+	onChange 			|	func		|	 onChange handler: function(newValue) {}
+	onFocus 			|	func		|	 onFocus handler: function(event) {}
+	onBlur 				|	func		|	 onBlur handler: function(event) {}
+	className 			|	string		|	 className for the outer element
+	filterOption 		|	func		|	 method to filter a single option: function(option, filterString)
+	filterOptions 		|	func		|	 method to filter the options array: function([options], filterString, [values])
+	matchPos 			|	string		|	 (any, start) match the start or entire string when filtering
+	matchProp 			|	string		|	 (any, label, value) which option property to filter on
+	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+
+
+# Contributing
+
+See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
+
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2014.
+MIT Licensed. Copyright (c) Jed Watson 2015.

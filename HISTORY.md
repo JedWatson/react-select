@@ -1,5 +1,34 @@
 # React-Select
 
+## v0.4.8 / 2015-05-02
+
+* fixed; restored `dist/default.css`
+* fixed; standalone example works again
+* fixed; clarified dependency documentation and added dependencies for Bower
+* fixed; Scoping issues in `_bindCloseMenuIfClickedOutside`, thanks [bannaN](https://github.com/bannaN)
+* fixed; Doesnt try to set focus afterupdate if component is disabled, thanks [bannaN](https://github.com/bannaN)
+
+## v0.4.7 / 2015-04-21
+
+* improved; lodash is no longer a dependency, thanks [Daniel Lo Nigro](https://github.com/Daniel15)
+
+## v0.4.6 / 2015-04-06
+
+* updated; dependencies, build process and input-autosize component
+
+## v0.4.5 / 2015-03-28
+
+* fixed; issue with long options overlapping arrow and clear icons, thanks [Rohit Kalkur](https://github.com/rovolution)
+
+## v0.4.4 / 2015-03-26
+
+* fixed; error handling click events when the menu is closed, thanks [Ilya Petrov](https://github.com/muromec)
+* fixed; issue where options will not be filtered in certain conditions, thanks [G. Kay Lee](https://github.com/gsklee)
+
+## v0.4.3 / 2015-03-25
+
+* added tests and updated dependencies
+
 ## v0.4.2 / 2015-03-23
 
 * added; ESLint and contributing guide

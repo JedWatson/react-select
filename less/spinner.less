@@ -3,7 +3,7 @@
 // ------------------------------
 
 .Select-spinner(@size, @orbit, @satellite) {
-	.animation( spin 400ms infinite linear );
+	.animation( Select-animation-spin 400ms infinite linear );
 	.square(@size);
 	box-sizing: border-box;
 	border-radius: 50%;
@@ -14,9 +14,9 @@
 	
 }
 
-@keyframes spin {
+@keyframes Select-animation-spin {
 	to { transform: rotate(1turn); }
 }
-@-webkit-keyframes spin {
+@-webkit-keyframes Select-animation-spin {
 	to { -webkit-transform: rotate(1turn); }
 }
