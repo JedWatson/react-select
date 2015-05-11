@@ -176,6 +176,10 @@ var Select = React.createClass({
 		}
 	},
 
+	focus: function() {
+		this.getInputNode().focus();
+	},
+
 	clickedOutsideElement: function(element, event) {
 		var eventTarget = (event.target) ? event.target : event.srcElement;
 		while (eventTarget != null) {
