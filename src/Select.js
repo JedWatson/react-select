@@ -1,7 +1,7 @@
-var React = require('react'),
-	Input = require('react-input-autosize'),
-	classes = require('classnames'),
-	Value = require('./Value');
+var React = require('react');
+var Input = require('react-input-autosize');
+var classes = require('classnames');
+var Value = require('./Value');
 
 var requestId = 0;
 
@@ -601,11 +601,11 @@ var Select = React.createClass({
 
 			var ref = isFocused ? 'focused' : null;
 
-			var mouseEnter = this.focusOption.bind(this, op),
-				mouseLeave = this.unfocusOption.bind(this, op),
-				mouseDown = this.selectValue.bind(this, op);
+			var mouseEnter = this.focusOption.bind(this, op);
+			var mouseLeave = this.unfocusOption.bind(this, op);
+			var mouseDown = this.selectValue.bind(this, op);
 
-			if(op.disabled) {
+			if (op.disabled) {
 				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
 			} else {
 				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
