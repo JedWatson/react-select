@@ -229,8 +229,10 @@ var Select = React.createClass({
 		});
 	},
 
-	setValue: function(value) {
-		this._focusAfterUpdate = true;
+	setValue: function(value, focusAfterUpdate) {
+		if (focusAfterUpdate || focusAfterUpdate === undefined) {
+			this._focusAfterUpdate = true;
+		}
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
 		this.fireChangeEvent(newState);
@@ -422,8 +424,8 @@ var Select = React.createClass({
 	autoloadAsyncOptions: function() {
 		var self = this;
 		this.loadAsyncOptions('', {}, function () {
-			// update with fetched
-			self.setValue(self.props.value);
+			// update with fetched but don't focus
+			self.setValue(self.props.value, false);
 		});
 	},
 
