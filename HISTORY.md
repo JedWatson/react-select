@@ -1,5 +1,12 @@
 # React-Select
 
+## v0.4.9 / 2015-05-11
+
+* fixed; focus was being grabbed by the select when `autoload` and `asyncOptions` were set
+* added; `focus` method on the component
+* added; support for disabled options, thanks [Pasha Palangpour](https://github.com/pashap)
+* improved; more closures, less binds, for better performance, thanks [Daniel Cousens](https://github.com/dcousens)
+
 ## v0.4.8 / 2015-05-02
 
 * fixed; restored `dist/default.css`
