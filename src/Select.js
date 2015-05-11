@@ -10,30 +10,33 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any,                // initial field value
-		multi: React.PropTypes.bool,               // multi-value input
-		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
-		options: React.PropTypes.array,            // array of options
-		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
-		asyncOptions: React.PropTypes.func,        // function to call to get options
-		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
-		clearable: React.PropTypes.bool,           // should it be possible to reset value
-		clearValueText: React.PropTypes.string,    // title for the "clear" control
-		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
-		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
-		searchPromptText: React.PropTypes.string,  // label to prompt for search input
-		name: React.PropTypes.string,              // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
-		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
-		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
-		className: React.PropTypes.string,         // className for the outer element
-		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
-		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
-		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		value: React.PropTypes.any,                       // initial field value
+		multi: React.PropTypes.bool,                      // multi-value input
+		disabled: React.PropTypes.bool,                   // whether the Select is disabled or not
+		options: React.PropTypes.array,                   // array of options
+		delimiter: React.PropTypes.string,                // delimiter to use to join multiple values
+		asyncOptions: React.PropTypes.func,               // function to call to get options
+		autoload: React.PropTypes.bool,                   // whether to auto-load the default async options set
+		placeholder: React.PropTypes.string,              // field placeholder, displayed when there's no value
+		noResultsText: React.PropTypes.string,            // placeholder displayed when there are no matching search results
+		clearable: React.PropTypes.bool,                  // should it be possible to reset value
+		clearValueText: React.PropTypes.string,           // title for the "clear" control
+		clearAllText: React.PropTypes.string,             // title for the "clear" control when multi: true
+		searchable: React.PropTypes.bool,                 // whether to enable searching feature or not
+		searchPromptText: React.PropTypes.string,         // label to prompt for search input
+		name: React.PropTypes.string,                     // field name, for hidden <input /> tag
+		onChange: React.PropTypes.func,                   // onChange handler: function(newValue) {}
+		onFocus: React.PropTypes.func,                    // onFocus handler: function(event) {}
+		onBlur: React.PropTypes.func,                     // onBlur handler: function(event) {}
+		className: React.PropTypes.string,                // className for the outer element
+		filterOption: React.PropTypes.func,               // method to filter a single option: function(option, filterString)
+		filterOptions: React.PropTypes.func,              // method to filter the options array: function([options], filterString, [values])
+		matchPos: React.PropTypes.string,                 // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string,                // (any|label|value) which option property to filter on
+		inputProps: React.PropTypes.object,               // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		selectFocusedOptionOnTab: React.PropTypes.bool,   // select focused option or just leave the control and switch to next one
+		clearOnESC: React.PropTypes.bool,                 // true => clear value on ESC key pressed. false => reset value
+		resetToValueAndPlaceholder: React.PropTypes.bool, // true => reset value and placeholder, false => reset only value
 
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
@@ -66,6 +69,9 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			inputProps: {},
+			selectFocusedOptionOnTab: true,
+			clearOnESC: true,
+			resetToValueAndPlaceholder: false,
 
 			onOptionLabelClick: undefined
 		};
@@ -269,8 +275,15 @@ var Select = React.createClass({
 		this.setValue(null);
 	},
 
-	resetValue: function() {
-		this.setValue(this.state.value);
+	resetValue: function resetValue() {
+		if (this.props.resetToValueAndPlaceholder) {
+			this.setValue([{
+				label: this.state.placeholder,
+				value: this.state.value
+			}]);
+		} else {
+			this.setValue(this.state.value);
+		}
 	},
 
 	getInputNode: function () {
@@ -351,10 +364,15 @@ var Select = React.createClass({
 			return;
 
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
+				if (this.props.selectFocusedOptionOnTab) {
+					if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
+						return;
+					}
+					this.selectFocusedOption();
+				} else {
+					this.state.isOpen = false;
 					return;
 				}
-				this.selectFocusedOption();
 			break;
 
 			case 13: // enter
@@ -362,10 +380,14 @@ var Select = React.createClass({
 			break;
 
 			case 27: // escape
-				if (this.state.isOpen) {
-					this.resetValue();
+				if (this.props.clearOnESC) {
+					if (this.state.isOpen) {
+						this.resetValue();
+					} else {
+						this.clearValue();
+					}
 				} else {
-					this.clearValue();
+					this.resetValue();
 				}
 			break;
 
