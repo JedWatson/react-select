@@ -32,8 +32,16 @@
     "react-input-autosize": "global:AutosizeInput"
   },
   "scripts": {
+    "build": "gulp clean && NODE_ENV=production gulp build",
+    "bump": "gulp bump",
+    "bump:major": "gulp bump:major",
+    "bump:minor": "gulp bump:minor",
+    "dev": "gulp dev",
+    "examples": "gulp dev:server",
+    "lint": "eslint ./; true",
+    "release": "gulp release",
     "test": "jest; true",
-    "lint": "eslint ./; true"
+    "watch": "gulp watch:lib"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
