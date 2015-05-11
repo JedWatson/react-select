@@ -283,7 +283,7 @@ var Select = React.createClass({
 	},
 
 	resetValue: function resetValue() {
-		this.setValue(this.state.value);
+		this.setValue(this.state.value === '' ? null : this.state.value);
 	},
 
 	getInputNode: function getInputNode() {
