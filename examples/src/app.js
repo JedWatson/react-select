@@ -48,16 +48,20 @@ var StatesField = React.createClass({
 			selectValue: newValue || null
 		});
 	},
+	focusStateSelect: function() {
+		this.refs.stateSelect.focus();
+	},
 	render: function() {
 		var ops = STATES[this.state.country];
 		return (
 			<div>
 				<label>{this.props.label}</label>
-				<Select options={ops} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
+				<Select ref="stateSelect" options={ops} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
 				<div className="switcher">
 					Country:
 					<CountrySelect value="AU" selected={this.state.country} onSelect={this.switchCountry}>Australia</CountrySelect>
 					<CountrySelect value="US" selected={this.state.country} onSelect={this.switchCountry}>US</CountrySelect>
+					&nbsp; <button type="button" onClick={this.focusStateSelect}>Focus Select</button>
 				</div>
 			</div>
 		);

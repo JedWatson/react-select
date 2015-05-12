@@ -1,7 +1,7 @@
-var React = require('react'),
-	Input = require('react-input-autosize'),
-	classes = require('classnames'),
-	Value = require('./Value');
+var React = require('react');
+var Input = require('react-input-autosize');
+var classes = require('classnames');
+var Value = require('./Value');
 
 var requestId = 0;
 
@@ -98,39 +98,40 @@ var Select = React.createClass({
 			this.autoloadAsyncOptions();
 		}
 
+		var self = this;
 		this._closeMenuIfClickedOutside = function(event) {
-			if (!this.state.isOpen) {
+			if (!self.state.isOpen) {
 				return;
 			}
-			var menuElem = this.refs.selectMenuContainer.getDOMNode();
-			var controlElem = this.refs.control.getDOMNode();
+			var menuElem = self.refs.selectMenuContainer.getDOMNode();
+			var controlElem = self.refs.control.getDOMNode();
 
-			var eventOccuredOutsideMenu = this.clickedOutsideElement(menuElem, event);
-			var eventOccuredOutsideControl = this.clickedOutsideElement(controlElem, event);
+			var eventOccuredOutsideMenu = self.clickedOutsideElement(menuElem, event);
+			var eventOccuredOutsideControl = self.clickedOutsideElement(controlElem, event);
 
 			// Hide dropdown menu if click occurred outside of menu
 			if (eventOccuredOutsideMenu && eventOccuredOutsideControl) {
-				this.setState({
+				self.setState({
 					isOpen: false
-				}, this._unbindCloseMenuIfClickedOutside);
+				}, self._unbindCloseMenuIfClickedOutside);
 			}
-		}.bind(this);
+		};
 
-		this._bindCloseMenuIfClickedOutside = (function () {
+		this._bindCloseMenuIfClickedOutside = function() {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('onclick', this._closeMenuIfClickedOutside)
 			} else {
 				document.addEventListener('click', this._closeMenuIfClickedOutside)
 			}
-		}).bind(this);
+		};
 
-		this._unbindCloseMenuIfClickedOutside = (function () {
+		this._unbindCloseMenuIfClickedOutside = function() {
 			if (!document.removeEventListener && document.detachEvent) {
 				document.detachEvent('onclick', this._closeMenuIfClickedOutside)
 			} else {
 				document.removeEventListener('click', this._closeMenuIfClickedOutside)
 			}
-		}).bind(this);
+		};
 	},
 
 	componentWillUnmount: function() {
@@ -155,12 +156,15 @@ var Select = React.createClass({
 	},
 
 	componentDidUpdate: function() {
+		var self = this;
+
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
+
 			this._focusTimeout = setTimeout(function() {
-				this.getInputNode().focus();
-				this._focusAfterUpdate = false;
-			}.bind(this), 50);
+				self.getInputNode().focus();
+				self._focusAfterUpdate = false;
+			}, 50);
 		}
 
 		if (this._focusedOptionReveal) {
@@ -178,6 +182,10 @@ var Select = React.createClass({
 
 			this._focusedOptionReveal = false;
 		}
+	},
+
+	focus: function() {
+		this.getInputNode().focus();
 	},
 
 	clickedOutsideElement: function(element, event) {
@@ -233,8 +241,10 @@ var Select = React.createClass({
 		});
 	},
 
-	setValue: function(value) {
-		this._focusAfterUpdate = true;
+	setValue: function(value, focusAfterUpdate) {
+		if (focusAfterUpdate || focusAfterUpdate === undefined) {
+			this._focusAfterUpdate = true;
+		}
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
 		this.fireChangeEvent(newState);
@@ -274,7 +284,7 @@ var Select = React.createClass({
 	},
 
 	resetValue: function() {
-		this.setValue(this.state.value);
+		this.setValue(this.state.value === '' ? null : this.state.value);
 	},
 
 	getInputNode: function () {
@@ -328,12 +338,15 @@ var Select = React.createClass({
 	},
 
 	handleInputBlur: function(event) {
+		var self = this;
+
 		this._blurTimeout = setTimeout(function() {
-			if (this._focusAfterUpdate) return;
-			this.setState({
+			if (self._focusAfterUpdate) return;
+
+			self.setState({
 				isFocused: false
 			});
-		}.bind(this), 50);
+		}, 50);
 
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
@@ -423,8 +436,8 @@ var Select = React.createClass({
 	autoloadAsyncOptions: function() {
 		var self = this;
 		this.loadAsyncOptions('', {}, function () {
-			// update with fetched
-			self.setValue(self.props.value);
+			// update with fetched but don't focus
+			self.setValue(self.props.value, false);
 		});
 	},
 
@@ -453,32 +466,33 @@ var Select = React.createClass({
 			}
 		}
 
+		var self = this;
 		this.props.asyncOptions(input, function(err, data) {
 
 			if (err) throw err;
 
-			this._optionsCache[input] = data;
+			self._optionsCache[input] = data;
 
-			if (thisRequestId !== this._currentRequestId) {
+			if (thisRequestId !== self._currentRequestId) {
 				return;
 			}
-			var filteredOptions = this.filterOptions(data.options);
+			var filteredOptions = self.filterOptions(data.options);
 
 			var newState = {
 				options: data.options,
 				filteredOptions: filteredOptions,
-				focusedOption: this._getNewFocusedOption(filteredOptions)
+				focusedOption: self._getNewFocusedOption(filteredOptions)
 			};
 			for (var key in state) {
 				if (state.hasOwnProperty(key)) {
 					newState[key] = state[key];
 				}
 			}
-			this.setState(newState);
+			self.setState(newState);
 
 			if(callback) callback({});
 
-		}.bind(this));
+		});
 	},
 
 	filterOptions: function(options, values) {
@@ -593,17 +607,21 @@ var Select = React.createClass({
 
 			var optionClass = classes({
 				'Select-option': true,
-				'is-focused': isFocused
+				'is-focused': isFocused,
+				'is-disabled': op.disabled
 			});
 
 			var ref = isFocused ? 'focused' : null;
 
-			var mouseEnter = this.focusOption.bind(this, op),
-				mouseLeave = this.unfocusOption.bind(this, op),
-				mouseDown = this.selectValue.bind(this, op);
+			var mouseEnter = this.focusOption.bind(this, op);
+			var mouseLeave = this.unfocusOption.bind(this, op);
+			var mouseDown = this.selectValue.bind(this, op);
 
-			return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
-
+			if (op.disabled) {
+				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
+			} else {
+				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
+			}
 		}, this);
 
 		return ops.length ? ops : (
