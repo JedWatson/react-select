@@ -119,17 +119,17 @@ var Select = React.createClass({
 
 		this._bindCloseMenuIfClickedOutside = function() {
 			if (!document.addEventListener && document.attachEvent) {
-				document.attachEvent('onclick', this._closeMenuIfClickedOutside)
+				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
-				document.addEventListener('click', this._closeMenuIfClickedOutside)
+				document.addEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
 
 		this._unbindCloseMenuIfClickedOutside = function() {
 			if (!document.removeEventListener && document.detachEvent) {
-				document.detachEvent('onclick', this._closeMenuIfClickedOutside)
+				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
-				document.removeEventListener('click', this._closeMenuIfClickedOutside)
+				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
 	},
