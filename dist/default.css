@@ -191,6 +191,15 @@
   font-size: 1em;
   margin: 2px;
 }
+.Select-prompt-container {
+  float: left;
+}
+.Select-input-container {
+  overflow: hidden;
+}
+.Select-prompt {
+  display: inline-block;
+}
 .Select-item-icon,
 .Select-item-label {
   display: inline-block;
@@ -220,6 +229,9 @@
 }
 .Select-item-icon:active {
   background-color: #c9e6f2;
+}
+.Select-item-icon.not-closable {
+  display: none;
 }
 @keyframes Select-animation-spin {
   to {
