@@ -39,6 +39,18 @@
 	margin: @select-item-gutter;
 }
 
+.Select-prompt-container {
+	float: left;
+}
+
+.Select-input-container {
+	overflow: hidden;
+}
+
+.Select-prompt {
+	display: inline-block;
+}
+
 // common
 .Select-item-icon,
 .Select-item-label {
@@ -74,5 +86,9 @@
 	}
 	&:active {
 		background-color: @select-item-border-color;
+	}
+
+	&.not-closable {
+		display: none;
 	}
 }

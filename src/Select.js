@@ -34,6 +34,7 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		prompt: React.PropTypes.string,						 // text to show to the left of the input e.g: "To:"
 
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
@@ -135,16 +136,33 @@ var Select = React.createClass({
 		}
 	},
 
-	componentWillReceiveProps: function(newProps) {
-		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
+	optionsEqual: function optionsEqual(o1, o2) {
+		var stringify_values = function(options) {
+			return JSON.stringify(options.map(function(obj) { return obj.value; }));
+		};
+		var with_value = function(lst, value) {
+				return lst.find(function(obj) { return value === obj.value });
+		}
+		if (stringify_values(o1) == stringify_values(o2)) {
+			if (o1.every((function(obj) {
+				var other = with_value(o2, obj.value);
+				return (obj.node || obj.label) === (other.node || other.label);
+			}))) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
+	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+		if (!this.optionsEqual(newProps.options, this.props.options)) {
 			this.setState({
 				options: newProps.options,
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
-		}
+		this.setState(this.getStateFromValue(newProps.value, newProps.options));
 	},
 
 	componentDidUpdate: function() {
@@ -609,10 +627,12 @@ var Select = React.createClass({
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
 
+			var item = op.node || op.label;
+
 			if (op.disabled) {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
+				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{item}</div>;
 			} else {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{op.label}</div>;
+				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{item}</div>;
 			}
 		}, this);
 
@@ -641,6 +661,11 @@ var Select = React.createClass({
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
+
+		var prompt;
+		if (this.props.prompt) {
+			prompt = (<div className="Select-prompt">{this.props.prompt}</div>);
+		}
 
 		var value = [];
 
@@ -709,11 +734,16 @@ var Select = React.createClass({
 			<div ref="wrapper" className={selectClass}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
-					{value}
-					{input}
-					<span className="Select-arrow" />
-					{loading}
-					{clear}
+					<div className="Select-prompt-container" >
+						{prompt}
+					</div>
+					<div className="Select-input-container">
+						{value}
+						{input}
+						<span className="Select-arrow" />
+						{loading}
+						{clear}
+					</div>
 				</div>
 				{menu}
 			</div>

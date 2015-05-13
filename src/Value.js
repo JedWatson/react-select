@@ -5,7 +5,9 @@ var Option = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		label: React.PropTypes.string.isRequired,
+		node: React.PropTypes.node,
+		closable: React.PropTypes.bool
 	},
 
 	blockEvent: function(event) {
@@ -26,13 +28,18 @@ var Option = React.createClass({
 			);
 		}
 
+		var closableClass = '';
+		if (this.props.closable !== null && !this.props.closable) {
+			closableClass += ' not-closable';
+		}
+
 		return (
 			<div className="Select-item">
-				<span className="Select-item-icon"
+				<span className={'Select-item-icon' + closableClass}
 					onMouseDown={this.blockEvent}
 					onClick={this.props.onRemove}
 					onTouchEnd={this.props.onRemove}>&times;</span>
-				<span className="Select-item-label">{label}</span>
+				<span className="Select-item-label">{this.props.node || label}</span>
 			</div>
 		);
 	}
