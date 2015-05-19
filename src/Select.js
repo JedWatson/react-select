@@ -35,6 +35,7 @@ var Select = React.createClass({
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
+		onAdd: React.PropTypes.func,			   // onAdd handler function(newValue, newValues) called when a new value is added before onChange, requires allowCreate = true
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
 		* wrap label into <a>label</a> tag.
@@ -67,7 +68,8 @@ var Select = React.createClass({
 			matchProp: 'any',
 			inputProps: {},
 			allowCreate: false,
-
+			onAdd: undefined,
+			
 			onOptionLabelClick: undefined
 		};
 	},
@@ -240,6 +242,19 @@ var Select = React.createClass({
 		}
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
+		if(this.props.allowCreate) {
+			// Find if the value was added
+			var inputValue = this.state.inputValue;
+			// Loop through the filtered options
+			var addedValues = this.state.filteredOptions.filter(function(option){
+				// Input value match and option is marked as create (new)
+				return option.value == inputValue && option.create
+			})
+			// If we found one, we fire the add event
+			if(addedValues.length) {
+				this.fireAddEvent(newState);
+			}
+		}
 		this.fireChangeEvent(newState);
 		this.setState(newState);
 	},
@@ -289,6 +304,12 @@ var Select = React.createClass({
 		if (newState.value !== this.state.value && this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
 		}
+	},
+
+	fireAddEvent: function(newState) {
+		if (newState.value !== this.state.value && this.props.onAdd && this.props.allowCreate) {
+			this.props.onAdd(newState.value, newState.values);
+		} 
 	},
 
 	handleMouseDown: function(event) {
