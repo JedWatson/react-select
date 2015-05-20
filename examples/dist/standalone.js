@@ -24,7 +24,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func, // function to call to get options
 		autoload: React.PropTypes.bool, // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string, // placeholder displayed when there are no matching search results
+		noResultsText: React.PropTypes.node, // placeholder displayed when there are no matching search results
 		clearable: React.PropTypes.bool, // should it be possible to reset value
 		clearValueText: React.PropTypes.string, // title for the "clear" control
 		clearAllText: React.PropTypes.string, // title for the "clear" control when multi: true
@@ -171,8 +171,8 @@ var Select = React.createClass({
 				options: newProps.options,
 				filteredOptions: this.filterOptions(newProps.options)
 			});
+			this.setState(this.updateStateFromValue(newProps.value, newProps.options));
 		}
-		this.setState(this.getStateFromValue(newProps.value, newProps.options));
 	},
 
 	componentDidUpdate: function componentDidUpdate() {
@@ -214,6 +214,27 @@ var Select = React.createClass({
 			eventTarget = eventTarget.offsetParent;
 		}
 		return true;
+	},
+
+	updateStateFromValue: function updateStateFromValue(value, options) {
+		if (!options) {
+			options = this.state.options;
+		}
+
+		this._optionsFilterString = this.state.inputValue;
+
+		var values = this.initValuesArray(value, options),
+		    filteredOptions = this.filterOptions(options, values);
+
+		return {
+			value: values.map(function (v) {
+				return v.value;
+			}).join(this.props.delimiter),
+			values: values,
+			filteredOptions: filteredOptions,
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
+		};
 	},
 
 	getStateFromValue: function getStateFromValue(value, options) {
@@ -740,22 +761,38 @@ var Select = React.createClass({
 			);
 		}
 
+		var combine = function combine(f1, f2) {
+			if (f2) {
+				return function () {
+					f1.apply(this, arguments);
+					f2.apply(this, arguments);
+				};
+			} else {
+				return f1;
+			}
+		};
+
 		var input;
 		var inputProps = {
 			ref: 'input',
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
-			onBlur: this.handleInputBlur
+			onBlur: this.handleInputBlur,
+			onChange: this.handleInputChange
 		};
 		for (var key in this.props.inputProps) {
 			if (this.props.inputProps.hasOwnProperty(key)) {
-				inputProps[key] = this.props.inputProps[key];
+				if (inputProps.hasOwnProperty(key) && typeof inputProps[key] === 'function') {
+					inputProps[key] = combine(inputProps[key], this.props.inputProps[key]);
+				} else {
+					inputProps[key] = this.props.inputProps[key];
+				}
 			}
 		}
 
 		if (this.props.searchable && !this.props.disabled) {
-			input = React.createElement(Input, _extends({ value: this.state.inputValue, onChange: this.handleInputChange, minWidth: '5' }, inputProps));
+			input = React.createElement(Input, _extends({}, inputProps, { value: this.state.inputValue, minWidth: '5' }));
 		} else {
 			input = React.createElement(
 				'div',
@@ -771,12 +808,20 @@ var Select = React.createClass({
 			React.createElement(
 				'div',
 				{ className: 'Select-control', ref: 'control', onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
-				prompt,
-				value,
-				input,
-				React.createElement('span', { className: 'Select-arrow' }),
-				loading,
-				clear
+				React.createElement(
+					'div',
+					{ className: 'Select-prompt-container' },
+					prompt
+				),
+				React.createElement(
+					'div',
+					{ className: 'Select-input-container' },
+					value,
+					input,
+					React.createElement('span', { className: 'Select-arrow' }),
+					loading,
+					clear
+				)
 			),
 			menu
 		);

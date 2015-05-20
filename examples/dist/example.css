@@ -298,7 +298,13 @@ label {
   font-size: 1em;
   margin: 2px;
 }
-.Select-placeholder {
+.Select-prompt-container {
+  float: left;
+}
+.Select-input-container {
+  overflow: hidden;
+}
+.Select-prompt {
   display: inline-block;
 }
 .Select-item-icon,
