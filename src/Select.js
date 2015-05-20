@@ -34,8 +34,8 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
-		onAdd: React.PropTypes.func,			   // onAdd handler function(newValue, newValues) called when a new value is added before onChange, requires allowCreate = true
+		allowCreate: React.PropTypes.bool,         // whether to allow creation of new entries
+		onAdd: React.PropTypes.func,		   // onAdd handler function(newValue, newValues) called when a new value is added before onChange, requires allowCreate = true
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
 		* wrap label into <a>label</a> tag.
