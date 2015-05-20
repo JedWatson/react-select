@@ -710,22 +710,38 @@ var Select = React.createClass({
 			);
 		}
 
+		var combine = function(f1, f2) {
+			if (f2) {
+				return function() {
+					f1.apply(this, arguments);
+					f2.apply(this, arguments)
+				};
+			} else {
+				return f1;
+			}
+		}
+
 		var input;
 		var inputProps = {
 			ref: 'input',
 			className: 'Select-input',
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
-			onBlur: this.handleInputBlur
+			onBlur: this.handleInputBlur,
+			onChange: this.handleInputChange
 		};
 		for (var key in this.props.inputProps) {
 			if (this.props.inputProps.hasOwnProperty(key)) {
-				inputProps[key] = this.props.inputProps[key];
+				if (inputProps.hasOwnProperty(key) && typeof inputProps[key] === 'function') {
+					inputProps[key] = combine(inputProps[key], this.props.inputProps[key]);
+				} else {
+					inputProps[key] = this.props.inputProps[key];
+				}
 			}
 		}
 
 		if (this.props.searchable && !this.props.disabled) {
-			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
+			input = <Input {...inputProps} value={this.state.inputValue} minWidth="5" />;
 		} else {
 			input = <div {...inputProps}>&nbsp;</div>;
 		}
