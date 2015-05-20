@@ -161,8 +161,8 @@ var Select = React.createClass({
 				options: newProps.options,
 				filteredOptions: this.filterOptions(newProps.options)
 			});
+			this.setState(this.updateStateFromValue(newProps.value, newProps.options));
 		}
-		this.setState(this.getStateFromValue(newProps.value, newProps.options));
 	},
 
 	componentDidUpdate: function() {
@@ -205,6 +205,25 @@ var Select = React.createClass({
 			eventTarget = eventTarget.offsetParent;
 		}
 		return true;
+	},
+
+	updateStateFromValue: function(value, options) {
+		if (!options) {
+			options = this.state.options;
+		}
+
+		this._optionsFilterString = this.state.inputValue;
+
+		var values = this.initValuesArray(value, options),
+			filteredOptions = this.filterOptions(options, values);
+
+		return {
+			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			values: values,
+			filteredOptions: filteredOptions,
+			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
+		};
 	},
 
 	getStateFromValue: function(value, options) {
