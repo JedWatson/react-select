@@ -18,7 +18,7 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
+		noResultsText: React.PropTypes.node,       // placeholder displayed when there are no matching search results
 		clearable: React.PropTypes.bool,           // should it be possible to reset value
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
