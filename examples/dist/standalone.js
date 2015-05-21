@@ -165,12 +165,12 @@ var Select = React.createClass({
 		return false;
 	},
 
-	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		this.setState(this.updateStateFromValue(newProps.value, newProps.options));
-	},
-
-	componentDidUpdate: function componentDidUpdate() {
+	componentDidUpdate: function componentDidUpdate(oldProps, oldState) {
 		var self = this;
+
+		if (!this.optionsEqual(oldProps.options, this.props.options) || this.state.value !== oldState.value) {
+			this.setState(this.updateStateFromValue(this.props.value, this.props.options));
+		}
 
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
