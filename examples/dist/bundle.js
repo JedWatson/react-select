@@ -226,13 +226,7 @@ var Select = React.createClass({
 	},
 
 	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (!this.optionsEqual(newProps.options, this.props.options)) {
-			this.setState({
-				options: newProps.options,
-				filteredOptions: this.filterOptions(newProps.options)
-			});
-			this.setState(this.updateStateFromValue(newProps.value, newProps.options));
-		}
+		this.setState(this.updateStateFromValue(newProps.value, newProps.options));
 	},
 
 	componentDidUpdate: function componentDidUpdate() {
