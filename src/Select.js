@@ -617,7 +617,7 @@ var Select = React.createClass({
 		// Add the current value to the filtered options in last resort
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
-			this.state.filteredOptions.push({
+			this.state.filteredOptions.unshift({
 				value: inputValue,
 				label: inputValue,
 				create: true
