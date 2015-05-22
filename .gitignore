@@ -14,8 +14,11 @@ coverage
 # Dependency directory
 node_modules
 
+examples/dist
+
 # Publish directory
 .publish
 
 # Other
 .DS_Store
+

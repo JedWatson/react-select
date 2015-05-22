@@ -20,11 +20,17 @@
     "eslint-plugin-react": "^2.2.0",
     "gulp": "^3.8.11",
     "jest-cli": "^0.4.2",
+    "lessify": "^1.0.1",
     "react": ">=0.12.0",
     "react-component-gulp-tasks": "^0.7.0"
   },
   "peerDependencies": {
     "react": ">=0.12.0"
+  },
+  "browserify": {
+    "transform": [
+      "lessify"
+    ]
   },
   "browserify-shim": {
     "classnames": "global:classNames",
