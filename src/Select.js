@@ -501,7 +501,7 @@ var Select = React.createClass({
 			}
 			self.setState(newState);
 
-			if(callback) callback({});
+			if(callback) callback.call(self,{});
 
 		});
 	},
