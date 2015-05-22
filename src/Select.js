@@ -470,7 +470,7 @@ var Select = React.createClass({
 					}
 				}
 				this.setState(newState);
-				if(callback) callback({});
+				if(callback) callback.call(this, {});
 				return;
 			}
 		}
@@ -499,7 +499,7 @@ var Select = React.createClass({
 			}
 			self.setState(newState);
 
-			if(callback) callback({});
+			if(callback) callback.call(self, {});
 
 		});
 	},
