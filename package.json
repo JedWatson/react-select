@@ -2,7 +2,7 @@
   "name": "react-select",
   "version": "0.4.9",
   "description": "A Select control built with and for ReactJS",
-  "main": "src/Select.js",
+  "main": "lib/Select.js",
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {

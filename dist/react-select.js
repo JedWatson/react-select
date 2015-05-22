@@ -40,7 +40,7 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-
+		allowCreate: React.PropTypes.bool, // wether to allow creation of new entries
 		/*
   * Allow user to make option label clickable. When this handler is defined we should
   * wrap label into <a>label</a> tag.
@@ -72,6 +72,7 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			inputProps: {},
+			allowCreate: false,
 
 			onOptionLabelClick: undefined
 		};
@@ -124,11 +125,19 @@ var Select = React.createClass({
 		};
 
 		this._bindCloseMenuIfClickedOutside = function () {
-			document.addEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.addEventListener && document.attachEvent) {
+				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.addEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
 
 		this._unbindCloseMenuIfClickedOutside = function () {
-			document.removeEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.removeEventListener && document.detachEvent) {
+				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.removeEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
 	},
 
@@ -283,7 +292,7 @@ var Select = React.createClass({
 	},
 
 	resetValue: function resetValue() {
-		this.setValue(this.state.value);
+		this.setValue(this.state.value === '' ? null : this.state.value);
 	},
 
 	getInputNode: function getInputNode() {
@@ -373,7 +382,9 @@ var Select = React.createClass({
 
 			case 13:
 				// enter
-				this.selectFocusedOption();
+				if (this.state.isOpen) {
+					this.selectFocusedOption();
+				}
 				break;
 
 			case 27:
@@ -393,6 +404,15 @@ var Select = React.createClass({
 			case 40:
 				// down
 				this.focusNextOption();
+				break;
+
+			case 188:
+				// ,
+				if (this.props.allowCreate) {
+					event.preventDefault();
+					event.stopPropagation();
+					this.selectFocusedOption();
+				};
 				break;
 
 			default:
@@ -523,6 +543,9 @@ var Select = React.createClass({
 	},
 
 	selectFocusedOption: function selectFocusedOption() {
+		if (this.props.allowCreate && !this.state.focusedOption) {
+			return this.selectValue(this.state.inputValue);
+		};
 		return this.selectValue(this.state.focusedOption);
 	},
 
@@ -598,6 +621,15 @@ var Select = React.createClass({
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
+		// Add the current value to the filtered options in last resort
+		if (this.props.allowCreate && this.state.inputValue.trim()) {
+			var inputValue = this.state.inputValue;
+			this.state.filteredOptions.push({
+				value: inputValue,
+				label: inputValue,
+				create: true
+			});
+		};
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
@@ -625,7 +657,7 @@ var Select = React.createClass({
 				return React.createElement(
 					'div',
 					{ ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
-					op.label
+					op.create ? 'Add ' + op.label + ' ?' : op.label
 				);
 			}
 		}, this);
