@@ -130,15 +130,12 @@ var Select = React.createClass({
 			}
 		};
     
-		this.setState(
-        this.getStateFromValue(this.props.value),
-        function(){
-          //Executes after state change is done. Fixes issue #201
-		      if (this.props.asyncOptions && this.props.autoload) {
-      			this.autoloadAsyncOptions();
-      		}
-        }
-    );
+		this.setState(this.getStateFromValue(this.props.value),function(){
+		  //Executes after state change is done. Fixes issue #201
+		  if (this.props.asyncOptions && this.props.autoload) {
+				this.autoloadAsyncOptions();
+			}
+    });
 	},
 
 	componentWillUnmount: function() {
