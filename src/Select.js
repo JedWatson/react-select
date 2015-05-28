@@ -376,11 +376,9 @@ var Select = React.createClass({
 			break;
 
 			case 13: // enter
-				if (this.state.isOpen) {
-					this.selectFocusedOption();
-				} else {
-					return;
-				}	
+				if (!this.state.isOpen) return
+				
+				this.selectFocusedOption();
 			break;
 
 			case 27: // escape
