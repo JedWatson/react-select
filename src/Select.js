@@ -378,6 +378,8 @@ var Select = React.createClass({
 			case 13: // enter
 				if (this.state.isOpen) {
 					this.selectFocusedOption();
+				} else {
+					return;
 				}	
 			break;
 
