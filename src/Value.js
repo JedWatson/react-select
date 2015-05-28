@@ -6,10 +6,11 @@ var Option = React.createClass({
 
 	propTypes: {
 		disabled: React.PropTypes.bool,
-		label: React.PropTypes.string.isRequired,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool
+		optionLabelClick: React.PropTypes.bool,
+		option: React.PropTypes.object.isRequired,
+		renderer: React.PropTypes.func
 	},
 
 	blockEvent: function(event) {
@@ -23,7 +24,10 @@ var Option = React.createClass({
 	},
 
 	render: function() {
-		var label = this.props.label;
+		var label = this.props.option.label;
+		if (this.props.renderer) {
+			label = this.props.renderer(this.props.option);
+		}
 
 		if (this.props.optionLabelClick) {
 			label = (
