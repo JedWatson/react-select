@@ -189,6 +189,36 @@ var SelectedValuesField = React.createClass({
 	}
 });
 
+var SelectedValuesFieldCreate = React.createClass({
+	displayName: 'SelectedValuesFieldCreate',
+
+	onLabelClick: function onLabelClick(data, event) {
+		console.log(data, event);
+	},
+
+	render: function render() {
+		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'label',
+				null,
+				this.props.label
+			),
+			React.createElement(Select, {
+				onOptionLabelClick: this.onLabelClick,
+				value: 'chocolate,vanilla,strawberry',
+				delimiter: ',',
+				multi: true,
+				allowCreate: true,
+				placeholder: 'Select your favourite(s)',
+				options: ops,
+				onChange: logChange })
+		);
+	}
+});
+
 React.render(React.createElement(
 	'div',
 	null,
@@ -196,6 +226,7 @@ React.render(React.createElement(
 	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
 	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
 	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
+	React.createElement(SelectedValuesFieldCreate, { label: 'Clickable labels + Creation(labels as links):' }),
 	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
 ), document.getElementById('example'));
 
