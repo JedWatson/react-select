@@ -76,6 +76,7 @@ var Select = React.createClass({
 		delimiter: React.PropTypes.string, // delimiter to use to join multiple values
 		asyncOptions: React.PropTypes.func, // function to call to get options
 		autoload: React.PropTypes.bool, // whether to auto-load the default async options set
+		autoreload: React.PropTypes.bool, // whether to re-load the default async options set after select
 		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
 		noResultsText: React.PropTypes.string, // placeholder displayed when there are no matching search results
 		clearable: React.PropTypes.bool, // should it be possible to reset value
@@ -93,7 +94,8 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-
+		allowCreate: React.PropTypes.bool, // wether to allow creation of new entries
+		stopPropagationKeyDown: React.PropTypes.bool,
 		/*
   * Allow user to make option label clickable. When this handler is defined we should
   * wrap label into <a>label</a> tag.
@@ -112,6 +114,7 @@ var Select = React.createClass({
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
+			autoreload: true,
 			placeholder: 'Select...',
 			noResultsText: 'No results found',
 			clearable: true,
@@ -125,6 +128,8 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			inputProps: {},
+			allowCreate: false,
+			stopPropagationKeyDown: true,
 
 			onOptionLabelClick: undefined
 		};
@@ -151,11 +156,6 @@ var Select = React.createClass({
 	componentWillMount: function componentWillMount() {
 		this._optionsCache = {};
 		this._optionsFilterString = '';
-		this.setState(this.getStateFromValue(this.props.value));
-
-		if (this.props.asyncOptions && this.props.autoload) {
-			this.autoloadAsyncOptions();
-		}
 
 		var self = this;
 		this._closeMenuIfClickedOutside = function (event) {
@@ -177,12 +177,27 @@ var Select = React.createClass({
 		};
 
 		this._bindCloseMenuIfClickedOutside = function () {
-			document.addEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.addEventListener && document.attachEvent) {
+				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.addEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
 
 		this._unbindCloseMenuIfClickedOutside = function () {
-			document.removeEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.removeEventListener && document.detachEvent) {
+				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.removeEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
+
+		this.setState(this.getStateFromValue(this.props.value), function () {
+			//Executes after state change is done. Fixes issue #201
+			if (this.props.asyncOptions && this.props.autoload) {
+				this.autoloadAsyncOptions();
+			}
+		});
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -300,7 +315,11 @@ var Select = React.createClass({
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
 		this.fireChangeEvent(newState);
-		this.setState(newState);
+		this.setState(newState, function () {
+			if (this.props.asyncOptions && this.props.autoreload) {
+				this.loadAsyncOptions('');
+			}
+		});
 	},
 
 	selectValue: function selectValue(value) {
@@ -426,6 +445,8 @@ var Select = React.createClass({
 
 			case 13:
 				// enter
+				if (!this.state.isOpen) return;
+
 				this.selectFocusedOption();
 				break;
 
@@ -448,10 +469,20 @@ var Select = React.createClass({
 				this.focusNextOption();
 				break;
 
+			case 188:
+				// ,
+				if (this.props.allowCreate) {
+					event.preventDefault();
+					event.stopPropagation();
+					this.selectFocusedOption();
+				};
+				break;
+
 			default:
 				return;
 		}
 
+		this.props.stopPropagationKeyDown && event.stopPropagation();
 		event.preventDefault();
 	},
 
@@ -519,7 +550,7 @@ var Select = React.createClass({
 					}
 				}
 				this.setState(newState);
-				if (callback) callback({});
+				if (callback) callback.call(this, {});
 				return;
 			}
 		}
@@ -548,7 +579,7 @@ var Select = React.createClass({
 			}
 			self.setState(newState);
 
-			if (callback) callback({});
+			if (callback) callback.call(self, {});
 		});
 	},
 
@@ -576,6 +607,9 @@ var Select = React.createClass({
 	},
 
 	selectFocusedOption: function selectFocusedOption() {
+		if (this.props.allowCreate && !this.state.focusedOption) {
+			return this.selectValue(this.state.inputValue);
+		};
 		return this.selectValue(this.state.focusedOption);
 	},
 
@@ -651,6 +685,15 @@ var Select = React.createClass({
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
+		// Add the current value to the filtered options in last resort
+		if (this.props.allowCreate && this.state.inputValue.trim()) {
+			var inputValue = this.state.inputValue;
+			this.state.filteredOptions.unshift({
+				value: inputValue,
+				label: inputValue,
+				create: true
+			});
+		};
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
@@ -678,7 +721,7 @@ var Select = React.createClass({
 				return React.createElement(
 					'div',
 					{ ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
-					op.label
+					op.create ? 'Add ' + op.label + ' ?' : op.label
 				);
 			}
 		}, this);

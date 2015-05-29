@@ -17,6 +17,7 @@ var Select = React.createClass({
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
+		autoreload: React.PropTypes.bool,          // whether to re-load the default async options set after select
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
 		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
 		clearable: React.PropTypes.bool,           // should it be possible to reset value
@@ -35,6 +36,7 @@ var Select = React.createClass({
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
+		stopPropagationKeyDown: React.PropTypes.bool,
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
 		* wrap label into <a>label</a> tag.
@@ -53,6 +55,7 @@ var Select = React.createClass({
 			delimiter: ',',
 			asyncOptions: undefined,
 			autoload: true,
+			autoreload: true,
 			placeholder: 'Select...',
 			noResultsText: 'No results found',
 			clearable: true,
@@ -67,6 +70,7 @@ var Select = React.createClass({
 			matchProp: 'any',
 			inputProps: {},
 			allowCreate: false,
+			stopPropagationKeyDown: true,
 
 			onOptionLabelClick: undefined
 		};
@@ -252,7 +256,11 @@ var Select = React.createClass({
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
 		this.fireChangeEvent(newState);
-		this.setState(newState);
+		this.setState(newState, function(){
+			if (this.props.asyncOptions && this.props.autoreload) {
+				this.loadAsyncOptions('');
+			}
+		});
 	},
 
 	selectValue: function(value) {
@@ -408,6 +416,7 @@ var Select = React.createClass({
 			default: return;
 		}
 
+		this.props.stopPropagationKeyDown && event.stopPropagation();
 		event.preventDefault();
 	},
 
