@@ -123,15 +123,17 @@ You can control how options are filtered with the following properties:
 
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
+* `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
 
-Both properties default to `"any"`.
+`matchProp` and `matchPos` both default to `"any"`.
+`ignoreCase` defaults to `true`.
 
 #### Advanced filters
 
 You can also completely replace the method used to filter either a single option, or the entire options array (allowing custom sort mechanisms, etc.)
 
-* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos` and `matchProp` options.
-* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos` and `matchProp` options.
+* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos`, `matchProp` and `ignoreCase` options.
+* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos`, `matchProp` and `ignoreCase` options.
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
@@ -163,6 +165,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	filterOptions 		|	func		|	 method to filter the options array: function([options], filterString, [values])
 	matchPos 			|	string		|	 (any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	 (any, label, value) which option property to filter on
+	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 
