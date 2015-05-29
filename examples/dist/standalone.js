@@ -139,12 +139,13 @@ var Select = React.createClass({
 			}
 		};
 
-		this.setState(this.getStateFromValue(this.props.value), function () {
-			//Executes after state change is done. Fixes issue #201
-			if (this.props.asyncOptions && this.props.autoload) {
-				this.autoloadAsyncOptions();
-			}
-		});
+		this.setState(this.getStateFromValue(this.props.value));
+	},
+
+	componentDidMount: function componentDidMount() {
+		if (this.props.asyncOptions && this.props.autoload) {
+			this.autoloadAsyncOptions();
+		}
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -673,10 +674,11 @@ var Select = React.createClass({
 			}
 		}, this);
 
-		return ops.length ? ops : React.createElement(
+		var noresults = this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText;
+		return ops.length ? ops : !!noresults && React.createElement(
 			'div',
 			{ className: 'Select-noresults' },
-			this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText
+			noresults
 		);
 	},
 
