@@ -33,6 +33,7 @@ var Select = React.createClass({
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
 		/*
@@ -65,6 +66,7 @@ var Select = React.createClass({
 			className: undefined,
 			matchPos: 'any',
 			matchProp: 'any',
+			ignoreCase: true,
 			inputProps: {},
 			allowCreate: false,
 
@@ -525,12 +527,17 @@ var Select = React.createClass({
 				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
 				var valueTest = String(op.value), labelTest = String(op.label);
+				if (this.props.ignoreCase) {
+					valueTest = valueTest.toLowerCase();
+					labelTest = labelTest.toLowerCase();
+					filterValue = filterValue.toLowerCase();
+				}
 				return !filterValue || (this.props.matchPos === 'start') ? (
-					(this.props.matchProp !== 'label' && valueTest.toLowerCase().substr(0, filterValue.length) === filterValue) ||
-					(this.props.matchProp !== 'value' && labelTest.toLowerCase().substr(0, filterValue.length) === filterValue)
+					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
+					(this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
 				) : (
-					(this.props.matchProp !== 'label' && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) ||
-					(this.props.matchProp !== 'value' && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0)
+					(this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
+					(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
 				);
 			};
 			return (options || []).filter(filterOption, this);
