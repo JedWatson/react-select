@@ -7,7 +7,7 @@ var taskConfig = {
 		name: 'Select',
 		less: {
 			path: 'less',
-			entry: 'default.less'
+			entry: 'react-select.less'
 		}
 	},
 
