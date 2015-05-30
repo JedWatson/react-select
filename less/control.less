@@ -11,7 +11,7 @@
 .Select-control {
 	position: relative;
 	overflow: hidden;
-	background-color: white;
+	background-color: @select-input-bg;
 	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
@@ -36,7 +36,7 @@
 
 .is-open > .Select-control {
 	.border-bottom-radius( 0 );
-	background: white;
+	background: @select-input-bg;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
 
 	// flip the arrow so its pointing up when the menu is open
