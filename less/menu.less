@@ -12,9 +12,9 @@
 	// have to repaint on scroll.
 
 	.border-bottom-radius( @select-input-border-radius );
-	background-color: white;
+	background-color: @select-input-bg;
 	border: 1px solid @select-input-border-color;
-	border-top-color: mix(white, @select-input-border-color, 50%);
+	border-top-color: mix(@select-input-bg, @select-input-border-color, 50%);
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
