@@ -651,9 +651,9 @@ var Select = React.createClass({
 			var mouseDown = this.selectValue.bind(this, op);
 
 			if (op.disabled) {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
+				return <div ref={ref} key={'option-' + (typeof op.key !== 'undefined')? op.key : op.value} className={optionClass}>{op.label}</div>;
 			} else {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : op.label}</div>;
+				return <div ref={ref} key={'option-' + (typeof op.key !== 'undefined')? op.key : op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : op.label}</div>;
 			}
 		}, this);
 
