@@ -131,10 +131,10 @@ var Select = React.createClass({
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
-    
-		this.setState(this.getStateFromValue(this.props.value),function(){
-		  //Executes after state change is done. Fixes issue #201
-		  if (this.props.asyncOptions && this.props.autoload) {
+
+		this.setState(this.getStateFromValue(this.props.value), function(){
+			//Executes after state change is done. Fixes issue #201
+			if (this.props.asyncOptions && this.props.autoload) {
 				this.autoloadAsyncOptions();
 			}
     });
@@ -378,8 +378,8 @@ var Select = React.createClass({
 			break;
 
 			case 13: // enter
-				if (!this.state.isOpen) return
-				
+				if (!this.state.isOpen) return;
+
 				this.selectFocusedOption();
 			break;
 
@@ -404,7 +404,7 @@ var Select = React.createClass({
 					event.preventDefault();
 					event.stopPropagation();
 					this.selectFocusedOption();
-				};
+				}
 			break;
 
 			default: return;
@@ -547,7 +547,7 @@ var Select = React.createClass({
 	selectFocusedOption: function() {
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
-		};
+		}
 		return this.selectValue(this.state.focusedOption);
 	},
 
@@ -632,7 +632,7 @@ var Select = React.createClass({
 				label: inputValue,
 				create: true
 			});
-		};
+		}
 
 		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
 			var op = this.state.filteredOptions[key];
@@ -653,7 +653,7 @@ var Select = React.createClass({
 			if (op.disabled) {
 				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
 			} else {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? "Add "+op.label+" ?" : op.label}</div>;
+				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : op.label}</div>;
 			}
 		}, this);
 

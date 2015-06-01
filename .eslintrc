@@ -13,6 +13,7 @@
 		"no-trailing-spaces": 0,
 		"no-underscore-dangle": 0,
 		"no-unused-expressions": 0,
+		"object-curly-spacing": [1, "always"],
 		"quotes": [2, "single", "avoid-escape"],
 		"react/jsx-quotes": 1,
 		"react/jsx-no-undef": 1,

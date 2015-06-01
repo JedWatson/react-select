@@ -44,7 +44,7 @@
     "bump:minor": "gulp bump:minor",
     "dev": "gulp dev",
     "examples": "gulp dev:server",
-    "lint": "eslint ./; true",
+    "lint": "eslint .",
     "release": "gulp release",
     "test": "jest; true",
     "watch": "gulp watch:lib"
