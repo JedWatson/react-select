@@ -16,7 +16,7 @@
   "devDependencies": {
     "babel-eslint": "^3.1.1",
     "babel-jest": "^5.2.0",
-    "eslint": "^0.21.0",
+    "eslint": "^0.22.1",
     "eslint-plugin-react": "^2.2.0",
     "gulp": "^3.8.11",
     "jest-cli": "^0.4.2",
@@ -44,7 +44,7 @@
     "bump:minor": "gulp bump:minor",
     "dev": "gulp dev",
     "examples": "gulp dev:server",
-    "lint": "eslint ./; true",
+    "lint": "eslint .",
     "release": "gulp release",
     "test": "jest; true",
     "watch": "gulp watch:lib"
