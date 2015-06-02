@@ -34,7 +34,8 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
-		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		inputProps: React.PropTypes.object,        // custom attributes for the hidden input that represents the current value of the controls
+		inputTextProps: React.PropTypes.object,    // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
@@ -68,6 +69,7 @@ var Select = React.createClass({
 			matchProp: 'any',
 			ignoreCase: true,
 			inputProps: {},
+			inputTextProps: {},
 			allowCreate: false,
 
 			onOptionLabelClick: undefined
@@ -734,21 +736,16 @@ var Select = React.createClass({
 			onFocus: this.handleInputFocus,
 			onBlur: this.handleInputBlur
 		};
-		for (var key in this.props.inputProps) {
-			if (this.props.inputProps.hasOwnProperty(key)) {
-				inputProps[key] = this.props.inputProps[key];
-			}
-		}
 
 		if (this.props.searchable && !this.props.disabled) {
-			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
+			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} {...this.props.inputTextProps} />;
 		} else {
-			input = <div {...inputProps}>&nbsp;</div>;
+			input = <div {...inputProps} {...this.props.inputTextProps}>&nbsp;</div>;
 		}
 
 		return (
 			<div ref="wrapper" className={selectClass}>
-				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
+				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} {...this.props.inputProps} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
 					{input}
