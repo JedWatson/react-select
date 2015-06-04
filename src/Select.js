@@ -404,6 +404,8 @@ var Select = React.createClass({
 					event.preventDefault();
 					event.stopPropagation();
 					this.selectFocusedOption();
+				} else {
+					return;
 				}
 			break;
 
