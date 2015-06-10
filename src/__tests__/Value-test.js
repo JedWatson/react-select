@@ -1,5 +1,5 @@
 'use strict';
-/*global describe, it, jest, expect*/
+/*global describe, it, jest, expect, beforeEach*/
 
 jest.dontMock('../Value');
 
@@ -14,8 +14,8 @@ describe('Value component', function() {
 
 	beforeEach(function() {
 		props = {
-			label : 'TEST-LABEL',
-			onRemove : jest.genMockFn()
+			label: 'TEST-LABEL',
+			onRemove: jest.genMockFn()
 		};
 		value = TestUtils.renderIntoDocument(<Value {...props}/>);
 	});
@@ -33,7 +33,7 @@ describe('Value component', function() {
 	});
 
 	it('prevents event propagation', function() {
-		var mockEvent = { stopPropagation : jest.genMockFn() };
+		var mockEvent = { stopPropagation: jest.genMockFn() };
 		value.blockEvent(mockEvent);
 		expect(mockEvent.stopPropagation).toBeCalled();
 
@@ -57,10 +57,10 @@ describe('Value component', function() {
 
 		beforeEach(function() {
 			props = {
-				label : 'TEST-LABEL',
-				onRemove : jest.genMockFn(),
-				optionLabelClick : true,
-				onOptionLabelClick : jest.genMockFn()
+				label: 'TEST-LABEL',
+				onRemove: jest.genMockFn(),
+				optionLabelClick: true,
+				onOptionLabelClick: jest.genMockFn()
 			};
 			value = TestUtils.renderIntoDocument(<Value {...props}/>);
 			selectItemLabelA = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label__a');
@@ -80,8 +80,6 @@ describe('Value component', function() {
 			expect(props.onOptionLabelClick).toBeCalled();
 		});
 
-	
-	
 	});
 
 });
