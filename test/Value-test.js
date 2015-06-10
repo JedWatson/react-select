@@ -1,13 +1,22 @@
 'use strict';
-/*global describe, it, jest, expect, beforeEach*/
+/* global describe, it, beforeEach */
 
-jest.dontMock('../Value');
+var jsdom = require('mocha-jsdom');
+var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+var expect = chai.expect;
+
+chai.should();
+chai.use(sinonChai);
 
 var React = require('react/addons');
-var Value = require('../Value');
 var TestUtils = React.addons.TestUtils;
 
+var Value = require('../src/Value');
+
 describe('Value component', function() {
+	jsdom();
 
 	var props;
 	var value;
@@ -15,7 +24,7 @@ describe('Value component', function() {
 	beforeEach(function() {
 		props = {
 			label: 'TEST-LABEL',
-			onRemove: jest.genMockFn()
+			onRemove: sinon.spy()
 		};
 		value = TestUtils.renderIntoDocument(<Value {...props}/>);
 	});
@@ -23,31 +32,26 @@ describe('Value component', function() {
 	it('requests its own removal when the remove icon is clicked', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
 		TestUtils.Simulate.click(selectItemIcon.getDOMNode());
-		expect(props.onRemove).toBeCalled();
+		expect(props.onRemove).to.have.been.called;
 	});
 
 	it('requests its own removal when the remove icon is touched', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
 		TestUtils.Simulate.touchEnd(selectItemIcon.getDOMNode());
-		expect(props.onRemove).toBeCalled();
+		expect(props.onRemove).to.have.been.called;
 	});
 
-	it('prevents event propagation', function() {
-		var mockEvent = { stopPropagation: jest.genMockFn() };
+	it('prevents event propagation, pt 1', function() {
+		var mockEvent = { stopPropagation: sinon.spy() };
 		value.blockEvent(mockEvent);
-		expect(mockEvent.stopPropagation).toBeCalled();
-
-		// Note: we presently cannot mock the blockEvent method and trigger the mock
-		// with mouseDown - relevant discussion here -
-		// https://github.com/facebook/jest/issues/207
-
+		expect(mockEvent.stopPropagation).to.have.been.called;
 	});
 
 	describe('without a custom click handler', function() {
 
 		it('presents the given label', function() {
 			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label');
-			expect(selectItemLabel.getDOMNode().textContent).toBe(props.label);
+			expect(selectItemLabel.getDOMNode().textContent).to.equal(props.label);
 		});
 
 	});
@@ -58,29 +62,28 @@ describe('Value component', function() {
 		beforeEach(function() {
 			props = {
 				label: 'TEST-LABEL',
-				onRemove: jest.genMockFn(),
+				onRemove: sinon.spy(),
 				optionLabelClick: true,
-				onOptionLabelClick: jest.genMockFn()
+				onOptionLabelClick: sinon.spy()
 			};
 			value = TestUtils.renderIntoDocument(<Value {...props}/>);
 			selectItemLabelA = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label__a');
 		});
 
 		it('presents the given label', function() {
-			expect(selectItemLabelA.getDOMNode().textContent).toBe(props.label);
+			expect(selectItemLabelA.getDOMNode().textContent).to.equal(props.label);
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
 			TestUtils.Simulate.click(selectItemLabelA.getDOMNode());
-			expect(props.onOptionLabelClick).toBeCalled();
+			expect(props.onOptionLabelClick).to.have.been.called;
 		});
 
 		it('calls a custom callback when the anchor is touched', function() {
 			TestUtils.Simulate.touchEnd(selectItemLabelA.getDOMNode());
-			expect(props.onOptionLabelClick).toBeCalled();
+			expect(props.onOptionLabelClick).to.have.been.called;
 		});
 
 	});
 
 });
-
