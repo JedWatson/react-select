@@ -56,16 +56,6 @@
     "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports --compilers js:babel/register -R spec",
     "watch": "gulp watch:lib"
   },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "collectCoverage": true,
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
-    ],
-    "testPathDirs": [
-      "<rootDir>/src"
-    ]
-  },
   "keywords": [
     "react",
     "react-component",
