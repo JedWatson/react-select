@@ -149,6 +149,17 @@
 
 // arrow indicator
 
+.Select-arrow-zone {
+	content: " ";
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 30px;
+	cursor: pointer;
+}
+
 .Select-arrow {
 	border-color: @select-arrow-color transparent transparent;
 	border-style: solid;
@@ -161,4 +172,5 @@
 	right: @select-padding-horizontal;
 	top: @select-padding-vertical + @select-arrow-width + 1;
 	width: 0;
+	cursor: pointer;
 }
