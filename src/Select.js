@@ -286,6 +286,8 @@ var Select = React.createClass({
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
+		event.stopPropagation();
+		event.preventDefault();
 		this.setValue(null);
 	},
 
@@ -321,6 +323,24 @@ var Select = React.createClass({
 			this._openAfterFocus = true;
 			this.getInputNode().focus();
 		}
+	},
+
+	handleMouseDownOnArrow: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+			return;
+		}
+		// If not focused, handleMouseDown will handle it 
+		if (!this.state.isOpen) {
+			return;
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
+		this.setState({
+			isOpen: false
+		}, this._unbindCloseMenuIfClickedOutside);
 	},
 
 	handleInputFocus: function(event) {
@@ -754,7 +774,8 @@ var Select = React.createClass({
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
 					{input}
-					<span className="Select-arrow" />
+					<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow} />
+					<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
 					{loading}
 					{clear}
 				</div>
