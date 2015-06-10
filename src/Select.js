@@ -321,7 +321,7 @@ var Select = React.createClass({
 			this.setState({
 				isOpen: false
 			}, this._unbindCloseMenuIfClickedOutside);
-			return
+			return;
 		}
 		
 		if (this.state.isFocused) {
