@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 var React = require('react');
 var Select = require('react-select');
 
