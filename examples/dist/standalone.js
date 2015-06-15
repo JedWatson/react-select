@@ -49,7 +49,9 @@ var Select = React.createClass({
   * onOptionLabelClick handler: function (value, event) {}
   *
   */
-		onOptionLabelClick: React.PropTypes.func
+		onOptionLabelClick: React.PropTypes.func,
+
+		keepOpenOnChange: React.PropTypes.bool
 	},
 
 	getDefaultProps: function getDefaultProps() {
@@ -99,7 +101,7 @@ var Select = React.createClass({
 	componentWillMount: function componentWillMount() {
 		this._optionsCache = {};
 		this._optionsFilterString = '';
-		this.setState(this.getStateFromValue(this.props.value));
+		this.setState(this.getStateFromValue(this.props.value, this.props.options));
 
 		if (this.props.asyncOptions && this.props.autoload) {
 			this.autoloadAsyncOptions();
@@ -281,8 +283,10 @@ var Select = React.createClass({
 		if (focusAfterUpdate || focusAfterUpdate === undefined) {
 			this._focusAfterUpdate = true;
 		}
-		var newState = this.getStateFromValue(value);
-		newState.isOpen = false;
+		var newState = this.getStateFromValue(value, this.props.options);
+		if (!this.props.keepOpenOnChange) {
+			newState.isOpen = false;
+		}
 		this.fireChangeEvent(newState);
 		this.setState(newState);
 	},
@@ -379,6 +383,7 @@ var Select = React.createClass({
 			if (self._focusAfterUpdate) return;
 
 			self.setState({
+				isOpen: false,
 				isFocused: false
 			});
 		}, 50);
@@ -465,7 +470,7 @@ var Select = React.createClass({
 				isOpen: true
 			}, this._bindCloseMenuIfClickedOutside);
 		} else {
-			var filteredOptions = this.filterOptions(this.state.options);
+			var filteredOptions = this.filterOptions(this.props.options || this.state.options);
 			this.setState({
 				isOpen: true,
 				inputValue: event.target.value,
