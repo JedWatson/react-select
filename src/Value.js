@@ -6,9 +6,9 @@ var Option = React.createClass({
 
 	propTypes: {
 		label: React.PropTypes.string.isRequired,
+		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool,
-		onOptionLabelClick: React.PropTypes.func
+		optionLabelClick: React.PropTypes.bool
 	},
 
 	blockEvent: function(event) {
