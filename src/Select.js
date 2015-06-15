@@ -43,7 +43,9 @@ var Select = React.createClass({
 		* onOptionLabelClick handler: function (value, event) {}
 		*
 		*/
-		onOptionLabelClick: React.PropTypes.func
+		onOptionLabelClick: React.PropTypes.func,
+
+    keepOpenOnChange: React.PropTypes.bool
 	},
 
 	getDefaultProps: function() {
@@ -269,7 +271,9 @@ var Select = React.createClass({
 			this._focusAfterUpdate = true;
 		}
 		var newState = this.getStateFromValue(value, this.props.options);
-		newState.isOpen = false;
+    if (!this.props.keepOpenOnChange) {
+      newState.isOpen = false;
+    }
 		this.fireChangeEvent(newState);
 		this.setState(newState);
 	},
@@ -367,6 +371,7 @@ var Select = React.createClass({
 			if (self._focusAfterUpdate) return;
 
 			self.setState({
+        isOpen: false,
 				isFocused: false
 			});
 		}, 50);
