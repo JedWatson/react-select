@@ -5,7 +5,10 @@ var Option = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		label: React.PropTypes.string.isRequired,
+		onRemove: React.PropTypes.func,
+		optionLabelClick: React.PropTypes.bool,
+		onOptionLabelClick: React.PropTypes.func
 	},
 
 	blockEvent: function(event) {
