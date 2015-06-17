@@ -21,7 +21,7 @@
     "eslint-plugin-react": "^2.5.2",
     "gulp": "^3.9.0",
     "istanbul": "^0.3.15",
-    "jsdom": "^5.4.3",
+    "jsdom": "^3.1.2",
     "lessify": "^1.0.1",
     "mocha": "^2.2.5",
     "mocha-jsdom": "^0.4.0",
