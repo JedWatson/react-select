@@ -51,7 +51,11 @@ var Select = React.createClass({
   */
 		onOptionLabelClick: React.PropTypes.func,
 
-		keepOpenOnChange: React.PropTypes.bool
+		keepOpenOnChange: React.PropTypes.bool,
+
+		/* Always render the placeholder, so that it can be styled and shown/hidden with css
+   */
+		alwaysShowPlaceholder: React.PropTypes.bool
 	},
 
 	getDefaultProps: function getDefaultProps() {
@@ -728,7 +732,7 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length)) {
+		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length) || this.props.alwaysShowPlaceholder) {
 			value.push(React.createElement(
 				'div',
 				{ className: 'Select-placeholder', key: 'placeholder' },
@@ -837,6 +841,8 @@ module.exports = Select;
 
 var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
+var classes = (typeof window !== "undefined" ? window.classNames : typeof global !== "undefined" ? global.classNames : null);
+
 var Option = React.createClass({
 
 	displayName: 'Value',
@@ -844,7 +850,8 @@ var Option = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string.isRequired,
 		node: React.PropTypes.node,
-		closable: React.PropTypes.bool
+		closable: React.PropTypes.bool,
+		className: React.PropTypes.string
 	},
 
 	blockEvent: function blockEvent(event) {
@@ -865,17 +872,15 @@ var Option = React.createClass({
 			);
 		}
 
-		var closableClass = '';
-		if (this.props.closable !== null && !this.props.closable) {
-			closableClass += ' not-closable';
-		}
-
 		return React.createElement(
 			'div',
-			{ className: 'Select-item' },
+			{ className: classes('Select-item', this.props.className) },
 			React.createElement(
 				'span',
-				{ className: 'Select-item-icon' + closableClass,
+				{
+					className: classes('Select-item-icon', {
+						notClosable: this.props.closable !== null && !this.props.closable
+					}),
 					onMouseDown: this.blockEvent,
 					onClick: this.props.onRemove,
 					onTouchEnd: this.props.onRemove },

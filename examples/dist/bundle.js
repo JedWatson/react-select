@@ -3,6 +3,8 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 var React = require('react');
 
+var classes = require('classnames');
+
 var Option = React.createClass({
 
 	displayName: 'Value',
@@ -10,7 +12,8 @@ var Option = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string.isRequired,
 		node: React.PropTypes.node,
-		closable: React.PropTypes.bool
+		closable: React.PropTypes.bool,
+		className: React.PropTypes.string
 	},
 
 	blockEvent: function blockEvent(event) {
@@ -31,17 +34,15 @@ var Option = React.createClass({
 			);
 		}
 
-		var closableClass = '';
-		if (this.props.closable !== null && !this.props.closable) {
-			closableClass += ' not-closable';
-		}
-
 		return React.createElement(
 			'div',
-			{ className: 'Select-item' },
+			{ className: classes('Select-item', this.props.className) },
 			React.createElement(
 				'span',
-				{ className: 'Select-item-icon' + closableClass,
+				{
+					className: classes('Select-item-icon', {
+						notClosable: this.props.closable !== null && !this.props.closable
+					}),
 					onMouseDown: this.blockEvent,
 					onClick: this.props.onRemove,
 					onTouchEnd: this.props.onRemove },
@@ -59,7 +60,7 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"react":undefined}],"react-select":[function(require,module,exports){
+},{"classnames":undefined,"react":undefined}],"react-select":[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -111,7 +112,11 @@ var Select = React.createClass({
   */
 		onOptionLabelClick: React.PropTypes.func,
 
-		keepOpenOnChange: React.PropTypes.bool
+		keepOpenOnChange: React.PropTypes.bool,
+
+		/* Always render the placeholder, so that it can be styled and shown/hidden with css
+   */
+		alwaysShowPlaceholder: React.PropTypes.bool
 	},
 
 	getDefaultProps: function getDefaultProps() {
@@ -788,7 +793,7 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length)) {
+		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length) || this.props.alwaysShowPlaceholder) {
 			value.push(React.createElement(
 				'div',
 				{ className: 'Select-placeholder', key: 'placeholder' },

@@ -59,19 +59,20 @@
 
 // placeholder
 
+.is-focused .Select-placeholder {
+  display: none;
+}
+
 .Select-placeholder {
 	color: @select-input-placeholder;
 	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: -(@select-arrow-width + @select-padding-horizontal);
+	position: relative;
 
 	// crop text
 	max-width: 100%;
-	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+  display: inline-block;
 }
 
 .has-value > .Select-control > .Select-placeholder {
