@@ -45,7 +45,11 @@ var Select = React.createClass({
 		*/
 		onOptionLabelClick: React.PropTypes.func,
 
-    keepOpenOnChange: React.PropTypes.bool
+    keepOpenOnChange: React.PropTypes.bool,
+
+    /* Always render the placeholder, so that it can be styled and shown/hidden with css
+     */
+    alwaysShowPlaceholder: React.PropTypes.bool
 	},
 
 	getDefaultProps: function() {
@@ -704,7 +708,9 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || (!this.state.inputValue && (!this.props.multi || !value.length))) {
+		if (this.props.disabled ||
+        (!this.state.inputValue && (!this.props.multi || !value.length)) ||
+        this.props.alwaysShowPlaceholder) {
 			value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
 		}
 
