@@ -27,6 +27,7 @@ var Select = React.createClass({
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
+		searchingText: React.PropTypes.string,     // message to display during an asynchronous search
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
@@ -64,6 +65,7 @@ var Select = React.createClass({
 			clearValueText: 'Clear value',
 			clearAllText: 'Clear all',
 			searchable: true,
+			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
 			name: undefined,
 			onChange: undefined,
@@ -683,11 +685,24 @@ var Select = React.createClass({
 			}
 		}, this);
 
-		return ops.length ? ops : (
-			<div className="Select-noresults">
-				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
-			</div>
-		);
+		if (ops.length) {
+			return ops;
+		} else {
+			var noResultsText = (function () {
+				if (this.state.isLoading) {
+					return this.props.searchingText;
+				} else if (this.state.inputValue || !this.props.asyncOptions) {
+					return this.props.noResultsText;
+				} else {
+					return this.props.searchPromptText;
+				}
+			}.bind(this))();
+			return (
+				<div className="Select-noresults">
+					{noResultsText}
+				</div>
+			);
+		}
 	},
 
 	handleOptionLabelClick: function (value, event) {
