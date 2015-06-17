@@ -687,9 +687,9 @@ var Select = React.createClass({
 			var renderedLabel = renderLabel(op);
 
 			return op.disabled ? (
-				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
+				<div ref={ref} key={'option-' + op.value + op.create} className={optionClass}>{renderedLabel}</div>
 			) : (
-				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
+				<div ref={ref} key={'option-' + op.value + op.create} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
 			);
 		}, this);
 
