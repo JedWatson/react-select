@@ -1,5 +1,7 @@
 var React = require('react');
 
+var classes = require('classnames');
+
 var Option = React.createClass({
 
 	displayName: 'Value',
@@ -7,7 +9,8 @@ var Option = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string.isRequired,
 		node: React.PropTypes.node,
-		closable: React.PropTypes.bool
+		closable: React.PropTypes.bool,
+    className: React.PropTypes.string
 	},
 
 	blockEvent: function(event) {
@@ -28,14 +31,12 @@ var Option = React.createClass({
 			);
 		}
 
-		var closableClass = '';
-		if (this.props.closable !== null && !this.props.closable) {
-			closableClass += ' not-closable';
-		}
-
 		return (
-			<div className="Select-item">
-				<span className={'Select-item-icon' + closableClass}
+			<div className={classes('Select-item', this.props.className)}>
+				<span
+          className={classes('Select-item-icon', {
+            notClosable: this.props.closable !== null && !this.props.closable
+          })}
 					onMouseDown={this.blockEvent}
 					onClick={this.props.onRemove}
 					onTouchEnd={this.props.onRemove}>&times;</span>
