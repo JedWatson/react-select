@@ -230,7 +230,7 @@ var Select = React.createClass({
 
 	initValuesArray: function(values, options) {
 		if (!Array.isArray(values)) {
-			if (typeof values === 'string') {
+			if (typeof values === 'string' && values) {
 				values = values.split(this.props.delimiter);
 			} else {
 				values = values ? [values] : [];
@@ -240,7 +240,7 @@ var Select = React.createClass({
 		return values.map(function(val) {
 			if (typeof val === 'string') {
 				for (var key in options) {
-					if (options.hasOwnProperty(key) && options[key] && options[key].value === val) {
+					if (options.hasOwnProperty(key) && options[key] && options[key].value.toString() === val) {
 						return options[key];
 					}
 				}
