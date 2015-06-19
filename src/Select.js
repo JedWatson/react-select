@@ -717,7 +717,8 @@ var Select = React.createClass({
 					key: val.value,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
-					onRemove: this.removeValue.bind(this, val)
+					onRemove: this.removeValue.bind(this, val),
+					disabled: this.props.disabled
 				};
 				for (var key in val) {
 					if (val.hasOwnProperty(key)) {
@@ -728,7 +729,7 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || (!this.state.inputValue && (!this.props.multi || !value.length))) {
+		if (!this.state.inputValue && (!this.props.multi || !value.length)) {
 			value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
 		}
 
@@ -766,11 +767,14 @@ var Select = React.createClass({
 			}
 		}
 
-		if (this.props.searchable && !this.props.disabled) {
-			input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
-		} else {
-			input = <div {...inputProps}>&nbsp;</div>;
+		if (!this.props.disabled) {
+			if (this.props.searchable) {
+				input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
+			} else {
+				input = <div {...inputProps}>&nbsp;</div>;
+			}
 		}
+
 
 		return (
 			<div ref="wrapper" className={selectClass}>

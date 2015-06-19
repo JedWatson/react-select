@@ -731,7 +731,8 @@ var Select = React.createClass({
 					key: val.value,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
-					onRemove: this.removeValue.bind(this, val)
+					onRemove: this.removeValue.bind(this, val),
+					disabled: this.props.disabled
 				};
 				for (var key in val) {
 					if (val.hasOwnProperty(key)) {
@@ -742,7 +743,7 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length)) {
+		if (!this.state.inputValue && (!this.props.multi || !value.length)) {
 			value.push(React.createElement(
 				'div',
 				{ className: 'Select-placeholder', key: 'placeholder' },
@@ -788,14 +789,16 @@ var Select = React.createClass({
 			}
 		}
 
-		if (this.props.searchable && !this.props.disabled) {
-			input = React.createElement(Input, _extends({ value: this.state.inputValue, onChange: this.handleInputChange, minWidth: '5' }, inputProps));
-		} else {
-			input = React.createElement(
-				'div',
-				inputProps,
-				' '
-			);
+		if (!this.props.disabled) {
+			if (this.props.searchable) {
+				input = React.createElement(Input, _extends({ value: this.state.inputValue, onChange: this.handleInputChange, minWidth: '5' }, inputProps));
+			} else {
+				input = React.createElement(
+					'div',
+					inputProps,
+					' '
+				);
+			}
 		}
 
 		return React.createElement(
@@ -835,15 +838,23 @@ var Option = React.createClass({
 		label: React.PropTypes.string.isRequired,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool
+		optionLabelClick: React.PropTypes.bool,
+		disabled: React.PropTypes.bool
 	},
 
 	blockEvent: function blockEvent(event) {
 		event.stopPropagation();
 	},
 
+	handleOnRemove: function handleOnRemove(event) {
+		if (!this.props.disabled) {
+			this.props.onRemove(event);
+		}
+	},
+
 	render: function render() {
 		var label = this.props.label;
+		var deleteIcon = null;
 
 		if (this.props.optionLabelClick) {
 			label = React.createElement(
@@ -863,8 +874,8 @@ var Option = React.createClass({
 				'span',
 				{ className: 'Select-item-icon',
 					onMouseDown: this.blockEvent,
-					onClick: this.props.onRemove,
-					onTouchEnd: this.props.onRemove },
+					onClick: this.handleOnRemove,
+					onTouchEnd: this.handleOnRemove },
 				'×'
 			),
 			React.createElement(

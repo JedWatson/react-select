@@ -339,6 +339,20 @@ label {
 .Select-item-icon:active {
   background-color: #c9e6f2;
 }
+.Select.is-multi.is-disabled .Select-item {
+  background-color: #f2f2f2;
+  border: 1px solid #d9d9d9;
+  color: #888888;
+}
+.Select.is-multi.is-disabled .Select-item-icon {
+  cursor: not-allowed;
+  border-right: 1px solid #d9d9d9;
+}
+.Select.is-multi.is-disabled .Select-item-icon:hover,
+.Select.is-multi.is-disabled .Select-item-icon:focus,
+.Select.is-multi.is-disabled .Select-item-icon:active {
+  background-color: #f2f2f2;
+}
 @keyframes Select-animation-spin {
   to {
     transform: rotate(1turn);

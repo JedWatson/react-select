@@ -8,15 +8,23 @@ var Option = React.createClass({
 		label: React.PropTypes.string.isRequired,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool
+		optionLabelClick: React.PropTypes.bool,
+		disabled: React.PropTypes.bool
 	},
 
 	blockEvent: function(event) {
 		event.stopPropagation();
 	},
 
+	handleOnRemove: function(event) {
+		if (!this.props.disabled) {
+			this.props.onRemove(event);
+		}
+	},
+
 	render: function() {
 		var label = this.props.label;
+		var deleteIcon = null;
 
 		if (this.props.optionLabelClick) {
 			label = (
@@ -33,8 +41,8 @@ var Option = React.createClass({
 			<div className="Select-item">
 				<span className="Select-item-icon"
 					onMouseDown={this.blockEvent}
-					onClick={this.props.onRemove}
-					onTouchEnd={this.props.onRemove}>&times;</span>
+					onClick={this.handleOnRemove}
+					onTouchEnd={this.handleOnRemove}>&times;</span>
 				<span className="Select-item-label">{label}</span>
 			</div>
 		);
