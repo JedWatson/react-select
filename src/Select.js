@@ -415,7 +415,10 @@ var Select = React.createClass({
 						this.clearValue();
 					}
 				} else {
-					this.selectFocusedOption();
+					if (this.props.onEscape)
+						this.props.onEscape();
+					else
+						this.selectFocusedOption();
 				}
 			break;
 
