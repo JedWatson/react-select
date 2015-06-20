@@ -48,7 +48,7 @@
     "bump": "gulp bump",
     "bump:major": "gulp bump:major",
     "bump:minor": "gulp bump:minor",
-    "dev": "gulp dev",
+    "start": "gulp dev",
     "examples": "gulp dev:server",
     "lint": "eslint .",
     "release": "gulp release",
