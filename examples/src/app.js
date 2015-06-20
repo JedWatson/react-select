@@ -118,6 +118,18 @@ var RemoteSelectField = React.createClass({
 
 
 var MultiSelectField = React.createClass({
+	getInitialState: function() {
+		return {
+			disabled: false,
+			value: []
+		};
+	},
+
+	handleSelectChange: function(value, values) {
+		logChange(value);
+		this.setState({value: value});
+	},
+
 	render: function() {
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
@@ -128,11 +140,21 @@ var MultiSelectField = React.createClass({
 			{ label: 'Peppermint', value: 'peppermint' }
 		];
 		return (
-			<div>
-				<label>{this.props.label}</label>
-				<Select multi={true} placeholder="Select your favourite(s)" options={ops} onChange={logChange} />
-			</div>
+			<span>
+				<div>
+					<label>{this.props.label}</label>
+					<Select multi={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
+				</div>
+				<div>
+					<input type="checkbox" checked={this.state.disabled} id="disable-multiselect" onChange={this.toggleDisabled}/>
+					<label htmlFor="disable-multiselect">Disable</label>
+				</div>
+			</span>
 		);
+	},
+	
+	toggleDisabled: function(e) {
+		this.setState({"disabled": e.target.checked});
 	}
 });
 

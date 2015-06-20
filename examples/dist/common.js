@@ -49,7 +49,7 @@ process.nextTick = function (fun) {
         }
     }
     queue.push(new Item(fun, args));
-    if (!draining) {
+    if (queue.length === 1 && !draining) {
         setTimeout(drainQueue, 0);
     }
 };
@@ -19812,47 +19812,49 @@ module.exports = warning;
   http://jedwatson.github.io/classnames
 */
 
-function classNames () {
+(function () {
 	'use strict';
 
-	var classes = '';
+	function classNames () {
 
-	for (var i = 0; i < arguments.length; i++) {
-		var arg = arguments[i];
-		if (!arg) continue;
+		var classes = '';
 
-		var argType = typeof arg;
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
 
-		if ('string' === argType || 'number' === argType) {
-			classes += ' ' + arg;
+			var argType = typeof arg;
 
-		} else if (Array.isArray(arg)) {
-			classes += ' ' + classNames.apply(null, arg);
+			if ('string' === argType || 'number' === argType) {
+				classes += ' ' + arg;
 
-		} else if ('object' === argType) {
-			for (var key in arg) {
-				if (arg.hasOwnProperty(key) && arg[key]) {
-					classes += ' ' + key;
+			} else if (Array.isArray(arg)) {
+				classes += ' ' + classNames.apply(null, arg);
+
+			} else if ('object' === argType) {
+				for (var key in arg) {
+					if (arg.hasOwnProperty(key) && arg[key]) {
+						classes += ' ' + key;
+					}
 				}
 			}
 		}
+
+		return classes.substr(1);
 	}
 
-	return classes.substr(1);
-}
+	if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define(function () {
+			return classNames;
+		});
+	} else if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else {
+		window.classNames = classNames;
+	}
 
-// safely export classNames for node / browserify
-if (typeof module !== 'undefined' && module.exports) {
-	module.exports = classNames;
-}
-
-/* global define */
-// safely export classNames for RequireJS
-if (typeof define !== 'undefined' && define.amd) {
-	define('classnames', [], function() {
-		return classNames;
-	});
-}
+}());
 
 },{}],"react-input-autosize":[function(require,module,exports){
 'use strict';
@@ -19864,7 +19866,6 @@ var React = require('react');
 var sizerStyle = { position: 'absolute', visibility: 'hidden', height: 0, width: 0, overflow: 'scroll', whiteSpace: 'nowrap' };
 
 var AutosizeInput = React.createClass({
-
 	displayName: 'AutosizeInput',
 
 	propTypes: {
@@ -19878,28 +19879,23 @@ var AutosizeInput = React.createClass({
 		inputStyle: React.PropTypes.object, // css styles for the input element
 		inputClassName: React.PropTypes.string // className for the input element
 	},
-
 	getDefaultProps: function getDefaultProps() {
 		return {
 			minWidth: 1
 		};
 	},
-
 	getInitialState: function getInitialState() {
 		return {
 			inputWidth: this.props.minWidth
 		};
 	},
-
 	componentDidMount: function componentDidMount() {
 		this.copyInputStyles();
 		this.updateInputWidth();
 	},
-
 	componentDidUpdate: function componentDidUpdate() {
 		this.updateInputWidth();
 	},
-
 	copyInputStyles: function copyInputStyles() {
 		if (!this.isMounted() || !window.getComputedStyle) {
 			return;
@@ -19914,7 +19910,6 @@ var AutosizeInput = React.createClass({
 			placeholderNode.style.fontFamily = inputStyle.fontFamily;
 		}
 	},
-
 	updateInputWidth: function updateInputWidth() {
 		if (!this.isMounted() || typeof this.refs.sizer.getDOMNode().scrollWidth === 'undefined') {
 			return;
@@ -19934,44 +19929,34 @@ var AutosizeInput = React.createClass({
 			});
 		}
 	},
-
 	getInput: function getInput() {
 		return this.refs.input;
 	},
-
 	focus: function focus() {
 		this.refs.input.getDOMNode().focus();
 	},
-
 	select: function select() {
 		this.refs.input.getDOMNode().select();
 	},
-
 	render: function render() {
-
-		var nbspValue = (this.props.value || '').replace(/ /g, '&nbsp;');
-
+		var escapedValue = (this.props.value || '').replace(/ /g, '&nbsp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 		var wrapperStyle = this.props.style || {};
 		wrapperStyle.display = 'inline-block';
-
 		var inputStyle = this.props.inputStyle || {};
 		inputStyle.width = this.state.inputWidth;
-
 		var placeholder = this.props.placeholder ? React.createElement(
 			'div',
 			{ ref: 'placeholderSizer', style: sizerStyle },
 			this.props.placeholder
 		) : null;
-
 		return React.createElement(
 			'div',
 			{ className: this.props.className, style: wrapperStyle },
 			React.createElement('input', _extends({}, this.props, { ref: 'input', className: this.props.inputClassName, style: inputStyle })),
-			React.createElement('div', { ref: 'sizer', style: sizerStyle, dangerouslySetInnerHTML: { __html: nbspValue } }),
+			React.createElement('div', { ref: 'sizer', style: sizerStyle, dangerouslySetInnerHTML: { __html: escapedValue } }),
 			placeholder
 		);
 	}
-
 });
 
 module.exports = AutosizeInput;

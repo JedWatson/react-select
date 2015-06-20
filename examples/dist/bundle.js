@@ -8,15 +8,26 @@ var Option = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		label: React.PropTypes.string.isRequired,
+		onOptionLabelClick: React.PropTypes.func,
+		onRemove: React.PropTypes.func,
+		optionLabelClick: React.PropTypes.bool,
+		disabled: React.PropTypes.bool
 	},
 
 	blockEvent: function blockEvent(event) {
 		event.stopPropagation();
 	},
 
+	handleOnRemove: function handleOnRemove(event) {
+		if (!this.props.disabled) {
+			this.props.onRemove(event);
+		}
+	},
+
 	render: function render() {
 		var label = this.props.label;
+		var deleteIcon = null;
 
 		if (this.props.optionLabelClick) {
 			label = React.createElement(
@@ -36,8 +47,8 @@ var Option = React.createClass({
 				'span',
 				{ className: 'Select-item-icon',
 					onMouseDown: this.blockEvent,
-					onClick: this.props.onRemove,
-					onTouchEnd: this.props.onRemove },
+					onClick: this.handleOnRemove,
+					onTouchEnd: this.handleOnRemove },
 				'×'
 			),
 			React.createElement(
@@ -53,6 +64,10 @@ var Option = React.createClass({
 module.exports = Option;
 
 },{"react":undefined}],"react-select":[function(require,module,exports){
+/* disable some rules until we refactor more completely; fixing them now would
+   cause conflicts with some open PRs unnecessarily. */
+/* eslint react/jsx-sort-prop-types: 0, react/sort-comp: 0, react/prop-types: 0 */
+
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -92,8 +107,9 @@ var Select = React.createClass({
 		filterOptions: React.PropTypes.func, // method to filter the options array: function([options], filterString, [values])
 		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
+		ignoreCase: React.PropTypes.bool, // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-
+		allowCreate: React.PropTypes.bool, // wether to allow creation of new entries
 		/*
   * Allow user to make option label clickable. When this handler is defined we should
   * wrap label into <a>label</a> tag.
@@ -124,7 +140,9 @@ var Select = React.createClass({
 			className: undefined,
 			matchPos: 'any',
 			matchProp: 'any',
+			ignoreCase: true,
 			inputProps: {},
+			allowCreate: false,
 
 			onOptionLabelClick: undefined
 		};
@@ -151,11 +169,6 @@ var Select = React.createClass({
 	componentWillMount: function componentWillMount() {
 		this._optionsCache = {};
 		this._optionsFilterString = '';
-		this.setState(this.getStateFromValue(this.props.value));
-
-		if (this.props.asyncOptions && this.props.autoload) {
-			this.autoloadAsyncOptions();
-		}
 
 		var self = this;
 		this._closeMenuIfClickedOutside = function (event) {
@@ -177,12 +190,27 @@ var Select = React.createClass({
 		};
 
 		this._bindCloseMenuIfClickedOutside = function () {
-			document.addEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.addEventListener && document.attachEvent) {
+				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.addEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
 
 		this._unbindCloseMenuIfClickedOutside = function () {
-			document.removeEventListener('click', self._closeMenuIfClickedOutside);
+			if (!document.removeEventListener && document.detachEvent) {
+				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
+			} else {
+				document.removeEventListener('click', this._closeMenuIfClickedOutside);
+			}
 		};
+
+		this.setState(this.getStateFromValue(this.props.value), function () {
+			//Executes after state change is done. Fixes issue #201
+			if (this.props.asyncOptions && this.props.autoload) {
+				this.autoloadAsyncOptions();
+			}
+		});
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -332,6 +360,8 @@ var Select = React.createClass({
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
+		event.stopPropagation();
+		event.preventDefault();
 		this.setValue(null);
 	},
 
@@ -367,6 +397,24 @@ var Select = React.createClass({
 			this._openAfterFocus = true;
 			this.getInputNode().focus();
 		}
+	},
+
+	handleMouseDownOnArrow: function handleMouseDownOnArrow(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || event.type === 'mousedown' && event.button !== 0) {
+			return;
+		}
+		// If not focused, handleMouseDown will handle it
+		if (!this.state.isOpen) {
+			return;
+		}
+
+		event.stopPropagation();
+		event.preventDefault();
+		this.setState({
+			isOpen: false
+		}, this._unbindCloseMenuIfClickedOutside);
 	},
 
 	handleInputFocus: function handleInputFocus(event) {
@@ -426,6 +474,8 @@ var Select = React.createClass({
 
 			case 13:
 				// enter
+				if (!this.state.isOpen) return;
+
 				this.selectFocusedOption();
 				break;
 
@@ -446,6 +496,17 @@ var Select = React.createClass({
 			case 40:
 				// down
 				this.focusNextOption();
+				break;
+
+			case 188:
+				// ,
+				if (this.props.allowCreate) {
+					event.preventDefault();
+					event.stopPropagation();
+					this.selectFocusedOption();
+				} else {
+					return;
+				}
 				break;
 
 			default:
@@ -519,7 +580,7 @@ var Select = React.createClass({
 					}
 				}
 				this.setState(newState);
-				if (callback) callback({});
+				if (callback) callback.call(this, {});
 				return;
 			}
 		}
@@ -548,7 +609,7 @@ var Select = React.createClass({
 			}
 			self.setState(newState);
 
-			if (callback) callback({});
+			if (callback) callback.call(self, {});
 		});
 	},
 
@@ -569,13 +630,21 @@ var Select = React.createClass({
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
 				var valueTest = String(op.value),
 				    labelTest = String(op.label);
-				return !filterValue || this.props.matchPos === 'start' ? this.props.matchProp !== 'label' && valueTest.toLowerCase().substr(0, filterValue.length) === filterValue || this.props.matchProp !== 'value' && labelTest.toLowerCase().substr(0, filterValue.length) === filterValue : this.props.matchProp !== 'label' && valueTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0 || this.props.matchProp !== 'value' && labelTest.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0;
+				if (this.props.ignoreCase) {
+					valueTest = valueTest.toLowerCase();
+					labelTest = labelTest.toLowerCase();
+					filterValue = filterValue.toLowerCase();
+				}
+				return !filterValue || this.props.matchPos === 'start' ? this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue || this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue : this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0 || this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0;
 			};
 			return (options || []).filter(filterOption, this);
 		}
 	},
 
 	selectFocusedOption: function selectFocusedOption() {
+		if (this.props.allowCreate && !this.state.focusedOption) {
+			return this.selectValue(this.state.inputValue);
+		}
 		return this.selectValue(this.state.focusedOption);
 	},
 
@@ -651,6 +720,15 @@ var Select = React.createClass({
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
+		// Add the current value to the filtered options in last resort
+		if (this.props.allowCreate && this.state.inputValue.trim()) {
+			var inputValue = this.state.inputValue;
+			this.state.filteredOptions.unshift({
+				value: inputValue,
+				label: inputValue,
+				create: true
+			});
+		}
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
@@ -678,7 +756,7 @@ var Select = React.createClass({
 				return React.createElement(
 					'div',
 					{ ref: ref, key: 'option-' + op.value, className: optionClass, onMouseEnter: mouseEnter, onMouseLeave: mouseLeave, onMouseDown: mouseDown, onClick: mouseDown },
-					op.label
+					op.create ? 'Add ' + op.label + ' ?' : op.label
 				);
 			}
 		}, this);
@@ -717,7 +795,8 @@ var Select = React.createClass({
 					key: val.value,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
-					onRemove: this.removeValue.bind(this, val)
+					onRemove: this.removeValue.bind(this, val),
+					disabled: this.props.disabled
 				};
 				for (var key in val) {
 					if (val.hasOwnProperty(key)) {
@@ -728,7 +807,7 @@ var Select = React.createClass({
 			}, this);
 		}
 
-		if (this.props.disabled || !this.state.inputValue && (!this.props.multi || !value.length)) {
+		if (!this.state.inputValue && (!this.props.multi || !value.length)) {
 			value.push(React.createElement(
 				'div',
 				{ className: 'Select-placeholder', key: 'placeholder' },
@@ -774,14 +853,16 @@ var Select = React.createClass({
 			}
 		}
 
-		if (this.props.searchable && !this.props.disabled) {
-			input = React.createElement(Input, _extends({ value: this.state.inputValue, onChange: this.handleInputChange, minWidth: '5' }, inputProps));
-		} else {
-			input = React.createElement(
-				'div',
-				inputProps,
-				' '
-			);
+		if (!this.props.disabled) {
+			if (this.props.searchable) {
+				input = React.createElement(Input, _extends({ value: this.state.inputValue, onChange: this.handleInputChange, minWidth: '5' }, inputProps));
+			} else {
+				input = React.createElement(
+					'div',
+					inputProps,
+					' '
+				);
+			}
 		}
 
 		return React.createElement(
@@ -793,7 +874,8 @@ var Select = React.createClass({
 				{ className: 'Select-control', ref: 'control', onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
 				value,
 				input,
-				React.createElement('span', { className: 'Select-arrow' }),
+				React.createElement('span', { className: 'Select-arrow-zone', onMouseDown: this.handleMouseDownOnArrow }),
+				React.createElement('span', { className: 'Select-arrow', onMouseDown: this.handleMouseDownOnArrow }),
 				loading,
 				clear
 			),

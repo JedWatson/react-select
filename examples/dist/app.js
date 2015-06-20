@@ -1,13 +1,10 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*
-Note: ESLint is currently misreporting unused / undeclared variables for JSX.
-These errors can be ignored until the bug has been fixed.
- */
+/* eslint react/prop-types: 0 */
 
 'use strict';
 
-var React = require('react'),
-    Select = require('react-select');
+var React = require('react');
+var Select = require('react-select');
 
 var STATES = require('./data/states');
 
@@ -146,18 +143,48 @@ var RemoteSelectField = React.createClass({
 var MultiSelectField = React.createClass({
 	displayName: 'MultiSelectField',
 
+	getInitialState: function getInitialState() {
+		return {
+			disabled: false,
+			value: []
+		};
+	},
+
+	handleSelectChange: function handleSelectChange(value, values) {
+		logChange(value);
+		this.setState({ value: value });
+	},
+
 	render: function render() {
 		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 		return React.createElement(
-			'div',
+			'span',
 			null,
 			React.createElement(
-				'label',
+				'div',
 				null,
-				this.props.label
+				React.createElement(
+					'label',
+					null,
+					this.props.label
+				),
+				React.createElement(Select, { multi: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: ops, onChange: this.handleSelectChange })
 			),
-			React.createElement(Select, { multi: true, placeholder: 'Select your favourite(s)', options: ops, onChange: logChange })
+			React.createElement(
+				'div',
+				null,
+				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-multiselect', onChange: this.toggleDisabled }),
+				React.createElement(
+					'label',
+					{ htmlFor: 'disable-multiselect' },
+					'Disable'
+				)
+			)
 		);
+	},
+
+	toggleDisabled: function toggleDisabled(e) {
+		this.setState({ 'disabled': e.target.checked });
 	}
 });
 
@@ -189,6 +216,36 @@ var SelectedValuesField = React.createClass({
 	}
 });
 
+var SelectedValuesFieldCreate = React.createClass({
+	displayName: 'SelectedValuesFieldCreate',
+
+	onLabelClick: function onLabelClick(data, event) {
+		console.log(data, event);
+	},
+
+	render: function render() {
+		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'label',
+				null,
+				this.props.label
+			),
+			React.createElement(Select, {
+				onOptionLabelClick: this.onLabelClick,
+				value: 'chocolate,vanilla,strawberry',
+				delimiter: ',',
+				multi: true,
+				allowCreate: true,
+				placeholder: 'Select your favourite(s)',
+				options: ops,
+				onChange: logChange })
+		);
+	}
+});
+
 React.render(React.createElement(
 	'div',
 	null,
@@ -196,6 +253,7 @@ React.render(React.createElement(
 	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
 	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
 	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
+	React.createElement(SelectedValuesFieldCreate, { label: 'Clickable labels + Creation(labels as links):' }),
 	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
 ), document.getElementById('example'));
 
