@@ -1,5 +1,22 @@
 # React-Select
 
+## v0.5.0 / 2015-06-20
+
+* fixed; `esc` key incorrectly created empty options, thanks [rgrzelak](https://github.com/rgrzelak)
+* adeed; New feature to allow option creation ("tags mode"), enable with `allowCreate` prop, thanks [Florent Vilmart](https://github.com/flovilmart) and [Brian Reavis](https://github.com/brianreavis)
+* fixed; IE8 compatibility fallback for `addEventListener/removeEventListener`, which don't exist in IE8, thanks [Stefan Billiet](https://github.com/StefanBilliet)
+* fixed; Undefined values when using asyncOptions, thanks [bannaN](https://github.com/bannaN)
+* fixed; Prevent add the last focused value when the drop down menu is closed / Pushing enter without dropdown open adds a value, thanks [Giuseppe](https://github.com/giuse88)
+* fixed; Callback context is undefined, thanks [Giuseppe](https://github.com/giuse88)
+* fixed; Issue with event being swallowed on Enter `keydown`, thanks [Kevin Burke](https://github.com/kembuco)
+* added; Support for case-insensitive filtering when `matchPos="start"`, thanks [wesrage](https://github.com/wesrage)
+* added; Support for customizable background color, thanks [John Morales](https://github.com/JohnMorales)
+* fixed; Updated ESLint and cleared up warnings, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
+* fixed; Close dropdown when clicking on select, thanks [Nik Butenko](https://github.com/nkbt)
+* added; Tests, and mocha test framework, thanks [Craig Dallimore](https://github.com/craigdallimore)
+* fixed; You can now start the example server and watch for changes with `npm start`
+
+
 ## v0.4.9 / 2015-05-11
 
 * fixed; focus was being grabbed by the select when `autoload` and `asyncOptions` were set
