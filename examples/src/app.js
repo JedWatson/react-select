@@ -228,7 +228,7 @@ React.render(
 		<StatesField label="States (non-searchable):" searchable={false} />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
-		<SelectedValuesFieldCreate label="Clickable labels + Creation(labels as links):" />
+		<SelectedValuesFieldCreate label="Clickable labels + Option Creation:" />
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')
