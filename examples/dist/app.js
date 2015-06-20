@@ -224,7 +224,7 @@ var SelectedValuesFieldCreate = React.createClass({
 	},
 
 	render: function render() {
-		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
+		var ops = [{ label: 'First Option', value: 'first' }, { label: 'Second Option', value: 'second' }, { label: 'Third Option', value: 'third' }];
 		return React.createElement(
 			'div',
 			null,
@@ -234,8 +234,7 @@ var SelectedValuesFieldCreate = React.createClass({
 				this.props.label
 			),
 			React.createElement(Select, {
-				onOptionLabelClick: this.onLabelClick,
-				value: 'chocolate,vanilla,strawberry',
+				value: 'first',
 				delimiter: ',',
 				multi: true,
 				allowCreate: true,
@@ -253,7 +252,7 @@ React.render(React.createElement(
 	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
 	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
 	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
-	React.createElement(SelectedValuesFieldCreate, { label: 'Clickable labels + Creation(labels as links):' }),
+	React.createElement(SelectedValuesFieldCreate, { label: 'Option Creation (tags mode):' }),
 	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
 ), document.getElementById('example'));
 
