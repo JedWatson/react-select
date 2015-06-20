@@ -126,8 +126,12 @@ var MultiSelectField = React.createClass({
 	},
 
 	handleSelectChange: function(value, values) {
-		logChange(value);
-		this.setState({value: value});
+		logChange('New value:', value, 'Values:', values);
+		this.setState({ value: value });
+	},
+	
+	toggleDisabled: function(e) {
+		this.setState({ 'disabled': e.target.checked });
 	},
 
 	render: function() {
@@ -151,10 +155,6 @@ var MultiSelectField = React.createClass({
 				</div>
 			</span>
 		);
-	},
-	
-	toggleDisabled: function(e) {
-		this.setState({"disabled": e.target.checked});
 	}
 });
 

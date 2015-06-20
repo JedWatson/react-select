@@ -5,11 +5,11 @@ var Option = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
+		disabled: React.PropTypes.bool,
 		label: React.PropTypes.string.isRequired,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool,
-		disabled: React.PropTypes.bool
+		optionLabelClick: React.PropTypes.bool
 	},
 
 	blockEvent: function(event) {
@@ -24,7 +24,6 @@ var Option = React.createClass({
 
 	render: function() {
 		var label = this.props.label;
-		var deleteIcon = null;
 
 		if (this.props.optionLabelClick) {
 			label = (
