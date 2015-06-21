@@ -225,7 +225,7 @@ var Select = React.createClass({
 	initValuesArray: function(values, options) {
 		if (!Array.isArray(values)) {
 			if (typeof values === 'string') {
-				values = values.split(this.props.delimiter);
+				values = values === '' ? [] : values.split(this.props.delimiter);
 			} else {
 				values = values ? [values] : [];
 			}
@@ -765,7 +765,6 @@ var Select = React.createClass({
 				input = <div {...inputProps}>&nbsp;</div>;
 			}
 		}
-
 
 		return (
 			<div ref="wrapper" className={selectClass}>
