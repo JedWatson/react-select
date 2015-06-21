@@ -4,6 +4,7 @@ var React = require('react');
 var Select = require('react-select');
 
 var STATES = require('./data/states');
+var id = 0;
 
 function logChange(value) {
 	console.log('Select value changed: ' + value);
@@ -29,6 +30,8 @@ var StatesField = React.createClass({
 	getInitialState: function() {
 		return {
 			country: 'AU',
+			disabled: false,
+			id: ++id,
 			selectValue: 'new-south-wales'
 		};
 	},
@@ -48,17 +51,22 @@ var StatesField = React.createClass({
 	focusStateSelect: function() {
 		this.refs.stateSelect.focus();
 	},
+	toggleDisabled: function(e) {
+		this.setState({ disabled: e.target.checked });
+	},
 	render: function() {
 		var ops = STATES[this.state.country];
 		return (
 			<div>
 				<label>{this.props.label}</label>
-				<Select ref="stateSelect" options={ops} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
+				<Select ref="stateSelect" options={ops} disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
 				<div className="switcher">
 					Country:
 					<CountrySelect value="AU" selected={this.state.country} onSelect={this.switchCountry}>Australia</CountrySelect>
 					<CountrySelect value="US" selected={this.state.country} onSelect={this.switchCountry}>US</CountrySelect>
 					&nbsp; <button type="button" onClick={this.focusStateSelect}>Focus Select</button>
+					&nbsp; <input type="checkbox" checked={this.state.disabled} id={'disable-states-' + this.state.id} onChange={this.toggleDisabled}/>
+					<label htmlFor={'disable-states-' + this.state.id}>Disable</label>
 				</div>
 			</div>
 		);
