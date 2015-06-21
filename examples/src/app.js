@@ -76,7 +76,6 @@ var StatesField = React.createClass({
 var RemoteSelectField = React.createClass({
 	loadOptions: function(input, callback) {
 		input = input.toLowerCase();
-
 		var rtn = {
 			options: [
 				{ label: 'One', value: 'one' },
@@ -85,7 +84,6 @@ var RemoteSelectField = React.createClass({
 			],
 			complete: true
 		};
-
 		if (input.slice(0, 1) === 'a') {
 			if (input.slice(0, 2) === 'ab') {
 				rtn = {
@@ -132,16 +130,13 @@ var MultiSelectField = React.createClass({
 			value: []
 		};
 	},
-
 	handleSelectChange: function(value, values) {
 		logChange('New value:', value, 'Values:', values);
 		this.setState({ value: value });
 	},
-	
 	toggleDisabled: function(e) {
 		this.setState({ 'disabled': e.target.checked });
 	},
-
 	render: function() {
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
@@ -167,11 +162,9 @@ var MultiSelectField = React.createClass({
 });
 
 var SelectedValuesField = React.createClass({
-
 	onLabelClick: function (data, event) {
 		console.log(data, event);
 	},
-
 	render: function() {
 		var ops = [
 			{ label: 'Chocolate', value: 'chocolate' },
@@ -197,11 +190,9 @@ var SelectedValuesField = React.createClass({
 });
 
 var SelectedValuesFieldCreate = React.createClass({
-
 	onLabelClick: function (data, event) {
 		console.log(data, event);
 	},
-
 	render: function() {
 		var ops = [
 			{ label: 'First Option', value: 'first' },
@@ -225,11 +216,9 @@ var SelectedValuesFieldCreate = React.createClass({
 });
 
 var CustomRenderField = React.createClass({
-
 	onLabelClick: function (data, event) {
 		console.log(data, event);
 	},
-
 	renderOption: function(option) {
 		return <span style={{ color: option.hex }}>{option.label} ({option.hex})</span>;
 
@@ -237,7 +226,6 @@ var CustomRenderField = React.createClass({
 	renderValue: function(option) {
 		return <strong style={{ color: option.hex }}>{option.label}</strong>;
 	},
-
 	render: function() {
 		var ops = [
 			{ label: 'Red', value: 'red', hex: '#EC6230' },
@@ -260,8 +248,6 @@ var CustomRenderField = React.createClass({
 		);
 	}
 });
-
-
 
 React.render(
 	<div>
