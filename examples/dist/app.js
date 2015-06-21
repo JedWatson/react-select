@@ -7,6 +7,7 @@ var React = require('react');
 var Select = require('react-select');
 
 var STATES = require('./data/states');
+var id = 0;
 
 function logChange(value) {
 	console.log('Select value changed: ' + value);
@@ -40,6 +41,8 @@ var StatesField = React.createClass({
 	getInitialState: function getInitialState() {
 		return {
 			country: 'AU',
+			disabled: false,
+			id: ++id,
 			selectValue: 'new-south-wales'
 		};
 	},
@@ -59,6 +62,9 @@ var StatesField = React.createClass({
 	focusStateSelect: function focusStateSelect() {
 		this.refs.stateSelect.focus();
 	},
+	toggleDisabled: function toggleDisabled(e) {
+		this.setState({ disabled: e.target.checked });
+	},
 	render: function render() {
 		var ops = STATES[this.state.country];
 		return React.createElement(
@@ -69,7 +75,7 @@ var StatesField = React.createClass({
 				null,
 				this.props.label
 			),
-			React.createElement(Select, { ref: 'stateSelect', options: ops, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
+			React.createElement(Select, { ref: 'stateSelect', options: ops, disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
 			React.createElement(
 				'div',
 				{ className: 'switcher' },
@@ -89,6 +95,13 @@ var StatesField = React.createClass({
 					'button',
 					{ type: 'button', onClick: this.focusStateSelect },
 					'Focus Select'
+				),
+				'  ',
+				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-states-' + this.state.id, onChange: this.toggleDisabled }),
+				React.createElement(
+					'label',
+					{ htmlFor: 'disable-states-' + this.state.id },
+					'Disable'
 				)
 			)
 		);
@@ -100,12 +113,10 @@ var RemoteSelectField = React.createClass({
 
 	loadOptions: function loadOptions(input, callback) {
 		input = input.toLowerCase();
-
 		var rtn = {
 			options: [{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }],
 			complete: true
 		};
-
 		if (input.slice(0, 1) === 'a') {
 			if (input.slice(0, 2) === 'ab') {
 				rtn = {
@@ -149,12 +160,13 @@ var MultiSelectField = React.createClass({
 			value: []
 		};
 	},
-
 	handleSelectChange: function handleSelectChange(value, values) {
-		logChange(value);
+		logChange('New value:', value, 'Values:', values);
 		this.setState({ value: value });
 	},
-
+	toggleDisabled: function toggleDisabled(e) {
+		this.setState({ 'disabled': e.target.checked });
+	},
 	render: function render() {
 		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 		return React.createElement(
@@ -181,10 +193,6 @@ var MultiSelectField = React.createClass({
 				)
 			)
 		);
-	},
-
-	toggleDisabled: function toggleDisabled(e) {
-		this.setState({ 'disabled': e.target.checked });
 	}
 });
 
@@ -194,7 +202,6 @@ var SelectedValuesField = React.createClass({
 	onLabelClick: function onLabelClick(data, event) {
 		console.log(data, event);
 	},
-
 	render: function render() {
 		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 		return React.createElement(
@@ -222,7 +229,6 @@ var SelectedValuesFieldCreate = React.createClass({
 	onLabelClick: function onLabelClick(data, event) {
 		console.log(data, event);
 	},
-
 	render: function render() {
 		var ops = [{ label: 'First Option', value: 'first' }, { label: 'Second Option', value: 'second' }, { label: 'Third Option', value: 'third' }];
 		return React.createElement(
@@ -245,6 +251,52 @@ var SelectedValuesFieldCreate = React.createClass({
 	}
 });
 
+var CustomRenderField = React.createClass({
+	displayName: 'CustomRenderField',
+
+	onLabelClick: function onLabelClick(data, event) {
+		console.log(data, event);
+	},
+	renderOption: function renderOption(option) {
+		return React.createElement(
+			'span',
+			{ style: { color: option.hex } },
+			option.label,
+			' (',
+			option.hex,
+			')'
+		);
+	},
+	renderValue: function renderValue(option) {
+		return React.createElement(
+			'strong',
+			{ style: { color: option.hex } },
+			option.label
+		);
+	},
+	render: function render() {
+		var ops = [{ label: 'Red', value: 'red', hex: '#EC6230' }, { label: 'Green', value: 'green', hex: '#4ED84E' }, { label: 'Blue', value: 'blue', hex: '#6D97E2' }];
+		return React.createElement(
+			'div',
+			null,
+			React.createElement(
+				'label',
+				null,
+				this.props.label
+			),
+			React.createElement(Select, {
+				delimiter: ',',
+				multi: true,
+				allowCreate: true,
+				placeholder: 'Select your favourite(s)',
+				options: ops,
+				optionRenderer: this.renderOption,
+				valueRenderer: this.renderValue,
+				onChange: logChange })
+		);
+	}
+});
+
 React.render(React.createElement(
 	'div',
 	null,
@@ -253,6 +305,7 @@ React.render(React.createElement(
 	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
 	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
 	React.createElement(SelectedValuesFieldCreate, { label: 'Option Creation (tags mode):' }),
+	React.createElement(CustomRenderField, { label: 'Custom rendering for options and values:' }),
 	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
 ), document.getElementById('example'));
 
