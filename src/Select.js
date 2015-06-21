@@ -764,6 +764,8 @@ var Select = React.createClass({
 			} else {
 				input = <div {...inputProps}>&nbsp;</div>;
 			}
+		} else if (!this.props.multi || !this.state.values.length) {
+			input = <div className="Select-input">&nbsp;</div>;
 		}
 
 		return (
