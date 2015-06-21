@@ -216,6 +216,43 @@ var SelectedValuesFieldCreate = React.createClass({
 	}
 });
 
+var CustomRenderField = React.createClass({
+
+	onLabelClick: function (data, event) {
+		console.log(data, event);
+	},
+
+	renderOption: function(option) {
+		return <span style={{color:option.hex}}>{option.label} ({option.hex})</span>;
+
+	},
+	renderValue: function(option) {
+		return <strong style={{color:option.hex}}>{option.label}</strong>;
+	},
+
+	render: function() {
+		var ops = [
+			{ label: 'Red', value: 'red', hex: '#EC6230' },
+			{ label: 'Green', value: 'green', hex: '#4ED84E' },
+			{ label: 'Blue', value: 'blue', hex: '#6D97E2' }
+		];
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					delimiter=","
+					multi={true}
+					allowCreate={true}
+					placeholder="Select your favourite(s)"
+					options={ops}
+					optionRenderer={this.renderOption}
+					valueRenderer={this.renderValue}
+					onChange={logChange} />
+			</div>
+		);
+	}
+});
+
 
 
 React.render(
@@ -225,6 +262,7 @@ React.render(
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
 		<SelectedValuesFieldCreate label="Option Creation (tags mode):" />
+		<CustomRenderField label="Custom rendering for options and values:" />
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')

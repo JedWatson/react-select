@@ -40,6 +40,9 @@ var Select = React.createClass({
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
+		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
+
 		/*
 		* Allow user to make option label clickable. When this handler is defined we should
 		* wrap label into <a>label</a> tag.
@@ -646,6 +649,9 @@ var Select = React.createClass({
 
 	buildMenu: function() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		var renderLabel = this.props.optionRenderer || function(op) {
+			return op.label;
+		};
 
 		if(this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
@@ -675,11 +681,12 @@ var Select = React.createClass({
 			var mouseEnter = this.focusOption.bind(this, op);
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
+			var renderedLabel = renderLabel(op);
 
 			if (op.disabled) {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{op.label}</div>;
+				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>;
 			} else {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : op.label}</div>;
+				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>;
 			}
 		}, this);
 
@@ -713,19 +720,14 @@ var Select = React.createClass({
 
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
-				var props = {
-					key: val.value,
-					optionLabelClick: !!this.props.onOptionLabelClick,
-					onOptionLabelClick: this.handleOptionLabelClick.bind(this, val),
-					onRemove: this.removeValue.bind(this, val),
-					disabled: this.props.disabled
-				};
-				for (var key in val) {
-					if (val.hasOwnProperty(key)) {
-						props[key] = val[key];
-					}
-				}
-				value.push(<Value {...props} />);
+				value.push(<Value
+					key={val.value}
+					option={val}
+					renderer={this.props.valueRenderer}
+					optionLabelClick={!!this.props.onOptionLabelClick}
+					onOptionLabelClick={this.handleOptionLabelClick.bind(this, val)}
+					onRemove={this.removeValue.bind(this, val)}
+					disabled={this.props.disabled} />);
 			}, this);
 		}
 
