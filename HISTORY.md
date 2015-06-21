@@ -1,5 +1,11 @@
 # React-Select
 
+## v0.5.1 / 2015-06-21
+
+* added; custom option and value rendering capability, thanks [Brian Reavis](https://github.com/brianreavis)
+* fixed; collapsing issue when single-select or empty multi-select fields are disabled
+* fixed; issue where an empty value would be left after clearing all values in a multi-select field
+
 ## v0.5.0 / 2015-06-20
 
 * fixed; `esc` key incorrectly created empty options, thanks [rgrzelak](https://github.com/rgrzelak)
