@@ -8,8 +8,8 @@ var Option = React.createClass({
 		disabled: React.PropTypes.bool,
 		onOptionLabelClick: React.PropTypes.func,
 		onRemove: React.PropTypes.func,
-		optionLabelClick: React.PropTypes.bool,
 		option: React.PropTypes.object.isRequired,
+		optionLabelClick: React.PropTypes.bool,
 		renderer: React.PropTypes.func
 	},
 

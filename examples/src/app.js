@@ -223,11 +223,11 @@ var CustomRenderField = React.createClass({
 	},
 
 	renderOption: function(option) {
-		return <span style={{color:option.hex}}>{option.label} ({option.hex})</span>;
+		return <span style={{ color: option.hex }}>{option.label} ({option.hex})</span>;
 
 	},
 	renderValue: function(option) {
-		return <strong style={{color:option.hex}}>{option.label}</strong>;
+		return <strong style={{ color: option.hex }}>{option.label}</strong>;
 	},
 
 	render: function() {
