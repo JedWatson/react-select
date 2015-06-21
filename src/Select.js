@@ -14,70 +14,61 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		value: React.PropTypes.any,                // initial field value
-		multi: React.PropTypes.bool,               // multi-value input
-		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
-		options: React.PropTypes.array,            // array of options
-		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
+		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
-		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
-		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
-		clearable: React.PropTypes.bool,           // should it be possible to reset value
-		clearValueText: React.PropTypes.string,    // title for the "clear" control
-		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
-		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
-		searchPromptText: React.PropTypes.string,  // label to prompt for search input
-		name: React.PropTypes.string,              // field name, for hidden <input /> tag
-		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
-		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
-		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
 		className: React.PropTypes.string,         // className for the outer element
+		clearable: React.PropTypes.bool,           // should it be possible to reset value
+		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
+		clearValueText: React.PropTypes.string,    // title for the "clear" control
+		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
+		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
-		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
-		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
+		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
+		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		multi: React.PropTypes.bool,               // multi-value input
+		name: React.PropTypes.string,              // field name, for hidden <input /> tag
+		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
+		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
+		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
+		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
+		onOptionLabelClick: React.PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
 		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
-		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
-
-		/*
-		* Allow user to make option label clickable. When this handler is defined we should
-		* wrap label into <a>label</a> tag.
-		*
-		* onOptionLabelClick handler: function (value, event) {}
-		*
-		*/
-		onOptionLabelClick: React.PropTypes.func
+		options: React.PropTypes.array,            // array of options
+		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
+		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
+		searchPromptText: React.PropTypes.string,  // label to prompt for search input
+		value: React.PropTypes.any,                // initial field value
+		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
 	},
 
 	getDefaultProps: function() {
 		return {
-			value: undefined,
-			options: undefined,
-			disabled: false,
-			delimiter: ',',
+			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
-			placeholder: 'Select...',
-			noResultsText: 'No results found',
-			clearable: true,
-			clearValueText: 'Clear value',
-			clearAllText: 'Clear all',
-			searchable: true,
-			searchPromptText: 'Type to search',
-			name: undefined,
-			onChange: undefined,
 			className: undefined,
-			matchPos: 'any',
-			matchProp: 'any',
+			clearable: true,
+			clearAllText: 'Clear all',
+			clearValueText: 'Clear value',
+			delimiter: ',',
+			disabled: false,
 			ignoreCase: true,
 			inputProps: {},
-			allowCreate: false,
-
-			onOptionLabelClick: undefined
+			matchPos: 'any',
+			matchProp: 'any',
+			name: undefined,
+			noResultsText: 'No results found',
+			onChange: undefined,
+			onOptionLabelClick: undefined,
+			options: undefined,
+			placeholder: 'Select...',
+			searchable: true,
+			searchPromptText: 'Type to search',
+			value: undefined
 		};
 	},
 
@@ -92,10 +83,10 @@ var Select = React.createClass({
 			 * - placeholder
 			 * - focusedOption
 			*/
-			options: this.props.options,
 			isFocused: false,
+			isLoading: false,
 			isOpen: false,
-			isLoading: false
+			options: this.props.options
 		};
 	},
 
@@ -151,7 +142,7 @@ var Select = React.createClass({
 		clearTimeout(this._blurTimeout);
 		clearTimeout(this._focusTimeout);
 
-		if(this.state.isOpen) {
+		if (this.state.isOpen) {
 			this._unbindCloseMenuIfClickedOutside();
 		}
 	},
@@ -683,11 +674,11 @@ var Select = React.createClass({
 			var mouseDown = this.selectValue.bind(this, op);
 			var renderedLabel = renderLabel(op);
 
-			if (op.disabled) {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>;
-			} else {
-				return <div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>;
-			}
+			return op.disabled ? (
+				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
+			) : (
+				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
+			);
 		}, this);
 
 		return ops.length ? ops : (
@@ -698,10 +689,8 @@ var Select = React.createClass({
 	},
 
 	handleOptionLabelClick: function (value, event) {
-		var handler = this.props.onOptionLabelClick;
-
-		if (handler) {
-			handler(value, event);
+		if (this.props.onOptionLabelClick) {
+			this.props.onOptionLabelClick(value, event);
 		}
 	},
 
