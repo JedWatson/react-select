@@ -311,16 +311,16 @@ var Select = React.createClass({
 			return;
 		}
 
-		event.stopPropagation();
-		event.preventDefault();
-		if (this.state.isFocused) {
-			this.setState({
-				isOpen: true
-			}, this._bindCloseMenuIfClickedOutside);
-		} else {
-			this._openAfterFocus = true;
-			this.getInputNode().focus();
-		}
+		setTimeout(function() {
+			if (this.state.isFocused) {
+				this.setState({
+					isOpen: true
+				}, this._bindCloseMenuIfClickedOutside);
+			} else {
+				this._openAfterFocus = true;
+				this.getInputNode().focus();
+			}
+		}.bind(this), 0);
 	},
 
 	handleMouseDownOnArrow: function(event) {
