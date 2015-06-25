@@ -471,7 +471,7 @@ var Select = React.createClass({
 
 	autoloadAsyncOptions: function() {
 		var self = this;
-		this.loadAsyncOptions('', {}, function () {
+		this.loadAsyncOptions((this.props.value || ''), {}, function () {
 			// update with fetched but don't focus
 			self.setValue(self.props.value, false);
 		});
