@@ -36,6 +36,7 @@ var Select = React.createClass({
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
 		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
 		onOptionLabelClick: React.PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
+		onCreateValue: React.PropTypes.func,         // onCreateValue handler: function(newOption) {}
 		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
 		options: React.PropTypes.array,            // array of options
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
@@ -63,6 +64,7 @@ var Select = React.createClass({
 			name: undefined,
 			noResultsText: 'No results found',
 			onChange: undefined,
+			onCreateValue: undefined, 
 			onOptionLabelClick: undefined,
 			options: undefined,
 			placeholder: 'Select...',
@@ -256,7 +258,7 @@ var Select = React.createClass({
 	},
 
 	selectValue: function(value) {
-		if (!this.props.multi) {
+		if (!this.props.multi && !this.props.allowCreate) {
 			this.setValue(value);
 		} else if (value) {
 			this.addValue(value);
@@ -266,6 +268,9 @@ var Select = React.createClass({
 
 	addValue: function(value) {
 		this.setValue(this.state.values.concat(value));
+		if(this.props.onCreateValue) {
+			this.props.onCreateValue(value.value);
+		}
 	},
 
 	popValue: function() {
