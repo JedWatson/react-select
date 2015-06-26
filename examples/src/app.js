@@ -193,6 +193,9 @@ var SelectedValuesFieldCreate = React.createClass({
 	onLabelClick: function (data, event) {
 		console.log(data, event);
 	},
+	onCreateValue: function(newValue){
+		console.log("Congratulations, You've just created: " + newValue);
+	},
 	render: function() {
 		var ops = [
 			{ label: 'First Option', value: 'first' },
@@ -209,6 +212,7 @@ var SelectedValuesFieldCreate = React.createClass({
 					allowCreate={true}
 					placeholder="Select your favourite(s)"
 					options={ops}
+					onCreateValue={this.onCreateValue}
 					onChange={logChange} />
 			</div>
 		);
