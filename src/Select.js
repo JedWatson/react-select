@@ -329,7 +329,7 @@ var Select = React.createClass({
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
-		// If not focused, handleMouseDown will handle it 
+		// If not focused, handleMouseDown will handle it
 		if (!this.state.isOpen) {
 			return;
 		}
@@ -659,10 +659,12 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
 			var op = this.state.filteredOptions[key];
+			var isSelected = this.state.value == op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
 				'Select-option': true,
+				'is-selected': isSelected,
 				'is-focused': isFocused,
 				'is-disabled': op.disabled
 			});
