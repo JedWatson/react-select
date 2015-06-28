@@ -483,7 +483,7 @@ var Select = React.createClass({
 
 	autoloadAsyncOptions: function autoloadAsyncOptions() {
 		var self = this;
-		this.loadAsyncOptions('', {}, function () {
+		this.loadAsyncOptions(this.props.value || '', {}, function () {
 			// update with fetched but don't focus
 			self.setValue(self.props.value, false);
 		});
@@ -664,10 +664,12 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
+			var isSelected = this.state.value == op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
 				'Select-option': true,
+				'is-selected': isSelected,
 				'is-focused': isFocused,
 				'is-disabled': op.disabled
 			});
@@ -820,7 +822,7 @@ module.exports = Select;
 
 var React = (window.React);
 
-var Option = React.createClass({
+var Value = React.createClass({
 
 	displayName: 'Value',
 
@@ -881,7 +883,7 @@ var Option = React.createClass({
 
 });
 
-module.exports = Option;
+module.exports = Value;
 
 },{}]},{},[1])(1)
 });
