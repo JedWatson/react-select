@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "classnames": "^2.1.2",
-    "react-input-autosize": "^0.4.4"
+    "react-input-autosize": "^0.4.5"
   },
   "devDependencies": {
     "babel": "^5.5.8",
