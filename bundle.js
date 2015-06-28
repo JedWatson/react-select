@@ -3,7 +3,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 
 var React = require('react');
 
-var Option = React.createClass({
+var Value = React.createClass({
 
 	displayName: 'Value',
 
@@ -64,7 +64,7 @@ var Option = React.createClass({
 
 });
 
-module.exports = Option;
+module.exports = Value;
 
 },{"react":undefined}],"react-select":[function(require,module,exports){
 /* disable some rules until we refactor more completely; fixing them now would
@@ -551,7 +551,7 @@ var Select = React.createClass({
 
 	autoloadAsyncOptions: function autoloadAsyncOptions() {
 		var self = this;
-		this.loadAsyncOptions('', {}, function () {
+		this.loadAsyncOptions(this.props.value || '', {}, function () {
 			// update with fetched but don't focus
 			self.setValue(self.props.value, false);
 		});
@@ -732,10 +732,12 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
+			var isSelected = this.state.value == op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
 				'Select-option': true,
+				'is-selected': isSelected,
 				'is-focused': isFocused,
 				'is-disabled': op.disabled
 			});
