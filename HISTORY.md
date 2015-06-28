@@ -1,5 +1,12 @@
 # React-Select
 
+## v0.5.2 / 2015-06-28
+
+* fixed; bug where Select shows the value instead of the label, thanks [Stephen Demjanenko](https://github.com/sdemjanenko)
+* added; 'is-selected' classname is added to the selected option, thanks [Alexey Volodkin](https://github.com/miraks)
+* fixed; async options are now loaded with the initial value, thanks [Pokai Chang](https://github.com/Neson)
+* fixed; `react-input-autosize` now correctly escapes ampersands (&), not actually a fix in react-select but worth noting here because it would have been causing a problem in `react-select` as well.
+
 ## v0.5.1 / 2015-06-21
 
 * added; custom option and value rendering capability, thanks [Brian Reavis](https://github.com/brianreavis)
