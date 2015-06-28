@@ -13,6 +13,8 @@ chai.use(sinonChai);
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
+var OPTION = { label: 'TEST-LABEL', value: 'TEST-VALUE' };
+
 var Value = require('../src/Value');
 
 describe('Value component', function() {
@@ -23,7 +25,7 @@ describe('Value component', function() {
 
 	beforeEach(function() {
 		props = {
-			label: 'TEST-LABEL',
+			option: OPTION,
 			onRemove: sinon.spy()
 		};
 		value = TestUtils.renderIntoDocument(<Value {...props}/>);
@@ -51,7 +53,7 @@ describe('Value component', function() {
 
 		it('presents the given label', function() {
 			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label');
-			expect(selectItemLabel.getDOMNode().textContent).to.equal(props.label);
+			expect(selectItemLabel.getDOMNode().textContent).to.equal(OPTION.label);
 		});
 
 	});
@@ -61,7 +63,7 @@ describe('Value component', function() {
 
 		beforeEach(function() {
 			props = {
-				label: 'TEST-LABEL',
+				option: OPTION,
 				onRemove: sinon.spy(),
 				optionLabelClick: true,
 				onOptionLabelClick: sinon.spy()
@@ -71,7 +73,7 @@ describe('Value component', function() {
 		});
 
 		it('presents the given label', function() {
-			expect(selectItemLabelA.getDOMNode().textContent).to.equal(props.label);
+			expect(selectItemLabelA.getDOMNode().textContent).to.equal(OPTION.label);
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
