@@ -42,7 +42,9 @@ var Select = React.createClass({
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
-		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
+		resetInput: React.PropTypes.bool,          //wether the input is reset each time the widget is focused
+		clearOnEscape: React.PropTypes.bool,       // wether the input is cleared when Escape is pressed
 	},
 
 	getDefaultProps: function() {
@@ -68,7 +70,8 @@ var Select = React.createClass({
 			placeholder: 'Select...',
 			searchable: true,
 			searchPromptText: 'Type to search',
-			value: undefined
+			value: undefined,
+			clearOnEscape: true,
 		};
 	},
 
@@ -212,10 +215,12 @@ var Select = React.createClass({
 		var values = this.initValuesArray(value, options),
 			filteredOptions = this.filterOptions(options, values);
 
+		var value = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+
 		return {
-			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			value: value,
 			values: values,
-			inputValue: '',
+			inputValue: this.props.resetInput? '' : value,
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
@@ -284,9 +289,11 @@ var Select = React.createClass({
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
-		event.stopPropagation();
-		event.preventDefault();
-		this.setValue(null);
+                if (event) {
+                        event.stopPropagation();
+                        event.preventDefault();
+		}
+                this.setValue(null);
 	},
 
 	resetValue: function() {
@@ -299,7 +306,7 @@ var Select = React.createClass({
 	},
 
 	fireChangeEvent: function(newState) {
-		if (newState.value !== this.state.value && this.props.onChange) {
+		if (this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
 		}
 	},
@@ -396,16 +403,22 @@ var Select = React.createClass({
 			break;
 
 			case 13: // enter
-				if (!this.state.isOpen) return;
 
 				this.selectFocusedOption();
 			break;
 
 			case 27: // escape
-				if (this.state.isOpen) {
-					this.resetValue();
+				if (this.props.clearOnEscape) {
+					if (this.state.isOpen) {
+						this.resetValue();
+					} else {
+						this.clearValue();
+					}
 				} else {
-					this.clearValue();
+					if (this.props.onEscape)
+						this.props.onEscape();
+					else
+						this.selectFocusedOption();
 				}
 			break;
 
@@ -644,17 +657,21 @@ var Select = React.createClass({
 			return op.label;
 		};
 
-		if(this.state.filteredOptions.length > 0) {
-			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+		if (this.state.filteredOptions.length > 0) {
+			focusedValue = focusedValue === null ? this.state.filteredOptions[0] : focusedValue;
 		}
 		// Add the current value to the filtered options in last resort
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
-			var inputValue = this.state.inputValue;
-			this.state.filteredOptions.unshift({
-				value: inputValue,
-				label: inputValue,
-				create: true
-			});
+			if (this.state.filteredOptions.length === 0
+		 	    || (this.state.filteredOptions[0] 
+				&& this.state.filteredOptions[0].create !== true)) {
+				var inputValue = this.state.inputValue;
+				this.state.filteredOptions.unshift({
+					value: inputValue,
+					label: inputValue,
+					create: true
+				});
+			}
 		}
 
 		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
@@ -677,9 +694,9 @@ var Select = React.createClass({
 			var renderedLabel = renderLabel(op);
 
 			return op.disabled ? (
-				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
+				<div ref={ref} key={'option-' + op.value + op.create} className={optionClass}>{renderedLabel}</div>
 			) : (
-				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
+				<div ref={ref} key={'option-' + op.value + op.create} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
 			);
 		}, this);
 
@@ -771,7 +788,7 @@ var Select = React.createClass({
 		}
 
 		return (
-			<div ref="wrapper" className={selectClass}>
+			<div ref="wrapper" className={selectClass} style={this.props.style}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
