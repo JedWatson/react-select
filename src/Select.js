@@ -304,7 +304,7 @@ var Select = React.createClass({
 	},
 
 	fireChangeEvent: function(newState) {
-		if (newState.value !== this.state.value && this.props.onChange) {
+		if (this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
 		}
 	},
