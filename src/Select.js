@@ -44,6 +44,7 @@ var Select = React.createClass({
 		value: React.PropTypes.any,                // initial field value
 		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
 		resetInput: React.PropTypes.bool,          //wether the input is reset each time the widget is focused
+		clearOnEscape: React.PropTypes.bool,       // wether the input is cleared when Escape is pressed
 	},
 
 	getDefaultProps: function() {
@@ -69,7 +70,8 @@ var Select = React.createClass({
 			placeholder: 'Select...',
 			searchable: true,
 			searchPromptText: 'Type to search',
-			value: undefined
+			value: undefined,
+			clearOnEscape: true,
 		};
 	},
 
@@ -401,16 +403,19 @@ var Select = React.createClass({
 			break;
 
 			case 13: // enter
-				if (!this.state.isOpen) return;
 
 				this.selectFocusedOption();
 			break;
 
 			case 27: // escape
-				if (this.state.isOpen) {
-					this.resetValue();
+				if (this.props.clearOnEscape) {
+					if (this.state.isOpen) {
+						this.resetValue();
+					} else {
+						this.clearValue();
+					}
 				} else {
-					this.clearValue();
+					this.selectFocusedOption();
 				}
 			break;
 
