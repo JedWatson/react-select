@@ -42,7 +42,8 @@ var Select = React.createClass({
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
-		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
+		resetInput: React.PropTypes.bool,          //wether the input is reset each time the widget is focused
 	},
 
 	getDefaultProps: function() {
@@ -212,10 +213,12 @@ var Select = React.createClass({
 		var values = this.initValuesArray(value, options),
 			filteredOptions = this.filterOptions(options, values);
 
+		var value = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+
 		return {
-			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			value: value,
 			values: values,
-			inputValue: '',
+			inputValue: this.props.resetInput? '' : value,
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
