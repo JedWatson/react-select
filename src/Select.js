@@ -773,7 +773,7 @@ var Select = React.createClass({
 		}
 
 		return (
-			<div ref="wrapper" className={selectClass}>
+			<div ref="wrapper" className={selectClass} style={this.props.style}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
