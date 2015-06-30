@@ -166,7 +166,7 @@ var Select = React.createClass({
 			clearTimeout(this._blurTimeout);
 
 			this._focusTimeout = setTimeout(function() {
-				self.getInputNode().focus();
+				self.focus();
 				self._focusAfterUpdate = false;
 			}, 50);
 		}
@@ -189,7 +189,9 @@ var Select = React.createClass({
 	},
 
 	focus: function() {
-		this.getInputNode().focus();
+		if(!this.props.disabled) {
+			this.getInputNode().focus();
+		}
 	},
 
 	clickedOutsideElement: function(element, event) {
@@ -319,7 +321,7 @@ var Select = React.createClass({
 			}, this._bindCloseMenuIfClickedOutside);
 		} else {
 			this._openAfterFocus = true;
-			this.getInputNode().focus();
+			this.focus();
 		}
 	},
 
