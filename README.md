@@ -37,7 +37,7 @@ The easiest way to use React-Select is to install it from NPM and include it in 
 npm install react-select --save
 ```
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies: 
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies:
 
 * [React](http://facebook.github.io/react/)
 * [classNames](http://jedwatson.github.io/classnames/)
@@ -80,6 +80,10 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The values of the selected items are joined using the `delimiter` property to create the input value
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
+
+#### Multiselect Select All
+
+You can add a `Select All` option to a multi-value component by adding `multiSelectAll={true}`. The `Select All` option will add all the displayed options when clicked, meaning if you apply a filter it will add only the filtered results.
 
 ### Async options
 
