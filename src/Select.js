@@ -715,6 +715,7 @@ var Select = React.createClass({
 					key={val.value}
 					option={val}
 					renderer={this.props.valueRenderer}
+					optionStyle={this.props.optionStyle}
 					optionLabelClick={!!this.props.onOptionLabelClick}
 					onOptionLabelClick={this.handleOptionLabelClick.bind(this, val)}
 					onRemove={this.removeValue.bind(this, val)}
