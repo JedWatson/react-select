@@ -40,8 +40,15 @@ var Value = React.createClass({
 			);
 		}
 
+		var style = this.props.optionStyle || {};
+		var color = this.props.option.color;
+
+		if (typeof color !== 'undefined' && color) {
+			style.background = color;
+		}
+
 		return (
-			<div className="Select-item">
+			<div className="Select-item" style={style}>
 				<span className="Select-item-icon"
 					onMouseDown={this.blockEvent}
 					onClick={this.handleOnRemove}
