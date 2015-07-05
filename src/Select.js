@@ -658,7 +658,7 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
 			var op = this.state.filteredOptions[key];
-			var isSelected = this.state.value == op.value;
+			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
