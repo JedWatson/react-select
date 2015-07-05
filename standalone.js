@@ -1,4 +1,5 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Select = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global){
 /* disable some rules until we refactor more completely; fixing them now would
    cause conflicts with some open PRs unnecessarily. */
 /* eslint react/jsx-sort-prop-types: 0, react/sort-comp: 0, react/prop-types: 0 */
@@ -7,9 +8,9 @@
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var React = (window.React);
-var Input = (window.AutosizeInput);
-var classes = (window.classNames);
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var Input = (typeof window !== "undefined" ? window.AutosizeInput : typeof global !== "undefined" ? global.AutosizeInput : null);
+var classes = (typeof window !== "undefined" ? window.classNames : typeof global !== "undefined" ? global.classNames : null);
 var Value = require('./Value');
 
 var requestId = 0;
@@ -133,13 +134,12 @@ var Select = React.createClass({
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
+	},
 
-		this.setState(this.getStateFromValue(this.props.value), function () {
-			//Executes after state change is done. Fixes issue #201
-			if (this.props.asyncOptions && this.props.autoload) {
-				this.autoloadAsyncOptions();
-			}
-		});
+	componentDidMount: function componentDidMount() {
+		if (this.props.asyncOptions && this.props.autoload) {
+			this.autoloadAsyncOptions();
+		}
 	},
 
 	componentWillUnmount: function componentWillUnmount() {
@@ -664,7 +664,7 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
 			var op = this.state.filteredOptions[key];
-			var isSelected = this.state.value == op.value;
+			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
@@ -817,10 +817,12 @@ var Select = React.createClass({
 
 module.exports = Select;
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./Value":2}],2:[function(require,module,exports){
+(function (global){
 'use strict';
 
-var React = (window.React);
+var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
 
 var Value = React.createClass({
 
@@ -885,5 +887,6 @@ var Value = React.createClass({
 
 module.exports = Value;
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1])(1)
 });
