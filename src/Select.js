@@ -129,13 +129,12 @@ var Select = React.createClass({
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
+	},
 
-		this.setState(this.getStateFromValue(this.props.value), function(){
-			//Executes after state change is done. Fixes issue #201
-			if (this.props.asyncOptions && this.props.autoload) {
-				this.autoloadAsyncOptions();
-			}
-    });
+	componentDidMount: function() {
+		if (this.props.asyncOptions && this.props.autoload) {
+			this.autoloadAsyncOptions();
+		}
 	},
 
 	componentWillUnmount: function() {
@@ -659,7 +658,7 @@ var Select = React.createClass({
 
 		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
 			var op = this.state.filteredOptions[key];
-			var isSelected = this.state.value == op.value;
+			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
 			var optionClass = classes({
