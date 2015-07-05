@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.5.3 / 2015-07-05
+
+* fixed; autoload issues, thanks [Maxime Tyler](https://github.com/iam4x)
+* fixed; style incompatibilities with Foundation framework, thanks [Timothy Kempf](https://github.com/Fauntleroy)
+
 ## v0.5.2 / 2015-06-28
 
 * fixed; bug where Select shows the value instead of the label, thanks [Stephen Demjanenko](https://github.com/sdemjanenko)
