@@ -31,6 +31,7 @@ var Select = React.createClass({
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
+		addLabelText: React.PropTypes.string,      // placeholder displayed when you want to add a label on a multi-value input
 		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
@@ -61,6 +62,7 @@ var Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			name: undefined,
+			addLabelText: 'Add {label} ?',
 			noResultsText: 'No results found',
 			onChange: undefined,
 			onOptionLabelClick: undefined,
@@ -678,7 +680,7 @@ var Select = React.createClass({
 			return op.disabled ? (
 				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
 			) : (
-				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? 'Add ' + op.label + ' ?' : renderedLabel}</div>
+				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? this.props.addLabelText.replace('{label}', op.label) : renderedLabel}</div>
 			);
 		}, this);
 
