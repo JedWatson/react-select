@@ -134,6 +134,8 @@ var Select = React.createClass({
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
+
+		this.setState(this.getStateFromValue(this.props.value));
 	},
 
 	componentDidMount: function componentDidMount() {
