@@ -45,6 +45,7 @@
     "start": "gulp dev",
     "examples": "gulp dev:server",
     "lint": "eslint .",
+    "publish:examples": "gulp publish:examples",
     "release": "gulp release",
     "test": "mocha --compilers js:babel/register",
     "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports --compilers js:babel/register -R spec",
