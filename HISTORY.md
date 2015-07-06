@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.5.4 / 2015-07-06
+
+* fixed; regression in 0.5.3 that broke componentWillMount, sorry everyone!
+* added; `addLabelText` prop for customising the "add {label}?" text when in tags mode, thanks [Fenn](https://github.com/Fenntasy)
+
 ## v0.5.3 / 2015-07-05
 
 * fixed; autoload issues, thanks [Maxime Tyler](https://github.com/iam4x)
