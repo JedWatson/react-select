@@ -75,21 +75,15 @@ var Select = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {
-			/*
-			 * set by getStateFromValue on componentWillMount:
-			 * - value
-			 * - values
-			 * - filteredOptions
-			 * - inputValue
-			 * - placeholder
-			 * - focusedOption
-			*/
-			isFocused: false,
-			isLoading: false,
-			isOpen: false,
-			options: this.props.options
-		};
+		return Object.assign(
+			this.getStateFromValue(this.props.value, this.props.options || []),
+			{
+				isFocused: false,
+				isLoading: false,
+				isOpen: false,
+				options: this.props.options
+			}
+		);
 	},
 
 	componentWillMount: function() {
@@ -131,8 +125,6 @@ var Select = React.createClass({
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
-
-		this.setState(this.getStateFromValue(this.props.value));
 	},
 
 	componentDidMount: function() {
