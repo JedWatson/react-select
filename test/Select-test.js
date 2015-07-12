@@ -1,47 +1,53 @@
 'use strict';
 /* global describe, it, beforeEach */
 
-var jsdom = require('mocha-jsdom');
-var chai = require('chai');
-var expect = chai.expect;
+var helper = require('../testHelpers/jsdomHelper');
+helper();
 
-chai.should();
+var sinon = require('sinon');
+var unexpected = require('unexpected');
+var unexpectedDom = require('unexpected-dom');
+var unexpectedSinon = require('unexpected-sinon');
+var expect = unexpected
+	.clone()
+	.installPlugin(unexpectedDom)
+	.installPlugin(unexpectedSinon);
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
 var Select = require('../src/Select');
 
-describe('Select test', function() {
-	jsdom();
+describe('Select', function() {
 
-	var options, instance;
+	describe('with simple options', function () {
+		var options, instance, onChange;
 
-	function logChange(val) {
-		console.log('Selected: ' + val);
-	}
+		beforeEach(function () {
 
-	beforeEach(function() {
+			options = [
+				{value: 'one', label: 'One'},
+				{value: 'two', label: 'Two'}
+			];
+			
+			onChange = sinon.spy();
 
-		options = [
-			{ value: 'one', label: 'One' },
-			{ value: 'two', label: 'Two' }
-		];
+			// Render an instance of the component
+			instance = TestUtils.renderIntoDocument(
+				<Select
+					name="form-field-name"
+					value="one"
+					options={options}
+					onChange={onChange}
+					/>
+			);
 
-		// Render an instance of the component
-		instance = TestUtils.renderIntoDocument(
-			<Select
-				name="form-field-name"
-				value="one"
-				options={options}
-				onChange={logChange}/>
-		);
+		});
 
+		it('should assign the given name', function () {
+			var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
+			expect(React.findDOMNode(selectInputElement).name, 'to equal', 'form-field-name');
+		});
+		
 	});
-
-	it('should assign the given name', function() {
-		var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
-		expect(selectInputElement.getDOMNode().name).to.equal('form-field-name');
-	});
-
 });
