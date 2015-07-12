@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.5.5 / 2015-07-12
+
+* fixed; replaced usage of `component.getDOMNode()` with `React.findDOMNode(component)` for compatibility with React 0.14
+
 ## v0.5.4 / 2015-07-06
 
 * fixed; regression in 0.5.3 that broke componentWillMount, sorry everyone!
