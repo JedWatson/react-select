@@ -175,6 +175,12 @@ var Select = React.createClass({
 				self.getInputNode().focus();
 				self._focusAfterUpdate = false;
 			}, 50);
+		} else if (this._blurAfterUpdate) {
+			clearTimeout(this._focusTimeout);
+			this._blurTimeout = setTimeout((function () {
+				document.activeElement.blur()
+				this._blurAfterUpdate = false;
+			}).bind(this), 50);
 		}
 
 		if (this._focusedOptionReveal) {
@@ -272,7 +278,7 @@ var Select = React.createClass({
 
 	setValue: function(value, focusAfterUpdate) {
 		if (focusAfterUpdate || focusAfterUpdate === undefined) {
-			this._focusAfterUpdate = true;
+			this._focusAfterUpdate = !this._blurAfterUpdate;
 		}
 		var newState = this.getStateFromValue(value, this.props.options);
     if (!this.props.keepOpenOnChange) {
@@ -284,6 +290,7 @@ var Select = React.createClass({
 
 	selectValue: function(value) {
 		if (!this.props.multi) {
+			this._blurAfterUpdate = (value != 0);
 			this.setValue(value);
 		} else if (value) {
 			this.addValue(value);
