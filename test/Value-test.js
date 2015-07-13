@@ -36,13 +36,13 @@ describe('Value component', function() {
 
 	it('requests its own removal when the remove icon is clicked', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
-		TestUtils.Simulate.click(selectItemIcon.getDOMNode());
+		TestUtils.Simulate.click(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
 	it('requests its own removal when the remove icon is touched', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
-		TestUtils.Simulate.touchEnd(selectItemIcon.getDOMNode());
+		TestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
@@ -56,7 +56,7 @@ describe('Value component', function() {
 
 		it('presents the given label', function() {
 			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label');
-			expect(selectItemLabel.getDOMNode().textContent, 'to equal', OPTION.label);
+			expect(React.findDOMNode(selectItemLabel), 'to have text', OPTION.label);
 		});
 
 	});
@@ -76,16 +76,16 @@ describe('Value component', function() {
 		});
 
 		it('presents the given label', function() {
-			expect(selectItemLabelA.getDOMNode().textContent, 'to equal', OPTION.label);
+			expect(React.findDOMNode(selectItemLabelA), 'to have text', OPTION.label);
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
-			TestUtils.Simulate.click(selectItemLabelA.getDOMNode());
+			TestUtils.Simulate.click(selectItemLabelA);
 			expect(props.onOptionLabelClick, 'was called');
 		});
 
 		it('calls a custom callback when the anchor is touched', function() {
-			TestUtils.Simulate.touchEnd(selectItemLabelA.getDOMNode());
+			TestUtils.Simulate.touchEnd(selectItemLabelA);
 			expect(props.onOptionLabelClick, 'was called');
 		});
 
