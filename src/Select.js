@@ -710,9 +710,9 @@ var Select = React.createClass({
 		var value = [];
 
 		if (this.props.multi) {
-			this.state.values.forEach(function(val) {
+			this.state.values.forEach(function(val, idx) {
 				value.push(<Value
-					key={val.value}
+					key={val.value + idx}
 					option={val}
 					renderer={this.props.valueRenderer}
 					optionLabelClick={!!this.props.onOptionLabelClick}
