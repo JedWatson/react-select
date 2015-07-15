@@ -8,6 +8,7 @@ var classes = require('classnames');
 var Value = require('./Value');
 
 var requestId = 0;
+var multiSelectAllValue = '$internal-select-all$';
 
 var Select = React.createClass({
 
@@ -30,6 +31,7 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
+		multiSelectAll: React.PropTypes.bool,      // adds a 'Select All' option to the multi-value input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		addLabelText: React.PropTypes.string,      // placeholder displayed when you want to add a label on a multi-value input
 		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
@@ -259,7 +261,11 @@ var Select = React.createClass({
 		if (!this.props.multi) {
 			this.setValue(value);
 		} else if (value) {
-			this.addValue(value);
+			if (value.value === multiSelectAllValue) {
+				this.addValue(this.state.filteredOptions);
+			} else {
+				this.addValue(value);
+			}
 		}
 		this._unbindCloseMenuIfClickedOutside();
 	},
@@ -638,6 +644,32 @@ var Select = React.createClass({
 		}
 	},
 
+	buildSelectAll: function () {
+		if (this.props.multi && this.props.multiSelectAll) {
+			var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+			var op = { value: multiSelectAllValue };
+			var isSelected = this.state.value === op.value;
+			var isFocused = focusedValue === op.value;
+
+			var optionClass = classes({
+				'Select-option': true,
+				'is-selected': isSelected,
+				'is-focused': isFocused,
+				'Select-option-select-all': true
+			});
+
+			var ref = isFocused ? 'focused' : null;
+			var mouseEnter = this.focusOption.bind(this, op);
+			var mouseLeave = this.unfocusOption.bind(this, op);
+			var mouseDown = this.selectValue.bind(this, op);
+			return (
+				<div ref={ref} key={'options-' + multiSelectAllValue} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>Select All</div>
+			);
+		} else {
+			return null;
+		}
+	},
+
 	buildMenu: function() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		var renderLabel = this.props.optionRenderer || function(op) {
@@ -741,7 +773,10 @@ var Select = React.createClass({
 			}
 			menu = (
 				<div ref="selectMenuContainer" className="Select-menu-outer">
-					<div {...menuProps}>{this.buildMenu()}</div>
+					<div {...menuProps}>
+						{this.buildSelectAll()}
+						{this.buildMenu()}
+					</div>
 				</div>
 			);
 		}

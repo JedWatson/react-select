@@ -81,6 +81,10 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
 
+#### Multiselect Select All
+
+You can add a `Select All` option to a multi-value component by adding `multiSelectAll={true}`. The `Select All` option will add all the displayed options when clicked, meaning if you apply a filter it will add only the filtered results.
+
 ### Async options
 
 If you want to load options asynchronously, instead of providing an `options` Array, provide a `asyncOptions` Function.

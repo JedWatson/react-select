@@ -161,6 +161,44 @@ var MultiSelectField = React.createClass({
 	}
 });
 
+var MultiSelectFieldWithSelectAll = React.createClass({
+	getInitialState: function() {
+		return {
+			disabled: false,
+			value: []
+		};
+	},
+	handleSelectChange: function(value, values) {
+		logChange('New value:', value, 'Values:', values);
+		this.setState({ value: value });
+	},
+	toggleDisabled: function(e) {
+		this.setState({ 'disabled': e.target.checked });
+	},
+	render: function() {
+		var ops = [
+			{ label: 'Chocolate', value: 'chocolate' },
+			{ label: 'Vanilla', value: 'vanilla' },
+			{ label: 'Strawberry', value: 'strawberry' },
+			{ label: 'Caramel', value: 'caramel' },
+			{ label: 'Cookies and Cream', value: 'cookiescream' },
+			{ label: 'Peppermint', value: 'peppermint' }
+		];
+		return (
+			<span>
+				<div>
+					<label>{this.props.label}</label>
+					<Select multi={true} multiSelectAll={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
+				</div>
+				<div>
+					<input type="checkbox" checked={this.state.disabled} id="disable-multiselect" onChange={this.toggleDisabled}/>
+					<label htmlFor="disable-multiselect">Disable</label>
+				</div>
+			</span>
+		);
+	}
+});
+
 var SelectedValuesField = React.createClass({
 	onLabelClick: function (data, event) {
 		console.log(data, event);
@@ -254,6 +292,7 @@ React.render(
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
 		<MultiSelectField label="Multiselect:"/>
+		<MultiSelectFieldWithSelectAll label="Multi select with Select All:" />
 		<SelectedValuesField label="Clickable labels (labels as links):" />
 		<SelectedValuesFieldCreate label="Option Creation (tags mode):" />
 		<CustomRenderField label="Custom rendering for options and values:" />
