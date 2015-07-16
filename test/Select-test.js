@@ -349,5 +349,25 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'something new');
 		});
+
+		it('updates the display text if the option appears later', function () {
+
+			wrapper.setPropsForChild({
+				value: 'new'
+			});
+
+			wrapper.setPropsForChild({
+				options: [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', labal: 'Two' },
+					{ value: 'new', label: 'New item in the options' },
+					{ value: 'three', label: 'Three' }
+				]
+			});
+
+			expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+				'to have items satisfying', 'to have text', 'New item in the options');
+
+		});
 	});
 });
