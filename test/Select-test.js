@@ -18,12 +18,36 @@ var TestUtils = React.addons.TestUtils;
 
 var Select = require('../src/Select');
 
+// The displayed text of the currently selected item, when items collapsed
+var DISPLAYED_SELECTION_SELECTOR = '.Select-placeholder';
+var FORM_VALUE = '.Select > input';
+
+class PropsWrapper extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = props || {};
+	}
+	
+	setPropsForChild(props) {
+		this.setState(props);
+	}
+	
+	getChild() {
+		return this.refs.child;
+	}
+	
+	render() {
+		var Component = this.props.childComponent;
+		return (<Component {...this.state} ref="child" />);
+	}
+}
 
 describe('Select', function() {
-
+	var options, instance, onChange;
+	var searchInputNode;
+	
 	describe('with simple options', function () {
-		var options, instance, onChange;
-		var searchInputNode;
 
 		beforeEach(function () {
 
@@ -251,7 +275,79 @@ describe('Select', function() {
 					'to have items satisfying',
 					'to have text', 'Three');
 			});
+			
 		});
 		
+	});
+
+	describe('with options and value', function () {
+		
+		var wrapper;
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			onChange = sinon.spy();
+
+			// Render an instance of the component
+			wrapper = TestUtils.renderIntoDocument(
+				<PropsWrapper
+					childComponent={Select}
+					name="form-field-name"
+					value="one"
+					options={options}
+					onChange={onChange}
+					searchable={true}
+				/>
+			);
+
+			// Focus on the input, such that mouse events are accepted
+			instance = wrapper.getChild();
+			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+			TestUtils.Simulate.focus(searchInputNode);
+		});
+		
+		it('starts with the given value', function () {
+			
+			var node = React.findDOMNode(instance);
+			expect(node, 'queried for', DISPLAYED_SELECTION_SELECTOR,
+				'to have items satisfying', 'to have text', 'One');
+		});
+		
+		
+		
+		it('supports setting the value via prop', function () {
+			
+			wrapper.setPropsForChild({
+				value: 'three'
+			});
+			
+			expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+				'to have items satisfying', 'to have text', 'Three');
+		});
+		
+		it('sets the value of the hidden form node', function () {
+			
+			wrapper.setPropsForChild({
+				value: 'three'
+			});
+			
+			expect(React.findDOMNode(wrapper).querySelector(FORM_VALUE).value, 'to equal', 'three' );
+		});
+		
+		it('display the raw value if the option is not available', function () {
+			
+			wrapper.setPropsForChild({
+				value: 'something new'
+			});
+			
+			expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+				'to have items satisfying', 'to have text', 'something new');
+		});
 	});
 });
