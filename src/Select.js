@@ -6,6 +6,7 @@ var React = require('react');
 var Input = require('react-input-autosize');
 var classes = require('classnames');
 var Value = require('./Value');
+var Option = require('./Option');
 
 var requestId = 0;
 
@@ -44,7 +45,8 @@ var Select = React.createClass({
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
-		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
+		optionComponent: React.PropTypes.func      // optionComponent to render
 	},
 
 	getDefaultProps: function() {
@@ -72,7 +74,8 @@ var Select = React.createClass({
 			placeholder: 'Select...',
 			searchable: true,
 			searchPromptText: 'Type to search',
-			value: undefined
+			value: undefined,
+			optionComponent: Option
 		};
 	},
 
@@ -685,11 +688,18 @@ var Select = React.createClass({
 			var mouseDown = this.selectValue.bind(this, op);
 			var renderedLabel = renderLabel(op);
 
-			return op.disabled ? (
-				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
-			) : (
-				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? this.props.addLabelText.replace('{label}', op.label) : renderedLabel}</div>
-			);
+			var optionResult = React.createElement(this.props.optionComponent, {
+				key: 'option-' + op.value,
+				className: optionClass,
+				renderFunc: renderLabel,
+				mouseEnter: mouseEnter,
+				mouseDown: mouseDown,
+				click: mouseDown,
+				addLabelText: this.props.addLabelText,
+				object: op
+			});
+
+			return optionResult;
 		}, this);
 
 		return ops.length ? ops : (
