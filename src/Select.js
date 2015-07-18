@@ -46,7 +46,8 @@ var Select = React.createClass({
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
 		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
-		optionComponent: React.PropTypes.func      // optionComponent to render
+		optionComponent: React.PropTypes.func,     // optionComponent to render
+		valueComponent: React.PropTypes.func
 	},
 
 	getDefaultProps: function() {
@@ -75,7 +76,8 @@ var Select = React.createClass({
 			searchable: true,
 			searchPromptText: 'Type to search',
 			value: undefined,
-			optionComponent: Option
+			optionComponent: Option,
+			valueComponent: Value
 		};
 	},
 
@@ -730,14 +732,20 @@ var Select = React.createClass({
 
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
-				value.push(<Value
-					key={val.value}
-					option={val}
-					renderer={this.props.valueRenderer}
-					optionLabelClick={!!this.props.onOptionLabelClick}
-					onOptionLabelClick={this.handleOptionLabelClick.bind(this, val)}
-					onRemove={this.removeValue.bind(this, val)}
-					disabled={this.props.disabled} />);
+				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
+				var onRemove = this.removeValue.bind(this, val);
+
+				var valueComponent = React.createElement(this.props.valueComponent, {
+					key: val.value,
+					option: val,
+					renderer: this.props.valueRenderer,
+					optionLabelClick: !!this.props.onOptionLabelClick,
+					onOptionLabelClick: onOptionLabelClick,
+					onRemove: onRemove,
+					disabled: this.props.disabled
+				});
+
+				value.push(valueComponent);
 			}, this);
 		}
 
