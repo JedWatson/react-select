@@ -683,9 +683,10 @@ var Select = React.createClass({
 			);
 		}, this);
 
-		return ops.length ? ops : (
+		var noresults = this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText;
+		return ops.length ? ops : !!noresults && (
 			<div className="Select-noresults">
-				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
+				{noresults}
 			</div>
 		);
 	},
