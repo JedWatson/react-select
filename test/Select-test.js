@@ -210,6 +210,18 @@ describe('Select', function() {
 				'to have items satisfying',
 				'to have text', 'One');
 		});
+
+		it('should show the correct input value after updating available options', function () {
+			instance.setProps({
+				options:  [
+					{ value: 'one', label: 'Uno' },
+					{ value: 'two', label: 'Dos' },
+					{ value: 'three', label: 'Tres' }
+				]
+			});
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-placeholder')[0].innerHTML,
+					'to equal', 'Uno');
+		});
 		
 		
 		describe('after mouseEnter and leave of an option', function () {
