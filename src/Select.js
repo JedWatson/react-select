@@ -49,7 +49,8 @@ var Select = React.createClass({
 		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
 		optionComponent: React.PropTypes.func,     // option component to render in dropdown
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
-		singleValueComponent: React.PropTypes.func // single value component when multiple is set to false
+		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
+		newOptionCreator: React.PropTypes.func     // factory to create new options when allowCreate set
 	},
 
 	getDefaultProps: function() {
@@ -80,7 +81,8 @@ var Select = React.createClass({
 			value: undefined,
 			optionComponent: Option,
 			valueComponent: Value,
-			singleValueComponent: SingleValue
+			singleValueComponent: SingleValue,
+			newOptionCreator: undefined
 		};
 	},
 
@@ -667,11 +669,12 @@ var Select = React.createClass({
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
 			options = options.slice();
-			options.unshift({
+			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
 				value: inputValue,
 				label: inputValue,
 				create: true
-			});
+			};
+			options.unshift(newOption);
 		}
 
 		var ops = Object.keys(options).map(function(key) {
