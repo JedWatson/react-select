@@ -648,17 +648,19 @@ var Select = React.createClass({
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
 		// Add the current value to the filtered options in last resort
+		var options = this.state.filteredOptions;
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
-			this.state.filteredOptions.unshift({
+			options = options.slice();
+			options.unshift({
 				value: inputValue,
 				label: inputValue,
 				create: true
 			});
 		}
 
-		var ops = Object.keys(this.state.filteredOptions).map(function(key) {
-			var op = this.state.filteredOptions[key];
+		var ops = Object.keys(options).map(function(key) {
+			var op = options[key];
 			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
