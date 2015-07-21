@@ -5,12 +5,12 @@ var Value = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
-		disabled: React.PropTypes.bool,
-		onOptionLabelClick: React.PropTypes.func,
-		onRemove: React.PropTypes.func,
-		option: React.PropTypes.object.isRequired,
-		optionLabelClick: React.PropTypes.bool,
-		renderer: React.PropTypes.func
+		disabled: React.PropTypes.bool,                   // disabled prop passed to ReactSelect
+		onOptionLabelClick: React.PropTypes.func,         // method to handle click on value label
+		onRemove: React.PropTypes.func,                   // method to handle remove of that value
+		option: React.PropTypes.object.isRequired,        // option passed to component
+		optionLabelClick: React.PropTypes.bool,           // indicates if onOptionLabelClick should be handled
+		renderer: React.PropTypes.func                    // method to render option label passed to ReactSelect
 	},
 
 	blockEvent: function(event) {

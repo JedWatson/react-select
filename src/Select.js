@@ -47,7 +47,7 @@ var Select = React.createClass({
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
 		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
-		optionComponent: React.PropTypes.func,     // optionComponent to render
+		optionComponent: React.PropTypes.func,     // option component to render in dropdown
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
 		singleValueComponent: React.PropTypes.func // single value component when multiple is set to false
 	},
@@ -701,7 +701,7 @@ var Select = React.createClass({
 				mouseDown: mouseDown,
 				click: mouseDown,
 				addLabelText: this.props.addLabelText,
-				object: op
+				option: op
 			});
 
 			return optionResult;
