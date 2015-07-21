@@ -6,6 +6,7 @@ var React = require('react');
 var Input = require('react-input-autosize');
 var classes = require('classnames');
 var Value = require('./Value');
+var SingleValue = require('./SingleValue');
 var Option = require('./Option');
 
 var requestId = 0;
@@ -47,7 +48,8 @@ var Select = React.createClass({
 		value: React.PropTypes.any,                // initial field value
 		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
 		optionComponent: React.PropTypes.func,     // optionComponent to render
-		valueComponent: React.PropTypes.func
+		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
+		singleValueComponent: React.PropTypes.func // single value component when multiple is set to false
 	},
 
 	getDefaultProps: function() {
@@ -77,7 +79,8 @@ var Select = React.createClass({
 			searchPromptText: 'Type to search',
 			value: undefined,
 			optionComponent: Option,
-			valueComponent: Value
+			valueComponent: Value,
+			singleValueComponent: SingleValue
 		};
 	},
 
@@ -751,16 +754,20 @@ var Select = React.createClass({
 
 		if(!this.state.inputValue && (!this.props.multi || !value.length)) {
 			if(this.props.valueRenderer && !!this.state.values.length) {
-				var val = this.state.values[0] || null;
 				value.push(<Value
 						key={0}
 						option={val}
 						renderer={this.props.valueRenderer}
 						disabled={this.props.disabled} />);
 			} else {
-				value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
+				var val = this.state.values[0] || null;
+				var singleValueComponent = React.createElement(this.props.singleValueComponent, {
+					key: "placeholder",
+					value: val,
+					placeholder: this.state.placeholder
+				});
+				value.push(singleValueComponent);
 			}
-			
 		}
 
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
