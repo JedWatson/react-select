@@ -29,6 +29,10 @@ var Value = React.createClass({
 			label = this.props.renderer(this.props.option);
 		}
 
+		if(!this.props.onRemove && !this.props.optionLabelClick) {
+			return <div className="Select-value">{label}</div>;
+		}
+
 		if (this.props.optionLabelClick) {
 			label = (
 				<a className="Select-item-label__a"

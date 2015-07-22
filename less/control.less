@@ -78,6 +78,27 @@
 	color: @select-text-color;
 }
 
+// value with custom renderer
+
+.Select-value {
+	color: @select-input-placeholder;
+	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: -(@select-arrow-width + @select-padding-horizontal);
+
+	// crop text
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.has-value > .Select-control > .Select-value {
+	color: @select-text-color;
+}
+
 
 // the <input> element users type in
 
