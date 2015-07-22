@@ -2,8 +2,11 @@
 
 var React = require('react');
 var Select = require('react-select');
+var GravatarOption = require('./CustomOption');
+var GravatarValue = require('./CustomSingleValue');
 
 var STATES = require('./data/states');
+var USERS = require('./data/users');
 var id = 0;
 
 function logChange(value) {
@@ -17,6 +20,29 @@ var CountrySelect = React.createClass({
 	render: function() {
 		var className = this.props.value === this.props.selected ? 'active' : 'link';
 		return <span onClick={this.onClick} className={className}>{this.props.children}</span>;
+	}
+});
+
+var UsersField = React.createClass({
+	getDefaultProps: function () {
+		return {
+			searchable: true,
+			label: 'Users: (with custom option and value component)'
+		};
+	},
+	render: function() {
+
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					onOptionLabelClick={this.onLabelClick}
+					placeholder="Select user"
+					optionComponent={GravatarOption}
+					singleValueComponent={GravatarValue}
+					options={USERS.users}/>
+			</div>
+		);
 	}
 });
 
@@ -285,6 +311,7 @@ React.render(
 	<div>
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
+		<UsersField />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
 		<SelectedValuesFieldCreate label="Option Creation (tags mode):" />
