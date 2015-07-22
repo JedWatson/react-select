@@ -694,7 +694,6 @@ var Select = React.createClass({
 			var mouseEnter = this.focusOption.bind(this, op);
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
-			var renderedLabel = renderLabel(op);
 
 			var optionResult = React.createElement(this.props.optionComponent, {
 				key: 'option-' + op.value,
@@ -767,7 +766,7 @@ var Select = React.createClass({
 			} else {
 				var val = this.state.values[0] || null;
 				var singleValueComponent = React.createElement(this.props.singleValueComponent, {
-					key: "placeholder",
+					key: 'placeholder',
 					value: val,
 					placeholder: this.state.placeholder
 				});
