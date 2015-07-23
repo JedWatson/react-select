@@ -75,29 +75,29 @@ var StatesField = React.createClass({
 				null,
 				this.props.label
 			),
-			React.createElement(Select, { ref: 'stateSelect', options: ops, disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
+			React.createElement(Select, { ref: "stateSelect", options: ops, disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
 			React.createElement(
 				'div',
-				{ className: 'switcher' },
+				{ className: "switcher" },
 				'Country:',
 				React.createElement(
 					CountrySelect,
-					{ value: 'AU', selected: this.state.country, onSelect: this.switchCountry },
+					{ value: "AU", selected: this.state.country, onSelect: this.switchCountry },
 					'Australia'
 				),
 				React.createElement(
 					CountrySelect,
-					{ value: 'US', selected: this.state.country, onSelect: this.switchCountry },
+					{ value: "US", selected: this.state.country, onSelect: this.switchCountry },
 					'US'
 				),
 				'  ',
 				React.createElement(
 					'button',
-					{ type: 'button', onClick: this.focusStateSelect },
+					{ type: "button", onClick: this.focusStateSelect },
 					'Focus Select'
 				),
 				'  ',
-				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-states-' + this.state.id, onChange: this.toggleDisabled }),
+				React.createElement('input', { type: "checkbox", checked: this.state.disabled, id: 'disable-states-' + this.state.id, onChange: this.toggleDisabled }),
 				React.createElement(
 					'label',
 					{ htmlFor: 'disable-states-' + this.state.id },
@@ -146,7 +146,7 @@ var RemoteSelectField = React.createClass({
 				null,
 				this.props.label
 			),
-			React.createElement(Select, { asyncOptions: this.loadOptions, className: 'remote-example' })
+			React.createElement(Select, { asyncOptions: this.loadOptions, className: "remote-example" })
 		);
 	}
 });
@@ -180,15 +180,15 @@ var MultiSelectField = React.createClass({
 					null,
 					this.props.label
 				),
-				React.createElement(Select, { multi: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: ops, onChange: this.handleSelectChange })
+				React.createElement(Select, { multi: true, disabled: this.state.disabled, value: this.state.value, placeholder: "Select your favourite(s)", options: ops, onChange: this.handleSelectChange })
 			),
 			React.createElement(
 				'div',
 				null,
-				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-multiselect', onChange: this.toggleDisabled }),
+				React.createElement('input', { type: "checkbox", checked: this.state.disabled, id: "disable-multiselect", onChange: this.toggleDisabled }),
 				React.createElement(
 					'label',
-					{ htmlFor: 'disable-multiselect' },
+					{ htmlFor: "disable-multiselect" },
 					'Disable'
 				)
 			)
@@ -214,9 +214,9 @@ var SelectedValuesField = React.createClass({
 			),
 			React.createElement(Select, {
 				onOptionLabelClick: this.onLabelClick,
-				value: 'chocolate,vanilla,strawberry',
+				value: "chocolate,vanilla,strawberry",
 				multi: true,
-				placeholder: 'Select your favourite(s)',
+				placeholder: "Select your favourite(s)",
 				options: ops,
 				onChange: logChange })
 		);
@@ -240,11 +240,11 @@ var SelectedValuesFieldCreate = React.createClass({
 				this.props.label
 			),
 			React.createElement(Select, {
-				value: 'first',
-				delimiter: ',',
+				value: "first",
+				delimiter: ",",
 				multi: true,
 				allowCreate: true,
-				placeholder: 'Select your favourite(s)',
+				placeholder: "Select your favourite(s)",
 				options: ops,
 				onChange: logChange })
 		);
@@ -285,10 +285,10 @@ var CustomRenderField = React.createClass({
 				this.props.label
 			),
 			React.createElement(Select, {
-				delimiter: ',',
+				delimiter: ",",
 				multi: true,
 				allowCreate: true,
-				placeholder: 'Select your favourite(s)',
+				placeholder: "Select your favourite(s)",
 				options: ops,
 				optionRenderer: this.renderOption,
 				valueRenderer: this.renderValue,
@@ -301,12 +301,12 @@ React.render(React.createElement(
 	'div',
 	null,
 	React.createElement(StatesField, null),
-	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
-	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
-	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
-	React.createElement(SelectedValuesFieldCreate, { label: 'Option Creation (tags mode):' }),
-	React.createElement(CustomRenderField, { label: 'Custom rendering for options and values:' }),
-	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
+	React.createElement(StatesField, { label: "States (non-searchable):", searchable: false }),
+	React.createElement(MultiSelectField, { label: "Multiselect:" }),
+	React.createElement(SelectedValuesField, { label: "Clickable labels (labels as links):" }),
+	React.createElement(SelectedValuesFieldCreate, { label: "Option Creation (tags mode):" }),
+	React.createElement(CustomRenderField, { label: "Custom rendering for options and values:" }),
+	React.createElement(RemoteSelectField, { label: "Remote Options:" })
 ), document.getElementById('example'));
 
 },{"./data/states":2,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
