@@ -58,6 +58,10 @@ describe('Select', function() {
 	function pressEscape() {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 27, key: 'Escape' });
 	}
+	
+	function pressBackspace() {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 8, key: 'Backspace' });
+	}
 
 	function typeSearchText(text) {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
@@ -690,4 +694,114 @@ describe('Select', function() {
 			});
 		});
 	});
+	
+	describe('with multi-select', function () {
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'four', label: 'Four' }
+			];
+
+			onChange = sinon.spy();
+
+			// Render an instance of the component
+			instance = TestUtils.renderIntoDocument(
+				<Select
+					name="form-field-name"
+					value=""
+					options={options}
+					onChange={onChange}
+					searchable={true}
+					allowCreate={true}
+					multi={true}
+					/>
+			);
+
+			// Focus on the input, such that mouse events are accepted
+			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+			TestUtils.Simulate.focus(searchInputNode);
+
+		});
+
+		it('selects a single option on enter', function () {
+			
+			typeSearchText('fo');
+			pressEnterToAccept();
+			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+		});
+		
+		it('selects a second option', function () {
+
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('th');
+			onChange.reset();  // Ignore previous onChange calls
+			pressEnterToAccept();
+			expect(onChange, 'was called with', 'four,three', 
+				[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+		});
+		
+		it('displays both selected options', function () {
+
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('th');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-item-label')[0], 
+				'to have text', 'Four');
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-item-label')[1],
+				'to have text', 'Three');
+		});
+		
+		it('removes the last selected option with backspace', function () {
+			
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('th');
+			pressEnterToAccept();
+			onChange.reset();  // Ignore previous onChange calls
+			pressBackspace();
+			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+		});
+		
+		it('removes an item when clicking on the X', function () {
+
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('th');
+			pressEnterToAccept();
+			typeSearchText('tw');
+			pressEnterToAccept();
+			onChange.reset();  // Ignore previous onChange calls
+			
+			var threeDeleteButton = React.findDOMNode(instance).querySelectorAll('.Select-item-icon')[1];
+			TestUtils.Simulate.click(threeDeleteButton);
+			
+			expect(onChange, 'was called with', 'four,two', [
+				{ label: 'Four', value: 'four' },
+				{ label: 'Two', value: 'two' }
+			]);
+		});
+		
+		it('uses the selected text as an item when comma is pressed', function () {
+
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('new item');
+			onChange.reset();
+			
+			TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 188, key: ',' });
+			expect(onChange, 'was called with', 'four,new item', [
+				{ value: 'four', label: 'Four' },
+				{ value: 'new item', label: 'new item' }
+			]);
+			
+		});
+
+	});
+	
 });
