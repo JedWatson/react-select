@@ -398,4 +398,126 @@ describe('Select', function() {
 
 		});
 	});
+	
+	describe('with allowCreate=true', function () {
+
+		var wrapper;
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'got spaces', label: 'Label for spaces' },
+				{ value: 'gotnospaces', label: 'Label for gotnospaces' },
+				{ value: 'abc 123', label: 'Label for abc 123' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'zzzzz', label: 'test value' }
+			];
+
+			onChange = sinon.spy();
+
+			// Render an instance of the component
+			wrapper = TestUtils.renderIntoDocument(
+				<PropsWrapper
+					childComponent={Select}
+					name="form-field-name"
+					value="one"
+					options={options}
+					onChange={onChange}
+					allowCreate={true}
+					searchable={true}
+					addLabelText="Add {label} to values?"
+					/>
+			);
+
+			// Focus on the input, such that mouse events are accepted
+			instance = wrapper.getChild();
+			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+			TestUtils.Simulate.focus(searchInputNode);
+		});
+		
+		it('has an "Add xyz" option when entering xyz', function () {
+			typeSearchText('xyz');
+			
+			expect(React.findDOMNode(instance), 'queried for', '.Select-menu .Select-option',
+				'to have items satisfying', 'to have text', 'Add xyz to values?');
+		});
+		
+		it('fires an onChange with the new value when selecting the Add option', function () {
+
+			typeSearchText('xyz');
+			TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			
+			expect(onChange, 'was called with', 'xyz');
+		});
+		
+		it('allows updating the options with a new label, following the onChange', function () {
+
+			typeSearchText('xyz');
+			TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			
+			expect(onChange, 'was called with', 'xyz');
+			
+			// Now the client adds the option, with a new label
+			wrapper.setPropsForChild({
+				options: [ 
+					{ value: 'one', label: 'One' },
+					{ value: 'xyz', label: 'XYZ Label' }
+				],
+				value: 'xyz'
+			});
+			
+			expect(React.findDOMNode(instance).querySelector(DISPLAYED_SELECTION_SELECTOR), 
+				'to have text', 'XYZ Label');
+		});
+		
+		it('displays an add option when a value with spaces is entered', function () {
+
+			typeSearchText('got');
+
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+				'to have text', 'Add got to values?');
+		});
+		
+		it('displays an add option when a value with spaces is entered', function () {
+
+			typeSearchText('got');
+
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+				'to have text', 'Add got to values?');
+		});
+		
+		it('displays an add option when a label with spaces is entered', function () {
+
+			typeSearchText('test');
+
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+				'to have text', 'Add test to values?');
+		});
+		
+		it('does not display the option label when an existing value is entered', function () {
+			
+			typeSearchText('zzzzz');
+			
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
+				'to have length', 1);
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+				'to have text', 'Add zzzzz to values?');
+		});
+		
+		it('renders the existing option and an add option when an existing display label is entered', function () {
+
+			typeSearchText('test value');
+
+			// First item should be the add option (as the "value" is not in the collection)
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+				'to have text', 'Add test value to values?');
+			// Second item should be the existing option with the matching label
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[1],
+				'to have text', 'test value');
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
+				'to have length', 2);
+		});
+	});
 });
