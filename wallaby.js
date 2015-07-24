@@ -9,7 +9,8 @@ module.exports = function (wallaby) {
 		tests: ['test/*-test.js' ],
 
 		env: {
-			type: 'node'
+			type: 'node',
+			runner: 'node'
 		},
 
 		preprocessors: {
