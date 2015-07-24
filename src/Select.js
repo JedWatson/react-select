@@ -405,7 +405,7 @@ var Select = React.createClass({
 				if (this.state.isOpen) {
 					this.resetValue();
 				} else {
-					this.clearValue();
+					this.clearValue(event);
 				}
 			break;
 
