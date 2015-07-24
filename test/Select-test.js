@@ -46,6 +46,26 @@ class PropsWrapper extends React.Component {
 describe('Select', function() {
 	var options, instance, onChange;
 	var searchInputNode;
+
+	function pressEnterToAccept() {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 13, key: 'Enter' });
+	}
+	
+	function pressTabToAccept() {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 9, key: 'Tab' });
+	}
+	
+	function pressEscape() {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 27, key: 'Escape' });
+	}
+
+	function typeSearchText(text) {
+		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
+	}
+
+	function getSelectControl(instance) {
+		return React.findDOMNode(instance).querySelector('.Select-control');
+	}
 	
 	describe('with simple options', function () {
 
@@ -76,20 +96,6 @@ describe('Select', function() {
 
 		});
 		
-		function pressEnterToAccept() {
-			TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 13, key: 'Enter' });
-		}
-		function pressTabToAccept() {
-			TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 9, key: 'Tab' });
-		}
-		
-		function typeSearchText(text) {
-			TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
-		}
-		
-		function getSelectControl(instance) {
-			return React.findDOMNode(instance).querySelector('.Select-control');
-		}
 
 		it('should assign the given name', function () {
 			var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
