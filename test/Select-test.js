@@ -520,4 +520,174 @@ describe('Select', function() {
 				'to have length', 2);
 		});
 	});
+	
+	describe('with async options', function () {
+
+		var asyncOptions;
+
+		beforeEach(function () {
+
+			onChange = sinon.spy();
+			asyncOptions = sinon.stub();
+
+			asyncOptions.withArgs('te').callsArgWith(1, null, {
+				options: [
+					{value: 'test', label: 'TEST one'},
+					{value: 'test2', label: 'TEST two'},
+					{value: 'tell', label: 'TELL three'}
+				]
+			});
+
+			asyncOptions.withArgs('tes').callsArgWith(1, null, {
+				options: [
+					{value: 'test', label: 'TEST one'},
+					{value: 'test2', label: 'TEST two'}
+				]
+			});
+
+
+		});
+
+		describe('with autoload=true', function () {
+
+			beforeEach(function () {
+
+				// Render an instance of the component
+				instance = TestUtils.renderIntoDocument(
+					<Select
+						name="form-field-name"
+						value=""
+						asyncOptions={asyncOptions}
+						onChange={onChange}
+						autoload={true}
+						/>
+				);
+
+				// Focus on the input, such that mouse events are accepted
+				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+				TestUtils.Simulate.focus(searchInputNode);
+			});
+
+
+			it('calls the asyncOptions initially with autoload=true', function () {
+
+				expect(asyncOptions, 'was called with', '');
+			});
+
+			it('calls the asyncOptions again when the input changes', function () {
+
+				typeSearchText('ab');
+
+				expect(asyncOptions, 'was called twice');
+				expect(asyncOptions, 'was called with', 'ab');
+			});
+
+			it('shows the returned options after asyncOptions calls back', function () {
+
+				typeSearchText('te');
+
+				var optionList = React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option');
+				expect(optionList, 'to have length', 3);
+				expect(optionList[0], 'to have text', 'TEST one');
+				expect(optionList[1], 'to have text', 'TEST two');
+				expect(optionList[2], 'to have text', 'TELL three');
+			});
+
+			it('uses the options cache when the same text is entered again', function () {
+
+
+				typeSearchText('te');
+				typeSearchText('tes');
+
+				expect(asyncOptions, 'was called times', 3);
+
+				typeSearchText('te');
+
+				expect(asyncOptions, 'was called times', 3);
+
+			});
+
+			it('displays the correct options from the cache after the input is changed back to a previous value', function () {
+
+				typeSearchText('te');
+				typeSearchText('tes');
+				typeSearchText('te');
+				// Double check the options list is still correct
+				var optionList = React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option');
+				expect(optionList, 'to have length', 3);
+				expect(optionList[0], 'to have text', 'TEST one');
+				expect(optionList[1], 'to have text', 'TEST two');
+				expect(optionList[2], 'to have text', 'TELL three');
+			});
+
+			it('re-filters an existing options list if complete:true is provided', function () {
+
+				asyncOptions.withArgs('te').callsArgWith(1, null, {
+					options: [
+						{value: 'test', label: 'TEST one'},
+						{value: 'test2', label: 'TEST two'},
+						{value: 'tell', label: 'TELL three'}
+					],
+					complete: true
+				});
+
+				typeSearchText('te');
+				expect(asyncOptions, 'was called times', 2);
+				typeSearchText('tel');
+				expect(asyncOptions, 'was called times', 2);
+				var optionList = React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option');
+				expect(optionList, 'to have length', 1);
+				expect(optionList[0], 'to have text', 'TELL three');
+			});
+
+			it('rethrows the error if err is set in the callback', function () {
+
+				asyncOptions.withArgs('tes').callsArgWith(1, new Error('Something\'s wrong jim'), {
+					options: [
+						{ value: 'test', label: 'TEST one' },
+						{ value: 'test2', label: 'TEST two' }
+					]
+				});
+
+
+				expect(function () {
+					typeSearchText('tes');
+				}, 'to throw exception', new Error('Something\'s wrong jim'));
+			});
+
+
+		});
+		
+		describe('with autoload=false', function () {
+			
+			beforeEach(function () {
+
+				// Render an instance of the component
+				instance = TestUtils.renderIntoDocument(
+					<Select
+						name="form-field-name"
+						value=""
+						asyncOptions={asyncOptions}
+						onChange={onChange}
+						autoload={false}
+						/>
+				);
+
+				// Focus on the input, such that mouse events are accepted
+				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+				TestUtils.Simulate.focus(searchInputNode);
+			});
+			
+			it('does not initially call asyncOptions', function () {
+				
+				expect(asyncOptions, 'was not called');
+			});
+			
+			it('calls the asyncOptions on first key entry', function () {
+				
+				typeSearchText('a');
+				expect(asyncOptions, 'was called with', 'a');
+			});
+		});
+	});
 });
