@@ -159,6 +159,28 @@ describe('Select', function() {
 			expect(onChange, 'was called with', 'three');
 		});
 		
+		describe('pressing escape', function () {
+			beforeEach(function () {
+				typeSearchText('h');
+				pressTabToAccept();
+				expect(onChange, 'was called with', 'three');
+				onChange.reset();
+				pressEscape();
+			});
+			
+			it('should call onChange with a empty value', function () {
+				
+				// TODO: Shouldn't this be null, really?
+				expect(onChange, 'was called with', '');
+			});
+			
+			it('should clear the display', function () {
+				
+				expect(React.findDOMNode(instance).querySelector(DISPLAYED_SELECTION_SELECTOR),
+					'to have text', 'Select...');
+			});
+		});
+		
 		it('should focus the first value on mouse click', function () {
 
 			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelector('.Select-control'));
