@@ -1,5 +1,14 @@
 # React-Select
 
+## v0.5.6 / 2015-07-27
+
+* fixed; Allow entering of commas when allowCreate is on but multi is off, thanks [Angelo DiNardi](https://github.com/adinardi)
+* fixed; Times (clear) character is now rendered from string unicode character for consistent output, thanks [Nibbles](https://github.com/Siliconrob)
+* fixed; allowCreate bug, thanks [goodzsq](https://github.com/goodzsq)
+* fixed; changes to props.placeholder weren't being reflected correctly, thanks [alesn](https://github.com/alesn)
+* fixed; error when escape is pressedn where `clearValue` was not passed the event, thanks [Mikhail Kotelnikov](https://github.com/mkotelnikov)
+* added; More tests, thanks [Dave Brotherstone](https://github.com/bruderstein)
+
 ## v0.5.5 / 2015-07-12
 
 * fixed; replaced usage of `component.getDOMNode()` with `React.findDOMNode(component)` for compatibility with React 0.14
