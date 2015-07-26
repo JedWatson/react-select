@@ -157,8 +157,8 @@ var Select = React.createClass({
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
+		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder) {
+			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
 		}
 	},
 
@@ -201,9 +201,12 @@ var Select = React.createClass({
 		return true;
 	},
 
-	getStateFromValue: function(value, options) {
+	getStateFromValue: function(value, options, placeholder) {
 		if (!options) {
 			options = this.state.options;
+		}
+		if (!placeholder) {
+			placeholder = this.props.placeholder;
 		}
 
 		// reset internal filter string
@@ -217,7 +220,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 	},
