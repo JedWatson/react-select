@@ -1143,5 +1143,65 @@ describe('Select', function() {
 				expect(React.findDOMNode(instance).querySelector(DISPLAYED_SELECTION_SELECTOR), 'to have text', 'Three');
 			});
 		});
+		
+		describe('custom filterOption function', function () {
+
+			// Custom function returns true only for value "four"
+			var filterOption = function (option) {
+				if (option.value === 'four') {
+					return true;
+				}
+
+				return false;
+			};
+			var spyFilterOption;
+			
+			beforeEach(function () {
+				
+				spyFilterOption = sinon.spy(filterOption);
+				
+				instance = createControl({
+					options: defaultOptions,
+					filterOption: spyFilterOption
+				});
+			});
+			
+			it('calls the filter with each option', function () {
+				
+				expect(spyFilterOption, 'was called times', 4);
+				expect(spyFilterOption, 'was called with', defaultOptions[0], '');
+				expect(spyFilterOption, 'was called with', defaultOptions[1], '');
+				expect(spyFilterOption, 'was called with', defaultOptions[2], '');
+				expect(spyFilterOption, 'was called with', defaultOptions[3], '');
+			});
+			
+			describe('when entering text', function () {
+				
+				beforeEach(function () {
+					
+					spyFilterOption.reset();
+					typeSearchText('xyz');
+				});
+				
+				it('calls the filterOption function for each option', function () {
+					
+					expect(spyFilterOption, 'was called times', 4);
+					expect(spyFilterOption, 'was called with', defaultOptions[0], 'xyz');
+					expect(spyFilterOption, 'was called with', defaultOptions[1], 'xyz');
+					expect(spyFilterOption, 'was called with', defaultOptions[2], 'xyz');
+					expect(spyFilterOption, 'was called with', defaultOptions[3], 'xyz');
+				});
+				
+				it('only shows the filtered option', function () {
+					
+					expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
+						'to have length', 1);
+
+					expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
+						'to have items satisfying',
+						'to have text', 'AbcDef');
+				});
+			});
+		});
 	});
 });
