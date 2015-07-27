@@ -1263,5 +1263,32 @@ describe('Select', function() {
 				expect(options, 'to have length', 2);
 			});
 		});
+		
+		describe('ignoreCase=false', function () {
+			
+			beforeEach(function () {
+				
+				instance = createControl({
+					searchable: true,
+					ignoreCase: false,
+					options: defaultOptions
+				});
+			});
+			
+			it('does not find options in a different case', function () {
+				
+				typeSearchText('def');
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 0);
+			});
+			
+			it('finds options in the same case', function () {
+
+				typeSearchText('Def');
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'AbcDef');
+				expect(options, 'to have length', 1);
+			});
+		});
 	});
 });
