@@ -1025,5 +1025,78 @@ describe('Select', function() {
 				});
 			});
 		});
+		
+		describe('delimiter', function () {
+
+			describe('is ;', function () {
+
+				beforeEach(function () {
+
+					instance = createControl({
+						multi: true,
+						value: 'four;three',
+						delimiter: ';',
+						options: defaultOptions
+					});
+				});
+				
+				it('interprets the initial options correctly', function () {
+					
+					var values = React.findDOMNode(instance).querySelectorAll('.Select-item');
+					
+					expect(values[0], 'queried for', '.Select-item-label', 'to have items satisfying', 
+						'to have text', 'AbcDef');
+					expect(values[1], 'queried for', '.Select-item-label', 'to have items satisfying',
+						'to have text', 'Three');
+					expect(values, 'to have length', 2);
+				});
+				
+				it('adds an additional option with the correct delimiter', function () {
+					
+					typeSearchText('one');
+					pressEnterToAccept();
+					expect(onChange, 'was called with', 'four;three;one', [
+						{ value: 'four', label: 'AbcDef' },
+						{ value: 'three', label: 'Three' },
+						{ value: 'one', label: 'One' }
+					]);
+				});
+			});
+			
+			describe('is a multi-character string (`==XXX==`)', function () {
+
+				beforeEach(function () {
+
+					instance = createControl({
+						multi: true,
+						value: 'four==XXX==three',
+						delimiter: '==XXX==',
+						options: defaultOptions
+					});
+				});
+
+				it('interprets the initial options correctly', function () {
+
+					var values = React.findDOMNode(instance).querySelectorAll('.Select-item');
+
+					expect(values[0], 'queried for', '.Select-item-label', 'to have items satisfying',
+						'to have text', 'AbcDef');
+					expect(values[1], 'queried for', '.Select-item-label', 'to have items satisfying',
+						'to have text', 'Three');
+					expect(values, 'to have length', 2);
+				});
+
+				it('adds an additional option with the correct delimiter', function () {
+
+					typeSearchText('one');
+					pressEnterToAccept();
+					expect(onChange, 'was called with', 'four==XXX==three==XXX==one', [
+						{ value: 'four', label: 'AbcDef' },
+						{ value: 'three', label: 'Three' },
+						{ value: 'one', label: 'One' }
+					]);
+				});
+			});
+		});
 	});
 });
