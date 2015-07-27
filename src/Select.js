@@ -407,7 +407,7 @@ var Select = React.createClass({
 			case 27: // escape
 				if (this.state.isOpen) {
 					this.resetValue();
-				} else {
+				} else if (this.props.clearable) {
 					this.clearValue(event);
 				}
 			break;

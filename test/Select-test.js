@@ -826,7 +826,7 @@ describe('Select', function() {
 			);
 
 			// Focus on the input, such that mouse events are accepted
-			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+			searchInputNode = React.findDOMNode(instance.getInputNode()).querySelector('input');
 			TestUtils.Simulate.focus(searchInputNode);
 			return instance;
 			
@@ -843,6 +843,143 @@ describe('Select', function() {
 			});
 		});
 		
+		describe('clearable=true', function () {
+			
+			beforeEach(function () {
+
+				var instance = createControl({
+					clearable: true,
+					options: defaultOptions,
+					value: 'three'
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+					'to have items satisfying', 'to have text', 'Three');
+
+			});
+			
+			describe('on pressing escape', function () {
+				
+				beforeEach(function () {
+					
+					pressEscape();
+				});
+
+				it('calls onChange with empty', function () {
+
+					expect(onChange, 'was called with', '');
+				});
+
+				it('resets the display value', function () {
+					
+					expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+						'to have items satisfying', 'to have text', 'Select...');
+				});
+
+				it('resets the control value', function () {
+					
+					expect(React.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+				});
+			});
+			
+			describe('on clicking `clear`', function () {
+				
+				beforeEach(function () {
+					TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-clear'));
+				});
+
+				it('calls onChange with empty', function () {
+
+					expect(onChange, 'was called with', '');
+				});
+
+				it('resets the display value', function () {
+
+					expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+						'to have items satisfying', 'to have text', 'Select...');
+				});
+
+				it('resets the control value', function () {
+
+					expect(React.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+				});
+			});
+		});
+		
+		describe('clearable=false', function () {
+
+			beforeEach(function () {
+
+				var instance = createControl({
+					clearable: false,
+					options: defaultOptions,
+					value: 'three'
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+					'to have items satisfying', 'to have text', 'Three');
+
+			});
+			
+			it('does not render a clear button', function () {
+				
+				expect(React.findDOMNode(instance).querySelectorAll('.Select-clear'), 'to have length', 0);
+			});
+			
+			describe('on escape', function () {
+				beforeEach(function () {
+				
+					pressEscape();
+				});
+				
+				it('does not call onChange', function () {
+					
+					expect(onChange, 'was not called');
+				});
+
+				it('does not reset the display value', function () {
+
+					expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+						'to have items satisfying', 'to have text', 'Three');
+				});
+
+				it('does not reset the control value', function () {
+
+					expect(React.findDOMNode(instance).querySelector('input').value, 'to equal', 'three');
+				});
+				
+			});
+			
+			describe('when open', function () {
+				
+				beforeEach(function () {
+					
+					typeSearchText('abc');
+				});
+				
+				describe('on escape', function () {
+					
+					beforeEach(function () {
+						pressEscape();
+					});
+					
+					it('closes the menu', function () {
+						
+						expect(React.findDOMNode(instance).querySelectorAll('.Select-menu'), 'to have length', 0);
+					});
+					
+					it('resets the control value to the original', function () {
+						
+						expect(React.findDOMNode(instance).querySelector('input').value, 'to equal', 'three');
+					});
+					
+					it('renders the original display label', function () {
+						
+						expect(React.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+							'to have items satisfying', 'to have text', 'Three');
+					});
+				});
+			});
+		});
 	});
-	
 });
