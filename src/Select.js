@@ -381,7 +381,7 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function(event) {
-		if (this.state.disabled) return;
+		if (this.props.disabled) return;
 
 		switch (event.keyCode) {
 

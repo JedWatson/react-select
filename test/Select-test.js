@@ -826,8 +826,12 @@ describe('Select', function() {
 			);
 
 			// Focus on the input, such that mouse events are accepted
-			searchInputNode = React.findDOMNode(instance.getInputNode()).querySelector('input');
-			TestUtils.Simulate.focus(searchInputNode);
+			var searchInstance = React.findDOMNode(instance.getInputNode());
+			searchInputNode = null;
+			if (searchInstance) {
+				searchInputNode = searchInstance.querySelector('input');
+				TestUtils.Simulate.focus(searchInputNode);
+			}
 			return instance;
 			
 		};
@@ -1096,6 +1100,47 @@ describe('Select', function() {
 						{ value: 'one', label: 'One' }
 					]);
 				});
+			});
+		});
+		
+		describe('disabled=true', function () {
+			
+			beforeEach(function () {
+				
+				instance = createControl({
+					options: defaultOptions,
+					value: 'three',
+					disabled: true,
+					searchable: true
+				});
+			});
+			
+			it('does not render an input search control', function () {
+				
+				expect(searchInputNode, 'to be null');
+			});
+			
+			it('does not react to keyDown', function () {
+				
+				TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+			});
+
+			it('does not respond to mouseDown', function () {
+
+				TestUtils.Simulate.mouseDown(getSelectControl(instance));
+				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+			});
+
+			it('does not respond to mouseDown on the arrow', function () {
+
+				TestUtils.Simulate.mouseDown(getSelectControl(instance).querySelector('.Select-arrow'));
+				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+			});
+			
+			it('renders the given value', function () {
+				
+				expect(React.findDOMNode(instance).querySelector(DISPLAYED_SELECTION_SELECTOR), 'to have text', 'Three');
 			});
 		});
 	});
