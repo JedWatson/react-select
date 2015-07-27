@@ -71,6 +71,45 @@ describe('Select', function() {
 		return React.findDOMNode(instance).querySelector('.Select-control');
 	}
 	
+	function clickDocument() {
+		var clickEvent = document.createEvent('MouseEvents');
+		clickEvent.initEvent('click', true, true);
+		document.dispatchEvent(clickEvent);	
+	}
+
+	var createControl = function(props) {
+
+
+		onChange = sinon.spy();
+		// Render an instance of the component
+		instance = TestUtils.renderIntoDocument(
+			<Select
+				onChange={onChange}
+				{...props}
+				/>
+		);
+
+		// Focus on the input, such that mouse events are accepted
+		var searchInstance = React.findDOMNode(instance.getInputNode());
+		searchInputNode = null;
+		if (searchInstance) {
+			searchInputNode = searchInstance.querySelector('input');
+			if (searchInputNode) {
+				TestUtils.Simulate.focus(searchInputNode);
+			}
+		}
+		return instance;
+
+	};
+	
+	var defaultOptions = [
+		{ value: 'one', label: 'One' },
+		{ value: 'two', label: '222' },
+		{ value: 'three', label: 'Three' },
+		{ value: 'four', label: 'AbcDef' }
+	];
+
+
 	describe('with simple options', function () {
 
 		beforeEach(function () {
@@ -806,37 +845,6 @@ describe('Select', function() {
 	
 	describe('with props', function () {
 		
-		var defaultOptions = [
-			{ value: 'one', label: 'One' },
-			{ value: 'two', label: '222' },
-			{ value: 'three', label: 'Three' },
-			{ value: 'four', label: 'AbcDef' }
-		];
-		
-		var createControl = function(props) {
-
-
-			onChange = sinon.spy();
-			// Render an instance of the component
-			instance = TestUtils.renderIntoDocument(
-				<Select
-					onChange={onChange}
-					{...props}
-					/>
-			);
-
-			// Focus on the input, such that mouse events are accepted
-			var searchInstance = React.findDOMNode(instance.getInputNode());
-			searchInputNode = null;
-			if (searchInstance) {
-				searchInputNode = searchInstance.querySelector('input');
-				if (searchInputNode) {
-					TestUtils.Simulate.focus(searchInputNode);
-				}
-			}
-			return instance;
-			
-		};
 		
 		describe('className', function () {
 			
@@ -1500,4 +1508,25 @@ describe('Select', function() {
 			});
 		});
 	});
+	
+	describe('clicking outside', function () {
+		
+		beforeEach(function () {
+			
+			instance = createControl({
+				options: defaultOptions
+			});
+		});
+		
+		it('closes the menu', function () {
+			
+			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+				'to have length', 4);
+			
+			clickDocument();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
+				'to have length', 0);
+		});
+	})
 });
