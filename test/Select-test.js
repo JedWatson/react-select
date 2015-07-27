@@ -306,6 +306,21 @@ describe('Select', function() {
 				'to have text', 'One');
 		});
 		
+		it('should close the options one the second click on the arrow', function () {
+			var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+			TestUtils.Simulate.mouseDown(selectArrow);
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 3);
+
+			TestUtils.Simulate.mouseDown(selectArrow);
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+		});
+		
+		it('should ignore a right mouse click on the arrow', function () {
+			var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+			TestUtils.Simulate.mouseDown(selectArrow, { type: 'mousedown', button: 1 });
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+		});
+		
 		
 		describe('after mouseEnter and leave of an option', function () {
 			
