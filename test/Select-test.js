@@ -1377,5 +1377,127 @@ describe('Select', function() {
 				});
 			});
 		});
+		
+		describe('matchPos=start', function () {
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					matchPos: 'start',
+					options: defaultOptions
+				});
+			});
+
+			it('searches only at the start', function () {
+
+				typeSearchText('o');
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'One');
+				expect(options, 'to have length', 1);
+			});
+		});
+		
+		describe('matchProp=value', function () {
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					matchProp: 'value',
+					options: [
+						{ value: 'aaa', label: '111' },
+						{ value: 'bbb', label: '222' },
+						{ value: 'ccc', label: 'Three' },
+						{ value: 'four', label: 'Abcaaa' }
+					]
+				});
+			});
+
+			it('searches only the value', function () {
+
+				typeSearchText('aa');  // Matches value "three", and label "AbcDef"
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 1);
+				expect(options[0], 'to have text', '111');
+			});
+		});
+		
+		describe('matchProp=label', function () {
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					matchProp: 'label',
+					options: [
+						{ value: 'aaa', label: 'bbb' },
+						{ value: 'bbb', label: '222' },
+						{ value: 'ccc', label: 'Three' },
+						{ value: 'four', label: 'Abcaaa' }
+					]
+				});
+			});
+
+			it('searches only the value', function () {
+
+				typeSearchText('bb');  // Matches value "three", and label "AbcDef"
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 1);
+				expect(options[0], 'to have text', 'bbb');
+			});
+		});
+
+		describe('matchPos=start and matchProp=value', function () {
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					matchProp: 'value',
+					matchPos: 'start',
+					options: [
+						{ value: 'aaa', label: '111' },
+						{ value: 'bbb', label: '222' },
+						{ value: 'cccaa', label: 'Three' },
+						{ value: 'four', label: 'aaAbca' }
+					]
+				});
+			});
+
+			it('searches only the value', function () {
+
+				typeSearchText('aa');  // Matches value "three", and label "AbcDef"
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 1);
+				expect(options[0], 'to have text', '111');
+			});
+		});
+
+		describe('matchPos=start and matchProp=label', function () {
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					matchProp: 'label',
+					matchPos: 'start',
+					options: [
+						{ value: 'aaa', label: 'bbb' },
+						{ value: 'bbb', label: '222' },
+						{ value: 'cccbbb', label: 'Three' },
+						{ value: 'four', label: 'Abcbbb' }
+					]
+				});
+			});
+
+			it('searches only the label', function () {
+
+				typeSearchText('bb');  // Matches value "three", and label "AbcDef"
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 1);
+				expect(options[0], 'to have text', 'bbb');
+			});
+		});
 	});
 });
