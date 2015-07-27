@@ -804,4 +804,45 @@ describe('Select', function() {
 
 	});
 	
+	describe('with props', function () {
+		
+		var defaultOptions = [
+			{ value: 'one', label: 'One' },
+			{ value: 'two', label: '222' },
+			{ value: 'three', label: 'Three' },
+			{ value: 'four', label: 'AbcDef' }
+		];
+		
+		var createControl = function(props) {
+
+
+			onChange = sinon.spy();
+			// Render an instance of the component
+			instance = TestUtils.renderIntoDocument(
+				<Select
+					onChange={onChange}
+					{...props}
+					/>
+			);
+
+			// Focus on the input, such that mouse events are accepted
+			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+			TestUtils.Simulate.focus(searchInputNode);
+			return instance;
+			
+		};
+		
+		describe('className', function () {
+			
+			it('assigns the className to the outer-most element', function () {
+				
+				var instance = createControl({ className: 'test-class' });
+				expect(React.findDOMNode(instance), 'to have attributes', {
+					class: 'test-class'
+				});
+			});
+		});
+		
+	});
+	
 });
