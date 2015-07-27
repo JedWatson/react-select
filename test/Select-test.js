@@ -1290,5 +1290,43 @@ describe('Select', function() {
 				expect(options, 'to have length', 1);
 			});
 		});
+		
+		describe('inputProps', function () {
+
+
+			beforeEach(function () {
+
+				instance = createControl({
+					searchable: true,
+					inputProps: {
+						inputClassName: 'extra-input-class',
+						className: 'extra-class-name',
+						id: 'search-input-id'
+					},
+					options: defaultOptions
+				});
+			});
+			
+			it('passes id through to the search input box', function () {
+				expect(searchInputNode, 'to have attributes', {
+					id: 'search-input-id'
+				});
+			});
+			
+			it('passes the inputClassName to the search input box', function () {
+
+				expect(searchInputNode, 'to have attributes', {
+					class: 'extra-input-class'
+				});
+			});
+			
+			it('adds the className on to the auto-size input', function () {
+				
+				expect(React.findDOMNode(instance.getInputNode()),
+					'to have attributes', {
+						class: ['extra-class-name', 'Select-input']
+					});
+			});
+		});
 	});
 });
