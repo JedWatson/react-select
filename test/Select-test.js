@@ -830,7 +830,9 @@ describe('Select', function() {
 			searchInputNode = null;
 			if (searchInstance) {
 				searchInputNode = searchInstance.querySelector('input');
-				TestUtils.Simulate.focus(searchInputNode);
+				if (searchInputNode) {
+					TestUtils.Simulate.focus(searchInputNode);
+				}
 			}
 			return instance;
 			
@@ -1326,6 +1328,53 @@ describe('Select', function() {
 					'to have attributes', {
 						class: ['extra-class-name', 'Select-input']
 					});
+			});
+			
+			describe('and not searchable', function () {
+
+				beforeEach(function () {
+
+					instance = createControl({
+						searchable: false,
+						inputProps: {
+							inputClassName: 'extra-input-class',
+							className: 'extra-class-name',
+							id: 'search-input-id'
+						},
+						options: defaultOptions
+					});
+				});
+
+				it('sets the className and id on the placeholder for the input', function () {
+
+					expect(React.findDOMNode(instance).querySelector('.extra-class-name'),
+						'to have attributes', {
+							id: 'search-input-id'
+						});
+				});
+			});
+			
+			describe('and disabled', function () {
+
+				beforeEach(function () {
+
+					instance = createControl({
+						searchable: true,
+						disabled: true,
+						inputProps: {
+							inputClassName: 'extra-input-class',
+							className: 'extra-class-name',
+							id: 'search-input-id'
+						},
+						options: defaultOptions
+					});
+				});
+				
+				it('doesn\'t pass the inputProps through', function () {
+					
+					expect(React.findDOMNode(instance).querySelectorAll('.extra-class-name'), 'to have length', 0);
+					expect(React.findDOMNode(instance).querySelectorAll('#search-input-id'), 'to have length', 0);
+				});
 			});
 		});
 	});
