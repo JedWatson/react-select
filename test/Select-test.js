@@ -1522,6 +1522,44 @@ describe('Select', function() {
 				expect(options[0], 'to have text', 'bbb');
 			});
 		});
+		
+		describe('onBlur', function () {
+			
+			var onBlur;
+			
+			it('calls the onBlur prop when blurring the input', function () {
+				
+				onBlur = sinon.spy();
+				
+				instance = createControl({
+					options: defaultOptions,
+					onBlur: onBlur
+				});
+				
+				TestUtils.Simulate.blur(searchInputNode);
+				expect(onBlur, 'was called once');
+			});
+		});
+		
+		describe('onFocus', function () {
+
+			var onFocus;
+
+			beforeEach(function () {
+
+				onFocus = sinon.spy();
+
+				instance = createControl({
+					options: defaultOptions,
+					onFocus: onFocus
+				});
+			});
+			
+			it('calls the onFocus prop when focusing the control', function () {
+
+				expect(onFocus, 'was called once');
+			});
+		});
 	});
 	
 	describe('clicking outside', function () {
