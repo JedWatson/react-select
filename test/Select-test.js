@@ -590,16 +590,16 @@ describe('Select', function() {
 
 			asyncOptions.withArgs('te').callsArgWith(1, null, {
 				options: [
-					{value: 'test', label: 'TEST one'},
-					{value: 'test2', label: 'TEST two'},
-					{value: 'tell', label: 'TELL three'}
+					{ value: 'test', label: 'TEST one' },
+					{ value: 'test2', label: 'TEST two' },
+					{ value: 'tell', label: 'TELL three' }
 				]
 			});
 
 			asyncOptions.withArgs('tes').callsArgWith(1, null, {
 				options: [
-					{value: 'test', label: 'TEST one'},
-					{value: 'test2', label: 'TEST two'}
+					{ value: 'test', label: 'TEST one' },
+					{ value: 'test2', label: 'TEST two' }
 				]
 			});
 
@@ -682,9 +682,9 @@ describe('Select', function() {
 
 				asyncOptions.withArgs('te').callsArgWith(1, null, {
 					options: [
-						{value: 'test', label: 'TEST one'},
-						{value: 'test2', label: 'TEST two'},
-						{value: 'tell', label: 'TELL three'}
+						{ value: 'test', label: 'TEST one' },
+						{ value: 'test2', label: 'TEST two' },
+						{ value: 'tell', label: 'TELL three' }
 					],
 					complete: true
 				});
@@ -1581,5 +1581,5 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
 				'to have length', 0);
 		});
-	})
+	});
 });
