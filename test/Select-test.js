@@ -981,5 +981,49 @@ describe('Select', function() {
 				});
 			});
 		});
+		
+		describe('clearAllText', function () {
+			
+			beforeEach(function () {
+				
+				instance = createControl({
+					multi: true,
+					clearable: true,
+					value: 'three',
+					clearAllText: 'Remove All Items Test Title',
+					clearValueText: 'Remove Value Test Title',  // Should be ignored, multi=true
+					options: defaultOptions
+				});
+			});
+			
+			it('uses the prop as the title for clear', function () {
+				
+				expect(React.findDOMNode(instance).querySelector('.Select-clear'), 'to have attributes', {
+					title: 'Remove All Items Test Title'
+				});
+			});
+		});
+		
+		describe('clearValueText', function () {
+			
+			beforeEach(function () {
+
+				instance = createControl({
+					multi: false,
+					clearable: true,
+					value: 'three',
+					clearAllText: 'Remove All Items Test Title', // Should be ignored, multi=false
+					clearValueText: 'Remove Value Test Title',
+					options: defaultOptions
+				});
+			});
+
+			it('uses the prop as the title for clear', function () {
+
+				expect(React.findDOMNode(instance).querySelector('.Select-clear'), 'to have attributes', {
+					title: 'Remove Value Test Title'
+				});
+			});
+		});
 	});
 });
