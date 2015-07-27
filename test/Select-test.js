@@ -1203,5 +1203,65 @@ describe('Select', function() {
 				});
 			});
 		});
+		
+		describe('custom filterOptions function', function () {
+
+			var spyFilterOptions;
+
+			beforeEach(function () {
+
+				spyFilterOptions = sinon.stub();
+				spyFilterOptions.returns([
+					{ label: 'Return One', value: 'one' },
+					{ label: 'Return Two', value: 'two' }
+				]);
+
+				instance = createControl({
+					options: defaultOptions,
+					filterOptions: spyFilterOptions,
+					searchable: true
+				});
+			});
+			
+			it('calls the filterOptions function initially', function () {
+				
+				expect(spyFilterOptions, 'was called');
+			});
+			
+			it('calls the filterOptions function initially with the initial options', function () {
+
+				expect(spyFilterOptions, 'was called with', defaultOptions, '');
+			});
+			
+			it('uses the returned options', function () {
+				
+				TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelector('.Select-arrow'));
+				
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'Return One');
+				expect(options[1], 'to have text', 'Return Two');
+				expect(options, 'to have length', 2);
+			});
+			
+			it('calls the filterOptions function on text change', function () {
+				
+				typeSearchText('xyz');
+				expect(spyFilterOptions, 'was called with', defaultOptions, 'xyz');
+			});
+			
+			it('uses new options after text change', function () {
+
+				spyFilterOptions.returns([
+					{ value: 'abc', label: 'AAbbcc' },
+					{ value: 'def', label: 'DDeeff' }
+				]);
+				typeSearchText('xyz');
+
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'AAbbcc');
+				expect(options[1], 'to have text', 'DDeeff');
+				expect(options, 'to have length', 2);
+			});
+		});
 	});
 });
