@@ -9,7 +9,8 @@ module.exports = function (wallaby) {
 		files: ['src/*.js', 'testHelpers/*.js'],
 		tests: ['test/*-test.js' ],
 		env: {
-			type: 'node'
+			type: 'node',
+			runner: 'node'
 		},
 		preprocessors: {
 			'**/*.js': file => babel.transform(file.content, {sourceMap: true})

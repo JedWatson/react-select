@@ -381,7 +381,7 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function(event) {
-		if (this.state.disabled) return;
+		if (this.props.disabled) return;
 
 		switch (event.keyCode) {
 
@@ -407,7 +407,7 @@ var Select = React.createClass({
 			case 27: // escape
 				if (this.state.isOpen) {
 					this.resetValue();
-				} else {
+				} else if (this.props.clearable) {
 					this.clearValue(event);
 				}
 			break;
@@ -754,13 +754,13 @@ var Select = React.createClass({
 		var input;
 		var inputProps = {
 			ref: 'input',
-			className: 'Select-input',
+			className: 'Select-input ' + (this.props.inputProps.className || ''),
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
 			onBlur: this.handleInputBlur
 		};
 		for (var key in this.props.inputProps) {
-			if (this.props.inputProps.hasOwnProperty(key)) {
+			if (this.props.inputProps.hasOwnProperty(key) && key !== 'className') {
 				inputProps[key] = this.props.inputProps[key];
 			}
 		}
