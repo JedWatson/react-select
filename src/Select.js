@@ -151,13 +151,15 @@ var Select = React.createClass({
 	},
 
 	componentWillReceiveProps: function(newProps) {
+		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
+			optionsChanged = true;
 			this.setState({
 				options: newProps.options,
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder) {
+		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder || optionsChanged) {
 			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
 		}
 	},
