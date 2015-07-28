@@ -11,7 +11,7 @@
 .Select-control {
 	position: relative;
 	overflow: hidden;
-	background-color: white;
+	background-color: @select-input-bg;
 	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
@@ -36,7 +36,7 @@
 
 .is-open > .Select-control {
 	.border-bottom-radius( 0 );
-	background: white;
+	background: @select-input-bg;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
 
 	// flip the arrow so its pointing up when the menu is open
@@ -86,8 +86,9 @@
 	> input {
 		cursor: default;
 		background: none transparent;
+		box-shadow: none;
+		height: auto;
 		border: 0 none;
-		padding: 0;
 		font-family: inherit;
 		font-size: inherit;
 		margin: 0;
@@ -149,6 +150,17 @@
 
 // arrow indicator
 
+.Select-arrow-zone {
+	content: " ";
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 30px;
+	cursor: pointer;
+}
+
 .Select-arrow {
 	border-color: @select-arrow-color transparent transparent;
 	border-style: solid;
@@ -161,4 +173,5 @@
 	right: @select-padding-horizontal;
 	top: @select-padding-vertical + @select-arrow-width + 1;
 	width: 0;
+	cursor: pointer;
 }

@@ -26,7 +26,6 @@
 	
 }
 
-
 // Items
 
 .Select-item {
@@ -75,4 +74,23 @@
 	&:active {
 		background-color: @select-item-border-color;
 	}
+}
+
+.Select.is-multi.is-disabled {
+  .Select-item {
+	background-color: @select-item-disabled-bg;
+	border: 1px solid @select-item-disabled-border-color;
+	color: @select-item-disabled-color;
+  }
+  // icon
+  .Select-item-icon {
+	cursor: not-allowed;
+	border-right: 1px solid @select-item-disabled-border-color;
+
+	&:hover,
+	&:focus,
+	&:active {
+	  background-color: @select-item-disabled-bg;
+	}
+  }
 }

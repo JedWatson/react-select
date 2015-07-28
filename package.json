@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.4.9",
+  "version": "0.5.6",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -10,21 +10,30 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "classnames": "^2.1.1",
-    "react-input-autosize": "^0.4.3"
+    "classnames": "^2.1.3",
+    "react-input-autosize": "^0.5.0"
   },
   "devDependencies": {
-    "babel-eslint": "^3.1.1",
-    "babel-jest": "^5.2.0",
-    "eslint": "^0.21.0",
-    "eslint-plugin-react": "^2.2.0",
-    "gulp": "^3.8.11",
-    "jest-cli": "^0.4.2",
-    "react": ">=0.12.0",
-    "react-component-gulp-tasks": "^0.7.0"
+    "babel": "^5.6.14",
+    "babel-eslint": "^3.1.23",
+    "chai": "^3.0.0",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^2.7.0",
+    "gulp": "^3.9.0",
+    "istanbul": "^0.3.17",
+    "jsdom": "^3.1.2",
+    "mocha": "^2.2.5",
+    "mocha-jsdom": "^1.0.0",
+    "react": ">=0.13.3",
+    "react-component-gulp-tasks": "^0.7.0",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0",
+    "unexpected": "^9.2.1",
+    "unexpected-dom": "^1.1.3",
+    "unexpected-sinon": "^6.4.1"
   },
   "peerDependencies": {
-    "react": ">=0.12.0"
+    "react": ">=0.13.3"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
@@ -36,30 +45,23 @@
     "bump": "gulp bump",
     "bump:major": "gulp bump:major",
     "bump:minor": "gulp bump:minor",
-    "dev": "gulp dev",
+    "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports --compilers js:babel/register -R spec",
     "examples": "gulp dev:server",
-    "lint": "eslint ./; true",
+    "lint": "eslint .",
+    "publish:examples": "gulp publish:examples",
     "release": "gulp release",
-    "test": "jest; true",
+    "start": "gulp dev",
+    "test": "mocha --compilers js:babel/register",
     "watch": "gulp watch:lib"
   },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
-    ],
-    "testPathDirs": [
-      "<rootDir>/src"
-    ]
-  },
   "keywords": [
+    "combobox",
+    "form",
+    "input",
+    "multiselect",
     "react",
     "react-component",
     "select",
-    "multiselect",
-    "combobox",
-    "input",
-    "form",
     "ui"
   ]
 }

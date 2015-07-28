@@ -26,7 +26,7 @@ This project is quite stable and ready for production use, however there are pla
 - Documentation website (currently just examples)
 - Custom options rendering
 
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
@@ -37,7 +37,7 @@ The easiest way to use React-Select is to install it from NPM and include it in 
 npm install react-select --save
 ```
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies: 
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies:
 
 * [React](http://facebook.github.io/react/)
 * [classNames](http://jedwatson.github.io/classnames/)
@@ -123,15 +123,17 @@ You can control how options are filtered with the following properties:
 
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
+* `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
 
-Both properties default to `"any"`.
+`matchProp` and `matchPos` both default to `"any"`.
+`ignoreCase` defaults to `true`.
 
 #### Advanced filters
 
 You can also completely replace the method used to filter either a single option, or the entire options array (allowing custom sort mechanisms, etc.)
 
-* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos` and `matchProp` options.
-* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos` and `matchProp` options.
+* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos`, `matchProp` and `ignoreCase` options.
+* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos`, `matchProp` and `ignoreCase` options.
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
@@ -163,6 +165,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	filterOptions 		|	func		|	 method to filter the options array: function([options], filterString, [values])
 	matchPos 			|	string		|	 (any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	 (any, label, value) which option property to filter on
+	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 
 

@@ -1,19 +1,33 @@
 var React = require('react');
 
-var Option = React.createClass({
+var Value = React.createClass({
 
 	displayName: 'Value',
 
 	propTypes: {
-		label: React.PropTypes.string.isRequired
+		disabled: React.PropTypes.bool,
+		onOptionLabelClick: React.PropTypes.func,
+		onRemove: React.PropTypes.func,
+		option: React.PropTypes.object.isRequired,
+		optionLabelClick: React.PropTypes.bool,
+		renderer: React.PropTypes.func
 	},
 
 	blockEvent: function(event) {
 		event.stopPropagation();
 	},
 
+	handleOnRemove: function(event) {
+		if (!this.props.disabled) {
+			this.props.onRemove(event);
+		}
+	},
+
 	render: function() {
-		var label = this.props.label;
+		var label = this.props.option.label;
+		if (this.props.renderer) {
+			label = this.props.renderer(this.props.option);
+		}
 
 		if (this.props.optionLabelClick) {
 			label = (
@@ -30,8 +44,8 @@ var Option = React.createClass({
 			<div className="Select-item">
 				<span className="Select-item-icon"
 					onMouseDown={this.blockEvent}
-					onClick={this.props.onRemove}
-					onTouchEnd={this.props.onRemove}>&times;</span>
+					onClick={this.handleOnRemove}
+					onTouchEnd={this.handleOnRemove}>&times;</span>
 				<span className="Select-item-label">{label}</span>
 			</div>
 		);
@@ -39,4 +53,4 @@ var Option = React.createClass({
 
 });
 
-module.exports = Option;
+module.exports = Value;

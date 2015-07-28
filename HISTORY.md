@@ -1,5 +1,58 @@
 # React-Select
 
+## v0.5.6 / 2015-07-27
+
+* fixed; Allow entering of commas when allowCreate is on but multi is off, thanks [Angelo DiNardi](https://github.com/adinardi)
+* fixed; Times (clear) character is now rendered from string unicode character for consistent output, thanks [Nibbles](https://github.com/Siliconrob)
+* fixed; allowCreate bug, thanks [goodzsq](https://github.com/goodzsq)
+* fixed; changes to props.placeholder weren't being reflected correctly, thanks [alesn](https://github.com/alesn)
+* fixed; error when escape is pressedn where `clearValue` was not passed the event, thanks [Mikhail Kotelnikov](https://github.com/mkotelnikov)
+* added; More tests, thanks [Dave Brotherstone](https://github.com/bruderstein)
+
+## v0.5.5 / 2015-07-12
+
+* fixed; replaced usage of `component.getDOMNode()` with `React.findDOMNode(component)` for compatibility with React 0.14
+
+## v0.5.4 / 2015-07-06
+
+* fixed; regression in 0.5.3 that broke componentWillMount, sorry everyone!
+* added; `addLabelText` prop for customising the "add {label}?" text when in tags mode, thanks [Fenn](https://github.com/Fenntasy)
+
+## v0.5.3 / 2015-07-05
+
+* fixed; autoload issues, thanks [Maxime Tyler](https://github.com/iam4x)
+* fixed; style incompatibilities with Foundation framework, thanks [Timothy Kempf](https://github.com/Fauntleroy)
+
+## v0.5.2 / 2015-06-28
+
+* fixed; bug where Select shows the value instead of the label, thanks [Stephen Demjanenko](https://github.com/sdemjanenko)
+* added; 'is-selected' classname is added to the selected option, thanks [Alexey Volodkin](https://github.com/miraks)
+* fixed; async options are now loaded with the initial value, thanks [Pokai Chang](https://github.com/Neson)
+* fixed; `react-input-autosize` now correctly escapes ampersands (&), not actually a fix in react-select but worth noting here because it would have been causing a problem in `react-select` as well.
+
+## v0.5.1 / 2015-06-21
+
+* added; custom option and value rendering capability, thanks [Brian Reavis](https://github.com/brianreavis)
+* fixed; collapsing issue when single-select or empty multi-select fields are disabled
+* fixed; issue where an empty value would be left after clearing all values in a multi-select field
+
+## v0.5.0 / 2015-06-20
+
+* fixed; `esc` key incorrectly created empty options, thanks [rgrzelak](https://github.com/rgrzelak)
+* adeed; New feature to allow option creation ("tags mode"), enable with `allowCreate` prop, thanks [Florent Vilmart](https://github.com/flovilmart) and [Brian Reavis](https://github.com/brianreavis)
+* fixed; IE8 compatibility fallback for `addEventListener/removeEventListener`, which don't exist in IE8, thanks [Stefan Billiet](https://github.com/StefanBilliet)
+* fixed; Undefined values when using asyncOptions, thanks [bannaN](https://github.com/bannaN)
+* fixed; Prevent add the last focused value when the drop down menu is closed / Pushing enter without dropdown open adds a value, thanks [Giuseppe](https://github.com/giuse88)
+* fixed; Callback context is undefined, thanks [Giuseppe](https://github.com/giuse88)
+* fixed; Issue with event being swallowed on Enter `keydown`, thanks [Kevin Burke](https://github.com/kembuco)
+* added; Support for case-insensitive filtering when `matchPos="start"`, thanks [wesrage](https://github.com/wesrage)
+* added; Support for customizable background color, thanks [John Morales](https://github.com/JohnMorales)
+* fixed; Updated ESLint and cleared up warnings, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
+* fixed; Close dropdown when clicking on select, thanks [Nik Butenko](https://github.com/nkbt)
+* added; Tests, and mocha test framework, thanks [Craig Dallimore](https://github.com/craigdallimore)
+* fixed; You can now start the example server and watch for changes with `npm start`
+
+
 ## v0.4.9 / 2015-05-11
 
 * fixed; focus was being grabbed by the select when `autoload` and `asyncOptions` were set
