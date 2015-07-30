@@ -48,7 +48,7 @@ You can also use the standalone build by including `dist/select.js` and `dist/de
 
 React-Select generates a hidden text field containing the selected value, so you can submit it as part of a standard form. You can also listen for changes with the `onChange` event property.
 
-Options should be provided as an `Array` of `Object`s, each with a `value` and `label` property for rendering and searching.
+Options should be provided as an `Array` of `Object`s, each with a `value` and `label` property for rendering and searching. You can use a `disabled` property to indicate whether the option is disabled or not.
 
 When the value is changed, `onChange(newValue, [selectedOptions])` will fire.
 
