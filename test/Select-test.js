@@ -879,6 +879,39 @@ describe('Select', function() {
 			]);
 			
 		});
+		
+		describe('with late options', function () {
+			
+			beforeEach(function () {
+				
+				wrapper = createControlWithWrapper({
+					multi: true,
+					options: options,
+					value: 'one,two'
+				});
+			});
+			
+			it('updates the label when the options are updated', function () {
+				
+				wrapper.setPropsForChild({
+					options: [
+						{ value: 'one', label: 'new label for One' },
+						{ value: 'two', label: 'new label for Two' },
+						{ value: 'three', label: 'new label for Three' }
+					]
+				});
+				
+				var items = React.findDOMNode(instance).querySelectorAll('.Select-item');
+				
+				expect(items[0], 'queried for', '.Select-item-label',
+					'to have items satisfying',
+					'to have text', 'new label for One');
+				
+				expect(items[1], 'queried for', '.Select-item-label',
+					'to have items satisfying',
+					'to have text', 'new label for Two');
+			});
+		});
 
 	});
 	
