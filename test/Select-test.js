@@ -1776,6 +1776,73 @@ describe('Select', function() {
 					'to have length', 0);
 			});
 		});
+		
+		describe('valueRenderer', function () {
+
+			var valueRenderer;
+
+			beforeEach(function () {
+
+				valueRenderer = function (option) {
+					return (
+						<span id={'TESTOPTION_' + option.value}>{option.label.toUpperCase()}</span>
+					);
+				};
+
+				valueRenderer = sinon.spy(valueRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					value: 'three',
+					valueRenderer: valueRenderer
+				});
+			});
+
+			
+			it('renders the value using the provided renderer', function () {
+				
+				var labelNode = React.findDOMNode(instance).querySelector('.Select-value span');
+				expect(labelNode, 'to have text', 'THREE');
+				expect(labelNode, 'to have attributes', {
+					id: 'TESTOPTION_three'
+				});
+			});
+		});
+		
+		describe('valueRenderer and multi=true', function () {
+			var valueRenderer;
+
+			beforeEach(function () {
+
+				valueRenderer = function (option) {
+					return (
+						<span id={'TESTOPTION_' + option.value}>{option.label.toUpperCase()}</span>
+					);
+				};
+
+				valueRenderer = sinon.spy(valueRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					value: 'three,two',
+					multi: true,
+					valueRenderer: valueRenderer
+				});
+			});
+
+			it('renders the values using the provided renderer', function () {
+
+				var labelNode = React.findDOMNode(instance).querySelectorAll('.Select-item-label span');
+				expect(labelNode[0], 'to have text', 'THREE');
+				expect(labelNode[0], 'to have attributes', {
+					id: 'TESTOPTION_three'
+				});
+				expect(labelNode[1], 'to have text', '222');
+				expect(labelNode[1], 'to have attributes', {
+					id: 'TESTOPTION_two'
+				});
+			});
+		});
 	});
 	
 	describe('clicking outside', function () {
