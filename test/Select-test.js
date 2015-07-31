@@ -91,8 +91,7 @@ describe('Select', function() {
 	}
 
 	var createControl = function(props) {
-
-
+		
 		onChange = sinon.spy();
 		// Render an instance of the component
 		instance = TestUtils.renderIntoDocument(
@@ -103,7 +102,6 @@ describe('Select', function() {
 		);
 		
 		findAndFocusInputControl();
-
 		return instance;
 
 	};
@@ -144,23 +142,12 @@ describe('Select', function() {
 				{ value: 'three', label: 'Three' }
 			];
 			
-			onChange = sinon.spy();
-
-			// Render an instance of the component
-			instance = TestUtils.renderIntoDocument(
-				<Select
-					name="form-field-name"
-					value="one"
-					options={options}
-					onChange={onChange}
-					searchable={true}
-					/>
-			);
-			
-			// Focus on the input, such that mouse events are accepted
-			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-			TestUtils.Simulate.focus(searchInputNode);
-
+			instance = createControl({
+					name: 'form-field-name',
+					value: 'one',
+					options: options,
+					searchable: true
+			});
 		});
 		
 
@@ -391,9 +378,6 @@ describe('Select', function() {
 	});
 
 	describe('with options and value', function () {
-		
-		var wrapper;
-
 		beforeEach(function () {
 
 			options = [
@@ -402,24 +386,12 @@ describe('Select', function() {
 				{ value: 'three', label: 'Three' }
 			];
 
-			onChange = sinon.spy();
-
 			// Render an instance of the component
-			wrapper = TestUtils.renderIntoDocument(
-				<PropsWrapper
-					childComponent={Select}
-					name="form-field-name"
-					value="one"
-					options={options}
-					onChange={onChange}
-					searchable={true}
-				/>
-			);
-
-			// Focus on the input, such that mouse events are accepted
-			instance = wrapper.getChild();
-			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-			TestUtils.Simulate.focus(searchInputNode);
+			wrapper = createControlWithWrapper({
+				value: 'one',
+				options: options,
+				searchable: true
+			});
 		});
 		
 		it('starts with the given value', function () {
@@ -483,8 +455,6 @@ describe('Select', function() {
 	
 	describe('with allowCreate=true', function () {
 
-		var wrapper;
-
 		beforeEach(function () {
 
 			options = [
@@ -497,26 +467,14 @@ describe('Select', function() {
 				{ value: 'zzzzz', label: 'test value' }
 			];
 
-			onChange = sinon.spy();
-
 			// Render an instance of the component
-			wrapper = TestUtils.renderIntoDocument(
-				<PropsWrapper
-					childComponent={Select}
-					name="form-field-name"
-					value="one"
-					options={options}
-					onChange={onChange}
-					allowCreate={true}
-					searchable={true}
-					addLabelText="Add {label} to values?"
-					/>
-			);
-
-			// Focus on the input, such that mouse events are accepted
-			instance = wrapper.getChild();
-			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-			TestUtils.Simulate.focus(searchInputNode);
+			wrapper = createControlWithWrapper({
+				value: 'one',
+				options: options,
+				allowCreate: true,
+				searchable: true,
+				addLabelText: 'Add {label} to values?'
+			});
 		});
 		
 		it('has an "Add xyz" option when entering xyz', function () {
@@ -609,7 +567,6 @@ describe('Select', function() {
 
 		beforeEach(function () {
 
-			onChange = sinon.spy();
 			asyncOptions = sinon.stub();
 
 			asyncOptions.withArgs('te').callsArgWith(1, null, {
@@ -635,19 +592,11 @@ describe('Select', function() {
 			beforeEach(function () {
 
 				// Render an instance of the component
-				instance = TestUtils.renderIntoDocument(
-					<Select
-						name="form-field-name"
-						value=""
-						asyncOptions={asyncOptions}
-						onChange={onChange}
-						autoload={true}
-						/>
-				);
-
-				// Focus on the input, such that mouse events are accepted
-				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-				TestUtils.Simulate.focus(searchInputNode);
+				instance = createControl({
+					value: '',
+					asyncOptions: asyncOptions,
+					autoload: true
+				});
 			});
 
 
@@ -745,19 +694,11 @@ describe('Select', function() {
 			beforeEach(function () {
 
 				// Render an instance of the component
-				instance = TestUtils.renderIntoDocument(
-					<Select
-						name="form-field-name"
-						value=""
-						asyncOptions={asyncOptions}
-						onChange={onChange}
-						autoload={false}
-						/>
-				);
-
-				// Focus on the input, such that mouse events are accepted
-				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-				TestUtils.Simulate.focus(searchInputNode);
+				instance = createControl({
+					value: '',
+					asyncOptions: asyncOptions,
+					autoload: false
+				});
 			});
 			
 			it('does not initially call asyncOptions', function () {
@@ -784,25 +725,14 @@ describe('Select', function() {
 				{ value: 'four', label: 'Four' }
 			];
 
-			onChange = sinon.spy();
-
 			// Render an instance of the component
-			instance = TestUtils.renderIntoDocument(
-				<Select
-					name="form-field-name"
-					value=""
-					options={options}
-					onChange={onChange}
-					searchable={true}
-					allowCreate={true}
-					multi={true}
-					/>
-			);
-
-			// Focus on the input, such that mouse events are accepted
-			searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
-			TestUtils.Simulate.focus(searchInputNode);
-
+			instance = createControl({
+				value: '',
+				options: options,
+				searchable: true,
+				allowCreate: true,
+				multi: true
+			});
 		});
 
 		it('selects a single option on enter', function () {
