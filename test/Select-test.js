@@ -1735,6 +1735,47 @@ describe('Select', function() {
 				
 			});
 		});
+		
+		describe('searchPromptText', function () {
+			var asyncOptions;
+			
+			beforeEach(function () {
+				
+				asyncOptions = sinon.stub();
+				
+				instance = createControl({
+					asyncOptions: asyncOptions,
+					autoload: false,
+					searchPromptText: 'Unit test prompt text'
+				});
+			});
+			
+			it('uses the searchPromptText before text is entered', function () {
+
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				
+				expect(React.findDOMNode(instance), 'queried for', '.Select-noresults',
+					'to have items satisfying',
+					'to have text', 'Unit test prompt text');
+			});
+			
+			it('clears the searchPromptText when results arrive', function () {
+				
+				asyncOptions.callsArgWith(1, null, {
+					options: [{ value: 'abcd', label: 'ABCD' }]
+				});
+				
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				
+				typeSearchText('abc');
+				expect(asyncOptions, 'was called once');
+
+				expect(React.findDOMNode(instance).querySelectorAll('.Select-noresults'),
+					'to have length', 0);
+			});
+		});
 	});
 	
 	describe('clicking outside', function () {
