@@ -726,7 +726,7 @@ describe('Select', function() {
 			];
 
 			// Render an instance of the component
-			instance = createControl({
+			wrapper = createControlWithWrapper({
 				value: '',
 				options: options,
 				searchable: true,
@@ -774,6 +774,27 @@ describe('Select', function() {
 			onChange.reset();  // Ignore previous onChange calls
 			pressBackspace();
 			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+		});
+		
+		it('does not remove the last selected option with backspace when backspaceRemoves=false', function () {
+
+			// Disable backspace
+			wrapper.setPropsForChild({
+				backspaceRemoves: false
+			});
+			
+			typeSearchText('fo');
+			pressEnterToAccept();
+			typeSearchText('th');
+			pressEnterToAccept();
+			onChange.reset();  // Ignore previous onChange calls
+			
+			pressBackspace();
+			
+			expect(onChange, 'was not called');
+			var items = React.findDOMNode(instance).querySelectorAll('.Select-item-label');
+			expect(items[0], 'to have text', 'Four');
+			expect(items[1], 'to have text', 'Three');
 		});
 		
 		it('removes an item when clicking on the X', function () {
