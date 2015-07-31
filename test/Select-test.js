@@ -1578,6 +1578,34 @@ describe('Select', function() {
 			});
 		});
 		
+		describe('onOptionLabelClick', function () {
+			var onOptionLabelClick;
+			
+			beforeEach(function () {
+				
+				onOptionLabelClick = sinon.spy();
+				
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					value: 'two,one',
+					onOptionLabelClick: onOptionLabelClick
+				});
+			});
+			
+			it('calls the function when clicking on a label', function () {
+				
+				TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-item-label a'));
+				expect(onOptionLabelClick, 'was called once');
+			});
+			
+			it('calls the function with the value', function () {
+
+				TestUtils.Simulate.click(React.findDOMNode(instance).querySelectorAll('.Select-item-label a')[0]);
+				expect(onOptionLabelClick, 'was called with', { value: 'two', label: '222' });
+			});
+		});
+		
 		describe('placeholder', function () {
 
 			beforeEach(function () {
