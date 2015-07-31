@@ -44,7 +44,8 @@ class PropsWrapper extends React.Component {
 }
 
 describe('Select', function() {
-	var options, instance, onChange;
+	var options, onChange;
+	var instance, wrapper;
 	var searchInputNode;
 
 	function pressEnterToAccept() {
@@ -74,7 +75,19 @@ describe('Select', function() {
 	function clickDocument() {
 		var clickEvent = document.createEvent('MouseEvents');
 		clickEvent.initEvent('click', true, true);
-		document.dispatchEvent(clickEvent);	
+		document.dispatchEvent(clickEvent);
+	}
+	
+	function findAndFocusInputControl() {
+		// Focus on the input, such that mouse events are accepted
+		var searchInstance = React.findDOMNode(instance.getInputNode());
+		searchInputNode = null;
+		if (searchInstance) {
+			searchInputNode = searchInstance.querySelector('input');
+			if (searchInputNode) {
+				TestUtils.Simulate.focus(searchInputNode);
+			}
+		}
 	}
 
 	var createControl = function(props) {
@@ -88,18 +101,29 @@ describe('Select', function() {
 				{...props}
 				/>
 		);
+		
+		findAndFocusInputControl();
 
-		// Focus on the input, such that mouse events are accepted
-		var searchInstance = React.findDOMNode(instance.getInputNode());
-		searchInputNode = null;
-		if (searchInstance) {
-			searchInputNode = searchInstance.querySelector('input');
-			if (searchInputNode) {
-				TestUtils.Simulate.focus(searchInputNode);
-			}
-		}
 		return instance;
 
+	};
+	
+	var createControlWithWrapper = function (props) {
+		onChange = sinon.spy();
+		
+		wrapper = TestUtils.renderIntoDocument(
+			<PropsWrapper
+				childComponent={Select}
+				onChange={onChange}
+				{...props}
+				/>
+		);
+		
+		instance = wrapper.getChild();
+		
+		findAndFocusInputControl();
+		
+		return wrapper;
 	};
 	
 	var defaultOptions = [
@@ -1558,6 +1582,93 @@ describe('Select', function() {
 			it('calls the onFocus prop when focusing the control', function () {
 
 				expect(onFocus, 'was called once');
+			});
+		});
+		
+		describe('placeholder', function () {
+
+			beforeEach(function () {
+
+				wrapper = createControlWithWrapper({
+					value: null,
+					options: defaultOptions,
+					placeholder: 'Choose Option Placeholder test'
+				});
+			});
+
+			it('uses the placeholder initially', function () {
+				expect(React.findDOMNode(instance), 'queried for', '.Select-placeholder',
+					'to have items satisfying',
+					'to have text', 'Choose Option Placeholder test');
+			});
+
+			it('displays a selected value', function () {
+
+				wrapper.setPropsForChild({
+					value: 'three'
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-placeholder',
+					'to have items satisfying',
+					'to have text', 'Three');
+			});
+
+			it('returns to the default placeholder when value is cleared', function () {
+
+				wrapper.setPropsForChild({
+					value: 'three'
+				});
+
+				wrapper.setPropsForChild({
+					value: null
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-placeholder',
+					'to have items satisfying',
+					'to have text', 'Choose Option Placeholder test');
+			});
+
+			it('allows changing the placeholder via props', function () {
+
+				wrapper.setPropsForChild({
+					placeholder: 'New placeholder from props'
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-placeholder',
+					'to have items satisfying',
+					'to have text', 'New placeholder from props');
+			});
+
+			it('allows setting the placeholder to the selected value', function () {
+				
+				/*  This is an unlikely scenario, but given that the current
+				 *  implementation uses the placeholder to display the selected value,
+				 *  it seems prudent to check that this obscure case still works
+				 *
+				 *  We set the value via props, then change the placeholder to the
+				 *  same as the display label for the chosen option, then reset
+				 *  the value (to null).
+				 *
+				 *  The expected result is that the display does NOT change, as the
+				 *  placeholder is now the same as label.
+				 */
+				
+				wrapper.setPropsForChild({
+					value: 'three'
+				});
+
+				wrapper.setPropsForChild({
+					placeholder: 'Three'    // Label for value 'three'
+				});
+
+				wrapper.setPropsForChild({
+					value: null
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-placeholder',
+					'to have items satisfying',
+					'to have text', 'Three');
+				
 			});
 		});
 	});
