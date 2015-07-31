@@ -1510,6 +1510,36 @@ describe('Select', function() {
 			});
 		});
 		
+		describe('noResultsText', function () {
+			
+			beforeEach(function () {
+				
+				wrapper = createControlWithWrapper({
+					searchable: true,
+					options: defaultOptions,
+					noResultsText: 'No results unit test'
+				});
+			});
+			
+			it('displays the text when no results are found', function () {
+				
+				typeSearchText('DOES NOT EXIST');
+				expect(React.findDOMNode(instance).querySelector('.Select-menu'),
+					'to have text', 'No results unit test');
+			});
+			
+			it('supports updating the text', function () {
+				
+				wrapper.setPropsForChild({
+					noResultsText: 'Updated no results text'
+				});
+
+				typeSearchText('DOES NOT EXIST');
+				expect(React.findDOMNode(instance).querySelector('.Select-menu'),
+					'to have text', 'Updated no results text');
+			});
+		});
+		
 		describe('onBlur', function () {
 			
 			var onBlur;
