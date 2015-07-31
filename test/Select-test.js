@@ -1606,6 +1606,49 @@ describe('Select', function() {
 			});
 		});
 		
+		describe('optionRenderer', function () {
+
+			var optionRenderer;
+
+			beforeEach(function () {
+				
+				optionRenderer = function (option) {
+					return (
+						<span id={'TESTOPTION_' + option.value}>{option.label.toUpperCase()}</span>
+					);
+				};
+				
+				optionRenderer = sinon.spy(optionRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					optionRenderer: optionRenderer
+				});
+			});
+			
+			it('renders the options using the optionRenderer', function () {
+
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				
+				expect(options[0].querySelector('span'), 'to have attributes', {
+					id: 'TESTOPTION_one'
+				});
+				expect(options[0].querySelector('span'), 'to have text', 'ONE');
+				expect(options[1].querySelector('span'), 'to have attributes', {
+					id: 'TESTOPTION_two'
+				});
+				expect(options[1].querySelector('span'), 'to have text', '222');
+			});
+			
+			it('calls the renderer exactly once for each option', function () {
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				expect(optionRenderer, 'was called times', 4);
+			});
+		});
+		
 		describe('placeholder', function () {
 
 			beforeEach(function () {
