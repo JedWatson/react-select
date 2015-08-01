@@ -375,7 +375,8 @@ var Select = React.createClass({
 			if (self._focusAfterUpdate) return;
 
 			self.setState({
-				isFocused: false
+				isFocused: false,
+				isOpen: false
 			});
 		}, 50);
 
