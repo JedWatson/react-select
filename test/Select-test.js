@@ -297,8 +297,7 @@ describe('Select', function() {
 			var selectControl = getSelectControl(instance);
 			TestUtils.Simulate.mouseDown(selectControl);
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 27, key: 'Escape' });
-			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
-				'to have length', 0);
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 			
 		});
 		
@@ -328,13 +327,13 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 3);
 
 			TestUtils.Simulate.mouseDown(selectArrow);
-			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 		
 		it('should ignore a right mouse click on the arrow', function () {
 			var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
 			TestUtils.Simulate.mouseDown(selectArrow, { type: 'mousedown', button: 1 });
-			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 		
 		
@@ -354,7 +353,7 @@ describe('Select', function() {
 			it('should have no focused options', function () {
 				
 				var domNode = React.findDOMNode(instance);
-				expect(domNode.querySelectorAll('.Select-option.is-focused'), 'to have length', 0);
+				expect(domNode, 'to contain no elements matching', '.Select-option.is-focused');
 			});
 			
 			it('should focus top option after down arrow pressed', function () {
@@ -547,7 +546,7 @@ describe('Select', function() {
 			
 			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
 				'to have length', 1);
-			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
+			expect(React.findDOMNode(instance), 'queried for first', '.Select-menu .Select-option',
 				'to have text', 'Add zzzzz to values?');
 		});
 		
@@ -1077,7 +1076,7 @@ describe('Select', function() {
 			
 			it('does not render a clear button', function () {
 				
-				expect(React.findDOMNode(instance).querySelectorAll('.Select-clear'), 'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-clear');
 			});
 			
 			describe('on escape', function () {
@@ -1119,7 +1118,7 @@ describe('Select', function() {
 					
 					it('closes the menu', function () {
 						
-						expect(React.findDOMNode(instance).querySelectorAll('.Select-menu'), 'to have length', 0);
+						expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-menu');
 					});
 					
 					it('resets the control value to the original', function () {
@@ -1273,19 +1272,19 @@ describe('Select', function() {
 			it('does not react to keyDown', function () {
 				
 				TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
-				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 			});
 
 			it('does not respond to mouseDown', function () {
 
 				TestUtils.Simulate.mouseDown(getSelectControl(instance));
-				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 			});
 
 			it('does not respond to mouseDown on the arrow', function () {
 
 				TestUtils.Simulate.mouseDown(getSelectControl(instance).querySelector('.Select-arrow'));
-				expect(React.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 			});
 			
 			it('renders the given value', function () {
@@ -1428,8 +1427,7 @@ describe('Select', function() {
 			it('does not find options in a different case', function () {
 				
 				typeSearchText('def');
-				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
-				expect(options, 'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 			});
 			
 			it('finds options in the same case', function () {
@@ -1520,8 +1518,8 @@ describe('Select', function() {
 				
 				it('doesn\'t pass the inputProps through', function () {
 					
-					expect(React.findDOMNode(instance).querySelectorAll('.extra-class-name'), 'to have length', 0);
-					expect(React.findDOMNode(instance).querySelectorAll('#search-input-id'), 'to have length', 0);
+					expect(React.findDOMNode(instance), 'to contain no elements matching', '.extra-class-name');
+					expect(React.findDOMNode(instance), 'to contain no elements matching', '#search-input-id');
 				});
 			});
 		});
@@ -1910,8 +1908,7 @@ describe('Select', function() {
 				typeSearchText('abc');
 				expect(asyncOptions, 'was called once');
 
-				expect(React.findDOMNode(instance).querySelectorAll('.Select-noresults'),
-					'to have length', 0);
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 			});
 		});
 		
@@ -1999,8 +1996,7 @@ describe('Select', function() {
 				'to have length', 4);
 			
 			clickDocument();
-			expect(React.findDOMNode(instance).querySelectorAll('.Select-option'),
-				'to have length', 0);
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 	});
 });
