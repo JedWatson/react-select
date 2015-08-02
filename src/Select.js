@@ -757,6 +757,7 @@ var Select = React.createClass({
 		}
 
 		if(!this.state.inputValue && (!this.props.multi || !value.length)) {
+			var val = this.state.values[0] || null;
 			if(this.props.valueRenderer && !!this.state.values.length) {
 				value.push(<Value
 						key={0}
@@ -764,7 +765,6 @@ var Select = React.createClass({
 						renderer={this.props.valueRenderer}
 						disabled={this.props.disabled} />);
 			} else {
-				var val = this.state.values[0] || null;
 				var singleValueComponent = React.createElement(this.props.singleValueComponent, {
 					key: 'placeholder',
 					value: val,
