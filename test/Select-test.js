@@ -67,6 +67,11 @@ describe('Select', function() {
 	function typeSearchText(text) {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
 	}
+	
+	function clickArrowToOpen() {
+		var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+		TestUtils.Simulate.mouseDown(selectArrow);
+	}
 
 	function getSelectControl(instance) {
 		return React.findDOMNode(instance).querySelector('.Select-control');
@@ -765,6 +770,21 @@ describe('Select', function() {
 				'to have text', 'Three');
 		});
 		
+		it('filters the existing selections from the options', function () {
+			
+			wrapper.setPropsForChild({
+				value: 'four,three'
+			});
+			
+			typeSearchText('o');
+			
+			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(options[0], 'to have text', 'Add o ?');
+			expect(options[1], 'to have text', 'One');
+			expect(options[2], 'to have text', 'Two');
+			expect(options, 'to have length', 3);  // No "Four", as already selected
+		});
+		
 		it('removes the last selected option with backspace', function () {
 			
 			typeSearchText('fo');
@@ -862,6 +882,103 @@ describe('Select', function() {
 					'to have items satisfying',
 					'to have text', 'new label for Two');
 			});
+		});
+
+	});
+	
+	describe('with multi=true and searchable=false', function () {
+		
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'four', label: 'Four' }
+			];
+
+			// Render an instance of the component
+			wrapper = createControlWithWrapper({
+				value: '',
+				options: options,
+				searchable: false,
+				multi: true
+			});
+			
+			// We need a hack here. 
+			// JSDOM (at least v3.x) doesn't appear to support div's with tabindex
+			// This just hacks that we are focused
+			// This is (obviously) implementation dependent, and may need to change
+			instance.setState({
+				isFocused: true
+			});
+			
+		});
+		
+		it('selects multiple options', function () {
+			
+			clickArrowToOpen();
+
+			var items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			TestUtils.Simulate.mouseDown(items[1]);
+			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			TestUtils.Simulate.mouseDown(items[0]);
+			
+			var selectedItems = React.findDOMNode(instance).querySelectorAll('.Select-item-label');
+			expect(selectedItems[0], 'to have text', 'Two');
+			expect(selectedItems[1], 'to have text', 'One');
+			expect(selectedItems, 'to have length', 2);
+		});
+		
+		it('calls onChange when each option is selected', function () {
+
+			clickArrowToOpen();
+			// First item
+			var items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(onChange, 'was called once');
+			expect(onChange, 'was called with', 'two', [ { value: 'two', label: 'Two' }])
+			
+			// Second item
+			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			TestUtils.Simulate.mouseDown(items[0]);
+			expect(onChange, 'was called twice');
+		});
+		
+		it('removes the selected options from the menu', function () {
+
+			clickArrowToOpen();
+
+			var items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			
+			// Click the option "Two" to select it 
+			expect(items[1], 'to have text', 'Two');
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(onChange, 'was called times', 1);
+			
+			// Now get the list again,
+			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(items[0], 'to have text', 'One');
+			expect(items[1], 'to have text', 'Three');
+			expect(items[2], 'to have text', 'Four');
+			expect(items, 'to have length', 3);
+			
+			// Click first item, 'One'
+			TestUtils.Simulate.mouseDown(items[0]);
+			
+			expect(onChange, 'was called times', 2);
+			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(items[0], 'to have text', 'Three');
+			expect(items[1], 'to have text', 'Four');
+			expect(items, 'to have length', 2);
+			
+			// Click second item, 'Four'
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(onChange, 'was called times', 3);
+			
+			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(items[0], 'to have text', 'Three');
+			expect(items, 'to have length', 1);
 		});
 
 	});
