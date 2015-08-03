@@ -457,6 +457,81 @@ describe('Select', function() {
 		});
 	});
 	
+	describe('with a disabled option', function () {
+		
+		beforeEach(function () {
+			
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two', disabled: true },
+				{ value: 'three', label: 'Three' }
+			];
+			
+			wrapper = createControlWithWrapper({
+				options: options,
+				searchable: true
+			});
+		});
+		
+		it('adds the is-disabled class to the disabled option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[1],
+				'to have attributes', {
+					class: 'is-disabled'
+            });
+		});
+		
+		it('is not selectable by clicking', function () {
+			
+			clickArrowToOpen();
+			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelectorAll('.Select-option')[1]);
+			
+			expect(onChange, 'was not called');
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Select...');
+		});
+		
+		it('is not selectable by keyboard', function () {
+
+			clickArrowToOpen();
+			// Press down to get to the second option
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+			// Check the disable option is not focused
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option.is-disabled.is-focused');
+		});
+		
+		it('jumps over the disabled option', function () {
+			
+			clickArrowToOpen();
+			// Press down to get to the second option
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+			// Check the focused option is the one after the disabled option
+			expect(React.findDOMNode(instance), 'queried for first', '.Select-option.is-focused',
+				'to have text', 'Three');
+		});
+		
+		it('jumps back to beginning when disabled option is last option', function () {
+			
+			wrapper = createControlWithWrapper({
+				options: [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three', disabled: true }
+				]
+			});
+			
+			clickArrowToOpen();
+			// Down twice
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+			
+			// Selected option should be back to 'One'
+			expect(React.findDOMNode(instance), 'queried for first', '.Select-option.is-focused',
+				'to have text', 'One');
+		});
+	});
+	
 	describe('with allowCreate=true', function () {
 
 		beforeEach(function () {
