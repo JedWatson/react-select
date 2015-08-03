@@ -228,6 +228,18 @@ var Select = React.createClass({
 
 		var values = this.initValuesArray(value, options),
 			filteredOptions = this.filterOptions(options, values);
+		
+		var focusedOption;
+		if (!this.props.multi && values.length) {
+			focusedOption = values[0];
+		} else {
+			for(var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
+				if (!filteredOptions[optionIndex].disabled) {
+					focusedOption = filteredOptions[optionIndex];
+					break;
+				}
+			}
+		}
 
 		return {
 			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
@@ -235,7 +247,7 @@ var Select = React.createClass({
 			inputValue: '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
-			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
+			focusedOption: focusedOption,
 		};
 	},
 
