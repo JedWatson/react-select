@@ -56,6 +56,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function() {
 		return {
+			allowCache: true,
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
