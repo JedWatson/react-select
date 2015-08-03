@@ -6,6 +6,8 @@ var React = require('react');
 var Input = require('react-input-autosize');
 var classes = require('classnames');
 var Value = require('./Value');
+var SingleValue = require('./SingleValue');
+var Option = require('./Option');
 
 var requestId = 0;
 
@@ -44,7 +46,11 @@ var Select = React.createClass({
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		value: React.PropTypes.any,                // initial field value
-		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function(option) {}
+		optionComponent: React.PropTypes.func,     // option component to render in dropdown
+		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
+		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
+		newOptionCreator: React.PropTypes.func     // factory to create new options when allowCreate set
 	},
 
 	getDefaultProps: function() {
@@ -72,7 +78,11 @@ var Select = React.createClass({
 			placeholder: 'Select...',
 			searchable: true,
 			searchPromptText: 'Type to search',
-			value: undefined
+			value: undefined,
+			optionComponent: Option,
+			valueComponent: Value,
+			singleValueComponent: SingleValue,
+			newOptionCreator: undefined
 		};
 	},
 
@@ -659,11 +669,12 @@ var Select = React.createClass({
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
 			options = options.slice();
-			options.unshift({
+			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
 				value: inputValue,
 				label: inputValue,
 				create: true
-			});
+			};
+			options.unshift(newOption);
 		}
 
 		var ops = Object.keys(options).map(function(key) {
@@ -683,13 +694,21 @@ var Select = React.createClass({
 			var mouseEnter = this.focusOption.bind(this, op);
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
-			var renderedLabel = renderLabel(op);
 
-			return op.disabled ? (
-				<div ref={ref} key={'option-' + op.value} className={optionClass}>{renderedLabel}</div>
-			) : (
-				<div ref={ref} key={'option-' + op.value} className={optionClass} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} onMouseDown={mouseDown} onClick={mouseDown}>{ op.create ? this.props.addLabelText.replace('{label}', op.label) : renderedLabel}</div>
-			);
+			var optionResult = React.createElement(this.props.optionComponent, {
+				key: 'option-' + op.value,
+				className: optionClass,
+				renderFunc: renderLabel,
+				mouseEnter: mouseEnter,
+				mouseLeave: mouseLeave,
+				mouseDown: mouseDown,
+				click: mouseDown,
+				addLabelText: this.props.addLabelText,
+				option: op,
+				ref: ref
+			});
+
+			return optionResult;
 		}, this);
 
 		return ops.length ? ops : (
@@ -720,29 +739,39 @@ var Select = React.createClass({
 
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
-				value.push(<Value
-					key={val.value}
-					option={val}
-					renderer={this.props.valueRenderer}
-					optionLabelClick={!!this.props.onOptionLabelClick}
-					onOptionLabelClick={this.handleOptionLabelClick.bind(this, val)}
-					onRemove={this.removeValue.bind(this, val)}
-					disabled={this.props.disabled} />);
+				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
+				var onRemove = this.removeValue.bind(this, val);
+
+				var valueComponent = React.createElement(this.props.valueComponent, {
+					key: val.value,
+					option: val,
+					renderer: this.props.valueRenderer,
+					optionLabelClick: !!this.props.onOptionLabelClick,
+					onOptionLabelClick: onOptionLabelClick,
+					onRemove: onRemove,
+					disabled: this.props.disabled
+				});
+
+				value.push(valueComponent);
 			}, this);
 		}
 
 		if(!this.state.inputValue && (!this.props.multi || !value.length)) {
+			var val = this.state.values[0] || null;
 			if(this.props.valueRenderer && !!this.state.values.length) {
-				var val = this.state.values[0] || null;
 				value.push(<Value
 						key={0}
 						option={val}
 						renderer={this.props.valueRenderer}
 						disabled={this.props.disabled} />);
 			} else {
-				value.push(<div className="Select-placeholder" key="placeholder">{this.state.placeholder}</div>);
+				var singleValueComponent = React.createElement(this.props.singleValueComponent, {
+					key: 'placeholder',
+					value: val,
+					placeholder: this.state.placeholder
+				});
+				value.push(singleValueComponent);
 			}
-			
 		}
 
 		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
