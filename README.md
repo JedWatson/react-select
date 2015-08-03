@@ -89,7 +89,7 @@ The function takes two arguments `String input, Function callback`and will be ca
 
 When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
 
-The select control will intelligently cache options for input strings that have already been fetched. Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
+The select control will intelligently cache options for input strings that have already been fetched. Cache can be disabled by setting `allowCache` to `false`. Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
@@ -170,6 +170,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 	backspaceRemoves 		|	bool		|	 whether pressing backspace removes the last item when there is no input value
+	allowCache 				|	bool			|	 whether to allow caching of options
 
 
 # Contributing
