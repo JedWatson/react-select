@@ -24,17 +24,20 @@ as a pull request - it helps core members review your concept and direction
 early and is a good way to discuss what you're planning to do.
 * If you open an issue and are interested in working on a fix, please let us
 know. We'll help you get started, rather than adding it to the queue.
-* Make sure you do not add regressions by running `npm test`. Please also
-[follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards) (with regards to formatting, etc)
+* Make sure you do not add regressions by running `npm test`.
+* Where possible, include tests with your changes, either that demonstrates the
+bug, or tests the new functionality. If you're not sure how to test your
+changes, feel free to ping @bruderstein
+* Run `npm run cover` to check that the coverage hasn't dropped, and look at the
+report (under the generated `coverage` directory) to check that your changes are
+covered
+* Please [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
+(with regards to formatting, etc)
 * You can also run `npm run lint` and `npm run style` - our linter is a WIP
 but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
-If you are working on the React Admin UI, you'll also need to know this:
-
-* The Admin UI is generated with Browserify by gulp. In development, run
-`gulp watch-scripts`. 
 * _Make sure you revert your build before submitting a PR_ to reduce the change
 of conflicts. `gulp build-scripts` is run after PRs are merged and before any
 releases are made.
