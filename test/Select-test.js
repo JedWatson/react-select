@@ -530,6 +530,74 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance), 'queried for first', '.Select-option.is-focused',
 				'to have text', 'One');
 		});
+		
+		it('skips over last option when looping round when last option is disabled', function () {
+			
+			wrapper = createControlWithWrapper({
+				options: [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three', disabled: true }
+				]
+			});
+
+			clickArrowToOpen();
+			// Press up, should skip the bottom entry 'Three'...
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
+
+			// ... and land on 'Two'
+			expect(React.findDOMNode(instance), 'queried for first', '.Select-option.is-focused',
+				'to have text', 'Two');
+		});
+		
+		it('focuses initially on the second option when the first is disabled', function () {
+
+			wrapper = createControlWithWrapper({
+				options: [
+					{ value: 'one', label: 'One', disabled: true },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three' }
+				]
+			});
+			
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance), 'queried for first', '.Select-option.is-focused',
+				'to have text', 'Two');
+		});
+		
+		it('doesn\'t focus anything when all options are disabled', function () {
+			
+			wrapper = createControlWithWrapper({
+				options: [
+					{ value: 'one', label: 'One', disabled: true },
+					{ value: 'two', label: 'Two', disabled: true },
+					{ value: 'three', label: 'Three', disabled: true }
+				]
+			});
+
+			clickArrowToOpen();
+			
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+			expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-option.is-focused');
+		});
+		
+		it('doesn\'t select anything when all options are disabled and enter is pressed', function () {
+			
+			wrapper = createControlWithWrapper({
+				options: [
+					{ value: 'one', label: 'One', disabled: true },
+					{ value: 'two', label: 'Two', disabled: true },
+					{ value: 'three', label: 'Three', disabled: true }
+				]
+			});
+
+			clickArrowToOpen();
+
+			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 13, key: 'Enter' });
+			expect(onChange, 'was not called');
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Select...');
+		});
 	});
 	
 	describe('with allowCreate=true', function () {
