@@ -161,7 +161,7 @@ var Select = React.createClass({
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder || optionsChanged) {
+		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
 			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
 		}
 	},
