@@ -608,6 +608,17 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Select...');
 		});
+		
+		it('shows disabled results in a search', function () {
+			
+			typeSearchText('t');
+			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(options[0], 'to have text', 'Two');
+			expect(options[0], 'to have attributes', {
+				class: 'is-disabled'
+			});
+			expect(options[1], 'to have text', 'Three');
+		});
 	});
 
 	describe('with allowCreate=true', function () {
