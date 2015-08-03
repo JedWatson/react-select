@@ -280,8 +280,7 @@ describe('Select', function() {
 				'to have items satisfying',
 				'to have text', 'One');
 		});
-		
-		
+
 		it('should loop round to bottom item when up is pressed on the first item', function () {
 
 			var selectControl = getSelectControl(instance);
@@ -291,7 +290,18 @@ describe('Select', function() {
 				'to have items satisfying',
 				'to have text', 'Three');
 		});
-		
+
+		it('should move the focused value to the second item when up pressed twice', function () {
+
+			var selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
+			expect(React.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Two');
+		});
+
 		it('should clear the selection on escape', function () {
 			
 			var selectControl = getSelectControl(instance);
