@@ -172,7 +172,17 @@ var Select = React.createClass({
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
+
+			var setState = function(){
+				this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder))
+			};
+
+			if (this.props.asyncOptions) {
+					this.loadAsyncOptions(newProps.value, setState);
+			}
+			else {
+				setState();
+			}
 		}
 	},
 
@@ -228,7 +238,7 @@ var Select = React.createClass({
 
 		var values = this.initValuesArray(value, options),
 			filteredOptions = this.filterOptions(options, values);
-		
+
 		var focusedOption;
 		if (!this.props.multi && values.length) {
 			focusedOption = values[0];
