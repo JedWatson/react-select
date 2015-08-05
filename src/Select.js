@@ -560,6 +560,19 @@ var Select = React.createClass({
 
 		});
 	},
+	
+	removeAccent: function (string) {
+		string = typeof string != "undefined" ? string : this;
+		string = string.replace(/[á|à|â|ã]/gi, "a");
+		string = string.replace(/[é|è|ê]/gi, "e");
+		string = string.replace(/[í|ì|î]/gi, "i");
+		string = string.replace(/[ó|ò|ô|õ]/gi, "o");
+		string = string.replace(/[ú|ù|û]/gi, "u");
+		string = string.replace(/[ç]/gi, "c");
+		string = string.replace(/[ñ]/gi, "n");
+		
+		return string;
+	},
 
 	filterOptions: function(options, values) {
 		var filterValue = this._optionsFilterString;
@@ -573,7 +586,7 @@ var Select = React.createClass({
 				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
 				if (filterValue && op.disabled) return false;
-				var valueTest = String(op.value), labelTest = String(op.label);
+				var valueTest = this.removeAccent(String(op.value)), labelTest = this.removeAccent(String(op.label));
 				if (this.props.ignoreCase) {
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();
