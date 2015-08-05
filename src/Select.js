@@ -164,6 +164,7 @@ var Select = React.createClass({
 
 	componentWillReceiveProps: function(newProps) {
 		var optionsChanged = false;
+		var self = this;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
 			this.setState({
@@ -174,7 +175,7 @@ var Select = React.createClass({
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
 
 			var setState = function(){
-				this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder))
+				self.setState(self.getStateFromValue(newProps.value, newProps.options, newProps.placeholder))
 			};
 
 			if (this.props.asyncOptions) {
