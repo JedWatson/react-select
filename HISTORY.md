@@ -1,5 +1,15 @@
 # React-Select
 
+## v0.6.0 / 2015-08-05
+
+* improved; option, value and single value have been split out into their own components, and can be customised with props. see [#328](https://github.com/JedWatson/react-select/pull/328) for more details.
+* improved; Near-complete test coverage thanks to the awesome work of [Dave Brotherstone](https://github.com/bruderstein)
+* improved; Support all alpha/beta/rc's of React 0.14.0, thanks [Sébastien Lorber](https://github.com/slorber)
+* fixed; Close multi-select menu when tabbing away, thanks [Ben Alpert](https://github.com/spicyj)
+* fixed; Bug where Select shows the value instead of the label (reapplying fix)
+* fixed; `valueRenderer` now works when `multi={false}`, thanks [Chris Portela](https://github.com/0xCMP)
+* added; New property `backspaceRemoves` (default `true`), allows the default behaviour of removing values with backspace when `multi={true}`, thanks [Leo Lehikoinen](https://github.com/lehikol2)
+
 ## v0.5.6 / 2015-07-27
 
 * fixed; Allow entering of commas when allowCreate is on but multi is off, thanks [Angelo DiNardi](https://github.com/adinardi)
