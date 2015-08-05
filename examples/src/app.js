@@ -215,6 +215,35 @@ var SelectedValuesField = React.createClass({
 	}
 });
 
+
+var SelectedValuesFieldDisabled = React.createClass({
+	onLabelClick: function (data, event) {
+		console.log(data, event);
+	},
+	render: function() {
+		var ops = [
+			{ label: 'Chocolate', value: 'chocolate' },
+			{ label: 'Vanilla', value: 'vanilla' },
+			{ label: 'Strawberry', value: 'strawberry' },
+			{ label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true },
+			{ label: 'Cookies and Cream', value: 'cookiescream' },
+			{ label: 'Peppermint', value: 'peppermint' }
+		];
+		return (
+			<div>
+				<label>{this.props.label}</label>
+				<Select
+					onOptionLabelClick={this.onLabelClick}
+					value="chocolate,vanilla,strawberry"
+					multi={true}
+					placeholder="Select your favourite(s)"
+					options={ops}
+					onChange={logChange} />
+			</div>
+		);
+	}
+});
+
 var SelectedValuesFieldCreate = React.createClass({
 	onLabelClick: function (data, event) {
 		console.log(data, event);
@@ -314,6 +343,7 @@ React.render(
 		<UsersField />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" />
+		<SelectedValuesFieldDisabled label="Disabled option:" />
 		<SelectedValuesFieldCreate label="Option Creation (tags mode):" />
 		<CustomRenderField label="Custom rendering for options and values:" />
 		<CustomRenderMultiField label="Custom rendering for multiple options and values:" />
