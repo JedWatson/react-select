@@ -167,6 +167,21 @@ label {
 .has-value > .Select-control > .Select-placeholder {
   color: #333333;
 }
+.Select-value {
+  color: #aaaaaa;
+  padding: 8px 52px 8px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: -15px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.has-value > .Select-control > .Select-value {
+  color: #333333;
+}
 .Select-input > input {
   cursor: default;
   background: none transparent;
