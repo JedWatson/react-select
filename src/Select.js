@@ -230,8 +230,10 @@ var Select = React.createClass({
 			filteredOptions = this.filterOptions(options, values);
 
 		var focusedOption;
+		var valueForState = null;
 		if (!this.props.multi && values.length) {
 			focusedOption = values[0];
+			valueForState = values[0].value;
 		} else {
 			for(var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
 				if (!filteredOptions[optionIndex].disabled) {
@@ -239,10 +241,11 @@ var Select = React.createClass({
 					break;
 				}
 			}
+			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
 		}
 
 		return {
-			value: values.map(function(v) { return v.value; }).join(this.props.delimiter),
+			value: valueForState,
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
@@ -252,18 +255,24 @@ var Select = React.createClass({
 	},
 
 	initValuesArray: function(values, options) {
+
 		if (!Array.isArray(values)) {
 			if (typeof values === 'string') {
 				values = values === '' ? [] : values.split(this.props.delimiter);
 			} else {
-				values = values ? [values] : [];
+				values = values !== undefined && values !== null ? [values] : [];
 			}
 		}
 
 		return values.map(function(val) {
-			if (typeof val === 'string') {
+			if (typeof val === 'string' || typeof val === 'number') {
 				for (var key in options) {
-					if (options.hasOwnProperty(key) && options[key] && options[key].value === val) {
+					if (options.hasOwnProperty(key) &&
+						options[key] &&
+						(options[key].value === val ||
+							typeof options[key].value === 'number' &&
+							options[key].value.toString() === val
+						)) {
 						return options[key];
 					}
 				}

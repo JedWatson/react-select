@@ -48,6 +48,10 @@ describe('Select', function() {
 	var instance, wrapper;
 	var searchInputNode;
 
+	function getSelectControl(instance) {
+		return React.findDOMNode(instance).querySelector('.Select-control');
+	}
+
 	function pressEnterToAccept() {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 13, key: 'Enter' });
 	}
@@ -64,6 +68,14 @@ describe('Select', function() {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 8, key: 'Backspace' });
 	}
 
+	function pressUp() {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
+	}
+	
+	function pressDown() {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
+	}
+
 	function typeSearchText(text) {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
 	}
@@ -71,10 +83,6 @@ describe('Select', function() {
 	function clickArrowToOpen() {
 		var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
 		TestUtils.Simulate.mouseDown(selectArrow);
-	}
-
-	function getSelectControl(instance) {
-		return React.findDOMNode(instance).querySelector('.Select-control');
 	}
 
 	function clickDocument() {
@@ -389,6 +397,149 @@ describe('Select', function() {
 
 		});
 
+	});
+	
+	describe('with values as numbers', function () {
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 0, label: 'Zero' },
+				{ value: 1, label: 'One' },
+				{ value: 2, label: 'Two' },
+				{ value: 3, label: 'Three' }
+			];
+
+			wrapper = createControlWithWrapper({
+				value: 2,
+				options: options,
+				searchable: true
+			});
+		});
+		
+		it('selects the initial value', function () {
+			
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Two');
+		});
+		
+		it('set the initial value of the hidden input control', function () {
+			
+			expect(React.findDOMNode(wrapper).querySelector(FORM_VALUE).value, 'to equal', '2' );
+		});
+		
+		it('updates the value when the value prop is set', function () {
+
+			wrapper.setPropsForChild({ value: 3 });
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Three');
+		});
+		
+		it('updates the value of the hidden input control after new value prop', function () {
+
+			wrapper.setPropsForChild({ value: 3 });
+			expect(React.findDOMNode(wrapper).querySelector(FORM_VALUE).value, 'to equal', '3' );
+		});
+		
+		it('calls onChange with the new value as a number', function () {
+			
+			clickArrowToOpen();
+			pressDown();
+			pressEnterToAccept();
+			expect(onChange, 'was called with', 3, [ { value: 3, label: 'Three' }]);
+		});
+		
+		it('supports setting the value to 0 via prop', function () {
+
+			wrapper.setPropsForChild({ value: 0 });
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Zero');
+		});
+		
+		it('supports selecting the zero value', function () {
+
+			clickArrowToOpen();
+			pressUp();
+			pressUp();
+			pressEnterToAccept();
+			expect(onChange, 'was called with', 0, [ { value: 0, label: 'Zero' }]);
+		});
+		
+		describe('with multi=true', function () {
+
+			beforeEach(function () {
+
+				options = [
+					{ value: 0, label: 'Zero' },
+					{ value: 1, label: 'One' },
+					{ value: 2, label: 'Two' },
+					{ value: 3, label: 'Three' },
+					{ value: 4, label: 'Four' }
+				];
+
+				wrapper = createControlWithWrapper({
+					value: '2,1',
+					options: options,
+					multi: true,
+					searchable: true
+				});
+			});
+			
+			it('selects the initial value', function () {
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-item .Select-item-label',
+					'to satisfy', [
+						expect.it('to have text', 'Two'),
+						expect.it('to have text', 'One')
+					]);
+			});
+			
+			it('calls onChange with the correct value when 1 option is selected', function () {
+				
+				var removeIcons = React.findDOMNode(instance).querySelectorAll('.Select-item .Select-item-icon');
+				TestUtils.Simulate.click(removeIcons[0]);
+				// For multi-select, the "value" (first arg) to onChange is always a string
+				expect(onChange, 'was called with', '1', [{ value: 1, label: 'One' }]);
+			});
+			
+			it('supports updating the values via props', function () {
+				
+				wrapper.setPropsForChild({
+					value: '3,4'
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-item .Select-item-label',
+					'to satisfy', [
+						expect.it('to have text', 'Three'),
+						expect.it('to have text', 'Four')
+					]);
+			});
+			
+			it('supports updating the value to 0', function () {
+
+				// This test is specifically in case there's a "if (value) {... " somewhere
+				wrapper.setPropsForChild({
+					value: 0
+				});
+
+				expect(React.findDOMNode(instance), 'queried for', '.Select-item .Select-item-label',
+					'to satisfy', [
+						expect.it('to have text', 'Zero')
+					]);
+			});
+			
+			it('calls onChange with the correct values when multiple options are selected', function () {
+				
+				typeSearchText('fo');
+				pressEnterToAccept(); // Select 'Four'
+
+				expect(onChange, 'was called with', '2,1,4', [
+					{ value: 2, label: 'Two' },
+					{ value: 1, label: 'One' },
+					{ value: 4, label: 'Four' }
+				]);
+			});
+		});
 	});
 
 	describe('with options and value', function () {
