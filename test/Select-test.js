@@ -771,6 +771,41 @@ describe('Select', function() {
 				expect(asyncOptions, 'was called with', 'a');
 			});
 		});
+
+		describe('with allowCache=false', function () {
+
+			beforeEach(function () {
+
+				// Render an instance of the component
+				instance = TestUtils.renderIntoDocument(
+					<Select
+						name="form-field-name"
+						value=""
+						asyncOptions={asyncOptions}
+						onChange={onChange}
+						allowCache={false}
+						/>
+				);
+
+				// Focus on the input, such that mouse events are accepted
+				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+				TestUtils.Simulate.focus(searchInputNode);
+			});
+
+			it('does not use cache when the same text is entered again', function () {
+
+				typeSearchText('te');
+				typeSearchText('tes');
+
+				expect(asyncOptions, 'was called times', 3);
+
+				typeSearchText('te');
+
+				expect(asyncOptions, 'was called times', 4);
+
+			});
+
+		});
 	});
 	
 	describe('with multi-select', function () {
