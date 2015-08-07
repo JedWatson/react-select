@@ -777,15 +777,11 @@ describe('Select', function() {
 			beforeEach(function () {
 
 				// Render an instance of the component
-				instance = TestUtils.renderIntoDocument(
-					<Select
-						name="form-field-name"
-						value=""
-						asyncOptions={asyncOptions}
-						onChange={onChange}
-						allowCache={false}
-						/>
-				);
+				instance = createControl({
+					value: '',
+					asyncOptions: asyncOptions,
+					allowCache: false
+				});
 
 				// Focus on the input, such that mouse events are accepted
 				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
