@@ -50,6 +50,8 @@ React-Select generates a hidden text field containing the selected value, so you
 
 Options should be provided as an `Array` of `Object`s, each with a `value` and `label` property for rendering and searching. You can use a `disabled` property to indicate whether the option is disabled or not.
 
+The `value` property of each option should be set to either a string or a number.
+
 When the value is changed, `onChange(newValue, [selectedOptions])` will fire.
 
 ```
@@ -80,6 +82,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The values of the selected items are joined using the `delimiter` property to create the input value
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
+* The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 
 ### Async options
 
