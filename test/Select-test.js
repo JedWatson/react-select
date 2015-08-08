@@ -71,7 +71,7 @@ describe('Select', function() {
 	function pressUp() {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
 	}
-	
+
 	function pressDown() {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
 	}
@@ -398,7 +398,7 @@ describe('Select', function() {
 		});
 
 	});
-	
+
 	describe('with values as numbers', function () {
 
 		beforeEach(function () {
@@ -416,46 +416,46 @@ describe('Select', function() {
 				searchable: true
 			});
 		});
-		
+
 		it('selects the initial value', function () {
-			
+
 			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Two');
 		});
-		
+
 		it('set the initial value of the hidden input control', function () {
-			
+
 			expect(React.findDOMNode(wrapper).querySelector(FORM_VALUE).value, 'to equal', '2' );
 		});
-		
+
 		it('updates the value when the value prop is set', function () {
 
 			wrapper.setPropsForChild({ value: 3 });
 			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Three');
 		});
-		
+
 		it('updates the value of the hidden input control after new value prop', function () {
 
 			wrapper.setPropsForChild({ value: 3 });
 			expect(React.findDOMNode(wrapper).querySelector(FORM_VALUE).value, 'to equal', '3' );
 		});
-		
+
 		it('calls onChange with the new value as a number', function () {
-			
+
 			clickArrowToOpen();
 			pressDown();
 			pressEnterToAccept();
 			expect(onChange, 'was called with', 3, [ { value: 3, label: 'Three' }]);
 		});
-		
+
 		it('supports setting the value to 0 via prop', function () {
 
 			wrapper.setPropsForChild({ value: 0 });
 			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Zero');
 		});
-		
+
 		it('supports selecting the zero value', function () {
 
 			clickArrowToOpen();
@@ -464,7 +464,7 @@ describe('Select', function() {
 			pressEnterToAccept();
 			expect(onChange, 'was called with', 0, [ { value: 0, label: 'Zero' }]);
 		});
-		
+
 		describe('with multi=true', function () {
 
 			beforeEach(function () {
@@ -484,7 +484,7 @@ describe('Select', function() {
 					searchable: true
 				});
 			});
-			
+
 			it('selects the initial value', function () {
 
 				expect(React.findDOMNode(instance), 'queried for', '.Select-item .Select-item-label',
@@ -493,17 +493,17 @@ describe('Select', function() {
 						expect.it('to have text', 'One')
 					]);
 			});
-			
+
 			it('calls onChange with the correct value when 1 option is selected', function () {
-				
+
 				var removeIcons = React.findDOMNode(instance).querySelectorAll('.Select-item .Select-item-icon');
 				TestUtils.Simulate.click(removeIcons[0]);
 				// For multi-select, the "value" (first arg) to onChange is always a string
 				expect(onChange, 'was called with', '1', [{ value: 1, label: 'One' }]);
 			});
-			
+
 			it('supports updating the values via props', function () {
-				
+
 				wrapper.setPropsForChild({
 					value: '3,4'
 				});
@@ -514,7 +514,7 @@ describe('Select', function() {
 						expect.it('to have text', 'Four')
 					]);
 			});
-			
+
 			it('supports updating the value to 0', function () {
 
 				// This test is specifically in case there's a "if (value) {... " somewhere
@@ -527,9 +527,9 @@ describe('Select', function() {
 						expect.it('to have text', 'Zero')
 					]);
 			});
-			
+
 			it('calls onChange with the correct values when multiple options are selected', function () {
-				
+
 				typeSearchText('fo');
 				pressEnterToAccept(); // Select 'Four'
 
@@ -540,7 +540,7 @@ describe('Select', function() {
 				]);
 			});
 		});
-		
+
 		describe('searching', function () {
 
 			let searchOptions = [
@@ -552,7 +552,7 @@ describe('Select', function() {
 				{ value: 34, label: 'Thirty-four' },
 				{ value: 54, label: 'Fifty-four' }
 			];
-			
+
 			describe('with matchPos=any and matchProp=any', function () {
 				beforeEach(function () {
 					instance = createControl({
@@ -561,9 +561,9 @@ describe('Select', function() {
 						options: searchOptions
 					});
 				});
-				
+
 				it('finds text anywhere in value', function () {
-					
+
 					typeSearchText('1');
 					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
 					'to satisfy', [
@@ -572,9 +572,9 @@ describe('Select', function() {
 							expect.it('to have text', 'Twenty-one')
 						]);
 				});
-				
+
 				it('finds text at end', function () {
-					
+
 					typeSearchText('4');
 					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
 						'to satisfy', [
@@ -583,7 +583,7 @@ describe('Select', function() {
 						]);
 				});
 			});
-			
+
 			describe('with matchPos=start and matchProp=any', function () {
 
 				beforeEach(function () {
@@ -593,7 +593,7 @@ describe('Select', function() {
 						options: searchOptions
 					});
 				});
-				
+
 				it('finds text at the start of the value', function () {
 
 					typeSearchText('1');
@@ -603,9 +603,9 @@ describe('Select', function() {
 							expect.it('to have text', 'Ten')
 						]);
 				});
-				
+
 				it('does not match text at end', function () {
-					
+
 					typeSearchText('4');
 					expect(React.findDOMNode(instance), 'to contain elements matching',
 						'.Select-noresults');
@@ -894,9 +894,9 @@ describe('Select', function() {
 			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Select...');
 		});
-		
+
 		it('shows disabled results in a search', function () {
-			
+
 			typeSearchText('t');
 			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(options[0], 'to have text', 'Two');
@@ -1167,7 +1167,7 @@ describe('Select', function() {
 			});
 		});
 
-		describe('with allowCache=false', function () {
+		describe('with disableCache=true', function () {
 
 			beforeEach(function () {
 
@@ -1175,7 +1175,7 @@ describe('Select', function() {
 				instance = createControl({
 					value: '',
 					asyncOptions: asyncOptions,
-					allowCache: false
+					disableCache: true
 				});
 
 				// Focus on the input, such that mouse events are accepted

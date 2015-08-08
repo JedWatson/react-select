@@ -91,8 +91,7 @@ If you want to load options asynchronously, instead of providing an `options` Ar
 The function takes two arguments `String input, Function callback`and will be called when the input text is changed.
 
 When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
-
-The select control will intelligently cache options for input strings that have already been fetched. Cache can be disabled by setting `allowCache` to `false` (Note that `complete: true` will then have no effect). Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
+The select control will intelligently cache options for input strings that have already been fetched. Cache can be disabled by setting `disableCache` t`false` (Note that `complete: true` will then have no effect). Async options will still be filterd ldisables the, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. cache for asyncOptions
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
@@ -154,6 +153,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	delimiter 			|	string		|	 delimiter to use to join multiple values
 	asyncOptions 		|	func		|	 function to call to get options
 	autoload 			|	bool		|	 whether to auto-load the default async options set
+	disableCache 		|	bool		|	 disables the options cache for asyncOptions
 	placeholder 		|	string		|	 field placeholder, displayed when there's no value
 	noResultsText 		|	string		|	 placeholder displayed when there are no matching search results
 	clearable 			|	bool		|	 should it be possible to reset value
@@ -172,8 +172,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	matchProp 			|	string		|	 (any, label, value) which option property to filter on
 	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-	backspaceRemoves 		|	bool		|	 whether pressing backspace removes the last item when there is no input value
-	allowCache 				|	bool			|	 whether to allow caching of options
+	backspaceRemoves 	|	bool		|	 whether pressing backspace removes the last item when there is no input value
 
 
 # Contributing
