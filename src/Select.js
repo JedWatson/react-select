@@ -16,7 +16,8 @@ var Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		allowCreate: React.PropTypes.bool,         // wether to allow creation of new entries
+		allowCache: React.PropTypes.bool,          // whether to allow cache
+		allowCreate: React.PropTypes.bool,         // whether to allow creation of new entries
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool,    // whether backspace removes an item if there is no text input
@@ -55,6 +56,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function() {
 		return {
+			allowCache: true,
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
@@ -495,30 +497,34 @@ var Select = React.createClass({
 
 	loadAsyncOptions: function(input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
-		for (var i = 0; i <= input.length; i++) {
-			var cacheKey = input.slice(0, i);
-			if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
-				var options = this._optionsCache[cacheKey].options;
-				var filteredOptions = this.filterOptions(options);
-				var newState = {
-					options: options,
-					filteredOptions: filteredOptions,
-					focusedOption: this._getNewFocusedOption(filteredOptions)
-				};
-				for (var key in state) {
-					if (state.hasOwnProperty(key)) {
-						newState[key] = state[key];
+		if (this.props.allowCache) {
+			for (var i = 0; i <= input.length; i++) {
+				var cacheKey = input.slice(0, i);
+				if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
+					var options = this._optionsCache[cacheKey].options;
+					var filteredOptions = this.filterOptions(options);
+					var newState = {
+						options: options,
+						filteredOptions: filteredOptions,
+						focusedOption: this._getNewFocusedOption(filteredOptions)
+					};
+					for (var key in state) {
+						if (state.hasOwnProperty(key)) {
+							newState[key] = state[key];
+						}
 					}
+					this.setState(newState);
+					if (callback) callback.call(this, {});
+					return;
 				}
-				this.setState(newState);
-				if(callback) callback.call(this, {});
-				return;
 			}
 		}
 
 		this.props.asyncOptions(input, (err, data) => {
 			if (err) throw err;
-			this._optionsCache[input] = data;
+			if (this.props.allowCache) {
+				this._optionsCache[input] = data;
+			}
 			if (thisRequestId !== this._currentRequestId) {
 				return;
 			}
