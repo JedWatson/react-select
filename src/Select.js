@@ -164,6 +164,7 @@ var Select = React.createClass({
 
 	componentWillReceiveProps: function(newProps) {
 		var optionsChanged = false;
+		var self = this;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
 			this.setState({
@@ -172,7 +173,17 @@ var Select = React.createClass({
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
+
+			var setState = function(){
+				self.setState(self.getStateFromValue(newProps.value, newProps.options, newProps.placeholder))
+			};
+
+			if (this.props.asyncOptions) {
+					this.loadAsyncOptions(newProps.value, setState);
+			}
+			else {
+				setState();
+			}
 		}
 	},
 
