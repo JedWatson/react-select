@@ -540,6 +540,141 @@ describe('Select', function() {
 				]);
 			});
 		});
+		
+		describe('searching', function () {
+
+			let searchOptions = [
+				{ value: 1, label: 'One' },
+				{ value: 2, label: 'Two' },
+				{ value: 10, label: 'Ten' },
+				{ value: 20, label: 'Twenty' },
+				{ value: 21, label: 'Twenty-one' },
+				{ value: 34, label: 'Thirty-four' },
+				{ value: 54, label: 'Fifty-four' }
+			];
+			
+			describe('with matchPos=any and matchProp=any', function () {
+				beforeEach(function () {
+					instance = createControl({
+						matchPos: 'any',
+						matchProp: 'any',
+						options: searchOptions
+					});
+				});
+				
+				it('finds text anywhere in value', function () {
+					
+					typeSearchText('1');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+					'to satisfy', [
+							expect.it('to have text', 'One'),
+							expect.it('to have text', 'Ten'),
+							expect.it('to have text', 'Twenty-one')
+						]);
+				});
+				
+				it('finds text at end', function () {
+					
+					typeSearchText('4');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'Thirty-four'),
+							expect.it('to have text', 'Fifty-four')
+						]);
+				});
+			});
+			
+			describe('with matchPos=start and matchProp=any', function () {
+
+				beforeEach(function () {
+					instance = createControl({
+						matchPos: 'start',
+						matchProp: 'any',
+						options: searchOptions
+					});
+				});
+				
+				it('finds text at the start of the value', function () {
+
+					typeSearchText('1');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'One'),
+							expect.it('to have text', 'Ten')
+						]);
+				});
+				
+				it('does not match text at end', function () {
+					
+					typeSearchText('4');
+					expect(React.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(React.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
+				});
+			});
+
+			describe('with matchPos=any and matchProp=value', function () {
+				beforeEach(function () {
+					instance = createControl({
+						matchPos: 'any',
+						matchProp: 'value',
+						options: searchOptions
+					});
+				});
+
+				it('finds text anywhere in value', function () {
+
+					typeSearchText('1');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'One'),
+							expect.it('to have text', 'Ten'),
+							expect.it('to have text', 'Twenty-one')
+						]);
+				});
+
+				it('finds text at end', function () {
+
+					typeSearchText('4');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'Thirty-four'),
+							expect.it('to have text', 'Fifty-four')
+						]);
+				});
+			});
+
+			describe('with matchPos=start and matchProp=value', function () {
+
+				beforeEach(function () {
+					instance = createControl({
+						matchPos: 'start',
+						matchProp: 'value',
+						options: searchOptions
+					});
+				});
+
+				it('finds text at the start of the value', function () {
+
+					typeSearchText('1');
+					expect(React.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'One'),
+							expect.it('to have text', 'Ten')
+						]);
+				});
+
+				it('does not match text at end', function () {
+
+					typeSearchText('4');
+					expect(React.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(React.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
+				});
+			});
+		});
 	});
 
 	describe('with options and value', function () {
