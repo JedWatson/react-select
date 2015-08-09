@@ -4,5 +4,5 @@ node_js:
     - "0.11"
     - "0.12"
     - "iojs-v2.5.0"
-before_script:
-    - npm install
+script:
+    - npm run coveralls

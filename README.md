@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/bruderstein/react-select/badge.svg?branch=master&service=github)](https://coveralls.io/github/bruderstein/react-select?branch=master)
+
 React-Select
 ============
 
