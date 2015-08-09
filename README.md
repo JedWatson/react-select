@@ -91,7 +91,8 @@ If you want to load options asynchronously, instead of providing an `options` Ar
 The function takes two arguments `String input, Function callback`and will be called when the input text is changed.
 
 When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
-The select control will intelligently cache options for input strings that have already been fetched. Cache can be disabled by setting `disableCache` t`false` (Note that `complete: true` will then have no effect). Async options will still be filterd ldisables the, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. cache for asyncOptions
+
+The select control will intelligently cache options for input strings that have already been fetched. The cached result set will be filtered as more specific searches are input, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. Caching can be disabled by setting `cacheAsyncResults` to `false` (Note that `complete: true` will then have no effect).
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
