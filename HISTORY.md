@@ -1,5 +1,12 @@
 # React-Select
 
+## v0.6.1 / 2015-08-09
+
+* added; Support for options with numeric values, thanks [Dave Brotherstone](https://github.com/bruderstein)
+* changed; Disabled options now appear in the search results , thanks [Dave Brotherstone](https://github.com/bruderstein)
+* fixed; asyncOptions are reloaded on componentWillReceiveProps when the value has changed, thanks [Francis Cote](https://github.com/drfeelgoud)
+* added; `cacheAsyncResults` prop (default `true`) now controls whether the internal cache is used for `asyncOptions`
+
 ## v0.6.0 / 2015-08-05
 
 * improved; option, value and single value have been split out into their own components, and can be customised with props. see [#328](https://github.com/JedWatson/react-select/pull/328) for more details.
