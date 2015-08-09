@@ -1138,16 +1138,16 @@ describe('Select', function() {
 					typeSearchText('tes');
 				}, 'to throw exception', new Error('Something\'s wrong jim'));
 			});
-			
+
 			it('calls the asyncOptions function when the value prop changes', function () {
 
 				expect(asyncOptions, 'was called once');
-				
+
 				wrapper.setPropsForChild({ value: 'test2' });
-				
+
 				expect(asyncOptions, 'was called twice');
 			});
-			
+
 
 		});
 
@@ -1175,7 +1175,7 @@ describe('Select', function() {
 			});
 		});
 
-		describe('with disableCache=true', function () {
+		describe('with cacheAsyncResults=false', function () {
 
 			beforeEach(function () {
 
@@ -1183,7 +1183,7 @@ describe('Select', function() {
 				wrapper = createControlWithWrapper({
 					value: '',
 					asyncOptions: asyncOptions,
-					disableCache: true
+					cacheAsyncResults: false
 				});
 
 				// Focus on the input, such that mouse events are accepted
@@ -1203,7 +1203,7 @@ describe('Select', function() {
 				expect(asyncOptions, 'was called times', 4);
 
 			});
-	
+
 			it('updates the displayed value after changing value and refreshing from asyncOptions', function () {
 
 				asyncOptions.reset();
@@ -1215,7 +1215,7 @@ describe('Select', function() {
 				});
 
 				wrapper.setPropsForChild({ value: 'newValue' });
-	
+
 				expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 					'to have text', 'New Value from Server');
 			});

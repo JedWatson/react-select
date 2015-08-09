@@ -21,12 +21,12 @@ var Select = React.createClass({
 		asyncOptions: React.PropTypes.func,        // function to call to get options
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool,    // whether backspace removes an item if there is no text input
+		cacheAsyncResults: React.PropTypes.bool,   // whether to allow cache
 		className: React.PropTypes.string,         // className for the outer element
-		clearable: React.PropTypes.bool,           // should it be possible to reset value
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
+		clearable: React.PropTypes.bool,           // should it be possible to reset value
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
-		disableCache: React.PropTypes.bool,          // whether to allow cache
 		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
@@ -61,12 +61,12 @@ var Select = React.createClass({
 			asyncOptions: undefined,
 			autoload: true,
 			backspaceRemoves: true,
+			cacheAsyncResults: true,
 			className: undefined,
-			clearable: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
+			clearable: true,
 			delimiter: ',',
-			disableCache: false,
 			disabled: false,
 			ignoreCase: true,
 			inputProps: {},
@@ -500,7 +500,7 @@ var Select = React.createClass({
 
 	loadAsyncOptions: function(input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
-		if (!this.props.disableCache) {
+		if (this.props.cacheAsyncResults) {
 			for (var i = 0; i <= input.length; i++) {
 				var cacheKey = input.slice(0, i);
 				if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
@@ -525,7 +525,7 @@ var Select = React.createClass({
 
 		this.props.asyncOptions(input, (err, data) => {
 			if (err) throw err;
-			if (!this.props.disableCache) {
+			if (this.props.cacheAsyncResults) {
 				this._optionsCache[input] = data;
 			}
 			if (thisRequestId !== this._currentRequestId) {
