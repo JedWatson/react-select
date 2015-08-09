@@ -1046,7 +1046,7 @@ describe('Select', function() {
 			beforeEach(function () {
 
 				// Render an instance of the component
-				instance = createControl({
+				wrapper = createControlWithWrapper({
 					value: '',
 					asyncOptions: asyncOptions,
 					autoload: true
@@ -1134,12 +1134,20 @@ describe('Select', function() {
 					]
 				});
 
-
 				expect(function () {
 					typeSearchText('tes');
 				}, 'to throw exception', new Error('Something\'s wrong jim'));
 			});
+			
+			it('calls the asyncOptions function when the value prop changes', function () {
 
+				expect(asyncOptions, 'was called once');
+				
+				wrapper.setPropsForChild({ value: 'test2' });
+				
+				expect(asyncOptions, 'was called twice');
+			});
+			
 
 		});
 
@@ -1172,7 +1180,7 @@ describe('Select', function() {
 			beforeEach(function () {
 
 				// Render an instance of the component
-				instance = createControl({
+				wrapper = createControlWithWrapper({
 					value: '',
 					asyncOptions: asyncOptions,
 					disableCache: true
@@ -1195,6 +1203,23 @@ describe('Select', function() {
 				expect(asyncOptions, 'was called times', 4);
 
 			});
+	
+			it('updates the displayed value after changing value and refreshing from asyncOptions', function () {
+
+				asyncOptions.reset();
+				asyncOptions.callsArgWith(1, null, {
+					options: [
+						{ value: 'newValue', label: 'New Value from Server' },
+						{ value: 'test', label: 'TEST one' }
+					]
+				});
+
+				wrapper.setPropsForChild({ value: 'newValue' });
+	
+				expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'New Value from Server');
+			});
+
 
 		});
 	});

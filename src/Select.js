@@ -167,11 +167,14 @@ var Select = React.createClass({
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
-			var setState = () => {
-				this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
+			var setState = (newState) => {
+				this.setState(this.getStateFromValue(newProps.value,
+					(newState && newState.options) || newProps.options,
+					newProps.placeholder)
+				);
 			};
 			if (this.props.asyncOptions) {
-				this.loadAsyncOptions(newProps.value, setState);
+				this.loadAsyncOptions(newProps.value, {}, setState);
 			} else {
 				setState();
 			}
@@ -514,7 +517,7 @@ var Select = React.createClass({
 						}
 					}
 					this.setState(newState);
-					if (callback) callback.call(this, {});
+					if (callback) callback.call(this, newState);
 					return;
 				}
 			}
@@ -540,7 +543,7 @@ var Select = React.createClass({
 				}
 			}
 			this.setState(newState);
-			if (callback) callback.call(this, {});
+			if (callback) callback.call(this, newState);
 		});
 	},
 
