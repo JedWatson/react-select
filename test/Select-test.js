@@ -907,6 +907,40 @@ describe('Select', function() {
 		});
 	});
 
+	describe('with styled options', function () {
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One', className: 'extra-one' },
+				{ value: 'two', label: 'Two', className: 'extra-two' },
+				{ value: 'three', label: 'Three', style: { fontSize: 25 } }
+			];
+
+			instance = createControl({
+				options: options
+			});
+		});
+
+		it('uses the given className for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[0], 'to have attributes',
+				{
+					class: 'extra-one'
+				});
+		});
+
+		it('uses the given style for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[2], 'to have attributes',
+				{
+					style: { 'font-size': '25px' }
+				});
+		});
+	});
+
 	describe('with allowCreate=true', function () {
 
 		beforeEach(function () {
