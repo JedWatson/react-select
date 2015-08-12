@@ -1426,6 +1426,8 @@ describe('Select', function() {
 
 			var items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[1]);
+			// The menu is now closed, click the arrow to open it again
+			clickArrowToOpen();
 			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 
@@ -1445,6 +1447,9 @@ describe('Select', function() {
 			expect(onChange, 'was called with', 'two', [{ value: 'two', label: 'Two' }]);
 
 			// Second item
+
+			// The menu is now closed, click the arrow to open it again
+			clickArrowToOpen();
 			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 			expect(onChange, 'was called twice');
@@ -1462,6 +1467,8 @@ describe('Select', function() {
 			expect(onChange, 'was called times', 1);
 
 			// Now get the list again,
+			// The menu is now closed, click the arrow to open it again
+			clickArrowToOpen();
 			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'One');
 			expect(items[1], 'to have text', 'Three');
@@ -1472,6 +1479,8 @@ describe('Select', function() {
 			TestUtils.Simulate.mouseDown(items[0]);
 
 			expect(onChange, 'was called times', 2);
+			// The menu is now closed, click the arrow to open it again
+			clickArrowToOpen();
 			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items[1], 'to have text', 'Four');
@@ -1481,6 +1490,8 @@ describe('Select', function() {
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called times', 3);
 
+			// The menu is now closed, click the arrow to open it again
+			clickArrowToOpen();
 			items = React.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items, 'to have length', 1);
