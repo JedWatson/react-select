@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.6.2 / 2015-08-13
+
+* changed; if the `searchable` prop is `false`, the menu is opened _or closed_ on click, more like a standard Select input. thanks [MaaikeB](https://github.com/MaaikeB)
+
 ## v0.6.1 / 2015-08-09
 
 * added; Support for options with numeric values, thanks [Dave Brotherstone](https://github.com/bruderstein)
