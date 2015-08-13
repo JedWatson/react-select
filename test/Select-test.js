@@ -2414,7 +2414,7 @@ describe('Select', function() {
 				typeSearchText('abc');
 				expect(asyncOptions, 'was called');
 				expect(React.findDOMNode(instance), 'to contain elements matching', '.Select-loading');
-				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
 					'to have text', 'Testing async loading...');
 			});
 
@@ -2423,7 +2423,7 @@ describe('Select', function() {
 				clickArrowToOpen();
 				typeSearchText('abc');
 
-				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
 					'to have text', 'Testing async loading...');
 
 				asyncOptions.args[0][1](null, {
@@ -2438,8 +2438,9 @@ describe('Select', function() {
 				clickArrowToOpen();
 				typeSearchText('abc');
 
-				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
 					'to have text', 'Testing async loading...');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 
 				asyncOptions.args[0][1](null, {
 					options: []
@@ -2447,6 +2448,7 @@ describe('Select', function() {
 
 				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
 					'to have text', 'Testing No results found');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-searching');
 			});
 		});
 
@@ -2469,7 +2471,7 @@ describe('Select', function() {
 				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
 				TestUtils.Simulate.mouseDown(selectArrow);
 
-				expect(React.findDOMNode(instance), 'queried for', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for', '.Select-search-prompt',
 					'to have items satisfying',
 					'to have text', 'Unit test prompt text');
 			});
@@ -2486,6 +2488,7 @@ describe('Select', function() {
 				typeSearchText('abc');
 				expect(asyncOptions, 'was called once');
 
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-prompt');
 				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 			});
 		});

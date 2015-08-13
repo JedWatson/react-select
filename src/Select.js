@@ -706,17 +706,20 @@ var Select = React.createClass({
 		if (ops.length) {
 			return ops;
 		} else {
-			var noResultsText;
+			var noResultsText, promptClass;
 			if (this.state.isLoading) {
+				promptClass = 'Select-searching';
 				noResultsText = this.props.searchingText;
 			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				promptClass = 'Select-noresults';
 				noResultsText = this.props.noResultsText;
 			} else {
+				promptClass = 'Select-search-prompt';
 				noResultsText = this.props.searchPromptText;
 			}
 
 			return (
-				<div className="Select-noresults">
+				<div className={promptClass}>
 					{noResultsText}
 				</div>
 			);
