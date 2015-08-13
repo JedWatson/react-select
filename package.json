@@ -35,11 +35,6 @@
   "peerDependencies": {
     "react": ">=0.13.3"
   },
-  "browserify-shim": {
-    "classnames": "global:classNames",
-    "react": "global:React",
-    "react-input-autosize": "global:AutosizeInput"
-  },
   "scripts": {
     "build": "gulp clean && NODE_ENV=production gulp build",
     "bump": "gulp bump",
