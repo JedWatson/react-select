@@ -352,7 +352,7 @@ var Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
-		
+
 		// for the non-searchable select, close the dropdown when button is clicked
 		if (this.state.isOpen && !this.props.searchable) {
 			this.setState({
@@ -360,7 +360,7 @@ var Select = React.createClass({
 			}, this._unbindCloseMenuIfClickedOutside);
 			return;
 		}
-		
+
 		if (this.state.isFocused) {
 			this.setState({
 				isOpen: true
@@ -706,15 +706,15 @@ var Select = React.createClass({
 		if (ops.length) {
 			return ops;
 		} else {
-			var noResultsText = (function () {
-				if (this.state.isLoading) {
-					return this.props.searchingText;
-				} else if (this.state.inputValue || !this.props.asyncOptions) {
-					return this.props.noResultsText;
-				} else {
-					return this.props.searchPromptText;
-				}
-			}.bind(this))();
+			var noResultsText;
+			if (this.state.isLoading) {
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				noResultsText = this.props.noResultsText;
+			} else {
+				noResultsText = this.props.searchPromptText;
+			}
+
 			return (
 				<div className="Select-noresults">
 					{noResultsText}
