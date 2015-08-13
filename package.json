@@ -39,11 +39,6 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
-  "browserify-shim": {
-    "classnames": "global:classNames",
-    "react": "global:React",
-    "react-input-autosize": "global:AutosizeInput"
-  },
   "scripts": {
     "build": "gulp clean && NODE_ENV=production gulp build",
     "bump": "gulp bump",
