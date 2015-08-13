@@ -20,11 +20,13 @@ var Option = React.createClass({
 		return obj.disabled ? (
 			<div className={optionClasses}>{renderedLabel}</div>
 		) : (
-			<div className={optionClasses} style={obj.style}
-				onMouseEnter={this.props.mouseEnter}
-				onMouseLeave={this.props.mouseLeave}
-				onMouseDown={this.props.mouseDown}
-				onClick={this.props.mouseDown}>
+			<div className={optionClasses}
+				 style={obj.style}
+				 onMouseEnter={this.props.mouseEnter}
+				 onMouseLeave={this.props.mouseLeave}
+				 onMouseDown={this.props.mouseDown}
+				 onClick={this.props.mouseDown}
+				 title={obj.title}>
 				{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }
 			</div>
 		);

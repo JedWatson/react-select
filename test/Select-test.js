@@ -912,8 +912,8 @@ describe('Select', function() {
 		beforeEach(function () {
 
 			options = [
-				{ value: 'one', label: 'One', className: 'extra-one' },
-				{ value: 'two', label: 'Two', className: 'extra-two' },
+				{ value: 'one', label: 'One', className: 'extra-one', title: 'Eins' },
+				{ value: 'two', label: 'Two', className: 'extra-two', title: 'Zwei' },
 				{ value: 'three', label: 'Three', style: { fontSize: 25 } }
 			];
 
@@ -940,6 +940,15 @@ describe('Select', function() {
 				});
 		});
 
+		it('uses the given title for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[1], 'to have attributes',
+				{
+					title: 'Zwei'
+				});
+		});
+
 		it('uses the given className for a single selection', function () {
 
 			typeSearchText('tw');
@@ -959,6 +968,16 @@ describe('Select', function() {
 					style: {
 						'font-size': '25px'
 					}
+				});
+		});
+
+		it('uses the given title for a single selection', function () {
+
+			typeSearchText('tw');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					title: 'Zwei'
 				});
 		});
 
@@ -989,6 +1008,16 @@ describe('Select', function() {
 						style: {
 							'font-size': '25px'
 						}
+					});
+			});
+
+			it('uses the given title for a selected value', function () {
+
+				typeSearchText('tw');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						title: 'Zwei'
 					});
 			});
 

@@ -35,6 +35,7 @@ var Value = React.createClass({
 				<div
 					className={classes('Select-value', this.props.option.className)}
 					style={this.props.option.style}
+					title={this.props.option.title}
 				>{label}</div>
 			);
 		}
@@ -46,7 +47,8 @@ var Value = React.createClass({
 					onMouseDown={this.blockEvent}
 					onTouchEnd={this.props.onOptionLabelClick}
 					onClick={this.props.onOptionLabelClick}
-					style={this.props.option.style}>
+					style={this.props.option.style}
+					title={this.props.option.title}>
 					{label}
 				</a>
 			);
@@ -54,7 +56,8 @@ var Value = React.createClass({
 
 		return (
 			<div className={classes('Select-item', this.props.option.className)}
-				 style={this.props.option.style}>
+				 style={this.props.option.style}
+				 title={this.props.option.title}>
 				<span className="Select-item-icon"
 					onMouseDown={this.blockEvent}
 					onClick={this.handleOnRemove}
