@@ -1,4 +1,5 @@
 var React = require('react');
+var classes = require('classnames');
 
 var SingleValue = React.createClass({
 	propTypes: {
@@ -6,8 +7,10 @@ var SingleValue = React.createClass({
 		value: React.PropTypes.object              // selected option
 	},
 	render: function() {
+
+		var classNames = classes('Select-placeholder', this.props.value && this.props.value.className);
 		return (
-			<div className="Select-placeholder">{this.props.placeholder}</div>
+			<div className={classNames} style={this.props.value && this.props.value.style}>{this.props.placeholder}</div>
 		);
 	}
 });

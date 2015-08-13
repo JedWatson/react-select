@@ -917,7 +917,7 @@ describe('Select', function() {
 				{ value: 'three', label: 'Three', style: { fontSize: 25 } }
 			];
 
-			instance = createControl({
+			wrapper = createControlWithWrapper({
 				options: options
 			});
 		});
@@ -939,6 +939,61 @@ describe('Select', function() {
 					style: { 'font-size': '25px' }
 				});
 		});
+
+		it('uses the given className for a single selection', function () {
+
+			typeSearchText('tw');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					class: 'extra-two'
+				});
+		});
+
+		it('uses the given style for a single selection', function () {
+
+			typeSearchText('th');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					style: {
+						'font-size': '25px'
+					}
+				});
+		});
+
+		describe('with multi', function () {
+
+			beforeEach(function () {
+
+				wrapper.setPropsForChild({ multi: true });
+			});
+
+
+			it('uses the given className for a selected value', function () {
+
+				typeSearchText('tw');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						class: 'extra-two'
+					});
+			});
+
+			it('uses the given style for a selected value', function () {
+
+				typeSearchText('th');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						style: {
+							'font-size': '25px'
+						}
+					});
+			});
+
+		});
+
 	});
 
 	describe('with allowCreate=true', function () {
