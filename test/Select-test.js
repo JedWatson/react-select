@@ -945,6 +945,15 @@ describe('Select', function() {
 			});
 			expect(options[1], 'to have text', 'Three');
 		});
+
+		it('is does not close menu when disabled option is clicked', function () {
+
+			clickArrowToOpen();
+			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelectorAll('.Select-option')[1]);
+
+			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(options.length, 'to equal', 3);
+		});
 	});
 
 	describe('with styled options', function () {
