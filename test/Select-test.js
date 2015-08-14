@@ -2469,6 +2469,82 @@ describe('Select', function() {
 			});
 		});
 
+		describe('optionRendererDisabled', function () {
+
+			var optionRenderer;
+			var renderLink = function(props) {
+				return <a {...props} >Upgrade here!</a>;
+			};
+
+			var links = [
+				{ href: '/link' },
+				{ href: '/link2', target: '_blank' }
+			];
+
+			var ops = [
+				{ label: 'Disabled', value: 'disabled', disabled: true, link: renderLink(links[0]) },
+				{ label: 'Disabled 2', value: 'disabled_2', disabled: true, link: renderLink(links[1]) },
+				{ label: 'Enabled', value: 'enabled' },
+			];
+
+			/**
+			 * Since we don't have access to an actual Location object,
+			 * this method will test a string (path) by the end of global.window.location.href
+			 * @param  {string}  path Ending href path to check
+			 * @return {Boolean}      Whether the location is at the path
+			 */
+			var isNavigated = function(path) {
+				var window_location = global.window.location.href;
+				return window_location.indexOf(path, window_location.length - path.length) !== -1;
+			};
+
+			beforeEach(function () {
+
+				optionRenderer = function (option) {
+					return (
+						<span>{option.label} {option.link} </span>
+					);
+				};
+
+				optionRenderer = sinon.spy(optionRenderer);
+
+				instance = createControl({
+					options: ops,
+					optionRenderer: optionRenderer
+				});
+			});
+
+			it('disabled option link is still clickable', function () {
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				var link = options[0].querySelector('a');
+				expect(link, 'to have attributes', {
+					href: links[0].href
+				});
+
+				expect(isNavigated(links[0].href), 'to be false');
+				TestUtils.Simulate.click(link);
+				expect(isNavigated(links[0].href), 'to be true');
+			});
+
+			it('disabled option link with target doesn\'t navigate the current window', function () {
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				var link = options[1].querySelector('a');
+				expect(link, 'to have attributes', {
+					href: links[1].href,
+					target: '_blank'
+				});
+
+				expect(isNavigated(links[0].href), 'to be true');
+				TestUtils.Simulate.click(link);
+				expect(isNavigated(links[1].href), 'to be false');
+			});
+
+		});
+
 		describe('placeholder', function () {
 
 			beforeEach(function () {
