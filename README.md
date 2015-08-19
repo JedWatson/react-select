@@ -177,6 +177,8 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 	backspaceRemoves 	|	bool		|	 whether pressing backspace removes the last item when there is no input value
+	allowCreate	|	bool	|	whether to allow creation of new entries
+	addLabelText	|	string	|	placeholder displayed when you want to add a label on a multi-value input
 
 
 # Contributing
