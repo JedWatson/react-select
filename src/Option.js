@@ -21,8 +21,7 @@ var Option = React.createClass({
 			<div className={this.props.className}
 				onMouseEnter={this.props.mouseEnter}
 				onMouseLeave={this.props.mouseLeave}
-				onMouseDown={this.props.mouseDown}
-				onClick={this.props.mouseDown}>
+				onMouseDown={this.props.mouseDown}>
 				{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }
 			</div>
 		);

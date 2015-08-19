@@ -941,7 +941,7 @@ describe('Select', function() {
 		it('fires an onChange with the new value when selecting the Add option', function () {
 
 			typeSearchText('xyz');
-			TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
 
 			expect(onChange, 'was called with', 'xyz');
 		});
@@ -949,7 +949,7 @@ describe('Select', function() {
 		it('allows updating the options with a new label, following the onChange', function () {
 
 			typeSearchText('xyz');
-			TestUtils.Simulate.click(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
 
 			expect(onChange, 'was called with', 'xyz');
 
