@@ -895,6 +895,45 @@ describe('Select', function() {
 				'to have text', 'Select...');
 		});
 
+		it("doesn't select anything when a disabled option is the only item in the list after a search", function () {
+
+			typeSearchText('tw'); // Only 'two' in the list
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
+		it("doesn't select anything when a disabled option value matches the entered text", function () {
+
+			typeSearchText('two');  // Matches value
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
+		it("doesn't select anything when a disabled option label matches the entered text", function () {
+
+			typeSearchText('Two');  // Matches label
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
 		it('shows disabled results in a search', function () {
 
 			typeSearchText('t');
