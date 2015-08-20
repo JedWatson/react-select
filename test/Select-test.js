@@ -1,8 +1,7 @@
 'use strict';
 /* global describe, it, beforeEach */
 
-var helper = require('../testHelpers/jsdomHelper');
-helper();
+var jsdomHelper = require('../testHelpers/jsdomHelper');
 
 var sinon = require('sinon');
 var unexpected = require('unexpected');
@@ -12,6 +11,8 @@ var expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
 	.installPlugin(unexpectedSinon);
+
+jsdomHelper();
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
