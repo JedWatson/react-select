@@ -86,6 +86,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
+* By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
 
 ### Async options
 
@@ -177,6 +178,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
 	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 	backspaceRemoves 	|	bool		|	 whether pressing backspace removes the last item when there is no input value
+	allowCreate 	|	bool		|	 allow new options to be created in multi mode (displays an "Add \<option> ?" option when an entry not already in the `options` array is entered)
 
 
 # Contributing
