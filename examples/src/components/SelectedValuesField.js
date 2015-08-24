@@ -9,11 +9,18 @@ var SelectedValuesField = React.createClass({
 	displayName: 'SelectedValuesField',
 	propTypes: {
 		allowCreate: React.PropTypes.bool,
+		hint: React.PropTypes.string,
 		label: React.PropTypes.string,
 		options: React.PropTypes.array,
 	},
 	onLabelClick (data, event) {
 		console.log(data, event);
+	},
+	renderHint () {
+		if (!this.props.hint) return null;
+		return (
+			<div className="hint">{this.props.hint}</div>
+		);
 	},
 	render () {
 		return (
@@ -27,6 +34,7 @@ var SelectedValuesField = React.createClass({
 					placeholder="Select your favourite(s)"
 					options={this.props.options}
 					onChange={logChange} />
+				{this.renderHint()}
 			</div>
 		);
 	}

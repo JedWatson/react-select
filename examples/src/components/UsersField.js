@@ -7,7 +7,14 @@ const USERS = require('../data/users');
 
 var UsersField = React.createClass({
 	propTypes: {
+		hint: React.PropTypes.string,
 		label: React.PropTypes.string,
+	},
+	renderHint () {
+		if (!this.props.hint) return null;
+		return (
+			<div className="hint">{this.props.hint}</div>
+		);
 	},
 	render () {
 
@@ -20,6 +27,7 @@ var UsersField = React.createClass({
 					optionComponent={GravatarOption}
 					singleValueComponent={GravatarValue}
 					options={USERS.users}/>
+				{this.renderHint()}
 			</div>
 		);
 	}
