@@ -47,6 +47,7 @@ var Select = React.createClass({
 		options: React.PropTypes.array,            // array of options
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
+		searchingText: React.PropTypes.string,     // message to display whilst options are loading via asyncOptions
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
 		value: React.PropTypes.any,                // initial field value
@@ -81,6 +82,7 @@ var Select = React.createClass({
 			options: undefined,
 			placeholder: 'Select...',
 			searchable: true,
+			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
@@ -354,7 +356,7 @@ var Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
-		
+
 		// for the non-searchable select, close the dropdown when button is clicked
 		if (this.state.isOpen && !this.props.searchable) {
 			this.setState({
@@ -362,7 +364,7 @@ var Select = React.createClass({
 			}, this._unbindCloseMenuIfClickedOutside);
 			return;
 		}
-		
+
 		if (this.state.isFocused) {
 			this.setState({
 				isOpen: true
@@ -707,11 +709,28 @@ var Select = React.createClass({
 			});
 			return optionResult;
 		}, this);
-		return ops.length ? ops : (
-			<div className="Select-noresults">
-				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
-			</div>
-		);
+
+		if (ops.length) {
+			return ops;
+		} else {
+			var noResultsText, promptClass;
+			if (this.state.isLoading) {
+				promptClass = 'Select-searching';
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				promptClass = 'Select-noresults';
+				noResultsText = this.props.noResultsText;
+			} else {
+				promptClass = 'Select-search-prompt';
+				noResultsText = this.props.searchPromptText;
+			}
+
+			return (
+				<div className={promptClass}>
+					{noResultsText}
+				</div>
+			);
+		}
 	},
 
 	handleOptionLabelClick: function (value, event) {

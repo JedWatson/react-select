@@ -2429,6 +2429,69 @@ describe('Select', function() {
 			});
 		});
 
+		describe('searchingText', function () {
+
+			var asyncOptions;
+			var asyncOptionsCallback;
+
+			beforeEach(function () {
+
+				asyncOptions = sinon.spy();
+
+				instance = createControl({
+					asyncOptions: asyncOptions,
+					autoload: false,
+					searchingText: 'Testing async loading...',
+					noResultsText: 'Testing No results found',
+					searchPromptText: 'Testing enter search query'
+				});
+			});
+
+			it('uses the searchingText whilst the asyncOptions are loading', function () {
+
+				clickArrowToOpen();
+				expect(asyncOptions, 'was not called');
+				typeSearchText('abc');
+				expect(asyncOptions, 'was called');
+				expect(React.findDOMNode(instance), 'to contain elements matching', '.Select-loading');
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+			});
+
+			it('clears the searchingText when results arrive', function () {
+
+				clickArrowToOpen();
+				typeSearchText('abc');
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+
+				asyncOptions.args[0][1](null, {
+					options: [{ value: 'abc', label: 'Abc' }]
+				});
+
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
+			});
+
+			it('switches the searchingText to noResultsText when options arrive, but empty', function () {
+
+				clickArrowToOpen();
+				typeSearchText('abc');
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
+
+				asyncOptions.args[0][1](null, {
+					options: []
+				});
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
+					'to have text', 'Testing No results found');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-searching');
+			});
+		});
+
 		describe('searchPromptText', function () {
 			var asyncOptions;
 
@@ -2448,7 +2511,7 @@ describe('Select', function() {
 				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
 				TestUtils.Simulate.mouseDown(selectArrow);
 
-				expect(React.findDOMNode(instance), 'queried for', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for', '.Select-search-prompt',
 					'to have items satisfying',
 					'to have text', 'Unit test prompt text');
 			});
@@ -2465,6 +2528,7 @@ describe('Select', function() {
 				typeSearchText('abc');
 				expect(asyncOptions, 'was called once');
 
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-prompt');
 				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 			});
 		});
