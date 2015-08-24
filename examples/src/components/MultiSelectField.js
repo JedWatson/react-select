@@ -40,7 +40,7 @@ var MultiSelectField = React.createClass({
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
-						<span className="checkbox-label">Disable</span>
+						<span className="checkbox-label">Disabled</span>
 					</label>
 				</div>
 			</div>
