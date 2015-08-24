@@ -18,7 +18,7 @@ var ValuesAsNumbersField = React.createClass({
 				{ value: 11, label: 'Eleven' },
 				{ value: 12, label: 'Twelve' },
 				{ value: 23, label: 'Twenty-three' },
-				{ value: 24, label: 'Twenty-three' }
+				{ value: 24, label: 'Twenty-four' }
 			],
 			matchPos: 'any',
 			matchValue: true,
