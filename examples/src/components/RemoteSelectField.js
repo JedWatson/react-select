@@ -1,10 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 
-import CountrySelect from '../components/CountrySelect';
-const STATES = require('../data/states');
-var id = 0;
-
 var RemoteSelectField = React.createClass({
 	displayName: 'RemoteSelectField',
 	propTypes: {
