@@ -56,7 +56,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function() {
 		return {
-			addLabelText: 'Add {label} ?',
+			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
