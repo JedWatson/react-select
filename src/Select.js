@@ -237,12 +237,7 @@ var Select = React.createClass({
 			focusedOption = values[0];
 			valueForState = values[0].value;
 		} else {
-			for (var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
-				if (!filteredOptions[optionIndex].disabled) {
-					focusedOption = filteredOptions[optionIndex];
-					break;
-				}
-			}
+			focusedOption = this.getFirstFocusableOption(filteredOptions);
 			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
 		}
 
@@ -254,6 +249,15 @@ var Select = React.createClass({
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
+	},
+
+	getFirstFocusableOption: function (options) {
+
+		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
+			if (!options[optionIndex].disabled) {
+				return options[optionIndex];
+			}
+		}
 	},
 
 	initValuesArray: function(values, options) {
@@ -472,7 +476,7 @@ var Select = React.createClass({
 				return filteredOptions[key];
 			}
 		}
-		return filteredOptions[0];
+		return this.getFirstFocusableOption(filteredOptions);
 	},
 
 	handleInputChange: function(event) {
@@ -589,7 +593,10 @@ var Select = React.createClass({
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
 		}
-		return this.selectValue(this.state.focusedOption);
+
+		if (this.state.focusedOption) {
+			return this.selectValue(this.state.focusedOption);
+		}
 	},
 
 	focusOption: function(op) {
