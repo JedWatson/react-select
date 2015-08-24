@@ -86,6 +86,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
+* By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
 
 ### Async options
 
@@ -149,7 +150,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	Property			|	Type		|	Description
 :-----------------------|:--------------|:--------------------------------
 	addLabelText		|	string		|	text to display when allowCreate is true
-	allowCreate			|	bool		|	whether to allow values not in options
+	allowCreate			|	bool		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
 	asyncOptions 		|	func		|	function to call to get options
 	autoload 			|	bool		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
