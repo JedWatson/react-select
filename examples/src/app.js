@@ -27,8 +27,7 @@ function logChange() {
 
 React.render(
 	<div>
-		<StatesField label="States" />
-		<StatesField label="States (non-searchable)" searchable={false} />
+		<StatesField label="States" searchable />
 		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<ValuesAsNumbersField label="Values as numbers" />
 		<MultiSelectField label="Multiselect"/>
