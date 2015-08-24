@@ -1,5 +1,14 @@
 # React-Select
 
+## v0.6.4 / 2015-08-24
+
+This release includes a huge improvement to the examples / website thanks to @jossmac. Also:
+
+* added; support for React 0.14 beta3
+* fixed; disabled options after searching, thanks @bruderstein
+* added; support for "Searching..." text (w/ prop) while loading async results, thanks @bruderstein and @johnomalley
+* added; `className`, `style` and `title` keys are now supported in option properties, thanks @bruderstein
+
 ## v0.6.3 / 2015-08-18
 
 Otherwise known as "the real 0.6.2" this includes the updated build for the last version; sorry about that!
