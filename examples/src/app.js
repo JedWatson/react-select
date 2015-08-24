@@ -29,7 +29,7 @@ React.render(
 	<div>
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
-		<UsersField />
+		<UsersField label='Users (custom option/value):' />
 		<ValuesAsNumbersField label="Values as numbers" />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" options={FLAVOURS} />

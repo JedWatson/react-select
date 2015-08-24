@@ -6,17 +6,14 @@ import Select from 'react-select';
 const USERS = require('../data/users');
 
 var UsersField = React.createClass({
-	getDefaultProps () {
-		return {
-			searchable: true,
-			label: 'Users: (with custom option and value component)'
-		};
+	propTypes: {
+		label: React.PropTypes.string,
 	},
 	render () {
 
 		return (
-			<div>
-				<label>{this.props.label}</label>
+			<div className="section">
+				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
 					onOptionLabelClick={this.onLabelClick}
 					placeholder="Select user"
