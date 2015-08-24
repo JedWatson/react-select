@@ -34,13 +34,14 @@ var MultiSelectField = React.createClass({
 		];
 		return (
 			<div className="section">
-				<div>
-					<h3 className="section-heading">{this.props.label}</h3>
-					<Select multi={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
-				</div>
-				<div>
-					<input type="checkbox" checked={this.state.disabled} id="disable-multiselect" onChange={this.toggleDisabled}/>
-					<label htmlFor="disable-multiselect">Disable</label>
+				<h3 className="section-heading">{this.props.label}</h3>
+				<Select multi={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
+					
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
+						<span className="checkbox-label">Disable</span>
+					</label>
 				</div>
 			</div>
 		);
