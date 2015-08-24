@@ -83,15 +83,23 @@ var ValuesAsNumbersField = React.createClass({
 					value={this.state.value}
 					multi={this.state.multi}
 					/>
-				<div>
-					<label htmlFor="values-as-numbers-multi">Multi-Select?</label>
-					<input type="checkbox" id="values-as-numbers-multi" checked={this.state.multi} onChange={this.onChangeMulti} />
-					<label htmlFor="values-as-numbers-matchstart">Match only at start?</label>
-					<input type="checkbox" id="values-as-numbers-matchstart" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
-					<label htmlFor="values-as-numbers-matchvalue">Match value?</label>
-					<input type="checkbox" id="values-as-numbers-matchvalue" checked={this.state.matchValue} onChange={this.onChangeMatchValue} />
-					<label htmlFor="values-as-numbers-matchlabel">Match label?</label>
-					<input type="checkbox" id="values-as-numbers-matchlabel" checked={this.state.matchLabel} onChange={this.onChangeMatchLabel} />
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.multi} onChange={this.onChangeMulti} />
+						<span className="checkbox-label">Multi-Select</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.matchValue} onChange={this.onChangeMatchValue} />
+						<span className="checkbox-label">Match value only</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.matchLabel} onChange={this.onChangeMatchLabel} />
+						<span className="checkbox-label">Match label only</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
+						<span className="checkbox-label">Only include matches from the start of the string</span>
+					</label>
 				</div>
 			</div>
 		);
