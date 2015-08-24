@@ -4,18 +4,30 @@
 
 
 
-// Body
+
+// Constants
+// ------------------------------
+
+@heading-color: black;
+@text-color: #333;
+@link-color: #08c;
+
+
+
+
+// Base
+// ------------------------------
 
 body {
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	font-size: 14px;
-	color: #333;
+	color: @text-color;
 	margin: 0;
 	padding: 0;
 }
 
 a {
-	color: #08c;
+	color: @link-color;
 	text-decoration: none;
 	
 	&:hover {
@@ -39,13 +51,47 @@ a {
 }
 
 
-// Type
 
-h1, h2, h3, h4, h5, h6 {
-	color: #222;
-	font-weight: 100;
-	margin: 1em 0 0.5em 0;
+
+// Headings
+// ------------------------------
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	color: @heading-color;
+	font-weight: 500;
+	line-height: 1;
+	margin-bottom: .66em;
+	margin-top: 0;
 }
+
+h1, .h1 {
+	font-size: 3em;
+}
+h2, .h2 {
+	font-size: 2em;
+	font-weight: 300;
+}
+h3, .h3 {
+	// color: @gray-light;
+	font-size: 1.25em;
+	// text-transform: uppercase;
+}
+h4, .h4 {
+	font-size: 1em;
+}
+h5, .h5 {
+	font-size: .85em;
+}
+h6, .h6 {
+	font-size: .75em;
+}
+
+
+
+
+// Headings
+// ------------------------------
 
 .switcher {
 	font-size: 12px;
@@ -54,16 +100,16 @@ h1, h2, h3, h4, h5, h6 {
 	cursor: default;
 	text-transform: uppercase;
 	
-	span.link {
+	.link {
 		margin-left: 10px;
-		color: #08c;
+		color: @link-color;
 		font-weight: bold;
 		cursor: pointer;
 		&:hover {
 			text-decoration: underline;
 		}
 	}
-	span.active {
+	.active {
 		margin-left: 10px;
 		color: #666;
 		font-weight: bold;
@@ -71,16 +117,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-// Forms
 
-label {
-	color: #999;
-	display: inline-block;
-	font-size: 0.85em;
-	font-weight: bold;
-	margin: 1em 0;
-	text-transform: uppercase;
+
+// Sections
+// ------------------------------
+
+.section {
+	margin-bottom: 40px;
 }
+// .section-label {
+// 	color: #999;
+// 	display: inline-block;
+// 	font-size: 0.85em;
+// 	font-weight: bold;
+// 	margin: 1em 0;
+// 	text-transform: uppercase;
+// }
 
 .hint {
 	margin: 15px 0;
