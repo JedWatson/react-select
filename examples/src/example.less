@@ -20,6 +20,7 @@
 @heading-color:                  black;
 @text-color:                     #333;
 @link-color:                     #007eff;
+@gutter:                         30px;
 
 // diverge from react-select defaults
 
@@ -55,7 +56,7 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 400px;
-	padding: 0 1em;
+	padding: 0 @gutter;
 }
 
 
@@ -105,7 +106,7 @@ h6, .h6 {
 .page-body,
 .page-footer,
 .page-header {
-	padding: 60px 0;
+	padding: @gutter 0;
 }
 
 // header
@@ -113,10 +114,13 @@ h6, .h6 {
 .page-header {
 	background-color: @link-color;
 	color: mix(white, @link-color, 75%);
-	font-size: 1.4em;
 	
 	h1, h2, h3 {
 		color: white;
+	}
+	p {
+		font-size: 1.2em;
+		margin: 0;
 	}
 	a {
 		border-bottom: 1px solid fade(white, 30%);
@@ -136,15 +140,14 @@ h6, .h6 {
 
 .page-subheader {
 	background-color: mix(@link-color, white, 10%);
-	padding: 30px 0;
+	line-height: 20px;
+	padding: @gutter 0;
 }
 .page-subheader__button {
 	float: right;
 }
 .page-subheader__link {
 	border-bottom: 1px solid fade(@link-color, 30%);
-	font-size: 1.125em;
-	line-height: 28px;
 	outline: none;
 	text-decoration: none;
 	
@@ -159,12 +162,27 @@ h6, .h6 {
 // footer
 
 .page-footer {
-	border-top: 1px solid #eee;
+	background-color: #fafafa;
+	// border-top: 1px solid #eee;
 	color: #999;
-	font-size: 12px;
-	margin-top: 50px;
-	padding: 30px 0;
+	padding: @gutter 0;
 	text-align: center;
+}
+
+// layout changes based on screen dimensions
+
+@media (min-width: 480px) {
+	.page-body,
+	.page-header {
+		padding: (@gutter * 2) 0;
+	}
+	.page-header {
+		font-size: 1.4em;
+	}
+	.page-subheader {
+		font-size: 1.125em;
+		line-height: 28px;
+	}
 }
 
 
