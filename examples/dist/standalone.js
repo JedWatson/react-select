@@ -8,9 +8,9 @@
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
-var Input = (typeof window !== "undefined" ? window.AutosizeInput : typeof global !== "undefined" ? global.AutosizeInput : null);
-var classes = (typeof window !== "undefined" ? window.classNames : typeof global !== "undefined" ? global.classNames : null);
+var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var Input = (typeof window !== "undefined" ? window['AutosizeInput'] : typeof global !== "undefined" ? global['AutosizeInput'] : null);
+var classes = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
 var Value = require('./Value');
 
 var requestId = 0;
@@ -156,15 +156,17 @@ var Select = React.createClass({
 	},
 
 	componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
-			this.setState({
-				options: newProps.options,
-				filteredOptions: this.filterOptions(newProps.options)
-			});
+		var hasNewOptions = JSON.stringify(newProps.options) !== JSON.stringify(this.props.options);
+
+		if (!hasNewOptions && newProps.value === this.state.value) {
+			return;
 		}
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
+
+		var newState = this.getStateFromValue(newProps.value || this.state.value, newProps.options || this.state.options);
+		if (hasNewOptions) {
+			newState.options = newProps.options;
 		}
+		this.setState(newState);
 	},
 
 	componentDidUpdate: function componentDidUpdate() {
@@ -824,7 +826,7 @@ module.exports = Select;
 (function (global){
 'use strict';
 
-var React = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var Value = React.createClass({
 
