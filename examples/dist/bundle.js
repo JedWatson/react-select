@@ -2,6 +2,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 'use strict';
 
 var React = require('react');
+var classes = require('classnames');
 
 var Option = React.createClass({
 	displayName: 'Option',
@@ -19,18 +20,21 @@ var Option = React.createClass({
 	render: function render() {
 		var obj = this.props.option;
 		var renderedLabel = this.props.renderFunc(obj);
+		var optionClasses = classes(this.props.className, obj.className);
 
 		return obj.disabled ? React.createElement(
 			'div',
-			{ className: this.props.className },
+			{ className: optionClasses },
 			renderedLabel
 		) : React.createElement(
 			'div',
-			{ className: this.props.className,
+			{ className: optionClasses,
+				style: obj.style,
 				onMouseEnter: this.props.mouseEnter,
 				onMouseLeave: this.props.mouseLeave,
 				onMouseDown: this.props.mouseDown,
-				onClick: this.props.mouseDown },
+				onClick: this.props.mouseDown,
+				title: obj.title },
 			obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel
 		);
 	}
@@ -38,22 +42,29 @@ var Option = React.createClass({
 
 module.exports = Option;
 
-},{"react":undefined}],2:[function(require,module,exports){
-"use strict";
+},{"classnames":undefined,"react":undefined}],2:[function(require,module,exports){
+'use strict';
 
 var React = require('react');
+var classes = require('classnames');
 
 var SingleValue = React.createClass({
-	displayName: "SingleValue",
+	displayName: 'SingleValue',
 
 	propTypes: {
 		placeholder: React.PropTypes.string, // this is default value provided by React-Select based component
 		value: React.PropTypes.object // selected option
 	},
 	render: function render() {
+
+		var classNames = classes('Select-placeholder', this.props.value && this.props.value.className);
 		return React.createElement(
-			"div",
-			{ className: "Select-placeholder" },
+			'div',
+			{
+				className: classNames,
+				style: this.props.value && this.props.value.style,
+				title: this.props.value && this.props.value.title
+			},
 			this.props.placeholder
 		);
 	}
@@ -61,10 +72,11 @@ var SingleValue = React.createClass({
 
 module.exports = SingleValue;
 
-},{"react":undefined}],3:[function(require,module,exports){
+},{"classnames":undefined,"react":undefined}],3:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
+var classes = require('classnames');
 
 var Value = React.createClass({
 
@@ -98,25 +110,34 @@ var Value = React.createClass({
 		if (!this.props.onRemove && !this.props.optionLabelClick) {
 			return React.createElement(
 				'div',
-				{ className: 'Select-value' },
+				{
+					className: classes('Select-value', this.props.option.className),
+					style: this.props.option.style,
+					title: this.props.option.title
+				},
 				label
 			);
 		}
 
 		if (this.props.optionLabelClick) {
+
 			label = React.createElement(
 				'a',
-				{ className: 'Select-item-label__a',
+				{ className: classes('Select-item-label__a', this.props.option.className),
 					onMouseDown: this.blockEvent,
 					onTouchEnd: this.props.onOptionLabelClick,
-					onClick: this.props.onOptionLabelClick },
+					onClick: this.props.onOptionLabelClick,
+					style: this.props.option.style,
+					title: this.props.option.title },
 				label
 			);
 		}
 
 		return React.createElement(
 			'div',
-			{ className: 'Select-item' },
+			{ className: classes('Select-item', this.props.option.className),
+				style: this.props.option.style,
+				title: this.props.option.title },
 			React.createElement(
 				'span',
 				{ className: 'Select-item-icon',
@@ -137,7 +158,7 @@ var Value = React.createClass({
 
 module.exports = Value;
 
-},{"react":undefined}],"react-select":[function(require,module,exports){
+},{"classnames":undefined,"react":undefined}],"react-select":[function(require,module,exports){
 /* disable some rules until we refactor more completely; fixing them now would
    cause conflicts with some open PRs unnecessarily. */
 /* eslint react/jsx-sort-prop-types: 0, react/sort-comp: 0, react/prop-types: 0 */
@@ -191,6 +212,7 @@ var Select = React.createClass({
 		options: React.PropTypes.array, // array of options
 		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool, // whether to enable searching feature or not
+		searchingText: React.PropTypes.string, // message to display whilst options are loading via asyncOptions
 		searchPromptText: React.PropTypes.string, // label to prompt for search input
 		singleValueComponent: React.PropTypes.func, // single value component when multiple is set to false
 		value: React.PropTypes.any, // initial field value
@@ -200,7 +222,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			addLabelText: 'Add {label} ?',
+			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
@@ -225,6 +247,7 @@ var Select = React.createClass({
 			options: undefined,
 			placeholder: 'Select...',
 			searchable: true,
+			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
@@ -384,12 +407,7 @@ var Select = React.createClass({
 			focusedOption = values[0];
 			valueForState = values[0].value;
 		} else {
-			for (var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
-				if (!filteredOptions[optionIndex].disabled) {
-					focusedOption = filteredOptions[optionIndex];
-					break;
-				}
-			}
+			focusedOption = this.getFirstFocusableOption(filteredOptions);
 			valueForState = values.map(function (v) {
 				return v.value;
 			}).join(this.props.delimiter);
@@ -403,6 +421,15 @@ var Select = React.createClass({
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
+	},
+
+	getFirstFocusableOption: function getFirstFocusableOption(options) {
+
+		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
+			if (!options[optionIndex].disabled) {
+				return options[optionIndex];
+			}
+		}
 	},
 
 	initValuesArray: function initValuesArray(values, options) {
@@ -625,7 +652,7 @@ var Select = React.createClass({
 				return filteredOptions[key];
 			}
 		}
-		return filteredOptions[0];
+		return this.getFirstFocusableOption(filteredOptions);
 	},
 
 	handleInputChange: function handleInputChange(event) {
@@ -741,7 +768,10 @@ var Select = React.createClass({
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
 		}
-		return this.selectValue(this.state.focusedOption);
+
+		if (this.state.focusedOption) {
+			return this.selectValue(this.state.focusedOption);
+		}
 	},
 
 	focusOption: function focusOption(op) {
@@ -852,11 +882,28 @@ var Select = React.createClass({
 			});
 			return optionResult;
 		}, this);
-		return ops.length ? ops : React.createElement(
-			'div',
-			{ className: 'Select-noresults' },
-			this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText
-		);
+
+		if (ops.length) {
+			return ops;
+		} else {
+			var noResultsText, promptClass;
+			if (this.state.isLoading) {
+				promptClass = 'Select-searching';
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				promptClass = 'Select-noresults';
+				noResultsText = this.props.noResultsText;
+			} else {
+				promptClass = 'Select-search-prompt';
+				noResultsText = this.props.searchPromptText;
+			}
+
+			return React.createElement(
+				'div',
+				{ className: promptClass },
+				noResultsText
+			);
+		}
 	},
 
 	handleOptionLabelClick: function handleOptionLabelClick(value, event) {

@@ -1,144 +1,649 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-
-var Gravatar = require('react-gravatar');
-
-var Option = React.createClass({
-  displayName: 'Option',
-
-  propTypes: {
-    addLabelText: React.PropTypes.string,
-    className: React.PropTypes.string,
-    mouseDown: React.PropTypes.func,
-    mouseEnter: React.PropTypes.func,
-    mouseLeave: React.PropTypes.func,
-    option: React.PropTypes.object.isRequired,
-    renderFunc: React.PropTypes.func
-  },
-
-  render: function render() {
-    var obj = this.props.option;
-    var size = 15;
-
-    return React.createElement(
-      'div',
-      { className: this.props.className,
-        onMouseEnter: this.props.mouseEnter,
-        onMouseLeave: this.props.mouseLeave,
-        onMouseDown: this.props.mouseDown,
-        onClick: this.props.mouseDown },
-      React.createElement(Gravatar, { email: obj.email, size: size }),
-      obj.value
-    );
-  }
-});
-
-module.exports = Option;
-
-},{"react":undefined,"react-gravatar":9}],2:[function(require,module,exports){
-'use strict';
-
-var React = require('react');
-var Gravatar = require('react-gravatar');
-
-var SingleValue = React.createClass({
-  displayName: 'SingleValue',
-
-  propTypes: {
-    placeholder: React.PropTypes.string,
-    value: React.PropTypes.object
-  },
-
-  render: function render() {
-    var obj = this.props.value;
-    var size = 15;
-
-    return React.createElement(
-      'div',
-      { className: 'Select-placeholder' },
-      obj ? React.createElement(
-        'div',
-        null,
-        React.createElement(Gravatar, { email: obj.email, size: size }),
-        obj.value
-      ) : this.props.placeholder
-    );
-  }
-});
-
-module.exports = SingleValue;
-
-},{"react":undefined,"react-gravatar":9}],3:[function(require,module,exports){
 /* eslint react/prop-types: 0 */
 
 'use strict';
 
-var React = require('react');
-var Select = require('react-select');
-var GravatarOption = require('./CustomOption');
-var GravatarValue = require('./CustomSingleValue');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var STATES = require('./data/states');
-var USERS = require('./data/users');
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+var _componentsCustomRenderField = require('./components/CustomRenderField');
+
+var _componentsCustomRenderField2 = _interopRequireDefault(_componentsCustomRenderField);
+
+var _componentsMultiSelectField = require('./components/MultiSelectField');
+
+var _componentsMultiSelectField2 = _interopRequireDefault(_componentsMultiSelectField);
+
+var _componentsRemoteSelectField = require('./components/RemoteSelectField');
+
+var _componentsRemoteSelectField2 = _interopRequireDefault(_componentsRemoteSelectField);
+
+var _componentsSelectedValuesField = require('./components/SelectedValuesField');
+
+var _componentsSelectedValuesField2 = _interopRequireDefault(_componentsSelectedValuesField);
+
+var _componentsStatesField = require('./components/StatesField');
+
+var _componentsStatesField2 = _interopRequireDefault(_componentsStatesField);
+
+var _componentsUsersField = require('./components/UsersField');
+
+var _componentsUsersField2 = _interopRequireDefault(_componentsUsersField);
+
+var _componentsValuesAsNumbersField = require('./components/ValuesAsNumbersField');
+
+var _componentsValuesAsNumbersField2 = _interopRequireDefault(_componentsValuesAsNumbersField);
+
+var FLAVOURS = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
+var FLAVOURS_WITH_DISABLED_OPTION = FLAVOURS.slice(0);
+FLAVOURS_WITH_DISABLED_OPTION.unshift({ label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true });
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+_react2['default'].render(_react2['default'].createElement(
+	'div',
+	null,
+	_react2['default'].createElement(_componentsStatesField2['default'], { label: 'States', searchable: true }),
+	_react2['default'].createElement(_componentsUsersField2['default'], { label: 'Users (custom options/value)', hint: 'This example uses Gravatar to render user\'s image besides the value and the options' }),
+	_react2['default'].createElement(_componentsValuesAsNumbersField2['default'], { label: 'Values as numbers' }),
+	_react2['default'].createElement(_componentsMultiSelectField2['default'], { label: 'Multiselect' }),
+	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Clickable labels (labels as links)', options: FLAVOURS, hint: 'Open the console to see click behaviour (data/event)' }),
+	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Disabled option', options: FLAVOURS_WITH_DISABLED_OPTION, hint: 'You savage! Caramel is the best...' }),
+	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Option Creation (tags mode)', options: FLAVOURS, allowCreate: true, hint: 'Enter a value that\'s not in the list, then hit enter' }),
+	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values' }),
+	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values (multi)', multi: true, delimiter: ',' }),
+	_react2['default'].createElement(_componentsRemoteSelectField2['default'], { label: 'Remote Options', hint: 'Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' })
+), document.getElementById('example'));
+
+},{"./components/CustomRenderField":3,"./components/MultiSelectField":5,"./components/RemoteSelectField":6,"./components/SelectedValuesField":7,"./components/StatesField":8,"./components/UsersField":9,"./components/ValuesAsNumbersField":10,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactGravatar = require('react-gravatar');
+
+var _reactGravatar2 = _interopRequireDefault(_reactGravatar);
+
+var Option = _react2['default'].createClass({
+	displayName: 'Option',
+
+	propTypes: {
+		addLabelText: _react2['default'].PropTypes.string,
+		className: _react2['default'].PropTypes.string,
+		mouseDown: _react2['default'].PropTypes.func,
+		mouseEnter: _react2['default'].PropTypes.func,
+		mouseLeave: _react2['default'].PropTypes.func,
+		option: _react2['default'].PropTypes.object.isRequired,
+		renderFunc: _react2['default'].PropTypes.func
+	},
+	render: function render() {
+		var obj = this.props.option;
+		var size = 15;
+		var gravatarStyle = {
+			borderRadius: 3,
+			display: 'inline-block',
+			marginRight: 10,
+			position: 'relative',
+			top: -2,
+			verticalAlign: 'middle'
+		};
+		return _react2['default'].createElement(
+			'div',
+			{ className: this.props.className,
+				onMouseEnter: this.props.mouseEnter,
+				onMouseLeave: this.props.mouseLeave,
+				onMouseDown: this.props.mouseDown,
+				onClick: this.props.mouseDown },
+			_react2['default'].createElement(_reactGravatar2['default'], { email: obj.email, size: size, style: gravatarStyle }),
+			obj.value
+		);
+	}
+});
+
+module.exports = Option;
+
+},{"react":undefined,"react-gravatar":16}],3:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var CustomRenderField = _react2['default'].createClass({
+	displayName: 'CustomRenderField',
+	propTypes: {
+		delimiter: _react2['default'].PropTypes.string,
+		label: _react2['default'].PropTypes.string,
+		multi: _react2['default'].PropTypes.bool
+	},
+	renderOption: function renderOption(option) {
+		return _react2['default'].createElement(
+			'span',
+			{ style: { color: option.hex } },
+			option.label,
+			' (',
+			option.hex,
+			')'
+		);
+	},
+	renderValue: function renderValue(option) {
+		return _react2['default'].createElement(
+			'strong',
+			{ style: { color: option.hex } },
+			option.label
+		);
+	},
+	render: function render() {
+		var ops = [{ label: 'Red', value: 'red', hex: '#EC6230' }, { label: 'Green', value: 'green', hex: '#4ED84E' }, { label: 'Blue', value: 'blue', hex: '#6D97E2' }];
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], {
+				delimiter: this.props.delimiter,
+				multi: this.props.multi,
+				allowCreate: true,
+				placeholder: 'Select your favourite',
+				options: ops,
+				optionRenderer: this.renderOption,
+				valueRenderer: this.renderValue,
+				onChange: logChange })
+		);
+	}
+});
+
+module.exports = CustomRenderField;
+
+},{"react":undefined,"react-select":undefined}],4:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactGravatar = require('react-gravatar');
+
+var _reactGravatar2 = _interopRequireDefault(_reactGravatar);
+
+var SingleValue = _react2['default'].createClass({
+	displayName: 'SingleValue',
+
+	propTypes: {
+		placeholder: _react2['default'].PropTypes.string,
+		value: _react2['default'].PropTypes.object
+	},
+	render: function render() {
+		var obj = this.props.value;
+		var size = 15;
+		var gravatarStyle = {
+			borderRadius: 3,
+			display: 'inline-block',
+			marginRight: 10,
+			position: 'relative',
+			top: -2,
+			verticalAlign: 'middle'
+		};
+
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'Select-placeholder' },
+			obj ? _react2['default'].createElement(
+				'div',
+				null,
+				_react2['default'].createElement(_reactGravatar2['default'], { email: obj.email, size: size, style: gravatarStyle }),
+				obj.value
+			) : this.props.placeholder
+		);
+	}
+});
+
+module.exports = SingleValue;
+
+},{"react":undefined,"react-gravatar":16}],5:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var MultiSelectField = _react2['default'].createClass({
+	displayName: 'MultiSelectField',
+	propTypes: {
+		label: _react2['default'].PropTypes.string
+	},
+	getInitialState: function getInitialState() {
+		return {
+			disabled: false,
+			value: []
+		};
+	},
+	handleSelectChange: function handleSelectChange(value, values) {
+		logChange('New value:', value, 'Values:', values);
+		this.setState({ value: value });
+	},
+	toggleDisabled: function toggleDisabled(e) {
+		this.setState({ 'disabled': e.target.checked });
+	},
+	render: function render() {
+		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], { multi: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: ops, onChange: this.handleSelectChange }),
+			_react2['default'].createElement(
+				'div',
+				{ className: 'checkbox-list' },
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.disabled, onChange: this.toggleDisabled }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Disabled'
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = MultiSelectField;
+
+},{"react":undefined,"react-select":undefined}],6:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+var RemoteSelectField = _react2['default'].createClass({
+	displayName: 'RemoteSelectField',
+	propTypes: {
+		hint: _react2['default'].PropTypes.string,
+		label: _react2['default'].PropTypes.string
+	},
+	loadOptions: function loadOptions(input, callback) {
+		input = input.toLowerCase();
+		var rtn = {
+			options: [{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }],
+			complete: true
+		};
+		if (input.slice(0, 1) === 'a') {
+			if (input.slice(0, 2) === 'ab') {
+				rtn = {
+					options: [{ label: 'AB', value: 'ab' }, { label: 'ABC', value: 'abc' }, { label: 'ABCD', value: 'abcd' }],
+					complete: true
+				};
+			} else {
+				rtn = {
+					options: [{ label: 'A', value: 'a' }, { label: 'AA', value: 'aa' }, { label: 'AB', value: 'ab' }],
+					complete: false
+				};
+			}
+		} else if (!input.length) {
+			rtn.complete = false;
+		}
+
+		setTimeout(function () {
+			callback(null, rtn);
+		}, 500);
+	},
+	renderHint: function renderHint() {
+		if (!this.props.hint) return null;
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'hint' },
+			this.props.hint
+		);
+	},
+	render: function render() {
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], { asyncOptions: this.loadOptions, className: 'remote-example' }),
+			this.renderHint()
+		);
+	}
+});
+
+module.exports = RemoteSelectField;
+
+},{"react":undefined,"react-select":undefined}],7:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var SelectedValuesField = _react2['default'].createClass({
+	displayName: 'SelectedValuesField',
+	propTypes: {
+		allowCreate: _react2['default'].PropTypes.bool,
+		hint: _react2['default'].PropTypes.string,
+		label: _react2['default'].PropTypes.string,
+		options: _react2['default'].PropTypes.array
+	},
+	onLabelClick: function onLabelClick(data, event) {
+		console.log(data, event);
+	},
+	renderHint: function renderHint() {
+		if (!this.props.hint) return null;
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'hint' },
+			this.props.hint
+		);
+	},
+	render: function render() {
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], {
+				allowCreate: this.props.allowCreate,
+				onOptionLabelClick: this.onLabelClick,
+				value: this.props.options.slice(1, 3),
+				multi: true,
+				placeholder: 'Select your favourite(s)',
+				options: this.props.options,
+				onChange: logChange }),
+			this.renderHint()
+		);
+	}
+});
+
+module.exports = SelectedValuesField;
+
+},{"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+var STATES = require('../data/states');
 var id = 0;
 
 function logChange() {
-	console.log.apply(console, [].concat(['Select value changed: '], Array.prototype.slice.apply(arguments)));
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
 }
 
-var CountrySelect = React.createClass({
-	displayName: 'CountrySelect',
-
-	onClick: function onClick() {
-		this.props.onSelect(this.props.value);
+var StatesField = _react2['default'].createClass({
+	displayName: 'StatesField',
+	propTypes: {
+		label: _react2['default'].PropTypes.string,
+		searchable: _react2['default'].PropTypes.bool
 	},
-	render: function render() {
-		var className = this.props.value === this.props.selected ? 'active' : 'link';
-		return React.createElement(
-			'span',
-			{ onClick: this.onClick, className: className },
-			this.props.children
-		);
-	}
-});
-
-var UsersField = React.createClass({
-	displayName: 'UsersField',
-
 	getDefaultProps: function getDefaultProps() {
 		return {
-			searchable: true,
-			label: 'Users: (with custom option and value component)'
+			label: 'States:',
+			searchable: true
 		};
 	},
+	getInitialState: function getInitialState() {
+		return {
+			country: 'AU',
+			disabled: false,
+			searchable: this.props.searchable,
+			id: ++id,
+			selectValue: 'new-south-wales'
+		};
+	},
+	switchCountry: function switchCountry(e) {
+		var newCountry = e.target.value;
+		console.log('Country changed to ' + newCountry);
+		this.setState({
+			country: newCountry,
+			selectValue: null
+		});
+	},
+	updateValue: function updateValue(newValue) {
+		logChange('State changed to ' + newValue);
+		this.setState({
+			selectValue: newValue || null
+		});
+	},
+	focusStateSelect: function focusStateSelect() {
+		this.refs.stateSelect.focus();
+	},
+	toggleCheckbox: function toggleCheckbox(e) {
+		var newState = {};
+		newState[e.target.name] = e.target.checked;
+		this.setState(newState);
+	},
 	render: function render() {
-
-		return React.createElement(
+		var ops = STATES[this.state.country];
+		return _react2['default'].createElement(
 			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
 				this.props.label
 			),
-			React.createElement(Select, {
-				onOptionLabelClick: this.onLabelClick,
-				placeholder: 'Select user',
-				optionComponent: GravatarOption,
-				singleValueComponent: GravatarValue,
-				options: USERS.users })
+			_react2['default'].createElement(_reactSelect2['default'], { ref: 'stateSelect', options: ops, disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.state.searchable }),
+			_react2['default'].createElement(
+				'div',
+				{ style: { marginTop: 14 } },
+				_react2['default'].createElement(
+					'button',
+					{ type: 'button', onClick: this.focusStateSelect },
+					'Focus Select'
+				),
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox', style: { marginLeft: 10 } },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', name: 'searchable', checked: this.state.searchable, onChange: this.toggleCheckbox }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Searchable'
+					)
+				),
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox', style: { marginLeft: 10 } },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', name: 'disabled', checked: this.state.disabled, onChange: this.toggleCheckbox }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Disabled'
+					)
+				)
+			),
+			_react2['default'].createElement(
+				'div',
+				{ className: 'checkbox-list' },
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'radio', className: 'checkbox-control', checked: this.state.country === 'AU', value: 'AU', onChange: this.switchCountry }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Australia'
+					)
+				),
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'radio', className: 'checkbox-control', checked: this.state.country === 'US', value: 'US', onChange: this.switchCountry }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'United States'
+					)
+				)
+			)
 		);
 	}
 });
 
-var ValuesAsNumbersField = React.createClass({
+module.exports = StatesField;
+
+},{"../data/states":11,"react":undefined,"react-select":undefined}],9:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _CustomOption = require('./CustomOption');
+
+var _CustomOption2 = _interopRequireDefault(_CustomOption);
+
+var _CustomSingleValue = require('./CustomSingleValue');
+
+var _CustomSingleValue2 = _interopRequireDefault(_CustomSingleValue);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+var USERS = require('../data/users');
+
+var UsersField = _react2['default'].createClass({
+	displayName: 'UsersField',
+
+	propTypes: {
+		hint: _react2['default'].PropTypes.string,
+		label: _react2['default'].PropTypes.string
+	},
+	renderHint: function renderHint() {
+		if (!this.props.hint) return null;
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'hint' },
+			this.props.hint
+		);
+	},
+	render: function render() {
+
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], {
+				onOptionLabelClick: this.onLabelClick,
+				placeholder: 'Select user',
+				optionComponent: _CustomOption2['default'],
+				singleValueComponent: _CustomSingleValue2['default'],
+				options: USERS.users }),
+			this.renderHint()
+		);
+	}
+});
+
+module.exports = UsersField;
+
+},{"../data/users":12,"./CustomOption":2,"./CustomSingleValue":4,"react":undefined,"react-select":undefined}],10:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var ValuesAsNumbersField = _react2['default'].createClass({
 	displayName: 'ValuesAsNumbersField',
+	propTypes: {
+		label: _react2['default'].PropTypes.string
+	},
 
 	getInitialState: function getInitialState() {
 		return {
-			options: [{ value: 10, label: 'Ten' }, { value: 11, label: 'Eleven' }, { value: 12, label: 'Twelve' }, { value: 23, label: 'Twenty-three' }, { value: 24, label: 'Twenty-three' }],
+			options: [{ value: 10, label: 'Ten' }, { value: 11, label: 'Eleven' }, { value: 12, label: 'Twelve' }, { value: 23, label: 'Twenty-three' }, { value: 24, label: 'Twenty-four' }],
 			matchPos: 'any',
 			matchValue: true,
 			matchLabel: true,
@@ -190,15 +695,15 @@ var ValuesAsNumbersField = React.createClass({
 			matchProp = 'value';
 		}
 
-		return React.createElement(
+		return _react2['default'].createElement(
 			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
 				this.props.label
 			),
-			React.createElement(Select, {
+			_react2['default'].createElement(_reactSelect2['default'], {
 				searchable: true,
 				matchProp: matchProp,
 				matchPos: this.state.matchPos,
@@ -207,406 +712,69 @@ var ValuesAsNumbersField = React.createClass({
 				value: this.state.value,
 				multi: this.state.multi
 			}),
-			React.createElement(
+			_react2['default'].createElement(
 				'div',
-				null,
-				React.createElement(
+				{ className: 'checkbox-list' },
+				_react2['default'].createElement(
 					'label',
-					{ htmlFor: 'values-as-numbers-multi' },
-					'Multi-Select?'
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.multi, onChange: this.onChangeMulti }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Multi-Select'
+					)
 				),
-				React.createElement('input', { type: 'checkbox', id: 'values-as-numbers-multi', checked: this.state.multi, onChange: this.onChangeMulti }),
-				React.createElement(
+				_react2['default'].createElement(
 					'label',
-					{ htmlFor: 'values-as-numbers-matchstart' },
-					'Match only at start?'
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.matchValue, onChange: this.onChangeMatchValue }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Match value only'
+					)
 				),
-				React.createElement('input', { type: 'checkbox', id: 'values-as-numbers-matchstart', checked: this.state.matchPos === 'start', onChange: this.onChangeMatchStart }),
-				React.createElement(
+				_react2['default'].createElement(
 					'label',
-					{ htmlFor: 'values-as-numbers-matchvalue' },
-					'Match value?'
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.matchLabel, onChange: this.onChangeMatchLabel }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Match label only'
+					)
 				),
-				React.createElement('input', { type: 'checkbox', id: 'values-as-numbers-matchvalue', checked: this.state.matchValue, onChange: this.onChangeMatchValue }),
-				React.createElement(
+				_react2['default'].createElement(
 					'label',
-					{ htmlFor: 'values-as-numbers-matchlabel' },
-					'Match label?'
-				),
-				React.createElement('input', { type: 'checkbox', id: 'values-as-numbers-matchlabel', checked: this.state.matchLabel, onChange: this.onChangeMatchLabel })
-			)
-		);
-	}
-});
-
-var StatesField = React.createClass({
-	displayName: 'StatesField',
-
-	getDefaultProps: function getDefaultProps() {
-		return {
-			searchable: true,
-			label: 'States:'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			country: 'AU',
-			disabled: false,
-			id: ++id,
-			selectValue: 'new-south-wales'
-		};
-	},
-	switchCountry: function switchCountry(newCountry) {
-		console.log('Country changed to ' + newCountry);
-		this.setState({
-			country: newCountry,
-			selectValue: null
-		});
-	},
-	updateValue: function updateValue(newValue) {
-		logChange('State changed to ' + newValue);
-		this.setState({
-			selectValue: newValue || null
-		});
-	},
-	focusStateSelect: function focusStateSelect() {
-		this.refs.stateSelect.focus();
-	},
-	toggleDisabled: function toggleDisabled(e) {
-		this.setState({ disabled: e.target.checked });
-	},
-	render: function render() {
-		var ops = STATES[this.state.country];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, { ref: 'stateSelect', options: ops, disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.props.searchable }),
-			React.createElement(
-				'div',
-				{ className: 'switcher' },
-				'Country:',
-				React.createElement(
-					CountrySelect,
-					{ value: 'AU', selected: this.state.country, onSelect: this.switchCountry },
-					'Australia'
-				),
-				React.createElement(
-					CountrySelect,
-					{ value: 'US', selected: this.state.country, onSelect: this.switchCountry },
-					'US'
-				),
-				'  ',
-				React.createElement(
-					'button',
-					{ type: 'button', onClick: this.focusStateSelect },
-					'Focus Select'
-				),
-				'  ',
-				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-states-' + this.state.id, onChange: this.toggleDisabled }),
-				React.createElement(
-					'label',
-					{ htmlFor: 'disable-states-' + this.state.id },
-					'Disable'
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.matchPos === 'start', onChange: this.onChangeMatchStart }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Only include matches from the start of the string'
+					)
 				)
 			)
 		);
 	}
 });
 
-var RemoteSelectField = React.createClass({
-	displayName: 'RemoteSelectField',
+module.exports = ValuesAsNumbersField;
 
-	loadOptions: function loadOptions(input, callback) {
-		input = input.toLowerCase();
-		var rtn = {
-			options: [{ label: 'One', value: 'one' }, { label: 'Two', value: 'two' }, { label: 'Three', value: 'three' }],
-			complete: true
-		};
-		if (input.slice(0, 1) === 'a') {
-			if (input.slice(0, 2) === 'ab') {
-				rtn = {
-					options: [{ label: 'AB', value: 'ab' }, { label: 'ABC', value: 'abc' }, { label: 'ABCD', value: 'abcd' }],
-					complete: true
-				};
-			} else {
-				rtn = {
-					options: [{ label: 'A', value: 'a' }, { label: 'AA', value: 'aa' }, { label: 'AB', value: 'ab' }],
-					complete: false
-				};
-			}
-		} else if (!input.length) {
-			rtn.complete = false;
-		}
-
-		setTimeout(function () {
-			callback(null, rtn);
-		}, 500);
-	},
-	render: function render() {
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, { asyncOptions: this.loadOptions, className: 'remote-example' })
-		);
-	}
-});
-
-var MultiSelectField = React.createClass({
-	displayName: 'MultiSelectField',
-
-	getInitialState: function getInitialState() {
-		return {
-			disabled: false,
-			value: []
-		};
-	},
-	handleSelectChange: function handleSelectChange(value, values) {
-		logChange('New value:', value, 'Values:', values);
-		this.setState({ value: value });
-	},
-	toggleDisabled: function toggleDisabled(e) {
-		this.setState({ 'disabled': e.target.checked });
-	},
-	render: function render() {
-		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
-		return React.createElement(
-			'span',
-			null,
-			React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'label',
-					null,
-					this.props.label
-				),
-				React.createElement(Select, { multi: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: ops, onChange: this.handleSelectChange })
-			),
-			React.createElement(
-				'div',
-				null,
-				React.createElement('input', { type: 'checkbox', checked: this.state.disabled, id: 'disable-multiselect', onChange: this.toggleDisabled }),
-				React.createElement(
-					'label',
-					{ htmlFor: 'disable-multiselect' },
-					'Disable'
-				)
-			)
-		);
-	}
-});
-
-var SelectedValuesField = React.createClass({
-	displayName: 'SelectedValuesField',
-
-	onLabelClick: function onLabelClick(data, event) {
-		console.log(data, event);
-	},
-	render: function render() {
-		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, {
-				onOptionLabelClick: this.onLabelClick,
-				value: 'chocolate,vanilla,strawberry',
-				multi: true,
-				placeholder: 'Select your favourite(s)',
-				options: ops,
-				onChange: logChange })
-		);
-	}
-});
-
-var SelectedValuesFieldDisabled = React.createClass({
-	displayName: 'SelectedValuesFieldDisabled',
-
-	onLabelClick: function onLabelClick(data, event) {
-		console.log(data, event);
-	},
-	render: function render() {
-		var ops = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, {
-				onOptionLabelClick: this.onLabelClick,
-				value: 'chocolate,vanilla,strawberry',
-				multi: true,
-				placeholder: 'Select your favourite(s)',
-				options: ops,
-				onChange: logChange })
-		);
-	}
-});
-
-var SelectedValuesFieldCreate = React.createClass({
-	displayName: 'SelectedValuesFieldCreate',
-
-	onLabelClick: function onLabelClick(data, event) {
-		console.log(data, event);
-	},
-	render: function render() {
-		var ops = [{ label: 'First Option', value: 'first' }, { label: 'Second Option', value: 'second' }, { label: 'Third Option', value: 'third' }];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, {
-				value: 'first',
-				delimiter: ',',
-				multi: true,
-				allowCreate: true,
-				placeholder: 'Select your favourite(s)',
-				options: ops,
-				onChange: logChange })
-		);
-	}
-});
-
-var CustomRenderField = React.createClass({
-	displayName: 'CustomRenderField',
-
-	onLabelClick: function onLabelClick(data, event) {
-		console.log(data, event);
-	},
-	renderOption: function renderOption(option) {
-		return React.createElement(
-			'span',
-			{ style: { color: option.hex } },
-			option.label,
-			' (',
-			option.hex,
-			')'
-		);
-	},
-	renderValue: function renderValue(option) {
-		return React.createElement(
-			'strong',
-			{ style: { color: option.hex } },
-			option.label
-		);
-	},
-	render: function render() {
-		var ops = [{ label: 'Red', value: 'red', hex: '#EC6230' }, { label: 'Green', value: 'green', hex: '#4ED84E' }, { label: 'Blue', value: 'blue', hex: '#6D97E2' }];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, {
-				allowCreate: true,
-				placeholder: 'Select your favourite',
-				options: ops,
-				optionRenderer: this.renderOption,
-				valueRenderer: this.renderValue,
-				onChange: logChange })
-		);
-	}
-});
-
-var CustomRenderMultiField = React.createClass({
-	displayName: 'CustomRenderMultiField',
-
-	onLabelClick: function onLabelClick(data, event) {
-		console.log(data, event);
-	},
-	renderOption: function renderOption(option) {
-		return React.createElement(
-			'span',
-			{ style: { color: option.hex } },
-			option.label,
-			' (',
-			option.hex,
-			')'
-		);
-	},
-	renderValue: function renderValue(option) {
-		return React.createElement(
-			'strong',
-			{ style: { color: option.hex } },
-			option.label
-		);
-	},
-	render: function render() {
-		var ops = [{ label: 'Red', value: 'red', hex: '#EC6230' }, { label: 'Green', value: 'green', hex: '#4ED84E' }, { label: 'Blue', value: 'blue', hex: '#6D97E2' }];
-		return React.createElement(
-			'div',
-			null,
-			React.createElement(
-				'label',
-				null,
-				this.props.label
-			),
-			React.createElement(Select, {
-				delimiter: ',',
-				multi: true,
-				allowCreate: true,
-				placeholder: 'Select your favourite(s)',
-				options: ops,
-				optionRenderer: this.renderOption,
-				valueRenderer: this.renderValue,
-				onChange: logChange })
-		);
-	}
-});
-
-React.render(React.createElement(
-	'div',
-	null,
-	React.createElement(StatesField, null),
-	React.createElement(StatesField, { label: 'States (non-searchable):', searchable: false }),
-	React.createElement(UsersField, null),
-	React.createElement(ValuesAsNumbersField, { label: 'Values as numbers' }),
-	React.createElement(MultiSelectField, { label: 'Multiselect:' }),
-	React.createElement(SelectedValuesField, { label: 'Clickable labels (labels as links):' }),
-	React.createElement(SelectedValuesFieldDisabled, { label: 'Disabled option:' }),
-	React.createElement(SelectedValuesFieldCreate, { label: 'Option Creation (tags mode):' }),
-	React.createElement(CustomRenderField, { label: 'Custom rendering for options and values:' }),
-	React.createElement(CustomRenderMultiField, { label: 'Custom rendering for multiple options and values:' }),
-	React.createElement(RemoteSelectField, { label: 'Remote Options:' })
-), document.getElementById('example'));
-
-},{"./CustomOption":1,"./CustomSingleValue":2,"./data/states":4,"./data/users":5,"react":undefined,"react-select":undefined}],4:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],11:[function(require,module,exports){
 'use strict';
 
 exports.AU = [{ value: 'australian-capital-territory', label: 'Australian Capital Territory' }, { value: 'new-south-wales', label: 'New South Wales' }, { value: 'victoria', label: 'Victoria' }, { value: 'queensland', label: 'Queensland' }, { value: 'western-australia', label: 'Western Australia' }, { value: 'south-australia', label: 'South Australia' }, { value: 'tasmania', label: 'Tasmania' }, { value: 'northern-territory', label: 'Northern Territory' }];
 
 exports.US = [{ value: 'AL', label: 'Alabama', disabled: true }, { value: 'AK', label: 'Alaska' }, { value: 'AS', label: 'American Samoa' }, { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' }, { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' }, { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' }, { value: 'DC', label: 'District Of Columbia' }, { value: 'FM', label: 'Federated States Of Micronesia' }, { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' }, { value: 'GU', label: 'Guam' }, { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' }, { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' }, { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' }, { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' }, { value: 'ME', label: 'Maine' }, { value: 'MH', label: 'Marshall Islands' }, { value: 'MD', label: 'Maryland' }, { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' }, { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' }, { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' }, { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' }, { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' }, { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' }, { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' }, { value: 'MP', label: 'Northern Mariana Islands' }, { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' }, { value: 'OR', label: 'Oregon' }, { value: 'PW', label: 'Palau' }, { value: 'PA', label: 'Pennsylvania' }, { value: 'PR', label: 'Puerto Rico' }, { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' }, { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' }, { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' }, { value: 'VT', label: 'Vermont' }, { value: 'VI', label: 'Virgin Islands' }, { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }];
 
-},{}],5:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 exports.users = [{ value: 'John Smith', label: 'John Smith', email: 'john@smith.com' }, { value: 'Merry Jane', label: 'Merry Jane', email: 'merry@jane.com' }, { value: 'Stan Hoper', label: 'Stan Hoper', email: 'stan@hoper.com' }];
 
-},{}],6:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -692,7 +860,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],7:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -779,13 +947,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":6,"./encode":7}],9:[function(require,module,exports){
+},{"./decode":13,"./encode":14}],16:[function(require,module,exports){
 // Generated by CoffeeScript 1.9.3
 var React, isRetina, md5, querystring;
 
@@ -835,7 +1003,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"is-retina":10,"md5":11,"querystring":8,"react":undefined}],10:[function(require,module,exports){
+},{"is-retina":17,"md5":18,"querystring":15,"react":undefined}],17:[function(require,module,exports){
 module.exports = function() {
   var mediaQuery;
   if (typeof window !== "undefined" && window !== null) {
@@ -850,7 +1018,7 @@ module.exports = function() {
   return false;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function(){
   var crypt = require('crypt'),
       utf8 = require('charenc').utf8,
@@ -1012,7 +1180,7 @@ module.exports = function() {
 
 })();
 
-},{"charenc":12,"crypt":13,"is-buffer":14}],12:[function(require,module,exports){
+},{"charenc":19,"crypt":20,"is-buffer":21}],19:[function(require,module,exports){
 var charenc = {
   // UTF-8 encoding
   utf8: {
@@ -1047,7 +1215,7 @@ var charenc = {
 
 module.exports = charenc;
 
-},{}],13:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function() {
   var base64map
       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -1145,7 +1313,7 @@ module.exports = charenc;
   module.exports = crypt;
 })();
 
-},{}],14:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -1164,4 +1332,4 @@ module.exports = function (obj) {
   )
 }
 
-},{}]},{},[3]);
+},{}]},{},[1]);
