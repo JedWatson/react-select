@@ -22,7 +22,7 @@ var StatesField = React.createClass({
 	},
 	getInitialState () {
 		return {
-			country: 'US',
+			country: 'AU',
 			disabled: false,
 			searchable: this.props.searchable,
 			id: ++id,
@@ -57,7 +57,7 @@ var StatesField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select ref="stateSelect" options={ops} disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
-				
+
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
 					<label className="checkbox" style={{ marginLeft: 10 }}>
@@ -70,13 +70,13 @@ var StatesField = React.createClass({
 					</label>
 				</div>
 				<div className="checkbox-list">
-				<label className="checkbox">
-					<input type="radio" className="checkbox-control" checked={this.state.country === 'US'} value="US" onChange={this.switchCountry}/>
-					<span className="checkbox-label">United States</span>
-				</label>
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.country === 'AU'} value="AU" onChange={this.switchCountry}/>
 						<span className="checkbox-label">Australia</span>
+					</label>
+					<label className="checkbox">
+						<input type="radio" className="checkbox-control" checked={this.state.country === 'US'} value="US" onChange={this.switchCountry}/>
+						<span className="checkbox-label">United States</span>
 					</label>
 				</div>
 			</div>
