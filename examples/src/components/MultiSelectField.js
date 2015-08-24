@@ -1,6 +1,10 @@
 import React from 'react';
 import Select from 'react-select';
 
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
 var MultiSelectField = React.createClass({
 	displayName: 'MultiSelectField',
 	propTypes: {
