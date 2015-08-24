@@ -14,13 +14,21 @@ var Option = React.createClass({
 	render () {
 		var obj = this.props.option;
 		var size = 15;
+		var gravatarStyle = {
+			borderRadius: 3,
+			display: 'inline-block',
+			marginRight: 10,
+			position: 'relative',
+			top: -2,
+			verticalAlign: 'middle',
+		};
 		return (
 			<div className={this.props.className}
 				onMouseEnter={this.props.mouseEnter}
 				onMouseLeave={this.props.mouseLeave}
 				onMouseDown={this.props.mouseDown}
 				onClick={this.props.mouseDown}>
-				<Gravatar email={obj.email} size={size}/>
+				<Gravatar email={obj.email} size={size} style={gravatarStyle} />
 				{obj.value}
 			</div>
 		);
