@@ -1284,7 +1284,7 @@ describe('Select', function() {
 			typeSearchText('o');
 
 			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
-			expect(options[0], 'to have text', 'Add o ?');
+			expect(options[0], 'to have text', 'Add "o"?');
 			expect(options[1], 'to have text', 'One');
 			expect(options[2], 'to have text', 'Two');
 			expect(options, 'to have length', 3);  // No "Four", as already selected
