@@ -29,7 +29,8 @@ var StatesField = React.createClass({
 			selectValue: 'new-south-wales'
 		};
 	},
-	switchCountry (newCountry) {
+	switchCountry (e) {
+		var newCountry = e.target.value;
 		console.log('Country changed to ' + newCountry);
 		this.setState({
 			country: newCountry,
@@ -54,13 +55,23 @@ var StatesField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select ref="stateSelect" options={ops} disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
-				<div className="switcher">
-					Country:
-					<CountrySelect value="AU" selected={this.state.country} onSelect={this.switchCountry}>Australia</CountrySelect>
-					<CountrySelect value="US" selected={this.state.country} onSelect={this.switchCountry}>US</CountrySelect>
-					&nbsp; <button type="button" onClick={this.focusStateSelect}>Focus Select</button>
-					&nbsp; <input type="checkbox" checked={this.state.disabled} id={'disable-states-' + this.state.id} onChange={this.toggleDisabled}/>
-					<label htmlFor={'disable-states-' + this.state.id}>Disable</label>
+				
+				<div style={{ marginTop: 14 }}>
+					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
+					<label className="checkbox" style={{ marginLeft: 10 }}>
+						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled}/>
+						<span className="checkbox-label">Disabled</span>
+					</label>
+				</div>
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="radio" className="checkbox-control" checked={this.state.country === 'AU'} value="AU" onChange={this.switchCountry}/>
+						<span className="checkbox-label">Australia</span>
+					</label>
+					<label className="checkbox">
+						<input type="radio" className="checkbox-control" checked={this.state.country === 'US'} value="US" onChange={this.switchCountry}/>
+						<span className="checkbox-label">United States</span>
+					</label>
 				</div>
 			</div>
 		);
