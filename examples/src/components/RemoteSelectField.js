@@ -50,8 +50,8 @@ var RemoteSelectField = React.createClass({
 	},
 	render () {
 		return (
-			<div>
-				<label className="section-label" className="section-label">{this.props.label}</label>
+			<div className="section">
+				<h3 className="section-heading">{this.props.label}</h3>
 				<Select asyncOptions={this.loadOptions} className="remote-example" />
 			</div>
 		);

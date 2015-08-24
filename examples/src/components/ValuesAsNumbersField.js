@@ -72,8 +72,8 @@ var ValuesAsNumbersField = React.createClass({
 		}
 		
 		return (
-			<div>
-				<label>{this.props.label}</label>
+			<div className="section">
+				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
 					searchable={true}
 					matchProp={matchProp}

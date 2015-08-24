@@ -51,8 +51,8 @@ var StatesField = React.createClass({
 	render () {
 		var ops = STATES[this.state.country];
 		return (
-			<div>
-				<label className="section-label" className="section-label" className="section-label">{this.props.label}</label>
+			<div className="section">
+				<h3 className="section-heading">{this.props.label}</h3>
 				<Select ref="stateSelect" options={ops} disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.props.searchable} />
 				<div className="switcher">
 					Country:

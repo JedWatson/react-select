@@ -33,16 +33,16 @@ var MultiSelectField = React.createClass({
 			{ label: 'Peppermint', value: 'peppermint' }
 		];
 		return (
-			<span>
+			<div className="section">
 				<div>
-					<label>{this.props.label}</label>
+					<h3 className="section-heading">{this.props.label}</h3>
 					<Select multi={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
 				</div>
 				<div>
 					<input type="checkbox" checked={this.state.disabled} id="disable-multiselect" onChange={this.toggleDisabled}/>
 					<label htmlFor="disable-multiselect">Disable</label>
 				</div>
-			</span>
+			</div>
 		);
 	}
 });
