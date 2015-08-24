@@ -29,14 +29,14 @@ React.render(
 	<div>
 		<StatesField />
 		<StatesField label="States (non-searchable):" searchable={false} />
-		<UsersField label='Users (custom option/value):' />
+		<UsersField label='Users (custom options/value):' />
 		<ValuesAsNumbersField label="Values as numbers" />
 		<MultiSelectField label="Multiselect:"/>
 		<SelectedValuesField label="Clickable labels (labels as links):" options={FLAVOURS} />
 		<SelectedValuesField label="Disabled option:" options={FLAVOURS_WITH_DISABLED_OPTION} />
 		<SelectedValuesField label="Option Creation (tags mode):" options={FLAVOURS} allowCreate />
-		<CustomRenderField label="Custom rendering for options and values:" />
-		<CustomRenderField label="Custom rendering for multiple options and values:" multi delimiter="," />
+		<CustomRenderField label="Custom render options/values:" />
+		<CustomRenderField label="Custom render multiple options/values:" multi delimiter="," />
 		<RemoteSelectField label="Remote Options:"/>
 	</div>,
 	document.getElementById('example')
