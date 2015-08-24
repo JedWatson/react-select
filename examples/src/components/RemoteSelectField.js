@@ -4,6 +4,7 @@ import Select from 'react-select';
 var RemoteSelectField = React.createClass({
 	displayName: 'RemoteSelectField',
 	propTypes: {
+		hint: React.PropTypes.string,
 		label: React.PropTypes.string,
 	},
 	loadOptions (input, callback) {
