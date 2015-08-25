@@ -10,6 +10,7 @@ import SelectedValuesField from './components/SelectedValuesField';
 import StatesField from './components/StatesField';
 import UsersField from './components/UsersField';
 import ValuesAsNumbersField from './components/ValuesAsNumbersField';
+import DisabledUpsellOptions from './components/DisabledUpsellOptions';
 
 var FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
@@ -30,9 +31,11 @@ React.render(
 		<StatesField label="States" searchable />
 		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<ValuesAsNumbersField label="Values as numbers" />
+
 		<MultiSelectField label="Multiselect"/>
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
 		<SelectedValuesField label="Disabled option" options={FLAVOURS_WITH_DISABLED_OPTION} hint="You savage! Caramel is the best..." />
+		<DisabledUpsellOptions label="Disable option with an upsell link"/>
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's not in the list, then hit enter" />
 		<CustomRenderField label="Custom render options/values" />
 		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
