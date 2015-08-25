@@ -2,6 +2,10 @@
 
 ## v0.6.4 / 2015-08-24
 
+* fixed; completely ignores clicks on disabled items, unless the target of the click is a link, thanks [Ben Stahl](https://github.com/bhstahl)
+
+## v0.6.4 / 2015-08-24
+
 This release includes a huge improvement to the examples / website thanks to @jossmac. Also:
 
 * added; support for React 0.14 beta3
