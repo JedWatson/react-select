@@ -793,11 +793,9 @@ var Select = React.createClass({
 		if (this.state.isOpen) {
 			menuProps = {
 				ref: 'menu',
-				className: 'Select-menu'
+				className: 'Select-menu',
+				onMouseDown: this.handleMouseDown
 			};
-			if (this.props.multi) {
-				menuProps.onMouseDown = this.handleMouseDown;
-			}
 			menu = (
 				<div ref="selectMenuContainer" className="Select-menu-outer">
 					<div {...menuProps}>{this.buildMenu()}</div>
