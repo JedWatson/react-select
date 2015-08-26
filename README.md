@@ -15,7 +15,7 @@ To build the examples locally, run:
 
 ```
 npm install
-gulp dev
+npm start
 ```
 
 Then open [`localhost:8000`](http://localhost:8000) in a browser.
@@ -27,7 +27,7 @@ This project is quite stable and ready for production use, however there are pla
 
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
-- Custom options rendering
+- Custom options rendering (in progress)
 
 It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
@@ -86,6 +86,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * A simple value, if provided, will be split using the `delimiter` property
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
+* By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
 
 ### Async options
 
@@ -148,35 +149,37 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 	Property			|	Type		|	Description
 :-----------------------|:--------------|:--------------------------------
-	value 				|	any			|	 initial field value
-	valueRenderer		|	func		|	 function which returns a custom way to render the value selected
-	multi 				|	bool		|	 multi-value input
-	disabled 			|	bool		|	 whether the Select is disabled or not
-	options 			|	array		|	 array of options
-	optionRenderer		|	func		|	 function which returns a custom way to render the options in the menu
-	delimiter 			|	string		|	 delimiter to use to join multiple values
-	asyncOptions 		|	func		|	 function to call to get options
-	autoload 			|	bool		|	 whether to auto-load the default async options set
-	disableCache 		|	bool		|	 disables the options cache for asyncOptions
-	placeholder 		|	string		|	 field placeholder, displayed when there's no value
-	noResultsText 		|	string		|	 placeholder displayed when there are no matching search results
-	clearable 			|	bool		|	 should it be possible to reset value
-	clearValueText 		|	string		|	 title for the "clear" control
-	clearAllText 		|	string		|	 title for the "clear" control when multi: true
-	searchable 			|	bool		|	 whether to enable searching feature or not
-	searchPromptText 	|	string		|	 label to prompt for search input
-	name 				|	string		|	 field name, for hidden <input /> tag
-	onChange 			|	func		|	 onChange handler: function(newValue) {}
-	onFocus 			|	func		|	 onFocus handler: function(event) {}
-	onBlur 				|	func		|	 onBlur handler: function(event) {}
-	className 			|	string		|	 className for the outer element
-	filterOption 		|	func		|	 method to filter a single option: function(option, filterString)
-	filterOptions 		|	func		|	 method to filter the options array: function([options], filterString, [values])
-	matchPos 			|	string		|	 (any, start) match the start or entire string when filtering
-	matchProp 			|	string		|	 (any, label, value) which option property to filter on
-	ignoreCase 			|	bool		|	 whether to perform case-insensitive filtering
-	inputProps 			|	object		|	 custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-	backspaceRemoves 	|	bool		|	 whether pressing backspace removes the last item when there is no input value
+	addLabelText		|	string		|	text to display when allowCreate is true
+	allowCreate			|	bool		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	asyncOptions 		|	func		|	function to call to get options
+	autoload 			|	bool		|	whether to auto-load the default async options set
+	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
+	className 			|	string		|	className for the outer element
+	clearable 			|	bool		|	should it be possible to reset value
+	clearAllText 		|	string		|	title for the "clear" control when multi: true
+	clearValueText 		|	string		|	title for the "clear" control
+	delimiter 			|	string		|	delimiter to use to join multiple values
+	disableCache 		|	bool		|	disables the options cache for asyncOptions
+	disabled 			|	bool		|	whether the Select is disabled or not
+	filterOption 		|	func		|	method to filter a single option: function(option, filterString)
+	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
+	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
+	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
+	matchProp 			|	string		|	(any, label, value) which option property to filter on
+	multi 				|	bool		|	multi-value input
+	name 				|	string		|	field name, for hidden <input /> tag
+	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
+	onBlur 				|	func		|	onBlur handler: function(event) {}
+	onChange 			|	func		|	onChange handler: function(newValue) {}
+	onFocus 			|	func		|	onFocus handler: function(event) {}
+	optionRenderer		|	func		|	function which returns a custom way to render the options in the menu
+	options 			|	array		|	array of options
+	placeholder 		|	string		|	field placeholder, displayed when there's no value
+	searchable 			|	bool		|	whether to enable searching feature or not
+	searchPromptText 	|	string		|	label to prompt for search input
+	value 				|	any			|	initial field value
+	valueRenderer		|	func		|	function which returns a custom way to render the value selected
 
 
 # Contributing

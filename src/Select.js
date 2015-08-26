@@ -47,6 +47,7 @@ var Select = React.createClass({
 		options: React.PropTypes.array,            // array of options
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
+		searchingText: React.PropTypes.string,     // message to display whilst options are loading via asyncOptions
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
 		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
 		value: React.PropTypes.any,                // initial field value
@@ -56,7 +57,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function() {
 		return {
-			addLabelText: 'Add {label} ?',
+			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
@@ -81,6 +82,7 @@ var Select = React.createClass({
 			options: undefined,
 			placeholder: 'Select...',
 			searchable: true,
+			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
@@ -237,12 +239,7 @@ var Select = React.createClass({
 			focusedOption = values[0];
 			valueForState = values[0].value;
 		} else {
-			for (var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
-				if (!filteredOptions[optionIndex].disabled) {
-					focusedOption = filteredOptions[optionIndex];
-					break;
-				}
-			}
+			focusedOption = this.getFirstFocusableOption(filteredOptions);
 			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
 		}
 
@@ -254,6 +251,15 @@ var Select = React.createClass({
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
+	},
+
+	getFirstFocusableOption: function (options) {
+
+		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
+			if (!options[optionIndex].disabled) {
+				return options[optionIndex];
+			}
+		}
 	},
 
 	initValuesArray: function(values, options) {
@@ -350,7 +356,7 @@ var Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
-		
+
 		// for the non-searchable select, close the dropdown when button is clicked
 		if (this.state.isOpen && !this.props.searchable) {
 			this.setState({
@@ -358,7 +364,7 @@ var Select = React.createClass({
 			}, this._unbindCloseMenuIfClickedOutside);
 			return;
 		}
-		
+
 		if (this.state.isFocused) {
 			this.setState({
 				isOpen: true
@@ -472,7 +478,7 @@ var Select = React.createClass({
 				return filteredOptions[key];
 			}
 		}
-		return filteredOptions[0];
+		return this.getFirstFocusableOption(filteredOptions);
 	},
 
 	handleInputChange: function(event) {
@@ -589,7 +595,10 @@ var Select = React.createClass({
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
 		}
-		return this.selectValue(this.state.focusedOption);
+
+		if (this.state.focusedOption) {
+			return this.selectValue(this.state.focusedOption);
+		}
 	},
 
 	focusOption: function(op) {
@@ -700,11 +709,28 @@ var Select = React.createClass({
 			});
 			return optionResult;
 		}, this);
-		return ops.length ? ops : (
-			<div className="Select-noresults">
-				{this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText}
-			</div>
-		);
+
+		if (ops.length) {
+			return ops;
+		} else {
+			var noResultsText, promptClass;
+			if (this.state.isLoading) {
+				promptClass = 'Select-searching';
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				promptClass = 'Select-noresults';
+				noResultsText = this.props.noResultsText;
+			} else {
+				promptClass = 'Select-search-prompt';
+				noResultsText = this.props.searchPromptText;
+			}
+
+			return (
+				<div className={promptClass}>
+					{noResultsText}
+				</div>
+			);
+		}
 	},
 
 	handleOptionLabelClick: function (value, event) {

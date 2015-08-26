@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "author": "Jed Watson",
@@ -14,26 +14,26 @@
     "react-input-autosize": "^0.5.0"
   },
   "devDependencies": {
-    "babel": "^5.6.14",
-    "babel-eslint": "^4.0.5",
-    "chai": "^3.0.0",
-    "coveralls": "^2.11.3",
-    "eslint": "^1.1.0",
-    "eslint-plugin-react": "^3.2.2",
+    "babel": "^5.8.21",
+    "babel-eslint": "^4.0.10",
+    "chai": "^3.2.0",
+    "coveralls": "^2.11.4",
+    "eslint": "^1.2.1",
+    "eslint-plugin-react": "^3.2.3",
     "gulp": "^3.9.0",
-    "istanbul": "^0.3.17",
+    "istanbul": "^0.3.18",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.5",
-    "react": ">=0.13.3",
+    "react": ">=0.13.3 || ^0.14.0-beta3",
     "react-gravatar": "2.0.0",
     "react-component-gulp-tasks": "^0.7.0",
-    "sinon": "^1.15.4",
-    "unexpected": "^9.2.1",
+    "sinon": "^1.16.1",
+    "unexpected": "^9.6.0",
     "unexpected-dom": "^1.2.0",
-    "unexpected-sinon": "^6.4.1"
+    "unexpected-sinon": "^6.4.2"
   },
   "peerDependencies": {
-    "react": ">=0.13.3"
+    "react": ">=0.13.3 || ^0.14.0-beta3"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
