@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.6.5 / 2015-08-26
+
+* fixed; issue in Chrome where clicking the scrollbar would close the menu, thanks [Vladimir Matsola](https://github.com/vomchik)
+
 ## v0.6.4 / 2015-08-24
 
 * fixed; completely ignores clicks on disabled items, unless the target of the click is a link, thanks [Ben Stahl](https://github.com/bhstahl)
