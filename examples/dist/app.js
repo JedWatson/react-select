@@ -41,6 +41,10 @@ var _componentsValuesAsNumbersField = require('./components/ValuesAsNumbersField
 
 var _componentsValuesAsNumbersField2 = _interopRequireDefault(_componentsValuesAsNumbersField);
 
+var _componentsDisabledUpsellOptions = require('./components/DisabledUpsellOptions');
+
+var _componentsDisabledUpsellOptions2 = _interopRequireDefault(_componentsDisabledUpsellOptions);
+
 var FLAVOURS = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 var FLAVOURS_WITH_DISABLED_OPTION = FLAVOURS.slice(0);
 FLAVOURS_WITH_DISABLED_OPTION.unshift({ label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true });
@@ -58,13 +62,14 @@ _react2['default'].render(_react2['default'].createElement(
 	_react2['default'].createElement(_componentsMultiSelectField2['default'], { label: 'Multiselect' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Clickable labels (labels as links)', options: FLAVOURS, hint: 'Open the console to see click behaviour (data/event)' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Disabled option', options: FLAVOURS_WITH_DISABLED_OPTION, hint: 'You savage! Caramel is the best...' }),
+	_react2['default'].createElement(_componentsDisabledUpsellOptions2['default'], { label: 'Disable option with an upsell link' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Option Creation (tags mode)', options: FLAVOURS, allowCreate: true, hint: 'Enter a value that\'s not in the list, then hit enter' }),
 	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values' }),
 	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values (multi)', multi: true, delimiter: ',' }),
 	_react2['default'].createElement(_componentsRemoteSelectField2['default'], { label: 'Remote Options', hint: 'Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' })
 ), document.getElementById('example'));
 
-},{"./components/CustomRenderField":3,"./components/MultiSelectField":5,"./components/RemoteSelectField":6,"./components/SelectedValuesField":7,"./components/StatesField":8,"./components/UsersField":9,"./components/ValuesAsNumbersField":10,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
+},{"./components/CustomRenderField":3,"./components/DisabledUpsellOptions":5,"./components/MultiSelectField":6,"./components/RemoteSelectField":7,"./components/SelectedValuesField":8,"./components/StatesField":9,"./components/UsersField":10,"./components/ValuesAsNumbersField":11,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -115,7 +120,7 @@ var Option = _react2['default'].createClass({
 
 module.exports = Option;
 
-},{"react":undefined,"react-gravatar":16}],3:[function(require,module,exports){
+},{"react":undefined,"react-gravatar":17}],3:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -228,7 +233,70 @@ var SingleValue = _react2['default'].createClass({
 
 module.exports = SingleValue;
 
-},{"react":undefined,"react-gravatar":16}],5:[function(require,module,exports){
+},{"react":undefined,"react-gravatar":17}],5:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var DisabledUpsellOptions = _react2['default'].createClass({
+	displayName: 'DisabledUpsellOptions',
+	propTypes: {
+		label: _react2['default'].PropTypes.string
+	},
+	onLabelClick: function onLabelClick(data, event) {
+		console.log(data, event);
+	},
+	renderLink: function renderLink() {
+		return _react2['default'].createElement(
+			'a',
+			{ style: { marginLeft: 5 }, href: '/upgrade', target: '_blank' },
+			'Upgrade here!'
+		);
+	},
+	renderOption: function renderOption(option) {
+		return _react2['default'].createElement(
+			'span',
+			null,
+			option.label,
+			' ',
+			option.link,
+			' '
+		);
+	},
+	render: function render() {
+		var ops = [{ label: 'Basic customer support', value: 'basic' }, { label: 'Premium customer support', value: 'premium' }, { label: 'Pro customer support', value: 'pro', disabled: true, link: this.renderLink() }];
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], {
+				onOptionLabelClick: this.onLabelClick,
+				placeholder: 'Select your support level',
+				options: ops,
+				optionRenderer: this.renderOption,
+				onChange: logChange })
+		);
+	}
+});
+module.exports = DisabledUpsellOptions;
+
+},{"react":undefined,"react-select":undefined}],6:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -294,7 +362,7 @@ var MultiSelectField = _react2['default'].createClass({
 
 module.exports = MultiSelectField;
 
-},{"react":undefined,"react-select":undefined}],6:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -364,7 +432,7 @@ var RemoteSelectField = _react2['default'].createClass({
 
 module.exports = RemoteSelectField;
 
-},{"react":undefined,"react-select":undefined}],7:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -424,7 +492,7 @@ var SelectedValuesField = _react2['default'].createClass({
 
 module.exports = SelectedValuesField;
 
-},{"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -557,7 +625,7 @@ var StatesField = _react2['default'].createClass({
 
 module.exports = StatesField;
 
-},{"../data/states":11,"react":undefined,"react-select":undefined}],9:[function(require,module,exports){
+},{"../data/states":12,"react":undefined,"react-select":undefined}],10:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -618,7 +686,7 @@ var UsersField = _react2['default'].createClass({
 
 module.exports = UsersField;
 
-},{"../data/users":12,"./CustomOption":2,"./CustomSingleValue":4,"react":undefined,"react-select":undefined}],10:[function(require,module,exports){
+},{"../data/users":13,"./CustomOption":2,"./CustomSingleValue":4,"react":undefined,"react-select":undefined}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -762,19 +830,19 @@ var ValuesAsNumbersField = _react2['default'].createClass({
 
 module.exports = ValuesAsNumbersField;
 
-},{"react":undefined,"react-select":undefined}],11:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],12:[function(require,module,exports){
 'use strict';
 
 exports.AU = [{ value: 'australian-capital-territory', label: 'Australian Capital Territory' }, { value: 'new-south-wales', label: 'New South Wales' }, { value: 'victoria', label: 'Victoria' }, { value: 'queensland', label: 'Queensland' }, { value: 'western-australia', label: 'Western Australia' }, { value: 'south-australia', label: 'South Australia' }, { value: 'tasmania', label: 'Tasmania' }, { value: 'northern-territory', label: 'Northern Territory' }];
 
 exports.US = [{ value: 'AL', label: 'Alabama', disabled: true }, { value: 'AK', label: 'Alaska' }, { value: 'AS', label: 'American Samoa' }, { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' }, { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' }, { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' }, { value: 'DC', label: 'District Of Columbia' }, { value: 'FM', label: 'Federated States Of Micronesia' }, { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' }, { value: 'GU', label: 'Guam' }, { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' }, { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' }, { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' }, { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' }, { value: 'ME', label: 'Maine' }, { value: 'MH', label: 'Marshall Islands' }, { value: 'MD', label: 'Maryland' }, { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' }, { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' }, { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' }, { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' }, { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' }, { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' }, { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' }, { value: 'MP', label: 'Northern Mariana Islands' }, { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' }, { value: 'OR', label: 'Oregon' }, { value: 'PW', label: 'Palau' }, { value: 'PA', label: 'Pennsylvania' }, { value: 'PR', label: 'Puerto Rico' }, { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' }, { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' }, { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' }, { value: 'VT', label: 'Vermont' }, { value: 'VI', label: 'Virgin Islands' }, { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }];
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 exports.users = [{ value: 'John Smith', label: 'John Smith', email: 'john@smith.com' }, { value: 'Merry Jane', label: 'Merry Jane', email: 'merry@jane.com' }, { value: 'Stan Hoper', label: 'Stan Hoper', email: 'stan@hoper.com' }];
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -860,7 +928,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -947,13 +1015,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":13,"./encode":14}],16:[function(require,module,exports){
+},{"./decode":14,"./encode":15}],17:[function(require,module,exports){
 // Generated by CoffeeScript 1.9.3
 var React, isRetina, md5, querystring;
 
@@ -1003,7 +1071,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"is-retina":17,"md5":18,"querystring":15,"react":undefined}],17:[function(require,module,exports){
+},{"is-retina":18,"md5":19,"querystring":16,"react":undefined}],18:[function(require,module,exports){
 module.exports = function() {
   var mediaQuery;
   if (typeof window !== "undefined" && window !== null) {
@@ -1018,7 +1086,7 @@ module.exports = function() {
   return false;
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function(){
   var crypt = require('crypt'),
       utf8 = require('charenc').utf8,
@@ -1180,7 +1248,7 @@ module.exports = function() {
 
 })();
 
-},{"charenc":19,"crypt":20,"is-buffer":21}],19:[function(require,module,exports){
+},{"charenc":20,"crypt":21,"is-buffer":22}],20:[function(require,module,exports){
 var charenc = {
   // UTF-8 encoding
   utf8: {
@@ -1215,7 +1283,7 @@ var charenc = {
 
 module.exports = charenc;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function() {
   var base64map
       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -1313,7 +1381,7 @@ module.exports = charenc;
   module.exports = crypt;
 })();
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
