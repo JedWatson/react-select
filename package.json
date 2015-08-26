@@ -35,6 +35,11 @@
   "peerDependencies": {
     "react": ">=0.13.3 || ^0.14.0-beta3"
   },
+  "browserify": {
+    "transform": [
+      "lessify"
+    ]
+  },
   "browserify-shim": {
     "classnames": "global:classNames",
     "react": "global:React",
