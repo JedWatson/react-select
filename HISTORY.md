@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.6.6 / 2015-08-28
+
+* fixed; missing styles for `.Select-search-prompt` and `.Select-searching` issues, thanks [Jaak Erisalu](https://github.com/jaakerisalu) and [davidpene](https://github.com/davidpene)
+
 ## v0.6.5 / 2015-08-26
 
 * fixed; issue in Chrome where clicking the scrollbar would close the menu, thanks [Vladimir Matsola](https://github.com/vomchik)
