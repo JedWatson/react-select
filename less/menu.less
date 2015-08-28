@@ -1,4 +1,4 @@
-// 
+//
 // Select Menu
 // ------------------------------
 
@@ -7,8 +7,8 @@
 
 .Select-menu-outer {
 	// Unfortunately, having both border-radius and allows scrolling using overflow defined on the same
-	// element forces the browser to repaint on scroll.  However, if these definitions are split into an 
-	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not 
+	// element forces the browser to repaint on scroll.  However, if these definitions are split into an
+	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
 	// have to repaint on scroll.
 
 	.border-bottom-radius( @select-input-border-radius );
@@ -47,7 +47,7 @@
 	&:last-child {
 		.border-bottom-radius( @select-input-border-radius );
 	}
-	
+
 	&.is-focused {
 		background-color: @select-option-focused-bg;
 		color: @select-option-focused-color;
@@ -64,7 +64,8 @@
 // no results
 
 .Select-noresults,
-.Select-search-prompt {
+.Select-search-prompt,
+.Select-searching {
 	box-sizing: border-box;
 	color: @select-noresults-color;
 	cursor: default;
