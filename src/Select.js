@@ -675,6 +675,13 @@ var Select = React.createClass({
 		}
 	},
 
+	inputValueExists : function() {
+		var matches = this.state.filteredOptions.filter(function(option) {
+			return String(option.value) === this.state.inputValue;
+		}, this);
+		return matches.length > 0;
+	},
+
 	buildMenu: function() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		var renderLabel = this.props.optionRenderer || function(op) {
@@ -685,7 +692,7 @@ var Select = React.createClass({
 		}
 		// Add the current value to the filtered options in last resort
 		var options = this.state.filteredOptions;
-		if (this.props.allowCreate && this.state.inputValue.trim()) {
+		if (this.props.allowCreate && this.state.inputValue.trim() && !this.inputValueExists()) {
 			var inputValue = this.state.inputValue;
 			options = options.slice();
 			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {

@@ -902,7 +902,7 @@ describe('Select', function() {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -915,7 +915,7 @@ describe('Select', function() {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -928,7 +928,7 @@ describe('Select', function() {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -1157,14 +1157,14 @@ describe('Select', function() {
 				'to have text', 'Add test to values?');
 		});
 
-		it('does not display the option label when an existing value is entered', function () {
+		it('does not display add option when an existing value is entered', function () {
 
 			typeSearchText('zzzzz');
 
 			expect(React.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
 				'to have length', 1);
 			expect(React.findDOMNode(instance), 'queried for first', '.Select-menu .Select-option',
-				'to have text', 'Add zzzzz to values?');
+				'to have text', 'test value');
 		});
 
 		it('renders the existing option and an add option when an existing display label is entered', function () {
