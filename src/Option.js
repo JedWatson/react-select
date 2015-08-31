@@ -1,4 +1,5 @@
 var React = require('react');
+var classes = require('classnames');
 
 var Option = React.createClass({
 	propTypes: {
@@ -11,17 +12,37 @@ var Option = React.createClass({
 		renderFunc: React.PropTypes.func               // method passed to ReactSelect component to render label text
 	},
 
+	blockEvent: function(event) {
+		event.preventDefault();
+		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
+			return;
+		}
+
+		if (event.target.target) {
+			window.open(event.target.href);
+		} else {
+			window.location.href = event.target.href;
+		}
+	},
+
 	render: function() {
 		var obj = this.props.option;
 		var renderedLabel = this.props.renderFunc(obj);
+		var optionClasses = classes(this.props.className, obj.className);
 
 		return obj.disabled ? (
-			<div className={this.props.className}>{renderedLabel}</div>
+			<div className={optionClasses}
+				onMouseDown={this.blockEvent}
+				onClick={this.blockEvent}>
+				{renderedLabel}
+			</div>
 		) : (
-			<div className={this.props.className}
-				onMouseEnter={this.props.mouseEnter}
-				onMouseLeave={this.props.mouseLeave}
-				onMouseDown={this.props.mouseDown}>
+			<div className={optionClasses}
+				 style={obj.style}
+				 onMouseEnter={this.props.mouseEnter}
+				 onMouseLeave={this.props.mouseLeave}
+				 onMouseDown={this.props.mouseDown}
+				 title={obj.title}>
 				{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }
 			</div>
 		);

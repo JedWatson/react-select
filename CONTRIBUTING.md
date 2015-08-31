@@ -8,7 +8,7 @@ Before you open a PR:
 * If you're planning to add or change a major feature in a PR, please ensure
 the change is aligned with the project roadmap by opening an issue first,
 especially if you're going to spend a lot of time on it.
-* In development, run `gulp dev` to build (+watch) the project source, and run
+* In development, run `npm start` to build (+watch) the project source, and run
 the [development server](http://localhost:8000).
 * Please ensure all the examples work correctly after your change. If you're
 adding a major new use-case, add a new example demonstrating its use.
@@ -19,7 +19,7 @@ your changes and ensure you do not introduce any new errors or warnings.
 
 * Ensure that your effort is aligned with the project's roadmap by talking to
 the maintainers, especially if you are going to spend a lot of time on it.
-* Make sure there's an Issue open for any work you take on and intend to submit
+* Make sure there's an issue open for any work you take on and intend to submit
 as a pull request - it helps core members review your concept and direction
 early and is a good way to discuss what you're planning to do.
 * If you open an issue and are interested in working on a fix, please let us
@@ -41,6 +41,3 @@ please read our [Documentation Guidelines](https://github.com/keystonejs/keyston
 * _Make sure you revert your build before submitting a PR_ to reduce the change
 of conflicts. `gulp build-scripts` is run after PRs are merged and before any
 releases are made.
-
-If you'd like to talk to the core developers, we all hang out in a Slack channel
-to discuss Keystone. Ping @jedwatson to get an invite.

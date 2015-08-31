@@ -1,8 +1,7 @@
 'use strict';
 /* global describe, it, beforeEach */
 
-var helper = require('../testHelpers/jsdomHelper');
-helper();
+var jsdomHelper = require('../testHelpers/jsdomHelper');
 
 var sinon = require('sinon');
 var unexpected = require('unexpected');
@@ -12,6 +11,8 @@ var expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
 	.installPlugin(unexpectedSinon);
+
+jsdomHelper();
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
@@ -895,6 +896,45 @@ describe('Select', function() {
 				'to have text', 'Select...');
 		});
 
+		it("doesn't select anything when a disabled option is the only item in the list after a search", function () {
+
+			typeSearchText('tw'); // Only 'two' in the list
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
+		it("doesn't select anything when a disabled option value matches the entered text", function () {
+
+			typeSearchText('two');  // Matches value
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
+		it("doesn't select anything when a disabled option label matches the entered text", function () {
+
+			typeSearchText('Two');  // Matches label
+			pressEnterToAccept();
+			expect(onChange, 'was not called');
+			// And the menu is still open
+			expect(React.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(React.findDOMNode(instance), 'queried for' , '.Select-option',
+				'to satisfy', [
+					expect.it('to have text', 'Two')
+				]);
+		});
+
 		it('shows disabled results in a search', function () {
 
 			typeSearchText('t');
@@ -905,6 +945,133 @@ describe('Select', function() {
 			});
 			expect(options[1], 'to have text', 'Three');
 		});
+
+		it('is does not close menu when disabled option is clicked', function () {
+
+			clickArrowToOpen();
+			TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelectorAll('.Select-option')[1]);
+
+			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+			expect(options.length, 'to equal', 3);
+		});
+	});
+
+	describe('with styled options', function () {
+
+		beforeEach(function () {
+
+			options = [
+				{ value: 'one', label: 'One', className: 'extra-one', title: 'Eins' },
+				{ value: 'two', label: 'Two', className: 'extra-two', title: 'Zwei' },
+				{ value: 'three', label: 'Three', style: { fontSize: 25 } }
+			];
+
+			wrapper = createControlWithWrapper({
+				options: options
+			});
+		});
+
+		it('uses the given className for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[0], 'to have attributes',
+				{
+					class: 'extra-one'
+				});
+		});
+
+		it('uses the given style for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[2], 'to have attributes',
+				{
+					style: { 'font-size': '25px' }
+				});
+		});
+
+		it('uses the given title for an option', function () {
+
+			clickArrowToOpen();
+			expect(React.findDOMNode(instance).querySelectorAll('.Select-option')[1], 'to have attributes',
+				{
+					title: 'Zwei'
+				});
+		});
+
+		it('uses the given className for a single selection', function () {
+
+			typeSearchText('tw');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					class: 'extra-two'
+				});
+		});
+
+		it('uses the given style for a single selection', function () {
+
+			typeSearchText('th');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					style: {
+						'font-size': '25px'
+					}
+				});
+		});
+
+		it('uses the given title for a single selection', function () {
+
+			typeSearchText('tw');
+			pressEnterToAccept();
+			expect(React.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have attributes', {
+					title: 'Zwei'
+				});
+		});
+
+		describe('with multi', function () {
+
+			beforeEach(function () {
+
+				wrapper.setPropsForChild({ multi: true });
+			});
+
+
+			it('uses the given className for a selected value', function () {
+
+				typeSearchText('tw');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						class: 'extra-two'
+					});
+			});
+
+			it('uses the given style for a selected value', function () {
+
+				typeSearchText('th');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						style: {
+							'font-size': '25px'
+						}
+					});
+			});
+
+			it('uses the given title for a selected value', function () {
+
+				typeSearchText('tw');
+				pressEnterToAccept();
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-item',
+					'to have attributes', {
+						title: 'Zwei'
+					});
+			});
+
+		});
+
 	});
 
 	describe('with allowCreate=true', function () {
@@ -1284,7 +1451,7 @@ describe('Select', function() {
 			typeSearchText('o');
 
 			var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
-			expect(options[0], 'to have text', 'Add o ?');
+			expect(options[0], 'to have text', 'Add "o"?');
 			expect(options[1], 'to have text', 'One');
 			expect(options[2], 'to have text', 'Two');
 			expect(options, 'to have length', 3);  // No "Four", as already selected
@@ -2302,6 +2469,82 @@ describe('Select', function() {
 			});
 		});
 
+		describe('optionRendererDisabled', function () {
+
+			var optionRenderer;
+			var renderLink = function(props) {
+				return <a {...props} >Upgrade here!</a>;
+			};
+
+			var links = [
+				{ href: '/link' },
+				{ href: '/link2', target: '_blank' }
+			];
+
+			var ops = [
+				{ label: 'Disabled', value: 'disabled', disabled: true, link: renderLink(links[0]) },
+				{ label: 'Disabled 2', value: 'disabled_2', disabled: true, link: renderLink(links[1]) },
+				{ label: 'Enabled', value: 'enabled' },
+			];
+
+			/**
+			 * Since we don't have access to an actual Location object,
+			 * this method will test a string (path) by the end of global.window.location.href
+			 * @param  {string}  path Ending href path to check
+			 * @return {Boolean}      Whether the location is at the path
+			 */
+			var isNavigated = function(path) {
+				var window_location = global.window.location.href;
+				return window_location.indexOf(path, window_location.length - path.length) !== -1;
+			};
+
+			beforeEach(function () {
+
+				optionRenderer = function (option) {
+					return (
+						<span>{option.label} {option.link} </span>
+					);
+				};
+
+				optionRenderer = sinon.spy(optionRenderer);
+
+				instance = createControl({
+					options: ops,
+					optionRenderer: optionRenderer
+				});
+			});
+
+			it('disabled option link is still clickable', function () {
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				var link = options[0].querySelector('a');
+				expect(link, 'to have attributes', {
+					href: links[0].href
+				});
+
+				expect(isNavigated(links[0].href), 'to be false');
+				TestUtils.Simulate.click(link);
+				expect(isNavigated(links[0].href), 'to be true');
+			});
+
+			it('disabled option link with target doesn\'t navigate the current window', function () {
+				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				TestUtils.Simulate.mouseDown(selectArrow);
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				var link = options[1].querySelector('a');
+				expect(link, 'to have attributes', {
+					href: links[1].href,
+					target: '_blank'
+				});
+
+				expect(isNavigated(links[0].href), 'to be true');
+				TestUtils.Simulate.click(link);
+				expect(isNavigated(links[1].href), 'to be false');
+			});
+
+		});
+
 		describe('placeholder', function () {
 
 			beforeEach(function () {
@@ -2389,6 +2632,69 @@ describe('Select', function() {
 			});
 		});
 
+		describe('searchingText', function () {
+
+			var asyncOptions;
+			var asyncOptionsCallback;
+
+			beforeEach(function () {
+
+				asyncOptions = sinon.spy();
+
+				instance = createControl({
+					asyncOptions: asyncOptions,
+					autoload: false,
+					searchingText: 'Testing async loading...',
+					noResultsText: 'Testing No results found',
+					searchPromptText: 'Testing enter search query'
+				});
+			});
+
+			it('uses the searchingText whilst the asyncOptions are loading', function () {
+
+				clickArrowToOpen();
+				expect(asyncOptions, 'was not called');
+				typeSearchText('abc');
+				expect(asyncOptions, 'was called');
+				expect(React.findDOMNode(instance), 'to contain elements matching', '.Select-loading');
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+			});
+
+			it('clears the searchingText when results arrive', function () {
+
+				clickArrowToOpen();
+				typeSearchText('abc');
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+
+				asyncOptions.args[0][1](null, {
+					options: [{ value: 'abc', label: 'Abc' }]
+				});
+
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
+			});
+
+			it('switches the searchingText to noResultsText when options arrive, but empty', function () {
+
+				clickArrowToOpen();
+				typeSearchText('abc');
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-searching',
+					'to have text', 'Testing async loading...');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
+
+				asyncOptions.args[0][1](null, {
+					options: []
+				});
+
+				expect(React.findDOMNode(instance), 'queried for first', '.Select-noresults',
+					'to have text', 'Testing No results found');
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-searching');
+			});
+		});
+
 		describe('searchPromptText', function () {
 			var asyncOptions;
 
@@ -2408,7 +2714,7 @@ describe('Select', function() {
 				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
 				TestUtils.Simulate.mouseDown(selectArrow);
 
-				expect(React.findDOMNode(instance), 'queried for', '.Select-noresults',
+				expect(React.findDOMNode(instance), 'queried for', '.Select-search-prompt',
 					'to have items satisfying',
 					'to have text', 'Unit test prompt text');
 			});
@@ -2425,6 +2731,7 @@ describe('Select', function() {
 				typeSearchText('abc');
 				expect(asyncOptions, 'was called once');
 
+				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-prompt');
 				expect(React.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 			});
 		});

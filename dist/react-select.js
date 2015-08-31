@@ -3,6 +3,7 @@
 'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var classes = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
 
 var Option = React.createClass({
 	displayName: 'Option',
@@ -17,21 +18,39 @@ var Option = React.createClass({
 		renderFunc: React.PropTypes.func // method passed to ReactSelect component to render label text
 	},
 
+	blockEvent: function blockEvent(event) {
+		event.preventDefault();
+		if (event.target.tagName !== 'A' || !('href' in event.target)) {
+			return;
+		}
+
+		if (event.target.target) {
+			window.open(event.target.href);
+		} else {
+			window.location.href = event.target.href;
+		}
+	},
+
 	render: function render() {
 		var obj = this.props.option;
 		var renderedLabel = this.props.renderFunc(obj);
+		var optionClasses = classes(this.props.className, obj.className);
 
 		return obj.disabled ? React.createElement(
 			'div',
-			{ className: this.props.className },
+			{ className: optionClasses,
+				onMouseDown: this.blockEvent,
+				onClick: this.blockEvent },
 			renderedLabel
 		) : React.createElement(
 			'div',
-			{ className: this.props.className,
+			{ className: optionClasses,
+				style: obj.style,
 				onMouseEnter: this.props.mouseEnter,
 				onMouseLeave: this.props.mouseLeave,
 				onMouseDown: this.props.mouseDown,
-				onClick: this.props.mouseDown },
+				onClick: this.props.mouseDown,
+				title: obj.title },
 			obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel
 		);
 	}
@@ -95,6 +114,7 @@ var Select = React.createClass({
 		options: React.PropTypes.array, // array of options
 		placeholder: React.PropTypes.string, // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool, // whether to enable searching feature or not
+		searchingText: React.PropTypes.string, // message to display whilst options are loading via asyncOptions
 		searchPromptText: React.PropTypes.string, // label to prompt for search input
 		singleValueComponent: React.PropTypes.func, // single value component when multiple is set to false
 		value: React.PropTypes.any, // initial field value
@@ -104,7 +124,7 @@ var Select = React.createClass({
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			addLabelText: 'Add {label} ?',
+			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
 			asyncOptions: undefined,
 			autoload: true,
@@ -129,6 +149,7 @@ var Select = React.createClass({
 			options: undefined,
 			placeholder: 'Select...',
 			searchable: true,
+			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
@@ -288,12 +309,7 @@ var Select = React.createClass({
 			focusedOption = values[0];
 			valueForState = values[0].value;
 		} else {
-			for (var optionIndex = 0; optionIndex < filteredOptions.length; ++optionIndex) {
-				if (!filteredOptions[optionIndex].disabled) {
-					focusedOption = filteredOptions[optionIndex];
-					break;
-				}
-			}
+			focusedOption = this.getFirstFocusableOption(filteredOptions);
 			valueForState = values.map(function (v) {
 				return v.value;
 			}).join(this.props.delimiter);
@@ -307,6 +323,15 @@ var Select = React.createClass({
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
+	},
+
+	getFirstFocusableOption: function getFirstFocusableOption(options) {
+
+		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
+			if (!options[optionIndex].disabled) {
+				return options[optionIndex];
+			}
+		}
 	},
 
 	initValuesArray: function initValuesArray(values, options) {
@@ -529,7 +554,7 @@ var Select = React.createClass({
 				return filteredOptions[key];
 			}
 		}
-		return filteredOptions[0];
+		return this.getFirstFocusableOption(filteredOptions);
 	},
 
 	handleInputChange: function handleInputChange(event) {
@@ -645,7 +670,10 @@ var Select = React.createClass({
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
 		}
-		return this.selectValue(this.state.focusedOption);
+
+		if (this.state.focusedOption) {
+			return this.selectValue(this.state.focusedOption);
+		}
 	},
 
 	focusOption: function focusOption(op) {
@@ -756,11 +784,28 @@ var Select = React.createClass({
 			});
 			return optionResult;
 		}, this);
-		return ops.length ? ops : React.createElement(
-			'div',
-			{ className: 'Select-noresults' },
-			this.props.asyncOptions && !this.state.inputValue ? this.props.searchPromptText : this.props.noResultsText
-		);
+
+		if (ops.length) {
+			return ops;
+		} else {
+			var noResultsText, promptClass;
+			if (this.state.isLoading) {
+				promptClass = 'Select-searching';
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				promptClass = 'Select-noresults';
+				noResultsText = this.props.noResultsText;
+			} else {
+				promptClass = 'Select-search-prompt';
+				noResultsText = this.props.searchPromptText;
+			}
+
+			return React.createElement(
+				'div',
+				{ className: promptClass },
+				noResultsText
+			);
+		}
 	},
 
 	handleOptionLabelClick: function handleOptionLabelClick(value, event) {
@@ -823,11 +868,9 @@ var Select = React.createClass({
 		if (this.state.isOpen) {
 			menuProps = {
 				ref: 'menu',
-				className: 'Select-menu'
+				className: 'Select-menu',
+				onMouseDown: this.handleMouseDown
 			};
-			if (this.props.multi) {
-				menuProps.onMouseDown = this.handleMouseDown;
-			}
 			menu = React.createElement(
 				'div',
 				{ ref: 'selectMenuContainer', className: 'Select-menu-outer' },
@@ -896,21 +939,28 @@ module.exports = Select;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./Option":1,"./SingleValue":3,"./Value":4}],3:[function(require,module,exports){
 (function (global){
-"use strict";
+'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var classes = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
 
 var SingleValue = React.createClass({
-	displayName: "SingleValue",
+	displayName: 'SingleValue',
 
 	propTypes: {
 		placeholder: React.PropTypes.string, // this is default value provided by React-Select based component
 		value: React.PropTypes.object // selected option
 	},
 	render: function render() {
+
+		var classNames = classes('Select-placeholder', this.props.value && this.props.value.className);
 		return React.createElement(
-			"div",
-			{ className: "Select-placeholder" },
+			'div',
+			{
+				className: classNames,
+				style: this.props.value && this.props.value.style,
+				title: this.props.value && this.props.value.title
+			},
 			this.props.placeholder
 		);
 	}
@@ -924,6 +974,7 @@ module.exports = SingleValue;
 'use strict';
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var classes = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
 
 var Value = React.createClass({
 
@@ -957,25 +1008,34 @@ var Value = React.createClass({
 		if (!this.props.onRemove && !this.props.optionLabelClick) {
 			return React.createElement(
 				'div',
-				{ className: 'Select-value' },
+				{
+					className: classes('Select-value', this.props.option.className),
+					style: this.props.option.style,
+					title: this.props.option.title
+				},
 				label
 			);
 		}
 
 		if (this.props.optionLabelClick) {
+
 			label = React.createElement(
 				'a',
-				{ className: 'Select-item-label__a',
+				{ className: classes('Select-item-label__a', this.props.option.className),
 					onMouseDown: this.blockEvent,
 					onTouchEnd: this.props.onOptionLabelClick,
-					onClick: this.props.onOptionLabelClick },
+					onClick: this.props.onOptionLabelClick,
+					style: this.props.option.style,
+					title: this.props.option.title },
 				label
 			);
 		}
 
 		return React.createElement(
 			'div',
-			{ className: 'Select-item' },
+			{ className: classes('Select-item', this.props.option.className),
+				style: this.props.option.style,
+				title: this.props.option.title },
 			React.createElement(
 				'span',
 				{ className: 'Select-item-icon',
