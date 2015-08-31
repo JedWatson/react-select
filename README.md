@@ -181,6 +181,14 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	value 				|	any			|	initial field value
 	valueRenderer		|	func		|	function which returns a custom way to render the value selected
 
+### Methods
+
+Right now there's simply a `focus()` method that gives the control focus. All other methods on `<Select>` elements should be considered private and prone to change.
+
+```js
+// focuses the input element
+<instance>.focus();
+```
 
 # Contributing
 
