@@ -467,11 +467,7 @@ var Select = React.createClass({
 					return;
 				}
 			break;
-			default:
-				if (this.props.onInputChange) {
-					this.props.onInputChange(this.state.inputValue);
-				}
-				return;
+			default: return;
 		}
 		event.preventDefault();
 	},
@@ -491,6 +487,10 @@ var Select = React.createClass({
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
+
+		if (this.props.onInputChange) {
+			this.props.onInputChange(event.target.value);
+		}
 
 		if (this.props.asyncOptions) {
 			this.setState({
