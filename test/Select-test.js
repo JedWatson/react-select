@@ -2037,7 +2037,7 @@ describe('Select', function() {
 			});
 		});
 
-		describe('custom filterOptions function', function () {
+		describe.only('custom filterOptions function', function () {
 
 			var spyFilterOptions;
 
@@ -2802,6 +2802,26 @@ describe('Select', function() {
 				});
 			});
 		});
+
+
+		describe('maxOptions', function () {
+			var maxOptions = 2;
+
+			beforeEach(function () {
+				instance = createControl({
+					options: defaultOptions,
+					maxOptions: maxOptions,
+				});
+			});
+
+
+			it('limits the number of options show', function() {
+				TestUtils.Simulate.mouseDown(React.findDOMNode(instance).querySelector('.Select-control'));
+				var options = React.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options, 'to have length', 2);
+			});
+
+		});
 	});
 
 	describe('clicking outside', function () {
@@ -2809,7 +2829,7 @@ describe('Select', function() {
 		beforeEach(function () {
 
 			instance = createControl({
-				options: defaultOptions
+				options: defaultOptions,
 			});
 		});
 

@@ -19694,10 +19694,12 @@ var AutosizeInput = React.createClass({
 		var widthNode = React.findDOMNode(this.refs.sizer);
 		widthNode.style.fontSize = inputStyle.fontSize;
 		widthNode.style.fontFamily = inputStyle.fontFamily;
+		widthNode.style.letterSpacing = inputStyle.letterSpacing;
 		if (this.props.placeholder) {
 			var placeholderNode = React.findDOMNode(this.refs.placeholderSizer);
 			placeholderNode.style.fontSize = inputStyle.fontSize;
 			placeholderNode.style.fontFamily = inputStyle.fontFamily;
+			placeholderNode.style.letterSpacing = inputStyle.letterSpacing;
 		}
 	},
 	updateInputWidth: function updateInputWidth() {
@@ -19732,8 +19734,9 @@ var AutosizeInput = React.createClass({
 		var escapedValue = (this.props.value || '').replace(/\&/g, '&amp;').replace(/ /g, '&nbsp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
 		var wrapperStyle = this.props.style || {};
 		wrapperStyle.display = 'inline-block';
-		var inputStyle = this.props.inputStyle || {};
+		var inputStyle = _extends({}, this.props.inputStyle);
 		inputStyle.width = this.state.inputWidth;
+		inputStyle.boxSizing = 'content-box';
 		var placeholder = this.props.placeholder ? React.createElement(
 			'div',
 			{ ref: 'placeholderSizer', style: sizerStyle },
