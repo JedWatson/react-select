@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.6.8 / 2015-09-16
+
+* fixed; broader range of allowed prereleases for React 0.14, including rc1
+* fixed; preventing backspace from navigating back in the browser history, thanks [davidpene](https://github.com/davidpene)
+
 ## v0.6.7 / 2015-08-28
 
 * fixed; missing styles for `.Select-search-prompt` and `.Select-searching` issues, thanks [Jaak Erisalu](https://github.com/jaakerisalu) and [davidpene](https://github.com/davidpene)
