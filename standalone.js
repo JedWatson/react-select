@@ -493,6 +493,7 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function handleKeyDown(event) {
+		event.preventDefault();
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
 			case 8:
