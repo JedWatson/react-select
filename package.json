@@ -24,7 +24,7 @@
     "istanbul": "^0.3.18",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.5",
-    "react": ">=0.13.3 || ^0.14.0-beta3",
+    "react": ">=0.13.3 || ^0.14.0-beta",
     "react-gravatar": "2.0.0",
     "react-component-gulp-tasks": "^0.7.0",
     "sinon": "^1.16.1",
