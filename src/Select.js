@@ -425,6 +425,7 @@ var Select = React.createClass({
 	},
 
 	handleKeyDown: function(event) {
+		event.preventDefault();
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
 			case 8: // backspace
