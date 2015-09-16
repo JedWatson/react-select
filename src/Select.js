@@ -428,11 +428,10 @@ var Select = React.createClass({
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
 			case 8: // backspace
-				event.preventDefault();
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
 					this.popValue();
 				}
-			return;
+			break;
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
 					return;
@@ -468,6 +467,7 @@ var Select = React.createClass({
 			break;
 			default: return;
 		}
+		event.preventDefault();
 	},
 
 	// Ensures that the currently focused option is available in filteredOptions.
