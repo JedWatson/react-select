@@ -3,6 +3,7 @@
   "version": "0.6.8",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
+  "style": "dist/default.css",
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {
