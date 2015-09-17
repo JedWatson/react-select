@@ -267,7 +267,11 @@ var Select = React.createClass({
 	initValuesArray: function(values, options) {
 		if (!Array.isArray(values)) {
 			if (typeof values === 'string') {
-				values = values === '' ? [] : values.split(this.props.delimiter);
+				values = values === ''
+					? []
+					: this.props.multi 
+						? values.split(this.props.delimiter)
+						: [ values ];
 			} else {
 				values = values !== undefined && values !== null ? [values] : [];
 			}
