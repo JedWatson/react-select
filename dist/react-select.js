@@ -101,6 +101,7 @@ var Select = React.createClass({
 		inputProps: React.PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		matchPos: React.PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string, // (any|label|value) which option property to filter on
+		maxOptions: React.PropTypes.number, // max number of results to show
 		multi: React.PropTypes.bool, // multi-value input
 		name: React.PropTypes.string, // field name, for hidden <input /> tag
 		newOptionCreator: React.PropTypes.func, // factory to create new options when allowCreate set
@@ -140,6 +141,7 @@ var Select = React.createClass({
 			inputProps: {},
 			matchPos: 'any',
 			matchProp: 'any',
+			maxOptions: undefined,
 			name: undefined,
 			newOptionCreator: undefined,
 			noResultsText: 'No results found',
@@ -643,12 +645,19 @@ var Select = React.createClass({
 	},
 
 	filterOptions: function filterOptions(options, values) {
+		var _this7 = this;
+
 		var filterValue = this._optionsFilterString;
 		var exclude = (values || this.state.values).map(function (i) {
 			return i.value;
 		});
+		var limitResults = function limitResults(result) {
+			return (result || []).slice(0, _this7.props.maxOptions);
+		};
+
 		if (this.props.filterOptions) {
-			return this.props.filterOptions.call(this, options, filterValue, exclude);
+			var filteredOptions = this.props.filterOptions.call(this, options, filterValue, exclude);
+			return limitResults(filteredOptions);
 		} else {
 			var filterOption = function filterOption(op) {
 				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
@@ -662,7 +671,8 @@ var Select = React.createClass({
 				}
 				return !filterValue || this.props.matchPos === 'start' ? this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue || this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue : this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0 || this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0;
 			};
-			return (options || []).filter(filterOption, this);
+			var filterOptions = (options || []).filter(filterOption, this);
+			return limitResults(filterOptions);
 		}
 	},
 
