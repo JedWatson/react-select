@@ -41,6 +41,7 @@ var Select = React.createClass({
 		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
 		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
 		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
+		onInputChange: React.PropTypes.func,       // onInputChange handler: function(inputValue) {}
 		onOptionLabelClick: React.PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,     // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
@@ -77,6 +78,7 @@ var Select = React.createClass({
 			newOptionCreator: undefined,
 			noResultsText: 'No results found',
 			onChange: undefined,
+			onInputChange: undefined,
 			onOptionLabelClick: undefined,
 			optionComponent: Option,
 			options: undefined,
@@ -485,6 +487,10 @@ var Select = React.createClass({
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
+
+		if (this.props.onInputChange) {
+			this.props.onInputChange(event.target.value);
+		}
 
 		if (this.props.asyncOptions) {
 			this.setState({

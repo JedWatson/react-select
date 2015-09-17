@@ -45,12 +45,16 @@ class PropsWrapper extends React.Component {
 }
 
 describe('Select', function() {
-	var options, onChange;
+	var options, onChange, onInputChange;
 	var instance, wrapper;
 	var searchInputNode;
 
 	function getSelectControl(instance) {
 		return React.findDOMNode(instance).querySelector('.Select-control');
+	}
+
+	function enterSingleCharacter() {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 65, key: 'a' });
 	}
 
 	function pressEnterToAccept() {
@@ -107,10 +111,12 @@ describe('Select', function() {
 	var createControl = function(props) {
 
 		onChange = sinon.spy();
+		onInputChange = sinon.spy();
 		// Render an instance of the component
 		instance = TestUtils.renderIntoDocument(
 			<Select
 				onChange={onChange}
+				onInputChange={onInputChange}
 				{...props}
 				/>
 		);
@@ -122,11 +128,13 @@ describe('Select', function() {
 
 	var createControlWithWrapper = function (props) {
 		onChange = sinon.spy();
+		onInputChange = sinon.spy();
 
 		wrapper = TestUtils.renderIntoDocument(
 			<PropsWrapper
 				childComponent={Select}
 				onChange={onChange}
+				onInputChange={onInputChange}
 				{...props}
 				/>
 		);
@@ -191,6 +199,12 @@ describe('Select', function() {
 			expect(node, 'queried for', '.Select-option:nth-child(1)', 'to have items satisfying', 'to have text', 'Two');
 			expect(node, 'queried for', '.Select-option:nth-child(2)', 'to have items satisfying', 'to have text', 'Three');
 			expect(node, 'queried for', '.Select-option', 'to have length', 2);
+		});
+
+		it('should pass input value when entering text', function () {
+			typeSearchText('a');
+			enterSingleCharacter('a');
+			expect(onInputChange, 'was called with', 'a');
 		});
 
 		it('should filter case insensitively', function () {
