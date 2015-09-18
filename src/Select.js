@@ -435,9 +435,10 @@ var Select = React.createClass({
 		switch (event.keyCode) {
 			case 8: // backspace
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
+					event.preventDefault();
 					this.popValue();
 				}
-			break;
+			return;
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
 					return;
