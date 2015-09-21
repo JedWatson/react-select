@@ -124,6 +124,32 @@ var getOptions = function(input, callback) {
 />
 ```
 
+### Categorized Select
+
+You can utilize categorized selections by setting `categoized={true}`. In this mode:
+
+* You must pass in an object of arrays containing the options
+* The keys of the object become to categories
+
+```js
+var Select = require('react-select');
+
+var options = {
+	"Primary": [
+		{ value: "blue", label: "Blue" },
+		{ value: "green", label: "Green" },
+		{ value: "red", label: "Red" }
+	],
+	"Secondary": [
+		{ value: "yellow", label: "Yellow" },
+		{ value: "magenta", label: "Magenta" },
+		{ value: "cyan", label: "Cyan" }
+	]
+};
+
+<Select options={options} categorized={true} />
+```
+
 ### Filtering options
 
 You can control how options are filtered with the following properties:
@@ -147,39 +173,40 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 ### Further options
 
 
-	Property			|	Type		|	Description
-:-----------------------|:--------------|:--------------------------------
-	addLabelText		|	string		|	text to display when allowCreate is true
-	allowCreate			|	bool		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
-	asyncOptions 		|	func		|	function to call to get options
-	autoload 			|	bool		|	whether to auto-load the default async options set
-	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
-	className 			|	string		|	className for the outer element
-	clearable 			|	bool		|	should it be possible to reset value
-	clearAllText 		|	string		|	title for the "clear" control when multi: true
-	clearValueText 		|	string		|	title for the "clear" control
-	delimiter 			|	string		|	delimiter to use to join multiple values
-	disableCache 		|	bool		|	disables the options cache for asyncOptions
-	disabled 			|	bool		|	whether the Select is disabled or not
-	filterOption 		|	func		|	method to filter a single option: function(option, filterString)
-	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
-	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
-	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
-	matchProp 			|	string		|	(any, label, value) which option property to filter on
-	multi 				|	bool		|	multi-value input
-	name 				|	string		|	field name, for hidden <input /> tag
-	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
-	onBlur 				|	func		|	onBlur handler: function(event) {}
-	onChange 			|	func		|	onChange handler: function(newValue) {}
-	onFocus 			|	func		|	onFocus handler: function(event) {}
-	optionRenderer		|	func		|	function which returns a custom way to render the options in the menu
-	options 			|	array		|	array of options
-	placeholder 		|	string		|	field placeholder, displayed when there's no value
-	searchable 			|	bool		|	whether to enable searching feature or not
-	searchPromptText 	|	string		|	label to prompt for search input
-	value 				|	any			|	initial field value
-	valueRenderer		|	func		|	function which returns a custom way to render the value selected
+	Property			|	Type			|	Description
+:-----------------------|:------------------|:--------------------------------
+	addLabelText		|	string			|	text to display when allowCreate is true
+	allowCreate			|	bool			|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	asyncOptions 		|	func			|	function to call to get options
+	autoload 			|	bool			|	whether to auto-load the default async options set
+	backspaceRemoves 	|	bool			|	whether pressing backspace removes the last item when there is no input value
+	categorized			|	bool			|	whether the options being past in are categorized
+	className 			|	string			|	className for the outer element
+	clearable 			|	bool			|	should it be possible to reset value
+	clearAllText 		|	string			|	title for the "clear" control when multi: true
+	clearValueText 		|	string			|	title for the "clear" control
+	delimiter 			|	string			|	delimiter to use to join multiple values
+	disableCache 		|	bool			|	disables the options cache for asyncOptions
+	disabled 			|	bool			|	whether the Select is disabled or not
+	filterOption 		|	func			|	method to filter a single option: function(option, filterString)
+	filterOptions 		|	func			|	method to filter the options array: function([options], filterString, [values])
+	ignoreCase 			|	bool			|	whether to perform case-insensitive filtering
+	inputProps 			|	object			|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+	matchPos 			|	string			|	(any, start) match the start or entire string when filtering
+	matchProp 			|	string			|	(any, label, value) which option property to filter on
+	multi 				|	bool			|	multi-value input
+	name 				|	string			|	field name, for hidden <input /> tag
+	noResultsText 		|	string			|	placeholder displayed when there are no matching search results
+	onBlur 				|	func			|	onBlur handler: function(event) {}
+	onChange 			|	func			|	onChange handler: function(newValue) {}
+	onFocus 			|	func			|	onFocus handler: function(event) {}
+	optionRenderer		|	func			|	function which returns a custom way to render the options in the menu
+	options 			|	array or object |	array of options
+	placeholder 		|	string			|	field placeholder, displayed when there's no value
+	searchable 			|	bool			|	whether to enable searching feature or not
+	searchPromptText 	|	string			|	label to prompt for search input
+	value 				|	any				|	initial field value
+	valueRenderer		|	func			|	function which returns a custom way to render the value selected
 
 ### Methods
 

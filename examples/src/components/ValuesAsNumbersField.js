@@ -10,7 +10,7 @@ var ValuesAsNumbersField = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string
 	},
-	
+
 	getInitialState () {
 		return {
 			options: [
@@ -20,14 +20,26 @@ var ValuesAsNumbersField = React.createClass({
 				{ value: 23, label: 'Twenty-three' },
 				{ value: 24, label: 'Twenty-four' }
 			],
+			categorizedOptions: {
+				'Category One': [
+					{ value: 10, label: 'Ten' },
+					{ value: 11, label: 'Eleven' }
+				],
+				'Category Two': [
+					{ value: 12, label: 'Twelve' },
+					{ value: 23, label: 'Twenty-three' },
+					{ value: 24, label: 'Twenty-four' }
+				]
+			},
 			matchPos: 'any',
 			matchValue: true,
 			matchLabel: true,
 			value: null,
-			multi: false
+			multi: false,
+			categorized: false
 		};
 	},
-	
+
 	onChangeMatchStart(event) {
 		this.setState({
 			matchPos: event.target.checked ? 'start' : 'any'
@@ -45,43 +57,50 @@ var ValuesAsNumbersField = React.createClass({
 			matchLabel: event.target.checked
 		});
 	},
-	
+
+	onChangeCategorized(event) {
+		this.setState({
+			categorized: event.target.checked
+		});
+	},
+
 	onChange(value, values) {
 		this.setState({
 			value: value
 		});
 		logChange(value, values);
 	},
-	
+
 	onChangeMulti(event) {
 		this.setState({
 			multi: event.target.checked
 		});
 	},
-	
+
 	render () {
-		
+
 		var matchProp = 'any';
-		
+
 		if (this.state.matchLabel && !this.state.matchValue) {
 			matchProp = 'label';
 		}
-		
+
 		if (!this.state.matchLabel && this.state.matchValue) {
 			matchProp = 'value';
 		}
-		
+
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-					searchable={true}
+					searchable
 					matchProp={matchProp}
 					matchPos={this.state.matchPos}
-					options={this.state.options}
+					options={this.state.categorized ? this.state.categorizedOptions : this.state.options}
 					onChange={this.onChange}
 					value={this.state.value}
 					multi={this.state.multi}
+					categorized={this.state.categorized}
 					/>
 				<div className="checkbox-list">
 					<label className="checkbox">
@@ -99,6 +118,10 @@ var ValuesAsNumbersField = React.createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
 						<span className="checkbox-label">Only include matches from the start of the string</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.categorized} onChange={this.onChangeCategorized} />
+						<span className="checkbox-label">Categorized options</span>
 					</label>
 				</div>
 			</div>

@@ -17,7 +17,7 @@
 		"quotes": [2, "single", "avoid-escape"],
 		"react/jsx-boolean-value": 1,
 		"react/jsx-no-undef": 1,
-		"react/jsx-quotes": 1,
+		"jsx-quotes": 1,
 		"react/jsx-sort-prop-types": 1,
 		"react/jsx-uses-react": 1,
 		"react/jsx-uses-vars": 1,

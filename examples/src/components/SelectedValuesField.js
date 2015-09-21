@@ -30,7 +30,7 @@ var SelectedValuesField = React.createClass({
 					allowCreate={this.props.allowCreate}
 					onOptionLabelClick={this.onLabelClick}
 					value={this.props.options.slice(1,3)}
-					multi={true}
+					multi
 					placeholder="Select your favourite(s)"
 					options={this.props.options}
 					onChange={logChange} />
