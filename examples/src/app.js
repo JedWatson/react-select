@@ -11,6 +11,7 @@ import StatesField from './components/StatesField';
 import UsersField from './components/UsersField';
 import ValuesAsNumbersField from './components/ValuesAsNumbersField';
 import DisabledUpsellOptions from './components/DisabledUpsellOptions';
+import MultiSelectSummaryField from './components/MultiSelectSummaryField';
 
 var FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
@@ -40,6 +41,7 @@ React.render(
 		<CustomRenderField label="Custom render options/values" />
 		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
+		<MultiSelectSummaryField label="Summary Multiselect" />
 	</div>,
 	document.getElementById('example')
 );

@@ -44,7 +44,7 @@ var Option = React.createClass({
 				 onMouseDown={this.props.mouseDown}
 				 onClick={this.props.mouseDown}
 				 title={obj.title}>
-				{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }
+				<span>{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }</span>
 			</div>
 		);
 	}
