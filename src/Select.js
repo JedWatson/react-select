@@ -35,8 +35,8 @@ var Select = React.createClass({
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
-		multiSum: React.PropTypes.bool,
-		multiSumLimit: React.PropTypes.number,
+		multiSum: React.PropTypes.bool,			   // multiSum option enabler
+		multiSumLimit: React.PropTypes.number,	   // limit for the number of options before it summarizes to x of y
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		newOptionCreator: React.PropTypes.func,    // factory to create new options when allowCreate set
 		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
