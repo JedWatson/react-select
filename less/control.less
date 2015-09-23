@@ -1,4 +1,4 @@
-// 
+//
 // Control
 // ------------------------------
 
@@ -25,6 +25,22 @@
 
 	&:hover {
 		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	}
+}
+
+// categories
+
+.Select-category {
+    padding: @select-category-padding-vertical @select-category-padding-horizontal;
+    color: @select-category-text-color;
+    text-transform: capitalize;
+
+
+}
+
+.is-categorized {
+    &.Select-option, &.Select-searching, &.Select-noresults, &.Select-search-prompt {
+	    padding-left: @select-item-categorized-padding-horizontal;
 	}
 }
 
@@ -103,7 +119,7 @@
 // the <input> element users type in
 
 .Select-input {
-	
+
 	> input {
 		cursor: default;
 		background: none transparent;
@@ -117,7 +133,7 @@
 		outline: none;
 		display: inline-block;
 		-webkit-appearance: none;
-		
+
 		.is-focused & {
 			cursor: text;
 		}
@@ -162,7 +178,7 @@
 	&:hover {
 		color: @select-clear-hover-color;
 	}
-	
+
 	> span {
 		font-size: 1.1em;
 	}

@@ -31,7 +31,7 @@ var CustomRenderField = React.createClass({
 				<Select
 					delimiter={this.props.delimiter}
 					multi={this.props.multi}
-					allowCreate={true}
+					allowCreate
 					placeholder="Select your favourite"
 					options={ops}
 					optionRenderer={this.renderOption}

@@ -22,6 +22,7 @@ var Select = React.createClass({
 		autoload: React.PropTypes.bool,            // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool,    // whether backspace removes an item if there is no text input
 		cacheAsyncResults: React.PropTypes.bool,   // whether to allow cache
+		categorized: React.PropTypes.bool,		   // whether the options are categorized
 		className: React.PropTypes.string,         // className for the outer element
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
@@ -45,7 +46,10 @@ var Select = React.createClass({
 		onOptionLabelClick: React.PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,     // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
-		options: React.PropTypes.array,            // array of options
+		options: React.PropTypes.oneOfType([
+			React.PropTypes.array,
+			React.PropTypes.object 				   // an array or an object
+		]),
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchingText: React.PropTypes.string,     // message to display whilst options are loading via asyncOptions
@@ -238,12 +242,30 @@ var Select = React.createClass({
 		var focusedOption;
 		var valueForState = null;
 		if (!this.props.multi && values.length) {
-			focusedOption = values[0];
-			valueForState = values[0].value;
+			if (Object.getPrototypeOf(filteredOptions) === Object.prototype) {
+				focusedOption = values[0];
+				valueForState = values[0].value;
+			} else {
+				focusedOption = values[0];
+				valueForState = values[0].value;
+			}
 		} else {
-			focusedOption = this.getFirstFocusableOption(filteredOptions);
-			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+			if (Object.getPrototypeOf(filteredOptions) === Object.prototype) {
+				var ops = [];
+				for (var key in filteredOptions) {
+					ops = ops.concat(filteredOptions[key]);
+				}
+
+				focusedOption = this.getFirstFocusableOption(ops);
+				valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+
+			} else {
+				focusedOption = this.getFirstFocusableOption(filteredOptions);
+				valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+			}
 		}
+
+
 
 		return {
 			value: valueForState,
@@ -256,7 +278,6 @@ var Select = React.createClass({
 	},
 
 	getFirstFocusableOption: function (options) {
-
 		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
 			if (!options[optionIndex].disabled) {
 				return options[optionIndex];
@@ -269,7 +290,7 @@ var Select = React.createClass({
 			if (typeof values === 'string') {
 				values = values === ''
 					? []
-					: this.props.multi 
+					: this.props.multi
 						? values.split(this.props.delimiter)
 						: [ values ];
 			} else {
@@ -278,17 +299,33 @@ var Select = React.createClass({
 		}
 		return values.map(function(val) {
 			if (typeof val === 'string' || typeof val === 'number') {
-				for (var key in options) {
-					if (options.hasOwnProperty(key) &&
-						options[key] &&
-						(options[key].value === val ||
-							typeof options[key].value === 'number' &&
-							options[key].value.toString() === val
-						)) {
-						return options[key];
+				if (Object.getPrototypeOf(options) === Object.prototype) {
+					for (var category in options) {
+						for (var key in options[category]) {
+							if (options[category].hasOwnProperty(key) &&
+								options[category][key] &&
+								(options[category][key].value === val ||
+									typeof options[category][key].value === 'number' &&
+									options[category][key].value.toString() === val
+								)) {
+								return options[category][key];
+							}
+						}
 					}
+					return { value: val, label: val };
+				} else {
+					for (var key in options) {
+						if (options.hasOwnProperty(key) &&
+							options[key] &&
+							(options[key].value === val ||
+								typeof options[key].value === 'number' &&
+								options[key].value.toString() === val
+							)) {
+							return options[key];
+						}
+					}
+					return { value: val, label: val };
 				}
-				return { value: val, label: val };
 			} else {
 				return val;
 			}
@@ -480,12 +517,28 @@ var Select = React.createClass({
 	// Ensures that the currently focused option is available in filteredOptions.
 	// If not, returns the first available option.
 	_getNewFocusedOption: function(filteredOptions) {
-		for (var key in filteredOptions) {
-			if (filteredOptions.hasOwnProperty(key) && filteredOptions[key] === this.state.focusedOption) {
-				return filteredOptions[key];
+		if (Object.getPrototypeOf(filteredOptions) !== Object.prototype) {
+			for (var key in filteredOptions) {
+				if (filteredOptions.hasOwnProperty(key) && filteredOptions[key] === this.state.focusedOption) {
+					return filteredOptions[key];
+				}
 			}
+
+			return this.getFirstFocusableOption(filteredOptions);
+		} else {
+			var ops = [];
+			for (var category in filteredOptions) {
+				ops = ops.concat(filteredOptions[category]);
+
+				for (var key in filteredOptions[category]) {
+					if (filteredOptions[category].hasOwnProperty(key) && filteredOptions[category][key] === this.state.focusedOption) {
+						return filteredOptions[category][key];
+					}
+				}
+			}
+
+			return this.getFirstFocusableOption(ops);
 		}
-		return this.getFirstFocusableOption(filteredOptions);
 	},
 
 	handleInputChange: function(event) {
@@ -578,6 +631,7 @@ var Select = React.createClass({
 
 	filterOptions: function(options, values) {
 		var filterValue = this._optionsFilterString;
+		var opts = options || [];
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
 		});
@@ -601,7 +655,18 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
 				);
 			};
-			return (options || []).filter(filterOption, this);
+
+			if (Object.getPrototypeOf(opts) === Object.prototype) {
+				opts = {};
+
+				for (var key in options) {
+					opts[key] = options[key].filter(filterOption, this);
+				}
+
+				return opts;
+			} else {
+				return opts.filter(filterOption, this);
+			}
 		}
 	},
 
@@ -631,9 +696,21 @@ var Select = React.createClass({
 
 	focusAdjacentOption: function(dir) {
 		this._focusedOptionReveal = true;
-		var ops = this.state.filteredOptions.filter(function(op) {
-			return !op.disabled;
-		});
+		var ops;
+
+		if (this.props.categorized) {
+			ops = [];
+			for (var key in this.state.filteredOptions) {
+				var s = this.state.filteredOptions[key].filter(function(op) {
+					return !op.disabled;
+				});
+				ops = ops.concat(s);
+			}
+		} else {
+			ops = this.state.filteredOptions.filter(function (op) {
+				return !op.disabled;
+			});
+		}
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
@@ -695,6 +772,7 @@ var Select = React.createClass({
 			};
 			options.unshift(newOption);
 		}
+
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
 			var isSelected = this.state.value === op.value;
@@ -747,6 +825,99 @@ var Select = React.createClass({
 		}
 	},
 
+	buildCategorizedMenu: function() {
+		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		var renderLabel = this.props.optionRenderer || function(op) {
+				return op.label;
+			};
+		if (this.state.filteredOptions.length > 0) {
+			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+		}
+		// Add the current value to the filtered options in last resort
+		// Do not allow to happen in categorization, as we wont know exactly where to put it
+		var options = this.state.filteredOptions;
+		if (this.props.allowCreate && !this.props.categorized && this.state.inputValue.trim()) {
+			var inputValue = this.state.inputValue;
+			options = options.slice();
+			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
+				value: inputValue,
+				label: inputValue,
+				create: true
+			};
+			options.unshift(newOption);
+		}
+
+		var ops = Object.keys(options).map(function(category) {
+			var retOpts = [];
+			retOpts.push(<div className={"Select-category"}>{category}</div>);
+			var results = Object.keys(options[category]).map(function (key) {
+				var op = options[category][key];
+				var isSelected = this.state.value === op.value;
+				var isFocused = focusedValue === op.value;
+				var optionClass = classes({
+					'Select-option': true,
+					'is-selected': isSelected,
+					'is-focused': isFocused,
+					'is-disabled': op.disabled,
+					'is-categorized': true
+				});
+				var ref = isFocused ? 'focused' : null;
+				var mouseEnter = this.focusOption.bind(this, op);
+				var mouseLeave = this.unfocusOption.bind(this, op);
+				var mouseDown = this.selectValue.bind(this, op);
+				var optionResult = React.createElement(this.props.optionComponent, {
+					key: 'option-' + op.value,
+					className: optionClass,
+					renderFunc: renderLabel,
+					mouseEnter: mouseEnter,
+					mouseLeave: mouseLeave,
+					mouseDown: mouseDown,
+					click: mouseDown,
+					addLabelText: this.props.addLabelText,
+					option: op,
+					ref: ref
+				});
+				return optionResult;
+			}, this);
+
+			if (results.length) {
+				results.map(function(option) {
+					retOpts.push(option);
+				});
+
+				return retOpts;
+			} else {
+				var noResultsText;
+				var noResultsClasses = {
+					'Select-searching': false,
+					'Select-noresults': false,
+					'Select-search-prompt': false,
+					'is-categorized': true
+				};
+				if (this.state.isLoading) {
+					noResultsClasses['Select-searching'] = true;
+					noResultsText = this.props.searchingText;
+				} else if (this.state.inputValue || !this.props.asyncOptions) {
+					noResultsClasses['Select-noresults'] = true;
+					noResultsText = this.props.noResultsText;
+				} else {
+					noResultsClasses['Select-search-prompt'] = true;
+					noResultsText = this.props.searchPromptText;
+				}
+
+				retOpts.push(
+					<div className={classes(noResultsClasses)}>
+						{noResultsText}
+					</div>
+				);
+
+				return retOpts;
+			}
+		}, this);
+
+		return ops;
+	},
+
 	handleOptionLabelClick: function (value, event) {
 		if (this.props.onOptionLabelClick) {
 			this.props.onOptionLabelClick(value, event);
@@ -761,7 +932,8 @@ var Select = React.createClass({
 			'is-focused': this.state.isFocused,
 			'is-loading': this.state.isLoading,
 			'is-disabled': this.props.disabled,
-			'has-value': this.state.value
+			'has-value': this.state.value,
+			'is-categorized': this.props.categorized
 		});
 		var value = [];
 		if (this.props.multi) {
@@ -810,9 +982,10 @@ var Select = React.createClass({
 				className: 'Select-menu',
 				onMouseDown: this.handleMouseDown
 			};
+
 			menu = (
 				<div ref="selectMenuContainer" className="Select-menu-outer">
-					<div {...menuProps}>{this.buildMenu()}</div>
+					<div {...menuProps}>{!this.props.categorized ? this.buildMenu() : this.buildCategorizedMenu()}</div>
 				</div>
 			);
 		}
