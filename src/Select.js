@@ -177,7 +177,7 @@ var Select = React.createClass({
 					newProps.placeholder)
 				);
 			};
-			if (this.props.asyncOptions) {
+			if (this.props.asyncOptions && this.props.autoload) {
 				this.loadAsyncOptions(newProps.value, {}, setState);
 			} else {
 				setState();
