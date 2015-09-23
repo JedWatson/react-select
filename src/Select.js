@@ -497,12 +497,12 @@ var Select = React.createClass({
 		this._optionsFilterString = event.target.value;
 
 		if (this.props.onInputChange) {
-			this.props.onInputChange(event.target.value);
+			this.props.onInputChange(this._optionsFilterString);
 		}
 
 		if (this.props.asyncOptions) {
 			var callAsyncLoad = function() {
-				this.loadAsyncOptions(event.target.value, {
+				this.loadAsyncOptions(this._optionsFilterString, {
 					isLoading: false,
 					isOpen: true
 				}, this._bindCloseMenuIfClickedOutside);
