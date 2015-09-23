@@ -1,5 +1,10 @@
 # React-Select
 
+## v0.6.10 / 2015-09-24
+
+* fixed; a build issue with the previous release that prevented the stylesheet being generated / included
+* fixed; a LESS syntax issue, thanks [Bob Cardenas](https://github.com/bcardi)
+
 ## v0.6.9 / 2015-09-19
 
 * added; `style` key for package.json, thanks [Stephen Wan](https://github.com/stephen)
