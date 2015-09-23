@@ -26,6 +26,7 @@ var Select = React.createClass({
 		clearAllText: React.PropTypes.string,      // title for the "clear" control when multi: true
 		clearValueText: React.PropTypes.string,    // title for the "clear" control
 		clearable: React.PropTypes.bool,           // should it be possible to reset value
+		delayAsyncMs: React.PropTypes.number,      // time delay before querying after a keyup
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
 		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
 		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
@@ -68,6 +69,7 @@ var Select = React.createClass({
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
 			clearable: true,
+			delayAsyncMs: 0,
 			delimiter: ',',
 			disabled: false,
 			ignoreCase: true,
@@ -103,6 +105,7 @@ var Select = React.createClass({
 			 * - placeholder
 			 * - focusedOption
 			*/
+			inputTimer: undefined,
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
@@ -498,14 +501,33 @@ var Select = React.createClass({
 		}
 
 		if (this.props.asyncOptions) {
+			var callAsyncLoad = function() {
+				this.loadAsyncOptions(event.target.value, {
+					isLoading: false,
+					isOpen: true
+				}, this._bindCloseMenuIfClickedOutside);
+			}.bind(this);
+
+			if (this.props.delayAsyncMs) {
+				if (this.state.inputTimer) {
+					clearTimeout(this.state.inputTimer);
+				}
+
+				var wait = setTimeout(function() {
+					callAsyncLoad();
+				}, this.props.delayAsyncMs);
+
+				this.setState({
+					inputTimer: wait
+				});
+			} else {
+				callAsyncLoad();
+			}
+
 			this.setState({
 				isLoading: true,
 				inputValue: event.target.value
 			});
-			this.loadAsyncOptions(event.target.value, {
-				isLoading: false,
-				isOpen: true
-			}, this._bindCloseMenuIfClickedOutside);
 		} else {
 			var filteredOptions = this.filterOptions(this.state.options);
 			this.setState({
