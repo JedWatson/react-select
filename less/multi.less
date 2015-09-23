@@ -1,4 +1,4 @@
-// 
+//
 // Multi-Select
 // ------------------------------
 
@@ -9,13 +9,13 @@
 
 	// control: reduce padding to allow for items
 	.Select-control {
-		padding: 
+		padding:
 			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
 			@select-padding-horizontal * 3 + 22
 			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
 			@select-padding-horizontal - @select-item-gutter - @select-item-padding-horizontal
 	}
-	
+
 	// add margin to the input element
 	.Select-input {
 		vertical-align: middle;
@@ -23,7 +23,19 @@
 		margin: @select-item-gutter;
 		padding: @select-item-padding-vertical 0;
 	}
-	
+
+	.Select-control > span:first-child {
+		padding-left: 7px;
+		vertical-align: middle;
+	}
+
+	.Select-option.is-multiSum span{
+		padding: 4px;
+		background: @select-item-bg;
+		color: @select-item-color;
+		border: 1px solid @select-item-border-color;
+		border-radius: @select-item-border-radius;
+	}
 }
 
 // Items
@@ -50,7 +62,7 @@
 	cursor: default;
 	.border-right-radius( @select-item-border-radius );
 	padding: @select-item-padding-vertical @select-item-padding-horizontal;
-	
+
 	.Select-item-label__a {
 		color: @select-item-color;
 		cursor: pointer;
@@ -62,7 +74,7 @@
 	cursor: pointer;
 	.border-left-radius( @select-item-border-radius );
 	border-right: 1px solid @select-item-border-color;
-	
+
 	// move the baseline up by 1px
 	padding: @select-item-padding-vertical - 1 @select-item-padding-horizontal @select-item-padding-vertical + 1;
 

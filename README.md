@@ -87,6 +87,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
+* You can set a `multiSum={true}` if you would like to have the list of selected options summarized. There is a default option that can also be sent as a prop `multiSumLimit={number}` (default is set to 3. If the select items is less than the limit then it just prints out an ordered list, if it is more it will say x of y selected for example: "7 of 20 selected". If all items are selected it will say "All", and if all but one or two it will say "All except, {valueLabel}".
 
 ### Async options
 
@@ -168,6 +169,8 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	(any, label, value) which option property to filter on
 	multi 				|	bool		|	multi-value input
+	multiSum			|	bool		|	multi-value text summary option
+	multiSumLimit 		|	bool		|	number of values until it stops listing them out one by one
 	name 				|	string		|	field name, for hidden <input /> tag
 	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
 	onBlur 				|	func		|	onBlur handler: function(event) {}
