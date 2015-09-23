@@ -526,13 +526,13 @@ var Select = React.createClass({
 
 			this.setState({
 				isLoading: true,
-				inputValue: event.target.value
+				inputValue: this._optionsFilterString
 			});
 		} else {
 			var filteredOptions = this.filterOptions(this.state.options);
 			this.setState({
 				isOpen: true,
-				inputValue: event.target.value,
+				inputValue: this._optionsFilterString,
 				filteredOptions: filteredOptions,
 				focusedOption: this._getNewFocusedOption(filteredOptions)
 			}, this._bindCloseMenuIfClickedOutside);
