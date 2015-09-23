@@ -50,8 +50,8 @@
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -u exports --compilers js:babel/register -R spec && cat coverage/lcov.info | coveralls",
     "examples": "gulp dev:server",
     "lint": "eslint .",
-    "publish:examples": "gulp publish:examples",
-    "release": "gulp release",
+    "publish:examples": "NODE_ENV=production gulp publish:examples",
+    "release": "NODE_ENV=production gulp release",
     "start": "gulp dev",
     "test": "mocha --compilers js:babel/register",
     "watch": "gulp watch:lib"
