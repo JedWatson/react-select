@@ -389,9 +389,6 @@ var Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
-
-		this._openAfterFocus = true;
-		this.getInputNode().focus();
 	},
 
 	handleMouseDownOnArrow: function(event) {
