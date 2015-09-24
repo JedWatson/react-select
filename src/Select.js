@@ -13,45 +13,45 @@ var OptionGroup = require('./OptionGroup');
 var requestId = 0;
 
 function defaultFilterOption(option, filterValue) {
-  if (!filterValue) {
-    return true;
-  }
-  var valueTest = String(option.value), labelTest = String(option.label);
-  if (this.props.ignoreCase) {
-    valueTest = valueTest.toLowerCase();
-    labelTest = labelTest.toLowerCase();
-    filterValue = filterValue.toLowerCase();
-  }
-  return (this.props.matchPos === 'start') ? (
-    (this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
-    (this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
-  ) : (
-    (this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
-    (this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
-  );
+	if (!filterValue) {
+		return true;
+	}
+	var valueTest = String(option.value), labelTest = String(option.label);
+	if (this.props.ignoreCase) {
+		valueTest = valueTest.toLowerCase();
+		labelTest = labelTest.toLowerCase();
+		filterValue = filterValue.toLowerCase();
+	}
+	return (this.props.matchPos === 'start') ? (
+		(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
+		(this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
+	) : (
+		(this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
+		(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
+	);
 }
 
 function defaultFilterOptions(options, filterValue, exclude) {
-  if (!options) {
-    return [];
-  }
-  var matchingOptions = function(matches, option) {
-    if (isGroup(option)) {
-      var groupMatches = option.options.reduce(matchingOptions, []);
-      if (groupMatches.length > 0) {
-        matches.push(Object.assign({}, option, {
-          options: groupMatches,
-        }));
-      }
-    } else if (
-      (!this.props.multi || exclude.indexOf(option.value) === -1) &&
-      (this.props.filterOption && this.props.filterOption.call(this, option, filterValue))
-    ) {
-      matches.push(option);
-    }
-    return matches;
-  }.bind(this);
-  return options.reduce(matchingOptions, []);
+	if (!options) {
+		return [];
+	}
+	var matchingOptions = function(matches, option) {
+		if (isGroup(option)) {
+			var groupMatches = option.options.reduce(matchingOptions, []);
+			if (groupMatches.length > 0) {
+				matches.push(Object.assign({}, option, {
+					options: groupMatches,
+				}));
+			}
+		} else if (
+			(!this.props.multi || exclude.indexOf(option.value) === -1) &&
+			(this.props.filterOption && this.props.filterOption.call(this, option, filterValue))
+		) {
+			matches.push(option);
+		}
+		return matches;
+	}.bind(this);
+	return options.reduce(matchingOptions, []);
 }
 
 function defaultLabelRenderer(op) {
@@ -137,8 +137,8 @@ var Select = React.createClass({
 			clearable: true,
 			delimiter: ',',
 			disabled: false,
-      filterOption: defaultFilterOption,
-      filterOptions: defaultFilterOptions,
+			filterOption: defaultFilterOption,
+			filterOptions: defaultFilterOptions,
 			ignoreCase: true,
 			inputProps: {},
 			matchPos: 'any',
@@ -177,7 +177,7 @@ var Select = React.createClass({
 			isLoading: false,
 			isOpen: false,
 			options: this.props.options,
-      flatOptions: flattenOptions(this.props.options)
+			flatOptions: flattenOptions(this.props.options)
 		};
 	},
 
@@ -234,14 +234,14 @@ var Select = React.createClass({
 
 	componentWillReceiveProps: function(newProps) {
 		var optionsChanged = false;
-    var options = newProps.options;
+		var options = newProps.options;
 		if (JSON.stringify(options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
 			var filteredOptions = this.filterOptions(options);
 			this.setState({
 				filteredOptions: filteredOptions,
-        flatOptions: flattenOptions(filteredOptions),
-        options: options
+				flatOptions: flattenOptions(filteredOptions),
+				options: options
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
@@ -324,7 +324,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-      flatOptions: flattenOptions(filteredOptions),
+			flatOptions: flattenOptions(filteredOptions),
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
@@ -586,7 +586,7 @@ var Select = React.createClass({
 				isOpen: true,
 				inputValue: event.target.value,
 				filteredOptions: filteredOptions,
-        flatOptions: flattenOptions(filteredOptions),
+				flatOptions: flattenOptions(filteredOptions),
 				focusedOption: this._getNewFocusedOption(filteredOptions)
 			}, this._bindCloseMenuIfClickedOutside);
 		}
@@ -613,7 +613,7 @@ var Select = React.createClass({
 					var newState = {
 						options: options,
 						filteredOptions: filteredOptions,
-            flatOptions: flattenOptions(filteredOptions),
+						flatOptions: flattenOptions(filteredOptions),
 						focusedOption: this._getNewFocusedOption(filteredOptions)
 					};
 					for (var key in state) {
@@ -640,7 +640,7 @@ var Select = React.createClass({
 			var newState = {
 				options: data.options,
 				filteredOptions: filteredOptions,
-        flatOptions: flattenOptions(filteredOptions),
+				flatOptions: flattenOptions(filteredOptions),
 				focusedOption: this._getNewFocusedOption(filteredOptions)
 			};
 			for (var key in state) {
@@ -658,8 +658,8 @@ var Select = React.createClass({
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
 		});
-    var result = this.props.filterOptions.call(this, options, filterValue, exclude);
-    return result;
+		var result = this.props.filterOptions.call(this, options, filterValue, exclude);
+		return result;
 	},
 
 	selectFocusedOption: function() {
@@ -750,42 +750,42 @@ var Select = React.createClass({
 			options.unshift(newOption);
 		}
 
-    if (!options.length) {
-      return this.renderNoResults();
-    }
+		if (!options.length) {
+			return this.renderNoResults();
+		}
 
-    return this.renderOptions(focusedValue, options);
+		return this.renderOptions(focusedValue, options);
 	},
 
-  renderNoResults() {
-    var noResultsText, promptClass;
-    if (this.state.isLoading) {
-      promptClass = 'Select-searching';
-      noResultsText = this.props.searchingText;
-    } else if (this.state.inputValue || !this.props.asyncOptions) {
-      promptClass = 'Select-noresults';
-      noResultsText = this.props.noResultsText;
-    } else {
-      promptClass = 'Select-search-prompt';
-      noResultsText = this.props.searchPromptText;
-    }
+	renderNoResults() {
+		var noResultsText, promptClass;
+		if (this.state.isLoading) {
+			promptClass = 'Select-searching';
+			noResultsText = this.props.searchingText;
+		} else if (this.state.inputValue || !this.props.asyncOptions) {
+			promptClass = 'Select-noresults';
+			noResultsText = this.props.noResultsText;
+		} else {
+			promptClass = 'Select-search-prompt';
+			noResultsText = this.props.searchPromptText;
+		}
 
-    return (
-      <div className={promptClass}>
-        {noResultsText}
-      </div>
-    );
-  },
+		return (
+			<div className={promptClass}>
+				{noResultsText}
+			</div>
+		);
+	},
 
-  renderOptions(focusedValue, options) {
-    console.log(options);
+	renderOptions(focusedValue, options) {
+		console.log(options);
 		return options.map(function(option) {
 			if (isGroup(option)) {
 				return this.renderOptionGroup(focusedValue, option);
 			}
 			return this.renderOption(focusedValue, option);
 		}, this);
-  },
+	},
 
 	renderOption(focusedValue, op) {
 		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
@@ -819,7 +819,7 @@ var Select = React.createClass({
 		var renderLabel = this.props.optionGroupRenderer || defaultLabelRenderer;
 		return React.createElement(this.props.optionGroupComponent, {
 			key: 'optionGroup-' + group.label,
-      children: this.renderOptions(focusedValue, group.options),
+			children: this.renderOptions(focusedValue, group.options),
 			renderFunc: renderLabel,
 			optionGroup: group
 		});

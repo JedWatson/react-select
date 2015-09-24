@@ -3,7 +3,7 @@ var classes = require('classnames');
 
 var Option = React.createClass({
 	propTypes: {
-    children: React.PropTypes.any,
+		children: React.PropTypes.any,
 		className: React.PropTypes.string,
 		optionGroup: React.PropTypes.shape({
 			label: React.PropTypes.string.isRequired,
@@ -29,15 +29,15 @@ var Option = React.createClass({
 		var obj = this.props.optionGroup;
 		var renderedLabel = this.props.renderFunc(obj);
 		return (
-      <div className={classes(this.props.className, 'Select-optionGroup')}>
-        <div
-          className="Select-optionGroup-label"
-          onMouseDown={this.blockEvent}
-          onClick={this.blockEvent}>
-          <strong>{renderedLabel}</strong>
-        </div>
-        {this.props.children}
-      </div>
+			<div className={classes(this.props.className, 'Select-optionGroup')}>
+				<div
+					className="Select-optionGroup-label"
+					onMouseDown={this.blockEvent}
+					onClick={this.blockEvent}>
+					<strong>{renderedLabel}</strong>
+				</div>
+				{this.props.children}
+			</div>
 		);
 	}
 });
