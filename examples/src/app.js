@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 import CustomRenderField from './components/CustomRenderField';
 import MultiSelectField from './components/MultiSelectField';
+import GroupedOptionsField from './components/GroupedOptionsField';
 import RemoteSelectField from './components/RemoteSelectField';
 import SelectedValuesField from './components/SelectedValuesField';
 import StatesField from './components/StatesField';
@@ -36,6 +37,7 @@ React.render(
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
 		<SelectedValuesField label="Disabled option" options={FLAVOURS_WITH_DISABLED_OPTION} hint="You savage! Caramel is the best..." />
 		<DisabledUpsellOptions label="Disable option with an upsell link"/>
+		<GroupedOptionsField label="Option Groups" />
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's not in the list, then hit enter" />
 		<CustomRenderField label="Custom render options/values" />
 		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
