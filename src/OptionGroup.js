@@ -28,12 +28,10 @@ var Option = React.createClass({
 	render: function() {
 		var obj = this.props.optionGroup;
 		var renderedLabel = this.props.renderFunc(obj);
-		var optionClasses = classes(this.props.className, obj.className);
-
 		return (
-      <div>
+      <div className={classes(this.props.className, 'Select-optionGroup')}>
         <div
-          className={optionClasses}
+          className="Select-optionGroup-label"
           onMouseDown={this.blockEvent}
           onClick={this.blockEvent}>
           <strong>{renderedLabel}</strong>

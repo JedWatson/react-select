@@ -35,9 +35,9 @@ function defaultFilterOptions(options, filterValue, exclude) {
   if (!options) {
     return [];
   }
-  var matchedOptions = function(matches, option) {
+  var matchingOptions = function(matches, option) {
     if (isGroup(option)) {
-      var groupMatches = option.options.reduce(matchedOptions, []);
+      var groupMatches = option.options.reduce(matchingOptions, []);
       if (groupMatches.length > 0) {
         matches.push(Object.assign({}, option, {
           options: groupMatches,
@@ -51,7 +51,7 @@ function defaultFilterOptions(options, filterValue, exclude) {
     }
     return matches;
   }.bind(this);
-  return options.reduce(matchedOptions, []);
+  return options.reduce(matchingOptions, []);
 }
 
 function defaultLabelRenderer(op) {
@@ -236,10 +236,11 @@ var Select = React.createClass({
 		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
-			var options = newProps.options;
+			var filteredOptions = this.filterOptions(newProps.options);
 			this.setState({
-				flatOptions: flattenOptions(options),
-				filteredOptions: this.filterOptions(options),
+				flatOptions: flattenOptions(filteredOptions),
+				filteredOptions: filteredOptions,
+        flatOptions: flattenOptions(filteredOptions),
         options: options
 			});
 		}
@@ -323,6 +324,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
+      flatOptions: flattenOptions(filteredOptions),
 			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: focusedOption
 		};
@@ -584,6 +586,7 @@ var Select = React.createClass({
 				isOpen: true,
 				inputValue: event.target.value,
 				filteredOptions: filteredOptions,
+        flatOptions: flattenOptions(filteredOptions),
 				focusedOption: this._getNewFocusedOption(filteredOptions)
 			}, this._bindCloseMenuIfClickedOutside);
 		}
@@ -610,6 +613,7 @@ var Select = React.createClass({
 					var newState = {
 						options: options,
 						filteredOptions: filteredOptions,
+            flatOptions: flattenOptions(filteredOptions),
 						focusedOption: this._getNewFocusedOption(filteredOptions)
 					};
 					for (var key in state) {
@@ -636,6 +640,7 @@ var Select = React.createClass({
 			var newState = {
 				options: data.options,
 				filteredOptions: filteredOptions,
+        flatOptions: flattenOptions(filteredOptions),
 				focusedOption: this._getNewFocusedOption(filteredOptions)
 			};
 			for (var key in state) {
@@ -745,36 +750,42 @@ var Select = React.createClass({
 			options.unshift(newOption);
 		}
 
-		var ops = Object.keys(options).map(function(key) {
-			var op = options[key];
-			if (isGroup(op)) {
-				return this.renderOptionGroup(focusedValue, op);
-			}
-			return this.renderOption(focusedValue, op);
-		}, this);
+    if (!options.length) {
+      return this.renderNoResults();
+    }
 
-		if (ops.length) {
-			return ops;
-		} else {
-			var noResultsText, promptClass;
-			if (this.state.isLoading) {
-				promptClass = 'Select-searching';
-				noResultsText = this.props.searchingText;
-			} else if (this.state.inputValue || !this.props.asyncOptions) {
-				promptClass = 'Select-noresults';
-				noResultsText = this.props.noResultsText;
-			} else {
-				promptClass = 'Select-search-prompt';
-				noResultsText = this.props.searchPromptText;
-			}
-
-			return (
-				<div className={promptClass}>
-					{noResultsText}
-				</div>
-			);
-		}
+    return this.renderOptions(focusedValue, options);
 	},
+
+  renderNoResults() {
+    var noResultsText, promptClass;
+    if (this.state.isLoading) {
+      promptClass = 'Select-searching';
+      noResultsText = this.props.searchingText;
+    } else if (this.state.inputValue || !this.props.asyncOptions) {
+      promptClass = 'Select-noresults';
+      noResultsText = this.props.noResultsText;
+    } else {
+      promptClass = 'Select-search-prompt';
+      noResultsText = this.props.searchPromptText;
+    }
+
+    return (
+      <div className={promptClass}>
+        {noResultsText}
+      </div>
+    );
+  },
+
+  renderOptions(focusedValue, options) {
+    console.log(options);
+		return options.map(function(option) {
+			if (isGroup(option)) {
+				return this.renderOptionGroup(focusedValue, option);
+			}
+			return this.renderOption(focusedValue, option);
+		}, this);
+  },
 
 	renderOption(focusedValue, op) {
 		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
@@ -808,8 +819,7 @@ var Select = React.createClass({
 		var renderLabel = this.props.optionGroupRenderer || defaultLabelRenderer;
 		return React.createElement(this.props.optionGroupComponent, {
 			key: 'optionGroup-' + group.label,
-			className: 'Select-option Select-optionGroup',
-      children: group.options.map(this.renderOption.bind(this, focusedValue)),
+      children: this.renderOptions(focusedValue, group.options),
 			renderFunc: renderLabel,
 			optionGroup: group
 		});
@@ -872,7 +882,7 @@ var Select = React.createClass({
 
 		var menu;
 		var menuProps;
-		if (this.props.open || this.state.isOpen) {
+		if (this.state.isOpen) {
 			menuProps = {
 				ref: 'menu',
 				className: 'Select-menu',

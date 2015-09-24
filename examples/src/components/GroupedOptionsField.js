@@ -10,18 +10,37 @@ var ops = [{
   value: 'black',
 }, {
   label: 'Primary Colors',
-  options: [
-    { label: 'Yellow', value: 'yellow' },
-    { label: 'Red', value: 'red' },
-    { label: 'Blue', value: 'blue' }
-  ]
+  options: [{
+    label: 'Yellow',
+    value: 'yellow'
+  }, {
+    label: 'Red',
+    value: 'red'
+  }, {
+    label: 'Blue',
+    value: 'blue'
+  }]
 }, {
   label: 'Secondary Colors',
-  options: [
-    { label: 'Orange', value: 'orange' },
-    { label: 'Violet', value: 'violet' },
-    { label: 'Green', value: 'green' }
-  ]
+  options: [{
+    label: 'Orange',
+    value: 'orange'
+  }, {
+    label: 'Purple',
+    options: [{
+      label: 'Light Purple',
+      value: 'light_purple'
+    }, {
+      label: 'Medium Purple',
+      value: 'medium_purple'
+    }, {
+      label: 'Dark Purple',
+      value: 'dark_purple'
+    }]
+  }, {
+    label: 'Green',
+    value: 'green'
+  }]
 }, {
   label: 'White',
   value: 'white',
@@ -40,7 +59,6 @@ var GroupedOptionsField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-          open={true}
 					options={ops}
 					placeholder="Select a color"
 					onChange={logChange} />
