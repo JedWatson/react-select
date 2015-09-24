@@ -706,7 +706,6 @@ var Select = React.createClass({
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0].value : focusedValue;
 		}
-    console.log('buildMenu-focusedValue', focusedValue);
 		// Add the current value to the filtered options in last resort
 		var options = this.state.filteredOptions;
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
@@ -722,7 +721,6 @@ var Select = React.createClass({
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
       if (isGroup(op)) {
-        console.log('render group!');
         return this.renderOptionGroup(op);
       }
       return this.renderOption(op, focusedValue);
@@ -752,7 +750,6 @@ var Select = React.createClass({
 	},
 
   renderOption(op, focusedValue) {
-    console.log('focusedValue', focusedValue)
 		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
     var isSelected = this.state.value === op.value;
     var isFocused = focusedValue === op.value;
@@ -798,7 +795,6 @@ var Select = React.createClass({
 	},
 
 	render: function() {
-    console.log('focused', this.state.focusedOption)
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-searchable': this.props.searchable,
