@@ -8,8 +8,33 @@ var classes = require('classnames');
 var Value = require('./Value');
 var SingleValue = require('./SingleValue');
 var Option = require('./Option');
+var OptionGroup = require('./OptionGroup');
 
 var requestId = 0;
+
+function defaultLabelRenderer(op) {
+  return op.label;
+}
+
+function flattenOptions(options) {
+  if (!options) {
+    return options;
+  }
+  var flatten = function(flat, opt) {
+    if (Array.isArray(opt.options)) {
+      return flat.concat(
+        opt,
+        opt.options.reduce(flatten, [])
+      );
+    }
+    return flat.concat(opt);
+  };
+  return options.reduce(flatten, []);
+}
+
+function isGroup(op) {
+  return op && Array.isArray(op.options);
+}
 
 var Select = React.createClass({
 
@@ -81,6 +106,7 @@ var Select = React.createClass({
 			onInputChange: undefined,
 			onOptionLabelClick: undefined,
 			optionComponent: Option,
+			optionGroupComponent: OptionGroup,
 			options: undefined,
 			placeholder: 'Select...',
 			searchable: true,
@@ -106,7 +132,7 @@ var Select = React.createClass({
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
-			options: this.props.options
+			options: flattenOptions(this.props.options)
 		};
 	},
 
@@ -165,9 +191,10 @@ var Select = React.createClass({
 		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
+      var flatOptions = flattenOptions(newProps.options);
 			this.setState({
-				options: newProps.options,
-				filteredOptions: this.filterOptions(newProps.options)
+				options: flatOptions,
+				filteredOptions: this.filterOptions(flatOptions)
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
@@ -256,9 +283,8 @@ var Select = React.createClass({
 	},
 
 	getFirstFocusableOption: function (options) {
-
 		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
-			if (!options[optionIndex].disabled) {
+			if (!options[optionIndex].disabled && !isGroup(options[optionIndex])) {
 				return options[optionIndex];
 			}
 		}
@@ -677,12 +703,10 @@ var Select = React.createClass({
 
 	buildMenu: function() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
-		var renderLabel = this.props.optionRenderer || function(op) {
-			return op.label;
-		};
 		if (this.state.filteredOptions.length > 0) {
-			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
+			focusedValue = focusedValue == null ? this.state.filteredOptions[0].value : focusedValue;
 		}
+    console.log('buildMenu-focusedValue', focusedValue);
 		// Add the current value to the filtered options in last resort
 		var options = this.state.filteredOptions;
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
@@ -697,31 +721,11 @@ var Select = React.createClass({
 		}
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
-			var isSelected = this.state.value === op.value;
-			var isFocused = focusedValue === op.value;
-			var optionClass = classes({
-				'Select-option': true,
-				'is-selected': isSelected,
-				'is-focused': isFocused,
-				'is-disabled': op.disabled
-			});
-			var ref = isFocused ? 'focused' : null;
-			var mouseEnter = this.focusOption.bind(this, op);
-			var mouseLeave = this.unfocusOption.bind(this, op);
-			var mouseDown = this.selectValue.bind(this, op);
-			var optionResult = React.createElement(this.props.optionComponent, {
-				key: 'option-' + op.value,
-				className: optionClass,
-				renderFunc: renderLabel,
-				mouseEnter: mouseEnter,
-				mouseLeave: mouseLeave,
-				mouseDown: mouseDown,
-				click: mouseDown,
-				addLabelText: this.props.addLabelText,
-				option: op,
-				ref: ref
-			});
-			return optionResult;
+      if (isGroup(op)) {
+        console.log('render group!');
+        return this.renderOptionGroup(op);
+      }
+      return this.renderOption(op, focusedValue);
 		}, this);
 
 		if (ops.length) {
@@ -747,6 +751,46 @@ var Select = React.createClass({
 		}
 	},
 
+  renderOption(op, focusedValue) {
+    console.log('focusedValue', focusedValue)
+		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
+    var isSelected = this.state.value === op.value;
+    var isFocused = focusedValue === op.value;
+    var optionClass = classes({
+      'Select-option': true,
+      'is-selected': isSelected,
+      'is-focused': isFocused,
+      'is-disabled': op.disabled
+    });
+    var ref = isFocused ? 'focused' : null;
+    var mouseEnter = this.focusOption.bind(this, op);
+    var mouseLeave = this.unfocusOption.bind(this, op);
+    var mouseDown = this.selectValue.bind(this, op);
+    return React.createElement(this.props.optionComponent, {
+      key: 'option-' + op.value,
+      className: optionClass,
+      renderFunc: renderLabel,
+      mouseEnter: mouseEnter,
+      mouseLeave: mouseLeave,
+      mouseDown: mouseDown,
+      click: mouseDown,
+      addLabelText: this.props.addLabelText,
+      option: op,
+      ref: ref
+    });
+  },
+
+  renderOptionGroup(group) {
+		var renderLabel = this.props.optionGroupRenderer || defaultLabelRenderer;
+    var optionClass = classes('Select-option', 'is-disabled');
+    return React.createElement(this.props.optionGroupComponent, {
+      key: 'optionGroup-' + group.label,
+      className: optionClass,
+      renderFunc: renderLabel,
+      optionGroup: group
+    });
+  },
+
 	handleOptionLabelClick: function (value, event) {
 		if (this.props.onOptionLabelClick) {
 			this.props.onOptionLabelClick(value, event);
@@ -754,6 +798,7 @@ var Select = React.createClass({
 	},
 
 	render: function() {
+    console.log('focused', this.state.focusedOption)
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-searchable': this.props.searchable,

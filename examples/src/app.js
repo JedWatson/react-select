@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 import CustomRenderField from './components/CustomRenderField';
 import MultiSelectField from './components/MultiSelectField';
+import GroupedOptionsField from './components/GroupedOptionsField';
 import RemoteSelectField from './components/RemoteSelectField';
 import SelectedValuesField from './components/SelectedValuesField';
 import StatesField from './components/StatesField';
@@ -40,6 +41,7 @@ React.render(
 		<CustomRenderField label="Custom render options/values" />
 		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
+    <GroupedOptionsField label="Grouping Options" />
 	</div>,
 	document.getElementById('example')
 );
