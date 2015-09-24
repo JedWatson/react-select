@@ -6,6 +6,9 @@ function logChange() {
 }
 
 var ops = [{
+  label: 'Black',
+  value: 'black',
+}, {
   label: 'Primary Colors',
   options: [
     { label: 'Yellow', value: 'yellow' },
@@ -19,6 +22,9 @@ var ops = [{
     { label: 'Violet', value: 'violet' },
     { label: 'Green', value: 'green' }
   ]
+}, {
+  label: 'White',
+  value: 'white',
 }];
 
 var GroupedOptionsField = React.createClass({
@@ -34,8 +40,9 @@ var GroupedOptionsField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-					placeholder="Select a color"
+          open={true}
 					options={ops}
+					placeholder="Select a color"
 					onChange={logChange} />
 			</div>
 		);

@@ -12,6 +12,48 @@ var OptionGroup = require('./OptionGroup');
 
 var requestId = 0;
 
+function defaultFilterOption(option, filterValue) {
+  if (!filterValue) {
+    return true;
+  }
+  var valueTest = String(option.value), labelTest = String(option.label);
+  if (this.props.ignoreCase) {
+    valueTest = valueTest.toLowerCase();
+    labelTest = labelTest.toLowerCase();
+    filterValue = filterValue.toLowerCase();
+  }
+  return (this.props.matchPos === 'start') ? (
+    (this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
+    (this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
+  ) : (
+    (this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
+    (this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
+  );
+}
+
+function defaultFilterOptions(options, filterValue, exclude) {
+  if (!options) {
+    return [];
+  }
+  var matchedOptions = function(matches, option) {
+    if (isGroup(option)) {
+      var groupMatches = option.options.reduce(matchedOptions, []);
+      if (groupMatches.length > 0) {
+        matches.push(Object.assign({}, option, {
+          options: groupMatches,
+        }));
+      }
+    } else if (
+      (!this.props.multi || exclude.indexOf(option.value) === -1) &&
+      (this.props.filterOption && this.props.filterOption.call(this, option, filterValue))
+    ) {
+      matches.push(option);
+    }
+    return matches;
+  }.bind(this);
+  return options.reduce(matchedOptions, []);
+}
+
 function defaultLabelRenderer(op) {
 	return op.label;
 }
@@ -95,6 +137,8 @@ var Select = React.createClass({
 			clearable: true,
 			delimiter: ',',
 			disabled: false,
+      filterOption: defaultFilterOption,
+      filterOptions: defaultFilterOptions,
 			ignoreCase: true,
 			inputProps: {},
 			matchPos: 'any',
@@ -132,7 +176,8 @@ var Select = React.createClass({
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
-			options: flattenOptions(this.props.options)
+			options: this.props.options,
+      flatOptions: flattenOptions(this.props.options)
 		};
 	},
 
@@ -191,10 +236,11 @@ var Select = React.createClass({
 		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
-			var flatOptions = flattenOptions(newProps.options);
+			var options = newProps.options;
 			this.setState({
-				options: flatOptions,
-				filteredOptions: this.filterOptions(flatOptions)
+				flatOptions: flattenOptions(options),
+				filteredOptions: this.filterOptions(options),
+        options: options
 			});
 		}
 		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
@@ -607,29 +653,8 @@ var Select = React.createClass({
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
 		});
-		if (this.props.filterOptions) {
-			return this.props.filterOptions.call(this, options, filterValue, exclude);
-		} else {
-			var filterOption = function(op) {
-        if (isGroup(op)) return op.options.some(filterOption, this);
-				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
-				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
-				var valueTest = String(op.value), labelTest = String(op.label);
-				if (this.props.ignoreCase) {
-					valueTest = valueTest.toLowerCase();
-					labelTest = labelTest.toLowerCase();
-					filterValue = filterValue.toLowerCase();
-				}
-				return !filterValue || (this.props.matchPos === 'start') ? (
-					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
-					(this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
-				) : (
-					(this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
-					(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
-				);
-			};
-			return (options || []).filter(filterOption, this);
-		}
+    var result = this.props.filterOptions.call(this, options, filterValue, exclude);
+    return result;
 	},
 
 	selectFocusedOption: function() {
@@ -658,7 +683,7 @@ var Select = React.createClass({
 
 	focusAdjacentOption: function(dir) {
 		this._focusedOptionReveal = true;
-		var ops = this.state.filteredOptions.filter(function(op) {
+		var ops = this.state.flatOptions.filter(function(op) {
 			return !op.disabled && !isGroup(op);
 		});
 		if (!this.state.isOpen) {
@@ -719,12 +744,13 @@ var Select = React.createClass({
 			};
 			options.unshift(newOption);
 		}
+
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
 			if (isGroup(op)) {
-				return this.renderOptionGroup(op);
+				return this.renderOptionGroup(focusedValue, op);
 			}
-			return this.renderOption(op, focusedValue);
+			return this.renderOption(focusedValue, op);
 		}, this);
 
 		if (ops.length) {
@@ -750,7 +776,7 @@ var Select = React.createClass({
 		}
 	},
 
-	renderOption(op, focusedValue) {
+	renderOption(focusedValue, op) {
 		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
 		var isSelected = this.state.value === op.value;
 		var isFocused = focusedValue === op.value;
@@ -778,12 +804,12 @@ var Select = React.createClass({
 		});
 	},
 
-	renderOptionGroup(group) {
+	renderOptionGroup(focusedValue, group) {
 		var renderLabel = this.props.optionGroupRenderer || defaultLabelRenderer;
-		var optionClass = classes('Select-option', 'is-disabled');
 		return React.createElement(this.props.optionGroupComponent, {
 			key: 'optionGroup-' + group.label,
-			className: optionClass,
+			className: 'Select-option Select-optionGroup',
+      children: group.options.map(this.renderOption.bind(this, focusedValue)),
 			renderFunc: renderLabel,
 			optionGroup: group
 		});
@@ -846,7 +872,7 @@ var Select = React.createClass({
 
 		var menu;
 		var menuProps;
-		if (this.state.isOpen) {
+		if (this.props.open || this.state.isOpen) {
 			menuProps = {
 				ref: 'menu',
 				className: 'Select-menu',
