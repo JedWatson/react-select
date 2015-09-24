@@ -269,7 +269,7 @@ var Select = React.createClass({
 			if (typeof values === 'string') {
 				values = values === ''
 					? []
-					: this.props.multi 
+					: this.props.multi
 						? values.split(this.props.delimiter)
 						: [ values ];
 			} else {
@@ -379,6 +379,19 @@ var Select = React.createClass({
 			this._openAfterFocus = true;
 			this.getInputNode().focus();
 		}
+	},
+
+	handleMouseDownOnMenu: function(event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+			return;
+		}
+		event.stopPropagation();
+		event.preventDefault();
+
+		this._openAfterFocus = true;
+		this.getInputNode().focus();
 	},
 
 	handleMouseDownOnArrow: function(event) {
@@ -808,7 +821,7 @@ var Select = React.createClass({
 			menuProps = {
 				ref: 'menu',
 				className: 'Select-menu',
-				onMouseDown: this.handleMouseDown
+				onMouseDown: this.handleMouseDownOnMenu
 			};
 			menu = (
 				<div ref="selectMenuContainer" className="Select-menu-outer">
