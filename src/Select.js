@@ -658,7 +658,7 @@ var Select = React.createClass({
 	focusAdjacentOption: function(dir) {
 		this._focusedOptionReveal = true;
 		var ops = this.state.filteredOptions.filter(function(op) {
-			return !op.disabled;
+			return !op.disabled && !isGroup(op);
 		});
 		if (!this.state.isOpen) {
 			this.setState({
