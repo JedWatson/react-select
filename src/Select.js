@@ -234,11 +234,11 @@ var Select = React.createClass({
 
 	componentWillReceiveProps: function(newProps) {
 		var optionsChanged = false;
-		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
+    var options = newProps.options;
+		if (JSON.stringify(options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
-			var filteredOptions = this.filterOptions(newProps.options);
+			var filteredOptions = this.filterOptions(options);
 			this.setState({
-				flatOptions: flattenOptions(filteredOptions),
 				filteredOptions: filteredOptions,
         flatOptions: flattenOptions(filteredOptions),
         options: options
