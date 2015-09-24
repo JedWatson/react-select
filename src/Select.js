@@ -13,27 +13,27 @@ var OptionGroup = require('./OptionGroup');
 var requestId = 0;
 
 function defaultLabelRenderer(op) {
-  return op.label;
+	return op.label;
 }
 
 function flattenOptions(options) {
-  if (!options) {
-    return options;
-  }
-  var flatten = function(flat, opt) {
-    if (Array.isArray(opt.options)) {
-      return flat.concat(
-        opt,
-        opt.options.reduce(flatten, [])
-      );
-    }
-    return flat.concat(opt);
-  };
-  return options.reduce(flatten, []);
+	if (!options) {
+		return options;
+	}
+	var flatten = function(flat, opt) {
+		if (Array.isArray(opt.options)) {
+			return flat.concat(
+				opt,
+				opt.options.reduce(flatten, [])
+			);
+		}
+		return flat.concat(opt);
+	};
+	return options.reduce(flatten, []);
 }
 
 function isGroup(op) {
-  return op && Array.isArray(op.options);
+	return op && Array.isArray(op.options);
 }
 
 var Select = React.createClass({
@@ -191,7 +191,7 @@ var Select = React.createClass({
 		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
-      var flatOptions = flattenOptions(newProps.options);
+			var flatOptions = flattenOptions(newProps.options);
 			this.setState({
 				options: flatOptions,
 				filteredOptions: this.filterOptions(flatOptions)
@@ -720,10 +720,10 @@ var Select = React.createClass({
 		}
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
-      if (isGroup(op)) {
-        return this.renderOptionGroup(op);
-      }
-      return this.renderOption(op, focusedValue);
+			if (isGroup(op)) {
+				return this.renderOptionGroup(op);
+			}
+			return this.renderOption(op, focusedValue);
 		}, this);
 
 		if (ops.length) {
@@ -749,44 +749,44 @@ var Select = React.createClass({
 		}
 	},
 
-  renderOption(op, focusedValue) {
+	renderOption(op, focusedValue) {
 		var renderLabel = this.props.optionRenderer || defaultLabelRenderer;
-    var isSelected = this.state.value === op.value;
-    var isFocused = focusedValue === op.value;
-    var optionClass = classes({
-      'Select-option': true,
-      'is-selected': isSelected,
-      'is-focused': isFocused,
-      'is-disabled': op.disabled
-    });
-    var ref = isFocused ? 'focused' : null;
-    var mouseEnter = this.focusOption.bind(this, op);
-    var mouseLeave = this.unfocusOption.bind(this, op);
-    var mouseDown = this.selectValue.bind(this, op);
-    return React.createElement(this.props.optionComponent, {
-      key: 'option-' + op.value,
-      className: optionClass,
-      renderFunc: renderLabel,
-      mouseEnter: mouseEnter,
-      mouseLeave: mouseLeave,
-      mouseDown: mouseDown,
-      click: mouseDown,
-      addLabelText: this.props.addLabelText,
-      option: op,
-      ref: ref
-    });
-  },
+		var isSelected = this.state.value === op.value;
+		var isFocused = focusedValue === op.value;
+		var optionClass = classes({
+			'Select-option': true,
+			'is-selected': isSelected,
+			'is-focused': isFocused,
+			'is-disabled': op.disabled
+		});
+		var ref = isFocused ? 'focused' : null;
+		var mouseEnter = this.focusOption.bind(this, op);
+		var mouseLeave = this.unfocusOption.bind(this, op);
+		var mouseDown = this.selectValue.bind(this, op);
+		return React.createElement(this.props.optionComponent, {
+			key: 'option-' + op.value,
+			className: optionClass,
+			renderFunc: renderLabel,
+			mouseEnter: mouseEnter,
+			mouseLeave: mouseLeave,
+			mouseDown: mouseDown,
+			click: mouseDown,
+			addLabelText: this.props.addLabelText,
+			option: op,
+			ref: ref
+		});
+	},
 
-  renderOptionGroup(group) {
+	renderOptionGroup(group) {
 		var renderLabel = this.props.optionGroupRenderer || defaultLabelRenderer;
-    var optionClass = classes('Select-option', 'is-disabled');
-    return React.createElement(this.props.optionGroupComponent, {
-      key: 'optionGroup-' + group.label,
-      className: optionClass,
-      renderFunc: renderLabel,
-      optionGroup: group
-    });
-  },
+		var optionClass = classes('Select-option', 'is-disabled');
+		return React.createElement(this.props.optionGroupComponent, {
+			key: 'optionGroup-' + group.label,
+			className: optionClass,
+			renderFunc: renderLabel,
+			optionGroup: group
+		});
+	},
 
 	handleOptionLabelClick: function (value, event) {
 		if (this.props.onOptionLabelClick) {

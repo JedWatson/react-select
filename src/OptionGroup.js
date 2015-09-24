@@ -3,10 +3,11 @@ var classes = require('classnames');
 
 var Option = React.createClass({
 	propTypes: {
+		className: PropTypes.string,
 		optionGroup: React.PropTypes.shape({
-      label: React.PropTypes.string.isRequired,
-      options: React.PropTypes.array.isRequired,
-    }).isRequired,     // object that is base for that option
+			label: React.PropTypes.string.isRequired,
+			options: React.PropTypes.array.isRequired,
+		}).isRequired,     // object that is base for that option
 		renderFunc: React.PropTypes.func               // method passed to ReactSelect component to render label text
 	},
 
