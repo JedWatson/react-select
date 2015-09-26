@@ -32,7 +32,7 @@ var Select = React.createClass({
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-		isLoading: React.PropTypes.bool,           // whether the Select is loading or not (such as select options being loaded)
+		isLoading: React.PropTypes.bool,           // whether the Select is loading externally or not (such as options being loaded)
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
