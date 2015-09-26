@@ -106,7 +106,7 @@ var Select = React.createClass({
 			 * - focusedOption
 			*/
 			isFocused: false,
-			isLoading: this.props.isLoading,
+			isLoading: false,
 			isOpen: false,
 			options: this.props.options
 		};
@@ -730,7 +730,7 @@ var Select = React.createClass({
 			return ops;
 		} else {
 			var noResultsText, promptClass;
-			if (this.state.isLoading) {
+			if (this.isLoading()) {
 				promptClass = 'Select-searching';
 				noResultsText = this.props.searchingText;
 			} else if (this.state.inputValue || !this.props.asyncOptions) {
@@ -755,13 +755,17 @@ var Select = React.createClass({
 		}
 	},
 
+	isLoading: function() {
+		return this.props.isLoading || this.state.isLoading;
+	},
+
 	render: function() {
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
-			'is-loading': this.state.isLoading,
+			'is-loading': this.isLoading(),
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
@@ -801,7 +805,7 @@ var Select = React.createClass({
 			}
 		}
 
-		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
+		var loading = this.isLoading() ? <span className="Select-loading" aria-hidden="true" /> : null;
 		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 
 		var menu;
