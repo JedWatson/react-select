@@ -181,6 +181,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
 	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
 	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+	isLoading 			| bool		| whether the options are loading (useful if options are loaded externally from the `Select` component)
 	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	(any, label, value) which option property to filter on
 	multi 				|	bool		|	multi-value input
