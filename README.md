@@ -124,6 +124,22 @@ var getOptions = function(input, callback) {
 />
 ```
 
+### Async options loaded externally
+
+If you want to load options asynchronously externally from the `Select` component, you can have the `Select` component show a loading spinner by passing in the `isLoading` prop set to `true`.
+
+```
+var Select = require('react-select');
+
+var isLoadingExternally = true;
+
+<Select
+  name="form-field-name"
+	isLoading={isLoadingExternally}
+	...
+/>
+```
+
 ### Filtering options
 
 You can control how options are filtered with the following properties:
