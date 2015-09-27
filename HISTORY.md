@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.6.11 / 2015-09-28
+
+* added; `isLoading` prop, allows indication of async options loading in situations where more control is required, thanks [Jon Gautsch](https://github.com/jgautsch)
+
 ## v0.6.10 / 2015-09-24
 
 * fixed; a build issue with the previous release that prevented the stylesheet being generated / included
