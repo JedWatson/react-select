@@ -35,6 +35,16 @@ var Select = React.createClass({
 		isLoading: React.PropTypes.bool,           // whether the Select is loading externally or not (such as options being loaded)
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		allowCreate: React.PropTypes.bool,         // whether to allow creation of new entries
+		onAdd: React.PropTypes.func,		   // onAdd handler function(newValue, newValues) called when a new value is added before onChange, requires allowCreate = true
+		/*
+		* Allow user to make option label clickable. When this handler is defined we should
+		* wrap label into <a>label</a> tag.
+		*
+		* onOptionLabelClick handler: function (value, event) {}
+		*
+		*/
+		onOptionLabelClick: React.PropTypes.func
 		multi: React.PropTypes.bool,               // multi-value input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		newOptionCreator: React.PropTypes.func,    // factory to create new options when allowCreate set
@@ -76,6 +86,10 @@ var Select = React.createClass({
 			isLoading: false,
 			matchPos: 'any',
 			matchProp: 'any',
+			allowCreate: false,
+			onAdd: undefined,
+			
+			onOptionLabelClick: undefined
 			name: undefined,
 			newOptionCreator: undefined,
 			noResultsText: 'No results found',
@@ -303,6 +317,19 @@ var Select = React.createClass({
 		}
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
+		if(this.props.allowCreate) {
+			// Find if the value was added
+			var inputValue = this.state.inputValue;
+			// Loop through the filtered options
+			var addedValues = this.state.filteredOptions.filter(function(option){
+				// Input value match and option is marked as create (new)
+				return option.value == inputValue && option.create
+			})
+			// If we found one, we fire the add event
+			if(addedValues.length) {
+				this.fireAddEvent(newState);
+			}
+		}
 		this.fireChangeEvent(newState);
 		this.setState(newState);
 	},
@@ -354,6 +381,12 @@ var Select = React.createClass({
 		if (newState.value !== this.state.value && this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
 		}
+	},
+
+	fireAddEvent: function(newState) {
+		if (newState.value !== this.state.value && this.props.onAdd && this.props.allowCreate) {
+			this.props.onAdd(newState.value, newState.values);
+		} 
 	},
 
 	handleMouseDown: function(event) {
