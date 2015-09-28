@@ -320,6 +320,19 @@ var Select = React.createClass({
 		this.setValue(this.state.values.concat(value));
 	},
 
+	addOrClearInputValue: function() {
+		var inputValue = this.state.inputValue;
+		if((inputValue || '').length === 0) {
+			return;
+		}
+		if (this.props.allowCreate) {
+			this.setValue(this.state.values.concat(inputValue), false);
+		}
+		else {
+			this.setState({ inputValue: null });
+		}
+	},
+
 	popValue: function() {
 		this.setValue(this.state.values.slice(0, this.state.values.length - 1));
 	},
@@ -420,6 +433,7 @@ var Select = React.createClass({
 	},
 
 	handleInputBlur: function(event) {
+		this.addOrClearInputValue();
 		this._blurTimeout = setTimeout(() => {
 			if (this._focusAfterUpdate) return;
 			this.setState({
@@ -442,7 +456,7 @@ var Select = React.createClass({
 				}
 			return;
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
+				if (!this.state.isOpen) {
 					return;
 				}
 				this.selectFocusedOption();
@@ -677,6 +691,13 @@ var Select = React.createClass({
 		}
 	},
 
+	inputValueExists : function() {
+		var matches = this.state.filteredOptions.filter(function(option) {
+			return String(option.value) === this.state.inputValue;
+		}, this);
+		return matches.length > 0;
+	},
+
 	buildMenu: function() {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
 		var renderLabel = this.props.optionRenderer || function(op) {
@@ -687,7 +708,7 @@ var Select = React.createClass({
 		}
 		// Add the current value to the filtered options in last resort
 		var options = this.state.filteredOptions;
-		if (this.props.allowCreate && this.state.inputValue.trim()) {
+		if (this.props.allowCreate && this.state.inputValue.trim() && !this.inputValueExists()) {
 			var inputValue = this.state.inputValue;
 			options = options.slice();
 			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
