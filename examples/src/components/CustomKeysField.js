@@ -42,7 +42,7 @@ var CustomKeysField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-					searchable={true}
+					searchable
 					labelKey="name"
 					valueKey="id"
 					options={this.state.options}
