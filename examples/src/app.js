@@ -3,14 +3,15 @@
 import React from 'react';
 import Select from 'react-select';
 
+import CustomKeysField from './components/CustomKeysField';
 import CustomRenderField from './components/CustomRenderField';
+import DisabledUpsellOptions from './components/DisabledUpsellOptions';
 import MultiSelectField from './components/MultiSelectField';
 import RemoteSelectField from './components/RemoteSelectField';
 import SelectedValuesField from './components/SelectedValuesField';
 import StatesField from './components/StatesField';
 import UsersField from './components/UsersField';
 import ValuesAsNumbersField from './components/ValuesAsNumbersField';
-import DisabledUpsellOptions from './components/DisabledUpsellOptions';
 
 var FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
@@ -29,10 +30,10 @@ function logChange() {
 React.render(
 	<div>
 		<StatesField label="States" searchable />
+		<MultiSelectField label="Multiselect"/>
 		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<ValuesAsNumbersField label="Values as numbers" />
-
-		<MultiSelectField label="Multiselect"/>
+		<CustomKeysField label="Custom object keys for options" />
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
 		<SelectedValuesField label="Disabled option" options={FLAVOURS_WITH_DISABLED_OPTION} hint="You savage! Caramel is the best..." />
 		<DisabledUpsellOptions label="Disabled option with a link"/>
