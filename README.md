@@ -170,7 +170,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	asyncOptions 		|	func		|	function to call to get options
 	autoload 			|	bool		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
-	cacheAsyncResults | bool    | enables the options cache for asyncOptions (default: `true`)
+	cacheAsyncResults	|	bool		|	enables the options cache for asyncOptions (default: `true`)
 	className 			|	string		|	className for the outer element
 	clearable 			|	bool		|	should it be possible to reset value
 	clearAllText 		|	string		|	title for the "clear" control when multi: true
@@ -181,25 +181,27 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
 	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
 	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-	isLoading			| bool    | whether the Select is loading externally or not (such as options being loaded)
+	isLoading			|	bool		|	whether the Select is loading externally or not (such as options being loaded)
+	labelKey			|	string		|	the option property to use for the label
 	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	(any, label, value) which option property to filter on
 	multi 				|	bool		|	multi-value input
 	name 				|	string		|	field name, for hidden <input /> tag
-	newOptionCreator | func | factory to create new options when allowCreate set
+	newOptionCreator	|	func		|	factory to create new options when allowCreate set
 	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
 	onBlur 				|	func		|	onBlur handler: function(event) {}
 	onChange 			|	func		|	onChange handler: function(newValue) {}
 	onFocus 			|	func		|	onFocus handler: function(event) {}
-	onInputChange | func    | onInputChange handler: function(inputValue) {}
-	onOptionLabelClick | func   | onCLick handler for value labels: function (value, event) {}
+	onInputChange		|	func		|	onInputChange handler: function(inputValue) {}
+	onOptionLabelClick	|	func		|	onCLick handler for value labels: function (value, event) {}
 	optionRenderer		|	func		|	function which returns a custom way to render the options in the menu
 	options 			|	array		|	array of options
 	placeholder 		|	string		|	field placeholder, displayed when there's no value
 	searchable 			|	bool		|	whether to enable searching feature or not
-	searchingText   | string  | message to display whilst options are loading via asyncOptions, or when isLoading prop is `true`
+	searchingText		|	string		|	message to display whilst options are loading via asyncOptions, or when isLoading prop is `true`
 	searchPromptText 	|	string		|	label to prompt for search input
 	value 				|	any			|	initial field value
+	valueKey			|	string		|	the option property to use for the value
 	valueRenderer		|	func		|	function which returns a custom way to render the value selected
 
 ### Methods
