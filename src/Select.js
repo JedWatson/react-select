@@ -33,6 +33,7 @@ var Select = React.createClass({
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		isLoading: React.PropTypes.bool,           // whether the Select is loading externally or not (such as options being loaded)
+		labelKey: React.PropTypes.string,          // path of the label value in option objects
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
@@ -54,6 +55,7 @@ var Select = React.createClass({
 		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
 		value: React.PropTypes.any,                // initial field value
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
+		valueKey: React.PropTypes.string,          // path of the label value in option objects
 		valueRenderer: React.PropTypes.func        // valueRenderer: function (option) {}
 	},
 
@@ -74,6 +76,7 @@ var Select = React.createClass({
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
+			labelKey: 'label',
 			matchPos: 'any',
 			matchProp: 'any',
 			name: undefined,
@@ -90,7 +93,8 @@ var Select = React.createClass({
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
-			valueComponent: Value
+			valueComponent: Value,
+			valueKey: 'value'
 		};
 	},
 
@@ -241,10 +245,10 @@ var Select = React.createClass({
 		var valueForState = null;
 		if (!this.props.multi && values.length) {
 			focusedOption = values[0];
-			valueForState = values[0].value;
+			valueForState = values[0][this.props.valueKey];
 		} else {
 			focusedOption = this.getFirstFocusableOption(filteredOptions);
-			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+			valueForState = values.map((v) => { return v[this.props.valueKey]; }).join(this.props.delimiter);
 		}
 
 		return {
@@ -252,7 +256,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
+			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
 		};
 	},
@@ -283,9 +287,9 @@ var Select = React.createClass({
 				for (var key in options) {
 					if (options.hasOwnProperty(key) &&
 						options[key] &&
-						(options[key].value === val ||
-							typeof options[key].value === 'number' &&
-							options[key].value.toString() === val
+						(options[key][this.props.valueKey] === val ||
+							typeof options[key][this.props.valueKey] === 'number' &&
+							options[key][this.props.valueKey].toString() === val
 						)) {
 						return options[key];
 					}
@@ -588,9 +592,10 @@ var Select = React.createClass({
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
 			var filterOption = function(op) {
-				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
+				if (this.props.multi && exclude.indexOf(op[this.props.valueKey]) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
-				var valueTest = String(op.value), labelTest = String(op.label);
+				var valueTest = String(op[this.props.valueKey]);
+				var labelTest = String(op[this.props.labelKey]);
 				if (this.props.ignoreCase) {
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();
@@ -679,7 +684,7 @@ var Select = React.createClass({
 	},
 
 	buildMenu () {
-		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
+		var focusedValue = this.state.focusedOption ? this.state.focusedOption[this.props.valueKey] : null;
 		var renderLabel = this.props.optionRenderer;
 		if (!renderLabel) renderLabel = (op) => op[this.props.labelKey];
 		if (this.state.filteredOptions.length > 0) {
@@ -699,8 +704,8 @@ var Select = React.createClass({
 		}
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
-			var isSelected = this.state.value === op.value;
-			var isFocused = focusedValue === op.value;
+			var isSelected = this.state.value === op[this.props.valueKey];
+			var isFocused = focusedValue === op[this.props.valueKey];
 			var optionClass = classes({
 				'Select-option': true,
 				'is-selected': isSelected,
@@ -712,7 +717,7 @@ var Select = React.createClass({
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
 			var optionResult = React.createElement(this.props.optionComponent, {
-				key: 'option-' + op.value,
+				key: 'option-' + op[this.props.valueKey],
 				className: optionClass,
 				renderFunc: renderLabel,
 				mouseEnter: mouseEnter,
