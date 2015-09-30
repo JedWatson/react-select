@@ -35,7 +35,7 @@ React.render(
 		<MultiSelectField label="Multiselect"/>
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
 		<SelectedValuesField label="Disabled option" options={FLAVOURS_WITH_DISABLED_OPTION} hint="You savage! Caramel is the best..." />
-		<DisabledUpsellOptions label="Disable option with an upsell link"/>
+		<DisabledUpsellOptions label="Disabled option with a link"/>
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's not in the list, then hit enter" />
 		<CustomRenderField label="Custom render options/values" />
 		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
