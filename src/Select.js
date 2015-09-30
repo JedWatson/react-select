@@ -196,6 +196,7 @@ var Select = React.createClass({
 			clearTimeout(this._blurTimeout);
 			clearTimeout(this._focusTimeout);
 			this._focusTimeout = setTimeout(() => {
+				if (!this.isMounted()) return;
 				this.getInputNode().focus();
 				this._focusAfterUpdate = false;
 			}, 50);
@@ -426,7 +427,7 @@ var Select = React.createClass({
 
 	handleInputBlur (event) {
 		this._blurTimeout = setTimeout(() => {
-			if (this._focusAfterUpdate) return;
+			if (this._focusAfterUpdate || !this.isMounted()) return;
 			this.setState({
 				isFocused: false,
 				isOpen: false
