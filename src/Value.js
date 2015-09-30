@@ -41,7 +41,6 @@ var Value = React.createClass({
 		}
 
 		if (this.props.optionLabelClick) {
-
 			label = (
 				<a className={classes('Select-item-label__a', this.props.option.className)}
 					onMouseDown={this.blockEvent}

@@ -132,14 +132,14 @@ var Select = React.createClass({
 				}, this._unbindCloseMenuIfClickedOutside);
 			}
 		};
-		this._bindCloseMenuIfClickedOutside = () {
+		this._bindCloseMenuIfClickedOutside = () => {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
 				document.addEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
-		this._unbindCloseMenuIfClickedOutside = () {
+		this._unbindCloseMenuIfClickedOutside = () => {
 			if (!document.removeEventListener && document.detachEvent) {
 				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
@@ -176,8 +176,8 @@ var Select = React.createClass({
 			var setState = (newState) => {
 				this.setState(this.getStateFromValue(newProps.value,
 					(newState && newState.options) || newProps.options,
-					newProps.placeholder)
-				);
+					newProps.placeholder
+				));
 			};
 			if (this.props.asyncOptions) {
 				this.loadAsyncOptions(newProps.value, {}, setState);
@@ -278,7 +278,7 @@ var Select = React.createClass({
 				values = values !== undefined && values !== null ? [values] : [];
 			}
 		}
-		return values.map(function(val) {
+		return values.map((val) => {
 			if (typeof val === 'string' || typeof val === 'number') {
 				for (var key in options) {
 					if (options.hasOwnProperty(key) &&
@@ -405,8 +405,8 @@ var Select = React.createClass({
 		this.setState({
 			isFocused: true,
 			isOpen: newIsOpen
-		}, function() {
-			if(newIsOpen) {
+		}, () => {
+			if (newIsOpen) {
 				this._bindCloseMenuIfClickedOutside();
 			}
 			else {
@@ -449,7 +449,6 @@ var Select = React.createClass({
 			break;
 			case 13: // enter
 				if (!this.state.isOpen) return;
-
 				this.selectFocusedOption();
 			break;
 			case 27: // escape
@@ -524,7 +523,7 @@ var Select = React.createClass({
 			isLoading: true
 		});
 		this.loadAsyncOptions((this.props.value || ''), { isLoading: false }, () => {
-			// update with fetched but don't focus
+			// update with new options but don't focus
 			this.setValue(this.props.value, false);
 		});
 	},
@@ -574,7 +573,9 @@ var Select = React.createClass({
 				}
 			}
 			this.setState(newState);
-			if (callback) callback.call(this, newState);
+			if (callback) {
+				callback.call(this, newState);
+			}
 		});
 	},
 
@@ -679,9 +680,8 @@ var Select = React.createClass({
 
 	buildMenu () {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
-		var renderLabel = this.props.optionRenderer || function(op) {
-			return op.label;
-		};
+		var renderLabel = this.props.optionRenderer;
+		if (!renderLabel) renderLabel = (op) => op[this.props.labelKey];
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
