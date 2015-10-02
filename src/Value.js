@@ -14,17 +14,17 @@ var Value = React.createClass({
 		renderer: React.PropTypes.func                    // method to render option label passed to ReactSelect
 	},
 
-	blockEvent: function(event) {
+	blockEvent (event) {
 		event.stopPropagation();
 	},
 
-	handleOnRemove: function(event) {
+	handleOnRemove (event) {
 		if (!this.props.disabled) {
 			this.props.onRemove(event);
 		}
 	},
 
-	render: function() {
+	render () {
 		var label = this.props.option.label;
 		if (this.props.renderer) {
 			label = this.props.renderer(this.props.option);
@@ -41,7 +41,6 @@ var Value = React.createClass({
 		}
 
 		if (this.props.optionLabelClick) {
-
 			label = (
 				<a className={classes('Select-item-label__a', this.props.option.className)}
 					onMouseDown={this.blockEvent}

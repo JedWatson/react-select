@@ -10,7 +10,7 @@ var ValuesAsNumbersField = React.createClass({
 	propTypes: {
 		label: React.PropTypes.string
 	},
-	
+
 	getInitialState () {
 		return {
 			options: [
@@ -27,7 +27,7 @@ var ValuesAsNumbersField = React.createClass({
 			multi: false
 		};
 	},
-	
+
 	onChangeMatchStart(event) {
 		this.setState({
 			matchPos: event.target.checked ? 'start' : 'any'
@@ -45,37 +45,37 @@ var ValuesAsNumbersField = React.createClass({
 			matchLabel: event.target.checked
 		});
 	},
-	
+
 	onChange(value, values) {
 		this.setState({
 			value: value
 		});
 		logChange(value, values);
 	},
-	
+
 	onChangeMulti(event) {
 		this.setState({
 			multi: event.target.checked
 		});
 	},
-	
+
 	render () {
-		
+
 		var matchProp = 'any';
-		
+
 		if (this.state.matchLabel && !this.state.matchValue) {
 			matchProp = 'label';
 		}
-		
+
 		if (!this.state.matchLabel && this.state.matchValue) {
 			matchProp = 'value';
 		}
-		
+
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-					searchable={true}
+					searchable
 					matchProp={matchProp}
 					matchPos={this.state.matchPos}
 					options={this.state.options}

@@ -1,4 +1,183 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+},{}],2:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+exports.decode = exports.parse = require('./decode');
+exports.encode = exports.stringify = require('./encode');
+
+},{"./decode":1,"./encode":2}],4:[function(require,module,exports){
 /* eslint react/prop-types: 0 */
 
 'use strict';
@@ -13,9 +192,17 @@ var _reactSelect = require('react-select');
 
 var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
+var _componentsCustomKeysField = require('./components/CustomKeysField');
+
+var _componentsCustomKeysField2 = _interopRequireDefault(_componentsCustomKeysField);
+
 var _componentsCustomRenderField = require('./components/CustomRenderField');
 
 var _componentsCustomRenderField2 = _interopRequireDefault(_componentsCustomRenderField);
+
+var _componentsDisabledUpsellOptions = require('./components/DisabledUpsellOptions');
+
+var _componentsDisabledUpsellOptions2 = _interopRequireDefault(_componentsDisabledUpsellOptions);
 
 var _componentsMultiSelectField = require('./components/MultiSelectField');
 
@@ -41,10 +228,6 @@ var _componentsValuesAsNumbersField = require('./components/ValuesAsNumbersField
 
 var _componentsValuesAsNumbersField2 = _interopRequireDefault(_componentsValuesAsNumbersField);
 
-var _componentsDisabledUpsellOptions = require('./components/DisabledUpsellOptions');
-
-var _componentsDisabledUpsellOptions2 = _interopRequireDefault(_componentsDisabledUpsellOptions);
-
 var FLAVOURS = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 var FLAVOURS_WITH_DISABLED_OPTION = FLAVOURS.slice(0);
 FLAVOURS_WITH_DISABLED_OPTION.unshift({ label: 'Caramel (You don\'t like it, apparently)', value: 'caramel', disabled: true });
@@ -57,19 +240,102 @@ _react2['default'].render(_react2['default'].createElement(
 	'div',
 	null,
 	_react2['default'].createElement(_componentsStatesField2['default'], { label: 'States', searchable: true }),
+	_react2['default'].createElement(_componentsMultiSelectField2['default'], { label: 'Multiselect' }),
 	_react2['default'].createElement(_componentsUsersField2['default'], { label: 'Users (custom options/value)', hint: 'This example uses Gravatar to render user\'s image besides the value and the options' }),
 	_react2['default'].createElement(_componentsValuesAsNumbersField2['default'], { label: 'Values as numbers' }),
-	_react2['default'].createElement(_componentsMultiSelectField2['default'], { label: 'Multiselect' }),
+	_react2['default'].createElement(_componentsCustomKeysField2['default'], { label: 'Custom object keys for options' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Clickable labels (labels as links)', options: FLAVOURS, hint: 'Open the console to see click behaviour (data/event)' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Disabled option', options: FLAVOURS_WITH_DISABLED_OPTION, hint: 'You savage! Caramel is the best...' }),
-	_react2['default'].createElement(_componentsDisabledUpsellOptions2['default'], { label: 'Disable option with an upsell link' }),
+	_react2['default'].createElement(_componentsDisabledUpsellOptions2['default'], { label: 'Disabled option with a link' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Option Creation (tags mode)', options: FLAVOURS, allowCreate: true, hint: 'Enter a value that\'s not in the list, then hit enter' }),
 	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values' }),
 	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values (multi)', multi: true, delimiter: ',' }),
 	_react2['default'].createElement(_componentsRemoteSelectField2['default'], { label: 'Remote Options', hint: 'Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' })
 ), document.getElementById('example'));
 
-},{"./components/CustomRenderField":3,"./components/DisabledUpsellOptions":5,"./components/MultiSelectField":6,"./components/RemoteSelectField":7,"./components/SelectedValuesField":8,"./components/StatesField":9,"./components/UsersField":10,"./components/ValuesAsNumbersField":11,"react":undefined,"react-select":undefined}],2:[function(require,module,exports){
+},{"./components/CustomKeysField":5,"./components/CustomRenderField":7,"./components/DisabledUpsellOptions":9,"./components/MultiSelectField":10,"./components/RemoteSelectField":11,"./components/SelectedValuesField":12,"./components/StatesField":13,"./components/UsersField":14,"./components/ValuesAsNumbersField":15,"react":undefined,"react-select":undefined}],5:[function(require,module,exports){
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSelect = require('react-select');
+
+var _reactSelect2 = _interopRequireDefault(_reactSelect);
+
+function logChange() {
+	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+}
+
+var CustomKeysField = _react2['default'].createClass({
+	displayName: 'CustomKeysField',
+	propTypes: {
+		label: _react2['default'].PropTypes.string
+	},
+
+	getInitialState: function getInitialState() {
+		return {
+			options: [{ id: '1', name: 'One' }, { id: '2', name: 'Two' }, { id: '3', name: 'Three' }, { id: '4', name: 'Four' }],
+			value: null,
+			multi: false
+		};
+	},
+
+	onChange: function onChange(value, values) {
+		this.setState({
+			value: value
+		});
+		logChange(value, values);
+	},
+
+	onChangeMulti: function onChangeMulti(event) {
+		this.setState({
+			multi: event.target.checked
+		});
+	},
+
+	render: function render() {
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'section' },
+			_react2['default'].createElement(
+				'h3',
+				{ className: 'section-heading' },
+				this.props.label
+			),
+			_react2['default'].createElement(_reactSelect2['default'], {
+				searchable: true,
+				labelKey: 'name',
+				valueKey: 'id',
+				options: this.state.options,
+				onChange: this.onChange,
+				value: this.state.value,
+				multi: this.state.multi
+			}),
+			_react2['default'].createElement(
+				'div',
+				{ className: 'checkbox-list' },
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.multi, onChange: this.onChangeMulti }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Multi-Select'
+					)
+				)
+			)
+		);
+	}
+});
+
+module.exports = CustomKeysField;
+
+},{"react":undefined,"react-select":undefined}],6:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -120,7 +386,7 @@ var Option = _react2['default'].createClass({
 
 module.exports = Option;
 
-},{"react":undefined,"react-gravatar":17}],3:[function(require,module,exports){
+},{"react":undefined,"react-gravatar":18}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -186,7 +452,7 @@ var CustomRenderField = _react2['default'].createClass({
 
 module.exports = CustomRenderField;
 
-},{"react":undefined,"react-select":undefined}],4:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -233,7 +499,7 @@ var SingleValue = _react2['default'].createClass({
 
 module.exports = SingleValue;
 
-},{"react":undefined,"react-gravatar":17}],5:[function(require,module,exports){
+},{"react":undefined,"react-gravatar":18}],9:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -296,7 +562,7 @@ var DisabledUpsellOptions = _react2['default'].createClass({
 });
 module.exports = DisabledUpsellOptions;
 
-},{"react":undefined,"react-select":undefined}],6:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],10:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -362,7 +628,7 @@ var MultiSelectField = _react2['default'].createClass({
 
 module.exports = MultiSelectField;
 
-},{"react":undefined,"react-select":undefined}],7:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -432,7 +698,7 @@ var RemoteSelectField = _react2['default'].createClass({
 
 module.exports = RemoteSelectField;
 
-},{"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],12:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -492,7 +758,7 @@ var SelectedValuesField = _react2['default'].createClass({
 
 module.exports = SelectedValuesField;
 
-},{"react":undefined,"react-select":undefined}],9:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],13:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -625,7 +891,7 @@ var StatesField = _react2['default'].createClass({
 
 module.exports = StatesField;
 
-},{"../data/states":12,"react":undefined,"react-select":undefined}],10:[function(require,module,exports){
+},{"../data/states":16,"react":undefined,"react-select":undefined}],14:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -686,7 +952,7 @@ var UsersField = _react2['default'].createClass({
 
 module.exports = UsersField;
 
-},{"../data/users":13,"./CustomOption":2,"./CustomSingleValue":4,"react":undefined,"react-select":undefined}],11:[function(require,module,exports){
+},{"../data/users":17,"./CustomOption":6,"./CustomSingleValue":8,"react":undefined,"react-select":undefined}],15:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -830,198 +1096,19 @@ var ValuesAsNumbersField = _react2['default'].createClass({
 
 module.exports = ValuesAsNumbersField;
 
-},{"react":undefined,"react-select":undefined}],12:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined}],16:[function(require,module,exports){
 'use strict';
 
 exports.AU = [{ value: 'australian-capital-territory', label: 'Australian Capital Territory' }, { value: 'new-south-wales', label: 'New South Wales' }, { value: 'victoria', label: 'Victoria' }, { value: 'queensland', label: 'Queensland' }, { value: 'western-australia', label: 'Western Australia' }, { value: 'south-australia', label: 'South Australia' }, { value: 'tasmania', label: 'Tasmania' }, { value: 'northern-territory', label: 'Northern Territory' }];
 
 exports.US = [{ value: 'AL', label: 'Alabama', disabled: true }, { value: 'AK', label: 'Alaska' }, { value: 'AS', label: 'American Samoa' }, { value: 'AZ', label: 'Arizona' }, { value: 'AR', label: 'Arkansas' }, { value: 'CA', label: 'California' }, { value: 'CO', label: 'Colorado' }, { value: 'CT', label: 'Connecticut' }, { value: 'DE', label: 'Delaware' }, { value: 'DC', label: 'District Of Columbia' }, { value: 'FM', label: 'Federated States Of Micronesia' }, { value: 'FL', label: 'Florida' }, { value: 'GA', label: 'Georgia' }, { value: 'GU', label: 'Guam' }, { value: 'HI', label: 'Hawaii' }, { value: 'ID', label: 'Idaho' }, { value: 'IL', label: 'Illinois' }, { value: 'IN', label: 'Indiana' }, { value: 'IA', label: 'Iowa' }, { value: 'KS', label: 'Kansas' }, { value: 'KY', label: 'Kentucky' }, { value: 'LA', label: 'Louisiana' }, { value: 'ME', label: 'Maine' }, { value: 'MH', label: 'Marshall Islands' }, { value: 'MD', label: 'Maryland' }, { value: 'MA', label: 'Massachusetts' }, { value: 'MI', label: 'Michigan' }, { value: 'MN', label: 'Minnesota' }, { value: 'MS', label: 'Mississippi' }, { value: 'MO', label: 'Missouri' }, { value: 'MT', label: 'Montana' }, { value: 'NE', label: 'Nebraska' }, { value: 'NV', label: 'Nevada' }, { value: 'NH', label: 'New Hampshire' }, { value: 'NJ', label: 'New Jersey' }, { value: 'NM', label: 'New Mexico' }, { value: 'NY', label: 'New York' }, { value: 'NC', label: 'North Carolina' }, { value: 'ND', label: 'North Dakota' }, { value: 'MP', label: 'Northern Mariana Islands' }, { value: 'OH', label: 'Ohio' }, { value: 'OK', label: 'Oklahoma' }, { value: 'OR', label: 'Oregon' }, { value: 'PW', label: 'Palau' }, { value: 'PA', label: 'Pennsylvania' }, { value: 'PR', label: 'Puerto Rico' }, { value: 'RI', label: 'Rhode Island' }, { value: 'SC', label: 'South Carolina' }, { value: 'SD', label: 'South Dakota' }, { value: 'TN', label: 'Tennessee' }, { value: 'TX', label: 'Texas' }, { value: 'UT', label: 'Utah' }, { value: 'VT', label: 'Vermont' }, { value: 'VI', label: 'Virgin Islands' }, { value: 'VA', label: 'Virginia' }, { value: 'WA', label: 'Washington' }, { value: 'WV', label: 'West Virginia' }, { value: 'WI', label: 'Wisconsin' }, { value: 'WY', label: 'Wyoming' }];
 
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 exports.users = [{ value: 'John Smith', label: 'John Smith', email: 'john@smith.com' }, { value: 'Merry Jane', label: 'Merry Jane', email: 'merry@jane.com' }, { value: 'Stan Hoper', label: 'Stan Hoper', email: 'stan@hoper.com' }];
 
-},{}],14:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],15:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
-};
-
-},{}],16:[function(require,module,exports){
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":14,"./encode":15}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 // Generated by CoffeeScript 1.9.3
 var React, isRetina, md5, querystring;
 
@@ -1071,7 +1158,7 @@ module.exports = React.createClass({
   }
 });
 
-},{"is-retina":18,"md5":19,"querystring":16,"react":undefined}],18:[function(require,module,exports){
+},{"is-retina":19,"md5":20,"querystring":3,"react":undefined}],19:[function(require,module,exports){
 module.exports = function() {
   var mediaQuery;
   if (typeof window !== "undefined" && window !== null) {
@@ -1086,7 +1173,7 @@ module.exports = function() {
   return false;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function(){
   var crypt = require('crypt'),
       utf8 = require('charenc').utf8,
@@ -1248,7 +1335,7 @@ module.exports = function() {
 
 })();
 
-},{"charenc":20,"crypt":21,"is-buffer":22}],20:[function(require,module,exports){
+},{"charenc":21,"crypt":22,"is-buffer":23}],21:[function(require,module,exports){
 var charenc = {
   // UTF-8 encoding
   utf8: {
@@ -1283,7 +1370,7 @@ var charenc = {
 
 module.exports = charenc;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function() {
   var base64map
       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
@@ -1381,7 +1468,7 @@ module.exports = charenc;
   module.exports = crypt;
 })();
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -1400,4 +1487,4 @@ module.exports = function (obj) {
   )
 }
 
-},{}]},{},[1]);
+},{}]},{},[4]);

@@ -6,8 +6,7 @@ var SingleValue = React.createClass({
 		placeholder: React.PropTypes.string,       // this is default value provided by React-Select based component
 		value: React.PropTypes.object              // selected option
 	},
-	render: function() {
-
+	render () {
 		var classNames = classes('Select-placeholder', this.props.value && this.props.value.className);
 		return (
 			<div

@@ -28,23 +28,25 @@ var Select = React.createClass({
 		clearable: React.PropTypes.bool,           // should it be possible to reset value
 		delimiter: React.PropTypes.string,         // delimiter to use to join multiple values
 		disabled: React.PropTypes.bool,            // whether the Select is disabled or not
-		filterOption: React.PropTypes.func,        // method to filter a single option: function(option, filterString)
-		filterOptions: React.PropTypes.func,       // method to filter the options array: function([options], filterString, [values])
+		filterOption: React.PropTypes.func,        // method to filter a single option  (option, filterString)
+		filterOptions: React.PropTypes.func,       // method to filter the options array: function ([options], filterString, [values])
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		isLoading: React.PropTypes.bool,           // whether the Select is loading externally or not (such as options being loaded)
+		labelKey: React.PropTypes.string,          // path of the label value in option objects
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,               // multi-value input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		newOptionCreator: React.PropTypes.func,    // factory to create new options when allowCreate set
 		noResultsText: React.PropTypes.string,     // placeholder displayed when there are no matching search results
-		onBlur: React.PropTypes.func,              // onBlur handler: function(event) {}
-		onChange: React.PropTypes.func,            // onChange handler: function(newValue) {}
-		onFocus: React.PropTypes.func,             // onFocus handler: function(event) {}
-		onInputChange: React.PropTypes.func,       // onInputChange handler: function(inputValue) {}
+		onBlur: React.PropTypes.func,              // onBlur handler: function (event) {}
+		onChange: React.PropTypes.func,            // onChange handler: function (newValue) {}
+		onFocus: React.PropTypes.func,             // onFocus handler: function (event) {}
+		onInputChange: React.PropTypes.func,       // onInputChange handler: function (inputValue) {}
 		onOptionLabelClick: React.PropTypes.func,  // onCLick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,     // option component to render in dropdown
-		optionRenderer: React.PropTypes.func,      // optionRenderer: function(option) {}
+		optionRenderer: React.PropTypes.func,      // optionRenderer: function (option) {}
 		options: React.PropTypes.array,            // array of options
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
@@ -53,10 +55,11 @@ var Select = React.createClass({
 		singleValueComponent: React.PropTypes.func,// single value component when multiple is set to false
 		value: React.PropTypes.any,                // initial field value
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
-		valueRenderer: React.PropTypes.func        // valueRenderer: function(option) {}
+		valueKey: React.PropTypes.string,          // path of the label value in option objects
+		valueRenderer: React.PropTypes.func        // valueRenderer: function (option) {}
 	},
 
-	getDefaultProps: function() {
+	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
@@ -72,6 +75,8 @@ var Select = React.createClass({
 			disabled: false,
 			ignoreCase: true,
 			inputProps: {},
+			isLoading: false,
+			labelKey: 'label',
 			matchPos: 'any',
 			matchProp: 'any',
 			name: undefined,
@@ -88,11 +93,12 @@ var Select = React.createClass({
 			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			value: undefined,
-			valueComponent: Value
+			valueComponent: Value,
+			valueKey: 'value'
 		};
 	},
 
-	getInitialState: function() {
+	getInitialState () {
 		return {
 			/*
 			 * set by getStateFromValue on componentWillMount:
@@ -110,7 +116,7 @@ var Select = React.createClass({
 		};
 	},
 
-	componentWillMount: function() {
+	componentWillMount () {
 		this._optionsCache = {};
 		this._optionsFilterString = '';
 		this._closeMenuIfClickedOutside = (event) => {
@@ -130,14 +136,14 @@ var Select = React.createClass({
 				}, this._unbindCloseMenuIfClickedOutside);
 			}
 		};
-		this._bindCloseMenuIfClickedOutside = function() {
+		this._bindCloseMenuIfClickedOutside = () => {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
 				document.addEventListener('click', this._closeMenuIfClickedOutside);
 			}
 		};
-		this._unbindCloseMenuIfClickedOutside = function() {
+		this._unbindCloseMenuIfClickedOutside = () => {
 			if (!document.removeEventListener && document.detachEvent) {
 				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
 			} else {
@@ -147,13 +153,13 @@ var Select = React.createClass({
 		this.setState(this.getStateFromValue(this.props.value));
 	},
 
-	componentDidMount: function() {
+	componentDidMount () {
 		if (this.props.asyncOptions && this.props.autoload) {
 			this.autoloadAsyncOptions();
 		}
 	},
 
-	componentWillUnmount: function() {
+	componentWillUnmount () {
 		clearTimeout(this._blurTimeout);
 		clearTimeout(this._focusTimeout);
 		if (this.state.isOpen) {
@@ -161,7 +167,7 @@ var Select = React.createClass({
 		}
 	},
 
-	componentWillReceiveProps: function(newProps) {
+	componentWillReceiveProps (newProps) {
 		var optionsChanged = false;
 		if (JSON.stringify(newProps.options) !== JSON.stringify(this.props.options)) {
 			optionsChanged = true;
@@ -174,8 +180,8 @@ var Select = React.createClass({
 			var setState = (newState) => {
 				this.setState(this.getStateFromValue(newProps.value,
 					(newState && newState.options) || newProps.options,
-					newProps.placeholder)
-				);
+					newProps.placeholder
+				));
 			};
 			if (this.props.asyncOptions) {
 				this.loadAsyncOptions(newProps.value, {}, setState);
@@ -185,10 +191,12 @@ var Select = React.createClass({
 		}
 	},
 
-	componentDidUpdate: function() {
+	componentDidUpdate () {
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
+			clearTimeout(this._focusTimeout);
 			this._focusTimeout = setTimeout(() => {
+				if (!this.isMounted()) return;
 				this.getInputNode().focus();
 				this._focusAfterUpdate = false;
 			}, 50);
@@ -208,11 +216,11 @@ var Select = React.createClass({
 		}
 	},
 
-	focus: function() {
+	focus () {
 		this.getInputNode().focus();
 	},
 
-	clickedOutsideElement: function(element, event) {
+	clickedOutsideElement (element, event) {
 		var eventTarget = (event.target) ? event.target : event.srcElement;
 		while (eventTarget != null) {
 			if (eventTarget === element) return false;
@@ -221,7 +229,7 @@ var Select = React.createClass({
 		return true;
 	},
 
-	getStateFromValue: function(value, options, placeholder) {
+	getStateFromValue (value, options, placeholder) {
 		if (!options) {
 			options = this.state.options;
 		}
@@ -239,10 +247,10 @@ var Select = React.createClass({
 		var valueForState = null;
 		if (!this.props.multi && values.length) {
 			focusedOption = values[0];
-			valueForState = values[0].value;
+			valueForState = values[0][this.props.valueKey];
 		} else {
 			focusedOption = this.getFirstFocusableOption(filteredOptions);
-			valueForState = values.map(function(v) { return v.value; }).join(this.props.delimiter);
+			valueForState = values.map((v) => { return v[this.props.valueKey]; }).join(this.props.delimiter);
 		}
 
 		return {
@@ -250,12 +258,12 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
+			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
 		};
 	},
 
-	getFirstFocusableOption: function (options) {
+	getFirstFocusableOption  (options) {
 
 		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
 			if (!options[optionIndex].disabled) {
@@ -264,7 +272,7 @@ var Select = React.createClass({
 		}
 	},
 
-	initValuesArray: function(values, options) {
+	initValuesArray (values, options) {
 		if (!Array.isArray(values)) {
 			if (typeof values === 'string') {
 				values = values === ''
@@ -276,14 +284,14 @@ var Select = React.createClass({
 				values = values !== undefined && values !== null ? [values] : [];
 			}
 		}
-		return values.map(function(val) {
+		return values.map((val) => {
 			if (typeof val === 'string' || typeof val === 'number') {
 				for (var key in options) {
 					if (options.hasOwnProperty(key) &&
 						options[key] &&
-						(options[key].value === val ||
-							typeof options[key].value === 'number' &&
-							options[key].value.toString() === val
+						(options[key][this.props.valueKey] === val ||
+							typeof options[key][this.props.valueKey] === 'number' &&
+							options[key][this.props.valueKey].toString() === val
 						)) {
 						return options[key];
 					}
@@ -295,7 +303,7 @@ var Select = React.createClass({
 		});
 	},
 
-	setValue: function(value, focusAfterUpdate) {
+	setValue (value, focusAfterUpdate) {
 		if (focusAfterUpdate || focusAfterUpdate === undefined) {
 			this._focusAfterUpdate = true;
 		}
@@ -305,7 +313,7 @@ var Select = React.createClass({
 		this.setState(newState);
 	},
 
-	selectValue: function(value) {
+	selectValue (value) {
 		if (!this.props.multi) {
 			this.setValue(value);
 		} else if (value) {
@@ -314,21 +322,21 @@ var Select = React.createClass({
 		this._unbindCloseMenuIfClickedOutside();
 	},
 
-	addValue: function(value) {
+	addValue (value) {
 		this.setValue(this.state.values.concat(value));
 	},
 
-	popValue: function() {
+	popValue () {
 		this.setValue(this.state.values.slice(0, this.state.values.length - 1));
 	},
 
-	removeValue: function(valueToRemove) {
+	removeValue (valueToRemove) {
 		this.setValue(this.state.values.filter(function(value) {
 			return value !== valueToRemove;
 		}));
 	},
 
-	clearValue: function(event) {
+	clearValue (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, ignore it.
 		if (event && event.type === 'mousedown' && event.button !== 0) {
@@ -339,22 +347,22 @@ var Select = React.createClass({
 		this.setValue(null);
 	},
 
-	resetValue: function() {
+	resetValue () {
 		this.setValue(this.state.value === '' ? null : this.state.value);
 	},
 
-	getInputNode: function () {
+	getInputNode  () {
 		var input = this.refs.input;
 		return this.props.searchable ? input : React.findDOMNode(input);
 	},
 
-	fireChangeEvent: function(newState) {
+	fireChangeEvent (newState) {
 		if (newState.value !== this.state.value && this.props.onChange) {
 			this.props.onChange(newState.value, newState.values);
 		}
 	},
 
-	handleMouseDown: function(event) {
+	handleMouseDown (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
@@ -381,6 +389,7 @@ var Select = React.createClass({
 		}
 	},
 
+<<<<<<< HEAD
 	handleMouseDownOnMenu: function(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
@@ -392,6 +401,9 @@ var Select = React.createClass({
 	},
 
 	handleMouseDownOnArrow: function(event) {
+=======
+	handleMouseDownOnArrow (event) {
+>>>>>>> master
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
@@ -408,13 +420,13 @@ var Select = React.createClass({
 		}, this._unbindCloseMenuIfClickedOutside);
 	},
 
-	handleInputFocus: function(event) {
+	handleInputFocus (event) {
 		var newIsOpen = this.state.isOpen || this._openAfterFocus;
 		this.setState({
 			isFocused: true,
 			isOpen: newIsOpen
-		}, function() {
-			if(newIsOpen) {
+		}, () => {
+			if (newIsOpen) {
 				this._bindCloseMenuIfClickedOutside();
 			}
 			else {
@@ -427,9 +439,9 @@ var Select = React.createClass({
 		}
 	},
 
-	handleInputBlur: function(event) {
+	handleInputBlur (event) {
 		this._blurTimeout = setTimeout(() => {
-			if (this._focusAfterUpdate) return;
+			if (this._focusAfterUpdate || !this.isMounted()) return;
 			this.setState({
 				isFocused: false,
 				isOpen: false
@@ -440,7 +452,7 @@ var Select = React.createClass({
 		}
 	},
 
-	handleKeyDown: function(event) {
+	handleKeyDown (event) {
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
 			case 8: // backspace
@@ -457,7 +469,6 @@ var Select = React.createClass({
 			break;
 			case 13: // enter
 				if (!this.state.isOpen) return;
-
 				this.selectFocusedOption();
 			break;
 			case 27: // escape
@@ -489,7 +500,7 @@ var Select = React.createClass({
 
 	// Ensures that the currently focused option is available in filteredOptions.
 	// If not, returns the first available option.
-	_getNewFocusedOption: function(filteredOptions) {
+	_getNewFocusedOption (filteredOptions) {
 		for (var key in filteredOptions) {
 			if (filteredOptions.hasOwnProperty(key) && filteredOptions[key] === this.state.focusedOption) {
 				return filteredOptions[key];
@@ -498,7 +509,7 @@ var Select = React.createClass({
 		return this.getFirstFocusableOption(filteredOptions);
 	},
 
-	handleInputChange: function(event) {
+	handleInputChange (event) {
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
@@ -527,17 +538,17 @@ var Select = React.createClass({
 		}
 	},
 
-	autoloadAsyncOptions: function() {
+	autoloadAsyncOptions () {
 		this.setState({
 			isLoading: true
 		});
 		this.loadAsyncOptions((this.props.value || ''), { isLoading: false }, () => {
-			// update with fetched but don't focus
+			// update with new options but don't focus
 			this.setValue(this.props.value, false);
 		});
 	},
 
-	loadAsyncOptions: function(input, state, callback) {
+	loadAsyncOptions (input, state, callback) {
 		var thisRequestId = this._currentRequestId = requestId++;
 		if (this.props.cacheAsyncResults) {
 			for (var i = 0; i <= input.length; i++) {
@@ -582,11 +593,13 @@ var Select = React.createClass({
 				}
 			}
 			this.setState(newState);
-			if (callback) callback.call(this, newState);
+			if (callback) {
+				callback.call(this, newState);
+			}
 		});
 	},
 
-	filterOptions: function(options, values) {
+	filterOptions (options, values) {
 		var filterValue = this._optionsFilterString;
 		var exclude = (values || this.state.values).map(function(i) {
 			return i.value;
@@ -595,9 +608,10 @@ var Select = React.createClass({
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
 			var filterOption = function(op) {
-				if (this.props.multi && exclude.indexOf(op.value) > -1) return false;
+				if (this.props.multi && exclude.indexOf(op[this.props.valueKey]) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
-				var valueTest = String(op.value), labelTest = String(op.label);
+				var valueTest = String(op[this.props.valueKey]);
+				var labelTest = String(op[this.props.labelKey]);
 				if (this.props.ignoreCase) {
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();
@@ -615,7 +629,7 @@ var Select = React.createClass({
 		}
 	},
 
-	selectFocusedOption: function() {
+	selectFocusedOption () {
 		if (this.props.allowCreate && !this.state.focusedOption) {
 			return this.selectValue(this.state.inputValue);
 		}
@@ -625,21 +639,21 @@ var Select = React.createClass({
 		}
 	},
 
-	focusOption: function(op) {
+	focusOption (op) {
 		this.setState({
 			focusedOption: op
 		});
 	},
 
-	focusNextOption: function() {
+	focusNextOption () {
 		this.focusAdjacentOption('next');
 	},
 
-	focusPreviousOption: function() {
+	focusPreviousOption () {
 		this.focusAdjacentOption('previous');
 	},
 
-	focusAdjacentOption: function(dir) {
+	focusAdjacentOption (dir) {
 		this._focusedOptionReveal = true;
 		var ops = this.state.filteredOptions.filter(function(op) {
 			return !op.disabled;
@@ -677,7 +691,7 @@ var Select = React.createClass({
 		});
 	},
 
-	unfocusOption: function(op) {
+	unfocusOption (op) {
 		if (this.state.focusedOption === op) {
 			this.setState({
 				focusedOption: null
@@ -685,11 +699,10 @@ var Select = React.createClass({
 		}
 	},
 
-	buildMenu: function() {
-		var focusedValue = this.state.focusedOption ? this.state.focusedOption.value : null;
-		var renderLabel = this.props.optionRenderer || function(op) {
-			return op.label;
-		};
+	buildMenu () {
+		var focusedValue = this.state.focusedOption ? this.state.focusedOption[this.props.valueKey] : null;
+		var renderLabel = this.props.optionRenderer;
+		if (!renderLabel) renderLabel = (op) => op[this.props.labelKey];
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
@@ -707,8 +720,8 @@ var Select = React.createClass({
 		}
 		var ops = Object.keys(options).map(function(key) {
 			var op = options[key];
-			var isSelected = this.state.value === op.value;
-			var isFocused = focusedValue === op.value;
+			var isSelected = this.state.value === op[this.props.valueKey];
+			var isFocused = focusedValue === op[this.props.valueKey];
 			var optionClass = classes({
 				'Select-option': true,
 				'is-selected': isSelected,
@@ -720,7 +733,7 @@ var Select = React.createClass({
 			var mouseLeave = this.unfocusOption.bind(this, op);
 			var mouseDown = this.selectValue.bind(this, op);
 			var optionResult = React.createElement(this.props.optionComponent, {
-				key: 'option-' + op.value,
+				key: 'option-' + op[this.props.valueKey],
 				className: optionClass,
 				renderFunc: renderLabel,
 				mouseEnter: mouseEnter,
@@ -738,7 +751,7 @@ var Select = React.createClass({
 			return ops;
 		} else {
 			var noResultsText, promptClass;
-			if (this.state.isLoading) {
+			if (this.isLoading()) {
 				promptClass = 'Select-searching';
 				noResultsText = this.props.searchingText;
 			} else if (this.state.inputValue || !this.props.asyncOptions) {
@@ -757,19 +770,23 @@ var Select = React.createClass({
 		}
 	},
 
-	handleOptionLabelClick: function (value, event) {
+	handleOptionLabelClick  (value, event) {
 		if (this.props.onOptionLabelClick) {
 			this.props.onOptionLabelClick(value, event);
 		}
 	},
 
-	render: function() {
+	isLoading () {
+		return this.props.isLoading || this.state.isLoading;
+	},
+
+	render () {
 		var selectClass = classes('Select', this.props.className, {
 			'is-multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,
-			'is-loading': this.state.isLoading,
+			'is-loading': this.isLoading(),
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
@@ -809,7 +826,7 @@ var Select = React.createClass({
 			}
 		}
 
-		var loading = this.state.isLoading ? <span className="Select-loading" aria-hidden="true" /> : null;
+		var loading = this.isLoading() ? <span className="Select-loading" aria-hidden="true" /> : null;
 		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 
 		var menu;

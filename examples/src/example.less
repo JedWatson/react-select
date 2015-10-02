@@ -1,4 +1,4 @@
-// 
+//
 // Common Example Styles
 // ------------------------------
 
@@ -46,7 +46,7 @@ body {
 a {
 	color: @link-color;
 	text-decoration: none;
-	
+
 	&:hover {
 		text-decoration: underline;
 	}
@@ -114,7 +114,7 @@ h6, .h6 {
 .page-header {
 	background-color: @link-color;
 	color: mix(white, @link-color, 75%);
-	
+
 	h1, h2, h3 {
 		color: white;
 	}
@@ -126,7 +126,7 @@ h6, .h6 {
 		border-bottom: 1px solid fade(white, 30%);
 		color: white;
 		text-decoration: none;
-		
+
 		&:hover,
 		&:focus {
 			border-bottom-color: white;
@@ -150,7 +150,7 @@ h6, .h6 {
 	border-bottom: 1px solid fade(@link-color, 30%);
 	outline: none;
 	text-decoration: none;
-	
+
 	&:hover,
 	&:focus {
 		border-bottom-color: @link-color;
@@ -167,6 +167,10 @@ h6, .h6 {
 	color: #999;
 	padding: @gutter 0;
 	text-align: center;
+
+	a {
+		color: black;
+	}
 }
 
 // layout changes based on screen dimensions
@@ -219,13 +223,13 @@ h6, .h6 {
 	font-size: 12px;
 	margin: 10px 0;
 	text-transform: uppercase;
-	
+
 	.link {
 		color: @link-color;
 		cursor: pointer;
 		font-weight: bold;
 		margin-left: 10px;
-		
+
 		&:hover {
 			text-decoration: underline;
 		}
@@ -273,11 +277,11 @@ h6, .h6 {
 	padding: @select-padding-vertical @select-padding-horizontal;
 	transition: all 200ms ease;
 	width: 100%;
-	
+
 	&:hover {
 		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	}
-	
+
 	&:focus {
 		border-color: @select-input-border-focus lighten(@select-input-border-focus, 5%) lighten(@select-input-border-focus, 5%);
 		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus,50%);
