@@ -389,6 +389,16 @@ var Select = React.createClass({
 		}
 	},
 
+	handleMouseDownOnMenu (event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+			return;
+		}
+		event.stopPropagation();
+		event.preventDefault();
+	},
+
 	handleMouseDownOnArrow (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
@@ -821,7 +831,7 @@ var Select = React.createClass({
 			menuProps = {
 				ref: 'menu',
 				className: 'Select-menu',
-				onMouseDown: this.handleMouseDown
+				onMouseDown: this.handleMouseDownOnMenu
 			};
 			menu = (
 				<div ref="selectMenuContainer" className="Select-menu-outer">
