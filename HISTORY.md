@@ -1,5 +1,12 @@
 # React-Select
 
+## v0.6.12 / 2015-10-02
+
+* added; `labelKey` and `valueKey` props, so you can now use different keys in `option` objects for the label and value
+* fixed; additional `isMounted()` checks in timeouts
+* fixed; componentDidUpdate timeout is reset correctly, see #208 and #434, thanks [Petr Gladkikh](https://github.com/PetrGlad)
+* fixed; mousedown event on scrollbar in menu no longer hides it, thanks [Yishai Burt](https://github.com/burtyish)
+
 ## v0.6.11 / 2015-09-28
 
 * added; `isLoading` prop, allows indication of async options loading in situations where more control is required, thanks [Jon Gautsch](https://github.com/jgautsch)
