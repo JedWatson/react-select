@@ -569,30 +569,62 @@ var Select = React.createClass({
 			}
 		}
 
-		this.props.asyncOptions(input, (err, data) => {
-			if (err) throw err;
-			if (this.props.cacheAsyncResults) {
-				this._optionsCache[input] = data;
-			}
-			if (thisRequestId !== this._currentRequestId) {
-				return;
-			}
-			var filteredOptions = this.filterOptions(data.options);
-			var newState = {
-				options: data.options,
-				filteredOptions: filteredOptions,
-				focusedOption: this._getNewFocusedOption(filteredOptions)
-			};
-			for (var key in state) {
-				if (state.hasOwnProperty(key)) {
-					newState[key] = state[key];
+		if (typeof this.props.asyncOptions(input).then === 'function') {
+			this.props.asyncOptions(input).then((options) => {
+				if (this.props.cacheAsyncResults) {
+					this._optionsCache[input] = {
+						options: options,
+						complete: true
+					};
 				}
-			}
-			this.setState(newState);
-			if (callback) {
-				callback.call(this, newState);
-			}
-		});
+
+				if (thisRequestId !== this._currentRequestId) {
+					return;
+				}
+				var filteredOptions = this.filterOptions(options);
+				var newState = {
+					options: options,
+					filteredOptions: filteredOptions,
+					focusedOption: this._getNewFocusedOption(filteredOptions)
+				};
+				for (var key in state) {
+					if (state.hasOwnProperty(key)) {
+						newState[key] = state[key];
+					}
+				}
+				this.setState(newState);
+				if (callback) {
+					callback.call(this, newState);
+				}
+			}, (err) => {
+				throw (err);
+			});
+		} else {
+			this.props.asyncOptions(input, (err, data) => {
+				if (err) throw err;
+				if (this.props.cacheAsyncResults) {
+					this._optionsCache[input] = data;
+				}
+				if (thisRequestId !== this._currentRequestId) {
+					return;
+				}
+				var filteredOptions = this.filterOptions(data.options);
+				var newState = {
+					options: data.options,
+					filteredOptions: filteredOptions,
+					focusedOption: this._getNewFocusedOption(filteredOptions)
+				};
+				for (var key in state) {
+					if (state.hasOwnProperty(key)) {
+						newState[key] = state[key];
+					}
+				}
+				this.setState(newState);
+				if (callback) {
+					callback.call(this, newState);
+				}
+			});
+		}
 	},
 
 	filterOptions (options, values) {
