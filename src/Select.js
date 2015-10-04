@@ -570,20 +570,17 @@ var Select = React.createClass({
 		}
 
 		if (typeof this.props.asyncOptions(input).then === 'function') {
-			this.props.asyncOptions(input).then((options) => {
+			this.props.asyncOptions(input).then((data) => {
 				if (this.props.cacheAsyncResults) {
-					this._optionsCache[input] = {
-						options: options,
-						complete: true
-					};
+					this._optionsCache[input] = data;
 				}
 
 				if (thisRequestId !== this._currentRequestId) {
 					return;
 				}
-				var filteredOptions = this.filterOptions(options);
+				var filteredOptions = this.filterOptions(data.options);
 				var newState = {
-					options: options,
+					options: data.options,
 					filteredOptions: filteredOptions,
 					focusedOption: this._getNewFocusedOption(filteredOptions)
 				};
