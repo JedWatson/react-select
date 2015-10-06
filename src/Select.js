@@ -120,6 +120,9 @@ var Select = React.createClass({
 		this._optionsCache = {};
 		this._optionsFilterString = '';
 		this._closeMenuIfClickedOutside = (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			
 			if (!this.state.isOpen) {
 				return;
 			}
@@ -139,15 +142,19 @@ var Select = React.createClass({
 		this._bindCloseMenuIfClickedOutside = () => {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('onclick', this._closeMenuIfClickedOutside);
+				document.attachEvent('touchend', this._closeMenuIfClickedOutside);
 			} else {
 				document.addEventListener('click', this._closeMenuIfClickedOutside);
+				document.addEventListener('touchend', this._closeMenuIfClickedOutside);
 			}
 		};
 		this._unbindCloseMenuIfClickedOutside = () => {
 			if (!document.removeEventListener && document.detachEvent) {
 				document.detachEvent('onclick', this._closeMenuIfClickedOutside);
+				document.detachEvent('touchend', this._closeMenuIfClickedOutside);
 			} else {
 				document.removeEventListener('click', this._closeMenuIfClickedOutside);
+				document.removeEventListener('touchend', this._closeMenuIfClickedOutside);
 			}
 		};
 		this.setState(this.getStateFromValue(this.props.value));
