@@ -593,7 +593,7 @@ var Select = React.createClass({
 		});
 
 		if (asyncOpts && typeof asyncOpts.then === 'function') {
-			this.props.asyncOptions(input).then((data) => {
+			asyncOpts.then((data) => {
 				if (this.props.cacheAsyncResults) {
 					this._optionsCache[input] = data;
 				}
