@@ -12,8 +12,10 @@ module.exports = function (wallaby) { // eslint-disable-line no-unused-vars
 			type: 'node',
 			runner: 'node'
 		},
-		preprocessors: {
-			'**/*.js': file => babel.transform(file.content, { sourceMap: true })
+		compilers: {
+			'**/*.js': wallaby.compilers.babel({
+				babel: babel
+			})
 		}
 	};
 };
