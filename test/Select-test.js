@@ -10,7 +10,8 @@ var unexpectedSinon = require('unexpected-sinon');
 var expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
-	.installPlugin(unexpectedSinon);
+	.installPlugin(unexpectedSinon)
+	.installPlugin(require('../testHelpers/nodeListType'));
 
 jsdomHelper();
 
@@ -2498,7 +2499,7 @@ describe('Select', function() {
 			var ops = [
 				{ label: 'Disabled', value: 'disabled', disabled: true, link: renderLink(links[0]) },
 				{ label: 'Disabled 2', value: 'disabled_2', disabled: true, link: renderLink(links[1]) },
-				{ label: 'Enabled', value: 'enabled' },
+				{ label: 'Enabled', value: 'enabled' }
 			];
 
 			/**
@@ -2512,7 +2513,10 @@ describe('Select', function() {
 				return window_location.indexOf(path, window_location.length - path.length) !== -1;
 			};
 
+			var startUrl = 'http://dummy/startLink';
+
 			beforeEach(function () {
+				window.location.href = startUrl;
 
 				optionRenderer = function (option) {
 					return (
@@ -2552,7 +2556,7 @@ describe('Select', function() {
 					target: '_blank'
 				});
 
-				expect(isNavigated(links[0].href), 'to be true');
+				expect(isNavigated(startUrl), 'to be true');
 				TestUtils.Simulate.click(link);
 				expect(isNavigated(links[1].href), 'to be false');
 			});
