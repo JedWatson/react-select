@@ -56,7 +56,10 @@ var Select = React.createClass({
 		value: React.PropTypes.any,                // initial field value
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
 		valueKey: React.PropTypes.string,          // path of the label value in option objects
-		valueRenderer: React.PropTypes.func        // valueRenderer: function (option) {}
+		valueRenderer: React.PropTypes.func,       // valueRenderer: function (option) {}
+    customSelectValue: React.PropTypes.func,   // custom method to override selectValue func
+    customPopValue: React.PropTypes.func,      // custom method to override popValue func
+    customRemoveValue: React.PropTypes.func   // custom method to override the removeValue func
 	},
 
 	getDefaultProps () {
@@ -94,7 +97,10 @@ var Select = React.createClass({
 			singleValueComponent: SingleValue,
 			value: undefined,
 			valueComponent: Value,
-			valueKey: 'value'
+			valueKey: 'value',
+			customSelectValue: undefined,
+      customPopValue: undefined,
+      customRemoveValue: undefined
 		};
 	},
 
@@ -454,7 +460,11 @@ var Select = React.createClass({
 			case 8: // backspace
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
 					event.preventDefault();
-					this.popValue();
+          if(this.props.customPopValue) { 
+            this.props.customPopValue();
+          else {
+            this.popValue();
+          }
 				}
 			return;
 			case 9: // tab
@@ -471,7 +481,11 @@ var Select = React.createClass({
 				if (this.state.isOpen) {
 					this.resetValue();
 				} else if (this.props.clearable) {
-					this.clearValue(event);
+          if (this.props.customClearValue) {
+            this.props.customClearValue(event);
+          } else {
+            this.clearValue(event);
+          }
 				}
 			break;
 			case 38: // up
@@ -627,11 +641,19 @@ var Select = React.createClass({
 
 	selectFocusedOption () {
 		if (this.props.allowCreate && !this.state.focusedOption) {
-			return this.selectValue(this.state.inputValue);
+      if (this.props.customSelectValue) {
+        return this.props.customSelectValue(this.state.inputValue);
+      } else {
+        return this.selectValue(this.state.inputValue);
+      }
 		}
 
 		if (this.state.focusedOption) {
-			return this.selectValue(this.state.focusedOption);
+      if (this.props.customSelectValue) {
+        return this.props.customSelectValue(this.state.focusedOption);
+      } else {
+        return this.selectValue(this.state.focusedOption);
+      }
 		}
 	},
 
@@ -727,7 +749,7 @@ var Select = React.createClass({
 			var ref = isFocused ? 'focused' : null;
 			var mouseEnter = this.focusOption.bind(this, op);
 			var mouseLeave = this.unfocusOption.bind(this, op);
-			var mouseDown = this.selectValue.bind(this, op);
+			var mouseDown = this.props.customSelectValue ? this.props.customSelectValue.bind(this, op) : this.selectValue.bind(this, op);
 			var optionResult = React.createElement(this.props.optionComponent, {
 				key: 'option-' + op[this.props.valueKey],
 				className: optionClass,
@@ -790,7 +812,7 @@ var Select = React.createClass({
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
 				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
-				var onRemove = this.removeValue.bind(this, val);
+				var onRemove = this.props.customRemoveValue ? this.props.customRemoveValue.bind(this, val) : this.removeValue.bind(this, val);
 				var valueComponent = React.createElement(this.props.valueComponent, {
 					key: val.value,
 					option: val,
@@ -823,7 +845,7 @@ var Select = React.createClass({
 		}
 
 		var loading = this.isLoading() ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown: this.props.customClearValue ? this.props.customClearValue : this.clearValue, onClick: this.props.customClearValue ? this.props.customClearValue : this.clearValue, onTouchEnd={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
 
 		var menu;
 		var menuProps;
