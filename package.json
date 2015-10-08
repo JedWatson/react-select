@@ -23,7 +23,7 @@
     "eslint-plugin-react": "^3.4.1",
     "gulp": "^3.9.0",
     "istanbul": "^0.3.20",
-    "jsdom": "^3.1.2",
+    "jsdom": "^6.5.1",
     "mocha": "^2.3.2",
     "react": ">=0.13.3 || ^0.14.0-beta",
     "react-gravatar": "^2.0.1",
