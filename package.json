@@ -25,7 +25,9 @@
     "istanbul": "^0.3.20",
     "jsdom": "^6.5.1",
     "mocha": "^2.3.2",
-    "react": ">=0.13.3 || ^0.14.0-beta",
+    "react": "^0.14.0-rc1",
+    "react-addons-test-utils": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
     "react-gravatar": "^2.0.1",
     "react-component-gulp-tasks": "^0.7.1",
     "sinon": "^1.16.1",
@@ -34,7 +36,8 @@
     "unexpected-sinon": "^7.1.1"
   },
   "peerDependencies": {
-    "react": ">=0.13.3 || ^0.14.0-rc1"
+    "react": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
