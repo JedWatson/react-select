@@ -217,6 +217,13 @@ describe('Select', function() {
 			expect(node, 'queried for', '.Select-option', 'to have length', 2);
 		});
 
+		it('should filter accent insensitively', function () {
+			typeSearchText('twó');
+			var node = React.findDOMNode(instance);
+			expect(node, 'queried for', '.Select-option:nth-child(1)', 'to have items satisfying', 'to have text', 'Two');
+			expect(node, 'queried for', '.Select-option', 'to have length', 1);
+		});
+
 		it('should filter using "contains"', function () {
 
 			// Search 'h', should only show 'Three'
