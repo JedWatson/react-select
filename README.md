@@ -147,9 +147,11 @@ You can control how options are filtered with the following properties:
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
 * `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
+* `ignoreAccent`: `Boolean`: whether to ignore accent or match the text exactly when filtering
 
 `matchProp` and `matchPos` both default to `"any"`.
 `ignoreCase` defaults to `true`.
+`ignoreAccent` defaults to `true`.
 
 #### Advanced filters
 
@@ -179,6 +181,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	disabled 			|	bool		|	whether the Select is disabled or not
 	filterOption 		|	func		|	method to filter a single option: function(option, filterString)
 	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
+	ignoreAccent 		|	bool		|	whether to perform accent-insensitive filtering
 	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
 	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 	isLoading			|	bool		|	whether the Select is loading externally or not (such as options being loaded)

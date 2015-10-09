@@ -8,6 +8,7 @@ var classes = require('classnames');
 var Value = require('./Value');
 var SingleValue = require('./SingleValue');
 var Option = require('./Option');
+var Utils = require('./Utils');
 
 var requestId = 0;
 
@@ -31,6 +32,7 @@ var Select = React.createClass({
 		filterOption: React.PropTypes.func,        // method to filter a single option  (option, filterString)
 		filterOptions: React.PropTypes.func,       // method to filter the options array: function ([options], filterString, [values])
 		ignoreCase: React.PropTypes.bool,          // whether to perform case-insensitive filtering
+		ignoreAccent: React.PropTypes.bool,        // whether to perform accent-insensitive filtering
 		inputProps: React.PropTypes.object,        // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		isLoading: React.PropTypes.bool,           // whether the Select is loading externally or not (such as options being loaded)
 		labelKey: React.PropTypes.string,          // path of the label value in option objects
@@ -74,6 +76,7 @@ var Select = React.createClass({
 			delimiter: ',',
 			disabled: false,
 			ignoreCase: true,
+			ignoreAccent: true,
 			inputProps: {},
 			isLoading: false,
 			labelKey: 'label',
@@ -612,6 +615,11 @@ var Select = React.createClass({
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();
 					filterValue = filterValue.toLowerCase();
+				}
+				if (this.props.ignoreAccent) {
+					valueTest = Utils.removeDiacritics(valueTest);
+					labelTest = Utils.removeDiacritics(labelTest);
+					filterValue = Utils.removeDiacritics(filterValue);
 				}
 				return !filterValue || (this.props.matchPos === 'start') ? (
 					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
