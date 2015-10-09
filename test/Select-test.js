@@ -886,7 +886,7 @@ describe('Select', () => {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -899,7 +899,7 @@ describe('Select', () => {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -912,7 +912,7 @@ describe('Select', () => {
 			pressEnterToAccept();
 			expect(onChange, 'was not called');
 			// And the menu is still open
-			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR)
+			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
 			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
@@ -1338,7 +1338,7 @@ describe('Select', () => {
 				});
 
 				// Focus on the input, such that mouse events are accepted
-				searchInputNode = instance.getInputNode().getDOMNode().querySelector('input');
+				searchInputNode = ReactDOM.findDOMNode(instance.getInputNode()).querySelector('input');
 				TestUtils.Simulate.focus(searchInputNode);
 			});
 
