@@ -181,6 +181,7 @@ module.exports = Value;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Input = require('react-input-autosize');
 var classes = require('classnames');
 var Value = require('./Value');
@@ -303,8 +304,8 @@ var Select = React.createClass({
 			if (!_this.state.isOpen) {
 				return;
 			}
-			var menuElem = React.findDOMNode(_this.refs.selectMenuContainer);
-			var controlElem = React.findDOMNode(_this.refs.control);
+			var menuElem = ReactDOM.findDOMNode(_this.refs.selectMenuContainer);
+			var controlElem = ReactDOM.findDOMNode(_this.refs.control);
 
 			var eventOccuredOutsideMenu = _this.clickedOutsideElement(menuElem, event);
 			var eventOccuredOutsideControl = _this.clickedOutsideElement(controlElem, event);
@@ -384,8 +385,8 @@ var Select = React.createClass({
 		}
 		if (this._focusedOptionReveal) {
 			if (this.refs.focused && this.refs.menu) {
-				var focusedDOM = React.findDOMNode(this.refs.focused);
-				var menuDOM = React.findDOMNode(this.refs.menu);
+				var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
+				var menuDOM = ReactDOM.findDOMNode(this.refs.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
 
@@ -531,7 +532,7 @@ var Select = React.createClass({
 
 	getInputNode: function getInputNode() {
 		var input = this.refs.input;
-		return this.props.searchable ? input : React.findDOMNode(input);
+		return this.props.searchable ? input : ReactDOM.findDOMNode(input);
 	},
 
 	fireChangeEvent: function fireChangeEvent(newState) {
@@ -1089,4 +1090,4 @@ var Select = React.createClass({
 
 module.exports = Select;
 
-},{"./Option":1,"./SingleValue":2,"./Value":3,"classnames":undefined,"react":undefined,"react-input-autosize":undefined}]},{},[]);
+},{"./Option":1,"./SingleValue":2,"./Value":3,"classnames":undefined,"react":undefined,"react-dom":undefined,"react-input-autosize":undefined}]},{},[]);

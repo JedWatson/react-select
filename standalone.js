@@ -70,6 +70,7 @@ module.exports = Option;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var React = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+var ReactDOM = require('react-dom');
 var Input = (typeof window !== "undefined" ? window['AutosizeInput'] : typeof global !== "undefined" ? global['AutosizeInput'] : null);
 var classes = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
 var Value = require('./Value');
@@ -192,8 +193,8 @@ var Select = React.createClass({
 			if (!_this.state.isOpen) {
 				return;
 			}
-			var menuElem = React.findDOMNode(_this.refs.selectMenuContainer);
-			var controlElem = React.findDOMNode(_this.refs.control);
+			var menuElem = ReactDOM.findDOMNode(_this.refs.selectMenuContainer);
+			var controlElem = ReactDOM.findDOMNode(_this.refs.control);
 
 			var eventOccuredOutsideMenu = _this.clickedOutsideElement(menuElem, event);
 			var eventOccuredOutsideControl = _this.clickedOutsideElement(controlElem, event);
@@ -273,8 +274,8 @@ var Select = React.createClass({
 		}
 		if (this._focusedOptionReveal) {
 			if (this.refs.focused && this.refs.menu) {
-				var focusedDOM = React.findDOMNode(this.refs.focused);
-				var menuDOM = React.findDOMNode(this.refs.menu);
+				var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
+				var menuDOM = ReactDOM.findDOMNode(this.refs.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
 
@@ -420,7 +421,7 @@ var Select = React.createClass({
 
 	getInputNode: function getInputNode() {
 		var input = this.refs.input;
-		return this.props.searchable ? input : React.findDOMNode(input);
+		return this.props.searchable ? input : ReactDOM.findDOMNode(input);
 	},
 
 	fireChangeEvent: function fireChangeEvent(newState) {
@@ -979,7 +980,7 @@ var Select = React.createClass({
 module.exports = Select;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Option":1,"./SingleValue":3,"./Value":4}],3:[function(require,module,exports){
+},{"./Option":1,"./SingleValue":3,"./Value":4,"react-dom":undefined}],3:[function(require,module,exports){
 (function (global){
 'use strict';
 
