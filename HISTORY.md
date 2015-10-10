@@ -1,5 +1,13 @@
 # React-Select
 
+## v0.7.0 / 2015-10-10
+
+React Select is updated for React 0.14. If you're still using React 0.13, please continue to use `react-select@0.6.x`. There are no functional differences between v0.7.0 and v0.6.12.
+
+Additionally, our tests now require Node.js 4.x. If you are developing `react-select`, please make sure you are running the latest version of node.
+
+Thanks to @bruderstein, @dmatteo and @hull for their help getting these updates shipped!
+
 ## v0.6.12 / 2015-10-02
 
 * added; `labelKey` and `valueKey` props, so you can now use different keys in `option` objects for the label and value
