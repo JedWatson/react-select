@@ -1,6 +1,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Select from 'react-select';
 
 import CustomKeysField from './components/CustomKeysField';
@@ -27,7 +28,7 @@ function logChange() {
 	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
 }
 
-React.render(
+ReactDOM.render(
 	<div>
 		<StatesField label="States" searchable />
 		<MultiSelectField label="Multiselect"/>
