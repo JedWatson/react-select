@@ -11,12 +11,12 @@
 .Select-control {
   position: relative;
   overflow: hidden;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-color: #d9d9d9 #cccccc #b3b3b3;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-color: #d9d9d9 #ccc #b3b3b3;
   border-radius: 4px;
   box-sizing: border-box;
-  color: #333333;
+  color: #333;
   cursor: default;
   outline: none;
   padding: 8px 52px 8px 10px;
@@ -30,22 +30,22 @@
 .is-open > .Select-control {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  background: #ffffff;
-  border-color: #b3b3b3 #cccccc #d9d9d9;
+  background: #fff;
+  border-color: #b3b3b3 #ccc #d9d9d9;
 }
 .is-open > .Select-control > .Select-arrow {
-  border-color: transparent transparent #999999;
+  border-color: transparent transparent #999;
   border-width: 0 5px 5px;
 }
 .is-searchable.is-focused:not(.is-open) > .Select-control {
   cursor: text;
 }
 .is-focused:not(.is-open) > .Select-control {
-  border-color: #0088cc #0099e6 #0099e6;
+  border-color: #08c #0099e6 #0099e6;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px rgba(0, 136, 204, 0.5);
 }
 .Select-placeholder {
-  color: #aaaaaa;
+  color: #aaa;
   padding: 8px 52px 8px 10px;
   position: absolute;
   top: 0;
@@ -57,10 +57,10 @@
   white-space: nowrap;
 }
 .has-value > .Select-control > .Select-placeholder {
-  color: #333333;
+  color: #333;
 }
 .Select-value {
-  color: #aaaaaa;
+  color: #aaa;
   padding: 8px 52px 8px 10px;
   position: absolute;
   top: 0;
@@ -72,7 +72,7 @@
   white-space: nowrap;
 }
 .has-value > .Select-control > .Select-value {
-  color: #333333;
+  color: #333;
 }
 .Select-input > input {
   cursor: default;
@@ -102,8 +102,8 @@
   height: 16px;
   box-sizing: border-box;
   border-radius: 50%;
-  border: 2px solid #cccccc;
-  border-right-color: #333333;
+  border: 2px solid #ccc;
+  border-right-color: #333;
   display: inline-block;
   position: relative;
   margin-top: -8px;
@@ -115,7 +115,7 @@
   right: 46px;
 }
 .Select-clear {
-  color: #999999;
+  color: #999;
   cursor: pointer;
   display: inline-block;
   font-size: 16px;
@@ -141,7 +141,7 @@
   cursor: pointer;
 }
 .Select-arrow {
-  border-color: #999999 transparent transparent;
+  border-color: #999 transparent transparent;
   border-style: solid;
   border-width: 5px 5px 0;
   content: " ";
@@ -157,8 +157,8 @@
 .Select-menu-outer {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
+  background-color: #fff;
+  border: 1px solid #ccc;
   border-top-color: #e6e6e6;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
@@ -187,7 +187,7 @@
 }
 .Select-option.is-focused {
   background-color: #f2f9fc;
-  color: #333333;
+  color: #333;
 }
 .Select-option.is-disabled {
   color: #cccccc;
@@ -215,7 +215,7 @@
   background-color: #f2f9fc;
   border-radius: 2px;
   border: 1px solid #c9e6f2;
-  color: #0088cc;
+  color: #08c;
   display: inline-block;
   font-size: 1em;
   margin: 2px;
@@ -232,7 +232,7 @@
   padding: 3px 5px;
 }
 .Select-item-label .Select-item-label__a {
-  color: #0088cc;
+  color: #08c;
   cursor: pointer;
 }
 .Select-item-icon {
@@ -253,7 +253,7 @@
 .Select.is-multi.is-disabled .Select-item {
   background-color: #f2f2f2;
   border: 1px solid #d9d9d9;
-  color: #888888;
+  color: #888;
 }
 .Select.is-multi.is-disabled .Select-item-icon {
   cursor: not-allowed;
