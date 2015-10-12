@@ -5,6 +5,12 @@ var taskConfig = {
 
 	component: {
 		name: 'Select',
+		dependencies: [
+			'classnames',
+			'react-input-autosize',
+			'react',
+			'react-dom'
+		],
 		less: {
 			path: 'less',
 			entry: 'default.less'
