@@ -203,6 +203,7 @@ var Select = React.createClass({
 	},
 
 	focus: function() {
+		this._openAfterFocus="true";
 		this.getInputNode().focus();
 	},
 
