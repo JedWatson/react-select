@@ -1815,7 +1815,7 @@ describe('Select', () => {
 
 			it('uses the prop as the title for clear', () => {
 
-				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'to have attributes', {
+				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear-zone'), 'to have attributes', {
 					title: 'Remove All Items Test Title'
 				});
 			});
@@ -1837,7 +1837,7 @@ describe('Select', () => {
 
 			it('uses the prop as the title for clear', () => {
 
-				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'to have attributes', {
+				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear-zone'), 'to have attributes', {
 					title: 'Remove Value Test Title'
 				});
 			});
