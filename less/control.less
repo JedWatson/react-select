@@ -148,51 +148,50 @@
 
 // the little cross that clears the field
 
-.Select-clear {
 	// todo: animate transition in
 	color: @select-clear-color;
 	cursor: pointer;
-	display: inline-block;
-	font-size: 16px;
-	padding: @select-padding-vertical - 2 @select-padding-horizontal;
-	position: absolute;
-	right: @select-padding-horizontal + @select-arrow-width + 2;
-	top: 0;
+	display: table-cell;
+	position: relative;
+	text-align: center;
+	vertical-align: middle;
+	width: @select-clear-width;
 
 	&:hover {
 		color: @select-clear-hover-color;
 	}
-	
-	> span {
-		font-size: 1.1em;
-	}
+}
+.Select-clear {
+	display: inline-block;
+	font-size: @select-clear-size;
+	line-height: 1;
+}
+.Select--multi .Select-clear-zone {
+	width: @select-input-arrow-width;
 }
 
 
 // arrow indicator
 
 .Select-arrow-zone {
-	content: " ";
-	display: block;
-	position: absolute;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	width: 30px;
 	cursor: pointer;
+	display: table-cell;
+	position: relative;
+	text-align: center;
+	vertical-align: middle;
+	width: @select-input-arrow-width;
 }
 
 .Select-arrow {
 	border-color: @select-arrow-color transparent transparent;
 	border-style: solid;
-	border-width: @select-arrow-width @select-arrow-width 0;
-	content: " ";
-	display: block;
+	border-width: @select-arrow-width @select-arrow-width (@select-arrow-width / 2);
+	display: inline-block;
 	height: 0;
-	margin-top: -ceil(@select-arrow-width / 2);
-	position: absolute;
-	right: @select-padding-horizontal;
-	top: @select-padding-vertical + @select-arrow-width + 1;
 	width: 0;
-	cursor: pointer;
+}
+.is-open .Select-arrow,
+.Select-arrow-zone:hover > .Select-arrow {
+	border-top-color: @select-arrow-color-hover;
+}
 }

@@ -823,8 +823,26 @@ var Select = React.createClass({
 			}
 		}
 
-		var loading = this.isLoading() ? <span className="Select-loading" aria-hidden="true" /> : null;
-		var clear = this.props.clearable && this.state.value && !this.props.disabled ? <span className="Select-clear" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue} dangerouslySetInnerHTML={{ __html: '&times;' }} /> : null;
+		// loading spinner
+		var loading = this.isLoading() ? (
+			<span className="Select-loading-zone" aria-hidden="true">
+				<span className="Select-loading" />
+			</span>
+		) : null;
+
+		// clear "x" button
+		var clear = (this.props.clearable && this.state.value && !this.props.disabled && !(this.isLoading())) ? (
+			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue}>
+				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
+			</span>
+		) : null;
+
+		// indicator arrow
+		var arrow = !this.props.multi ? (
+			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
+				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
+			</span>
+		) : null;
 
 		var menu;
 		var menuProps;
@@ -871,10 +889,9 @@ var Select = React.createClass({
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{value}
 					{input}
-					<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow} />
-					<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
 					{loading}
 					{clear}
+					{arrow}
 				</div>
 				{menu}
 			</div>
