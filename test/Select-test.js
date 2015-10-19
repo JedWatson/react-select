@@ -2498,7 +2498,7 @@ describe('Select', () => {
 			});
 
 			it('disabled option link is still clickable', () => {
-				var selectArrow = React.findDOMNode(instance).querySelector('.Select-arrow');
+				var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
 				var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
 				TestUtils.Simulate.mouseDown(selectArrow);
 				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
