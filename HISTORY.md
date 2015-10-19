@@ -1,5 +1,19 @@
 # React-Select
 
+## v0.8.0 / 2015-10-19
+
+This release contains significant DOM structure and CSS improvements by @jossmac, including:
+
+* no more `position: absolute` for inner controls
+* `display: table` is used for layout, which works in IE8 and above, and [all other modern browsers](http://caniuse.com/#feat=css-table)
+* less "magic numbers" used for layout, should fix various browser-specific alignment issues
+* clear "x" control now animates in
+* clearer `.Select--multi` className replaces `.Select.is-multi`
+* new height & theme variables
+* "dropdown" indicator chevron is no longer displayed for multi-select controls
+
+There are no functional changes, but if you've forked the LESS / CSS to create your own theme you'll want to pay close attention to PR #527 when upgrading to this version.
+
 ## v0.7.0 / 2015-10-10
 
 React Select is updated for React 0.14. If you're still using React 0.13, please continue to use `react-select@0.6.x`. There are no functional differences between v0.7.0 and v0.6.12.
