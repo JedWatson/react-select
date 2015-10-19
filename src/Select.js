@@ -838,11 +838,11 @@ var Select = React.createClass({
 		) : null;
 
 		// indicator arrow
-		var arrow = !this.props.multi ? (
+		var arrow = (
 			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
 				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
 			</span>
-		) : null;
+		);
 
 		var menu;
 		var menuProps;
