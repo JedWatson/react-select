@@ -171,8 +171,8 @@
 
 // the little cross that clears the field
 
-	// todo: animate transition in
 .Select-clear-zone {
+	.animation( fadeIn 200ms );
 	color: @select-clear-color;
 	cursor: pointer;
 	display: table-cell;
@@ -218,4 +218,20 @@
 .Select-arrow-zone:hover > .Select-arrow {
 	border-top-color: @select-arrow-color-hover;
 }
+
+
+
+
+// Animation
+// ------------------------------
+
+// fade in
+
+@-webkit-keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
 }
