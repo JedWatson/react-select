@@ -72,9 +72,8 @@ _reactDom2['default'].render(_react2['default'].createElement(
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Clickable labels (labels as links)', options: FLAVOURS, hint: 'Open the console to see click behaviour (data/event)' }),
 	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Disabled option', options: FLAVOURS_WITH_DISABLED_OPTION, hint: 'You savage! Caramel is the best...' }),
 	_react2['default'].createElement(_componentsDisabledUpsellOptions2['default'], { label: 'Disabled option with a link' }),
-	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Option Creation (tags mode)', options: FLAVOURS, allowCreate: true, hint: 'Enter a value that\'s not in the list, then hit enter' }),
+	_react2['default'].createElement(_componentsSelectedValuesField2['default'], { label: 'Option Creation (tags mode)', options: FLAVOURS, allowCreate: true, hint: 'Enter a value that\'s NOT in the list, then hit return' }),
 	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values' }),
-	_react2['default'].createElement(_componentsCustomRenderField2['default'], { label: 'Custom render options/values (multi)', multi: true, delimiter: ',' }),
 	_react2['default'].createElement(_componentsRemoteSelectField2['default'], { label: 'Remote Options', hint: 'Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' })
 ), document.getElementById('example'));
 
@@ -235,6 +234,14 @@ var CustomRenderField = _react2['default'].createClass({
 		label: _react2['default'].PropTypes.string,
 		multi: _react2['default'].PropTypes.bool
 	},
+	getInitialState: function getInitialState() {
+		return {};
+	},
+	onChangeMulti: function onChangeMulti(event) {
+		this.setState({
+			multi: event.target.checked
+		});
+	},
 	renderOption: function renderOption(option) {
 		return _react2['default'].createElement(
 			'span',
@@ -264,13 +271,27 @@ var CustomRenderField = _react2['default'].createClass({
 			),
 			_react2['default'].createElement(_reactSelect2['default'], {
 				delimiter: this.props.delimiter,
-				multi: this.props.multi,
+				multi: this.state.multi,
 				allowCreate: true,
 				placeholder: 'Select your favourite',
 				options: ops,
 				optionRenderer: this.renderOption,
 				valueRenderer: this.renderValue,
-				onChange: logChange })
+				onChange: logChange }),
+			_react2['default'].createElement(
+				'div',
+				{ className: 'checkbox-list' },
+				_react2['default'].createElement(
+					'label',
+					{ className: 'checkbox' },
+					_react2['default'].createElement('input', { type: 'checkbox', className: 'checkbox-control', checked: this.state.multi, onChange: this.onChangeMulti }),
+					_react2['default'].createElement(
+						'span',
+						{ className: 'checkbox-label' },
+						'Multi-Select'
+					)
+				)
+			)
 		);
 	}
 });
