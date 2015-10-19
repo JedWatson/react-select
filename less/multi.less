@@ -1,29 +1,28 @@
-// 
+//
 // Multi-Select
 // ------------------------------
 
 
 // Base
 
-.Select.is-multi {
+.Select--multi {
 
 	// control: reduce padding to allow for items
-	.Select-control {
-		padding: 
-			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
-			@select-padding-horizontal * 3 + 22
-			@select-padding-vertical - @select-item-gutter - @select-item-padding-vertical - 1
-			@select-padding-horizontal - @select-item-gutter - @select-item-padding-horizontal
-	}
-	
+	.Select-control {}
+
 	// add margin to the input element
 	.Select-input {
 		vertical-align: middle;
-		border: 1px solid transparent;
-		margin: @select-item-gutter;
-		padding: @select-item-padding-vertical 0;
+		// border: 1px solid transparent;
+		margin-left: @select-padding-horizontal;
+		padding: 0;
 	}
-	
+
+	// reduce margin once there is value
+	&.has-value .Select-input {
+		margin-left: @select-item-gutter;
+	}
+
 }
 
 // Items
@@ -35,7 +34,9 @@
 	color: @select-item-color;
 	display: inline-block;
 	font-size: @select-item-font-size;
-	margin: @select-item-gutter;
+	margin-left: @select-item-gutter;
+	margin-top: @select-item-gutter;
+	vertical-align: top;
 }
 
 // common
@@ -47,10 +48,10 @@
 
 // label
 .Select-item-label {
-	cursor: default;
 	.border-right-radius( @select-item-border-radius );
+	cursor: default;
 	padding: @select-item-padding-vertical @select-item-padding-horizontal;
-	
+
 	.Select-item-label__a {
 		color: @select-item-color;
 		cursor: pointer;
@@ -62,7 +63,7 @@
 	cursor: pointer;
 	.border-left-radius( @select-item-border-radius );
 	border-right: 1px solid @select-item-border-color;
-	
+
 	// move the baseline up by 1px
 	padding: @select-item-padding-vertical - 1 @select-item-padding-horizontal @select-item-padding-vertical + 1;
 
@@ -76,21 +77,21 @@
 	}
 }
 
-.Select.is-multi.is-disabled {
-  .Select-item {
-	background-color: @select-item-disabled-bg;
-	border: 1px solid @select-item-disabled-border-color;
-	color: @select-item-disabled-color;
-  }
-  // icon
-  .Select-item-icon {
-	cursor: not-allowed;
-	border-right: 1px solid @select-item-disabled-border-color;
-
-	&:hover,
-	&:focus,
-	&:active {
-	  background-color: @select-item-disabled-bg;
+.Select--multi.is-disabled {
+	.Select-item {
+		background-color: @select-item-disabled-bg;
+		border: 1px solid @select-item-disabled-border-color;
+		color: @select-item-disabled-color;
 	}
-  }
+	// icon
+	.Select-item-icon {
+		cursor: not-allowed;
+		border-right: 1px solid @select-item-disabled-border-color;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: @select-item-disabled-bg;
+		}
+	}
 }

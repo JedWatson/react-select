@@ -38,9 +38,8 @@ ReactDOM.render(
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
 		<SelectedValuesField label="Disabled option" options={FLAVOURS_WITH_DISABLED_OPTION} hint="You savage! Caramel is the best..." />
 		<DisabledUpsellOptions label="Disabled option with a link"/>
-		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's not in the list, then hit enter" />
+		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		<CustomRenderField label="Custom render options/values" />
-		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
 	</div>,
 	document.getElementById('example')
