@@ -40,7 +40,6 @@ ReactDOM.render(
 		<DisabledUpsellOptions label="Disabled option with a link"/>
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's not in the list, then hit enter" />
 		<CustomRenderField label="Custom render options/values" />
-		<CustomRenderField label="Custom render options/values (multi)" multi delimiter="," />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
 	</div>,
 	document.getElementById('example')

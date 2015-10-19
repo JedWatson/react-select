@@ -12,6 +12,14 @@ var CustomRenderField = React.createClass({
 		label: React.PropTypes.string,
 		multi: React.PropTypes.bool,
 	},
+	getInitialState () {
+		return {};
+	},
+	onChangeMulti(event) {
+		this.setState({
+			multi: event.target.checked
+		});
+	},
 	renderOption (option) {
 		return <span style={{ color: option.hex }}>{option.label} ({option.hex})</span>;
 
@@ -30,13 +38,19 @@ var CustomRenderField = React.createClass({
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
 					delimiter={this.props.delimiter}
-					multi={this.props.multi}
+					multi={this.state.multi}
 					allowCreate
 					placeholder="Select your favourite"
 					options={ops}
 					optionRenderer={this.renderOption}
 					valueRenderer={this.renderValue}
 					onChange={logChange} />
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.multi} onChange={this.onChangeMulti} />
+						<span className="checkbox-label">Multi-Select</span>
+					</label>
+				</div>
 			</div>
 		);
 	}
