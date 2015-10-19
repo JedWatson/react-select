@@ -172,7 +172,7 @@
 // the little cross that clears the field
 
 .Select-clear-zone {
-	.animation( fadeIn 200ms );
+	.animation( Select-animation-fadeIn 200ms );
 	color: @select-clear-color;
 	cursor: pointer;
 	display: table-cell;
@@ -227,11 +227,11 @@
 
 // fade in
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes Select-animation-fadeIn {
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
-@keyframes fadeIn {
+@keyframes Select-animation-fadeIn {
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
