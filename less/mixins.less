@@ -1,4 +1,4 @@
-// 
+//
 // Mixins
 // ------------------------------
 
@@ -37,15 +37,20 @@
        -o-animation: @animation;
           animation: @animation;
 }
-.transform(@transform) {
-  -webkit-transform: @transform;
-     -moz-transform: @transform;
-      -ms-transform: @transform;
-          transform: @transform;
+.box-sizing(@boxmodel) {
+	-webkit-box-sizing: @boxmodel;
+	   -moz-box-sizing: @boxmodel;
+			box-sizing: @boxmodel;
 }
 .rotate(@degrees) {
   -webkit-transform: rotate(@degrees);
       -ms-transform: rotate(@degrees); // IE9 only
        -o-transform: rotate(@degrees);
           transform: rotate(@degrees);
+}
+.transform(@transform) {
+  -webkit-transform: @transform;
+     -moz-transform: @transform;
+      -ms-transform: @transform;
+          transform: @transform;
 }

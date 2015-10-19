@@ -779,7 +779,7 @@ var Select = React.createClass({
 
 	render () {
 		var selectClass = classes('Select', this.props.className, {
-			'is-multi': this.props.multi,
+			'Select--multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
 			'is-focused': this.state.isFocused,

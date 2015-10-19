@@ -1,27 +1,43 @@
-// 
+//
 // Control
 // ------------------------------
 
 .Select {
 	position: relative;
+
+	// preferred box model
+	&,
+	& div,
+	& input,
+	& span {
+		.box-sizing(border-box);
+	}
+
+	// handle disabled state
+	&.is-disabled > .Select-control {
+		background-color: @select-input-bg-disabled;
+	}
+	&.is-disabled .Select-arrow-zone {
+		cursor: default;
+		pointer-events: none;
+	}
 }
 
 // base
 
 .Select-control {
-	position: relative;
-	overflow: hidden;
 	background-color: @select-input-bg;
-	border: 1px solid @select-input-border-color;
 	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
 	border-radius: @select-input-border-radius;
-	box-sizing: border-box;
+	border: @select-input-border-width solid @select-input-border-color;
 	color: @select-text-color;
 	cursor: default;
+	display: table;
+	height: @select-input-height;
 	outline: none;
-	// right padding allows for arrow, clear button and loading indicator
-	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
-	// transition: all 200ms ease; // TODO: find out why this introduced. removed to fix #401
+	overflow: hidden;
+	position: relative;
+	width: 100%;
 
 	&:hover {
 		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -60,12 +76,15 @@
 // placeholder
 
 .Select-placeholder {
+	bottom: 0;
 	color: @select-input-placeholder;
-	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
-	position: absolute;
-	top: 0;
 	left: 0;
-	right: -(@select-arrow-width + @select-padding-horizontal);
+	line-height: @select-input-internal-height;
+	padding-left: @select-padding-horizontal;
+	padding-right: @select-padding-horizontal;
+	position: absolute;
+	right: 0;
+	top: 0;
 
 	// crop text
 	max-width: 100%;
@@ -82,11 +101,11 @@
 
 .Select-value {
 	color: @select-input-placeholder;
+	left: 0;
 	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
 	position: absolute;
-	top: 0;
-	left: 0;
 	right: -(@select-arrow-width + @select-padding-horizontal);
+	top: 0;
 
 	// crop text
 	max-width: 100%;
@@ -103,21 +122,26 @@
 // the <input> element users type in
 
 .Select-input {
-	
+	// inherits `display: inline-block` from "react-input-autosize"
+	height: @select-input-internal-height;
+	padding-left: @select-padding-horizontal;
+	padding-right: @select-padding-horizontal;
+	vertical-align: middle;
+
 	> input {
-		cursor: default;
 		background: none transparent;
-		box-shadow: none;
-		height: auto;
 		border: 0 none;
+		box-shadow: none;
+		cursor: default;
+		display: inline-block;
 		font-family: inherit;
 		font-size: inherit;
+		height: @select-input-internal-height;
 		margin: 0;
-		padding: 0;
 		outline: none;
-		display: inline-block;
+		padding: 0;
 		-webkit-appearance: none;
-		
+
 		.is-focused & {
 			cursor: text;
 		}
@@ -130,25 +154,25 @@
 	outline: none;
 }
 
-
 // loading indicator
-
-.Select-loading {
-	.Select-spinner(16px, @select-input-border-color, @select-text-color);
-	margin-top: -8px;
-	position: absolute;
-	right: (@select-padding-horizontal * 3);
-	top: 50%;
+.Select-loading-zone {
+	cursor: pointer;
+	display: table-cell;
+	position: relative;
+	text-align: center;
+	vertical-align: middle;
+	width: @select-loading-size;
 }
-
-.has-value > .Select-control > .Select-loading {
-	right: (@select-padding-horizontal * 3) + 16px;
+.Select-loading {
+	.Select-spinner(@select-loading-size, @select-loading-color-bg, @select-loading-color);
+	vertical-align: middle;
 }
 
 
 // the little cross that clears the field
 
 	// todo: animate transition in
+.Select-clear-zone {
 	color: @select-clear-color;
 	cursor: pointer;
 	display: table-cell;
