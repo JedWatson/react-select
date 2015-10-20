@@ -185,6 +185,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	labelKey			|	string		|	the option property to use for the label
 	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
 	matchProp 			|	string		|	(any, label, value) which option property to filter on
+	menuContainer 			|	DOMElement		|	domElement where the menu will be put (to use it in modal for an example)
 	multi 				|	bool		|	multi-value input
 	name 				|	string		|	field name, for hidden <input /> tag
 	newOptionCreator	|	func		|	factory to create new options when allowCreate set
