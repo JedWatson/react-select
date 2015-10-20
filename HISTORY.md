@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.8.1 / 2015-10-20
+
+* fixed; `loadAsyncOptions` raises TypeError in setup, see #439 for details, thanks [Pancham Mehrunkar](https://github.com/pancham348)
+
 ## v0.8.0 / 2015-10-19
 
 This release contains significant DOM structure and CSS improvements by @jossmac, including:
