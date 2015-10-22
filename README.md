@@ -124,6 +124,41 @@ var getOptions = function(input, callback) {
 />
 ```
 
+### Async options with Promises
+
+`asyncOptions` now supports Promises, which can be used in very much the same way as callbacks.
+
+Everything that applies to `asyncOptions` with callbacks still applies to the Promises approach (e.g. caching, autoload, ...)
+
+An example using the `fetch` API and ES6 syntax, with an API that returns an object like:
+
+```javascript
+import Select from 'react-select';
+
+/*
+ * assuming the API returns something like this:
+ *   const json = [ 
+ * 	   { value: 'one', label: 'One' },
+ * 	   { value: 'two', label: 'Two' }
+ *   ]
+ */
+
+const getOptions = (input) => {
+  return fetch(`/users/${input}.json`)
+    .then((response) => {
+      return response.json();
+    }).then((json) => {
+      return { options: json };
+    });
+}
+
+<Select
+	name="form-field-name"
+	value="one"
+	asyncOptions={getOptions}
+/>
+```
+
 ### Async options loaded externally
 
 If you want to load options asynchronously externally from the `Select` component, you can have the `Select` component show a loading spinner by passing in the `isLoading` prop set to `true`.
