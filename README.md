@@ -13,7 +13,7 @@ Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-s
 
 To build the examples locally, run:
 
-```
+```javascript
 npm install
 npm start
 ```
@@ -36,7 +36,7 @@ It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (i
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-```
+```javascript
 npm install react-select --save
 ```
 
@@ -57,7 +57,7 @@ The `value` property of each option should be set to either a string or a number
 
 When the value is changed, `onChange(newValue, [selectedOptions])` will fire.
 
-```
+```javascript
 var Select = require('react-select');
 
 var options = [
@@ -100,7 +100,7 @@ The select control will intelligently cache options for input strings that have 
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
-```
+```javascript
 var Select = require('react-select');
 
 var getOptions = function(input, callback) {
@@ -163,7 +163,7 @@ const getOptions = (input) => {
 
 If you want to load options asynchronously externally from the `Select` component, you can have the `Select` component show a loading spinner by passing in the `isLoading` prop set to `true`.
 
-```
+```javascript
 var Select = require('react-select');
 
 var isLoadingExternally = true;
@@ -243,7 +243,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 Right now there's simply a `focus()` method that gives the control focus. All other methods on `<Select>` elements should be considered private and prone to change.
 
-```js
+```javascript
 // focuses the input element
 <instance>.focus();
 ```
