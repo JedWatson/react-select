@@ -570,7 +570,7 @@ var Select = React.createClass({
 			}
 		}
 
-		var callbackFoo = (err, data) => {
+		var optionsResponseHandler = (err, data) => {
 			if (err) throw err;
 			if (this.props.cacheAsyncResults) {
 				this._optionsCache[input] = data;
@@ -593,13 +593,13 @@ var Select = React.createClass({
 			if (callback) callback.call(this, newState);
 		};
 
-		var asyncOpts = this.props.asyncOptions(input, callbackFoo);
+		var asyncOpts = this.props.asyncOptions(input, optionsResponseHandler);
 
 		if (asyncOpts && typeof asyncOpts.then === 'function') {
 			asyncOpts.then((data) => {
-				callbackFoo(null, data)
+				optionsResponseHandler(null, data)
 			}, (err) => {
-				callbackFoo(err)
+				optionsResponseHandler(err)
 			});
 		}
 	},
