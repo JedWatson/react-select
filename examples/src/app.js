@@ -13,6 +13,7 @@ import SelectedValuesField from './components/SelectedValuesField';
 import StatesField from './components/StatesField';
 import UsersField from './components/UsersField';
 import ValuesAsNumbersField from './components/ValuesAsNumbersField';
+import CustomContainerField from './components/CustomContainerField';
 
 var FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
@@ -41,6 +42,7 @@ ReactDOM.render(
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		<CustomRenderField label="Custom render options/values" />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
+		<CustomContainerField label="Custom Container"/>
 	</div>,
 	document.getElementById('example')
 );

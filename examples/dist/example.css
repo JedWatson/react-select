@@ -499,6 +499,15 @@ h6,
   margin: 15px 0;
   color: #666;
 }
+.scrollable-container {
+  height: 100px;
+  border: 1px solid #999;
+  background: #EEE;
+  border-radius: 3px;
+  padding: 5px;
+  overflow: hidden;
+  text-align: center;
+}
 /*
 
 // include these styles to test normal form fields

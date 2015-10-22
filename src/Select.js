@@ -9,6 +9,7 @@ var classes = require('classnames');
 var Value = require('./Value');
 var SingleValue = require('./SingleValue');
 var Option = require('./Option');
+var Menu = require('./Menu');
 
 var requestId = 0;
 
@@ -37,6 +38,7 @@ var Select = React.createClass({
 		labelKey: React.PropTypes.string,          // path of the label value in option objects
 		matchPos: React.PropTypes.string,          // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,         // (any|label|value) which option property to filter on
+		menuContainer: React.PropTypes.object,     // DOMElement that will be used to mount menu
 		multi: React.PropTypes.bool,               // multi-value input
 		name: React.PropTypes.string,              // field name, for hidden <input /> tag
 		newOptionCreator: React.PropTypes.func,    // factory to create new options when allowCreate set
@@ -152,6 +154,9 @@ var Select = React.createClass({
 			}
 		};
 		this.setState(this.getStateFromValue(this.props.value));
+
+    window.addEventListener('resize', this.onViewportChange);
+    window.addEventListener('scroll', this.onViewportChange);
 	},
 
 	componentDidMount () {
@@ -166,6 +171,9 @@ var Select = React.createClass({
 		if (this.state.isOpen) {
 			this._unbindCloseMenuIfClickedOutside();
 		}
+
+		window.removeEventListener('resize', this.onViewportChange);
+    window.removeEventListener('scroll', this.onViewportChange);
 	},
 
 	componentWillReceiveProps (newProps) {
@@ -205,16 +213,50 @@ var Select = React.createClass({
 		if (this._focusedOptionReveal) {
 			if (this.refs.focused && this.refs.menu) {
 				var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
-				var menuDOM = ReactDOM.findDOMNode(this.refs.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
-				var menuRect = menuDOM.getBoundingClientRect();
-
-				if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
-					menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
-				}
+				this.refs.menu.setState({ focusedRect });
 			}
 			this._focusedOptionReveal = false;
 		}
+
+		if (this.props.menuContainer) {
+			const menu = this.renderMenu({ outsideContainer: true });
+
+			if (menu) {
+				if (!this.tempMenuContainer) {
+					this.tempMenuContainer = document.createElement('div');
+					this.props.menuContainer.appendChild(this.tempMenuContainer);
+				}
+				this.outerMenu = ReactDOM.render(menu, this.tempMenuContainer);
+				this.positionOuterMenu();
+			} else {
+				if (this.tempMenuContainer) {
+					this.props.menuContainer.removeChild(this.tempMenuContainer);
+					this.tempMenuContainer = null;
+				}
+				ReactDOM.unmountComponentAtNode(this.props.menuContainer);
+			}
+		}
+	},
+
+	onViewportChange() {
+    this.positionOuterMenu();
+  },
+
+	positionOuterMenu() {
+		if (!this.outerMenu) {
+			return null;
+		}
+
+		const { wrapper } = this.refs;
+
+		this.outerMenu.setState({
+			position: {
+				top: wrapper.offsetTop + wrapper.offsetHeight,
+				left: wrapper.offsetLeft,
+				width: wrapper.offsetWidth
+			}
+		});
 	},
 
 	focus () {
@@ -388,16 +430,6 @@ var Select = React.createClass({
 			this._openAfterFocus = true;
 			this.getInputNode().focus();
 		}
-	},
-
-	handleMouseDownOnMenu (event) {
-		// if the event was triggered by a mousedown and not the primary
-		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
-			return;
-		}
-		event.stopPropagation();
-		event.preventDefault();
 	},
 
 	handleMouseDownOnArrow (event) {
@@ -704,77 +736,6 @@ var Select = React.createClass({
 		}
 	},
 
-	buildMenu () {
-		var focusedValue = this.state.focusedOption ? this.state.focusedOption[this.props.valueKey] : null;
-		var renderLabel = this.props.optionRenderer;
-		if (!renderLabel) renderLabel = (op) => op[this.props.labelKey];
-		if (this.state.filteredOptions.length > 0) {
-			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
-		}
-		// Add the current value to the filtered options in last resort
-		var options = this.state.filteredOptions;
-		if (this.props.allowCreate && this.state.inputValue.trim()) {
-			var inputValue = this.state.inputValue;
-			options = options.slice();
-			var newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
-				value: inputValue,
-				label: inputValue,
-				create: true
-			};
-			options.unshift(newOption);
-		}
-		var ops = Object.keys(options).map(function(key) {
-			var op = options[key];
-			var isSelected = this.state.value === op[this.props.valueKey];
-			var isFocused = focusedValue === op[this.props.valueKey];
-			var optionClass = classes({
-				'Select-option': true,
-				'is-selected': isSelected,
-				'is-focused': isFocused,
-				'is-disabled': op.disabled
-			});
-			var ref = isFocused ? 'focused' : null;
-			var mouseEnter = this.focusOption.bind(this, op);
-			var mouseLeave = this.unfocusOption.bind(this, op);
-			var mouseDown = this.selectValue.bind(this, op);
-			var optionResult = React.createElement(this.props.optionComponent, {
-				key: 'option-' + op[this.props.valueKey],
-				className: optionClass,
-				renderFunc: renderLabel,
-				mouseEnter: mouseEnter,
-				mouseLeave: mouseLeave,
-				mouseDown: mouseDown,
-				click: mouseDown,
-				addLabelText: this.props.addLabelText,
-				option: op,
-				ref: ref
-			});
-			return optionResult;
-		}, this);
-
-		if (ops.length) {
-			return ops;
-		} else {
-			var noResultsText, promptClass;
-			if (this.isLoading()) {
-				promptClass = 'Select-searching';
-				noResultsText = this.props.searchingText;
-			} else if (this.state.inputValue || !this.props.asyncOptions) {
-				promptClass = 'Select-noresults';
-				noResultsText = this.props.noResultsText;
-			} else {
-				promptClass = 'Select-search-prompt';
-				noResultsText = this.props.searchPromptText;
-			}
-
-			return (
-				<div className={promptClass}>
-					{noResultsText}
-				</div>
-			);
-		}
-	},
-
 	handleOptionLabelClick  (value, event) {
 		if (this.props.onOptionLabelClick) {
 			this.props.onOptionLabelClick(value, event);
@@ -852,21 +813,6 @@ var Select = React.createClass({
 			</span>
 		);
 
-		var menu;
-		var menuProps;
-		if (this.state.isOpen) {
-			menuProps = {
-				ref: 'menu',
-				className: 'Select-menu',
-				onMouseDown: this.handleMouseDownOnMenu
-			};
-			menu = (
-				<div ref="selectMenuContainer" className="Select-menu-outer">
-					<div {...menuProps}>{this.buildMenu()}</div>
-				</div>
-			);
-		}
-
 		var input;
 		var inputProps = {
 			ref: 'input',
@@ -901,11 +847,30 @@ var Select = React.createClass({
 					{clear}
 					{arrow}
 				</div>
-				{menu}
+				{this.props.menuContainer ? null : this.renderMenu()}
 			</div>
 		);
-	}
+	},
 
+	renderMenu(additionalProps = {}) {
+		if (!this.state.isOpen) {
+			return null;
+		}
+
+		const { filteredOptions, focusedOption, inputValue, value } = this.state;
+		const { focusOption, unfocusOption, selectValue, isLoading } = this;
+		const menuProps = {
+			filteredOptions,
+			focusedOption,
+			inputValue,
+			value,
+			focusOption,
+			unfocusOption,
+			selectValue,
+			isLoading
+		};
+		return <Menu {...this.props} {...menuProps} {...additionalProps}/>;
+	}
 });
 
 module.exports = Select;
