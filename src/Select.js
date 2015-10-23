@@ -704,10 +704,13 @@ var Select = React.createClass({
 		}
 	},
 
+	renderOptionLabel (op) {
+		return op[this.props.labelKey];
+	},
+
 	buildMenu () {
 		var focusedValue = this.state.focusedOption ? this.state.focusedOption[this.props.valueKey] : null;
-		var renderLabel = this.props.optionRenderer;
-		if (!renderLabel) renderLabel = (op) => op[this.props.labelKey];
+		var renderLabel = this.props.optionRenderer || this.renderOptionLabel;
 		if (this.state.filteredOptions.length > 0) {
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
