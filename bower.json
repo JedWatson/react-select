@@ -4,7 +4,7 @@
     "dist/react-select.min.js",
     "dist/default.css"
   ],
-  "version": "0.8.3",
+  "version": "0.8.4",
   "homepage": "https://github.com/JedWatson/react-select",
   "authors": [
     "Jed Watson"
