@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.8.4 / 2015-10-27
+
+* fixed; LESS math operations now work with --strict-math=on, thanks [Vincent Fretin](https://github.com/vincentfretin)
+
 ## v0.8.3 / 2015-10-27
 
 * fixed; IE issue where clicking the scrollbar would close the menu, thanks [Pete Nykänen](https://github.com/petetnt)
