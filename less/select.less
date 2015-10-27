@@ -17,7 +17,7 @@
 @select-input-border-focus:        #08c; // blue
 @select-input-border-width:        1px;
 @select-input-height:              36px;
-@select-input-internal-height:     @select-input-height - (@select-input-border-width * 2);
+@select-input-internal-height:     (@select-input-height - (@select-input-border-width * 2));
 @select-input-placeholder:         #aaa;
 @select-text-color:                #333;
 
@@ -36,10 +36,10 @@
 @select-noresults-color:           lighten(@select-text-color, 40%);
 
 // clear "x" button
-@select-clear-size:                floor(@select-input-height / 2);
+@select-clear-size:                floor((@select-input-height / 2));
 @select-clear-color:               #999;
 @select-clear-hover-color:         #D0021B; // red
-@select-clear-width:               @select-input-internal-height / 2;
+@select-clear-width:               (@select-input-internal-height / 2);
 
 // arrow indicator
 @select-arrow-color:               #999;
