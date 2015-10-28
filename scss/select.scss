@@ -1,0 +1,67 @@
+/**
+ * React Select
+ * ============
+ * Created by Jed Watson and Joss Mackison for KeystoneJS, http://www.keystonejs.com/
+ * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs
+ * MIT License: https://github.com/keystonejs/react-select
+*/
+
+// Variables
+// ------------------------------
+
+// control options
+$select-input-bg:                  #fff;
+$select-input-bg-disabled:         #f6f6f6;
+$select-input-border-color:        #ccc;
+$select-input-border-radius:       4px;
+$select-input-border-focus:        #08c; // blue
+$select-input-border-width:        1px;
+$select-input-height:              36px;
+$select-input-internal-height:     ($select-input-height - ($select-input-border-width * 2));
+$select-input-placeholder:         #aaa;
+$select-text-color:                #333;
+
+$select-padding-vertical:          8px;
+$select-padding-horizontal:        10px;
+
+// menu options
+$select-menu-zindex:               1000;
+$select-menu-max-height:           200px;
+
+$select-option-color:              lighten($select-text-color, 20%);
+$select-option-focused-color:      $select-text-color;
+$select-option-focused-bg:         #f2f9fc; // pale blue
+$select-option-disabled-color:     lighten($select-text-color, 60%);
+
+$select-noresults-color:           lighten($select-text-color, 40%);
+
+// clear "x" button
+$select-clear-size:                floor(($select-input-height / 2));
+$select-clear-color:               #999;
+$select-clear-hover-color:         #D0021B; // red
+$select-clear-width:               ($select-input-internal-height / 2);
+
+// arrow indicator
+$select-arrow-color:               #999;
+$select-arrow-color-hover:         #666;
+$select-arrow-width:               5px;
+
+// loading indicator
+$select-loading-size:              16px;
+$select-loading-color:             $select-text-color;
+$select-loading-color-bg:          $select-input-border-color;
+
+// multi-select item
+$select-item-border-radius:        2px;
+$select-item-gutter:               5px;
+$select-item-padding-vertical:     2px;
+$select-item-padding-horizontal:   5px;
+$select-item-font-size:            .9em;
+$select-item-color:                #08c; // pale blue
+$select-item-bg:                   #f2f9fc;
+$select-item-border-color:         darken($select-item-bg, 10%);
+$select-item-hover-color:          darken($select-item-color, 5%); // pale blue
+$select-item-hover-bg:             darken($select-item-bg, 5%);
+$select-item-disabled-color:       #888;
+$select-item-disabled-bg:          #f2f2f2;
+$select-item-disabled-border-color: darken($select-item-disabled-bg, 10%);
