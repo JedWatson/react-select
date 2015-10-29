@@ -1,5 +1,11 @@
 # React-Select
 
+## v0.9.0 / 2015-10-29
+
+* added; SCSS stylesheets!
+* improved; Options rendering should be more performant
+* breaking change; Custom `Option` components now need to pass their `option` prop to event handlers; see [this commit](https://github.com/JedWatson/react-select/commit/89af12a80a972794222b193a767f44234bbe9817) for an example of the required change.
+
 ## v0.8.4 / 2015-10-27
 
 * fixed; LESS math operations now work with --strict-math=on, thanks [Vincent Fretin](https://github.com/vincentfretin)
