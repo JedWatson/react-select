@@ -184,6 +184,15 @@ var Option = _react2['default'].createClass({
 		option: _react2['default'].PropTypes.object.isRequired,
 		renderFunc: _react2['default'].PropTypes.func
 	},
+	handleMouseDown: function handleMouseDown(e) {
+		this.props.mouseDown(this.props.option, e);
+	},
+	handleMouseEnter: function handleMouseEnter(e) {
+		this.props.mouseEnter(this.props.option, e);
+	},
+	handleMouseLeave: function handleMouseLeave(e) {
+		this.props.mouseLeave(this.props.option, e);
+	},
 	render: function render() {
 		var obj = this.props.option;
 		var size = 15;
@@ -198,10 +207,10 @@ var Option = _react2['default'].createClass({
 		return _react2['default'].createElement(
 			'div',
 			{ className: this.props.className,
-				onMouseEnter: this.props.mouseEnter,
-				onMouseLeave: this.props.mouseLeave,
-				onMouseDown: this.props.mouseDown,
-				onClick: this.props.mouseDown },
+				onMouseEnter: this.handleMouseEnter,
+				onMouseLeave: this.handleMouseLeave,
+				onMouseDown: this.handleMouseDown,
+				onClick: this.handleMouseDown },
 			_react2['default'].createElement(_reactGravatar2['default'], { email: obj.email, size: size, style: gravatarStyle }),
 			obj.value
 		);
