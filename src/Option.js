@@ -33,25 +33,25 @@ var Option = React.createClass({
 		this.props.mouseLeave(this.props.option, e);
 	},
 	render () {
-		var obj = this.props.option;
-		var renderedLabel = this.props.renderFunc(obj);
-		var optionClasses = classes(this.props.className, obj.className);
+		var option = this.props.option;
+		var label = option.create ? this.props.addLabelText.replace('{label}', option.label) : this.props.renderFunc(option);
+		var optionClasses = classes(this.props.className, option.className);
 
-		return obj.disabled ? (
+		return option.disabled ? (
 			<div className={optionClasses}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
-				{renderedLabel}
+				{label}
 			</div>
 		) : (
 			<div className={optionClasses}
-				style={obj.style}
+				style={option.style}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseLeave={this.handleMouseLeave}
-				onClick={this.props.mouseDown}
-				title={obj.title}>
-				{obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel}
+				onClick={this.handleMouseDown}
+				title={option.title}>
+				{label}
 			</div>
 		);
 	}
