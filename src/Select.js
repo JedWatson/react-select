@@ -737,16 +737,13 @@ var Select = React.createClass({
 				'is-disabled': op.disabled
 			});
 			var ref = isFocused ? 'focused' : null;
-			var mouseEnter = this.focusOption.bind(this, op);
-			var mouseLeave = this.unfocusOption.bind(this, op);
-			var mouseDown = this.selectValue.bind(this, op);
 			var optionResult = React.createElement(this.props.optionComponent, {
 				key: 'option-' + op[this.props.valueKey],
 				className: optionClass,
 				renderFunc: renderLabel,
-				mouseEnter: mouseEnter,
-				mouseLeave: mouseLeave,
-				mouseDown: mouseDown,
+				mouseDown: this.selectValue,
+				mouseEnter: this.focusOption,
+				mouseLeave: this.unfocusOption,
 				click: mouseDown,
 				addLabelText: this.props.addLabelText,
 				option: op,
