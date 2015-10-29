@@ -11,6 +11,15 @@ var Option = React.createClass({
 		option: React.PropTypes.object.isRequired,
 		renderFunc: React.PropTypes.func
 	},
+	handleMouseDown (e) {
+		this.props.mouseDown(this.props.option, e);
+	},
+	handleMouseEnter (e) {
+		this.props.mouseEnter(this.props.option, e);
+	},
+	handleMouseLeave (e) {
+		this.props.mouseLeave(this.props.option, e);
+	},
 	render () {
 		var obj = this.props.option;
 		var size = 15;
@@ -24,10 +33,10 @@ var Option = React.createClass({
 		};
 		return (
 			<div className={this.props.className}
-				onMouseEnter={this.props.mouseEnter}
-				onMouseLeave={this.props.mouseLeave}
-				onMouseDown={this.props.mouseDown}
-				onClick={this.props.mouseDown}>
+				onMouseEnter={this.handleMouseEnter}
+				onMouseLeave={this.handleMouseLeave}
+				onMouseDown={this.handleMouseDown}
+				onClick={this.handleMouseDown}>
 				<Gravatar email={obj.email} size={size} style={gravatarStyle} />
 				{obj.value}
 			</div>
