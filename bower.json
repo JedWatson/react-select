@@ -16,8 +16,8 @@
     "node"
   ],
   "dependencies": {
-    "classnames": "^1.2.2",
-    "react-input-autosize": "^0.4.3"
+    "classnames": "^2.2.0",
+    "react-input-autosize": "^0.6.2"
   },
   "keywords": [
     "react",
