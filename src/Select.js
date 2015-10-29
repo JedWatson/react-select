@@ -750,7 +750,6 @@ var Select = React.createClass({
 				mouseDown: this.selectValue,
 				mouseEnter: this.focusOption,
 				mouseLeave: this.unfocusOption,
-				click: mouseDown,
 				addLabelText: this.props.addLabelText,
 				option: op,
 				ref: ref
