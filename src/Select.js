@@ -50,6 +50,7 @@ var Select = React.createClass({
 		optionRenderer: React.PropTypes.func,      // optionRenderer: function (option) {}
 		options: React.PropTypes.array,            // array of options
 		placeholder: React.PropTypes.string,       // field placeholder, displayed when there's no value
+		preserveInput: React.PropTypes.bool,       // if true, does not reset input text when options change
 		searchable: React.PropTypes.bool,          // whether to enable searching feature or not
 		searchingText: React.PropTypes.string,     // message to display whilst options are loading via asyncOptions
 		searchPromptText: React.PropTypes.string,  // label to prompt for search input
@@ -89,6 +90,7 @@ var Select = React.createClass({
 			optionComponent: Option,
 			options: undefined,
 			placeholder: 'Select...',
+			preserveInput: false,
 			searchable: true,
 			searchingText: 'Searching...',
 			searchPromptText: 'Type to search',
@@ -257,7 +259,7 @@ var Select = React.createClass({
 		return {
 			value: valueForState,
 			values: values,
-			inputValue: '',
+			inputValue: this.props.preserveInput ? this.state.inputValue : '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
