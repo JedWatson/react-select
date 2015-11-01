@@ -265,7 +265,6 @@ var Select = React.createClass({
 	},
 
 	getFirstFocusableOption  (options) {
-
 		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
 			if (!options[optionIndex].disabled) {
 				return options[optionIndex];
@@ -441,7 +440,6 @@ var Select = React.createClass({
 		if (document.activeElement.isEqualNode(menuDOM)) {
 			return;
 		}
-
 		this._blurTimeout = setTimeout(() => {
 			if (this._focusAfterUpdate || !this.isMounted()) return;
 			this.setState({
@@ -516,11 +514,9 @@ var Select = React.createClass({
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
-
 		if (this.props.onInputChange) {
 			this.props.onInputChange(event.target.value);
 		}
-
 		if (this.props.asyncOptions) {
 			this.setState({
 				isLoading: true,
@@ -910,7 +906,6 @@ var Select = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 module.exports = Select;
