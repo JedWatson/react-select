@@ -544,7 +544,7 @@ var Select = React.createClass({
 		this.setState({
 			isLoading: true
 		});
-		this.loadAsyncOptions((this.props.value || ''), { isLoading: false }, () => {
+		this.loadAsyncOptions('', { isLoading: false }, () => {
 			// update with new options but don't focus
 			this.setValue(this.props.value, false);
 		});
