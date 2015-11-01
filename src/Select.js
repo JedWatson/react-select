@@ -805,7 +805,7 @@ var Select = React.createClass({
 				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
 				var onRemove = this.removeValue.bind(this, val);
 				var valueComponent = React.createElement(this.props.valueComponent, {
-					key: val.value,
+					key: val[this.props.valueKey],
 					option: val,
 					renderer: this.props.valueRenderer,
 					optionLabelClick: !!this.props.onOptionLabelClick,
