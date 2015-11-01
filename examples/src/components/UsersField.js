@@ -26,7 +26,7 @@ var UsersField = React.createClass({
 					placeholder="Select user"
 					optionComponent={GravatarOption}
 					singleValueComponent={GravatarValue}
-					options={USERS.users}/>
+					options={USERS}/>
 				{this.renderHint()}
 			</div>
 		);
