@@ -312,6 +312,7 @@ var Select = React.createClass({
 		}
 		var newState = this.getStateFromValue(value);
 		newState.isOpen = false;
+		newState.inputValue = '';
 		this.fireChangeEvent(newState);
 		this.setState(newState);
 	},
