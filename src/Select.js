@@ -611,9 +611,7 @@ var Select = React.createClass({
 
 	filterOptions (options, values) {
 		var filterValue = this._optionsFilterString;
-		var exclude = (values || this.state.values).map(function(i) {
-			return i.value;
-		});
+		var exclude = (values || this.state.values).map(i => i[this.props.valueKey]);
 		if (this.props.filterOptions) {
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
