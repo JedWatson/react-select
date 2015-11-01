@@ -802,12 +802,13 @@ var Select = React.createClass({
 		var value = [];
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
+				var renderLabel = this.props.valueRenderer || this.renderOptionLabel;
 				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
 				var onRemove = this.removeValue.bind(this, val);
 				var valueComponent = React.createElement(this.props.valueComponent, {
 					key: val[this.props.valueKey],
 					option: val,
-					renderer: this.props.valueRenderer,
+					renderer: renderLabel,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: onOptionLabelClick,
 					onRemove: onRemove,
