@@ -1,5 +1,11 @@
 # React-Select
 
+## v0.9.1 / 2015-11-01
+
+* added; new Contributors example w/ async options loading and custom value / label keys
+* fixed; several issues with custom `valueKey` and `labelKey` props
+* fixed; autoload now loads options with no search input
+
 ## v0.9.0 / 2015-10-29
 
 * added; SCSS stylesheets!
