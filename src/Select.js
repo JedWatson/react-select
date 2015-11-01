@@ -296,7 +296,10 @@ var Select = React.createClass({
 						return options[key];
 					}
 				}
-				return { value: val, label: val };
+				return {
+					[this.props.valueKey]: val,
+					[this.props.labelKey]: val
+				};
 			} else {
 				return val;
 			}
