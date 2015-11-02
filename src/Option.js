@@ -9,7 +9,6 @@ var Option = React.createClass({
 		mouseEnter: React.PropTypes.func,              // method to handle mouseEnter on option element
 		mouseLeave: React.PropTypes.func,              // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
-		renderFunc: React.PropTypes.func               // method passed to ReactSelect component to render label text
 	},
 	blockEvent (event) {
 		event.preventDefault();
@@ -34,14 +33,13 @@ var Option = React.createClass({
 	},
 	render () {
 		var option = this.props.option;
-		var label = option.create ? this.props.addLabelText.replace('{label}', option.label) : this.props.renderFunc(option);
 		var optionClasses = classes(this.props.className, option.className);
 
 		return option.disabled ? (
 			<div className={optionClasses}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
-				{label}
+				{this.props.children}
 			</div>
 		) : (
 			<div className={optionClasses}
@@ -51,7 +49,7 @@ var Option = React.createClass({
 				onMouseLeave={this.handleMouseLeave}
 				onClick={this.handleMouseDown}
 				title={option.title}>
-				{label}
+				{this.props.children}
 			</div>
 		);
 	}

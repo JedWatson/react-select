@@ -8,6 +8,8 @@ are timeouts (this._ blurTimeout etc) still required? see handleInputBlur()
 
 allow event handlers to return false and stop events (?)
 
+options creation (was part of buildMenu)
+
 ## Component Methods
 
 this.closeMenuIfClickedOutside  ._
@@ -43,7 +45,6 @@ focusNextOption
 focusPreviousOption
 focusAdjacentOption
 unfocusOption
-renderOptionLabel
 buildMenu
 handleOptionLabelClick
 

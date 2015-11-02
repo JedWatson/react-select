@@ -124,7 +124,7 @@ var Select = React.createClass({
 			if (!this.state.isOpen) {
 				return;
 			}
-			var menuElem = ReactDOM.findDOMNode(this.refs.selectMenuContainer);
+			var menuElem = ReactDOM.findDOMNode(this.refs.menuContainer);
 			var controlElem = ReactDOM.findDOMNode(this.refs.control);
 
 			var eventOccuredOutsideMenu = this.clickedOutsideElement(menuElem, event);
@@ -864,7 +864,7 @@ var Select = React.createClass({
 				onMouseDown: this.handleMouseDownOnMenu
 			};
 			menu = (
-				<div ref="selectMenuContainer" className="Select-menu-outer">
+				<div ref="menuContainer" className="Select-menu-outer">
 					<div {...menuProps}>{this.buildMenu()}</div>
 				</div>
 			);

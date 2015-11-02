@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import MultiValue from './MultiValue';
 import Option from './Option';
@@ -100,6 +100,10 @@ var Select = React.createClass({
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
+	},
+
+	getOptionLabel (op) {
+		return op[this.props.labelKey];
 	},
 
 	handleMouseDown (event) {
@@ -263,12 +267,73 @@ var Select = React.createClass({
 		);
 	},
 
-	renderMenu () {
+	renderMenuOptions () {
+		// TODO: filter options
+		// TODO: don't re-run unless options / input have changed
+		// TODO: cache / lazy load?
+		// TODO: other ways of getting options...
+		var options = this.props.options;
+		if (Array.isArray(options) && options.length) {
+			var Option = this.props.optionComponent;
+			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
+			return options.map(option => {
+				var isSelected = false; // this.state.value === op[this.props.valueKey];
+				var isFocused = false; // focusedValue === op[this.props.valueKey];
+				var optionRef = isFocused ? 'focused' : null;
+				var optionClass = classNames({
+					'Select-option': true,
+					'is-selected': isSelected,
+					'is-focused': isFocused,
+					'is-disabled': option.disabled,
+				});
+				return (
+					<Option
+						className={optionClass}
+						key={'option-' + option[this.props.valueKey]}
+						mouseDown={this.selectValue}
+						mouseEnter={this.focusOption}
+						mouseLeave={this.unfocusOption}
+						option={option}
+						ref={optionRef}
+						>
+						{renderLabel(option)}
+					</Option>
+				);
+			});
+		} else {
+			var noResultsText;
+			var noResultsClass;
+			if (this.isLoading()) {
+				noResultsClass = 'Select-searching';
+				noResultsText = this.props.searchingText;
+			} else if (this.state.inputValue || !this.props.asyncOptions) {
+				noResultsClass = 'Select-noresults';
+				noResultsText = this.props.noResultsText;
+			} else {
+				noResultsClass = 'Select-search-prompt';
+				noResultsText = this.props.searchPromptText;
+			}
+			return (
+				<div className={noResultsClass}>
+					{noResultsText}
+				</div>
+			);
+		}
+	},
 
+	renderMenu () {
+		if (!this.state.isOpen) return;
+		return (
+			<div ref="menuContainer" className="Select-menu-outer">
+				<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
+					{this.renderMenuOptions()}
+				</div>
+			</div>
+		);
 	},
 
 	getWrapperClassName () {
-		return classnames('Select', this.props.className, {
+		return classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,

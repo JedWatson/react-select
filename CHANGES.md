@@ -4,6 +4,8 @@
 
 Value component -> MultiValue
 
+Options component get the label as their Children
+
 ## Fixes & Other Changes
 
 ## Notes
