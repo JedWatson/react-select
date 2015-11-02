@@ -102,16 +102,85 @@ var Select = React.createClass({
 		this.refs.input.focus();
 	},
 
-	getWrapperClassName () {
-		return classnames('Select', this.props.className, {
-			'Select--multi': this.props.multi,
-			'is-searchable': this.props.searchable,
-			'is-open': this.state.isOpen,
-			'is-focused': this.state.isFocused,
-			'is-loading': this.isLoading(),
-			'is-disabled': this.props.disabled,
-			'has-value': this.state.value
+	handleMouseDown (event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+			return;
+		}
+
+		// prevent default event handlers
+		event.stopPropagation();
+		event.preventDefault();
+
+		// for the non-searchable select, close the dropdown when button is clicked
+		if (this.state.isOpen && !this.props.searchable) {
+			this.setState({
+				isOpen: false
+			});
+			return;
+		}
+
+		if (this.state.isFocused) {
+			// if the input is focused, ensure the menu is open
+			this.setState({
+				isOpen: true
+			});
+		} else {
+			// otherwise, focus the input and open the menu
+			this._openAfterFocus = true;
+			this.focus();
+		}
+	},
+
+	handleInputFocus (event) {
+		var isOpen = this.state.isOpen || this._openAfterFocus;
+		if (this.props.onFocus) {
+			this.props.onFocus(event);
+		}
+		this.setState({
+			isFocused: true,
+			isOpen: isOpen
 		});
+		this._openAfterFocus = false;
+	},
+
+	handleInputBlur (event) {
+		if (document.activeElement.isEqualNode(this.refs.menu)) {
+			return;
+		}
+		if (this.props.onBlur) {
+			this.props.onBlur(event);
+		}
+		this.setState({
+			inputValue: '',
+			isFocused: false,
+			isOpen: false
+		});
+	},
+
+	handleInputChange (event) {
+		if (this.props.onInputChange) {
+			this.props.onInputChange(event.target.value);
+		}
+		if (this.props.asyncOptions) {
+			this.setState({
+				// isLoading: true,
+				inputValue: event.target.value
+			});
+			// this.loadAsyncOptions(event.target.value, {
+			// 	isLoading: false,
+			// 	isOpen: true
+			// }, this._bindCloseMenuIfClickedOutside);
+		} else {
+			// var filteredOptions = this.filterOptions(this.state.options);
+			this.setState({
+				isOpen: true,
+				inputValue: event.target.value,
+				// filteredOptions: filteredOptions,
+				// focusedOption: this._getNewFocusedOption(filteredOptions)
+			});
+		}
 	},
 
 	isLoading () {
@@ -139,7 +208,7 @@ var Select = React.createClass({
 			className: 'Select-input ' + (this.props.inputProps.className || ''),
 			tabIndex: this.props.tabIndex || 0,
 			onFocus: this.handleInputFocus,
-			onBlur: this.handleInputBlur
+			onBlur: this.handleInputBlur,
 		};
 		for (var key in this.props.inputProps) {
 			if (this.props.inputProps.hasOwnProperty(key) && key !== 'className') {
@@ -148,7 +217,7 @@ var Select = React.createClass({
 		}
 		if (!this.props.disabled) {
 			if (this.props.searchable) {
-				input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
+				input = <Input {...inputProps} value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" />;
 			} else {
 				input = <div {...inputProps}>&nbsp;</div>;
 			}
@@ -177,6 +246,18 @@ var Select = React.createClass({
 
 	renderMenu () {
 
+	},
+
+	getWrapperClassName () {
+		return classnames('Select', this.props.className, {
+			'Select--multi': this.props.multi,
+			'is-searchable': this.props.searchable,
+			'is-open': this.state.isOpen,
+			'is-focused': this.state.isFocused,
+			'is-loading': this.isLoading(),
+			'is-disabled': this.props.disabled,
+			'has-value': this.state.value,
+		});
 	},
 
 	render () {

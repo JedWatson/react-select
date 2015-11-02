@@ -2,7 +2,17 @@
 
 default functions for filterOption, filterOptions
 
+use componentDidUpdate for binding the closeMenuIfClicked... handlers
+
+are timeouts (this._ blurTimeout etc) still required? see handleInputBlur()
+
+allow event handlers to return false and stop events (?)
+
 ## Component Methods
+
+this.closeMenuIfClickedOutside  ._
+this.bindCloseMenuIfClickedOutside ._
+this.unbindCloseMenuIfClickedOutside ._
 
 componentWillMount
 componentDidMount
@@ -21,14 +31,12 @@ removeValue
 clearValue
 resetValue
 fireChangeEvent
-handleMouseDown
 handleMouseDownOnMenu
 handleMouseDownOnArrow
 handleInputFocus
 handleInputBlur
 handleKeyDown
-getNewFocusedOption (underscore)
-handleInputChange
+getNewFocusedOption ._
 autoloadAsyncOptions
 loadAsyncOptions
 filterOptions
