@@ -312,7 +312,7 @@ var Select = React.createClass({
 					</MultiValueComponent>
 				);
 			});
-		} else {
+		} else if (!this.state.inputValue) {
 			return (
 				<SingleValueComponent
 					value={valueArray[0]}>
