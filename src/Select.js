@@ -267,7 +267,6 @@ var Select = React.createClass({
 	},
 
 	getFirstFocusableOption  (options) {
-
 		for (var optionIndex = 0; optionIndex < options.length; ++optionIndex) {
 			if (!options[optionIndex].disabled) {
 				return options[optionIndex];
@@ -299,7 +298,10 @@ var Select = React.createClass({
 						return options[key];
 					}
 				}
-				return { value: val, label: val };
+				return {
+					[this.props.valueKey]: val,
+					[this.props.labelKey]: val
+				};
 			} else {
 				return val;
 			}
@@ -443,7 +445,6 @@ var Select = React.createClass({
 		if (document.activeElement.isEqualNode(menuDOM)) {
 			return;
 		}
-
 		this._blurTimeout = setTimeout(() => {
 			if (this._focusAfterUpdate || !this.isMounted()) return;
 			this.setState({
@@ -517,11 +518,9 @@ var Select = React.createClass({
 		// assign an internal variable because we need to use
 		// the latest value before setState() has completed.
 		this._optionsFilterString = event.target.value;
-
 		if (this.props.onInputChange) {
 			this.props.onInputChange(event.target.value);
 		}
-
 		if (this.props.asyncOptions) {
 			this.setState({
 				isLoading: true,
@@ -546,7 +545,7 @@ var Select = React.createClass({
 		this.setState({
 			isLoading: true
 		});
-		this.loadAsyncOptions((this.props.value || ''), { isLoading: false }, () => {
+		this.loadAsyncOptions('', { isLoading: false }, () => {
 			// update with new options but don't focus
 			this.setValue(this.props.value, false);
 		});
@@ -613,9 +612,7 @@ var Select = React.createClass({
 
 	filterOptions (options, values) {
 		var filterValue = this._optionsFilterString;
-		var exclude = (values || this.state.values).map(function(i) {
-			return i.value;
-		});
+		var exclude = (values || this.state.values).map(i => i[this.props.valueKey]);
 		if (this.props.filterOptions) {
 			return this.props.filterOptions.call(this, options, filterValue, exclude);
 		} else {
@@ -804,12 +801,13 @@ var Select = React.createClass({
 		var value = [];
 		if (this.props.multi) {
 			this.state.values.forEach(function(val) {
+				var renderLabel = this.props.valueRenderer || this.renderOptionLabel;
 				var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
 				var onRemove = this.removeValue.bind(this, val);
 				var valueComponent = React.createElement(this.props.valueComponent, {
-					key: val.value,
+					key: val[this.props.valueKey],
 					option: val,
-					renderer: this.props.valueRenderer,
+					renderer: renderLabel,
 					optionLabelClick: !!this.props.onOptionLabelClick,
 					onOptionLabelClick: onOptionLabelClick,
 					onRemove: onRemove,
@@ -911,7 +909,6 @@ var Select = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 module.exports = Select;

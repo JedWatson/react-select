@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
 
+import Contributors from './components/Contributors';
 import CustomKeysField from './components/CustomKeysField';
 import CustomRenderField from './components/CustomRenderField';
 import DisabledUpsellOptions from './components/DisabledUpsellOptions';
@@ -31,7 +32,8 @@ function logChange() {
 ReactDOM.render(
 	<div>
 		<StatesField label="States" searchable />
-		<MultiSelectField label="Multiselect"/>
+		<MultiSelectField label="Multiselect" />
+		<Contributors label="Contributors" hint="This example uses custom properties for the name and value of options, as well as async options loading" />
 		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<ValuesAsNumbersField label="Values as numbers" />
 		<CustomKeysField label="Custom object keys for options" />
