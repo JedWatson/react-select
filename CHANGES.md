@@ -4,7 +4,9 @@
 
 Value component -> MultiValue
 
-Options component get the label as their Children
+Major API changes to SingleValue and MultiValue
+
+Options & Value components get their label as their Children
 
 ## Fixes & Other Changes
 

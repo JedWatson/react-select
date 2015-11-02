@@ -299,8 +299,6 @@ var Select = React.createClass({
 		}
 		if (this.props.multi) {
 			return valueArray.map(i => {
-				// var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
-				// var onRemove = this.removeValue.bind(this, val);
 				return (
 					<MultiValueComponent
 						key={i[this.props.valueKey]}
@@ -322,30 +320,25 @@ var Select = React.createClass({
 		}
 	},
 
-	renderInput () {
-		var input;
-		var inputProps = {
-			ref: 'input',
-			className: 'Select-input ' + (this.props.inputProps.className || ''),
-			tabIndex: this.props.tabIndex || 0,
-			onFocus: this.handleInputFocus,
-			onBlur: this.handleInputBlur,
-		};
-		for (var key in this.props.inputProps) {
-			if (this.props.inputProps.hasOwnProperty(key) && key !== 'className') {
-				inputProps[key] = this.props.inputProps[key];
-			}
+	renderInput (valueArray) {
+		var className = classNames('Select-input', this.props.inputProps.className);
+		if (this.props.disabled || !this.props.searchable) {
+			if (this.props.multi && valueArray.length) return;
+			return <div className={className}>&nbsp;</div>;
 		}
-		if (!this.props.disabled) {
-			if (this.props.searchable) {
-				input = <Input {...inputProps} value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" />;
-			} else {
-				input = <div {...inputProps}>&nbsp;</div>;
-			}
-		} else if (!this.props.multi || !this.state.values.length) {
-			input = <div className="Select-input">&nbsp;</div>;
-		}
-		return input;
+		return (
+			<Input
+				{...this.props.inputProps}
+				className={className}
+				tabIndex={this.props.tabIndex}
+				onBlur={this.handleInputBlur}
+				onChange={this.handleInputChange}
+				onFocus={this.handleInputFocus}
+				minWidth="5"
+				ref="input"
+				value={this.state.inputValue}
+			/>
+		);
 	},
 
 	renderClear () {
@@ -447,7 +440,7 @@ var Select = React.createClass({
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{this.renderValue(valueArray)}
-					{this.renderInput()}
+					{this.renderInput(valueArray)}
 					{this.renderLoading()}
 					{this.renderClear()}
 					{this.renderArrow()}
