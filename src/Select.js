@@ -101,8 +101,8 @@ var Select = React.createClass({
 		return this.props.isLoading || this.state.isLoading;
 	},
 
-	render () {
-		var selectClass = classnames('Select', this.props.className, {
+	getWrapperClassName () {
+		return classnames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'is-searchable': this.props.searchable,
 			'is-open': this.state.isOpen,
@@ -111,32 +111,23 @@ var Select = React.createClass({
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
+	},
 
-		// loading spinner
-		var loading = this.isLoading() ? (
+	renderLoading () {
+		if (!this.isLoading()) return;
+		return (
 			<span className="Select-loading-zone" aria-hidden="true">
 				<span className="Select-loading" />
 			</span>
-		) : null;
-
-		// clear "x" button
-		var clear = (this.props.clearable && this.state.value && !this.props.disabled && !(this.isLoading())) ? (
-			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue}>
-				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
-			</span>
-		) : null;
-
-		// indicator arrow
-		var arrow = (
-			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
-				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
-			</span>
 		);
+	},
 
-		// value
-		var value;
+	renderValue () {
 
-		// input
+	},
+
+	renderInput () {
+		// TODO; could be optimised, possibly turned into another component?
 		var input;
 		var inputProps = {
 			ref: 'input',
@@ -150,7 +141,6 @@ var Select = React.createClass({
 				inputProps[key] = this.props.inputProps[key];
 			}
 		}
-
 		if (!this.props.disabled) {
 			if (this.props.searchable) {
 				input = <Input value={this.state.inputValue} onChange={this.handleInputChange} minWidth="5" {...inputProps} />;
@@ -160,21 +150,42 @@ var Select = React.createClass({
 		} else if (!this.props.multi || !this.state.values.length) {
 			input = <div className="Select-input">&nbsp;</div>;
 		}
+		return input;
+	},
 
-		// menu
-		var menu;
-
+	renderClear () {
+		if (!this.props.clearable || !this.state.value || this.props.disabled || this.isLoading()) return;
 		return (
-			<div ref="wrapper" className={selectClass}>
+			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue}>
+				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
+			</span>
+		);
+	},
+
+	renderArrow () {
+		return (
+			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
+				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
+			</span>
+		);
+	},
+
+	renderMenu () {
+
+	},
+
+	render () {
+		return (
+			<div ref="wrapper" className={this.getWrapperClassName()}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
-					{value}
-					{input}
-					{loading}
-					{clear}
-					{arrow}
+					{this.renderValue()}
+					{this.renderInput()}
+					{this.renderLoading()}
+					{this.renderClear()}
+					{this.renderArrow()}
 				</div>
-				{menu}
+				{this.renderMenu()}
 			</div>
 		);
 	}
