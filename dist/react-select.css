@@ -19,6 +19,9 @@
 .Select.is-disabled > .Select-control {
   background-color: #f6f6f6;
 }
+.Select.is-disabled > .Select-control:hover {
+  box-shadow: none;
+}
 .Select.is-disabled .Select-arrow-zone {
   cursor: default;
   pointer-events: none;
