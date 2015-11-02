@@ -3,17 +3,18 @@ var classes = require('classnames');
 
 var SingleValue = React.createClass({
 	propTypes: {
-		placeholder: React.PropTypes.string,
-		value: React.PropTypes.object,
+		value: React.PropTypes.object.isRequired,
 	},
 	render () {
-		var classNames = classes('Select-placeholder', this.props.value && this.props.value.className);
+		var classNames = classes('Select-placeholder', this.props.value.className);
 		return (
 			<div
 				className={classNames}
-				style={this.props.value && this.props.value.style}
-				title={this.props.value && this.props.value.title}
-				>{this.props.placeholder}</div>
+				style={this.props.value.style}
+				title={this.props.value.title}
+				>
+				{this.props.children}
+			</div>
 		);
 	}
 });

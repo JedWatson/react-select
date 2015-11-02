@@ -10,6 +10,10 @@ allow event handlers to return false and stop events (?)
 
 options creation (was part of buildMenu)
 
+optimise / clean up renderInput
+
+hidden input should be optional
+
 ## Component Methods
 
 this.closeMenuIfClickedOutside  ._
@@ -25,12 +29,6 @@ clickedOutsideElement
 getStateFromValue
 getFirstFocusableOption
 initValuesArray
-setValue
-selectValue
-addValue
-popValue
-removeValue
-clearValue
 resetValue
 fireChangeEvent
 handleMouseDownOnMenu

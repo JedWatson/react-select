@@ -92,8 +92,7 @@ var Select = React.createClass({
 		return {
 			isFocused: false,
 			isLoading: false,
-			isOpen: false,
-			options: this.props.options
+			isOpen: false
 		};
 	},
 
@@ -206,6 +205,78 @@ var Select = React.createClass({
 		}
 	},
 
+	getValueArray () {
+		if (this.props.multi) {
+			if (!Array.isArray(this.props.value)) return [];
+			return this.props.value.map(this.expandValue).filter(i => i);
+		}
+		var expandedValue = this.expandValue(this.props.value);
+		return expandedValue ? [expandedValue] : [];
+	},
+
+	expandValue (value) {
+		if (typeof value !== 'string') return value;
+		if (!this.props.options) return;
+		for (var i = 0; i < this.props.options.length; i++) {
+			if (this.props.options[i][this.props.valueKey] === value) return this.props.options[i];
+		}
+	},
+
+	setValue (value) {
+		if (this.props.onChange) {
+			this.props.onChange(value);
+		}
+	},
+
+	selectValue (value) {
+		if (!this.props.multi) {
+			this.setValue(value);
+		} else if (value) {
+			this.addValue(value);
+		}
+	},
+
+	addValue (value) {
+		var valueArray = this.getValueArray();
+		this.setValue(valueArray.concat(value));
+	},
+
+	popValue () {
+		var valueArray = this.getValueArray();
+		if (!valueArray.length) return;
+		this.setValue(valueArray.slice(0, valueArray.length - 1));
+	},
+
+	removeValue (value) {
+		var valueArray = this.getValueArray();
+		this.setValue(valueArray.filter(i => i !== value));
+	},
+
+	clearValue (event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, ignore it.
+		if (event && event.type === 'mousedown' && event.button !== 0) {
+			return;
+		}
+		event.stopPropagation();
+		event.preventDefault();
+		this.setValue(null);
+	},
+
+	focusOption (option) {
+		this.setState({
+			focusedOption: option
+		});
+	},
+
+	unfocusOption (option) {
+		if (this.state.focusedOption === option) {
+			this.setState({
+				focusedOption: null
+			});
+		}
+	},
+
 	isLoading () {
 		return this.props.isLoading || this.state.isLoading;
 	},
@@ -219,12 +290,39 @@ var Select = React.createClass({
 		);
 	},
 
-	renderValue () {
-
+	renderValue (valueArray) {
+		var renderLabel = this.props.valueRenderer || this.getOptionLabel;
+		var MultiValueComponent = this.props.multiValueComponent;
+		var SingleValueComponent = this.props.singleValueComponent;
+		if (!valueArray.length) {
+			return <div className="Select-placeholder">{this.props.placeholder}</div>;
+		}
+		if (this.props.multi) {
+			return valueArray.map(i => {
+				// var onOptionLabelClick = this.handleOptionLabelClick.bind(this, val);
+				// var onRemove = this.removeValue.bind(this, val);
+				return (
+					<MultiValueComponent
+						key={i[this.props.valueKey]}
+						value={i}
+						onRemove={this.removeValue}
+						disabled={this.props.disabled}
+						>
+						{renderLabel(i)}
+					</MultiValueComponent>
+				);
+			});
+		} else {
+			return (
+				<SingleValueComponent
+					value={valueArray[0]}>
+					{renderLabel(valueArray[0])}
+				</SingleValueComponent>
+			);
+		}
 	},
 
 	renderInput () {
-		// TODO; could be optimised, possibly turned into another component?
 		var input;
 		var inputProps = {
 			ref: 'input',
@@ -251,7 +349,7 @@ var Select = React.createClass({
 	},
 
 	renderClear () {
-		if (!this.props.clearable || !this.state.value || this.props.disabled || this.isLoading()) return;
+		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.isLoading()) return;
 		return (
 			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue}>
 				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
@@ -267,18 +365,16 @@ var Select = React.createClass({
 		);
 	},
 
-	renderMenuOptions () {
+	renderMenuOptions (valueArray) {
 		// TODO: filter options
-		// TODO: don't re-run unless options / input have changed
-		// TODO: cache / lazy load?
-		// TODO: other ways of getting options...
-		var options = this.props.options;
-		if (Array.isArray(options) && options.length) {
+		// TODO: don't re-gen unless options / input have changed
+		// TODO: other ways of getting options (async options)...
+		if (this.props.options && this.props.options.length) {
 			var Option = this.props.optionComponent;
 			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
-			return options.map(option => {
-				var isSelected = false; // this.state.value === op[this.props.valueKey];
-				var isFocused = false; // focusedValue === op[this.props.valueKey];
+			return this.props.options.map(option => {
+				var isSelected = valueArray.indexOf(option) > -1;
+				var isFocused = option === this.state.focusedOption;
 				var optionRef = isFocused ? 'focused' : null;
 				var optionClass = classNames({
 					'Select-option': true,
@@ -321,18 +417,18 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenu () {
+	renderMenu (valueArray) {
 		if (!this.state.isOpen) return;
 		return (
 			<div ref="menuContainer" className="Select-menu-outer">
 				<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
-					{this.renderMenuOptions()}
+					{this.renderMenuOptions(valueArray)}
 				</div>
 			</div>
 		);
 	},
 
-	getWrapperClassName () {
+	getWrapperClassName (hasValue) {
 		return classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'is-searchable': this.props.searchable,
@@ -340,22 +436,23 @@ var Select = React.createClass({
 			'is-focused': this.state.isFocused,
 			'is-loading': this.isLoading(),
 			'is-disabled': this.props.disabled,
-			'has-value': this.state.value,
+			'has-value': hasValue,
 		});
 	},
 
 	render () {
+		let valueArray = this.getValueArray();
 		return (
-			<div ref="wrapper" className={this.getWrapperClassName()}>
+			<div ref="wrapper" className={this.getWrapperClassName(valueArray.length)}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
-					{this.renderValue()}
+					{this.renderValue(valueArray)}
 					{this.renderInput()}
 					{this.renderLoading()}
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{this.renderMenu()}
+				{this.renderMenu(valueArray)}
 			</div>
 		);
 	}

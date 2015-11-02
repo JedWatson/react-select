@@ -15,7 +15,6 @@ var Option = React.createClass({
 		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
 			return;
 		}
-
 		if (event.target.target) {
 			window.open(event.target.href);
 		} else {
