@@ -9,7 +9,6 @@ componentDidMount
 componentWillUnmount
 componentWillReceiveProps
 componentDidUpdate
-focus
 clickedOutsideElement
 getStateFromValue
 getFirstFocusableOption
@@ -21,7 +20,6 @@ popValue
 removeValue
 clearValue
 resetValue
-getInputNode
 fireChangeEvent
 handleMouseDown
 handleMouseDownOnMenu

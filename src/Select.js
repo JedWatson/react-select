@@ -97,8 +97,9 @@ var Select = React.createClass({
 		};
 	},
 
-	isLoading () {
-		return this.props.isLoading || this.state.isLoading;
+	focus () {
+		if (!this.refs.input) return;
+		this.refs.input.focus();
 	},
 
 	getWrapperClassName () {
@@ -111,6 +112,10 @@ var Select = React.createClass({
 			'is-disabled': this.props.disabled,
 			'has-value': this.state.value
 		});
+	},
+
+	isLoading () {
+		return this.props.isLoading || this.state.isLoading;
 	},
 
 	renderLoading () {
