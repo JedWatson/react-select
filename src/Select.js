@@ -133,6 +133,25 @@ var Select = React.createClass({
 		}
 	},
 
+	handleMouseDownOnArrow (event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+			return;
+		}
+		// If the menu isn't open, let the event bubble to the main handleMouseDown
+		if (!this.state.isOpen) {
+			return;
+		}
+		// prevent default event handlers
+		event.stopPropagation();
+		event.preventDefault();
+		// close the menu
+		this.setState({
+			isOpen: false
+		});
+	},
+
 	handleInputFocus (event) {
 		var isOpen = this.state.isOpen || this._openAfterFocus;
 		if (this.props.onFocus) {

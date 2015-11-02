@@ -32,9 +32,6 @@ clearValue
 resetValue
 fireChangeEvent
 handleMouseDownOnMenu
-handleMouseDownOnArrow
-handleInputFocus
-handleInputBlur
 handleKeyDown
 getNewFocusedOption ._
 autoloadAsyncOptions
