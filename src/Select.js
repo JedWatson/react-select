@@ -177,11 +177,13 @@ var Select = React.createClass({
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value || newProps.placeholder !== this.props.placeholder || optionsChanged) {
+		var valueChanged = newProps.value !== (this.state.value === '' ? null : this.state.value);
+		if (valueChanged || newProps.placeholder !== this.props.placeholder || optionsChanged) {
 			var setState = (newState) => {
 				this.setState(this.getStateFromValue(newProps.value,
 					(newState && newState.options) || newProps.options,
-					newProps.placeholder
+					newProps.placeholder,
+					!valueChanged || newProps.value === null
 				));
 			};
 			if (this.props.asyncOptions) {
@@ -230,7 +232,7 @@ var Select = React.createClass({
 		return true;
 	},
 
-	getStateFromValue (value, options, placeholder) {
+	getStateFromValue (value, options, placeholder, preserveInput) {
 		if (!options) {
 			options = this.state.options;
 		}
@@ -257,7 +259,7 @@ var Select = React.createClass({
 		return {
 			value: valueForState,
 			values: values,
-			inputValue: '',
+			inputValue: preserveInput ? this.state.inputValue : '',
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
@@ -310,7 +312,7 @@ var Select = React.createClass({
 		if (focusAfterUpdate || focusAfterUpdate === undefined) {
 			this._focusAfterUpdate = true;
 		}
-		var newState = this.getStateFromValue(value);
+		var newState = this.getStateFromValue(value, this.props.placeholder, false);
 		newState.isOpen = false;
 		this.fireChangeEvent(newState);
 		this.setState(newState);
@@ -446,7 +448,6 @@ var Select = React.createClass({
 		this._blurTimeout = setTimeout(() => {
 			if (this._focusAfterUpdate || !this.isMounted()) return;
 			this.setState({
-				inputValue: '',
 				isFocused: false,
 				isOpen: false
 			});
