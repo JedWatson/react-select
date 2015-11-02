@@ -2,7 +2,6 @@ import React from 'react';
 import Select from 'react-select';
 
 const STATES = require('../data/states');
-var id = 0;
 
 function logChange() {
 	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
@@ -25,7 +24,6 @@ var StatesField = React.createClass({
 			country: 'AU',
 			disabled: false,
 			searchable: this.props.searchable,
-			id: ++id,
 			selectValue: 'new-south-wales'
 		};
 	},

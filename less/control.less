@@ -16,6 +16,9 @@
 	// handle disabled state
 	&.is-disabled > .Select-control {
 		background-color: @select-input-bg-disabled;
+		&:hover {
+			box-shadow: none;
+		}
 	}
 	&.is-disabled .Select-arrow-zone {
 		cursor: default;
