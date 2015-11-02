@@ -14,6 +14,8 @@ optimise / clean up renderInput
 
 hidden input should be optional
 
+clicking on labels (single and multi select)
+
 ## Component Methods
 
 this.closeMenuIfClickedOutside  ._
