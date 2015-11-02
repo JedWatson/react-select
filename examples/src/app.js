@@ -34,6 +34,7 @@ ReactDOM.render(
 		<StatesField label="States" searchable />
 		<MultiSelectField label="Multiselect" />
 		<Contributors label="Contributors" hint="This example uses custom properties for the name and value of options, as well as async options loading" />
+		{/*
 		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<ValuesAsNumbersField label="Values as numbers" />
 		<CustomKeysField label="Custom object keys for options" />
@@ -43,6 +44,7 @@ ReactDOM.render(
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		<CustomRenderField label="Custom render options/values" />
 		<RemoteSelectField label="Remote Options" hint='Type anything in the remote example to asynchronously load options. Valid alternative results are "A", "AA", and "AB"' />
+		*/}
 	</div>,
 	document.getElementById('example')
 );
