@@ -2,6 +2,47 @@
 
 default functions for filterOption, filterOptions
 
+## Component Methods
+
+componentWillMount
+componentDidMount
+componentWillUnmount
+componentWillReceiveProps
+componentDidUpdate
+focus
+clickedOutsideElement
+getStateFromValue
+getFirstFocusableOption
+initValuesArray
+setValue
+selectValue
+addValue
+popValue
+removeValue
+clearValue
+resetValue
+getInputNode
+fireChangeEvent
+handleMouseDown
+handleMouseDownOnMenu
+handleMouseDownOnArrow
+handleInputFocus
+handleInputBlur
+handleKeyDown
+getNewFocusedOption (underscore)
+handleInputChange
+autoloadAsyncOptions
+loadAsyncOptions
+filterOptions
+selectFocusedOption
+focusOption
+focusNextOption
+focusPreviousOption
+focusAdjacentOption
+unfocusOption
+renderOptionLabel
+buildMenu
+handleOptionLabelClick
 
 ## Questions
 
