@@ -90,6 +90,7 @@ var Select = React.createClass({
 
 	getInitialState () {
 		return {
+			inputValue: '',
 			isFocused: false,
 			isLoading: false,
 			isOpen: false
@@ -313,7 +314,8 @@ var Select = React.createClass({
 		} else if (!this.state.inputValue) {
 			return (
 				<SingleValueComponent
-					value={valueArray[0]}>
+					value={valueArray[0]}
+					>
 					{renderLabel(valueArray[0])}
 				</SingleValueComponent>
 			);
@@ -358,14 +360,42 @@ var Select = React.createClass({
 		);
 	},
 
+	filterOptions (excludeOptions) {
+		var filterValue = this.state.inputValue;
+		var options = this.props.options || [];
+		if (!filterValue) return options;
+		if (this.props.filterOptions) {
+			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
+		} else {
+			if (this.props.ignoreCase) {
+				filterValue = filterValue.toLowerCase();
+			}
+			return options.filter(op => {
+				if (this.props.multi && excludeOptions.indexOf(op) > -1) return false;
+				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
+				var valueTest = String(op[this.props.valueKey]);
+				var labelTest = String(op[this.props.labelKey]);
+				if (this.props.ignoreCase) {
+					valueTest = valueTest.toLowerCase();
+					labelTest = labelTest.toLowerCase();
+				}
+				return !filterValue || (this.props.matchPos === 'start') ? (
+					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
+					(this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
+				) : (
+					(this.props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
+					(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
+				);
+			});
+		}
+	},
+
 	renderMenuOptions (valueArray) {
-		// TODO: filter options
-		// TODO: don't re-gen unless options / input have changed
-		// TODO: other ways of getting options (async options)...
-		if (this.props.options && this.props.options.length) {
+		var options = this.filterOptions();
+		if (options && options.length) {
 			var Option = this.props.optionComponent;
 			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
-			return this.props.options.map(option => {
+			return options.map(option => {
 				var isSelected = valueArray.indexOf(option) > -1;
 				var isFocused = option === this.state.focusedOption;
 				var optionRef = isFocused ? 'focused' : null;

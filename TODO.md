@@ -16,6 +16,8 @@ hidden input should be optional
 
 clicking on labels (single and multi select)
 
+strip diacritics
+
 ## Component Methods
 
 this.closeMenuIfClickedOutside  ._
@@ -38,7 +40,6 @@ handleKeyDown
 getNewFocusedOption ._
 autoloadAsyncOptions
 loadAsyncOptions
-filterOptions
 selectFocusedOption
 focusOption
 focusNextOption
