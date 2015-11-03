@@ -90,6 +90,7 @@ var Async = React.createClass({
 		var _requestId = this._currentRequestId = requestId++;
 		var responseHandler = (err, data) => {
 			if (err) throw err;
+			if (!this.isMounted()) return;
 			if (this.state.cache) {
 				this.state.cache[input] = data;
 			}
