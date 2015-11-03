@@ -18,9 +18,10 @@ prop to use legacy 'simpleValue' mode
 
 ## Component Methods
 
-this.closeMenuIfClickedOutside  ._
-this.bindCloseMenuIfClickedOutside ._
-this.unbindCloseMenuIfClickedOutside ._
+handle _ closeMenuIfClickedOutside
+handle _ bindCloseMenuIfClickedOutside
+handle _ unbindCloseMenuIfClickedOutside
+handle _ focusedOptionReveal
 
 componentWillMount
 componentDidMount
@@ -35,9 +36,6 @@ getNewFocusedOption ._
 autoloadAsyncOptions
 loadAsyncOptions
 selectFocusedOption
-focusNextOption
-focusPreviousOption
-focusAdjacentOption
 handleOptionLabelClick
 
 ## Probably replaced (needs review)

@@ -282,6 +282,47 @@ var Select = React.createClass({
 		}
 	},
 
+	focusNextOption () {
+		this.focusAdjacentOption('next');
+	},
+
+	focusPreviousOption () {
+		this.focusAdjacentOption('previous');
+	},
+
+	focusAdjacentOption (dir) {
+		var options = this._visibleOptions.filter(i => !i.disabled);
+		if (!this.state.isOpen) {
+			this.setState({
+				isOpen: true,
+				inputValue: '',
+				focusedOption: this.state.focusedOption || options[dir === 'next' ? 0 : options.length - 1]
+			});
+			return;
+		}
+		if (!options.length) return;
+		var focusedIndex = -1;
+		for (var i = 0; i < options.length; i++) {
+			if (this.state.focusedOption === options[i]) {
+				focusedIndex = i;
+				break;
+			}
+		}
+		var focusedOption = options[0];
+		if (dir === 'next' && focusedIndex > -1 && focusedIndex < options.length - 1) {
+			focusedOption = options[focusedIndex + 1];
+		} else if (dir === 'previous') {
+			if (focusedIndex > 0) {
+				focusedOption = options[focusedIndex - 1];
+			} else {
+				focusedOption = options[options.length - 1];
+			}
+		}
+		this.setState({
+			focusedOption: focusedOption
+		});
+	},
+
 	isLoading () {
 		return this.props.isLoading || this.state.isLoading;
 	},
