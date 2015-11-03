@@ -97,7 +97,8 @@ var Select = React.createClass({
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
-			isOpen: false
+			isOpen: false,
+			isPseudoFocused: false,
 		};
 	},
 
@@ -120,7 +121,7 @@ var Select = React.createClass({
 		// for the non-searchable select, close the dropdown when button is clicked
 		if (this.state.isOpen && !this.props.searchable) {
 			this.setState({
-				isOpen: false
+				isOpen: false,
 			});
 			return;
 		}
@@ -128,7 +129,8 @@ var Select = React.createClass({
 		if (this.state.isFocused) {
 			// if the input is focused, ensure the menu is open
 			this.setState({
-				isOpen: true
+				isOpen: true,
+				isPseudoFocused: false,
 			});
 		} else {
 			// otherwise, focus the input and open the menu
@@ -178,7 +180,8 @@ var Select = React.createClass({
 		this.setState({
 			inputValue: '',
 			isFocused: false,
-			isOpen: false
+			isOpen: false,
+			isPseudoFocused: false,
 		});
 	},
 
@@ -189,6 +192,7 @@ var Select = React.createClass({
 		if (this.props.asyncOptions) {
 			this.setState({
 				// isLoading: true,
+				isPseudoFocused: false,
 				inputValue: event.target.value
 			});
 			// this.loadAsyncOptions(event.target.value, {
@@ -199,6 +203,7 @@ var Select = React.createClass({
 			// var filteredOptions = this.filterOptions(this.state.options);
 			this.setState({
 				isOpen: true,
+				isPseudoFocused: false,
 				inputValue: event.target.value,
 				// filteredOptions: filteredOptions,
 				// focusedOption: this._getNewFocusedOption(filteredOptions)
@@ -241,7 +246,8 @@ var Select = React.createClass({
 		}
 		if (!this.props.multi) {
 			this.setState({
-				isOpen: false
+				isOpen: false,
+				isPseudoFocused: true,
 			});
 		}
 	},
@@ -516,11 +522,12 @@ var Select = React.createClass({
 	getWrapperClassName (hasValue) {
 		return classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
-			'is-searchable': this.props.searchable,
-			'is-open': this.state.isOpen,
+			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.isLoading(),
-			'is-disabled': this.props.disabled,
+			'is-open': this.state.isOpen,
+			'is-pseudo-focused': this.state.isPseudoFocused,
+			'is-searchable': this.props.searchable,
 			'has-value': hasValue,
 		});
 	},

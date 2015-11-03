@@ -96,7 +96,8 @@
 	white-space: nowrap;
 }
 
-.has-value:not(.is-focused) > .Select-control > .Select-placeholder {
+.has-value:not(.is-focused) > .Select-control > .Select-placeholder,
+.has-value.is-pseudo-focused > .Select-control > .Select-placeholder {
 	color: @select-text-color;
 }
 
@@ -150,6 +151,11 @@
 		}
 	}
 
+}
+
+// fake-hide the input when the control is pseudo-focused
+.has-value.is-pseudo-focused .Select-input {
+	opacity: 0;
 }
 
 // fake input
