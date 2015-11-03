@@ -505,11 +505,11 @@ var Select = React.createClass({
 		if (this.props.filterOptions) {
 			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
 		} else {
-			if (this.props.ignoreCase) {
-				filterValue = filterValue.toLowerCase();
-			}
 			if (this.props.ignoreAccents) {
 				filterValue = stripDiacritics(filterValue);
+			}
+			if (this.props.ignoreCase) {
+				filterValue = filterValue.toLowerCase();
 			}
 			if (excludeOptions) excludeOptions = excludeOptions.map(i => i[this.props.valueKey]);
 			return options.filter(option => {
@@ -518,13 +518,13 @@ var Select = React.createClass({
 				if (!filterValue) return true;
 				var valueTest = String(option[this.props.valueKey]);
 				var labelTest = String(option[this.props.labelKey]);
-				if (this.props.ignoreCase) {
-					if (this.props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
-					if (this.props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
-				}
 				if (this.props.ignoreAccents) {
 					if (this.props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
 					if (this.props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);
+				}
+				if (this.props.ignoreCase) {
+					if (this.props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
+					if (this.props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
 				}
 				return this.props.matchPos === 'start' ? (
 					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
