@@ -306,10 +306,14 @@ var Select = React.createClass({
 	selectValue (value) {
 		if (this.props.multi) {
 			this.addValue(value);
+			this.setState({
+				inputValue: '',
+			});
 		} else {
 			this.setValue(value);
 			this.setState({
 				isOpen: false,
+				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
 			});
 		}
