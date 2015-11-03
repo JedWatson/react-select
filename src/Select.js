@@ -100,7 +100,10 @@ var Select = React.createClass({
 		};
 	},
 
-	componentDidUpdate () {
+	componentDidUpdate (prevProps, prevState) {
+		if (prevState.inputValue !== this.state.inputValue && this.props.onInputChange) {
+			this.props.onInputChange(this.state.inputValue);
+		}
 		if (this._scrollToFocusedOptionOnUpdate && this.refs.focused && this.refs.menu) {
 			this._scrollToFocusedOptionOnUpdate = false;
 			var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
@@ -202,9 +205,6 @@ var Select = React.createClass({
 	},
 
 	handleInputChange (event) {
-		if (this.props.onInputChange) {
-			this.props.onInputChange(event.target.value);
-		}
 		if (this.props.asyncOptions) {
 			this.setState({
 				// isLoading: true,

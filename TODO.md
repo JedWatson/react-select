@@ -11,7 +11,7 @@ handle comma for tags mode (handleKeyDown keyCode 188)
 focus options on mouseMove (requires re-work of className prop, pass isFocused instead)
 ensure an option is always focused (was _ getNewFocusedOption)
 proper pagination support in Async component
-reset async options when the input value is cleared
+asyncDelay - wait x ms before calling getOptions in Async
 
 ## Component Methods
 
