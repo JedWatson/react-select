@@ -104,6 +104,18 @@ var Select = React.createClass({
 		};
 	},
 
+	componentDidUpdate () {
+		if (this.refs.focused && this.refs.menu) {
+			var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
+			var menuDOM = ReactDOM.findDOMNode(this.refs.menu);
+			var focusedRect = focusedDOM.getBoundingClientRect();
+			var menuRect = menuDOM.getBoundingClientRect();
+			if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
+				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+			}
+		}
+	},
+
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();

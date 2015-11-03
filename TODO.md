@@ -17,7 +17,6 @@ handle _ unbindCloseMenuIfClickedOutside
 handle _ focusedOptionReveal
 
 componentWillMount
-componentDidMount
 componentWillUnmount
 componentWillReceiveProps
 componentDidUpdate
@@ -36,6 +35,11 @@ initValuesArray
 resetValue
 fireChangeEvent
 buildMenu
+
+## Performance concerns
+
+checking the focused option after every render
+filtering the options on every render
 
 ## Questions
 
