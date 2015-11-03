@@ -62,9 +62,7 @@
 
 // no results
 
-.Select-noresults,
-.Select-search-prompt,
-.Select-searching {
+.Select-noresults {
 	box-sizing: border-box;
 	color: $select-noresults-color;
 	cursor: default;

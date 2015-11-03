@@ -51,8 +51,6 @@ var Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
-		searchingText: React.PropTypes.string,      // message to display whilst options are loading via asyncOptions
-		searchPromptText: React.PropTypes.string,   // label to prompt for search input
 		singleValueComponent: React.PropTypes.func, // value component to render when multiple is set to false
 		value: React.PropTypes.any,                 // initial field value
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
@@ -83,8 +81,6 @@ var Select = React.createClass({
 			optionComponent: Option,
 			placeholder: 'Select...',
 			searchable: true,
-			searchingText: 'Searching...',
-			searchPromptText: 'Type to search',
 			singleValueComponent: SingleValue,
 			valueKey: 'value',
 		};
@@ -562,21 +558,9 @@ var Select = React.createClass({
 				);
 			});
 		} else {
-			var noResultsText;
-			var noResultsClass;
-			if (this.isLoading()) {
-				noResultsClass = 'Select-searching';
-				noResultsText = this.props.searchingText;
-			} else if (this.state.inputValue || !this.props.asyncOptions) {
-				noResultsClass = 'Select-noresults';
-				noResultsText = this.props.noResultsText;
-			} else {
-				noResultsClass = 'Select-search-prompt';
-				noResultsText = this.props.searchPromptText;
-			}
 			return (
-				<div className={noResultsClass}>
-					{noResultsText}
+				<div className="Select-noresults">
+					{this.props.noResultsText}
 				</div>
 			);
 		}

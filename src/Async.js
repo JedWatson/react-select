@@ -13,7 +13,10 @@ var Async = React.createClass({
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger getOptions
+		noResultsText: React.PropTypes.string,          // placeholder displayed when there are no matching search results (shared with Select)
 		placeholder: React.PropTypes.string,            // field placeholder, displayed when there's no value (shared with Select)
+		searchingText: React.PropTypes.string,          // message to display while options are loading
+		searchPromptText: React.PropTypes.string,       // label to prompt for search input
 	},
 	getDefaultProps () {
 		return {
@@ -22,6 +25,8 @@ var Async = React.createClass({
 			ignoreCase: true,
 			loadingPlaceholder: 'Loading...',
 			minimumInput: 0,
+			searchingText: 'Searching...',
+			searchPromptText: 'Type to search',
 		};
 	},
 	getInitialState () {
@@ -32,12 +37,13 @@ var Async = React.createClass({
 	},
 	componentWillMount () {
 		this._optionsCache = {};
+		this._lastInput = '';
 	},
 	componentDidMount () {
 		this.getOptions('');
 	},
 	getOptions (input) {
-		if (typeof input !== 'string') return;
+		this._lastInput = input;
 		if (input.length < this.props.minimumInput) return;
 		if (this.props.ignoreAccents) {
 			input = stripDiacritics(input);
@@ -82,8 +88,22 @@ var Async = React.createClass({
 	},
 	render () {
 		let { isLoading, options } = this.state;
+		let { noResultsText } = this.props;
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
-		return <Select {...this.props} isLoading={isLoading} onInputChange={this.getOptions} options={options} placeholder={placeholder} />
+		if (!options.length) {
+			if (this._lastInput.length < this.props.minimumInput) noResultsText = this.props.searchPromptText;
+			if (isLoading) noResultsText = this.props.searchingText;
+		}
+		return (
+			<Select
+				{...this.props}
+				isLoading={isLoading}
+				noResultsText={noResultsText}
+				onInputChange={this.getOptions}
+				options={options}
+				placeholder={placeholder}
+				/>
+		);
 	}
 });
 

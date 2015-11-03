@@ -12,6 +12,7 @@ focus options on mouseMove (requires re-work of className prop, pass isFocused i
 ensure an option is always focused (was _ getNewFocusedOption)
 proper pagination support in Async component
 asyncDelay - wait x ms before calling getOptions in Async
+no results found shouldn't be displayed when all options are selected and there's no input
 
 ## Component Methods
 
