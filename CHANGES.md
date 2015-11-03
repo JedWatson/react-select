@@ -13,6 +13,7 @@ Options & Value components get their label as their Children
 ## New Select.Async Component
 
 `loadingPlaceholder` prop
+`autoload` changed to `minimumInput` and now controls the minimum input to load options
 
 ## Fixes & Other Changes
 

@@ -7,21 +7,21 @@ var requestId = 0;
 
 var Async = React.createClass({
 	propTypes: {
-		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
-		autoload: React.PropTypes.bool,                 // whether to auto-load the default async options set
 		cacheAsyncResults: React.PropTypes.bool,        // whether to cache results
+		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
+		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger getOptions
 		placeholder: React.PropTypes.string,            // field placeholder, displayed when there's no value (shared with Select)
 	},
 	getDefaultProps () {
 		return {
-			autoload: true,
 			cacheAsyncResults: true,
 			ignoreAccents: true,
 			ignoreCase: true,
 			loadingPlaceholder: 'Loading...',
+			minimumInput: 0,
 		};
 	},
 	getInitialState () {
@@ -34,12 +34,11 @@ var Async = React.createClass({
 		this._optionsCache = {};
 	},
 	componentDidMount () {
-		if (this.props.autoload) {
-			this.getOptions('');
-		}
+		this.getOptions('');
 	},
 	getOptions (input) {
 		if (typeof input !== 'string') return;
+		if (input.length < this.props.minimumInput) return;
 		if (this.props.ignoreAccents) {
 			input = stripDiacritics(input);
 		}
