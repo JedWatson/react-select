@@ -255,6 +255,7 @@ var Select = React.createClass({
 	removeValue (value) {
 		var valueArray = this.getValueArray();
 		this.setValue(valueArray.filter(i => i !== value));
+		this.focus();
 	},
 
 	clearValue (event) {

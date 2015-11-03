@@ -12,11 +12,9 @@ var MultiValue = React.createClass({
 		value: React.PropTypes.object.isRequired,         // option passed to component
 	},
 
-	blockEvent (event) {
-		event.stopPropagation();
-	},
-
 	onRemove (event) {
+		event.preventDefault();
+		event.stopPropagation();
 		this.props.onRemove(this.props.value);
 	},
 
@@ -24,8 +22,7 @@ var MultiValue = React.createClass({
 		if (this.props.disabled) return;
 		return (
 			<span className="Select-item-icon"
-				onMouseDown={this.blockEvent}
-				onClick={this.onRemove}
+				onMouseDown={this.onRemove}
 				onTouchEnd={this.onRemove}>
 				&times;
 			</span>
