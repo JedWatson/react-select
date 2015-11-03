@@ -1,12 +1,12 @@
-var React = require('react');
-var classes = require('classnames');
+import React from 'react';
+import classes from 'classnames';
 
-var SingleValue = React.createClass({
+const SingleValue = React.createClass({
 	propTypes: {
 		value: React.PropTypes.object.isRequired,
 	},
 	render () {
-		var classNames = classes('Select-placeholder', this.props.value.className);
+		let classNames = classes('Select-placeholder', this.props.value.className);
 		return (
 			<div
 				className={classNames}

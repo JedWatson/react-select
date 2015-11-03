@@ -1,7 +1,7 @@
-var React = require('react');
-var classes = require('classnames');
+import React from 'react';
+import classes from 'classnames';
 
-var Option = React.createClass({
+const Option = React.createClass({
 	propTypes: {
 		className: React.PropTypes.string,             // className (based on mouse position)
 		isDisabled: React.PropTypes.bool,              // the option is disabled

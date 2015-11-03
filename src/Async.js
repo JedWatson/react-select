@@ -3,7 +3,7 @@ import React from 'react';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
 
-var requestId = 0;
+let requestId = 0;
 
 function initCache (cache) {
 	if (cache && typeof cache !== 'object') {
@@ -12,7 +12,7 @@ function initCache (cache) {
 	return cache ? cache : null;
 }
 
-var Async = React.createClass({
+const Async = React.createClass({
 	propTypes: {
 		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
 		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
@@ -74,8 +74,8 @@ var Async = React.createClass({
 			input = input.toLowerCase();
 		}
 		if (this.state.cache) {
-			for (var i = 0; i <= input.length; i++) {
-				var cacheKey = input.slice(0, i);
+			for (let i = 0; i <= input.length; i++) {
+				let cacheKey = input.slice(0, i);
 				if (this.state.cache[cacheKey] && (input === cacheKey || this.state.cache[cacheKey].complete)) {
 					this.setState({
 						options: this.state.cache[cacheKey].options,
@@ -87,8 +87,8 @@ var Async = React.createClass({
 		this.setState({
 			isLoading: true,
 		});
-		var _requestId = this._currentRequestId = requestId++;
-		var responseHandler = (err, data) => {
+		let _requestId = this._currentRequestId = requestId++;
+		let responseHandler = (err, data) => {
 			if (err) throw err;
 			if (!this.isMounted()) return;
 			if (this.state.cache) {
@@ -100,7 +100,7 @@ var Async = React.createClass({
 				options: data && data.options || [],
 			});
 		}
-		var promise = this.props.getOptions(input, responseHandler);
+		let promise = this.props.getOptions(input, responseHandler);
 		if (promise && typeof promise.then === 'function') {
 			promise.then((data) => {
 				responseHandler(null, data);

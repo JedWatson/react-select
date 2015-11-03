@@ -10,7 +10,7 @@ import MultiValue from './MultiValue';
 import Option from './Option';
 import SingleValue from './SingleValue';
 
-var Select = React.createClass({
+const Select = React.createClass({
 
 	statics: { Async },
 
@@ -536,13 +536,13 @@ var Select = React.createClass({
 
 	renderMenu (options, valueArray) {
 		if (options && options.length) {
-			var Option = this.props.optionComponent;
-			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
+			let Option = this.props.optionComponent;
+			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 			return options.map(option => {
-				var isSelected = valueArray && valueArray.indexOf(option) > -1;
-				var isFocused = option === this.state.focusedOption;
-				var optionRef = isFocused ? 'focused' : null;
-				var optionClass = classNames({
+				let isSelected = valueArray && valueArray.indexOf(option) > -1;
+				let isFocused = option === this.state.focusedOption;
+				let optionRef = isFocused ? 'focused' : null;
+				let optionClass = classNames({
 					'Select-option': true,
 					'is-selected': isSelected,
 					'is-focused': isFocused,

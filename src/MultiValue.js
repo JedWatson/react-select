@@ -1,7 +1,7 @@
-var React = require('react');
-var classes = require('classnames');
+import React from 'react';
+import classes from 'classnames';
 
-var MultiValue = React.createClass({
+const MultiValue = React.createClass({
 
 	displayName: 'MultiValue',
 
