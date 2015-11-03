@@ -105,7 +105,8 @@ var Select = React.createClass({
 	},
 
 	componentDidUpdate () {
-		if (this.refs.focused && this.refs.menu) {
+		if (this._scrollToFocusedOptionOnUpdate && this.refs.focused && this.refs.menu) {
+			this._scrollToFocusedOptionOnUpdate = false;
 			var focusedDOM = ReactDOM.findDOMNode(this.refs.focused);
 			var menuDOM = ReactDOM.findDOMNode(this.refs.menu);
 			var focusedRect = focusedDOM.getBoundingClientRect();
@@ -375,6 +376,7 @@ var Select = React.createClass({
 
 	focusAdjacentOption (dir) {
 		var options = this._visibleOptions.filter(i => !i.disabled);
+		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
