@@ -5,9 +5,16 @@ import stripDiacritics from './utils/stripDiacritics';
 
 var requestId = 0;
 
+function initCache (cache) {
+	if (cache && typeof cache !== 'object') {
+		cache = {};
+	}
+	return cache ? cache : null;
+}
+
 var Async = React.createClass({
 	propTypes: {
-		cacheResults: React.PropTypes.bool,             // whether to cache results
+		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
 		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
@@ -21,7 +28,7 @@ var Async = React.createClass({
 	},
 	getDefaultProps () {
 		return {
-			cacheResults: true,
+			cache: true,
 			ignoreAccents: true,
 			ignoreCase: true,
 			loadingPlaceholder: 'Loading...',
@@ -32,16 +39,23 @@ var Async = React.createClass({
 	},
 	getInitialState () {
 		return {
+			cache: initCache(this.props.cache),
 			isLoading: false,
 			options: [],
 		};
 	},
 	componentWillMount () {
-		this._optionsCache = {};
 		this._lastInput = '';
 	},
 	componentDidMount () {
 		this.getOptions('');
+	},
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.cache !== this.props.cache) {
+			this.setState({
+				cache: initCache(nextProps.cache),
+			});
+		}
 	},
 	getOptions (input) {
 		this._lastInput = input;
@@ -59,12 +73,12 @@ var Async = React.createClass({
 		if (this.props.ignoreCase) {
 			input = input.toLowerCase();
 		}
-		if (this.props.cacheResults) {
+		if (this.state.cache) {
 			for (var i = 0; i <= input.length; i++) {
 				var cacheKey = input.slice(0, i);
-				if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
+				if (this.state.cache[cacheKey] && (input === cacheKey || this.state.cache[cacheKey].complete)) {
 					this.setState({
-						options: this._optionsCache[cacheKey].options,
+						options: this.state.cache[cacheKey].options,
 					});
 					return;
 				}
@@ -76,8 +90,8 @@ var Async = React.createClass({
 		var _requestId = this._currentRequestId = requestId++;
 		var responseHandler = (err, data) => {
 			if (err) throw err;
-			if (this.props.cacheResults) {
-				this._optionsCache[input] = data;
+			if (this.state.cache) {
+				this.state.cache[input] = data;
 			}
 			if (_requestId !== this._currentRequestId) return;
 			this.setState({

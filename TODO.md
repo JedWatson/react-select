@@ -6,6 +6,7 @@ clicking on labels (single and multi select)
 ensure an option is always focused (was _ getNewFocusedOption)
 pagination support in Async component
 use componentDidUpdate for binding the closeMenuIfClicked... handlers (are these still needed?)
+clean up other demos
 
 ## Component Methods
 

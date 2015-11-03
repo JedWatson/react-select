@@ -14,7 +14,7 @@ new `simpleValue` prop for when you want to deal with values as strings or numbe
 
 `loadingPlaceholder` prop
 `autoload` changed to `minimumInput` and now controls the minimum input to load options
-`cacheAsyncResults` -> `cacheResults`
+`cacheAsyncResults` -> `cache` (new external cache support) - defaults to true
 
 ## Fixes & Other Changes
 
