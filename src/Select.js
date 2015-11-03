@@ -46,6 +46,7 @@ const Select = React.createClass({
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onOptionLabelClick: React.PropTypes.func,   // onClick handler for value labels: function (value, event) {}
+		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
@@ -270,6 +271,14 @@ const Select = React.createClass({
 			default: return;
 		}
 		event.preventDefault();
+	},
+
+	handleMenuScroll (event) {
+		if (!this.props.onMenuScrollToBottom) return;
+		let { target } = event;
+		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
+			this.props.onMenuScrollToBottom();
+		}
 	},
 
 	getOptionLabel (op) {
@@ -607,7 +616,7 @@ const Select = React.createClass({
 				</div>
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer">
-						<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
+						<div ref="menu" className="Select-menu" onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
 							{this.renderMenu(options, !this.props.multi ? valueArray : null)}
 						</div>
 					</div>
