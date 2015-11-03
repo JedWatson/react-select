@@ -408,7 +408,6 @@ var Select = React.createClass({
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
-		if (!filterValue) return options;
 		if (this.props.filterOptions) {
 			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
 		} else {
@@ -418,11 +417,13 @@ var Select = React.createClass({
 			if (this.props.ignoreAccents) {
 				filterValue = stripDiacritics(filterValue);
 			}
-			return options.filter(op => {
-				if (this.props.multi && excludeOptions.indexOf(op) > -1) return false;
-				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
-				var valueTest = String(op[this.props.valueKey]);
-				var labelTest = String(op[this.props.labelKey]);
+			if (excludeOptions) excludeOptions = excludeOptions.map(i => i[this.props.valueKey]);
+			return options.filter(option => {
+				if (excludeOptions && excludeOptions.indexOf(option[this.props.valueKey]) > -1) return false;
+				if (this.props.filterOption) return this.props.filterOption.call(this, option, filterValue);
+				if (!filterValue) return true;
+				var valueTest = String(option[this.props.valueKey]);
+				var labelTest = String(option[this.props.labelKey]);
 				if (this.props.ignoreCase) {
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();

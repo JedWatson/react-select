@@ -48,4 +48,4 @@ buildMenu
 
 ## Questions
 
-Why are singleValue and multiValue different?
+Why is the reference check in filterOptions for excluded values not matching options?
