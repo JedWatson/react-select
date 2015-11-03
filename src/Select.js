@@ -401,8 +401,7 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenuOptions (valueArray) {
-		var options = this.filterOptions();
+	renderMenuOptions (options) {
 		if (options && options.length) {
 			var Option = this.props.optionComponent;
 			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
@@ -451,12 +450,12 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenu (valueArray) {
+	renderMenu (options) {
 		if (!this.state.isOpen) return;
 		return (
 			<div ref="menuContainer" className="Select-menu-outer">
 				<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
-					{this.renderMenuOptions(valueArray)}
+					{this.renderMenuOptions(options)}
 				</div>
 			</div>
 		);
@@ -476,6 +475,7 @@ var Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray();
+		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
 		return (
 			<div ref="wrapper" className={this.getWrapperClassName(valueArray.length)}>
 				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
@@ -486,7 +486,7 @@ var Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{this.renderMenu(valueArray)}
+				{this.renderMenu(options)}
 			</div>
 		);
 	}
