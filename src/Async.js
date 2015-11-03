@@ -11,6 +11,7 @@ var Async = React.createClass({
 		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
+		isLoading: React.PropTypes.bool,                // overrides the isLoading state when set to true
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger getOptions
 		noResultsText: React.PropTypes.string,          // placeholder displayed when there are no matching search results (shared with Select)
@@ -48,7 +49,7 @@ var Async = React.createClass({
 			this._currentRequestId = -1;
 			this.setState({
 				isLoading: false,
-				options: []
+				options: [],
 			});
 			return;
 		}
@@ -94,8 +95,9 @@ var Async = React.createClass({
 		}
 	},
 	render () {
-		let { isLoading, options } = this.state;
 		let { noResultsText } = this.props;
+		let { isLoading, options } = this.state;
+		if (this.props.isLoading) isLoading = true;
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
 		if (!options.length) {
 			if (this._lastInput.length < this.props.minimumInput) noResultsText = this.props.searchPromptText;
