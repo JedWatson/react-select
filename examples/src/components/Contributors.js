@@ -19,16 +19,17 @@ var Contributors = React.createClass({
 			value: value
 		});
 	},
-	loadOptions (input, callback) {
-		console.log(input);
+	getOptions (input, callback) {
 		input = input.toLowerCase();
+		var options = CONTRIBUTORS.filter(i => {
+			return i.github.substr(0, input.length) === input;
+		});
 		var data = {
-			options: CONTRIBUTORS.filter(i => {
-				return i.github.substr(0, input.length) === input;
-			}),
-			complete: true
+			options: options.slice(0, 5),
+			complete: options.length <= 5,
 		};
 		setTimeout(function() {
+			console.log(data);
 			callback(null, data);
 		}, 500);
 	},
@@ -42,7 +43,7 @@ var Contributors = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi value={this.state.value} onChange={this.onChange} valueKey="github" labelKey="name" asyncOptions={this.loadOptions} />
+				<Select.Async multi value={this.state.value} onChange={this.onChange} valueKey="github" labelKey="name" getOptions={this.getOptions} />
 				{this.renderHint()}
 			</div>
 		);

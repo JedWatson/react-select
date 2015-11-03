@@ -5,23 +5,21 @@ import classNames from 'classnames';
 
 import stripDiacritics from './utils/stripDiacritics';
 
+import Async from './Async';
 import MultiValue from './MultiValue';
 import Option from './Option';
 import SingleValue from './SingleValue';
 
-var requestId = 0;
-
 var Select = React.createClass({
+
+	statics: { Async },
 
 	displayName: 'Select',
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
-		asyncOptions: React.PropTypes.func,         // function to call to get options
-		autoload: React.PropTypes.bool,             // whether to auto-load the default async options set
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
-		cacheAsyncResults: React.PropTypes.bool,    // whether to allow cache
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: React.PropTypes.string,       // title for the "clear" control when multi: true
 		clearValueText: React.PropTypes.string,     // title for the "clear" control
@@ -65,9 +63,7 @@ var Select = React.createClass({
 		return {
 			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
-			autoload: true,
 			backspaceRemoves: true,
-			cacheAsyncResults: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
 			clearable: true,
