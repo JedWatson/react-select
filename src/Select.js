@@ -266,6 +266,10 @@ var Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 		this.setValue(null);
+		this.setState({
+			isOpen: false,
+			inputValue: '',
+		}, this.focus);
 	},
 
 	focusOption (option) {
@@ -391,7 +395,7 @@ var Select = React.createClass({
 	renderClear () {
 		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.isLoading()) return;
 		return (
-			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue} onClick={this.clearValue}>
+			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue}>
 				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
 			</span>
 		);
