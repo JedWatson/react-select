@@ -87,9 +87,9 @@ var Async = React.createClass({
 		var promise = this.props.getOptions(input, responseHandler);
 		if (promise && typeof promise.then === 'function') {
 			promise.then((data) => {
-				responseHandler(null, data)
+				responseHandler(null, data);
 			}, (err) => {
-				responseHandler(err)
+				responseHandler(err);
 			});
 		}
 	},

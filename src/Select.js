@@ -24,7 +24,7 @@ var Select = React.createClass({
 		clearAllText: React.PropTypes.string,       // title for the "clear" control when multi: true
 		clearValueText: React.PropTypes.string,     // title for the "clear" control
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
-		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values
+		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option  (option, filterString)
@@ -275,11 +275,13 @@ var Select = React.createClass({
 	},
 
 	getValueArray () {
+		let value = this.props.value;
 		if (this.props.multi) {
-			if (!Array.isArray(this.props.value)) return [];
-			return this.props.value.map(this.expandValue).filter(i => i);
+			if (typeof value === 'string') value = value.split(this.props.delimiter);
+			if (!Array.isArray(value)) return [];
+			return value.map(this.expandValue).filter(i => i);
 		}
-		var expandedValue = this.expandValue(this.props.value);
+		var expandedValue = this.expandValue(value);
 		return expandedValue ? [expandedValue] : [];
 	},
 
