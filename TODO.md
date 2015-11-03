@@ -10,13 +10,11 @@ allow event handlers to return false and stop events (?)
 
 options creation (was part of buildMenu)
 
-optimise / clean up renderInput
-
 hidden input should be optional
 
 clicking on labels (single and multi select)
 
-strip diacritics
+prop to use legacy 'simpleValue' mode
 
 ## Component Methods
 
@@ -30,24 +28,25 @@ componentWillUnmount
 componentWillReceiveProps
 componentDidUpdate
 clickedOutsideElement
-getStateFromValue
 getFirstFocusableOption
-initValuesArray
-resetValue
-fireChangeEvent
 handleMouseDownOnMenu
 handleKeyDown
 getNewFocusedOption ._
 autoloadAsyncOptions
 loadAsyncOptions
 selectFocusedOption
-focusOption
 focusNextOption
 focusPreviousOption
 focusAdjacentOption
-unfocusOption
-buildMenu
 handleOptionLabelClick
+
+## Probably replaced (needs review)
+
+getStateFromValue
+initValuesArray
+resetValue
+fireChangeEvent
+buildMenu
 
 ## Questions
 

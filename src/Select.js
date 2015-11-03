@@ -106,10 +106,6 @@ var Select = React.createClass({
 		this.refs.input.focus();
 	},
 
-	getOptionLabel (op) {
-		return op[this.props.labelKey];
-	},
-
 	handleMouseDown (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
@@ -208,6 +204,10 @@ var Select = React.createClass({
 				// focusedOption: this._getNewFocusedOption(filteredOptions)
 			});
 		}
+	},
+
+	getOptionLabel (op) {
+		return op[this.props.labelKey];
 	},
 
 	getValueArray () {
