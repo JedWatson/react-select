@@ -416,12 +416,8 @@ var Select = React.createClass({
 		}
 	},
 
-	isLoading () {
-		return this.props.isLoading || this.state.isLoading;
-	},
-
 	renderLoading () {
-		if (!this.isLoading()) return;
+		if (!this.props.isLoading) return;
 		return (
 			<span className="Select-loading-zone" aria-hidden="true">
 				<span className="Select-loading" />
@@ -482,7 +478,7 @@ var Select = React.createClass({
 	},
 
 	renderClear () {
-		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.isLoading()) return;
+		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
 		return (
 			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} onMouseDown={this.clearValue} onTouchEnd={this.clearValue}>
 				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
@@ -591,7 +587,7 @@ var Select = React.createClass({
 			'Select--multi': this.props.multi,
 			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
-			'is-loading': this.isLoading(),
+			'is-loading': this.props.isLoading,
 			'is-open': this.state.isOpen,
 			'is-pseudo-focused': this.state.isPseudoFocused,
 			'is-searchable': this.props.searchable,
