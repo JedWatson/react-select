@@ -19,7 +19,7 @@ var MultiValue = React.createClass({
 	},
 
 	renderRemoveIcon () {
-		if (this.props.disabled) return;
+		if (this.props.disabled || !this.props.onRemove) return;
 		return (
 			<span className="Select-item-icon"
 				onMouseDown={this.onRemove}
@@ -30,16 +30,6 @@ var MultiValue = React.createClass({
 	},
 
 	render () {
-		// if (!this.props.onRemove && !this.props.optionLabelClick) {
-		// 	return (
-		// 		<div
-		// 			className={classes('Select-value', this.props.option.className)}
-		// 			style={this.props.option.style}
-		// 			title={this.props.option.title}
-		// 		>{label}</div>
-		// 	);
-		// }
-
 		// if (this.props.optionLabelClick) {
 		// 	label = (
 		// 		<a className={classes('Select-item-label__a', this.props.option.className)}
