@@ -571,30 +571,6 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenu (options, selected) {
-		if (!this.state.isOpen) return;
-		return (
-			<div ref="menuContainer" className="Select-menu-outer">
-				<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
-					{this.renderMenuOptions(options, selected)}
-				</div>
-			</div>
-		);
-	},
-
-	getWrapperClassName (hasValue) {
-		return classNames('Select', this.props.className, {
-			'Select--multi': this.props.multi,
-			'is-disabled': this.props.disabled,
-			'is-focused': this.state.isFocused,
-			'is-loading': this.props.isLoading,
-			'is-open': this.state.isOpen,
-			'is-pseudo-focused': this.state.isPseudoFocused,
-			'is-searchable': this.props.searchable,
-			'has-value': hasValue,
-		});
-	},
-
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
 		let value = valueArray.join(delimiter);
@@ -604,8 +580,20 @@ var Select = React.createClass({
 	render () {
 		let valueArray = this.getValueArray();
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
+		let isOpen = this.state.isOpen;
+		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
+		let className = classNames('Select', this.props.className, {
+			'Select--multi': this.props.multi,
+			'is-disabled': this.props.disabled,
+			'is-focused': this.state.isFocused,
+			'is-loading': this.props.isLoading,
+			'is-open': isOpen,
+			'is-pseudo-focused': this.state.isPseudoFocused,
+			'is-searchable': this.props.searchable,
+			'has-value': valueArray.length,
+		});
 		return (
-			<div ref="wrapper" className={this.getWrapperClassName(valueArray.length)}>
+			<div ref="wrapper" className={className}>
 				{this.renderHiddenField(valueArray)}
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{this.renderValue(valueArray)}
@@ -614,7 +602,13 @@ var Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{this.renderMenu(options, valueArray)}
+				{isOpen ? (
+					<div ref="menuContainer" className="Select-menu-outer">
+						<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
+							{this.renderMenuOptions(options, valueArray)}
+						</div>
+					</div>
+				) : null}
 			</div>
 		);
 	}
