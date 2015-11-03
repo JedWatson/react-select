@@ -28,7 +28,7 @@ var Select = React.createClass({
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option  (option, filterString)
-		filterOptions: React.PropTypes.func,        // method to filter the options array: function ([options], filterString, [values])
+		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
@@ -68,6 +68,7 @@ var Select = React.createClass({
 			delimiter: ',',
 			disabled: false,
 			escapeClearsValue: true,
+			filterOptions: true,
 			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
@@ -494,9 +495,9 @@ var Select = React.createClass({
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
-		if (this.props.filterOptions) {
+		if (typeof this.props.filterOptions === 'function') {
 			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
-		} else {
+		} else if (this.props.filterOptions) {
 			if (this.props.ignoreAccents) {
 				filterValue = stripDiacritics(filterValue);
 			}
@@ -526,6 +527,8 @@ var Select = React.createClass({
 					(this.props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
 				);
 			});
+		} else {
+			return options;
 		}
 	},
 

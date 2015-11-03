@@ -7,7 +7,7 @@ var requestId = 0;
 
 var Async = React.createClass({
 	propTypes: {
-		cacheAsyncResults: React.PropTypes.bool,        // whether to cache results
+		cacheResults: React.PropTypes.bool,             // whether to cache results
 		getOptions: React.PropTypes.func.isRequired,    // function to call to get options
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
@@ -20,7 +20,7 @@ var Async = React.createClass({
 	},
 	getDefaultProps () {
 		return {
-			cacheAsyncResults: true,
+			cacheResults: true,
 			ignoreAccents: true,
 			ignoreCase: true,
 			loadingPlaceholder: 'Loading...',
@@ -44,14 +44,21 @@ var Async = React.createClass({
 	},
 	getOptions (input) {
 		this._lastInput = input;
-		if (input.length < this.props.minimumInput) return;
+		if (input.length < this.props.minimumInput) {
+			this._currentRequestId = -1;
+			this.setState({
+				isLoading: false,
+				options: []
+			});
+			return;
+		}
 		if (this.props.ignoreAccents) {
 			input = stripDiacritics(input);
 		}
 		if (this.props.ignoreCase) {
 			input = input.toLowerCase();
 		}
-		if (this.props.cacheAsyncResults) {
+		if (this.props.cacheResults) {
 			for (var i = 0; i <= input.length; i++) {
 				var cacheKey = input.slice(0, i);
 				if (this._optionsCache[cacheKey] && (input === cacheKey || this._optionsCache[cacheKey].complete)) {
@@ -68,7 +75,7 @@ var Async = React.createClass({
 		var _requestId = this._currentRequestId = requestId++;
 		var responseHandler = (err, data) => {
 			if (err) throw err;
-			if (this.props.cacheAsyncResults) {
+			if (this.props.cacheResults) {
 				this._optionsCache[input] = data;
 			}
 			if (_requestId !== this._currentRequestId) return;

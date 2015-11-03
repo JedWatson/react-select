@@ -14,6 +14,7 @@ Options & Value components get their label as their Children
 
 `loadingPlaceholder` prop
 `autoload` changed to `minimumInput` and now controls the minimum input to load options
+`cacheAsyncResults` -> `cacheResults`
 
 ## Fixes & Other Changes
 

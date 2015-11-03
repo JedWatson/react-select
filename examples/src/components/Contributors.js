@@ -1,9 +1,11 @@
 import React from 'react';
 import Select from 'react-select';
 
-var CONTRIBUTORS = require('../data/contributors');
+const CONTRIBUTORS = require('../data/contributors');
+const MAX_CONTRIBUTORS = 8;
+const ASYNC_DELAY = 500;
 
-var Contributors = React.createClass({
+const Contributors = React.createClass({
 	displayName: 'Contributors',
 	propTypes: {
 		hint: React.PropTypes.string,
@@ -25,12 +27,12 @@ var Contributors = React.createClass({
 			return i.github.substr(0, input.length) === input;
 		});
 		var data = {
-			options: options.slice(0, 5),
-			complete: options.length <= 5,
+			options: options.slice(0, MAX_CONTRIBUTORS),
+			complete: options.length <= MAX_CONTRIBUTORS,
 		};
 		setTimeout(function() {
 			callback(null, data);
-		}, 500);
+		}, ASYNC_DELAY);
 	},
 	renderHint () {
 		if (!this.props.hint) return null;
@@ -42,7 +44,7 @@ var Contributors = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select.Async multi value={this.state.value} onChange={this.onChange} valueKey="github" labelKey="name" getOptions={this.getOptions} />
+				<Select.Async multi minimumInput={1} filterOptions={false} cacheResults={false} value={this.state.value} onChange={this.onChange} valueKey="github" labelKey="name" getOptions={this.getOptions} />
 				{this.renderHint()}
 			</div>
 		);
