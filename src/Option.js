@@ -12,6 +12,7 @@ var Option = React.createClass({
 	},
 	blockEvent (event) {
 		event.preventDefault();
+		event.stopPropagation();
 		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
 			return;
 		}
@@ -21,14 +22,16 @@ var Option = React.createClass({
 			window.location.href = event.target.href;
 		}
 	},
-	handleMouseDown (e) {
-		this.props.mouseDown(this.props.option, e);
+	handleMouseDown (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.props.mouseDown(this.props.option, event);
 	},
-	handleMouseEnter (e) {
-		this.props.mouseEnter(this.props.option, e);
+	handleMouseEnter (event) {
+		this.props.mouseEnter(this.props.option, event);
 	},
-	handleMouseLeave (e) {
-		this.props.mouseLeave(this.props.option, e);
+	handleMouseLeave (event) {
+		this.props.mouseLeave(this.props.option, event);
 	},
 	render () {
 		var option = this.props.option;

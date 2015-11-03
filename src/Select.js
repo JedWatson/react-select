@@ -239,6 +239,11 @@ var Select = React.createClass({
 		} else if (value) {
 			this.addValue(value);
 		}
+		if (!this.props.multi) {
+			this.setState({
+				isOpen: false
+			});
+		}
 	},
 
 	addValue (value) {
