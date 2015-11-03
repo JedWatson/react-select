@@ -16,8 +16,8 @@ var MultiSelectField = React.createClass({
 			value: []
 		};
 	},
-	handleSelectChange (value, values) {
-		logChange('New value:', value, 'Values:', values);
+	handleSelectChange (value) {
+		logChange('New value:', value);
 		this.setState({ value: value });
 	},
 	toggleDisabled (e) {
@@ -35,7 +35,7 @@ var MultiSelectField = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
+				<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={ops} onChange={this.handleSelectChange} />
 
 				<div className="checkbox-list">
 					<label className="checkbox">

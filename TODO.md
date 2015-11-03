@@ -1,12 +1,10 @@
 # TODO
 
-use componentDidUpdate for binding the closeMenuIfClicked... handlers
-are timeouts (this._ blurTimeout etc) still required? see handleInputBlur()
+use componentDidUpdate for binding the closeMenuIfClicked... handlers (?)
 allow event handlers to return false and stop events (?)
 options creation (was part of buildMenu and selectFocusedOption)
 clicking on labels (single and multi select)
-prop to use legacy 'simpleValue' mode
-handle comma for tags mode (handleKeyDown keyCode 188)
+handle comma keypress for tags mode (handleKeyDown keyCode 188)
 focus options on mouseMove (requires re-work of className prop, pass isFocused instead)
 ensure an option is always focused (was _ getNewFocusedOption)
 proper pagination support in Async component

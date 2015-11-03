@@ -51,6 +51,7 @@ var Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
+		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		singleValueComponent: React.PropTypes.func, // value component to render when multiple is set to false
 		value: React.PropTypes.any,                 // initial field value
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
@@ -82,6 +83,7 @@ var Select = React.createClass({
 			optionComponent: Option,
 			placeholder: 'Select...',
 			searchable: true,
+			simpleValue: false,
 			singleValueComponent: SingleValue,
 			valueKey: 'value',
 		};
@@ -294,9 +296,11 @@ var Select = React.createClass({
 	},
 
 	setValue (value) {
-		if (this.props.onChange) {
-			this.props.onChange(value);
+		if (!this.props.onChange) return;
+		if (this.props.simpleValue) {
+			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
 		}
+		this.props.onChange(value);
 	},
 
 	selectValue (value) {
