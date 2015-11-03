@@ -345,7 +345,7 @@ var Select = React.createClass({
 		var MultiValueComponent = this.props.multiValueComponent;
 		var SingleValueComponent = this.props.singleValueComponent;
 		if (!valueArray.length) {
-			return <div className="Select-placeholder">{this.props.placeholder}</div>;
+			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		if (this.props.multi) {
 			return valueArray.map(i => {
