@@ -158,6 +158,13 @@ var Select = React.createClass({
 		});
 	},
 
+	close () {
+		this.setState({
+			isOpen: false,
+			isPseudoFocused: this.state.isFocused && !this.props.multi
+		});
+	},
+
 	handleInputFocus (event) {
 		var isOpen = this.state.isOpen || this._openAfterFocus;
 		if (this.props.onFocus) {
@@ -211,6 +218,52 @@ var Select = React.createClass({
 		}
 	},
 
+	handleKeyDown (event) {
+		if (this.props.disabled) return;
+		switch (event.keyCode) {
+			case 8: // backspace
+				if (!this.state.inputValue && this.props.backspaceRemoves) {
+					event.preventDefault();
+					this.popValue();
+				}
+			return;
+			case 9: // tab
+				if (event.shiftKey || !this.state.isOpen || !this.state.focusedOption) {
+					return;
+				}
+				this.selectFocusedOption();
+			break;
+			case 13: // enter
+				if (!this.state.isOpen) return;
+				this.selectFocusedOption();
+			break;
+			case 27: // escape
+				if (this.state.isOpen) {
+					this.close();
+				} else if (this.props.clearable) {
+					this.clearValue(event);
+				}
+			break;
+			case 38: // up
+				this.focusPreviousOption();
+			break;
+			case 40: // down
+				this.focusNextOption();
+			break;
+			// case 188: // ,
+			// 	if (this.props.allowCreate && this.props.multi) {
+			// 		event.preventDefault();
+			// 		event.stopPropagation();
+			// 		this.selectFocusedOption();
+			// 	} else {
+			// 		return;
+			// 	}
+			// break;
+			default: return;
+		}
+		event.preventDefault();
+	},
+
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
 	},
@@ -239,15 +292,13 @@ var Select = React.createClass({
 	},
 
 	selectValue (value) {
-		if (!this.props.multi) {
-			this.setValue(value);
-		} else if (value) {
+		if (this.props.multi) {
 			this.addValue(value);
-		}
-		if (!this.props.multi) {
+		} else {
+			this.setValue(value);
 			this.setState({
 				isOpen: false,
-				isPseudoFocused: true,
+				isPseudoFocused: this.state.isFocused,
 			});
 		}
 	},
@@ -337,6 +388,15 @@ var Select = React.createClass({
 		this.setState({
 			focusedOption: focusedOption
 		});
+	},
+
+	selectFocusedOption () {
+		// if (this.props.allowCreate && !this.state.focusedOption) {
+		// 	return this.selectValue(this.state.inputValue);
+		// }
+		if (this.state.focusedOption) {
+			return this.selectValue(this.state.focusedOption);
+		}
 	},
 
 	isLoading () {
