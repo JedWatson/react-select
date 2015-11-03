@@ -167,9 +167,7 @@ var Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 		// close the menu
-		this.setState({
-			isOpen: false
-		});
+		this.closeMenu();
 	},
 
 	closeMenu () {
