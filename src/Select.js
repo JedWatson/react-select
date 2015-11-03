@@ -28,6 +28,7 @@ var Select = React.createClass({
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
+		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option  (option, filterString)
 		filterOptions: React.PropTypes.func,        // method to filter the options array: function ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
@@ -72,6 +73,7 @@ var Select = React.createClass({
 			clearable: true,
 			delimiter: ',',
 			disabled: false,
+			escapeClearsValue: true,
 			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
@@ -240,7 +242,7 @@ var Select = React.createClass({
 			case 27: // escape
 				if (this.state.isOpen) {
 					this.close();
-				} else if (this.props.clearable) {
+				} else if (this.props.clearable && this.props.escapeClearsValue) {
 					this.clearValue(event);
 				}
 			break;
