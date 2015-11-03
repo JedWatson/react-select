@@ -425,14 +425,14 @@ var Select = React.createClass({
 				var valueTest = String(option[this.props.valueKey]);
 				var labelTest = String(option[this.props.labelKey]);
 				if (this.props.ignoreCase) {
-					valueTest = valueTest.toLowerCase();
-					labelTest = labelTest.toLowerCase();
+					if (this.props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
+					if (this.props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
 				}
 				if (this.props.ignoreAccents) {
-					valueTest = stripDiacritics(valueTest);
-					labelTest = stripDiacritics(labelTest);
+					if (this.props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
+					if (this.props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);
 				}
-				return !filterValue || (this.props.matchPos === 'start') ? (
+				return this.props.matchPos === 'start' ? (
 					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
 					(this.props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
 				) : (
