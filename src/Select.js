@@ -38,7 +38,7 @@ var Select = React.createClass({
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,                // multi-value input
 		multiValueComponent: React.PropTypes.func,  // value component to render when multiple is set to true
-		name: React.PropTypes.string,               // field name, for hidden <input /> tag
+		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
 		noResultsText: React.PropTypes.string,      // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
@@ -593,12 +593,18 @@ var Select = React.createClass({
 		});
 	},
 
+	renderHiddenField (valueArray) {
+		if (!this.props.name) return;
+		let value = valueArray.join(delimiter);
+		return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
+	},
+
 	render () {
 		let valueArray = this.getValueArray();
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
 		return (
 			<div ref="wrapper" className={this.getWrapperClassName(valueArray.length)}>
-				<input type="hidden" ref="value" name={this.props.name} value={this.state.value} disabled={this.props.disabled} />
+				{this.renderHiddenField(valueArray)}
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{this.renderValue(valueArray)}
 					{this.renderInput(valueArray)}
