@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
 
+import stripDiacritics from './utils/stripDiacritics';
+
 import MultiValue from './MultiValue';
 import Option from './Option';
 import SingleValue from './SingleValue';
@@ -28,6 +30,7 @@ var Select = React.createClass({
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
 		filterOption: React.PropTypes.func,         // method to filter a single option  (option, filterString)
 		filterOptions: React.PropTypes.func,        // method to filter the options array: function ([options], filterString, [values])
+		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
@@ -43,7 +46,7 @@ var Select = React.createClass({
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
-		onOptionLabelClick: React.PropTypes.func,   // onCLick handler for value labels: function (value, event) {}
+		onOptionLabelClick: React.PropTypes.func,   // onClick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
@@ -69,6 +72,7 @@ var Select = React.createClass({
 			clearable: true,
 			delimiter: ',',
 			disabled: false,
+			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
@@ -370,6 +374,9 @@ var Select = React.createClass({
 			if (this.props.ignoreCase) {
 				filterValue = filterValue.toLowerCase();
 			}
+			if (this.props.ignoreAccents) {
+				filterValue = stripDiacritics(filterValue);
+			}
 			return options.filter(op => {
 				if (this.props.multi && excludeOptions.indexOf(op) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, op, filterValue);
@@ -378,6 +385,10 @@ var Select = React.createClass({
 				if (this.props.ignoreCase) {
 					valueTest = valueTest.toLowerCase();
 					labelTest = labelTest.toLowerCase();
+				}
+				if (this.props.ignoreAccents) {
+					valueTest = stripDiacritics(valueTest);
+					labelTest = stripDiacritics(labelTest);
 				}
 				return !filterValue || (this.props.matchPos === 'start') ? (
 					(this.props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||

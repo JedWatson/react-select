@@ -82,7 +82,7 @@ var map = [
 	{'base':'w', 'letters':/[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g},
 	{'base':'x', 'letters':/[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g},
 	{'base':'y', 'letters':/[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g},
-	{'base':'z', 'letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g}
+	{'base':'z', 'letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g},
 ];
 
 module.exports = function stripDiacritics (str) {
