@@ -442,12 +442,12 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenuOptions (options) {
+	renderMenuOptions (options, selected) {
 		if (options && options.length) {
 			var Option = this.props.optionComponent;
 			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
 			return options.map(option => {
-				var isSelected = valueArray.indexOf(option) > -1;
+				var isSelected = selected.indexOf(option) > -1;
 				var isFocused = option === this.state.focusedOption;
 				var optionRef = isFocused ? 'focused' : null;
 				var optionClass = classNames({
@@ -491,12 +491,12 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenu (options) {
+	renderMenu (options, selected) {
 		if (!this.state.isOpen) return;
 		return (
 			<div ref="menuContainer" className="Select-menu-outer">
 				<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
-					{this.renderMenuOptions(options)}
+					{this.renderMenuOptions(options, selected)}
 				</div>
 			</div>
 		);
@@ -527,7 +527,7 @@ var Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{this.renderMenu(options)}
+				{this.renderMenu(options, valueArray)}
 			</div>
 		);
 	}
