@@ -3,11 +3,13 @@ var classes = require('classnames');
 
 var Option = React.createClass({
 	propTypes: {
-		addLabelText: React.PropTypes.string,          // string rendered in case of allowCreate option passed to ReactSelect
 		className: React.PropTypes.string,             // className (based on mouse position)
-		mouseDown: React.PropTypes.func,               // method to handle click on option element
-		mouseEnter: React.PropTypes.func,              // method to handle mouseEnter on option element
-		mouseLeave: React.PropTypes.func,              // method to handle mouseLeave on option element
+		isDisabled: React.PropTypes.bool,              // the option is disabled
+		isFocused: React.PropTypes.bool,               // the option is focused
+		isSelected: React.PropTypes.bool,              // the option is selected
+		onSelect: React.PropTypes.func,                // method to handle click on option element
+		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
+		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
 	},
 	blockEvent (event) {
@@ -25,19 +27,23 @@ var Option = React.createClass({
 	handleMouseDown (event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.mouseDown(this.props.option, event);
+		this.props.onSelect(this.props.option, event);
 	},
 	handleMouseEnter (event) {
-		this.props.mouseEnter(this.props.option, event);
+		this.props.onFocus(this.props.option, event);
+	},
+	handleMouseMove (event) {
+		if (this.props.focused) return;
+		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseLeave (event) {
-		this.props.mouseLeave(this.props.option, event);
+		this.props.onUnfocus(this.props.option, event);
 	},
 	render () {
 		var option = this.props.option;
 		var optionClasses = classes(this.props.className, option.className);
 
-		return option.disabled ? (
+		return this.props.disabled ? (
 			<div className={optionClasses}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
@@ -48,6 +54,7 @@ var Option = React.createClass({
 				style={option.style}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
+				onMouseMove={this.handleMouseMove}
 				onMouseLeave={this.handleMouseLeave}
 				onClick={this.handleMouseDown}
 				title={option.title}>

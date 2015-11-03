@@ -5,7 +5,6 @@ allow event handlers to return false and stop events (?)
 options creation (was part of buildMenu and selectFocusedOption)
 handle comma keypress for tags mode (handleKeyDown keyCode 188)
 clicking on labels (single and multi select)
-focus options on mouseMove (requires re-work of className prop, pass isFocused instead)
 ensure an option is always focused (was _ getNewFocusedOption)
 proper pagination support in Async component
 asyncDelay - wait x ms before calling getOptions in Async

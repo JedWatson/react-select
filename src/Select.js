@@ -298,7 +298,7 @@ var Select = React.createClass({
 	setValue (value) {
 		if (!this.props.onChange) return;
 		if (this.props.simpleValue) {
-			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+			value = this.props.multi ? value && value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
 		}
 		this.props.onChange(value);
 	},
@@ -534,12 +534,12 @@ var Select = React.createClass({
 		}
 	},
 
-	renderMenuOptions (options, selected) {
+	renderMenu (options, valueArray) {
 		if (options && options.length) {
 			var Option = this.props.optionComponent;
 			var renderLabel = this.props.optionRenderer || this.getOptionLabel;
 			return options.map(option => {
-				var isSelected = selected.indexOf(option) > -1;
+				var isSelected = valueArray && valueArray.indexOf(option) > -1;
 				var isFocused = option === this.state.focusedOption;
 				var optionRef = isFocused ? 'focused' : null;
 				var optionClass = classNames({
@@ -551,11 +551,14 @@ var Select = React.createClass({
 				return (
 					<Option
 						className={optionClass}
+						isDisabled={option.disabled}
+						isFocused={isFocused}
 						key={'option-' + option[this.props.valueKey]}
-						mouseDown={this.selectValue}
-						mouseEnter={this.focusOption}
-						mouseLeave={this.unfocusOption}
+						onSelect={this.selectValue}
+						onFocus={this.focusOption}
+						onUnfocus={this.unfocusOption}
 						option={option}
+						isSelected={isSelected}
 						ref={optionRef}
 						>
 						{renderLabel(option)}
@@ -605,7 +608,7 @@ var Select = React.createClass({
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer">
 						<div ref="menu" className="Select-menu" onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenuOptions(options, valueArray)}
+							{this.renderMenu(options, !this.props.multi ? valueArray : null)}
 						</div>
 					</div>
 				) : null}
