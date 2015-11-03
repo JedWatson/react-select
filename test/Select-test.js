@@ -1871,7 +1871,7 @@ describe('Select', () => {
 
 			describe('on clicking `clear`', () => {
 				beforeEach(() => {
-					TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
 				});
 
 				it('calls onChange with empty', () => {
