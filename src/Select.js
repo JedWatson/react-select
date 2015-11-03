@@ -160,7 +160,7 @@ var Select = React.createClass({
 		});
 	},
 
-	close () {
+	closeMenu () {
 		this.setState({
 			isOpen: false,
 			isPseudoFocused: this.state.isFocused && !this.props.multi
@@ -241,7 +241,7 @@ var Select = React.createClass({
 			break;
 			case 27: // escape
 				if (this.state.isOpen) {
-					this.close();
+					this.closeMenu();
 				} else if (this.props.clearable && this.props.escapeClearsValue) {
 					this.clearValue(event);
 				}
