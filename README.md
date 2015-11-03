@@ -210,6 +210,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	clearable 			|	bool		|	should it be possible to reset value
 	clearAllText 		|	string		|	title for the "clear" control when `multi` is true
 	clearValueText 		|	string		|	title for the "clear" control
+	delayAsyncMs 			|	number		|	time delay before querying after an input change
 	delimiter 			|	string		|	delimiter to use to join multiple values
 	disabled 			|	bool		|	whether the Select is disabled or not
 	filterOption 		|	func		|	method to filter a single option: `function(option, filterString)`
