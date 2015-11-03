@@ -12,6 +12,8 @@ var Async = React.createClass({
 		cacheAsyncResults: React.PropTypes.bool,        // whether to cache results
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
+		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
+		placeholder: React.PropTypes.string,            // field placeholder, displayed when there's no value (shared with Select)
 	},
 	getDefaultProps () {
 		return {
@@ -19,6 +21,7 @@ var Async = React.createClass({
 			cacheAsyncResults: true,
 			ignoreAccents: true,
 			ignoreCase: true,
+			loadingPlaceholder: 'Loading...',
 		};
 	},
 	getInitialState () {
@@ -80,7 +83,8 @@ var Async = React.createClass({
 	},
 	render () {
 		let { isLoading, options } = this.state;
-		return <Select {...this.props} isLoading={isLoading} onInputChange={this.getOptions} options={options} />
+		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
+		return <Select {...this.props} isLoading={isLoading} onInputChange={this.getOptions} options={options} placeholder={placeholder} />
 	}
 });
 

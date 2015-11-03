@@ -29,7 +29,6 @@ var Contributors = React.createClass({
 			complete: options.length <= 5,
 		};
 		setTimeout(function() {
-			console.log(data);
 			callback(null, data);
 		}, 500);
 	},
