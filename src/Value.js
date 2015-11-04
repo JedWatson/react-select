@@ -13,6 +13,9 @@ const Value = React.createClass({
 	},
 
 	handleMouseDown (event) {
+		if (event.type === 'mousedown' && event.button !== 0) {
+			return;
+		}
 		if (this.props.onClick) {
 			event.stopPropagation();
 			this.props.onClick(this.props.value, event);

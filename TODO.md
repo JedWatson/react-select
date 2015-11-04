@@ -18,7 +18,6 @@ clickedOutsideElement
 getFirstFocusableOption
 handleMouseDownOnMenu
 _ getNewFocusedOption
-handleOptionLabelClick
 
 ## Performance concerns
 
