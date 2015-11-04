@@ -11,7 +11,7 @@
 
 // control options
 $select-input-bg:                  #fff;
-$select-input-bg-disabled:         #f6f6f6;
+$select-input-bg-disabled:         #f9f9f9;
 $select-input-border-color:        #ccc;
 $select-input-border-radius:       4px;
 $select-input-border-focus:        #08c; // blue
@@ -63,6 +63,6 @@ $select-item-bg:                   #f2f9fc;
 $select-item-border-color:         darken($select-item-bg, 10%);
 $select-item-hover-color:          darken($select-item-color, 5%); // pale blue
 $select-item-hover-bg:             darken($select-item-bg, 5%);
-$select-item-disabled-color:       #888;
-$select-item-disabled-bg:          #f2f2f2;
+$select-item-disabled-color:       #333;
+$select-item-disabled-bg:          #fcfcfc;
 $select-item-disabled-border-color: darken($select-item-disabled-bg, 10%);
