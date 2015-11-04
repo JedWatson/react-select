@@ -84,6 +84,7 @@ var ValuesAsNumbersField = React.createClass({
 						<span className="checkbox-label">Only include matches from the start of the string</span>
 					</label>
 				</div>
+				<div className="hint">This example uses simple numeric values</div>
 			</div>
 		);
 	}

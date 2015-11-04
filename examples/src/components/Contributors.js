@@ -49,12 +49,6 @@ const Contributors = React.createClass({
 	gotoContributor (value, event) {
 		window.open('https://github.com/' + value.github);
 	},
-	renderHint () {
-		if (!this.props.hint) return null;
-		return (
-			<div className="hint">{this.props.hint}</div>
-		);
-	},
 	render () {
 		return (
 			<div className="section">
@@ -70,6 +64,7 @@ const Contributors = React.createClass({
 						<span className="checkbox-label">Single Value</span>
 					</label>
 				</div>
+				<div className="hint">This example implements custom label and value properties, async options and opens the github profiles in a new window when values are clicked</div>
 			</div>
 		);
 	}

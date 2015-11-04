@@ -90,12 +90,6 @@ const UsersField = React.createClass({
 	setValue (value) {
 		this.setState({ value });
 	},
-	renderHint () {
-		if (!this.props.hint) return null;
-		return (
-			<div className="hint">{this.props.hint}</div>
-		);
-	},
 	render () {
 		return (
 			<div className="section">
@@ -108,7 +102,7 @@ const UsersField = React.createClass({
 					value={this.state.value}
 					valueComponent={GravatarValue}
 					/>
-				{this.renderHint()}
+				<div className="hint">This example implements custom Option and Value components to render a Gravatar image for each user based on their email</div>
 			</div>
 		);
 	}
