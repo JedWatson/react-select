@@ -288,9 +288,10 @@ const Select = React.createClass({
 
 	expandValue (value) {
 		if (typeof value !== 'string' && typeof value !== 'number') return value;
-		if (!this.props.options) return;
-		for (var i = 0; i < this.props.options.length; i++) {
-			if (this.props.options[i][this.props.valueKey] === value) return this.props.options[i];
+		let { options, valueKey } = this.props;
+		if (!options) return;
+		for (var i = 0; i < options.length; i++) {
+			if (options[i][valueKey] === value) return options[i];
 		}
 	},
 
