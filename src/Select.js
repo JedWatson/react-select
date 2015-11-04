@@ -371,14 +371,6 @@ const Select = React.createClass({
 		});
 	},
 
-	unfocusOption (option) {
-		if (this.state.focusedOption === option) {
-			this.setState({
-				focusedOption: null
-			});
-		}
-	},
-
 	focusNextOption () {
 		this.focusAdjacentOption('next');
 	},
@@ -574,7 +566,6 @@ const Select = React.createClass({
 						key={'option-' + option[this.props.valueKey]}
 						onSelect={this.selectValue}
 						onFocus={this.focusOption}
-						onUnfocus={this.unfocusOption}
 						option={option}
 						isSelected={isSelected}
 						ref={optionRef}

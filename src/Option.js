@@ -36,9 +36,6 @@ const Option = React.createClass({
 		if (this.props.focused) return;
 		this.props.onFocus(this.props.option, event);
 	},
-	handleMouseLeave (event) {
-		this.props.onUnfocus(this.props.option, event);
-	},
 	render () {
 		var { option } = this.props;
 		var className = classes(this.props.className, option.className);
@@ -55,7 +52,6 @@ const Option = React.createClass({
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
-				onMouseLeave={this.handleMouseLeave}
 				title={option.title}>
 				{this.props.children}
 			</div>
