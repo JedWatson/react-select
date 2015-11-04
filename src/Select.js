@@ -291,7 +291,10 @@ const Select = React.createClass({
 		let value = this.props.value;
 		if (this.props.multi) {
 			if (typeof value === 'string') value = value.split(this.props.delimiter);
-			if (!Array.isArray(value)) return [];
+			if (!Array.isArray(value)) {
+				if (!value) return [];
+				value = [value];
+			}
 			return value.map(this.expandValue).filter(i => i);
 		}
 		var expandedValue = this.expandValue(value);
@@ -299,7 +302,7 @@ const Select = React.createClass({
 	},
 
 	expandValue (value) {
-		if (typeof value !== 'string') return value;
+		if (typeof value !== 'string' && typeof value !== 'number') return value;
 		if (!this.props.options) return;
 		for (var i = 0; i < this.props.options.length; i++) {
 			if (this.props.options[i][this.props.valueKey] === value) return this.props.options[i];
