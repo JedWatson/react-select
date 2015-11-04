@@ -56,7 +56,6 @@ const Option = React.createClass({
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
 				onMouseLeave={this.handleMouseLeave}
-				onClick={this.handleMouseDown}
 				title={option.title}>
 				{this.props.children}
 			</div>
