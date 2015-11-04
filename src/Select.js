@@ -599,10 +599,13 @@ const Select = React.createClass({
 	},
 
 	getFocusableOption (selectedOption) {
-		if (!this._visibleOptions.length) return;
+		var options = this._visibleOptions;
+		if (!options.length) return;
 		let focusedOption = this.state.focusedOption || selectedOption;
-		if (focusedOption && this._visibleOptions.indexOf(focusedOption) > -1) return focusedOption;
-		return this._visibleOptions[0];
+		if (focusedOption && options.indexOf(focusedOption) > -1) return focusedOption;
+		for (var i = 0; i <= options.length; i++) {
+			if (!options[i].disabled) return options[i];
+		}
 	},
 
 	render () {

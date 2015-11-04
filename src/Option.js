@@ -40,17 +40,17 @@ const Option = React.createClass({
 		this.props.onUnfocus(this.props.option, event);
 	},
 	render () {
-		var option = this.props.option;
-		var optionClasses = classes(this.props.className, option.className);
+		var { option } = this.props;
+		var className = classes(this.props.className, option.className);
 
-		return this.props.disabled ? (
-			<div className={optionClasses}
+		return option.disabled ? (
+			<div className={className}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
 				{this.props.children}
 			</div>
 		) : (
-			<div className={optionClasses}
+			<div className={className}
 				style={option.style}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
