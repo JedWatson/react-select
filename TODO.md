@@ -4,7 +4,6 @@ options creation (was part of buildMenu and selectFocusedOption)
 handle comma keypress for tags mode (handleKeyDown keyCode 188)
 use componentDidUpdate for binding the closeMenuIfClicked... handlers (are these still needed?)
 pagination support in Async component
-clean up other demos
 
 ## Component Methods
 
