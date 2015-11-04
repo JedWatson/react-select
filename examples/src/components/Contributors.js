@@ -8,17 +8,29 @@ const ASYNC_DELAY = 500;
 const Contributors = React.createClass({
 	displayName: 'Contributors',
 	propTypes: {
-		hint: React.PropTypes.string,
 		label: React.PropTypes.string,
 	},
 	getInitialState () {
 		return {
-			value: 'jedwatson',
+			multi: true,
+			value: [CONTRIBUTORS[0]],
 		};
 	},
 	onChange (value) {
 		this.setState({
-			value: value
+			value: value,
+		});
+	},
+	switchToMulti () {
+		this.setState({
+			multi: true,
+			value: [this.state.value],
+		});
+	},
+	switchToSingle () {
+		this.setState({
+			multi: false,
+			value: this.state.value[0],
 		});
 	},
 	getContributors (input, callback) {
@@ -47,8 +59,17 @@ const Contributors = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select.Async multi value={this.state.value} onChange={this.onChange} onValueClick={this.gotoContributor} valueKey="github" labelKey="name" loadOptions={this.getContributors} />
-				{this.renderHint()}
+				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoContributor} valueKey="github" labelKey="name" loadOptions={this.getContributors} />
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
+						<span className="checkbox-label">Multiselect</span>
+					</label>
+					<label className="checkbox">
+						<input type="radio" className="checkbox-control" checked={!this.state.multi} onChange={this.switchToSingle}/>
+						<span className="checkbox-label">Single Value</span>
+					</label>
+				</div>
 			</div>
 		);
 	}
