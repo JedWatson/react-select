@@ -29,20 +29,20 @@ describe('Value component', function() {
 
 	beforeEach(function() {
 		props = {
-			option: OPTION,
+			value: OPTION,
 			onRemove: sinon.spy()
 		};
 		value = TestUtils.renderIntoDocument(<Value {...props}/>);
 	});
 
 	it('requests its own removal when the remove icon is clicked', function() {
-		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
+		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
 		TestUtils.Simulate.click(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
 	it('requests its own removal when the remove icon is touched', function() {
-		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-icon');
+		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
 		TestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
@@ -56,38 +56,37 @@ describe('Value component', function() {
 	describe('without a custom click handler', function() {
 
 		it('presents the given label', function() {
-			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label');
+			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
 			expect(ReactDOM.findDOMNode(selectItemLabel), 'to have text', OPTION.label);
 		});
 
 	});
 
 	describe('with a custom click handler', function() {
-		var selectItemLabelA;
+		var valueLabel;
 
 		beforeEach(function() {
 			props = {
-				option: OPTION,
+				value: OPTION,
 				onRemove: sinon.spy(),
-				optionLabelClick: true,
-				onOptionLabelClick: sinon.spy()
+				onClick: sinon.spy(),
 			};
-			value = TestUtils.renderIntoDocument(<Value {...props}/>);
-			selectItemLabelA = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-item-label__a');
+			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			valueLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
 		});
 
 		it('presents the given label', function() {
-			expect(ReactDOM.findDOMNode(selectItemLabelA), 'to have text', OPTION.label);
+			expect(ReactDOM.findDOMNode(valueLabel), 'to have text', OPTION.label);
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
-			TestUtils.Simulate.click(selectItemLabelA);
-			expect(props.onOptionLabelClick, 'was called');
+			TestUtils.Simulate.mouseDown(valueLabel);
+			expect(props.onClick, 'was called');
 		});
 
 		it('calls a custom callback when the anchor is touched', function() {
-			TestUtils.Simulate.touchEnd(selectItemLabelA);
-			expect(props.onOptionLabelClick, 'was called');
+			TestUtils.Simulate.touchEnd(valueLabel);
+			expect(props.onClick, 'was called');
 		});
 
 	});
