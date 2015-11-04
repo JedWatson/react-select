@@ -202,26 +202,11 @@ const Select = React.createClass({
 	},
 
 	handleInputChange (event) {
-		if (this.props.asyncOptions) {
-			this.setState({
-				// isLoading: true,
-				isPseudoFocused: false,
-				inputValue: event.target.value
-			});
-			// this.loadAsyncOptions(event.target.value, {
-			// 	isLoading: false,
-			// 	isOpen: true
-			// }, this._bindCloseMenuIfClickedOutside);
-		} else {
-			// var filteredOptions = this.filterOptions(this.state.options);
-			this.setState({
-				isOpen: true,
-				isPseudoFocused: false,
-				inputValue: event.target.value,
-				// filteredOptions: filteredOptions,
-				// focusedOption: this._getNewFocusedOption(filteredOptions)
-			});
-		}
+		this.setState({
+			isOpen: true,
+			isPseudoFocused: false,
+			inputValue: event.target.value,
+		});
 	},
 
 	handleKeyDown (event) {
