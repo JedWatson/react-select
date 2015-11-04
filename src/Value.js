@@ -1,15 +1,15 @@
 import React from 'react';
 import classes from 'classnames';
 
-const MultiValue = React.createClass({
+const Value = React.createClass({
 
-	displayName: 'MultiValue',
+	displayName: 'Value',
 
 	propTypes: {
 		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
 		onClick: React.PropTypes.func,                // method to handle click on value label
-		onRemove: React.PropTypes.func,               // method to handle remove of that value
-		value: React.PropTypes.object.isRequired,     // option passed to component
+		onRemove: React.PropTypes.func,               // method to handle removal of the value
+		value: React.PropTypes.object.isRequired,     // the option object for this value
 	},
 
 	handleMouseDown (event) {
@@ -32,7 +32,7 @@ const MultiValue = React.createClass({
 	renderRemoveIcon () {
 		if (this.props.disabled || !this.props.onRemove) return;
 		return (
-			<span className="Select-item-icon"
+			<span className="Select-value-icon"
 				onMouseDown={this.onRemove}
 				onTouchEnd={this.onRemove}>
 				&times;
@@ -41,13 +41,13 @@ const MultiValue = React.createClass({
 	},
 
 	renderLabel () {
-		let className = 'Select-item-label';
+		let className = 'Select-value-label';
 		return this.props.onClick || this.props.value.href ? (
 			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.props.handleMouseDown}>
 				{this.props.children}
 			</a>
 		) : (
-			<span className="Select-item-label">
+			<span className="Select-value-label">
 				{this.props.children}
 			</span>
 		);
@@ -55,7 +55,7 @@ const MultiValue = React.createClass({
 
 	render () {
 		return (
-			<div className={classes('Select-item', this.props.value.className)}
+			<div className={classes('Select-value', this.props.value.className)}
 				style={this.props.value.style}
 				title={this.props.value.title}
 				>
@@ -67,4 +67,4 @@ const MultiValue = React.createClass({
 
 });
 
-module.exports = MultiValue;
+module.exports = Value;

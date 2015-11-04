@@ -6,9 +6,8 @@ import classNames from 'classnames';
 import stripDiacritics from './utils/stripDiacritics';
 
 import Async from './Async';
-import MultiValue from './MultiValue';
 import Option from './Option';
-import SingleValue from './SingleValue';
+import Value from './Value';
 
 const Select = React.createClass({
 
@@ -37,7 +36,6 @@ const Select = React.createClass({
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
 		multi: React.PropTypes.bool,                // multi-value input
-		multiValueComponent: React.PropTypes.func,  // value component to render when multiple is set to true
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
 		noResultsText: React.PropTypes.string,      // placeholder displayed when there are no matching search results
@@ -53,8 +51,8 @@ const Select = React.createClass({
 		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
-		singleValueComponent: React.PropTypes.func, // value component to render when multiple is set to false
 		value: React.PropTypes.any,                 // initial field value
+		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func         // valueRenderer: function (option) {}
 	},
@@ -79,13 +77,12 @@ const Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			multi: false,
-			multiValueComponent: MultiValue,
 			noResultsText: 'No results found',
 			optionComponent: Option,
 			placeholder: 'Select...',
 			searchable: true,
 			simpleValue: false,
-			singleValueComponent: SingleValue,
+			valueComponent: Value,
 			valueKey: 'value',
 		};
 	},
@@ -439,10 +436,9 @@ const Select = React.createClass({
 		);
 	},
 
-	renderValue (valueArray) {
+	renderValue (valueArray, isOpen) {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
-		let MultiValueComponent = this.props.multiValueComponent;
-		let SingleValueComponent = this.props.singleValueComponent;
+		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
@@ -450,24 +446,27 @@ const Select = React.createClass({
 		if (this.props.multi) {
 			return valueArray.map(i => {
 				return (
-					<MultiValueComponent
+					<ValueComponent
+						disabled={this.props.disabled}
 						key={i[this.props.valueKey]}
-						value={i}
 						onClick={onClick}
 						onRemove={this.removeValue}
-						disabled={this.props.disabled}
+						value={i}
 						>
 						{renderLabel(i)}
-					</MultiValueComponent>
+					</ValueComponent>
 				);
 			});
 		} else if (!this.state.inputValue) {
+			if (isOpen) onClick = null;
 			return (
-				<SingleValueComponent
+				<ValueComponent
+					disabled={this.props.disabled}
+					onClick={onClick}
 					value={valueArray[0]}
 					>
 					{renderLabel(valueArray[0])}
-				</SingleValueComponent>
+				</ValueComponent>
 			);
 		}
 	},
@@ -615,7 +614,7 @@ const Select = React.createClass({
 			<div ref="wrapper" className={className}>
 				{this.renderHiddenField(valueArray)}
 				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
-					{this.renderValue(valueArray)}
+					{this.renderValue(valueArray, isOpen)}
 					{this.renderInput(valueArray)}
 					{this.renderLoading()}
 					{this.renderClear()}

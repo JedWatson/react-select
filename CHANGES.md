@@ -4,7 +4,7 @@
 
 Value component -> MultiValue
 
-Major API changes to SingleValue and MultiValue
+Major API changes Component props, SingleValue and MultiValue have been merged
 
 Options & Value components get their label as their Children
 

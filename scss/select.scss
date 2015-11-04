@@ -20,6 +20,7 @@ $select-input-height:              36px;
 $select-input-internal-height:     ($select-input-height - ($select-input-border-width * 2));
 $select-input-placeholder:         #aaa;
 $select-text-color:                #333;
+$select-link-hover-color:          $select-input-border-focus;
 
 $select-padding-vertical:          8px;
 $select-padding-horizontal:        10px;
