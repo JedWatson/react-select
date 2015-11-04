@@ -7,11 +7,22 @@ React-Select
 A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
+## New version 1.0.0 WIP
+
+I've nearly completed a major rewrite of this component, and merged the changes into master for collaboration and testing. See issue #568 for progress and details.
+
+The new version will contain some breaking changes, which will be documented in the changelog when the first beta is released. The documentation below also needs to be updated for the new API.
+
+The tests still aren't completely updated so the build appears to be failing at the moment, but the component seems quite stable and robust in actual usage.
+
+Testing, feedback and PRs for the new version are appreciated.
+
+
 ## Demo & Examples
 
 Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
 
-To build the examples locally, run:
+To build the **new 1.0.0** examples locally, clone this repo then run:
 
 ```javascript
 npm install
@@ -19,17 +30,6 @@ npm start
 ```
 
 Then open [`localhost:8000`](http://localhost:8000) in a browser.
-
-
-## Project Status
-
-This project is quite stable and ready for production use, however there are plans to improve it including:
-
-- CSS Styles and theme support (working, could be improved)
-- Documentation website (currently just examples)
-- Custom options rendering (in progress)
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
@@ -137,7 +137,7 @@ import Select from 'react-select';
 
 /*
  * assuming the API returns something like this:
- *   const json = [ 
+ *   const json = [
  * 	   { value: 'one', label: 'One' },
  * 	   { value: 'two', label: 'Two' }
  *   ]
@@ -251,6 +251,8 @@ Right now there's simply a `focus()` method that gives the control focus. All ot
 # Contributing
 
 See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
+
+Thanks to the projects this was inspired by: [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience), [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a quality React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 # License
