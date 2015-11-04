@@ -78,7 +78,8 @@
 
 // placeholder
 
-.Select-placeholder {
+.Select-placeholder,
+:not(.Select--multi) > .Select-control .Select-value {
 	bottom: 0;
 	color: @select-input-placeholder;
 	left: 0;
@@ -96,29 +97,20 @@
 	white-space: nowrap;
 }
 
-.has-value > .Select-control > .Select-placeholder {
-	color: @select-text-color;
-}
+.has-value:not(.Select--multi):not(.is-focused) > .Select-control > .Select-value,
+.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value {
+	.Select-value-label {
+		color: @select-text-color;
+	}
+	a.Select-value-label {
+		cursor: pointer;
+		text-decoration: none;
 
-// value with custom renderer
-
-.Select-value {
-	color: @select-input-placeholder;
-	left: 0;
-	padding: @select-padding-vertical 52px @select-padding-vertical @select-padding-horizontal;
-	position: absolute;
-	right: -(@select-arrow-width + @select-padding-horizontal);
-	top: 0;
-
-	// crop text
-	max-width: 100%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.has-value > .Select-control > .Select-value {
-	color: @select-text-color;
+		&:hover {
+			color: @select-link-hover-color;
+			text-decoration: underline;
+		}
+	}
 }
 
 
@@ -150,6 +142,11 @@
 		}
 	}
 
+}
+
+// fake-hide the input when the control is pseudo-focused
+.has-value.is-pseudo-focused .Select-input {
+	opacity: 0;
 }
 
 // fake input

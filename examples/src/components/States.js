@@ -3,10 +3,6 @@ import Select from 'react-select';
 
 const STATES = require('../data/states');
 
-function logChange() {
-	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
-}
-
 var StatesField = React.createClass({
 	displayName: 'StatesField',
 	propTypes: {
@@ -36,9 +32,9 @@ var StatesField = React.createClass({
 		});
 	},
 	updateValue (newValue) {
-		logChange('State changed to ' + newValue);
+		console.log('State changed to ' + newValue);
 		this.setState({
-			selectValue: newValue || null
+			selectValue: newValue
 		});
 	},
 	focusStateSelect () {
@@ -50,11 +46,11 @@ var StatesField = React.createClass({
 		this.setState(newState);
 	},
 	render () {
-		var ops = STATES[this.state.country];
+		var options = STATES[this.state.country];
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" options={ops} disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+				<Select ref="stateSelect" options={options} simpleValue name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
 
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
