@@ -45,7 +45,7 @@ const Select = React.createClass({
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
-		onOptionLabelClick: React.PropTypes.func,   // onClick handler for value labels: function (value, event) {}
+		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
@@ -273,6 +273,11 @@ const Select = React.createClass({
 		event.preventDefault();
 	},
 
+	handleValueClick (option, event) {
+		if (!this.props.onValueClick) return;
+		this.props.onValueClick(option, event);
+	},
+
 	handleMenuScroll (event) {
 		if (!this.props.onMenuScrollToBottom) return;
 		let { target } = event;
@@ -435,18 +440,20 @@ const Select = React.createClass({
 	},
 
 	renderValue (valueArray) {
-		var renderLabel = this.props.valueRenderer || this.getOptionLabel;
-		var MultiValueComponent = this.props.multiValueComponent;
-		var SingleValueComponent = this.props.singleValueComponent;
+		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
+		let MultiValueComponent = this.props.multiValueComponent;
+		let SingleValueComponent = this.props.singleValueComponent;
 		if (!valueArray.length) {
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
+		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
 			return valueArray.map(i => {
 				return (
 					<MultiValueComponent
 						key={i[this.props.valueKey]}
 						value={i}
+						onClick={onClick}
 						onRemove={this.removeValue}
 						disabled={this.props.disabled}
 						>
