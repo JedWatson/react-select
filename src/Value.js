@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from 'classnames';
+import classNames from 'classnames';
 
 const Value = React.createClass({
 
@@ -50,7 +50,7 @@ const Value = React.createClass({
 				{this.props.children}
 			</a>
 		) : (
-			<span className="Select-value-label">
+			<span className={className}>
 				{this.props.children}
 			</span>
 		);
@@ -58,7 +58,7 @@ const Value = React.createClass({
 
 	render () {
 		return (
-			<div className={classes('Select-value', this.props.value.className)}
+			<div className={classNames('Select-value', this.props.value.className)}
 				style={this.props.value.style}
 				title={this.props.value.title}
 				>
