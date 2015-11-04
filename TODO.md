@@ -2,9 +2,8 @@
 
 options creation (was part of buildMenu and selectFocusedOption)
 handle comma keypress for tags mode (handleKeyDown keyCode 188)
-ensure an option is always focused (was _ getNewFocusedOption)
-pagination support in Async component
 use componentDidUpdate for binding the closeMenuIfClicked... handlers (are these still needed?)
+pagination support in Async component
 clean up other demos
 
 ## Component Methods
@@ -15,9 +14,7 @@ handle _ unbindCloseMenuIfClickedOutside
 
 componentWillUnmount
 clickedOutsideElement
-getFirstFocusableOption
 handleMouseDownOnMenu
-_ getNewFocusedOption
 
 ## Performance concerns
 

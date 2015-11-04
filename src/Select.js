@@ -391,14 +391,14 @@ const Select = React.createClass({
 			this.setState({
 				isOpen: true,
 				inputValue: '',
-				focusedOption: this.state.focusedOption || options[dir === 'next' ? 0 : options.length - 1]
+				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1]
 			});
 			return;
 		}
 		if (!options.length) return;
 		var focusedIndex = -1;
 		for (var i = 0; i < options.length; i++) {
-			if (this.state.focusedOption === options[i]) {
+			if (this._focusedOption === options[i]) {
 				focusedIndex = i;
 				break;
 			}
@@ -422,8 +422,8 @@ const Select = React.createClass({
 		// if (this.props.allowCreate && !this.state.focusedOption) {
 		// 	return this.selectValue(this.state.inputValue);
 		// }
-		if (this.state.focusedOption) {
-			return this.selectValue(this.state.focusedOption);
+		if (this._focusedOption) {
+			return this.selectValue(this._focusedOption);
 		}
 	},
 
@@ -549,13 +549,13 @@ const Select = React.createClass({
 		}
 	},
 
-	renderMenu (options, valueArray) {
+	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 			return options.map(option => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
-				let isFocused = option === this.state.focusedOption;
+				let isFocused = option === focusedOption;
 				let optionRef = isFocused ? 'focused' : null;
 				let optionClass = classNames({
 					'Select-option': true,
@@ -595,11 +595,19 @@ const Select = React.createClass({
 		return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
 	},
 
+	getFocusableOption (selectedOption) {
+		if (!this._visibleOptions.length) return;
+		let focusedOption = this.state.focusedOption || selectedOption;
+		if (focusedOption && this._visibleOptions.indexOf(focusedOption) > -1) return focusedOption;
+		return this._visibleOptions[0];
+	},
+
 	render () {
 		let valueArray = this.getValueArray();
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
+		let focusedOption = this._focusedOption = this.getFocusableOption(valueArray[0]);
 		let className = classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'is-disabled': this.props.disabled,
@@ -623,7 +631,7 @@ const Select = React.createClass({
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer">
 						<div ref="menu" className="Select-menu" onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null)}
+							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
 					</div>
 				) : null}
