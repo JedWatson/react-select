@@ -585,7 +585,7 @@ const Select = React.createClass({
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
-		let value = valueArray.join(delimiter);
+		let value = valueArray.join(this.props.delimiter);
 		return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
 	},
 
