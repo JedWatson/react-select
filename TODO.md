@@ -13,11 +13,8 @@ clean up other demos
 handle _ closeMenuIfClickedOutside
 handle _ bindCloseMenuIfClickedOutside
 handle _ unbindCloseMenuIfClickedOutside
-handle _ focusedOptionReveal
 
 componentWillUnmount
-componentWillReceiveProps
-componentDidUpdate
 clickedOutsideElement
 getFirstFocusableOption
 handleMouseDownOnMenu
