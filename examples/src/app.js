@@ -5,15 +5,15 @@ import ReactDOM from 'react-dom';
 import Select from 'react-select';
 
 import Contributors from './components/Contributors';
+import CustomComponents from './components/CustomComponents';
 import CustomKeysField from './components/CustomKeysField';
 import CustomRenderField from './components/CustomRenderField';
 import DisabledUpsellOptions from './components/DisabledUpsellOptions';
-import MultiSelectField from './components/MultiSelectField';
+import Multiselect from './components/Multiselect';
+import NumericSelect from './components/NumericSelect';
 import RemoteSelectField from './components/RemoteSelectField';
 import SelectedValuesField from './components/SelectedValuesField';
-import StatesField from './components/StatesField';
-import UsersField from './components/UsersField';
-import NumericSelect from './components/NumericSelect';
+import States from './components/States';
 
 var FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
@@ -31,11 +31,11 @@ function logChange() {
 
 ReactDOM.render(
 	<div>
-		<StatesField label="States" searchable />
-		<MultiSelectField label="Multiselect" />
+		<States label="States" searchable />
+		<Multiselect label="Multiselect" />
 		<Contributors label="Contributors" />
-		<UsersField label="Users (custom options/value)" hint="This example uses Gravatar to render user's image besides the value and the options" />
 		<NumericSelect label="Numeric Values" />
+		<CustomComponents label="Custom Option and Value Components" hint="This example uses Gravatar to render the user's image" />
 		{/*
 		<CustomKeysField label="Custom object keys for options" />
 		<SelectedValuesField label="Clickable labels (labels as links)" options={FLAVOURS} hint="Open the console to see click behaviour (data/event)" />
