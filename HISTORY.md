@@ -1,6 +1,14 @@
 # React-Select
 
-## v1.0.0-beta / 2015-11-06
+## v1.0.0-beta2 / 2015-11-06
+
+Changed since beta 1:
+
+* Async options cache works again
+* New style props for custom styling the component without modifying css classes: `style` `wrapperStyle` `menuStyle` `menuContainerStyle`
+* The menu opens and closes correctly when `searchable={false}`, there is still some work to do on this use-case
+
+## v1.0.0-beta1 / 2015-11-06
 
 This is a complete rewrite. Major changes include:
 
@@ -15,6 +23,8 @@ This is a complete rewrite. Major changes include:
 * You can disable options filtering to do the filtering externally with `onInputChange`
 * Accents on characters can now be ignored
 * The `asyncOptions` prop has been replaced by a new wrapper component: `Select.Async`
+
+Note that "Tag mode" (creating options on the fly) isn't reimplemented yet.
 
 A full guide to the breaking changes and new features will be written up soon. In the meantime please see the new examples.
 
