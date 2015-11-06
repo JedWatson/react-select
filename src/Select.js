@@ -26,15 +26,17 @@ const Select = React.createClass({
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
-		filterOption: React.PropTypes.func,         // method to filter a single option  (option, filterString)
+		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
-		inputProps: React.PropTypes.object,         // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
+		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
+		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
@@ -51,10 +53,12 @@ const Select = React.createClass({
 		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
+		style: React.PropTypes.object,              // optional style to apply to the control
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
-		valueRenderer: React.PropTypes.func         // valueRenderer: function (option) {}
+		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
+		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 	},
 
 	getDefaultProps () {
@@ -602,9 +606,9 @@ const Select = React.createClass({
 			'has-value': valueArray.length,
 		});
 		return (
-			<div ref="wrapper" className={className}>
+			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<div className="Select-control" ref="control" onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
+				<div ref="control" className="Select-control" style={this.props.style} onKeyDown={this.handleKeyDown} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 					{this.renderValue(valueArray, isOpen)}
 					{this.renderInput(valueArray)}
 					{this.renderLoading()}
@@ -612,8 +616,8 @@ const Select = React.createClass({
 					{this.renderArrow()}
 				</div>
 				{isOpen ? (
-					<div ref="menuContainer" className="Select-menu-outer">
-						<div ref="menu" className="Select-menu" onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
+					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
+						<div ref="menu" className="Select-menu" style={this.props.menuStyle} onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
 							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
 					</div>
