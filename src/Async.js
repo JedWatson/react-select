@@ -22,7 +22,7 @@ function getFromCache (cache, input) {
 	for (let i = 0; i <= input.length; i++) {
 		let cacheKey = input.slice(0, i);
 		if (cache[cacheKey] && (input === cacheKey || cache[cacheKey].complete)) {
-			return cache[cacheKey].options;
+			return cache[cacheKey];
 		}
 	}
 }
@@ -117,7 +117,7 @@ const Async = React.createClass({
 		this.setState({
 			isLoading: true,
 		});
-		let responseHandler = this.getResponseHandler();
+		let responseHandler = this.getResponseHandler(input);
 		thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
 	},
 	render () {
