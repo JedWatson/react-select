@@ -2,12 +2,12 @@ import React from 'react';
 import Select from 'react-select';
 
 const FLAVOURS = [
-	{ label: 'Chocolate', value: 'chocolate', disabled: true },
-	{ label: 'Vanilla', value: 'vanilla', disabled: true },
-	{ label: 'Strawberry', value: 'strawberry', disabled: true },
-	{ label: 'Caramel', value: 'caramel', disabled: true },
-	{ label: 'Cookies and Cream', value: 'cookiescream', disabled: true },
-	{ label: 'Peppermint', value: 'peppermint', disabled: true },
+	{ label: 'Chocolate', value: 'chocolate' },
+	{ label: 'Vanilla', value: 'vanilla' },
+	{ label: 'Strawberry', value: 'strawberry' },
+	{ label: 'Caramel', value: 'caramel' },
+	{ label: 'Cookies and Cream', value: 'cookiescream' },
+	{ label: 'Peppermint', value: 'peppermint' },
 ];
 
 const WHY_WOULD_YOU = [
