@@ -133,12 +133,11 @@ const Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 
-		// for the non-searchable select, close the dropdown when button is clicked
-		if (this.state.isOpen && !this.props.searchable) {
-			this.setState({
-				isOpen: false,
+		// for the non-searchable select, toggle the menu
+		if (!this.props.searchable) {
+			return this.setState({
+				isOpen: !this.state.isOpen,
 			});
-			return;
 		}
 
 		if (this.state.isFocused) {
