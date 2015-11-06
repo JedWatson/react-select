@@ -7,13 +7,13 @@ React-Select
 A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
-## New version 1.0.0 WIP
+## New version 1.0.0-beta
 
-I've nearly completed a major rewrite of this component, and merged the changes into master for collaboration and testing. See issue #568 for progress and details.
+I've nearly completed a major rewrite of this component (see issue [#568](https://github.com/JedWatson/react-select/issues/568) for details and progress). The new code has been merged into `master`, and `react-select@1.0.0-beta` has been published to npm and bower.
 
-The new version will contain some breaking changes, which will be documented in the changelog when the first beta is released. The documentation below also needs to be updated for the new API.
+1.0.0 has some breaking changes. The documentation below still needs to be updated for the new API; notes on the changes can be found in [CHANGES.md](https://github.com/JedWatson/react-select/blob/master/CHANGES.md) and will be finalised into [HISTORY.md](https://github.com/JedWatson/react-select/blob/master/HISTORY.md) soon.
 
-The tests still aren't completely updated so the build appears to be failing at the moment, but the component seems quite stable and robust in actual usage.
+Our tests need some major updates to work with the new API (see [#571](https://github.com/JedWatson/react-select/issues/571)) and are causing the build to fail, but the component is stable and robust in actual usage.
 
 Testing, feedback and PRs for the new version are appreciated.
 
@@ -21,6 +21,8 @@ Testing, feedback and PRs for the new version are appreciated.
 ## Demo & Examples
 
 Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+
+The live demo is still running `v0.9.1`.
 
 To build the **new 1.0.0** examples locally, clone this repo then run:
 

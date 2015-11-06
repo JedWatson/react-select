@@ -1,5 +1,23 @@
 # React-Select
 
+## v1.0.0-beta / 2015-11-06
+
+This is a complete rewrite. Major changes include:
+
+* Everything is simpler (I'm nearly done and the source code is only 60% of the size of the last version)
+* No more timeouts or weird handlers, the restructuring has let me make everything more straight-forward
+* The options array is no longer preprocessed into state, just retrieved from props
+* The values array is now initialised in the Options array during render, and not stored in state, which along with the change to options makes the component more reliable and fixes issues with props not updating correctly
+* The component no longer stores its own value in state (ever) - it needs to be passed as a prop and handled with `onChange`.
+* Complex values are now enabled by default (so you're passed the option object, not its value); you can enable the legacy mode with a prop
+* The Value and Option components have been cleaned up as well for consistency
+* The hidden `<input>` field is now optional and the component is better suited to use in a rich React.js app than it was
+* You can disable options filtering to do the filtering externally with `onInputChange`
+* Accents on characters can now be ignored
+* The `asyncOptions` prop has been replaced by a new wrapper component: `Select.Async`
+
+A full guide to the breaking changes and new features will be written up soon. In the meantime please see the new examples.
+
 ## v0.9.1 / 2015-11-01
 
 * added; new Contributors example w/ async options loading and custom value / label keys
