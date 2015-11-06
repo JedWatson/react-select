@@ -37,7 +37,7 @@ function getFromCache(cache, input) {
 	for (var i = 0; i <= input.length; i++) {
 		var cacheKey = input.slice(0, i);
 		if (cache[cacheKey] && (input === cacheKey || cache[cacheKey].complete)) {
-			return cache[cacheKey].options;
+			return cache[cacheKey];
 		}
 	}
 }
@@ -136,7 +136,7 @@ var Async = _react2['default'].createClass({
 		this.setState({
 			isLoading: true
 		});
-		var responseHandler = this.getResponseHandler();
+		var responseHandler = this.getResponseHandler(input);
 		thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
 	},
 	render: function render() {
@@ -303,15 +303,17 @@ var Select = _react2['default'].createClass({
 		delimiter: _react2['default'].PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _react2['default'].PropTypes.bool, // whether the Select is disabled or not
 		escapeClearsValue: _react2['default'].PropTypes.bool, // whether escape clears the value when the menu is closed
-		filterOption: _react2['default'].PropTypes.func, // method to filter a single option  (option, filterString)
+		filterOption: _react2['default'].PropTypes.func, // method to filter a single option (option, filterString)
 		filterOptions: _react2['default'].PropTypes.any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: _react2['default'].PropTypes.bool, // whether to strip diacritics when filtering
 		ignoreCase: _react2['default'].PropTypes.bool, // whether to perform case-insensitive filtering
-		inputProps: _react2['default'].PropTypes.object, // custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
+		inputProps: _react2['default'].PropTypes.object, // custom attributes for the Input
 		isLoading: _react2['default'].PropTypes.bool, // whether the Select is loading externally or not (such as options being loaded)
 		labelKey: _react2['default'].PropTypes.string, // path of the label value in option objects
 		matchPos: _react2['default'].PropTypes.string, // (any|start) match the start or entire string when filtering
 		matchProp: _react2['default'].PropTypes.string, // (any|label|value) which option property to filter on
+		menuStyle: _react2['default'].PropTypes.object, // optional style to apply to the menu
+		menuContainerStyle: _react2['default'].PropTypes.object, // optional style to apply to the menu container
 		multi: _react2['default'].PropTypes.bool, // multi-value input
 		name: _react2['default'].PropTypes.string, // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: _react2['default'].PropTypes.func, // factory to create new options when allowCreate set
@@ -328,12 +330,14 @@ var Select = _react2['default'].createClass({
 		placeholder: _react2['default'].PropTypes.string, // field placeholder, displayed when there's no value
 		searchable: _react2['default'].PropTypes.bool, // whether to enable searching feature or not
 		simpleValue: _react2['default'].PropTypes.bool, // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
+		style: _react2['default'].PropTypes.object, // optional style to apply to the control
 		value: _react2['default'].PropTypes.any, // initial field value
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
-		valueRenderer: _react2['default'].PropTypes.func // valueRenderer: function (option) {}
-	},
+		valueRenderer: _react2['default'].PropTypes.func, // valueRenderer: function (option) {}
+		wrapperStyle: _react2['default'].PropTypes.object },
 
+	// optional style to apply to the component wrapper
 	getDefaultProps: function getDefaultProps() {
 		return {
 			addLabelText: 'Add "{label}"?',
@@ -406,12 +410,11 @@ var Select = _react2['default'].createClass({
 		event.stopPropagation();
 		event.preventDefault();
 
-		// for the non-searchable select, close the dropdown when button is clicked
-		if (this.state.isOpen && !this.props.searchable) {
-			this.setState({
-				isOpen: false
+		// for the non-searchable select, toggle the menu
+		if (!this.props.searchable) {
+			return this.setState({
+				isOpen: !this.state.isOpen
 			});
-			return;
 		}
 
 		if (this.state.isFocused) {
@@ -914,11 +917,11 @@ var Select = _react2['default'].createClass({
 		});
 		return _react2['default'].createElement(
 			'div',
-			{ ref: 'wrapper', className: className },
+			{ ref: 'wrapper', className: className, style: this.props.wrapperStyle },
 			this.renderHiddenField(valueArray),
 			_react2['default'].createElement(
 				'div',
-				{ className: 'Select-control', ref: 'control', onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
+				{ ref: 'control', className: 'Select-control', style: this.props.style, onKeyDown: this.handleKeyDown, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
 				this.renderValue(valueArray, isOpen),
 				this.renderInput(valueArray),
 				this.renderLoading(),
@@ -927,10 +930,10 @@ var Select = _react2['default'].createClass({
 			),
 			isOpen ? _react2['default'].createElement(
 				'div',
-				{ ref: 'menuContainer', className: 'Select-menu-outer' },
+				{ ref: 'menuContainer', className: 'Select-menu-outer', style: this.props.menuContainerStyle },
 				_react2['default'].createElement(
 					'div',
-					{ ref: 'menu', className: 'Select-menu', onScroll: this.handleMenuScroll, onMouseDown: this.handleMouseDownOnMenu },
+					{ ref: 'menu', className: 'Select-menu', style: this.props.menuStyle, onScroll: this.handleMenuScroll, onMouseDown: this.handleMouseDownOnMenu },
 					this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)
 				)
 			) : null

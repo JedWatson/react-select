@@ -391,7 +391,7 @@ var _reactSelect = require('react-select');
 
 var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
-var FLAVOURS = [{ label: 'Chocolate', value: 'chocolate', disabled: true }, { label: 'Vanilla', value: 'vanilla', disabled: true }, { label: 'Strawberry', value: 'strawberry', disabled: true }, { label: 'Caramel', value: 'caramel', disabled: true }, { label: 'Cookies and Cream', value: 'cookiescream', disabled: true }, { label: 'Peppermint', value: 'peppermint', disabled: true }];
+var FLAVOURS = [{ label: 'Chocolate', value: 'chocolate' }, { label: 'Vanilla', value: 'vanilla' }, { label: 'Strawberry', value: 'strawberry' }, { label: 'Caramel', value: 'caramel' }, { label: 'Cookies and Cream', value: 'cookiescream' }, { label: 'Peppermint', value: 'peppermint' }];
 
 var WHY_WOULD_YOU = [{ label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true }].concat(FLAVOURS.slice(1));
 
