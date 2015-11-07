@@ -1,5 +1,11 @@
 # React-Select
 
+## v1.0.0-beta4 / 2015-11-08
+
+* New default styles that match [Elemental UI](http://elemental-ui.com) and look right at home in the new [KeystoneJS Admin UI](http://keystonejs.com)
+
+We're potentially going to ship some theme stylesheets in the future, shout out on GitHub if this interests you.
+
 ## v1.0.0-beta3 / 2015-11-08
 
 * The selected value populated in the hidden field has been fixed (was `"[object Object]"` before)
