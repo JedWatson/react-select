@@ -428,16 +428,16 @@ const Select = React.createClass({
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
-			return valueArray.map(i => {
+			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
 						disabled={this.props.disabled}
-						key={i[this.props.valueKey]}
+						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
 						onRemove={this.removeValue}
-						value={i}
+						value={value}
 						>
-						{renderLabel(i)}
+						{renderLabel(value)}
 					</ValueComponent>
 				);
 			});
