@@ -200,46 +200,46 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 ### Further options
 
 
-	Property			|	Type		|	Description
-:-----------------------|:--------------|:--------------------------------
-	addLabelText		|	string		|	text to display when `allowCreate` is true
-	allowCreate			|	bool		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
-	asyncOptions 		|	func		|	function to call to get options
-	autoload 			|	bool		|	whether to auto-load the default async options set
-	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
-	cacheAsyncResults	|	bool		|	enables the options cache for `asyncOptions` (default: `true`)
-	className 			|	string		|	className for the outer element
-	clearable 			|	bool		|	should it be possible to reset value
-	clearAllText 		|	string		|	title for the "clear" control when `multi` is true
-	clearValueText 		|	string		|	title for the "clear" control
-	delimiter 			|	string		|	delimiter to use to join multiple values
-	disabled 			|	bool		|	whether the Select is disabled or not
-	filterOption 		|	func		|	method to filter a single option: `function(option, filterString)`
-	filterOptions 		|	func		|	method to filter the options array: `function([options], filterString, [values])`
-	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
-	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
-	isLoading			|	bool		|	whether the Select is loading externally or not (such as options being loaded)
-	labelKey			|	string		|	the option property to use for the label
-	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
-	matchProp 			|	string		|	(any, label, value) which option property to filter on
-	multi 				|	bool		|	multi-value input
-	name 				|	string		|	field name, for hidden `<input />` tag
-	newOptionCreator	|	func		|	factory to create new options when `allowCreate` is true
-	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
-	onBlur 				|	func		|	onBlur handler: `function(event) {}`
-	onChange 			|	func		|	onChange handler: `function(newValue) {}`
-	onFocus 			|	func		|	onFocus handler: `function(event) {}`
-	onInputChange		|	func		|	onInputChange handler: `function(inputValue) {}`
-	onOptionLabelClick	|	func		|	onClick handler for value labels: `function (value, event) {}`
-	optionRenderer		|	func		|	function which returns a custom way to render the options in the menu
-	options 			|	array		|	array of options
-	placeholder 		|	string		|	field placeholder, displayed when there's no value
-	searchable 			|	bool		|	whether to enable searching feature or not
-	searchingText		|	string		|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
-	searchPromptText 	|	string		|	label to prompt for search input
-	value 				|	any			|	initial field value
-	valueKey			|	string		|	the option property to use for the value
-	valueRenderer		|	func		|	function which returns a custom way to render the value selected
+	Property	|	Type		|	Default		|	Description
+:-----------------------|:--------------|:--------------|:--------------------------------
+	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
+	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	asyncOptions 	|	func	|	undefined	|	function to call to get options
+	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
+	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
+	cacheAsyncResults	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
+	className 	|	string	|	undefined	|	className for the outer element
+	clearable 	|	bool	|	true		|	should it be possible to reset value
+	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
+	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
+	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
+	disabled 	|	bool	|	false		|	whether the Select is disabled or not
+	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
+	filterOptions 	|	func	|	undefined	|	method to filter the options array: `function([options], filterString, [values])`
+	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
+	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
+	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
+	labelKey	|	string	|	'label'		|	the option property to use for the label
+	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
+	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
+	multi 		|	bool	|	undefined	|	multi-value input
+	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
+	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
+	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results
+	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
+	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
+	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
+	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
+	onOptionLabelClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
+	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
+	options 	|	array	|	undefined	|	array of options
+	placeholder 	|	string	|	'Select ...'	|	field placeholder, displayed when there's no value
+	searchable 	|	bool	|	true		|	whether to enable searching feature or not
+	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
+	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
+	value 		|	any	|	undefined	|	initial field value
+	valueKey	|	string	|	'value'		|	the option property to use for the value
+	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected
 
 ### Methods
 
