@@ -9,6 +9,14 @@ import Async from './Async';
 import Option from './Option';
 import Value from './Value';
 
+function stringifyValue (value) {
+	if (typeof value === 'object') {
+		return JSON.stringify(value);
+	} else {
+		return value;
+	}
+}
+
 const Select = React.createClass({
 
 	statics: { Async },
@@ -581,7 +589,7 @@ const Select = React.createClass({
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
-		let value = valueArray.map(i => JSON.stringify(i[this.props.valueKey])).join(this.props.delimiter);
+		let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
 		return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
 	},
 
