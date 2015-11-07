@@ -18,6 +18,7 @@ const Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
+		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: React.PropTypes.string,       // title for the "clear" control when multi: true
@@ -99,6 +100,12 @@ const Select = React.createClass({
 			isOpen: false,
 			isPseudoFocused: false,
 		};
+	},
+
+	componentDidMount () {
+		if (this.props.autofocus) {
+			this.focus();
+		}
 	},
 
 	componentDidUpdate (prevProps, prevState) {
