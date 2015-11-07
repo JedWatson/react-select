@@ -537,7 +537,7 @@ const Select = React.createClass({
 		if (options && options.length) {
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
-			return options.map(option => {
+			return options.map((option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
 				let optionRef = isFocused ? 'focused' : null;
@@ -552,7 +552,7 @@ const Select = React.createClass({
 						className={optionClass}
 						isDisabled={option.disabled}
 						isFocused={isFocused}
-						key={'option-' + option[this.props.valueKey]}
+						key={`option-${i}-${option[this.props.valueKey]}`}
 						onSelect={this.selectValue}
 						onFocus={this.focusOption}
 						option={option}
