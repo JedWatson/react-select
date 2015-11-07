@@ -1,5 +1,9 @@
 # React-Select
 
+## v1.0.0-beta5 / 2015-11-08
+
+* Fixes issues relating to serializing simple values into the hidden field
+
 ## v1.0.0-beta4 / 2015-11-08
 
 * New default styles that match [Elemental UI](http://elemental-ui.com) and look right at home in the new [KeystoneJS Admin UI](http://keystonejs.com)
