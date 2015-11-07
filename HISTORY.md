@@ -1,5 +1,12 @@
 # React-Select
 
+## v1.0.0-beta3 / 2015-11-08
+
+* The selected value populated in the hidden field has been fixed (was `"[object Object]"` before)
+* Added new `autofocus` prop
+* Fixed duplicate key error for options and values with duplicate `value` properties
+* SCSS variables now have `!default` so you can override them
+
 ## v1.0.0-beta2 / 2015-11-06
 
 Changed since beta 1:

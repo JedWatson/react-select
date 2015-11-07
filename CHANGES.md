@@ -24,6 +24,8 @@ CSS is now accessible from `react-select/default.css` instead of `react-select/r
 
 new `ignoreAccents` prop (on by default), thanks [Guilherme Guerchmann](https://github.com/Agamennon)
 new `escapeClearsValue` prop (on by default)
+bug where the filter wouldn't be reset after blur
+complex option values are much better supported now, won't throw duplicate key errors and will serialize to the input correctly
 
 ## Notes
 
