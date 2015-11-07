@@ -295,6 +295,7 @@ var Select = _react2['default'].createClass({
 	propTypes: {
 		addLabelText: _react2['default'].PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: _react2['default'].PropTypes.bool, // whether to allow creation of new entries
+		autofocus: _react2['default'].PropTypes.bool, // autofocus the component on mount
 		backspaceRemoves: _react2['default'].PropTypes.bool, // whether backspace removes an item if there is no text input
 		className: _react2['default'].PropTypes.string, // className for the outer element
 		clearAllText: _react2['default'].PropTypes.string, // title for the "clear" control when multi: true
@@ -376,6 +377,12 @@ var Select = _react2['default'].createClass({
 			isOpen: false,
 			isPseudoFocused: false
 		};
+	},
+
+	componentDidMount: function componentDidMount() {
+		if (this.props.autofocus) {
+			this.focus();
+		}
 	},
 
 	componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
@@ -732,17 +739,17 @@ var Select = _react2['default'].createClass({
 		}
 		var onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
-			return valueArray.map(function (i) {
+			return valueArray.map(function (value, i) {
 				return _react2['default'].createElement(
 					ValueComponent,
 					{
 						disabled: _this2.props.disabled,
-						key: i[_this2.props.valueKey],
+						key: 'value-' + i + '-' + value[_this2.props.valueKey],
 						onClick: onClick,
 						onRemove: _this2.removeValue,
-						value: i
+						value: value
 					},
-					renderLabel(i)
+					renderLabel(value)
 				);
 			});
 		} else if (!this.state.inputValue) {
@@ -844,7 +851,7 @@ var Select = _react2['default'].createClass({
 				var Option = _this4.props.optionComponent;
 				var renderLabel = _this4.props.optionRenderer || _this4.getOptionLabel;
 				return {
-					v: options.map(function (option) {
+					v: options.map(function (option, i) {
 						var isSelected = valueArray && valueArray.indexOf(option) > -1;
 						var isFocused = option === focusedOption;
 						var optionRef = isFocused ? 'focused' : null;
@@ -860,7 +867,7 @@ var Select = _react2['default'].createClass({
 								className: optionClass,
 								isDisabled: option.disabled,
 								isFocused: isFocused,
-								key: 'option-' + option[_this4.props.valueKey],
+								key: 'option-' + i + '-' + option[_this4.props.valueKey],
 								onSelect: _this4.selectValue,
 								onFocus: _this4.focusOption,
 								option: option,
@@ -884,8 +891,12 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderHiddenField: function renderHiddenField(valueArray) {
+		var _this5 = this;
+
 		if (!this.props.name) return;
-		var value = valueArray.join(this.props.delimiter);
+		var value = valueArray.map(function (i) {
+			return JSON.stringify(i[_this5.props.valueKey]);
+		}).join(this.props.delimiter);
 		return _react2['default'].createElement('input', { type: 'hidden', ref: 'value', name: this.props.name, value: value, disabled: this.props.disabled });
 	},
 
