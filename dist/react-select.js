@@ -286,6 +286,14 @@ var _Value = require('./Value');
 
 var _Value2 = _interopRequireDefault(_Value);
 
+function stringifyValue(value) {
+	if (typeof value === 'object') {
+		return JSON.stringify(value);
+	} else {
+		return value;
+	}
+}
+
 var Select = _react2['default'].createClass({
 
 	statics: { Async: _Async2['default'] },
@@ -600,7 +608,7 @@ var Select = _react2['default'].createClass({
 
 		if (!this.props.onChange) return;
 		if (this.props.simpleValue && value) {
-			value = this.props.multi ? value && value.map(function (i) {
+			value = this.props.multi ? value.map(function (i) {
 				return i[_this.props.valueKey];
 			}).join(this.props.delimiter) : value[this.props.valueKey];
 		}
@@ -895,7 +903,7 @@ var Select = _react2['default'].createClass({
 
 		if (!this.props.name) return;
 		var value = valueArray.map(function (i) {
-			return JSON.stringify(i[_this5.props.valueKey]);
+			return stringifyValue(i[_this5.props.valueKey]);
 		}).join(this.props.delimiter);
 		return _react2['default'].createElement('input', { type: 'hidden', ref: 'value', name: this.props.name, value: value, disabled: this.props.disabled });
 	},
