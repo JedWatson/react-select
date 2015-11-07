@@ -106,8 +106,10 @@
 		cursor: pointer;
 		text-decoration: none;
 
-		&:hover {
+		&:hover,
+		&:focus {
 			color: @select-link-hover-color;
+			outline: none;
 			text-decoration: underline;
 		}
 	}
