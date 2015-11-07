@@ -4,7 +4,7 @@
     "dist/react-select.min.js",
     "dist/default.css"
   ],
-  "version": "1.0.0-beta2",
+  "version": "1.0.0-beta3",
   "homepage": "https://github.com/JedWatson/react-select",
   "authors": [
     "Jed Watson"
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "classnames": "^2.2.0",
-    "react-input-autosize": "^0.6.2"
+    "react-input-autosize": "^0.6.3"
   },
   "keywords": [
     "react",
