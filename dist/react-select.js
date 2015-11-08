@@ -258,7 +258,7 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
+var _reactDom = (typeof window !== "undefined" ? window['ReactDOM'] : typeof global !== "undefined" ? global['ReactDOM'] : null);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -965,7 +965,7 @@ exports['default'] = Select;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Async":1,"./Option":2,"./Value":4,"./utils/stripDiacritics":5,"react-dom":undefined}],4:[function(require,module,exports){
+},{"./Async":1,"./Option":2,"./Value":4,"./utils/stripDiacritics":5}],4:[function(require,module,exports){
 (function (global){
 'use strict';
 
