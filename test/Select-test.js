@@ -373,7 +373,6 @@ describe('Select', () => {
 		});
 
 		it('set the initial value of the hidden input control', () => {
-			return; // TODO; broken test?
 			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '2' );
 		});
 
@@ -384,7 +383,6 @@ describe('Select', () => {
 		});
 
 		it('updates the value of the hidden input control after new value prop', () => {
-			return; // TODO; broken test?
 			wrapper.setPropsForChild({ value: 3 });
 			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '3' );
 		});
