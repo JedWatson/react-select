@@ -731,7 +731,7 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option')[1]);
 
 			expect(onChange, 'was not called');
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', PLACEHOLDER_SELECTOR,
 				'to have text', 'Select...');
 		});
 
@@ -838,7 +838,7 @@ describe('Select', () => {
 
 			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 13, key: 'Enter' });
 			expect(onChange, 'was not called');
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', PLACEHOLDER_SELECTOR,
 				'to have text', 'Select...');
 		});
 
