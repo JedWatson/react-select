@@ -2,9 +2,11 @@
 
 ## Breaking Changes
 
-Value component -> MultiValue
+Major API changes to Component props, SingleValue and Value have been merged
 
-Major API changes Component props, SingleValue and MultiValue have been merged
+The component is now "controlled", which means you have to pass value as a prop and always handle the `onChange` event. See https://facebook.github.io/react/docs/forms.html#controlled-components
+
+Using values that aren't in the `options` array is still supported, but they have to be full options (previous versions would expand strings into `{ label: string, value: string }`)
 
 Options & Value components get their label as their Children
 
