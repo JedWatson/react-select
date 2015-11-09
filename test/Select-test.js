@@ -634,6 +634,7 @@ describe('Select', () => {
 
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
+				name: 'out-select-control',
 				value: 'one',
 				options: options,
 				searchable: true
