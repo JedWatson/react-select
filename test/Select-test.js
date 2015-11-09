@@ -128,8 +128,17 @@ describe('Select', () => {
 
 	};
 
+	var setValueProp = value => wrapper.setPropsForChild({ value });
+
 	var createControlWithWrapper = (props) => {
-		onChange = sinon.spy();
+
+		if (props.wireUpOnChangeToValue) {
+			delete props.wireUpOnChangeToValue;
+			onChange = sinon.spy(setValueProp);
+		} else {
+			onChange = sinon.spy();
+		}
+
 		onInputChange = sinon.spy();
 
 		wrapper = TestUtils.renderIntoDocument(
@@ -915,7 +924,8 @@ describe('Select', () => {
 			];
 
 			wrapper = createControlWithWrapper({
-				options: options
+				options: options,
+				wireUpOnChangeToValue: true
 			});
 		});
 
@@ -1362,7 +1372,7 @@ describe('Select', () => {
 
 				return new Promise((resolve, reject) => {
 					input === '_FAIL'? reject('nope') : resolve({options: options});
-				})
+				});
 			});
 		});
 
