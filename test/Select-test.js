@@ -348,46 +348,6 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 
-
-		describe('after mouseEnter and leave of an option', () => {
-
-			// TODO: this behaviour has changed, and we no longer lose option focus on mouse out
-			return;
-
-			beforeEach(() => {
-				// Show the options
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
-
-				var optionTwo = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option')[1];
-				TestUtils.SimulateNative.mouseOver(optionTwo);
-				TestUtils.SimulateNative.mouseOut(optionTwo);
-			});
-
-			it('should have no focused options', () => {
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'to contain no elements matching', '.Select-option.is-focused');
-			});
-
-			it('should focus top option after down arrow pressed', () => {
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'queried for', '.Select-option.is-focused',
-					'to have items satisfying',
-					'to have text', 'One');
-
-			});
-
-			it('should focus last option after up arrow pressed', () => {
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'queried for', '.Select-option.is-focused',
-					'to have items satisfying',
-					'to have text', 'Three');
-			});
-		});
 	});
 
 	describe('with values as numbers', () => {
