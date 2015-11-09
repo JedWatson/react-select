@@ -248,10 +248,6 @@ describe('Select', () => {
 				expect(onChange, 'was called with', null);
 			});
 
-			it('should clear the display', () => {
-				expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
-					'to have text', 'Select...');
-			});
 		});
 
 		it('should focus the first value on mouse click', () => {
