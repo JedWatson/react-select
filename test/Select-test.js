@@ -675,6 +675,8 @@ describe('Select', () => {
 				value: 'something new'
 			});
 
+			// TODO: This is a genuine regression / feature change
+			// When setting the value to something not in the options, it used to use the value as the label, now nothing is selected
 			expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'something new');
 		});
