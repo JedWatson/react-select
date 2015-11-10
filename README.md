@@ -119,10 +119,9 @@ var getOptions = function(input, callback) {
 	}, 500);
 };
 
-<Select
-	name="form-field-name"
-	value="one"
-	asyncOptions={getOptions}
+<Select.Async
+    name="form-field-name"
+    loadOptions={getOptions}
 />
 ```
 
