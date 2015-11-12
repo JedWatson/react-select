@@ -109,7 +109,7 @@ const Select = React.createClass({
 			isPseudoFocused: false,
 		};
 	},
-
+	
 	componentDidMount () {
 		if (this.props.autofocus) {
 			this.focus();
