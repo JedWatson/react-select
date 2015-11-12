@@ -2537,6 +2537,36 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with onBlurResetsInput=true', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlurResetsInput: true
+				});
+				typeSearchText('test');
+			});
+
+			it('should clear the search input after calling onBlur', () => {
+				TestUtils.Simulate.blur(searchInputNode);
+				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+			});
+		});
+
+		describe('with onBlurResetsInput=false', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlurResetsInput: false
+				});
+				typeSearchText('test');
+			});
+
+			it('shouldn\'t clear the search input after calling onBlur', () => {
+				TestUtils.Simulate.blur(searchInputNode);
+				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'test');
+			});
+		});
+
 		describe('onFocus', () => {
 
 			var onFocus;

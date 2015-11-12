@@ -226,6 +226,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
 	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
+	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
