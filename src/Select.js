@@ -475,7 +475,6 @@ const Select = React.createClass({
 	renderInput (valueArray) {
 		var className = classNames('Select-input', this.props.inputProps.className);
 		if (this.props.disabled || !this.props.searchable) {
-			if (this.props.multi && valueArray.length) return;
 			return (
 				<input
 					{...this.props.inputProps}
