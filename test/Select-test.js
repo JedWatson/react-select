@@ -1607,45 +1607,35 @@ describe('Select', () => {
 
 		it('filters the existing selections from the options', () => {
 
-			wrapper.setPropsForChild({
-				value: 'four,three'
-			});
+			setValueProp(['four','three']);
 
 			typeSearchText('o');
 
 			var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
-			expect(options[0], 'to have text', 'Add "o"?');
-			expect(options[1], 'to have text', 'One');
-			expect(options[2], 'to have text', 'Two');
-			expect(options, 'to have length', 3);  // No "Four", as already selected
+
+			expect(options[0], 'to have text', 'One');
+			expect(options[1], 'to have text', 'Two');
+			expect(options, 'to have length', 2);  // No "Four", as already selected
 		});
 
 		it('removes the last selected option with backspace', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
+			setValueProp(['four','three']);
 			onChange.reset();  // Ignore previous onChange calls
 			pressBackspace();
-			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
 		it('does not remove the last selected option with backspace when backspaceRemoves=false', () => {
 
 			// Disable backspace
 			wrapper.setPropsForChild({
-				backspaceRemoves: false
+				backspaceRemoves: false,
+				value: ['four', 'three']
 			});
-
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
 			onChange.reset();  // Ignore previous onChange calls
 
 			pressBackspace();
-
 			expect(onChange, 'was not called');
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label');
 			expect(items[0], 'to have text', 'Four');
@@ -1654,18 +1644,13 @@ describe('Select', () => {
 
 		it('removes an item when clicking on the X', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
-			typeSearchText('tw');
-			pressEnterToAccept();
+			setValueProp(['four', 'three', 'two']);
 			onChange.reset();  // Ignore previous onChange calls
 
 			var threeDeleteButton = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-icon')[1];
-			TestUtils.Simulate.click(threeDeleteButton);
+			TestUtils.Simulate.mouseDown(threeDeleteButton);
 
-			expect(onChange, 'was called with', 'four,two', [
+			expect(onChange, 'was called with', [
 				{ label: 'Four', value: 'four' },
 				{ label: 'Two', value: 'two' }
 			]);
