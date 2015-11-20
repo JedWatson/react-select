@@ -1559,27 +1559,50 @@ describe('Select', () => {
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
-		it('selects a second option', () => {
+		describe('when using the option value object', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			onChange.reset();  // Ignore previous onChange calls
-			pressEnterToAccept();
-			expect(onChange, 'was called with', 'four,three',
-				[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			it('selects an additional option', () => {
+
+				setValueProp(options[3]);
+				typeSearchText('th');
+				onChange.reset();  // Ignore previous onChange calls
+				pressEnterToAccept();
+
+				expect(onChange, 'was called with',
+					[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			});
+
+			it('displays both selected options', () => {
+
+				setValueProp([options[3], options[2]]);
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
+					'to have text', 'Four');
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
+					'to have text', 'Three');
+			});
 		});
 
-		it('displays both selected options', () => {
+		describe('when using the option value', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
-				'to have text', 'Four');
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
-				'to have text', 'Three');
+			it('selects an additional option', () => {
+
+				setValueProp('four');
+				typeSearchText('th');
+				onChange.reset();  // Ignore previous onChange calls
+				pressEnterToAccept();
+
+				expect(onChange, 'was called with',
+					[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			});
+
+			it('displays both selected options', () => {
+
+				setValueProp(['four', 'three']);
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
+					'to have text', 'Four');
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
+					'to have text', 'Three');
+			});
 		});
 
 		it('filters the existing selections from the options', () => {
