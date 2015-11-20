@@ -297,7 +297,7 @@ const Select = React.createClass({
 		if (this.props.multi) {
 			if (typeof value === 'string') value = value.split(this.props.delimiter);
 			if (!Array.isArray(value)) {
-				if (!value) return [];
+				if (value === null || value === undefined) return [];
 				value = [value];
 			}
 			return value.map(this.expandValue).filter(i => i);

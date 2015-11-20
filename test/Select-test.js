@@ -469,7 +469,19 @@ describe('Select', () => {
 					]);
 			});
 
-			it('supports updating the value to 0', () => {
+			it('supports updating the value to a single value', () => {
+
+				wrapper.setPropsForChild({
+					value: 1
+				});
+
+				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-value .Select-value-label',
+					'to satisfy', [
+						expect.it('to have text', 'One')
+					]);
+			});
+
+			it('supports updating the value to single value of 0', () => {
 
 				// This test is specifically in case there's a "if (value) {... " somewhere
 				wrapper.setPropsForChild({
