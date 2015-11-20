@@ -499,7 +499,7 @@ describe('Select', () => {
 				typeSearchText('fo');
 				pressEnterToAccept(); // Select 'Four'
 
-				expect(onChange, 'was called with', '2,1,4', [
+				expect(onChange, 'was called with', [
 					{ value: 2, label: 'Two' },
 					{ value: 1, label: 'One' },
 					{ value: 4, label: 'Four' }
@@ -1548,7 +1548,6 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				searchable: true,
-				allowCreate: true,
 				multi: true
 			});
 		});
@@ -1557,7 +1556,7 @@ describe('Select', () => {
 
 			typeSearchText('fo');
 			pressEnterToAccept();
-			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
 		it('selects a second option', () => {
