@@ -32,12 +32,12 @@ describe('Value component', function() {
 			value: OPTION,
 			onRemove: sinon.spy()
 		};
-		value = TestUtils.renderIntoDocument(<Value {...props}/>);
+		value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
 	});
 
 	it('requests its own removal when the remove icon is clicked', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
-		TestUtils.Simulate.click(selectItemIcon);
+		TestUtils.Simulate.mouseDown(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
@@ -45,12 +45,6 @@ describe('Value component', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
 		TestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was called');
-	});
-
-	it('prevents event propagation, pt 1', function() {
-		var mockEvent = { stopPropagation: sinon.spy() };
-		value.blockEvent(mockEvent);
-		expect(mockEvent.stopPropagation, 'was called');
 	});
 
 	describe('without a custom click handler', function() {
