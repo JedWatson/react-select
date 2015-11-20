@@ -433,7 +433,7 @@ describe('Select', () => {
 				];
 
 				wrapper = createControlWithWrapper({
-					value: '2,1',
+					value: [2, 1],
 					options: options,
 					multi: true,
 					searchable: true
@@ -452,15 +452,14 @@ describe('Select', () => {
 			it('calls onChange with the correct value when 1 option is selected', () => {
 
 				var removeIcons = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value .Select-value-icon');
-				TestUtils.Simulate.click(removeIcons[0]);
-				// For multi-select, the "value" (first arg) to onChange is always a string
-				expect(onChange, 'was called with', '1', [{ value: 1, label: 'One' }]);
+				TestUtils.Simulate.mouseDown(removeIcons[0]);
+				expect(onChange, 'was called with', [{ value: 1, label: 'One' }]);
 			});
 
 			it('supports updating the values via props', () => {
 
 				wrapper.setPropsForChild({
-					value: '3,4'
+					value: [3, 4]
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-value .Select-value-label',
@@ -2831,7 +2830,7 @@ describe('Select', () => {
 
 			// TODO: Need to use the new Select.Async control for this
 			return;
-			
+
 			var asyncOptions;
 
 			beforeEach(() => {
