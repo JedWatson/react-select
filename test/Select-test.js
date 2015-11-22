@@ -2547,20 +2547,20 @@ describe('Select', () => {
 				instance = createControl({
 					options: defaultOptions,
 					multi: true,
-					value: 'two,one',
+					value: ['two', 'one'],
 					onValueClick: onValueClick
 				});
 			});
 
 			it('calls the function when clicking on a label', () => {
 
-				TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-value-label a'));
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('a.Select-value-label'));
 				expect(onValueClick, 'was called once');
 			});
 
 			it('calls the function with the value', () => {
 
-				TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label a')[0]);
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('a.Select-value-label')[0]);
 				expect(onValueClick, 'was called with', { value: 'two', label: '222' });
 			});
 		});
