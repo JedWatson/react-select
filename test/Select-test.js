@@ -1707,7 +1707,8 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				searchable: false,
-				multi: true
+				multi: true,
+				wireUpOnChangeToValue: true
 			});
 
 			// We need a hack here.
@@ -1726,8 +1727,6 @@ describe('Select', () => {
 
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[1]);
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 
@@ -1744,12 +1743,10 @@ describe('Select', () => {
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called once');
-			expect(onChange, 'was called with', 'two', [{ value: 'two', label: 'Two' }]);
+			expect(onChange, 'was called with', [{ value: 'two', label: 'Two' }]);
 
 			// Second item
 
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 			expect(onChange, 'was called twice');
@@ -1766,9 +1763,7 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called times', 1);
 
-			// Now get the list again,
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
+			// Now get the list again
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'One');
 			expect(items[1], 'to have text', 'Three');
@@ -1779,8 +1774,6 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[0]);
 
 			expect(onChange, 'was called times', 2);
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items[1], 'to have text', 'Four');
@@ -1790,8 +1783,6 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called times', 3);
 
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items, 'to have length', 1);
