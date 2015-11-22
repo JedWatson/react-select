@@ -1656,21 +1656,6 @@ describe('Select', () => {
 			]);
 		});
 
-		it('uses the selected text as an item when comma is pressed', () => {
-
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('new item');
-			onChange.reset();
-
-			TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 188, key: ',' });
-			expect(onChange, 'was called with', 'four,new item', [
-				{ value: 'four', label: 'Four' },
-				{ value: 'new item', label: 'new item' }
-			]);
-
-		});
-
 		describe('with late options', () => {
 
 			beforeEach(() => {
