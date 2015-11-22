@@ -694,11 +694,9 @@ describe('Select', () => {
 		it('display the raw value if the option is not available', () => {
 
 			wrapper.setPropsForChild({
-				value: 'something new'
+				value: { value: 'new', label: 'something new' }
 			});
 
-			// TODO: This is a genuine regression / feature change
-			// When setting the value to something not in the options, it used to use the value as the label, now nothing is selected
 			expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'something new');
 		});
