@@ -46,7 +46,7 @@ const Value = React.createClass({
 	renderLabel () {
 		let className = 'Select-value-label';
 		return this.props.onClick || this.props.value.href ? (
-			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.props.handleMouseDown}>
+			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 				{this.props.children}
 			</a>
 		) : (
