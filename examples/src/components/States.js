@@ -20,7 +20,8 @@ var StatesField = React.createClass({
 			country: 'AU',
 			disabled: false,
 			searchable: this.props.searchable,
-			selectValue: 'new-south-wales'
+			selectValue: 'new-south-wales',
+			clearable: true,
 		};
 	},
 	switchCountry (e) {
@@ -50,7 +51,7 @@ var StatesField = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" autofocus options={options} simpleValue name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
 
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
@@ -61,6 +62,10 @@ var StatesField = React.createClass({
 					<label className="checkbox" style={{ marginLeft: 10 }}>
 						<input type="checkbox" className="checkbox-control" name="disabled" checked={this.state.disabled} onChange={this.toggleCheckbox}/>
 						<span className="checkbox-label">Disabled</span>
+					</label>
+					<label className="checkbox" style={{ marginLeft: 10 }}>
+						<input type="checkbox" className="checkbox-control" name="clearable" checked={this.state.clearable} onChange={this.toggleCheckbox}/>
+						<span className="checkbox-label">Clearable</span>
 					</label>
 				</div>
 				<div className="checkbox-list">
