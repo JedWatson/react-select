@@ -1808,10 +1808,11 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				var instance = createControl({
+				var wrapper = createControlWithWrapper({
 					clearable: true,
 					options: defaultOptions,
-					value: 'three'
+					value: 'three',
+					wireUpOnChangeToValue: true
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
@@ -1826,14 +1827,14 @@ describe('Select', () => {
 					pressEscape();
 				});
 
-				it('calls onChange with empty', () => {
+				it('calls onChange with null', () => {
 
-					expect(onChange, 'was called with', '');
+					expect(onChange, 'was called with', null);
 				});
 
 				it('resets the display value', () => {
 
-					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+					expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
 						'to have items satisfying', 'to have text', 'Select...');
 				});
 
