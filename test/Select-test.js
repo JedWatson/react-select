@@ -2000,6 +2000,7 @@ describe('Select', () => {
 
 					instance = createControl({
 						multi: true,
+						simpleValue: true,
 						value: 'four;three',
 						delimiter: ';',
 						options: defaultOptions
@@ -2021,11 +2022,7 @@ describe('Select', () => {
 
 					typeSearchText('one');
 					pressEnterToAccept();
-					expect(onChange, 'was called with', 'four;three;one', [
-						{ value: 'four', label: 'AbcDef' },
-						{ value: 'three', label: 'Three' },
-						{ value: 'one', label: 'One' }
-					]);
+					expect(onChange, 'was called with', 'four;three;one');
 				});
 			});
 
@@ -2033,11 +2030,13 @@ describe('Select', () => {
 
 				beforeEach(() => {
 
-					instance = createControl({
+					wrapper = createControlWithWrapper({
 						multi: true,
+						simpleValue: true,
 						value: 'four==XXX==three',
 						delimiter: '==XXX==',
-						options: defaultOptions
+						options: defaultOptions,
+						wireUpOnChangeToValue: true
 					});
 				});
 
@@ -2056,11 +2055,7 @@ describe('Select', () => {
 
 					typeSearchText('one');
 					pressEnterToAccept();
-					expect(onChange, 'was called with', 'four==XXX==three==XXX==one', [
-						{ value: 'four', label: 'AbcDef' },
-						{ value: 'three', label: 'Three' },
-						{ value: 'one', label: 'One' }
-					]);
+					expect(onChange, 'was called with', 'four==XXX==three==XXX==one');
 				});
 			});
 		});
