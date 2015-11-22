@@ -2699,7 +2699,7 @@ describe('Select', () => {
 			});
 
 			it('uses the placeholder initially', () => {
-				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-placeholder',
+				expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
 					'to have items satisfying',
 					'to have text', 'Choose Option Placeholder test');
 			});
@@ -2710,7 +2710,7 @@ describe('Select', () => {
 					value: 'three'
 				});
 
-				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-placeholder',
+				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 					'to have items satisfying',
 					'to have text', 'Three');
 			});
