@@ -190,7 +190,8 @@ const Select = React.createClass({
 	closeMenu () {
 		this.setState({
 			isOpen: false,
-			isPseudoFocused: this.state.isFocused && !this.props.multi
+			isPseudoFocused: this.state.isFocused && !this.props.multi,
+			inputValue: '',
 		});
 	},
 

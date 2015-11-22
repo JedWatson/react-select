@@ -1868,10 +1868,13 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				var instance = createControl({
+				var wrapper = createControlWithWrapper({
 					clearable: false,
 					options: defaultOptions,
-					value: 'three'
+					value: 'three',
+					name: 'selectHiddenControl',
+					searchable: true,
+					wireUpOnChangeToValue: true
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
@@ -1913,6 +1916,7 @@ describe('Select', () => {
 				beforeEach(() => {
 
 					typeSearchText('abc');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Select-menu');
 				});
 
 				describe('on escape', () => {
@@ -1929,6 +1933,10 @@ describe('Select', () => {
 					it('resets the control value to the original', () => {
 
 						expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'three');
+					});
+
+					it('does not call onChange', () => {
+						expect(onChange, 'was not called');
 					});
 
 					it('renders the original display label', () => {
