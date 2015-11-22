@@ -2293,7 +2293,7 @@ describe('Select', () => {
 
 			it('adds the className on to the auto-size input', () => {
 
-				expect(ReactDOM.findDOMNode(instance.getInputNode()),
+				expect(ReactDOM.findDOMNode(instance.refs.input),
 					'to have attributes', {
 						class: ['extra-class-name', 'Select-input']
 					});
