@@ -2909,7 +2909,7 @@ describe('Select', () => {
 
 			it('renders the value using the provided renderer', () => {
 
-				var labelNode = ReactDOM.findDOMNode(instance).querySelector('.Select-value span');
+				var labelNode = ReactDOM.findDOMNode(instance).querySelector('.Select-value span.Select-value-label span');
 				expect(labelNode, 'to have text', 'THREE');
 				expect(labelNode, 'to have attributes', {
 					id: 'TESTOPTION_three'
