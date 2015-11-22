@@ -111,7 +111,10 @@ describe('Select', () => {
 		}
 	};
 
-	var createControl = (props) => {
+	var createControl = (props, options) => {
+
+		options = options || {};
+
 		onChange = sinon.spy();
 		onInputChange = sinon.spy();
 		// Render an instance of the component
@@ -122,18 +125,20 @@ describe('Select', () => {
 				{...props}
 				/>
 		);
-
-		findAndFocusInputControl();
+		if (options.initialFocus !== false) {
+			findAndFocusInputControl();
+		}
 		return instance;
 
 	};
 
 	var setValueProp = value => wrapper.setPropsForChild({ value });
 
-	var createControlWithWrapper = (props) => {
+	var createControlWithWrapper = (props, options) => {
 
-		if (props.wireUpOnChangeToValue) {
-			delete props.wireUpOnChangeToValue;
+		options = options || {};
+
+		if (options.wireUpOnChangeToValue) {
 			onChange = sinon.spy(setValueProp);
 		} else {
 			onChange = sinon.spy();
@@ -152,7 +157,9 @@ describe('Select', () => {
 
 		instance = wrapper.getChild();
 
-		findAndFocusInputControl();
+		if (options.initialFocus !== false) {
+			findAndFocusInputControl();
+		}
 
 		return wrapper;
 	};
@@ -935,7 +942,8 @@ describe('Select', () => {
 			];
 
 			wrapper = createControlWithWrapper({
-				options: options,
+				options: options
+			}, {
 				wireUpOnChangeToValue: true
 			});
 		});
@@ -1707,7 +1715,8 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				searchable: false,
-				multi: true,
+				multi: true
+			}, {
 				wireUpOnChangeToValue: true
 			});
 
@@ -1811,7 +1820,8 @@ describe('Select', () => {
 				var wrapper = createControlWithWrapper({
 					clearable: true,
 					options: defaultOptions,
-					value: 'three',
+					value: 'three'
+				}, {
 					wireUpOnChangeToValue: true
 				});
 
@@ -1873,7 +1883,8 @@ describe('Select', () => {
 					options: defaultOptions,
 					value: 'three',
 					name: 'selectHiddenControl',
-					searchable: true,
+					searchable: true
+				}, {
 					wireUpOnChangeToValue: true
 				});
 
@@ -2035,7 +2046,8 @@ describe('Select', () => {
 						simpleValue: true,
 						value: 'four==XXX==three',
 						delimiter: '==XXX==',
-						options: defaultOptions,
+						options: defaultOptions
+					}, {
 						wireUpOnChangeToValue: true
 					});
 				});
@@ -2117,9 +2129,11 @@ describe('Select', () => {
 
 				spyFilterOption = sinon.spy(filterOption);
 
-				instance = createControl({
+				wrapper = createControlWithWrapper({
 					options: defaultOptions,
 					filterOption: spyFilterOption
+				}, {
+					initialFocus: false
 				});
 			});
 
@@ -2136,6 +2150,7 @@ describe('Select', () => {
 
 				beforeEach(() => {
 
+					findAndFocusInputControl();
 					spyFilterOption.reset();
 					typeSearchText('xyz');
 				});
