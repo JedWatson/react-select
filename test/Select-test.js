@@ -2339,10 +2339,10 @@ describe('Select', () => {
 					});
 				});
 
-				it('doesn\'t pass the inputProps through', () => {
-
-					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.extra-class-name');
-					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '#search-input-id');
+				it('makes the input readonly', () => {
+					expect(React.findDOMNode(instance),
+						'queried for first', 'input.Select-input',
+						'to have attribute', 'readonly');
 				});
 			});
 		});
