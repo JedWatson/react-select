@@ -93,11 +93,6 @@ describe('Select', () => {
 		TestUtils.Simulate.mouseDown(selectArrow);
 	};
 
-	var clickDocument = () => {
-		var clickEvent = document.createEvent('MouseEvents');
-		clickEvent.initEvent('click', true, true);
-		document.dispatchEvent(clickEvent);
-	};
 
 	var findAndFocusInputControl = () => {
 		// Focus on the input, such that mouse events are accepted
@@ -111,7 +106,10 @@ describe('Select', () => {
 		}
 	};
 
-	var createControl = (props) => {
+	var createControl = (props, options) => {
+
+		options = options || {};
+
 		onChange = sinon.spy();
 		onInputChange = sinon.spy();
 		// Render an instance of the component
@@ -122,14 +120,25 @@ describe('Select', () => {
 				{...props}
 				/>
 		);
-
-		findAndFocusInputControl();
+		if (options.initialFocus !== false) {
+			findAndFocusInputControl();
+		}
 		return instance;
 
 	};
 
-	var createControlWithWrapper = (props) => {
-		onChange = sinon.spy();
+	var setValueProp = value => wrapper.setPropsForChild({ value });
+
+	var createControlWithWrapper = (props, options) => {
+
+		options = options || {};
+
+		if (options.wireUpOnChangeToValue) {
+			onChange = sinon.spy(setValueProp);
+		} else {
+			onChange = sinon.spy();
+		}
+
 		onInputChange = sinon.spy();
 
 		wrapper = TestUtils.renderIntoDocument(
@@ -143,7 +152,9 @@ describe('Select', () => {
 
 		instance = wrapper.getChild();
 
-		findAndFocusInputControl();
+		if (options.initialFocus !== false) {
+			findAndFocusInputControl();
+		}
 
 		return wrapper;
 	};
@@ -248,10 +259,6 @@ describe('Select', () => {
 				expect(onChange, 'was called with', null);
 			});
 
-			it('should clear the display', () => {
-				expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
-					'to have text', 'Select...');
-			});
 		});
 
 		it('should focus the first value on mouse click', () => {
@@ -352,46 +359,6 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 
-
-		describe('after mouseEnter and leave of an option', () => {
-
-			// TODO: this behaviour has changed, and we no longer lose option focus on mouse out
-			return;
-
-			beforeEach(() => {
-				// Show the options
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
-
-				var optionTwo = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option')[1];
-				TestUtils.SimulateNative.mouseOver(optionTwo);
-				TestUtils.SimulateNative.mouseOut(optionTwo);
-			});
-
-			it('should have no focused options', () => {
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'to contain no elements matching', '.Select-option.is-focused');
-			});
-
-			it('should focus top option after down arrow pressed', () => {
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'queried for', '.Select-option.is-focused',
-					'to have items satisfying',
-					'to have text', 'One');
-
-			});
-
-			it('should focus last option after up arrow pressed', () => {
-				var selectControl = getSelectControl(instance);
-				TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
-				var domNode = ReactDOM.findDOMNode(instance);
-				expect(domNode, 'queried for', '.Select-option.is-focused',
-					'to have items satisfying',
-					'to have text', 'Three');
-			});
-		});
 	});
 
 	describe('with values as numbers', () => {
@@ -417,7 +384,6 @@ describe('Select', () => {
 		});
 
 		it('set the initial value of the hidden input control', () => {
-			return; // TODO; broken test?
 			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '2' );
 		});
 
@@ -428,7 +394,6 @@ describe('Select', () => {
 		});
 
 		it('updates the value of the hidden input control after new value prop', () => {
-			return; // TODO; broken test?
 			wrapper.setPropsForChild({ value: 3 });
 			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '3' );
 		});
@@ -470,7 +435,7 @@ describe('Select', () => {
 				];
 
 				wrapper = createControlWithWrapper({
-					value: '2,1',
+					value: [2, 1],
 					options: options,
 					multi: true,
 					searchable: true
@@ -489,15 +454,14 @@ describe('Select', () => {
 			it('calls onChange with the correct value when 1 option is selected', () => {
 
 				var removeIcons = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value .Select-value-icon');
-				TestUtils.Simulate.click(removeIcons[0]);
-				// For multi-select, the "value" (first arg) to onChange is always a string
-				expect(onChange, 'was called with', '1', [{ value: 1, label: 'One' }]);
+				TestUtils.Simulate.mouseDown(removeIcons[0]);
+				expect(onChange, 'was called with', [{ value: 1, label: 'One' }]);
 			});
 
 			it('supports updating the values via props', () => {
 
 				wrapper.setPropsForChild({
-					value: '3,4'
+					value: [3, 4]
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-value .Select-value-label',
@@ -507,7 +471,19 @@ describe('Select', () => {
 					]);
 			});
 
-			it('supports updating the value to 0', () => {
+			it('supports updating the value to a single value', () => {
+
+				wrapper.setPropsForChild({
+					value: 1
+				});
+
+				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-value .Select-value-label',
+					'to satisfy', [
+						expect.it('to have text', 'One')
+					]);
+			});
+
+			it('supports updating the value to single value of 0', () => {
 
 				// This test is specifically in case there's a "if (value) {... " somewhere
 				wrapper.setPropsForChild({
@@ -525,7 +501,7 @@ describe('Select', () => {
 				typeSearchText('fo');
 				pressEnterToAccept(); // Select 'Four'
 
-				expect(onChange, 'was called with', '2,1,4', [
+				expect(onChange, 'was called with', [
 					{ value: 2, label: 'Two' },
 					{ value: 1, label: 'One' },
 					{ value: 4, label: 'Four' }
@@ -680,6 +656,7 @@ describe('Select', () => {
 
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
+				name: 'out-select-control',
 				value: 'one',
 				options: options,
 				searchable: true
@@ -717,7 +694,7 @@ describe('Select', () => {
 		it('display the raw value if the option is not available', () => {
 
 			wrapper.setPropsForChild({
-				value: 'something new'
+				value: { value: 'new', label: 'something new' }
 			});
 
 			expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
@@ -776,7 +753,7 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option')[1]);
 
 			expect(onChange, 'was not called');
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', PLACEHOLDER_SELECTOR,
 				'to have text', 'Select...');
 		});
 
@@ -883,7 +860,7 @@ describe('Select', () => {
 
 			TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 13, key: 'Enter' });
 			expect(onChange, 'was not called');
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', PLACEHOLDER_SELECTOR,
 				'to have text', 'Select...');
 		});
 
@@ -959,6 +936,8 @@ describe('Select', () => {
 
 			wrapper = createControlWithWrapper({
 				options: options
+			}, {
+				wireUpOnChangeToValue: true
 			});
 		});
 
@@ -1392,6 +1371,9 @@ describe('Select', () => {
 
 		var asyncOptions, callCount, callInput;
 
+		// TODO: Async Options need to use the Select.Async component
+		return;
+
 		beforeEach(() => {
 
 			asyncOptions = sinon.spy((input) => {
@@ -1405,7 +1387,7 @@ describe('Select', () => {
 
 				return new Promise((resolve, reject) => {
 					input === '_FAIL'? reject('nope') : resolve({options: options});
-				})
+				});
 			});
 		});
 
@@ -1570,7 +1552,6 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				searchable: true,
-				allowCreate: true,
 				multi: true
 			});
 		});
@@ -1579,73 +1560,86 @@ describe('Select', () => {
 
 			typeSearchText('fo');
 			pressEnterToAccept();
-			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
-		it('selects a second option', () => {
+		describe('when using the option value object', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			onChange.reset();  // Ignore previous onChange calls
-			pressEnterToAccept();
-			expect(onChange, 'was called with', 'four,three',
-				[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			it('selects an additional option', () => {
+
+				setValueProp(options[3]);
+				typeSearchText('th');
+				onChange.reset();  // Ignore previous onChange calls
+				pressEnterToAccept();
+
+				expect(onChange, 'was called with',
+					[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			});
+
+			it('displays both selected options', () => {
+
+				setValueProp([options[3], options[2]]);
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
+					'to have text', 'Four');
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
+					'to have text', 'Three');
+			});
 		});
 
-		it('displays both selected options', () => {
+		describe('when using the option value', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
-				'to have text', 'Four');
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
-				'to have text', 'Three');
+			it('selects an additional option', () => {
+
+				setValueProp('four');
+				typeSearchText('th');
+				onChange.reset();  // Ignore previous onChange calls
+				pressEnterToAccept();
+
+				expect(onChange, 'was called with',
+					[{ label: 'Four', value: 'four' }, { label: 'Three', value: 'three' }]);
+			});
+
+			it('displays both selected options', () => {
+
+				setValueProp(['four', 'three']);
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[0],
+					'to have text', 'Four');
+				expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label')[1],
+					'to have text', 'Three');
+			});
 		});
 
 		it('filters the existing selections from the options', () => {
 
-			wrapper.setPropsForChild({
-				value: 'four,three'
-			});
+			setValueProp(['four','three']);
 
 			typeSearchText('o');
 
 			var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
-			expect(options[0], 'to have text', 'Add "o"?');
-			expect(options[1], 'to have text', 'One');
-			expect(options[2], 'to have text', 'Two');
-			expect(options, 'to have length', 3);  // No "Four", as already selected
+
+			expect(options[0], 'to have text', 'One');
+			expect(options[1], 'to have text', 'Two');
+			expect(options, 'to have length', 2);  // No "Four", as already selected
 		});
 
 		it('removes the last selected option with backspace', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
+			setValueProp(['four','three']);
 			onChange.reset();  // Ignore previous onChange calls
 			pressBackspace();
-			expect(onChange, 'was called with', 'four', [{ label: 'Four', value: 'four' }]);
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
 		it('does not remove the last selected option with backspace when backspaceRemoves=false', () => {
 
 			// Disable backspace
 			wrapper.setPropsForChild({
-				backspaceRemoves: false
+				backspaceRemoves: false,
+				value: ['four', 'three']
 			});
-
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
 			onChange.reset();  // Ignore previous onChange calls
 
 			pressBackspace();
-
 			expect(onChange, 'was not called');
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label');
 			expect(items[0], 'to have text', 'Four');
@@ -1654,36 +1648,16 @@ describe('Select', () => {
 
 		it('removes an item when clicking on the X', () => {
 
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('th');
-			pressEnterToAccept();
-			typeSearchText('tw');
-			pressEnterToAccept();
+			setValueProp(['four', 'three', 'two']);
 			onChange.reset();  // Ignore previous onChange calls
 
 			var threeDeleteButton = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-icon')[1];
-			TestUtils.Simulate.click(threeDeleteButton);
+			TestUtils.Simulate.mouseDown(threeDeleteButton);
 
-			expect(onChange, 'was called with', 'four,two', [
+			expect(onChange, 'was called with', [
 				{ label: 'Four', value: 'four' },
 				{ label: 'Two', value: 'two' }
 			]);
-		});
-
-		it('uses the selected text as an item when comma is pressed', () => {
-
-			typeSearchText('fo');
-			pressEnterToAccept();
-			typeSearchText('new item');
-			onChange.reset();
-
-			TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 188, key: ',' });
-			expect(onChange, 'was called with', 'four,new item', [
-				{ value: 'four', label: 'Four' },
-				{ value: 'new item', label: 'new item' }
-			]);
-
 		});
 
 		describe('with late options', () => {
@@ -1738,6 +1712,8 @@ describe('Select', () => {
 				options: options,
 				searchable: false,
 				multi: true
+			}, {
+				wireUpOnChangeToValue: true
 			});
 
 			// We need a hack here.
@@ -1756,8 +1732,6 @@ describe('Select', () => {
 
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[1]);
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 
@@ -1774,12 +1748,10 @@ describe('Select', () => {
 			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called once');
-			expect(onChange, 'was called with', 'two', [{ value: 'two', label: 'Two' }]);
+			expect(onChange, 'was called with', [{ value: 'two', label: 'Two' }]);
 
 			// Second item
 
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			TestUtils.Simulate.mouseDown(items[0]);
 			expect(onChange, 'was called twice');
@@ -1796,9 +1768,7 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called times', 1);
 
-			// Now get the list again,
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
+			// Now get the list again
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'One');
 			expect(items[1], 'to have text', 'Three');
@@ -1809,8 +1779,6 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[0]);
 
 			expect(onChange, 'was called times', 2);
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items[1], 'to have text', 'Four');
@@ -1820,8 +1788,6 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(items[1]);
 			expect(onChange, 'was called times', 3);
 
-			// The menu is now closed, click the arrow to open it again
-			clickArrowToOpen();
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items, 'to have length', 1);
@@ -1847,10 +1813,12 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				var instance = createControl({
+				var wrapper = createControlWithWrapper({
 					clearable: true,
 					options: defaultOptions,
 					value: 'three'
+				}, {
+					wireUpOnChangeToValue: true
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
@@ -1865,14 +1833,14 @@ describe('Select', () => {
 					pressEscape();
 				});
 
-				it('calls onChange with empty', () => {
+				it('calls onChange with null', () => {
 
-					expect(onChange, 'was called with', '');
+					expect(onChange, 'was called with', null);
 				});
 
 				it('resets the display value', () => {
 
-					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+					expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
 						'to have items satisfying', 'to have text', 'Select...');
 				});
 
@@ -1884,15 +1852,15 @@ describe('Select', () => {
 
 			describe('on clicking `clear`', () => {
 				beforeEach(() => {
-					TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
 				});
 
 				it('calls onChange with empty', () => {
-					expect(onChange, 'was called with', '');
+					expect(onChange, 'was called with', null);
 				});
 
 				it('resets the display value', () => {
-					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+					expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
 						'to have items satisfying', 'to have text', 'Select...');
 				});
 
@@ -1906,10 +1874,14 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				var instance = createControl({
+				var wrapper = createControlWithWrapper({
 					clearable: false,
 					options: defaultOptions,
-					value: 'three'
+					value: 'three',
+					name: 'selectHiddenControl',
+					searchable: true
+				}, {
+					wireUpOnChangeToValue: true
 				});
 
 				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
@@ -1951,6 +1923,7 @@ describe('Select', () => {
 				beforeEach(() => {
 
 					typeSearchText('abc');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Select-menu');
 				});
 
 				describe('on escape', () => {
@@ -1967,6 +1940,10 @@ describe('Select', () => {
 					it('resets the control value to the original', () => {
 
 						expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'three');
+					});
+
+					it('does not call onChange', () => {
+						expect(onChange, 'was not called');
 					});
 
 					it('renders the original display label', () => {
@@ -2030,6 +2007,7 @@ describe('Select', () => {
 
 					instance = createControl({
 						multi: true,
+						simpleValue: true,
 						value: 'four;three',
 						delimiter: ';',
 						options: defaultOptions
@@ -2051,11 +2029,7 @@ describe('Select', () => {
 
 					typeSearchText('one');
 					pressEnterToAccept();
-					expect(onChange, 'was called with', 'four;three;one', [
-						{ value: 'four', label: 'AbcDef' },
-						{ value: 'three', label: 'Three' },
-						{ value: 'one', label: 'One' }
-					]);
+					expect(onChange, 'was called with', 'four;three;one');
 				});
 			});
 
@@ -2063,11 +2037,14 @@ describe('Select', () => {
 
 				beforeEach(() => {
 
-					instance = createControl({
+					wrapper = createControlWithWrapper({
 						multi: true,
+						simpleValue: true,
 						value: 'four==XXX==three',
 						delimiter: '==XXX==',
 						options: defaultOptions
+					}, {
+						wireUpOnChangeToValue: true
 					});
 				});
 
@@ -2086,11 +2063,7 @@ describe('Select', () => {
 
 					typeSearchText('one');
 					pressEnterToAccept();
-					expect(onChange, 'was called with', 'four==XXX==three==XXX==one', [
-						{ value: 'four', label: 'AbcDef' },
-						{ value: 'three', label: 'Three' },
-						{ value: 'one', label: 'One' }
-					]);
+					expect(onChange, 'was called with', 'four==XXX==three==XXX==one');
 				});
 			});
 		});
@@ -2152,9 +2125,11 @@ describe('Select', () => {
 
 				spyFilterOption = sinon.spy(filterOption);
 
-				instance = createControl({
+				wrapper = createControlWithWrapper({
 					options: defaultOptions,
 					filterOption: spyFilterOption
+				}, {
+					initialFocus: false
 				});
 			});
 
@@ -2171,6 +2146,7 @@ describe('Select', () => {
 
 				beforeEach(() => {
 
+					findAndFocusInputControl();
 					spyFilterOption.reset();
 					typeSearchText('xyz');
 				});
@@ -2313,7 +2289,7 @@ describe('Select', () => {
 
 			it('adds the className on to the auto-size input', () => {
 
-				expect(ReactDOM.findDOMNode(instance.getInputNode()),
+				expect(ReactDOM.findDOMNode(instance.refs.input),
 					'to have attributes', {
 						class: ['extra-class-name', 'Select-input']
 					});
@@ -2359,10 +2335,10 @@ describe('Select', () => {
 					});
 				});
 
-				it('doesn\'t pass the inputProps through', () => {
-
-					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.extra-class-name');
-					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '#search-input-id');
+				it('makes the input readonly', () => {
+					expect(React.findDOMNode(instance),
+						'queried for first', 'input.Select-input',
+						'to have attribute', 'readonly');
 				});
 			});
 		});
@@ -2567,20 +2543,20 @@ describe('Select', () => {
 				instance = createControl({
 					options: defaultOptions,
 					multi: true,
-					value: 'two,one',
+					value: ['two', 'one'],
 					onValueClick: onValueClick
 				});
 			});
 
 			it('calls the function when clicking on a label', () => {
 
-				TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-value-label a'));
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('a.Select-value-label'));
 				expect(onValueClick, 'was called once');
 			});
 
 			it('calls the function with the value', () => {
 
-				TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label a')[0]);
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('a.Select-value-label')[0]);
 				expect(onValueClick, 'was called with', { value: 'two', label: '222' });
 			});
 		});
@@ -2719,7 +2695,7 @@ describe('Select', () => {
 			});
 
 			it('uses the placeholder initially', () => {
-				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-placeholder',
+				expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
 					'to have items satisfying',
 					'to have text', 'Choose Option Placeholder test');
 			});
@@ -2730,7 +2706,7 @@ describe('Select', () => {
 					value: 'three'
 				});
 
-				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-placeholder',
+				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 					'to have items satisfying',
 					'to have text', 'Three');
 			});
@@ -2864,7 +2840,7 @@ describe('Select', () => {
 
 			// TODO: Need to use the new Select.Async control for this
 			return;
-			
+
 			var asyncOptions;
 
 			beforeEach(() => {
@@ -2929,7 +2905,7 @@ describe('Select', () => {
 
 			it('renders the value using the provided renderer', () => {
 
-				var labelNode = ReactDOM.findDOMNode(instance).querySelector('.Select-value span');
+				var labelNode = ReactDOM.findDOMNode(instance).querySelector('.Select-value span.Select-value-label span');
 				expect(labelNode, 'to have text', 'THREE');
 				expect(labelNode, 'to have attributes', {
 					id: 'TESTOPTION_three'
@@ -2988,7 +2964,7 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 				'to have length', 4);
 
-			clickDocument();
+			TestUtils.Simulate.blur(searchInputNode);
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 	});
