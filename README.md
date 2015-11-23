@@ -89,6 +89,14 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
+* By default, selected options can be cleared. To disable the possibility of clearing a particular option, add `clearableValue: false` to that option:
+```javascript
+var options = [
+	{ value: 'one', label: 'One' },
+	{ value: 'two', label: 'Two', clearableValue: false }
+];
+```
+Note: the `clearable` prop of the Select component should also be set to `false` to prevent allowing clearing all fields at once
 
 ### Async options
 

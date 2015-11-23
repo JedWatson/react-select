@@ -348,6 +348,7 @@ const Select = React.createClass({
 	popValue () {
 		var valueArray = this.getValueArray();
 		if (!valueArray.length) return;
+		if (valueArray[valueArray.length-1].clearableValue === false) return;
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
@@ -449,7 +450,7 @@ const Select = React.createClass({
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
-						disabled={this.props.disabled}
+						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
 						onRemove={this.removeValue}
