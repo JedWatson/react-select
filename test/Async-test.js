@@ -368,4 +368,142 @@ describe('Async', () => {
 			return expect(renderer, 'to have rendered', <Select options={ [] } />);
 		});
 	});
+
+	describe('with minimumInput', () => {
+
+		describe('=0', () => {
+
+			beforeEach(() => {
+				renderer.render(<Select.Async loadOptions={loadOptions} minimumInput={0} cache={false} />);
+			});
+
+			it('calls loadOptions immediately', () => {
+				// componentDidMount is not currently called with the shallowRenderer, so we need to fake it here
+				// When we upgrade to 0.15, we'll be able to use renderer.getMountedInstance()
+				// (or, componentDidMount will be called with the shallow renderer)
+				renderer._instance._instance.componentDidMount();
+				expect(loadOptions, 'was called');
+			});
+
+			it('calls loadOptions again when input returns to empty', () => {
+
+				renderer._instance._instance.componentDidMount();
+				typeSearchText('t');
+				typeSearchText('');
+				expect(loadOptions, 'was called times', 3);
+			});
+		});
+
+		describe('=3', () => {
+
+			beforeEach(() => {
+				renderer.render(<Select.Async loadOptions={loadOptions} minimumInput={3} cache={false} />);
+			});
+
+			it('does not call loadOptions initially', () => {
+
+				renderer._instance._instance.componentDidMount();
+				expect(loadOptions, 'was not called');
+			});
+
+			it('does not call loadOptions when 2 characters are entered', () => {
+
+				typeSearchText('te');
+				expect(loadOptions, 'was not called');
+			});
+
+			it('calls loadOptions when 3 characters are entered', () => {
+
+				typeSearchText('tes');
+				expect(loadOptions, 'was called');
+			});
+
+			it('resets to `type to search` when text returns to < 3', () => {
+
+				typeSearchText('tes');
+				loadOptions.args[0][1](null, { options: [ { value: 1, label: 'test1' } ] });
+
+				typeSearchText('te');
+				return expect(renderer, 'to have rendered',
+					<Select
+						options={ [] }
+						placeholder="Select..."
+						noResultsText="Type to search"
+					/>);
+
+			});
+		});
+	});
+
+	describe('with ignoreAccents', () => {
+
+		beforeEach(() => {
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				ignoreAccents={true}
+				ignoreCase={false}
+				cache={false} />);
+		});
+
+		it('calls loadOptions with unchanged text', () => {
+
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'TeSt');
+		});
+
+		it('calls loadOptions with accents stripped', () =>  {
+			typeSearchText('Gedünstmaßig');
+			// This should really be Gedunstmassig: ß -> ss
+			expect(loadOptions, 'was called with', 'Gedunstmasig');
+		});
+	});
+
+	describe('with ignore case', () => {
+
+		beforeEach(() => {
+
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				ignoreAccents={false}
+				ignoreCase={true}
+				cache={false} />);
+		});
+
+		it('converts everything to lowercase', () => {
+
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('converts accents to lowercase', () => {
+
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'wäre');
+		});
+	});
+
+	describe('with ignore case and ignore accents', () => {
+
+		beforeEach(() => {
+
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				ignoreAccents={true}
+				ignoreCase={true}
+				cache={false} />);
+		});
+
+		it('converts everything to lowercase', () => {
+
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('removes accents and converts to lowercase', () => {
+
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'ware');
+		});
+	});
 });
+
