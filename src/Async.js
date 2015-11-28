@@ -19,7 +19,7 @@ function updateCache (cache, input, data) {
 
 function getFromCache (cache, input) {
 	if (!cache) return;
-	for (let i = 0; i <= input.length; i++) {
+	for (let i = input.length; i >= 0; --i) {
 		let cacheKey = input.slice(0, i);
 		if (cache[cacheKey] && (input === cacheKey || cache[cacheKey].complete)) {
 			return cache[cacheKey];

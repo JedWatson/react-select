@@ -211,5 +211,52 @@ describe('Async', () => {
 				<Select options={ [ { value: 1, label: 'updated cache' } ] } />
 			);
 		});
+
+		it('uses the longest complete response if the responses come out-of-order', () => {
+			let resolveTe, resolveTes;
+			const promises = [];
+			promises.push(loadOptions.withArgs('te').returns(expect.promise((resolve, reject) => {
+				resolveTe = () => resolve({
+					complete: true,
+					options: [ { value: 'te', label: 'test 1' } ]
+				});
+			})));
+
+			promises.push(loadOptions.withArgs('tes').returns(expect.promise((resolve, reject) => {
+				resolveTes = () => resolve({
+					complete: true,
+					options: [ { value: 'tes', label: 'test 2' } ]
+				});
+			})));
+
+			/* Order is:
+			 * 1. User types 'te'
+			 * 2. loadOptions is called with 'te'
+			 * 3. User types 'tes'
+			 * 4. loadOptions is called with 'tes'
+			 * 5. Response for 'tes' comes back, with { complete: true }
+			 * 6. Response for 'te' comes back, with { complete: true }
+			 * 7. User types 'test'
+			 * 8. Expect that we get the results for 'tes' as options, not 'te'
+			 */
+
+			typeSearchText('te');
+			typeSearchText('tes');
+
+			resolveTes();
+			resolveTe();
+
+			return expect.promise.all(promises).then(() => {
+
+				typeSearchText('test');
+
+				expect(loadOptions, 'was called times', 2);
+				return expect(renderer, 'to have rendered', <Select options={
+					[ { value: 'tes', label: 'test 2' }]
+				} />);
+
+			});
+
+		});
 	});
 });
