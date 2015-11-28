@@ -1,0 +1,215 @@
+var unexpected = require('unexpected');
+var unexpectedReact = require('unexpected-react');
+var unexpectedSinon = require('unexpected-sinon');
+var expect = unexpected
+	.clone()
+	.installPlugin(unexpectedReact)
+	.installPlugin(unexpectedSinon);
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
+var sinon = require('sinon');
+
+
+var Select = require('../src/Select');
+if (!global.document) {
+	global.document = {};
+}
+
+describe('Async', () => {
+
+	var renderer;
+	var loadOptions;
+
+	const typeSearchText = function(text) {
+		const output = renderer.getRenderOutput();
+		// onInputChange is actually bound to loadOptions(...),
+		// loadOptions returns the promise, if there is one, so we can use this
+		// to chain the assertions onto
+		return output.props.onInputChange(text);
+	};
+
+	beforeEach(() => {
+
+		renderer = TestUtils.createRenderer();
+		loadOptions = sinon.stub();
+	});
+
+	describe('using promises', () => {
+
+
+		beforeEach(() => {
+
+			// Render an instance of the component
+			renderer.render(<Select.Async loadOptions={loadOptions} minimumInput={1}/>);
+		});
+
+
+		it('does not call loadOptions', () => {
+
+			expect(loadOptions, 'was not called');
+		});
+
+		it('renders the select with no options', () => {
+
+			return expect(renderer, 'to have rendered',
+				<Select options={ [] } noResultsText="Type to search"/>);
+		});
+
+		it('calls the loadOptions for each input', () => {
+
+			typeSearchText('te');
+			typeSearchText('tes');
+			typeSearchText('te');
+			return expect(loadOptions, 'was called times', 3);
+		});
+
+		it('shows "Loading..." after typing', () => {
+
+			typeSearchText('te');
+			return expect(renderer, 'to have rendered',
+				<Select
+					isLoading
+					placeholder="Loading..."
+					noResultsText="Searching..."
+				/>);
+		});
+
+
+		it('shows the returns options when the result returns', () => {
+
+			// Unexpected comes with promises built in - we'll use them
+			// rather than depending on another library
+			loadOptions.returns(expect.promise((resolve, reject) => {
+				resolve({ options: [{ value: 1, label: 'test' }] });
+			}));
+
+			typeSearchText('te');
+
+			return loadOptions.firstCall.returnValue.then(() => {
+
+				return expect(renderer, 'to have rendered',
+					<Select
+						isLoading={false}
+						placeholder="Select..."
+						noResultsText="No results found"
+						options={ [ { value: 1, label: 'test' } ] }
+					/>);
+			});
+		});
+
+
+		it('ignores the result of an earlier call, when the responses come in the wrong order', () => {
+
+			let promise1Resolve, promise2Resolve;
+			const promise1 = expect.promise((resolve, reject) => {
+				promise1Resolve = resolve;
+			});
+			const promise2 = expect.promise((resolve, reject) => {
+				promise2Resolve = resolve;
+			});
+
+			loadOptions.withArgs('te').returns(promise1);
+			loadOptions.withArgs('tes').returns(promise2);
+
+			const firstResult = typeSearchText('te');
+			const secondResult = typeSearchText('tes');
+
+			promise2Resolve({ options: [ { value: 2, label: 'test' } ] });
+			promise1Resolve({ options: [ { value: 1, label: 'test to ignore' } ] });
+
+			return expect.promise.all([firstResult, secondResult]).then(() => {
+				return expect(renderer, 'to have rendered',
+					<Select
+						isLoading={false}
+						placeholder="Select..."
+						noResultsText="No results found"
+						options={ [ { value: 2, label: 'test' } ] }
+					/>);
+			});
+		});
+	});
+
+	describe('with an isLoading prop', () => {
+
+		beforeEach(() => {
+
+			// Render an instance of the component
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				minimumInput={1}
+				isLoading
+			/>);
+		});
+
+		it('forces the isLoading prop on Select', () => {
+			return expect(renderer, 'to have rendered',
+			<Select
+				isLoading
+				noResultsText="Searching..."
+				placeholder="Loading..."
+			/>);
+		})
+	});
+
+	describe('with a cache', () => {
+
+		beforeEach(() => {
+
+			// Render an instance of the component
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				minimumInput={1}
+				cache={ {} }
+			/>);
+		});
+
+		it('caches previous responses', () => {
+			loadOptions.withArgs('te').returns(expect.promise((resolve,reject) => {
+				resolve({ options: [{ value: 'te', label: 'test 1' }] });
+			}));
+			loadOptions.withArgs('tes').returns(expect.promise((resolve,reject) => {
+				resolve({ options: [{ value: 'tes', label: 'test 2' } ] });
+			}));
+
+			// Need to wait for the results be returned, otherwise the cache won't be used
+			return typeSearchText('te')
+				.then(() => typeSearchText('tes'))
+				.then(() => typeSearchText('te')) // this should use the cache
+				.then(() => {
+					return expect(loadOptions, 'was called times', 2);
+				});
+		});
+
+		it('does not call `loadOptions` for a longer input, after a `complete=true` response', () => {
+			loadOptions.withArgs('te').returns(expect.promise((resolve,reject) => {
+				resolve({
+					complete: true,
+					options: [{ value: 'te', label: 'test 1' }]
+				});
+			}));
+
+			return typeSearchText('te')
+				.then(() => typeSearchText('tes'))
+				.then(() => {
+					return expect(loadOptions, 'was called once');
+				});
+		});
+
+		it('updates the cache when the cache is reset as a prop', () => {
+
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				minimumInput={1}
+				cache={ { 'tes': { options: [ { value: 1, label: 'updated cache' } ] } } }
+			/>);
+
+			typeSearchText('tes');
+			expect(loadOptions, 'was not called');
+			return expect(renderer, 'to have rendered',
+				<Select options={ [ { value: 1, label: 'updated cache' } ] } />
+			);
+		});
+	});
+});

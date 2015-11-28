@@ -29,7 +29,7 @@ function getFromCache (cache, input) {
 
 function thenPromise (promise, callback) {
 	if (!promise || typeof promise.then !== 'function') return;
-	promise.then((data) => {
+	return promise.then((data) => {
 		callback(null, data);
 	}, (err) => {
 		callback(err);
@@ -118,7 +118,7 @@ const Async = React.createClass({
 			isLoading: true,
 		});
 		let responseHandler = this.getResponseHandler(input);
-		thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
+		return thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
 	},
 	render () {
 		let { noResultsText } = this.props;
