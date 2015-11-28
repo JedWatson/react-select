@@ -132,6 +132,31 @@ describe('Async', () => {
 					/>);
 			});
 		});
+
+		it('treats a rejected promise as empty options', () => {
+
+			let promise1Resolve, promise2Reject;
+
+			const promise1 = expect.promise((resolve, reject) => {
+				promise1Resolve = resolve;
+			});
+			const promise2 = expect.promise((resolve, reject) => {
+				promise2Reject = reject;
+			});
+			loadOptions.withArgs('te').returns(promise1);
+
+			loadOptions.withArgs('tes').returns(promise2);
+
+			const result1 = typeSearchText('te');
+			const result2 = typeSearchText('tes');
+			promise1Resolve({ options: [ { value: 1, label: 'from te input'}]});
+			promise2Reject();
+
+			return expect.promise.all([ result1, result2]).then(() => {
+				// Previous results (from 'te') are thrown away, and we render with an empty options list
+				return expect(renderer, 'to have rendered', <Select options={ [] }/>);
+			});
+		});
 	});
 
 	describe('with an isLoading prop', () => {
