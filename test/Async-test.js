@@ -262,4 +262,110 @@ describe('Async', () => {
 
 		});
 	});
+
+	describe('using callbacks', () => {
+
+		beforeEach(() => {
+
+			// Render an instance of the component
+			renderer.render(<Select.Async loadOptions={loadOptions} minimumInput={1}/>);
+		});
+
+		it('shows the returns options when the result returns', () => {
+
+			typeSearchText('te');
+
+			expect(loadOptions, 'was called');
+
+			const callback = loadOptions.args[0][1];
+
+			callback(null, { options: [ { value: 1, label: 'test callback' } ] });
+
+
+			return expect(renderer, 'to have rendered',
+				<Select
+					isLoading={false}
+					placeholder="Select..."
+					noResultsText="No results found"
+					options={ [ { value: 1, label: 'test callback' } ] }
+				/>);
+		});
+
+		it('renders results for each callback', () => {
+
+			typeSearchText('te');
+			typeSearchText('tes');
+
+			expect(loadOptions, 'was called times', 2);
+
+			const callback1 = loadOptions.args[0][1];
+			const callback2 = loadOptions.args[1][1];
+
+			callback1(null, { options: [ { value: 1, label: 'test callback' } ] });
+			callback2(null, { options: [ { value: 2, label: 'test callback 2' } ] });
+
+			return expect(renderer, 'to have rendered',
+				<Select
+					isLoading={false}
+					placeholder="Select..."
+					noResultsText="No results found"
+					options={ [ { value: 2, label: 'test callback 2' } ] }
+				/>);
+		});
+
+		it('ignores callbacks from earlier requests (out-of-order responses)', () => {
+
+			typeSearchText('te');
+			typeSearchText('tes');
+
+			expect(loadOptions, 'was called times', 2);
+
+			const callback1 = loadOptions.args[0][1];
+			const callback2 = loadOptions.args[1][1];
+
+			callback2(null, { options: [ { value: 2, label: 'test callback 2' } ] });
+			// Callback1 should be ignored
+			callback1(null, { options: [ { value: 1, label: 'test callback' } ] });
+
+			return expect(renderer, 'to have rendered',
+				<Select
+					isLoading={false}
+					placeholder="Select..."
+					noResultsText="No results found"
+					options={ [ { value: 2, label: 'test callback 2' } ] }
+				/>);
+		});
+
+		it('uses the cache when available', () => {
+
+			renderer.render(<Select.Async cache={true} loadOptions={loadOptions} />);
+
+			typeSearchText('te');
+			loadOptions.args[0][1](null, { options: [ { value: 1, label: 'test1' } ] });
+			typeSearchText('tes');
+			loadOptions.args[1][1](null, { options: [ { value: 2, label: 'test2' } ] });
+			typeSearchText('te');
+
+			expect(loadOptions, 'was called times', 2);
+
+			return expect(renderer, 'to have rendered',
+				<Select options={ [ { value: 1, label: 'test1' } ] } />);
+		});
+
+		it('throws an error when the callback returns an error', () => {
+
+			typeSearchText('te');
+
+			expect(() => loadOptions.args[0][1](new Error('Something went wrong')),
+				'to throw', 'Something went wrong');
+		});
+
+		it('assumes no options when the result has no `options` property', () => {
+
+			typeSearchText('te');
+			loadOptions.args[0][1](null, [ { value: 1, label: 'should be wrapped in an object' } ] );
+
+			return expect(renderer, 'to have rendered', <Select options={ [] } />);
+		});
+	});
 });
