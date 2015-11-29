@@ -1,5 +1,9 @@
 # React-Select
 
+## v1.0.0-beta6 / 2015-11-29
+
+* Test suite complete and passing, with a couple of minor fixes thanks to @bruderstein
+
 ## v1.0.0-beta5 / 2015-11-08
 
 * Fixes issues relating to serializing simple values into the hidden field
