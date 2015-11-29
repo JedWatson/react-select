@@ -33,7 +33,7 @@ function updateCache(cache, input, data) {
 
 function getFromCache(cache, input) {
 	if (!cache) return;
-	for (var i = 0; i <= input.length; i++) {
+	for (var i = input.length; i >= 0; --i) {
 		var cacheKey = input.slice(0, i);
 		if (cache[cacheKey] && (input === cacheKey || cache[cacheKey].complete)) {
 			return cache[cacheKey];
@@ -43,7 +43,7 @@ function getFromCache(cache, input) {
 
 function thenPromise(promise, callback) {
 	if (!promise || typeof promise.then !== 'function') return;
-	promise.then(function (data) {
+	return promise.then(function (data) {
 		callback(null, data);
 	}, function (err) {
 		callback(err);
@@ -136,7 +136,7 @@ var Async = _react2['default'].createClass({
 			isLoading: true
 		});
 		var responseHandler = this.getResponseHandler(input);
-		thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
+		return thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
 	},
 	render: function render() {
 		var noResultsText = this.props.noResultsText;
@@ -297,7 +297,7 @@ var Value = _react2['default'].createClass({
 		var className = 'Select-value-label';
 		return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
 			'a',
-			{ className: className, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.props.handleMouseDown },
+			{ className: className, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
 			this.props.children
 		) : _react2['default'].createElement(
 			'span',
@@ -431,6 +431,7 @@ var Select = _react2['default'].createClass({
 		searchable: _react2['default'].PropTypes.bool, // whether to enable searching feature or not
 		simpleValue: _react2['default'].PropTypes.bool, // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: _react2['default'].PropTypes.object, // optional style to apply to the control
+		tabIndex: _react2['default'].PropTypes.string, // optional tab index of the control
 		value: _react2['default'].PropTypes.any, // initial field value
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
@@ -518,6 +519,7 @@ var Select = _react2['default'].createClass({
 
 		// for the non-searchable select, toggle the menu
 		if (!this.props.searchable) {
+			this.focus();
 			return this.setState({
 				isOpen: !this.state.isOpen
 			});
@@ -556,7 +558,8 @@ var Select = _react2['default'].createClass({
 	closeMenu: function closeMenu() {
 		this.setState({
 			isOpen: false,
-			isPseudoFocused: this.state.isFocused && !this.props.multi
+			isPseudoFocused: this.state.isFocused && !this.props.multi,
+			inputValue: ''
 		});
 	},
 
@@ -671,7 +674,7 @@ var Select = _react2['default'].createClass({
 		if (this.props.multi) {
 			if (typeof value === 'string') value = value.split(this.props.delimiter);
 			if (!Array.isArray(value)) {
-				if (!value) return [];
+				if (value === null || value === undefined) return [];
 				value = [value];
 			}
 			return value.map(this.expandValue).filter(function (i) {
@@ -868,12 +871,13 @@ var Select = _react2['default'].createClass({
 	renderInput: function renderInput(valueArray) {
 		var className = (0, _classnames2['default'])('Select-input', this.props.inputProps.className);
 		if (this.props.disabled || !this.props.searchable) {
-			if (this.props.multi && valueArray.length) return;
-			return _react2['default'].createElement(
-				'div',
-				{ className: className },
-				' '
-			);
+			return _react2['default'].createElement('div', _extends({}, this.props.inputProps, {
+				className: className,
+				tabIndex: this.props.tabIndex || 0,
+				onBlur: this.handleInputBlur,
+				onFocus: this.handleInputFocus,
+				ref: 'input',
+				style: { border: 0, width: 1, display: 'inline-block' } }));
 		}
 		return _react2['default'].createElement(_reactInputAutosize2['default'], _extends({}, this.props.inputProps, {
 			className: className,
