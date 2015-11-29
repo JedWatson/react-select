@@ -27,12 +27,13 @@
     "mocha": "^2.3.3",
     "react": "^0.14.1",
     "react-addons-test-utils": "^0.14.1",
+    "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^0.14.1",
     "react-gravatar": "^2.2.2",
-    "react-component-gulp-tasks": "^0.7.7",
     "sinon": "^1.17.2",
     "unexpected": "^10.0.2",
     "unexpected-dom": "^3.0.2",
+    "unexpected-react": "^0.3.0",
     "unexpected-sinon": "^8.0.0"
   },
   "peerDependencies": {
