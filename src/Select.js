@@ -477,17 +477,14 @@ const Select = React.createClass({
 		var className = classNames('Select-input', this.props.inputProps.className);
 		if (this.props.disabled || !this.props.searchable) {
 			return (
-				<input
+				<div
 					{...this.props.inputProps}
 					className={className}
-					tabIndex={this.props.tabIndex}
+					tabIndex={this.props.tabIndex || 0}
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
-					type="search"
-					autoComplete="off"
-					readOnly="true"
 					ref="input"
-					style={{ border: 0 }}/>
+					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
 		return (
