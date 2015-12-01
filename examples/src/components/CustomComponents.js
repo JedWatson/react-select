@@ -91,6 +91,8 @@ const UsersField = React.createClass({
 		this.setState({ value });
 	},
 	render () {
+		var placeholder = <span>&#9786; Select User</span>;
+
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
@@ -98,11 +100,14 @@ const UsersField = React.createClass({
 					onChange={this.setValue}
 					optionComponent={GravatarOption}
 					options={USERS}
-					placeholder="Select user"
+					placeholder={placeholder}
 					value={this.state.value}
 					valueComponent={GravatarValue}
 					/>
-				<div className="hint">This example implements custom Option and Value components to render a Gravatar image for each user based on their email</div>
+				<div className="hint">
+					This example implements custom Option and Value components to render a Gravatar image for each user based on their email.
+					It also demonstrates rendering HTML elements as the placeholder.
+				</div>
 			</div>
 		);
 	}

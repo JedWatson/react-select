@@ -18,7 +18,7 @@ ReactDOM.render(
 		<Contributors label="Contributors (Async)" />
 		<NumericSelect label="Numeric Values" />
 		<CustomRender label="Custom Render Methods"/>
-		<CustomComponents label="Custom Option and Value Components" />
+		<CustomComponents label="Custom Placeholder, Option and Value Components" />
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}
