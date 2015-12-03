@@ -14,8 +14,6 @@ new `simpleValue` prop for when you want to deal with values as strings or numbe
 
 `onOptionLabelClick` -> `onValueClick`
 
-CSS is now accessible from `react-select/default.css` instead of `react-select/react-select.css`
-
 ## New Select.Async Component
 
 `loadingPlaceholder` prop
