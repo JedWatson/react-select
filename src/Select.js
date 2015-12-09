@@ -29,8 +29,14 @@ const Select = React.createClass({
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		className: React.PropTypes.string,          // className for the outer element
-		clearAllText: React.PropTypes.string,       // title for the "clear" control when multi: true
-		clearValueText: React.PropTypes.string,     // title for the "clear" control
+		clearAllText:React.PropTypes.oneOfType([
+                    React.PropTypes.string,
+                    React.PropTypes.node
+                ]),                                         // title for the "clear" control when multi: true
+		clearValueText: React.PropTypes.oneOfType([
+                    React.PropTypes.string,
+                    React.PropTypes.node
+                ]),                                         // title for the "clear" control
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
@@ -49,7 +55,10 @@ const Select = React.createClass({
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
-		noResultsText: React.PropTypes.string,      // placeholder displayed when there are no matching search results
+		noResultsText: React.PropTypes.oneOfType([
+                    React.PropTypes.string,
+                    React.PropTypes.node
+                ]),                                         // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
@@ -59,7 +68,10 @@ const Select = React.createClass({
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
-		placeholder: React.PropTypes.string,        // field placeholder, displayed when there's no value
+		placeholder: React.PropTypes.oneOfType([
+                    React.PropTypes.string,
+                    React.PropTypes.node
+                ]),                                         // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
