@@ -11,7 +11,7 @@ const Option = React.createClass({
 		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
-		addLabelText: React.PropTypes.string,
+		addLabelText: React.PropTypes.string,		   // text to display with value while creating new option
 	},
 	blockEvent (event) {
 		event.preventDefault();
