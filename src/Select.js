@@ -339,11 +339,12 @@ const Select = React.createClass({
 	},
 
 	setValue (value) {
-		if (!this.props.onChange) return;
 		if (this.props.simpleValue && value) {
 			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
 		}
-		this.props.onChange(value);
+		if (this.props.onChange){
+			this.props.onChange(value);
+		}
 	},
 
 	selectValue (value) {
