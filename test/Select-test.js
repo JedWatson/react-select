@@ -1047,7 +1047,7 @@ describe('Select', () => {
 	describe('with allowCreate=true', () => {
 
 		// TODO: allowCreate hasn't been implemented yet in 1.x
-		return;
+		// return;
 
 		beforeEach(() => {
 
@@ -1060,7 +1060,8 @@ describe('Select', () => {
 				{ value: 'three', label: 'Three' },
 				{ value: 'zzzzz', label: 'test value' }
 			];
-
+			setValueProp('xyz');
+			
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: 'one',
@@ -1068,12 +1069,13 @@ describe('Select', () => {
 				allowCreate: true,
 				searchable: true,
 				addLabelText: 'Add {label} to values?'
+			}, {
+				wireUpOnChangeToValue: true
 			});
 		});
 
 		it('has an "Add xyz" option when entering xyz', () => {
 			typeSearchText('xyz');
-
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-menu .Select-option',
 				'to have items satisfying', 'to have text', 'Add xyz to values?');
 		});
@@ -1108,26 +1110,10 @@ describe('Select', () => {
 
 		it('displays an add option when a value with spaces is entered', () => {
 
-			typeSearchText('got');
+			typeSearchText(' got ');
 
 			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
 				'to have text', 'Add got to values?');
-		});
-
-		it('displays an add option when a value with spaces is entered', () => {
-
-			typeSearchText('got');
-
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
-				'to have text', 'Add got to values?');
-		});
-
-		it('displays an add option when a label with spaces is entered', () => {
-
-			typeSearchText('test');
-
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
-				'to have text', 'Add test to values?');
 		});
 
 		it('does not display the option label when an existing value is entered', () => {

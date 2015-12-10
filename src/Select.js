@@ -582,9 +582,19 @@ const Select = React.createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
+		if (options && options.length || this.props.allowCreate) {
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+			let inputValue = this.state.inputValue.trim();
+			if (this.props.allowCreate && inputValue) {
+				options = options.slice();
+				let newOption = this.props.newOptionCreator ? this.props.newOptionCreator(inputValue) : {
+					value: inputValue,
+					label: inputValue,
+					create: true
+				};
+				options.unshift(newOption);
+			}
 			return options.map((option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
@@ -606,12 +616,15 @@ const Select = React.createClass({
 						option={option}
 						isSelected={isSelected}
 						ref={optionRef}
+						addLabelText={this.props.addLabelText}
 						>
 						{renderLabel(option)}
 					</Option>
 				);
 			});
-		} else {
+		} else if (this.props.allowCreate){
+
+		} else{
 			return (
 				<div className="Select-noresults">
 					{this.props.noResultsText}

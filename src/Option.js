@@ -11,6 +11,7 @@ const Option = React.createClass({
 		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
+		addLabelText: React.PropTypes.string,		   // text to display with value while creating new option
 	},
 	blockEvent (event) {
 		event.preventDefault();
@@ -39,7 +40,6 @@ const Option = React.createClass({
 	render () {
 		var { option } = this.props;
 		var className = classNames(this.props.className, option.className);
-
 		return option.disabled ? (
 			<div className={className}
 				onMouseDown={this.blockEvent}
@@ -53,7 +53,7 @@ const Option = React.createClass({
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
 				title={option.title}>
-				{this.props.children}
+				{ option.create ? this.props.addLabelText.replace('{label}', option.label) : this.props.children }
 			</div>
 		);
 	}
