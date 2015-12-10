@@ -2,20 +2,8 @@
 // Control
 // ------------------------------
 
-// Mixins
-
-// focused styles
-.Select-focus-state(@color) {
-	border-color: @color;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px fade(@color, 10%);
-}
-// "classic" focused styles: maintain for legacy
-.Select-focus-state-classic() {
-	border-color: @select-input-border-focus lighten(@select-input-border-focus, 5%) lighten(@select-input-border-focus, 5%);
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus,50%);
-}
-
-// base
+@import 'spinner';
+@import 'mixins';
 
 .Select {
 	position: relative;
@@ -25,12 +13,12 @@
 	& div,
 	& input,
 	& span {
-		.box-sizing(border-box);
+		@include box-sizing(border-box);
 	}
 
 	// handle disabled state
 	&.is-disabled > .Select-control {
-		background-color: @select-input-bg-disabled;
+		background-color: $select-input-bg-disabled;
 		&:hover {
 			box-shadow: none;
 		}
@@ -44,14 +32,16 @@
 // base
 
 .Select-control {
-	background-color: @select-input-bg;
-	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
-	border-radius: @select-input-border-radius;
-	border: @select-input-border-width solid @select-input-border-color;
-	color: @select-text-color;
+	background-color: $select-input-bg;
+	border-color: lighten($select-input-border-color, 5%) $select-input-border-color darken($select-input-border-color, 10%);
+	border-radius: $select-input-border-radius;
+	border: $select-input-border-width solid $select-input-border-color;
+	color: $select-text-color;
 	cursor: default;
 	display: table;
-	height: @select-input-height;
+	border-spacing: 0;
+	border-collapse: separate;
+	height: $select-input-height;
 	outline: none;
 	overflow: hidden;
 	position: relative;
@@ -69,14 +59,14 @@
 }
 
 .is-open > .Select-control {
-	.border-bottom-radius( 0 );
-	background: @select-input-bg;
-	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+	@include border-bottom-radius( 0 );
+	background: $select-input-bg;
+	border-color: darken($select-input-border-color, 10%) $select-input-border-color lighten($select-input-border-color, 5%);
 
 	// flip the arrow so its pointing up when the menu is open
 	> .Select-arrow {
-		border-color: transparent transparent @select-arrow-color;
-		border-width: 0 @select-arrow-width @select-arrow-width;
+		border-color: transparent transparent $select-arrow-color;
+		border-width: 0 $select-arrow-width $select-arrow-width;
 	}
 }
 
@@ -87,7 +77,8 @@
 }
 
 .is-focused:not(.is-open) > .Select-control {
-	.Select-focus-state(@select-input-border-focus);
+	border-color: $select-input-border-focus lighten($select-input-border-focus, 5%) lighten($select-input-border-focus, 5%);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade($select-input-border-focus,50%);
 }
 
 // placeholder
@@ -95,11 +86,11 @@
 .Select-placeholder,
 :not(.Select--multi) > .Select-control .Select-value {
 	bottom: 0;
-	color: @select-input-placeholder;
+	color: $select-input-placeholder;
 	left: 0;
-	line-height: @select-input-internal-height;
-	padding-left: @select-padding-horizontal;
-	padding-right: @select-padding-horizontal;
+	line-height: $select-input-internal-height;
+	padding-left: $select-padding-horizontal;
+	padding-right: $select-padding-horizontal;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -111,19 +102,17 @@
 	white-space: nowrap;
 }
 
-.has-value:not(.Select--multi) > .Select-control > .Select-value,
+.has-value:not(.Select--multi):not(.is-focused) > .Select-control > .Select-value,
 .has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value {
 	.Select-value-label {
-		color: @select-text-color;
+		color: $select-text-color;
 	}
 	a.Select-value-label {
 		cursor: pointer;
 		text-decoration: none;
 
-		&:hover,
-		&:focus {
-			color: @select-link-hover-color;
-			outline: none;
+		&:hover {
+			color: $select-link-hover-color;
 			text-decoration: underline;
 		}
 	}
@@ -134,9 +123,9 @@
 
 .Select-input {
 	// inherits `display: inline-block` from "react-input-autosize"
-	height: @select-input-internal-height;
-	padding-left: @select-padding-horizontal;
-	padding-right: @select-padding-horizontal;
+	height: $select-input-internal-height;
+	padding-left: $select-padding-horizontal;
+	padding-right: $select-padding-horizontal;
 	vertical-align: middle;
 
 	> input {
@@ -147,7 +136,7 @@
 		display: inline-block;
 		font-family: inherit;
 		font-size: inherit;
-		height: @select-input-internal-height;
+		height: $select-input-internal-height;
 		margin: 0;
 		outline: none;
 		padding: 0;
@@ -177,10 +166,10 @@
 	position: relative;
 	text-align: center;
 	vertical-align: middle;
-	width: @select-loading-size;
+	width: $select-loading-size;
 }
 .Select-loading {
-	.Select-spinner(@select-loading-size, @select-loading-color-bg, @select-loading-color);
+	@include Select-spinner($select-loading-size, $select-loading-color-bg, $select-loading-color);
 	vertical-align: middle;
 }
 
@@ -188,26 +177,26 @@
 // the little cross that clears the field
 
 .Select-clear-zone {
-	.animation( Select-animation-fadeIn 200ms );
-	color: @select-clear-color;
+	@include animation( Select-animation-fadeIn 200ms );
+	color: $select-clear-color;
 	cursor: pointer;
 	display: table-cell;
 	position: relative;
 	text-align: center;
 	vertical-align: middle;
-	width: @select-clear-width;
+	width: $select-clear-width;
 
 	&:hover {
-		color: @select-clear-hover-color;
+		color: $select-clear-hover-color;
 	}
 }
 .Select-clear {
 	display: inline-block;
-	font-size: @select-clear-size;
+	font-size: $select-clear-size;
 	line-height: 1;
 }
 .Select--multi .Select-clear-zone {
-	width: @select-clear-width;
+	width: $select-clear-width;
 }
 
 
@@ -219,21 +208,21 @@
 	position: relative;
 	text-align: center;
 	vertical-align: middle;
-	width: (@select-arrow-width * 5);
-	padding-right: @select-arrow-width;
+	width: ($select-arrow-width * 5);
+	padding-right: $select-arrow-width;
 }
 
 .Select-arrow {
-	border-color: @select-arrow-color transparent transparent;
+	border-color: $select-arrow-color transparent transparent;
 	border-style: solid;
-	border-width: @select-arrow-width @select-arrow-width (@select-arrow-width / 2);
+	border-width: $select-arrow-width $select-arrow-width ($select-arrow-width / 2);
 	display: inline-block;
 	height: 0;
 	width: 0;
 }
 .is-open .Select-arrow,
 .Select-arrow-zone:hover > .Select-arrow {
-	border-top-color: @select-arrow-color-hover;
+	border-top-color: $select-arrow-color-hover;
 }
 
 

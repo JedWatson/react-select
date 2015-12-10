@@ -1,50 +1,59 @@
-var React = require('react');
-var classes = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var Option = React.createClass({
+const Option = React.createClass({
 	propTypes: {
-		addLabelText: React.PropTypes.string,          // string rendered in case of allowCreate option passed to ReactSelect
 		className: React.PropTypes.string,             // className (based on mouse position)
-		mouseDown: React.PropTypes.func,               // method to handle click on option element
-		mouseEnter: React.PropTypes.func,              // method to handle mouseEnter on option element
-		mouseLeave: React.PropTypes.func,              // method to handle mouseLeave on option element
+		isDisabled: React.PropTypes.bool,              // the option is disabled
+		isFocused: React.PropTypes.bool,               // the option is focused
+		isSelected: React.PropTypes.bool,              // the option is selected
+		onSelect: React.PropTypes.func,                // method to handle click on option element
+		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
+		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
-		renderFunc: React.PropTypes.func               // method passed to ReactSelect component to render label text
 	},
-
-	blockEvent: function(event) {
+	blockEvent (event) {
 		event.preventDefault();
+		event.stopPropagation();
 		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
 			return;
 		}
-
 		if (event.target.target) {
-			window.open(event.target.href);
+			window.open(event.target.href, event.target.target);
 		} else {
 			window.location.href = event.target.href;
 		}
 	},
+	handleMouseDown (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.props.onSelect(this.props.option, event);
+	},
+	handleMouseEnter (event) {
+		this.props.onFocus(this.props.option, event);
+	},
+	handleMouseMove (event) {
+		if (this.props.focused) return;
+		this.props.onFocus(this.props.option, event);
+	},
+	render () {
+		var { option } = this.props;
+		var className = classNames(this.props.className, option.className);
 
-	render: function() {
-		var obj = this.props.option;
-		var renderedLabel = this.props.renderFunc(obj);
-		var optionClasses = classes(this.props.className, obj.className);
-
-		return obj.disabled ? (
-			<div className={optionClasses}
+		return option.disabled ? (
+			<div className={className}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
-				{renderedLabel}
+				{this.props.children}
 			</div>
 		) : (
-			<div className={optionClasses}
-				 style={obj.style}
-				 onMouseEnter={this.props.mouseEnter}
-				 onMouseLeave={this.props.mouseLeave}
-				 onMouseDown={this.props.mouseDown}
-				 onClick={this.props.mouseDown}
-				 title={obj.title}>
-				{ obj.create ? this.props.addLabelText.replace('{label}', obj.label) : renderedLabel }
+			<div className={className}
+				style={option.style}
+				onMouseDown={this.handleMouseDown}
+				onMouseEnter={this.handleMouseEnter}
+				onMouseMove={this.handleMouseMove}
+				title={option.title}>
+				{this.props.children}
 			</div>
 		);
 	}

@@ -1,10 +1,143 @@
 # React-Select
 
-## v0.6.5 / 2015-08-26
+## v1.0.0-beta6 / 2015-11-29
+
+* Test suite complete and passing, with a couple of minor fixes thanks to @bruderstein
+
+## v1.0.0-beta5 / 2015-11-08
+
+* Fixes issues relating to serializing simple values into the hidden field
+
+## v1.0.0-beta4 / 2015-11-08
+
+* New default styles that match [Elemental UI](http://elemental-ui.com) and look right at home in the new [KeystoneJS Admin UI](http://keystonejs.com)
+
+We're potentially going to ship some theme stylesheets in the future, shout out on GitHub if this interests you.
+
+## v1.0.0-beta3 / 2015-11-08
+
+* The selected value populated in the hidden field has been fixed (was `"[object Object]"` before)
+* Added new `autofocus` prop
+* Fixed duplicate key error for options and values with duplicate `value` properties
+* SCSS variables now have `!default` so you can override them
+
+## v1.0.0-beta2 / 2015-11-06
+
+Changed since beta 1:
+
+* Async options cache works again
+* New style props for custom styling the component without modifying css classes: `style` `wrapperStyle` `menuStyle` `menuContainerStyle`
+* The menu opens and closes correctly when `searchable={false}`, there is still some work to do on this use-case
+
+## v1.0.0-beta1 / 2015-11-06
+
+This is a complete rewrite. Major changes include:
+
+* Everything is simpler (I'm nearly done and the source code is only 60% of the size of the last version)
+* No more timeouts or weird handlers, the restructuring has let me make everything more straight-forward
+* The options array is no longer preprocessed into state, just retrieved from props
+* The values array is now initialised in the Options array during render, and not stored in state, which along with the change to options makes the component more reliable and fixes issues with props not updating correctly
+* The component no longer stores its own value in state (ever) - it needs to be passed as a prop and handled with `onChange`.
+* Complex values are now enabled by default (so you're passed the option object, not its value); you can enable the legacy mode with a prop
+* The Value and Option components have been cleaned up as well for consistency
+* The hidden `<input>` field is now optional and the component is better suited to use in a rich React.js app than it was
+* You can disable options filtering to do the filtering externally with `onInputChange`
+* Accents on characters can now be ignored
+* The `asyncOptions` prop has been replaced by a new wrapper component: `Select.Async`
+
+Note that "Tag mode" (creating options on the fly) isn't reimplemented yet.
+
+A full guide to the breaking changes and new features will be written up soon. In the meantime please see the new examples.
+
+## v0.9.1 / 2015-11-01
+
+* added; new Contributors example w/ async options loading and custom value / label keys
+* fixed; several issues with custom `valueKey` and `labelKey` props
+* fixed; autoload now loads options with no search input
+
+## v0.9.0 / 2015-10-29
+
+* added; SCSS stylesheets!
+* improved; Options rendering should be more performant
+* breaking change; Custom `Option` components now need to pass their `option` prop to event handlers; see [this commit](https://github.com/JedWatson/react-select/commit/89af12a80a972794222b193a767f44234bbe9817) for an example of the required change.
+
+## v0.8.4 / 2015-10-27
+
+* fixed; LESS math operations now work with --strict-math=on, thanks [Vincent Fretin](https://github.com/vincentfretin)
+
+## v0.8.3 / 2015-10-27
+
+* fixed; IE issue where clicking the scrollbar would close the menu, thanks [Pete Nykänen](https://github.com/petetnt)
+
+## v0.8.2 / 2015-10-22
+
+* added; Promise support for `loadAsyncOptions`, thanks [Domenico Matteo](https://github.com/dmatteo)
+
+## v0.8.1 / 2015-10-20
+
+* fixed; `loadAsyncOptions` raises TypeError in setup, see #439 for details, thanks [Pancham Mehrunkar](https://github.com/pancham348)
+
+## v0.8.0 / 2015-10-19
+
+This release contains significant DOM structure and CSS improvements by @jossmac, including:
+
+* no more `position: absolute` for inner controls
+* `display: table` is used for layout, which works in IE8 and above, and [all other modern browsers](http://caniuse.com/#feat=css-table)
+* less "magic numbers" used for layout, should fix various browser-specific alignment issues
+* clear "x" control now animates in
+* clearer `.Select--multi` className replaces `.Select.is-multi`
+* new height & theme variables
+* "dropdown" indicator chevron is no longer displayed for multi-select controls
+
+There are no functional changes, but if you've forked the LESS / CSS to create your own theme you'll want to pay close attention to PR #527 when upgrading to this version.
+
+## v0.7.0 / 2015-10-10
+
+React Select is updated for React 0.14. If you're still using React 0.13, please continue to use `react-select@0.6.x`. There are no functional differences between v0.7.0 and v0.6.12.
+
+Additionally, our tests now require Node.js 4.x. If you are developing `react-select`, please make sure you are running the latest version of node.
+
+Thanks to @bruderstein, @dmatteo and @hull for their help getting these updates shipped!
+
+## v0.6.12 / 2015-10-02
+
+* added; `labelKey` and `valueKey` props, so you can now use different keys in `option` objects for the label and value
+* fixed; additional `isMounted()` checks in timeouts
+* fixed; componentDidUpdate timeout is reset correctly, see #208 and #434, thanks [Petr Gladkikh](https://github.com/PetrGlad)
+* fixed; mousedown event on scrollbar in menu no longer hides it, thanks [Yishai Burt](https://github.com/burtyish)
+
+## v0.6.11 / 2015-09-28
+
+* added; `isLoading` prop, allows indication of async options loading in situations where more control is required, thanks [Jon Gautsch](https://github.com/jgautsch)
+
+## v0.6.10 / 2015-09-24
+
+* fixed; a build issue with the previous release that prevented the stylesheet being generated / included
+* fixed; a LESS syntax issue, thanks [Bob Cardenas](https://github.com/bcardi)
+
+## v0.6.9 / 2015-09-19
+
+* added; `style` key for package.json, thanks [Stephen Wan](https://github.com/stephen)
+* added; `onInputChange` handler that returns the current input value, thanks [Tom Leslie](https://github.com/lomteslie)
+* fixed; simplifying handleKey function & preventDefault behaviour, thanks [davidpene](https://github.com/davidpene)
+* fixed; Display spinner while auto-loading initial data, thanks [Ben Jenkinson](https://github.com/BenJenkinson)
+* fixed; better support for touch events, thanks [Montlouis-Calixte Stéphane](https://github.com/bulby97)
+* fixed; prevent value splitting on non-multi-value select, thanks [Alan R. Soares](https://github.com/alanrsoares)
+
+## v0.6.8 / 2015-09-16
+
+* fixed; broader range of allowed prereleases for React 0.14, including rc1
+* fixed; preventing backspace from navigating back in the browser history, thanks [davidpene](https://github.com/davidpene)
+
+## v0.6.7 / 2015-08-28
+
+* fixed; missing styles for `.Select-search-prompt` and `.Select-searching` issues, thanks [Jaak Erisalu](https://github.com/jaakerisalu) and [davidpene](https://github.com/davidpene)
+
+## v0.6.6 / 2015-08-26
 
 * fixed; issue in Chrome where clicking the scrollbar would close the menu, thanks [Vladimir Matsola](https://github.com/vomchik)
 
-## v0.6.4 / 2015-08-24
+## v0.6.5 / 2015-08-24
 
 * fixed; completely ignores clicks on disabled items, unless the target of the click is a link, thanks [Ben Stahl](https://github.com/bhstahl)
 

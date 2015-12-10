@@ -9,6 +9,7 @@
 	],
 	"rules": {
 		"curly": [2, "multi-line"],
+		"jsx-quotes": 1,
 		"no-shadow": 0,
 		"no-trailing-spaces": 0,
 		"no-underscore-dangle": 0,
@@ -17,7 +18,6 @@
 		"quotes": [2, "single", "avoid-escape"],
 		"react/jsx-boolean-value": 1,
 		"react/jsx-no-undef": 1,
-		"react/jsx-quotes": 1,
 		"react/jsx-sort-prop-types": 1,
 		"react/jsx-uses-react": 1,
 		"react/jsx-uses-vars": 1,

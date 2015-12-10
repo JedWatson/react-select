@@ -3,6 +3,17 @@
 Thanks for your interest in React-Select. All forms of contribution are
 welcome, from issue reports to PRs and documentation / write-ups.
 
+* We use node.js v4 for development and testing. Due to incompatibilities with
+JSDOM and older versions of node.js, you'll need to use node 4 to run the
+tests.  If you can't install node v4 as your "default" node installation, you
+could try using [nvm](https://github.com/creationix/nvm) to install multiple
+versions concurrently.
+* If you're upgrading your node.js 0.x environment, it's sometimes necessary
+to remove the node_modules directory under react-select, and run npm install
+again, in order to ensure all the correct dependencies for the new version
+of node.js (as a minimum, you'll need to remove the `jsdom` module, and
+reinstall that).
+
 Before you open a PR:
 
 * If you're planning to add or change a major feature in a PR, please ensure

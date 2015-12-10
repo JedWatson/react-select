@@ -7,13 +7,26 @@ React-Select
 A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
+## New version 1.0.0-beta
+
+I've nearly completed a major rewrite of this component (see issue [#568](https://github.com/JedWatson/react-select/issues/568) for details and progress). The new code has been merged into `master`, and `react-select@1.0.0-beta` has been published to npm and bower.
+
+1.0.0 has some breaking changes. The documentation below still needs to be updated for the new API; notes on the changes can be found in [CHANGES.md](https://github.com/JedWatson/react-select/blob/master/CHANGES.md) and will be finalised into [HISTORY.md](https://github.com/JedWatson/react-select/blob/master/HISTORY.md) soon.
+
+Our tests need some major updates to work with the new API (see [#571](https://github.com/JedWatson/react-select/issues/571)) and are causing the build to fail, but the component is stable and robust in actual usage.
+
+Testing, feedback and PRs for the new version are appreciated.
+
+
 ## Demo & Examples
 
 Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
 
-To build the examples locally, run:
+The live demo is still running `v0.9.1`.
 
-```
+To build the **new 1.0.0** examples locally, clone this repo then run:
+
+```javascript
 npm install
 npm start
 ```
@@ -21,22 +34,11 @@ npm start
 Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 
-## Project Status
-
-This project is quite stable and ready for production use, however there are plans to improve it including:
-
-- CSS Styles and theme support (working, could be improved)
-- Documentation website (currently just examples)
-- Custom options rendering (in progress)
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
-
-
 ## Installation
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-```
+```javascript
 npm install react-select --save
 ```
 
@@ -57,7 +59,7 @@ The `value` property of each option should be set to either a string or a number
 
 When the value is changed, `onChange(newValue, [selectedOptions])` will fire.
 
-```
+```javascript
 var Select = require('react-select');
 
 var options = [
@@ -100,7 +102,7 @@ The select control will intelligently cache options for input strings that have 
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
-```
+```javascript
 var Select = require('react-select');
 
 var getOptions = function(input, callback) {
@@ -117,10 +119,60 @@ var getOptions = function(input, callback) {
 	}, 500);
 };
 
+<Select.Async
+    name="form-field-name"
+    loadOptions={getOptions}
+/>
+```
+
+### Async options with Promises
+
+`asyncOptions` now supports Promises, which can be used in very much the same way as callbacks.
+
+Everything that applies to `asyncOptions` with callbacks still applies to the Promises approach (e.g. caching, autoload, ...)
+
+An example using the `fetch` API and ES6 syntax, with an API that returns an object like:
+
+```javascript
+import Select from 'react-select';
+
+/*
+ * assuming the API returns something like this:
+ *   const json = [
+ * 	   { value: 'one', label: 'One' },
+ * 	   { value: 'two', label: 'Two' }
+ *   ]
+ */
+
+const getOptions = (input) => {
+  return fetch(`/users/${input}.json`)
+    .then((response) => {
+      return response.json();
+    }).then((json) => {
+      return { options: json };
+    });
+}
+
 <Select
 	name="form-field-name"
 	value="one"
 	asyncOptions={getOptions}
+/>
+```
+
+### Async options loaded externally
+
+If you want to load options asynchronously externally from the `Select` component, you can have the `Select` component show a loading spinner by passing in the `isLoading` prop set to `true`.
+
+```javascript
+var Select = require('react-select');
+
+var isLoadingExternally = true;
+
+<Select
+  name="form-field-name"
+	isLoading={isLoadingExternally}
+	...
 />
 ```
 
@@ -147,44 +199,63 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 ### Further options
 
 
-	Property			|	Type		|	Description
-:-----------------------|:--------------|:--------------------------------
-	addLabelText		|	string		|	text to display when allowCreate is true
-	allowCreate			|	bool		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
-	asyncOptions 		|	func		|	function to call to get options
-	autoload 			|	bool		|	whether to auto-load the default async options set
-	backspaceRemoves 	|	bool		|	whether pressing backspace removes the last item when there is no input value
-	className 			|	string		|	className for the outer element
-	clearable 			|	bool		|	should it be possible to reset value
-	clearAllText 		|	string		|	title for the "clear" control when multi: true
-	clearValueText 		|	string		|	title for the "clear" control
-	delimiter 			|	string		|	delimiter to use to join multiple values
-	disableCache 		|	bool		|	disables the options cache for asyncOptions
-	disabled 			|	bool		|	whether the Select is disabled or not
-	filterOption 		|	func		|	method to filter a single option: function(option, filterString)
-	filterOptions 		|	func		|	method to filter the options array: function([options], filterString, [values])
-	ignoreCase 			|	bool		|	whether to perform case-insensitive filtering
-	inputProps 			|	object		|	custom attributes for the Input (in the Select-control) e.g: {'data-foo': 'bar'}
-	matchPos 			|	string		|	(any, start) match the start or entire string when filtering
-	matchProp 			|	string		|	(any, label, value) which option property to filter on
-	multi 				|	bool		|	multi-value input
-	name 				|	string		|	field name, for hidden <input /> tag
-	noResultsText 		|	string		|	placeholder displayed when there are no matching search results
-	onBlur 				|	func		|	onBlur handler: function(event) {}
-	onChange 			|	func		|	onChange handler: function(newValue) {}
-	onFocus 			|	func		|	onFocus handler: function(event) {}
-	optionRenderer		|	func		|	function which returns a custom way to render the options in the menu
-	options 			|	array		|	array of options
-	placeholder 		|	string		|	field placeholder, displayed when there's no value
-	searchable 			|	bool		|	whether to enable searching feature or not
-	searchPromptText 	|	string		|	label to prompt for search input
-	value 				|	any			|	initial field value
-	valueRenderer		|	func		|	function which returns a custom way to render the value selected
+	Property	|	Type		|	Default		|	Description
+:-----------------------|:--------------|:--------------|:--------------------------------
+	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
+	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	asyncOptions 	|	func	|	undefined	|	function to call to get options
+	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
+	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
+	cacheAsyncResults	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
+	className 	|	string	|	undefined	|	className for the outer element
+	clearable 	|	bool	|	true		|	should it be possible to reset value
+	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
+	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
+	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
+	disabled 	|	bool	|	false		|	whether the Select is disabled or not
+	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
+	filterOptions 	|	func	|	undefined	|	method to filter the options array: `function([options], filterString, [values])`
+	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
+	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
+	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
+	labelKey	|	string	|	'label'		|	the option property to use for the label
+	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
+	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
+	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
+	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport	
+	multi 		|	bool	|	undefined	|	multi-value input
+	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
+	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
+	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results
+	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
+	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
+	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
+	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
+	onOptionLabelClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
+	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
+	options 	|	array	|	undefined	|	array of options
+	placeholder 	|	string	|	'Select ...'	|	field placeholder, displayed when there's no value
+	searchable 	|	bool	|	true		|	whether to enable searching feature or not
+	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
+	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
+	value 		|	any	|	undefined	|	initial field value
+	valueKey	|	string	|	'value'		|	the option property to use for the value
+	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected
 
+### Methods
+
+Right now there's simply a `focus()` method that gives the control focus. All other methods on `<Select>` elements should be considered private and prone to change.
+
+```javascript
+// focuses the input element
+<instance>.focus();
+```
 
 # Contributing
 
 See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
+
+Thanks to the projects this was inspired by: [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience), [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a quality React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 # License
