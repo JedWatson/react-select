@@ -38,6 +38,7 @@
 
 .Select-option {
 	box-sizing: border-box;
+	background-color: $select-option-bg;
 	color: $select-option-color;
 	cursor: pointer;
 	display: block;
