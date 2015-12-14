@@ -57,7 +57,8 @@ var Select = React.createClass({
 		value: React.PropTypes.any,                // initial field value
 		valueComponent: React.PropTypes.func,      // value component to render in multiple mode
 		valueKey: React.PropTypes.string,          // path of the label value in option objects
-		valueRenderer: React.PropTypes.func        // valueRenderer: function (option) {}
+		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
+		inputValue: React.PropTypes.string
 	},
 
 	getDefaultProps () {
@@ -95,7 +96,8 @@ var Select = React.createClass({
 			singleValueComponent: SingleValue,
 			value: undefined,
 			valueComponent: Value,
-			valueKey: 'value'
+			valueKey: 'value',
+			inputValue: ''
 		};
 	},
 
@@ -257,7 +259,7 @@ var Select = React.createClass({
 		return {
 			value: valueForState,
 			values: values,
-			inputValue: '',
+			inputValue: this.props.inputValue,
 			filteredOptions: filteredOptions,
 			placeholder: !this.props.multi && values.length ? values[0][this.props.labelKey] : placeholder,
 			focusedOption: focusedOption
