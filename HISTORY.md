@@ -1,5 +1,14 @@
 # React-Select
 
+## v1.0.0-beta7 / 2015-12-15
+
+* You can now use React elements for placeholders and the text props, thanks [kromit](https://github.com/kromit) and [Alyssa Biasi](https://github.com/alyssaBiasi)
+* Fixed a problem where the border doesn't show when the element is inside a table, thanks [Rodrigo Boratto](https://github.com/rwrz)
+* New prop `scrollMenuIntoView` scrolls the viewport to display the menu, thanks [Alexander Zaharakis](https://github.com/azaharakis)
+* New LESS / SCSS variable `select-option-bg` lets you control the menu option background color, thanks [Evan Goldenberg](https://github.com/Naveg)
+* Fixed an error in the blur handler on IE when the menu is not visible, thanks [Gaston Sanchez](https://github.com/gaastonsr)
+* Added support for a `clearableValue` option property in `multi` mode, thanks [Sly Bridges](https://github.com/slybridges)
+
 ## v1.0.0-beta6 / 2015-11-29
 
 * Test suite complete and passing, with a couple of minor fixes thanks to @bruderstein
