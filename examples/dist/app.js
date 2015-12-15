@@ -49,7 +49,7 @@ _reactDom2['default'].render(_react2['default'].createElement(
 	_react2['default'].createElement(_componentsContributors2['default'], { label: 'Contributors (Async)' }),
 	_react2['default'].createElement(_componentsNumericSelect2['default'], { label: 'Numeric Values' }),
 	_react2['default'].createElement(_componentsCustomRender2['default'], { label: 'Custom Render Methods' }),
-	_react2['default'].createElement(_componentsCustomComponents2['default'], { label: 'Custom Option and Value Components' })
+	_react2['default'].createElement(_componentsCustomComponents2['default'], { label: 'Custom Placeholder, Option and Value Components' })
 ), document.getElementById('example'));
 /*
 <SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
@@ -275,6 +275,12 @@ var UsersField = _react2['default'].createClass({
 		this.setState({ value: value });
 	},
 	render: function render() {
+		var placeholder = _react2['default'].createElement(
+			'span',
+			null,
+			'☺ Select User'
+		);
+
 		return _react2['default'].createElement(
 			'div',
 			{ className: 'section' },
@@ -287,14 +293,14 @@ var UsersField = _react2['default'].createClass({
 				onChange: this.setValue,
 				optionComponent: GravatarOption,
 				options: USERS,
-				placeholder: 'Select user',
+				placeholder: placeholder,
 				value: this.state.value,
 				valueComponent: GravatarValue
 			}),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'hint' },
-				'This example implements custom Option and Value components to render a Gravatar image for each user based on their email'
+				'This example implements custom Option and Value components to render a Gravatar image for each user based on their email. It also demonstrates rendering HTML elements as the placeholder.'
 			)
 		);
 	}
