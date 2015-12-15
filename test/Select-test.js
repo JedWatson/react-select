@@ -1162,7 +1162,7 @@ describe('Select', () => {
 
 			options = [
 				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
+				{ value: 'two', label: 'Two', clearableValue: false },
 				{ value: 'three', label: 'Three' },
 				{ value: 'four', label: 'Four' }
 			];
@@ -1278,6 +1278,29 @@ describe('Select', () => {
 				{ label: 'Four', value: 'four' },
 				{ label: 'Two', value: 'two' }
 			]);
+		});
+
+		it('doesn\'t show the X if clearableValue=false', () => {
+
+			setValueProp(['two']);
+			onChange.reset();  // Ignore previous onChange calls
+
+			var twoDeleteButton = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-icon')[0];
+
+			expect(twoDeleteButton, 'to be', undefined);
+		});
+
+		it('doesn\'t allow clearing with backspace if clearableValue=false on the latest element', () => {
+
+			setValueProp(['four', 'two']);
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressBackspace();
+			expect(onChange, 'was not called');
+			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value-label');
+			expect(items[0], 'to have text', 'Four');
+			expect(items[1], 'to have text', 'Two');
+
 		});
 
 		describe('with late options', () => {
