@@ -229,6 +229,7 @@
 }
 .Select-option {
   box-sizing: border-box;
+  background-color: #fff;
   color: #666666;
   cursor: pointer;
   display: block;
