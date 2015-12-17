@@ -42,7 +42,7 @@ The easiest way to use React-Select is to install it from NPM and include it in 
 npm install react-select --save
 ```
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included the following dependencies:
+You can also use the standalone build by including `dist/react-select.js` and `dist/react-select.css` in your page. If you use this, make sure you have already included the following dependencies:
 
 * [React](http://facebook.github.io/react/)
 * [classNames](http://jedwatson.github.io/classnames/)
@@ -100,7 +100,7 @@ Note: the `clearable` prop of the Select component should also be set to `false`
 
 ### Async options
 
-If you want to load options asynchronously, instead of providing an `options` Array, provide a `asyncOptions` Function.
+If you want to load options asynchronously, instead of providing an `options` Array, provide a `loadOptions` Function.
 
 The function takes two arguments `String input, Function callback`and will be called when the input text is changed.
 
@@ -135,9 +135,9 @@ var getOptions = function(input, callback) {
 
 ### Async options with Promises
 
-`asyncOptions` now supports Promises, which can be used in very much the same way as callbacks.
+`loadOptions` supports Promises, which can be used in very much the same way as callbacks.
 
-Everything that applies to `asyncOptions` with callbacks still applies to the Promises approach (e.g. caching, autoload, ...)
+Everything that applies to `loadOptions` with callbacks still applies to the Promises approach (e.g. caching, autoload, ...)
 
 An example using the `fetch` API and ES6 syntax, with an API that returns an object like:
 
@@ -161,10 +161,10 @@ const getOptions = (input) => {
     });
 }
 
-<Select
+<Select.Async
 	name="form-field-name"
 	value="one"
-	asyncOptions={getOptions}
+	loadOptions={getOptions}
 />
 ```
 
@@ -211,7 +211,6 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
-	asyncOptions 	|	func	|	undefined	|	function to call to get options
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
 	cacheAsyncResults	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
@@ -227,6 +226,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
 	labelKey	|	string	|	'label'		|	the option property to use for the label
+	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])` 
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
