@@ -7,10 +7,10 @@ const Option = React.createClass({
 		isDisabled: React.PropTypes.bool,              // the option is disabled
 		isFocused: React.PropTypes.bool,               // the option is focused
 		isSelected: React.PropTypes.bool,              // the option is selected
+    onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
 		onSelect: React.PropTypes.func,                // method to handle click on option element
-		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
-		option: React.PropTypes.object.isRequired,     // object that is base for that option
+		option: React.PropTypes.object,     // object that is base for that option
 	},
 	blockEvent (event) {
 		event.preventDefault();

@@ -20,3 +20,12 @@ bower_components
 
 # Other
 .DS_Store
+
+# Build files
+lib/
+dist/
+
+# example builds
+examples/src/example.css
+examples/src/bundle.js
+examples/src/example.css.map
