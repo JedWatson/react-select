@@ -1750,6 +1750,26 @@ describe('Select', () => {
 
 				expect(ReactDOM.findDOMNode(instance).querySelector(DISPLAYED_SELECTION_SELECTOR), 'to have text', 'Three');
 			});
+
+			describe('toggling disabled=false/disabled=true', () => {
+				// ReactDOM.render is used instead of createControl in order for the React component to update props
+				// See for more info: http://stackoverflow.com/questions/30614454/how-to-test-a-prop-update-on-react-component
+
+				let node, component;
+				beforeEach(() => {
+				    node = document.createElement('div');
+				    instance = ReactDOM.render(<Select searchable={true} value="three" options={defaultOptions} />, node);
+				});
+
+				it('should set the isFocused state to false if disabled=true', function(){
+					
+						expect(instance.state.isFocused, 'to equal', false);
+						findAndFocusInputControl();
+						expect(instance.state.isFocused, 'to equal', true);
+				    ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
+						expect(instance.state.isFocused, 'to equal', false);
+				});
+			})
 		});
 
 		describe('custom filterOption function', () => {
