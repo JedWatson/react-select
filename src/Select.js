@@ -153,8 +153,8 @@ const Select = React.createClass({
 				window.scrollTo(0, window.scrollY + menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
 		}
-		if (prevProps.disabled != this.props.disabled) {
-			this.setState({isFocused: false})
+		if (prevProps.disabled !== this.props.disabled) {
+			this.setState({ isFocused: false });
 		}
 	},
 
