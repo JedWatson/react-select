@@ -1,0 +1,7 @@
+{
+  "presets": ["es2015", "react"],
+  "plugins": ["transform-strict-mode"],
+  "ignore": [
+    "**/__test__/**/*"
+  ]
+}

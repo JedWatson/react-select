@@ -1,8 +1,9 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
+global.React = React;
 import ReactDOM from 'react-dom';
-import Select from 'react-select';
+import Select from '../../src/Select';
 
 import Contributors from './components/Contributors';
 import CustomComponents from './components/CustomComponents';

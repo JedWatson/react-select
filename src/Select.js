@@ -586,10 +586,23 @@ const Select = React.createClass({
 		}
 	},
 
-	renderMenu (options, valueArray, focusedOption) {
+  findPropChild(propType){
+    debugger;
+    switch(propType){
+      case 'optionRenderer':
+        return (Array.isArray(this.props.children) ? this.props.children : [this.props.children])
+          .filter(child => child.type === Option || child.type.displayName === 'Option')
+          .map(optionComponent => Array.isArray(optionComponent.props.children) ? optionComponent.props.children[0] : optionComponent.props.children)
+          .filter(optionChild => typeof optionChild === 'function')[0];
+      default:
+        return null;
+    }
+  },
+
+	renderMenu(options, valueArray, focusedOption) {
 		if (options && options.length) {
 			let Option = this.props.optionComponent;
-			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+			let renderLabel = this.props.optionRenderer || this.findPropChild('optionRenderer') || this.getOptionLabel;
 			return options.map((option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;

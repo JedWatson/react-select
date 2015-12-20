@@ -1,5 +1,6 @@
 import React from 'react';
-import Select from 'react-select';
+import Select from '../../../src/Select';
+import OptionComponent from '../../../src/Option';
 
 var DisabledUpsellOptions = React.createClass({
 	displayName: 'DisabledUpsellOptions',
@@ -30,15 +31,19 @@ var DisabledUpsellOptions = React.createClass({
 		];
 		return (
 			<div className="section">
+        HELLO WORLD
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
 					placeholder="Select your support level"
 					options={options}
-					optionRenderer={this.renderOption}
 					onChange={this.setValue}
 					value={this.state.value}
 					valueRenderer={this.renderValue}
-					/>
+					>
+          <OptionComponent>
+            {this.renderOption}
+          </OptionComponent>
+        </Select>
 				<div className="hint">This demonstates custom render methods and links in disabled options</div>
 			</div>
 		);
