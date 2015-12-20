@@ -99,6 +99,9 @@ var Async = _react2['default'].createClass({
 			});
 		}
 	},
+	focus: function focus() {
+		this.refs.select.focus();
+	},
 	resetState: function resetState() {
 		this._currentRequestId = -1;
 		this.setState({
@@ -153,6 +156,7 @@ var Async = _react2['default'].createClass({
 			if (isLoading) noResultsText = this.props.searchingText;
 		}
 		return _react2['default'].createElement(_Select2['default'], _extends({}, this.props, {
+			ref: 'select',
 			isLoading: isLoading,
 			noResultsText: noResultsText,
 			onInputChange: this.loadOptions,
@@ -418,6 +422,9 @@ var Select = _react2['default'].createClass({
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
 				window.scrollTo(0, window.scrollY + menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
+		}
+		if (prevProps.disabled !== this.props.disabled) {
+			this.setState({ isFocused: false });
 		}
 	},
 
