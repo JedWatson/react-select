@@ -1,5 +1,10 @@
 # React-Select
 
+## v1.0.0-beta8 / 2015-12-20
+
+* fixed; input focus bug when toggling `disabled` prop, thanks [Davide Curletti](https://github.com/dcurletti)
+* fixed; `focus()` is now exposed on the `Async` component, thanks [AugustinLF](https://github.com/AugustinLF)
+
 ## v1.0.0-beta7 / 2015-12-15
 
 * You can now use React elements for placeholders and the text props, thanks [kromit](https://github.com/kromit) and [Alyssa Biasi](https://github.com/alyssaBiasi)
