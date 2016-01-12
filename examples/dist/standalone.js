@@ -94,6 +94,7 @@ var Select = React.createClass({
 		clearValueText: React.PropTypes.string, // title for the "clear" control
 		clearable: React.PropTypes.bool, // should it be possible to reset value
 		delimiter: React.PropTypes.string, // delimiter to use to join multiple values
+		delimiterKeyCode: React.PropTypes.number, // key code for delimiter
 		disabled: React.PropTypes.bool, // whether the Select is disabled or not
 		filterOption: React.PropTypes.func, // method to filter a single option  (option, filterString)
 		filterOptions: React.PropTypes.func, // method to filter the options array: function ([options], filterString, [values])
@@ -139,6 +140,7 @@ var Select = React.createClass({
 			clearValueText: 'Clear value',
 			clearable: true,
 			delimiter: ',',
+			delimiterKeyCode: 188,
 			disabled: false,
 			ignoreCase: true,
 			inputProps: {},
@@ -556,7 +558,7 @@ var Select = React.createClass({
 				// down
 				this.focusNextOption();
 				break;
-			case 188:
+			case this.props.delimiterKeyCode:
 				// ,
 				if (this.props.allowCreate && this.props.multi) {
 					event.preventDefault();
