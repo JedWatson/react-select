@@ -247,7 +247,9 @@ const Select = React.createClass({
 			isOpen: false,
 			isPseudoFocused: false,
 		};
-		if (this.props.onBlurResetsInput) onBlurredState.inputValue = '';
+		if (this.props.onBlurResetsInput) {
+			onBlurredState.inputValue = '';
+		}
 		this.setState(onBlurredState);
 	},
 
