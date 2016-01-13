@@ -62,6 +62,7 @@ const Select = React.createClass({
 			React.PropTypes.node
 		]),                                         // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
+		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
@@ -108,6 +109,7 @@ const Select = React.createClass({
 			menuBuffer: 0,
 			multi: false,
 			noResultsText: 'No results found',
+			onBlurResetsInput: true,
 			optionComponent: Option,
 			placeholder: 'Select...',
 			searchable: true,
@@ -240,12 +242,13 @@ const Select = React.createClass({
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
 		}
-		this.setState({
-			inputValue: '',
+		var onBlurredState = {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-		});
+		};
+		if (this.props.onBlurResetsInput) onBlurredState.inputValue = '';
+		this.setState(onBlurredState);
 	},
 
 	handleInputChange (event) {
