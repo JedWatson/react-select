@@ -270,4 +270,4 @@ Thanks to the projects this was inspired by: [Selectize](http://brianreavis.gith
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2015.
+MIT Licensed. Copyright (c) Jed Watson 2016.
