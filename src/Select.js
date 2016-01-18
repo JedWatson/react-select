@@ -275,7 +275,7 @@ const Select = React.createClass({
 					return;
 				}
 				this.selectFocusedOption();
-			break;
+			return;
 			case 13: // enter
 				if (!this.state.isOpen) return;
 				this.selectFocusedOption();
