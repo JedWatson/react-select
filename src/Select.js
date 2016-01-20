@@ -25,6 +25,7 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+		autoBlur: React.PropTypes.bool,
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
@@ -163,6 +164,11 @@ const Select = React.createClass({
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
+	},
+
+	blurInput() {
+		if (!this.refs.input) return;
+		this.refs.input.blur();
 	},
 
 	handleMouseDown (event) {
@@ -348,6 +354,9 @@ const Select = React.createClass({
 	},
 
 	setValue (value) {
+		if (this.props.autoBlur){
+			this.blurInput();
+		}
 		if (!this.props.onChange) return;
 		if (this.props.simpleValue && value) {
 			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
