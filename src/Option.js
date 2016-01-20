@@ -30,11 +30,15 @@ const Option = React.createClass({
 		this.props.onSelect(this.props.option, event);
 	},
 	handleMouseEnter (event) {
-		this.props.onFocus(this.props.option, event);
+		this.onFocus(event);
 	},
 	handleMouseMove (event) {
-		if (this.props.focused) return;
-		this.props.onFocus(this.props.option, event);
+		this.onFocus(event);
+	},
+	onFocus (event) {
+		if (!this.props.isFocused) {
+			this.props.onFocus(this.props.option, event);
+		}
 	},
 	render () {
 		var { option } = this.props;
