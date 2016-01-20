@@ -136,6 +136,16 @@ const Select = React.createClass({
 	},
 
 	componentDidUpdate (prevProps, prevState) {
+		// focus to the selected option
+		if (this.refs.menu && this.refs.focused && this.state.isOpen && !this.hasScrolledToOption) {
+			let focusedOptionNode = ReactDOM.findDOMNode(this.refs.focused);
+			let menuNode = ReactDOM.findDOMNode(this.refs.menu);
+			menuNode.scrollTop = focusedOptionNode.offsetTop;
+			this.hasScrolledToOption = true;
+		} else if (!this.state.isOpen) {
+			this.hasScrolledToOption = false;
+		}
+
 		if (prevState.inputValue !== this.state.inputValue && this.props.onInputChange) {
 			this.props.onInputChange(this.state.inputValue);
 		}
@@ -220,6 +230,7 @@ const Select = React.createClass({
 			isPseudoFocused: this.state.isFocused && !this.props.multi,
 			inputValue: '',
 		});
+		this.hasScrolledToOption = false;
 	},
 
 	handleInputFocus (event) {
@@ -356,6 +367,7 @@ const Select = React.createClass({
 	},
 
 	selectValue (value) {
+		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.addValue(value);
 			this.setState({
@@ -595,6 +607,7 @@ const Select = React.createClass({
 		if (options && options.length) {
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+
 			return options.map((option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
@@ -605,6 +618,7 @@ const Select = React.createClass({
 					'is-focused': isFocused,
 					'is-disabled': option.disabled,
 				});
+
 				return (
 					<Option
 						className={optionClass}

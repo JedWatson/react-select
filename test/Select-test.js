@@ -1762,14 +1762,14 @@ describe('Select', () => {
 				});
 
 				it('should set the isFocused state to false if disabled=true', function(){
-					
+
 						expect(instance.state.isFocused, 'to equal', false);
 						findAndFocusInputControl();
 						expect(instance.state.isFocused, 'to equal', true);
 				    ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
 						expect(instance.state.isFocused, 'to equal', false);
 				});
-			})
+			});
 		});
 
 		describe('custom filterOption function', () => {
@@ -1984,7 +1984,7 @@ describe('Select', () => {
 
 			// TODO: Disabled inputs no longer have an <input>, let's wait until that settles
 			// down before updating this test to match.
-			
+
 			// describe('and disabled', () => {
 			//
 			// 	beforeEach(() => {
