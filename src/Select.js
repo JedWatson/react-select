@@ -185,6 +185,12 @@ const Select = React.createClass({
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false });
 		}
+
+		// The number of options has changed. This may have caused the bottom of the
+		// results list to be brought into view.
+		if (prevState.visibleOptions !== this.state.visibleOptions) {
+			this.checkScrolledToBottom();
+		}
 	},
 
 	focus () {
@@ -350,10 +356,19 @@ const Select = React.createClass({
 	},
 
 	handleMenuScroll (event) {
+		this.checkScrolledToBottom();
+	},
+
+	checkScrolledToBottom () {
 		if (!this.props.onMenuScrollToBottom) return;
-		let { target } = event;
-		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
-			this.props.onMenuScrollToBottom();
+		const { menu } = this.refs;
+		const isScrolledToBottom = menu &&
+			menu.scrollHeight - menu.offsetHeight - menu.scrollTop === 0;
+		if (this.state.isScrolledToBottom !== isScrolledToBottom) {
+			if (isScrolledToBottom) {
+				this.props.onMenuScrollToBottom();
+			}
+			this.setState({ isScrolledToBottom });
 		}
 	},
 
@@ -427,7 +442,7 @@ const Select = React.createClass({
 	},
 
 	removeValue (value) {
-		var valueArray = this.getValueArray();
+		const { valueArray } = this.state;
 		this.setValue(valueArray.filter(i => i !== value));
 		this.focus();
 	},
