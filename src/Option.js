@@ -12,6 +12,12 @@ const Option = React.createClass({
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
 	},
+	shouldComponentUpdate (nextProps, nextState) {
+		return (
+			this.props.className !== nextProps.className ||
+			this.props.option    !== nextProps.option
+		);
+	},
 	blockEvent (event) {
 		event.preventDefault();
 		event.stopPropagation();
