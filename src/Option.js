@@ -11,11 +11,13 @@ const Option = React.createClass({
 		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
+		renderLabel: React.PropTypes.func.isRequired
 	},
 	shouldComponentUpdate (nextProps, nextState) {
 		return (
-			this.props.className !== nextProps.className ||
-			this.props.option    !== nextProps.option
+			this.props.option      !== nextProps.option      ||
+			this.props.renderLabel !== nextProps.renderLabel ||
+			this.props.className   !== nextProps.className
 		);
 	},
 	blockEvent (event) {
@@ -47,14 +49,15 @@ const Option = React.createClass({
 		}
 	},
 	render () {
-		var { option } = this.props;
-		var className = classNames(this.props.className, option.className);
+		const { renderLabel, option } = this.props;
+		const className = classNames(this.props.className, option.className);
 
 		return option.disabled ? (
 			<div className={className}
 				onMouseDown={this.blockEvent}
-				onClick={this.blockEvent}>
-				{this.props.children}
+				onClick={this.blockEvent}
+			>
+				{renderLabel(option)}
 			</div>
 		) : (
 			<div className={className}
@@ -62,8 +65,9 @@ const Option = React.createClass({
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
-				title={option.title}>
-				{this.props.children}
+				title={option.title}
+			>
+				{renderLabel(option)}
 			</div>
 		);
 	}

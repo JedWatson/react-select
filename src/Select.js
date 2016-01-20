@@ -677,9 +677,8 @@ const Select = React.createClass({
 						option={option}
 						isSelected={isSelected}
 						ref={optionRef}
-					>
-						{renderLabel(option)}
-					</Option>
+						renderLabel={renderLabel}
+					/>
 				);
 			});
 		} else {
