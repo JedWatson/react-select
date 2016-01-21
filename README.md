@@ -227,15 +227,15 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
 	labelKey	|	string	|	'label'		|	the option property to use for the label
-	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])` 
+	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
-	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport	
+	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
-	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results
+	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
