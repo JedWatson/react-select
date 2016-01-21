@@ -17,6 +17,90 @@ function stringifyValue (value) {
 	}
 }
 
+function getValueState (state, props) {
+	const { value, delimeter, multi } = props;
+
+	if (value == null) {
+		return { valueArray: [] };
+	}
+
+	const expandValue = createValueExpander(props);
+
+	if (multi) {
+		let values = null;
+		if (typeof value === 'string') {
+			values = value.split(delimeter);
+		} else if (!Array.isArray(value)) {
+			values = [value];
+		}
+		return { valueArray: values.map(expandValue).filter(i => i) }
+	}
+
+	const expandedValue = expandValue(value);
+	return { valueArray: expandedValue ? [expandedValue] : [] };
+};
+
+const createValueExpander = props => value => {
+	if (typeof value !== 'string' && typeof value !== 'number') return value;
+	let { options, valueKey } = props;
+	if (!options) return;
+	for (var i = 0; i < options.length; i++) {
+		if (options[i][valueKey] === value) return options[i];
+	}
+};
+
+function getVisibleOptionsState (state, props) {
+	return { visibleOptions: getVisibleOptions(state, props) };
+}
+
+function getVisibleOptions (state, props) {
+	const { options, filterOptions } = props;
+	let { valueArray, inputValue } = state;
+
+	if (typeof filterOptions === 'function') {
+		return filterOptions(options, inputValue, valueArray);
+	}
+
+	if (!filterOptions) {
+		return options;
+	}
+
+	if (props.ignoreAccents) {
+		inputValue = stripDiacritics(inputValue);
+	}
+
+	if (props.ignoreCase) {
+		inputValue = inputValue.toLowerCase();
+	}
+
+	if (valueArray) {
+		valueArray = valueArray.map(i => i[props.valueKey]);
+	}
+
+	return options.filter(option => {
+		if (valueArray && valueArray.indexOf(option[props.valueKey]) > -1) return false;
+		if (props.filterOption) return props.filterOption.call(this, option, inputValue);
+		if (!inputValue) return true;
+		let valueTest = String(option[props.valueKey]);
+		let labelTest = String(option[props.labelKey]);
+		if (props.ignoreAccents) {
+			if (props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
+			if (props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);
+		}
+		if (props.ignoreCase) {
+			if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
+			if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
+		}
+		return props.matchPos === 'start' ? (
+			(props.matchProp !== 'label' && valueTest.substr(0, inputValue.length) === inputValue) ||
+			(props.matchProp !== 'value' && labelTest.substr(0, inputValue.length) === inputValue)
+		) : (
+			(props.matchProp !== 'label' && valueTest.indexOf(inputValue) >= 0) ||
+			(props.matchProp !== 'value' && labelTest.indexOf(inputValue) >= 0)
+		);
+	});
+};
+
 const Select = React.createClass({
 
 	statics: { Async },
@@ -121,17 +205,16 @@ const Select = React.createClass({
 	},
 
 	getInitialState () {
-		const valueArray = this.getValueArray();
-		return {
-			valueArray,
+		const state = {
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
 			isOpen: false,
 			isScrolledToBottom: false,
 			isPseudoFocused: false,
-			visibleOptions: this.filterOptions(valueArray, '', this.props),
-		};
+			...getValueState({}, this.props)
+		}
+		return { ...state, ...getVisibleOptionsState(state, this.props) };
 	},
 
 	componentDidMount () {
@@ -145,8 +228,7 @@ const Select = React.createClass({
 		// If value has changed, then update the stored `valueArray`.
 		let { valueArray } = this.state;
 		if (nextProps.value !== this.props.value) {
-			valueArray = this.getValueArray();
-			this.setState({ valueArray });
+			this.setState(getValueState);
 		}
 
 		// If anything changes the way results are displayed, update them.
@@ -158,10 +240,7 @@ const Select = React.createClass({
 			nextProps.matchProps    !== this.props.matchProps    ||
 			nextProps.multi         !== this.props.multi
 		) {
-			const { inputValue } = this.state;
-			this.setState({
-				visibleOptions: this.filterOptions(valueArray, inputValue, nextProps)
-			});
+			this.setState(getVisibleOptionsState);
 		}
 	},
 
@@ -297,10 +376,8 @@ const Select = React.createClass({
 	setInputValue (value) {
 		if (this.state.value !== value) {
 			this.props.onInputChange(this.state.inputValue);
-			this.setState({
-				inputValue: value,
-				visibleOptions: this.filterOptions(this.state.valueArray, value, this.props)
-			});
+			this.setState({ inputValue: value });
+			this.setState(getVisibleOptionsState);
 		}
 	},
 
@@ -374,36 +451,6 @@ const Select = React.createClass({
 
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
-	},
-
-	getValueArray () {
-		const { value, delimeter, multi } = this.props;
-
-		if (value == null) {
-			return [];
-		}
-
-		if (multi) {
-			let values = null;
-			if (typeof value === 'string') {
-				values = value.split(delimeter);
-			} else if (!Array.isArray(value)) {
-				values = [value];
-			}
-			return values.map(this.expandValue).filter(i => i);
-		}
-
-		const expandedValue = this.expandValue(value);
-		return expandedValue ? [expandedValue] : [];
-	},
-
-	expandValue (value) {
-		if (typeof value !== 'string' && typeof value !== 'number') return value;
-		let { options, valueKey } = this.props;
-		if (!options) return;
-		for (var i = 0; i < options.length; i++) {
-			if (options[i][valueKey] === value) return options[i];
-		}
 	},
 
 	setValue (value) {
@@ -607,49 +654,6 @@ const Select = React.createClass({
 				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
 			</span>
 		);
-	},
-
-	filterOptions (excludeOptions, filterValue, props) {
-		const { options } = props;
-		if (typeof props.filterOptions === 'function') {
-			return props.filterOptions.call(this, options, filterValue, excludeOptions);
-		}
-
-		if (!props.filterOptions) {
-			return options;
-		}
-
-		if (props.ignoreAccents) {
-			filterValue = stripDiacritics(filterValue);
-		}
-		if (props.ignoreCase) {
-			filterValue = filterValue.toLowerCase();
-		}
-		if (excludeOptions) {
-			excludeOptions = excludeOptions.map(i => i[props.valueKey]);
-		}
-		return options.filter(option => {
-			if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
-			if (props.filterOption) return props.filterOption.call(this, option, filterValue);
-			if (!filterValue) return true;
-			let valueTest = String(option[props.valueKey]);
-			let labelTest = String(option[props.labelKey]);
-			if (props.ignoreAccents) {
-				if (props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
-				if (props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);
-			}
-			if (props.ignoreCase) {
-				if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
-				if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
-			}
-			return props.matchPos === 'start' ? (
-				(props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
-				(props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
-			) : (
-				(props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
-				(props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
-			);
-		});
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
