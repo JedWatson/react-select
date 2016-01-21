@@ -209,6 +209,7 @@ const Select = React.createClass({
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
+			hasBeenOpened: false,
 			isOpen: false,
 			isScrolledToBottom: false,
 			isPseudoFocused: false,
@@ -261,6 +262,11 @@ const Select = React.createClass({
 				window.scrollTo(0, window.scrollY + menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
 		}
+
+		if (this.state.isOpen && !this.state.hasBeenOpened) {
+			this.setState({ hasBeenOpened: true });
+		}
+
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false });
 		}
@@ -711,7 +717,7 @@ const Select = React.createClass({
 	},
 
 	render () {
-		const { valueArray } = this.state;
+		const { hasBeenOpened, valueArray } = this.state;
 		let options = this.state.visibleOptions;
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
@@ -726,6 +732,10 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
+		const menuStyle = {
+			display: isOpen ? undefined : 'none',
+			...this.props.menuStyle,
+		};
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
@@ -736,13 +746,23 @@ const Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? (
-					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu" style={this.props.menuStyle} onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
+				{
+					// Only render options if the menu has been opened before. This saves
+					// rendering in the case that the user will never open the menu.
+					hasBeenOpened && (
+						<div ref="menuContainer" className="Select-menu-outer"
+							style={this.props.menuContainerStyle}
+						>
+							<div ref="menu" className="Select-menu"
+								style={menuStyle}
+								onScroll={this.handleMenuScroll}
+								onMouseDown={this.handleMouseDownOnMenu}
+							>
+								{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
+							</div>
 						</div>
-					</div>
-				) : null}
+					)
+				}
 			</div>
 		);
 	}
