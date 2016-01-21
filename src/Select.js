@@ -75,6 +75,7 @@ const Select = React.createClass({
 			React.PropTypes.string,
 			React.PropTypes.node
 		]),                                         // field placeholder, displayed when there's no value
+		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
@@ -112,6 +113,7 @@ const Select = React.createClass({
 			onBlurResetsInput: true,
 			optionComponent: Option,
 			placeholder: 'Select...',
+			required: false,
 			searchable: true,
 			simpleValue: false,
 			valueComponent: Value,
@@ -126,6 +128,7 @@ const Select = React.createClass({
 			isLoading: false,
 			isOpen: false,
 			isPseudoFocused: false,
+			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
 		};
 	},
 
@@ -320,6 +323,11 @@ const Select = React.createClass({
 		}
 	},
 
+	handleRequired (value, multi) {
+		if (!value) return true;
+		return (multi ? value.length === 0 : Object.keys(value).length === 0);
+	},
+
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
 	},
@@ -349,6 +357,10 @@ const Select = React.createClass({
 
 	setValue (value) {
 		if (!this.props.onChange) return;
+		if (this.props.required) {
+			const required = this.handleRequired(value, this.props.multi);
+			this.setState({required});
+		}
 		if (this.props.simpleValue && value) {
 			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
 		}
@@ -529,6 +541,7 @@ const Select = React.createClass({
 				onFocus={this.handleInputFocus}
 				minWidth="5"
 				ref="input"
+				required={this.state.required}
 				value={this.state.inputValue}
 			/>
 		);
