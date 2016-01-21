@@ -628,8 +628,8 @@ const Select = React.createClass({
 				</div>
 			);
 		} else {
-            return null;
-        }
+			return null;
+		}
 	},
 
 	renderHiddenField (valueArray) {
