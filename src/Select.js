@@ -621,12 +621,14 @@ const Select = React.createClass({
 					</Option>
 				);
 			});
-		} else {
+		} else if (this.props.noResultsText) {
 			return (
 				<div className="Select-noresults">
 					{this.props.noResultsText}
 				</div>
 			);
+		} else {
+			return null;
 		}
 	},
 

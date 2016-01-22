@@ -1762,7 +1762,7 @@ describe('Select', () => {
 				});
 
 				it('should set the isFocused state to false if disabled=true', function(){
-					
+
 						expect(instance.state.isFocused, 'to equal', false);
 						findAndFocusInputControl();
 						expect(instance.state.isFocused, 'to equal', true);
@@ -1984,7 +1984,7 @@ describe('Select', () => {
 
 			// TODO: Disabled inputs no longer have an <input>, let's wait until that settles
 			// down before updating this test to match.
-			
+
 			// describe('and disabled', () => {
 			//
 			// 	beforeEach(() => {
@@ -2147,6 +2147,17 @@ describe('Select', () => {
 				typeSearchText('DOES NOT EXIST');
 				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-menu'),
 					'to have text', 'No results unit test');
+			});
+
+			it('doesn\'t displays the text when no results are found and noResultsText is falsy', () => {
+
+				wrapper.setPropsForChild({
+					noResultsText: ''
+				});
+
+				typeSearchText('DOES NOT EXIST');
+				expect(ReactDOM.findDOMNode(instance),
+					'to contain no elements matching', '.Select-noresults');
 			});
 
 			it('supports updating the text', () => {
