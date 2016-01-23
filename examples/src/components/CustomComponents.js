@@ -25,7 +25,7 @@ const GravatarOption = React.createClass({
 		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseMove (event) {
-		if (this.props.focused) return;
+		if (this.props.isFocused) return;
 		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseLeave (event) {
