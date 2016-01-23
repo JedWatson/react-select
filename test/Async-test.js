@@ -1,3 +1,4 @@
+'use strict';
 /* eslint react/jsx-boolean-value: 0 */
 
 // Emulating the DOM here, only so that if this test file gets
