@@ -149,7 +149,7 @@ describe('Async', () => {
 
 			const result1 = typeSearchText('te');
 			const result2 = typeSearchText('tes');
-			promise1Resolve({ options: [ { value: 1, label: 'from te input'}]});
+			promise1Resolve({ options: [ { value: 1, label: 'from te input' }] });
 			promise2Reject();
 
 			return expect.promise.all([ result1, result2]).then(() => {
@@ -531,4 +531,3 @@ describe('Async', () => {
 		});
 	});
 });
-
