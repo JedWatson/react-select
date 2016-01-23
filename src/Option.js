@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 const Option = React.createClass({
 	propTypes: {
+		children: React.PropTypes.node,
 		className: React.PropTypes.string,             // className (based on mouse position)
 		isDisabled: React.PropTypes.bool,              // the option is disabled
 		isFocused: React.PropTypes.bool,               // the option is focused

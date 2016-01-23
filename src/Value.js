@@ -6,6 +6,7 @@ const Value = React.createClass({
 	displayName: 'Value',
 
 	propTypes: {
+		children: React.PropTypes.node,
 		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
 		onClick: React.PropTypes.func,                // method to handle click on value label
 		onRemove: React.PropTypes.func,               // method to handle removal of the value
