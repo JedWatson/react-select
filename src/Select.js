@@ -19,8 +19,6 @@ function stringifyValue (value) {
 
 const Select = React.createClass({
 
-	statics: { Async },
-
 	displayName: 'Select',
 
 	propTypes: {
@@ -86,6 +84,8 @@ const Select = React.createClass({
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 	},
+
+	statics: { Async },
 
 	getDefaultProps () {
 		return {
