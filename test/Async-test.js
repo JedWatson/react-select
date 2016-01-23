@@ -1,3 +1,5 @@
+/* eslint react/jsx-boolean-value: 0 */
+
 // Emulating the DOM here, only so that if this test file gets
 // included first, then React thinks there's a DOM, so the other tests
 // (e.g. Select-test.js) that do require a DOM work correctly

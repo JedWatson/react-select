@@ -1,5 +1,6 @@
 'use strict';
 /* global describe, it, beforeEach */
+/* eslint react/jsx-boolean-value: 0 */
 
 var jsdomHelper = require('../testHelpers/jsdomHelper');
 
