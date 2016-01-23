@@ -36,6 +36,11 @@ function thenPromise (promise, callback) {
 	});
 }
 
+const stringOrNode = React.PropTypes.oneOfType([
+	React.PropTypes.string,
+	React.PropTypes.node
+]);
+
 const Async = React.createClass({
 	propTypes: {
 		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
@@ -46,11 +51,7 @@ const Async = React.createClass({
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger loadOptions
 		noResultsText: React.PropTypes.string,          // placeholder displayed when there are no matching search results (shared with Select)
-		placeholder: React.PropTypes.oneOfType([        // field placeholder, displayed when there's no value (shared with Select)
-			React.PropTypes.string,
-			React.PropTypes.node
-		]),
-		searchingText: React.PropTypes.string,          // message to display while options are loading
+		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
 		searchPromptText: React.PropTypes.string,       // label to prompt for search input
 	},
 	getDefaultProps () {
