@@ -363,7 +363,7 @@ describe('Select', () => {
 			var inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 			expect(inputNode, 'to have attributes', {
 				required: undefined
-			})
+			});
 		});
 	});
 
@@ -731,7 +731,7 @@ describe('Select', () => {
 			var inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 			expect(inputNode, 'to have attributes', {
 				required: undefined
-			})
+			});
 		});
 	});
 
@@ -1782,7 +1782,7 @@ describe('Select', () => {
 				    ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
 						expect(instance.state.isFocused, 'to equal', false);
 				});
-			})
+			});
 		});
 
 		describe('custom filterOption function', () => {
@@ -2680,7 +2680,7 @@ describe('Select', () => {
 				const inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 				expect(inputNode, 'to have attributes', {
 					required: true
-				})
+				});
 			});
 
 			it('input should have required attribute after adding a value', () => {
@@ -2706,7 +2706,7 @@ describe('Select', () => {
 				const inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 				expect(inputNode, 'to have attributes', {
 					required: undefined
-				})
+				});
 			});
 
 			it('input should have required attribute after removing the value', () => {
@@ -2737,7 +2737,7 @@ describe('Select', () => {
 				const inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 				expect(inputNode, 'to have attributes', {
 					required: true
-				})
+				});
 			});
 
 			it('input should not have required attribute after adding values', () => {
@@ -2766,7 +2766,7 @@ describe('Select', () => {
 				const inputNode = ReactDOM.findDOMNode(instance).querySelector('input');
 				expect(inputNode, 'to have attributes', {
 					required: undefined
-				})
+				});
 			});
 
 			it('input should have required attribute after removing values', () => {
@@ -2782,7 +2782,7 @@ describe('Select', () => {
 				expect(instance.state.required, 'to be true');
 			});
 
-		})
+		});
 	});
 
 	describe('clicking outside', () => {

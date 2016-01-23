@@ -178,7 +178,7 @@ describe('Async', () => {
 				noResultsText="Searching..."
 				placeholder="Loading..."
 			/>);
-		})
+		});
 	});
 
 	describe('with a cache', () => {
