@@ -47,10 +47,9 @@ const Select = React.createClass({
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
-		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		menuBuffer: React.PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
-		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
+		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
@@ -60,13 +59,14 @@ const Select = React.createClass({
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
-		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
+		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
+		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
@@ -85,9 +85,9 @@ const Select = React.createClass({
 			addLabelText: 'Add "{label}"?',
 			allowCreate: false,
 			backspaceRemoves: true,
+			clearable: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
-			clearable: true,
 			delimiter: ',',
 			disabled: false,
 			escapeClearsValue: true,
@@ -99,7 +99,6 @@ const Select = React.createClass({
 			labelKey: 'label',
 			matchPos: 'any',
 			matchProp: 'any',
-			scrollMenuIntoView: true,
 			menuBuffer: 0,
 			multi: false,
 			noResultsText: 'No results found',
@@ -107,6 +106,7 @@ const Select = React.createClass({
 			optionComponent: Option,
 			placeholder: 'Select...',
 			required: false,
+			scrollMenuIntoView: true,
 			searchable: true,
 			simpleValue: false,
 			valueComponent: Value,
