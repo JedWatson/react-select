@@ -94,7 +94,6 @@ describe('Select', () => {
 		TestUtils.Simulate.mouseDown(selectArrow);
 	};
 
-
 	var findAndFocusInputControl = () => {
 		// Focus on the input, such that mouse events are accepted
 		var searchInstance = ReactDOM.findDOMNode(instance.refs.input);
@@ -260,6 +259,21 @@ describe('Select', () => {
 				expect(onChange, 'was called with', null);
 			});
 
+		});
+
+		it('should display the options menu when tapped', function() {
+			TestUtils.Simulate.touchStart(getSelectControl(instance));
+			TestUtils.Simulate.touchEnd(getSelectControl(instance));
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'queried for', '.Select-option', 'to have length', 3);
+		});
+
+		it('should not display the options menu when touched and dragged', function() {
+			TestUtils.Simulate.touchStart(getSelectControl(instance));
+			TestUtils.Simulate.touchMove(getSelectControl(instance));
+			TestUtils.Simulate.touchEnd(getSelectControl(instance));
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'to contain no elements matching', '.Select-option');
 		});
 
 		it('should focus the first value on mouse click', () => {
@@ -1523,6 +1537,42 @@ describe('Select', () => {
 
 				it('resets the control value', () => {
 					expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+				});
+			});
+
+			describe('on tapping `clear`', () => {
+				beforeEach(() => {
+					TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.touchEnd(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+				});
+
+				it('calls onChange with empty', () => {
+					expect(onChange, 'was called with', null);
+				});
+
+				it('resets the display value', () => {
+					expect(ReactDOM.findDOMNode(instance), 'queried for', PLACEHOLDER_SELECTOR,
+						'to have items satisfying', 'to have text', 'Select...');
+				});
+
+				it('resets the control value', () => {
+					expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+				});
+			});
+
+			describe('on tapping and dragging `clear`', () => {
+				beforeEach(() => {
+					TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.touchMove(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.touchEnd(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+				});
+
+				it('calls onChange with empty', () => {
+					expect(onChange, 'was not called');
+				});
+
+				it('resets the display value', () => {
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', PLACEHOLDER_SELECTOR);
 				});
 			});
 		});

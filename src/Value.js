@@ -33,12 +33,33 @@ const Value = React.createClass({
 		this.props.onRemove(this.props.value);
 	},
 
+	handleTouchEndRemove (event){
+		// Check if the view is being dragged, In this case
+		// we don't want to fire the click event (because the user only wants to scroll)
+		if(this.dragging) return;
+
+		// Fire the mouse events
+		this.onRemove(event);
+	},
+
+	handleTouchMove (event) {
+		// Set a flag that the view is being dragged
+		this.dragging = true;
+	},
+
+	handleTouchStart (event) {
+		// Set a flag that the view is not being dragged
+		this.dragging = false;
+	},
+
 	renderRemoveIcon () {
 		if (this.props.disabled || !this.props.onRemove) return;
 		return (
 			<span className="Select-value-icon"
 				onMouseDown={this.onRemove}
-				onTouchEnd={this.onRemove}>
+				onTouchEnd={this.handleTouchEndRemove}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}>
 				&times;
 			</span>
 		);

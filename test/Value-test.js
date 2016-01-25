@@ -43,8 +43,17 @@ describe('Value component', function() {
 
 	it('requests its own removal when the remove icon is touched', function() {
 		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
+		TestUtils.Simulate.touchStart(selectItemIcon);
 		TestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was called');
+	});
+
+	it('ignores its own removal when the remove icon is touched and dragged', function() {
+		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
+		TestUtils.Simulate.touchStart(selectItemIcon);
+		TestUtils.Simulate.touchMove(selectItemIcon);
+		TestUtils.Simulate.touchEnd(selectItemIcon);
+		expect(props.onRemove, 'was not called');
 	});
 
 	describe('without a custom click handler', function() {
