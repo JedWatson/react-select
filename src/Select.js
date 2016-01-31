@@ -43,6 +43,7 @@ const Select = React.createClass({
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+		hasSelectAll: React.PropTypes.bool,					// show button to select all options (for multiselect)
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
@@ -76,6 +77,7 @@ const Select = React.createClass({
 			React.PropTypes.node
 		]),                                         // field placeholder, displayed when there's no value
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
+		selectAllText: React.PropTypes.string,				// label for select all button
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
@@ -98,6 +100,7 @@ const Select = React.createClass({
 			disabled: false,
 			escapeClearsValue: true,
 			filterOptions: true,
+			hasSelectAll: false,
 			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
@@ -113,6 +116,7 @@ const Select = React.createClass({
 			optionComponent: Option,
 			placeholder: 'Select...',
 			searchable: true,
+			selectAllText: 'Select all',
 			simpleValue: false,
 			valueComponent: Value,
 			valueKey: 'value',
@@ -636,6 +640,19 @@ const Select = React.createClass({
 		return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
 	},
 
+	renderSelectAll (options) {
+		let optionClass = classNames({
+			'Select-option': true,
+			'is-select-all': true,
+			'is-focused': false, // TODO: implement
+		});
+		return (
+			<div className={optionClass} onMouseDown={(event) => this.selectAll(event, options)}>
+				{this.props.selectAllText}
+			</div>
+		);
+	},
+
 	getFocusableOption (selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return;
@@ -644,6 +661,12 @@ const Select = React.createClass({
 		for (var i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return options[i];
 		}
+	},
+
+	selectAll(event, options) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.addValue(options)
 	},
 
 	render () {
@@ -677,6 +700,7 @@ const Select = React.createClass({
 						<div ref="menu" className="Select-menu" style={this.props.menuStyle} onScroll={this.handleMenuScroll} onMouseDown={this.handleMouseDownOnMenu}>
 							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
+						{ this.props.hasSelectAll && this.props.multi && options && options.length && this.renderSelectAll(options) || null }
 					</div>
 				) : null}
 			</div>
