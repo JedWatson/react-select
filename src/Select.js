@@ -156,6 +156,10 @@ const Select = React.createClass({
 		}
 	},
 
+	blur () {
+		this.refs.input.focus();
+	}
+
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
