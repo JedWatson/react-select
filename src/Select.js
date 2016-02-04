@@ -393,9 +393,11 @@ const Select = React.createClass({
 	selectValue (value) {
 		if (this.props.multi) {
 			this.addValue(value);
-			this.setState({
-				inputValue: this.props.onSelectResetsInput ? '' : this.state.inputValue,
-			});
+			if(this.props.onSelectResetsInput) {
+				this.setState({
+					inputValue: '',
+				});
+			}
 		} else {
 			this.setValue(value);
 			this.setState({
