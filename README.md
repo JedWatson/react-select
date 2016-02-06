@@ -242,8 +242,8 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
 	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
-	onOpen	|	func	|	undefined	|	handler for when the menu opens: `function () {}`
-	onClose	|	func	|	undefined	|	handler for when the menu closes: `function () {}`
+	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
+	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string	|	'Select ...'	|	field placeholder, displayed when there's no value
