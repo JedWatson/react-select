@@ -57,9 +57,11 @@ const Select = React.createClass({
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
+		onClose: React.PropTypes.func,              // fires when the menu is closed
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
+		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
@@ -128,6 +130,13 @@ const Select = React.createClass({
 	componentDidMount () {
 		if (this.props.autofocus) {
 			this.focus();
+		}
+	},
+
+	componentWillUpdate (nextProps, nextState) {
+		if (nextState.isOpen !== this.state.isOpen) {
+			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
+			handler && handler();
 		}
 	},
 
