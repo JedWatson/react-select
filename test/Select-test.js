@@ -2332,6 +2332,50 @@ describe('Select', () => {
 			});
 		});
 
+		describe('onOpen', () => {
+			let instance = null;
+			let eventHandler = null;
+
+			beforeEach(() => {
+				eventHandler = sinon.spy();
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					value: ['two', 'one'],
+					onOpen: eventHandler
+				});
+			});
+
+			it('is called when the options are displayed', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+				expect(eventHandler, 'was called once');
+			});
+		});
+
+		describe('onClose', () => {
+			let instance = null;
+			let eventHandler = null;
+
+			beforeEach(() => {
+				eventHandler = sinon.spy();
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					value: ['two', 'one'],
+					onClose: eventHandler
+				});
+			});
+
+			it('is called after the options are hidden', () => {
+				const domNode = ReactDOM.findDOMNode(instance);
+				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
+				eventHandler.reset();
+
+				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
+				expect(eventHandler, 'was called once');
+			});
+		});
+
 		describe('optionRenderer', () => {
 
 			var optionRenderer;
