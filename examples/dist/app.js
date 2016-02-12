@@ -185,12 +185,13 @@ var GravatarOption = _react2['default'].createClass({
 	displayName: 'GravatarOption',
 
 	propTypes: {
+		children: _react2['default'].PropTypes.node,
 		className: _react2['default'].PropTypes.string,
 		isDisabled: _react2['default'].PropTypes.bool,
 		isFocused: _react2['default'].PropTypes.bool,
 		isSelected: _react2['default'].PropTypes.bool,
-		onSelect: _react2['default'].PropTypes.func,
 		onFocus: _react2['default'].PropTypes.func,
+		onSelect: _react2['default'].PropTypes.func,
 		onUnfocus: _react2['default'].PropTypes.func,
 		option: _react2['default'].PropTypes.object.isRequired
 	},
@@ -203,7 +204,7 @@ var GravatarOption = _react2['default'].createClass({
 		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseMove: function handleMouseMove(event) {
-		if (this.props.focused) return;
+		if (this.props.isFocused) return;
 		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseLeave: function handleMouseLeave(event) {
@@ -236,6 +237,7 @@ var GravatarValue = _react2['default'].createClass({
 	displayName: 'GravatarValue',
 
 	propTypes: {
+		children: _react2['default'].PropTypes.node,
 		placeholder: _react2['default'].PropTypes.string,
 		value: _react2['default'].PropTypes.object
 	},

@@ -3,12 +3,13 @@ import classNames from 'classnames';
 
 const Option = React.createClass({
 	propTypes: {
+		children: React.PropTypes.node,
 		className: React.PropTypes.string,             // className (based on mouse position)
 		isDisabled: React.PropTypes.bool,              // the option is disabled
 		isFocused: React.PropTypes.bool,               // the option is focused
 		isSelected: React.PropTypes.bool,              // the option is selected
-		onSelect: React.PropTypes.func,                // method to handle click on option element
 		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
+		onSelect: React.PropTypes.func,                // method to handle click on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
 	},
@@ -24,17 +25,43 @@ const Option = React.createClass({
 			window.location.href = event.target.href;
 		}
 	},
+
 	handleMouseDown (event) {
 		event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
 	},
+
 	handleMouseEnter (event) {
-		this.props.onFocus(this.props.option, event);
+		this.onFocus(event);
 	},
+
 	handleMouseMove (event) {
-		if (this.props.focused) return;
-		this.props.onFocus(this.props.option, event);
+		this.onFocus(event);
+	},
+
+	handleTouchEnd(event){
+		// Check if the view is being dragged, In this case
+		// we don't want to fire the click event (because the user only wants to scroll)
+		if(this.dragging) return;
+
+		this.handleMouseDown(event);
+	},
+
+	handleTouchMove (event) {
+		// Set a flag that the view is being dragged
+		this.dragging = true;
+	},
+
+	handleTouchStart (event) {
+		// Set a flag that the view is not being dragged
+		this.dragging = false;
+	},
+
+	onFocus (event) {
+		if (!this.props.isFocused) {
+			this.props.onFocus(this.props.option, event);
+		}
 	},
 	render () {
 		var { option } = this.props;
@@ -52,6 +79,9 @@ const Option = React.createClass({
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}
+				onTouchEnd={this.handleTouchEnd}
 				title={option.title}>
 				{this.props.children}
 			</div>

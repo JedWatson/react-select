@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "react-input-autosize": "^0.6.6"
+    "react-input-autosize": "^0.6.8"
   },
   "devDependencies": {
     "babel": "^5.8.23",
@@ -29,9 +29,9 @@
     "react-addons-test-utils": "^0.14.0",
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^0.14.0",
-    "react-gravatar": "^2.2.2",
+    "react-gravatar": "^2.3.0",
     "sinon": "^1.17.2",
-    "unexpected": "^10.5.1",
+    "unexpected": "^10.7.0",
     "unexpected-dom": "^3.0.2",
     "unexpected-react": "^0.5.1",
     "unexpected-sinon": "^9.0.4"
