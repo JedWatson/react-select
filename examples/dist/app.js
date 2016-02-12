@@ -996,22 +996,22 @@ module.exports = React.createClass({
       modernBrowser = 'srcset' in document.createElement('img');
     }
     if (!modernBrowser && isRetina()) {
-      return React.createElement("img", {
+      return React.createElement("img", React.__spread({
         "style": this.props.style,
         "className": "react-gravatar " + this.props.className,
         "src": retinaSrc,
         "height": this.props.size,
         "width": this.props.size
-      });
+      }, this.props));
     } else {
-      return React.createElement("img", {
+      return React.createElement("img", React.__spread({
         "style": this.props.style,
         "className": "react-gravatar " + this.props.className,
         "src": src,
         "srcSet": retinaSrc + " 2x",
         "height": this.props.size,
         "width": this.props.size
-      });
+      }, this.props));
     }
   }
 });
