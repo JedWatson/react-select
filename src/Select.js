@@ -28,8 +28,8 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
-		autoBlur: React.PropTypes.bool,
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
+		autoBlur: React.PropTypes.bool,
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		className: React.PropTypes.string,          // className for the outer element
