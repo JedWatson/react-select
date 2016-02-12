@@ -1,5 +1,19 @@
 # React-Select
 
+## v1.0.0-beta9 / 2015-02-12
+
+* added; onBlurResetsInput prop, thanks [Sly Bridges](https://github.com/slybridges)
+* changed; Enter selects and retains focus, Tab selects and shifts focus, thanks [RDX](https://github.com/rdsubhas)
+* fixed; Hide noResultsText when value is falsy, thanks [Fernando Alex Helwanger](https://github.com/fhelwanger)
+* added; `required` prop, adds HTML5 required attribute, thanks [Domenico Matteo](https://github.com/dmatteo)
+* fixed; Touch drag behaviour, thanks [Pavel Tarnopolsky](https://github.com/Paveltarno)
+* added; `onOpen` and `onClose` event props, thanks [Jacob Page](https://github.com/DullReferenceException)
+* fixed; Pressing Enter on open Select should stop propagation, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* fixed; Missing handleMouseDownOnMenu, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* added; Ensures the selected option is immediately visible when the menu is open, thanks [Martin Jujou](https://github.com/jooj123)
+* added; `autoBlur` prop, blurs the input when a value is selected, thanks [Pavel Tarnopolsky](https://github.com/Paveltarno)
+* fixed; Several isFocused checks weren't working properly
+
 ## v1.0.0-beta8 / 2015-12-20
 
 * fixed; input focus bug when toggling `disabled` prop, thanks [Davide Curletti](https://github.com/dcurletti)
