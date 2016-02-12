@@ -247,6 +247,19 @@ const Select = React.createClass({
 		this.closeMenu();
 	},
 
+	handleMouseDownOnMenu (event) {
+		// if the event was triggered by a mousedown and not the primary
+		// button, or if the component is disabled, ignore it.
+ 	  if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+		  return;
+		}
+		event.stopPropagation();
+		event.preventDefault();
+
+		this._openAfterFocus = true;
+		this.focus();
+	},
+
 	closeMenu () {
 		this.setState({
 			isOpen: false,
@@ -581,8 +594,8 @@ const Select = React.createClass({
 	renderClear () {
 		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
 		return (
-			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText} 
-						aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText} 
+			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
+						aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 						onMouseDown={this.clearValue}
 						onTouchStart={this.handleTouchStart}
 						onTouchMove={this.handleTouchMove}
@@ -716,11 +729,11 @@ const Select = React.createClass({
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<div ref="control" 
-						 className="Select-control" 
-						 style={this.props.style} 
-						 onKeyDown={this.handleKeyDown} 
-						 onMouseDown={this.handleMouseDown} 
+				<div ref="control"
+						 className="Select-control"
+						 style={this.props.style}
+						 onKeyDown={this.handleKeyDown}
+						 onMouseDown={this.handleMouseDown}
 						 onTouchEnd={this.handleTouchEnd}
 						 onTouchStart={this.handleTouchStart}
 						 onTouchMove={this.handleTouchMove}>
@@ -732,9 +745,9 @@ const Select = React.createClass({
 				</div>
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu" 
-								 style={this.props.menuStyle} 
-								 onScroll={this.handleMenuScroll} 
+						<div ref="menu" className="Select-menu"
+								 style={this.props.menuStyle}
+								 onScroll={this.handleMenuScroll}
 								 onMouseDown={this.handleMouseDownOnMenu}>
 							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
