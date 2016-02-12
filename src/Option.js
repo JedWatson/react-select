@@ -25,17 +25,39 @@ const Option = React.createClass({
 			window.location.href = event.target.href;
 		}
 	},
+
 	handleMouseDown (event) {
 		event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
 	},
+
 	handleMouseEnter (event) {
 		this.onFocus(event);
 	},
+
 	handleMouseMove (event) {
 		this.onFocus(event);
 	},
+
+	handleTouchEnd(event){
+		// Check if the view is being dragged, In this case
+		// we don't want to fire the click event (because the user only wants to scroll)
+		if(this.dragging) return;
+
+		this.handleMouseDown(event);
+	},
+
+	handleTouchMove (event) {
+		// Set a flag that the view is being dragged
+		this.dragging = true;
+	},
+
+	handleTouchStart (event) {
+		// Set a flag that the view is not being dragged
+		this.dragging = false;
+	},
+
 	onFocus (event) {
 		if (!this.props.isFocused) {
 			this.props.onFocus(this.props.option, event);
@@ -57,6 +79,9 @@ const Option = React.createClass({
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}
+				onTouchEnd={this.handleTouchEnd}
 				title={option.title}>
 				{this.props.children}
 			</div>
