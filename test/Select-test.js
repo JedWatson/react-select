@@ -2899,4 +2899,18 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 	});
+
+	describe('initialOpen', () => {
+		beforeEach(() => {
+			instance = createControl({
+				options: defaultOptions,
+				initialOpen: true
+			});
+		});
+
+		it('opens the menu automatically', () => {
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+				'to have length', 4);
+		});
+	});
 });
