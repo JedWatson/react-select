@@ -66,7 +66,7 @@ const Select = React.createClass({
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
-		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
+		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option, inputValue) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
@@ -704,7 +704,7 @@ const Select = React.createClass({
 						isSelected={isSelected}
 						ref={optionRef}
 						>
-						{renderLabel(option)}
+						{renderLabel(option, this.state.inputValue)}
 					</Option>
 				);
 			});

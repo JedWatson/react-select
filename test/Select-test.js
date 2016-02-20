@@ -2913,4 +2913,21 @@ describe('Select', () => {
 				'to have length', 4);
 		});
 	});
+
+	describe('extend optionRenderer parameters', () => {
+		beforeEach(() => {
+			instance = createControl({
+				options: defaultOptions,
+				optionRenderer: (option, inputValue) => option.label + inputValue
+			});
+		});
+
+		it('the filter options should append the search input value to the option', () => {
+			typeSearchText('T');
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'queried for', '.Select-option:nth-child(1)', 'to have items satisfying', 'to have text', '222T');
+			expect(node, 'queried for', '.Select-option:nth-child(2)', 'to have items satisfying', 'to have text', 'ThreeT');
+			expect(node, 'queried for', '.Select-option', 'to have length', 2);
+		});
+	});
 });
