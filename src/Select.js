@@ -43,6 +43,7 @@ const Select = React.createClass({
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
+		initialOpen: React.PropTypes.bool,			// whether to open the menu on initial render
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
@@ -97,6 +98,7 @@ const Select = React.createClass({
 			filterOptions: true,
 			ignoreAccents: true,
 			ignoreCase: true,
+			initialOpen: false,
 			inputProps: {},
 			isLoading: false,
 			labelKey: 'label',
@@ -122,7 +124,7 @@ const Select = React.createClass({
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
-			isOpen: false,
+			isOpen: this.props.initialOpen,
 			isPseudoFocused: false,
 			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
 		};
