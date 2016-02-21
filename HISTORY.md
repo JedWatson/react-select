@@ -1,6 +1,6 @@
 # React-Select
 
-## v1.0.0-beta9 / 2015-02-12
+## v1.0.0-beta9 / 2016-02-12
 
 * added; onBlurResetsInput prop, thanks [Sly Bridges](https://github.com/slybridges)
 * changed; Enter selects and retains focus, Tab selects and shifts focus, thanks [RDX](https://github.com/rdsubhas)
