@@ -211,7 +211,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-	autoBlur	|	bool | false | Blures the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
+	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
