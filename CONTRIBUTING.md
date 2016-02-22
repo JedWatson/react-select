@@ -49,6 +49,6 @@ but please ensure there are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
-* _Make sure you revert your build before submitting a PR_ to reduce the change
+* _Make sure you revert your build before submitting a PR_ to reduce the chance
 of conflicts. `gulp build-scripts` is run after PRs are merged and before any
 releases are made.

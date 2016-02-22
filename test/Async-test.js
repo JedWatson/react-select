@@ -1,3 +1,6 @@
+'use strict';
+/* eslint react/jsx-boolean-value: 0 */
+
 // Emulating the DOM here, only so that if this test file gets
 // included first, then React thinks there's a DOM, so the other tests
 // (e.g. Select-test.js) that do require a DOM work correctly
@@ -149,7 +152,7 @@ describe('Async', () => {
 
 			const result1 = typeSearchText('te');
 			const result2 = typeSearchText('tes');
-			promise1Resolve({ options: [ { value: 1, label: 'from te input'}]});
+			promise1Resolve({ options: [ { value: 1, label: 'from te input' }] });
 			promise2Reject();
 
 			return expect.promise.all([ result1, result2]).then(() => {
@@ -178,7 +181,7 @@ describe('Async', () => {
 				noResultsText="Searching..."
 				placeholder="Loading..."
 			/>);
-		})
+		});
 	});
 
 	describe('with a cache', () => {
@@ -531,4 +534,3 @@ describe('Async', () => {
 		});
 	});
 });
-
