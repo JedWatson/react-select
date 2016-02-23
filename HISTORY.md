@@ -1,5 +1,9 @@
 # React-Select
 
+## v1.0.0-beta9 / 2016-02-23
+
+* fixed build issues with v1.0.0-beta9
+
 ## v1.0.0-beta9 / 2016-02-12
 
 * added; onBlurResetsInput prop, thanks [Sly Bridges](https://github.com/slybridges)
