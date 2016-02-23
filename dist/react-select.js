@@ -650,7 +650,7 @@ var Select = _react2['default'].createClass({
 					return;
 				}
 				this.selectFocusedOption();
-				break;
+				return;
 			case 13:
 				// enter
 				if (!this.state.isOpen) return;
