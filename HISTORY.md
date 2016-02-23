@@ -1,6 +1,6 @@
 # React-Select
 
-## v1.0.0-beta9 / 2016-02-23
+## v1.0.0-beta10 / 2016-02-23
 
 * fixed build issues with v1.0.0-beta9
 
