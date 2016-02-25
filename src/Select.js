@@ -45,6 +45,7 @@ const Select = React.createClass({
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
+		joinValues: React.PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
@@ -99,6 +100,7 @@ const Select = React.createClass({
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
+			joinValues: false,
 			labelKey: 'label',
 			matchPos: 'any',
 			matchProp: 'any',
@@ -719,6 +721,17 @@ const Select = React.createClass({
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
+		if (this.props.joinValues) {
+			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
+			return (
+				<input
+					type="hidden"
+					ref="value"
+					name={this.props.name}
+					value={value}
+					disabled={this.props.disabled} />
+			);
+		}
 		return valueArray.map((item, index) => (
 			<input key={'hidden.' + index}
 				type="hidden"
