@@ -14,6 +14,8 @@ new `simpleValue` prop for when you want to deal with values as strings or numbe
 
 `onOptionLabelClick` -> `onValueClick`
 
+Multiple values are now submitted in multiple form fields, which results in an array of values in the form data. To use the old method of submitting a single string of all values joined with the delimiter option, use the `joinValues` prop.
+
 ## New Select.Async Component
 
 `loadingPlaceholder` prop

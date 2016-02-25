@@ -227,6 +227,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
+	joinValues	|	bool	|	false		|	join multiple values into a single hidden input using the `delimiter`
 	labelKey	|	string	|	'label'		|	the option property to use for the label
 	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
