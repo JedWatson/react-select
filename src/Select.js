@@ -41,6 +41,7 @@ const Select = React.createClass({
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+		joinValues: React.PropTypes.bool,	    // boolean to enable old join values behavior
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
@@ -95,6 +96,7 @@ const Select = React.createClass({
 			disabled: false,
 			escapeClearsValue: true,
 			filterOptions: true,
+			joinValues: false,
 			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
@@ -719,14 +721,19 @@ const Select = React.createClass({
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
-		return valueArray.map((item, index) => (
-			<input key={'hidden.' + index}
-				type="hidden"
-				ref={'value' + index}
-				name={this.props.name}
-				value={stringifyValue(item[this.props.valueKey])}
-				disabled={this.props.disabled} />
-		));
+		if (this.props.joinValues) {
+			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
+-			return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
+		} else {
+			return valueArray.map((item, index) => (
+				<input key={'hidden.' + index}
+					type="hidden"
+					ref={'value' + index}
+					name={this.props.name}
+					value={stringifyValue(item[this.props.valueKey])}
+					disabled={this.props.disabled} />
+			));
+		}
 	},
 
 	getFocusableOption (selectedOption) {
