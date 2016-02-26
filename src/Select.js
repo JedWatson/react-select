@@ -719,14 +719,17 @@ const Select = React.createClass({
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
-		return valueArray.map((item, index) => (
-			<input key={'hidden.' + index}
-				type="hidden"
-				ref={'value' + index}
-				name={this.props.name}
-				value={stringifyValue(item[this.props.valueKey])}
-				disabled={this.props.disabled} />
-		));
+		return valueArray.map((item, index) => {
+			const value = stringifyValue(item[this.props.valueKey]);
+			return (
+				<input key={'hidden.' + value}
+					   type="hidden"
+					   ref={'value' + index}
+					   name={this.props.name}
+					   value={value}
+					   disabled={this.props.disabled}/>
+			);
+		});
 	},
 
 	getFocusableOption (selectedOption) {
