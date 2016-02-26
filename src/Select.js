@@ -723,7 +723,7 @@ const Select = React.createClass({
 		if (!this.props.name) return;
 		if (this.props.joinValues) {
 			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
--			return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
+			return <input type="hidden" ref="value" name={this.props.name} value={value} disabled={this.props.disabled} />;
 		} else {
 			return valueArray.map((item, index) => (
 				<input key={'hidden.' + index}
