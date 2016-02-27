@@ -299,7 +299,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 ## v0.4.2 / 2015-03-23
 
 * added; ESLint and contributing guide
-* fixed; incorrect `classnames` variable assignement in window scope
+* fixed; incorrect `classnames` variable assignment in window scope
 * fixed; all ESLint errors and warnings (except invalid JSX undefined/unused vars due to ESLint bug)
 * fixed; first option is now focused correctly, thanks [Eivind Siqveland Larsen](https://github.com/esiqveland)
 
@@ -313,7 +313,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 
 ## v0.3.5 / 2015-03-09
 
-* improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
+* improved; less/no repaint on scroll for performance wins, thanks [jsmunich](https://github.com/jsmunich)
 * added; `onBlur` and `onFocus` event handlers, thanks [Jonas Budelmann](https://github.com/cloudkite)
 * added; support for `inputProps` prop, passed to the `<input>` component, thanks [Yann Plantevin](https://github.com/YannPl)
 * changed; now using [react-component-gulp-tasks](https://github.com/JedWatson/react-component-gulp-tasks) for build
