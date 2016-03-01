@@ -10,6 +10,7 @@ import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
 import States from './components/States';
+import VirtualScroll from './components/VirtualScroll';
 
 ReactDOM.render(
 	<div>
@@ -19,6 +20,7 @@ ReactDOM.render(
 		<NumericSelect label="Numeric Values" />
 		<CustomRender label="Custom Render Methods"/>
 		<CustomComponents label="Custom Placeholder, Option and Value Components" />
+		<VirtualScroll label="Virtual Scrolling" />
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}

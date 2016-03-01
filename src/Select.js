@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
 
+import { VirtualScroll } from 'react-virtualized';
+
 import stripDiacritics from './utils/stripDiacritics';
 
 import Async from './Async';
@@ -74,10 +76,12 @@ const Select = React.createClass({
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
+		useVirtualScroll: React.PropTypes.bool,		// whether to use virtual scrolling for menu or not (requires additional configuration, see virtualScrollProps)
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
+		virtualScrollProps: React.PropTypes.object,	// props which will passed to the react-virtualized VirtualScroll component for the dropdown menu
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 	},
 
@@ -114,6 +118,11 @@ const Select = React.createClass({
 			simpleValue: false,
 			valueComponent: Value,
 			valueKey: 'value',
+			virtualScrollProps: {
+				width: 398,
+				height: 198,
+				rowHeight: 35
+			}
 		};
 	},
 
@@ -514,17 +523,22 @@ const Select = React.createClass({
 				break;
 			}
 		}
-		var focusedOption = options[0];
-		if (dir === 'next' && focusedIndex > -1 && focusedIndex < options.length - 1) {
-			focusedOption = options[focusedIndex + 1];
+		if (dir === 'next' && focusedIndex > -1) {
+			if(focusedIndex == options.length - 1){
+				focusedIndex = 0;
+			}else{
+				focusedIndex = focusedIndex + 1;
+			}
 		} else if (dir === 'previous') {
 			if (focusedIndex > 0) {
-				focusedOption = options[focusedIndex - 1];
+				focusedIndex = focusedIndex - 1;
 			} else {
-				focusedOption = options[options.length - 1];
+				focusedIndex = options.length - 1;
 			}
 		}
+		var focusedOption = focusedIndex != -1 ? options[focusedIndex] : options[0];
 		this.setState({
+			scrollToIndex: focusedIndex,
 			focusedOption: focusedOption
 		});
 	},
@@ -679,7 +693,7 @@ const Select = React.createClass({
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
-			return options.map((option, i) => {
+			let renderOption = (option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
 				let optionRef = isFocused ? 'focused' : null;
@@ -705,7 +719,20 @@ const Select = React.createClass({
 						{renderLabel(option)}
 					</Option>
 				);
-			});
+			};
+
+			if(this.props.useVirtualScroll){
+				return (
+					<VirtualScroll
+						{...this.props.virtualScrollProps}
+						scrollToIndex={this.state.scrollToIndex}
+					    rowsCount={options.length}
+					    rowRenderer={ (index) => renderOption(options[index], index)} />
+				);
+			}else{
+				return options.map(renderOption);
+			}
+			
 		} else if (this.props.noResultsText) {
 			return (
 				<div className="Select-noresults">
@@ -715,6 +742,39 @@ const Select = React.createClass({
 		} else {
 			return null;
 		}
+	},
+
+	renderOption (options, valueArray, focusedOption,index){
+		let Option = this.props.optionComponent;
+		let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+
+		let option = options[index];
+
+		let isSelected = valueArray && valueArray.indexOf(option) > -1;
+		let isFocused = option === focusedOption;
+		let optionRef = isFocused ? 'focused' : null;
+		let optionClass = classNames({
+			'Select-option': true,
+			'is-selected': isSelected,
+			'is-focused': isFocused,
+			'is-disabled': option.disabled,
+		});
+
+		return (
+			<Option
+				className={optionClass}
+				isDisabled={option.disabled}
+				isFocused={isFocused}
+				key={`option-${index}-${option[this.props.valueKey]}`}
+				onSelect={this.selectValue}
+				onFocus={this.focusOption}
+				option={option}
+				isSelected={isSelected}
+				ref={optionRef}
+				>
+				{renderLabel(option)}
+			</Option>
+		);
 	},
 
 	renderHiddenField (valueArray) {
@@ -755,6 +815,13 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
+
+		let selectMenuStyle = Object.assign({}, this.props.menuStyle);
+
+		if(this.props.useVirtualScroll){
+			selectMenuStyle.overflowY = 'visible';
+		}
+
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
@@ -775,11 +842,11 @@ const Select = React.createClass({
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
 						<div ref="menu" className="Select-menu"
-								 style={this.props.menuStyle}
-								 onScroll={this.handleMenuScroll}
-								 onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
-						</div>
+							style={selectMenuStyle}
+							onScroll={this.handleMenuScroll}
+							onMouseDown={this.handleMouseDownOnMenu}>
+					 		{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
+				 		</div>
 					</div>
 				) : null}
 			</div>
