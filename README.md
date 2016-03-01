@@ -205,6 +205,13 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+
+### Virtual Scrolling
+
+For very long lists of options, enable virtual scrolling to minimize the number of elements actually rendered to the DOM.  This will improve performance by determining the scroll position of the menu and loading elements in or close to the visible options.  Additional options are dynamically rendered when the user scrolls up or down.  
+
+To enable this, use the `virtualScroll` option.  This utilizes the [react-virtualized](https://github.com/bvaughn/react-virtualized) VirtualScroll component.  Use `virtualScrollProps` to pass options directly to that component.
+
 ### Further options
 
 
@@ -251,9 +258,11 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
+	virtualScroll	|	bool    |   undefined	|	whether to use virtual scrolling for menu or not (requires additional configuration, see virtualScrollProps)
 	value 		|	any	|	undefined	|	initial field value
 	valueKey	|	string	|	'value'		|	the option property to use for the value
 	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected
+	virtualScrollProps |	object    |	  `{height: 200, width: 398, rowHeight: 35}`   |  props which will passed to the react-virtualized VirtualScroll component for the dropdown menu
 
 ### Methods
 

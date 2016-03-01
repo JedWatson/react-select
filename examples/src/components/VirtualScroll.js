@@ -62,18 +62,12 @@ var VirtualScroll = React.createClass({
 					options={this.state.options} 
 					value={this.state.selectValue} 
 					onChange={this.updateValue} 
-					useVirtualScroll
-					virtualScroll={{
-						height: 198,
-						width: 398,
-						rowHeight: 35,
-						overscanRowsCount: 10
-					}} />
+					virtualScroll />
 
 				<div style={{ marginTop: 14 }}>
 					<label>
 						Number of Rows: 
-						
+
 					</label>
 					<input type="number" className="text-control" name="searchable" value={this.state.count} onChange={this.setNumRows}/>
 				</div>

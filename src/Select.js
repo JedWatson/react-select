@@ -76,7 +76,7 @@ const Select = React.createClass({
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
-		useVirtualScroll: React.PropTypes.bool,		// whether to use virtual scrolling for menu or not (requires additional configuration, see virtualScrollProps)
+		virtualScroll: React.PropTypes.bool,		// whether to use virtual scrolling for menu or not (requires additional configuration, see virtualScrollProps)
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
@@ -721,7 +721,7 @@ const Select = React.createClass({
 				);
 			};
 
-			if(this.props.useVirtualScroll){
+			if(this.props.virtualScroll){
 				return (
 					<VirtualScroll
 						{...this.props.virtualScrollProps}
@@ -818,7 +818,7 @@ const Select = React.createClass({
 
 		let selectMenuStyle = Object.assign({}, this.props.menuStyle);
 
-		if(this.props.useVirtualScroll){
+		if(this.props.virtualScroll){
 			selectMenuStyle.overflowY = 'visible';
 		}
 
