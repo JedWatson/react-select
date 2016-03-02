@@ -64,19 +64,23 @@
     "watch:example": "npm-run-all -p watch:example:*",
     "build:js": "babel src/ -d lib",
     "watch:js": "babel src/ -wd lib",
+
     "build": "gulp clean && NODE_ENV=production gulp build",
     "bump": "gulp bump",
     "bump:major": "gulp bump:major",
     "bump:minor": "gulp bump:minor",
+
     "cover": "istanbul cover _mocha -- -u exports --compilers js:babel/register -R spec",
     "coveralls": "NODE_ENV=test istanbul cover _mocha --report lcovonly -- -u exports --compilers js:babel/register -R spec && cat coverage/lcov.info | coveralls",
     "examples": "gulp dev:server",
+
     "lint": "eslint .",
+
     "publish:examples": "NODE_ENV=production gulp publish:examples",
     "release": "NODE_ENV=production gulp release",
     "start": "gulp dev",
     "test": "mocha --compilers js:babel/register",
-    "watch": "gulp watch:lib"
+    "watch": "npm-run-all -p watch:js watch:example"
   },
   "keywords": [
     "combobox",

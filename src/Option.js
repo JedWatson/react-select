@@ -70,6 +70,7 @@ const Option = React.createClass({
 		return option.disabled ? (
 			<div className={className}
 				onMouseDown={this.blockEvent}
+				style={option.style}
 				onClick={this.blockEvent}>
 				{this.props.children}
 			</div>

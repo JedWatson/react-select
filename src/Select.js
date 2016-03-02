@@ -8,6 +8,7 @@ import stripDiacritics from './utils/stripDiacritics';
 import Async from './Async';
 import Option from './Option';
 import Value from './Value';
+import Menu from './Menu';
 
 function stringifyValue (value) {
 	if (typeof value === 'object') {
@@ -32,6 +33,7 @@ const Select = React.createClass({
 		autoBlur: React.PropTypes.bool,
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
+		children: React.PropTypes.any,
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
 		clearValueText: stringOrNode,               // title for the "clear" control
@@ -675,10 +677,10 @@ const Select = React.createClass({
 	},
 
   findPropChild(propType){
-    debugger;
     switch(propType){
       case 'optionRenderer':
         return (Array.isArray(this.props.children) ? this.props.children : [this.props.children])
+					.filter(Boolean)
           .filter(child => child.type === Option || child.type.displayName === 'Option')
           .map(optionComponent => Array.isArray(optionComponent.props.children) ? optionComponent.props.children[0] : optionComponent.props.children)
           .filter(optionChild => typeof optionChild === 'function')[0];
@@ -686,48 +688,6 @@ const Select = React.createClass({
         return null;
     }
   },
-
-	renderMenu(options, valueArray, focusedOption) {
-		if (options && options.length) {
-			let Option = this.props.optionComponent;
-			let renderLabel = this.props.optionRenderer || this.findPropChild('optionRenderer') || this.getOptionLabel;
-			return options.map((option, i) => {
-				let isSelected = valueArray && valueArray.indexOf(option) > -1;
-				let isFocused = option === focusedOption;
-				let optionRef = isFocused ? 'focused' : null;
-				let optionClass = classNames({
-					'Select-option': true,
-					'is-selected': isSelected,
-					'is-focused': isFocused,
-					'is-disabled': option.disabled,
-				});
-
-				return (
-					<Option
-						className={optionClass}
-						isDisabled={option.disabled}
-						isFocused={isFocused}
-						key={`option-${i}-${option[this.props.valueKey]}`}
-						onSelect={this.selectValue}
-						onFocus={this.focusOption}
-						option={option}
-						isSelected={isSelected}
-						ref={optionRef}
-						>
-						{renderLabel(option)}
-					</Option>
-				);
-			});
-		} else if (this.props.noResultsText) {
-			return (
-				<div className="Select-noresults">
-					{this.props.noResultsText}
-				</div>
-			);
-		} else {
-			return null;
-		}
-	},
 
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
@@ -778,16 +738,26 @@ const Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? (
-					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu"
-								 style={this.props.menuStyle}
+				{isOpen ?
+					 <Menu menuContainerStyle={this.props.menuContainerStyle}
+					 			 style={this.props.menuStyle}
 								 onScroll={this.handleMenuScroll}
-								 onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
-						</div>
-					</div>
-				) : null}
+								 onMouseDown={this.handleMouseDownOnMenu}
+								 multi={this.props.multi}
+								 valueArray={valueArray}
+								 focusedOption={focusedOption}
+								 options={options}
+								 optionComponent={this.props.optionComponent}
+								 optionRenderer={this.props.optionRenderer}
+								 findPropChild={this.findPropChild}
+								 onSelect={this.selectValue}
+								 onFocus={this.focusOption}
+								 noResultsText={this.props.noResultsText}
+								 getOptionLabel={this.getOptionLabel}
+								 findPropChild={this.findPropChild}
+								 valueKey={this.props.valueKey}
+								 />
+				: null}
 			</div>
 		);
 	}
