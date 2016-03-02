@@ -23,6 +23,11 @@
 	width: 100%;
 	z-index: $select-menu-zindex;
 	-webkit-overflow-scrolling: touch;
+
+	.VirtualScroll{
+		overflow-y: scroll;
+		@include border-bottom-radius( $select-input-border-radius );
+	}
 }
 
 

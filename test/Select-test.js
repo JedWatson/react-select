@@ -166,6 +166,19 @@ describe('Select', () => {
 		{ value: 'four', label: 'AbcDef' }
 	];
 
+	var getManyOptions = (count) => {
+		var rows = [];
+		for(var i = 0; i < count; i++){
+			rows.push({
+				label: `${i}`,
+				value: i
+			});
+		}
+
+		return rows;
+	};
+	
+
 	describe('with simple options', () => {
 		beforeEach(() => {
 			options = [
@@ -2898,5 +2911,53 @@ describe('Select', () => {
 			TestUtils.Simulate.blur(searchInputNode);
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
+	});
+
+	describe('using virtualized scrolling', () => {
+
+		beforeEach(() => {
+
+			instance = createControl({
+				options: getManyOptions(500),
+				virtualScroll: true
+			});
+		});
+
+		it('limits elements rendered to dom', () => {
+
+			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Grid__cell', 'to have length', 16);
+		});
+
+		it('correctly formats menu wrapper', () => {
+
+			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			const menuWrapper = ReactDOM.findDOMNode(instance).querySelector('.Select-menu');
+			expect(menuWrapper,'to have attributes', {style: 'overflow-y:visible;'});
+		});
+
+		it('scrolls to index when highlighting option via arrow keys', () => {
+
+			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			for(var i = 0; i < 100; i++){
+				pressDown();
+			}
+			//important piece here is the 'top' attribute of last element
+			var expectedTop = i * 35;
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Grid__cell[style*="top:' + expectedTop + '"]');
+		});
+
+		it('selects correct option when selecting via arrow keys', () => {
+
+			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			for(var i = 0; i < 100; i++){
+				pressDown();
+			}
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', `${i}`);
+		});
+
+
 	});
 });
