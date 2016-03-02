@@ -26,6 +26,7 @@
 
 	.VirtualScroll{
 		overflow-y: scroll;
+		@include border-bottom-radius( $select-input-border-radius );
 	}
 }
 
