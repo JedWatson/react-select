@@ -1183,6 +1183,29 @@ describe('Select', () => {
 		});
 	});
 
+	describe('isOpen', () => {
+
+		it('renders the select options if isOpen is true', () => {
+			instance = createControl({
+				options: defaultOptions,
+				isOpen: true,
+			});
+
+			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
+				'to have length', 4);
+		});
+
+		it('renders the select options if isOpen is false', () => {
+			instance = createControl({
+				options: defaultOptions,
+				isOpen: false,
+			});
+
+			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
+				'to have length', 0);
+		});
+
+	});
 
 	describe('with multi-select', () => {
 
