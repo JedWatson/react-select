@@ -8,6 +8,7 @@ import Creatable from './components/Creatable';
 import Contributors from './components/Contributors';
 import GithubUsers from './components/GithubUsers';
 import CustomComponents from './components/CustomComponents';
+import CustomActivation from './components/CustomActivation';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
@@ -30,6 +31,7 @@ ReactDOM.render(
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
 		/>
+		<CustomActivation label="Custom Activation" />
 	</div>,
 	document.getElementById('example')
 );
