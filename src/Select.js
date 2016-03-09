@@ -45,6 +45,7 @@ const Select = React.createClass({
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
+		isOpen: React.PropTypes.bool,               // Pass a boolean to start controlling the open state externally, null to let react-select manage it
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
@@ -99,6 +100,7 @@ const Select = React.createClass({
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
+			isOpen: null,
 			labelKey: 'label',
 			matchPos: 'any',
 			matchProp: 'any',
@@ -122,7 +124,7 @@ const Select = React.createClass({
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
-			isOpen: false,
+			isOpen: this.props.isOpen !== null ? this.props.isOpen : false,
 			isPseudoFocused: false,
 			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
 		};
@@ -131,6 +133,14 @@ const Select = React.createClass({
 	componentDidMount () {
 		if (this.props.autofocus) {
 			this.focus();
+		}
+	},
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.isOpen !== null) {
+			this.setState({
+				isOpen: nextProps.isOpen,
+			});
 		}
 	},
 
@@ -755,6 +765,7 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
+
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
