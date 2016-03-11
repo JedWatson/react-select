@@ -43,6 +43,7 @@ const Select = React.createClass({
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
+		initialOpen: React.PropTypes.bool,			// whether to open the menu on initial render
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 		joinValues: React.PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
@@ -66,7 +67,7 @@ const Select = React.createClass({
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
-		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
+		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option, inputValue) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
@@ -98,6 +99,7 @@ const Select = React.createClass({
 			filterOptions: true,
 			ignoreAccents: true,
 			ignoreCase: true,
+			initialOpen: false,
 			inputProps: {},
 			isLoading: false,
 			joinValues: false,
@@ -124,7 +126,7 @@ const Select = React.createClass({
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
-			isOpen: false,
+			isOpen: this.props.initialOpen,
 			isPseudoFocused: false,
 			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
 		};
@@ -704,7 +706,7 @@ const Select = React.createClass({
 						isSelected={isSelected}
 						ref={optionRef}
 						>
-						{renderLabel(option)}
+						{renderLabel(option, this.state.inputValue)}
 					</Option>
 				);
 			});
