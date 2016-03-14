@@ -28,6 +28,7 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+		autosize: React.PropTypes.bool,							// whether to enable autosizing or not
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
 		autoBlur: React.PropTypes.bool,
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
@@ -87,6 +88,7 @@ const Select = React.createClass({
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
+			autosize: true,
 			allowCreate: false,
 			backspaceRemoves: true,
 			clearable: true,
@@ -598,19 +600,35 @@ const Select = React.createClass({
 					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
+		if (this.props.autosize) {
+			return (
+				<Input
+					{...this.props.inputProps}
+					className={className}
+					tabIndex={this.props.tabIndex}
+					onBlur={this.handleInputBlur}
+					onChange={this.handleInputChange}
+					onFocus={this.handleInputFocus}
+					minWidth="5"
+					ref="input"
+					required={this.state.required}
+					value={this.state.inputValue}
+				/>
+			);
+		}
 		return (
-			<Input
-				{...this.props.inputProps}
-				className={className}
-				tabIndex={this.props.tabIndex}
-				onBlur={this.handleInputBlur}
-				onChange={this.handleInputChange}
-				onFocus={this.handleInputFocus}
-				minWidth="5"
-				ref="input"
-				required={this.state.required}
-				value={this.state.inputValue}
-			/>
+			<div className={ className }>
+				<input
+					{...this.props.inputProps}
+					tabIndex={this.props.tabIndex}
+					onBlur={this.handleInputBlur}
+					onChange={this.handleInputChange}
+					onFocus={this.handleInputFocus}
+					ref="input"
+					required={this.state.required}
+					value={this.state.inputValue}
+				/>
+			</div>
 		);
 	},
 

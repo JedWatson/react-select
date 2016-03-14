@@ -2899,4 +2899,17 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 	});
+
+	describe('with autosize=false', () => {
+		beforeEach(() => {
+			instance = createControl({
+				autosize: false,
+			});
+		});
+
+		it('creates a plain input instead of an autosizable input', () => {
+			const inputNode = ReactDOM.findDOMNode(instance.refs.input);
+			expect(inputNode.tagName, 'to equal', 'INPUT');
+		});
+	});
 });
