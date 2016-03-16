@@ -138,6 +138,14 @@ const Select = React.createClass({
 		}
 	},
 
+	componentWillReceiveProps(nextProps) {
+		if (this.props.value !== nextProps.value && nextProps.required) {
+			this.setState({
+				required: this.handleRequired(nextProps.value, nextProps.multi),
+			});
+		}
+	},
+
 	componentWillUpdate (nextProps, nextState) {
 		if (nextState.isOpen !== this.state.isOpen) {
 			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;

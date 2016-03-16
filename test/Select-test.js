@@ -2816,6 +2816,18 @@ describe('Select', () => {
 				expect(instance.state.required, 'to be true');
 			});
 
+			it('input should not have required attribute after updating the component with a value', () => {
+				wrapper = createControlWithWrapper({
+					options: defaultOptions,
+					value: '',
+					required: true
+				});
+
+				expect(instance.state.required, 'to be true');
+				wrapper.setPropsForChild({ value: 'one' });
+				expect(instance.state.required, 'to be false');
+			});
+
 		});
 
 		describe('required with multi=true', () => {
