@@ -107,7 +107,7 @@ The function takes two arguments `String input, Function callback`and will be ca
 
 When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
 
-The select control will intelligently cache options for input strings that have already been fetched. The cached result set will be filtered as more specific searches are input, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. Caching can be disabled by setting `cacheAsyncResults` to `false` (Note that `complete: true` will then have no effect).
+The select control will intelligently cache options for input strings that have already been fetched. The cached result set will be filtered as more specific searches are input, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. Caching can be disabled by setting `cache` to `false` (Note that `complete: true` will then have no effect).
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
@@ -216,7 +216,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
-	cacheAsyncResults	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
+	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
