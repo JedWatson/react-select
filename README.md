@@ -249,7 +249,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
-	placeholder 	|	string	|	'Select ...'	|	field placeholder, displayed when there's no value
+	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
