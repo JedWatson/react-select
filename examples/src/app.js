@@ -6,6 +6,7 @@ import Select from 'react-select';
 
 import Contributors from './components/Contributors';
 import CustomComponents from './components/CustomComponents';
+import CustomMenuComponent from './components/CustomMenuComponent';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
@@ -19,6 +20,7 @@ ReactDOM.render(
 		<NumericSelect label="Numeric Values" />
 		<CustomRender label="Custom Render Methods"/>
 		<CustomComponents label="Custom Placeholder, Option and Value Components" />
+		<CustomMenuComponent label="Custom Menu Component" />
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}

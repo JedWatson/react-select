@@ -51,6 +51,7 @@ const Select = React.createClass({
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
 		menuBuffer: React.PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
+		menuComponent: React.PropTypes.func,        // menu component to render instead of the default
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
@@ -310,9 +311,12 @@ const Select = React.createClass({
 	},
 
 	handleInputBlur (event) {
- 		if (this.refs.menu && document.activeElement.isEqualNode(this.refs.menu)) {
- 			return;
- 		}
+		if (this.refs.menu) {
+			let menuDOM = ReactDOM.findDOMNode(this.refs.menu);
+			if (document.activeElement.isEqualNode(menuDOM)) {
+				return;
+			}
+		}
 
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
@@ -703,11 +707,12 @@ const Select = React.createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
+		let children;
 		if (options && options.length) {
 			let Option = this.props.optionComponent;
 			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
-			return options.map((option, i) => {
+			children = options.map((option, i) => {
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
 				let optionRef = isFocused ? 'focused' : null;
@@ -735,14 +740,25 @@ const Select = React.createClass({
 				);
 			});
 		} else if (this.props.noResultsText) {
-			return (
+			children = (
 				<div className="Select-noresults">
 					{this.props.noResultsText}
 				</div>
 			);
-		} else {
-			return null;
 		}
+
+		let Menu = this.props.menuComponent || 'div';
+		return (
+			<Menu
+				ref="menu"
+				className="Select-menu"
+				style={this.props.menuStyle}
+				onScroll={this.handleMenuScroll}
+				onMouseDown={this.handleMouseDownOnMenu}
+			>
+				{children}
+			</Menu>
+		);
 	},
 
 	renderHiddenField (valueArray) {
@@ -813,12 +829,7 @@ const Select = React.createClass({
 				</div>
 				{isOpen ? (
 					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu"
-								 style={this.props.menuStyle}
-								 onScroll={this.handleMenuScroll}
-								 onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
-						</div>
+						{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 					</div>
 				) : null}
 			</div>
