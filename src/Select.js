@@ -346,7 +346,7 @@ const Select = React.createClass({
 				}
 			return;
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen) {
+				if (event.shiftKey || !this.state.isOpen || !this.props.onBlurResetsInput) {
 					return;
 				}
 				this.selectFocusedOption();
