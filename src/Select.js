@@ -66,6 +66,7 @@ const Select = React.createClass({
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+		optionClassName: React.PropTypes.string,    // additional class(es) to apply to the <Option /> elements
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
@@ -711,7 +712,7 @@ const Select = React.createClass({
 				let isSelected = valueArray && valueArray.indexOf(option) > -1;
 				let isFocused = option === focusedOption;
 				let optionRef = isFocused ? 'focused' : null;
-				let optionClass = classNames({
+				let optionClass = classNames(this.props.optionClassName, {
 					'Select-option': true,
 					'is-selected': isSelected,
 					'is-focused': isFocused,
