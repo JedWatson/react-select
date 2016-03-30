@@ -30,7 +30,7 @@ const GravatarOption = React.createClass({
 		this.props.onFocus(this.props.option, event);
 	},
 	handleMouseLeave (event) {
-		this.props.onUnfocus(this.props.option, event);
+		this.props.onFocus(this.props.option, event);
 	},
 	render () {
 		let gravatarStyle = {
