@@ -4318,14 +4318,26 @@ var Select = _react2['default'].createClass({
 	},
 
 	focusNextOption: function focusNextOption() {
+		var focusedOptionIndex = this.state.focusedOptionIndex + 1;
+
+		if (focusedOptionIndex >= this._visibleOptions.length) {
+			focusedOptionIndex = 0;
+		}
+
 		this.setState({
-			focusedOptionIndex: Math.min(this.state.focusedOptionIndex + 1, this.props.options.length - 1)
+			focusedOptionIndex: focusedOptionIndex
 		});
 	},
 
 	focusPreviousOption: function focusPreviousOption() {
+		var focusedOptionIndex = Math.min(this.state.focusedOptionIndex - 1, this._visibleOptions.length - 1);
+
+		if (focusedOptionIndex < 0) {
+			focusedOptionIndex = this._visibleOptions.length - 1;
+		}
+
 		this.setState({
-			focusedOptionIndex: Math.max(this.state.focusedOptionIndex - 1, 0)
+			focusedOptionIndex: focusedOptionIndex
 		});
 	},
 
@@ -4498,8 +4510,8 @@ var Select = _react2['default'].createClass({
 	renderOption: function renderOption(index) {
 		var _this4 = this;
 
-		var focusedOption = this.props.options[this.state.focusedOptionIndex];
-		var option = this.props.options[index];
+		var focusedOption = this._visibleOptions[this.state.focusedOptionIndex];
+		var option = this._visibleOptions[index];
 		var Option = this.props.optionComponent;
 		var renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
@@ -4588,7 +4600,7 @@ var Select = _react2['default'].createClass({
 			'has-value': valueArray.length
 		});
 
-		var optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, this.props.options.length * OPTION_HEIGHT);
+		var optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT);
 
 		return _react2['default'].createElement(
 			'div',
@@ -4630,7 +4642,7 @@ var Select = _react2['default'].createClass({
 								noRowsRenderer: _this6.renderNoResults,
 								rowHeight: OPTION_HEIGHT,
 								rowRenderer: _this6.renderOption,
-								rowsCount: _this6.props.options.length,
+								rowsCount: options.length,
 								scrollToIndex: _this6.state.focusedOptionIndex,
 								width: width
 							});

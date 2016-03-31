@@ -500,14 +500,26 @@ const Select = React.createClass({
 	},
 
 	focusNextOption () {
+		let focusedOptionIndex = this.state.focusedOptionIndex + 1;
+
+		if (focusedOptionIndex >= this._visibleOptions.length) {
+			focusedOptionIndex = 0;
+		}
+
     this.setState({
-      focusedOptionIndex: Math.min(this.state.focusedOptionIndex + 1, this.props.options.length - 1)
+      focusedOptionIndex: focusedOptionIndex
     });
 	},
 
 	focusPreviousOption () {
+		let focusedOptionIndex = Math.min(this.state.focusedOptionIndex - 1, this._visibleOptions.length - 1);
+
+		if (focusedOptionIndex < 0) {
+			focusedOptionIndex = this._visibleOptions.length - 1;
+		}
+
     this.setState({
-      focusedOptionIndex: Math.max(this.state.focusedOptionIndex - 1, 0)
+      focusedOptionIndex: focusedOptionIndex
     });
 	},
 
@@ -681,8 +693,8 @@ const Select = React.createClass({
 	},
 
 	renderOption (index) {
-		const focusedOption = this.props.options[this.state.focusedOptionIndex];
-		const option = this.props.options[index];
+		const focusedOption = this._visibleOptions[this.state.focusedOptionIndex];
+		const option = this._visibleOptions[index];
 		let Option = this.props.optionComponent;
 		let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
@@ -767,7 +779,7 @@ const Select = React.createClass({
 			'has-value': valueArray.length,
 		});
 
-		const optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, this.props.options.length * OPTION_HEIGHT);
+		const optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT);
 
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
@@ -800,7 +812,7 @@ const Select = React.createClass({
 			              noRowsRenderer={this.renderNoResults}
 			              rowHeight={OPTION_HEIGHT}
 			              rowRenderer={this.renderOption}
-			              rowsCount={this.props.options.length}
+			              rowsCount={options.length}
 			              scrollToIndex={this.state.focusedOptionIndex}
 			              width={width}
 			            />
