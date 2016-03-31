@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
+import { AutoSizer, VirtualScroll } from 'react-virtualized';
 
 import stripDiacritics from './utils/stripDiacritics';
 
 import Async from './Async';
 import Option from './Option';
 import Value from './Value';
+
+const OPTION_HEIGHT = 35;
+const MAX_OPTIONS_HEIGHT = 200;
 
 function stringifyValue (value) {
 	if (typeof value === 'object') {
@@ -28,10 +32,10 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
-		autosize: React.PropTypes.bool,							// whether to enable autosizing or not
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
 		autoBlur: React.PropTypes.bool,
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
+		autosize: React.PropTypes.bool,							// whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
@@ -128,7 +132,8 @@ const Select = React.createClass({
 			isLoading: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
+			required: this.props.required && this.handleRequired(this.props.value, this.props.multi),
+			focusedOptionIndex: 0
 		};
 	},
 
@@ -336,6 +341,7 @@ const Select = React.createClass({
 		});
 	},
 
+
 	handleKeyDown (event) {
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
@@ -493,52 +499,16 @@ const Select = React.createClass({
 		}, this.focus);
 	},
 
-	focusOption (option) {
-		this.setState({
-			focusedOption: option
-		});
-	},
-
 	focusNextOption () {
-		this.focusAdjacentOption('next');
+    this.setState({
+      focusedOptionIndex: Math.min(this.state.focusedOptionIndex + 1, this.props.options.length - 1)
+    });
 	},
 
 	focusPreviousOption () {
-		this.focusAdjacentOption('previous');
-	},
-
-	focusAdjacentOption (dir) {
-		var options = this._visibleOptions.filter(i => !i.disabled);
-		this._scrollToFocusedOptionOnUpdate = true;
-		if (!this.state.isOpen) {
-			this.setState({
-				isOpen: true,
-				inputValue: '',
-				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1]
-			});
-			return;
-		}
-		if (!options.length) return;
-		var focusedIndex = -1;
-		for (var i = 0; i < options.length; i++) {
-			if (this._focusedOption === options[i]) {
-				focusedIndex = i;
-				break;
-			}
-		}
-		var focusedOption = options[0];
-		if (dir === 'next' && focusedIndex > -1 && focusedIndex < options.length - 1) {
-			focusedOption = options[focusedIndex + 1];
-		} else if (dir === 'previous') {
-			if (focusedIndex > 0) {
-				focusedOption = options[focusedIndex - 1];
-			} else {
-				focusedOption = options[options.length - 1];
-			}
-		}
-		this.setState({
-			focusedOption: focusedOption
-		});
+    this.setState({
+      focusedOptionIndex: Math.max(this.state.focusedOptionIndex - 1, 0)
+    });
 	},
 
 	selectFocusedOption () {
@@ -702,47 +672,49 @@ const Select = React.createClass({
 		}
 	},
 
-	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
-			let Option = this.props.optionComponent;
-			let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+	renderNoResults () {
+		return (
+			<div className="Select-noresults">
+				{this.props.noResultsText}
+			</div>
+		);
+	},
 
-			return options.map((option, i) => {
-				let isSelected = valueArray && valueArray.indexOf(option) > -1;
-				let isFocused = option === focusedOption;
-				let optionRef = isFocused ? 'focused' : null;
-				let optionClass = classNames({
-					'Select-option': true,
-					'is-selected': isSelected,
-					'is-focused': isFocused,
-					'is-disabled': option.disabled,
-				});
+	renderOption (index) {
+		const focusedOption = this.props.options[this.state.focusedOptionIndex];
+		const option = this.props.options[index];
+		let Option = this.props.optionComponent;
+		let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
-				return (
-					<Option
-						className={optionClass}
-						isDisabled={option.disabled}
-						isFocused={isFocused}
-						key={`option-${i}-${option[this.props.valueKey]}`}
-						onSelect={this.selectValue}
-						onFocus={this.focusOption}
-						option={option}
-						isSelected={isSelected}
-						ref={optionRef}
-						>
-						{renderLabel(option)}
-					</Option>
-				);
-			});
-		} else if (this.props.noResultsText) {
-			return (
-				<div className="Select-noresults">
-					{this.props.noResultsText}
-				</div>
-			);
-		} else {
-			return null;
-		}
+		let isSelected = this.props.valueRenderer && this.props.valueRenderer.indexOf(option) > -1;
+		let isFocused = option === focusedOption;
+		let optionRef = isFocused ? 'focused' : null;
+		let optionClass = classNames({
+			'Select-option': true,
+			'is-selected': isSelected,
+			'is-focused': isFocused,
+			'is-disabled': option.disabled,
+		});
+
+		return (
+			<Option
+				className={optionClass}
+				isDisabled={option.disabled}
+				isFocused={isFocused}
+				key={`option-${index}-${option[this.props.valueKey]}`}
+				onSelect={this.selectValue}
+				onFocus={() => {
+	        this.setState({
+	          focusedOptionIndex: index
+	        });
+				}}
+				option={option}
+				isSelected={isSelected}
+				ref={optionRef}
+				>
+				{renderLabel(option)}
+			</Option>
+		);
 	},
 
 	renderHiddenField (valueArray) {
@@ -794,6 +766,9 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
+
+		const optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, this.props.options.length * OPTION_HEIGHT);
+
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
@@ -817,14 +792,26 @@ const Select = React.createClass({
 								 style={this.props.menuStyle}
 								 onScroll={this.handleMenuScroll}
 								 onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
+							<AutoSizer disableHeight>
+								{({ width }) => (
+			            <VirtualScroll
+			              ref="VirtualScroll"
+			              height={optionsHeight}
+			              noRowsRenderer={this.renderNoResults}
+			              rowHeight={OPTION_HEIGHT}
+			              rowRenderer={this.renderOption}
+			              rowsCount={this.props.options.length}
+			              scrollToIndex={this.state.focusedOptionIndex}
+			              width={width}
+			            />
+								)}
+							</AutoSizer>
 						</div>
 					</div>
 				) : null}
 			</div>
 		);
 	}
-
 });
 
 export default Select;

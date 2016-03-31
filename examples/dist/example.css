@@ -103,6 +103,7 @@
   vertical-align: middle;
 }
 .Select-input > input {
+  width: 100%;
   background: none transparent;
   border: 0 none;
   box-shadow: none;
@@ -225,7 +226,7 @@
 }
 .Select-menu {
   max-height: 198px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 .Select-option {
   box-sizing: border-box;
@@ -331,6 +332,37 @@
   to {
     -webkit-transform: rotate(1turn);
   }
+}
+/* Grid default theme */
+.Grid {
+  position: relative;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Without this property, Chrome repaints the entire Grid any time a new row or column is added.
+		 Firefox only repaints the new row or column (regardless of this property).
+		 Safari and IE don't support the property at all. */
+  will-change: transform;
+}
+.Grid__innerScrollContainer {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.Grid__cell {
+  position: absolute;
+}
+/* VirtualScroll default theme */
+.VirtualScroll {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.VirtualScroll__innerScrollContainer {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.VirtualScroll__row {
+  position: absolute;
 }
 body {
   color: #333;
