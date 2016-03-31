@@ -2925,11 +2925,11 @@ describe('Select', () => {
 		});
 	});
 
-	describe('custom renderMenu option', () => {
+	describe('custom menuRenderer option', () => {
 		it('should render the custom menu', () => {
 			const instance = createControl({
 				options: [1,2,3],
-				renderMenu: () => <div className="customMenu">Custom menu</div>
+				menuRenderer: () => <div className="customMenu">Custom menu</div>
 			});
 			clickArrowToOpen();
 			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customMenu');
@@ -2939,7 +2939,7 @@ describe('Select', () => {
 			let paramsReceived;
 			const instance = createControl({
 				options: [1,2,3],
-				renderMenu: (params) => {
+				menuRenderer: (params) => {
 					paramsReceived = params;
 					return <div>Custom menu</div>;
 				}

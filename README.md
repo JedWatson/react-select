@@ -207,9 +207,9 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 #### Effeciently rendering large lists with windowing
 
-The `renderMenu` property can be used to override the default drop-down list of options.
+The `menuRenderer` property can be used to override the default drop-down list of options.
 This should be done when the list is large (hundreds or thousands of items) for faster rendering.
-The custom `renderMenu` property accepts the following named parameters:
+The custom `menuRenderer` property accepts the following named parameters:
 
 | Parameter | Type | Description |
 |:---|:---|:---|
@@ -223,7 +223,7 @@ The custom `renderMenu` property accepts the following named parameters:
 Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so:
 
 ```js
-renderMenu({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
+menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
   const focusedOptionIndex = options.indexOf(focusedOption);
   const option = options[index];
   const isFocusedOption = option === focusedOption;
@@ -281,6 +281,7 @@ Check out the demo site for a more complete example of this.
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
+	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
@@ -296,7 +297,6 @@ Check out the demo site for a more complete example of this.
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
-	renderMenu | func | undefined | Renders a custom menu with options; accepts the following named parameters: `renderMenu({ focusedOption, focusOption, options, selectValue, valueArray })`
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input

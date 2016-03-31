@@ -362,6 +362,7 @@ var Select = _react2['default'].createClass({
 		matchProp: _react2['default'].PropTypes.string, // (any|label|value) which option property to filter on
 		menuBuffer: _react2['default'].PropTypes.number, // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 		menuContainerStyle: _react2['default'].PropTypes.object, // optional style to apply to the menu container
+		menuRenderer: _react2['default'].PropTypes.func, // renders a custom menu with options
 		menuStyle: _react2['default'].PropTypes.object, // optional style to apply to the menu
 		multi: _react2['default'].PropTypes.bool, // multi-value input
 		name: _react2['default'].PropTypes.string, // generates a hidden <input /> tag with this field name for html forms
@@ -380,7 +381,6 @@ var Select = _react2['default'].createClass({
 		optionRenderer: _react2['default'].PropTypes.func, // optionRenderer: function (option) {}
 		options: _react2['default'].PropTypes.array, // array of options
 		placeholder: stringOrNode, // field placeholder, displayed when there's no value
-		renderMenu: _react2['default'].PropTypes.func, // renders a custom menu with options
 		required: _react2['default'].PropTypes.bool, // applies HTML5 required attribute when needed
 		scrollMenuIntoView: _react2['default'].PropTypes.bool, // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: _react2['default'].PropTypes.bool, // whether to enable searching feature or not
@@ -1035,8 +1035,8 @@ var Select = _react2['default'].createClass({
 		var _this4 = this;
 
 		if (options && options.length) {
-			if (this.props.renderMenu) {
-				return this.props.renderMenu({
+			if (this.props.menuRenderer) {
+				return this.props.menuRenderer({
 					focusedOption: focusedOption,
 					focusOption: this.focusOption,
 					labelKey: this.props.labelKey,

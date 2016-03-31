@@ -103,7 +103,7 @@ var CitiesField = React.createClass({
 					labelKey="name"
 					valueKey="name"
 					menuStyle={{ overflow: 'hidden' }}
-					renderMenu={this.renderMenu}
+					menuRenderer={this.renderMenu}
 				/>
 			</div>
 		);

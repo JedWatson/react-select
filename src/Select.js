@@ -52,6 +52,7 @@ const Select = React.createClass({
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
 		menuBuffer: React.PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
+		menuRenderer: React.PropTypes.func,					// renders a custom menu with options
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
@@ -70,7 +71,6 @@ const Select = React.createClass({
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
-		renderMenu: React.PropTypes.func,						// renders a custom menu with options
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
@@ -705,8 +705,8 @@ const Select = React.createClass({
 
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
-			if (this.props.renderMenu) {
-				return this.props.renderMenu({
+			if (this.props.menuRenderer) {
+				return this.props.menuRenderer({
 					focusedOption,
 					focusOption: this.focusOption,
 					labelKey: this.props.labelKey,
