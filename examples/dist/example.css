@@ -226,7 +226,7 @@
 }
 .Select-menu {
   max-height: 198px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 .Select-option {
   box-sizing: border-box;

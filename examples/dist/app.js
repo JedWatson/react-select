@@ -197,6 +197,7 @@ var CitiesField = _react2['default'].createClass({
 				searchable: this.state.searchable,
 				labelKey: 'name',
 				valueKey: 'name',
+				menuStyle: { overflow: 'hidden' },
 				renderMenu: this.renderMenu
 			})
 		);

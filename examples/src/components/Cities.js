@@ -102,6 +102,7 @@ var CitiesField = React.createClass({
 					searchable={this.state.searchable}
 					labelKey="name"
 					valueKey="name"
+					menuStyle={{ overflow: 'hidden' }}
 					renderMenu={this.renderMenu}
 				/>
 			</div>
