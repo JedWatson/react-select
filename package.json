@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "react-input-autosize": "^0.6.9",
-    "react-virtualized": "^6.0.2"
+    "react-input-autosize": "^0.6.9"
   },
   "devDependencies": {
     "babel": "^5.8.23",
@@ -31,6 +30,7 @@
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^0.14 || ^15.0.0-rc || ^15.0.0",
     "react-gravatar": "^2.3.0",
+    "react-virtualized": "^6.0.2",
     "sinon": "^1.17.2",
     "unexpected": "^10.7.0",
     "unexpected-dom": "^3.0.2",
