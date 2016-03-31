@@ -1152,6 +1152,7 @@ var Select = _react2['default'].createClass({
 				return this.props.renderMenu({
 					focusedOption: focusedOption,
 					focusOption: this.focusOption,
+					labelKey: this.props.labelKey,
 					options: options,
 					selectValue: this.selectValue,
 					valueArray: valueArray

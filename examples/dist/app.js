@@ -126,6 +126,7 @@ var CitiesField = _react2['default'].createClass({
 	renderMenu: function renderMenu(_ref) {
 		var focusedOption = _ref.focusedOption;
 		var focusOption = _ref.focusOption;
+		var labelKey = _ref.labelKey;
 		var options = _ref.options;
 		var selectValue = _ref.selectValue;
 		var valueArray = _ref.valueArray;
@@ -160,7 +161,7 @@ var CitiesField = _react2['default'].createClass({
 									padding: '0 .5rem'
 								}
 							},
-							options[index].name
+							options[index][labelKey]
 						);
 					},
 					rowsCount: options.length,

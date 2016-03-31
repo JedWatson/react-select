@@ -205,6 +205,19 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+#### Effeciently rendering large lists with windowing
+
+The `renderMenu` property can be used to override the default drop-down list of options. This should be done when the list is large (hundreds or thousands of items) for faster rendering. The custom `renderMenu` property accepts the following named parameters:
+
+```js
+  focusedOption, // The currently focused option; should be visible in the menu by default.
+  focusOption, // Callback to focus a new option; receives the option as a parameter.
+  labelKey, // Option labels are accessible with this string key.
+  options, // Array of options to render.
+  selectValue, // Callback to select a new option; receives the option as a parameter.
+  valueArray // Array of currently selected options.
+```
+
 ### Further options
 
 
@@ -250,6 +263,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
+	renderMenu | func | undefined | Renders a custom menu with options; accepts the following named parameters: `renderMenu({ focusedOption, focusOption, options, selectValue, valueArray })`
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input

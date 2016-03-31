@@ -50,7 +50,7 @@ var CitiesField = React.createClass({
 		newState[e.target.name] = e.target.checked;
 		this.setState(newState);
 	},
-	renderMenu({ focusedOption, focusOption, options, selectValue, valueArray }) {
+	renderMenu({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
 		const focusedOptionIndex = options.indexOf(focusedOption);
 		const height = Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT);
 
@@ -73,7 +73,7 @@ var CitiesField = React.createClass({
             			padding: '0 .5rem'
             		}}
             	>
-            		{options[index].name}
+            		{options[index][labelKey]}
             	</div>
             )}
             rowsCount={options.length}

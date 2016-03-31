@@ -709,6 +709,7 @@ const Select = React.createClass({
 				return this.props.renderMenu({
 					focusedOption,
 					focusOption: this.focusOption,
+					labelKey: this.props.labelKey,
 					options,
 					selectValue: this.selectValue,
 					valueArray
