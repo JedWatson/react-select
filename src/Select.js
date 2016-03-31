@@ -2,16 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
-import { AutoSizer, VirtualScroll } from 'react-virtualized';
 
 import stripDiacritics from './utils/stripDiacritics';
 
 import Async from './Async';
 import Option from './Option';
 import Value from './Value';
-
-const OPTION_HEIGHT = 35;
-const MAX_OPTIONS_HEIGHT = 200;
 
 function stringifyValue (value) {
 	if (typeof value === 'object') {
@@ -74,6 +70,7 @@ const Select = React.createClass({
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		renderMenu: React.PropTypes.func,						// renders a custom menu with options
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
@@ -132,8 +129,7 @@ const Select = React.createClass({
 			isLoading: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: this.props.required && this.handleRequired(this.props.value, this.props.multi),
-			focusedOptionIndex: 0
+			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
 		};
 	},
 
@@ -341,7 +337,6 @@ const Select = React.createClass({
 		});
 	},
 
-
 	handleKeyDown (event) {
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
@@ -499,6 +494,12 @@ const Select = React.createClass({
 		}, this.focus);
 	},
 
+	focusOption (option) {
+		this.setState({
+			focusedOption: option
+		});
+	},
+
 	focusNextOption () {
 		this.focusAdjacentOption('next');
 	},
@@ -511,41 +512,33 @@ const Select = React.createClass({
 		var options = this._visibleOptions.filter(i => !i.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
-      let focusedOption, focusedOptionIndex;
-      if (this._focusedOption) {
-        focusedOption = this._focusedOption;
-        focusedOptionIndex = this.state.focusedOptionIndex;
-      } else {
-        focusedOptionIndex = dir === 'next' ? 0 : options.length - 1;
-        focusedOption = options[focusedOptionIndex];
-      }
-      this.setState({
-        isOpen: true,
-        inputValue: '',
-        focusedOption: focusedOption,
-        focusedOptionIndex: focusedOptionIndex
-      });
-      return;
+			this.setState({
+				isOpen: true,
+				inputValue: '',
+				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1]
+			});
+			return;
 		}
 		if (!options.length) return;
-		let focusedOptionIndex = this.state.focusedOptionIndex;
-		if (dir === 'next') {
-			if (focusedOptionIndex < options.length - 1) {
-				focusedOptionIndex++;
-			} else {
-				focusedOptionIndex = 0;
-			}
-		} else if (dir === 'previous') {
-			if (focusedOptionIndex > 0) {
-				focusedOptionIndex--;
-			} else {
-				focusedOptionIndex = options.length - 1;
+		var focusedIndex = -1;
+		for (var i = 0; i < options.length; i++) {
+			if (this._focusedOption === options[i]) {
+				focusedIndex = i;
+				break;
 			}
 		}
-		let focusedOption = options[focusedOptionIndex];
+		var focusedOption = options[0];
+		if (dir === 'next' && focusedIndex > -1 && focusedIndex < options.length - 1) {
+			focusedOption = options[focusedIndex + 1];
+		} else if (dir === 'previous') {
+			if (focusedIndex > 0) {
+				focusedOption = options[focusedIndex - 1];
+			} else {
+				focusedOption = options[options.length - 1];
+			}
+		}
 		this.setState({
-			focusedOption: focusedOption,
-			focusedOptionIndex: focusedOptionIndex
+			focusedOption: focusedOption
 		});
 	},
 
@@ -710,50 +703,57 @@ const Select = React.createClass({
 		}
 	},
 
-	renderNoResults () {
-		return this.props.noResultsText
-			? (
+	renderMenu (options, valueArray, focusedOption) {
+		if (options && options.length) {
+			if (this.props.renderMenu) {
+				return this.props.renderMenu({
+					focusedOption,
+					focusOption: this.focusOption,
+					options,
+					selectValue: this.selectValue,
+					valueArray
+				});
+			} else {
+				let Option = this.props.optionComponent;
+				let renderLabel = this.props.optionRenderer || this.getOptionLabel;
+
+				return options.map((option, i) => {
+					let isSelected = valueArray && valueArray.indexOf(option) > -1;
+					let isFocused = option === focusedOption;
+					let optionRef = isFocused ? 'focused' : null;
+					let optionClass = classNames({
+						'Select-option': true,
+						'is-selected': isSelected,
+						'is-focused': isFocused,
+						'is-disabled': option.disabled,
+					});
+
+					return (
+						<Option
+							className={optionClass}
+							isDisabled={option.disabled}
+							isFocused={isFocused}
+							key={`option-${i}-${option[this.props.valueKey]}`}
+							onSelect={this.selectValue}
+							onFocus={this.focusOption}
+							option={option}
+							isSelected={isSelected}
+							ref={optionRef}
+							>
+							{renderLabel(option)}
+						</Option>
+					);
+				});
+			}
+		} else if (this.props.noResultsText) {
+			return (
 				<div className="Select-noresults">
 					{this.props.noResultsText}
 				</div>
-			) : null;
-	},
-
-	renderOption (index) {
-		const option = this._visibleOptions[index];
-		let Option = this.props.optionComponent;
-		let renderLabel = this.props.optionRenderer || this.getOptionLabel;
-
-		let isSelected = this.props.valueRenderer && this.props.valueRenderer.indexOf(option) > -1;
-		let isFocused = option === this._focusedOption;
-		let optionRef = isFocused ? 'focused' : null;
-		let optionClass = classNames({
-			'Select-option': true,
-			'is-selected': isSelected,
-			'is-focused': isFocused,
-			'is-disabled': option.disabled,
-		});
-
-		return (
-			<Option
-				className={optionClass}
-				isDisabled={option.disabled}
-				isFocused={isFocused}
-				key={`option-${index}-${option[this.props.valueKey]}`}
-				onSelect={this.selectValue}
-				onFocus={() => {
-	        this.setState({
-	        	focusedOption: option,
-	          focusedOptionIndex: index
-	        });
-				}}
-				option={option}
-				isSelected={isSelected}
-				ref={optionRef}
-				>
-				{renderLabel(option)}
-			</Option>
-		);
+			);
+		} else {
+			return null;
+		}
 	},
 
 	renderHiddenField (valueArray) {
@@ -805,9 +805,6 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
-
-		const optionsHeight = Math.max(Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT), OPTION_HEIGHT);
-
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
@@ -831,26 +828,14 @@ const Select = React.createClass({
 								 style={this.props.menuStyle}
 								 onScroll={this.handleMenuScroll}
 								 onMouseDown={this.handleMouseDownOnMenu}>
-							<AutoSizer disableHeight>
-								{({ width }) => (
-			            <VirtualScroll
-			              ref="VirtualScroll"
-			              height={optionsHeight}
-			              noRowsRenderer={this.renderNoResults}
-			              rowHeight={OPTION_HEIGHT}
-			              rowRenderer={this.renderOption}
-			              rowsCount={options.length}
-			              scrollToIndex={this.state.focusedOptionIndex}
-			              width={width}
-			            />
-								)}
-							</AutoSizer>
+							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
 						</div>
 					</div>
 				) : null}
 			</div>
 		);
 	}
+
 });
 
 export default Select;
