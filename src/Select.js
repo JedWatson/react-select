@@ -500,27 +500,53 @@ const Select = React.createClass({
 	},
 
 	focusNextOption () {
-		let focusedOptionIndex = this.state.focusedOptionIndex + 1;
-
-		if (focusedOptionIndex >= this._visibleOptions.length) {
-			focusedOptionIndex = 0;
-		}
-
-    this.setState({
-      focusedOptionIndex: focusedOptionIndex
-    });
+		this.focusAdjacentOption('next');
 	},
 
 	focusPreviousOption () {
-		let focusedOptionIndex = Math.min(this.state.focusedOptionIndex - 1, this._visibleOptions.length - 1);
+		this.focusAdjacentOption('previous');
+	},
 
-		if (focusedOptionIndex < 0) {
-			focusedOptionIndex = this._visibleOptions.length - 1;
+	focusAdjacentOption (dir) {
+		var options = this._visibleOptions.filter(i => !i.disabled);
+		this._scrollToFocusedOptionOnUpdate = true;
+		if (!this.state.isOpen) {
+      let focusedOption, focusedOptionIndex;
+      if (this._focusedOption) {
+        focusedOption = this._focusedOption;
+        focusedOptionIndex = this.state.focusedOptionIndex;
+      } else {
+        focusedOptionIndex = dir === 'next' ? 0 : options.length - 1;
+        focusedOption = options[focusedOptionIndex];
+      }
+      this.setState({
+        isOpen: true,
+        inputValue: '',
+        focusedOption: focusedOption,
+        focusedOptionIndex: focusedOptionIndex
+      });
+      return;
 		}
-
-    this.setState({
-      focusedOptionIndex: focusedOptionIndex
-    });
+		if (!options.length) return;
+		let focusedOptionIndex = this.state.focusedOptionIndex;
+		if (dir === 'next') {
+			if (focusedOptionIndex < options.length - 1) {
+				focusedOptionIndex++;
+			} else {
+				focusedOptionIndex = 0;
+			}
+		} else if (dir === 'previous') {
+			if (focusedOptionIndex > 0) {
+				focusedOptionIndex--;
+			} else {
+				focusedOptionIndex = options.length - 1;
+			}
+		}
+		let focusedOption = options[focusedOptionIndex];
+		this.setState({
+			focusedOption: focusedOption,
+			focusedOptionIndex: focusedOptionIndex
+		});
 	},
 
 	selectFocusedOption () {
@@ -685,21 +711,21 @@ const Select = React.createClass({
 	},
 
 	renderNoResults () {
-		return (
-			<div className="Select-noresults">
-				{this.props.noResultsText}
-			</div>
-		);
+		return this.props.noResultsText
+			? (
+				<div className="Select-noresults">
+					{this.props.noResultsText}
+				</div>
+			) : null;
 	},
 
 	renderOption (index) {
-		const focusedOption = this._visibleOptions[this.state.focusedOptionIndex];
 		const option = this._visibleOptions[index];
 		let Option = this.props.optionComponent;
 		let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
 		let isSelected = this.props.valueRenderer && this.props.valueRenderer.indexOf(option) > -1;
-		let isFocused = option === focusedOption;
+		let isFocused = option === this._focusedOption;
 		let optionRef = isFocused ? 'focused' : null;
 		let optionClass = classNames({
 			'Select-option': true,
@@ -717,6 +743,7 @@ const Select = React.createClass({
 				onSelect={this.selectValue}
 				onFocus={() => {
 	        this.setState({
+	        	focusedOption: option,
 	          focusedOptionIndex: index
 	        });
 				}}
@@ -779,7 +806,7 @@ const Select = React.createClass({
 			'has-value': valueArray.length,
 		});
 
-		const optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT);
+		const optionsHeight = Math.max(Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT), OPTION_HEIGHT);
 
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>

@@ -611,6 +611,7 @@ AutoSizer.defaultProps = {
   onResize: function onResize() {}
 };
 exports.default = AutoSizer;
+
 },{"../vendor/detectElementResize":29,"react":undefined,"react-addons-shallow-compare":7}],11:[function(require,module,exports){
 'use strict';
 
@@ -2635,6 +2636,7 @@ function updateScrollIndexHelper(_ref8) {
       }
     }
 }
+
 },{}],21:[function(require,module,exports){
 'use strict';
 
@@ -4318,25 +4320,54 @@ var Select = _react2['default'].createClass({
 	},
 
 	focusNextOption: function focusNextOption() {
-		var focusedOptionIndex = this.state.focusedOptionIndex + 1;
-
-		if (focusedOptionIndex >= this._visibleOptions.length) {
-			focusedOptionIndex = 0;
-		}
-
-		this.setState({
-			focusedOptionIndex: focusedOptionIndex
-		});
+		this.focusAdjacentOption('next');
 	},
 
 	focusPreviousOption: function focusPreviousOption() {
-		var focusedOptionIndex = Math.min(this.state.focusedOptionIndex - 1, this._visibleOptions.length - 1);
+		this.focusAdjacentOption('previous');
+	},
 
-		if (focusedOptionIndex < 0) {
-			focusedOptionIndex = this._visibleOptions.length - 1;
+	focusAdjacentOption: function focusAdjacentOption(dir) {
+		var options = this._visibleOptions.filter(function (i) {
+			return !i.disabled;
+		});
+		this._scrollToFocusedOptionOnUpdate = true;
+		if (!this.state.isOpen) {
+			var _focusedOption = undefined,
+			    _focusedOptionIndex = undefined;
+			if (this._focusedOption) {
+				_focusedOption = this._focusedOption;
+				_focusedOptionIndex = this.state.focusedOptionIndex;
+			} else {
+				_focusedOptionIndex = dir === 'next' ? 0 : options.length - 1;
+				_focusedOption = options[_focusedOptionIndex];
+			}
+			this.setState({
+				isOpen: true,
+				inputValue: '',
+				focusedOption: _focusedOption,
+				focusedOptionIndex: _focusedOptionIndex
+			});
+			return;
 		}
-
+		if (!options.length) return;
+		var focusedOptionIndex = this.state.focusedOptionIndex;
+		if (dir === 'next') {
+			if (focusedOptionIndex < options.length - 1) {
+				focusedOptionIndex++;
+			} else {
+				focusedOptionIndex = 0;
+			}
+		} else if (dir === 'previous') {
+			if (focusedOptionIndex > 0) {
+				focusedOptionIndex--;
+			} else {
+				focusedOptionIndex = options.length - 1;
+			}
+		}
+		var focusedOption = options[focusedOptionIndex];
 		this.setState({
+			focusedOption: focusedOption,
 			focusedOptionIndex: focusedOptionIndex
 		});
 	},
@@ -4500,23 +4531,22 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderNoResults: function renderNoResults() {
-		return _react2['default'].createElement(
+		return this.props.noResultsText ? _react2['default'].createElement(
 			'div',
 			{ className: 'Select-noresults' },
 			this.props.noResultsText
-		);
+		) : null;
 	},
 
 	renderOption: function renderOption(index) {
 		var _this4 = this;
 
-		var focusedOption = this._visibleOptions[this.state.focusedOptionIndex];
 		var option = this._visibleOptions[index];
 		var Option = this.props.optionComponent;
 		var renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
 		var isSelected = this.props.valueRenderer && this.props.valueRenderer.indexOf(option) > -1;
-		var isFocused = option === focusedOption;
+		var isFocused = option === this._focusedOption;
 		var optionRef = isFocused ? 'focused' : null;
 		var optionClass = (0, _classnames2['default'])({
 			'Select-option': true,
@@ -4535,6 +4565,7 @@ var Select = _react2['default'].createClass({
 				onSelect: this.selectValue,
 				onFocus: function () {
 					_this4.setState({
+						focusedOption: option,
 						focusedOptionIndex: index
 					});
 				},
@@ -4600,7 +4631,7 @@ var Select = _react2['default'].createClass({
 			'has-value': valueArray.length
 		});
 
-		var optionsHeight = Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT);
+		var optionsHeight = Math.max(Math.min(MAX_OPTIONS_HEIGHT, options.length * OPTION_HEIGHT), OPTION_HEIGHT);
 
 		return _react2['default'].createElement(
 			'div',
