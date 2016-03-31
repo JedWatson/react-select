@@ -207,16 +207,49 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 #### Effeciently rendering large lists with windowing
 
-The `renderMenu` property can be used to override the default drop-down list of options. This should be done when the list is large (hundreds or thousands of items) for faster rendering. The custom `renderMenu` property accepts the following named parameters:
+The `renderMenu` property can be used to override the default drop-down list of options.
+This should be done when the list is large (hundreds or thousands of items) for faster rendering.
+The custom `renderMenu` property accepts the following named parameters:
+
+| Parameter | Type | Description |
+|:---|:---|:---|
+| focusedOption | `Object` | The currently focused option; should be visible in the menu by default. |
+| focusOption | `Function` | Callback to focus a new option; receives the option as a parameter. |
+| labelKey | `String` | Option labels are accessible with this string key. |
+| options | `Array<Object>` | Ordered array of options to render. |
+| selectValue | `Function` | Callback to select a new option; receives the option as a parameter. |
+| valueArray | `Array<Object>` | Array of currently selected options. |
+
+Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so:
 
 ```js
-  focusedOption, // The currently focused option; should be visible in the menu by default.
-  focusOption, // Callback to focus a new option; receives the option as a parameter.
-  labelKey, // Option labels are accessible with this string key.
-  options, // Array of options to render.
-  selectValue, // Callback to select a new option; receives the option as a parameter.
-  valueArray // Array of currently selected options.
+renderMenu({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
+  const focusedOptionIndex = options.indexOf(focusedOption);
+  const option = options[index];
+  const isFocusedOption = option === focusedOption;
+
+  return (
+    <VirtualScroll
+      ref="VirtualScroll"
+      height={200}
+      rowHeight={35}
+      rowRenderer={(index) => (
+        <div
+          onMouseOver={() => focusOption(option)}
+          onClick={() => selectValue(option)}
+        >
+          {option[labelKey]}
+        </div>
+      )}
+      rowsCount={options.length}
+      scrollToIndex={focusedOptionIndex}
+      width={200}
+    />
+  )
+}
 ```
+
+Check out the demo site for a more complete example of this.
 
 ### Further options
 
