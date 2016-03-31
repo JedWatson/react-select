@@ -89,6 +89,7 @@ var CitiesField = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">World's Largest Cities</h3>
+				<h4>Uses react-virtualized to display data</h4>
 				<Select ref="stateSelect"
 					autofocus
 					options={options}
