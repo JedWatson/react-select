@@ -2924,4 +2924,34 @@ describe('Select', () => {
 			expect(inputNode.tagName, 'to equal', 'INPUT');
 		});
 	});
+
+	describe('custom renderMenu option', () => {
+		it('should render the custom menu', () => {
+			const instance = createControl({
+				options: [1,2,3],
+				renderMenu: () => <div className="customMenu">Custom menu</div>
+			});
+			clickArrowToOpen();
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customMenu');
+		});
+
+		it('should pass the expected parameters', () => {
+			let paramsReceived;
+			const instance = createControl({
+				options: [1,2,3],
+				renderMenu: (params) => {
+					paramsReceived = params;
+					return <div>Custom menu</div>;
+				}
+			});
+			clickArrowToOpen();
+			const keys = Object.keys(paramsReceived);
+			expect(keys, 'to contain', 'focusedOption');
+			expect(keys, 'to contain', 'focusOption');
+			expect(keys, 'to contain', 'labelKey');
+			expect(keys, 'to contain', 'options');
+			expect(keys, 'to contain', 'selectValue');
+			expect(keys, 'to contain', 'valueArray');
+		});
+	});
 });
