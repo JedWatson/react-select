@@ -59,6 +59,7 @@ var CitiesField = React.createClass({
         {({ width }) => (
           <VirtualScroll
             ref="VirtualScroll"
+            className="virtual-scroll"
             height={height}
             rowHeight={OPTION_HEIGHT}
             rowRenderer={(index) => (
