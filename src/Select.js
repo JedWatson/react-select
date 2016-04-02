@@ -67,6 +67,7 @@ const Select = React.createClass({
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+		openAfterFocus: React.PropTypes.bool,		// boolean to enable opening dropdown when focused
 		optionClassName: React.PropTypes.string,    // additional class(es) to apply to the <Option /> elements
 		optionComponent: React.PropTypes.func,      // option component to render in dropdown
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
@@ -112,6 +113,7 @@ const Select = React.createClass({
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
+			openAfterFocus: false,
 			optionComponent: Option,
 			placeholder: 'Select...',
 			required: false,
@@ -193,6 +195,12 @@ const Select = React.createClass({
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
+
+		if (this.props.openAfterFocus) {
+			this.setState({
+				isOpen: true,
+			});
+		}
 	},
 
 	blurInput() {

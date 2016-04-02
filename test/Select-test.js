@@ -2304,6 +2304,29 @@ describe('Select', () => {
 			});
 		});
 
+		describe('openAfterFocus', () => {
+
+			var openAfterFocus;
+
+			beforeEach(() => {
+				openAfterFocus = sinon.spy();
+
+				instance = createControl({
+					options: defaultOptions,
+					openAfterFocus: true
+				});
+			});
+
+			it('should show the options when focused', () => {
+				instance.focus();
+
+				if (instance.state.isFocused && instance.state.openAfterFocus) {
+					expect(instance.state.isOpen, 'to equal', true);
+				}
+			});
+
+		});
+
 		describe('onValueClick', () => {
 			var onValueClick;
 
