@@ -107,7 +107,7 @@ The function takes two arguments `String input, Function callback`and will be ca
 
 When your async process finishes getting the options, pass them to `callback(err, data)` in a Object `{ options: [] }`.
 
-The select control will intelligently cache options for input strings that have already been fetched. The cached result set will be filtered as more specific searches are input, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. Caching can be disabled by setting `cacheAsyncResults` to `false` (Note that `complete: true` will then have no effect).
+The select control will intelligently cache options for input strings that have already been fetched. The cached result set will be filtered as more specific searches are input, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object. Caching can be disabled by setting `cache` to `false` (Note that `complete: true` will then have no effect).
 
 Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
@@ -205,16 +205,64 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+#### Effeciently rendering large lists with windowing
+
+The `menuRenderer` property can be used to override the default drop-down list of options.
+This should be done when the list is large (hundreds or thousands of items) for faster rendering.
+The custom `menuRenderer` property accepts the following named parameters:
+
+| Parameter | Type | Description |
+|:---|:---|:---|
+| focusedOption | `Object` | The currently focused option; should be visible in the menu by default. |
+| focusOption | `Function` | Callback to focus a new option; receives the option as a parameter. |
+| labelKey | `String` | Option labels are accessible with this string key. |
+| options | `Array<Object>` | Ordered array of options to render. |
+| selectValue | `Function` | Callback to select a new option; receives the option as a parameter. |
+| valueArray | `Array<Object>` | Array of currently selected options. |
+
+Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so:
+
+```js
+menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
+  const focusedOptionIndex = options.indexOf(focusedOption);
+  const option = options[index];
+  const isFocusedOption = option === focusedOption;
+
+  return (
+    <VirtualScroll
+      ref="VirtualScroll"
+      height={200}
+      rowHeight={35}
+      rowRenderer={(index) => (
+        <div
+          onMouseOver={() => focusOption(option)}
+          onClick={() => selectValue(option)}
+        >
+          {option[labelKey]}
+        </div>
+      )}
+      rowsCount={options.length}
+      scrollToIndex={focusedOptionIndex}
+      width={200}
+    />
+  )
+}
+```
+
+Check out the demo site for a more complete example of this.
+
 ### Further options
 
 
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
+	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
+	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
-	cacheAsyncResults	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
+	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
@@ -226,12 +274,14 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
+	joinValues	|	bool	|	false		|	join multiple values into a single hidden input using the `delimiter`
 	labelKey	|	string	|	'label'		|	the option property to use for the label
 	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
+	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
@@ -242,9 +292,11 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
 	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
+	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
+	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
-	placeholder 	|	string	|	'Select ...'	|	field placeholder, displayed when there's no value
+	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input

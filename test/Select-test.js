@@ -2355,6 +2355,50 @@ describe('Select', () => {
 			});
 		});
 
+		describe('onOpen', () => {
+			let instance = null;
+			let eventHandler = null;
+
+			beforeEach(() => {
+				eventHandler = sinon.spy();
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					value: ['two', 'one'],
+					onOpen: eventHandler
+				});
+			});
+
+			it('is called when the options are displayed', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+				expect(eventHandler, 'was called once');
+			});
+		});
+
+		describe('onClose', () => {
+			let instance = null;
+			let eventHandler = null;
+
+			beforeEach(() => {
+				eventHandler = sinon.spy();
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					value: ['two', 'one'],
+					onClose: eventHandler
+				});
+			});
+
+			it('is called after the options are hidden', () => {
+				const domNode = ReactDOM.findDOMNode(instance);
+				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
+				eventHandler.reset();
+
+				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
+				expect(eventHandler, 'was called once');
+			});
+		});
+
 		describe('optionRenderer', () => {
 
 			var optionRenderer;
@@ -2795,6 +2839,18 @@ describe('Select', () => {
 				expect(instance.state.required, 'to be true');
 			});
 
+			it('input should not have required attribute after updating the component with a value', () => {
+				wrapper = createControlWithWrapper({
+					options: defaultOptions,
+					value: '',
+					required: true
+				});
+
+				expect(instance.state.required, 'to be true');
+				wrapper.setPropsForChild({ value: 'one' });
+				expect(instance.state.required, 'to be false');
+			});
+
 		});
 
 		describe('required with multi=true', () => {
@@ -2876,6 +2932,49 @@ describe('Select', () => {
 
 			TestUtils.Simulate.blur(searchInputNode);
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
+		});
+	});
+
+	describe('with autosize=false', () => {
+		beforeEach(() => {
+			instance = createControl({
+				autosize: false,
+			});
+		});
+
+		it('creates a plain input instead of an autosizable input', () => {
+			const inputNode = ReactDOM.findDOMNode(instance.refs.input);
+			expect(inputNode.tagName, 'to equal', 'INPUT');
+		});
+	});
+
+	describe('custom menuRenderer option', () => {
+		it('should render the custom menu', () => {
+			const instance = createControl({
+				options: [1,2,3],
+				menuRenderer: () => <div className="customMenu">Custom menu</div>
+			});
+			clickArrowToOpen();
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customMenu');
+		});
+
+		it('should pass the expected parameters', () => {
+			let paramsReceived;
+			const instance = createControl({
+				options: [1,2,3],
+				menuRenderer: (params) => {
+					paramsReceived = params;
+					return <div>Custom menu</div>;
+				}
+			});
+			clickArrowToOpen();
+			const keys = Object.keys(paramsReceived);
+			expect(keys, 'to contain', 'focusedOption');
+			expect(keys, 'to contain', 'focusOption');
+			expect(keys, 'to contain', 'labelKey');
+			expect(keys, 'to contain', 'options');
+			expect(keys, 'to contain', 'selectValue');
+			expect(keys, 'to contain', 'valueArray');
 		});
 	});
 });

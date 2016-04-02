@@ -1,5 +1,27 @@
 # React-Select
 
+## v1.0.0-beta11 / 2016-03-09
+
+* updated dependencies to allow use with React 15.x
+
+## v1.0.0-beta10 / 2016-02-23
+
+* fixed build issues with v1.0.0-beta9
+
+## v1.0.0-beta9 / 2016-02-12
+
+* added; onBlurResetsInput prop, thanks [Sly Bridges](https://github.com/slybridges)
+* changed; Enter selects and retains focus, Tab selects and shifts focus, thanks [RDX](https://github.com/rdsubhas)
+* fixed; Hide noResultsText when value is falsy, thanks [Fernando Alex Helwanger](https://github.com/fhelwanger)
+* added; `required` prop, adds HTML5 required attribute, thanks [Domenico Matteo](https://github.com/dmatteo)
+* fixed; Touch drag behaviour, thanks [Pavel Tarnopolsky](https://github.com/Paveltarno)
+* added; `onOpen` and `onClose` event props, thanks [Jacob Page](https://github.com/DullReferenceException)
+* fixed; Pressing Enter on open Select should stop propagation, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* fixed; Missing handleMouseDownOnMenu, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* added; Ensures the selected option is immediately visible when the menu is open, thanks [Martin Jujou](https://github.com/jooj123)
+* added; `autoBlur` prop, blurs the input when a value is selected, thanks [Pavel Tarnopolsky](https://github.com/Paveltarno)
+* fixed; Several isFocused checks weren't working properly
+
 ## v1.0.0-beta8 / 2015-12-20
 
 * fixed; input focus bug when toggling `disabled` prop, thanks [Davide Curletti](https://github.com/dcurletti)
@@ -281,7 +303,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 ## v0.4.2 / 2015-03-23
 
 * added; ESLint and contributing guide
-* fixed; incorrect `classnames` variable assignement in window scope
+* fixed; incorrect `classnames` variable assignment in window scope
 * fixed; all ESLint errors and warnings (except invalid JSX undefined/unused vars due to ESLint bug)
 * fixed; first option is now focused correctly, thanks [Eivind Siqveland Larsen](https://github.com/esiqveland)
 
@@ -295,7 +317,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 
 ## v0.3.5 / 2015-03-09
 
-* improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
+* improved; less/no repaint on scroll for performance wins, thanks [jsmunich](https://github.com/jsmunich)
 * added; `onBlur` and `onFocus` event handlers, thanks [Jonas Budelmann](https://github.com/cloudkite)
 * added; support for `inputProps` prop, passed to the `<input>` component, thanks [Yann Plantevin](https://github.com/YannPl)
 * changed; now using [react-component-gulp-tasks](https://github.com/JedWatson/react-component-gulp-tasks) for build
