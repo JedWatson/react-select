@@ -5,16 +5,10 @@ const DATA = require('../data/cities');
 
 var CitiesField = React.createClass({
 	displayName: 'CitiesField',
-	updateValue (newValue) {
-		this.setState({
-			selectValue: newValue
-		});
-	},
 	getInitialState () {
 		return {};
 	},
 	updateValue (newValue) {
-		console.log('State changed to ' + newValue);
 		this.setState({
 			selectValue: newValue
 		});
