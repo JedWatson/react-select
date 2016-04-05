@@ -65,6 +65,7 @@ const Select = React.createClass({
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
+		onSelectResetsInput: React.PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		openAfterFocus: React.PropTypes.bool,		// boolean to enable opening dropdown when focused
@@ -113,6 +114,7 @@ const Select = React.createClass({
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
+			onSelectResetsInput: false,
 			openAfterFocus: false,
 			optionComponent: Option,
 			placeholder: 'Select...',
@@ -458,7 +460,7 @@ const Select = React.createClass({
 		if (this.props.multi) {
 			this.addValue(value);
 			this.setState({
-				inputValue: '',
+				inputValue: this.props.onSelectResetsInput ? '' : this.state.inputValue,
 			});
 		} else {
 			this.setValue(value);
