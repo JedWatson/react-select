@@ -1,5 +1,9 @@
 # React-Select
 
+## Next
+
+* added; `tabSelectsValue` prop can be set to false to prevent selection of focused option when tab is pressed, thanks [Byron Anderson](https://github.com/byronanderson)
+
 ## v1.0.0-beta12 / 2016-04-02
 
 * added; `menuRenderer` method and example for effeciently rendering thousands of options, thanks [Brian Vaughn](https://github.com/bvaughn)
