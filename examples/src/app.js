@@ -14,7 +14,7 @@ import States from './components/States';
 
 ReactDOM.render(
 	<div>
-		<Cities label="Cities" searchable />
+		<Cities label="Cities" />
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
 		<Contributors label="Contributors (Async)" />
