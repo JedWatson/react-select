@@ -17,7 +17,7 @@
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
-	max-height: @select-menu-max-height;
+	//max-height: @select-menu-max-height; // Can it be removed?
 	position: absolute;
 	top: 100%;
 	width: 100%;
@@ -58,6 +58,9 @@
 		cursor: default;
 	}
 
+  	&.is-select-all {
+	  border-top: 1px solid @select-input-border-color;
+	}
 }
 
 
