@@ -2719,6 +2719,25 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with tabSelectsValue=false', () => {
+
+			beforeEach(() => {
+
+				instance = createControl({
+					options: defaultOptions,
+					tabSelectsValue: false
+				});
+			});
+
+			it('should not accept when tab is pressed', () => {
+
+				// Search 'h', should only show 'Three'
+				typeSearchText('h');
+				pressTabToAccept();
+				expect(onChange, 'was not called');
+			});
+		});
+
 		describe('valueRenderer', () => {
 
 			var valueRenderer;
