@@ -801,6 +801,24 @@ const Select = React.createClass({
 		}
 	},
 
+	renderOuter (options, valueArray, focusedOption) {
+		let menu = this.renderMenu(options, valueArray, focusedOption);
+		if (!menu) {
+			return null;
+		}
+
+		return (
+			<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
+				<div ref="menu" className="Select-menu"
+						 style={this.props.menuStyle}
+						 onScroll={this.handleMenuScroll}
+						 onMouseDown={this.handleMouseDownOnMenu}>
+					{menu}
+				</div>
+			</div>
+		);
+	},
+
 	render () {
 		let valueArray = this.getValueArray();
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
@@ -817,6 +835,7 @@ const Select = React.createClass({
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
 		});
+
 		return (
 			<div ref="wrapper" className={className} style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
@@ -834,16 +853,7 @@ const Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? (
-					<div ref="menuContainer" className="Select-menu-outer" style={this.props.menuContainerStyle}>
-						<div ref="menu" className="Select-menu"
-								 style={this.props.menuStyle}
-								 onScroll={this.handleMenuScroll}
-								 onMouseDown={this.handleMouseDownOnMenu}>
-							{this.renderMenu(options, !this.props.multi ? valueArray : null, focusedOption)}
-						</div>
-					</div>
-				) : null}
+				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
 		);
 	}
