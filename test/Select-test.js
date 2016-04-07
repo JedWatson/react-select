@@ -2224,6 +2224,17 @@ describe('Select', () => {
 					'to contain no elements matching', '.Select-noresults');
 			});
 
+			it('doesn\'t displays outer when menu is null', () => {
+
+				wrapper.setPropsForChild({
+					noResultsText: ''
+				});
+
+				typeSearchText('DOES NOT EXIST');
+				expect(ReactDOM.findDOMNode(instance),
+					'to contain no elements matching', '.Select-menu-outer');
+			});
+
 			it('supports updating the text', () => {
 
 				wrapper.setPropsForChild({
