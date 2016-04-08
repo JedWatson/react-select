@@ -861,3 +861,4 @@ const Select = React.createClass({
 });
 
 export default Select;
+export Async;
