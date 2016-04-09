@@ -186,7 +186,7 @@ const Select = React.createClass({
 		if (this.props.scrollMenuIntoView && this.refs.menuContainer) {
 			var menuContainerRect = this.refs.menuContainer.getBoundingClientRect();
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollTo(0, window.scrollY + menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
+				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
 		}
 		if (prevProps.disabled !== this.props.disabled) {
