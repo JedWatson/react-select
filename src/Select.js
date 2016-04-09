@@ -75,6 +75,7 @@ const Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
+		resetValue: React.PropTypes.any,						// value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
@@ -119,6 +120,7 @@ const Select = React.createClass({
 			optionComponent: Option,
 			placeholder: 'Select...',
 			required: false,
+			resetValue: null,
 			scrollMenuIntoView: true,
 			searchable: true,
 			simpleValue: false,
@@ -500,7 +502,7 @@ const Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
-		this.setValue(null);
+		this.setValue(this.props.resetValue);
 		this.setState({
 			isOpen: false,
 			inputValue: '',

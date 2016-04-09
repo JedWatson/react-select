@@ -1560,6 +1560,25 @@ describe('Select', () => {
 				});
 			});
 
+			describe('on clicking `clear` with a custom resetValue', () => {
+				beforeEach(() => {
+					createControlWithWrapper({
+						clearable: true,
+						options: defaultOptions,
+						value: 'three',
+						resetValue: 'reset'
+					});
+
+					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
+						'to have items satisfying', 'to have text', 'Three');
+				});
+
+				it('calls onChange with a custom resetValue', () => {
+					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					expect(onChange, 'was called with', 'reset');
+				});
+			});
+
 			describe('on tapping and dragging `clear`', () => {
 				beforeEach(() => {
 					TestUtils.Simulate.touchStart(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
