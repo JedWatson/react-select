@@ -53,6 +53,11 @@
 		color: $select-option-focused-color;
 	}
 
+	&.is-selected {
+		background-color: $select-option-selected-bg;
+		color: $select-option-selected-color;
+	}
+
 	&.is-disabled {
 		color: $select-option-disabled-color;
 		cursor: default;
