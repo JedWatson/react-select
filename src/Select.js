@@ -73,7 +73,7 @@ const Select = React.createClass({
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
-		removeSelected: React.PropTypes.func,       // whether the selected option is removed from the dropdown on multi selects
+		removeSelected: React.PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
