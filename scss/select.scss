@@ -33,6 +33,8 @@ $select-option-color:              lighten($select-text-color, 20%) !default;
 $select-option-bg:                 $select-input-bg !default;
 $select-option-focused-color:      $select-text-color !default;
 $select-option-focused-bg:         #f2f9fc !default; // pale blue
+$select-option-selected-color:     $select-text-color !default;
+$select-option-selected-bg:        #DAD1D1 !default; // gray
 $select-option-disabled-color:     lighten($select-text-color, 60%) !default;
 
 $select-noresults-color:           lighten($select-text-color, 40%) !default;
