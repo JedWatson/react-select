@@ -73,6 +73,7 @@ const Select = React.createClass({
 		optionRenderer: React.PropTypes.func,       // optionRenderer: function (option) {}
 		options: React.PropTypes.array,             // array of options
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		removeSelected: React.PropTypes.func,       // whether the selected option is removed from the dropdown on multi selects
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
@@ -117,6 +118,7 @@ const Select = React.createClass({
 			openAfterFocus: false,
 			optionComponent: Option,
 			placeholder: 'Select...',
+			removeSelected: true,
 			required: false,
 			scrollMenuIntoView: true,
 			searchable: true,
@@ -458,7 +460,12 @@ const Select = React.createClass({
 	selectValue (value) {
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
-			this.addValue(value);
+			var valueArray = this.getValueArray();
+			if (valueArray.find(i => i === value)) {
+				this.removeValue(value);
+			} else {
+				this.addValue(value);
+			}
 			this.setState({
 				inputValue: '',
 			});
@@ -821,7 +828,7 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray();
-		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
+		let options = this._visibleOptions = this.filterOptions(this.props.multi && this.props.removeSelected ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		let focusedOption = this._focusedOption = this.getFocusableOption(valueArray[0]);
@@ -853,7 +860,7 @@ const Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
 			</div>
 		);
 	}
