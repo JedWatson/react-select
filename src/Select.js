@@ -29,6 +29,7 @@ const Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
+		alwaysOpenOnFocus: React.PropTypes.bool,		// always open options menu on focus
 		autoBlur: React.PropTypes.bool,
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		autosize: React.PropTypes.bool,							// whether to enable autosizing or not
@@ -310,7 +311,7 @@ const Select = React.createClass({
 	},
 
 	handleInputFocus (event) {
-		var isOpen = this.state.isOpen || this._openAfterFocus;
+		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.alwaysOpenOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
