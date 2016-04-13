@@ -261,6 +261,7 @@ Check out the demo site for a more complete example of this.
 	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
 	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	alwaysOpenOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true)
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
 	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
