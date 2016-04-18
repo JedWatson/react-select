@@ -484,7 +484,7 @@ const Select = React.createClass({
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			var valueArray = this.getValueArray();
-			if (valueArray.find(i => i === value)) {
+			if (valueArray.find(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 				this.removeValue(value);
 			} else {
 				this.addValue(value);
@@ -516,7 +516,7 @@ const Select = React.createClass({
 
 	removeValue (value) {
 		var valueArray = this.getValueArray();
-		this.setValue(valueArray.filter(i => i !== value));
+		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
 		this.focus();
 	},
 
