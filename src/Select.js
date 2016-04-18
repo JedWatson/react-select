@@ -17,6 +17,29 @@ function stringifyValue (value) {
 	}
 }
 
+if (!Array.prototype.findIndex) {
+  Array.prototype.findIndex = function(predicate) {
+    if (this === null) {
+      throw new TypeError('Array.prototype.findIndex called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return i;
+      }
+    }
+    return -1;
+  };
+}
+
 const stringOrNode = React.PropTypes.oneOfType([
 	React.PropTypes.string,
 	React.PropTypes.node
@@ -737,7 +760,7 @@ const Select = React.createClass({
 				let renderLabel = this.props.optionRenderer || this.getOptionLabel;
 
 				return options.map((option, i) => {
-					let isSelected = valueArray && valueArray.indexOf(option) > -1;
+					let isSelected = valueArray && valueArray.findIndex(x => x[this.props.valueKey] == option[this.props.valueKey]) > -1;
 					let isFocused = option === focusedOption;
 					let optionRef = isFocused ? 'focused' : null;
 					let optionClass = classNames(this.props.optionClassName, {
