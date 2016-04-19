@@ -2486,8 +2486,8 @@ describe('Select', () => {
 			};
 
 			var links = [
-				{ href: '/link' },
-				{ href: '/link2', target: '_blank' }
+				{ href: 'http://keystonejs.com' },
+				{ href: 'http://thinkmill.com.au', target: '_blank' }
 			];
 
 			var ops = [
