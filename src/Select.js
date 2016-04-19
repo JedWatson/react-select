@@ -29,10 +29,10 @@ const Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
-		alwaysOpenOnFocus: React.PropTypes.bool,		// always open options menu on focus
-		autoBlur: React.PropTypes.bool,
+		openOnFocus: React.PropTypes.bool,          // always open options menu on focus
+		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
-		autosize: React.PropTypes.bool,							// whether to enable autosizing or not
+		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
@@ -311,7 +311,7 @@ const Select = React.createClass({
 	},
 
 	handleInputFocus (event) {
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.alwaysOpenOnFocus;
+		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}

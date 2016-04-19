@@ -258,11 +258,10 @@ Check out the demo site for a more complete example of this.
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
-	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
-	alwaysOpenOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true)
+	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
+	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
 	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
 	className 	|	string	|	undefined	|	className for the outer element
@@ -281,7 +280,6 @@ Check out the demo site for a more complete example of this.
 	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
-	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
@@ -291,14 +289,16 @@ Check out the demo site for a more complete example of this.
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
+	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
-	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
 	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
-	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
+	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
+	openOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true)
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
+	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
