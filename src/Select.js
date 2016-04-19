@@ -323,6 +323,7 @@ const Select = React.createClass({
 
 	handleInputBlur (event) {
 		if (this.refs.menu && document.activeElement.isEqualNode(this.refs.menu)) {
+			this.focus();
 			return;
 		}
 
