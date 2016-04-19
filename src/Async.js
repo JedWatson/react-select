@@ -50,7 +50,7 @@ const Async = React.createClass({
 		loadOptions: React.PropTypes.func.isRequired,   // function to call to load options asynchronously
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger loadOptions
-		noResultsText: React.PropTypes.string,          // placeholder displayed when there are no matching search results (shared with Select)
+		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
 		searchPromptText: React.PropTypes.string,       // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading

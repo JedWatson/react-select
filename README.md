@@ -85,8 +85,9 @@ function logChange(val) {
 You can enable multi-value selection by setting `multi={true}`. In this mode:
 
 * Selected options will be removed from the dropdown menu
-* The values of the selected items are joined using the `delimiter` property to create the input value
-* A simple value, if provided, will be split using the `delimiter` property
+* The selected values are submitted in multiple `<input type="hidden">` fields, use `joinValues` to submit joined values in a single field instead
+* The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
+* A simple value, if provided, will be split using the `delimiter` prop
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
@@ -205,6 +206,52 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
+#### Effeciently rendering large lists with windowing
+
+The `menuRenderer` property can be used to override the default drop-down list of options.
+This should be done when the list is large (hundreds or thousands of items) for faster rendering.
+The custom `menuRenderer` property accepts the following named parameters:
+
+| Parameter | Type | Description |
+|:---|:---|:---|
+| focusedOption | `Object` | The currently focused option; should be visible in the menu by default. |
+| focusOption | `Function` | Callback to focus a new option; receives the option as a parameter. |
+| labelKey | `String` | Option labels are accessible with this string key. |
+| options | `Array<Object>` | Ordered array of options to render. |
+| selectValue | `Function` | Callback to select a new option; receives the option as a parameter. |
+| valueArray | `Array<Object>` | Array of currently selected options. |
+
+Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so:
+
+```js
+menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
+  const focusedOptionIndex = options.indexOf(focusedOption);
+  const option = options[index];
+  const isFocusedOption = option === focusedOption;
+
+  return (
+    <VirtualScroll
+      ref="VirtualScroll"
+      height={200}
+      rowHeight={35}
+      rowRenderer={(index) => (
+        <div
+          onMouseOver={() => focusOption(option)}
+          onClick={() => selectValue(option)}
+        >
+          {option[labelKey]}
+        </div>
+      )}
+      rowsCount={options.length}
+      scrollToIndex={focusedOptionIndex}
+      width={200}
+    />
+  )
+}
+```
+
+Check out the demo site for a more complete example of this.
+
 ### Further options
 
 
@@ -235,6 +282,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
+	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
@@ -253,6 +301,7 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
+	tabSelectsValue	|	bool	|	true	|	whether to select the currently focused value when the `[tab]` key is pressed
 	value 		|	any	|	undefined	|	initial field value
 	valueKey	|	string	|	'value'		|	the option property to use for the value
 	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected

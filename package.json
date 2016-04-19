@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "1.0.0-beta11",
+  "version": "1.0.0-beta12",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "style": "dist/react-select.min.css",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "react-input-autosize": "^0.6.9"
+    "react-input-autosize": "^0.6.10"
   },
   "devDependencies": {
     "babel": "^5.8.23",
@@ -30,6 +30,8 @@
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^0.14 || ^15.0.0-rc || ^15.0.0",
     "react-gravatar": "^2.3.0",
+    "react-virtualized": "^6.0.4",
+    "react-virtualized-select": "^0.0.2",
     "sinon": "^1.17.2",
     "unexpected": "^10.7.0",
     "unexpected-dom": "^3.0.2",

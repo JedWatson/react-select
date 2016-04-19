@@ -2224,6 +2224,17 @@ describe('Select', () => {
 					'to contain no elements matching', '.Select-noresults');
 			});
 
+			it('doesn\'t displays outer when menu is null', () => {
+
+				wrapper.setPropsForChild({
+					noResultsText: ''
+				});
+
+				typeSearchText('DOES NOT EXIST');
+				expect(ReactDOM.findDOMNode(instance),
+					'to contain no elements matching', '.Select-menu-outer');
+			});
+
 			it('supports updating the text', () => {
 
 				wrapper.setPropsForChild({
@@ -2327,6 +2338,29 @@ describe('Select', () => {
 
 				expect(onFocus, 'was called once');
 			});
+		});
+
+		describe('openAfterFocus', () => {
+
+			var openAfterFocus;
+
+			beforeEach(() => {
+				openAfterFocus = sinon.spy();
+
+				instance = createControl({
+					options: defaultOptions,
+					openAfterFocus: true
+				});
+			});
+
+			it('should show the options when focused', () => {
+				instance.focus();
+
+				if (instance.state.isFocused && instance.state.openAfterFocus) {
+					expect(instance.state.isOpen, 'to equal', true);
+				}
+			});
+
 		});
 
 		describe('onValueClick', () => {
@@ -2721,6 +2755,25 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with tabSelectsValue=false', () => {
+
+			beforeEach(() => {
+
+				instance = createControl({
+					options: defaultOptions,
+					tabSelectsValue: false
+				});
+			});
+
+			it('should not accept when tab is pressed', () => {
+
+				// Search 'h', should only show 'Three'
+				typeSearchText('h');
+				pressTabToAccept();
+				expect(onChange, 'was not called');
+			});
+		});
+
 		describe('valueRenderer', () => {
 
 			var valueRenderer;
@@ -2947,6 +3000,36 @@ describe('Select', () => {
 		it('creates a plain input instead of an autosizable input', () => {
 			const inputNode = ReactDOM.findDOMNode(instance.refs.input);
 			expect(inputNode.tagName, 'to equal', 'INPUT');
+		});
+	});
+
+	describe('custom menuRenderer option', () => {
+		it('should render the custom menu', () => {
+			const instance = createControl({
+				options: [1,2,3],
+				menuRenderer: () => <div className="customMenu">Custom menu</div>
+			});
+			clickArrowToOpen();
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customMenu');
+		});
+
+		it('should pass the expected parameters', () => {
+			let paramsReceived;
+			const instance = createControl({
+				options: [1,2,3],
+				menuRenderer: (params) => {
+					paramsReceived = params;
+					return <div>Custom menu</div>;
+				}
+			});
+			clickArrowToOpen();
+			const keys = Object.keys(paramsReceived);
+			expect(keys, 'to contain', 'focusedOption');
+			expect(keys, 'to contain', 'focusOption');
+			expect(keys, 'to contain', 'labelKey');
+			expect(keys, 'to contain', 'options');
+			expect(keys, 'to contain', 'selectValue');
+			expect(keys, 'to contain', 'valueArray');
 		});
 	});
 });
