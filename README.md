@@ -252,6 +252,22 @@ menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, value
 
 Check out the demo site for a more complete example of this.
 
+### Updating input values with onInputChange
+
+You can manipulate the input using the onInputChange and returning a new value.
+
+```js
+function cleanInput(inputValue) {
+	  // Strip all non-number characters from the input
+    return inputValue.replace(/[^0-9]/g, "");
+}   
+
+<Select
+    name="form-field-name"
+    onInputChange={cleanInput}
+/>
+```
+
 ### Further options
 
 

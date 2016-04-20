@@ -172,7 +172,11 @@ const Select = React.createClass({
 		}
 
 		if (prevState.inputValue !== this.state.inputValue && this.props.onInputChange) {
-			this.props.onInputChange(this.state.inputValue);
+			var nextState = this.props.onInputChange(this.state.inputValue);
+			var newInput = (nextState !== undefined) ? nextState : null;
+			if (newInput !== null) {
+				this.setState({ inputValue: newInput });
+			}
 		}
 		if (this._scrollToFocusedOptionOnUpdate && this.refs.focused && this.refs.menu) {
 			this._scrollToFocusedOptionOnUpdate = false;

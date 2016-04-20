@@ -127,6 +127,31 @@ describe('Select', () => {
 
 	};
 
+	var createControlWithChange = (props, options) => {
+
+		options = options || {};
+
+		onChange = sinon.spy();
+		onInputChange = sinon.spy(function(inputValue) {
+			if (inputValue === '1') {
+				return '2';
+			}
+		});
+		// Render an instance of the component
+		instance = TestUtils.renderIntoDocument(
+			<Select
+				onChange={onChange}
+				onInputChange={onInputChange}
+				{...props}
+				/>
+		);
+		if (options.initialFocus !== false) {
+			findAndFocusInputControl();
+		}
+		return instance;
+
+	};
+
 	var setValueProp = value => wrapper.setPropsForChild({ value });
 
 	var createControlWithWrapper = (props, options) => {
@@ -379,6 +404,33 @@ describe('Select', () => {
 			expect(inputNode, 'to have attributes', {
 				required: undefined
 			});
+		});
+	});
+
+	describe('with a return from onInputChange', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			instance = createControlWithChange({
+				name: 'field-onChange',
+				value: 'one',
+				options: options,
+				simpleValue: true,
+			});
+		});
+
+		it('should change the value when onInputChange returns a value', () => {
+			typeSearchText('1');
+			expect(instance.state.inputValue, 'to equal', '2');
+		});
+
+		it('should return the input when onInputChange does not return a value', () => {
+			typeSearchText('Test');
+			expect(instance.state.inputValue, 'to equal', 'Test');
 		});
 	});
 
@@ -1467,7 +1519,6 @@ describe('Select', () => {
 	});
 
 	describe('with props', () => {
-
 
 		describe('className', () => {
 
