@@ -137,8 +137,18 @@ const Select = React.createClass({
 			isLoading: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: this.props.required && this.handleRequired(this.props.value, this.props.multi)
+			required: false,
 		};
+	},
+
+	componentWillMount () {
+		const valueArray = this.getValueArray(this.props.value);
+
+		if (this.props.required) {
+			this.setState({
+				required: this.handleRequired(valueArray[0], this.props.multi),
+			});
+		}
 	},
 
 	componentDidMount () {
@@ -148,9 +158,11 @@ const Select = React.createClass({
 	},
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.value !== nextProps.value && nextProps.required) {
+		const valueArray = this.getValueArray(nextProps.value);
+
+		if (nextProps.required) {
 			this.setState({
-				required: this.handleRequired(nextProps.value, nextProps.multi),
+				required: this.handleRequired(valueArray[0], nextProps.multi),
 			});
 		}
 	},
@@ -426,8 +438,7 @@ const Select = React.createClass({
 		return op[this.props.labelKey];
 	},
 
-	getValueArray () {
-		let value = this.props.value;
+	getValueArray (value) {
 		if (this.props.multi) {
 			if (typeof value === 'string') value = value.split(this.props.delimiter);
 			if (!Array.isArray(value)) {
@@ -482,19 +493,19 @@ const Select = React.createClass({
 	},
 
 	addValue (value) {
-		var valueArray = this.getValueArray();
+		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.concat(value));
 	},
 
 	popValue () {
-		var valueArray = this.getValueArray();
+		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
 	removeValue (value) {
-		var valueArray = this.getValueArray();
+		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
 		this.focus();
 	},
@@ -829,7 +840,7 @@ const Select = React.createClass({
 	},
 
 	render () {
-		let valueArray = this.getValueArray();
+		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
