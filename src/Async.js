@@ -111,6 +111,9 @@ const Async = React.createClass({
 		};
 	},
 	loadOptions (input) {
+		if (this.props.onInputChange) {
+			this.props.onInputChange(input);
+		}
 		if (this.props.ignoreAccents) input = stripDiacritics(input);
 		if (this.props.ignoreCase) input = input.toLowerCase();
 		this._lastInput = input;
@@ -144,12 +147,7 @@ const Async = React.createClass({
 				ref="select"
 				isLoading={isLoading}
 				noResultsText={noResultsText}
-				onInputChange={(inputValue) => {
-          if (this.props.onInputChange) {
-            this.props.onInputChange(inputValue);
-          }
-          return this.loadOptions(inputValue);
-        }}
+				onInputChange={this.loadOptions}
 				options={options}
 				placeholder={placeholder}
 				/>

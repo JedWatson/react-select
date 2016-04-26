@@ -2343,7 +2343,7 @@ describe('Select', () => {
 				clickArrowToOpen();
 				instance.refs.menu.focus();
 
-				var inputFocus = sinon.spy( instance.refs.input, "focus" );
+				var inputFocus = sinon.spy( instance.refs.input, 'focus' );
 				instance.handleInputBlur();
 
 				expect( instance.refs.input.focus, 'was called once' );
@@ -2354,7 +2354,7 @@ describe('Select', () => {
 					options: defaultOptions
 				});
 
-				var inputFocus = sinon.spy( instance.refs.input, "focus" );
+				var inputFocus = sinon.spy( instance.refs.input, 'focus' );
 				instance.handleInputBlur();
 
 				expect( instance.refs.input.focus, 'was not called' );
