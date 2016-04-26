@@ -61,7 +61,7 @@
     "publish:examples": "NODE_ENV=production gulp publish:examples",
     "release": "NODE_ENV=production gulp release",
     "start": "gulp dev",
-    "test": "mocha --compilers js:babel/register",
+    "test": "npm run lint && mocha --compilers js:babel/register",
     "watch": "gulp watch:lib"
   },
   "keywords": [
