@@ -268,6 +268,7 @@ Check out the demo site for a more complete example of this.
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
+	resetValue 	|	any	|	null	|	value to use when you clear the control
 	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
