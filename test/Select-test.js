@@ -382,6 +382,59 @@ describe('Select', () => {
 		});
 	});
 
+	describe('with a return from onInputChange', () => {
+
+		let onInputChangeOverride;
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			onInputChangeOverride = sinon.stub();
+
+			wrapper = createControlWithWrapper({
+				name: 'field-onChange',
+				value: 'one',
+				options: options,
+				simpleValue: true,
+				onInputChange: onInputChangeOverride
+			});
+		});
+
+		it('should change the value when onInputChange returns a value', () => {
+			onInputChangeOverride.returns('2');
+			typeSearchText('1');
+			expect(instance.state.inputValue, 'to equal', '2');
+		});
+
+		it('should return the input when onInputChange returns undefined', () => {
+			onInputChangeOverride.returns(undefined);  // Not actually necessary as undefined is the default, but makes this clear
+			typeSearchText('Test');
+			expect(instance.state.inputValue, 'to equal', 'Test');
+		});
+
+		it('should return the input when onInputChange returns null', () => {
+			onInputChangeOverride.returns(null);
+			typeSearchText('Test');
+			expect(instance.state.inputValue, 'to equal', 'Test');
+		});
+
+		it('should update the input when onInputChange returns a number', () => {
+			onInputChangeOverride.returns(5);
+			typeSearchText('Test');
+			expect(instance.state.inputValue, 'to equal', '5');
+		});
+
+		it('displays the new value in the input box', () => {
+			onInputChangeOverride.returns('foo');
+			typeSearchText('Test');
+			const displayedValue = ReactDOM.findDOMNode(instance).querySelector('.Select-input input').value;
+			expect(displayedValue, 'to equal', 'foo');
+		});
+	});
+
 	describe('with values as numbers', () => {
 		beforeEach(() => {
 			options = [
@@ -1467,7 +1520,6 @@ describe('Select', () => {
 	});
 
 	describe('with props', () => {
-
 
 		describe('className', () => {
 
