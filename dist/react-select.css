@@ -63,7 +63,22 @@
   border-color: #007eff;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
 }
-.Select-placeholder,
+/* Split for IE 8 compatibility */
+.Select-placeholder {
+  bottom: 0;
+  color: #aaa;
+  left: 0;
+  line-height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 :not(.Select--multi) > .Select-control .Select-value {
   bottom: 0;
   color: #aaa;
@@ -111,10 +126,10 @@
   display: inline-block;
   font-family: inherit;
   font-size: inherit;
-  height: 34px;
   margin: 0;
   outline: none;
-  padding: 0;
+  line-height: 14px;  /* For IE 8 compatibility */
+  padding: 8px 0 12px;  /* For IE 8 compatibility */
   -webkit-appearance: none;
 }
 .is-focused .Select-input > input {

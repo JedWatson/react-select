@@ -91,9 +91,8 @@
 }
 
 // placeholder
-
-.Select-placeholder,
-:not(.Select--multi) > .Select-control .Select-value {
+/* Split for IE 8 compatibility */
+.placeholder-mixin() {
 	bottom: 0;
 	color: @select-input-placeholder;
 	left: 0;
@@ -109,6 +108,12 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.Select-placeholder {
+	.placeholder-mixin();
+}
+:not(.Select--multi) > .Select-control .Select-value {
+	.placeholder-mixin();
 }
 
 .has-value:not(.Select--multi) > .Select-control > .Select-value,
@@ -148,10 +153,12 @@
 		display: inline-block;
 		font-family: inherit;
 		font-size: inherit;
-		height: @select-input-internal-height;
+		// height: @select-input-internal-height;
 		margin: 0;
 		outline: none;
-		padding: 0;
+		// padding: 0;
+		line-height: 14px;  /* For IE 8 compatibility */
+		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
 		-webkit-appearance: none;
 
 		.is-focused & {
