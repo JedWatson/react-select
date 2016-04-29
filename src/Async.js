@@ -112,7 +112,11 @@ const Async = React.createClass({
 	},
 	loadOptions (input) {
 		if (this.props.onInputChange) {
-			this.props.onInputChange(input);
+			let nextState = this.props.onInputChange(input);
+			// Note: != used deliberately here to catch undefined and null
+			if (nextState != null) {
+				input = '' + nextState;
+			}
 		}
 		if (this.props.ignoreAccents) input = stripDiacritics(input);
 		if (this.props.ignoreCase) input = input.toLowerCase();
