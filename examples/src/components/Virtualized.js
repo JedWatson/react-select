@@ -17,9 +17,8 @@ var CitiesField = React.createClass({
 		var options = DATA.CITIES;
 		return (
 			<div className="section">
-				<h3 className="section-heading">Large Datasets</h3>
+				<h3 className="section-heading">Cities (Large Dataset)</h3>
 				<VirtualizedSelect ref="citySelect"
-					autofocus
 					options={options}
 					simpleValue
 					clearable
