@@ -1,8 +1,21 @@
 # React-Select
 
-## Next
+## v1.0.0-beta13 / 2016-05-30
 
+* added; `inputRenderer` prop, allows you to override the input component, thanks [Sean Burke](https://github.com/leftmostcat)
+* added; `openOnFocus` prop, causes the menu to always open when the select control is focused, thanks [HuysentruytRuben](https://github.com/HuysentruytRuben)
+* added; `react-virtualised-select` HOC example, thanks [Brian Vaughn](https://github.com/bvaughn)
 * added; `tabSelectsValue` prop can be set to false to prevent selection of focused option when tab is pressed, thanks [Byron Anderson](https://github.com/byronanderson)
+* added; ability to override `resetValue` when clearing the control, thanks [Alexander Luberg](https://github.com/LubergAlexander)
+* added; input can be updated with `onInputChange`, thanks [Brett DeWoody](https://github.com/brettdewoody)
+* added; Styles for .is-selected class, thanks [Danny Herran](https://github.com/dherran)
+* fixed; `noResultsText` prop type is now `stringOrNode` for Async component, thanks [Michael Groeneman](https://github.com/mgroeneman)
+* fixed; `onInputChange` is wrapped by Async component, thanks [Eric O'Connell](https://github.com/drd)
+* fixed; `scrollMenuIntoView` behaviour in IE10, thanks [Ivan Jager](https://github.com/aij)
+* fixed; isEqualNode replaced with strict equality check, thanks [Alexandre Balhier](https://github.com/abalhier)
+* fixed; issue with value object not being passed to `handleRequired`, thanks [Andrew Hite](https://github.com/andyhite)
+* fixed; the menu-outer container is no longer rendered when it does not contain anything, thanks [Kuan](https://github.com/khankuan)
+* improved; better support for IE8 in styles, thanks [Rockallite Wulf](https://github.com/rockallite)
 
 ## v1.0.0-beta12 / 2016-04-02
 
