@@ -210,6 +210,12 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 The `menuRenderer` property can be used to override the default drop-down list of options.
 This should be done when the list is large (hundreds or thousands of items) for faster rendering.
+Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so.
+The easiest way to do this is with the [`react-virtualized-select`](https://github.com/bvaughn/react-virtualized-select/) HOC.
+This component decorates a `Select` and uses the react-virtualized `VirtualScroll` component to render options.
+Demo and documentation for this component are available [here](https://bvaughn.github.io/react-virtualized-select/).
+
+You can also specify your own custom renderer.
 The custom `menuRenderer` property accepts the following named parameters:
 
 | Parameter | Type | Description |
@@ -220,37 +226,6 @@ The custom `menuRenderer` property accepts the following named parameters:
 | options | `Array<Object>` | Ordered array of options to render. |
 | selectValue | `Function` | Callback to select a new option; receives the option as a parameter. |
 | valueArray | `Array<Object>` | Array of currently selected options. |
-
-Windowing libraries like [`react-virtualized`](https://github.com/bvaughn/react-virtualized) can then be used to more efficiently render the drop-down menu like so:
-
-```js
-menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, valueArray }) {
-  const focusedOptionIndex = options.indexOf(focusedOption);
-  const option = options[index];
-  const isFocusedOption = option === focusedOption;
-
-  return (
-    <VirtualScroll
-      ref="VirtualScroll"
-      height={200}
-      rowHeight={35}
-      rowRenderer={(index) => (
-        <div
-          onMouseOver={() => focusOption(option)}
-          onClick={() => selectValue(option)}
-        >
-          {option[labelKey]}
-        </div>
-      )}
-      rowsCount={options.length}
-      scrollToIndex={focusedOptionIndex}
-      width={200}
-    />
-  )
-}
-```
-
-Check out the demo site for a more complete example of this.
 
 ### Updating input values with onInputChange
 
