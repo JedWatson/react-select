@@ -82,8 +82,8 @@
 }
 
 // placeholder
-/* Split for IE 8 compatibility */
-@mixin placeholder-mixin() {
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
 	bottom: 0;
 	color: $select-input-placeholder;
 	left: 0;
@@ -100,15 +100,9 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.Select-placeholder {
-	@include placeholder-mixin();
-}
-:not(.Select--multi) > .Select-control .Select-value {
-	@include placeholder-mixin();
-}
 
-.has-value:not(.Select--multi):not(.is-focused) > .Select-control > .Select-value,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value {
+.has-value.Select--single:not(.is-focused) > .Select-control > .Select-value,
+.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value {
 	.Select-value-label {
 		color: $select-text-color;
 	}
