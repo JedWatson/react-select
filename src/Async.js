@@ -51,6 +51,7 @@ const Async = React.createClass({
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger loadOptions
 		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
+		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
 		searchPromptText: React.PropTypes.string,       // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading
@@ -110,6 +111,9 @@ const Async = React.createClass({
 		};
 	},
 	loadOptions (input) {
+		if (this.props.onInputChange) {
+			this.props.onInputChange(input);
+		}
 		if (this.props.ignoreAccents) input = stripDiacritics(input);
 		if (this.props.ignoreCase) input = input.toLowerCase();
 		this._lastInput = input;
