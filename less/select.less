@@ -38,7 +38,8 @@
 @select-option-focused-bg:         fade(@select-primary-color, 8%);
 @select-option-focused-bg-fb:      mix(@select-primary-color, @select-option-bg, 8%);  // Fallback color for IE 8
 @select-option-selected-color:     @select-text-color;
-@select-option-selected-bg:        #DAD1D1;
+@select-option-selected-bg:        fade(@select-primary-color, 4%);
+@select-option-selected-bg-fb:      mix(@select-primary-color, @select-option-bg, 4%);  // Fallback color for IE 8
 @select-option-disabled-color:     lighten(@select-text-color, 60%);
 
 @select-noresults-color:           lighten(@select-text-color, 40%);
