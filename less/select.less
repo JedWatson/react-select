@@ -36,6 +36,7 @@
 @select-option-bg:                 @select-input-bg;
 @select-option-focused-color:      @select-text-color;
 @select-option-focused-bg:         fade(@select-primary-color, 8%);
+@select-option-focused-bg-fb:      mix(@select-primary-color, @select-option-bg, 8%);  // Fallback color for IE 8
 @select-option-selected-color:     @select-text-color;
 @select-option-selected-bg:        #DAD1D1;
 @select-option-disabled-color:     lighten(@select-text-color, 60%);
@@ -62,10 +63,13 @@
 @select-item-font-size:            .9em;
 
 @select-item-bg:                   fade(@select-primary-color, 8%);
+@select-item-bg-fb:                mix(@select-primary-color, @select-input-bg, 8%);  // Fallback color for IE 8
 @select-item-color:                @select-primary-color;
 @select-item-border-color:         fade(@select-primary-color, 24%);
+@select-item-border-color-fb:      mix(@select-primary-color, @select-input-bg, 24%);  // Fallback color for IE 8
 @select-item-hover-color:          darken(@select-item-color, 5%);
 @select-item-hover-bg:             darken(@select-item-bg, 5%);
+@select-item-hover-bg-fb:          mix(darken(@select-primary-color, 5%), @select-item-bg-fb, 8%);  // Fallback color for IE 8
 @select-item-disabled-color:       #333;
 @select-item-disabled-bg:          #fcfcfc;
 @select-item-disabled-border-color: darken(@select-item-disabled-bg, 10%);

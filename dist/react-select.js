@@ -1145,6 +1145,7 @@ var Select = _react2['default'].createClass({
 		var focusedOption = this._focusedOption = this.getFocusableOption(valueArray[0]);
 		var className = (0, _classnames2['default'])('Select', this.props.className, {
 			'Select--multi': this.props.multi,
+			'Select--single': !this.props.multi,
 			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.props.isLoading,
