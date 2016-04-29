@@ -64,7 +64,7 @@
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
 }
 .Select-placeholder,
-:not(.Select--multi) > .Select-control .Select-value {
+.Select--single > .Select-control .Select-value {
   bottom: 0;
   color: #aaa;
   left: 0;
@@ -79,19 +79,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.has-value:not(.Select--multi) > .Select-control > .Select-value .Select-value-label,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value .Select-value-label {
+.has-value.Select--single > .Select-control > .Select-value .Select-value-label,
+.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value .Select-value-label {
   color: #333;
 }
-.has-value:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label {
+.has-value.Select--single > .Select-control > .Select-value a.Select-value-label,
+.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label {
   cursor: pointer;
   text-decoration: none;
 }
-.has-value:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label:hover,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label:hover,
-.has-value:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label:focus,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value a.Select-value-label:focus {
+.has-value.Select--single > .Select-control > .Select-value a.Select-value-label:hover,
+.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label:hover,
+.has-value.Select--single > .Select-control > .Select-value a.Select-value-label:focus,
+.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label:focus {
   color: #007eff;
   outline: none;
   text-decoration: underline;
@@ -103,6 +103,7 @@
   vertical-align: middle;
 }
 .Select-input > input {
+  width: 100%;
   background: none transparent;
   border: 0 none;
   box-shadow: none;
@@ -110,10 +111,12 @@
   display: inline-block;
   font-family: inherit;
   font-size: inherit;
-  height: 34px;
   margin: 0;
   outline: none;
-  padding: 0;
+  line-height: 14px;
+  /* For IE 8 compatibility */
+  padding: 8px 0 12px;
+  /* For IE 8 compatibility */
   -webkit-appearance: none;
 }
 .is-focused .Select-input > input {
@@ -239,7 +242,15 @@
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
 }
+.Select-option.is-selected {
+  background-color: #f5faff;
+  /* Fallback color for IE 8 */
+  background-color: rgba(0, 126, 255, 0.04);
+  color: #333;
+}
 .Select-option.is-focused {
+  background-color: #ebf5ff;
+  /* Fallback color for IE 8 */
   background-color: rgba(0, 126, 255, 0.08);
   color: #333;
 }
@@ -263,6 +274,8 @@
   margin-left: 5px;
 }
 .Select--multi .Select-value {
+  background-color: #ebf5ff;
+  /* Fallback color for IE 8 */
   background-color: rgba(0, 126, 255, 0.08);
   border-radius: 2px;
   border: 1px solid rgba(0, 126, 255, 0.24);
@@ -297,15 +310,21 @@
   cursor: pointer;
   border-bottom-left-radius: 2px;
   border-top-left-radius: 2px;
+  border-right: 1px solid #c2e0ff;
+  /* Fallback color for IE 8 */
   border-right: 1px solid rgba(0, 126, 255, 0.24);
   padding: 1px 5px 3px;
 }
 .Select--multi .Select-value-icon:hover,
 .Select--multi .Select-value-icon:focus {
+  background-color: #d8eafd;
+  /* Fallback color for IE 8 */
   background-color: rgba(0, 113, 230, 0.08);
   color: #0071e6;
 }
 .Select--multi .Select-value-icon:active {
+  background-color: #c2e0ff;
+  /* Fallback color for IE 8 */
   background-color: rgba(0, 126, 255, 0.24);
 }
 .Select--multi.is-disabled .Select-value {

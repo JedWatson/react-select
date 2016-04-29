@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "1.0.0-beta11",
+  "version": "1.0.0-beta13",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "style": "dist/react-select.min.css",
@@ -11,36 +11,37 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "classnames": "^2.2.3",
-    "react-input-autosize": "^0.6.9"
+    "classnames": "^2.2.4",
+    "react-input-autosize": "^0.6.13"
   },
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.3",
-    "chai": "^3.4.1",
-    "coveralls": "^2.11.6",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
-    "gulp": "^3.9.0",
-    "istanbul": "^0.4.2",
-    "jsdom": "^7.2.2",
-    "mocha": "^2.3.4",
-    "react": "^0.14 || ^15.0.0-rc || ^15.0.0",
-    "react-addons-test-utils": "^0.14 || ^15.0.0-rc || ^15.0.0",
+    "gulp": "^3.9.1",
+    "istanbul": "^0.4.3",
+    "jsdom": "^8.4.1",
+    "mocha": "^2.4.5",
+    "react": "^15.0",
+    "react-addons-shallow-compare": "^15.0.1",
+    "react-addons-test-utils": "^15.0",
     "react-component-gulp-tasks": "^0.7.7",
-    "react-dom": "^0.14 || ^15.0.0-rc || ^15.0.0",
-    "react-gravatar": "^2.3.0",
-    "react-virtualized": "^6.0.4",
-    "react-virtualized-select": "^0.0.2",
-    "sinon": "^1.17.2",
-    "unexpected": "^10.7.0",
-    "unexpected-dom": "^3.0.2",
-    "unexpected-react": "^0.5.1",
-    "unexpected-sinon": "^9.0.4"
+    "react-dom": "^15.0",
+    "react-gravatar": "^2.4.3",
+    "react-virtualized": "^6.3.0",
+    "react-virtualized-select": "^0.0.4",
+    "sinon": "^1.17.3",
+    "unexpected": "^10.13.2",
+    "unexpected-dom": "^3.1.0",
+    "unexpected-react": "^3.1.3",
+    "unexpected-sinon": "^10.2.0"
   },
   "peerDependencies": {
-    "react": "^0.14 || ^15.0.0-rc || ^15.0.0",
-    "react-dom": "^0.14 || ^15.0.0-rc || ^15.0.0"
+    "react": "^0.14 || ^15.0.0-rc || ^15.0",
+    "react-dom": "^0.14 || ^15.0.0-rc || ^15.0"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
@@ -60,7 +61,7 @@
     "publish:examples": "NODE_ENV=production gulp publish:examples",
     "release": "NODE_ENV=production gulp release",
     "start": "gulp dev",
-    "test": "mocha --compilers js:babel/register",
+    "test": "npm run lint && mocha --compilers js:babel/register",
     "watch": "gulp watch:lib"
   },
   "keywords": [

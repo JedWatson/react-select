@@ -22,6 +22,7 @@
 
 	// Items
 	.Select-value {
+		background-color: @select-item-bg-fb;  /* Fallback color for IE 8 */
 		background-color: @select-item-bg;
 		border-radius: @select-item-border-radius;
 		border: 1px solid @select-item-border-color;
@@ -61,6 +62,7 @@
 	.Select-value-icon {
 		cursor: pointer;
 		.border-left-radius( @select-item-border-radius );
+		border-right: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
 		border-right: 1px solid @select-item-border-color;
 
 		// move the baseline up by 1px
@@ -68,10 +70,12 @@
 
 		&:hover,
 		&:focus {
+			background-color: @select-item-hover-bg-fb;  /* Fallback color for IE 8 */
 			background-color: @select-item-hover-bg;
 			color: @select-item-hover-color;
 		}
 		&:active {
+			background-color: @select-item-border-color-fb;  /* Fallback color for IE 8 */
 			background-color: @select-item-border-color;
 		}
 	}

@@ -162,6 +162,27 @@ describe('Async', () => {
 		});
 	});
 
+	describe('with an onInputChange prop', () => {
+
+		let input;
+		const onInputChange = v => input = v;
+
+		beforeEach(() => {
+
+			// Render an instance of the component
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				minimumInput={1}
+				onInputChange={onInputChange}
+			/>);
+		});
+
+		it('calls through to the provided onInputChange function', () => {
+			typeSearchText('hi');
+			return expect(input, 'to equal', 'hi');
+		});
+	});
+
 	describe('with an isLoading prop', () => {
 
 		beforeEach(() => {

@@ -85,8 +85,9 @@ function logChange(val) {
 You can enable multi-value selection by setting `multi={true}`. In this mode:
 
 * Selected options will be removed from the dropdown menu
-* The values of the selected items are joined using the `delimiter` property to create the input value
-* A simple value, if provided, will be split using the `delimiter` property
+* The selected values are submitted in multiple `<input type="hidden">` fields, use `joinValues` to submit joined values in a single field instead
+* The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
+* A simple value, if provided, will be split using the `delimiter` prop
 * The `onChange` event provides an array of the selected options as the second argument
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
@@ -251,22 +252,39 @@ menuRenderer({ focusedOption, focusOption, labelKey, options, selectValue, value
 
 Check out the demo site for a more complete example of this.
 
+### Updating input values with onInputChange
+
+You can manipulate the input using the onInputChange and returning a new value.
+
+```js
+function cleanInput(inputValue) {
+	  // Strip all non-number characters from the input
+    return inputValue.replace(/[^0-9]/g, "");
+}   
+
+<Select
+    name="form-field-name"
+    onInputChange={cleanInput}
+/>
+```
+
 ### Further options
 
 
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
-	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
+	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
 	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
+	resetValue 	|	any	|	null	|	value to use when you clear the control
 	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
@@ -279,7 +297,6 @@ Check out the demo site for a more complete example of this.
 	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
-	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
@@ -289,17 +306,20 @@ Check out the demo site for a more complete example of this.
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
+	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
-	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
 	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
-	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
+	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
+	openOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true)
 	optionRenderer	|	func	|	undefined	|	function which returns a custom way to render the options in the menu
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
+	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string	|	'Type to search'	|	label to prompt for search input
+	tabSelectsValue	|	bool	|	true	|	whether to select the currently focused value when the `[tab]` key is pressed
 	value 		|	any	|	undefined	|	initial field value
 	valueKey	|	string	|	'value'		|	the option property to use for the value
 	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected

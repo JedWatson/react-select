@@ -9,14 +9,14 @@ import CustomComponents from './components/CustomComponents';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
-import Cities from './components/Cities';
+import Virtualized from './components/Virtualized';
 import States from './components/States';
 
 ReactDOM.render(
 	<div>
-		<Cities label="Cities" />
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
+		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
 		<NumericSelect label="Numeric Values" />
 		<CustomRender label="Custom Render Methods"/>
