@@ -73,11 +73,11 @@ var ValuesAsNumbersField = React.createClass({
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchValue} onChange={this.onChangeMatchValue} />
-						<span className="checkbox-label">Match value only</span>
+						<span className="checkbox-label">Match value</span>
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchLabel} onChange={this.onChangeMatchLabel} />
-						<span className="checkbox-label">Match label only</span>
+						<span className="checkbox-label">Match label</span>
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
