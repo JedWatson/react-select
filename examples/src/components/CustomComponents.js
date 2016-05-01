@@ -14,7 +14,6 @@ const GravatarOption = React.createClass({
 		isSelected: React.PropTypes.bool,
 		onFocus: React.PropTypes.func,
 		onSelect: React.PropTypes.func,
-		onUnfocus: React.PropTypes.func,
 		option: React.PropTypes.object.isRequired,
 	},
 	handleMouseDown (event) {
@@ -28,9 +27,6 @@ const GravatarOption = React.createClass({
 	handleMouseMove (event) {
 		if (this.props.isFocused) return;
 		this.props.onFocus(this.props.option, event);
-	},
-	handleMouseLeave (event) {
-		this.props.onUnfocus(this.props.option, event);
 	},
 	render () {
 		let gravatarStyle = {
@@ -46,7 +42,6 @@ const GravatarOption = React.createClass({
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
-				onMouseLeave={this.handleMouseLeave}
 				title={this.props.option.title}>
 				<Gravatar email={this.props.option.email} size={GRAVATAR_SIZE} style={gravatarStyle} />
 				{this.props.children}
