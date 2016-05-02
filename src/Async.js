@@ -53,7 +53,7 @@ const Async = React.createClass({
 		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: React.PropTypes.string,       // label to prompt for search input
+		searchPromptText: stringOrNode,       // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading
 	},
 	getDefaultProps () {
