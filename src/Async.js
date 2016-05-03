@@ -41,8 +41,6 @@ const stringOrNode = React.PropTypes.oneOfType([
 	React.PropTypes.node
 ]);
 
-const searchPromptLabel = 'Type to search';
-
 const Async = React.createClass({
 	propTypes: {
 		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
@@ -53,6 +51,7 @@ const Async = React.createClass({
 		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
 		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger loadOptions
 		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
+		noResultsLabel: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
 		searchPromptText: stringOrNode,			        // label to prompt for search input
@@ -67,7 +66,7 @@ const Async = React.createClass({
 			loadingPlaceholder: 'Loading...',
 			minimumInput: 0,
 			searchingText: 'Searching...',
-			searchPromptLabel: searchPromptLabel
+			searchPromptLabel: 'Type to search'
 		};
 	},
 	getInitialState () {
@@ -145,19 +144,27 @@ const Async = React.createClass({
 	},
 	render () {
 		let { noResultsText } = this.props;
+		let { noResultsLabel } = this.props;
+		let { searchPromptText } = this.props;
+		let { searchPromptLabel } = this.props;
+
+		if (!noResultsLabel) noResultsLabel = noResultsText;
+		if (!searchPromptLabel) searchPromptLabel = searchPromptText;
+
 		let { isLoading, options } = this.state;
 		if (this.props.isLoading) isLoading = true;
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
 		if (!options.length) {
-			if (this._lastInput.length < this.props.minimumInput) noResultsText = this.props.searchPromptLabel || this.props.searchPromptText;
-			if (isLoading) noResultsText = this.props.searchingText;
+			if (this._lastInput.length < this.props.minimumInput) noResultsLabel = searchPromptLabel;
+			if (isLoading) noResultsLabel = this.props.searchingText;
 		}
+
 		return (
 			<Select
 				{...this.props}
 				ref="select"
 				isLoading={isLoading}
-				noResultsText={noResultsText}
+				noResultsLabel={noResultsLabel}
 				onInputChange={this.loadOptions}
 				options={options}
 				placeholder={placeholder}

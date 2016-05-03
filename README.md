@@ -302,7 +302,7 @@ function cleanInput(inputValue) {
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
-	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
+	noResultsLabel 	|	string\|node |	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
