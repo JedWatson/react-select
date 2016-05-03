@@ -41,6 +41,8 @@ const stringOrNode = React.PropTypes.oneOfType([
 	React.PropTypes.node
 ]);
 
+const searchPromptLabel = 'Type to search';
+
 const Async = React.createClass({
 	propTypes: {
 		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
@@ -53,7 +55,8 @@ const Async = React.createClass({
 		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode,       // label to prompt for search input
+		searchPromptText: stringOrNode,			        // label to prompt for search input
+		searchPromptLabel: stringOrNode,			    // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading
 	},
 	getDefaultProps () {
@@ -64,7 +67,7 @@ const Async = React.createClass({
 			loadingPlaceholder: 'Loading...',
 			minimumInput: 0,
 			searchingText: 'Searching...',
-			searchPromptText: 'Type to search',
+			searchPromptLabel: searchPromptLabel
 		};
 	},
 	getInitialState () {
@@ -78,6 +81,10 @@ const Async = React.createClass({
 		this._lastInput = '';
 	},
 	componentDidMount () {
+		if(this.props.searchPromptText){
+			console.warn('searchPromptText is deprecated and will be removed. Please use searchPromptLabel');
+		}
+
 		this.loadOptions('');
 	},
 	componentWillReceiveProps (nextProps) {
@@ -142,7 +149,7 @@ const Async = React.createClass({
 		if (this.props.isLoading) isLoading = true;
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
 		if (!options.length) {
-			if (this._lastInput.length < this.props.minimumInput) noResultsText = this.props.searchPromptText;
+			if (this._lastInput.length < this.props.minimumInput) noResultsText = this.props.searchPromptLabel || this.props.searchPromptText;
 			if (isLoading) noResultsText = this.props.searchingText;
 		}
 		return (
