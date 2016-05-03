@@ -744,8 +744,8 @@ const Select = React.createClass({
 		}
 	},
 
-	noResultsLabel: function (props) {
-		return props.noResultsText ? props.noResultsText : props.noResultsLabel;
+	noResultsLabel: function noResultsLabel() {
+		return this.props.noResultsText ? this.props.noResultsText : this.props.noResultsLabel;
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
@@ -791,10 +791,10 @@ const Select = React.createClass({
 					);
 				});
 			}
-		} else if (this.noResultsLabel(this.props)) {
+		} else if (this.noResultsLabel()) {
 			return (
 				<div className="Select-noresults">
-					{this.noResultsLabel(this.props)}
+					{this.noResultsLabel()}
 				</div>
 			);
 		} else {
