@@ -54,8 +54,9 @@ const Async = React.createClass({
 		noResultsLabel: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode,			        // label to prompt for search input
+		searchPromptText: stringOrNode,       // label to prompt for search input
 		searchPromptLabel: stringOrNode,			    // label to prompt for search input
+		searchingLabel: stringOrNode,          // message to display while options are loading
 		searchingText: React.PropTypes.string,          // message to display while options are loading
 	},
 	getDefaultProps () {
@@ -65,7 +66,7 @@ const Async = React.createClass({
 			ignoreCase: true,
 			loadingPlaceholder: 'Loading...',
 			minimumInput: 0,
-			searchingText: 'Searching...',
+			searchingLabel: 'Searching...',
 			searchPromptLabel: 'Type to search'
 		};
 	},
@@ -80,6 +81,10 @@ const Async = React.createClass({
 		this._lastInput = '';
 	},
 	componentDidMount () {
+		if (this.props.searchingText) {
+			console.warn('searchingText is deprecated and will be removed. Please use searchingLabel');
+		}
+
 		if(this.props.searchPromptText){
 			console.warn('searchPromptText is deprecated and will be removed. Please use searchPromptLabel');
 		}
@@ -143,11 +148,14 @@ const Async = React.createClass({
 		return thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
 	},
 	render () {
+		let { searchingText } = this.props;
+		let { searchingLabel } = this.props;
 		let { noResultsText } = this.props;
 		let { noResultsLabel } = this.props;
 		let { searchPromptText } = this.props;
 		let { searchPromptLabel } = this.props;
 
+		if (!searchingLabel) searchingLabel =  searchingText;
 		if (!noResultsLabel) noResultsLabel = noResultsText;
 		if (!searchPromptLabel) searchPromptLabel = searchPromptText;
 
@@ -156,9 +164,8 @@ const Async = React.createClass({
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
 		if (!options.length) {
 			if (this._lastInput.length < this.props.minimumInput) noResultsLabel = searchPromptLabel;
-			if (isLoading) noResultsLabel = this.props.searchingText;
+			if (isLoading) noResultsLabel = searchingLabel;
 		}
-
 		return (
 			<Select
 				{...this.props}
