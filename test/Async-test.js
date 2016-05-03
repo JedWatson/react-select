@@ -60,7 +60,7 @@ describe('Async', () => {
 		it('renders the select with no options', () => {
 
 			return expect(renderer, 'to have rendered',
-				<Select options={ [] } noResultsText="Type to search"/>);
+				<Select options={ [] } noResultsLabel="Type to search"/>);
 		});
 
 		it('calls the loadOptions for each input', () => {
@@ -78,7 +78,7 @@ describe('Async', () => {
 				<Select
 					isLoading
 					placeholder="Loading..."
-					noResultsText="Searching..."
+					noResultsLabel="Searching..."
 				/>);
 		});
 
@@ -99,7 +99,7 @@ describe('Async', () => {
 					<Select
 						isLoading={false}
 						placeholder="Select..."
-						noResultsText="No results found"
+						noResultsLabel="No results found"
 						options={ [ { value: 1, label: 'test' } ] }
 					/>);
 			});
@@ -130,7 +130,7 @@ describe('Async', () => {
 					<Select
 						isLoading={false}
 						placeholder="Select..."
-						noResultsText="No results found"
+						noResultsLabel="No results found"
 						options={ [ { value: 2, label: 'test' } ] }
 					/>);
 			});
@@ -199,7 +199,7 @@ describe('Async', () => {
 			return expect(renderer, 'to have rendered',
 			<Select
 				isLoading
-				noResultsText="Searching..."
+				noResultsLabel="Searching..."
 				placeholder="Loading..."
 			/>);
 		});
@@ -335,7 +335,7 @@ describe('Async', () => {
 				<Select
 					isLoading={false}
 					placeholder="Select..."
-					noResultsText="No results found"
+					noResultsLabel="No results found"
 					options={ [ { value: 1, label: 'test callback' } ] }
 				/>);
 		});
@@ -357,7 +357,7 @@ describe('Async', () => {
 				<Select
 					isLoading={false}
 					placeholder="Select..."
-					noResultsText="No results found"
+					noResultsLabel="No results found"
 					options={ [ { value: 2, label: 'test callback 2' } ] }
 				/>);
 		});
@@ -380,7 +380,7 @@ describe('Async', () => {
 				<Select
 					isLoading={false}
 					placeholder="Select..."
-					noResultsText="No results found"
+					noResultsLabel="No results found"
 					options={ [ { value: 2, label: 'test callback 2' } ] }
 				/>);
 		});
@@ -477,7 +477,7 @@ describe('Async', () => {
 					<Select
 						options={ [] }
 						placeholder="Select..."
-						noResultsText="Type to search"
+						noResultsLabel="Type to search"
 					/>);
 
 			});
