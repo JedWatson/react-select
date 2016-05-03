@@ -59,6 +59,7 @@ const Select = React.createClass({
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
 		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
+		noResultsLabel: stringOrNode,                // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
@@ -115,7 +116,7 @@ const Select = React.createClass({
 			matchProp: 'any',
 			menuBuffer: 0,
 			multi: false,
-			noResultsText: 'No results found',
+			noResultsLabel: 'No results found',
 			onBlurResetsInput: true,
 			openAfterFocus: false,
 			optionComponent: Option,
@@ -153,6 +154,10 @@ const Select = React.createClass({
 	},
 
 	componentDidMount () {
+		if(this.props.noResultsText){
+			console.warn('noResultsText is deprecated and will be removed. Please use noResultsLabel');
+		}
+
 		if (this.props.autofocus) {
 			this.focus();
 		}
@@ -739,6 +744,10 @@ const Select = React.createClass({
 		}
 	},
 
+	noResultsLabel: function noResultsLabel() {
+		return this.props.noResultsText ? this.props.noResultsText : this.props.noResultsLabel;
+	},
+
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
 			if (this.props.menuRenderer) {
@@ -782,10 +791,10 @@ const Select = React.createClass({
 					);
 				});
 			}
-		} else if (this.props.noResultsText) {
+		} else if (this.noResultsLabel()) {
 			return (
 				<div className="Select-noresults">
-					{this.props.noResultsText}
+					{this.noResultsLabel()}
 				</div>
 			);
 		} else {

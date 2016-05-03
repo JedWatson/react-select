@@ -2266,14 +2266,14 @@ describe('Select', () => {
 			});
 		});
 
-		describe('noResultsText', () => {
+		describe('noResultsLabel', () => {
 
 			beforeEach(() => {
 
 				wrapper = createControlWithWrapper({
 					searchable: true,
 					options: defaultOptions,
-					noResultsText: 'No results unit test'
+					noResultsLabel: 'No results unit test'
 				});
 			});
 
@@ -2284,10 +2284,10 @@ describe('Select', () => {
 					'to have text', 'No results unit test');
 			});
 
-			it('doesn\'t displays the text when no results are found and noResultsText is falsy', () => {
+			it('doesn\'t displays the text when no results are found and noResultsLabel is falsy', () => {
 
 				wrapper.setPropsForChild({
-					noResultsText: ''
+					noResultsLabel: ''
 				});
 
 				typeSearchText('DOES NOT EXIST');
@@ -2298,7 +2298,7 @@ describe('Select', () => {
 			it('doesn\'t displays outer when menu is null', () => {
 
 				wrapper.setPropsForChild({
-					noResultsText: ''
+					noResultsLabel: ''
 				});
 
 				typeSearchText('DOES NOT EXIST');
@@ -2309,7 +2309,7 @@ describe('Select', () => {
 			it('supports updating the text', () => {
 
 				wrapper.setPropsForChild({
-					noResultsText: 'Updated no results text'
+					noResultsLabel: 'Updated no results text'
 				});
 
 				typeSearchText('DOES NOT EXIST');
@@ -2735,8 +2735,8 @@ describe('Select', () => {
 					asyncOptions: asyncOptions,
 					autoload: false,
 					searchingText: 'Testing async loading...',
-					noResultsText: 'Testing No results found',
-					searchPromptText: 'Testing enter search query'
+					noResultsLabel: 'Testing No results found',
+					searchPromptLabel: 'Testing enter search query'
 				});
 			});
 
@@ -2766,7 +2766,7 @@ describe('Select', () => {
 				expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-noresults');
 			});
 
-			it('switches the searchingText to noResultsText when options arrive, but empty', () => {
+			it('switches the searchingText to noResultsLabel when options arrive, but empty', () => {
 
 				clickArrowToOpen();
 				typeSearchText('abc');
@@ -2785,7 +2785,7 @@ describe('Select', () => {
 			});
 		});
 
-		describe('searchPromptText', () => {
+		describe('searchPromptLabel', () => {
 
 			// TODO: Need to use the new Select.Async control for this
 			return;
@@ -2799,11 +2799,11 @@ describe('Select', () => {
 				instance = createControl({
 					asyncOptions: asyncOptions,
 					autoload: false,
-					searchPromptText: 'Unit test prompt text'
+					searchPromptLabel: 'Unit test prompt text'
 				});
 			});
 
-			it('uses the searchPromptText before text is entered', () => {
+			it('uses the searchPromptLabel before text is entered', () => {
 
 				var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
 				TestUtils.Simulate.mouseDown(selectArrow);
@@ -2813,7 +2813,7 @@ describe('Select', () => {
 					'to have text', 'Unit test prompt text');
 			});
 
-			it('clears the searchPromptText when results arrive', () => {
+			it('clears the searchPromptLabel when results arrive', () => {
 
 				asyncOptions.callsArgWith(1, null, {
 					options: [{ value: 'abcd', label: 'ABCD' }]
