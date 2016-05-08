@@ -258,6 +258,10 @@ const Select = React.createClass({
 			return;
 		}
 
+		if (event.target.tagName === 'INPUT') {
+			return;
+		}
+
 		// prevent default event handlers
 		event.stopPropagation();
 		event.preventDefault();
@@ -275,6 +279,9 @@ const Select = React.createClass({
 			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
 			// Call focus() again here to be safe.
 			this.focus();
+
+			// clears value so that the cursor will be a the end of input then the component re-renders
+			this.refs.input.getInput().value = '';
 
 			// if the input is focused, ensure the menu is open
 			this.setState({
