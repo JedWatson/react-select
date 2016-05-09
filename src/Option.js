@@ -5,6 +5,7 @@ const Option = React.createClass({
 	propTypes: {
 		children: React.PropTypes.node,
 		className: React.PropTypes.string,             // className (based on mouse position)
+		instancePrefix: React.PropTypes.string.isRequired,  // unique prefix for the ids (used for aria)
 		isDisabled: React.PropTypes.bool,              // the option is disabled
 		isFocused: React.PropTypes.bool,               // the option is focused
 		isSelected: React.PropTypes.bool,              // the option is selected
@@ -12,6 +13,7 @@ const Option = React.createClass({
 		onSelect: React.PropTypes.func,                // method to handle click on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
+		optionIndex: React.PropTypes.number,           // index of the option, used to generate unique ids for aria
 	},
 	blockEvent (event) {
 		event.preventDefault();
@@ -64,7 +66,7 @@ const Option = React.createClass({
 		}
 	},
 	render () {
-		var { option } = this.props;
+		var { option, instancePrefix, optionIndex } = this.props;
 		var className = classNames(this.props.className, option.className);
 
 		return option.disabled ? (
@@ -76,12 +78,14 @@ const Option = React.createClass({
 		) : (
 			<div className={className}
 				style={option.style}
-				onMouseDown={this.handleMouseDown}
+				role="option"
+				 onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
 				onTouchStart={this.handleTouchStart}
 				onTouchMove={this.handleTouchMove}
 				onTouchEnd={this.handleTouchEnd}
+				id={instancePrefix + '-option-' + optionIndex}
 				title={option.title}>
 				{this.props.children}
 			</div>
