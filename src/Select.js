@@ -785,6 +785,7 @@ const Select = React.createClass({
 							key={`option-${i}-${option[this.props.valueKey]}`}
 							onSelect={this.selectValue}
 							onFocus={this.focusOption}
+							onRemove={this.removeValue}
 							option={option}
 							isSelected={isSelected}
 							ref={optionRef}
