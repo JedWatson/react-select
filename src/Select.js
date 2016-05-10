@@ -33,6 +33,7 @@ const Select = React.createClass({
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
+		boldMatchedInLabel: React.PropTypes.bool,   // whether to bold the matched parts of the labels (non-fuzzy)
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
 		clearValueText: stringOrNode,               // title for the "clear" control
@@ -98,6 +99,7 @@ const Select = React.createClass({
 			autosize: true,
 			allowCreate: false,
 			backspaceRemoves: true,
+			boldMatchedInLabel: true,
 			clearable: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
@@ -448,7 +450,15 @@ const Select = React.createClass({
 	},
 
 	getOptionLabel (op) {
-		return op[this.props.labelKey];
+		var label = op[this.props.labelKey];
+
+		if (this.state.inputValue && this.props.boldMatchedInLabel) {
+			var regex = new RegExp('(' + this.state.inputValue + ')', 'i');
+			var parts = label.split(regex).filter(Boolean).map((p, i) => regex.test(p) ? (<b key={i}>{p}</b>) : p);
+			return (<span>{parts}</span>);
+		} else {
+			return label;
+		}
 	},
 
 	getValueArray (value) {
