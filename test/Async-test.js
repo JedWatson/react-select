@@ -503,6 +503,28 @@ describe('Async', () => {
 		});
 	});
 
+	describe('with delay', () => {
+
+		beforeEach(() => {
+			renderer.render(<Select.Async
+				loadOptions={loadOptions}
+				delay={500}
+				cache={false} />);
+		});
+
+		it('calls loadOptions with changed text', () => {
+
+			typeSearchText('t');
+			expect(loadOptions, 'was not called');
+			typeSearchText('te');
+			setTimeout(() => {
+				expect(loadOptions, 'was called with', 'te');
+				expect(loadOptions, 'was called times', 1);
+			}, 501);
+		});
+
+	});
+
 	describe('with ignoreAccents', () => {
 
 		beforeEach(() => {
