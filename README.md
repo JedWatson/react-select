@@ -88,7 +88,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The selected values are submitted in multiple `<input type="hidden">` fields, use `joinValues` to submit joined values in a single field instead
 * The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
 * A simple value, if provided, will be split using the `delimiter` prop
-* The `onChange` event provides an array of the selected options as the second argument
+* The `onChange` event provides an array of selected options _or_ a comma-separated string of values (eg "1,2,3") if `simpleValue` is true
 * The first argument to `onChange` is always a string, regardless of whether the values of the selected options are numbers or strings
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
 * By default, selected options can be cleared. To disable the possibility of clearing a particular option, add `clearableValue: false` to that option:
