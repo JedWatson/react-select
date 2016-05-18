@@ -79,6 +79,7 @@ const Select = React.createClass({
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
+		searchText: React.PropTypes.string,
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
@@ -184,6 +185,11 @@ const Select = React.createClass({
 			this.hasScrolledToOption = true;
 		} else if (!this.state.isOpen) {
 			this.hasScrolledToOption = false;
+		}
+
+
+		if ((prevState.inputValue !== this.state.inputValue || prevProps.searchText !== this.props.searchText) && this.props.onInputChange) {
+			this.props.onInputChange(this.props.searchText === prevProps.searchText ? this.state.inputValue : this.props.searchText);
 		}
 
 		if (this._scrollToFocusedOptionOnUpdate && this.refs.focused && this.refs.menu) {
@@ -386,7 +392,7 @@ const Select = React.createClass({
 		if (this.props.disabled) return;
 		switch (event.keyCode) {
 			case 8: // backspace
-				if (!this.state.inputValue && this.props.backspaceRemoves) {
+				if (!(this.state.inputValue || this.props.searchText) && this.props.backspaceRemoves) {
 					event.preventDefault();
 					this.popValue();
 				}
@@ -608,7 +614,7 @@ const Select = React.createClass({
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
-			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
+			return !(this.state.inputValue || this.props.searchText) ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
@@ -668,7 +674,7 @@ const Select = React.createClass({
 						minWidth="5"
 						ref="input"
 						required={this.state.required}
-						value={this.state.inputValue}
+						value={this.props.searchText || this.state.inputValue}
 					/>
 				);
 			}
@@ -682,7 +688,7 @@ const Select = React.createClass({
 						onFocus={this.handleInputFocus}
 						ref="input"
 						required={this.state.required}
-						value={this.state.inputValue}
+						value={this.props.searchText || this.state.inputValue}
 					/>
 				</div>
 			);
