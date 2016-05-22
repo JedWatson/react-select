@@ -55,6 +55,7 @@ const Select = React.createClass({
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
 		menuRenderer: React.PropTypes.func,         // renders a custom menu with options
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
+    minCharsToOpen: React.PropTypes.number,
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		newOptionCreator: React.PropTypes.func,     // factory to create new options when allowCreate set
@@ -68,6 +69,7 @@ const Select = React.createClass({
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+    onValueSubmit: React.PropTypes.func,        // handler for submitting value on enter key press: function () {}
 		openAfterFocus: React.PropTypes.bool,		// boolean to enable opening dropdown when focused
 		openOnFocus: React.PropTypes.bool,          // always open options menu on focus
 		optionClassName: React.PropTypes.string,    // additional class(es) to apply to the <Option /> elements
@@ -79,9 +81,10 @@ const Select = React.createClass({
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
+    showArrow: React.PropTypes.bool,            // whether to display the drop down arrow or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
-		tabIndex: React.PropTypes.string,           // optional tab index of the control
+    tabIndex: React.PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: React.PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
@@ -114,6 +117,7 @@ const Select = React.createClass({
 			matchPos: 'any',
 			matchProp: 'any',
 			menuBuffer: 0,
+      minCharsToOpen: 0,
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
@@ -124,6 +128,7 @@ const Select = React.createClass({
 			resetValue: null,
 			scrollMenuIntoView: true,
 			searchable: true,
+      showArrow: true,
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: Value,
@@ -210,8 +215,7 @@ const Select = React.createClass({
 	focus () {
 		if (!this.refs.input) return;
 		this.refs.input.focus();
-
-		if (this.props.openAfterFocus) {
+    if (this.props.openAfterFocus && this.isMinCharsToOpenReached()) {
 			this.setState({
 				isOpen: true,
 			});
@@ -269,6 +273,7 @@ const Select = React.createClass({
 		// for the non-searchable select, toggle the menu
 		if (!this.props.searchable) {
 			this.focus();
+      // TODO: Look more into the searchable = false && minCharsToOpen > 0 flow
 			return this.setState({
 				isOpen: !this.state.isOpen,
 			});
@@ -280,17 +285,17 @@ const Select = React.createClass({
 			// Call focus() again here to be safe.
 			this.focus();
 
-			// clears value so that the cursor will be a the end of input then the component re-renders
+			// clears value so that the cursor will be at the end of input then the component re-renders
 			this.refs.input.getInput().value = '';
-
-			// if the input is focused, ensure the menu is open
+      
+      // if the input is focused, ensure the menu is open
 			this.setState({
-				isOpen: true,
+				isOpen: this.isMinCharsToOpenReached(),
 				isPseudoFocused: false,
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.isMinCharsToOpenReached();
 			this.focus();
 		}
 	},
@@ -335,6 +340,7 @@ const Select = React.createClass({
 	},
 
 	handleInputFocus (event) {
+    // TODO look more into the inputOnFocus = true && minCharsToOpen > 0 flow
 		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
@@ -376,7 +382,7 @@ const Select = React.createClass({
 			}
 		}
 		this.setState({
-			isOpen: true,
+			isOpen: event.target.value.length >= this.props.minCharsToOpen,
 			isPseudoFocused: false,
 			inputValue: newInputValue
 		});
@@ -398,7 +404,12 @@ const Select = React.createClass({
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen) {
+          if (this.state.inputValue === '' && this.props.value.length > 0 && this.props.onValueSubmit) {
+            this.props.onValueSubmit();
+          }
+          return;
+        };
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
@@ -446,6 +457,10 @@ const Select = React.createClass({
 		if (!value) return true;
 		return (multi ? value.length === 0 : Object.keys(value).length === 0);
 	},
+  
+  isMinCharsToOpenReached () {
+    return this.state.inputValue.length >= this.props.minCharsToOpen;
+  },
 
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
@@ -493,6 +508,8 @@ const Select = React.createClass({
 		if (this.props.multi) {
 			this.addValue(value);
 			this.setState({
+        // <= 0 just in case somebody passes in a negative number
+        isOpen: this.props.minCharsToOpen <= 0,
 				inputValue: '',
 			});
 		} else {
@@ -557,7 +574,7 @@ const Select = React.createClass({
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
 			this.setState({
-				isOpen: true,
+				isOpen: this.isMinCharsToOpenReached(),
 				inputValue: '',
 				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1]
 			});
@@ -704,6 +721,7 @@ const Select = React.createClass({
 	},
 
 	renderArrow () {
+    if (!this.props.showArrow) return;
 		return (
 			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
 				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
