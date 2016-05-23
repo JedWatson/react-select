@@ -63,6 +63,9 @@ When the value is changed, `onChange(selectedValueOrValues)` will fire.
 ```javascript
 var Select = require('react-select');
 
+// Do not forget to import the CSS
+require('react-select/dist/react-select.css');
+
 var options = [
 	{ value: 'one', label: 'One' },
 	{ value: 'two', label: 'Two' }
