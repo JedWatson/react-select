@@ -505,12 +505,12 @@ const Select = React.createClass({
 				focusedIndex: null
 			});
 		} else {
-			this.setValue(value);
 			this.setState({
 				isOpen: false,
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
 			});
+			this.setValue(value);
 		}
 	},
 
