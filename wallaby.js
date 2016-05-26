@@ -6,11 +6,14 @@ var babel = require('babel');
 
 module.exports = function (wallaby) { // eslint-disable-line no-unused-vars
 	return {
-		files: ['src/**/*.js', 'testHelpers/*.js'],
+		files: ['src/**/*.js', {
+			pattern: 'testHelpers/*.js',
+			instrument: false
+		}],
 		tests: ['test/*-test.js' ],
 		env: {
 			type: 'node',
-			runner: '/home/dave/.nvm/versions/node/v4.2.1/bin/node'
+			runner: 'node'
 		},
 		compilers: {
 			'**/*.js': wallaby.compilers.babel({
