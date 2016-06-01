@@ -798,9 +798,11 @@ const Select = React.createClass({
 
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
+		var originalFilterValue = filterValue;
 		var options = this.props.options || [];
+		var filteredOptions = [];
 		if (typeof this.props.filterOptions === 'function') {
-			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
+			filteredOptions = this.props.filterOptions.call(this, options, filterValue, excludeOptions);
 		} else if (this.props.filterOptions) {
 			if (this.props.ignoreAccents) {
 				filterValue = stripDiacritics(filterValue);
@@ -809,7 +811,7 @@ const Select = React.createClass({
 				filterValue = filterValue.toLowerCase();
 			}
 			if (excludeOptions) excludeOptions = excludeOptions.map(i => i[this.props.valueKey]);
-			return options.filter(option => {
+			filteredOptions = options.filter(option => {
 				if (excludeOptions && excludeOptions.indexOf(option[this.props.valueKey]) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, option, filterValue);
 				if (!filterValue) return true;
@@ -832,8 +834,26 @@ const Select = React.createClass({
 				);
 			});
 		} else {
-			return options;
+			filteredOptions = options;
 		}
+		if (this.props.allowCreate && filterValue) {
+			let addNewOption = true;
+			//NOTE: only add the "Add" option if none of the options are an exact match
+			filteredOptions.map(option => {
+				if (option.label.toLowerCase() === filterValue || option.value.toLowerCase() === filterValue) {
+					addNewOption = false;
+				}
+			});
+			if (addNewOption) {
+				let newOption = this.props.newOptionCreator ? this.props.newOptionCreator(originalFilterValue) : {
+					value: originalFilterValue,
+					label: originalFilterValue,
+					create: true
+				};
+				filteredOptions.unshift(newOption);
+			}
+		}
+		return filteredOptions;
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
@@ -873,6 +893,7 @@ const Select = React.createClass({
 							onSelect={this.selectValue}
 							onFocus={this.focusOption}
 							option={option}
+							addLabelText={this.props.addLabelText}
 							isSelected={isSelected}
 							ref={optionRef}
 							>

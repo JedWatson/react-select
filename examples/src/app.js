@@ -12,6 +12,7 @@ import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import AllowCreate from './components/AllowCreate';
 
 ReactDOM.render(
 	<div>
@@ -26,6 +27,7 @@ ReactDOM.render(
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}
+		<AllowCreate label="Option Creation (tags mode)" allowCreate />
 	</div>,
 	document.getElementById('example')
 );

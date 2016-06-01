@@ -1273,10 +1273,6 @@ describe('Select', () => {
 	});
 
 	describe('with allowCreate=true', () => {
-
-		// TODO: allowCreate hasn't been implemented yet in 1.x
-		return;
-
 		beforeEach(() => {
 
 			options = [
@@ -1309,17 +1305,18 @@ describe('Select', () => {
 		it('fires an onChange with the new value when selecting the Add option', () => {
 
 			typeSearchText('xyz');
-			TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			console.log(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option').outerHTML);
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
 
-			expect(onChange, 'was called with', 'xyz');
+			expect(onChange, 'was called with', { value: 'xyz', label: 'xyz', create: true });
 		});
 
 		it('allows updating the options with a new label, following the onChange', () => {
 
 			typeSearchText('xyz');
-			TestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
 
-			expect(onChange, 'was called with', 'xyz');
+			expect(onChange, 'was called with', { value: 'xyz', label: 'xyz', create: true });
 
 			// Now the client adds the option, with a new label
 			wrapper.setPropsForChild({
@@ -1358,28 +1355,14 @@ describe('Select', () => {
 				'to have text', 'Add test to values?');
 		});
 
-		it('does not display the option label when an existing value is entered', () => {
+		it('does not display the add option label when an existing value is entered', () => {
 
 			typeSearchText('zzzzz');
 
 			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
 				'to have length', 1);
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', '.Select-menu .Select-option',
-				'to have text', 'Add zzzzz to values?');
-		});
-
-		it('renders the existing option and an add option when an existing display label is entered', () => {
-
-			typeSearchText('test value');
-
-			// First item should be the add option (as the "value" is not in the collection)
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[0],
-				'to have text', 'Add test value to values?');
-			// Second item should be the existing option with the matching label
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option')[1],
 				'to have text', 'test value');
-			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option'),
-				'to have length', 2);
 		});
 	});
 
