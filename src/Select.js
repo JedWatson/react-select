@@ -932,7 +932,8 @@ const Select = React.createClass({
 			!this.props.disabled &&
 			valueArray.length &&
 			!this.state.inputValue &&
-			this.state.isFocused) {
+			this.state.isFocused &&
+			this.props.backspaceRemoves) {
 			removeMessage = (
 				<span id={this._instancePrefix + '-backspace-remove-message'} className="Select-aria-only" aria-live="assertive">
 					{this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])}

@@ -44,7 +44,7 @@ const GithubUsers = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} minimumInput={1} />
+				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} minimumInput={1} backspaceRemoves={false} />
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
