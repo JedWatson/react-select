@@ -871,6 +871,7 @@ const Select = React.createClass({
 		if (!options.length) return null;
 
 		let focusedOption = this.state.focusedOption || selectedOption;
+		let selected = null;
 		if (focusedOption) {
 			const focusedOptionIndex = options.indexOf(focusedOption);
 			if (focusedOptionIndex !== -1) {
@@ -879,9 +880,17 @@ const Select = React.createClass({
 		}
 
 		for (var i = 0; i < options.length; i++) {
-			if (!options[i].disabled) return i;
+			// if there is no selected option just use first value in options
+			if (!options[i].disabled && !focusedOption) {
+				return i;
+			} else if (!options[i].disabled && options[i].value === focusedOption.value) {
+				return i;
+			} else if (!options[i].disabled && !selected) {
+				// get first option thats not disabled
+				selected = i;
+			}
 		}
-		return null;
+		return selected;
 	},
 
 	renderOuter (options, valueArray, focusedOption) {
