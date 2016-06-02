@@ -29,6 +29,7 @@ const Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
+		addItemOnKeyCode: React.PropTypes.number,   // The key code number that should trigger adding a tag if multi and allowCreate are enabled
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
 		'aria-label': React.PropTypes.string,		// Aria label (for assistive tech)
@@ -102,6 +103,7 @@ const Select = React.createClass({
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
+			addItemOnKeyCode: null,
 			autosize: true,
 			allowCreate: false,
 			backspaceRemoves: true,
@@ -437,17 +439,15 @@ const Select = React.createClass({
 			break;
 			case 36: // home key
 				this.focusStartOption();
+			default:
+				if (this.props.allowCreate && this.props.multi && event.keyCode === this.props.addItemOnKeyCode) {
+					event.preventDefault();
+					event.stopPropagation();
+					this.selectFocusedOption();
+				} else {
+					return;
+				}
 			break;
-			// case 188: // ,
-			// 	if (this.props.allowCreate && this.props.multi) {
-			// 		event.preventDefault();
-			// 		event.stopPropagation();
-			// 		this.selectFocusedOption();
-			// 	} else {
-			// 		return;
-			// 	}
-			// break;
-			default: return;
 		}
 		event.preventDefault();
 	},

@@ -68,6 +68,10 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 65, key: 'a' });
 	};
 
+	var pressCommaToAccept = ()  =>{
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 188, key: 'Comma' });
+	};
+
 	var pressEnterToAccept = () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 13, key: 'Enter' });
 	};
@@ -1305,7 +1309,6 @@ describe('Select', () => {
 		it('fires an onChange with the new value when selecting the Add option', () => {
 
 			typeSearchText('xyz');
-			console.log(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option').outerHTML);
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-menu .Select-option'));
 
 			expect(onChange, 'was called with', { value: 'xyz', label: 'xyz', create: true });
@@ -1366,6 +1369,37 @@ describe('Select', () => {
 		});
 	});
 
+	describe('with addItemOnKeyCode=188', () => {
+		beforeEach(() => {
+
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'got spaces', label: 'Label for spaces' },
+				{ value: 'gotnospaces', label: 'Label for gotnospaces' },
+				{ value: 'abc 123', label: 'Label for abc 123' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'zzzzz', label: 'test value' }
+			];
+
+			// Render an instance of the component
+			wrapper = createControlWithWrapper({
+				value: [],
+				options: options,
+				allowCreate: true,
+				multi: true,
+				searchable: true,
+				addLabelText: 'Add {label} to values?',
+				addItemOnKeyCode: 188
+			});
+		});
+
+		it('has an "Add xyz" option when entering xyz', () => {
+			typeSearchText('xyz');
+			pressCommaToAccept();
+			expect(onChange, 'was called with', [{ value: 'xyz', label: 'xyz', create: true }]);
+		});
+	});
 
 	describe('with multi-select', () => {
 

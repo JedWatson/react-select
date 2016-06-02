@@ -51,7 +51,10 @@ var AllowCreate = React.createClass({
 					multi
 					placeholder="Select your favourite(s)"
 					options={this.state.options}
-					onChange={this.handleSelectChange} />
+					onChange={this.handleSelectChange}
+					addItemOnKeyCode={188}
+				/>
+
 				{this.renderHint()}
 			</div>
 		);
