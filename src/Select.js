@@ -871,7 +871,7 @@ const Select = React.createClass({
 		if (!options.length) return null;
 
 		let focusedOption = this.state.focusedOption || selectedOption;
-		if (focusedOption) {
+		if (focusedOption && !focusedOption.disabled) {
 			const focusedOptionIndex = options.indexOf(focusedOption);
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
