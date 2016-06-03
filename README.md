@@ -43,11 +43,23 @@ The easiest way to use React-Select is to install it from NPM and include it in 
 npm install react-select --save
 ```
 
-You can also use the standalone build by including `dist/react-select.js` and `dist/react-select.css` in your page. If you use this, make sure you have already included the following dependencies:
+At this point you can import react-select and its styles in your application as follows:
 
-* [React](http://facebook.github.io/react/)
-* [classNames](http://jedwatson.github.io/classnames/)
-* [react-input-autosize](https://github.com/JedWatson/react-input-autosize)
+```js
+import Select from 'react-select';
+
+// Be sure to include styles at some point, probably during your bootstrapping
+import 'react-select/dist/react-select.css';
+```
+
+You can also use the standalone build by including `react-select.js` and `react-select.css` in your page. (If you do this though you'll also need to include the dependencies.) For example:
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+<script src="https://npmcdn.com/classnames/index.js"></script>
+<script src="https://npmcdn.com/react-input-autosize/index.js"></script>
+<link rel="stylesheet" href="https://npmcdn.com/react-select/dist/react-select.css">
+```
 
 
 ## Usage
