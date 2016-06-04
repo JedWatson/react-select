@@ -2,16 +2,16 @@ import React from 'react';
 import Select from 'react-select';
 
 const FLAVOURS = [
-	{ label: 'Chocolate', value: 'chocolate' },
-	{ label: 'Vanilla', value: 'vanilla' },
-	{ label: 'Strawberry', value: 'strawberry' },
-	{ label: 'Caramel', value: 'caramel' },
-	{ label: 'Cookies and Cream', value: 'cookiescream' },
-	{ label: 'Peppermint', value: 'peppermint' },
+	{ sort: 1, label: 'Chocolate', value: 'chocolate' },
+	{ sort: 2, label: 'Vanilla', value: 'vanilla' },
+	{ sort: 3, label: 'Strawberry', value: 'strawberry' },
+	{ sort: 4, label: 'Caramel', value: 'caramel' },
+	{ sort: 5, label: 'Cookies and Cream', value: 'cookiescream' },
+	{ sort: 6, label: 'Peppermint', value: 'peppermint' },
 ];
 
 const WHY_WOULD_YOU = [
-	{ label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
+	{ sort: 1, label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
 ].concat(FLAVOURS.slice(1));
 
 var MultiSelectField = React.createClass({
@@ -41,11 +41,12 @@ var MultiSelectField = React.createClass({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS,
 		});
 	},
+
 	render () {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<Select multi simpleValue dragToReorder={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
 
 				<div className="checkbox-list">
 					<label className="checkbox">

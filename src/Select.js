@@ -94,6 +94,7 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+    	dragToReorder: React.PropTypes.bool         // boolean to enable the drag and drop to reorder option for multiple values
 	},
 
 	statics: { Async },
@@ -135,6 +136,7 @@ const Select = React.createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			dragToReorder: false
 		};
 	},
 
@@ -635,9 +637,11 @@ const Select = React.createClass({
 						instancePrefix={this._instancePrefix}
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
+						sort={value['sort']}
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+						dragToReorder={this.props.dragToReorder}
 					>
 						{renderLabel(value)}
 						<span className="Select-aria-only">&nbsp;</span>
