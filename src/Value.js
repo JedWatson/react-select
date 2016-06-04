@@ -39,6 +39,7 @@ const Value = React.createClass({
 	},
 
 	mouseDownHandler (e) {
+	console.log("test");
 		//e.preventDefault();
 
 		if (e.type === 'mousedown' && e.button !== 0) {
@@ -57,7 +58,7 @@ const Value = React.createClass({
 
 			// grab the mouse position
 			_startX = e.clientX;
-			_startY = e.clientY;// - e.target.offsetHeight + 1; // ToDo: Optimize -> Get the dragging div out of the way for the mouseOverEvent
+			_startY = e.clientY; // - e.target.offsetHeight + 1; // ToDo: Optimize -> Get the dragging div out of the way for the mouseOverEvent
 
 			// grab the clicked element's position
 			_offsetX = this.extractNumber(parent.style.left);
@@ -65,7 +66,8 @@ const Value = React.createClass({
 
 			// bring the clicked element to the front while it is being dragged
 			_oldZIndex = parent.style.zIndex;
-			parent.style.zIndex = 9999999;
+			parent.style.zIndex = 9999999999;
+			parent.style['pointer-events'] = 'none';
 
 			// we need to access the element in OnMouseMove
 			_dragElement = parent;
@@ -99,16 +101,11 @@ const Value = React.createClass({
 	},
 
 	mouseMoveHandler (e) {
-		//e.preventDefault();
-
 		if (e == null)
 			var e = window.event;
 
 			// this is the actual "drag code"
-			//_dragElement.style.left = (_offsetX + e.clientX - _startX) + 'px';
 			_dragElement.style.left = (_offsetX + e.clientX - _startX) + 'px';
-
-			//_dragElement.style.top = (_offsetY + e.clientY - _startY) + 'px';
 			_dragElement.style.top = (_offsetY + e.clientY - _startY) + 'px';
 	},
 
@@ -117,14 +114,16 @@ const Value = React.createClass({
 
 			// Remove drag class
 			_dragElement.classList.remove('drag');
-
-
+			_dragElement.style['pointer-events'] = 'auto';
 			_dragElement.style.zIndex = _oldZIndex;
+			_dragElement.style.top = 0;
+			_dragElement.style.left = 0;
+			this.resetCoordinates();
 
 			// we're done with these events until the next OnMouseDown
 			document.onmousemove = null;
 			document.onselectstart = null;
-			_dragElement.ondragstart = null;
+			//_dragElement.ondragstart = null;
 
 			// this is how we know we're not dragging
 			_dragElement = null;
@@ -158,7 +157,6 @@ const Value = React.createClass({
     },
 
     insertAfter(newNode, referenceNode) {
-
         referenceNode.parentNode.insertBefore(newNode, referenceNode);
     },
 
