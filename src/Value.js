@@ -1,13 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-var _startX = 0;            // mouse starting positions
-var _startY = 0;
-var _offsetX = 0;           // current element offset
-var _offsetY = 0;
-var _dragElement;           // needs to be passed from OnMouseDown to OnMouseMove
-var _oldZIndex = 0;         // we temporarily increase the z-index during drag
-var _currentMouseOverElement;
+var _dragElement = null;
+var _lastHoveredElement = null;
 
 const Value = React.createClass({
 
@@ -20,62 +15,21 @@ const Value = React.createClass({
 		onClick: React.PropTypes.func,                // method to handle click on value label
 		onRemove: React.PropTypes.func,               // method to handle removal of the value
 		value: React.PropTypes.object.isRequired,     // the option object for this value.
-		dragToReorder: React.PropTypes.bool,          // boolean to enable the drag and drop to reorder option for multiple values //ToDo: Change to options, which can contain mor options
-		sort: React.PropTypes.number                 // The id to sort by
-	},
-
-	extractNumber(value) {
-		var n = parseInt(value);
-		return n == null || isNaN(n) ? 0 : n;
-	},
-
-	resetCoordinates() {
-		_startX = 0;            // mouse starting positions
-        _startY = 0;
-        _offsetX = 0;           // current element offset
-        _offsetY = 0;
-        _oldZIndex = 0;
-        _dragElement = null;
+		dragToReorder: React.PropTypes.bool           // boolean to enable the drag and drop to reorder option for multiple values
 	},
 
 	mouseDownHandler (e) {
-	console.log("test");
-		//e.preventDefault();
-
-		if (e.type === 'mousedown' && e.button !== 0) {
-			return;
-		}
+		if (e.type === 'mousedown' && e.button !== 0) { return; }
 
 		if (this.props.dragToReorder) {
+
 			// IE uses srcElement, others use target
-			var parent = e.target.parentElement // != null ? e.target.parentElement : e.srcElement;
-
-			// Reset coordinates of parent element
-			parent.style.top = 0;
-			parent.style.left = 0;
-
+			var parent = e.target.parentElement != null ? e.target.parentElement : e.srcElement;
 			parent.className += ' drag';
-
-			// grab the mouse position
-			_startX = e.clientX;
-			_startY = e.clientY; // - e.target.offsetHeight + 1; // ToDo: Optimize -> Get the dragging div out of the way for the mouseOverEvent
-
-			// grab the clicked element's position
-			_offsetX = this.extractNumber(parent.style.left);
-			_offsetY = this.extractNumber(parent.style.top);
-
-			// bring the clicked element to the front while it is being dragged
-			_oldZIndex = parent.style.zIndex;
-			parent.style.zIndex = 9999999999;
-			parent.style['pointer-events'] = 'none';
-
-			// we need to access the element in OnMouseMove
 			_dragElement = parent;
 
 			// tell our code to start moving the element with the mouse
-			//this.handleMouseMove()
 			document.onmousemove = this.mouseMoveHandler;
-
 			document.onmouseup = this.mouseUpHandler;
 
 			// cancel out any text selections
@@ -100,63 +54,50 @@ const Value = React.createClass({
 		}
 	},
 
-	mouseMoveHandler (e) {
-		if (e == null)
-			var e = window.event;
+    mouseOverHandler (e) {
+    	if (_dragElement !== null) {
+    		_lastHoveredElement = e.target;
 
-			// this is the actual "drag code"
-			_dragElement.style.left = (_offsetX + e.clientX - _startX) + 'px';
-			_dragElement.style.top = (_offsetY + e.clientY - _startY) + 'px';
-	},
+    		//Inserts a spacer after a element
+			this.insertAfter(document.getElementById('spacer'), this.getValueElement(_lastHoveredElement));
+    	}
+    },
 
-	mouseUpHandler(e) {
-		if (_dragElement != null) {
+    mouseUpHandler (e) {
+		if (_dragElement !== null) {
+			let currElement = this.getValueElement(_lastHoveredElement);
+			let elements = document.getElementsByClassName('Select-value')
+
+			if (currElement === elements[0]) {
+				currElement.parentNode.insertBefore(_dragElement, currElement);
+			} else {
+				this.insertAfter(_dragElement, currElement)
+			}
+
+			//_dragElement.parent.getElementById('spacer').remove();
 
 			// Remove drag class
 			_dragElement.classList.remove('drag');
-			_dragElement.style['pointer-events'] = 'auto';
-			_dragElement.style.zIndex = _oldZIndex;
-			_dragElement.style.top = 0;
-			_dragElement.style.left = 0;
-			this.resetCoordinates();
 
 			// we're done with these events until the next OnMouseDown
 			document.onmousemove = null;
 			document.onselectstart = null;
-			//_dragElement.ondragstart = null;
 
 			// this is how we know we're not dragging
 			_dragElement = null;
 		}
-    },
+	},
 
-    mouseOverHandler(e) {
-    	if (_dragElement != null) {
-			// Get parent if child
-			if (e.target.className.indexOf('label') > 0 || e.target.className.indexOf('icon') > 0) {
-				var currElement = e.target.parentNode
+	getValueElement (element) {
+		if (element.className.indexOf('label') > 0 || element.className.indexOf('icon') > 0) {
+			return element.parentNode;
+		} else {
+			return element;
+		}
+	},
 
-				var elements = document.getElementsByClassName('Select-value')
-				if (currElement === elements[0]) {
-					currElement.parentNode.insertBefore(_dragElement, currElement);
-				} else {
-					this.insertAfter(_dragElement, currElement)
-				}
+    insertAfter (newNode, referenceNode) {
 
-
-			} else {
-
-				var elements = document.getElementsByClassName('Select-value')
-				if (e.target === elements[0]) {
-					e.target.parentNode.insertBefore(_dragElement, e.target);
-				} else {
-					this.insertAfter(_dragElement, e.target);
-				}
-			}
-    	}
-    },
-
-    insertAfter(newNode, referenceNode) {
         referenceNode.parentNode.insertBefore(newNode, referenceNode);
     },
 
@@ -176,14 +117,12 @@ const Value = React.createClass({
 	},
 
 	handleTouchMove (event) {
-	console.log('handleTouchMove');
 		// Set a flag that the view is being dragged
 		console.log('test');
 		this.dragging = true;
 	},
 
 	handleTouchStart (event) {
-	console.log('handleTouchStart');
 		// Set a flag that the view is not being dragged
 		this.dragging = false;
 	},
@@ -196,7 +135,8 @@ const Value = React.createClass({
 				onMouseDown={this.onRemove}
 				onTouchEnd={this.handleTouchEndRemove}
 				onTouchStart={this.handleTouchStart}
-				onTouchMove={this.handleTouchMove}>
+				onTouchMove={this.handleTouchMove}
+			>
 				&times;
 			</span>
 		);
@@ -204,6 +144,7 @@ const Value = React.createClass({
 
 	renderLabel () {
 		let className = 'Select-value-label';
+		className += this.props.dragToReorder ? ' move-cursor' : '';
 		return this.props.onClick || this.props.value.href ? (
 			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 				{this.props.children}

@@ -10,6 +10,21 @@
 	// allow drag and drop for Select-value elements
 	.drag {
 		position: relative;
+		opacity: 0.6;
+	}
+
+	.move-cursor {
+		.Select-value-label {
+			cursor: move;
+		}
+	}
+
+	.spacer {
+		top: @select-item-gutter + 1;
+		margin-left: @select-item-gutter;
+		position: relative;
+		display: inline;
+		color: @select-item-color;
 	}
 
 	// add margin to the input element

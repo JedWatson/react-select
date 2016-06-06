@@ -26,6 +26,7 @@ ReactDOM.render(
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}
+		<div id="spacer" className="spacer">||</div>
 	</div>,
 	document.getElementById('example')
 );

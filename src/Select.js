@@ -637,7 +637,6 @@ const Select = React.createClass({
 						instancePrefix={this._instancePrefix}
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
-						sort={value['sort']}
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}

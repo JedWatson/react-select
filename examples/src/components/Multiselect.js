@@ -2,16 +2,16 @@ import React from 'react';
 import Select from 'react-select';
 
 const FLAVOURS = [
-	{ sort: 1, label: 'Chocolate', value: 'chocolate' },
-	{ sort: 2, label: 'Vanilla', value: 'vanilla' },
-	{ sort: 3, label: 'Strawberry', value: 'strawberry' },
-	{ sort: 4, label: 'Caramel', value: 'caramel' },
-	{ sort: 5, label: 'Cookies and Cream', value: 'cookiescream' },
-	{ sort: 6, label: 'Peppermint', value: 'peppermint' },
+	{ label: 'Chocolate', value: 'chocolate' },
+	{ label: 'Vanilla', value: 'vanilla' },
+	{ label: 'Strawberry', value: 'strawberry' },
+	{ label: 'Caramel', value: 'caramel' },
+	{ label: 'Cookies and Cream', value: 'cookiescream' },
+	{ label: 'Peppermint', value: 'peppermint' },
 ];
 
 const WHY_WOULD_YOU = [
-	{ sort: 1, label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
+	{ label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
 ].concat(FLAVOURS.slice(1));
 
 var MultiSelectField = React.createClass({
