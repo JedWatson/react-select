@@ -366,7 +366,7 @@ describe('Select', () => {
 				'to have text', 'One');
 		});
 
-		it('should close the options one the second click on the arrow', () => {
+		it('should close the options on the second click on the arrow', () => {
 			var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
 			TestUtils.Simulate.mouseDown(selectArrow);
 			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 3);
@@ -3226,7 +3226,7 @@ describe('Select', () => {
 
 			it('updates the backspace message when the selected values update', () => {
 
-				wrapper.setPropselectorChild({ value: [ 'three', 'two', 'one' ] });
+				wrapper.setPropsForChild({ value: [ 'three', 'two', 'one' ] });
 				expect(instance,
 					'to contain',
 					<span className="Select-aria-only" aria-live="assertive">
@@ -3251,5 +3251,26 @@ describe('Select', () => {
 
 			});
 		});
+
+		describe('alwaysOpen', () => {
+
+			var onBlur;
+
+			it('still opens onBlur', () => {
+
+				onBlur = sinon.spy();
+
+				instance = createControl({
+					options: defaultOptions,
+					onBlur: onBlur,
+					alwaysOpen: true,
+				});
+
+				TestUtils.Simulate.blur(searchInputNode);
+				expect(onBlur, 'was called once');
+				expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Select-menu-outer');
+			});
+		});
+
 	});
 });
