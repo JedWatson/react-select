@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-var _dragElement = null;
-var _lastHoveredElement = null;
+var dragElement = null;
+var hoveredElement = null;
 
 const Value = React.createClass({
 
@@ -18,30 +18,22 @@ const Value = React.createClass({
 		dragToReorder: React.PropTypes.bool           // boolean to enable the drag and drop to reorder option for multiple values
 	},
 
+	getInitialState () {
+		return {
+			dragElement: null,
+			hoveredElement: null
+		};
+	},
+
 	mouseDownHandler (e) {
 		if (e.type === 'mousedown' && e.button !== 0) { return; }
 
 		if (this.props.dragToReorder) {
-
-			// IE uses srcElement, others use target
 			var parent = e.target.parentElement != null ? e.target.parentElement : e.srcElement;
 			parent.className += ' drag';
-			_dragElement = parent;
-
-			// tell our code to start moving the element with the mouse
-			document.onmousemove = this.mouseMoveHandler;
+			dragElement = parent;
+			spacer.style.display = 'inherit';
 			document.onmouseup = this.mouseUpHandler;
-
-			// cancel out any text selections
-			document.body.focus();
-
-			// prevent text selection in IE
-			document.onselectstart = function () { return false; };
-			// prevent IE from trying to drag an image
-			parent.ondragstart = function() { return false; };
-
-			// prevent text selection (except IE)
-			return false;
 		}
 
 		if (this.props.onClick) {
@@ -55,36 +47,31 @@ const Value = React.createClass({
 	},
 
     mouseOverHandler (e) {
-    	if (_dragElement !== null) {
-    		_lastHoveredElement = e.target;
+    	if (dragElement !== null) {
+    		hoveredElement = e.target;
 
     		//Inserts a spacer after a element
-			this.insertAfter(document.getElementById('spacer'), this.getValueElement(_lastHoveredElement));
+			this.insertAfter(spacer, this.getValueElement(hoveredElement));
     	}
     },
 
     mouseUpHandler (e) {
-		if (_dragElement !== null) {
-			let currElement = this.getValueElement(_lastHoveredElement);
+		if (dragElement !== null) {
+			let currElement = this.getValueElement(hoveredElement);
 			let elements = document.getElementsByClassName('Select-value')
 
 			if (currElement === elements[0]) {
-				currElement.parentNode.insertBefore(_dragElement, currElement);
+				currElement.parentNode.insertBefore(dragElement, currElement);
 			} else {
-				this.insertAfter(_dragElement, currElement)
+				this.insertAfter(dragElement, currElement)
 			}
 
-			//_dragElement.parent.getElementById('spacer').remove();
+			spacer.style.display = 'none';
 
-			// Remove drag class
-			_dragElement.classList.remove('drag');
-
-			// we're done with these events until the next OnMouseDown
+			dragElement.classList.remove('drag');
 			document.onmousemove = null;
 			document.onselectstart = null;
-
-			// this is how we know we're not dragging
-			_dragElement = null;
+			dragElement = null;
 		}
 	},
 
@@ -107,7 +94,7 @@ const Value = React.createClass({
 		this.props.onRemove(this.props.value);
 	},
 
-	handleTouchEndRemove (event){
+	handleTouchEndRemove (event) {
 		// Check if the view is being dragged, In this case
 		// we don't want to fire the click event (because the user only wants to scroll)
 		if(this.dragging) return;
@@ -118,7 +105,6 @@ const Value = React.createClass({
 
 	handleTouchMove (event) {
 		// Set a flag that the view is being dragged
-		console.log('test');
 		this.dragging = true;
 	},
 
@@ -163,7 +149,7 @@ const Value = React.createClass({
 
 	render () {
 		return (
-			<div id={'sort-' + this.props.sort} className={classNames('Select-value', this.props.value.className)}
+			<div className={classNames('Select-value', this.props.value.className)}
 				style={this.props.value.style}
 				title={this.props.value.title}
 				onMouseOver={this.mouseOverHandler}
