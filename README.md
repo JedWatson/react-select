@@ -311,7 +311,7 @@ function cleanInput(inputValue) {
 	tabSelectsValue	|	bool	|	true	|	whether to select the currently focused value when the `[tab]` key is pressed
 	value 		|	any	|	undefined	|	initial field value
 	valueKey	|	string	|	'value'		|	the option property to use for the value
-	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected
+	valueRenderer	|	func	|	undefined	|	function which returns a custom way to render the value selected `function (option) {}`
 
 ### Methods
 
