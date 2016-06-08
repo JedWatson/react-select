@@ -34,6 +34,8 @@
   color: #333;
   cursor: default;
   display: table;
+  border-spacing: 0;
+  border-collapse: separate;
   height: 36px;
   outline: none;
   overflow: hidden;
@@ -79,19 +81,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.has-value.Select--single > .Select-control > .Select-value .Select-value-label,
-.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value .Select-value-label {
+.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
   color: #333;
 }
-.has-value.Select--single > .Select-control > .Select-value a.Select-value-label,
-.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label {
+.has-value.Select--single > .Select-control .Select-value a.Select-value-label,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label {
   cursor: pointer;
   text-decoration: none;
 }
-.has-value.Select--single > .Select-control > .Select-value a.Select-value-label:hover,
-.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label:hover,
-.has-value.Select--single > .Select-control > .Select-value a.Select-value-label:focus,
-.has-value.is-pseudo-focused.Select--single > .Select-control > .Select-value a.Select-value-label:focus {
+.has-value.Select--single > .Select-control .Select-value a.Select-value-label:hover,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:hover,
+.has-value.Select--single > .Select-control .Select-value a.Select-value-label:focus,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label:focus {
   color: #007eff;
   outline: none;
   text-decoration: underline;
@@ -194,6 +196,17 @@
 .Select-arrow-zone:hover > .Select-arrow {
   border-top-color: #666;
 }
+.Select--multi .Select-multi-value-wrapper {
+  display: inline-block;
+}
+.Select .Select-aria-only {
+  display: inline-block;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
 @-webkit-keyframes Select-animation-fadeIn {
   from {
     opacity: 0;
@@ -278,6 +291,8 @@
   /* Fallback color for IE 8 */
   background-color: rgba(0, 126, 255, 0.08);
   border-radius: 2px;
+  border: 1px solid #c2e0ff;
+  /* Fallback color for IE 8 */
   border: 1px solid rgba(0, 126, 255, 0.24);
   color: #007eff;
   display: inline-block;
