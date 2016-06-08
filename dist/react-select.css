@@ -34,6 +34,8 @@
   color: #333;
   cursor: default;
   display: table;
+  border-spacing: 0;
+  border-collapse: separate;
   height: 36px;
   outline: none;
   overflow: hidden;
@@ -278,6 +280,8 @@
   /* Fallback color for IE 8 */
   background-color: rgba(0, 126, 255, 0.08);
   border-radius: 2px;
+  border: 1px solid #c2e0ff;
+  /* Fallback color for IE 8 */
   border: 1px solid rgba(0, 126, 255, 0.24);
   color: #007eff;
   display: inline-block;
