@@ -492,7 +492,11 @@ const Select = React.createClass({
 		let { options, valueKey } = this.props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
-			if (options[i][valueKey] === value) return options[i];
+			if (options[i][valueKey] === value) {
+				return options[i]
+			} else if (this.props.allowCreate && value !== '') {
+				return this.createNewOption(value);
+			}
 		}
 	},
 
@@ -543,7 +547,13 @@ const Select = React.createClass({
 
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
+		this.setValue(valueArray.filter(i => {
+			if (i.create) {
+				return i[this.props.valueKey] !== value[this.props.valueKey] && i[this.props.labelKey] !== value[this.props.labelKey];
+			} else {
+				return i !== value;
+			}
+		}));
 		this.focus();
 	},
 
@@ -658,6 +668,16 @@ const Select = React.createClass({
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
+	},
+
+	createNewOption (value) {
+		if (this.props.newOptionCreator) return this.props.newOptionCreator(value);
+		let newOption = {
+			create: true
+		};
+		newOption[this.props.valueKey] = value;
+		newOption[this.props.labelKey] = value;
+		return newOption;
 	},
 
 	renderLoading () {
@@ -845,12 +865,7 @@ const Select = React.createClass({
 				}
 			});
 			if (addNewOption) {
-				let newOption = this.props.newOptionCreator ? this.props.newOptionCreator(originalFilterValue) : {
-					value: originalFilterValue,
-					label: originalFilterValue,
-					create: true
-				};
-				filteredOptions.unshift(newOption);
+				filteredOptions.unshift(this.createNewOption(originalFilterValue));
 			}
 		}
 		return filteredOptions;
