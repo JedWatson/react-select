@@ -493,10 +493,12 @@ const Select = React.createClass({
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
 			if (options[i][valueKey] === value) {
-				return options[i]
-			} else if (this.props.allowCreate && value !== '') {
-				return this.createNewOption(value);
+				return options[i];
 			}
+		}
+
+		if (this.props.allowCreate && value !== '') {
+			return this.createNewOption(value);
 		}
 	},
 
@@ -673,10 +675,12 @@ const Select = React.createClass({
 	createNewOption (value) {
 		if (this.props.newOptionCreator) return this.props.newOptionCreator(value);
 		let newOption = {
+			value: value,
+			label: value,
 			create: true
 		};
-		newOption[this.props.valueKey] = value;
-		newOption[this.props.labelKey] = value;
+		// newOption[this.props.valueKey] = value;
+		// newOption[this.props.labelKey] = value;
 		return newOption;
 	},
 
