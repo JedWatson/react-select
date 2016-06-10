@@ -212,6 +212,7 @@ const Select = React.createClass({
 		}
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
+			this.closeMenu();
 		}
 	},
 

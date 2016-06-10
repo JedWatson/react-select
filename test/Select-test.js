@@ -1904,6 +1904,15 @@ describe('Select', () => {
 				    ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
 						expect(instance.state.isFocused, 'to equal', false);
 				});
+
+				it('should close the opened menu if disabled=true', function(){
+
+					findAndFocusInputControl();
+					TestUtils.Simulate.mouseDown(getSelectControl(instance));
+					expect(node, 'queried for', '.Select-option', 'to have length', 4);
+					ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
+					expect(node, 'to contain no elements matching', '.Select-option');
+				});
 			});
 		});
 
