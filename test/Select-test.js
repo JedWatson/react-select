@@ -92,6 +92,22 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 40, key: 'ArrowDown' });
 	};
 
+	var pressPageUp = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 33, key: 'PageUp' });
+	};
+
+	var pressPageDown = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 34, key: 'PageDown' });
+	};
+
+	var pressEndDown = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 35, key: 'End' });
+	};
+
+	var pressHomeDown = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 36, key: 'Home' });
+	};
+
 	var typeSearchText = (text) => {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
 	};
@@ -171,6 +187,19 @@ describe('Select', () => {
 		{ value: 'two', label: '222' },
 		{ value: 'three', label: 'Three' },
 		{ value: 'four', label: 'AbcDef' }
+	];
+
+	var longerListOptions = [
+		{ value: 'one', label: 'One' },
+		{ value: 'two', label: 'Two' },
+		{ value: 'three', label: 'Three' },
+		{ value: 'four', label: 'Four' },
+		{ value: 'five', label: 'Five' },
+		{ value: 'six', label: 'Six' },
+		{ value: 'seven', label: 'Seven' },
+		{ value: 'eight', label: 'Eight' },
+		{ value: 'nine', label: 'Nine' },
+		{ value: 'ten', label: 'ten' }
 	];
 
 	describe('with simple options', () => {
@@ -338,6 +367,117 @@ describe('Select', () => {
 				'to have items satisfying',
 				'to have text', 'Two');
 		});
+
+		it('should move the focused value to the end when pressing end', () => {
+			var selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Three');
+		});
+
+		it('should move the focused value to the beginning when pressing home', () => {
+			var selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 36, key: 'Home' });
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'One');
+		});
+
+		it('should move the focused value to the end if page down is pressed and number of items is less than page size', () => {
+			var selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Three');
+		});
+
+		it('should move the focused value down by page size on page down using default page size', () => {
+
+			var longerListInstance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: longerListOptions,
+				simpleValue: true,
+			});	
+
+			var selectControl = getSelectControl(longerListInstance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
+			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Six');
+		});
+
+		it('should move the focused value down by page size on page down using custom page size', () => {
+
+			var longerListInstance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: longerListOptions,
+				simpleValue: true,
+				pageSize: 7
+			});	
+
+			var selectControl = getSelectControl(longerListInstance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
+			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Eight');
+		});
+
+		it('should move the focused value to the start if page up is pressed and number of items is less than page size', () => {
+			var selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'One');
+		});
+
+		it('should move the focused value up by page size on page up using default page size', () => {
+
+			var longerListInstance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: longerListOptions,
+				simpleValue: true,
+			});	
+
+			var selectControl = getSelectControl(longerListInstance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
+			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Five');
+		});
+
+		it('should move the focused value up by page size on page up using custom page size', () => {
+
+			var longerListInstance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: longerListOptions,
+				simpleValue: true,
+				pageSize: 7
+			});	
+
+			var selectControl = getSelectControl(longerListInstance);
+			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
+			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
+				'to have items satisfying',
+				'to have text', 'Three');
+		});
+
 
 		it('should clear the selection on escape', () => {
 			var selectControl = getSelectControl(instance);
@@ -3235,7 +3375,7 @@ describe('Select', () => {
 
 			it('updates the backspace message when the selected values update', () => {
 
-				wrapper.setPropselectorChild({ value: [ 'three', 'two', 'one' ] });
+				wrapper.setPropsForChild({ value: [ 'three', 'two', 'one' ] });
 				expect(instance,
 					'to contain',
 					<span className="Select-aria-only" aria-live="assertive">
