@@ -103,7 +103,7 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
 * A simple value, if provided, will be split using the `delimiter` prop
 * The `onChange` event provides an array of selected options _or_ a comma-separated string of values (eg `"1,2,3"`) if `simpleValue` is true
-* By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist.
+* By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist. *NOTE:* `allowCreate` is not implemented in `1.0.0-beta`, if you need this option please stay on `0.9.x`.
 * By default, selected options can be cleared. To disable the possibility of clearing a particular option, add `clearableValue: false` to that option:
 ```javascript
 var options = [
@@ -262,7 +262,7 @@ function cleanInput(inputValue) {
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered)
+	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered) [NOTE: not available in 1.0.0-beta]
 	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	autofocus       |       bool    |      undefined        |  autofocus the component on mount
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
@@ -290,7 +290,7 @@ function cleanInput(inputValue) {
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
-	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true
+	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true [NOTE: not available in 1.0.0-beta]
 	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
