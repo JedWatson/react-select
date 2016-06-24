@@ -673,14 +673,17 @@ const Select = React.createClass({
 	},
 
 	createNewOption (value) {
-		if (this.props.newOptionCreator) return this.props.newOptionCreator(value);
-		let newOption = {
-			value: value,
-			label: value,
-			create: true
-		};
-		// newOption[this.props.valueKey] = value;
-		// newOption[this.props.labelKey] = value;
+		let newOption = {};
+
+		if (this.props.newOptionCreator) {
+			newOption = this.props.newOptionCreator(value);
+		} else {
+			newOption[this.props.valueKey] = value;
+			newOption[this.props.labelKey] = value;
+		}
+
+		newOption.create = true;
+
 		return newOption;
 	},
 
