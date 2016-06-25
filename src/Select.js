@@ -45,6 +45,7 @@ const Select = React.createClass({
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
+		dragToReorder: React.PropTypes.bool,        // boolean to enable the drag to reorder option for multiple values
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -93,8 +94,7 @@ const Select = React.createClass({
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
-		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
-    	dragToReorder: React.PropTypes.bool         // boolean to enable the drag and drop to reorder option for multiple values
+		wrapperStyle: React.PropTypes.object        // optional style to apply to the component wrapper
 	},
 
 	statics: { Async },
@@ -111,6 +111,7 @@ const Select = React.createClass({
 			clearValueText: 'Clear value',
 			delimiter: ',',
 			disabled: false,
+			dragToReorder: false,
 			escapeClearsValue: true,
 			filterOptions: true,
 			ignoreAccents: true,
@@ -135,8 +136,7 @@ const Select = React.createClass({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: Value,
-			valueKey: 'value',
-			dragToReorder: false
+			valueKey: 'value'
 		};
 	},
 

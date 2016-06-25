@@ -11,11 +11,11 @@ const Value = React.createClass({
 	propTypes: {
 		children: React.PropTypes.node,
 		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
+		dragToReorder: React.PropTypes.bool,          // drag to reorder option for multiple values
 		id: React.PropTypes.string,                   // Unique id for the value - used for aria
 		onClick: React.PropTypes.func,                // method to handle click on value label
 		onRemove: React.PropTypes.func,               // method to handle removal of the value
-		value: React.PropTypes.object.isRequired,     // the option object for this value.
-		dragToReorder: React.PropTypes.bool           // boolean to enable the drag and drop to reorder option for multiple values
+		value: React.PropTypes.object.isRequired      // the option object for this value
 	},
 
 	getInitialState () {
@@ -58,12 +58,12 @@ const Value = React.createClass({
     mouseUpHandler (e) {
 		if (dragElement !== null) {
 			let currElement = this.getValueElement(hoveredElement);
-			let elements = document.getElementsByClassName('Select-value')
+			let elements = document.getElementsByClassName('Select-value');
 
 			if (currElement === elements[0]) {
 				currElement.parentNode.insertBefore(dragElement, currElement);
 			} else {
-				this.insertAfter(dragElement, currElement)
+				this.insertAfter(dragElement, currElement);
 			}
 
 			spacer.style.display = 'none';
