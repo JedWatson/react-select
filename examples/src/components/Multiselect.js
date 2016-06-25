@@ -23,6 +23,7 @@ var MultiSelectField = React.createClass({
 		return {
 			disabled: false,
 			crazy: false,
+			dragToReorder: false,
 			options: FLAVOURS,
 			value: [],
 		};
@@ -41,14 +42,24 @@ var MultiSelectField = React.createClass({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS,
 		});
 	},
+	toggleDragToReorder (e) {
+		let dragToReorder = e.target.checked;
+		this.setState({
+			dragToReorder: dragToReorder
+		});
+	},
 
 	render () {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue dragToReorder={true} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<Select multi simpleValue dragToReorder={this.state.dragToReorder} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
 
 				<div className="checkbox-list">
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.reorder} onChange={this.toggleDragToReorder} />
+						<span className="checkbox-label">Enable drag to reorder</span>
+					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
 						<span className="checkbox-label">Disable the control</span>
