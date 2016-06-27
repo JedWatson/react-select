@@ -513,20 +513,23 @@ const Select = React.createClass({
 	},
 
 	selectValue (value) {
+		//NOTE: update value in the callback to make sure the input value is empty so that there are no sttyling issues (Chrome had issue otherwise)
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
-			this.addValue(value);
 			this.setState({
 				inputValue: '',
 				focusedIndex: null
+			}, () => {
+				this.addValue(value);
 			});
 		} else {
 			this.setState({
 				isOpen: false,
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
+			}, () => {
+				this.setValue(value);
 			});
-			this.setValue(value);
 		}
 	},
 
