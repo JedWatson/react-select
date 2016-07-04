@@ -454,7 +454,7 @@ var GithubUsers = _react2['default'].createClass({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_reactSelect2['default'].Async, { multi: this.state.multi, value: this.state.value, onChange: this.onChange, onValueClick: this.gotoUser, valueKey: 'id', labelKey: 'login', loadOptions: this.getUsers, minimumInput: 1 }),
+			_react2['default'].createElement(_reactSelect2['default'].Async, { multi: this.state.multi, value: this.state.value, onChange: this.onChange, onValueClick: this.gotoUser, valueKey: 'id', labelKey: 'login', loadOptions: this.getUsers, minimumInput: 1, backspaceRemoves: false }),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
@@ -1408,12 +1408,40 @@ module.exports = self.fetch.bind(self);
 // shim for using process in browser
 
 var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -1429,7 +1457,7 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = setTimeout(cleanUpNextTick);
+    var timeout = cachedSetTimeout(cleanUpNextTick);
     draining = true;
 
     var len = queue.length;
@@ -1446,7 +1474,7 @@ function drainQueue() {
     }
     currentQueue = null;
     draining = false;
-    clearTimeout(timeout);
+    cachedClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
@@ -1458,7 +1486,7 @@ process.nextTick = function (fun) {
     }
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
+        cachedSetTimeout(drainQueue, 0);
     }
 };
 
@@ -2266,17 +2294,19 @@ var AutoSizer = function (_Component) {
     value: function _onResize() {
       var onResize = this.props.onResize;
 
-      var _parentNode$getBoundi = this._parentNode.getBoundingClientRect();
+      // Gaurd against AutoSizer component being removed from the DOM immediately after being added.
+      // This can result in invalid style values which can result in NaN values if we don't handle them.
+      // See issue #150 for more context.
 
-      var height = _parentNode$getBoundi.height;
-      var width = _parentNode$getBoundi.width;
-
+      var boundingRect = this._parentNode.getBoundingClientRect();
+      var height = boundingRect.height || 0;
+      var width = boundingRect.width || 0;
 
       var style = getComputedStyle(this._parentNode);
-      var paddingLeft = parseInt(style.paddingLeft, 10);
-      var paddingRight = parseInt(style.paddingRight, 10);
-      var paddingTop = parseInt(style.paddingTop, 10);
-      var paddingBottom = parseInt(style.paddingBottom, 10);
+      var paddingLeft = parseInt(style.paddingLeft, 10) || 0;
+      var paddingRight = parseInt(style.paddingRight, 10) || 0;
+      var paddingTop = parseInt(style.paddingTop, 10) || 0;
+      var paddingBottom = parseInt(style.paddingBottom, 10) || 0;
 
       this.setState({
         height: height - paddingTop - paddingBottom,
@@ -2724,6 +2754,12 @@ var CollectionView = function (_Component) {
 
       this._scrollbarSize = (0, _scrollbarSize2.default)();
 
+      if (scrollToCell >= 0) {
+        this._updateScrollPositionForScrollToCell();
+      } else if (scrollLeft >= 0 || scrollTop >= 0) {
+        this._setScrollPosition({ scrollLeft: scrollLeft, scrollTop: scrollTop });
+      }
+
       // Update onSectionRendered callback.
       this._invokeOnSectionRenderedHelper();
 
@@ -2732,12 +2768,8 @@ var CollectionView = function (_Component) {
       var totalHeight = _cellLayoutManager$ge.height;
       var totalWidth = _cellLayoutManager$ge.width;
 
-
-      if (scrollToCell >= 0) {
-        this._updateScrollPositionForScrollToCell();
-      }
-
       // Initialize onScroll callback.
+
       this._invokeOnScrollMemoizer({
         scrollLeft: scrollLeft || 0,
         scrollTop: scrollTop || 0,
@@ -2783,17 +2815,10 @@ var CollectionView = function (_Component) {
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      var _props3 = this.props;
-      var cellLayoutManager = _props3.cellLayoutManager;
-      var scrollLeft = _props3.scrollLeft;
-      var scrollTop = _props3.scrollTop;
+      var cellLayoutManager = this.props.cellLayoutManager;
 
 
       cellLayoutManager.calculateSizeAndPositionData();
-
-      if (scrollLeft >= 0 || scrollTop >= 0) {
-        this._setScrollPosition({ scrollLeft: scrollLeft, scrollTop: scrollTop });
-      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -2843,12 +2868,12 @@ var CollectionView = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props4 = this.props;
-      var cellLayoutManager = _props4.cellLayoutManager;
-      var className = _props4.className;
-      var height = _props4.height;
-      var noContentRenderer = _props4.noContentRenderer;
-      var width = _props4.width;
+      var _props3 = this.props;
+      var cellLayoutManager = _props3.cellLayoutManager;
+      var className = _props3.className;
+      var height = _props3.height;
+      var noContentRenderer = _props3.noContentRenderer;
+      var width = _props3.width;
       var _state2 = this.state;
       var isScrolling = _state2.isScrolling;
       var scrollLeft = _state2.scrollLeft;
@@ -2945,9 +2970,9 @@ var CollectionView = function (_Component) {
   }, {
     key: '_invokeOnSectionRenderedHelper',
     value: function _invokeOnSectionRenderedHelper() {
-      var _props5 = this.props;
-      var cellLayoutManager = _props5.cellLayoutManager;
-      var onSectionRendered = _props5.onSectionRendered;
+      var _props4 = this.props;
+      var cellLayoutManager = _props4.cellLayoutManager;
+      var onSectionRendered = _props4.onSectionRendered;
 
 
       this._onSectionRenderedMemoizer({
@@ -2969,10 +2994,10 @@ var CollectionView = function (_Component) {
         callback: function callback(_ref2) {
           var scrollLeft = _ref2.scrollLeft;
           var scrollTop = _ref2.scrollTop;
-          var _props6 = _this3.props;
-          var height = _props6.height;
-          var onScroll = _props6.onScroll;
-          var width = _props6.width;
+          var _props5 = _this3.props;
+          var height = _props5.height;
+          var onScroll = _props5.onScroll;
+          var width = _props5.width;
 
 
           onScroll({
@@ -3036,11 +3061,11 @@ var CollectionView = function (_Component) {
   }, {
     key: '_updateScrollPositionForScrollToCell',
     value: function _updateScrollPositionForScrollToCell() {
-      var _props7 = this.props;
-      var cellLayoutManager = _props7.cellLayoutManager;
-      var height = _props7.height;
-      var scrollToCell = _props7.scrollToCell;
-      var width = _props7.width;
+      var _props6 = this.props;
+      var cellLayoutManager = _props6.cellLayoutManager;
+      var height = _props6.height;
+      var scrollToCell = _props6.scrollToCell;
+      var width = _props6.width;
       var _state3 = this.state;
       var scrollLeft = _state3.scrollLeft;
       var scrollTop = _state3.scrollTop;
@@ -3077,10 +3102,10 @@ var CollectionView = function (_Component) {
       // Gradually converging on a scrollTop that is within the bounds of the new, smaller height.
       // This causes a series of rapid renders that is slow for long lists.
       // We can avoid that by doing some simple bounds checking to ensure that scrollTop never exceeds the total height.
-      var _props8 = this.props;
-      var cellLayoutManager = _props8.cellLayoutManager;
-      var height = _props8.height;
-      var width = _props8.width;
+      var _props7 = this.props;
+      var cellLayoutManager = _props7.cellLayoutManager;
+      var height = _props7.height;
+      var width = _props7.width;
 
       var scrollbarSize = this._scrollbarSize;
 
@@ -5514,8 +5539,8 @@ function findNearestCell(_ref2) {
 
   var high = cellMetadata.length - 1;
   var low = 0;
-  var middle = void 0;
-  var currentOffset = void 0;
+  var middle = undefined;
+  var currentOffset = undefined;
 
   // TODO Add better guards here against NaN offset
 
@@ -5837,9 +5862,9 @@ function scanForUnloadedRanges(_ref3) {
     // Attempt to satisfy :minimumBatchSize requirement but don't exceed :rowsCount
     var potentialStopIndex = Math.min(Math.max(rangeStopIndex, rangeStartIndex + minimumBatchSize - 1), rowsCount - 1);
 
-    for (var _i = rangeStopIndex + 1; _i <= potentialStopIndex; _i++) {
-      if (!isRowLoaded(_i)) {
-        rangeStopIndex = _i;
+    for (var i = rangeStopIndex + 1; i <= potentialStopIndex; i++) {
+      if (!isRowLoaded(i)) {
+        rangeStopIndex = i;
       } else {
         break;
       }
@@ -6592,6 +6617,7 @@ var shallowEqual = require('fbjs/lib/shallowEqual');
 /**
  * Does a shallow comparison for props and state.
  * See ReactComponentWithPureRenderMixin
+ * See also https://facebook.github.io/react/docs/shallow-compare.html
  */
 function shallowCompare(instance, nextProps, nextState) {
   return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);

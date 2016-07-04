@@ -767,7 +767,7 @@ const Select = React.createClass({
 
 			if (this.props.autosize) {
 				return (
-					<Input {...inputProps} minWidth="5px" />
+					<Input {...inputProps} style={{ minWidth: '5px' }} />
 				);
 			}
 			return (
