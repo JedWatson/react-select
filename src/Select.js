@@ -417,8 +417,10 @@ const Select = React.createClass({
 			case 27: // escape
 				if (this.state.isOpen) {
 					this.closeMenu();
+					event.stopPropagation();
 				} else if (this.props.clearable && this.props.escapeClearsValue) {
 					this.clearValue(event);
+					event.stopPropagation();
 				}
 			break;
 			case 38: // up
