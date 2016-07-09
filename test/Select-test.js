@@ -403,7 +403,7 @@ describe('Select', () => {
 				value: 'one',
 				options: longerListOptions,
 				simpleValue: true,
-			});	
+			});
 
 			var selectControl = getSelectControl(longerListInstance);
 			TestUtils.Simulate.mouseDown(selectControl);
@@ -421,7 +421,7 @@ describe('Select', () => {
 				options: longerListOptions,
 				simpleValue: true,
 				pageSize: 7
-			});	
+			});
 
 			var selectControl = getSelectControl(longerListInstance);
 			TestUtils.Simulate.mouseDown(selectControl);
@@ -448,7 +448,7 @@ describe('Select', () => {
 				value: 'one',
 				options: longerListOptions,
 				simpleValue: true,
-			});	
+			});
 
 			var selectControl = getSelectControl(longerListInstance);
 			TestUtils.Simulate.mouseDown(selectControl);
@@ -467,7 +467,7 @@ describe('Select', () => {
 				options: longerListOptions,
 				simpleValue: true,
 				pageSize: 7
-			});	
+			});
 
 			var selectControl = getSelectControl(longerListInstance);
 			TestUtils.Simulate.mouseDown(selectControl);
@@ -890,8 +890,6 @@ describe('Select', () => {
 			expect(node, 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'One');
 		});
-
-
 
 		it('supports setting the value via prop', () => {
 
@@ -1382,7 +1380,6 @@ describe('Select', () => {
 				'to have length', 2);
 		});
 	});
-
 
 	describe('with multi-select', () => {
 
@@ -3127,6 +3124,23 @@ describe('Select', () => {
 
 				expect(instance.state.required, 'to be true');
 				wrapper.setPropsForChild({ value: 'one' });
+				expect(instance.state.required, 'to be false');
+			});
+
+			it('input should not have required attribute after updating the component with a value and options', () => {
+				wrapper = createControlWithWrapper({
+					options: defaultOptions,
+					value: 'one',
+					required: true
+				});
+
+				expect(instance.state.required, 'to be false');
+				wrapper.setPropsForChild({
+					value: 'newValue',
+					options: [
+						{ value: 'newValue', label: 'New value, new options' }
+					]
+				});
 				expect(instance.state.required, 'to be false');
 			});
 

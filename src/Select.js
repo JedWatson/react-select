@@ -169,7 +169,7 @@ const Select = React.createClass({
 	},
 
 	componentWillReceiveProps(nextProps) {
-		const valueArray = this.getValueArray(nextProps.value);
+		const valueArray = this.getValueArray(nextProps.value, nextProps);
 
 		if (nextProps.required) {
 			this.setState({
@@ -477,22 +477,35 @@ const Select = React.createClass({
 		return op[this.props.labelKey];
 	},
 
-	getValueArray (value) {
-		if (this.props.multi) {
-			if (typeof value === 'string') value = value.split(this.props.delimiter);
+	/**
+	 * Turns a value into an array from the given options
+	 * @param {String|Number|Array} value - the value of the select input
+	 * @param {Object} nextProps - optionally specify the nextProps so the returned array uses the latest configuration
+	 * @returns {Array} the value of the select represented in an array
+	 */
+	getValueArray (value, nextProps) {
+		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
+		const props = typeof nextProps === 'object' ? nextProps : this.props;
+		if (props.multi) {
+			if (typeof value === 'string') value = value.split(props.delimiter);
 			if (!Array.isArray(value)) {
 				if (value === null || value === undefined) return [];
 				value = [value];
 			}
-			return value.map(this.expandValue).filter(i => i);
+			return value.map(value => this.expandValue(value, props)).filter(i => i);
 		}
-		var expandedValue = this.expandValue(value);
+		var expandedValue = this.expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
 	},
 
-	expandValue (value) {
+	/**
+	 * Retrieve a value from the given options and valueKey
+	 * @param	{String|Number|Array} value - the selected value(s)
+	 * @param	{Object} props - the Select component's props (or nextProps)
+	 */
+	expandValue (value, props) {
 		if (typeof value !== 'string' && typeof value !== 'number') return value;
-		let { options, valueKey } = this.props;
+		let { options, valueKey } = props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
 			if (options[i][valueKey] === value) return options[i];
