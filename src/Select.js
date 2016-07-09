@@ -479,9 +479,9 @@ const Select = React.createClass({
 
 	/**
 	 * Turns a value into an array from the given options
-	 * @param {String|Number|Array} value - the value of the select input
-	 * @param {Object} nextProps - optionally specify the nextProps so the returned array uses the latest configuration
-	 * @returns {Array} the value of the select represented in an array
+	 * @param	{String|Number|Array}	value		- the value of the select input
+	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
+	 * @returns	{Array}	the value of the select represented in an array
 	 */
 	getValueArray (value, nextProps) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
@@ -500,8 +500,8 @@ const Select = React.createClass({
 
 	/**
 	 * Retrieve a value from the given options and valueKey
-	 * @param	{String|Number|Array} value - the selected value(s)
-	 * @param	{Object} props - the Select component's props (or nextProps)
+	 * @param	{String|Number|Array}	value	- the selected value(s)
+	 * @param	{Object}		props	- the Select component's props (or nextProps)
 	 */
 	expandValue (value, props) {
 		if (typeof value !== 'string' && typeof value !== 'number') return value;
