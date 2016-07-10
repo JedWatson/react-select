@@ -737,18 +737,18 @@ const Select = React.createClass({
 
 			const ariaOwns = classNames({
 				[this._instancePrefix + '-list']: isOpen,
-				[this._instancePrefix + '-backspace-remove-message']: this.props.multi &&
-																	  !this.props.disabled &&
-																	  this.state.isFocused &&
-																      !this.state.inputValue
+				[this._instancePrefix + '-backspace-remove-message']: this.props.multi
+					&& !this.props.disabled
+					&& this.state.isFocused
+					&& !this.state.inputValue
 			});
 
 			// TODO: Check how this project includes Object.assign()
 			const inputProps = Object.assign({}, this.props.inputProps, {
-			    role: 'combobox',
+				role: 'combobox',
 				'aria-expanded': '' + isOpen,
-			    'aria-owns': ariaOwns,
-			    'aria-haspopup': '' + isOpen,
+				'aria-owns': ariaOwns,
+				'aria-haspopup': '' + isOpen,
 				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
 				'aria-labelledby': this.props['aria-labelledby'],
 				'aria-label': this.props['aria-label'],
@@ -797,11 +797,12 @@ const Select = React.createClass({
 		if (!this.props.clearable || !this.props.value || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
 		return (
 			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
-						aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
-						onMouseDown={this.clearValue}
-						onTouchStart={this.handleTouchStart}
-						onTouchMove={this.handleTouchMove}
-						onTouchEnd={this.handleTouchEndClearValue}>
+				aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
+				onMouseDown={this.clearValue}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}
+				onTouchEnd={this.handleTouchEndClearValue}
+			>
 				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
 			</span>
 		);
@@ -1015,17 +1016,18 @@ const Select = React.createClass({
 				 style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
 				<div ref="control"
-						 className="Select-control"
-						 style={this.props.style}
-						 onKeyDown={this.handleKeyDown}
-						 onMouseDown={this.handleMouseDown}
-						 onTouchEnd={this.handleTouchEnd}
-						 onTouchStart={this.handleTouchStart}
-						 onTouchMove={this.handleTouchMove}>
-                    <span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+					className="Select-control"
+					style={this.props.style}
+					onKeyDown={this.handleKeyDown}
+					onMouseDown={this.handleMouseDown}
+					onTouchEnd={this.handleTouchEnd}
+					onTouchStart={this.handleTouchStart}
+					onTouchMove={this.handleTouchMove}
+				>
+					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
 						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
-                    </span>
+					</span>
 					{removeMessage}
 					{this.renderLoading()}
 					{this.renderClear()}
