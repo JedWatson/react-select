@@ -31,7 +31,7 @@
     "react-addons-test-utils": "^15.0",
     "react-component-gulp-tasks": "^0.7.7",
     "react-dom": "^15.0",
-    "react-gravatar": "^2.4.3",
+    "react-gravatar": "^2.4.5",
     "react-virtualized": "^6.3.0",
     "react-virtualized-select": "^0.0.4",
     "sinon": "^1.17.3",
