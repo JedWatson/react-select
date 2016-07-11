@@ -11,6 +11,7 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
+    "blacklist": "^1.1.2",
     "classnames": "^2.2.4",
     "react-input-autosize": "^1.1.0"
   },
