@@ -9,6 +9,7 @@ import GithubUsers from './components/GithubUsers';
 import CustomComponents from './components/CustomComponents';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
+import SearchField from './components/SearchField';
 import NumericSelect from './components/NumericSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
@@ -23,6 +24,7 @@ ReactDOM.render(
 		<NumericSelect label="Numeric Values" />
 		<CustomRender label="Custom Render Methods"/>
 		<CustomComponents label="Custom Placeholder, Option and Value Components" />
+    <SearchField label="Searchfield with suggestions" />
 		{/*
 		<SelectedValuesField label="Option Creation (tags mode)" options={FLAVOURS} allowCreate hint="Enter a value that's NOT in the list, then hit return" />
 		*/}
