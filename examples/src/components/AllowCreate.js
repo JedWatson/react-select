@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 
 const FLAVOURS = [
-	{ label: 'Chocolate', value: 'chocolate' },
+	{ label: 'Chocolate', value: 42 },
 	{ label: 'Vanilla', value: 'vanilla' },
 	{ label: 'Strawberry', value: 'strawberry' },
 	{ label: 'Caramel', value: 'caramel' },
