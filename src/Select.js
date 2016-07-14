@@ -867,7 +867,7 @@ const Select = React.createClass({
 			let addNewOption = true;
 			//NOTE: only add the "Add" option if none of the options are an exact match
 			filteredOptions.map(option => {
-				if (option.label.toLowerCase() === filterValue || option.value.toLowerCase() === filterValue) {
+				if (String(option.label).toLowerCase() === filterValue || String(option.value).toLowerCase() === filterValue) {
 					addNewOption = false;
 				}
 			});
