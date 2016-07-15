@@ -181,7 +181,7 @@ const Select = React.createClass({
 	},
 
 	componentWillUpdate (nextProps, nextState) {
-		if (nextState.isOpen !== this.state.isOpen) {
+		if (nextState.isOpen !== this.state.isOpen || nextState.isLoading !== this.state.isLoading) {
 			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
 			handler && handler();
 		}
