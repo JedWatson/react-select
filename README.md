@@ -294,6 +294,7 @@ function cleanInput(inputValue) {
 	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
+	onCloseResetInput | bool  | true  | whether to clear input on menu close or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
