@@ -292,8 +292,14 @@ const Select = React.createClass({
 			// Call focus() again here to be safe.
 			this.focus();
 
-			// clears value so that the cursor will be a the end of input then the component re-renders
-			this.refs.input.value = '';
+			let input = this.refs.input;
+			if (typeof input.getInput === 'function') {
+				// Get the actual DOM input if the ref is an <Input /> component
+				input = input.getInput();
+			}
+
+			// clears the value so that the cursor will be at the end of input when the component re-renders
+			input.value = '';
 
 			// if the input is focused, ensure the menu is open
 			this.setState({
