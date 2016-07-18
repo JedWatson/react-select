@@ -296,6 +296,7 @@ function cleanInput(inputValue) {
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
+	onCloseResetInput | bool  | true  | whether to clear input when closing the menu through the arrow
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
 	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
