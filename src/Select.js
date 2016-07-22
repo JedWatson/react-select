@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
-import blacklist from 'blacklist';
 
 import stripDiacritics from './utils/stripDiacritics';
 
@@ -770,7 +769,7 @@ const Select = React.createClass({
 			});
 
 			if (this.props.disabled || !this.props.searchable) {
-				const divProps = blacklist(this.props.inputProps, 'inputClassName');
+				const { inputClassName, ...divProps } = this.props.inputProps;
 				return (
 					<div
 						{...divProps}
