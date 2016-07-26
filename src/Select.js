@@ -920,7 +920,7 @@ const Select = React.createClass({
 	},
 
 	getFocusableOptionIndex (selectedOption) {
-		let { valueKey, multi } = this.props;
+		let { valueKey } = this.props;
 		let options = this._visibleOptions;
 		if (!options.length) return null;
 
