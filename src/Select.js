@@ -144,7 +144,6 @@ const Select = React.createClass({
 
 	getInitialState () {
 		return {
-			instanceId: this.props.instanceId || ++instanceId,
 			inputValue: '',
 			isFocused: false,
 			isLoading: false,
@@ -155,8 +154,7 @@ const Select = React.createClass({
 	},
 
 	componentWillMount() {
-		const { instanceId } = this.state;
-		this._instancePrefix = 'react-select-' + (instanceId) + '-';
+		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
 		const valueArray = this.getValueArray(this.props.value);
 
 		if (this.props.required) {
