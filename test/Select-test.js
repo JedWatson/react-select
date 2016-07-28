@@ -2505,6 +2505,20 @@ describe('Select', () => {
 
 				expect( instance.input.focus, 'was not called' );
 			} );
+
+			it( 'should set onBlurredState', () => {
+				instance = createControl({
+					options: defaultOptions
+				});
+
+				var inputFocus = sinon.spy( instance.input, 'focus' );
+				instance.handleInputBlur();
+
+				expect( instance.state.isFocused, 'to be false');
+				expect( instance.state.isOpen, 'to be false');
+				expect( instance.state.isPseudoFocused, 'to be false');
+
+			} );
 		});
 
 		describe('with onBlurResetsInput=true', () => {
