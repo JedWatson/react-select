@@ -202,6 +202,51 @@ describe('Select', () => {
 		{ value: 'ten', label: 'ten' }
 	];
 
+	describe('has refs', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			instance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: options,
+				simpleValue: true,
+				joinValues: true,
+			});
+		});
+
+		it('input', () => {
+			expect(instance.input, 'not to equal', undefined);
+		});
+
+		it('value', () => {
+			typeSearchText('o');
+			expect(instance.value, 'not to equal', undefined);
+		});
+
+		it('menuContainer', () => {
+			clickArrowToOpen();
+			expect(instance.menuContainer, 'not to equal', undefined);
+		});
+
+		it('menu', () => {
+			clickArrowToOpen();
+			expect(instance.menu, 'not to equal', undefined);
+		});
+
+		it('wrapper', () => {
+			expect(instance.wrapper, 'not to equal', undefined);
+		});
+
+		it('control', () => {
+			expect(instance.control, 'not to equal', undefined);
+		});
+	});
+
 	describe('with simple options', () => {
 		beforeEach(() => {
 			options = [
@@ -217,7 +262,6 @@ describe('Select', () => {
 				simpleValue: true,
 			});
 		});
-
 
 		it('should assign the given name', () => {
 			var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
