@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-const Value = React.createClass({
 
-	displayName: 'Value',
 
-	propTypes: {
-		children: React.PropTypes.node,
-		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
-		id: React.PropTypes.string,                   // Unique id for the value - used for aria
-		onClick: React.PropTypes.func,                // method to handle click on value label
-		onRemove: React.PropTypes.func,               // method to handle removal of the value
-		value: React.PropTypes.object.isRequired,     // the option object for this value
-	},
+class Value extends Component {
+
+	constructor() {
+		super(...arguments);
+
+		this.handleMouseDown = this.handleMouseDown.bind(this);
+		this.onRemove = this.onRemove.bind(this);
+		this.handleTouchEndRemove = this.handleTouchEndRemove.bind(this);
+		this.handleTouchMove = this.handleTouchMove.bind(this);
+		this.handleTouchStart = this.handleTouchStart.bind(this);
+	}
 
 	handleMouseDown (event) {
 		if (event.type === 'mousedown' && event.button !== 0) {
@@ -26,13 +27,13 @@ const Value = React.createClass({
 		if (this.props.value.href) {
 			event.stopPropagation();
 		}
-	},
+	}
 
 	onRemove (event) {
 		event.preventDefault();
 		event.stopPropagation();
 		this.props.onRemove(this.props.value);
-	},
+	}
 
 	handleTouchEndRemove (event){
 		// Check if the view is being dragged, In this case
@@ -41,31 +42,31 @@ const Value = React.createClass({
 
 		// Fire the mouse events
 		this.onRemove(event);
-	},
+	}
 
 	handleTouchMove (event) {
 		// Set a flag that the view is being dragged
 		this.dragging = true;
-	},
+	}
 
 	handleTouchStart (event) {
 		// Set a flag that the view is not being dragged
 		this.dragging = false;
-	},
+	}
 
 	renderRemoveIcon () {
 		if (this.props.disabled || !this.props.onRemove) return;
 		return (
 			<span className="Select-value-icon"
-				aria-hidden="true"
-				onMouseDown={this.onRemove}
-				onTouchEnd={this.handleTouchEndRemove}
-				onTouchStart={this.handleTouchStart}
-				onTouchMove={this.handleTouchMove}>
+				  aria-hidden="true"
+				  onMouseDown={this.onRemove}
+				  onTouchEnd={this.handleTouchEndRemove}
+				  onTouchStart={this.handleTouchStart}
+				  onTouchMove={this.handleTouchMove}>
 				&times;
 			</span>
 		);
-	},
+	}
 
 	renderLabel () {
 		let className = 'Select-value-label';
@@ -78,20 +79,32 @@ const Value = React.createClass({
 				{this.props.children}
 			</span>
 		);
-	},
+	}
 
 	render () {
 		return (
 			<div className={classNames('Select-value', this.props.value.className)}
-				style={this.props.value.style}
-				title={this.props.value.title}
-				>
+				 style={this.props.value.style}
+				 title={this.props.value.title}
+			>
 				{this.renderRemoveIcon()}
 				{this.renderLabel()}
 			</div>
 		);
 	}
+}
 
-});
+
+Value.displayName = 'Value';
+
+
+Value.propTypes = {
+	children: PropTypes.node,
+	disabled: PropTypes.bool,               // disabled prop passed to ReactSelect
+	id: PropTypes.string,                   // Unique id for the value - used for aria
+	onClick: PropTypes.func,                // method to handle click on value label
+	onRemove: PropTypes.func,               // method to handle removal of the value
+	value: PropTypes.object.isRequired,     // the option object for this value
+};
 
 module.exports = Value;
