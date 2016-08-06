@@ -9,6 +9,11 @@ import Async from './Async';
 import Option from './Option';
 import Value from './Value';
 
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+import ValueSortContainer from './dnd/ValueSortContainer';
+import ValueSortItem from './dnd/ValueSortItem';
+
 function stringifyValue (value) {
 	if (typeof value === 'object') {
 		return JSON.stringify(value);
@@ -55,6 +60,7 @@ class Select extends Component {
 		this.handleRequired = this.handleRequired.bind(this);
 		this.getOptionLabel = this.getOptionLabel.bind(this);
 		this.focusOption = this.focusOption.bind(this);
+		this.reorderValue = this.reorderValue.bind(this);
 		this.selectValue = this.selectValue.bind(this);
 		this.clearValue = this.clearValue.bind(this);
 		this.removeValue = this.removeValue.bind(this);
@@ -427,6 +433,15 @@ class Select extends Component {
 		}
 	}
 
+	reorderValue (srcIndex, targetIndex) {
+		if(srcIndex === targetIndex) return;
+		let value = [...this.props.value];
+		//const reOrdered = value.map((x,i) => { if (i === srcIndex) { return value[targetIndex]; } else if (i === targetIndex) { return value[srcIndex]; } else { return x; } });
+		const sliced = value.splice(srcIndex,  1);
+		value.splice(targetIndex, 0, ...sliced);
+		this.setValue(value);
+	}
+
 	setValue (value) {
 		if (this.props.autoBlur){
 			this.blurInput();
@@ -612,19 +627,36 @@ class Select extends Component {
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
 			return valueArray.map((value, i) => {
+				const id = `${this._instancePrefix}-value-${1}`;
 				return (
-					<ValueComponent
-						id={this._instancePrefix + '-value-' + i}
-						instancePrefix={this._instancePrefix}
-						disabled={this.props.disabled || value.clearableValue === false}
-						key={`value-${i}-${value[this.props.valueKey]}`}
-						onClick={onClick}
-						onRemove={this.removeValue}
-						value={value}
-					>
-						{renderLabel(value)}
-						<span className="Select-aria-only">&nbsp;</span>
-					</ValueComponent>
+					<ValueSortContainer
+						key={i}
+						index={i}
+						contextId={this._instancePrefix}
+						className="Select-value--Outer"
+						handleSorting={this.reorderValue}
+						>
+						<ValueSortItem
+							index={i}
+							contextId={this._instancePrefix}
+							>
+							<ValueComponent
+								id={id}
+								instancePrefix={this._instancePrefix}
+								disabled={this.props.disabled || value.clearableValue === false}
+								key={`value-${i}-${value[this.props.valueKey]}`}
+								onClick={onClick}
+								onRemove={this.removeValue}
+								value={value}
+								draggable={true}
+								>
+								{renderLabel(value)}
+								<span className="Select-aria-only">&nbsp;</span>
+							</ValueComponent>
+						</ValueSortItem>
+					</ValueSortContainer>
+
+
 				);
 			});
 		} else if (!this.state.inputValue) {
@@ -956,8 +988,6 @@ class Select extends Component {
 
 }
 
-Select.Async = Async;
-
 Select.propTypes = {
 	addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 	allowCreate: PropTypes.bool,          // whether to allow creation of new entries
@@ -1066,4 +1096,7 @@ Select.defaultProps = {
 	valueKey: 'value',
 };
 
-export default Select;
+const SelectComposite = DragDropContext(HTML5Backend)(Select);
+SelectComposite.Async = Async;
+
+export default SelectComposite;

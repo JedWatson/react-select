@@ -31,6 +31,31 @@
 		margin-left: $select-item-gutter;
 		margin-top: $select-item-gutter;
 		vertical-align: top;
+		&--Outer {
+			display:inline-block;
+		}
+	}
+	.Sort-item {
+		&--CanDrop {
+			padding-left:5px;
+			transition: padding-left .2s;
+			&:before {
+				content:'';
+				height:100%;
+				width:1px;
+				background:$select-item-bg;
+
+			}
+
+			.Select-value {
+				border: 1px solid $select-item-border-color-candrop;
+			}
+		}
+		&--CantDrop {
+			.Select-value {
+				border: 1px solid $select-item-border-color-cantdrop;
+			}
+		}
 	}
 
 	// common

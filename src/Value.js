@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import shortid from 'shortid';
 
+export const VALUE_ITEM = 'valueItem';
 
 
 class Value extends Component {
@@ -24,7 +26,7 @@ class Value extends Component {
 			this.props.onClick(this.props.value, event);
 			return;
 		}
-		if (this.props.value.href) {
+		if (this.props.value.href || this.props.draggable) {
 			event.stopPropagation();
 		}
 	}
@@ -75,7 +77,7 @@ class Value extends Component {
 				{this.props.children}
 			</a>
 		) : (
-			<span className={className} role="option" aria-selected="true" id={this.props.id}>
+			<span className={className} role="option" aria-selected="true" id={this.props.id} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 				{this.props.children}
 			</span>
 		);
@@ -98,13 +100,22 @@ class Value extends Component {
 Value.displayName = 'Value';
 
 
+
 Value.propTypes = {
 	children: PropTypes.node,
 	disabled: PropTypes.bool,               // disabled prop passed to ReactSelect
-	id: PropTypes.string,                   // Unique id for the value - used for aria
+	id: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string
+	]),                                           // Unique id for the value - used for aria
 	onClick: PropTypes.func,                // method to handle click on value label
 	onRemove: PropTypes.func,               // method to handle removal of the value
 	value: PropTypes.object.isRequired,     // the option object for this value
+	draggable: PropTypes.bool,               // Set to true if dnd is enabled
 };
 
-module.exports = Value;
+Value.defaultProps = {
+	id: shortid()
+};
+
+export default Value;

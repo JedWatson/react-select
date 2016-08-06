@@ -53,6 +53,8 @@ class Async extends Component {
 			isLoading: false,
 			options: [],
 		};
+		this.loadOptions = this.loadOptions.bind(this);
+
 	}
 
 	componentWillMount () {
@@ -156,17 +158,18 @@ class Async extends Component {
 
 Async.propTypes = {
 	cache: PropTypes.any,                     // object to use to cache results, can be null to disable cache
-		ignoreAccents: PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
-		ignoreCase: PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
-		isLoading: PropTypes.bool,                // overrides the isLoading state when set to true
-		loadOptions: PropTypes.func.isRequired,   // function to call to load options asynchronously
-		loadingPlaceholder: PropTypes.string,     // replaces the placeholder while options are loading
-		minimumInput: PropTypes.number,           // the minimum number of characters that trigger loadOptions
-		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
-		onInputChange: PropTypes.func,            // onInputChange handler: function (inputValue) {}
-		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode,       // label to prompt for search input
-		searchingText: PropTypes.string,          // message to display while options are loading
+	ignoreAccents: PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
+	ignoreCase: PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
+	isLoading: PropTypes.bool,                // overrides the isLoading state when set to true
+	loadOptions: PropTypes.func.isRequired,   // function to call to load options asynchronously
+	loadingPlaceholder: PropTypes.string,     // replaces the placeholder while options are loading
+	minimumInput: PropTypes.number,           // the minimum number of characters that trigger loadOptions
+	noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
+	onInputChange: PropTypes.func,            // onInputChange handler: function (inputValue) {}
+	placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
+	searchPromptText: stringOrNode,       // label to prompt for search input
+	searchingText: PropTypes.string,          // message to display while options are loading
+
 };
 
 Async.defaultProps = {
@@ -180,5 +183,4 @@ Async.defaultProps = {
 };
 
 
-
-module.exports = Async;
+export default Async;
