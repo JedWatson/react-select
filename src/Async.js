@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
@@ -36,72 +36,58 @@ function thenPromise (promise, callback) {
 	});
 }
 
-const stringOrNode = React.PropTypes.oneOfType([
-	React.PropTypes.string,
-	React.PropTypes.node
+const stringOrNode = PropTypes.oneOfType([
+	PropTypes.string,
+	PropTypes.node
 ]);
 
-const Async = React.createClass({
-	propTypes: {
-		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
-		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
-		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
-		isLoading: React.PropTypes.bool,                // overrides the isLoading state when set to true
-		loadOptions: React.PropTypes.func.isRequired,   // function to call to load options asynchronously
-		loadingPlaceholder: React.PropTypes.string,     // replaces the placeholder while options are loading
-		minimumInput: React.PropTypes.number,           // the minimum number of characters that trigger loadOptions
-		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
-		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
-		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode,       // label to prompt for search input
-		searchingText: React.PropTypes.string,          // message to display while options are loading
-	},
-	getDefaultProps () {
-		return {
-			cache: true,
-			ignoreAccents: true,
-			ignoreCase: true,
-			loadingPlaceholder: 'Loading...',
-			minimumInput: 0,
-			searchingText: 'Searching...',
-			searchPromptText: 'Type to search',
-		};
-	},
-	getInitialState () {
-		return {
+
+class Async extends Component {
+
+	constructor() {
+		super(...arguments);
+
+
+		this.state = {
 			cache: initCache(this.props.cache),
 			isLoading: false,
 			options: [],
 		};
-	},
+	}
+
 	componentWillMount () {
 		this._lastInput = '';
-	},
+	}
+
 	componentDidMount () {
 		this.loadOptions('');
-	},
+	}
+
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.cache !== this.props.cache) {
 			this.setState({
 				cache: initCache(nextProps.cache),
 			});
 		}
-	},
+	}
+
 	focus () {
 		this.refs.select.focus();
-	},
+	}
+
 	resetState () {
 		this._currentRequestId = -1;
 		this.setState({
 			isLoading: false,
 			options: [],
 		});
-	},
+	}
+
 	getResponseHandler (input) {
 		let _requestId = this._currentRequestId = requestId++;
 		return (err, data) => {
 			if (err) throw err;
-			if (!this.isMounted()) return;
+			//if (!this.isMounted()) return;
 			updateCache(this.state.cache, input, data);
 			if (_requestId !== this._currentRequestId) return;
 			this.setState({
@@ -109,7 +95,10 @@ const Async = React.createClass({
 				options: data && data.options || [],
 			});
 		};
-	},
+
+
+	}
+
 	loadOptions (input) {
 		if (this.props.onInputChange) {
 			let nextState = this.props.onInputChange(input);
@@ -139,7 +128,8 @@ const Async = React.createClass({
 		return inputPromise ? inputPromise.then(() => {
 			return input;
 		}) : input;
-	},
+	}
+
 	render () {
 		let { noResultsText } = this.props;
 		let { isLoading, options } = this.state;
@@ -159,9 +149,36 @@ const Async = React.createClass({
 				onInputChange={this.loadOptions}
 				options={options}
 				placeholder={placeholder}
-				/>
+			/>
 		);
 	}
-});
+}
+
+Async.propTypes = {
+	cache: PropTypes.any,                     // object to use to cache results, can be null to disable cache
+		ignoreAccents: PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
+		ignoreCase: PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
+		isLoading: PropTypes.bool,                // overrides the isLoading state when set to true
+		loadOptions: PropTypes.func.isRequired,   // function to call to load options asynchronously
+		loadingPlaceholder: PropTypes.string,     // replaces the placeholder while options are loading
+		minimumInput: PropTypes.number,           // the minimum number of characters that trigger loadOptions
+		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
+		onInputChange: PropTypes.func,            // onInputChange handler: function (inputValue) {}
+		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
+		searchPromptText: stringOrNode,       // label to prompt for search input
+		searchingText: PropTypes.string,          // message to display while options are loading
+};
+
+Async.defaultProps = {
+	cache: true,
+	ignoreAccents: true,
+	ignoreCase: true,
+	loadingPlaceholder: 'Loading...',
+	minimumInput: 0,
+	searchingText: 'Searching...',
+	searchPromptText: 'Type to search',
+};
+
+
 
 module.exports = Async;
