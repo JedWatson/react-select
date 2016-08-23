@@ -3,6 +3,8 @@
 // ------------------------------
 
 
+
+
 // Base
 
 .Select--multi {
@@ -28,12 +30,41 @@
 		border: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
 		border: 1px solid @select-item-border-color;
 		color: @select-item-color;
-		display: inline-block;
 		font-size: @select-item-font-size;
 		line-height: 1.4;
 		margin-left: @select-item-gutter;
 		margin-top: @select-item-gutter;
 		vertical-align: top;
+
+	  &--Outer {
+		display:inline-block;
+	  }
+	}
+
+	// Sorting
+	.Sort-item {
+		&--CanDrop {
+			padding-left:5px;
+			transition: padding-left .2s;
+			&:before {
+				content:'';
+				height:100%;
+				width:1px;
+				background:@select-primary-color;
+
+			}
+
+			.Select-value {
+				border: 1px solid @select-item-border-color-candrop;  /* Fallback color for IE 8 */
+				border: 1px solid @select-item-border-color-candrop;
+			}
+		}
+		&--CantDrop {
+			.Select-value {
+				border: 1px solid @select-item-border-color-cantdrop;  /* Fallback color for IE 8 */
+				border: 1px solid @select-item-border-color-cantdrop;
+			}
+		}
 	}
 
 	// common

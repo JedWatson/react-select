@@ -64,6 +64,8 @@ $select-item-font-size:            .9em !default;
 $select-item-color:                #08c !default; // pale blue
 $select-item-bg:                   #f2f9fc !default;
 $select-item-border-color:         darken($select-item-bg, 10%) !default;
+$select-item-border-color-candrop:         darken($select-item-bg, 12%);
+$select-item-border-color-cantdrop:         darken($select-item-bg, 60%);
 $select-item-hover-color:          darken($select-item-color, 5%) !default; // pale blue
 $select-item-hover-bg:             darken($select-item-bg, 5%) !default;
 $select-item-disabled-color:       #333 !default;
