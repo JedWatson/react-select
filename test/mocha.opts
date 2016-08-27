@@ -1,0 +1,9 @@
+--reporter mochavigo
+--reporter-options project-key=f62373c22ee4035e60bea5b647b8e5f32ec3b7f1
+--no-exit
+--timeout 120000
+--recursive
+--full-trace
+--slow 50
+--check-leaks
+--globals app
