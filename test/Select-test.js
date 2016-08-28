@@ -1565,6 +1565,30 @@ describe('Select', () => {
 
 	});
 
+	describe('with multi=true and clearable=true', () => {
+		beforeEach(() => {
+
+			options = [
+				{ value: 0, label: 'Zero' },
+				{ value: 1, label: 'One' }
+			];
+
+			wrapper = createControlWithWrapper({
+				value: [0],
+				options: options,
+				multi: true,
+				clearable: true
+			});
+
+		});
+
+		it('calls onChange with an empty list when cleared', () => {
+
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), { button: 0 });
+			expect(onChange, 'was called with', []);
+		});
+	});
+
 	describe('with multi=true and searchable=false', () => {
 
 		beforeEach(() => {
