@@ -1720,7 +1720,7 @@ describe('Select', () => {
 
 			describe('on clicking `clear`', () => {
 				beforeEach(() => {
-					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), { button: 0 });
 				});
 
 				it('calls onChange with empty', () => {
@@ -1771,7 +1771,7 @@ describe('Select', () => {
 				});
 
 				it('calls onChange with a custom resetValue', () => {
-					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'));
+					TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), { button: 0 });
 					expect(onChange, 'was called with', 'reset');
 				});
 			});
