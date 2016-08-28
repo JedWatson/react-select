@@ -31,6 +31,7 @@ const Select = React.createClass({
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
+		alwaysOpen: React.PropTypes.bool,						// enforces menu to be always open
 		'aria-label': React.PropTypes.string,		// Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
@@ -178,7 +179,7 @@ const Select = React.createClass({
 	},
 
 	componentWillUpdate (nextProps, nextState) {
-		if (nextState.isOpen !== this.state.isOpen) {
+		if (nextState.isOpen !== this.state.isOpen && !this.props.alwaysOpen) {
 			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
 			handler && handler();
 		}
@@ -186,12 +187,12 @@ const Select = React.createClass({
 
 	componentDidUpdate (prevProps, prevState) {
 		// focus to the selected option
-		if (this.refs.menu && this.refs.focused && this.state.isOpen && !this.hasScrolledToOption) {
+		if (this.refs.menu && this.refs.focused && this.isOpen() && !this.hasScrolledToOption) {
 			let focusedOptionNode = ReactDOM.findDOMNode(this.refs.focused);
 			let menuNode = ReactDOM.findDOMNode(this.refs.menu);
 			menuNode.scrollTop = focusedOptionNode.offsetTop;
 			this.hasScrolledToOption = true;
-		} else if (!this.state.isOpen) {
+		} else if (!this.isOpen()) {
 			this.hasScrolledToOption = false;
 		}
 
@@ -231,6 +232,10 @@ const Select = React.createClass({
 	blurInput() {
 		if (!this.refs.input) return;
 		this.refs.input.blur();
+	},
+
+	isOpen() {
+		return this.props.alwaysOpen || this.state.isOpen;
 	},
 
 	handleTouchMove (event) {
@@ -318,7 +323,7 @@ const Select = React.createClass({
 			return;
 		}
 		// If the menu isn't open, let the event bubble to the main handleMouseDown
-		if (!this.state.isOpen) {
+		if (!this.isOpen()) {
 			return;
 		}
 		// prevent default event handlers
@@ -351,7 +356,7 @@ const Select = React.createClass({
 	},
 
 	handleInputFocus (event) {
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+		var isOpen = this.isOpen() || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -409,18 +414,18 @@ const Select = React.createClass({
 				}
 			return;
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
+				if (event.shiftKey || !this.isOpen() || !this.props.tabSelectsValue) {
 					return;
 				}
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.isOpen()) return;
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
 			case 27: // escape
-				if (this.state.isOpen) {
+				if (this.isOpen()) {
 					this.closeMenu();
 					event.stopPropagation();
 				} else if (this.props.clearable && this.props.escapeClearsValue) {
@@ -631,7 +636,7 @@ const Select = React.createClass({
 			.map((option, index) => ({ option, index }))
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
-		if (!this.state.isOpen) {
+		if (!this.isOpen()) {
 			this.setState({
 				isOpen: true,
 				inputValue: '',
@@ -748,7 +753,7 @@ const Select = React.createClass({
 			return this.props.inputRenderer();
 		} else {
 			var className = classNames('Select-input', this.props.inputProps.className);
-			const isOpen = !!this.state.isOpen;
+			const isOpen = !!this.isOpen();
 
 			const ariaOwns = classNames({
 				[this._instancePrefix + '-list']: isOpen,
@@ -990,7 +995,7 @@ const Select = React.createClass({
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
-		let isOpen = this.state.isOpen;
+		let isOpen = this.isOpen();
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
