@@ -10,10 +10,14 @@ import Option from './Option';
 import Value from './Value';
 
 function stringifyValue (value) {
-	if (typeof value === 'object') {
-		return JSON.stringify(value);
-	} else {
+	if (typeof value === 'string') {
 		return value;
+	} else if (typeof value === 'object') {
+		return JSON.stringify(value);
+	} else if (value || value === 0) {
+		return String(value);
+	} else {
+		return '';
 	}
 }
 
