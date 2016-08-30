@@ -274,6 +274,7 @@ function cleanInput(inputValue) {
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
+	controlClassName 	|	string	|	''	|	className for the select control
 	resetValue 	|	any	|	null	|	value to use when you clear the control
 	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
