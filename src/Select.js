@@ -751,7 +751,7 @@ const Select = React.createClass({
 					onClick={onClick}
 					value={valueArray[0]}
 				>
-					{renderLabel(valueArray[0], i)}
+					{renderLabel(valueArray[0])}
 				</ValueComponent>
 			);
 		}
