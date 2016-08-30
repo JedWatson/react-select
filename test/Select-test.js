@@ -46,12 +46,12 @@ class PropsWrapper extends React.Component {
 	}
 
 	getChild() {
-		return this.refs.child;
+		return this.child;
 	}
 
 	render() {
 		var Component = this.props.childComponent; // eslint-disable-line react/prop-types
-		return <Component {...this.state} ref="child" />;
+		return <Component {...this.state} ref={(ref) => this.child = ref} />;
 	}
 }
 
@@ -119,7 +119,7 @@ describe('Select', () => {
 
 	var findAndFocusInputControl = () => {
 		// Focus on the input, such that mouse events are accepted
-		var searchInstance = ReactDOM.findDOMNode(instance.refs.input);
+		var searchInstance = ReactDOM.findDOMNode(instance.input);
 		searchInputNode = null;
 		if (searchInstance) {
 			searchInputNode = searchInstance.querySelector('input');
@@ -202,6 +202,51 @@ describe('Select', () => {
 		{ value: 'ten', label: 'ten' }
 	];
 
+	describe('has refs', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			instance = createControl({
+				name: 'form-field-name',
+				value: 'one',
+				options: options,
+				simpleValue: true,
+				joinValues: true,
+			});
+		});
+
+		it('input', () => {
+			expect(instance.input, 'not to equal', undefined);
+		});
+
+		it('value', () => {
+			typeSearchText('o');
+			expect(instance.value, 'not to equal', undefined);
+		});
+
+		it('menuContainer', () => {
+			clickArrowToOpen();
+			expect(instance.menuContainer, 'not to equal', undefined);
+		});
+
+		it('menu', () => {
+			clickArrowToOpen();
+			expect(instance.menu, 'not to equal', undefined);
+		});
+
+		it('wrapper', () => {
+			expect(instance.wrapper, 'not to equal', undefined);
+		});
+
+		it('control', () => {
+			expect(instance.control, 'not to equal', undefined);
+		});
+	});
+
 	describe('with simple options', () => {
 		beforeEach(() => {
 			options = [
@@ -217,7 +262,6 @@ describe('Select', () => {
 				simpleValue: true,
 			});
 		});
-
 
 		it('should assign the given name', () => {
 			var selectInputElement = TestUtils.scryRenderedDOMComponentsWithTag(instance, 'input')[0];
@@ -2257,7 +2301,7 @@ describe('Select', () => {
 
 			it('adds the className on to the auto-size input', () => {
 
-				expect(ReactDOM.findDOMNode(instance.refs.input),
+				expect(ReactDOM.findDOMNode(instance.input),
 					'to have attributes', {
 						class: ['extra-class-name', 'Select-input']
 					});
@@ -2511,12 +2555,12 @@ describe('Select', () => {
 				});
 
 				clickArrowToOpen();
-				instance.refs.menu.focus();
+				instance.menu.focus();
 
-				var inputFocus = sinon.spy( instance.refs.input, 'focus' );
+				var inputFocus = sinon.spy( instance.input, 'focus' );
 				instance.handleInputBlur();
 
-				expect( instance.refs.input.focus, 'was called once' );
+				expect( instance.input.focus, 'was called once' );
 			} );
 
 			it( 'should not focus the input when menu is not active', () => {
@@ -2524,10 +2568,24 @@ describe('Select', () => {
 					options: defaultOptions
 				});
 
-				var inputFocus = sinon.spy( instance.refs.input, 'focus' );
+				var inputFocus = sinon.spy( instance.input, 'focus' );
 				instance.handleInputBlur();
 
-				expect( instance.refs.input.focus, 'was not called' );
+				expect( instance.input.focus, 'was not called' );
+			} );
+
+			it( 'should set onBlurredState', () => {
+				instance = createControl({
+					options: defaultOptions
+				});
+
+				var inputFocus = sinon.spy( instance.input, 'focus' );
+				instance.handleInputBlur();
+
+				expect( instance.state.isFocused, 'to be false');
+				expect( instance.state.isOpen, 'to be false');
+				expect( instance.state.isPseudoFocused, 'to be false');
+
 			} );
 		});
 
@@ -3260,7 +3318,7 @@ describe('Select', () => {
 		});
 
 		it('creates a plain input instead of an autosizable input', () => {
-			const inputNode = ReactDOM.findDOMNode(instance.refs.input);
+			const inputNode = ReactDOM.findDOMNode(instance.input);
 			expect(inputNode.tagName, 'to equal', 'INPUT');
 		});
 	});
