@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "classnames": "^2.2.0",
-    "react-input-autosize": "^0.6.5"
+    "react-input-autosize": "^1.1.0"
   },
   "keywords": [
     "react",
