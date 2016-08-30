@@ -74,6 +74,7 @@ const Select = React.createClass({
 		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onClose: React.PropTypes.func,              // fires when the menu is closed
+		onCloseResetsInput: React.PropTypes.bool,		// whether input is cleared when menu is closed through the arrow
 		onFocus: React.PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: React.PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
@@ -130,6 +131,7 @@ const Select = React.createClass({
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
+			onCloseResetsInput: true,
 			openAfterFocus: false,
 			optionComponent: Option,
 			pageSize: 5,
@@ -346,11 +348,19 @@ const Select = React.createClass({
 	},
 
 	closeMenu () {
-		this.setState({
-			isOpen: false,
-			isPseudoFocused: this.state.isFocused && !this.props.multi,
-			inputValue: '',
-		});
+		if(this.props.onCloseResetsInput) {
+			this.setState({
+				isOpen: false,
+				isPseudoFocused: this.state.isFocused && !this.props.multi,
+				inputValue: ''
+			});
+		}	else {
+			this.setState({
+				isOpen: false,
+				isPseudoFocused: this.state.isFocused && !this.props.multi,
+				inputValue: this.state.inputValue
+			});
+		}
 		this.hasScrolledToOption = false;
 	},
 

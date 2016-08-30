@@ -2733,6 +2733,40 @@ describe('Select', () => {
 				expect(eventHandler, 'was called once');
 			});
 		});
+		
+		describe('with onCloseResetsInput=true', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onCloseResetsInput: true
+				});
+				typeSearchText('test');
+			});
+
+			it('should clear the search input after calling onBlur', () => {
+				const domNode = ReactDOM.findDOMNode(instance);
+				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
+				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
+				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', '');
+			});
+		});
+
+		describe('with onCloseResetsInput=false', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onCloseResetsInput: false
+				});
+				typeSearchText('test');
+			});
+
+			it('should clear the search input after calling onClose', () => {
+				const domNode = ReactDOM.findDOMNode(instance);
+				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
+				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
+				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'test');
+			});
+		});
 
 		describe('optionRenderer', () => {
 
