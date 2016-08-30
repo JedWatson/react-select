@@ -722,7 +722,7 @@ const Select = React.createClass({
 						onRemove={this.removeValue}
 						value={value}
 					>
-						{renderLabel(value)}
+						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
 					</ValueComponent>
 				);
@@ -737,7 +737,7 @@ const Select = React.createClass({
 					onClick={onClick}
 					value={valueArray[0]}
 				>
-					{renderLabel(valueArray[0])}
+					{renderLabel(valueArray[0], i)}
 				</ValueComponent>
 			);
 		}
@@ -912,7 +912,7 @@ const Select = React.createClass({
 							isSelected={isSelected}
 							ref={optionRef}
 							>
-							{renderLabel(option)}
+							{renderLabel(option, i)}
 						</Option>
 					);
 				});
