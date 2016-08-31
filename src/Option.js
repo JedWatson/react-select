@@ -10,6 +10,7 @@ const Option = React.createClass({
 		isFocused: React.PropTypes.bool,               // the option is focused
 		isSelected: React.PropTypes.bool,              // the option is selected
 		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
+		onRemove: React.PropTypes.func,                // method to handle removal of the value
 		onSelect: React.PropTypes.func,                // method to handle click on option element
 		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
 		option: React.PropTypes.object.isRequired,     // object that is base for that option
@@ -32,6 +33,12 @@ const Option = React.createClass({
 		event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
+	},
+
+	onRemove (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		this.props.onRemove(this.props.option);
 	},
 
 	handleMouseEnter (event) {
