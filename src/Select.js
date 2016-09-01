@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Input from 'react-input-autosize';
+import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
 
 import stripDiacritics from './utils/stripDiacritics';
@@ -298,7 +298,7 @@ const Select = React.createClass({
 
 			let input = this.input;
 			if (typeof input.getInput === 'function') {
-				// Get the actual DOM input if the ref is an <Input /> component
+				// Get the actual DOM input if the ref is an <AutosizeInput /> component
 				input = input.getInput();
 			}
 
@@ -812,7 +812,7 @@ const Select = React.createClass({
 
 			if (this.props.autosize) {
 				return (
-					<Input {...inputProps} minWidth="5px" />
+					<AutosizeInput {...inputProps} minWidth="5px" />
 				);
 			}
 			return (
