@@ -57,11 +57,11 @@ You can also use the standalone build by including `react-select.js` and `react-
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
-<script src="https://npmcdn.com/classnames/index.js"></script>
-<script src="https://npmcdn.com/react-input-autosize/dist/react-input-autosize.js"></script>
-<script src="https://npmcdn.com/react-select/dist/react-select.js"></script>
+<script src="https://unpkg.com/classnames/index.js"></script>
+<script src="https://unpkg.com/react-input-autosize/dist/react-input-autosize.js"></script>
+<script src="https://unpkg.com/react-select/dist/react-select.js"></script>
 
-<link rel="stylesheet" href="https://npmcdn.com/react-select/dist/react-select.css">
+<link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css">
 ```
 
 
