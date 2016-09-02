@@ -114,7 +114,7 @@ describe('Select', () => {
 
 	var clickArrowToOpen = () => {
 		var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
-		TestUtils.Simulate.mouseDown(selectArrow);
+		TestUtils.Simulate.mouseDown(selectArrow, { button: 0 });
 	};
 
 	var findAndFocusInputControl = () => {
@@ -269,13 +269,13 @@ describe('Select', () => {
 		});
 
 		it('should show the options on mouse click', function () {
-			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option', 'to have length', 3);
 		});
 
 		it('should display the labels on mouse click', () => {
-			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option:nth-child(1)', 'to have items satisfying', 'to have text', 'One');
 			expect(node, 'queried for', '.Select-option:nth-child(2)', 'to have items satisfying', 'to have text', 'Two');
@@ -357,7 +357,7 @@ describe('Select', () => {
 		});
 
 		it('should focus the first value on mouse click', () => {
-			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
 				'to have text', 'One');
@@ -365,7 +365,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the second value when down pressed', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -374,7 +374,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the second value when down pressed', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
@@ -384,7 +384,7 @@ describe('Select', () => {
 
 		it('should loop round to top item when down is pressed on the last item', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 40, key: 'ArrowDown' });
@@ -395,7 +395,7 @@ describe('Select', () => {
 
 		it('should loop round to bottom item when up is pressed on the first item', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -404,7 +404,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the second item when up pressed twice', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowUp' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
@@ -414,7 +414,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the end when pressing end', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -433,7 +433,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the end if page down is pressed and number of items is less than page size', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -450,7 +450,7 @@ describe('Select', () => {
 			});
 
 			var selectControl = getSelectControl(longerListInstance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
 			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -468,7 +468,7 @@ describe('Select', () => {
 			});
 
 			var selectControl = getSelectControl(longerListInstance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
 			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
 				'to have items satisfying',
@@ -477,7 +477,7 @@ describe('Select', () => {
 
 		it('should move the focused value to the start if page up is pressed and number of items is less than page size', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 34, key: 'PageDown' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option.is-focused',
@@ -495,7 +495,7 @@ describe('Select', () => {
 			});
 
 			var selectControl = getSelectControl(longerListInstance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
 			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
@@ -514,7 +514,7 @@ describe('Select', () => {
 			});
 
 			var selectControl = getSelectControl(longerListInstance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 35, key: 'End' });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 33, key: 'PageUp' });
 			expect(ReactDOM.findDOMNode(longerListInstance), 'queried for', '.Select-option.is-focused',
@@ -525,7 +525,7 @@ describe('Select', () => {
 
 		it('should clear the selection on escape', () => {
 			var selectControl = getSelectControl(instance);
-			TestUtils.Simulate.mouseDown(selectControl);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
 			TestUtils.Simulate.keyDown(selectControl, { keyCode: 27, key: 'Escape' });
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 
@@ -552,16 +552,16 @@ describe('Select', () => {
 
 		it('should close the options one the second click on the arrow', () => {
 			var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
-			TestUtils.Simulate.mouseDown(selectArrow);
+			TestUtils.Simulate.mouseDown(selectArrow, { button: 0 });
 			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option'), 'to have length', 3);
 
-			TestUtils.Simulate.mouseDown(selectArrow);
+			TestUtils.Simulate.mouseDown(selectArrow, { button: 0 });
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 
 		it('should ignore a right mouse click on the arrow', () => {
 			var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
-			TestUtils.Simulate.mouseDown(selectArrow, { type: 'mousedown', button: 1 });
+			TestUtils.Simulate.mouseDown(selectArrow, { button: 1 });
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 
@@ -2113,7 +2113,7 @@ describe('Select', () => {
 				it('should close the opened menu if disabled=true', function(){
 
 					findAndFocusInputControl();
-					TestUtils.Simulate.mouseDown(getSelectControl(instance));
+					TestUtils.Simulate.mouseDown(getSelectControl(instance), { button: 0 });
 					expect(node, 'queried for', '.Select-option', 'to have length', 4);
 					ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
 					expect(node, 'to contain no elements matching', '.Select-option');
@@ -2215,7 +2215,7 @@ describe('Select', () => {
 
 			it('uses the returned options', () => {
 
-				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-arrow'));
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-arrow'), { button: 0 });
 
 				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 				expect(options[0], 'to have text', 'Return One');
@@ -2679,13 +2679,13 @@ describe('Select', () => {
 
 			it('calls the function when clicking on a label', () => {
 
-				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('a.Select-value-label'));
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('a.Select-value-label'), { button: 0 });
 				expect(onValueClick, 'was called once');
 			});
 
 			it('calls the function with the value', () => {
 
-				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('a.Select-value-label')[0]);
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelectorAll('a.Select-value-label')[0], { button: 0 });
 				expect(onValueClick, 'was called with', { value: 'two', label: '222' });
 			});
 		});
@@ -2705,7 +2705,7 @@ describe('Select', () => {
 			});
 
 			it('is called when the options are displayed', () => {
-				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'));
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 				expect(eventHandler, 'was called once');
 			});
 		});
@@ -2733,7 +2733,7 @@ describe('Select', () => {
 				expect(eventHandler, 'was called once');
 			});
 		});
-		
+
 		describe('with onCloseResetsInput=true', () => {
 			beforeEach(() => {
 				instance = createControl({
@@ -2791,7 +2791,7 @@ describe('Select', () => {
 			it('renders the options using the optionRenderer', () => {
 
 				var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
-				TestUtils.Simulate.mouseDown(selectArrow);
+				TestUtils.Simulate.mouseDown(selectArrow, { button: 0 });
 				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 
 				expect(options[0].querySelector('span'), 'to have attributes', {
@@ -2806,7 +2806,7 @@ describe('Select', () => {
 
 			it('calls the renderer exactly once for each option', () => {
 				var selectArrow = ReactDOM.findDOMNode(instance).querySelector('.Select-arrow');
-				TestUtils.Simulate.mouseDown(selectArrow);
+				TestUtils.Simulate.mouseDown(selectArrow, { button: 0 });
 				expect(optionRenderer, 'was called times', 4);
 			});
 		});
@@ -3335,7 +3335,7 @@ describe('Select', () => {
 
 		it('closes the menu', () => {
 
-			TestUtils.Simulate.mouseDown(getSelectControl(instance));
+			TestUtils.Simulate.mouseDown(getSelectControl(instance), { button: 0 });
 			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 				'to have length', 4);
 
