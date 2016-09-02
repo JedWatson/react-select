@@ -96,6 +96,7 @@ const Select = React.createClass({
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: React.PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
+		validateInputChange: React.PropTypes.func,  // validateInputChange handler: function (newValue) {}, return true/false to update input 
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
@@ -399,6 +400,7 @@ const Select = React.createClass({
 
 	handleInputChange (event) {
 		let newInputValue = event.target.value;
+		if (this.props.validateInputChange && !this.props.validateInputChange(newInputValue)) return;
 		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newInputValue);
 			// Note: != used deliberately here to catch undefined and null
