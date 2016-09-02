@@ -33,6 +33,7 @@ const Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
+		addItemOnKeyCode: React.PropTypes.number,   // The key code number that should trigger adding a tag if multi and allowCreate are enabled
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		allowCreate: React.PropTypes.bool,          // whether to allow creation of new entries
 		'aria-label': React.PropTypes.string,		// Aria label (for assistive tech)
@@ -108,6 +109,7 @@ const Select = React.createClass({
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
+			addItemOnKeyCode: null,
 			autosize: true,
 			allowCreate: false,
 			backspaceRemoves: true,
@@ -459,17 +461,15 @@ const Select = React.createClass({
 			break;
 			case 36: // home key
 				this.focusStartOption();
+			default:
+				if (this.props.allowCreate && this.props.multi && event.keyCode === this.props.addItemOnKeyCode) {
+					event.preventDefault();
+					event.stopPropagation();
+					this.selectFocusedOption();
+				} else {
+					return;
+				}
 			break;
-			// case 188: // ,
-			// 	if (this.props.allowCreate && this.props.multi) {
-			// 		event.preventDefault();
-			// 		event.stopPropagation();
-			// 		this.selectFocusedOption();
-			// 	} else {
-			// 		return;
-			// 	}
-			// break;
-			default: return;
 		}
 		event.preventDefault();
 	},
@@ -527,7 +527,13 @@ const Select = React.createClass({
 		let { options, valueKey } = props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
-			if (options[i][valueKey] === value) return options[i];
+			if (options[i][valueKey] === value) {
+				return options[i];
+			}
+		}
+
+		if (this.props.allowCreate && value !== '') {
+			return this.createNewOption(value);
 		}
 	},
 
@@ -581,7 +587,13 @@ const Select = React.createClass({
 
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
+		this.setValue(valueArray.filter(i => {
+			if (i.create) {
+				return i[this.props.valueKey] !== value[this.props.valueKey] && i[this.props.labelKey] !== value[this.props.labelKey];
+			} else {
+				return i !== value;
+			}
+		}));
 		this.focus();
 	},
 
@@ -706,6 +718,21 @@ const Select = React.createClass({
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
+	},
+
+	createNewOption (value) {
+		let newOption = {};
+
+		if (this.props.newOptionCreator) {
+			newOption = this.props.newOptionCreator(value);
+		} else {
+			newOption[this.props.valueKey] = value;
+			newOption[this.props.labelKey] = value;
+		}
+
+		newOption.create = true;
+
+		return newOption;
 	},
 
 	renderLoading () {
@@ -848,9 +875,11 @@ const Select = React.createClass({
 
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
+		var originalFilterValue = filterValue;
 		var options = this.props.options || [];
+		var filteredOptions = [];
 		if (typeof this.props.filterOptions === 'function') {
-			return this.props.filterOptions.call(this, options, filterValue, excludeOptions);
+			filteredOptions = this.props.filterOptions.call(this, options, filterValue, excludeOptions);
 		} else if (this.props.filterOptions) {
 			if (this.props.ignoreAccents) {
 				filterValue = stripDiacritics(filterValue);
@@ -859,7 +888,7 @@ const Select = React.createClass({
 				filterValue = filterValue.toLowerCase();
 			}
 			if (excludeOptions) excludeOptions = excludeOptions.map(i => i[this.props.valueKey]);
-			return options.filter(option => {
+			filteredOptions = options.filter(option => {
 				if (excludeOptions && excludeOptions.indexOf(option[this.props.valueKey]) > -1) return false;
 				if (this.props.filterOption) return this.props.filterOption.call(this, option, filterValue);
 				if (!filterValue) return true;
@@ -882,8 +911,21 @@ const Select = React.createClass({
 				);
 			});
 		} else {
-			return options;
+			filteredOptions = options;
 		}
+		if (this.props.allowCreate && filterValue) {
+			let addNewOption = true;
+			//NOTE: only add the "Add" option if none of the options are an exact match
+			filteredOptions.map(option => {
+				if (String(option.label).toLowerCase() === filterValue || String(option.value).toLowerCase() === filterValue) {
+					addNewOption = false;
+				}
+			});
+			if (addNewOption) {
+				filteredOptions.unshift(this.createNewOption(originalFilterValue));
+			}
+		}
+		return filteredOptions;
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
@@ -923,6 +965,7 @@ const Select = React.createClass({
 							onSelect={this.selectValue}
 							onFocus={this.focusOption}
 							option={option}
+							addLabelText={this.props.addLabelText}
 							isSelected={isSelected}
 							ref={optionRef}
 							>
