@@ -171,8 +171,6 @@ const Select = React.createClass({
 		if (this.props.autofocus) {
 			this.focus();
 		}
-
-		document.addEventListener('touchstart', this.handleTouchOutside);
 	},
 
 	componentWillReceiveProps(nextProps) {
@@ -187,6 +185,7 @@ const Select = React.createClass({
 
 	componentWillUpdate (nextProps, nextState) {
 		if (nextState.isOpen !== this.state.isOpen) {
+			this.toggleTouchOutsideEvent(nextState.isOpen);
 			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
 			handler && handler();
 		}
@@ -222,6 +221,18 @@ const Select = React.createClass({
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
+		}
+	},
+
+	componentWillUnmount() {
+		document.removeEventListener('touchstart', this.handleTouchOutside);
+	},
+
+	toggleTouchOutsideEvent(enabled) {
+		if (enabled) {
+			document.addEventListener('touchstart', this.handleTouchOutside);
+		} else {
+			document.removeEventListener('touchstart', this.handleTouchOutside);
 		}
 	},
 
