@@ -171,6 +171,8 @@ const Select = React.createClass({
 		if (this.props.autofocus) {
 			this.focus();
 		}
+
+		document.addEventListener('touchstart', this.handleTouchOutside);
 	},
 
 	componentWillReceiveProps(nextProps) {
@@ -219,6 +221,13 @@ const Select = React.createClass({
 		}
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
+			this.closeMenu();
+		}
+	},
+
+	handleTouchOutside(event) {
+		// handle touch outside on ios to dismiss menu
+		if (this.wrapper && !this.wrapper.contains(event.target)) {
 			this.closeMenu();
 		}
 	},
