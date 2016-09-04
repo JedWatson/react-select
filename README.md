@@ -243,7 +243,13 @@ You can also completely replace the method used to filter either a single option
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
-#### Effeciently rendering large lists with windowing
+#### Filtering large lists
+
+The default `filterOptions` method scans the options array for matches each time the filter text changes.
+This works well but can get slow as the options array grows to several hundred objects.
+For larger options lists a custom filter function like [`react-select-fast-filter-options`](https://github.com/bvaughn/react-select-fast-filter-options) will produce better results.
+
+### Effeciently rendering large lists with windowing
 
 The `menuRenderer` property can be used to override the default drop-down list of options.
 This should be done when the list is large (hundreds or thousands of items) for faster rendering.
