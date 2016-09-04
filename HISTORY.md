@@ -1,5 +1,17 @@
 # React-Select
 
+## v1.0.0-rc / 2016-09-04
+
+* fixed; reset value to `[]` when `multi=true`, thanks [Michael Williamson](https://github.com/mwilliamson)
+* added; pass index to `renderLabel` method, thanks [nhducit](https://github.com/nhducit)
+* fixed; uncontrolled to controlled component warning in React 15.3
+* fixed; props cleanup, thanks [Forbes Lindesay](https://github.com/ForbesLindesay)
+* fixed; issue where a value of the number `0` would be assumed to be no value, thanks [Hanwen Cheng](https://github.com/hanwencheng)
+* fixed; internal refs converted to callbacks instead of strings, thanks [Johnny Nguyen](https://github.com/gojohnnygo)
+* added; optional `instanceId` prop for server-side rendering, thanks [Jevin Anderson](https://github.com/JevinAnderson)
+* added; `onCloseResetsInput` prop, thanks [Frankie](https://github.com/frankievx)
+* added; `Creatable` component, replaces pre-1.0 `allowCreate` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
+
 ## v1.0.0-beta14 / 2016-07-17
 
 * fixed; `react-input-autosize` has been udpated to `1.1.0`, which includes fixes for the new warnings that React 15.2 logs
