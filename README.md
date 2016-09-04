@@ -286,6 +286,30 @@ function cleanInput(inputValue) {
 />
 ```
 
+### Overriding default key-down behavior with onInputKeyDown
+
+`Select` listens to `keyDown` events to select items, navigate drop-down list via arrow keys, etc.
+You can extend or override this behavior by providing a `onInputKeyDown` callback.
+
+```js
+function onInputKeyDown(event) {
+	switch (event.keyCode) {
+		case 9:   // TAB
+			// Extend default TAB behavior by doing something here
+			break;
+		case 13: // ENTER
+			// Override default ENTER behavior by doing stuff here and then preventing default
+			event.preventDefault();
+			break;
+	}
+}
+
+<Select
+	{...otherProps}
+	onInputKeyDown={onInputKeyDown}
+/>
+```
+
 ### Further options
 
 
@@ -327,6 +351,7 @@ function cleanInput(inputValue) {
 	onCloseResetInput | bool  | true  | whether to clear input when closing the menu through the arrow
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
+	onInputKeyDown	|	func	|	undefined	|	input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}`
 	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
 	onValueClick	|	func	|	undefined	|	onClick handler for value labels: `function (value, event) {}`
 	openOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true)
