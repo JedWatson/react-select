@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import Highlighter from 'react-highlight-words';
 
 var DisabledUpsellOptions = React.createClass({
 	displayName: 'DisabledUpsellOptions',
@@ -17,7 +18,12 @@ var DisabledUpsellOptions = React.createClass({
 		return <a style={{ marginLeft: 5 }} href="/upgrade" target="_blank">Upgrade here!</a>;
 	},
 	renderOption: function(option) {
-		return <span style={{ color: option.color }}>{option.label} {option.link}</span>;
+		return (
+			<Highlighter
+			  searchWords={[this._inputValue]}
+			  textToHighlight={option.label}
+			/>
+		);
 	},
 	renderValue: function(option) {
 		return <strong style={{ color: option.color }}>{option.label}</strong>;
@@ -32,7 +38,7 @@ var DisabledUpsellOptions = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
-					placeholder="Select your support level"
+					onInputChange={(inputValue) => this._inputValue = inputValue}
 					options={options}
 					optionRenderer={this.renderOption}
 					onChange={this.setValue}

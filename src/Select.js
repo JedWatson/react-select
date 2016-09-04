@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Input from 'react-input-autosize';
 import classNames from 'classnames';
 
+import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 
@@ -38,6 +39,7 @@ const Select = React.createClass({
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
+		arrowRenderer: React.PropTypes.func, 				// Create drop-down caret element
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
@@ -109,6 +111,7 @@ const Select = React.createClass({
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
+			arrowRenderer: defaultArrowRenderer,
 			autosize: true,
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
@@ -846,9 +849,15 @@ const Select = React.createClass({
 	},
 
 	renderArrow () {
+		const onMouseDown = this.handleMouseDownOnArrow;
+		const arrow = this.props.arrowRenderer({ onMouseDown });
+
 		return (
-			<span className="Select-arrow-zone" onMouseDown={this.handleMouseDownOnArrow}>
-				<span className="Select-arrow" onMouseDown={this.handleMouseDownOnArrow} />
+			<span
+				className="Select-arrow-zone"
+				onMouseDown={onMouseDown}
+			>
+				{arrow}
 			</span>
 		);
 	},
