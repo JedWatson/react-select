@@ -12,18 +12,18 @@ const Creatable = React.createClass({
 
 		// Searches for any matching option within the set of options.
 		// This function prevents duplicate options from being created.
-		// (newOption: Object, options: Array, labelKey: string, valueKey: string): boolean
+		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
 		isOptionUnique: React.PropTypes.func,
 
     // Determines if the current input text represents a valid option.
-    // (label: string): boolean
+    // ({ label: string }): boolean
     isValidNewOption: React.PropTypes.func,
 
 		// See Select.propTypes.menuRenderer
 		menuRenderer: React.PropTypes.any,
 
     // Factory to create new option.
-    // (label: string, labelKey: string, valueKey: string): Object
+    // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
 
     // Creates prompt/placeholder option text.
@@ -61,15 +61,15 @@ const Creatable = React.createClass({
 
 		const inputValue = this.select.getInputValue();
 
-		if (isValidNewOption(inputValue)) {
-			const newOption = newOptionCreator(inputValue, labelKey, valueKey);
-			const isOptionUnique = this.isOptionUnique({ newOption });
+		if (isValidNewOption({ label: inputValue })) {
+			const option = newOptionCreator({ label: inputValue, labelKey, valueKey });
+			const isOptionUnique = this.isOptionUnique({ option });
 
 			// Don't add the same option twice.
 			if (isOptionUnique) {
-				options.unshift(newOption);
+				options.unshift(option);
 
-				this.select.selectValue(newOption);
+				this.select.selectValue(option);
 			}
 		}
 	},
@@ -83,23 +83,20 @@ const Creatable = React.createClass({
 			? this.select.getInputValue()
 			: '';
 
-		if (isValidNewOption(inputValue)) {
+		if (isValidNewOption({ label: inputValue })) {
 			const { newOptionCreator } = this.props;
 			const { labelKey, options, valueKey } = this.select.props;
 
-			const newOption = newOptionCreator(inputValue, labelKey, valueKey);
+			const option = newOptionCreator({ label: inputValue, labelKey, valueKey });
 
 			// TRICKY Compare to all options (not just filtered options) in case option has already been selected).
 			// For multi-selects, this would remove it from the filtered list.
-			const isOptionUnique = this.isOptionUnique({
-				newOption,
-				options
-			});
+			const isOptionUnique = this.isOptionUnique({ option, options });
 
 			if (isOptionUnique) {
 				const prompt = promptTextCreator(inputValue);
 
-				this._createPlaceholderOption = newOptionCreator(prompt, labelKey, valueKey);
+				this._createPlaceholderOption = newOptionCreator({ label: prompt, labelKey, valueKey });
 
 				filteredOptions.unshift(this._createPlaceholderOption);
 			}
@@ -109,7 +106,7 @@ const Creatable = React.createClass({
 	},
 
 	isOptionUnique ({
-		newOption,
+		option,
 		options
 	}) {
 		if (!this.select) {
@@ -121,7 +118,12 @@ const Creatable = React.createClass({
 
 		options = options || this.select.filterOptions();
 
-		return isOptionUnique(newOption, options, labelKey, valueKey);
+		return isOptionUnique({
+			labelKey,
+			option,
+			options,
+			valueKey
+		});
 	},
 
 	menuRenderer (params) {
@@ -140,7 +142,7 @@ const Creatable = React.createClass({
 		if (
 			focusedOption &&
 			focusedOption === this._createPlaceholderOption &&
-			shouldKeyDownEventCreateNewOption(event.keyCode)
+			shouldKeyDownEventCreateNewOption({ keyCode: event.keyCode })
 		) {
 			this.createNewOption();
 
@@ -173,20 +175,20 @@ const Creatable = React.createClass({
 	}
 });
 
-function isOptionUnique (newOption, options, labelKey, valueKey) {
+function isOptionUnique ({ option, options, labelKey, valueKey }) {
 	return options
-		.filter((option) =>
-			option[labelKey] === newOption[labelKey] ||
-			option[valueKey] === newOption[valueKey]
+		.filter((existingOption) =>
+			existingOption[labelKey] === option[labelKey] ||
+			existingOption[valueKey] === option[valueKey]
 		)
 		.length === 0;
 };
 
-function isValidNewOption (label) {
+function isValidNewOption ({ label }) {
 	return !!label;
 };
 
-function newOptionCreator (label, labelKey, valueKey) {
+function newOptionCreator ({ label, labelKey, valueKey }) {
 	const option = {};
 	option[valueKey] = label;
  	option[labelKey] = label;
@@ -198,7 +200,7 @@ function promptTextCreator (label) {
 	return `Create option "${label}"`;
 }
 
-function shouldKeyDownEventCreateNewOption (keyCode, label) {
+function shouldKeyDownEventCreateNewOption ({ keyCode }) {
 	switch (keyCode) {
 		case 9:   // TAB
 		case 13:  // ENTER

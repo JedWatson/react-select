@@ -117,7 +117,7 @@ describe('Creatable', () => {
 		const options = [{ label: 'One', value: 1 }];
 		createControl({
 			options,
-			shouldKeyDownEventCreateNewOption: (keyCode) => keyCode === 13
+			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
 		});
 		typeSearchText('on'); // ['Create option "on"', 'One']
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' }); // Select 'One'
@@ -136,8 +136,13 @@ describe('Creatable', () => {
 			return { label, value };
 		};
 
-		function test (newOption) {
-			return Select.Creatable.isOptionUnique(newOption, options, 'label', 'value');
+		function test (option) {
+			return Select.Creatable.isOptionUnique({
+				labelKey: 'label',
+				option,
+				options,
+				valueKey: 'value'
+			});
 		};
 
 		expect(test(newOption('foo', 0)), 'to be', false);
@@ -148,7 +153,7 @@ describe('Creatable', () => {
 
 	it('default :isValidNewOption function should just ensure a non-empty string is provided', () => {
 		function test (label) {
-			return Select.Creatable.isValidNewOption(label);
+			return Select.Creatable.isValidNewOption({ label });
 		};
 
 		expect(test(''), 'to be', false);
@@ -157,7 +162,11 @@ describe('Creatable', () => {
 	});
 
 	it('default :newOptionCreator function should create an option with a :label and :value equal to the label string', () => {
-		const option = Select.Creatable.newOptionCreator('foo', 'label', 'value');
+		const option = Select.Creatable.newOptionCreator({
+			label: 'foo',
+			labelKey: 'label',
+			valueKey: 'value'
+		});
 		expect(option.className, 'to equal', 'Select-create-option-placeholder');
 		expect(option.label, 'to equal', 'foo');
 		expect(option.value, 'to equal', 'foo');
@@ -165,7 +174,7 @@ describe('Creatable', () => {
 
 	it('default :shouldKeyDownEventCreateNewOption function should accept TAB, ENTER, and comma keys', () => {
 		function test (keyCode) {
-			return Select.Creatable.shouldKeyDownEventCreateNewOption(keyCode);
+			return Select.Creatable.shouldKeyDownEventCreateNewOption({ keyCode });
 		};
 
 		expect(test(9), 'to be', true);
