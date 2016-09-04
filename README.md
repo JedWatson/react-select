@@ -200,6 +200,29 @@ var isLoadingExternally = true;
 />
 ```
 
+### User-created tags
+
+The `Creatable` component enables users to create new tags within react-select.
+It decorates a `Select` and so it supports all of the default properties (eg single/multi mode, filtering, etc) in addition to a couple of custom ones (shown below).
+The easiest way to use it is like so:
+
+```js
+import { Creatable } from 'react-select';
+
+function render (selectProps) {
+  return <Creatable {...selectProps} />;
+};
+```
+
+##### Creatable properties
+
+Property | Type | Description
+:---|:---|:---
+`isOptionUnique` | function | Searches for any matching option within the set of options. This function prevents duplicate options from being created. By default this is a basic, case-sensitive comparison of label and value. Expected signature: `(newOption: Object, options: Array, labelKey: string, valueKey: string): boolean` |
+`isValidNewOption` | function | Determines if the current input text represents a valid option. By default any non-empty string will be considered valid. Expected signature: `(label: string): boolean` |
+`newOptionCreator` | function | Factory to create new option. Expected signature: `(label: string, labelKey: string, valueKey: string): Object` |
+`shouldKeyDownEventCreateNewOption` | function | Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option. ENTER, TAB and comma keys create new options by dfeault. Expected signature: `(keyCode: number): boolean` |
+
 ### Filtering options
 
 You can control how options are filtered with the following properties:
@@ -263,7 +286,6 @@ function cleanInput(inputValue) {
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-	allowCreate	|	bool	|	false		|	allow new options to be created in multi mode (displays an "Add \<option> ?" item when a value not already in the `options` array is entered) [NOTE: not available in 1.0.0-beta]
 	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	autofocus       |       bool    |      undefined        |  autofocus the component on mount
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
@@ -291,7 +313,6 @@ function cleanInput(inputValue) {
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
-	newOptionCreator	|	func	|	undefined	|	factory to create new options when `allowCreate` is true [NOTE: not available in 1.0.0-beta]
 	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
