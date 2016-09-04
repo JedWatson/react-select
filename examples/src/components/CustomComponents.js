@@ -94,6 +94,7 @@ const UsersField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
+					arrowRenderer={arrowRenderer}
 					onChange={this.setValue}
 					optionComponent={GravatarOption}
 					options={USERS}
@@ -109,5 +110,11 @@ const UsersField = React.createClass({
 		);
 	}
 });
+
+function arrowRenderer () {
+	return (
+		<span>+</span>
+	);
+}
 
 module.exports = UsersField;
