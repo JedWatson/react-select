@@ -264,6 +264,9 @@ The custom `menuRenderer` property accepts the following named parameters:
 | focusedOption | `Object` | The currently focused option; should be visible in the menu by default. |
 | focusOption | `Function` | Callback to focus a new option; receives the option as a parameter. |
 | labelKey | `String` | Option labels are accessible with this string key. |
+| optionClassName | `String` | The className that gets used for options |
+| optionComponent | `ReactClass` | The react component that gets used for rendering an option |
+| optionRenderer | `Function` | The function that gets used to render the content of an option |
 | options | `Array<Object>` | Ordered array of options to render. |
 | selectValue | `Function` | Callback to select a new option; receives the option as a parameter. |
 | valueArray | `Array<Object>` | Array of currently selected options. |
