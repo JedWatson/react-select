@@ -55,6 +55,7 @@ const Async = React.createClass({
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
 		searchPromptText: stringOrNode,       // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading
+		options: React.PropTypes.array,                 // initial options, usefull if you want to do a preselection and your minimumInput is > 0
 	},
 	getDefaultProps () {
 		return {
@@ -85,6 +86,14 @@ const Async = React.createClass({
 			this.setState({
 				cache: initCache(nextProps.cache),
 			});
+		}
+
+		if (nextProps.options !== this.props.options) {
+			if (nextProps.options && nextProps.options.length > 0) {
+				this.setState({
+					options: nextProps.options,
+				});
+			}
 		}
 	},
 	focus () {
