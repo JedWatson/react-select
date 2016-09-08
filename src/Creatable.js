@@ -57,9 +57,7 @@ const Creatable = React.createClass({
 
 	createNewOption () {
 		const { isValidNewOption, newOptionCreator, shouldKeyDownEventCreateNewOption } = this.props;
-		const { labelKey, valueKey } = this.select.props;
-
-		const options =this.select.props.options || [];
+		const { labelKey, options, valueKey } = this.select.props;
 
 		const inputValue = this.select.getInputValue();
 
@@ -87,15 +85,13 @@ const Creatable = React.createClass({
 
 		if (isValidNewOption({ label: inputValue })) {
 			const { newOptionCreator } = this.props;
-			const { labelKey, valueKey } = this.select.props;
-
-			const options =this.select.props.options || [];
+			const { labelKey, options, valueKey } = this.select.props;
 
 			const option = newOptionCreator({ label: inputValue, labelKey, valueKey });
 
 			// TRICKY Compare to all options (not just filtered options) in case option has already been selected).
 			// For multi-selects, this would remove it from the filtered list.
-			const isOptionUnique = this.isOptionUnique({ option, options});
+			const isOptionUnique = this.isOptionUnique({ option, options });
 
 			if (isOptionUnique) {
 				const prompt = promptTextCreator(inputValue);

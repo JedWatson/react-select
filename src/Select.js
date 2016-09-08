@@ -143,6 +143,7 @@ const Select = React.createClass({
 			onCloseResetsInput: true,
 			openAfterFocus: false,
 			optionComponent: Option,
+			options: [],
 			pageSize: 5,
 			placeholder: 'Select...',
 			required: false,
