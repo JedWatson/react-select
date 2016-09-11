@@ -44,6 +44,7 @@ const stringOrNode = React.PropTypes.oneOfType([
 const Async = React.createClass({
 	propTypes: {
 		cache: React.PropTypes.any,                     // object to use to cache results, can be null to disable cache
+		children: React.PropTypes.func,									// Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 		ignoreAccents: React.PropTypes.bool,            // whether to strip diacritics when filtering (shared with Select)
 		ignoreCase: React.PropTypes.bool,               // whether to perform case-insensitive filtering (shared with Select)
 		isLoading: React.PropTypes.bool,                // overrides the isLoading state when set to true
@@ -53,7 +54,7 @@ const Async = React.createClass({
 		noResultsText: stringOrNode,                    // placeholder displayed when there are no matching search results (shared with Select)
 		onInputChange: React.PropTypes.func,            // onInputChange handler: function (inputValue) {}
 		placeholder: stringOrNode,                      // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode,       // label to prompt for search input
+		searchPromptText: stringOrNode,   					    // label to prompt for search input
 		searchingText: React.PropTypes.string,          // message to display while options are loading
 	},
 	getDefaultProps () {
@@ -141,7 +142,11 @@ const Async = React.createClass({
 		}) : input;
 	},
 	render () {
-		let { noResultsText } = this.props;
+		let {
+			children = defaultChildren,
+			noResultsText,
+			...restProps
+		} = this.props;
 		let { isLoading, options } = this.state;
 		if (this.props.isLoading) isLoading = true;
 		let placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
@@ -150,18 +155,27 @@ const Async = React.createClass({
 		} else if (!options.length && this._lastInput.length < this.props.minimumInput) {
 			noResultsText = this.props.searchPromptText;
 		}
-		return (
-			<Select
-				{...this.props}
-				ref={(ref) => this.select = ref}
-				isLoading={isLoading}
-				noResultsText={noResultsText}
-				onInputChange={this.loadOptions}
-				options={options}
-				placeholder={placeholder}
-				/>
-		);
+
+		const props = {
+			...restProps,
+			isLoading,
+			noResultsText,
+			onInputChange: this.loadOptions,
+			options,
+			placeholder,
+			ref: (ref) => {
+				this.select = ref;
+			}
+		};
+
+		return children(props);
 	}
 });
+
+function defaultChildren (props) {
+	return (
+		<Select {...props} />
+	);
+};
 
 module.exports = Async;

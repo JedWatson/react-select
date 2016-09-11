@@ -573,4 +573,31 @@ describe('Async', () => {
 			expect(loadOptions, 'was called with', 'ware');
 		});
 	});
+
+	describe('children function', () => {
+		it('should allow a custom select type to be rendered', () => {
+			let childProps;
+			const node = ReactDOM.findDOMNode(
+				TestUtils.renderIntoDocument(
+					<Select.Async loadOptions={loadOptions}>
+						{(props) => {
+							childProps = props;
+							return <div>faux select</div>;
+						}}
+					</Select.Async>
+				)
+			);
+			expect(node.textContent, 'to equal', 'faux select');
+			expect(childProps.isLoading, 'to equal', true);
+		});
+
+		it('should render a Select component by default', () => {
+			const node = ReactDOM.findDOMNode(
+				TestUtils.renderIntoDocument(
+					<Select.Async loadOptions={loadOptions} />
+				)
+			);
+			expect(node.className, 'to contain', 'Select');
+		});
+	});
 });

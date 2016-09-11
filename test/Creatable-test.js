@@ -125,6 +125,23 @@ describe('Creatable', () => {
 		expect(options, 'to have length', 1);
 	});
 
+	it('should allow a custom select type to be rendered via the :children property', () => {
+		let childProps;
+		createControl({
+			children: (props) => {
+				childProps = props;
+				return <div>faux select</div>;
+			}
+		});
+		expect(creatableNode.textContent, 'to equal', 'faux select');
+		expect(childProps.allowCreate, 'to equal', true);
+	});
+
+	it('default :children function renders a Select component', () => {
+		createControl();
+		expect(creatableNode.className, 'to contain', 'Select');
+	});
+
 	it('default :isOptionUnique function should do a simple equality check for value and label', () => {
 		const options = [
 			newOption('foo', 1),

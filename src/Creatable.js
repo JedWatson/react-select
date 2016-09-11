@@ -7,6 +7,11 @@ const Creatable = React.createClass({
 	displayName: 'CreatableSelect',
 
 	propTypes: {
+		// Child function responsible for creating the inner Select component
+		// This component can be used to compose HOCs (eg Creatable and Async)
+		// (props: Object): PropTypes.element
+		children: React.PropTypes.func,
+
 		// See Select.propTypes.filterOptions
 		filterOptions: React.PropTypes.any,
 
@@ -160,20 +165,33 @@ const Creatable = React.createClass({
 	},
 
 	render () {
-		const { newOptionCreator, shouldKeyDownEventCreateNewOption, ...restProps } = this.props;
+		const {
+			children = defaultChildren,
+			newOptionCreator,
+			shouldKeyDownEventCreateNewOption,
+			...restProps
+		} = this.props;
 
-		return (
-			<Select
-				{...restProps}
-				allowCreate
-				filterOptions={this.filterOptions}
-				menuRenderer={this.menuRenderer}
-				onInputKeyDown={this.onInputKeyDown}
-				ref={(ref) => this.select = ref}
-			/>
-		);
+		const props = {
+			...restProps,
+			allowCreate: true,
+			filterOptions: this.filterOptions,
+			menuRenderer: this.menuRenderer,
+			onInputKeyDown: this.onInputKeyDown,
+			ref: (ref) => {
+				this.select = ref;
+			}
+		};
+
+		return children(props);
 	}
 });
+
+function defaultChildren (props) {
+	return (
+		<Select {...props} />
+	);
+};
 
 function isOptionUnique ({ option, options, labelKey, valueKey }) {
 	return options
