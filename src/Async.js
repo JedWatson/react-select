@@ -129,7 +129,7 @@ const Async = React.createClass({
 		let cacheResult = getFromCache(this.state.cache, input);
 		if (cacheResult) {
 			return this.setState({
-				options: cacheResult.options,
+				options: cacheResult.options || [],
 			});
 		}
 		this.setState({
