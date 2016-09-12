@@ -76,6 +76,32 @@ describe('Creatable', () => {
 		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Select.Creatable.promptTextCreator('existing'));
 	});
 
+	it('should filter the "create..." prompt using both filtered options and currently-selected options', () => {
+		let isOptionUniqueParams;
+		createControl({
+			filterOptions: () => [
+				{ value: 'one', label: 'One' }
+			],
+			isOptionUnique: (params) => {
+				isOptionUniqueParams = params;
+			},
+			multi: true,
+			options: [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' }
+			],
+			value: [
+				{ value: 'three', label: 'Three' }
+			]
+		});
+		typeSearchText('test');
+		const { options } = isOptionUniqueParams;
+		const values = options.map(option => option.value);
+		expect(values, 'to have length', 2);
+		expect(values, 'to contain', 'one');
+		expect(values, 'to contain', 'three');
+	});
+
 	it('should not show a "create..." prompt if current filter text is not a valid option (as determined by :isValidNewOption prop)', () => {
 		createControl({
 			isValidNewOption: () => false
