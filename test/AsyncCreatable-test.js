@@ -2,7 +2,6 @@
 /* global describe, it, beforeEach */
 /* eslint react/jsx-boolean-value: 0 */
 
-// Copied from Async-test verbatim; may need to be reevaluated later.
 var jsdomHelper = require('../testHelpers/jsdomHelper');
 jsdomHelper();
 var unexpected = require('unexpected');

@@ -87,8 +87,9 @@ const Creatable = React.createClass({
 	filterOptions (...params) {
 		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
 
-		// Check selected options as well.
+		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
+		// This covers async edge-cases where a newly-created Option isn't yet in the async-loaded array.
 		const excludeOptions = params[2] || [];
 
 		const filteredOptions = filterOptions(...params);
