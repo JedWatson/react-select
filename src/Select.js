@@ -14,6 +14,7 @@ import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 
 import Async from './Async';
+import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
@@ -111,7 +112,7 @@ const Select = React.createClass({
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
 	},
 
-	statics: { Async, Creatable },
+	statics: { Async, AsyncCreatable, Creatable },
 
 	getDefaultProps () {
 		return {
