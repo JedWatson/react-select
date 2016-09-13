@@ -127,7 +127,7 @@ const Async = React.createClass({
 			return this.resetState();
 		}
 		let cacheResult = getFromCache(this.state.cache, input);
-		if (cacheResult) {
+		if (cacheResult && Array.isArray(cacheResult.options)) {
 			return this.setState({
 				options: cacheResult.options,
 			});
