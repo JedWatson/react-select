@@ -224,6 +224,24 @@ Property | Type | Description
 `shouldKeyDownEventCreateNewOption` | function | Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option. ENTER, TAB and comma keys create new options by dfeault. Expected signature: `({ keyCode: number }): boolean` |
 `promptTextCreator` | function | Factory for overriding default option creator prompt label. By default it will read 'Create option "{label}"'. Expected signature: `(label: String): String` |
 
+### Combining Async and Creatable
+
+Use the `AsyncCreatable` HOC if you want both _async_ and _creatable_ functionality.
+It ties `Async` and `Creatable` components together and supports a union of their properties (listed above).
+Use it as follows:
+
+```jsx
+import React from 'react';
+import { AsyncCreatable } from 'react-select';
+
+function render (props) {
+  // props can be a mix of Async, Creatable, and Select properties
+  return (
+    <AsyncCreatable {...props} />
+  );
+}
+```
+
 ### Filtering options
 
 You can control how options are filtered with the following properties:
