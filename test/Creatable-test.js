@@ -102,6 +102,13 @@ describe('Creatable', () => {
 		expect(values, 'to contain', 'three');
 	});
 
+	it('should guard against invalid values returned by filterOptions', () => {
+		createControl({
+			filterOptions: () => null
+		});
+		typeSearchText('test');;
+	});
+
 	it('should not show a "create..." prompt if current filter text is not a valid option (as determined by :isValidNewOption prop)', () => {
 		createControl({
 			isValidNewOption: () => false

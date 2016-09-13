@@ -92,7 +92,7 @@ const Creatable = React.createClass({
 		// This covers async edge-cases where a newly-created Option isn't yet in the async-loaded array.
 		const excludeOptions = params[2] || [];
 
-		const filteredOptions = filterOptions(...params);
+		const filteredOptions = filterOptions(...params) || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			const { newOptionCreator } = this.props;
