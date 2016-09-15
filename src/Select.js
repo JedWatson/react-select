@@ -496,9 +496,15 @@ const Select = React.createClass({
 				this.focusPageDownOption();
 			break;
 			case 35: // end key
+				if (event.shiftKey) {
+					return;
+				}
 				this.focusEndOption();
 			break;
 			case 36: // home key
+				if (event.shiftKey) {
+					return;
+				}
 				this.focusStartOption();
 			break;
 			default: return;
