@@ -13,13 +13,13 @@ function menuRenderer ({
 	options,
 	valueArray,
 	valueKey,
+	onOptionRef
 }) {
 	let Option = optionComponent;
 
 	return options.map((option, i) => {
 		let isSelected = valueArray && valueArray.indexOf(option) > -1;
 		let isFocused = option === focusedOption;
-		let optionRef = isFocused ? 'focused' : null;
 		let optionClass = classNames(optionClassName, {
 			'Select-option': true,
 			'is-selected': isSelected,
@@ -39,7 +39,7 @@ function menuRenderer ({
 				onSelect={onSelect}
 				option={option}
 				optionIndex={i}
-				ref={optionRef}
+				ref={ref => { onOptionRef(ref, isFocused); }}
 			>
 				{optionRenderer(option, i)}
 			</Option>
