@@ -107,7 +107,7 @@ const Async = React.createClass({
 			if (_requestId !== this._currentRequestId) return;
 			this.setState({
 				isLoading: false,
-				options: data && data.options || [],
+				options: !!data ? data.options || [] : [],
 			});
 		};
 	},
