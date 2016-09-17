@@ -20,11 +20,12 @@ import Option from './Option';
 import Value from './Value';
 
 function stringifyValue (value) {
-	if (typeof value === 'string') {
+	const valueType = typeof value;
+	if (valueType === 'string') {
 		return value;
-	} else if (typeof value === 'object') {
+	} else if (valueType === 'object') {
 		return JSON.stringify(value);
-	} else if (value || value === 0) {
+	} else if (valueType === 'number' || valueType === 'boolean') {
 		return String(value);
 	} else {
 		return '';
@@ -561,7 +562,8 @@ const Select = React.createClass({
 	 * @param	{Object}		props	- the Select component's props (or nextProps)
 	 */
 	expandValue (value, props) {
-		if (typeof value !== 'string' && typeof value !== 'number') return value;
+		const valueType = typeof value;
+		if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
 		let { options, valueKey } = props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {

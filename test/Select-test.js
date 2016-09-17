@@ -910,6 +910,263 @@ describe('Select', () => {
 		});
 	});
 
+	describe('with values as booleans', () => {
+		beforeEach(() => {
+			options = [
+				{ value: true, label: 'Yes' },
+				{ value: false, label: 'No' },
+			];
+
+			wrapper = createControlWithWrapper({
+				value: true,
+				name: 'field',
+				options: options,
+				simpleValue: true,
+			});
+		});
+
+		it('selects the initial value', () => {
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'Yes');
+		});
+
+		it('set the initial value of the hidden input control', () => {
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'true' );
+		});
+
+		it('updates the value when the value prop is set', () => {
+			wrapper.setPropsForChild({ value: false });
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'No');
+		});
+
+		it('updates the value of the hidden input control after new value prop', () => {
+			wrapper.setPropsForChild({ value: false });
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'false' );
+		});
+
+		it('calls onChange with the new value as a boolean', () => {
+			clickArrowToOpen();
+			pressDown();
+			pressEnterToAccept();
+			expect(onChange, 'was called with', false);
+		});
+
+		it('supports setting the value via prop', () => {
+			wrapper.setPropsForChild({ value: false });
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'No');
+		});
+
+		describe('with multi=true', () => {
+
+			beforeEach(() => {
+
+				options = [
+					{ value: true, label: 'Yes' },
+					{ value: false, label: 'No' }
+				];
+
+				wrapper = createControlWithWrapper({
+					value: [true, false],
+					options: options,
+					multi: true,
+					searchable: true
+				});
+			});
+
+			it('selects the initial value', () => {
+
+				expect(instance, 'to contain',
+						<span className="Select-multi-value-wrapper">
+                        <div><span className="Select-value-label">Yes</span></div>
+                        <div><span className="Select-value-label">No</span></div>
+					</span>);
+			});
+
+			it('calls onChange with the correct value when true option is deselected', () => {
+
+				var removeIcons = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-value .Select-value-icon');
+				TestUtils.Simulate.mouseDown(removeIcons[0]);
+				expect(onChange, 'was called with', [{ value: false, label: 'No' }]);
+			});
+
+			it('supports updating the values via props', () => {
+
+				wrapper.setPropsForChild({
+					value: [false]
+				});
+
+				expect(instance, 'to contain',
+						<span className="Select-multi-value-wrapper">
+                        <div><span className="Select-value-label">No</span></div>
+					</span>);
+			});
+
+			it('supports updating the value to a single value', () => {
+
+				wrapper.setPropsForChild({
+					value: true
+				});
+
+				expect(instance, 'to contain',
+						<span className="Select-multi-value-wrapper">
+                        <div><span className="Select-value-label">Yes</span></div>
+					</span>);
+			});
+
+			it('supports updating the value to single value of false', () => {
+
+				// This test is specifically in case there's a "if (value) {... " somewhere
+				wrapper.setPropsForChild({
+					value: false
+				});
+
+				expect(instance, 'to contain',
+						<span className="Select-multi-value-wrapper">
+                        <div><span className="Select-value-label">No</span></div>
+					</span>);
+			});
+
+			it('calls onChange with the correct values when multiple options are selected', () => {
+				wrapper.setPropsForChild({
+					value: [true]
+				});
+
+				typeSearchText('No');
+				pressEnterToAccept(); // Select 'No'
+
+				expect(onChange, 'was called with', [
+					{ value: true, label: 'Yes' },
+					{ value: false, label: 'No' }
+				]);
+			});
+		});
+
+		describe('searching', () => {
+
+			let searchOptions = [
+				{ value: true, label: 'Yes' },
+				{ value: false, label: 'No' }
+			];
+
+			describe('with matchPos=any and matchProp=any', () => {
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'any',
+						matchProp: 'any',
+						options: searchOptions
+					});
+				});
+
+				it('finds text anywhere in value', () => {
+
+					typeSearchText('fal');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'No'),
+							]);
+				});
+
+				it('finds text at end', () => {
+
+					typeSearchText('se');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'No'),
+							]);
+				});
+			});
+
+			describe('with matchPos=start and matchProp=any', () => {
+
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'start',
+						matchProp: 'any',
+						options: searchOptions
+					});
+				});
+
+				it('finds text at the start of the value', () => {
+
+					typeSearchText('fa');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'No')
+							]);
+				});
+
+				it('does not match text at end', () => {
+
+					typeSearchText('se');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+							'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+							'.Select-option');
+				});
+			});
+
+			describe('with matchPos=any and matchProp=value', () => {
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'any',
+						matchProp: 'value',
+						options: searchOptions
+					});
+				});
+
+				it('finds text anywhere in value', () => {
+
+					typeSearchText('al');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'No'),
+							]);
+				});
+
+				it('finds text at end', () => {
+
+					typeSearchText('e');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'Yes'),
+								expect.it('to have text', 'No')
+							]);
+				});
+			});
+
+			describe('with matchPos=start and matchProp=value', () => {
+
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'start',
+						matchProp: 'value',
+						options: searchOptions
+					});
+				});
+
+				it('finds text at the start of the value', () => {
+
+					typeSearchText('tr');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+							'to satisfy', [
+								expect.it('to have text', 'Yes')
+							]);
+				});
+
+				it('does not match text at end', () => {
+
+					typeSearchText('e');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+							'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+							'.Select-option');
+				});
+			});
+		});
+	});
+
 	describe('with options and value', () => {
 		beforeEach(() => {
 
