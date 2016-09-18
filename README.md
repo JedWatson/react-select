@@ -383,7 +383,6 @@ function onInputKeyDown(event) {
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
-	searchingText	|	string	|	'Searching...'	|	message to display whilst options are loading via asyncOptions, or when `isLoading` is true
 	searchPromptText |	string\|node	|	'Type to search'	|	label to prompt for search input
 	tabSelectsValue	|	bool	|	true	|	whether to select the currently focused value when the `[tab]` key is pressed
 	value 		|	any	|	undefined	|	initial field value

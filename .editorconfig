@@ -8,6 +8,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 indent_style = tab
+translate_tabs_to_spaces = false
 
 [*.json]
 indent_style = space

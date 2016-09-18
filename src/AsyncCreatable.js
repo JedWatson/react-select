@@ -17,10 +17,6 @@ const AsyncCreatable = React.createClass({
 									creatableProps.onInputChange(input);
 									return asyncProps.onInputChange(input);
 								}}
-								ref={(ref) => {
-									creatableProps.ref(ref);
-									asyncProps.ref(ref);
-								}}
 							/>
 						)}
 					</Select.Creatable>
