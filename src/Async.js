@@ -2,21 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
 
-// @TODO Implement cache
-
 const propTypes = {
-	autoload: React.PropTypes.bool.isRequired,
-	children: React.PropTypes.func.isRequired,			// Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
-	ignoreAccents: React.PropTypes.bool,             // whether to strip diacritics when filtering (shared with Select)
-	ignoreCase: React.PropTypes.bool,                // whether to perform case-insensitive filtering (shared with Select)
-	loadingPlaceholder: PropTypes.string.isRequired,
-	loadOptions: React.PropTypes.func.isRequired,
-	options: PropTypes.array.isRequired,
-	placeholder: React.PropTypes.oneOfType([
+	autoload: React.PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
+	cache: React.PropTypes.any,                      // object to use to cache results; set to null/false to disable caching
+	children: React.PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
+	ignoreAccents: React.PropTypes.bool,             // strip diacritics when filtering; defaults to true
+	ignoreCase: React.PropTypes.bool,                // perform case-insensitive filtering; defaults to true
+	loadingPlaceholder: PropTypes.string.isRequired, // replaces the placeholder while options are loading
+	loadOptions: React.PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
+	options: PropTypes.array.isRequired,             // array of options
+	placeholder: React.PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
-	searchPromptText: React.PropTypes.oneOfType([
+	searchPromptText: React.PropTypes.oneOfType([    // label to prompt for search input
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
@@ -24,6 +23,7 @@ const propTypes = {
 
 const defaultProps = {
 	autoload: true,
+	cache: {},
 	children: defaultChildren,
 	ignoreAccents: true,
 	ignoreCase: true,
@@ -64,13 +64,28 @@ export default class Async extends Component {
 	}
 
 	loadOptions (inputValue) {
-		const { loadOptions } = this.props;
+		const { cache, loadOptions } = this.props;
+
+		if (
+			cache &&
+			cache.hasOwnProperty(inputValue)
+		) {
+			this.setState({
+				options: cache[inputValue]
+			});
+
+			return;
+		}
 
 		const callback = (error, data) => {
 			if (callback === this._callback) {
 				this._callback = null;
 
 				const options = data && data.options || [];
+
+				if (cache) {
+					cache[inputValue] = options;
+				}
 
 				this.setState({
 					isLoading: false,
