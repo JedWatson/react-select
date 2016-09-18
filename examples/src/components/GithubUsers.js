@@ -37,7 +37,9 @@ const GithubUsers = React.createClass({
 		}
 
 		return fetch(`https://api.github.com/search/users?q=${input}`)
-      .then((response) => response.json())
+      .then((response) => {
+      	return response.json();
+      })
       .then((json) => {
         return { options: json.items };
       });
