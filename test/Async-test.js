@@ -235,7 +235,7 @@ describe('Async', () => {
 			//   Error: Promise rejected with no or falsy reason
 			// It seems to be more or less then same as this test (which passes):
 			// https://github.com/JedWatson/react-select/blob/916ab0e62fc7394be8e24f22251c399a68de8b1c/test/Async-test.js#L158-L181
-			it.skip('should handle an error by setting options to an empty array', () => {
+			it('should handle an error by setting options to an empty array', () => {
 				let promise, rejectPromise;
 				function loadOptions (input, resolve) {
 					promise = expect.promise((resolve, reject) => {
@@ -251,9 +251,9 @@ describe('Async', () => {
 				});
 				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
 				typeSearchText('bar');
-				rejectPromise();
+				rejectPromise(new Error('error'));
 				return expect.promise.all([promise])
-					.then(() => expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0));
+					.catch(() => expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0));
 			});
 		});
 	});
