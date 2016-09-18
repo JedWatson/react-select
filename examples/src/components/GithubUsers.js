@@ -10,6 +10,7 @@ const GithubUsers = React.createClass({
 	},
 	getInitialState () {
 		return {
+			backspaceRemoves: true,
 			multi: true
 		};
 	},
@@ -44,6 +45,11 @@ const GithubUsers = React.createClass({
 	gotoUser (value, event) {
 		window.open(value.html_url);
 	},
+	toggleBackspaceRemoves () {
+		this.setState({
+			backspaceRemoves: !this.state.backspaceRemoves
+		});
+	},
 	toggleCreatable () {
 		this.setState({
 			creatable: !this.state.creatable
@@ -57,7 +63,7 @@ const GithubUsers = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={false} />
+				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={this.state.backspaceRemoves} />
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
@@ -72,6 +78,10 @@ const GithubUsers = React.createClass({
 					<label className="checkbox">
 					   <input type="checkbox" className="checkbox-control" checked={this.state.creatable} onChange={this.toggleCreatable} />
 					   <span className="checkbox-label">Creatable?</span>
+					</label>
+					<label className="checkbox">
+					   <input type="checkbox" className="checkbox-control" checked={this.state.backspaceRemoves} onChange={this.toggleBackspaceRemoves} />
+					   <span className="checkbox-label">Backspace Removes?</span>
 					</label>
 				</div>
 				<div className="hint">This example uses fetch.js for showing Async options with Promises</div>
