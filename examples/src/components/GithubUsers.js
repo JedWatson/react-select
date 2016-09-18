@@ -31,6 +31,10 @@ const GithubUsers = React.createClass({
 		});
 	},
 	getUsers (input) {
+		if (!input) {
+			return Promise.resolve({ options: [] });
+		}
+
 		return fetch(`https://api.github.com/search/users?q=${input}`)
       .then((response) => response.json())
       .then((json) => {
@@ -53,7 +57,7 @@ const GithubUsers = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} minimumInput={1} backspaceRemoves={false} />
+				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={false} />
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>

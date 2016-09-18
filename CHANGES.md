@@ -19,7 +19,6 @@ Multiple values are now submitted in multiple form fields, which results in an a
 ## New Select.Async Component
 
 `loadingPlaceholder` prop
-`autoload` changed to `minimumInput` and now controls the minimum input to load options
 `cacheAsyncResults` -> `cache` (new external cache support) - defaults to true
 
 ## Fixes & Other Changes
