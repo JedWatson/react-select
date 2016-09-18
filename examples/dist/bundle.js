@@ -1,11 +1,23 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -19,187 +31,177 @@ var _utilsStripDiacritics = require('./utils/stripDiacritics');
 
 var _utilsStripDiacritics2 = _interopRequireDefault(_utilsStripDiacritics);
 
-var requestId = 0;
+var propTypes = {
+	autoload: _react2['default'].PropTypes.bool.isRequired, // automatically call the `loadOptions` prop on-mount; defaults to true
+	cache: _react2['default'].PropTypes.any, // object to use to cache results; set to null/false to disable caching
+	children: _react2['default'].PropTypes.func.isRequired, // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
+	ignoreAccents: _react2['default'].PropTypes.bool, // strip diacritics when filtering; defaults to true
+	ignoreCase: _react2['default'].PropTypes.bool, // perform case-insensitive filtering; defaults to true
+	loadingPlaceholder: _react.PropTypes.string.isRequired, // replaces the placeholder while options are loading
+	loadOptions: _react2['default'].PropTypes.func.isRequired, // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
+	options: _react.PropTypes.array.isRequired, // array of options
+	placeholder: _react2['default'].PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
+	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
+	searchPromptText: _react2['default'].PropTypes.oneOfType([// label to prompt for search input
+	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node])
+};
 
-function initCache(cache) {
-	if (cache && typeof cache !== 'object') {
-		cache = {};
-	}
-	return cache ? cache : null;
-}
+var defaultProps = {
+	autoload: true,
+	cache: {},
+	children: defaultChildren,
+	ignoreAccents: true,
+	ignoreCase: true,
+	loadingPlaceholder: 'Loading...',
+	options: [],
+	searchPromptText: 'Type to search'
+};
 
-function updateCache(cache, input, data) {
-	if (!cache) return;
-	cache[input] = data;
-}
+var Async = (function (_Component) {
+	_inherits(Async, _Component);
 
-function getFromCache(cache, input) {
-	if (!cache) return;
-	for (var i = input.length; i >= 0; --i) {
-		var cacheKey = input.slice(0, i);
-		if (cache[cacheKey] && (input === cacheKey || cache[cacheKey].complete)) {
-			return cache[cacheKey];
-		}
-	}
-}
+	function Async(props, context) {
+		_classCallCheck(this, Async);
 
-function thenPromise(promise, callback) {
-	if (!promise || typeof promise.then !== 'function') return;
-	return promise.then(function (data) {
-		callback(null, data);
-	}, function (err) {
-		callback(err);
-	});
-}
+		_get(Object.getPrototypeOf(Async.prototype), 'constructor', this).call(this, props, context);
 
-var stringOrNode = _react2['default'].PropTypes.oneOfType([_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]);
-
-var Async = _react2['default'].createClass({
-	displayName: 'Async',
-
-	propTypes: {
-		cache: _react2['default'].PropTypes.any, // object to use to cache results, can be null to disable cache
-		children: _react2['default'].PropTypes.func, // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
-		ignoreAccents: _react2['default'].PropTypes.bool, // whether to strip diacritics when filtering (shared with Select)
-		ignoreCase: _react2['default'].PropTypes.bool, // whether to perform case-insensitive filtering (shared with Select)
-		isLoading: _react2['default'].PropTypes.bool, // overrides the isLoading state when set to true
-		loadOptions: _react2['default'].PropTypes.func.isRequired, // function to call to load options asynchronously
-		loadingPlaceholder: _react2['default'].PropTypes.string, // replaces the placeholder while options are loading
-		minimumInput: _react2['default'].PropTypes.number, // the minimum number of characters that trigger loadOptions
-		noResultsText: stringOrNode, // placeholder displayed when there are no matching search results (shared with Select)
-		onInputChange: _react2['default'].PropTypes.func, // onInputChange handler: function (inputValue) {}
-		placeholder: stringOrNode, // field placeholder, displayed when there's no value (shared with Select)
-		searchPromptText: stringOrNode, // label to prompt for search input
-		searchingText: _react2['default'].PropTypes.string },
-	// message to display while options are loading
-	getDefaultProps: function getDefaultProps() {
-		return {
-			cache: true,
-			ignoreAccents: true,
-			ignoreCase: true,
-			loadingPlaceholder: 'Loading...',
-			minimumInput: 0,
-			searchingText: 'Searching...',
-			searchPromptText: 'Type to search'
-		};
-	},
-	getInitialState: function getInitialState() {
-		return {
-			cache: initCache(this.props.cache),
+		this.state = {
 			isLoading: false,
-			options: []
+			options: props.options
 		};
-	},
-	componentWillMount: function componentWillMount() {
-		this._lastInput = '';
-	},
-	componentDidMount: function componentDidMount() {
-		this.loadOptions('');
-	},
-	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-		if (nextProps.cache !== this.props.cache) {
-			this.setState({
-				cache: initCache(nextProps.cache)
-			});
-		}
-	},
-	focus: function focus() {
-		this.select.focus();
-	},
-	resetState: function resetState() {
-		this._currentRequestId = -1;
-		this.setState({
-			isLoading: false,
-			options: []
-		});
-	},
-	getResponseHandler: function getResponseHandler(input) {
-		var _this = this;
 
-		var _requestId = this._currentRequestId = requestId++;
-		return function (err, data) {
-			if (err) throw err;
-			if (!_this.isMounted()) return;
-			updateCache(_this.state.cache, input, data);
-			if (_requestId !== _this._currentRequestId) return;
-			_this.setState({
-				isLoading: false,
-				options: data && data.options || []
-			});
-		};
-	},
-	loadOptions: function loadOptions(input) {
-		if (this.props.onInputChange) {
-			var nextState = this.props.onInputChange(input);
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null) {
-				input = '' + nextState;
+		this._onInputChange = this._onInputChange.bind(this);
+	}
+
+	_createClass(Async, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var autoload = this.props.autoload;
+
+			if (autoload) {
+				this.loadOptions('');
 			}
 		}
-		if (this.props.ignoreAccents) input = (0, _utilsStripDiacritics2['default'])(input);
-		if (this.props.ignoreCase) input = input.toLowerCase();
+	}, {
+		key: 'componentWillUpdate',
+		value: function componentWillUpdate(nextProps, nextState) {
+			var _this = this;
 
-		this._lastInput = input;
-		if (input.length < this.props.minimumInput) {
-			return this.resetState();
-		}
-		var cacheResult = getFromCache(this.state.cache, input);
-		if (cacheResult && Array.isArray(cacheResult.options)) {
-			return this.setState({
-				options: cacheResult.options
+			var propertiesToSync = ['options'];
+			propertiesToSync.forEach(function (prop) {
+				if (_this.props[prop] !== nextProps[prop]) {
+					_this.setState(_defineProperty({}, prop, nextProps[prop]));
+				}
 			});
 		}
-		this.setState({
-			isLoading: true
-		});
-		var responseHandler = this.getResponseHandler(input);
-		var inputPromise = thenPromise(this.props.loadOptions(input, responseHandler), responseHandler);
-		return inputPromise ? inputPromise.then(function () {
-			return input;
-		}) : input;
-	},
-	render: function render() {
-		var _this2 = this;
+	}, {
+		key: 'loadOptions',
+		value: function loadOptions(inputValue) {
+			var _this2 = this;
 
-		var _props = this.props;
-		var _props$children = _props.children;
-		var children = _props$children === undefined ? defaultChildren : _props$children;
-		var noResultsText = _props.noResultsText;
+			var _props = this.props;
+			var cache = _props.cache;
+			var loadOptions = _props.loadOptions;
 
-		var restProps = _objectWithoutProperties(_props, ['children', 'noResultsText']);
+			if (cache && cache.hasOwnProperty(inputValue)) {
+				this.setState({
+					options: cache[inputValue]
+				});
 
-		var _state = this.state;
-		var isLoading = _state.isLoading;
-		var options = _state.options;
-
-		if (this.props.isLoading) isLoading = true;
-		var placeholder = isLoading ? this.props.loadingPlaceholder : this.props.placeholder;
-		if (isLoading) {
-			noResultsText = this.props.searchingText;
-		} else if (!options.length && this._lastInput.length < this.props.minimumInput) {
-			noResultsText = this.props.searchPromptText;
-		}
-
-		var props = _extends({}, restProps, {
-			isLoading: isLoading,
-			noResultsText: noResultsText,
-			onInputChange: this.loadOptions,
-			options: options,
-			placeholder: placeholder,
-			ref: function ref(_ref) {
-				_this2.select = _ref;
+				return;
 			}
-		});
 
-		return children(props);
-	}
-});
+			var callback = function callback(error, data) {
+				if (callback === _this2._callback) {
+					_this2._callback = null;
+
+					var options = data && data.options || [];
+
+					if (cache) {
+						cache[inputValue] = options;
+					}
+
+					_this2.setState({
+						isLoading: false,
+						options: options
+					});
+				}
+			};
+
+			// Ignore all but the most recent request
+			this._callback = callback;
+
+			var promise = loadOptions(inputValue, callback);
+			if (promise) {
+				promise.then(function (data) {
+					return callback(null, data);
+				}, function (error) {
+					return callback(error);
+				});
+			}
+
+			if (this._callback && !this.state.isLoading) {
+				this.setState({
+					isLoading: true
+				});
+			}
+
+			return inputValue;
+		}
+	}, {
+		key: '_onInputChange',
+		value: function _onInputChange(inputValue) {
+			var _props2 = this.props;
+			var ignoreAccents = _props2.ignoreAccents;
+			var ignoreCase = _props2.ignoreCase;
+
+			if (ignoreAccents) {
+				inputValue = (0, _utilsStripDiacritics2['default'])(inputValue);
+			}
+
+			if (ignoreCase) {
+				inputValue = inputValue.toLowerCase();
+			}
+
+			return this.loadOptions(inputValue);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _props3 = this.props;
+			var children = _props3.children;
+			var loadingPlaceholder = _props3.loadingPlaceholder;
+			var placeholder = _props3.placeholder;
+			var searchPromptText = _props3.searchPromptText;
+			var _state = this.state;
+			var isLoading = _state.isLoading;
+			var options = _state.options;
+
+			var props = {
+				noResultsText: isLoading ? loadingPlaceholder : searchPromptText,
+				placeholder: isLoading ? loadingPlaceholder : placeholder,
+				options: isLoading ? [] : options
+			};
+
+			return children(_extends({}, this.props, props, {
+				isLoading: isLoading,
+				onInputChange: this._onInputChange
+			}));
+		}
+	}]);
+
+	return Async;
+})(_react.Component);
+
+exports['default'] = Async;
+
+Async.propTypes = propTypes;
+Async.defaultProps = defaultProps;
 
 function defaultChildren(props) {
 	return _react2['default'].createElement(_Select2['default'], props);
 };
-
-module.exports = Async;
+module.exports = exports['default'];
 
 },{"./Select":"react-select","./utils/stripDiacritics":9,"react":undefined}],2:[function(require,module,exports){
 'use strict';
@@ -234,10 +236,6 @@ var AsyncCreatable = _react2['default'].createClass({
 							onInputChange: function (input) {
 								creatableProps.onInputChange(input);
 								return asyncProps.onInputChange(input);
-							},
-							ref: function (ref) {
-								creatableProps.ref(ref);
-								asyncProps.ref(ref);
 							}
 						}));
 					}
