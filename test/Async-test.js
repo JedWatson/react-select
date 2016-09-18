@@ -231,10 +231,6 @@ describe('Async', () => {
 					.then(() => expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'bar'));
 			});
 
-			// @TODO This test is failing for unknown reasons with the following error:
-			//   Error: Promise rejected with no or falsy reason
-			// It seems to be more or less then same as this test (which passes):
-			// https://github.com/JedWatson/react-select/blob/916ab0e62fc7394be8e24f22251c399a68de8b1c/test/Async-test.js#L158-L181
 			it('should handle an error by setting options to an empty array', () => {
 				let promise, rejectPromise;
 				function loadOptions (input, resolve) {
@@ -255,6 +251,107 @@ describe('Async', () => {
 				return expect.promise.all([promise])
 					.catch(() => expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0));
 			});
+		});
+	});
+
+	describe('with ignoreAccents', () => {
+		it('calls loadOptions with unchanged text', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: false
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'TeSt');
+		});
+
+		it('strips accents before calling loadOptions when enabled', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: false
+			});
+			typeSearchText('Gedünstmaßig');
+			// This should really be Gedunstmassig: ß -> ss
+			expect(loadOptions, 'was called with', 'Gedunstmasig');
+		});
+
+		it('does not strip accents before calling loadOptions when diabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: false
+			});
+			typeSearchText('Gedünstmaßig');
+			expect(loadOptions, 'was called with', 'Gedünstmaßig');
+		});
+	});
+
+	describe('with ignore case', () => {
+		it('converts everything to lowercase when enabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: true
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('converts accents to lowercase when enabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: true
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'wäre');
+		});
+
+		it('does not convert text to lowercase when disabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: false
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'WÄRE');
+		});
+	});
+
+	describe('with ignore case and ignore accents', () => {
+		it('converts everything to lowercase', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('removes accents and converts to lowercase', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'ware');
+		});
+	});
+
+	describe('children function', () => {
+		it('should allow a custom select type to be rendered', () => {
+			let childProps;
+			createControl({
+				autoload: true,
+				children: (props) => {
+					childProps = props;
+					return (
+						<div>faux select</div>
+					);
+				}
+			});
+			expect(asyncNode.textContent, 'to equal', 'faux select');
+			expect(childProps.isLoading, 'to equal', true);
+		});
+
+		it('should render a Select component by default', () => {
+			createControl();
+			expect(asyncNode.className, 'to contain', 'Select');
 		});
 	});
 });
