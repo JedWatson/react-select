@@ -186,18 +186,18 @@ describe('Async', () => {
 			});
 		});
 
-		/* @TODO The Promise-based tests aren't working yet; not sure why
 		describe('with promises', () => {
 			it('should display the loaded options', () => {
 				let promise;
 				function loadOptions (input) {
-					promise = expect.promise((resolve) => {
+					promise = expect.promise((resolve, reject) => {
 						resolve(createOptionsResponse(['foo']));
 					});
 					return promise;
 				}
 				createControl({
 					autoload: false,
+					cache: false,
 					loadOptions
 				});
 				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0);
@@ -210,13 +210,13 @@ describe('Async', () => {
 			it('should display the most recently-requested loaded options (if results are returned out of order)', () => {
 				createControl({
 					autoload: false,
-					loadOptions
+					cache: false
 				});
 				let resolveFoo, resolveBar;
-				const promiseFoo = expect.promise((resolve) => {
+				const promiseFoo = expect.promise((resolve, reject) => {
 					resolveFoo = resolve;
 				});
-				const promiseBar = expect.promise((resolve) => {
+				const promiseBar = expect.promise((resolve, reject) => {
 					resolveBar = resolve;
 				});
 				loadOptions.withArgs('foo').returns(promiseFoo);
@@ -231,7 +231,11 @@ describe('Async', () => {
 					.then(() => expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'bar'));
 			});
 
-			it('should handle an error by setting options to an empty array', () => {
+			// @TODO This test is failing for unknown reasons with the following error:
+			//   Error: Promise rejected with no or falsy reason
+			// It seems to be more or less then same as this test (which passes):
+			// https://github.com/JedWatson/react-select/blob/916ab0e62fc7394be8e24f22251c399a68de8b1c/test/Async-test.js#L158-L181
+			it.skip('should handle an error by setting options to an empty array', () => {
 				let promise, rejectPromise;
 				function loadOptions (input, resolve) {
 					promise = expect.promise((resolve, reject) => {
@@ -241,6 +245,7 @@ describe('Async', () => {
 				}
 				createControl({
 					autoload: false,
+					cache: false,
 					loadOptions,
 					options: createOptionsResponse(['foo']).options
 				});
@@ -251,6 +256,5 @@ describe('Async', () => {
 					.then(() => expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0));
 			});
 		});
-		*/
 	});
 });
