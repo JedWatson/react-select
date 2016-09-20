@@ -111,7 +111,7 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
-		openOuterUp: React.PropTypes.bool,          // value to control the opening direction
+		openOuterUp: React.PropTypes.bool           // value to control the opening direction
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },

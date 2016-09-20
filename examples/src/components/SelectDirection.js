@@ -11,7 +11,7 @@ var SelectDirection = React.createClass({
   getDefaultProps () {
     return {
       label: 'SelectDirection:',
-      searchable: true,
+      searchable: true
     };
   },
   getInitialState () {
