@@ -111,6 +111,7 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		openOuterUp: React.PropTypes.bool,          // value to control the opening direction
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
@@ -1008,7 +1009,7 @@ const Select = React.createClass({
 		}
 
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<div ref={ref => this.menuContainer = ref} className={"Select-menu-outer" + (this.props.openOuterUp ? ' Select-menu-outer-up' : '')} style={this.props.menuContainerStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
 						 onScroll={this.handleMenuScroll}

@@ -14,6 +14,7 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import SelectDirection from './components/SelectDirection';
 
 ReactDOM.render(
 	<div>
@@ -26,6 +27,7 @@ ReactDOM.render(
 		<BooleanSelect label="Boolean Values" />
 		<CustomRender label="Custom Render Methods"/>
 		<CustomComponents label="Custom Placeholder, Option, Value, and Arrow Components" />
+		<SelectDirection label="Select Direction" />
 		<Creatable
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
