@@ -128,6 +128,10 @@ export default class Async extends Component {
 			inputValue = inputValue.toLowerCase();
 		}
 
+		if (this.props.onInputChange) {
+			this.props.onInputChange(inputValue);
+		}
+
 		return this.loadOptions(inputValue);
 	}
 
