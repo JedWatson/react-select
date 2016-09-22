@@ -21,9 +21,11 @@ const propTypes = {
 	]),
 };
 
+const defaultCache = {};
+
 const defaultProps = {
 	autoload: true,
-	cache: {},
+	cache: defaultCache,
 	children: defaultChildren,
 	ignoreAccents: true,
 	ignoreCase: true,
@@ -42,6 +44,10 @@ export default class Async extends Component {
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+	}
+
+	componentWillMount () {
+		this.cache = this.props.cache === defaultCache ? {} : this.props.cache;
 	}
 
 	componentDidMount () {
@@ -64,7 +70,8 @@ export default class Async extends Component {
 	}
 
 	loadOptions (inputValue) {
-		const { cache, loadOptions } = this.props;
+		const { loadOptions } = this.props;
+		const cache = this.cache;
 
 		if (
 			cache &&
