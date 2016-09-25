@@ -138,7 +138,8 @@ export default class Async extends Component {
 		const props = {
 			noResultsText: isLoading ? loadingPlaceholder : searchPromptText,
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
-			options: isLoading ? [] : options
+			options: isLoading ? [] : options,
+			ref: (ref) => (this.select = ref)
 		};
 
 		return children({
