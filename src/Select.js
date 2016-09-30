@@ -236,14 +236,26 @@ const Select = React.createClass({
 	},
 
 	componentWillUnmount() {
-		document.removeEventListener('touchstart', this.handleTouchOutside);
+		if (!document.removeEventListener && document.detachEvent) {
+			document.detachEvent('ontouchstart', this.handleTouchOutside);
+		} else {
+			document.removeEventListener('touchstart', this.handleTouchOutside);
+		}
 	},
 
 	toggleTouchOutsideEvent(enabled) {
 		if (enabled) {
-			document.addEventListener('touchstart', this.handleTouchOutside);
+			if (!document.addEventListener && document.attachEvent) {
+				document.attachEvent('ontouchstart', this.handleTouchOutside);
+			} else {
+				document.addEventListener('touchstart', this.handleTouchOutside);				
+			}
 		} else {
-			document.removeEventListener('touchstart', this.handleTouchOutside);
+			if (!document.removeEventListener && document.detachEvent) {
+				document.detachEvent('ontouchstart', this.handleTouchOutside);
+			} else {
+				document.removeEventListener('touchstart', this.handleTouchOutside);
+			}
 		}
 	},
 
