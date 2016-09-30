@@ -157,7 +157,7 @@ const Creatable = React.createClass({
 	},
 
 	onInputKeyDown (event) {
-		const { shouldKeyDownEventCreateNewOption } = this.props;
+		const { shouldKeyDownEventCreateNewOption, onInputKeyDown } = this.props;
 		const focusedOption = this.select.getFocusedOption();
 
 		if (
@@ -169,6 +169,8 @@ const Creatable = React.createClass({
 
 			// Prevent decorated Select from doing anything additional with this keyDown event
 			event.preventDefault();
+		} else if (onInputKeyDown) {
+			onInputKeyDown(event);
 		}
 	},
 
