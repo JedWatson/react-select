@@ -101,6 +101,7 @@ const Select = React.createClass({
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
+		scrollableParentId: React.PropTypes.string, // string that holds parent Id that should be scroled when options menu goes outside the viewport. By default component scrolls window.
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
@@ -223,10 +224,16 @@ const Select = React.createClass({
 				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
 			}
 		}
+
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
 			var menuContainerRect = this.menuContainer.getBoundingClientRect();
-			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
+			const { scrollableParentId, menuBuffer } = this.props;
+			const container = scrollableParentId && document.getElementById(scrollableParentId);
+
+			if (container && container.clientHeight < menuContainerRect.bottom + menuBuffer) {
+				container.scrollTop += menuContainerRect.bottom + menuBuffer - container.clientHeight;
+			} else if (window.innerHeight < menuContainerRect.bottom + menuBuffer) {
+				window.scrollBy(0, menuContainerRect.bottom + menuBuffer - window.innerHeight);
 			}
 		}
 		if (prevProps.disabled !== this.props.disabled) {
