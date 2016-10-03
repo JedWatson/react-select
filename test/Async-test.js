@@ -354,4 +354,16 @@ describe('Async', () => {
 			expect(asyncNode.className, 'to contain', 'Select');
 		});
 	});
+
+	describe('it handles onInputChange', () => {
+		const onInputChange = sinon.stub();
+
+		createControl({
+			onInputChange
+		});
+
+		typeSearchText('a');
+
+		expect(onInputChange, 'was called with', 'a');
+	});
 });
