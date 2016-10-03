@@ -241,7 +241,7 @@ describe('Creatable', () => {
 		return creatableInstance.onInputKeyDown({ keyCode: 97 });
 	});
 
-	describe('it handles onInputChange', () => {
+	it('it handles onInputChange', () => {
 		const onInputChange = sinon.stub();
 
 		createControl({
