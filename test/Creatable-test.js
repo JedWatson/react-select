@@ -236,6 +236,11 @@ describe('Creatable', () => {
 		expect(test(1), 'to be', false);
 	});
 
+	it('default :onInputKeyDown should run user provided handler.', (done) => {
+		createControl({ onInputKeyDown: event => done() });
+		return creatableInstance.onInputKeyDown({ keyCode: 97 });
+	});
+
 	describe('it handles onInputChange', () => {
 		const onInputChange = sinon.stub();
 
