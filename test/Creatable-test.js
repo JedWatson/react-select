@@ -8,15 +8,18 @@ jsdomHelper();
 var unexpected = require('unexpected');
 var unexpectedDom = require('unexpected-dom');
 var unexpectedReact = require('unexpected-react');
+var unexpectedSinon = require('unexpected-sinon');
 var expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
-	.installPlugin(unexpectedReact);
+	.installPlugin(unexpectedReact)
+	.installPlugin(unexpectedSinon);
 
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var Select = require('../src/Select');
+var sinon = require('sinon');
 
 describe('Creatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, innserSelectInstance, renderer;
@@ -231,5 +234,17 @@ describe('Creatable', () => {
 		expect(test(13), 'to be', true);
 		expect(test(188), 'to be', true);
 		expect(test(1), 'to be', false);
+	});
+
+	describe('it handles onInputChange', () => {
+		const onInputChange = sinon.stub();
+
+		createControl({
+			onInputChange
+		});
+
+		typeSearchText('a');
+
+		expect(onInputChange, 'was called with', 'a');
 	});
 });
