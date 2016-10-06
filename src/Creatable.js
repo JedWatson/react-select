@@ -115,6 +115,7 @@ const Creatable = React.createClass({
 
 				this._createPlaceholderOption = newOptionCreator({
 					label: prompt,
+					inputValue: this.inputValue,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
