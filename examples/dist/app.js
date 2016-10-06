@@ -574,7 +574,7 @@ function arrowRenderer() {
 
 module.exports = UsersField;
 
-},{"../data/users":15,"react":undefined,"react-gravatar":31,"react-select":undefined}],6:[function(require,module,exports){
+},{"../data/users":15,"react":undefined,"react-gravatar":20,"react-select":undefined}],6:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -655,7 +655,7 @@ var DisabledUpsellOptions = _react2['default'].createClass({
 });
 module.exports = DisabledUpsellOptions;
 
-},{"react":undefined,"react-highlight-words":32,"react-select":undefined}],7:[function(require,module,exports){
+},{"react":undefined,"react-highlight-words":29,"react-select":undefined}],7:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -795,7 +795,7 @@ var GithubUsers = _react2['default'].createClass({
 
 module.exports = GithubUsers;
 
-},{"isomorphic-fetch":23,"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
+},{"isomorphic-fetch":16,"react":undefined,"react-select":undefined}],8:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -1218,7 +1218,7 @@ var CitiesField = _react2['default'].createClass({
 
 module.exports = CitiesField;
 
-},{"../data/cities":12,"react":undefined,"react-virtualized-select":35}],12:[function(require,module,exports){
+},{"../data/cities":12,"react":undefined,"react-virtualized-select":32}],12:[function(require,module,exports){
 'use strict';
 
 exports.CITIES = [{ name: 'Abilene' }, { name: 'Addison' }, { name: 'Akron' }, { name: 'Alameda' }, { name: 'Albany' }, { name: 'Albany' }, { name: 'Albany' }, { name: 'Albuquerque' }, { name: 'Alexandria' }, { name: 'Alexandria' }, { name: 'Alhambra' }, { name: 'Aliso Viejo' }, { name: 'Allen' }, { name: 'Allentown' }, { name: 'Alpharetta' }, { name: 'Altamonte Springs' }, { name: 'Altoona' }, { name: 'Amarillo' }, { name: 'Ames' }, { name: 'Anaheim' }, { name: 'Anchorage' }, { name: 'Anderson' }, { name: 'Ankeny' }, { name: 'Ann Arbor' }, { name: 'Annapolis' }, { name: 'Antioch' }, { name: 'Apache Junction' }, { name: 'Apex' }, { name: 'Apopka' }, { name: 'Apple Valley' }, { name: 'Apple Valley' }, { name: 'Appleton' }, { name: 'Arcadia' }, { name: 'Arlington' }, { name: 'Arlington Heights' }, { name: 'Arvada' }, { name: 'Asheville' }, { name: 'Athens-Clarke County' }, { name: 'Atlanta' }, { name: 'Atlantic City' }, { name: 'Attleboro' }, { name: 'Auburn' }, { name: 'Auburn' }, { name: 'Augusta-Richmond County' }, { name: 'Aurora' }, { name: 'Aurora' }, { name: 'Austin' }, { name: 'Aventura' }, { name: 'Avondale' }, { name: 'Azusa' }, { name: 'Bakersfield' }, { name: 'Baldwin Park' }, { name: 'Baltimore' }, { name: 'Barnstable Town' }, { name: 'Bartlett' }, { name: 'Bartlett' }, { name: 'Baton Rouge' }, { name: 'Battle Creek' }, { name: 'Bayonne' }, { name: 'Baytown' }, { name: 'Beaumont' }, { name: 'Beaumont' }, { name: 'Beavercreek' }, { name: 'Beaverton' }, { name: 'Bedford' }, { name: 'Bell Gardens' }, { name: 'Belleville' }, { name: 'Bellevue' }, { name: 'Bellevue' }, { name: 'Bellflower' }, { name: 'Bellingham' }, { name: 'Beloit' }, { name: 'Bend' }, { name: 'Bentonville' }, { name: 'Berkeley' }, { name: 'Berwyn' }, { name: 'Bethlehem' }, { name: 'Beverly' }, { name: 'Billings' }, { name: 'Biloxi' }, { name: 'Binghamton' }, { name: 'Birmingham' }, { name: 'Bismarck' }, { name: 'Blacksburg' }, { name: 'Blaine' }, { name: 'Bloomington' }, { name: 'Bloomington' }, { name: 'Bloomington' }, { name: 'Blue Springs' }, { name: 'Boca Raton' }, { name: 'Boise City' }, { name: 'Bolingbrook' }, { name: 'Bonita Springs' }, { name: 'Bossier City' }, { name: 'Boston' }, { name: 'Boulder' }, { name: 'Bountiful' }, { name: 'Bowie' }, { name: 'Bowling Green' }, { name: 'Boynton Beach' }, { name: 'Bozeman' }, { name: 'Bradenton' }, { name: 'Brea' }, { name: 'Bremerton' }, { name: 'Brentwood' }, { name: 'Brentwood' }, { name: 'Bridgeport' }, { name: 'Bristol' }, { name: 'Brockton' }, { name: 'Broken Arrow' }, { name: 'Brookfield' }, { name: 'Brookhaven' }, { name: 'Brooklyn Park' }, { name: 'Broomfield' }, { name: 'Brownsville' }, { name: 'Bryan' }, { name: 'Buckeye' }, { name: 'Buena Park' }, { name: 'Buffalo' }, { name: 'Buffalo Grove' }, { name: 'Bullhead City' }, { name: 'Burbank' }, { name: 'Burien' }, { name: 'Burleson' }, { name: 'Burlington' }, { name: 'Burlington' }, { name: 'Burnsville' }, { name: 'Caldwell' }, { name: 'Calexico' }, { name: 'Calumet City' }, { name: 'Camarillo' }, { name: 'Cambridge' }, { name: 'Camden' }, { name: 'Campbell' }, { name: 'Canton' }, { name: 'Cape Coral' }, { name: 'Cape Girardeau' }, { name: 'Carlsbad' }, { name: 'Carmel' }, { name: 'Carol Stream' }, { name: 'Carpentersville' }, { name: 'Carrollton' }, { name: 'Carson' }, { name: 'Carson City' }, { name: 'Cary' }, { name: 'Casa Grande' }, { name: 'Casper' }, { name: 'Castle Rock' }, { name: 'Cathedral City' }, { name: 'Cedar Falls' }, { name: 'Cedar Hill' }, { name: 'Cedar Park' }, { name: 'Cedar Rapids' }, { name: 'Centennial' }, { name: 'Ceres' }, { name: 'Cerritos' }, { name: 'Champaign' }, { name: 'Chandler' }, { name: 'Chapel Hill' }, { name: 'Charleston' }, { name: 'Charleston' }, { name: 'Charlotte' }, { name: 'Charlottesville' }, { name: 'Chattanooga' }, { name: 'Chelsea' }, { name: 'Chesapeake' }, { name: 'Chesterfield' }, { name: 'Cheyenne' }, { name: 'Chicago' }, { name: 'Chico' }, { name: 'Chicopee' }, { name: 'Chino' }, { name: 'Chino Hills' }, { name: 'Chula Vista' }, { name: 'Cicero' }, { name: 'Cincinnati' }, { name: 'Citrus Heights' }, { name: 'Clarksville' }, { name: 'Clearwater' }, { name: 'Cleveland' }, { name: 'Cleveland' }, { name: 'Cleveland Heights' }, { name: 'Clifton' }, { name: 'Clovis' }, { name: 'Clovis' }, { name: 'Coachella' }, { name: 'Coconut Creek' }, { name: 'Coeur d\'Alene' }, { name: 'College Station' }, { name: 'Collierville' }, { name: 'Colorado Springs' }, { name: 'Colton' }, { name: 'Columbia' }, { name: 'Columbia' }, { name: 'Columbus' }, { name: 'Columbus' }, { name: 'Columbus' }, { name: 'Commerce City' }, { name: 'Compton' }, { name: 'Concord' }, { name: 'Concord' }, { name: 'Concord' }, { name: 'Conroe' }, { name: 'Conway' }, { name: 'Coon Rapids' }, { name: 'Coppell' }, { name: 'Coral Gables' }, { name: 'Coral Springs' }, { name: 'Corona' }, { name: 'Corpus Christi' }, { name: 'Corvallis' }, { name: 'Costa Mesa' }, { name: 'Council Bluffs' }, { name: 'Covina' }, { name: 'Covington' }, { name: 'Cranston' }, { name: 'Crystal Lake' }, { name: 'Culver City' }, { name: 'Cupertino' }, { name: 'Cutler Bay' }, { name: 'Cuyahoga Falls' }, { name: 'Cypress' }, { name: 'Dallas' }, { name: 'Daly City' }, { name: 'Danbury' }, { name: 'Danville' }, { name: 'Danville' }, { name: 'Davenport' }, { name: 'Davie' }, { name: 'Davis' }, { name: 'Dayton' }, { name: 'Daytona Beach' }, { name: 'DeKalb' }, { name: 'DeSoto' }, { name: 'Dearborn' }, { name: 'Dearborn Heights' }, { name: 'Decatur' }, { name: 'Decatur' }, { name: 'Deerfield Beach' }, { name: 'Delano' }, { name: 'Delray Beach' }, { name: 'Deltona' }, { name: 'Denton' }, { name: 'Denver' }, { name: 'Des Moines' }, { name: 'Des Plaines' }, { name: 'Detroit' }, { name: 'Diamond Bar' }, { name: 'Doral' }, { name: 'Dothan' }, { name: 'Dover' }, { name: 'Downers Grove' }, { name: 'Downey' }, { name: 'Draper' }, { name: 'Dublin' }, { name: 'Dublin' }, { name: 'Dubuque' }, { name: 'Duluth' }, { name: 'Duncanville' }, { name: 'Dunwoody' }, { name: 'Durham' }, { name: 'Eagan' }, { name: 'East Lansing' }, { name: 'East Orange' }, { name: 'East Providence' }, { name: 'Eastvale' }, { name: 'Eau Claire' }, { name: 'Eden Prairie' }, { name: 'Edina' }, { name: 'Edinburg' }, { name: 'Edmond' }, { name: 'Edmonds' }, { name: 'El Cajon' }, { name: 'El Centro' }, { name: 'El Monte' }, { name: 'El Paso' }, { name: 'Elgin' }, { name: 'Elizabeth' }, { name: 'Elk Grove' }, { name: 'Elkhart' }, { name: 'Elmhurst' }, { name: 'Elyria' }, { name: 'Encinitas' }, { name: 'Enid' }, { name: 'Erie' }, { name: 'Escondido' }, { name: 'Euclid' }, { name: 'Eugene' }, { name: 'Euless' }, { name: 'Evanston' }, { name: 'Evansville' }, { name: 'Everett' }, { name: 'Everett' }, { name: 'Fairfield' }, { name: 'Fairfield' }, { name: 'Fall River' }, { name: 'Fargo' }, { name: 'Farmington' }, { name: 'Farmington Hills' }, { name: 'Fayetteville' }, { name: 'Fayetteville' }, { name: 'Federal Way' }, { name: 'Findlay' }, { name: 'Fishers' }, { name: 'Fitchburg' }, { name: 'Flagstaff' }, { name: 'Flint' }, { name: 'Florence' }, { name: 'Florence' }, { name: 'Florissant' }, { name: 'Flower Mound' }, { name: 'Folsom' }, { name: 'Fond du Lac' }, { name: 'Fontana' }, { name: 'Fort Collins' }, { name: 'Fort Lauderdale' }, { name: 'Fort Myers' }, { name: 'Fort Pierce' }, { name: 'Fort Smith' }, { name: 'Fort Wayne' }, { name: 'Fort Worth' }, { name: 'Fountain Valley' }, { name: 'Franklin' }, { name: 'Frederick' }, { name: 'Freeport' }, { name: 'Fremont' }, { name: 'Fresno' }, { name: 'Friendswood' }, { name: 'Frisco' }, { name: 'Fullerton' }, { name: 'Gainesville' }, { name: 'Gaithersburg' }, { name: 'Galveston' }, { name: 'Garden Grove' }, { name: 'Gardena' }, { name: 'Garland' }, { name: 'Gary' }, { name: 'Gastonia' }, { name: 'Georgetown' }, { name: 'Germantown' }, { name: 'Gilbert' }, { name: 'Gilroy' }, { name: 'Glendale' }, { name: 'Glendale' }, { name: 'Glendora' }, { name: 'Glenview' }, { name: 'Goodyear' }, { name: 'Goose Creek' }, { name: 'Grand Forks' }, { name: 'Grand Island' }, { name: 'Grand Junction' }, { name: 'Grand Prairie' }, { name: 'Grand Rapids' }, { name: 'Grapevine' }, { name: 'Great Falls' }, { name: 'Greeley' }, { name: 'Green Bay' }, { name: 'Greenacres' }, { name: 'Greenfield' }, { name: 'Greensboro' }, { name: 'Greenville' }, { name: 'Greenville' }, { name: 'Greenwood' }, { name: 'Gresham' }, { name: 'Grove City' }, { name: 'Gulfport' }, { name: 'Hackensack' }, { name: 'Hagerstown' }, { name: 'Hallandale Beach' }, { name: 'Haltom City' }, { name: 'Hamilton' }, { name: 'Hammond' }, { name: 'Hampton' }, { name: 'Hanford' }, { name: 'Hanover Park' }, { name: 'Harlingen' }, { name: 'Harrisburg' }, { name: 'Harrisonburg' }, { name: 'Hartford' }, { name: 'Hattiesburg' }, { name: 'Haverhill' }, { name: 'Hawthorne' }, { name: 'Hayward' }, { name: 'Hemet' }, { name: 'Hempstead' }, { name: 'Henderson' }, { name: 'Hendersonville' }, { name: 'Hesperia' }, { name: 'Hialeah' }, { name: 'Hickory' }, { name: 'High Point' }, { name: 'Highland' }, { name: 'Hillsboro' }, { name: 'Hilton Head Island' }, { name: 'Hoboken' }, { name: 'Hoffman Estates' }, { name: 'Hollywood' }, { name: 'Holyoke' }, { name: 'Homestead' }, { name: 'Honolulu' }, { name: 'Hoover' }, { name: 'Houston' }, { name: 'Huber Heights' }, { name: 'Huntersville' }, { name: 'Huntington' }, { name: 'Huntington Beach' }, { name: 'Huntington Park' }, { name: 'Huntsville' }, { name: 'Huntsville' }, { name: 'Hurst' }, { name: 'Hutchinson' }, { name: 'Idaho Falls' }, { name: 'Independence' }, { name: 'Indianapolis' }, { name: 'Indio' }, { name: 'Inglewood' }, { name: 'Iowa City' }, { name: 'Irvine' }, { name: 'Irving' }, { name: 'Jackson' }, { name: 'Jackson' }, { name: 'Jacksonville' }, { name: 'Jacksonville' }, { name: 'Janesville' }, { name: 'Jefferson City' }, { name: 'Jeffersonville' }, { name: 'Jersey City' }, { name: 'Johns Creek' }, { name: 'Johnson City' }, { name: 'Joliet' }, { name: 'Jonesboro' }, { name: 'Joplin' }, { name: 'Jupiter' }, { name: 'Jurupa Valley' }, { name: 'Kalamazoo' }, { name: 'Kannapolis' }, { name: 'Kansas City' }, { name: 'Kansas City' }, { name: 'Kearny' }, { name: 'Keizer' }, { name: 'Keller' }, { name: 'Kenner' }, { name: 'Kennewick' }, { name: 'Kenosha' }, { name: 'Kent' }, { name: 'Kentwood' }, { name: 'Kettering' }, { name: 'Killeen' }, { name: 'Kingsport' }, { name: 'Kirkland' }, { name: 'Kissimmee' }, { name: 'Knoxville' }, { name: 'Kokomo' }, { name: 'La Crosse' }, { name: 'La Habra' }, { name: 'La Mesa' }, { name: 'La Mirada' }, { name: 'La Puente' }, { name: 'La Quinta' }, { name: 'Lacey' }, { name: 'Lafayette' }, { name: 'Lafayette' }, { name: 'Laguna Niguel' }, { name: 'Lake Charles' }, { name: 'Lake Elsinore' }, { name: 'Lake Forest' }, { name: 'Lake Havasu City' }, { name: 'Lake Oswego' }, { name: 'Lakeland' }, { name: 'Lakeville' }, { name: 'Lakewood' }, { name: 'Lakewood' }, { name: 'Lakewood' }, { name: 'Lakewood' }, { name: 'Lancaster' }, { name: 'Lancaster' }, { name: 'Lancaster' }, { name: 'Lancaster' }, { name: 'Lansing' }, { name: 'Laredo' }, { name: 'Largo' }, { name: 'Las Cruces' }, { name: 'Las Vegas' }, { name: 'Lauderhill' }, { name: 'Lawrence' }, { name: 'Lawrence' }, { name: 'Lawrence' }, { name: 'Lawton' }, { name: 'Layton' }, { name: 'League City' }, { name: 'Lee\'s Summit' }, { name: 'Leesburg' }, { name: 'Lehi' }, { name: 'Lenexa' }, { name: 'Leominster' }, { name: 'Lewisville' }, { name: 'Lexington-Fayette' }, { name: 'Lima' }, { name: 'Lincoln' }, { name: 'Lincoln' }, { name: 'Lincoln Park' }, { name: 'Linden' }, { name: 'Little Rock' }, { name: 'Littleton' }, { name: 'Livermore' }, { name: 'Livonia' }, { name: 'Lodi' }, { name: 'Logan' }, { name: 'Lombard' }, { name: 'Lompoc' }, { name: 'Long Beach' }, { name: 'Longmont' }, { name: 'Longview' }, { name: 'Lorain' }, { name: 'Los Angeles' }, { name: 'Louisville/Jefferson County' }, { name: 'Loveland' }, { name: 'Lowell' }, { name: 'Lubbock' }, { name: 'Lynchburg' }, { name: 'Lynn' }, { name: 'Lynwood' }, { name: 'Macon' }, { name: 'Madera' }, { name: 'Madison' }, { name: 'Madison' }, { name: 'Malden' }, { name: 'Manassas' }, { name: 'Manchester' }, { name: 'Manhattan' }, { name: 'Mankato' }, { name: 'Mansfield' }, { name: 'Mansfield' }, { name: 'Manteca' }, { name: 'Maple Grove' }, { name: 'Maplewood' }, { name: 'Marana' }, { name: 'Margate' }, { name: 'Maricopa' }, { name: 'Marietta' }, { name: 'Marlborough' }, { name: 'Martinez' }, { name: 'Marysville' }, { name: 'McAllen' }, { name: 'McKinney' }, { name: 'Medford' }, { name: 'Medford' }, { name: 'Melbourne' }, { name: 'Memphis' }, { name: 'Menifee' }, { name: 'Mentor' }, { name: 'Merced' }, { name: 'Meriden' }, { name: 'Meridian' }, { name: 'Meridian' }, { name: 'Mesa' }, { name: 'Mesquite' }, { name: 'Methuen' }, { name: 'Miami' }, { name: 'Miami Beach' }, { name: 'Miami Gardens' }, { name: 'Middletown' }, { name: 'Middletown' }, { name: 'Midland' }, { name: 'Midland' }, { name: 'Midwest City' }, { name: 'Milford' }, { name: 'Milpitas' }, { name: 'Milwaukee' }, { name: 'Minneapolis' }, { name: 'Minnetonka' }, { name: 'Minot' }, { name: 'Miramar' }, { name: 'Mishawaka' }, { name: 'Mission' }, { name: 'Mission Viejo' }, { name: 'Missoula' }, { name: 'Missouri City' }, { name: 'Mobile' }, { name: 'Modesto' }, { name: 'Moline' }, { name: 'Monroe' }, { name: 'Monrovia' }, { name: 'Montclair' }, { name: 'Montebello' }, { name: 'Monterey Park' }, { name: 'Montgomery' }, { name: 'Moore' }, { name: 'Moorhead' }, { name: 'Moreno Valley' }, { name: 'Morgan Hill' }, { name: 'Mount Pleasant' }, { name: 'Mount Prospect' }, { name: 'Mount Vernon' }, { name: 'Mountain View' }, { name: 'Muncie' }, { name: 'Murfreesboro' }, { name: 'Murray' }, { name: 'Murrieta' }, { name: 'Muskegon' }, { name: 'Muskogee' }, { name: 'Nampa' }, { name: 'Napa' }, { name: 'Naperville' }, { name: 'Nashua' }, { name: 'Nashville-Davidson' }, { name: 'National City' }, { name: 'New Bedford' }, { name: 'New Berlin' }, { name: 'New Braunfels' }, { name: 'New Britain' }, { name: 'New Brunswick' }, { name: 'New Haven' }, { name: 'New Orleans' }, { name: 'New Rochelle' }, { name: 'New York' }, { name: 'Newark' }, { name: 'Newark' }, { name: 'Newark' }, { name: 'Newport Beach' }, { name: 'Newport News' }, { name: 'Newton' }, { name: 'Niagara Falls' }, { name: 'Noblesville' }, { name: 'Norfolk' }, { name: 'Normal' }, { name: 'Norman' }, { name: 'North Charleston' }, { name: 'North Las Vegas' }, { name: 'North Lauderdale' }, { name: 'North Little Rock' }, { name: 'North Miami' }, { name: 'North Miami Beach' }, { name: 'North Port' }, { name: 'North Richland Hills' }, { name: 'Northglenn' }, { name: 'Norwalk' }, { name: 'Norwalk' }, { name: 'Norwich' }, { name: 'Novato' }, { name: 'Novi' }, { name: 'O\'Fallon' }, { name: 'Oak Lawn' }, { name: 'Oak Park' }, { name: 'Oakland' }, { name: 'Oakland Park' }, { name: 'Oakley' }, { name: 'Ocala' }, { name: 'Oceanside' }, { name: 'Ocoee' }, { name: 'Odessa' }, { name: 'Ogden' }, { name: 'Oklahoma City' }, { name: 'Olathe' }, { name: 'Olympia' }, { name: 'Omaha' }, { name: 'Ontario' }, { name: 'Orange' }, { name: 'Orem' }, { name: 'Orland Park' }, { name: 'Orlando' }, { name: 'Ormond Beach' }, { name: 'Oro Valley' }, { name: 'Oshkosh' }, { name: 'Overland Park' }, { name: 'Owensboro' }, { name: 'Oxnard' }, { name: 'Pacifica' }, { name: 'Palatine' }, { name: 'Palm Bay' }, { name: 'Palm Beach Gardens' }, { name: 'Palm Coast' }, { name: 'Palm Desert' }, { name: 'Palm Springs' }, { name: 'Palmdale' }, { name: 'Palo Alto' }, { name: 'Panama City' }, { name: 'Paramount' }, { name: 'Park Ridge' }, { name: 'Parker' }, { name: 'Parma' }, { name: 'Pasadena' }, { name: 'Pasadena' }, { name: 'Pasco' }, { name: 'Passaic' }, { name: 'Paterson' }, { name: 'Pawtucket' }, { name: 'Peabody' }, { name: 'Peachtree Corners' }, { name: 'Pearland' }, { name: 'Pembroke Pines' }, { name: 'Pensacola' }, { name: 'Peoria' }, { name: 'Peoria' }, { name: 'Perris' }, { name: 'Perth Amboy' }, { name: 'Petaluma' }, { name: 'Pflugerville' }, { name: 'Pharr' }, { name: 'Phenix City' }, { name: 'Philadelphia' }, { name: 'Phoenix' }, { name: 'Pico Rivera' }, { name: 'Pine Bluff' }, { name: 'Pinellas Park' }, { name: 'Pittsburg' }, { name: 'Pittsburgh' }, { name: 'Pittsfield' }, { name: 'Placentia' }, { name: 'Plainfield' }, { name: 'Plainfield' }, { name: 'Plano' }, { name: 'Plantation' }, { name: 'Pleasanton' }, { name: 'Plymouth' }, { name: 'Pocatello' }, { name: 'Pomona' }, { name: 'Pompano Beach' }, { name: 'Pontiac' }, { name: 'Port Arthur' }, { name: 'Port Orange' }, { name: 'Port St. Lucie' }, { name: 'Portage' }, { name: 'Porterville' }, { name: 'Portland' }, { name: 'Portland' }, { name: 'Portsmouth' }, { name: 'Poway' }, { name: 'Prescott' }, { name: 'Prescott Valley' }, { name: 'Providence' }, { name: 'Provo' }, { name: 'Pueblo' }, { name: 'Puyallup' }, { name: 'Quincy' }, { name: 'Quincy' }, { name: 'Racine' }, { name: 'Raleigh' }, { name: 'Rancho Cordova' }, { name: 'Rancho Cucamonga' }, { name: 'Rancho Palos Verdes' }, { name: 'Rancho Santa Margarita' }, { name: 'Rapid City' }, { name: 'Reading' }, { name: 'Redding' }, { name: 'Redlands' }, { name: 'Redmond' }, { name: 'Redondo Beach' }, { name: 'Redwood City' }, { name: 'Reno' }, { name: 'Renton' }, { name: 'Revere' }, { name: 'Rialto' }, { name: 'Richardson' }, { name: 'Richland' }, { name: 'Richmond' }, { name: 'Richmond' }, { name: 'Rio Rancho' }, { name: 'Riverside' }, { name: 'Riverton' }, { name: 'Roanoke' }, { name: 'Rochester' }, { name: 'Rochester' }, { name: 'Rochester Hills' }, { name: 'Rock Hill' }, { name: 'Rock Island' }, { name: 'Rockford' }, { name: 'Rocklin' }, { name: 'Rockville' }, { name: 'Rockwall' }, { name: 'Rocky Mount' }, { name: 'Rogers' }, { name: 'Rohnert Park' }, { name: 'Romeoville' }, { name: 'Rosemead' }, { name: 'Roseville' }, { name: 'Roseville' }, { name: 'Roswell' }, { name: 'Roswell' }, { name: 'Round Rock' }, { name: 'Rowlett' }, { name: 'Roy' }, { name: 'Royal Oak' }, { name: 'Sacramento' }, { name: 'Saginaw' }, { name: 'Salem' }, { name: 'Salem' }, { name: 'Salina' }, { name: 'Salinas' }, { name: 'Salt Lake City' }, { name: 'Sammamish' }, { name: 'San Angelo' }, { name: 'San Antonio' }, { name: 'San Bernardino' }, { name: 'San Bruno' }, { name: 'San Buenaventura (Ventura)' }, { name: 'San Clemente' }, { name: 'San Diego' }, { name: 'San Francisco' }, { name: 'San Gabriel' }, { name: 'San Jacinto' }, { name: 'San Jose' }, { name: 'San Leandro' }, { name: 'San Luis Obispo' }, { name: 'San Marcos' }, { name: 'San Marcos' }, { name: 'San Mateo' }, { name: 'San Rafael' }, { name: 'San Ramon' }, { name: 'Sandy' }, { name: 'Sandy Springs' }, { name: 'Sanford' }, { name: 'Santa Ana' }, { name: 'Santa Barbara' }, { name: 'Santa Clara' }, { name: 'Santa Clarita' }, { name: 'Santa Cruz' }, { name: 'Santa Fe' }, { name: 'Santa Maria' }, { name: 'Santa Monica' }, { name: 'Santa Rosa' }, { name: 'Santee' }, { name: 'Sarasota' }, { name: 'Savannah' }, { name: 'Sayreville' }, { name: 'Schaumburg' }, { name: 'Schenectady' }, { name: 'Scottsdale' }, { name: 'Scranton' }, { name: 'Seattle' }, { name: 'Shakopee' }, { name: 'Shawnee' }, { name: 'Sheboygan' }, { name: 'Shelton' }, { name: 'Sherman' }, { name: 'Shoreline' }, { name: 'Shreveport' }, { name: 'Sierra Vista' }, { name: 'Simi Valley' }, { name: 'Sioux City' }, { name: 'Sioux Falls' }, { name: 'Skokie' }, { name: 'Smyrna' }, { name: 'Smyrna' }, { name: 'Somerville' }, { name: 'South Bend' }, { name: 'South Gate' }, { name: 'South Jordan' }, { name: 'South San Francisco' }, { name: 'Southaven' }, { name: 'Southfield' }, { name: 'Spanish Fork' }, { name: 'Sparks' }, { name: 'Spartanburg' }, { name: 'Spokane' }, { name: 'Spokane Valley' }, { name: 'Springdale' }, { name: 'Springfield' }, { name: 'Springfield' }, { name: 'Springfield' }, { name: 'Springfield' }, { name: 'Springfield' }, { name: 'St. Charles' }, { name: 'St. Clair Shores' }, { name: 'St. Cloud' }, { name: 'St. Cloud' }, { name: 'St. George' }, { name: 'St. Joseph' }, { name: 'St. Louis' }, { name: 'St. Louis Park' }, { name: 'St. Paul' }, { name: 'St. Peters' }, { name: 'St. Petersburg' }, { name: 'Stamford' }, { name: 'Stanton' }, { name: 'State College' }, { name: 'Sterling Heights' }, { name: 'Stillwater' }, { name: 'Stockton' }, { name: 'Streamwood' }, { name: 'Strongsville' }, { name: 'Suffolk' }, { name: 'Sugar Land' }, { name: 'Summerville' }, { name: 'Sumter' }, { name: 'Sunnyvale' }, { name: 'Sunrise' }, { name: 'Surprise' }, { name: 'Syracuse' }, { name: 'Tacoma' }, { name: 'Tallahassee' }, { name: 'Tamarac' }, { name: 'Tampa' }, { name: 'Taunton' }, { name: 'Taylor' }, { name: 'Taylorsville' }, { name: 'Temecula' }, { name: 'Tempe' }, { name: 'Temple' }, { name: 'Terre Haute' }, { name: 'Texarkana' }, { name: 'Texas City' }, { name: 'The Colony' }, { name: 'Thornton' }, { name: 'Thousand Oaks' }, { name: 'Tigard' }, { name: 'Tinley Park' }, { name: 'Titusville' }, { name: 'Toledo' }, { name: 'Topeka' }, { name: 'Torrance' }, { name: 'Tracy' }, { name: 'Trenton' }, { name: 'Troy' }, { name: 'Troy' }, { name: 'Tucson' }, { name: 'Tulare' }, { name: 'Tulsa' }, { name: 'Turlock' }, { name: 'Tuscaloosa' }, { name: 'Tustin' }, { name: 'Twin Falls' }, { name: 'Tyler' }, { name: 'Union City' }, { name: 'Union City' }, { name: 'Upland' }, { name: 'Urbana' }, { name: 'Urbandale' }, { name: 'Utica' }, { name: 'Vacaville' }, { name: 'Valdosta' }, { name: 'Vallejo' }, { name: 'Valley Stream' }, { name: 'Vancouver' }, { name: 'Victoria' }, { name: 'Victorville' }, { name: 'Vineland' }, { name: 'Virginia Beach' }, { name: 'Visalia' }, { name: 'Vista' }, { name: 'Waco' }, { name: 'Walnut Creek' }, { name: 'Waltham' }, { name: 'Warner Robins' }, { name: 'Warren' }, { name: 'Warren' }, { name: 'Warwick' }, { name: 'Washington' }, { name: 'Waterbury' }, { name: 'Waterloo' }, { name: 'Watsonville' }, { name: 'Waukegan' }, { name: 'Waukesha' }, { name: 'Wausau' }, { name: 'Wauwatosa' }, { name: 'Wellington' }, { name: 'Weslaco' }, { name: 'West Allis' }, { name: 'West Covina' }, { name: 'West Des Moines' }, { name: 'West Haven' }, { name: 'West Jordan' }, { name: 'West New York' }, { name: 'West Palm Beach' }, { name: 'West Sacramento' }, { name: 'West Valley City' }, { name: 'Westerville' }, { name: 'Westfield' }, { name: 'Westland' }, { name: 'Westminster' }, { name: 'Westminster' }, { name: 'Weston' }, { name: 'Weymouth Town' }, { name: 'Wheaton' }, { name: 'Wheeling' }, { name: 'White Plains' }, { name: 'Whittier' }, { name: 'Wichita' }, { name: 'Wichita Falls' }, { name: 'Wilkes-Barre' }, { name: 'Wilmington' }, { name: 'Wilmington' }, { name: 'Wilson' }, { name: 'Winston-Salem' }, { name: 'Winter Garden' }, { name: 'Woburn' }, { name: 'Woodbury' }, { name: 'Woodland' }, { name: 'Woonsocket' }, { name: 'Worcester' }, { name: 'Wylie' }, { name: 'Wyoming' }, { name: 'Yakima' }, { name: 'Yonkers' }, { name: 'Yorba Linda' }, { name: 'York' }, { name: 'Youngstown' }, { name: 'Yuba City' }, { name: 'Yucaipa' }, { name: 'Yuma' }];
@@ -1241,273 +1241,6 @@ exports.US = [{ value: 'AL', label: 'Alabama', disabled: true }, { value: 'AK', 
 module.exports = [{ value: 'John Smith', label: 'John Smith', email: 'john@smith.com' }, { value: 'Merry Jane', label: 'Merry Jane', email: 'merry@jane.com' }, { value: 'Stan Hoper', label: 'Stan Hoper', email: 'stan@hoper.com' }];
 
 },{}],16:[function(require,module,exports){
-var charenc = {
-  // UTF-8 encoding
-  utf8: {
-    // Convert a string to a byte array
-    stringToBytes: function(str) {
-      return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
-    },
-
-    // Convert a byte array to a string
-    bytesToString: function(bytes) {
-      return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
-    }
-  },
-
-  // Binary encoding
-  bin: {
-    // Convert a string to a byte array
-    stringToBytes: function(str) {
-      for (var bytes = [], i = 0; i < str.length; i++)
-        bytes.push(str.charCodeAt(i) & 0xFF);
-      return bytes;
-    },
-
-    // Convert a byte array to a string
-    bytesToString: function(bytes) {
-      for (var str = [], i = 0; i < bytes.length; i++)
-        str.push(String.fromCharCode(bytes[i]));
-      return str.join('');
-    }
-  }
-};
-
-module.exports = charenc;
-
-},{}],17:[function(require,module,exports){
-(function() {
-  var base64map
-      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-
-  crypt = {
-    // Bit-wise rotation left
-    rotl: function(n, b) {
-      return (n << b) | (n >>> (32 - b));
-    },
-
-    // Bit-wise rotation right
-    rotr: function(n, b) {
-      return (n << (32 - b)) | (n >>> b);
-    },
-
-    // Swap big-endian to little-endian and vice versa
-    endian: function(n) {
-      // If number given, swap endian
-      if (n.constructor == Number) {
-        return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
-      }
-
-      // Else, assume array and swap all items
-      for (var i = 0; i < n.length; i++)
-        n[i] = crypt.endian(n[i]);
-      return n;
-    },
-
-    // Generate an array of any length of random bytes
-    randomBytes: function(n) {
-      for (var bytes = []; n > 0; n--)
-        bytes.push(Math.floor(Math.random() * 256));
-      return bytes;
-    },
-
-    // Convert a byte array to big-endian 32-bit words
-    bytesToWords: function(bytes) {
-      for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-        words[b >>> 5] |= bytes[i] << (24 - b % 32);
-      return words;
-    },
-
-    // Convert big-endian 32-bit words to a byte array
-    wordsToBytes: function(words) {
-      for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-        bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
-      return bytes;
-    },
-
-    // Convert a byte array to a hex string
-    bytesToHex: function(bytes) {
-      for (var hex = [], i = 0; i < bytes.length; i++) {
-        hex.push((bytes[i] >>> 4).toString(16));
-        hex.push((bytes[i] & 0xF).toString(16));
-      }
-      return hex.join('');
-    },
-
-    // Convert a hex string to a byte array
-    hexToBytes: function(hex) {
-      for (var bytes = [], c = 0; c < hex.length; c += 2)
-        bytes.push(parseInt(hex.substr(c, 2), 16));
-      return bytes;
-    },
-
-    // Convert a byte array to a base-64 string
-    bytesToBase64: function(bytes) {
-      for (var base64 = [], i = 0; i < bytes.length; i += 3) {
-        var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
-        for (var j = 0; j < 4; j++)
-          if (i * 8 + j * 6 <= bytes.length * 8)
-            base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
-          else
-            base64.push('=');
-      }
-      return base64.join('');
-    },
-
-    // Convert a base-64 string to a byte array
-    base64ToBytes: function(base64) {
-      // Remove non-base-64 characters
-      base64 = base64.replace(/[^A-Z0-9+\/]/ig, '');
-
-      for (var bytes = [], i = 0, imod4 = 0; i < base64.length;
-          imod4 = ++i % 4) {
-        if (imod4 == 0) continue;
-        bytes.push(((base64map.indexOf(base64.charAt(i - 1))
-            & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2))
-            | (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
-      }
-      return bytes;
-    }
-  };
-
-  module.exports = crypt;
-})();
-
-},{}],18:[function(require,module,exports){
-'use strict';
-module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-},{}],19:[function(require,module,exports){
-'use strict';
-
-var canUseDOM = require('./inDOM');
-
-var size;
-
-module.exports = function (recalc) {
-  if (!size || recalc) {
-    if (canUseDOM) {
-      var scrollDiv = document.createElement('div');
-
-      scrollDiv.style.position = 'absolute';
-      scrollDiv.style.top = '-9999px';
-      scrollDiv.style.width = '50px';
-      scrollDiv.style.height = '50px';
-      scrollDiv.style.overflow = 'scroll';
-
-      document.body.appendChild(scrollDiv);
-      size = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-      document.body.removeChild(scrollDiv);
-    }
-  }
-
-  return size;
-};
-},{"./inDOM":18}],20:[function(require,module,exports){
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @typechecks
- * 
- */
-
-/*eslint-disable no-self-compare */
-
-'use strict';
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-/**
- * inlined Object.is polyfill to avoid requiring consumers ship their own
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
- */
-function is(x, y) {
-  // SameValue algorithm
-  if (x === y) {
-    // Steps 1-5, 7-10
-    // Steps 6.b-6.e: +0 != -0
-    return x !== 0 || 1 / x === 1 / y;
-  } else {
-    // Step 6.a: NaN == NaN
-    return x !== x && y !== y;
-  }
-}
-
-/**
- * Performs equality by iterating through keys on an object and returning false
- * when any key has values which are not strictly equal between the arguments.
- * Returns true when the values of all keys are strictly equal.
- */
-function shallowEqual(objA, objB) {
-  if (is(objA, objB)) {
-    return true;
-  }
-
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
-    return false;
-  }
-
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
-
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  // Test for A's keys different from B.
-  for (var i = 0; i < keysA.length; i++) {
-    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-module.exports = shallowEqual;
-},{}],21:[function(require,module,exports){
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
-},{}],22:[function(require,module,exports){
-module.exports = function() {
-  var mediaQuery;
-  if (typeof window !== "undefined" && window !== null) {
-    mediaQuery = "(-webkit-min-device-pixel-ratio: 1.25), (min--moz-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 1.25dppx)";
-    if (window.devicePixelRatio > 1.25) {
-      return true;
-    }
-    if (window.matchMedia && window.matchMedia(mediaQuery).matches) {
-      return true;
-    }
-  }
-  return false;
-};
-
-},{}],23:[function(require,module,exports){
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
@@ -1515,290 +1248,444 @@ module.exports = function() {
 require('whatwg-fetch');
 module.exports = self.fetch.bind(self);
 
-},{"whatwg-fetch":83}],24:[function(require,module,exports){
-(function(){
-  var crypt = require('crypt'),
-      utf8 = require('charenc').utf8,
-      isBuffer = require('is-buffer'),
-      bin = require('charenc').bin,
+},{"whatwg-fetch":17}],17:[function(require,module,exports){
+(function(self) {
+  'use strict';
 
-  // The core
-  md5 = function (message, options) {
-    // Convert to byte array
-    if (message.constructor == String)
-      if (options && options.encoding === 'binary')
-        message = bin.stringToBytes(message);
-      else
-        message = utf8.stringToBytes(message);
-    else if (isBuffer(message))
-      message = Array.prototype.slice.call(message, 0);
-    else if (!Array.isArray(message))
-      message = message.toString();
-    // else, assume byte array already
-
-    var m = crypt.bytesToWords(message),
-        l = message.length * 8,
-        a =  1732584193,
-        b = -271733879,
-        c = -1732584194,
-        d =  271733878;
-
-    // Swap endian
-    for (var i = 0; i < m.length; i++) {
-      m[i] = ((m[i] <<  8) | (m[i] >>> 24)) & 0x00FF00FF |
-             ((m[i] << 24) | (m[i] >>>  8)) & 0xFF00FF00;
-    }
-
-    // Padding
-    m[l >>> 5] |= 0x80 << (l % 32);
-    m[(((l + 64) >>> 9) << 4) + 14] = l;
-
-    // Method shortcuts
-    var FF = md5._ff,
-        GG = md5._gg,
-        HH = md5._hh,
-        II = md5._ii;
-
-    for (var i = 0; i < m.length; i += 16) {
-
-      var aa = a,
-          bb = b,
-          cc = c,
-          dd = d;
-
-      a = FF(a, b, c, d, m[i+ 0],  7, -680876936);
-      d = FF(d, a, b, c, m[i+ 1], 12, -389564586);
-      c = FF(c, d, a, b, m[i+ 2], 17,  606105819);
-      b = FF(b, c, d, a, m[i+ 3], 22, -1044525330);
-      a = FF(a, b, c, d, m[i+ 4],  7, -176418897);
-      d = FF(d, a, b, c, m[i+ 5], 12,  1200080426);
-      c = FF(c, d, a, b, m[i+ 6], 17, -1473231341);
-      b = FF(b, c, d, a, m[i+ 7], 22, -45705983);
-      a = FF(a, b, c, d, m[i+ 8],  7,  1770035416);
-      d = FF(d, a, b, c, m[i+ 9], 12, -1958414417);
-      c = FF(c, d, a, b, m[i+10], 17, -42063);
-      b = FF(b, c, d, a, m[i+11], 22, -1990404162);
-      a = FF(a, b, c, d, m[i+12],  7,  1804603682);
-      d = FF(d, a, b, c, m[i+13], 12, -40341101);
-      c = FF(c, d, a, b, m[i+14], 17, -1502002290);
-      b = FF(b, c, d, a, m[i+15], 22,  1236535329);
-
-      a = GG(a, b, c, d, m[i+ 1],  5, -165796510);
-      d = GG(d, a, b, c, m[i+ 6],  9, -1069501632);
-      c = GG(c, d, a, b, m[i+11], 14,  643717713);
-      b = GG(b, c, d, a, m[i+ 0], 20, -373897302);
-      a = GG(a, b, c, d, m[i+ 5],  5, -701558691);
-      d = GG(d, a, b, c, m[i+10],  9,  38016083);
-      c = GG(c, d, a, b, m[i+15], 14, -660478335);
-      b = GG(b, c, d, a, m[i+ 4], 20, -405537848);
-      a = GG(a, b, c, d, m[i+ 9],  5,  568446438);
-      d = GG(d, a, b, c, m[i+14],  9, -1019803690);
-      c = GG(c, d, a, b, m[i+ 3], 14, -187363961);
-      b = GG(b, c, d, a, m[i+ 8], 20,  1163531501);
-      a = GG(a, b, c, d, m[i+13],  5, -1444681467);
-      d = GG(d, a, b, c, m[i+ 2],  9, -51403784);
-      c = GG(c, d, a, b, m[i+ 7], 14,  1735328473);
-      b = GG(b, c, d, a, m[i+12], 20, -1926607734);
-
-      a = HH(a, b, c, d, m[i+ 5],  4, -378558);
-      d = HH(d, a, b, c, m[i+ 8], 11, -2022574463);
-      c = HH(c, d, a, b, m[i+11], 16,  1839030562);
-      b = HH(b, c, d, a, m[i+14], 23, -35309556);
-      a = HH(a, b, c, d, m[i+ 1],  4, -1530992060);
-      d = HH(d, a, b, c, m[i+ 4], 11,  1272893353);
-      c = HH(c, d, a, b, m[i+ 7], 16, -155497632);
-      b = HH(b, c, d, a, m[i+10], 23, -1094730640);
-      a = HH(a, b, c, d, m[i+13],  4,  681279174);
-      d = HH(d, a, b, c, m[i+ 0], 11, -358537222);
-      c = HH(c, d, a, b, m[i+ 3], 16, -722521979);
-      b = HH(b, c, d, a, m[i+ 6], 23,  76029189);
-      a = HH(a, b, c, d, m[i+ 9],  4, -640364487);
-      d = HH(d, a, b, c, m[i+12], 11, -421815835);
-      c = HH(c, d, a, b, m[i+15], 16,  530742520);
-      b = HH(b, c, d, a, m[i+ 2], 23, -995338651);
-
-      a = II(a, b, c, d, m[i+ 0],  6, -198630844);
-      d = II(d, a, b, c, m[i+ 7], 10,  1126891415);
-      c = II(c, d, a, b, m[i+14], 15, -1416354905);
-      b = II(b, c, d, a, m[i+ 5], 21, -57434055);
-      a = II(a, b, c, d, m[i+12],  6,  1700485571);
-      d = II(d, a, b, c, m[i+ 3], 10, -1894986606);
-      c = II(c, d, a, b, m[i+10], 15, -1051523);
-      b = II(b, c, d, a, m[i+ 1], 21, -2054922799);
-      a = II(a, b, c, d, m[i+ 8],  6,  1873313359);
-      d = II(d, a, b, c, m[i+15], 10, -30611744);
-      c = II(c, d, a, b, m[i+ 6], 15, -1560198380);
-      b = II(b, c, d, a, m[i+13], 21,  1309151649);
-      a = II(a, b, c, d, m[i+ 4],  6, -145523070);
-      d = II(d, a, b, c, m[i+11], 10, -1120210379);
-      c = II(c, d, a, b, m[i+ 2], 15,  718787259);
-      b = II(b, c, d, a, m[i+ 9], 21, -343485551);
-
-      a = (a + aa) >>> 0;
-      b = (b + bb) >>> 0;
-      c = (c + cc) >>> 0;
-      d = (d + dd) >>> 0;
-    }
-
-    return crypt.endian([a, b, c, d]);
-  };
-
-  // Auxiliary functions
-  md5._ff  = function (a, b, c, d, x, s, t) {
-    var n = a + (b & c | ~b & d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._gg  = function (a, b, c, d, x, s, t) {
-    var n = a + (b & d | c & ~d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._hh  = function (a, b, c, d, x, s, t) {
-    var n = a + (b ^ c ^ d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._ii  = function (a, b, c, d, x, s, t) {
-    var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-
-  // Package private blocksize
-  md5._blocksize = 16;
-  md5._digestsize = 16;
-
-  module.exports = function (message, options) {
-    if (message === undefined || message === null)
-      throw new Error('Illegal argument ' + message);
-
-    var digestbytes = crypt.wordsToBytes(md5(message, options));
-    return options && options.asBytes ? digestbytes :
-        options && options.asString ? bin.bytesToString(digestbytes) :
-        crypt.bytesToHex(digestbytes);
-  };
-
-})();
-
-},{"charenc":16,"crypt":17,"is-buffer":21}],25:[function(require,module,exports){
-'use strict';
-/* eslint-disable no-unused-vars */
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (e) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (Object.getOwnPropertySymbols) {
-			symbols = Object.getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-},{}],26:[function(require,module,exports){
-(function (process){
-// Generated by CoffeeScript 1.7.1
-(function() {
-  var getNanoSeconds, hrtime, loadTime;
-
-  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
-    module.exports = function() {
-      return performance.now();
-    };
-  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
-    module.exports = function() {
-      return (getNanoSeconds() - loadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    loadTime = getNanoSeconds();
-  } else if (Date.now) {
-    module.exports = function() {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function() {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
+  if (self.fetch) {
+    return
   }
 
-}).call(this);
+  var support = {
+    searchParams: 'URLSearchParams' in self,
+    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob()
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  }
 
-}).call(this,require('_process'))
-},{"_process":27}],27:[function(require,module,exports){
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name)
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value)
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift()
+        return {done: value === undefined, value: value}
+      }
+    }
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      }
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {}
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value)
+      }, this)
+
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name])
+      }, this)
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name)
+    value = normalizeValue(value)
+    var list = this.map[name]
+    if (!list) {
+      list = []
+      this.map[name] = list
+    }
+    list.push(value)
+  }
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)]
+  }
+
+  Headers.prototype.get = function(name) {
+    var values = this.map[normalizeName(name)]
+    return values ? values[0] : null
+  }
+
+  Headers.prototype.getAll = function(name) {
+    return this.map[normalizeName(name)] || []
+  }
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  }
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = [normalizeValue(value)]
+  }
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+      this.map[name].forEach(function(value) {
+        callback.call(thisArg, value, name, this)
+      }, this)
+    }, this)
+  }
+
+  Headers.prototype.keys = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push(name) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.values = function() {
+    var items = []
+    this.forEach(function(value) { items.push(value) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.entries = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push([name, value]) })
+    return iteratorFor(items)
+  }
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result)
+      }
+      reader.onerror = function() {
+        reject(reader.error)
+      }
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader()
+    reader.readAsArrayBuffer(blob)
+    return fileReaderReady(reader)
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader()
+    reader.readAsText(blob)
+    return fileReaderReady(reader)
+  }
+
+  function Body() {
+    this.bodyUsed = false
+
+    this._initBody = function(body) {
+      this._bodyInit = body
+      if (typeof body === 'string') {
+        this._bodyText = body
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString()
+      } else if (!body) {
+        this._bodyText = ''
+      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+        // Only support ArrayBuffers for POST method.
+        // Receiving ArrayBuffers happens via Blobs, instead.
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type)
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+        }
+      }
+    }
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      }
+
+      this.arrayBuffer = function() {
+        return this.blob().then(readBlobAsArrayBuffer)
+      }
+
+      this.text = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return readBlobAsText(this._bodyBlob)
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as text')
+        } else {
+          return Promise.resolve(this._bodyText)
+        }
+      }
+    } else {
+      this.text = function() {
+        var rejected = consumed(this)
+        return rejected ? rejected : Promise.resolve(this._bodyText)
+      }
+    }
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      }
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    }
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase()
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {}
+    var body = options.body
+    if (Request.prototype.isPrototypeOf(input)) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url
+      this.credentials = input.credentials
+      if (!options.headers) {
+        this.headers = new Headers(input.headers)
+      }
+      this.method = input.method
+      this.mode = input.mode
+      if (!body) {
+        body = input._bodyInit
+        input.bodyUsed = true
+      }
+    } else {
+      this.url = input
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit'
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers)
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET')
+    this.mode = options.mode || this.mode || null
+    this.referrer = null
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body)
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this)
+  }
+
+  function decode(body) {
+    var form = new FormData()
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=')
+        var name = split.shift().replace(/\+/g, ' ')
+        var value = split.join('=').replace(/\+/g, ' ')
+        form.append(decodeURIComponent(name), decodeURIComponent(value))
+      }
+    })
+    return form
+  }
+
+  function headers(xhr) {
+    var head = new Headers()
+    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+    pairs.forEach(function(header) {
+      var split = header.trim().split(':')
+      var key = split.shift().trim()
+      var value = split.join(':').trim()
+      head.append(key, value)
+    })
+    return head
+  }
+
+  Body.call(Request.prototype)
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {}
+    }
+
+    this.type = 'default'
+    this.status = options.status
+    this.ok = this.status >= 200 && this.status < 300
+    this.statusText = options.statusText
+    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+    this.url = options.url || ''
+    this._initBody(bodyInit)
+  }
+
+  Body.call(Response.prototype)
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  }
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''})
+    response.type = 'error'
+    return response
+  }
+
+  var redirectStatuses = [301, 302, 303, 307, 308]
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  }
+
+  self.Headers = Headers
+  self.Request = Request
+  self.Response = Response
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request
+      if (Request.prototype.isPrototypeOf(input) && !init) {
+        request = input
+      } else {
+        request = new Request(input, init)
+      }
+
+      var xhr = new XMLHttpRequest()
+
+      function responseURL() {
+        if ('responseURL' in xhr) {
+          return xhr.responseURL
+        }
+
+        // Avoid security warnings on getResponseHeader when not allowed by CORS
+        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+          return xhr.getResponseHeader('X-Request-URL')
+        }
+
+        return
+      }
+
+      xhr.onload = function() {
+        var options = {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          headers: headers(xhr),
+          url: responseURL()
+        }
+        var body = 'response' in xhr ? xhr.response : xhr.responseText
+        resolve(new Response(body, options))
+      }
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.ontimeout = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.open(request.method, request.url, true)
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob'
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value)
+      })
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+    })
+  }
+  self.fetch.polyfill = true
+})(typeof self !== 'undefined' ? self : this);
+
+},{}],18:[function(require,module,exports){
+module.exports = require('react/lib/shallowCompare');
+},{"react/lib/shallowCompare":82}],19:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1980,7 +1867,484 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],28:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _md = require('md5');
+
+var _md2 = _interopRequireDefault(_md);
+
+var _queryString = require('query-string');
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _isRetina = require('is-retina');
+
+var _isRetina2 = _interopRequireDefault(_isRetina);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Gravatar = function (_React$Component) {
+  _inherits(Gravatar, _React$Component);
+
+  function Gravatar() {
+    _classCallCheck(this, Gravatar);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Gravatar).apply(this, arguments));
+  }
+
+  _createClass(Gravatar, [{
+    key: 'render',
+    value: function render() {
+      var base = '//www.gravatar.com/avatar/';
+
+      var query = _queryString2.default.stringify({
+        s: this.props.size,
+        r: this.props.rating,
+        d: this.props.default
+      });
+
+      var retinaQuery = _queryString2.default.stringify({
+        s: this.props.size * 2,
+        r: this.props.rating,
+        d: this.props.default
+      });
+
+      // Gravatar service currently trims and lowercases all registered emails
+      var formattedEmail = ('' + this.props.email).trim().toLowerCase();
+
+      var hash = void 0;
+      if (this.props.md5) {
+        hash = this.props.md5;
+      } else if (typeof this.props.email === 'string') {
+        hash = (0, _md2.default)(formattedEmail);
+      } else {
+        console.warn('Gravatar image can not be fetched. Either the "email" or "md5" prop must be specified.');
+        return _react2.default.createElement('script', null);
+      }
+
+      var src = '' + base + hash + '?' + query;
+      var retinaSrc = '' + base + hash + '?' + retinaQuery;
+
+      var modernBrowser = true; // server-side, we render for modern browsers
+
+      if (typeof window !== 'undefined') {
+        // this is not NodeJS
+        modernBrowser = 'srcset' in document.createElement('img');
+      }
+
+      var className = 'react-gravatar';
+      if (this.props.className) {
+        className = className + ' ' + this.props.className;
+      }
+
+      // Clone this.props and then delete Component specific props so we can
+      // spread the rest into the img.
+
+      var rest = _objectWithoutProperties(this.props, []);
+
+      delete rest.md5;
+      delete rest.email;
+      delete rest.rating;
+      delete rest.size;
+      delete rest.style;
+      delete rest.className;
+      delete rest.default;
+      if (!modernBrowser && (0, _isRetina2.default)()) {
+        return _react2.default.createElement('img', _extends({
+          alt: 'Gravatar for ' + formattedEmail,
+          style: this.props.style,
+          src: retinaSrc,
+          height: this.props.size,
+          width: this.props.size
+        }, rest, {
+          className: className
+        }));
+      }
+      return _react2.default.createElement('img', _extends({
+        alt: 'Gravatar for ' + formattedEmail,
+        style: this.props.style,
+        src: src,
+        srcSet: retinaSrc + ' 2x',
+        height: this.props.size,
+        width: this.props.size
+      }, rest, {
+        className: className
+      }));
+    }
+  }]);
+
+  return Gravatar;
+}(_react2.default.Component);
+
+Gravatar.displayName = 'Gravatar';
+Gravatar.propTypes = {
+  email: _react2.default.PropTypes.string,
+  md5: _react2.default.PropTypes.string,
+  size: _react2.default.PropTypes.number,
+  rating: _react2.default.PropTypes.string,
+  default: _react2.default.PropTypes.string,
+  className: _react2.default.PropTypes.string,
+  style: _react2.default.PropTypes.object
+};
+Gravatar.defaultProps = {
+  size: 50,
+  rating: 'g',
+  default: 'retro'
+};
+
+
+module.exports = Gravatar;
+},{"is-retina":21,"md5":22,"query-string":26,"react":undefined}],21:[function(require,module,exports){
+module.exports = function() {
+  var mediaQuery;
+  if (typeof window !== "undefined" && window !== null) {
+    mediaQuery = "(-webkit-min-device-pixel-ratio: 1.25), (min--moz-device-pixel-ratio: 1.25), (-o-min-device-pixel-ratio: 5/4), (min-resolution: 1.25dppx)";
+    if (window.devicePixelRatio > 1.25) {
+      return true;
+    }
+    if (window.matchMedia && window.matchMedia(mediaQuery).matches) {
+      return true;
+    }
+  }
+  return false;
+};
+
+},{}],22:[function(require,module,exports){
+(function(){
+  var crypt = require('crypt'),
+      utf8 = require('charenc').utf8,
+      isBuffer = require('is-buffer'),
+      bin = require('charenc').bin,
+
+  // The core
+  md5 = function (message, options) {
+    // Convert to byte array
+    if (message.constructor == String)
+      if (options && options.encoding === 'binary')
+        message = bin.stringToBytes(message);
+      else
+        message = utf8.stringToBytes(message);
+    else if (isBuffer(message))
+      message = Array.prototype.slice.call(message, 0);
+    else if (!Array.isArray(message))
+      message = message.toString();
+    // else, assume byte array already
+
+    var m = crypt.bytesToWords(message),
+        l = message.length * 8,
+        a =  1732584193,
+        b = -271733879,
+        c = -1732584194,
+        d =  271733878;
+
+    // Swap endian
+    for (var i = 0; i < m.length; i++) {
+      m[i] = ((m[i] <<  8) | (m[i] >>> 24)) & 0x00FF00FF |
+             ((m[i] << 24) | (m[i] >>>  8)) & 0xFF00FF00;
+    }
+
+    // Padding
+    m[l >>> 5] |= 0x80 << (l % 32);
+    m[(((l + 64) >>> 9) << 4) + 14] = l;
+
+    // Method shortcuts
+    var FF = md5._ff,
+        GG = md5._gg,
+        HH = md5._hh,
+        II = md5._ii;
+
+    for (var i = 0; i < m.length; i += 16) {
+
+      var aa = a,
+          bb = b,
+          cc = c,
+          dd = d;
+
+      a = FF(a, b, c, d, m[i+ 0],  7, -680876936);
+      d = FF(d, a, b, c, m[i+ 1], 12, -389564586);
+      c = FF(c, d, a, b, m[i+ 2], 17,  606105819);
+      b = FF(b, c, d, a, m[i+ 3], 22, -1044525330);
+      a = FF(a, b, c, d, m[i+ 4],  7, -176418897);
+      d = FF(d, a, b, c, m[i+ 5], 12,  1200080426);
+      c = FF(c, d, a, b, m[i+ 6], 17, -1473231341);
+      b = FF(b, c, d, a, m[i+ 7], 22, -45705983);
+      a = FF(a, b, c, d, m[i+ 8],  7,  1770035416);
+      d = FF(d, a, b, c, m[i+ 9], 12, -1958414417);
+      c = FF(c, d, a, b, m[i+10], 17, -42063);
+      b = FF(b, c, d, a, m[i+11], 22, -1990404162);
+      a = FF(a, b, c, d, m[i+12],  7,  1804603682);
+      d = FF(d, a, b, c, m[i+13], 12, -40341101);
+      c = FF(c, d, a, b, m[i+14], 17, -1502002290);
+      b = FF(b, c, d, a, m[i+15], 22,  1236535329);
+
+      a = GG(a, b, c, d, m[i+ 1],  5, -165796510);
+      d = GG(d, a, b, c, m[i+ 6],  9, -1069501632);
+      c = GG(c, d, a, b, m[i+11], 14,  643717713);
+      b = GG(b, c, d, a, m[i+ 0], 20, -373897302);
+      a = GG(a, b, c, d, m[i+ 5],  5, -701558691);
+      d = GG(d, a, b, c, m[i+10],  9,  38016083);
+      c = GG(c, d, a, b, m[i+15], 14, -660478335);
+      b = GG(b, c, d, a, m[i+ 4], 20, -405537848);
+      a = GG(a, b, c, d, m[i+ 9],  5,  568446438);
+      d = GG(d, a, b, c, m[i+14],  9, -1019803690);
+      c = GG(c, d, a, b, m[i+ 3], 14, -187363961);
+      b = GG(b, c, d, a, m[i+ 8], 20,  1163531501);
+      a = GG(a, b, c, d, m[i+13],  5, -1444681467);
+      d = GG(d, a, b, c, m[i+ 2],  9, -51403784);
+      c = GG(c, d, a, b, m[i+ 7], 14,  1735328473);
+      b = GG(b, c, d, a, m[i+12], 20, -1926607734);
+
+      a = HH(a, b, c, d, m[i+ 5],  4, -378558);
+      d = HH(d, a, b, c, m[i+ 8], 11, -2022574463);
+      c = HH(c, d, a, b, m[i+11], 16,  1839030562);
+      b = HH(b, c, d, a, m[i+14], 23, -35309556);
+      a = HH(a, b, c, d, m[i+ 1],  4, -1530992060);
+      d = HH(d, a, b, c, m[i+ 4], 11,  1272893353);
+      c = HH(c, d, a, b, m[i+ 7], 16, -155497632);
+      b = HH(b, c, d, a, m[i+10], 23, -1094730640);
+      a = HH(a, b, c, d, m[i+13],  4,  681279174);
+      d = HH(d, a, b, c, m[i+ 0], 11, -358537222);
+      c = HH(c, d, a, b, m[i+ 3], 16, -722521979);
+      b = HH(b, c, d, a, m[i+ 6], 23,  76029189);
+      a = HH(a, b, c, d, m[i+ 9],  4, -640364487);
+      d = HH(d, a, b, c, m[i+12], 11, -421815835);
+      c = HH(c, d, a, b, m[i+15], 16,  530742520);
+      b = HH(b, c, d, a, m[i+ 2], 23, -995338651);
+
+      a = II(a, b, c, d, m[i+ 0],  6, -198630844);
+      d = II(d, a, b, c, m[i+ 7], 10,  1126891415);
+      c = II(c, d, a, b, m[i+14], 15, -1416354905);
+      b = II(b, c, d, a, m[i+ 5], 21, -57434055);
+      a = II(a, b, c, d, m[i+12],  6,  1700485571);
+      d = II(d, a, b, c, m[i+ 3], 10, -1894986606);
+      c = II(c, d, a, b, m[i+10], 15, -1051523);
+      b = II(b, c, d, a, m[i+ 1], 21, -2054922799);
+      a = II(a, b, c, d, m[i+ 8],  6,  1873313359);
+      d = II(d, a, b, c, m[i+15], 10, -30611744);
+      c = II(c, d, a, b, m[i+ 6], 15, -1560198380);
+      b = II(b, c, d, a, m[i+13], 21,  1309151649);
+      a = II(a, b, c, d, m[i+ 4],  6, -145523070);
+      d = II(d, a, b, c, m[i+11], 10, -1120210379);
+      c = II(c, d, a, b, m[i+ 2], 15,  718787259);
+      b = II(b, c, d, a, m[i+ 9], 21, -343485551);
+
+      a = (a + aa) >>> 0;
+      b = (b + bb) >>> 0;
+      c = (c + cc) >>> 0;
+      d = (d + dd) >>> 0;
+    }
+
+    return crypt.endian([a, b, c, d]);
+  };
+
+  // Auxiliary functions
+  md5._ff  = function (a, b, c, d, x, s, t) {
+    var n = a + (b & c | ~b & d) + (x >>> 0) + t;
+    return ((n << s) | (n >>> (32 - s))) + b;
+  };
+  md5._gg  = function (a, b, c, d, x, s, t) {
+    var n = a + (b & d | c & ~d) + (x >>> 0) + t;
+    return ((n << s) | (n >>> (32 - s))) + b;
+  };
+  md5._hh  = function (a, b, c, d, x, s, t) {
+    var n = a + (b ^ c ^ d) + (x >>> 0) + t;
+    return ((n << s) | (n >>> (32 - s))) + b;
+  };
+  md5._ii  = function (a, b, c, d, x, s, t) {
+    var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
+    return ((n << s) | (n >>> (32 - s))) + b;
+  };
+
+  // Package private blocksize
+  md5._blocksize = 16;
+  md5._digestsize = 16;
+
+  module.exports = function (message, options) {
+    if (message === undefined || message === null)
+      throw new Error('Illegal argument ' + message);
+
+    var digestbytes = crypt.wordsToBytes(md5(message, options));
+    return options && options.asBytes ? digestbytes :
+        options && options.asString ? bin.bytesToString(digestbytes) :
+        crypt.bytesToHex(digestbytes);
+  };
+
+})();
+
+},{"charenc":23,"crypt":24,"is-buffer":25}],23:[function(require,module,exports){
+var charenc = {
+  // UTF-8 encoding
+  utf8: {
+    // Convert a string to a byte array
+    stringToBytes: function(str) {
+      return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
+    },
+
+    // Convert a byte array to a string
+    bytesToString: function(bytes) {
+      return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
+    }
+  },
+
+  // Binary encoding
+  bin: {
+    // Convert a string to a byte array
+    stringToBytes: function(str) {
+      for (var bytes = [], i = 0; i < str.length; i++)
+        bytes.push(str.charCodeAt(i) & 0xFF);
+      return bytes;
+    },
+
+    // Convert a byte array to a string
+    bytesToString: function(bytes) {
+      for (var str = [], i = 0; i < bytes.length; i++)
+        str.push(String.fromCharCode(bytes[i]));
+      return str.join('');
+    }
+  }
+};
+
+module.exports = charenc;
+
+},{}],24:[function(require,module,exports){
+(function() {
+  var base64map
+      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+
+  crypt = {
+    // Bit-wise rotation left
+    rotl: function(n, b) {
+      return (n << b) | (n >>> (32 - b));
+    },
+
+    // Bit-wise rotation right
+    rotr: function(n, b) {
+      return (n << (32 - b)) | (n >>> b);
+    },
+
+    // Swap big-endian to little-endian and vice versa
+    endian: function(n) {
+      // If number given, swap endian
+      if (n.constructor == Number) {
+        return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
+      }
+
+      // Else, assume array and swap all items
+      for (var i = 0; i < n.length; i++)
+        n[i] = crypt.endian(n[i]);
+      return n;
+    },
+
+    // Generate an array of any length of random bytes
+    randomBytes: function(n) {
+      for (var bytes = []; n > 0; n--)
+        bytes.push(Math.floor(Math.random() * 256));
+      return bytes;
+    },
+
+    // Convert a byte array to big-endian 32-bit words
+    bytesToWords: function(bytes) {
+      for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
+        words[b >>> 5] |= bytes[i] << (24 - b % 32);
+      return words;
+    },
+
+    // Convert big-endian 32-bit words to a byte array
+    wordsToBytes: function(words) {
+      for (var bytes = [], b = 0; b < words.length * 32; b += 8)
+        bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
+      return bytes;
+    },
+
+    // Convert a byte array to a hex string
+    bytesToHex: function(bytes) {
+      for (var hex = [], i = 0; i < bytes.length; i++) {
+        hex.push((bytes[i] >>> 4).toString(16));
+        hex.push((bytes[i] & 0xF).toString(16));
+      }
+      return hex.join('');
+    },
+
+    // Convert a hex string to a byte array
+    hexToBytes: function(hex) {
+      for (var bytes = [], c = 0; c < hex.length; c += 2)
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+      return bytes;
+    },
+
+    // Convert a byte array to a base-64 string
+    bytesToBase64: function(bytes) {
+      for (var base64 = [], i = 0; i < bytes.length; i += 3) {
+        var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
+        for (var j = 0; j < 4; j++)
+          if (i * 8 + j * 6 <= bytes.length * 8)
+            base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
+          else
+            base64.push('=');
+      }
+      return base64.join('');
+    },
+
+    // Convert a base-64 string to a byte array
+    base64ToBytes: function(base64) {
+      // Remove non-base-64 characters
+      base64 = base64.replace(/[^A-Z0-9+\/]/ig, '');
+
+      for (var bytes = [], i = 0, imod4 = 0; i < base64.length;
+          imod4 = ++i % 4) {
+        if (imod4 == 0) continue;
+        bytes.push(((base64map.indexOf(base64.charAt(i - 1))
+            & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2))
+            | (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
+      }
+      return bytes;
+    }
+  };
+
+  module.exports = crypt;
+})();
+
+},{}],25:[function(require,module,exports){
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+},{}],26:[function(require,module,exports){
 'use strict';
 var strictUriEncode = require('strict-uri-encode');
 var objectAssign = require('object-assign');
@@ -2080,234 +2444,100 @@ exports.stringify = function (obj, opts) {
 	}).join('&') : '';
 };
 
-},{"object-assign":25,"strict-uri-encode":82}],29:[function(require,module,exports){
-(function (global){
-var now = require('performance-now')
-  , root = typeof window === 'undefined' ? global : window
-  , vendors = ['moz', 'webkit']
-  , suffix = 'AnimationFrame'
-  , raf = root['request' + suffix]
-  , caf = root['cancel' + suffix] || root['cancelRequest' + suffix]
-
-for(var i = 0; !raf && i < vendors.length; i++) {
-  raf = root[vendors[i] + 'Request' + suffix]
-  caf = root[vendors[i] + 'Cancel' + suffix]
-      || root[vendors[i] + 'CancelRequest' + suffix]
-}
-
-// Some versions of FF have rAF but not cAF
-if(!raf || !caf) {
-  var last = 0
-    , id = 0
-    , queue = []
-    , frameDuration = 1000 / 60
-
-  raf = function(callback) {
-    if(queue.length === 0) {
-      var _now = now()
-        , next = Math.max(0, frameDuration - (_now - last))
-      last = next + _now
-      setTimeout(function() {
-        var cp = queue.slice(0)
-        // Clear queue here to prevent
-        // callbacks from appending listeners
-        // to the current frame's queue
-        queue.length = 0
-        for(var i = 0; i < cp.length; i++) {
-          if(!cp[i].cancelled) {
-            try{
-              cp[i].callback(last)
-            } catch(e) {
-              setTimeout(function() { throw e }, 0)
-            }
-          }
-        }
-      }, Math.round(next))
-    }
-    queue.push({
-      handle: ++id,
-      callback: callback,
-      cancelled: false
-    })
-    return id
-  }
-
-  caf = function(handle) {
-    for(var i = 0; i < queue.length; i++) {
-      if(queue[i].handle === handle) {
-        queue[i].cancelled = true
-      }
-    }
-  }
-}
-
-module.exports = function(fn) {
-  // Wrap in a new function to prevent
-  // `cancel` potentially being assigned
-  // to the native rAF function
-  return raf.call(root, fn)
-}
-module.exports.cancel = function() {
-  caf.apply(root, arguments)
-}
-module.exports.polyfill = function() {
-  root.requestAnimationFrame = raf
-  root.cancelAnimationFrame = caf
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"performance-now":26}],30:[function(require,module,exports){
-module.exports = require('react/lib/shallowCompare');
-},{"react/lib/shallowCompare":81}],31:[function(require,module,exports){
+},{"object-assign":27,"strict-uri-encode":28}],27:[function(require,module,exports){
 'use strict';
+/* eslint-disable no-unused-vars */
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	return Object(val);
+}
 
-var _react = require('react');
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
 
-var _react2 = _interopRequireDefault(_react);
+		// Detect buggy property enumeration order in older V8 versions.
 
-var _md = require('md5');
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
 
-var _md2 = _interopRequireDefault(_md);
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
 
-var _queryString = require('query-string');
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
 
-var _queryString2 = _interopRequireDefault(_queryString);
+		return true;
+	} catch (e) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
 
-var _isRetina = require('is-retina');
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
 
-var _isRetina2 = _interopRequireDefault(_isRetina);
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+		if (Object.getOwnPropertySymbols) {
+			symbols = Object.getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Gravatar = function (_React$Component) {
-  _inherits(Gravatar, _React$Component);
-
-  function Gravatar() {
-    _classCallCheck(this, Gravatar);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Gravatar).apply(this, arguments));
-  }
-
-  _createClass(Gravatar, [{
-    key: 'render',
-    value: function render() {
-      var base = void 0;
-      if (this.props.https) {
-        base = 'https://secure.gravatar.com/avatar/';
-      } else {
-        base = 'http://www.gravatar.com/avatar/';
-      }
-
-      var query = _queryString2.default.stringify({
-        s: this.props.size,
-        r: this.props.rating,
-        d: this.props.default
-      });
-
-      var retinaQuery = _queryString2.default.stringify({
-        s: this.props.size * 2,
-        r: this.props.rating,
-        d: this.props.default
-      });
-
-      var hash = void 0;
-      if (this.props.md5) {
-        hash = this.props.md5;
-      } else if (this.props.email) {
-        hash = (0, _md2.default)(this.props.email);
-      } else {
-        console.warn('Gravatar image can not be fetched. Either the "email" or "md5" prop must be specified.');
-        return _react2.default.createElement('script', null);
-      }
-
-      var src = '' + base + hash + '?' + query;
-      var retinaSrc = '' + base + hash + '?' + retinaQuery;
-
-      var modernBrowser = true; // server-side, we render for modern browsers
-
-      if (typeof window !== 'undefined') {
-        // this is not NodeJS
-        modernBrowser = 'srcset' in document.createElement('img');
-      }
-
-      var className = 'react-gravatar';
-      if (this.props.className) {
-        className = className + ' ' + this.props.className;
-      }
-
-      // Clone this.props and then delete Component specific props so we can
-      // spread the rest into the img.
-
-      var rest = _objectWithoutProperties(this.props, []);
-
-      delete rest.https;
-      delete rest.md5;
-      delete rest.email;
-      delete rest.rating;
-      delete rest.size;
-      delete rest.style;
-      delete rest.className;
-      delete rest.default;
-      if (!modernBrowser && (0, _isRetina2.default)()) {
-        return _react2.default.createElement('img', _extends({
-          alt: 'Gravatar for ' + this.props.email,
-          style: this.props.style,
-          src: retinaSrc,
-          height: this.props.size,
-          width: this.props.size
-        }, rest, {
-          className: className
-        }));
-      }
-      return _react2.default.createElement('img', _extends({
-        alt: 'Gravatar for ' + this.props.email,
-        style: this.props.style,
-        src: src,
-        srcSet: retinaSrc + ' 2x',
-        height: this.props.size,
-        width: this.props.size
-      }, rest, {
-        className: className
-      }));
-    }
-  }]);
-
-  return Gravatar;
-}(_react2.default.Component);
-
-Gravatar.displayName = 'Gravatar';
-Gravatar.propTypes = {
-  email: _react2.default.PropTypes.string,
-  md5: _react2.default.PropTypes.string,
-  size: _react2.default.PropTypes.number,
-  rating: _react2.default.PropTypes.string,
-  https: _react2.default.PropTypes.bool,
-  default: _react2.default.PropTypes.string,
-  className: _react2.default.PropTypes.string,
-  style: _react2.default.PropTypes.object
-};
-Gravatar.defaultProps = {
-  size: 50,
-  rating: 'g',
-  https: false,
-  default: 'retro'
+	return to;
 };
 
+},{}],28:[function(require,module,exports){
+'use strict';
+module.exports = function (str) {
+	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+		return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+	});
+};
 
-module.exports = Gravatar;
-},{"is-retina":22,"md5":24,"query-string":28,"react":undefined}],32:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2580,7 +2810,7 @@ module.exports =
 /***/ }
 /******/ ]);
 
-},{"react":undefined}],33:[function(require,module,exports){
+},{"react":undefined}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2810,7 +3040,7 @@ VirtualizedSelect.defaultProps = {
   optionHeight: 35
 };
 exports.default = VirtualizedSelect;
-},{"react":undefined,"react-select":undefined,"react-virtualized":77}],34:[function(require,module,exports){
+},{"react":undefined,"react-select":undefined,"react-virtualized":74}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2825,9 +3055,9 @@ var _VirtualizedSelect2 = _interopRequireDefault(_VirtualizedSelect);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _VirtualizedSelect2.default;
-},{"./VirtualizedSelect":33}],35:[function(require,module,exports){
-arguments[4][34][0].apply(exports,arguments)
-},{"./VirtualizedSelect":34,"dup":34}],36:[function(require,module,exports){
+},{"./VirtualizedSelect":30}],32:[function(require,module,exports){
+arguments[4][31][0].apply(exports,arguments)
+},{"./VirtualizedSelect":31,"dup":31}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2969,7 +3199,7 @@ ArrowKeyStepper.propTypes = {
   rowCount: _react.PropTypes.number.isRequired
 };
 exports.default = ArrowKeyStepper;
-},{"react":undefined,"react-addons-shallow-compare":30}],37:[function(require,module,exports){
+},{"react":undefined,"react-addons-shallow-compare":18}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2985,7 +3215,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _ArrowKeyStepper3.default;
 exports.ArrowKeyStepper = _ArrowKeyStepper3.default;
-},{"./ArrowKeyStepper":36}],38:[function(require,module,exports){
+},{"./ArrowKeyStepper":33}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3159,7 +3389,7 @@ AutoSizer.defaultProps = {
   onResize: function onResize() {}
 };
 exports.default = AutoSizer;
-},{"../vendor/detectElementResize":80,"react":undefined,"react-addons-shallow-compare":30}],39:[function(require,module,exports){
+},{"../vendor/detectElementResize":77,"react":undefined,"react-addons-shallow-compare":18}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3175,7 +3405,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _AutoSizer3.default;
 exports.AutoSizer = _AutoSizer3.default;
-},{"./AutoSizer":38}],40:[function(require,module,exports){
+},{"./AutoSizer":35}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3489,7 +3719,7 @@ CellMeasurer.propTypes = {
   width: _react.PropTypes.number
 };
 exports.default = CellMeasurer;
-},{"./defaultCellSizeCache":41,"react":undefined,"react-addons-shallow-compare":30,"react-dom":undefined}],41:[function(require,module,exports){
+},{"./defaultCellSizeCache":38,"react":undefined,"react-addons-shallow-compare":18,"react-dom":undefined}],38:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3587,7 +3817,7 @@ var CellSizeCache = function () {
 }();
 
 exports.default = CellSizeCache;
-},{}],42:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3608,7 +3838,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _CellMeasurer3.default;
 exports.CellMeasurer = _CellMeasurer3.default;
 exports.defaultCellSizeCache = _defaultCellSizeCache3.default;
-},{"./CellMeasurer":40,"./defaultCellSizeCache":41}],43:[function(require,module,exports){
+},{"./CellMeasurer":37,"./defaultCellSizeCache":38}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3930,7 +4160,7 @@ function defaultCellGroupRenderer(_ref5) {
     return !!renderedCell;
   });
 }
-},{"../utils/getUpdatedOffsetForIndex":79,"./CollectionView":44,"./utils/calculateSizeAndPositionData":48,"react":undefined,"react-addons-shallow-compare":30}],44:[function(require,module,exports){
+},{"../utils/getUpdatedOffsetForIndex":76,"./CollectionView":41,"./utils/calculateSizeAndPositionData":45,"react":undefined,"react-addons-shallow-compare":18}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4606,7 +4836,7 @@ CollectionView.defaultProps = {
   verticalOverscanSize: 0
 };
 exports.default = CollectionView;
-},{"../utils/createCallbackMemoizer":78,"classnames":undefined,"dom-helpers/util/scrollbarSize":19,"raf":29,"react":undefined,"react-addons-shallow-compare":30}],45:[function(require,module,exports){
+},{"../utils/createCallbackMemoizer":75,"classnames":undefined,"dom-helpers/util/scrollbarSize":79,"raf":80,"react":undefined,"react-addons-shallow-compare":18}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4677,7 +4907,7 @@ var Section = function () {
 
 
 exports.default = Section;
-},{}],46:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4833,7 +5063,7 @@ var SectionManager = function () {
 }();
 
 exports.default = SectionManager;
-},{"./Section":45}],47:[function(require,module,exports){
+},{"./Section":42}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4849,7 +5079,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _Collection3.default;
 exports.Collection = _Collection3.default;
-},{"./Collection":43}],48:[function(require,module,exports){
+},{"./Collection":40}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4897,7 +5127,7 @@ function calculateSizeAndPositionData(_ref) {
     width: width
   };
 }
-},{"../SectionManager":46}],49:[function(require,module,exports){
+},{"../SectionManager":43}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5033,7 +5263,7 @@ ColumnSizer.propTypes = {
   width: _react.PropTypes.number.isRequired
 };
 exports.default = ColumnSizer;
-},{"../Grid":62,"react":undefined,"react-addons-shallow-compare":30}],50:[function(require,module,exports){
+},{"../Grid":59,"react":undefined,"react-addons-shallow-compare":18}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5049,7 +5279,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _ColumnSizer3.default;
 exports.ColumnSizer = _ColumnSizer3.default;
-},{"./ColumnSizer":49}],51:[function(require,module,exports){
+},{"./ColumnSizer":46}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5160,7 +5390,7 @@ Column.propTypes = {
   width: _react.PropTypes.number.isRequired
 };
 exports.default = Column;
-},{"./defaultCellDataGetter":55,"./defaultCellRenderer":56,"./defaultHeaderRenderer":57,"react":undefined}],52:[function(require,module,exports){
+},{"./defaultCellDataGetter":52,"./defaultCellRenderer":53,"./defaultHeaderRenderer":54,"react":undefined}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5824,7 +6054,7 @@ FlexTable.defaultProps = {
   style: {}
 };
 exports.default = FlexTable;
-},{"../Grid":62,"./FlexColumn":51,"./SortDirection":53,"./defaultRowRenderer":58,"classnames":undefined,"react":undefined,"react-addons-shallow-compare":30,"react-dom":undefined}],53:[function(require,module,exports){
+},{"../Grid":59,"./FlexColumn":48,"./SortDirection":50,"./defaultRowRenderer":55,"classnames":undefined,"react":undefined,"react-addons-shallow-compare":18,"react-dom":undefined}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5845,7 +6075,7 @@ var SortDirection = {
 };
 
 exports.default = SortDirection;
-},{}],54:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5893,7 +6123,7 @@ function SortIndicator(_ref) {
 SortIndicator.propTypes = {
   sortDirection: _react.PropTypes.oneOf([_SortDirection2.default.ASC, _SortDirection2.default.DESC])
 };
-},{"./SortDirection":53,"classnames":undefined,"react":undefined}],55:[function(require,module,exports){
+},{"./SortDirection":50,"classnames":undefined,"react":undefined}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5918,7 +6148,7 @@ function defaultCellDataGetter(_ref) {
     return rowData[dataKey];
   }
 }
-},{}],56:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5944,7 +6174,7 @@ function defaultCellRenderer(_ref) {
     return String(cellData);
   }
 }
-},{}],57:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5993,7 +6223,7 @@ function defaultHeaderRenderer(_ref) {
 
   return children;
 }
-},{"./SortIndicator":54,"react":undefined}],58:[function(require,module,exports){
+},{"./SortIndicator":51,"react":undefined}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6063,7 +6293,7 @@ function defaultRowRenderer(_ref) {
     columns
   );
 }
-},{"react":undefined}],59:[function(require,module,exports){
+},{"react":undefined}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6114,7 +6344,7 @@ exports.FlexTable = _FlexTable3.default;
 exports.FlexColumn = _FlexColumn3.default;
 exports.SortDirection = _SortDirection3.default;
 exports.SortIndicator = _SortIndicator3.default;
-},{"./FlexColumn":51,"./FlexTable":52,"./SortDirection":53,"./SortIndicator":54,"./defaultCellDataGetter":55,"./defaultCellRenderer":56,"./defaultHeaderRenderer":57,"./defaultRowRenderer":58}],60:[function(require,module,exports){
+},{"./FlexColumn":48,"./FlexTable":49,"./SortDirection":50,"./SortIndicator":51,"./defaultCellDataGetter":52,"./defaultCellRenderer":53,"./defaultHeaderRenderer":54,"./defaultRowRenderer":55}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7156,7 +7386,7 @@ Grid.defaultProps = {
   tabIndex: 0
 };
 exports.default = Grid;
-},{"../utils/createCallbackMemoizer":78,"./defaultCellRangeRenderer":61,"./utils/ScalingCellSizeAndPositionManager":64,"./utils/calculateSizeAndPositionDataAndUpdateScrollOffset":65,"./utils/getOverscanIndices":66,"./utils/updateScrollIndexHelper":67,"classnames":undefined,"dom-helpers/util/scrollbarSize":19,"raf":29,"react":undefined,"react-addons-shallow-compare":30}],61:[function(require,module,exports){
+},{"../utils/createCallbackMemoizer":75,"./defaultCellRangeRenderer":58,"./utils/ScalingCellSizeAndPositionManager":61,"./utils/calculateSizeAndPositionDataAndUpdateScrollOffset":62,"./utils/getOverscanIndices":63,"./utils/updateScrollIndexHelper":64,"classnames":undefined,"dom-helpers/util/scrollbarSize":79,"raf":80,"react":undefined,"react-addons-shallow-compare":18}],58:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7259,7 +7489,7 @@ function defaultCellRangeRenderer(_ref) {
 
   return renderedCells;
 }
-},{"classnames":undefined,"react":undefined}],62:[function(require,module,exports){
+},{"classnames":undefined,"react":undefined}],59:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7280,7 +7510,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Grid3.default;
 exports.Grid = _Grid3.default;
 exports.defaultCellRangeRenderer = _defaultCellRangeRenderer3.default;
-},{"./Grid":60,"./defaultCellRangeRenderer":61}],63:[function(require,module,exports){
+},{"./Grid":57,"./defaultCellRangeRenderer":58}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7578,7 +7808,7 @@ var CellSizeAndPositionManager = function () {
 }();
 
 exports.default = CellSizeAndPositionManager;
-},{}],64:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7795,7 +8025,7 @@ var ScalingCellSizeAndPositionManager = function () {
 }();
 
 exports.default = ScalingCellSizeAndPositionManager;
-},{"./CellSizeAndPositionManager":63}],65:[function(require,module,exports){
+},{"./CellSizeAndPositionManager":60}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7838,7 +8068,7 @@ function calculateSizeAndPositionDataAndUpdateScrollOffset(_ref) {
     }
   }
 }
-},{}],66:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7885,7 +8115,7 @@ function getOverscanIndices(_ref) {
     overscanStopIndex: Math.min(cellCount - 1, overscanStopIndex)
   };
 }
-},{}],67:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7942,7 +8172,7 @@ function updateScrollIndexHelper(_ref) {
     }
   }
 }
-},{}],68:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8229,7 +8459,7 @@ function scanForUnloadedRanges(_ref3) {
 function forceUpdateReactVirtualizedComponent(component) {
   typeof component.forceUpdateGrid === 'function' ? component.forceUpdateGrid() : component.forceUpdate();
 }
-},{"../utils/createCallbackMemoizer":78,"react":undefined,"react-addons-shallow-compare":30}],69:[function(require,module,exports){
+},{"../utils/createCallbackMemoizer":75,"react":undefined,"react-addons-shallow-compare":18}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8245,7 +8475,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _InfiniteLoader3.default;
 exports.InfiniteLoader = _InfiniteLoader3.default;
-},{"./InfiniteLoader":68}],70:[function(require,module,exports){
+},{"./InfiniteLoader":65}],67:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8346,7 +8576,7 @@ ScrollSync.propTypes = {
   children: _react.PropTypes.func.isRequired
 };
 exports.default = ScrollSync;
-},{"react":undefined,"react-addons-shallow-compare":30}],71:[function(require,module,exports){
+},{"react":undefined,"react-addons-shallow-compare":18}],68:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8362,7 +8592,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _ScrollSync3.default;
 exports.ScrollSync = _ScrollSync3.default;
-},{"./ScrollSync":70}],72:[function(require,module,exports){
+},{"./ScrollSync":67}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8656,7 +8886,7 @@ VirtualScroll.defaultProps = {
   style: {}
 };
 exports.default = VirtualScroll;
-},{"../Grid":62,"classnames":undefined,"react":undefined,"react-addons-shallow-compare":30}],73:[function(require,module,exports){
+},{"../Grid":59,"classnames":undefined,"react":undefined,"react-addons-shallow-compare":18}],70:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8672,7 +8902,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = _VirtualScroll3.default;
 exports.VirtualScroll = _VirtualScroll3.default;
-},{"./VirtualScroll":72}],74:[function(require,module,exports){
+},{"./VirtualScroll":69}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8868,7 +9098,7 @@ WindowScroller.defaultProps = {
   onScroll: function onScroll() {}
 };
 exports.default = WindowScroller;
-},{"./utils/onScroll":76,"raf":29,"react":undefined,"react-addons-shallow-compare":30,"react-dom":undefined}],75:[function(require,module,exports){
+},{"./utils/onScroll":73,"raf":80,"react":undefined,"react-addons-shallow-compare":18,"react-dom":undefined}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8889,7 +9119,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _WindowScroller3.default;
 exports.WindowScroller = _WindowScroller3.default;
 exports.IS_SCROLLING_TIMEOUT = _onScroll2.default;
-},{"./WindowScroller":74,"./utils/onScroll":76}],76:[function(require,module,exports){
+},{"./WindowScroller":71,"./utils/onScroll":73}],73:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8964,7 +9194,7 @@ function unregisterScrollListener(component) {
     }
   }
 }
-},{}],77:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9129,7 +9359,7 @@ Object.defineProperty(exports, 'WindowScroller', {
     return _WindowScroller.WindowScroller;
   }
 });
-},{"./ArrowKeyStepper":37,"./AutoSizer":39,"./CellMeasurer":42,"./Collection":47,"./ColumnSizer":50,"./FlexTable":59,"./Grid":62,"./InfiniteLoader":69,"./ScrollSync":71,"./VirtualScroll":73,"./WindowScroller":75}],78:[function(require,module,exports){
+},{"./ArrowKeyStepper":34,"./AutoSizer":36,"./CellMeasurer":39,"./Collection":44,"./ColumnSizer":47,"./FlexTable":56,"./Grid":59,"./InfiniteLoader":66,"./ScrollSync":68,"./VirtualScroll":70,"./WindowScroller":72}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9167,7 +9397,7 @@ function createCallbackMemoizer() {
     }
   };
 }
-},{}],79:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9208,7 +9438,7 @@ function getUpdatedOffsetForIndex(_ref) {
       return Math.max(minOffset, Math.min(maxOffset, currentOffset));
   }
 }
-},{}],80:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
 
 /**
@@ -9371,7 +9601,148 @@ module.exports = {
   addResizeListener: addResizeListener,
   removeResizeListener: removeResizeListener
 };
-},{}],81:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
+'use strict';
+module.exports = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+},{}],79:[function(require,module,exports){
+'use strict';
+
+var canUseDOM = require('./inDOM');
+
+var size;
+
+module.exports = function (recalc) {
+  if (!size || recalc) {
+    if (canUseDOM) {
+      var scrollDiv = document.createElement('div');
+
+      scrollDiv.style.position = 'absolute';
+      scrollDiv.style.top = '-9999px';
+      scrollDiv.style.width = '50px';
+      scrollDiv.style.height = '50px';
+      scrollDiv.style.overflow = 'scroll';
+
+      document.body.appendChild(scrollDiv);
+      size = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+      document.body.removeChild(scrollDiv);
+    }
+  }
+
+  return size;
+};
+},{"./inDOM":78}],80:[function(require,module,exports){
+(function (global){
+var now = require('performance-now')
+  , root = typeof window === 'undefined' ? global : window
+  , vendors = ['moz', 'webkit']
+  , suffix = 'AnimationFrame'
+  , raf = root['request' + suffix]
+  , caf = root['cancel' + suffix] || root['cancelRequest' + suffix]
+
+for(var i = 0; !raf && i < vendors.length; i++) {
+  raf = root[vendors[i] + 'Request' + suffix]
+  caf = root[vendors[i] + 'Cancel' + suffix]
+      || root[vendors[i] + 'CancelRequest' + suffix]
+}
+
+// Some versions of FF have rAF but not cAF
+if(!raf || !caf) {
+  var last = 0
+    , id = 0
+    , queue = []
+    , frameDuration = 1000 / 60
+
+  raf = function(callback) {
+    if(queue.length === 0) {
+      var _now = now()
+        , next = Math.max(0, frameDuration - (_now - last))
+      last = next + _now
+      setTimeout(function() {
+        var cp = queue.slice(0)
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0
+        for(var i = 0; i < cp.length; i++) {
+          if(!cp[i].cancelled) {
+            try{
+              cp[i].callback(last)
+            } catch(e) {
+              setTimeout(function() { throw e }, 0)
+            }
+          }
+        }
+      }, Math.round(next))
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    })
+    return id
+  }
+
+  caf = function(handle) {
+    for(var i = 0; i < queue.length; i++) {
+      if(queue[i].handle === handle) {
+        queue[i].cancelled = true
+      }
+    }
+  }
+}
+
+module.exports = function(fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  return raf.call(root, fn)
+}
+module.exports.cancel = function() {
+  caf.apply(root, arguments)
+}
+module.exports.polyfill = function() {
+  root.requestAnimationFrame = raf
+  root.cancelAnimationFrame = caf
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"performance-now":81}],81:[function(require,module,exports){
+(function (process){
+// Generated by CoffeeScript 1.7.1
+(function() {
+  var getNanoSeconds, hrtime, loadTime;
+
+  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
+    module.exports = function() {
+      return performance.now();
+    };
+  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
+    module.exports = function() {
+      return (getNanoSeconds() - loadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    loadTime = getNanoSeconds();
+  } else if (Date.now) {
+    module.exports = function() {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function() {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+
+}).call(this);
+
+}).call(this,require('_process'))
+},{"_process":19}],82:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -9397,447 +9768,72 @@ function shallowCompare(instance, nextProps, nextState) {
 }
 
 module.exports = shallowCompare;
-},{"fbjs/lib/shallowEqual":20}],82:[function(require,module,exports){
+},{"fbjs/lib/shallowEqual":83}],83:[function(require,module,exports){
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @typechecks
+ * 
+ */
+
+/*eslint-disable no-self-compare */
+
 'use strict';
-module.exports = function (str) {
-	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
-		return '%' + c.charCodeAt(0).toString(16).toUpperCase();
-	});
-};
 
-},{}],83:[function(require,module,exports){
-(function(self) {
-  'use strict';
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-  if (self.fetch) {
-    return
+/**
+ * inlined Object.is polyfill to avoid requiring consumers ship their own
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+ */
+function is(x, y) {
+  // SameValue algorithm
+  if (x === y) {
+    // Steps 1-5, 7-10
+    // Steps 6.b-6.e: +0 != -0
+    // Added the nonzero y check to make Flow happy, but it is redundant
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    // Step 6.a: NaN == NaN
+    return x !== x && y !== y;
+  }
+}
+
+/**
+ * Performs equality by iterating through keys on an object and returning false
+ * when any key has values which are not strictly equal between the arguments.
+ * Returns true when the values of all keys are strictly equal.
+ */
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) {
+    return true;
   }
 
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
-      try {
-        new Blob()
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
   }
 
-  function normalizeName(name) {
-    if (typeof name !== 'string') {
-      name = String(name)
-    }
-    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-      throw new TypeError('Invalid character in header field name')
-    }
-    return name.toLowerCase()
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) {
+    return false;
   }
 
-  function normalizeValue(value) {
-    if (typeof value !== 'string') {
-      value = String(value)
-    }
-    return value
-  }
-
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function() {
-        var value = items.shift()
-        return {done: value === undefined, value: value}
-      }
-    }
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function() {
-        return iterator
-      }
-    }
-
-    return iterator
-  }
-
-  function Headers(headers) {
-    this.map = {}
-
-    if (headers instanceof Headers) {
-      headers.forEach(function(value, name) {
-        this.append(name, value)
-      }, this)
-
-    } else if (headers) {
-      Object.getOwnPropertyNames(headers).forEach(function(name) {
-        this.append(name, headers[name])
-      }, this)
+  // Test for A's keys different from B.
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
     }
   }
 
-  Headers.prototype.append = function(name, value) {
-    name = normalizeName(name)
-    value = normalizeValue(value)
-    var list = this.map[name]
-    if (!list) {
-      list = []
-      this.map[name] = list
-    }
-    list.push(value)
-  }
+  return true;
+}
 
-  Headers.prototype['delete'] = function(name) {
-    delete this.map[normalizeName(name)]
-  }
-
-  Headers.prototype.get = function(name) {
-    var values = this.map[normalizeName(name)]
-    return values ? values[0] : null
-  }
-
-  Headers.prototype.getAll = function(name) {
-    return this.map[normalizeName(name)] || []
-  }
-
-  Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(normalizeName(name))
-  }
-
-  Headers.prototype.set = function(name, value) {
-    this.map[normalizeName(name)] = [normalizeValue(value)]
-  }
-
-  Headers.prototype.forEach = function(callback, thisArg) {
-    Object.getOwnPropertyNames(this.map).forEach(function(name) {
-      this.map[name].forEach(function(value) {
-        callback.call(thisArg, value, name, this)
-      }, this)
-    }, this)
-  }
-
-  Headers.prototype.keys = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push(name) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.values = function() {
-    var items = []
-    this.forEach(function(value) { items.push(value) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.entries = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push([name, value]) })
-    return iteratorFor(items)
-  }
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-  }
-
-  function consumed(body) {
-    if (body.bodyUsed) {
-      return Promise.reject(new TypeError('Already read'))
-    }
-    body.bodyUsed = true
-  }
-
-  function fileReaderReady(reader) {
-    return new Promise(function(resolve, reject) {
-      reader.onload = function() {
-        resolve(reader.result)
-      }
-      reader.onerror = function() {
-        reject(reader.error)
-      }
-    })
-  }
-
-  function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    reader.readAsArrayBuffer(blob)
-    return fileReaderReady(reader)
-  }
-
-  function readBlobAsText(blob) {
-    var reader = new FileReader()
-    reader.readAsText(blob)
-    return fileReaderReady(reader)
-  }
-
-  function Body() {
-    this.bodyUsed = false
-
-    this._initBody = function(body) {
-      this._bodyInit = body
-      if (typeof body === 'string') {
-        this._bodyText = body
-      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-        this._bodyBlob = body
-      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-        this._bodyFormData = body
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString()
-      } else if (!body) {
-        this._bodyText = ''
-      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-        // Only support ArrayBuffers for POST method.
-        // Receiving ArrayBuffers happens via Blobs, instead.
-      } else {
-        throw new Error('unsupported BodyInit type')
-      }
-
-      if (!this.headers.get('content-type')) {
-        if (typeof body === 'string') {
-          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-        } else if (this._bodyBlob && this._bodyBlob.type) {
-          this.headers.set('content-type', this._bodyBlob.type)
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
-        }
-      }
-    }
-
-    if (support.blob) {
-      this.blob = function() {
-        var rejected = consumed(this)
-        if (rejected) {
-          return rejected
-        }
-
-        if (this._bodyBlob) {
-          return Promise.resolve(this._bodyBlob)
-        } else if (this._bodyFormData) {
-          throw new Error('could not read FormData body as blob')
-        } else {
-          return Promise.resolve(new Blob([this._bodyText]))
-        }
-      }
-
-      this.arrayBuffer = function() {
-        return this.blob().then(readBlobAsArrayBuffer)
-      }
-
-      this.text = function() {
-        var rejected = consumed(this)
-        if (rejected) {
-          return rejected
-        }
-
-        if (this._bodyBlob) {
-          return readBlobAsText(this._bodyBlob)
-        } else if (this._bodyFormData) {
-          throw new Error('could not read FormData body as text')
-        } else {
-          return Promise.resolve(this._bodyText)
-        }
-      }
-    } else {
-      this.text = function() {
-        var rejected = consumed(this)
-        return rejected ? rejected : Promise.resolve(this._bodyText)
-      }
-    }
-
-    if (support.formData) {
-      this.formData = function() {
-        return this.text().then(decode)
-      }
-    }
-
-    this.json = function() {
-      return this.text().then(JSON.parse)
-    }
-
-    return this
-  }
-
-  // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-
-  function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
-    return (methods.indexOf(upcased) > -1) ? upcased : method
-  }
-
-  function Request(input, options) {
-    options = options || {}
-    var body = options.body
-    if (Request.prototype.isPrototypeOf(input)) {
-      if (input.bodyUsed) {
-        throw new TypeError('Already read')
-      }
-      this.url = input.url
-      this.credentials = input.credentials
-      if (!options.headers) {
-        this.headers = new Headers(input.headers)
-      }
-      this.method = input.method
-      this.mode = input.mode
-      if (!body) {
-        body = input._bodyInit
-        input.bodyUsed = true
-      }
-    } else {
-      this.url = input
-    }
-
-    this.credentials = options.credentials || this.credentials || 'omit'
-    if (options.headers || !this.headers) {
-      this.headers = new Headers(options.headers)
-    }
-    this.method = normalizeMethod(options.method || this.method || 'GET')
-    this.mode = options.mode || this.mode || null
-    this.referrer = null
-
-    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('Body not allowed for GET or HEAD requests')
-    }
-    this._initBody(body)
-  }
-
-  Request.prototype.clone = function() {
-    return new Request(this)
-  }
-
-  function decode(body) {
-    var form = new FormData()
-    body.trim().split('&').forEach(function(bytes) {
-      if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
-        form.append(decodeURIComponent(name), decodeURIComponent(value))
-      }
-    })
-    return form
-  }
-
-  function headers(xhr) {
-    var head = new Headers()
-    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
-    pairs.forEach(function(header) {
-      var split = header.trim().split(':')
-      var key = split.shift().trim()
-      var value = split.join(':').trim()
-      head.append(key, value)
-    })
-    return head
-  }
-
-  Body.call(Request.prototype)
-
-  function Response(bodyInit, options) {
-    if (!options) {
-      options = {}
-    }
-
-    this.type = 'default'
-    this.status = options.status
-    this.ok = this.status >= 200 && this.status < 300
-    this.statusText = options.statusText
-    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
-    this.url = options.url || ''
-    this._initBody(bodyInit)
-  }
-
-  Body.call(Response.prototype)
-
-  Response.prototype.clone = function() {
-    return new Response(this._bodyInit, {
-      status: this.status,
-      statusText: this.statusText,
-      headers: new Headers(this.headers),
-      url: this.url
-    })
-  }
-
-  Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''})
-    response.type = 'error'
-    return response
-  }
-
-  var redirectStatuses = [301, 302, 303, 307, 308]
-
-  Response.redirect = function(url, status) {
-    if (redirectStatuses.indexOf(status) === -1) {
-      throw new RangeError('Invalid status code')
-    }
-
-    return new Response(null, {status: status, headers: {location: url}})
-  }
-
-  self.Headers = Headers
-  self.Request = Request
-  self.Response = Response
-
-  self.fetch = function(input, init) {
-    return new Promise(function(resolve, reject) {
-      var request
-      if (Request.prototype.isPrototypeOf(input) && !init) {
-        request = input
-      } else {
-        request = new Request(input, init)
-      }
-
-      var xhr = new XMLHttpRequest()
-
-      function responseURL() {
-        if ('responseURL' in xhr) {
-          return xhr.responseURL
-        }
-
-        // Avoid security warnings on getResponseHeader when not allowed by CORS
-        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-          return xhr.getResponseHeader('X-Request-URL')
-        }
-
-        return
-      }
-
-      xhr.onload = function() {
-        var options = {
-          status: xhr.status,
-          statusText: xhr.statusText,
-          headers: headers(xhr),
-          url: responseURL()
-        }
-        var body = 'response' in xhr ? xhr.response : xhr.responseText
-        resolve(new Response(body, options))
-      }
-
-      xhr.onerror = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.open(request.method, request.url, true)
-
-      if (request.credentials === 'include') {
-        xhr.withCredentials = true
-      }
-
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob'
-      }
-
-      request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value)
-      })
-
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-    })
-  }
-  self.fetch.polyfill = true
-})(typeof self !== 'undefined' ? self : this);
-
+module.exports = shallowEqual;
 },{}]},{},[1]);
