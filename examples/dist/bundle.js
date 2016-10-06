@@ -400,6 +400,7 @@ var Creatable = _react2['default'].createClass({
 
 				this._createPlaceholderOption = _newOptionCreator({
 					label: _prompt,
+					inputValue: this.inputValue,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
