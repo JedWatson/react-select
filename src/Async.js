@@ -8,7 +8,7 @@ const propTypes = {
 	children: React.PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 	ignoreAccents: React.PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: React.PropTypes.bool,                // perform case-insensitive filtering; defaults to true
-	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading 
+	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
@@ -146,7 +146,7 @@ export default class Async extends Component {
 		const props = {
 			noResultsText: isLoading ? loadingPlaceholder : searchPromptText,
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
-			options: isLoading ? [] : options,
+			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref)
 		};
 
