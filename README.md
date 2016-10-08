@@ -371,7 +371,7 @@ function onInputKeyDown(event) {
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
-	onCloseResetInput | bool  | true  | whether to clear input when closing the menu through the arrow
+	onCloseResetsInput | bool  | true  | whether to clear input when closing the menu through the arrow
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
 	onInputKeyDown	|	func	|	undefined	|	input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}`
