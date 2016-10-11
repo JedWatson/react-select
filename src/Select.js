@@ -248,7 +248,7 @@ const Select = React.createClass({
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('ontouchstart', this.handleTouchOutside);
 			} else {
-				document.addEventListener('touchstart', this.handleTouchOutside);				
+				document.addEventListener('touchstart', this.handleTouchOutside);
 			}
 		} else {
 			if (!document.removeEventListener && document.detachEvent) {
