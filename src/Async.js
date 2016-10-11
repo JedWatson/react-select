@@ -8,7 +8,7 @@ const propTypes = {
 	children: React.PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 	ignoreAccents: React.PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: React.PropTypes.bool,                // perform case-insensitive filtering; defaults to true
-	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading 
+	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
@@ -18,11 +18,16 @@ const propTypes = {
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
+	noResultsText: React.PropTypes.oneOfType([       // field noResultsText, displayed when no options come back from the server
+		React.PropTypes.string,
+		React.PropTypes.node
+	]),
 	searchPromptText: React.PropTypes.oneOfType([    // label to prompt for search input
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
 	onInputChange: React.PropTypes.func,             // optional for keeping track of what is being typed
+	value: React.PropTypes.any,                      // initial field value
 };
 
 const defaultProps = {
@@ -139,12 +144,34 @@ export default class Async extends Component {
 		return this.loadOptions(inputValue);
 	}
 
+	inputValue() {
+		if (this.select) {
+			return this.select.state.inputValue;
+		}
+		return '';
+	}
+
+	noResultsText() {
+		const { loadingPlaceholder, noResultsText, searchPromptText } = this.props;
+		const { isLoading } = this.state;
+
+		const inputValue = this.inputValue();
+
+		if (isLoading) {
+			return loadingPlaceholder;
+		}
+		if (inputValue && noResultsText) {
+			return noResultsText;
+		}
+		return searchPromptText;
+	}
+
 	render () {
-		const { children, loadingPlaceholder, placeholder, searchPromptText } = this.props;
+		const { children, loadingPlaceholder, placeholder } = this.props;
 		const { isLoading, options } = this.state;
 
 		const props = {
-			noResultsText: isLoading ? loadingPlaceholder : searchPromptText,
+			noResultsText: this.noResultsText(),
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
 			options: isLoading ? [] : options,
 			ref: (ref) => (this.select = ref)
