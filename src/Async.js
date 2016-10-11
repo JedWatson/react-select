@@ -173,7 +173,7 @@ export default class Async extends Component {
 		const props = {
 			noResultsText: this.noResultsText(),
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
-			options: isLoading ? [] : options,
+			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref)
 		};
 
