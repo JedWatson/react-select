@@ -15,6 +15,8 @@ const propTypes = {
 	]),
 	loadOptions: PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: PropTypes.bool,                     // multi-value input
+	onBlur: PropTypes.func,                    // onBlur handler: function (event) {}
+	onBlurResetsInput: PropTypes.bool,         // whether input is cleared on blur
 	options: PropTypes.array.isRequired,             // array of options
 	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		PropTypes.string,
@@ -153,6 +155,15 @@ export default class Async extends Component {
 		return this.loadOptions(inputValue);
 	}
 
+	_onBlur(event) {
+		if (this.props.onBlur) {
+			this.props.onBlur(event);
+		}
+		if (this.props.onBlurResetsInput) {
+			this.loadOptions('');
+		}
+	}
+
 	inputValue() {
 		if (this.select) {
 			return this.select.state.inputValue;
@@ -188,6 +199,7 @@ export default class Async extends Component {
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
+			onBlur: this._onBlur,
 			onChange: (newValues) => {
 				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
 					this.clearOptions();
