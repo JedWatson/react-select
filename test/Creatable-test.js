@@ -19,7 +19,7 @@ var TestUtils = require('react-addons-test-utils');
 var Select = require('../src/Select');
 
 describe('Creatable', () => {
-	let creatableInstance, creatableNode, filterInputNode, innserSelectInstance, renderer;
+	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance, renderer;
 
 	beforeEach(() => renderer = TestUtils.createRenderer());
 
@@ -36,7 +36,7 @@ describe('Creatable', () => {
 			<Select.Creatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
-		innserSelectInstance = creatableInstance.select;
+		innerSelectInstance = creatableInstance.select;
 		findAndFocusInputControl();
 	};
 
@@ -106,7 +106,7 @@ describe('Creatable', () => {
 		createControl({
 			filterOptions: () => null
 		});
-		typeSearchText('test');;
+		typeSearchText('test');
 	});
 
 	it('should not show a "create..." prompt if current filter text is not a valid option (as determined by :isValidNewOption prop)', () => {
@@ -156,6 +156,34 @@ describe('Creatable', () => {
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' }); // Select 'One'
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
 		expect(options, 'to have length', 1);
+	});
+
+	it('should remove the new option after closing on selecting option', () => {
+		createControl({
+			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
+		});
+		typeSearchText('9');
+		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' });
+		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
+		expect(creatableInstance.inputValue, 'to equal', '');
+	});
+
+	it('should remove the new option after closing on escape', () => {
+		createControl({
+			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
+		});
+		typeSearchText('9');
+		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 27 });
+		expect(creatableInstance.inputValue, 'to equal', '');
+	});
+
+	it('should remove the new option after closing on blur', () => {
+		createControl({
+			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
+		});
+		typeSearchText('9');
+		TestUtils.Simulate.blur(filterInputNode);
+		expect(creatableInstance.inputValue, 'to equal', '');
 	});
 
 	it('should allow a custom select type to be rendered via the :children property', () => {
