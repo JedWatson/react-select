@@ -150,7 +150,6 @@ describe('Creatable', () => {
 		const options = [{ label: 'One', value: 1 }];
 		createControl({
 			options,
-			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
 		});
 		typeSearchText('on'); // ['Create option "on"', 'One']
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' }); // Select 'One'
@@ -159,9 +158,7 @@ describe('Creatable', () => {
 	});
 
 	it('should remove the new option after closing on selecting option', () => {
-		createControl({
-			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
-		});
+		createControl();
 		typeSearchText('9');
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' });
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
@@ -169,18 +166,14 @@ describe('Creatable', () => {
 	});
 
 	it('should remove the new option after closing on escape', () => {
-		createControl({
-			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
-		});
+		createControl();
 		typeSearchText('9');
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 27 });
 		expect(creatableInstance.inputValue, 'to equal', '');
 	});
 
 	it('should remove the new option after closing on blur', () => {
-		createControl({
-			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
-		});
+		createControl();
 		typeSearchText('9');
 		TestUtils.Simulate.blur(filterInputNode);
 		expect(creatableInstance.inputValue, 'to equal', '');
