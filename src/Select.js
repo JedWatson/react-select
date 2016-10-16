@@ -553,7 +553,7 @@ const Select = React.createClass({
 	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
-	getValueArray (value, nextProps) {
+	getValueArray (value, nextProps = undefined) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
@@ -881,7 +881,16 @@ const Select = React.createClass({
 	},
 
 	renderClear () {
-		if (!this.props.clearable || (!this.props.value || this.props.value === 0) || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
+		if (
+			!this.props.clearable
+			|| this.props.value === undefined
+			|| this.props.value === null
+			|| this.props.value === ''
+			|| (this.props.multi && !this.props.value.length)
+			|| this.props.disabled
+			|| this.props.isLoading
+		) return;
+
 		return (
 			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 				aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
@@ -1033,7 +1042,7 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options =	this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = this._visibleOptions = this.filterOptions(this.props.multi ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
