@@ -3633,7 +3633,7 @@ describe('Select', () => {
 			});
 		});
 
-		it.only('should show the clear icon', () => {
+		it('should show the clear icon', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Select-clear');
 		});
 	});
