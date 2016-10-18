@@ -32,11 +32,7 @@ function collect(connect, monitor) {
 
 class ValueSortItem extends Component {
 
-	//Lifecycle
-	constructor() {
-		super(...arguments);
-	}
-
+	
 	render() {
 		//const url = `url(${this.props.url}) no-repeat`;
 		const { isDragging, connectDragSource, connectDragPreview, previewUrl, previewHtml } = this.props;
