@@ -5,8 +5,8 @@ import classNames from 'classnames';
 
 class Option extends Component {
 
-	constructor() {
-		super(...arguments);
+	constructor(props) {
+		super(props);
 		this.blockEvent = this.blockEvent.bind(this);
 		this.handleMouseDown = this.handleMouseDown.bind(this);
 		this.handleMouseEnter = this.handleMouseEnter.bind(this);
