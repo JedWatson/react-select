@@ -7,8 +7,8 @@ export const VALUE_ITEM = 'valueItem';
 
 class Value extends Component {
 
-	constructor() {
-		super(...arguments);
+	constructor(props) {
+		super(props);
 
 		this.handleMouseDown = this.handleMouseDown.bind(this);
 		this.onRemove = this.onRemove.bind(this);
