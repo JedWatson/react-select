@@ -34,8 +34,8 @@ function collect(connect, monitor) {
 
 class ValueSortContainer extends Component {
 
-	constructor() {
-		super(...arguments);
+	constructor(props) {
+		super(props);
 		this.state = {
 			dragIndex: -1,
 			hoverIndex: -1
