@@ -33,8 +33,8 @@ class Select extends Component {
 
 
 
-	constructor() {
-		super(...arguments);
+	constructor(props) {
+		super(props);
 		this.state = {
 			inputValue: '',
 			isFocused: false,
