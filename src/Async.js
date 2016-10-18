@@ -44,8 +44,8 @@ const stringOrNode = PropTypes.oneOfType([
 
 class Async extends Component {
 
-	constructor() {
-		super(...arguments);
+	constructor(props) {
+		super(props);
 
 
 		this.state = {
