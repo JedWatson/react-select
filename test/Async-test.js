@@ -117,6 +117,14 @@ describe('Async', () => {
 			typeSearchText('a');
 			return expect(loadOptions, 'was called times', 1);
 		});
+
+		it('should not use the same cache for every instance by default', () => {
+			createControl();
+			const instance1 = asyncInstance;
+			createControl();
+			const instance2 = asyncInstance;
+			expect(instance1._cache !== instance2._cache, 'to equal', true);
+		});
 	});
 
 	describe('loadOptions', () => {

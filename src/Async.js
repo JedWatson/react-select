@@ -22,6 +22,7 @@ const propTypes = {
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
+	onChange: React.PropTypes.func,                  // onChange handler: function (newValue) {}
 	searchPromptText: React.PropTypes.oneOfType([    // label to prompt for search input
 		React.PropTypes.string,
 		React.PropTypes.node
@@ -30,9 +31,11 @@ const propTypes = {
 	value: React.PropTypes.any,                      // initial field value
 };
 
+const defaultCache = {};
+
 const defaultProps = {
 	autoload: true,
-	cache: {},
+	cache: defaultCache,
 	children: defaultChildren,
 	ignoreAccents: true,
 	ignoreCase: true,
@@ -44,6 +47,8 @@ const defaultProps = {
 export default class Async extends Component {
 	constructor (props, context) {
 		super(props, context);
+
+		this._cache = props.cache === defaultCache ? {} : props.cache;
 
 		this.state = {
 			isLoading: false,
@@ -77,7 +82,8 @@ export default class Async extends Component {
 	}
 
 	loadOptions (inputValue) {
-		const { cache, loadOptions } = this.props;
+		const { loadOptions } = this.props;
+		const cache = this._cache;
 
 		if (
 			cache &&

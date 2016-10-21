@@ -31,6 +31,9 @@ const Creatable = React.createClass({
     // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
 
+		// input keyDown handler: function (event) {}
+		onInputKeyDown: React.PropTypes.func,
+
 		// See Select.propTypes.options
 		options: React.PropTypes.array,
 
