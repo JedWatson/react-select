@@ -124,7 +124,7 @@ describe('Async', () => {
 			createControl();
 			const instance2 = asyncInstance;
 			expect(instance1.cache !== instance2.cache, 'to equal', true);
-		})
+		});
 	});
 
 	describe('loadOptions', () => {

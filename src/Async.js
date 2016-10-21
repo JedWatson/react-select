@@ -22,6 +22,7 @@ const propTypes = {
 		React.PropTypes.string,
 		React.PropTypes.node
 	]),
+	onChange: React.PropTypes.func,                  // onChange handler: function (newValue) {}
 	searchPromptText: React.PropTypes.oneOfType([    // label to prompt for search input
 		React.PropTypes.string,
 		React.PropTypes.node
