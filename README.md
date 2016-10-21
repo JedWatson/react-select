@@ -98,10 +98,8 @@ function logChange(val) {
 You can enable multi-value selection by setting `multi={true}`. In this mode:
 
 * Selected options will be removed from the dropdown menu
-* The selected values are submitted in multiple `<input type="hidden">` fields, use `joinValues` to submit joined values in a single field instead
-* The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
+* The `onChange` event provides two arguments: a comma-separated string of values (eg `"1,2,3"`), and an array of selected options. Signature: `function(simpleValue, arrayOfValues) {}`
 * A simple value, if provided, will be split using the `delimiter` prop
-* The `onChange` event provides an array of selected options _or_ a comma-separated string of values (eg `"1,2,3"`) if `simpleValue` is true
 * By default, only options in the `options` array can be selected. Setting `allowCreate` to true allows new options to be created if they do not already exist. *NOTE:* `allowCreate` is not implemented in `1.0.0-beta`, if you need this option please stay on `0.9.x`.
 * By default, selected options can be cleared. To disable the possibility of clearing a particular option, add `clearableValue: false` to that option:
 ```javascript
@@ -369,7 +367,7 @@ function onInputKeyDown(event) {
 	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
-	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
+	onChange 	|	func	|	undefined	|	onChange handler: `function(simpleValue, arrayOfValues) {}`
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	onCloseResetsInput | bool  | true  | whether to clear input when closing the menu through the arrow
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
