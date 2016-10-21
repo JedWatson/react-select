@@ -48,16 +48,14 @@ export default class Async extends Component {
 	constructor (props, context) {
 		super(props, context);
 
+		this._cache = props.cache === defaultCache ? {} : props.cache;
+
 		this.state = {
 			isLoading: false,
 			options: props.options,
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
-	}
-
-	componentWillMount () {
-		this.cache = this.props.cache === defaultCache ? {} : this.props.cache;
 	}
 
 	componentDidMount () {
@@ -85,7 +83,7 @@ export default class Async extends Component {
 
 	loadOptions (inputValue) {
 		const { loadOptions } = this.props;
-		const cache = this.cache;
+		const cache = this._cache;
 
 		if (
 			cache &&

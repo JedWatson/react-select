@@ -74,6 +74,8 @@ var Async = (function (_Component) {
 
 		_get(Object.getPrototypeOf(Async.prototype), 'constructor', this).call(this, props, context);
 
+		this._cache = props.cache === defaultCache ? {} : props.cache;
+
 		this.state = {
 			isLoading: false,
 			options: props.options
@@ -83,11 +85,6 @@ var Async = (function (_Component) {
 	}
 
 	_createClass(Async, [{
-		key: 'componentWillMount',
-		value: function componentWillMount() {
-			this.cache = this.props.cache === defaultCache ? {} : this.props.cache;
-		}
-	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			var autoload = this.props.autoload;
@@ -120,7 +117,7 @@ var Async = (function (_Component) {
 
 			var loadOptions = this.props.loadOptions;
 
-			var cache = this.cache;
+			var cache = this._cache;
 
 			if (cache && cache.hasOwnProperty(inputValue)) {
 				this.setState({

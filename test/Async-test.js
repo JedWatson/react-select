@@ -123,7 +123,7 @@ describe('Async', () => {
 			const instance1 = asyncInstance;
 			createControl();
 			const instance2 = asyncInstance;
-			expect(instance1.cache !== instance2.cache, 'to equal', true);
+			expect(instance1._cache !== instance2._cache, 'to equal', true);
 		});
 	});
 
