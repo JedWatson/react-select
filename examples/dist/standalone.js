@@ -876,9 +876,14 @@ var Select = _react2['default'].createClass({
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
 		valueRenderer: _react2['default'].PropTypes.func, // valueRenderer: function (option) {}
-		wrapperStyle: _react2['default'].PropTypes.object },
+		wrapperStyle: _react2['default'].PropTypes.object, // optional style to apply to the component wrapper
+		selectAll: _react2['default'].PropTypes.bool, // whether to enable select all items
+		selectAllOptions: _react2['default'].PropTypes.shape({ // Select All options
+			max: _react2['default'].PropTypes.number, // max of options number to show in the label
+			label: _react2['default'].PropTypes.string // text to show
+		})
+	},
 
-	// optional style to apply to the component wrapper
 	statics: { Async: _Async2['default'], AsyncCreatable: _AsyncCreatable2['default'], Creatable: _Creatable2['default'] },
 
 	getDefaultProps: function getDefaultProps() {
@@ -919,7 +924,12 @@ var Select = _react2['default'].createClass({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: _Value2['default'],
-			valueKey: 'value'
+			valueKey: 'value',
+			selectAll: false,
+			selectAllOptions: {
+				label: 'SELECT',
+				max: 99
+			}
 		};
 	},
 
@@ -1716,6 +1726,40 @@ var Select = _react2['default'].createClass({
 		);
 	},
 
+	selectAllFilterItems: function selectAllFilterItems(options) {
+		this.setState({
+			inputValue: ''
+		});
+		this.addValue(options);
+	},
+
+	renderSelectAll: function renderSelectAll() {
+		var _this6 = this;
+
+		if (!this.props.selectAll) return;
+
+		var options = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		if (options.length === 0) return;
+
+		var _props$selectAllOptions = this.props.selectAllOptions;
+		var label = _props$selectAllOptions.label;
+		var max = _props$selectAllOptions.max;
+
+		var countOptions = options.length > max ? max + '+' : options.length;
+
+		return _react2['default'].createElement(
+			'div',
+			{ className: 'Select-all-items Select-clear-zone', onClick: function () {
+					return _this6.selectAllFilterItems(options);
+				} },
+			_react2['default'].createElement(
+				'div',
+				null,
+				label + ' ' + countOptions
+			)
+		);
+	},
+
 	filterOptions: function filterOptions(excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
@@ -1773,17 +1817,17 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderHiddenField: function renderHiddenField(valueArray) {
-		var _this6 = this;
+		var _this7 = this;
 
 		if (!this.props.name) return;
 		if (this.props.joinValues) {
 			var value = valueArray.map(function (i) {
-				return stringifyValue(i[_this6.props.valueKey]);
+				return stringifyValue(i[_this7.props.valueKey]);
 			}).join(this.props.delimiter);
 			return _react2['default'].createElement('input', {
 				type: 'hidden',
 				ref: function (ref) {
-					return _this6.value = ref;
+					return _this7.value = ref;
 				},
 				name: this.props.name,
 				value: value,
@@ -1793,9 +1837,9 @@ var Select = _react2['default'].createClass({
 			return _react2['default'].createElement('input', { key: 'hidden.' + index,
 				type: 'hidden',
 				ref: 'value' + index,
-				name: _this6.props.name,
-				value: stringifyValue(item[_this6.props.valueKey]),
-				disabled: _this6.props.disabled });
+				name: _this7.props.name,
+				value: stringifyValue(item[_this7.props.valueKey]),
+				disabled: _this7.props.disabled });
 		});
 	},
 
@@ -1818,7 +1862,7 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderOuter: function renderOuter(options, valueArray, focusedOption) {
-		var _this7 = this;
+		var _this8 = this;
 
 		var menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
@@ -1828,12 +1872,12 @@ var Select = _react2['default'].createClass({
 		return _react2['default'].createElement(
 			'div',
 			{ ref: function (ref) {
-					return _this7.menuContainer = ref;
+					return _this8.menuContainer = ref;
 				}, className: 'Select-menu-outer', style: this.props.menuContainerStyle },
 			_react2['default'].createElement(
 				'div',
 				{ ref: function (ref) {
-						return _this7.menu = ref;
+						return _this8.menu = ref;
 					}, role: 'listbox', className: 'Select-menu', id: this._instancePrefix + '-list',
 					style: this.props.menuStyle,
 					onScroll: this.handleMenuScroll,
@@ -1844,7 +1888,7 @@ var Select = _react2['default'].createClass({
 	},
 
 	render: function render() {
-		var _this8 = this;
+		var _this9 = this;
 
 		var valueArray = this.getValueArray(this.props.value);
 		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
@@ -1882,7 +1926,7 @@ var Select = _react2['default'].createClass({
 		return _react2['default'].createElement(
 			'div',
 			{ ref: function (ref) {
-					return _this8.wrapper = ref;
+					return _this9.wrapper = ref;
 				},
 				className: className,
 				style: this.props.wrapperStyle },
@@ -1890,7 +1934,7 @@ var Select = _react2['default'].createClass({
 			_react2['default'].createElement(
 				'div',
 				{ ref: function (ref) {
-						return _this8.control = ref;
+						return _this9.control = ref;
 					},
 					className: 'Select-control',
 					style: this.props.style,
@@ -1908,6 +1952,7 @@ var Select = _react2['default'].createClass({
 				),
 				removeMessage,
 				this.renderLoading(),
+				this.renderSelectAll(),
 				this.renderClear(),
 				this.renderArrow()
 			),
