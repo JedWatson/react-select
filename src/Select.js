@@ -111,6 +111,11 @@ const Select = React.createClass({
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
 		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		selectAll: React.PropTypes.bool,            // whether to enable select all items
+		selectAllOptions: React.PropTypes.shape({   // Select All options
+			max: React.PropTypes.number,            // max of options number to show in the label
+			label: React.PropTypes.string           // text to show
+		}),
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
@@ -154,6 +159,11 @@ const Select = React.createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			selectAll: false,
+			selectAllOptions: {
+				label: 'SELECT',
+				max: 99
+			},
 		};
 	},
 
@@ -909,6 +919,31 @@ const Select = React.createClass({
 		);
 	},
 
+	selectAllFilterItems(options){
+		this.setState({
+			inputValue: ''
+		});
+		this.addValue(options);
+	},
+
+	renderSelectAll () {
+		if (!this.props.selectAll)
+			return;
+
+		let options = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		if (options.length === 0)
+			return;
+
+		const { label, max } = this.props.selectAllOptions;
+		const countOptions = options.length > max ? `${max}+` : options.length;
+
+		return (
+			<div className="Select-all-items Select-clear-zone" onClick={() =>this.selectAllFilterItems(options)}>
+				<div>{`${label} ${countOptions}`}</div>
+			</div>
+		);
+	},
+
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
@@ -1090,6 +1125,7 @@ const Select = React.createClass({
 					</span>
 					{removeMessage}
 					{this.renderLoading()}
+					{this.renderSelectAll()}
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
