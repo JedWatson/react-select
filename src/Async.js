@@ -176,6 +176,10 @@ export default class Async extends Component {
 		return searchPromptText;
 	}
 
+	focus () {
+		this.select.focus();
+	}
+
 	render () {
 		const { children, loadingPlaceholder, placeholder } = this.props;
 		const { isLoading, options } = this.state;
