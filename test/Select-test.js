@@ -84,6 +84,10 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 8, key: 'Backspace' });
 	};
 
+	var pressDelete = () => {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 46, key: 'Backspace' });
+	};
+
 	var pressUp = () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
 	};
@@ -1788,6 +1792,32 @@ describe('Select', () => {
 			onChange.reset();  // Ignore previous onChange calls
 
 			pressBackspace();
+			expect(onChange, 'was not called');
+			expect(instance, 'to contain',
+				<span className="Select-multi-value-wrapper">
+                    <div><span className="Select-value-label">Four</span></div>
+                    <div><span className="Select-value-label">Three</span></div>
+                </span>);
+		});
+
+		it('removes the last selected option with delete', () => {
+
+			setValueProp(['four','three']);
+			onChange.reset();  // Ignore previous onChange calls
+			pressDelete();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+		});
+
+		it('does not remove the last selected option with delete when deleteRemoves=false', () => {
+
+			// Disable delete
+			wrapper.setPropsForChild({
+				deleteRemoves: false,
+				value: ['four', 'three']
+			});
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressDelete();
 			expect(onChange, 'was not called');
 			expect(instance, 'to contain',
 				<span className="Select-multi-value-wrapper">
