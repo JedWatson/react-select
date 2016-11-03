@@ -57,7 +57,7 @@ const Select = React.createClass({
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
 		clearValueText: stringOrNode,               // title for the "clear" control
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
-		deleteRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
+		deleteRemoves: React.PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
