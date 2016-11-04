@@ -56,7 +56,7 @@ class PropsWrapper extends React.Component {
 }
 
 describe('Select', () => {
-	var options, onChange, onInputChange, onBlur, onFocus;
+	var options, onChange, onInputChange;
 	var instance, wrapper;
 	var searchInputNode;
 
@@ -139,15 +139,11 @@ describe('Select', () => {
 
 		onChange = sinon.spy();
 		onInputChange = sinon.spy();
-		onBlur = sinon.spy();
-		onFocus = sinon.spy();
 		// Render an instance of the component
 		instance = TestUtils.renderIntoDocument(
 			<Select
 				onChange={onChange}
 				onInputChange={onInputChange}
-				onBlur={onBlur}
-				onFocus={onFocus}
 				{...props}
 				/>
 		);
@@ -1836,8 +1832,6 @@ describe('Select', () => {
 			onChange.reset();  // Ignore previous onChange calls
 			pressDelete();
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
-			expect(onFocus, 'was called');
-			expect(onBlur, 'was not called');
 		});
 
 		it('blurs the control after removing a value when blurOnRemove=true', () => {
@@ -1850,8 +1844,6 @@ describe('Select', () => {
 			onChange.reset();  // Ignore previous onChange calls
 			pressDelete();
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
-			expect(onFocus, 'was not called');
-			expect(onBlur, 'was called');
 		});
 
 		it('removes an item when clicking on the X', () => {
