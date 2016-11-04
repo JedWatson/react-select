@@ -351,6 +351,7 @@ function onInputKeyDown(event) {
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
 	resetValue 	|	any	|	null	|	value to use when you clear the control
+	deleteRemoves 	|	bool	|	true	|	whether pressing delete key removes the last item when there is no input value
 	delimiter 	|	string	|	','		|	delimiter to use to join multiple values
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
