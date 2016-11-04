@@ -53,6 +53,7 @@ const Select = React.createClass({
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: React.PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
+		blurOnRemove: React.PropTypes.bool,         // whether the control should lose focus after removing a value
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
 		clearValueText: stringOrNode,               // title for the "clear" control
@@ -642,7 +643,11 @@ const Select = React.createClass({
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
-		this.focus();
+		if(this.props.blurOnRemove) {
+			this.blurInput();
+		}else {
+			this.focus();
+		}
 	},
 
 	clearValue (event) {

@@ -1826,6 +1826,30 @@ describe('Select', () => {
                 </span>);
 		});
 
+		it('focuses the control after removing a value', () => {
+
+			setValueProp(['four','three']);
+			onChange.reset();  // Ignore previous onChange calls
+			pressDelete();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+			expect(instance.focus, 'was called');
+			expect(instance.blurInput, 'was not called');
+		});
+
+		it('blurs the control after removing a value when blurOnRemove=true', () => {
+
+			// Enable blurOnRemove
+			wrapper.setPropsForChild({
+				blurOnRemove: true,
+				value: ['four', 'three']
+			});
+			onChange.reset();  // Ignore previous onChange calls
+			pressDelete();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+			expect(instance.focus, 'was not called');
+			expect(instance.blurInput, 'was called');
+		});
+
 		it('removes an item when clicking on the X', () => {
 
 			setValueProp(['four', 'three', 'two']);
