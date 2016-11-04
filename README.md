@@ -82,8 +82,8 @@ var options = [
 	{ value: 'two', label: 'Two' }
 ];
 
-function logChange(val) {
-	console.log("Selected: " + val);
+function logChange(option) {
+	console.log("Selected: " + option.value);
 }
 
 <Select
