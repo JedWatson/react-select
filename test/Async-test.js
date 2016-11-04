@@ -402,6 +402,46 @@ describe('Async', () => {
 		});
 	});
 
+	describe('onBlur', () => {
+
+		var onBlur;
+
+		it('calls the onBlur prop when blurring the input', () => {
+
+			onBlur = sinon.spy();
+
+			createControl({
+				onBlur: onBlur
+			});
+
+			TestUtils.Simulate.blur(filterInputNode);
+			expect(onBlur, 'was called once');
+		});
+		it('does not call loadOptions when blurring the input if onBlurResetsInput is false', () => {
+
+			onBlur = sinon.spy();
+
+			createControl({
+				onBlur: onBlur
+			});
+
+			TestUtils.Simulate.blur(filterInputNode);
+			expect(loadOptions, 'was not called');
+		});
+		it('does call loadOptions when blurring the input if onBlurResetsInput is true', () => {
+
+			onBlur = sinon.spy();
+
+			createControl({
+				onBlur: onBlur,
+				onBlurResetsInput: true,
+			});
+
+			TestUtils.Simulate.blur(filterInputNode);
+			expect(loadOptions, 'was called');
+		});
+	});
+
 	describe('children function', () => {
 		it('should allow a custom select type to be rendered', () => {
 			let childProps;
