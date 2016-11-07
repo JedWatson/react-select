@@ -67,14 +67,11 @@ export default class Async extends Component {
 	}
 
 	componentWillUpdate (nextProps, nextState) {
-		const propertiesToSync = ['options'];
-		propertiesToSync.forEach((prop) => {
-			if (this.props[prop] !== nextProps[prop]) {
-				this.setState({
-					[prop]: nextProps[prop]
-				});
-			}
-		});
+		if (this.props.options !== nextProps.options) {
+			this.setState({
+				options: nextProps.options
+			});
+		}
 	}
 
 	clearOptions() {
