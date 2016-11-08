@@ -13,10 +13,6 @@ const AsyncCreatable = React.createClass({
 							<Select
 								{...asyncProps}
 								{...creatableProps}
-								onInputChange={(input) => {
-									creatableProps.onInputChange(input);
-									return asyncProps.onInputChange(input);
-								}}
 							/>
 						)}
 					</Select.Creatable>
