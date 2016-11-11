@@ -31,7 +31,11 @@ const Creatable = React.createClass({
     // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
 
-		// input change handler: function (inputValue) {}
+		// Set the position of the new option.
+		// Expected value: 'bottom' or 'top'
+		newOptionPosition: React.PropTypes.string,
+
+        // input change handler: function (inputValue) {}
 		onInputChange: React.PropTypes.func,
 
 		// input keyDown handler: function (event) {}
@@ -67,6 +71,7 @@ const Creatable = React.createClass({
 			isValidNewOption,
 			menuRenderer: defaultMenuRenderer,
 			newOptionCreator,
+			newOptionPosition: 'top',
 			promptTextCreator,
 			shouldKeyDownEventCreateNewOption,
 		};
@@ -99,7 +104,7 @@ const Creatable = React.createClass({
 	},
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
+		const { filterOptions, isValidNewOption, newOptionPosition, options, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -133,7 +138,11 @@ const Creatable = React.createClass({
 					valueKey: this.valueKey
 				});
 
-				filteredOptions.unshift(this._createPlaceholderOption);
+				if (newOptionPosition === 'top') {
+					filteredOptions.unshift(this._createPlaceholderOption);
+				} else if (newOptionPosition === 'bottom') {
+					filteredOptions.push(this._createPlaceholderOption);
+				}
 			}
 		}
 
