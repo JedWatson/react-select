@@ -37,6 +37,9 @@ const Creatable = React.createClass({
 		// input keyDown handler: function (event) {}
 		onInputKeyDown: React.PropTypes.func,
 
+		// new option click handler: function (option) {}
+		onNewOptionClick: React.PropTypes.func,
+
 		// See Select.propTypes.options
 		options: React.PropTypes.array,
 
@@ -73,6 +76,7 @@ const Creatable = React.createClass({
 		const {
 			isValidNewOption,
 			newOptionCreator,
+			onNewOptionClick,
 			options = [],
 			shouldKeyDownEventCreateNewOption
 		} = this.props;
@@ -83,9 +87,13 @@ const Creatable = React.createClass({
 
 			// Don't add the same option twice.
 			if (isOptionUnique) {
-				options.unshift(option);
+				if (onNewOptionClick) {
+					onNewOptionClick(option);
+				} else {
+					options.unshift(option);
 
-				this.select.selectValue(option);
+					this.select.selectValue(option);
+				}
 			}
 		}
 	},
