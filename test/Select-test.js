@@ -3061,6 +3061,40 @@ describe('Select', () => {
 			});
 		});
 
+		describe('inputRenderer', () => {
+
+			var inputRenderer;
+
+			beforeEach(() => {
+
+				inputRenderer = (inputProps) => {
+					return (
+						<input id="custom-input" type="text" />
+					);
+				};
+
+				inputRenderer = sinon.spy(inputRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					inputRenderer: inputRenderer
+				});
+			});
+
+			it('renders the options using the inputRenderer', () => {
+				var input = ReactDOM.findDOMNode(instance).querySelector('#custom-input');
+				expect(input, 'not to equal', undefined);
+			});
+
+			it('calls the renderer exactly once', () => {
+				expect(inputRenderer, 'was called times', 1);
+			});
+
+			it('calls the renderer with props', () => {
+				expect(inputRenderer, 'was called with', { value: '', className: 'Select-input' });
+			});
+		});
+
 		describe('optionRenderer', () => {
 
 			var optionRenderer;
