@@ -161,7 +161,8 @@ const Creatable = React.createClass({
 
 		return menuRenderer({
 			...params,
-			onSelect: this.onOptionSelect
+			onSelect: this.onOptionSelect,
+			selectValue: this.onOptionSelect
 		});
 	},
 
