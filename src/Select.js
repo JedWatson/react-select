@@ -99,6 +99,7 @@ const Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		pageSize: React.PropTypes.number,           // number of entries to page when using page up/down keys
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		preventWheelPropagation: React.PropTypes.bool, // boolean to prevent passing the wheel event to parent nodes
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
@@ -149,6 +150,7 @@ const Select = React.createClass({
 			optionComponent: Option,
 			pageSize: 5,
 			placeholder: 'Select...',
+			preventWheelPropagation: false,
 			required: false,
 			scrollMenuIntoView: true,
 			searchable: true,
@@ -543,6 +545,19 @@ const Select = React.createClass({
 		let { target } = event;
 		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
 			this.props.onMenuScrollToBottom();
+		}
+	},
+
+	handleMenuWheel (event) {
+		if (!this.props.preventWheelPropagation) return;
+
+		const { currentTarget, deltaY } = event;
+		const height = currentTarget.clientHeight;
+		const scrollHeight = currentTarget.scrollHeight;
+		const scrollTop = currentTarget.scrollTop;
+
+		if ((scrollTop === (scrollHeight - height) && deltaY >= 0) || (scrollTop === 0 && deltaY <= 0)) {
+			event.preventDefault();
 		}
 	},
 
@@ -1032,6 +1047,7 @@ const Select = React.createClass({
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
 						 onScroll={this.handleMenuScroll}
+						 onWheel={this.handleMenuWheel}
 						 onMouseDown={this.handleMouseDownOnMenu}>
 					{menu}
 				</div>
