@@ -823,69 +823,69 @@ const Select = React.createClass({
 	},
 
 	renderInput (valueArray, focusedOptionIndex) {
+		var className = classNames('Select-input', this.props.inputProps.className);
+		const isOpen = !!this.state.isOpen;
+
+		const ariaOwns = classNames({
+			[this._instancePrefix + '-list']: isOpen,
+			[this._instancePrefix + '-backspace-remove-message']: this.props.multi
+				&& !this.props.disabled
+				&& this.state.isFocused
+				&& !this.state.inputValue
+		});
+
+		// TODO: Check how this project includes Object.assign()
+		const inputProps = Object.assign({}, this.props.inputProps, {
+			role: 'combobox',
+			'aria-expanded': '' + isOpen,
+			'aria-owns': ariaOwns,
+			'aria-haspopup': '' + isOpen,
+			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+			'aria-labelledby': this.props['aria-labelledby'],
+			'aria-label': this.props['aria-label'],
+			className: className,
+			tabIndex: this.props.tabIndex,
+			onBlur: this.handleInputBlur,
+			onChange: this.handleInputChange,
+			onFocus: this.handleInputFocus,
+			ref: ref => this.input = ref,
+			required: this.state.required,
+			value: this.state.inputValue
+		});
+
 		if (this.props.inputRenderer) {
-			return this.props.inputRenderer();
-		} else {
-			var className = classNames('Select-input', this.props.inputProps.className);
-			const isOpen = !!this.state.isOpen;
+			return this.props.inputRenderer(inputProps);
+		}
 
-			const ariaOwns = classNames({
-				[this._instancePrefix + '-list']: isOpen,
-				[this._instancePrefix + '-backspace-remove-message']: this.props.multi
-					&& !this.props.disabled
-					&& this.state.isFocused
-					&& !this.state.inputValue
-			});
-
-			// TODO: Check how this project includes Object.assign()
-			const inputProps = Object.assign({}, this.props.inputProps, {
-				role: 'combobox',
-				'aria-expanded': '' + isOpen,
-				'aria-owns': ariaOwns,
-				'aria-haspopup': '' + isOpen,
-				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
-				'aria-labelledby': this.props['aria-labelledby'],
-				'aria-label': this.props['aria-label'],
-				className: className,
-				tabIndex: this.props.tabIndex,
-				onBlur: this.handleInputBlur,
-				onChange: this.handleInputChange,
-				onFocus: this.handleInputFocus,
-				ref: ref => this.input = ref,
-				required: this.state.required,
-				value: this.state.inputValue
-			});
-
-			if (this.props.disabled || !this.props.searchable) {
-				const { inputClassName, ...divProps } = this.props.inputProps;
-				return (
-					<div
-						{...divProps}
-						role="combobox"
-						aria-expanded={isOpen}
-						aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
-						aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
-						className={className}
-						tabIndex={this.props.tabIndex || 0}
-						onBlur={this.handleInputBlur}
-						onFocus={this.handleInputFocus}
-						ref={ref => this.input = ref}
-						aria-readonly={'' + !!this.props.disabled}
-						style={{ border: 0, width: 1, display:'inline-block' }}/>
-				);
-			}
-
-			if (this.props.autosize) {
-				return (
-					<AutosizeInput {...inputProps} minWidth="5" />
-				);
-			}
+		if (this.props.disabled || !this.props.searchable) {
+			const { inputClassName, ...divProps } = this.props.inputProps;
 			return (
-				<div className={ className }>
-					<input {...inputProps} />
-				</div>
+				<div
+					{...divProps}
+					role="combobox"
+					aria-expanded={isOpen}
+					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
+					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
+					className={className}
+					tabIndex={this.props.tabIndex || 0}
+					onBlur={this.handleInputBlur}
+					onFocus={this.handleInputFocus}
+					ref={ref => this.input = ref}
+					aria-readonly={'' + !!this.props.disabled}
+					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
+
+		if (this.props.autosize) {
+			return (
+				<AutosizeInput {...inputProps} minWidth="5" />
+			);
+		}
+		return (
+			<div className={ className }>
+				<input {...inputProps} />
+			</div>
+		);
 	},
 
 	renderClear () {
