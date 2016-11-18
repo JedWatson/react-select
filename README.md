@@ -346,7 +346,7 @@ function onInputKeyDown(event) {
 	autosize  | bool | true  | If enabled, the input will expand as the length of its value increases
 	backspaceRemoves 	|	bool	|	true	|	whether pressing backspace removes the last item when there is no input value
 	backspaceToRemoveMessage	|	string	|	'Press backspace to remove {last label}'	|	prompt shown in input when at least one option in a multiselect is shown, set to '' to clear
-	cache	|	bool	|	true	|	enables the options cache for `asyncOptions` (default: `true`)
+	cache	|	any	|	{}	|	Sets the cache object used for Select.Async. Set to `false` if you would like to disable caching.
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
