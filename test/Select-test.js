@@ -3689,6 +3689,19 @@ describe('Select', () => {
 		});
 	});
 
+	describe('with option value==0', () => {
+		beforeEach(() => {
+			instance = createControl({
+				options: [{label: 'Zero', value: 0}],
+				value: 0,
+			});
+		});
+
+		it('should show the clear icon', () => {
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.Select-clear');
+		});
+	});
+
 	describe('custom menuRenderer option', () => {
 		it('should render the custom menu', () => {
 			const instance = createControl({
