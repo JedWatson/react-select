@@ -44,6 +44,7 @@ const Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
+		scrollToIndex: React.PropTypes.number,
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
@@ -165,6 +166,8 @@ const Select = React.createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
+			isMenuRendered: false,
+			scrollToItem: null,
 			required: false,
 		};
 	},
@@ -205,6 +208,9 @@ const Select = React.createClass({
 	},
 
 	componentDidUpdate (prevProps, prevState) {
+		const {scrollToIndex, value} = this.props;
+		const {isMenuRendered, isOpen} = this.state;
+
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
 			let focusedOptionNode = ReactDOM.findDOMNode(this.focused);
@@ -234,6 +240,19 @@ const Select = React.createClass({
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
+		}
+
+		if (scrollToIndex && value === null && !isMenuRendered && isOpen && this.menu) {
+			var focusedDOM = ReactDOM.findDOMNode(this.focused);
+			var menuDOM = ReactDOM.findDOMNode(this.menu);
+			var focusedRect = focusedDOM.getBoundingClientRect();
+			var menuRect = menuDOM.getBoundingClientRect();
+			if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
+				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+			}
+			this.setState({
+				isMenuRendered: true
+			});
 		}
 	},
 
@@ -946,6 +965,9 @@ const Select = React.createClass({
 	},
 
 	onOptionRef(ref, isFocused) {
+		if (ref && ref.optionIndex && ref.optionIndex == this.props.scrollToIndex) {
+			this.setState({scrollToItem: ref});
+		}
 		if (isFocused) {
 			this.focused = ref;
 		}
@@ -1023,11 +1045,12 @@ const Select = React.createClass({
 
 	renderOuter (options, valueArray, focusedOption) {
 		let menu = this.renderMenu(options, valueArray, focusedOption);
+
 		if (!menu) {
 			return null;
 		}
 
-		return (
+		const m = (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
@@ -1037,6 +1060,8 @@ const Select = React.createClass({
 				</div>
 			</div>
 		);
+
+		return m;
 	},
 
 	render () {
@@ -1045,13 +1070,19 @@ const Select = React.createClass({
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
+		const {scrollToIndex} = this.props;
+
+
 
 		let focusedOption = null;
-		if (focusedOptionIndex !== null) {
+		if (focusedOptionIndex !== null && !scrollToIndex) {
 			focusedOption = this._focusedOption = options[focusedOptionIndex];
+		} else if (scrollToIndex && !this.props.value) {
+			focusedOption = this._focusedOption = options[scrollToIndex];
 		} else {
 			focusedOption = this._focusedOption = null;
 		}
+
 		let className = classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'Select--single': !this.props.multi,
