@@ -473,7 +473,7 @@ const Select = React.createClass({
 
 		switch (event.keyCode) {
 			case 8: // backspace
-				if (!this.state.inputValue && this.props.backspaceRemoves) {
+				if (!this.state.inputValue && this.props.backspaceRemoves && this.props.multi) {
 					event.preventDefault();
 					this.popValue();
 				}
