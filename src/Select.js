@@ -102,7 +102,7 @@ const Select = React.createClass({
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
-		scrollToIndex: React.PropTypes.number, 		// index of item to scroll to once select is opened
+		scrollToIndex: React.PropTypes.number, 	    // index of item to scroll to once select is opened
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
