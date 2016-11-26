@@ -152,6 +152,7 @@ const Select = React.createClass({
 			placeholder: 'Select...',
 			required: false,
 			scrollMenuIntoView: true,
+			scrollToIndex: null,
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
