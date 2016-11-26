@@ -1050,7 +1050,7 @@ const Select = React.createClass({
 			return null;
 		}
 
-		const m = (
+		return (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
@@ -1060,8 +1060,6 @@ const Select = React.createClass({
 				</div>
 			</div>
 		);
-
-		return m;
 	},
 
 	render () {
