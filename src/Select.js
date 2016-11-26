@@ -44,7 +44,6 @@ const Select = React.createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		scrollToIndex: React.PropTypes.number,
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
@@ -103,6 +102,7 @@ const Select = React.createClass({
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
+		scrollToIndex: React.PropTypes.number, 		// index of item to scroll to once select is opened
 		searchable: React.PropTypes.bool,           // whether to enable searching feature or not
 		simpleValue: React.PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: React.PropTypes.object,              // optional style to apply to the control
@@ -166,7 +166,6 @@ const Select = React.createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			isMenuRendered: false,
 			scrollToItem: null,
 			required: false,
 		};
@@ -209,7 +208,7 @@ const Select = React.createClass({
 
 	componentDidUpdate (prevProps, prevState) {
 		const {scrollToIndex, value} = this.props;
-		const {isMenuRendered, isOpen} = this.state;
+		const {isOpen} = this.state;
 
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
@@ -242,17 +241,15 @@ const Select = React.createClass({
 			this.closeMenu();
 		}
 
-		if (scrollToIndex && value === null && !isMenuRendered && isOpen && this.menu) {
-			var focusedDOM = ReactDOM.findDOMNode(this.focused);
-			var menuDOM = ReactDOM.findDOMNode(this.menu);
-			var focusedRect = focusedDOM.getBoundingClientRect();
-			var menuRect = menuDOM.getBoundingClientRect();
+		// scroll to chosen option
+		if (scrollToIndex && value === null && isOpen && this.menu && this.focused) {
+			const focusedDOM = ReactDOM.findDOMNode(this.focused);
+			let menuDOM = ReactDOM.findDOMNode(this.menu);
+			const focusedRect = focusedDOM.getBoundingClientRect();
+			const menuRect = menuDOM.getBoundingClientRect();
 			if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
 				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
 			}
-			this.setState({
-				isMenuRendered: true
-			});
 		}
 	},
 
@@ -1070,12 +1067,10 @@ const Select = React.createClass({
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 		const {scrollToIndex} = this.props;
 
-
-
 		let focusedOption = null;
 		if (focusedOptionIndex !== null && !scrollToIndex) {
 			focusedOption = this._focusedOption = options[focusedOptionIndex];
-		} else if (scrollToIndex && !this.props.value) {
+		} else if (scrollToIndex && !this.props.value && options[scrollToIndex]) {
 			focusedOption = this._focusedOption = options[scrollToIndex];
 		} else {
 			focusedOption = this._focusedOption = null;
