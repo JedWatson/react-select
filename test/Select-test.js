@@ -962,6 +962,11 @@ describe('Select', () => {
 					'to have text', 'No');
 		});
 
+        it('displays the X button for false value', () => {
+            wrapper.setPropsForChild({ value: false });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
+
 		describe('with multi=true', () => {
 
 			beforeEach(() => {
