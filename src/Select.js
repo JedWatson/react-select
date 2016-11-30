@@ -630,6 +630,13 @@ const Select = React.createClass({
 	addValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.concat(value));
+		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
+		const index = visibleOptions.indexOf(value);
+		if (visibleOptions.length > index + 1) {
+			this.focusOption(visibleOptions[index + 1]);
+		} else if (index > 0) {
+			this.focusOption(visibleOptions[index - 1]);
+		}
 	},
 
 	popValue () {
