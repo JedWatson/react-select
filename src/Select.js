@@ -485,7 +485,10 @@ const Select = React.createClass({
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen) {
+					this.focusNextOption();
+					return;
+				}
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
@@ -497,6 +500,17 @@ const Select = React.createClass({
 					this.clearValue(event);
 					event.stopPropagation();
 				}
+			break;
+			case 32: // space
+				if (!this.props.searchable) {
+					event.preventDefault();
+				}
+				if (!this.state.isOpen) {
+					this.focusNextOption();
+					return;
+				}
+				event.stopPropagation();
+				this.selectFocusedOption();
 			break;
 			case 38: // up
 				this.focusPreviousOption();
@@ -866,12 +880,14 @@ const Select = React.createClass({
 					aria-expanded={isOpen}
 					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
+					aria-labelledby={this.props['aria-labelledby']}
+					aria-label={this.props['aria-label']}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
 					ref={ref => this.input = ref}
-					aria-readonly={'' + !!this.props.disabled}
+					aria-disabled={'' + !!this.props.disabled}
 					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
