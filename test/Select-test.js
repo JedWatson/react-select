@@ -535,6 +535,19 @@ describe('Select', () => {
 
 		});
 
+		it('should open the options on arrow down and show no results text if options are closed and empty', () => {
+			var emptyInstance = createControl({
+				options: [],
+				noResultsText: 'No results unit test'
+			});
+			var selectControl = getSelectControl(emptyInstance);
+
+			TestUtils.Simulate.keyDown(selectControl, { keyCode: 38, key: 'ArrowDown' });
+			expect(emptyInstance.state.isOpen, 'to be true');
+			expect(ReactDOM.findDOMNode(emptyInstance).querySelector('.Select-menu'),
+			'to have text', 'No results unit test');
+		});
+
 		it('should open the options on arrow down with the top option focused, when the options are closed', () => {
 
 			var selectControl = getSelectControl(instance);

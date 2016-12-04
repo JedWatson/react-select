@@ -636,7 +636,8 @@ const Select = React.createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
-		this.setValue(valueArray.slice(0, valueArray.length - 1));
+		if (this.props.multi) this.setValue(valueArray.slice(0, valueArray.length - 1));
+		this.setValue(undefined);
 	},
 
 	removeValue (value) {
@@ -701,21 +702,23 @@ const Select = React.createClass({
 	},
 
 	focusAdjacentOption (dir) {
-		var options = this._visibleOptions
+		const options = this._visibleOptions
 			.map((option, index) => ({ option, index }))
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
+		const focusedOption = this._focusedOption ||
+			(options.length && options[dir === 'next' ? 0 : options.length - 1].option);
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
 				inputValue: '',
-				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1].option
+				focusedOption
 			});
 			return;
 		}
 		if (!options.length) return;
-		var focusedIndex = -1;
-		for (var i = 0; i < options.length; i++) {
+		let focusedIndex = -1;
+		for (let i = 0; i < options.length; i++) {
 			if (this._focusedOption === options[i].option) {
 				focusedIndex = i;
 				break;
@@ -734,14 +737,14 @@ const Select = React.createClass({
 		} else if (dir === 'end') {
 			focusedIndex = options.length - 1;
 		} else if (dir === 'page_up') {
-			var potentialIndex = focusedIndex - this.props.pageSize;
+			const potentialIndex = focusedIndex - this.props.pageSize;
 			if ( potentialIndex < 0 ) {
 				focusedIndex = 0;
 			} else {
 				focusedIndex = potentialIndex;
 			}
 		} else if (dir === 'page_down') {
-			var potentialIndex = focusedIndex + this.props.pageSize;
+			const potentialIndex = focusedIndex + this.props.pageSize;
 			if ( potentialIndex > options.length - 1 ) {
 				focusedIndex = options.length - 1;
 			} else {
