@@ -636,7 +636,8 @@ const Select = React.createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
-		this.setValue(valueArray.slice(0, valueArray.length - 1));
+		if (this.props.multi) this.setValue(valueArray.slice(0, valueArray.length - 1));
+		setValue(undefined);
 	},
 
 	removeValue (value) {
