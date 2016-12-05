@@ -170,11 +170,13 @@ const Creatable = React.createClass({
 		const { onInputChange } = this.props;
 
 		if (onInputChange) {
-			onInputChange(input);
+			input = onInputChange(input);
 		}
 
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
+
+		return input;
 	},
 
 	onInputKeyDown (event) {
