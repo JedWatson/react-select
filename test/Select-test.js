@@ -345,6 +345,36 @@ describe('Select', () => {
 
 		});
 
+		describe('with the onArrowKeyFocus prop present', () => {
+			var onArrowKeyFocus;
+
+			beforeEach(() => {
+				options = [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three' }
+				];
+
+				onArrowKeyFocus = sinon.spy();
+
+				instance = createControl({
+					name: 'form-field-name',
+					value: 'one',
+					onArrowKeyFocus: onArrowKeyFocus,
+					options: options,
+					simpleValue: true,
+				});
+			});
+
+			it('calls onArrowKeyFocus with the new option', () => {
+				clickArrowToOpen();
+				pressDown();
+				expect(onArrowKeyFocus, 'was called with', options[1]);
+				pressDown();
+				expect(onArrowKeyFocus, 'was called with', options[2]);
+			});
+		});
+
 		it('should display the options menu when tapped', function() {
 			TestUtils.Simulate.touchStart(getSelectControl(instance));
 			TestUtils.Simulate.touchEnd(getSelectControl(instance));
