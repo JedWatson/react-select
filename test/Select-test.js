@@ -691,6 +691,11 @@ describe('Select', () => {
 			expect(onChange, 'was called with', 0);
 		});
 
+        it('displays the X button for 0 value', () => {
+            wrapper.setPropsForChild({ value: 0 });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
+
 		describe('with multi=true', () => {
 
 			beforeEach(() => {
