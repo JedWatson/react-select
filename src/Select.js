@@ -67,6 +67,7 @@ const Select = React.createClass({
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		inputRenderer: React.PropTypes.func,        // returns a custom input component
 		instanceId: React.PropTypes.string,         // set the components instanceId
+		isAlwaysOpen: React.PropTypes.bool,         // never close the select
 		isLoading: React.PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 		joinValues: React.PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
@@ -154,6 +155,7 @@ const Select = React.createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			isAlwaysOpen: false,
 		};
 	},
 
@@ -248,7 +250,7 @@ const Select = React.createClass({
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('ontouchstart', this.handleTouchOutside);
 			} else {
-				document.addEventListener('touchstart', this.handleTouchOutside);				
+				document.addEventListener('touchstart', this.handleTouchOutside);
 			}
 		} else {
 			if (!document.removeEventListener && document.detachEvent) {
@@ -1036,6 +1038,7 @@ const Select = React.createClass({
 		let options =	this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
+		isOpen = isAlwaysOpen ? true : isOpen;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
 		let focusedOption = null;
