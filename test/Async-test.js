@@ -9,9 +9,11 @@ var jsdomHelper = require('../testHelpers/jsdomHelper');
 jsdomHelper();
 var unexpected = require('unexpected');
 var unexpectedReact = require('unexpected-react');
+var unexpectedDom = require('unexpected-dom');
 var unexpectedSinon = require('unexpected-sinon');
 var expect = unexpected
 	.clone()
+    .installPlugin(unexpectedDom)
 	.installPlugin(unexpectedReact)
 	.installPlugin(unexpectedSinon);
 
@@ -27,17 +29,34 @@ describe('Async', () => {
 
 	function createControl (props = {}) {
 		loadOptions = props.loadOptions || sinon.stub();
+		var Wrapper = React.createClass({
+			render: function () {
+				return (
+					<div>{this.props.children}</div>
+				);
+			}
+		});
+
 		asyncInstance = TestUtils.renderIntoDocument(
-			<Select.Async
-				autoload={false}
-				openOnFocus
-				{...props}
-				loadOptions={loadOptions}
-			/>
+			<Wrapper>
+				<div className="bar">test</div>
+				<Select.Async
+					autoload={false}
+					openOnFocus
+					{...props}
+					loadOptions={loadOptions}
+					/>
+			</Wrapper>
 		);
 		asyncNode = ReactDOM.findDOMNode(asyncInstance);
 		findAndFocusInputControl();
 	};
+
+	function clickDiv() {
+		let barDiv = TestUtils.findRenderedDOMComponentWithClass(asyncInstance, 'bar');
+		TestUtils.Simulate.focus(barDiv);
+		TestUtils.Simulate.click(barDiv);
+	}
 
 	function createOptionsResponse (options) {
 		return {
@@ -55,9 +74,40 @@ describe('Async', () => {
 		}
 	};
 
+	function mouseDownOnInputControl () {
+		TestUtils.Simulate.mouseDown(filterInputNode);
+	};
+
+	function findAnBlurInputControl() {
+		TestUtils.Simulate.blur(filterInputNode);
+	};
+
 	function typeSearchText (text) {
 		TestUtils.Simulate.change(filterInputNode, { target: { value: text } });
 	};
+
+	describe('with blur', () => {
+		it('should display the loaded options on refocus', () => {
+			function loadOptions(input, resolve) {
+				resolve(null, createOptionsResponse(['foo']));
+			}
+			createControl({
+				cache: false,
+				onBlurResetsInput: true,
+				loadOptions
+			});
+			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0);
+			typeSearchText('foo');
+			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
+			expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'foo');
+			findAnBlurInputControl();
+			clickDiv();
+			expect(asyncNode, 'to contain no elements matching', '.Select-option');
+			findAndFocusInputControl();
+			mouseDownOnInputControl();
+			expect(asyncNode, 'queried for', '.Select-option', 'to have length', 1);
+		});
+	});
 
 	describe('autoload', () => {
 		it('false does not call loadOptions on-mount', () => {
