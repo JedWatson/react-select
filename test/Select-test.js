@@ -3667,12 +3667,12 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
 		});
 
-		// it('touch closes the menu', () => {
-		// 	const evt = document.createEvent('Event');
-		// 	evt.initEvent('touchstart', true, true);
-		// 	document.querySelector('body').dispatchEvent(evt);
-		// 	expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
-		// });
+		it('touch closes the menu', () => {
+			const evt = document.createEvent('Event');
+			evt.initEvent('touchstart', true, true);
+			document.querySelector('body').dispatchEvent(evt);
+			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
+		});
 
 	});
 
