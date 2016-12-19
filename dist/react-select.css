@@ -210,6 +210,7 @@
   margin: -1px;
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
+  float: left;
 }
 @-webkit-keyframes Select-animation-fadeIn {
   from {
