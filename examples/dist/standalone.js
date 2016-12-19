@@ -278,16 +278,6 @@ var _Select = require('./Select');
 
 var _Select2 = _interopRequireDefault(_Select);
 
-function reduce(obj) {
-	var props = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	return Object.keys(obj).reduce(function (props, key) {
-		var value = obj[key];
-		if (value !== undefined) props[key] = value;
-		return props;
-	}, props);
-}
-
 var AsyncCreatable = _react2['default'].createClass({
 	displayName: 'AsyncCreatableSelect',
 
@@ -302,14 +292,10 @@ var AsyncCreatable = _react2['default'].createClass({
 					_Select2['default'].Creatable,
 					_this.props,
 					function (creatableProps) {
-						return _react2['default'].createElement(_Select2['default'], _extends({}, reduce(asyncProps, reduce(creatableProps, {})), {
+						return _react2['default'].createElement(_Select2['default'], _extends({}, asyncProps, creatableProps, {
 							onInputChange: function (input) {
 								creatableProps.onInputChange(input);
 								return asyncProps.onInputChange(input);
-							},
-							ref: function (ref) {
-								creatableProps.ref(ref);
-								asyncProps.ref(ref);
 							}
 						}));
 					}
@@ -376,14 +362,8 @@ var Creatable = _react2['default'].createClass({
 		// ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: _react2['default'].PropTypes.func,
 
-		// input change handler: function (inputValue) {}
-		onInputChange: _react2['default'].PropTypes.func,
-
 		// input keyDown handler: function (event) {}
 		onInputKeyDown: _react2['default'].PropTypes.func,
-
-		// new option click handler: function (option) {}
-		onNewOptionClick: _react2['default'].PropTypes.func,
 
 		// See Select.propTypes.options
 		options: _react2['default'].PropTypes.array,
@@ -421,7 +401,6 @@ var Creatable = _react2['default'].createClass({
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
-		var onNewOptionClick = _props.onNewOptionClick;
 		var _props$options = _props.options;
 		var options = _props$options === undefined ? [] : _props$options;
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
@@ -432,13 +411,9 @@ var Creatable = _react2['default'].createClass({
 
 			// Don't add the same option twice.
 			if (_isOptionUnique) {
-				if (onNewOptionClick) {
-					onNewOptionClick(option);
-				} else {
-					options.unshift(option);
+				options.unshift(option);
 
-					this.select.selectValue(option);
-				}
+				this.select.selectValue(option);
 			}
 		}
 	},
@@ -508,18 +483,11 @@ var Creatable = _react2['default'].createClass({
 		var menuRenderer = this.props.menuRenderer;
 
 		return menuRenderer(_extends({}, params, {
-			onSelect: this.onOptionSelect,
-			selectValue: this.onOptionSelect
+			onSelect: this.onOptionSelect
 		}));
 	},
 
 	onInputChange: function onInputChange(input) {
-		var onInputChange = this.props.onInputChange;
-
-		if (onInputChange) {
-			onInputChange(input);
-		}
-
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
 	},
@@ -855,7 +823,6 @@ var Select = _react2['default'].createClass({
 		clearAllText: stringOrNode, // title for the "clear" control when multi: true
 		clearValueText: stringOrNode, // title for the "clear" control
 		clearable: _react2['default'].PropTypes.bool, // should it be possible to reset value
-		deleteRemoves: _react2['default'].PropTypes.bool, // whether backspace removes an item if there is no text input
 		delimiter: _react2['default'].PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _react2['default'].PropTypes.bool, // whether the Select is disabled or not
 		escapeClearsValue: _react2['default'].PropTypes.bool, // whether escape clears the value when the menu is closed
@@ -924,7 +891,6 @@ var Select = _react2['default'].createClass({
 			clearable: true,
 			clearAllText: 'Clear all',
 			clearValueText: 'Clear value',
-			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
 			escapeClearsValue: true,
@@ -1133,15 +1099,6 @@ var Select = _react2['default'].createClass({
 			});
 		}
 
-		var newInputValue = this.state.inputValue;
-		if (this.props.onInputChange && this.props.onBlurResetsInput) {
-			var nextState = this.props.onInputChange('');
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
-				newInputValue = '' + nextState;
-			}
-		}
-
 		if (this.state.isFocused) {
 			// On iOS, we can get into a state where we think the input is focused but it isn't really,
 			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
@@ -1160,15 +1117,10 @@ var Select = _react2['default'].createClass({
 			// if the input is focused, ensure the menu is open
 			this.setState({
 				isOpen: true,
-				isPseudoFocused: false,
-				inputValue: newInputValue
+				isPseudoFocused: false
 			});
 		} else {
-			//otherwise, focus the input and open the menu
-			this.setState({
-				inputValue: newInputValue
-			});
-
+			// otherwise, focus the input and open the menu
 			this._openAfterFocus = true;
 			this.focus();
 		}
@@ -1344,13 +1296,6 @@ var Select = _react2['default'].createClass({
 				}
 				this.focusStartOption();
 				break;
-			case 46:
-				// backspace
-				if (!this.state.inputValue && this.props.deleteRemoves) {
-					event.preventDefault();
-					this.popValue();
-				}
-				return;
 			default:
 				return;
 		}
@@ -1676,69 +1621,70 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderInput: function renderInput(valueArray, focusedOptionIndex) {
-		var _classNames,
-		    _this5 = this;
-
-		var className = (0, _classnames2['default'])('Select-input', this.props.inputProps.className);
-		var isOpen = !!this.state.isOpen;
-
-		var ariaOwns = (0, _classnames2['default'])((_classNames = {}, _defineProperty(_classNames, this._instancePrefix + '-list', isOpen), _defineProperty(_classNames, this._instancePrefix + '-backspace-remove-message', this.props.multi && !this.props.disabled && this.state.isFocused && !this.state.inputValue), _classNames));
-
-		// TODO: Check how this project includes Object.assign()
-		var inputProps = _extends({}, this.props.inputProps, {
-			role: 'combobox',
-			'aria-expanded': '' + isOpen,
-			'aria-owns': ariaOwns,
-			'aria-haspopup': '' + isOpen,
-			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
-			'aria-labelledby': this.props['aria-labelledby'],
-			'aria-label': this.props['aria-label'],
-			className: className,
-			tabIndex: this.props.tabIndex,
-			onBlur: this.handleInputBlur,
-			onChange: this.handleInputChange,
-			onFocus: this.handleInputFocus,
-			ref: function ref(_ref) {
-				return _this5.input = _ref;
-			},
-			required: this.state.required,
-			value: this.state.inputValue
-		});
+		var _this5 = this;
 
 		if (this.props.inputRenderer) {
-			return this.props.inputRenderer(inputProps);
-		}
+			return this.props.inputRenderer();
+		} else {
+			var _classNames;
 
-		if (this.props.disabled || !this.props.searchable) {
-			var _props$inputProps = this.props.inputProps;
-			var inputClassName = _props$inputProps.inputClassName;
+			var className = (0, _classnames2['default'])('Select-input', this.props.inputProps.className);
+			var isOpen = !!this.state.isOpen;
 
-			var divProps = _objectWithoutProperties(_props$inputProps, ['inputClassName']);
+			var ariaOwns = (0, _classnames2['default'])((_classNames = {}, _defineProperty(_classNames, this._instancePrefix + '-list', isOpen), _defineProperty(_classNames, this._instancePrefix + '-backspace-remove-message', this.props.multi && !this.props.disabled && this.state.isFocused && !this.state.inputValue), _classNames));
 
-			return _react2['default'].createElement('div', _extends({}, divProps, {
+			// TODO: Check how this project includes Object.assign()
+			var inputProps = _extends({}, this.props.inputProps, {
 				role: 'combobox',
-				'aria-expanded': isOpen,
-				'aria-owns': isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value',
+				'aria-expanded': '' + isOpen,
+				'aria-owns': ariaOwns,
+				'aria-haspopup': '' + isOpen,
 				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+				'aria-labelledby': this.props['aria-labelledby'],
+				'aria-label': this.props['aria-label'],
 				className: className,
-				tabIndex: this.props.tabIndex || 0,
+				tabIndex: this.props.tabIndex,
 				onBlur: this.handleInputBlur,
+				onChange: this.handleInputChange,
 				onFocus: this.handleInputFocus,
-				ref: function (ref) {
-					return _this5.input = ref;
+				ref: function ref(_ref) {
+					return _this5.input = _ref;
 				},
-				'aria-readonly': '' + !!this.props.disabled,
-				style: { border: 0, width: 1, display: 'inline-block' } }));
-		}
+				required: this.state.required,
+				value: this.state.inputValue
+			});
 
-		if (this.props.autosize) {
-			return _react2['default'].createElement(_reactInputAutosize2['default'], _extends({}, inputProps, { minWidth: '5' }));
+			if (this.props.disabled || !this.props.searchable) {
+				var _props$inputProps = this.props.inputProps;
+				var inputClassName = _props$inputProps.inputClassName;
+
+				var divProps = _objectWithoutProperties(_props$inputProps, ['inputClassName']);
+
+				return _react2['default'].createElement('div', _extends({}, divProps, {
+					role: 'combobox',
+					'aria-expanded': isOpen,
+					'aria-owns': isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value',
+					'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+					className: className,
+					tabIndex: this.props.tabIndex || 0,
+					onBlur: this.handleInputBlur,
+					onFocus: this.handleInputFocus,
+					ref: function (ref) {
+						return _this5.input = ref;
+					},
+					'aria-readonly': '' + !!this.props.disabled,
+					style: { border: 0, width: 1, display: 'inline-block' } }));
+			}
+
+			if (this.props.autosize) {
+				return _react2['default'].createElement(_reactInputAutosize2['default'], _extends({}, inputProps, { minWidth: '5' }));
+			}
+			return _react2['default'].createElement(
+				'div',
+				{ className: className },
+				_react2['default'].createElement('input', inputProps)
+			);
 		}
-		return _react2['default'].createElement(
-			'div',
-			{ className: className },
-			_react2['default'].createElement('input', inputProps)
-		);
 	},
 
 	renderClear: function renderClear() {
