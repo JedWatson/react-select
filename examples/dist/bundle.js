@@ -312,6 +312,15 @@ var Creatable = _react2['default'].createClass({
 		// ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: _react2['default'].PropTypes.func,
 
+		// input change handler: function (inputValue) {}
+		onInputChange: _react2['default'].PropTypes.func,
+
+		// input keyDown handler: function (event) {}
+		onInputKeyDown: _react2['default'].PropTypes.func,
+
+		// new option click handler: function (option) {}
+		onNewOptionClick: _react2['default'].PropTypes.func,
+
 		// See Select.propTypes.options
 		options: _react2['default'].PropTypes.array,
 
@@ -348,6 +357,7 @@ var Creatable = _react2['default'].createClass({
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
+		var onNewOptionClick = _props.onNewOptionClick;
 		var _props$options = _props.options;
 		var options = _props$options === undefined ? [] : _props$options;
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
@@ -358,9 +368,13 @@ var Creatable = _react2['default'].createClass({
 
 			// Don't add the same option twice.
 			if (_isOptionUnique) {
-				options.unshift(option);
-
-				this.select.selectValue(option);
+				if (onNewOptionClick) {
+					onNewOptionClick(option);
+				} else {
+					this.inputValue = '';
+					options.unshift(option);
+					this.select.selectValue(option);
+				}
 			}
 		}
 	},
@@ -400,7 +414,6 @@ var Creatable = _react2['default'].createClass({
 
 				this._createPlaceholderOption = _newOptionCreator({
 					label: _prompt,
-					inputValue: this.inputValue,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
@@ -431,11 +444,17 @@ var Creatable = _react2['default'].createClass({
 		var menuRenderer = this.props.menuRenderer;
 
 		return menuRenderer(_extends({}, params, {
-			onSelect: this.onOptionSelect
+			onSelect: this.onOptionSelect,
+			selectValue: this.onOptionSelect
 		}));
 	},
 
 	onInputChange: function onInputChange(input) {
+		var onInputChange = this.props.onInputChange;
+
+		if (onInputChange) {
+			onInputChange(input);
+		}
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
 	},
