@@ -80,6 +80,7 @@ const Creatable = React.createClass({
 				options.unshift(option);
 
 				this.select.selectValue(option);
+					this.inputValue = '';
 			}
 		}
 	},
