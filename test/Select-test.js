@@ -1894,6 +1894,60 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with maxSelectedOption set', () => {
+
+			beforeEach(() => {
+
+				wrapper = createControlWithWrapper({
+					multi: true,
+					options: options,
+					value: 'one,two',
+					maxSelectedOptions: 2,
+					maxSelectedOptionsText: 'Testing {optionsCount}'
+				});
+			});
+
+			it('renders label element with text about maximum selected options with opened menu', () => {
+
+				clickArrowToOpen();
+
+				expect(ReactDOM.findDOMNode(instance),
+					'to contain elements matching', '.Select-maxoptions'
+				);
+			});
+
+			it('doesn\'t render label element with text about maximum selected options with closed menu', () => {
+
+				expect(ReactDOM.findDOMNode(instance),
+					'to contain no elements matching', '.Select-maxoptions'
+				);
+			});
+
+			it('renders list when maximum selected options is not exceeded', () => {
+
+				var node = ReactDOM.findDOMNode(instance);
+
+				setValueProp(['one']);
+				clickArrowToOpen();
+
+				expect(node,
+					'to contain no elements matching', '.Select-maxoptions'
+				);
+
+				expect(node, 'queried for', '.Select-option:nth-child(1)', 'to have items satisfying', 'to have text', 'Two');
+				expect(node, 'queried for', '.Select-option:nth-child(2)', 'to have items satisfying', 'to have text', 'Three');
+				expect(node, 'queried for', '.Select-option:nth-child(3)', 'to have items satisfying', 'to have text', 'Four');
+			});
+
+			it('renders label element with correct message about maximum selected options', () => {
+
+				clickArrowToOpen();
+
+				expect(ReactDOM.findDOMNode(instance), 'queried for first', '.Select-maxoptions',
+					'to have text', 'Testing 2');
+			});
+		});
+
 	});
 
 	describe('with multi=true and clearable=true', () => {
