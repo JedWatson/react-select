@@ -65,6 +65,7 @@ const Select = React.createClass({
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
+		initialInputValue: React.PropTypes.string,	// Initial text written in the search input
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		inputRenderer: React.PropTypes.func,        // returns a custom input component
 		instanceId: React.PropTypes.string,         // set the components instanceId
@@ -133,6 +134,7 @@ const Select = React.createClass({
 			filterOptions: defaultFilterOptions,
 			ignoreAccents: true,
 			ignoreCase: true,
+			initialInputValue: '',
 			inputProps: {},
 			isLoading: false,
 			joinValues: false,
@@ -354,6 +356,7 @@ const Select = React.createClass({
 			this.setState({
 				isOpen: true,
 				isPseudoFocused: false,
+				inputValue: this.state.inputValue || this.props.initialInputValue,
 			});
 		} else {
 			// otherwise, focus the input and open the menu
@@ -416,7 +419,8 @@ const Select = React.createClass({
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen,
+			inputValue: this.state.inputValue || this.props.initialInputValue,
 		});
 		this._openAfterFocus = false;
 	},

@@ -370,7 +370,8 @@ var CreatableDemo = _react2['default'].createClass({
 				multi: multi,
 				options: options,
 				onChange: this.handleOnChange,
-				value: multi ? multiValue : value
+				value: multi ? multiValue : value,
+				initialInputValue: 'Ahoj'
 			}),
 			_react2['default'].createElement(
 				'div',

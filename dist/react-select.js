@@ -863,6 +863,7 @@ var Select = _react2['default'].createClass({
 		filterOptions: _react2['default'].PropTypes.any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: _react2['default'].PropTypes.bool, // whether to strip diacritics when filtering
 		ignoreCase: _react2['default'].PropTypes.bool, // whether to perform case-insensitive filtering
+		initialInputValue: _react2['default'].PropTypes.string, // Initial text written in the search input
 		inputProps: _react2['default'].PropTypes.object, // custom attributes for the Input
 		inputRenderer: _react2['default'].PropTypes.func, // returns a custom input component
 		instanceId: _react2['default'].PropTypes.string, // set the components instanceId
@@ -931,6 +932,7 @@ var Select = _react2['default'].createClass({
 			filterOptions: _utilsDefaultFilterOptions2['default'],
 			ignoreAccents: true,
 			ignoreCase: true,
+			initialInputValue: '',
 			inputProps: {},
 			isLoading: false,
 			joinValues: false,
@@ -1151,7 +1153,8 @@ var Select = _react2['default'].createClass({
 			// if the input is focused, ensure the menu is open
 			this.setState({
 				isOpen: true,
-				isPseudoFocused: false
+				isPseudoFocused: false,
+				inputValue: this.state.inputValue || this.props.initialInputValue
 			});
 		} else {
 			// otherwise, focus the input and open the menu
@@ -1214,7 +1217,8 @@ var Select = _react2['default'].createClass({
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen,
+			inputValue: this.state.inputValue || this.props.initialInputValue
 		});
 		this._openAfterFocus = false;
 	},
