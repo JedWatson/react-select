@@ -397,13 +397,12 @@ const Select = React.createClass({
 			this.setState({
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: ''
+				inputValue: this.handleInputValueChange('')
 			});
 		}	else {
 			this.setState({
 				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: this.state.inputValue
+				isPseudoFocused: this.state.isFocused && !this.props.multi
 			});
 		}
 		this.hasScrolledToOption = false;
@@ -438,7 +437,7 @@ const Select = React.createClass({
 			isPseudoFocused: false,
 		};
 		if (this.props.onBlurResetsInput) {
-			onBlurredState.inputValue = '';
+			onBlurredState.inputValue = this.handleInputValueChange('');
 		}
 		this.setState(onBlurredState);
 	},
@@ -446,12 +445,8 @@ const Select = React.createClass({
 	handleInputChange (event) {
 		let newInputValue = event.target.value;
 
-		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
-			let nextState = this.props.onInputChange(newInputValue);
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
-				newInputValue = '' + nextState;
-			}
+		if (this.state.inputValue !== event.target.value) {
+			newInputValue = this.handleInputValueChange(newInputValue);
 		}
 
 		this.setState({
@@ -459,6 +454,17 @@ const Select = React.createClass({
 			isPseudoFocused: false,
 			inputValue: newInputValue
 		});
+	},
+
+	handleInputValueChange(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			// Note: != used deliberately here to catch undefined and null
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		return newValue;
 	},
 
 	handleKeyDown (event) {
@@ -611,7 +617,7 @@ const Select = React.createClass({
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				focusedIndex: null
 			}, () => {
 				this.addValue(value);
@@ -619,7 +625,7 @@ const Select = React.createClass({
 		} else {
 			this.setState({
 				isOpen: false,
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
@@ -656,7 +662,7 @@ const Select = React.createClass({
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,
-			inputValue: '',
+			inputValue: this.handleInputValueChange(''),
 		}, this.focus);
 	},
 
