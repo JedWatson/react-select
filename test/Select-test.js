@@ -2912,6 +2912,40 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with onBlurSelectsFocusedOption=true', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlurSelectsFocusedOption: true
+				});
+			});
+
+			it('should select focused option after calling onBlur', () => {
+				typeSearchText('One');
+
+				TestUtils.Simulate.blur(searchInputNode);
+
+				expect(onChange, 'was called');
+			});
+		});
+
+		describe('with onBlurSelectsFocusedOption=false', () => {
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlurSelectsFocusedOption: false
+				});
+			});
+
+			it('should not select focused option after calling onBlur', () => {
+				typeSearchText('One');
+
+				TestUtils.Simulate.blur(searchInputNode);
+
+				expect(onChange, 'was not called');
+			});
+		});
+
 		describe('onFocus', () => {
 
 			var onFocus;

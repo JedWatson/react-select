@@ -82,6 +82,7 @@ const Select = React.createClass({
 		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
+		onBlurSelectsFocusedOption: React.PropTypes.bool, // whether to select the currently focused option on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
 		onClose: React.PropTypes.func,              // fires when the menu is closed
 		onCloseResetsInput: React.PropTypes.bool,		// whether input is cleared when menu is closed through the arrow
@@ -144,6 +145,7 @@ const Select = React.createClass({
 			multi: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
+			onBlurSelectsFocusedOption: false,
 			onCloseResetsInput: true,
 			openAfterFocus: false,
 			optionComponent: Option,
@@ -440,6 +442,10 @@ const Select = React.createClass({
 		if (this.props.onBlurResetsInput) {
 			onBlurredState.inputValue = '';
 		}
+		if (this.props.onBlurSelectsFocusedOption) {
+			this.selectFocusedOption();
+		}
+
 		this.setState(onBlurredState);
 	},
 
