@@ -317,6 +317,15 @@ var Creatable = _react2['default'].createClass({
 		// ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: _react2['default'].PropTypes.func,
 
+		// input change handler: function (inputValue) {}
+		onInputChange: _react2['default'].PropTypes.func,
+
+		// input keyDown handler: function (event) {}
+		onInputKeyDown: _react2['default'].PropTypes.func,
+
+		// new option click handler: function (option) {}
+		onNewOptionClick: _react2['default'].PropTypes.func,
+
 		// See Select.propTypes.options
 		options: _react2['default'].PropTypes.array,
 
@@ -353,6 +362,7 @@ var Creatable = _react2['default'].createClass({
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
+		var onNewOptionClick = _props.onNewOptionClick;
 		var _props$options = _props.options;
 		var options = _props$options === undefined ? [] : _props$options;
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
@@ -363,9 +373,13 @@ var Creatable = _react2['default'].createClass({
 
 			// Don't add the same option twice.
 			if (_isOptionUnique) {
-				options.unshift(option);
-
-				this.select.selectValue(option);
+				if (onNewOptionClick) {
+					onNewOptionClick(option);
+				} else {
+					this.inputValue = '';
+					options.unshift(option);
+					this.select.selectValue(option);
+				}
 			}
 		}
 	},
@@ -405,7 +419,6 @@ var Creatable = _react2['default'].createClass({
 
 				this._createPlaceholderOption = _newOptionCreator({
 					label: _prompt,
-					inputValue: this.inputValue,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
@@ -436,11 +449,17 @@ var Creatable = _react2['default'].createClass({
 		var menuRenderer = this.props.menuRenderer;
 
 		return menuRenderer(_extends({}, params, {
-			onSelect: this.onOptionSelect
+			onSelect: this.onOptionSelect,
+			selectValue: this.onOptionSelect
 		}));
 	},
 
 	onInputChange: function onInputChange(input) {
+		var onInputChange = this.props.onInputChange;
+
+		if (onInputChange) {
+			onInputChange(input);
+		}
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
 	},
@@ -786,6 +805,7 @@ var Select = _react2['default'].createClass({
 		inputProps: _react2['default'].PropTypes.object, // custom attributes for the Input
 		inputRenderer: _react2['default'].PropTypes.func, // returns a custom input component
 		instanceId: _react2['default'].PropTypes.string, // set the components instanceId
+		isAlwaysOpen: _react2['default'].PropTypes.bool, // never close the select
 		isLoading: _react2['default'].PropTypes.bool, // whether the Select is loading externally or not (such as options being loaded)
 		joinValues: _react2['default'].PropTypes.bool, // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: _react2['default'].PropTypes.string, // path of the label value in option objects
@@ -872,7 +892,8 @@ var Select = _react2['default'].createClass({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: _Value2['default'],
-			valueKey: 'value'
+			valueKey: 'value',
+			isAlwaysOpen: false
 		};
 	},
 
@@ -1803,6 +1824,7 @@ var Select = _react2['default'].createClass({
 		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		var isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
+		isOpen = this.props.isAlwaysOpen ? true : isOpen;
 		var focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
 		var focusedOption = null;

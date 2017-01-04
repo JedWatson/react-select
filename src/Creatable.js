@@ -31,6 +31,15 @@ const Creatable = React.createClass({
     // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
 
+		// input change handler: function (inputValue) {}
+		onInputChange: React.PropTypes.func,
+
+		// input keyDown handler: function (event) {}
+		onInputKeyDown: React.PropTypes.func,
+
+		// new option click handler: function (option) {}
+		onNewOptionClick: React.PropTypes.func,
+
 		// See Select.propTypes.options
 		options: React.PropTypes.array,
 
@@ -67,6 +76,7 @@ const Creatable = React.createClass({
 		const {
 			isValidNewOption,
 			newOptionCreator,
+			onNewOptionClick,
 			options = [],
 			shouldKeyDownEventCreateNewOption
 		} = this.props;
@@ -77,9 +87,13 @@ const Creatable = React.createClass({
 
 			// Don't add the same option twice.
 			if (isOptionUnique) {
-				options.unshift(option);
-
-				this.select.selectValue(option);
+				if (onNewOptionClick) {
+					onNewOptionClick(option);
+				} else {
+					this.inputValue = '';
+					options.unshift(option);
+					this.select.selectValue(option);
+				}
 			}
 		}
 	},
@@ -115,7 +129,6 @@ const Creatable = React.createClass({
 
 				this._createPlaceholderOption = newOptionCreator({
 					label: prompt,
-					inputValue: this.inputValue,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
@@ -148,11 +161,17 @@ const Creatable = React.createClass({
 
 		return menuRenderer({
 			...params,
-			onSelect: this.onOptionSelect
+			onSelect: this.onOptionSelect,
+			selectValue: this.onOptionSelect
 		});
 	},
 
 	onInputChange (input) {
+		const { onInputChange } = this.props;
+
+		if (onInputChange) {
+			onInputChange(input);
+		}
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
 	},
