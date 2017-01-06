@@ -1746,6 +1746,8 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderArrow: function renderArrow() {
+		if (this.props.keepOpen) return null;
+
 		var onMouseDown = this.handleMouseDownOnArrow;
 		var arrow = this.props.arrowRenderer({ onMouseDown: onMouseDown });
 
