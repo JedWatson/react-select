@@ -908,6 +908,9 @@ const Select = React.createClass({
 	},
 
 	renderArrow () {
+		if (this.props.keepOpen)
+			return null;
+
 		const onMouseDown = this.handleMouseDownOnArrow;
 		const arrow = this.props.arrowRenderer({onMouseDown});
 
