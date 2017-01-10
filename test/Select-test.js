@@ -84,6 +84,10 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 8, key: 'Backspace' });
 	};
 
+	var pressDelete = () => {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 46, key: 'Backspace' });
+	};
+
 	var pressUp = () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
 	};
@@ -1796,6 +1800,32 @@ describe('Select', () => {
                 </span>);
 		});
 
+		it('removes the last selected option with delete', () => {
+
+			setValueProp(['four','three']);
+			onChange.reset();  // Ignore previous onChange calls
+			pressDelete();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+		});
+
+		it('does not remove the last selected option with delete when deleteRemoves=false', () => {
+
+			// Disable delete
+			wrapper.setPropsForChild({
+				deleteRemoves: false,
+				value: ['four', 'three']
+			});
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressDelete();
+			expect(onChange, 'was not called');
+			expect(instance, 'to contain',
+				<span className="Select-multi-value-wrapper">
+                    <div><span className="Select-value-label">Four</span></div>
+                    <div><span className="Select-value-label">Three</span></div>
+                </span>);
+		});
+
 		it('removes an item when clicking on the X', () => {
 
 			setValueProp(['four', 'three', 'two']);
@@ -3028,6 +3058,40 @@ describe('Select', () => {
 				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
 				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
 				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'test');
+			});
+		});
+
+		describe('inputRenderer', () => {
+
+			var inputRenderer;
+
+			beforeEach(() => {
+
+				inputRenderer = (inputProps) => {
+					return (
+						<input id="custom-input" type="text" />
+					);
+				};
+
+				inputRenderer = sinon.spy(inputRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					inputRenderer: inputRenderer
+				});
+			});
+
+			it('renders the options using the inputRenderer', () => {
+				var input = ReactDOM.findDOMNode(instance).querySelector('#custom-input');
+				expect(input, 'not to equal', undefined);
+			});
+
+			it('calls the renderer exactly once', () => {
+				expect(inputRenderer, 'was called times', 1);
+			});
+
+			it('calls the renderer with props', () => {
+				expect(inputRenderer, 'was called with', { value: '', className: 'Select-input' });
 			});
 		});
 
