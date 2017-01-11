@@ -417,10 +417,14 @@ const Select = React.createClass({
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
+
+		var alternativeValue = !this.inProcessOfClearing ? this.props.initialInputValue : '';
+		this.inProcessOfClearing = false;
+
 		this.setState({
 			isFocused: true,
 			isOpen: isOpen,
-			inputValue: this.state.inputValue || this.props.initialInputValue,
+			inputValue: this.state.inputValue || alternativeValue,
 		});
 		this._openAfterFocus = false;
 	},
@@ -664,6 +668,7 @@ const Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 		this.setValue(this.getResetValue());
+		this.inProcessOfClearing = true;
 		this.setState({
 			isOpen: false,
 			inputValue: this.handleInputValueChange(''),
