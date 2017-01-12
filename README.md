@@ -350,6 +350,7 @@ function onInputKeyDown(event) {
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
+	clearRenderer | func | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()`
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
 	resetValue 	|	any	|	null	|	value to use when you clear the control
 	deleteRemoves 	|	bool	|	true	|	whether pressing delete key removes the last item when there is no input value
