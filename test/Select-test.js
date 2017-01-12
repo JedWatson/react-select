@@ -1391,8 +1391,8 @@ describe('Select', () => {
 				});
 
 				return new Promise((resolve, reject) => {
-					input === '_FAIL'? reject('nope') : resolve({options: options});
-				})
+					input === '_FAIL'? reject('nope') : resolve({ options: options });
+				});
 			});
 		});
 

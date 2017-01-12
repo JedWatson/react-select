@@ -602,9 +602,9 @@ var Select = React.createClass({
 
 		if (asyncOpts && typeof asyncOpts.then === 'function') {
 			asyncOpts.then((data) => {
-				optionsResponseHandler(null, data)
+				optionsResponseHandler(null, data);
 			}, (err) => {
-				optionsResponseHandler(err)
+				optionsResponseHandler(err);
 			});
 		}
 	},
