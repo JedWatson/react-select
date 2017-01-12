@@ -13,6 +13,7 @@ const propTypes = {
 		React.PropTypes.node
 	]),
 	loadOptions: React.PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
+	shouldReloadOptions: React.PropTypes.func,       // function to check if we should reload the loptions; (): bool
 	options: PropTypes.array.isRequired,             // array of options
 	placeholder: React.PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		React.PropTypes.string,
@@ -63,6 +64,12 @@ export default class Async extends Component {
 
 		if (autoload) {
 			this.loadOptions('');
+		}
+	}
+
+	componentWillReceiveProps (props) {
+		if (props.shouldReloadOptions && props.shouldReloadOptions()) {
+			this.loadOptions();
 		}
 	}
 
@@ -154,6 +161,15 @@ export default class Async extends Component {
 		return this.loadOptions(inputValue);
 	}
 
+	onOpen () {
+		if (this.props.shouldReloadOptions && this.props.shouldReloadOptions()) {
+			this.loadOptions();
+		}
+		if (this.props.onOpen) {
+			this.props.onOpen();
+		}
+	}
+
 	inputValue() {
 		if (this.select) {
 			return this.select.state.inputValue;
@@ -197,7 +213,8 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this._onInputChange,
+			onOpen: this.onOpen.bind(this)
 		});
 	}
 }
