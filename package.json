@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "0.9.1-react15",
+  "version": "0.9.1-wday-react15",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "style": "dist/default.css",

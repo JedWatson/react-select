@@ -1,5 +1,9 @@
 # React-Select
 
+## v0.9.1-wday-react15
+
+* fixed; peer dependency when using react 15
+
 ## v0.9.1 / 2015-11-01
 
 * added; new Contributors example w/ async options loading and custom value / label keys
