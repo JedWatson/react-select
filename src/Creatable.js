@@ -15,6 +15,9 @@ const Creatable = React.createClass({
 		// See Select.propTypes.filterOptions
 		filterOptions: React.PropTypes.any,
 
+    // Determines create new option position
+    isCreateAtBottom: React.PropTypes.bool,
+
 		// Searches for any matching option within the set of options.
 		// This function prevents duplicate options from being created.
 		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
@@ -69,6 +72,7 @@ const Creatable = React.createClass({
 			newOptionCreator,
 			promptTextCreator,
 			shouldKeyDownEventCreateNewOption,
+      isCreateAtBottom: false,
 		};
 	},
 
@@ -78,7 +82,8 @@ const Creatable = React.createClass({
 			newOptionCreator,
 			onNewOptionClick,
 			options = [],
-			shouldKeyDownEventCreateNewOption
+			shouldKeyDownEventCreateNewOption,
+      isCreateAtBottom,
 		} = this.props;
 
 		if (isValidNewOption({ label: this.inputValue })) {
@@ -90,8 +95,8 @@ const Creatable = React.createClass({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 				} else {
-					options.unshift(option);
-
+          if (isCreateAtBottom) options.push(option);
+					else options.unshift(option);
 					this.select.selectValue(option);
 				}
 			}
@@ -109,7 +114,7 @@ const Creatable = React.createClass({
 		const filteredOptions = filterOptions(...params) || [];
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const { newOptionCreator } = this.props;
+			const { newOptionCreator, isCreateAtBottom } = this.props;
 
 			const option = newOptionCreator({
 				label: this.inputValue,
@@ -132,8 +137,8 @@ const Creatable = React.createClass({
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
 				});
-
-				filteredOptions.unshift(this._createPlaceholderOption);
+				if (isCreateAtBottom) filteredOptions.push(this._createPlaceholderOption);
+        else filteredOptions.unshift(this._createPlaceholderOption);
 			}
 		}
 
