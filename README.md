@@ -94,6 +94,12 @@ function logChange(val) {
 />
 ```
 
+### Custom classNames
+
+You can provide a custom `className` prop to the `<Select>` component, which will be added to the base `.Select` className for the outer container.
+
+The built-in Options renderer also support custom classNames, just add a `className` property to objects in the `options` array.
+
 ### Multiselect options
 
 You can enable multi-value selection by setting `multi={true}`. In this mode:
