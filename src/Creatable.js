@@ -212,10 +212,9 @@ const Creatable = React.createClass({
 
 		let { children } = this.props;
 
-		// XXX: We can't use destructuring default values to set this, because if
-		// we're passed null for our 'children' prop, the default value will not be
-		// used as babel compiles destructuring default values to:
-		// value === undefined ? defaultValue : value
+		// We can't use destructuring default values to set the children,
+		// because it won't apply work if `children` is null. A falsy check is
+		// more reliable in real world use-cases.
 		if (!children) {
 			children = defaultChildren;
 		}
