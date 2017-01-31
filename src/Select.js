@@ -541,7 +541,9 @@ const Select = React.createClass({
 	handleMenuScroll (event) {
 		if (!this.props.onMenuScrollToBottom) return;
 		let { target } = event;
-		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
+		const { bottom: endPoint } = this.menuListEndPoint.getBoundingClientRect();
+		const { bottom } = target.getBoundingClientRect();
+		if (target.scrollHeight > target.clientHeight && bottom >= endPoint) {
 			this.props.onMenuScrollToBottom();
 		}
 	},
@@ -1034,6 +1036,7 @@ const Select = React.createClass({
 						 onScroll={this.handleMenuScroll}
 						 onMouseDown={this.handleMouseDownOnMenu}>
 					{menu}
+					<div ref={ref => this.menuListEndPoint = ref}></div>
 				</div>
 			</div>
 		);
