@@ -2255,6 +2255,23 @@ describe('Select', () => {
 			});
 		});
 
+		describe('clearRenderer', () => {
+
+			beforeEach(() => {
+				instance = createControl({
+					clearable: true,
+					value: 'three',
+					clearRenderer: () => <span className="Select-custom-clear">O</span>,
+					options: defaultOptions
+				});
+			});
+
+			it('renders a custom clear', () => {
+
+				expect(instance, 'to contain', <span className="Select-custom-clear">O</span>);
+			});
+		});
+
 		describe('clearValueText', () => {
 
 			beforeEach(() => {
