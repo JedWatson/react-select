@@ -37,6 +37,7 @@ var CreatableDemo = React.createClass({
 					options={options}
 					onChange={this.handleOnChange}
 					value={multi ? multiValue : value}
+					initialInputValue="Ahoj"
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">
