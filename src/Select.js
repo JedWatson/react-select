@@ -633,12 +633,14 @@ const Select = React.createClass({
 	addValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
-		const valueIndex = visibleOptions.indexOf(value);
+		const lastValueIndex = visibleOptions.indexOf(value);
 		this.setValue(valueArray.concat(value));
-		if (visibleOptions.length > valueIndex + 1) {
-			this.focusOption(visibleOptions[valueIndex + 1]);
-		} else if (index > 0) {
-			this.focusOption(visibleOptions[valueIndex - 1]);
+		if (visibleOptions.length - 1 === lastValueIndex) {
+			// the last option was selected; focus the second-last one
+			this.focusOption(visibleOptions[lastValueIndex - 1]);
+		} else if (visibleOptions.length > lastValueIndex) {
+			// focus the option below the selected one
+			this.focusOption(visibleOptions[lastValueIndex + 1]);
 		}
 	},
 
