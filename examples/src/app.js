@@ -10,6 +10,7 @@ import GithubUsers from './components/GithubUsers';
 import CustomComponents from './components/CustomComponents';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
+import MultiSelectAll from './components/MultiSelectAll';
 import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
@@ -19,6 +20,7 @@ ReactDOM.render(
 	<div>
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
+		<MultiSelectAll label="MultiSelectAll" />
 		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
 		<GithubUsers label="Github users (Async with fetch.js)" />
