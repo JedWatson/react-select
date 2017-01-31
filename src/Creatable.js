@@ -205,11 +205,20 @@ const Creatable = React.createClass({
 
 	render () {
 		const {
-			children = defaultChildren,
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
 			...restProps
 		} = this.props;
+
+		let { children } = this.props;
+
+		// XXX: We can't use destructuring default values to set this, because if
+		// we're passed null for our 'children' prop, the default value will not be
+		// used as babel compiles destructuring default values to:
+		// value === undefined ? defaultValue : value
+		if (!children) {
+			children = defaultChildren;
+		}
 
 		const props = {
 			...restProps,
