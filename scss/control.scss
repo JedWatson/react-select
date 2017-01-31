@@ -69,6 +69,7 @@
 
 	// flip the arrow so its pointing up when the menu is open
 	.Select-arrow {
+		top: -2px;
 		border-color: transparent transparent $select-arrow-color;
 		border-width: 0 $select-arrow-width $select-arrow-width;
 	}
@@ -238,6 +239,7 @@
 	display: inline-block;
 	height: 0;
 	width: 0;
+	position: relative;
 }
 .is-open .Select-arrow,
 .Select-arrow-zone:hover > .Select-arrow {
