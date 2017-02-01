@@ -94,6 +94,12 @@ function logChange(val) {
 />
 ```
 
+### Custom classNames
+
+You can provide a custom `className` prop to the `<Select>` component, which will be added to the base `.Select` className for the outer container.
+
+The built-in Options renderer also support custom classNames, just add a `className` property to objects in the `options` array.
+
 ### Multiselect options
 
 You can enable multi-value selection by setting `multi={true}`. In this mode:
@@ -250,16 +256,18 @@ You can control how options are filtered with the following properties:
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
 * `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
+* `ignoreAccents`: `Boolean`: whether to ignore accents on characters like ø or å
 
 `matchProp` and `matchPos` both default to `"any"`.
 `ignoreCase` defaults to `true`.
+`ignoreAccents` defaults to `true`.
 
 #### Advanced filters
 
 You can also completely replace the method used to filter either a single option, or the entire options array (allowing custom sort mechanisms, etc.)
 
-* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos`, `matchProp` and `ignoreCase` options.
-* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos`, `matchProp` and `ignoreCase` options.
+* `filterOption`: `function(Object option, String filter)` returns `Boolean`. Will override `matchPos`, `matchProp`, `ignoreCase` and `ignoreAccents` options.
+* `filterOptions`: `function(Array options, String filter, Array currentValues)` returns `Array filteredOptions`. Will override `filterOption`, `matchPos`, `matchProp`, `ignoreCase` and `ignoreAccents` options.
 
 For multi-select inputs, when providing a custom `filterOptions` method, remember to exclude current values from the returned array of options.
 
@@ -339,7 +347,7 @@ function onInputKeyDown(event) {
 	Property	|	Type		|	Default		|	Description
 :-----------------------|:--------------|:--------------|:--------------------------------
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
-  arrowRenderer | func | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown })`
+  arrowRenderer | func | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown, isOpen })`
 	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
 	autofocus       |       bool    |      undefined        |  autofocus the component on mount
 	autoload 	|	bool	|	true		|	whether to auto-load the default async options set
@@ -350,6 +358,7 @@ function onInputKeyDown(event) {
 	className 	|	string	|	undefined	|	className for the outer element
 	clearable 	|	bool	|	true		|	should it be possible to reset value
 	clearAllText 	|	string	|	'Clear all'	|	title for the "clear" control when `multi` is true
+	clearRenderer | func | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()`
 	clearValueText 	|	string	|	'Clear value'	|	title for the "clear" control
 	resetValue 	|	any	|	null	|	value to use when you clear the control
 	deleteRemoves 	|	bool	|	true	|	whether pressing delete key removes the last item when there is no input value
@@ -357,6 +366,7 @@ function onInputKeyDown(event) {
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
 	filterOptions 	|	func	|	undefined	|	method to filter the options array: `function([options], filterString, [values])`
+	ignoreAccents 	|	bool	|	true		|	whether to strip accents when filtering
 	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
@@ -369,7 +379,7 @@ function onInputKeyDown(event) {
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
-	noResultsText 	|	string	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it
+	noResultsText 	|	string 	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it (can also be a react component)
 	onBlur 		|	func	|	undefined	|	onBlur handler: `function(event) {}`
 	onBlurResetsInput	|	bool	|	true	|	whether to clear input on blur or not
 	onChange 	|	func	|	undefined	|	onChange handler: `function(newValue) {}`
