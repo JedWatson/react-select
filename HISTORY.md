@@ -35,6 +35,9 @@
 * fixed; re-added the `focus()` method on `Select.Async`, thanks, [Maarten Claes](https://github.com/mcls)
 * fixed; focus the next available option after a selection, not the top option, thanks [Nicolas Raynaud](https://github.com/nraynaud)
 
+Note there has also been a breaking change to the props for the `Async` component: both `minimumInput` and `searchingText` have been removed. See #1226 for more details. Apologies for doing this in an RC release, but we had to trade off between resolving some important bugs and breaking the API, and figured it was better to do this before declaring 1.0.0 stable.
+
+
 ## v1.0.0-rc.1 / 2016-09-04
 
 * fixed; reset value to `[]` when `multi=true`, thanks [Michael Williamson](https://github.com/mwilliamson)
