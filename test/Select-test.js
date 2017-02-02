@@ -242,6 +242,11 @@ describe('Select', () => {
 			expect(instance.menu, 'not to equal', undefined);
 		});
 
+		it('menuListEndPoint', () => {
+			clickArrowToOpen();
+			expect(instance.menuListEndPoint, 'not to equal', undefined);
+		});
+
 		it('wrapper', () => {
 			expect(instance.wrapper, 'not to equal', undefined);
 		});
