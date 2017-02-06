@@ -6,6 +6,7 @@ const stripPunctuation = require('../lib/utils/stripPunctuation');
 describe('Value component', function() {
     it('it should removed punctuation from strings', function() {
         var cases = [
+            "I'm a little teatpot.",
             'Im a little teatpot.',
             'Im, a little teatpot',
             'Im/ a little teatpot',
