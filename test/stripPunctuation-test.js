@@ -1,7 +1,7 @@
 'use strict';
 /* global describe, it, beforeEach */
 const expect = require('chai').expect;
-const stripPunctuation = require('../lib/utils/stripPunctuation');
+const stripPunctuation = require('../src/utils/stripPunctuation');
 
 describe('Value component', function() {
     it('it should removed punctuation from strings', function() {
