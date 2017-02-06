@@ -1,4 +1,5 @@
 import stripDiacritics from './stripDiacritics';
+import stripPunctuation from './stripPunctuation';
 
 function filterOptions (options, filterValue, excludeOptions, props) {
 	if (props.ignoreAccents) {
@@ -17,6 +18,10 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 		if (!filterValue) return true;
 		var valueTest = String(option[props.valueKey]);
 		var labelTest = String(option[props.labelKey]);
+		if (props.ignorePunctuation) {
+			if (props.matchProp !== 'label') valueTest = stripPunctuation(valueTest);
+			if (props.matchProp !== 'value') labelTest = stripPunctuation(labelTest);
+		}
 		if (props.ignoreAccents) {
 			if (props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
 			if (props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);
