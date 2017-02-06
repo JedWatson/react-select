@@ -434,4 +434,17 @@ describe('Async', () => {
 			return expect(onInputChange, 'was called times', 1);
 		});
 	});
+
+	describe('.focus()', () => {
+		beforeEach(() => {
+			createControl({});
+		});
+
+		it('focuses the search input', () => {
+			var input = asyncNode.querySelector('input');
+			expect(input, 'not to equal', document.activeElement);
+			asyncInstance.focus();
+			expect(input, 'to equal', document.activeElement);
+		});
+	});
 });
