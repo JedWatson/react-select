@@ -1,6 +1,7 @@
 'use strict';
-const puncuation = /[.,\/'#!%\^&\*;:{}=\-_`~()]/g;
+const punctuationList = /[.,\/'#!%\^?&\*;:{}=\-_`~()]/g;
 const empty = '';
-module.exports = function stripPunctuation(str) {
-    return str.replace(puncuation, empty);
+module.exports = function stripPunctuation(str,optionalBlackList) {
+    var theBlackList = optionalBlackList === true ? punctuationList : optionalBlackList;
+    return str.replace(theBlackList, empty);
 };

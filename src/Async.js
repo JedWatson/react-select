@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
+import stripPunctuation from './utils/stripPunctuation';
 
 const propTypes = {
 	autoload: React.PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
@@ -8,6 +9,10 @@ const propTypes = {
 	children: React.PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 	ignoreAccents: React.PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: React.PropTypes.bool,                // perform case-insensitive filtering; defaults to true
+	ignorePunctuation:React.PropTypes.oneOfType([    // whether to strip punctuation during searches. Can take a regex or a boolean. defaults to false
+	    React.PropTypes.string,
+	    React.PropTypes.object,
+	]),
 	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		React.PropTypes.string,
 		React.PropTypes.node
@@ -39,6 +44,7 @@ const defaultProps = {
 	children: defaultChildren,
 	ignoreAccents: true,
 	ignoreCase: true,
+	ignorePunctuation:false,
 	loadingPlaceholder: 'Loading...',
 	options: [],
 	searchPromptText: 'Type to search',
@@ -137,7 +143,11 @@ export default class Async extends Component {
 	}
 
 	_onInputChange (inputValue) {
-		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
+		const { ignoreAccents, ignoreCase, onInputChange, ignorePunctuation } = this.props;
+
+		if(ignorePunctuation) {
+			inputValue = stripPunctuation(inputValue, ignorePunctuation);
+		}
 
 		if (ignoreAccents) {
 			inputValue = stripDiacritics(inputValue);

@@ -19,8 +19,8 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 		var valueTest = String(option[props.valueKey]);
 		var labelTest = String(option[props.labelKey]);
 		if (props.ignorePunctuation) {
-			if (props.matchProp !== 'label') valueTest = stripPunctuation(valueTest);
-			if (props.matchProp !== 'value') labelTest = stripPunctuation(labelTest);
+			if (props.matchProp !== 'label') valueTest = stripPunctuation(valueTest,props.ignorePunctuation);
+			if (props.matchProp !== 'value') labelTest = stripPunctuation(labelTest,props.ignorePunctuation);
 		}
 		if (props.ignoreAccents) {
 			if (props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);

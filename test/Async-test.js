@@ -341,6 +341,80 @@ describe('Async', () => {
 		});
 	});
 
+	describe('with ignore punctuation', () => {
+		it('removes punctuation characters', () => {
+			createControl({
+				ignorePunctuation: true
+			});
+			typeSearchText('i\'m a teapot!');
+			expect(loadOptions, 'was called with', 'im a teapot');
+		});
+
+		it('removes accents and removes punctuation', () => {
+			createControl({
+				ignorePunctuation: true,
+				ignoreAccents: true
+			});
+			typeSearchText('wär.,#!%\^&\*;:{}=\-_`~()e\'s!!!!!');
+			expect(loadOptions, 'was called with', 'wares');
+		});
+
+		it('converts to lowerscase and removes punctuation', () => {
+			createControl({
+				ignorePunctuation: true,
+				ignoreCase: true
+			});
+			typeSearchText('WÄR.,#!%\^&\*;:{}=\-_`~()e\'s!!!!!');
+			expect(loadOptions, 'was called with', 'wares');
+		});
+
+		it('removes accents, converts to lowercase, and removes punctuation', () => {
+			createControl({
+				ignorePunctuation: true,
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('WÄR.,#!%\^&\*;:{}=\-_`~()E\'s!!!!!');
+			expect(loadOptions, 'was called with', 'wares');
+		});
+
+		it('removes dictated punctuation when using a regex', () => {
+			createControl({
+				ignorePunctuation: /['*{}!]/g,
+			});
+			typeSearchText('i\'m a *really* {nice} teapot!');
+			expect(loadOptions, 'was called with', 'im a really nice teapot');
+		});
+
+		it('removes dictated punctuation when using a regex and converts to lowercase', () => {
+			createControl({
+				ignorePunctuation: /['*{}!]/g,
+				ignoreCase: true
+			});
+			typeSearchText('I\'m a *really* {nice} Teapot!');
+			expect(loadOptions, 'was called with', 'im a really nice teapot');
+		});
+
+		it('removes dictated punctuation when using a regex and removes accents', () => {
+			createControl({
+				ignorePunctuation: /['*{}!]/g,
+				ignoreAccents: true,
+			});
+			typeSearchText('i\'m Ä *reÄlly* {nice} teapot!');
+			expect(loadOptions, 'was called with', 'im a really nice teapot');
+		});
+
+		it('removes dictated punctuation when using a regex, removes accents, and converts to lowercase', () => {
+			createControl({
+				ignorePunctuation: /['*{}!]/g,
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('I\'m Ä *reÄlly* {nice} Teapot!');
+			expect(loadOptions, 'was called with', 'im a really nice teapot');
+		});
+	});
+
 	describe('noResultsText', () => {
 
 		beforeEach(() => {
