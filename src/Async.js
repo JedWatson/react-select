@@ -10,7 +10,7 @@ const propTypes = {
 	ignoreAccents: React.PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: React.PropTypes.bool,                // perform case-insensitive filtering; defaults to true
 	ignorePunctuation:React.PropTypes.oneOfType([    // whether to strip punctuation during searches. Can take a regex or a boolean. defaults to false
-	    React.PropTypes.string,
+	    React.PropTypes.bool,
 	    React.PropTypes.object,
 	]),
 	loadingPlaceholder: React.PropTypes.oneOfType([  // replaces the placeholder while options are loading

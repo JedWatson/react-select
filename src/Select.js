@@ -66,7 +66,7 @@ const Select = React.createClass({
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		ignorePunctuation:React.PropTypes.oneOfType([  // whether to strip punctuation during searches. Can take a regex or a boolean.
-		    React.PropTypes.string,
+		    React.PropTypes.bool,
 		    React.PropTypes.object,
 		]),
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
