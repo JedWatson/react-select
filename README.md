@@ -250,6 +250,7 @@ You can control how options are filtered with the following properties:
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
 * `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
+* `ignorePunctuation`: `Boolean` || `Regex`: whether to ignore general punctuation when searching in the options list. Can take a custom regular expression representing characters to ignore
 
 `matchProp` and `matchPos` both default to `"any"`.
 `ignoreCase` defaults to `true`.
@@ -357,7 +358,8 @@ function onInputKeyDown(event) {
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
 	filterOptions 	|	func	|	undefined	|	method to filter the options array: `function([options], filterString, [values])`
-	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
+    ignoreCase  |   bool    |   true        |   whether to perform case-insensitive filtering
+	ignorePunctuation 	|	bool || regex	|	false		|	whether to ignore punctuation or characters in the provided regex when filter
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
 	isLoading	|	bool	|	false		|	whether the Select is loading externally or not (such as options being loaded)
 	joinValues	|	bool	|	false		|	join multiple values into a single hidden input using the `delimiter`
