@@ -83,7 +83,7 @@ describe('Value component', function() {
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
-			TestUtils.Simulate.mouseDown(valueLabel);
+			TestUtils.Simulate.mouseDown(valueLabel, { button: 0 });
 			expect(props.onClick, 'was called');
 		});
 

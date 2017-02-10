@@ -48,6 +48,11 @@
 		@include border-bottom-radius( $select-input-border-radius );
 	}
 
+	&.is-selected {
+		background-color: $select-option-selected-bg;
+		color: $select-option-selected-color;
+	}
+
 	&.is-focused {
 		background-color: $select-option-focused-bg;
 		color: $select-option-focused-color;

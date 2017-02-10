@@ -23,3 +23,5 @@ bower_components
 
 # Other
 .DS_Store
+
+yarn.lock

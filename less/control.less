@@ -38,6 +38,7 @@
 	&.is-disabled .Select-arrow-zone {
 		cursor: default;
 		pointer-events: none;
+		opacity: 0.35;
 	}
 }
 
@@ -51,6 +52,8 @@
 	color: @select-text-color;
 	cursor: default;
 	display: table;
+	border-spacing: 0;
+	border-collapse: separate;
 	height: @select-input-height;
 	outline: none;
 	overflow: hidden;
@@ -59,6 +62,10 @@
 
 	&:hover {
 		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	}
+
+	.Select-input:focus {
+		outline: none;
 	}
 }
 
@@ -74,7 +81,8 @@
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
 
 	// flip the arrow so its pointing up when the menu is open
-	> .Select-arrow {
+	.Select-arrow {
+		top: -2px;
 		border-color: transparent transparent @select-arrow-color;
 		border-width: 0 @select-arrow-width @select-arrow-width;
 	}
@@ -91,9 +99,8 @@
 }
 
 // placeholder
-
 .Select-placeholder,
-:not(.Select--multi) > .Select-control .Select-value {
+.Select--single > .Select-control .Select-value {
 	bottom: 0;
 	color: @select-input-placeholder;
 	left: 0;
@@ -111,8 +118,8 @@
 	white-space: nowrap;
 }
 
-.has-value:not(.Select--multi) > .Select-control > .Select-value,
-.has-value.is-pseudo-focused:not(.Select--multi) > .Select-control > .Select-value {
+.has-value.Select--single > .Select-control .Select-value,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
 	.Select-value-label {
 		color: @select-text-color;
 	}
@@ -148,10 +155,12 @@
 		display: inline-block;
 		font-family: inherit;
 		font-size: inherit;
-		height: @select-input-internal-height;
+		// height: @select-input-internal-height;
 		margin: 0;
 		outline: none;
-		padding: 0;
+		// padding: 0;
+		line-height: 14px;  /* For IE 8 compatibility */
+		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
 		-webkit-appearance: none;
 
 		.is-focused & {
@@ -231,14 +240,25 @@
 	display: inline-block;
 	height: 0;
 	width: 0;
+	position: relative;
 }
 .is-open .Select-arrow,
 .Select-arrow-zone:hover > .Select-arrow {
 	border-top-color: @select-arrow-color-hover;
 }
 
-
-
+.Select--multi .Select-multi-value-wrapper {
+  display: inline-block;
+}
+.Select .Select-aria-only {
+  display: inline-block;
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  clip: rect(0,0,0,0);
+  overflow: hidden;
+  float: left;
+}
 
 // Animation
 // ------------------------------
