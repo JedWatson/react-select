@@ -642,7 +642,7 @@ const Select = React.createClass({
 				inputValue: '',
 				focusedIndex: null
 			}, () => {
-				var valueArray = this.getValueArray();
+				var valueArray = this.getValueArray(this.props.value);
 				if (valueArray.find(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 					this.removeValue(value);
 				} else {
@@ -683,7 +683,7 @@ const Select = React.createClass({
 
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
+		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
 		this.focus();
 	},
 
