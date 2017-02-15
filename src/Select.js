@@ -543,8 +543,8 @@ class Select extends React.Component {
 				inputValue: this.handleInputValueChange(''),
 				focusedIndex: null
 			}, () => {
-				var valueArray = this.getValueArray();
-				if (valueArray.find(i => i === value)) {
+				var valueArray = this.getValueArray(this.props.value);
+				if (valueArray.find(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 					this.removeValue(value);
 				} else {
 					this.addValue(value);
