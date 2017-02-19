@@ -1019,12 +1019,16 @@ const Select = React.createClass({
 	},
 
 	getFocusableOptionIndex (selectedOption) {
-		var options = this._visibleOptions;
+		let { valueKey } = this.props;
+		let options = this._visibleOptions;
 		if (!options.length) return null;
 
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
-			const focusedOptionIndex = options.indexOf(focusedOption);
+			const focusedOptionIndex = options
+				.map((option) => option.hasOwnProperty(valueKey) ? option[valueKey] : option)
+				.indexOf(focusedOption.hasOwnProperty(valueKey) ? focusedOption[valueKey] : focusedOption);
+
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
 			}
@@ -1033,6 +1037,7 @@ const Select = React.createClass({
 		for (var i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return i;
 		}
+
 		return null;
 	},
 
