@@ -48,6 +48,7 @@ const Select = React.createClass({
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
+		'aria-describedby': React.PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		arrowRenderer: React.PropTypes.func,				// Create drop-down caret element
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
@@ -854,6 +855,7 @@ const Select = React.createClass({
 			'aria-haspopup': '' + isOpen,
 			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
 			'aria-labelledby': this.props['aria-labelledby'],
+			'aria-describedby': this.props['aria-describedby'],
 			'aria-label': this.props['aria-label'],
 			className: className,
 			tabIndex: this.props.tabIndex,
