@@ -905,6 +905,7 @@ var Select = _react2['default'].createClass({
 		onInputKeyDown: _react2['default'].PropTypes.func, // input keyDown handler: function (event) {}
 		onMenuScrollToBottom: _react2['default'].PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: _react2['default'].PropTypes.func, // fires when the menu is opened
+		onRemoveValue: _react2['default'].PropTypes.func, // would be called when we remove value(s).
 		onValueClick: _react2['default'].PropTypes.func, // onClick handler for value labels: function (value, event) {}
 		openAfterFocus: _react2['default'].PropTypes.bool, // boolean to enable opening dropdown when focused
 		openOnFocus: _react2['default'].PropTypes.bool, // always open options menu on focus
@@ -1173,7 +1174,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openOnFocus;
 			this.focus();
 		}
 	},
@@ -1490,11 +1491,17 @@ var Select = _react2['default'].createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length - 1].clearableValue === false) return;
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue(valueArray[valueArray.length - 1]);
+		}
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
 	removeValue: function removeValue(value) {
 		var valueArray = this.getValueArray(this.props.value);
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue(value);
+		}
 		this.setValue(valueArray.filter(function (i) {
 			return i !== value;
 		}));
@@ -1509,6 +1516,9 @@ var Select = _react2['default'].createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue();
+		}
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,

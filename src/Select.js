@@ -92,6 +92,7 @@ const Select = React.createClass({
 		onInputKeyDown: React.PropTypes.func,       // input keyDown handler: function (event) {}
 		onMenuScrollToBottom: React.PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: React.PropTypes.func,               // fires when the menu is opened
+		onRemoveValue: React.PropTypes.func, 				// would be called when we remove value(s).
 		onValueClick: React.PropTypes.func,         // onClick handler for value labels: function (value, event) {}
 		openAfterFocus: React.PropTypes.bool,       // boolean to enable opening dropdown when focused
 		openOnFocus: React.PropTypes.bool,          // always open options menu on focus
@@ -648,11 +649,17 @@ const Select = React.createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue(valueArray[valueArray.length - 1]);
+		}
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue(value);
+		}
 		this.setValue(valueArray.filter(i => i !== value));
 		this.focus();
 	},
@@ -665,6 +672,9 @@ const Select = React.createClass({
 		}
 		event.stopPropagation();
 		event.preventDefault();
+		if (this.props.onRemoveValue !== undefined) {
+			this.props.onRemoveValue();
+		}
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,
