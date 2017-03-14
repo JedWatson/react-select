@@ -13,6 +13,10 @@ function reduce(obj, props = {}){
 const AsyncCreatable = React.createClass({
 	displayName: 'AsyncCreatableSelect',
 
+	focus () {
+		this.select.focus();
+	},
+
 	render () {
 		return (
 			<Select.Async {...this.props}>
@@ -26,6 +30,7 @@ const AsyncCreatable = React.createClass({
 									return asyncProps.onInputChange(input);
 								}}
 								ref={(ref) => {
+									this.select = ref;
 									creatableProps.ref(ref);
 									asyncProps.ref(ref);
 								}}
