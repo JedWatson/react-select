@@ -1782,6 +1782,14 @@ describe('Select', () => {
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
 		});
 
+		it('removes the last selected option with backspace when search text is set', () => {
+			typeSearchText('o');
+			setValueProp(['four','three']);
+			onChange.reset();  // Ignore previous onChange calls
+			pressBackspace();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+		});
+
 		it('does not remove the last selected option with backspace when backspaceRemoves=false', () => {
 
 			// Disable backspace
