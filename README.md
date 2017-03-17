@@ -377,6 +377,7 @@ function onInputKeyDown(event) {
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
+	menuScroller | func | undefined | function for customizing menu scroll behaviour: `menuScroller({ menuNode })`
 	multi 		|	bool	|	undefined	|	multi-value input
 	name 		|	string	|	undefined	|	field name, for hidden `<input />` tag
 	noResultsText 	|	string 	|	'No results found'	|	placeholder displayed when there are no matching search results or a falsy value to hide it (can also be a react component)

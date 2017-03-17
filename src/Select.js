@@ -78,6 +78,7 @@ const Select = React.createClass({
 		menuBuffer: React.PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
 		menuRenderer: React.PropTypes.func,         // renders a custom menu with options
+		menuScroller: React.PropTypes.func,         // scrolls menu: function (menuNode) {}
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
@@ -210,9 +211,9 @@ const Select = React.createClass({
 	componentDidUpdate (prevProps, prevState) {
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
-			let focusedOptionNode = ReactDOM.findDOMNode(this.focused);
 			let menuNode = ReactDOM.findDOMNode(this.menu);
-			menuNode.scrollTop = focusedOptionNode.offsetTop;
+			const menuScroller = this.props.menuScroller ? this.props.menuScroller : this.menuScroller;
+			menuScroller(menuNode);
 			this.hasScrolledToOption = true;
 		} else if (!this.state.isOpen) {
 			this.hasScrolledToOption = false;
@@ -783,6 +784,11 @@ const Select = React.createClass({
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
+	},
+
+	menuScroller(menuNode) {
+		let focusedOptionNode = ReactDOM.findDOMNode(this.focused);
+		menuNode.scrollTop = focusedOptionNode.offsetTop;
 	},
 
 	renderLoading () {
