@@ -67,6 +67,10 @@ const Select = React.createClass({
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
+		ignorePunctuation:React.PropTypes.oneOfType([  // whether to strip punctuation during searches. Can take a regex or a boolean.
+		    React.PropTypes.bool,
+		    React.PropTypes.object,
+		]),
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
 		inputRenderer: React.PropTypes.func,        // returns a custom input component
 		instanceId: React.PropTypes.string,         // set the components instanceId
@@ -134,6 +138,7 @@ const Select = React.createClass({
 			disabled: false,
 			escapeClearsValue: true,
 			filterOptions: defaultFilterOptions,
+			ignorePunctuation: false,
 			ignoreAccents: true,
 			ignoreCase: true,
 			inputProps: {},
@@ -946,6 +951,7 @@ const Select = React.createClass({
 				filterValue,
 				excludeOptions,
 				{
+					ignorePunctuation: this.props.ignorePunctuation,
 					filterOption: this.props.filterOption,
 					ignoreAccents: this.props.ignoreAccents,
 					ignoreCase: this.props.ignoreCase,

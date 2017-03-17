@@ -256,6 +256,7 @@ You can control how options are filtered with the following properties:
 * `matchPos`: `"start"` or `"any"`: whether to match the text entered at the start or any position in the option value
 * `matchProp`: `"label"`, `"value"` or `"any"`: whether to match the value, label or both values of each option when filtering
 * `ignoreCase`: `Boolean`: whether to ignore case or match the text exactly when filtering
+* `ignorePunctuation`: `Boolean` || `Regex`: whether to ignore general punctuation when searching in the options list. Can take a custom regular expression representing characters to ignore
 * `ignoreAccents`: `Boolean`: whether to ignore accents on characters like ø or å
 
 `matchProp` and `matchPos` both default to `"any"`.
@@ -366,6 +367,7 @@ function onInputKeyDown(event) {
 	disabled 	|	bool	|	false		|	whether the Select is disabled or not
 	filterOption 	|	func	|	undefined	|	method to filter a single option: `function(option, filterString)`
 	filterOptions 	|	func	|	undefined	|	method to filter the options array: `function([options], filterString, [values])`
+	ignorePunctuation 	|	bool or regex	|	false	|	whether to ignore punctuation or characters in the provided regex when filter
 	ignoreAccents 	|	bool	|	true		|	whether to strip accents when filtering
 	ignoreCase 	|	bool	|	true		|	whether to perform case-insensitive filtering
 	inputProps 	|	object	|	{}		|	custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}`
