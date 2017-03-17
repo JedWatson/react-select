@@ -25,6 +25,8 @@ var MultiSelectField = React.createClass({
 			crazy: false,
 			options: FLAVOURS,
 			value: [],
+			maxSelectedOptionsEnabled: false,
+			maxSelectedOptions: 2
 		};
 	},
 	handleSelectChange (value) {
@@ -41,11 +43,16 @@ var MultiSelectField = React.createClass({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS,
 		});
 	},
+	toggleMaxSelectedOptions (e) {
+		this.setState({
+			maxSelectedOptionsEnabled: e.target.checked
+		});
+	},
 	render () {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<Select multi simpleValue disabled={this.state.disabled} maxSelectedOptions={this.state.maxSelectedOptionsEnabled ? this.state.maxSelectedOptions : undefined} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
 
 				<div className="checkbox-list">
 					<label className="checkbox">
@@ -55,6 +62,10 @@ var MultiSelectField = React.createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.crazy} onChange={this.toggleChocolate} />
 						<span className="checkbox-label">I don't like Chocolate (disabled the option)</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.maxSelectedOptionsEnabled} onChange={this.toggleMaxSelectedOptions} />
+						<span className="checkbox-label">Maximum selected options ({this.state.maxSelectedOptions} options)</span>
 					</label>
 				</div>
 			</div>

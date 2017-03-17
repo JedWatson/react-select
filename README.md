@@ -309,7 +309,7 @@ You can manipulate the input using the onInputChange and returning a new value.
 function cleanInput(inputValue) {
 	  // Strip all non-number characters from the input
     return inputValue.replace(/[^0-9]/g, "");
-}   
+}
 
 <Select
     name="form-field-name"
@@ -375,6 +375,8 @@ function onInputKeyDown(event) {
 	loadOptions	|	func	|	undefined	|	function that returns a promise or calls a callback with the options: `function(input, [callback])`
 	matchPos 	|	string	|	'any'		|	(any, start) match the start or entire string when filtering
 	matchProp 	|	string	|	'any'		|	(any, label, value) which option property to filter on
+	maxSelectedOptions 	| number 	| 	undefined 	| maximum number of selected options for select multiple
+	maxSelectedOptionsText 	| string 	| 'You can only select {optionsCount} items' 	| placeholder displayed when max number of selected options reached
 	menuBuffer	|	number	|	0		|	buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport
 	menuRenderer | func | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })`
 	multi 		|	bool	|	undefined	|	multi-value input

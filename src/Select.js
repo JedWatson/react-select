@@ -75,6 +75,8 @@ const Select = React.createClass({
 		labelKey: React.PropTypes.string,           // path of the label value in option objects
 		matchPos: React.PropTypes.string,           // (any|start) match the start or entire string when filtering
 		matchProp: React.PropTypes.string,          // (any|label|value) which option property to filter on
+		maxSelectedOptions: React.PropTypes.number, // maximum number of selected options for select multiple
+		maxSelectedOptionsText: stringOrNode,       // placeholder displayed when max number of selected options reached - {optionsCount} is replaced with maxSelectedOptions value
 		menuBuffer: React.PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 		menuContainerStyle: React.PropTypes.object, // optional style to apply to the menu container
 		menuRenderer: React.PropTypes.func,         // renders a custom menu with options
@@ -159,6 +161,7 @@ const Select = React.createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			maxSelectedOptionsText: 'You can only select {optionsCount} items',
 		};
 	},
 
@@ -967,7 +970,13 @@ const Select = React.createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
+		if (this.props.multi && this.props.maxSelectedOptions && this.props.maxSelectedOptionsText && this.props.maxSelectedOptions <= this.getValueArray(this.props.value).length) {
+			return (
+				<div className="Select-maxoptions">
+					{this.props.maxSelectedOptionsText.replace('{optionsCount}', this.props.maxSelectedOptions)}
+				</div>
+			);
+		} else if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
