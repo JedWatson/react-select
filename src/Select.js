@@ -80,6 +80,7 @@ const Select = React.createClass({
 		menuRenderer: React.PropTypes.func,         // renders a custom menu with options
 		menuStyle: React.PropTypes.object,          // optional style to apply to the menu
 		multi: React.PropTypes.bool,                // multi-value input
+		multiCloseOnSelect: React.PropTypes.bool,   // multi-value input should close after a value is selected
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
@@ -145,6 +146,7 @@ const Select = React.createClass({
 			menuBuffer: 0,
 			menuRenderer: defaultMenuRenderer,
 			multi: false,
+			multiCloseOnSelect: false,
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
 			onCloseResetsInput: true,
@@ -615,7 +617,8 @@ const Select = React.createClass({
 		if (this.props.multi) {
 			this.setState({
 				inputValue: '',
-				focusedIndex: null
+				focusedIndex: null,
+				isOpen: !this.props.multiCloseOnSelect
 			}, () => {
 				this.addValue(value);
 			});
