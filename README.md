@@ -395,6 +395,7 @@ function onInputKeyDown(event) {
 	options 	|	array	|	undefined	|	array of options
 	placeholder 	|	string\|node	|	'Select ...'	|	field placeholder, displayed when there's no value
 	scrollMenuIntoView |	bool	|	true		|	whether the viewport will shift to display the entire menu when engaged
+	scrollableParentId |	string	|	undefined		|	parent Id that should be scroled when options menu goes outside the viewport. By default component scrolls window.
 	searchable 	|	bool	|	true		|	whether to enable searching feature or not
 	searchPromptText |	string\|node	|	'Type to search'	|	label to prompt for search input
 	loadingPlaceholder |	string\|node	|	'Loading...'	|	label to prompt for loading search result
