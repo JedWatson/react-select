@@ -386,6 +386,7 @@ function onInputKeyDown(event) {
 	onClose		|	func	|	undefined	|	handler for when the menu closes: `function () {}`
 	onCloseResetsInput | bool  | true  | whether to clear input when closing the menu through the arrow
 	onFocus 	|	func	|	undefined	|	onFocus handler: `function(event) {}`
+	onMenuScrollToBottom 	|	func	|	undefined	|	on scroll to bottom handler, can use for pull-to-refresh
 	onInputChange	|	func	|	undefined	|	onInputChange handler: `function(inputValue) {}`
 	onInputKeyDown	|	func	|	undefined	|	input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}`
 	onOpen		|	func	|	undefined	|	handler for when the menu opens: `function () {}`
