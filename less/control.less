@@ -40,6 +40,10 @@
 		pointer-events: none;
 		opacity: 0.35;
 	}
+	&.Select-rtl {
+		direction: rtl;
+		text-align: right;
+	}
 }
 
 // base
@@ -231,6 +235,11 @@
 	vertical-align: middle;
 	width: (@select-arrow-width * 5);
 	padding-right: @select-arrow-width;
+
+	.Select-rtl & {
+		padding-right: 0;
+		padding-left: @select-arrow-width;
+	}
 }
 
 .Select-arrow {
