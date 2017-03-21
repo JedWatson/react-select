@@ -191,8 +191,9 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
-					this.clearOptions();
+				this._onInputChange('');
+				if (this.props.multi) {
+					this.focus();
 				}
 				this.props.onChange(newValues);
 			}
@@ -202,7 +203,8 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this._onInputChange,
+			onBlur: () => { this._onInputChange('');  }
 		});
 	}
 }
