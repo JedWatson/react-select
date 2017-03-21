@@ -41,7 +41,6 @@ var propTypes = {
 	loadingPlaceholder: _react2['default'].PropTypes.oneOfType([// replaces the placeholder while options are loading
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
 	loadOptions: _react2['default'].PropTypes.func.isRequired, // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
-	multi: _react2['default'].PropTypes.bool, // multi-value input
 	options: _react.PropTypes.array.isRequired, // array of options
 	placeholder: _react2['default'].PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
@@ -240,9 +239,8 @@ var Async = (function (_Component) {
 					return _this3.select = _ref;
 				},
 				onChange: function onChange(newValues) {
-					_this3._onInputChange('');
-					if (_this3.props.multi) {
-						_this3.focus();
+					if (_this3.props.multi && _this3.props.value && newValues.length > _this3.props.value.length) {
+						_this3.clearOptions();
 					}
 					_this3.props.onChange(newValues);
 				}
@@ -250,10 +248,7 @@ var Async = (function (_Component) {
 
 			return children(_extends({}, this.props, props, {
 				isLoading: isLoading,
-				onInputChange: this._onInputChange,
-				onBlur: function onBlur() {
-					_this3._onInputChange('');
-				}
+				onInputChange: this._onInputChange
 			}));
 		}
 	}]);
@@ -1178,7 +1173,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openOnFocus;
+			this._openAfterFocus = true;
 			this.focus();
 		}
 	},
@@ -1882,14 +1877,7 @@ var Select = _react2['default'].createClass({
 
 		var focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
-			var focusedOptionIndex = -1;
-			options.some(function (option, index) {
-				var isOptionEqual = option.value === focusedOption.value;
-				if (isOptionEqual) {
-					focusedOptionIndex = index;
-				}
-				return isOptionEqual;
-			});
+			var focusedOptionIndex = options.indexOf(focusedOption);
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
 			}
