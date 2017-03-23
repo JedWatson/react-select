@@ -78,19 +78,19 @@ When the value is changed, `onChange(selectedValueOrValues)` will fire.
 var Select = require('react-select');
 
 var options = [
-	{ value: 'one', label: 'One' },
-	{ value: 'two', label: 'Two' }
+  { value: 'one', label: 'One' },
+  { value: 'two', label: 'Two' }
 ];
 
 function logChange(val) {
-	console.log("Selected: " + val);
+  console.log("Selected: " + val);
 }
 
 <Select
-	name="form-field-name"
-	value="one"
-	options={options}
-	onChange={logChange}
+  name="form-field-name"
+  value="one"
+  options={options}
+  onChange={logChange}
 />
 ```
 
@@ -113,8 +113,8 @@ You can enable multi-value selection by setting `multi={true}`. In this mode:
 * By default, selected options can be cleared. To disable the possibility of clearing a particular option, add `clearableValue: false` to that option:
 ```javascript
 var options = [
-	{ value: 'one', label: 'One' },
-	{ value: 'two', label: 'Two', clearableValue: false }
+  { value: 'one', label: 'One' },
+  { value: 'two', label: 'Two', clearableValue: false }
 ];
 ```
 Note: the `clearable` prop of the Select component should also be set to `false` to prevent allowing clearing all fields at once
@@ -135,17 +135,17 @@ Unless you specify the property `autoload={false}` the control will automaticall
 var Select = require('react-select');
 
 var getOptions = function(input, callback) {
-	setTimeout(function() {
-		callback(null, {
-			options: [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' }
-			],
-			// CAREFUL! Only set this to true when there are no more options,
-			// or more specific queries will not be sent to the server.
-			complete: true
-		});
-	}, 500);
+  setTimeout(function() {
+    callback(null, {
+      options: [
+        { value: 'one', label: 'One' },
+        { value: 'two', label: 'Two' }
+      ],
+      // CAREFUL! Only set this to true when there are no more options,
+      // or more specific queries will not be sent to the server.
+      complete: true
+    });
+  }, 500);
 };
 
 <Select.Async
@@ -168,8 +168,8 @@ import Select from 'react-select';
 /*
  * assuming the API returns something like this:
  *   const json = [
- * 	   { value: 'one', label: 'One' },
- * 	   { value: 'two', label: 'Two' }
+ *      { value: 'one', label: 'One' },
+ *      { value: 'two', label: 'Two' }
  *   ]
  */
 
@@ -183,9 +183,9 @@ const getOptions = (input) => {
 }
 
 <Select.Async
-	name="form-field-name"
-	value="one"
-	loadOptions={getOptions}
+  name="form-field-name"
+  value="one"
+  loadOptions={getOptions}
 />
 ```
 
@@ -200,8 +200,8 @@ var isLoadingExternally = true;
 
 <Select
   name="form-field-name"
-	isLoading={isLoadingExternally}
-	...
+  isLoading={isLoadingExternally}
+  ...
 />
 ```
 
@@ -307,7 +307,7 @@ You can manipulate the input using the onInputChange and returning a new value.
 
 ```js
 function cleanInput(inputValue) {
-	  // Strip all non-number characters from the input
+    // Strip all non-number characters from the input
     return inputValue.replace(/[^0-9]/g, "");
 }   
 
