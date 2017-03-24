@@ -344,8 +344,8 @@ function onInputKeyDown(event) {
 ### Further options
 
 
-	Property	|	Type		|	Default		|	Description
-:-----------------------|:--------------|:--------------|:--------------------------------
+|	Property	|	Type		|	Default		|	Description |
+|:---|:---|:---|:---|
 	addLabelText	|	string	|	'Add "{label}"?'	|	text to display when `allowCreate` is true
   arrowRenderer | func | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown, isOpen })`
 	autoBlur	|	bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices
