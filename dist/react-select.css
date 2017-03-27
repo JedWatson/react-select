@@ -157,6 +157,11 @@
   position: relative;
   vertical-align: middle;
 }
+.Select-loading-next-options {
+  display: table;
+  width: 100%;
+  margin: 5px 0;
+}
 .Select-clear-zone {
   -webkit-animation: Select-animation-fadeIn 200ms;
   -o-animation: Select-animation-fadeIn 200ms;
