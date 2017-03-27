@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import defaultClearRenderer from './utils/defaultClearRenderer';
 
 import Async from './Async';
 import AsyncCreatable from './AsyncCreatable';
@@ -55,6 +56,7 @@ const Select = React.createClass({
 		backspaceToRemoveMessage: React.PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
 		className: React.PropTypes.string,          // className for the outer element
 		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
+		clearRenderer: React.PropTypes.func,        // create clearable x element
 		clearValueText: stringOrNode,               // title for the "clear" control
 		clearable: React.PropTypes.bool,            // should it be possible to reset value
 		deleteRemoves: React.PropTypes.bool,        // whether backspace removes an item if there is no text input
@@ -125,6 +127,7 @@ const Select = React.createClass({
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
 			clearAllText: 'Clear all',
+			clearRenderer: defaultClearRenderer,
 			clearValueText: 'Clear value',
 			deleteRemoves: true,
 			delimiter: ',',
@@ -169,7 +172,7 @@ const Select = React.createClass({
 		};
 	},
 
-	componentWillMount() {
+	componentWillMount () {
 		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
 		const valueArray = this.getValueArray(this.props.value);
 
@@ -186,7 +189,7 @@ const Select = React.createClass({
 		}
 	},
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		const valueArray = this.getValueArray(nextProps.value, nextProps);
 
 		if (nextProps.required) {
@@ -237,7 +240,7 @@ const Select = React.createClass({
 		}
 	},
 
-	componentWillUnmount() {
+	componentWillUnmount () {
 		if (!document.removeEventListener && document.detachEvent) {
 			document.detachEvent('ontouchstart', this.handleTouchOutside);
 		} else {
@@ -245,7 +248,7 @@ const Select = React.createClass({
 		}
 	},
 
-	toggleTouchOutsideEvent(enabled) {
+	toggleTouchOutsideEvent (enabled) {
 		if (enabled) {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('ontouchstart', this.handleTouchOutside);
@@ -261,7 +264,7 @@ const Select = React.createClass({
 		}
 	},
 
-	handleTouchOutside(event) {
+	handleTouchOutside (event) {
 		// handle touch outside on ios to dismiss menu
 		if (this.wrapper && !this.wrapper.contains(event.target)) {
 			this.closeMenu();
@@ -279,7 +282,7 @@ const Select = React.createClass({
 		}
 	},
 
-	blurInput() {
+	blurInput () {
 		if (!this.input) return;
 		this.input.blur();
 	},
@@ -297,7 +300,7 @@ const Select = React.createClass({
 	handleTouchEnd (event) {
 		// Check if the view is being dragged, In this case
 		// we don't want to fire the click event (because the user only wants to scroll)
-		if(this.dragging) return;
+		if (this.dragging) return;
 
 		// Fire the mouse events
 		this.handleMouseDown(event);
@@ -306,7 +309,7 @@ const Select = React.createClass({
 	handleTouchEndClearValue (event) {
 		// Check if the view is being dragged, In this case
 		// we don't want to fire the click event (because the user only wants to scroll)
-		if(this.dragging) return;
+		if (this.dragging) return;
 
 		// Clear the value
 		this.clearValue(event);
@@ -357,7 +360,7 @@ const Select = React.createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openOnFocus;
 			this.focus();
 		}
 	},
@@ -399,7 +402,7 @@ const Select = React.createClass({
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: ''
 			});
-		}	else {
+		} else {
 			this.setState({
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
@@ -457,7 +460,7 @@ const Select = React.createClass({
 		this.setState({
 			isOpen: true,
 			isPseudoFocused: false,
-			inputValue: newInputValue
+			inputValue: newInputValue,
 		});
 	},
 
@@ -629,7 +632,16 @@ const Select = React.createClass({
 
 	addValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
+		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
+		const lastValueIndex = visibleOptions.indexOf(value);
 		this.setValue(valueArray.concat(value));
+		if (visibleOptions.length - 1 === lastValueIndex) {
+			// the last option was selected; focus the second-last one
+			this.focusOption(visibleOptions[lastValueIndex - 1]);
+		} else if (visibleOptions.length > lastValueIndex) {
+			// focus the option below the selected one
+			this.focusOption(visibleOptions[lastValueIndex + 1]);
+		}
 	},
 
 	popValue () {
@@ -660,7 +672,7 @@ const Select = React.createClass({
 		}, this.focus);
 	},
 
-	getResetValue() {
+	getResetValue () {
 		if (this.props.resetValue !== undefined) {
 			return this.props.resetValue;
 		} else if (this.props.multi) {
@@ -709,7 +721,7 @@ const Select = React.createClass({
 			this.setState({
 				isOpen: true,
 				inputValue: '',
-				focusedOption: this._focusedOption || options[dir === 'next' ? 0 : options.length - 1].option
+				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null)
 			});
 			return;
 		}
@@ -735,14 +747,14 @@ const Select = React.createClass({
 			focusedIndex = options.length - 1;
 		} else if (dir === 'page_up') {
 			var potentialIndex = focusedIndex - this.props.pageSize;
-			if ( potentialIndex < 0 ) {
+			if (potentialIndex < 0) {
 				focusedIndex = 0;
 			} else {
 				focusedIndex = potentialIndex;
 			}
 		} else if (dir === 'page_down') {
 			var potentialIndex = focusedIndex + this.props.pageSize;
-			if ( potentialIndex > options.length - 1 ) {
+			if (potentialIndex > options.length - 1) {
 				focusedIndex = options.length - 1;
 			} else {
 				focusedIndex = potentialIndex;
@@ -890,6 +902,8 @@ const Select = React.createClass({
 
 	renderClear () {
 		if (!this.props.clearable || (!this.props.value || this.props.value === 0) || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
+		const clear = this.props.clearRenderer();
+
 		return (
 			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 				aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
@@ -898,14 +912,15 @@ const Select = React.createClass({
 				onTouchMove={this.handleTouchMove}
 				onTouchEnd={this.handleTouchEndClearValue}
 			>
-				<span className="Select-clear" dangerouslySetInnerHTML={{ __html: '&times;' }} />
+				{clear}
 			</span>
 		);
 	},
 
 	renderArrow () {
 		const onMouseDown = this.handleMouseDownOnArrow;
-		const arrow = this.props.arrowRenderer({ onMouseDown });
+                const isOpen = this.state.isOpen;
+		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
 		return (
 			<span
@@ -1009,7 +1024,14 @@ const Select = React.createClass({
 
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
-			const focusedOptionIndex = options.indexOf(focusedOption);
+			let focusedOptionIndex = -1;
+			options.some((option, index) => {
+				const isOptionEqual = option.value === focusedOption.value;
+				if (isOptionEqual) {
+					focusedOptionIndex = index;
+				}
+				return isOptionEqual;
+			});
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
 			}
@@ -1041,7 +1063,7 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options =	this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);

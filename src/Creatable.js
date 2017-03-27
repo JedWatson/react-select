@@ -20,15 +20,15 @@ const Creatable = React.createClass({
 		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
 		isOptionUnique: React.PropTypes.func,
 
-    // Determines if the current input text represents a valid option.
-    // ({ label: string }): boolean
-    isValidNewOption: React.PropTypes.func,
+	    // Determines if the current input text represents a valid option.
+	    // ({ label: string }): boolean
+	    isValidNewOption: React.PropTypes.func,
 
 		// See Select.propTypes.menuRenderer
 		menuRenderer: React.PropTypes.any,
 
-    // Factory to create new option.
-    // ({ label: string, labelKey: string, valueKey: string }): Object
+	    // Factory to create new option.
+	    // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: React.PropTypes.func,
 
 		// input change handler: function (inputValue) {}
@@ -43,8 +43,8 @@ const Creatable = React.createClass({
 		// See Select.propTypes.options
 		options: React.PropTypes.array,
 
-    // Creates prompt/placeholder option text.
-    // (filterText: string): string
+	    // Creates prompt/placeholder option text.
+	    // (filterText: string): string
 		promptTextCreator: React.PropTypes.func,
 
 		// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
@@ -205,11 +205,19 @@ const Creatable = React.createClass({
 
 	render () {
 		const {
-			children = defaultChildren,
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
 			...restProps
 		} = this.props;
+
+		let { children } = this.props;
+
+		// We can't use destructuring default values to set the children,
+		// because it won't apply work if `children` is null. A falsy check is
+		// more reliable in real world use-cases.
+		if (!children) {
+			children = defaultChildren;
+		}
 
 		const props = {
 			...restProps,
