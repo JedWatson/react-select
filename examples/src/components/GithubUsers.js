@@ -31,15 +31,17 @@ const GithubUsers = React.createClass({
 			value: this.state.value ? this.state.value[0] : null
 		});
 	},
-	getUsers (input) {
+	getUsers (input, cb, skip) {
 		if (!input) {
 			return Promise.resolve({ options: [] });
 		}
 
-		return fetch(`https://api.github.com/search/users?q=${input}`)
+		const page = 1 + (skip ? skip / 30 : 0);
+
+		return fetch(`https://api.github.com/search/users?q=${input}&page=${page}`)
 		.then((response) => response.json())
 		.then((json) => {
-			return { options: json.items };
+			return { options: json.items, total: json.total_count };
 		});
 	},
 	gotoUser (value, event) {

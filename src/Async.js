@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
+import menuRenderer from './utils/defaultMenuRenderer';
+import Waypoint from 'react-waypoint';
 
 const propTypes = {
 	autoload: React.PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
@@ -52,10 +54,13 @@ export default class Async extends Component {
 
 		this.state = {
 			isLoading: false,
+			isLoadingNext: false,
 			options: props.options,
+			total: 0
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this.handleLoadNextOptions = this.handleLoadNextOptions.bind(this);
 	}
 
 	componentDidMount () {
@@ -78,19 +83,23 @@ export default class Async extends Component {
 	}
 
 	clearOptions() {
-		this.setState({ options: [] });
+		this.setState({ options: [], total: 0 });
 	}
 
-	loadOptions (inputValue) {
+	loadOptions (inputValue, skip = 0) {
 		const { loadOptions } = this.props;
 		const cache = this._cache;
 
 		if (
+			!skip &&
 			cache &&
 			cache.hasOwnProperty(inputValue)
 		) {
+			const data = cache[inputValue];
+
 			this.setState({
-				options: cache[inputValue]
+				options: data.options,
+				total: data.total
 			});
 
 			return;
@@ -100,15 +109,27 @@ export default class Async extends Component {
 			if (callback === this._callback) {
 				this._callback = null;
 
-				const options = data && data.options || [];
+				let options = data && data.options || [];
+
+				if (skip) {
+					options = [...this.state.options, ...options];
+				}
+
+				const total = data && data.total || options.length;
 
 				if (cache) {
-					cache[inputValue] = options;
+					// cache[inputValue] = options;
+					cache[inputValue] = {
+						options,
+						total
+					};
 				}
 
 				this.setState({
 					isLoading: false,
-					options
+					isLoadingNext: false,
+					options,
+					total
 				});
 			}
 		};
@@ -116,7 +137,7 @@ export default class Async extends Component {
 		// Ignore all but the most recent request
 		this._callback = callback;
 
-		const promise = loadOptions(inputValue, callback);
+		const promise = loadOptions(inputValue, callback, skip);
 		if (promise) {
 			promise.then(
 				(data) => callback(null, data),
@@ -129,7 +150,9 @@ export default class Async extends Component {
 			!this.state.isLoading
 		) {
 			this.setState({
-				isLoading: true
+				// isLoading: true,
+				isLoading: !skip,
+				isLoadingNext: !!skip,
 			});
 		}
 
@@ -180,9 +203,13 @@ export default class Async extends Component {
 		this.select.focus();
 	}
 
+	handleLoadNextOptions() {
+		this.loadOptions(this.inputValue(), this.state.options.length);
+	}
+
 	render () {
 		const { children, loadingPlaceholder, placeholder } = this.props;
-		const { isLoading, options } = this.state;
+		const { isLoading, options, total, isLoadingNext } = this.state;
 
 		const props = {
 			noResultsText: this.noResultsText(),
@@ -201,7 +228,16 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this._onInputChange,
+			menuRenderer: (props) => <div>
+				{menuRenderer(props)}
+				{options.length < total && <Waypoint onEnter={this.handleLoadNextOptions}/>}
+				{isLoadingNext && <div className="Select-loading-next-options">
+					<span className="Select-loading-zone" aria-hidden="true">
+						<span className="Select-loading" />
+					</span>
+				</div>}
+			</div>
 		});
 	}
 }
