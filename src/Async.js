@@ -14,6 +14,7 @@ const propTypes = {
 	]),
 	loadOptions: React.PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: React.PropTypes.bool,                     // multi-value input
+	clearOptionsOnSelection: React.PropTypes.bool,   // clears options after selecting a value when `multi` is true; defaults to true
 	options: PropTypes.array.isRequired,             // array of options
 	placeholder: React.PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		React.PropTypes.string,
@@ -43,6 +44,7 @@ const defaultProps = {
 	loadingPlaceholder: 'Loading...',
 	options: [],
 	searchPromptText: 'Type to search',
+	clearOptionsOnSelection: true,
 };
 
 export default class Async extends Component {
@@ -191,7 +193,7 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
+				if (this.props.multi && this.props.clearOptionsOnSelection && this.props.value && (newValues.length > this.props.value.length)) {
 					this.clearOptions();
 				}
 				this.props.onChange(newValues);
