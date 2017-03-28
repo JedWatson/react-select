@@ -22,7 +22,7 @@ const GithubUsers = React.createClass({
 	switchToMulti () {
 		this.setState({
 			multi: true,
-			value: [this.state.value],
+			value: this.state.value ? [this.state.value] : null
 		});
 	},
 	switchToSingle () {

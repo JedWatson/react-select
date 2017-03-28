@@ -193,8 +193,12 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.multi && this.props.clearOptionsOnSelection && this.props.value && (newValues.length > this.props.value.length)) {
-					this.clearOptions();
+				if (this.props.multi && this.props.clearOptionsOnSelection) {
+					// this.props.value may be null or undefined, so we have to confirm it has length prop
+					const prevValueLength = (this.props.value && this.props.value.length) ? this.props.value.length : 0;
+					if (newValues.length > prevValueLength) {
+						this.clearOptions();
+					}
 				}
 				this.props.onChange(newValues);
 			}
