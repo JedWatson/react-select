@@ -208,7 +208,8 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this._onInputChange,
+			onBlur: () => { this._onInputChange('') }
 		});
 	}
 }
