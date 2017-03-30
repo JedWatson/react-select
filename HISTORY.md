@@ -1,6 +1,44 @@
 # React-Select
 
-## v1.0.0-rc / 2016-09-04
+## v1.0.0-rc.3 / 2017-02-01
+
+* added; `arrowRenderer` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; child-function support to `Async` and `Creatable` components so that they can compose each other (or future HOCs), thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; `asyncCreatable` HOC that combines `Async` and `Creatable` so they can be used together, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; undocumented arguments for `menuRenderer`, thanks [Julian Krispel-Samsel](https://github.com/juliankrispel)
+* fixed; Do not focus and open menu when disabled, thanks [nhducit](https://github.com/nhducit)
+* fixed; Scrolling with arrow-keys is not working correctly, thanks [Damian Pieczynski](https://github.com/piecyk)
+* added; "select all text" functionality `Shift+Home|Del`, thanks [Damian Pieczynski](https://github.com/piecyk)
+* added; support for `boolean` values, thanks [Aaron Hardy](https://github.com/Aaronius)
+* fixed; Remove duplicated `promptTextCreator` field from readme, thanks [Jih-Chi Lee](https://github.com/jihchi)
+* fixed; Adding back ref that was removed in rc2, thanks [Martin Jujou](https://github.com/jooj123)
+* fixed; `Creatable` component doesn't allow input key down handling, thanks [Ivan Leonenko](https://github.com/IvanLeonenko)
+* added; Allow react nodes to be passed as loadingPlaceholder, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; IE8 compatibility issues, thanks [Kirill Mesnyankin](https://github.com/strayiker)
+* improved; Allow users to specify noResultsText, thanks [Daniel Heath](https://github.com/DanielHeath)
+* added; Only remove options if a loading placeholder is available, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; firefox display items in two rows due to reflow, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; `Creatable` readme typo, thanks [Ben](https://github.com/rockingskier)
+* fixed; explain way to implement `allowCreate` functionality with `Creatable` to readme, thanks [mayerwin](https://github.com/mayerwin)
+* added; delete key removes an item when there is no input, thanks [forum-is](https://github.com/forum-is)
+* added; `onNewOptionClick` handler for `Creatable`, thanks [Lee Siong Chan](https://github.com/leesiongchan)
+* fixed; `onInputChange` consistent for `Creatable`, thanks [Lee Siong Chan](https://github.com/leesiongchan)
+* fixed; `menuRenderer` is treated consistently between `Creatable` and `Select`, thanks [Brian Vaughn](https://github.com/bvaughn)
+* fixed; `asyncCreatable` options parsing will not parse undefined values into props, thanks [Romain Dardour](https://github.com/unity)
+* added; pass `inputProps` to `inputRenderer`, thanks [Alec Winograd](https://github.com/awinograd)
+* fixed; no exception when clearing an Async field that is not set to multi, thanks [Patrik Stutz](https://github.com/VanCoding)
+* added; allow rendering a custom clear component, thanks [Conor Hastings](https://github.com/conorhastings)
+* fixed; document `ignoreAccents`, thanks [Domenico Matteo](https://github.com/dmatteo)
+* fixed; arrowing up or down in `Select` with 0 options does not throw type error, thanks [Alex Howard](https://github.com/thezanke)
+* fixed; `Creatable` handles null children prop, thanks [Jack Coulter](https://github.com/jscinoz)
+* added; provide `isOpen` to arrowRenderer, thanks [Kuan](https://github.com/khankuan)
+* fixed; re-added the `focus()` method on `Select.Async`, thanks, [Maarten Claes](https://github.com/mcls)
+* fixed; focus the next available option after a selection, not the top option, thanks [Nicolas Raynaud](https://github.com/nraynaud)
+
+Note there has also been a breaking change to the props for the `Async` component: both `minimumInput` and `searchingText` have been removed. See #1226 for more details. Apologies for doing this in an RC release, but we had to trade off between resolving some important bugs and breaking the API, and figured it was better to do this before declaring 1.0.0 stable.
+
+
+## v1.0.0-rc.1 / 2016-09-04
 
 * fixed; reset value to `[]` when `multi=true`, thanks [Michael Williamson](https://github.com/mwilliamson)
 * added; pass index to `renderLabel` method, thanks [nhducit](https://github.com/nhducit)
