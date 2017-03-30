@@ -83,6 +83,7 @@ const Select = React.createClass({
 		multi: React.PropTypes.bool,                // multi-value input
 		name: React.PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
+		onArrowKeyFocus: React.PropTypes.func,      // function to be executed when an option is focused from arrow key movement
 		onBlur: React.PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: React.PropTypes.bool,    // whether input is cleared on blur
 		onChange: React.PropTypes.func,             // onChange handler: function (newValue) {}
@@ -766,9 +767,16 @@ const Select = React.createClass({
 			focusedIndex = 0;
 		}
 
+		var focusedObject = options[focusedIndex];
+		var focusedOption = focusedObject.option;
+
+		if (this.props.onArrowKeyFocus) {
+			this.props.onArrowKeyFocus(focusedOption);
+		}
+
 		this.setState({
-			focusedIndex: options[focusedIndex].index,
-			focusedOption: options[focusedIndex].option
+			focusedIndex: focusedObject.index,
+			focusedOption: focusedOption,
 		});
 	},
 
