@@ -2574,6 +2574,20 @@ describe('Select', () => {
 			});
 		});
 
+
+		describe('initialInputValue', () => {
+
+			beforeEach(() => {
+				instance = createControl({
+					initialInputValue: 'hello'
+				});
+			});
+
+			it('sets the value as the initial value of input field', () => {
+				expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', 'hello');
+			});
+		});
+
 		describe('inputProps', () => {
 
 
