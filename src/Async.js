@@ -82,16 +82,16 @@ export default class Async extends Component {
 		this.setState({ options: [] });
 	}
 
-	loadOptions (inputValue) {
+	loadOptions (inputValue, normalizedInputValue=inputValue) {
 		const { loadOptions } = this.props;
 		const cache = this._cache;
 
 		if (
 			cache &&
-			cache.hasOwnProperty(inputValue)
+			cache.hasOwnProperty(normalizedInputValue)
 		) {
 			this.setState({
-				options: cache[inputValue]
+				options: cache[normalizedInputValue]
 			});
 
 			return;
@@ -104,7 +104,7 @@ export default class Async extends Component {
 				const options = data && data.options || [];
 
 				if (cache) {
-					cache[inputValue] = options;
+					cache[normalizedInputValue] = options;
 				}
 
 				this.setState({
@@ -117,7 +117,7 @@ export default class Async extends Component {
 		// Ignore all but the most recent request
 		this._callback = callback;
 
-		const promise = loadOptions(inputValue, callback);
+		const promise = loadOptions(normalizedInputValue, callback);
 		if (promise) {
 			promise.then(
 				(data) => callback(null, data),
@@ -139,20 +139,21 @@ export default class Async extends Component {
 
 	_onInputChange (inputValue) {
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
+    var normalizedInputValue = inputValue;
 
 		if (ignoreAccents) {
-			inputValue = stripDiacritics(inputValue);
+			normalizedInputValue = stripDiacritics(normalizedInputValue);
 		}
 
 		if (ignoreCase) {
-			inputValue = inputValue.toLowerCase();
+			normalizedInputValue = normalizedInputValue.toLowerCase();
 		}
 
 		if (onInputChange) {
 			onInputChange(inputValue);
 		}
 
-		return this.loadOptions(inputValue);
+		return this.loadOptions(inputValue, normalizedInputValue);
 	}
 
 	inputValue() {

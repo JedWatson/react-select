@@ -42,6 +42,10 @@ describe('AsyncCreatable', () => {
 		}
 	};
 
+	function typeSearchText(text) {
+		TestUtils.Simulate.change(filterInputNode, { target: { value: text } });
+	};
+
 	it('should create an inner Select', () => {
 		createControl();
 		expect(creatableNode, 'to have attributes', {
@@ -59,4 +63,19 @@ describe('AsyncCreatable', () => {
 			class: ['foo']
 		});
 	});
+
+  it('does not case-fold or otherwise modify the input text', () => {
+    createControl({
+      ignoreCase: true,
+      loadOptions: (input, resolve) => {
+        resolve(null, { options: [] });
+      }
+    });
+
+    typeSearchText('F');
+    typeSearchText('FO');
+    typeSearchText('FOO');
+
+		expect(filterInputNode.value, 'to equal', 'FOO');
+  });
 });
