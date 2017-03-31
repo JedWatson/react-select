@@ -3803,6 +3803,19 @@ describe('Select', () => {
 					'to contain', <input role="combobox" aria-labelledby="test-label-id" />);
 			});
 
+			it('passes through the aria-describedby prop', () => {
+
+				instance = createControl({
+					options: defaultOptions,
+					value: 'one',
+					'aria-describedby': 'test-label1-id test-label2-id'
+				});
+
+				expect(instance,
+					'to contain', <input role="combobox" aria-describedby="test-label1-id test-label2-id" />);
+			});
+
+
 			it('passes through the aria-label prop', () => {
 
 				instance = createControl({
