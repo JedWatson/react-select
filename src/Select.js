@@ -33,6 +33,29 @@ function stringifyValue (value) {
 	}
 }
 
+if (!Array.prototype.findIndex) {
+  Array.prototype.findIndex = function(predicate) {
+    if (this === null) {
+      throw new TypeError('Array.prototype.findIndex called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return i;
+      }
+    }
+    return -1;
+  };
+}
+
 const stringOrNode = React.PropTypes.oneOfType([
 	React.PropTypes.string,
 	React.PropTypes.node
@@ -102,6 +125,7 @@ const Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		pageSize: React.PropTypes.number,           // number of entries to page when using page up/down keys
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		removeSelected: React.PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
@@ -153,6 +177,7 @@ const Select = React.createClass({
 			optionComponent: Option,
 			pageSize: 5,
 			placeholder: 'Select...',
+			removeSelected: true,
 			required: false,
 			scrollMenuIntoView: true,
 			searchable: true,
@@ -618,7 +643,12 @@ const Select = React.createClass({
 				inputValue: '',
 				focusedIndex: null
 			}, () => {
-				this.addValue(value);
+				var valueArray = this.getValueArray(this.props.value);
+				if (valueArray.find(i => i[this.props.valueKey] === value[this.props.valueKey])) {
+					this.removeValue(value);
+				} else {
+					this.addValue(value);
+				}
 			});
 		} else {
 			this.setState({
@@ -654,7 +684,7 @@ const Select = React.createClass({
 
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
+		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
 		this.focus();
 	},
 
@@ -1065,7 +1095,7 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = this._visibleOptions = this.filterOptions(this.props.multi && this.props.removeSelected ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
@@ -1125,7 +1155,7 @@ const Select = React.createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
 			</div>
 		);
 	}
