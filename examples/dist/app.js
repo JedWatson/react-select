@@ -624,15 +624,17 @@ var GithubUsers = _react2['default'].createClass({
 			value: this.state.value ? this.state.value[0] : null
 		});
 	},
-	getUsers: function getUsers(input) {
+	getUsers: function getUsers(input, cb, skip) {
 		if (!input) {
 			return Promise.resolve({ options: [] });
 		}
 
-		return (0, _isomorphicFetch2['default'])('https://api.github.com/search/users?q=' + input).then(function (response) {
+		var page = 1 + (skip ? skip / 30 : 0);
+
+		return (0, _isomorphicFetch2['default'])('https://api.github.com/search/users?q=' + input + '&page=' + page).then(function (response) {
 			return response.json();
 		}).then(function (json) {
-			return { options: json.items };
+			return { options: json.items, total: json.total_count };
 		});
 	},
 	gotoUser: function gotoUser(value, event) {
@@ -1961,9 +1963,9 @@ function parserForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
 		case 'index':
 			return function (key, value, accumulator) {
-				result = /\[(\d*)]$/.exec(key);
+				result = /\[(\d*)\]$/.exec(key);
 
-				key = key.replace(/\[\d*]$/, '');
+				key = key.replace(/\[\d*\]$/, '');
 
 				if (!result) {
 					accumulator[key] = value;
@@ -1979,9 +1981,9 @@ function parserForArrayFormat(opts) {
 
 		case 'bracket':
 			return function (key, value, accumulator) {
-				result = /(\[])$/.exec(key);
+				result = /(\[\])$/.exec(key);
 
-				key = key.replace(/\[]$/, '');
+				key = key.replace(/\[\]$/, '');
 
 				if (!result || accumulator[key] === undefined) {
 					accumulator[key] = value;
@@ -9526,7 +9528,10 @@ module.exports = function (str) {
       headers.forEach(function(value, name) {
         this.append(name, value)
       }, this)
-
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        this.append(header[0], header[1])
+      }, this)
     } else if (headers) {
       Object.getOwnPropertyNames(headers).forEach(function(name) {
         this.append(name, headers[name])
