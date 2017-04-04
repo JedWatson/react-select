@@ -201,14 +201,7 @@ export default class Async extends Component {
 					}
 				}
 				this.props.onChange(newValues);
-			}
-		};
-
-		return children({
-			...this.props,
-			...props,
-			isLoading,
-			onInputChange: this._onInputChange,
+			},
 			onBlur: (...args) => {
 				if (this.props.onBlurResetsInput !== false) {
 					this._onInputChange('');
@@ -217,6 +210,13 @@ export default class Async extends Component {
 					this.props.onBlur(...args);
 				}
 			}
+		};
+
+		return children({
+			...this.props,
+			...props,
+			isLoading,
+			onInputChange: this._onInputChange,
 		});
 	}
 }
