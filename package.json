@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.4",
+    "mochavigo": "^1.0.9",
     "react-input-autosize": "^1.1.0"
   },
   "devDependencies": {
