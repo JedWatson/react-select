@@ -40,6 +40,7 @@ var propTypes = {
 	loadingPlaceholder: _react2['default'].PropTypes.oneOfType([// replaces the placeholder while options are loading
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
 	loadOptions: _react2['default'].PropTypes.func.isRequired, // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
+	multi: _react2['default'].PropTypes.bool, // multi-value input
 	options: _react.PropTypes.array.isRequired, // array of options
 	placeholder: _react2['default'].PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
@@ -293,6 +294,10 @@ function reduce(obj) {
 var AsyncCreatable = _react2['default'].createClass({
 	displayName: 'AsyncCreatableSelect',
 
+	focus: function focus() {
+		this.select.focus();
+	},
+
 	render: function render() {
 		var _this = this;
 
@@ -310,6 +315,7 @@ var AsyncCreatable = _react2['default'].createClass({
 								return asyncProps.onInputChange(input);
 							},
 							ref: function (ref) {
+								_this.select = ref;
 								creatableProps.ref(ref);
 								asyncProps.ref(ref);
 							}
@@ -393,7 +399,12 @@ var Creatable = _react2['default'].createClass({
 		promptTextCreator: _react2['default'].PropTypes.func,
 
 		// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
-		shouldKeyDownEventCreateNewOption: _react2['default'].PropTypes.func
+		shouldKeyDownEventCreateNewOption: _react2['default'].PropTypes.func,
+
+		// Creates prompt/placeholder option text.
+		// true: new option prompt at top of list (default)
+		// false: new option prompt at bottom of list
+		showNewOptionAtTop: _react2['default'].PropTypes.bool
 	},
 
 	// Default prop methods
@@ -413,6 +424,7 @@ var Creatable = _react2['default'].createClass({
 			menuRenderer: _utilsDefaultMenuRenderer2['default'],
 			newOptionCreator: newOptionCreator,
 			promptTextCreator: promptTextCreator,
+			showNewOptionAtTop: true,
 			shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption
 		};
 	},
@@ -449,6 +461,7 @@ var Creatable = _react2['default'].createClass({
 		var isValidNewOption = _props2.isValidNewOption;
 		var options = _props2.options;
 		var promptTextCreator = _props2.promptTextCreator;
+		var showNewOptionAtTop = _props2.showNewOptionAtTop;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -482,7 +495,11 @@ var Creatable = _react2['default'].createClass({
 					valueKey: this.valueKey
 				});
 
-				filteredOptions.unshift(this._createPlaceholderOption);
+				if (showNewOptionAtTop) {
+					filteredOptions.unshift(this._createPlaceholderOption);
+				} else {
+					filteredOptions.push(this._createPlaceholderOption);
+				}
 			}
 		}
 
@@ -549,14 +566,19 @@ var Creatable = _react2['default'].createClass({
 		}
 	},
 
+	focus: function focus() {
+		this.select.focus();
+	},
+
 	render: function render() {
 		var _this = this;
 
 		var _props4 = this.props;
 		var newOptionCreator = _props4.newOptionCreator;
 		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var refProp = _props4.ref;
 
-		var restProps = _objectWithoutProperties(_props4, ['newOptionCreator', 'shouldKeyDownEventCreateNewOption']);
+		var restProps = _objectWithoutProperties(_props4, ['newOptionCreator', 'shouldKeyDownEventCreateNewOption', 'ref']);
 
 		var children = this.props.children;
 
@@ -580,6 +602,9 @@ var Creatable = _react2['default'].createClass({
 				if (_ref) {
 					_this.labelKey = _ref.props.labelKey;
 					_this.valueKey = _ref.props.valueKey;
+				}
+				if (refProp) {
+					refProp(_ref);
 				}
 			}
 		});
@@ -1127,6 +1152,7 @@ var Select = _react2['default'].createClass({
 
 	propTypes: {
 		addLabelText: _react2['default'].PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
+		'aria-describedby': _react2['default'].PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': _react2['default'].PropTypes.string, // Aria label (for assistive tech)
 		'aria-labelledby': _react2['default'].PropTypes.string, // HTML ID of an element that should be used as the label (for assistive tech)
 		arrowRenderer: _react2['default'].PropTypes.func, // Create drop-down caret element
@@ -1441,7 +1467,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openOnFocus;
 			this.focus();
 		}
 	},
@@ -1974,6 +2000,7 @@ var Select = _react2['default'].createClass({
 			'aria-owns': ariaOwns,
 			'aria-haspopup': '' + isOpen,
 			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+			'aria-describedby': this.props['aria-describedby'],
 			'aria-labelledby': this.props['aria-labelledby'],
 			'aria-label': this.props['aria-label'],
 			className: className,
@@ -2145,7 +2172,14 @@ var Select = _react2['default'].createClass({
 
 		var focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
-			var focusedOptionIndex = options.indexOf(focusedOption);
+			var focusedOptionIndex = -1;
+			options.some(function (option, index) {
+				var isOptionEqual = option.value === focusedOption.value;
+				if (isOptionEqual) {
+					focusedOptionIndex = index;
+				}
+				return isOptionEqual;
+			});
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
 			}

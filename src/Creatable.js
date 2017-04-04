@@ -49,6 +49,11 @@ const Creatable = React.createClass({
 
 		// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
 		shouldKeyDownEventCreateNewOption: React.PropTypes.func,
+
+		// Creates prompt/placeholder option text.
+		// true: new option prompt at top of list (default)
+		// false: new option prompt at bottom of list
+		showNewOptionAtTop: React.PropTypes.bool,
 	},
 
 	// Default prop methods
@@ -68,6 +73,7 @@ const Creatable = React.createClass({
 			menuRenderer: defaultMenuRenderer,
 			newOptionCreator,
 			promptTextCreator,
+			showNewOptionAtTop: true,
 			shouldKeyDownEventCreateNewOption,
 		};
 	},
@@ -99,7 +105,7 @@ const Creatable = React.createClass({
 	},
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
+		const { filterOptions, isValidNewOption, options, promptTextCreator, showNewOptionAtTop } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -133,7 +139,11 @@ const Creatable = React.createClass({
 					valueKey: this.valueKey
 				});
 
-				filteredOptions.unshift(this._createPlaceholderOption);
+				if (showNewOptionAtTop) {
+					filteredOptions.unshift(this._createPlaceholderOption);
+				} else {
+					filteredOptions.push(this._createPlaceholderOption);
+				}
 			}
 		}
 
@@ -211,6 +221,7 @@ const Creatable = React.createClass({
 		const {
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
+			ref: refProp,
 			...restProps
 		} = this.props;
 
@@ -237,6 +248,9 @@ const Creatable = React.createClass({
 				if (ref) {
 					this.labelKey = ref.props.labelKey;
 					this.valueKey = ref.props.valueKey;
+				}
+				if (refProp) {
+					refProp(ref);
 				}
 			}
 		};
