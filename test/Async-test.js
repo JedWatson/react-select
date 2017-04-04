@@ -41,9 +41,9 @@ describe('Async', () => {
 
 	function createOptionsResponse (options) {
 		return {
-			options: options.map((option) => ({
+			options: options.map((option, idx) => ({
 				label: option,
-				value: option
+				value: idx
 			}))
 	  };
 	}
@@ -338,6 +338,66 @@ describe('Async', () => {
 			});
 			typeSearchText('WÄRE');
 			expect(loadOptions, 'was called with', 'ware');
+		});
+	});
+
+	describe('multi', () => {
+		describe('options', () => {
+			function loadOptions (input, resolve) {
+				resolve(null, createOptionsResponse(['foo', 'bar', 'fog']));
+			}
+
+			it('should be cleared on selection by default', () => {
+				createControl({
+					multi: true,
+					loadOptions
+				});
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0); // autoLoad is false, no options
+				typeSearchText('fo');
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 2); // input changes to 'fo', filter from ['foo', 'bar', 'fog'] by input
+				TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13, key: 'Enter' });
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0); // on selection, input reset to ''(hard coded behavior), force clearing options
+			});
+
+			it('should not be cleared on selection when clearOptionsOnSelection is false', () => {
+				createControl({
+					multi: true,
+					loadOptions,
+					clearOptionsOnSelection: false
+				});
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0); // autoLoad is false, no options
+				typeSearchText('fo');
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 2); // input changes to 'fo', filter from ['foo', 'bar', 'fog'] by input
+				TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13, key: 'Enter' });
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 3); // on selection, input reset to ''(hard coded behavior), filter from ['foo', 'bar', 'fog'] by input
+			});
+
+			it('should be reset on blur by default', () => {
+				createControl({
+					multi: true,
+					loadOptions
+				});
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0); // autoLoad is false, no options
+				typeSearchText('bar');
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1); // input changes to 'bar', filter from ['foo', 'bar', 'fog'] by input
+				TestUtils.Simulate.blur(filterInputNode);
+				findAndFocusInputControl();
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 3); // input resets to '', filter from ['foo', 'bar', 'fog'] by input
+			});
+
+			it('should not be reset on blur when onBlurResetsInput is false', () => {
+				createControl({
+					multi: true,
+					loadOptions,
+					onBlurResetsInput: false
+				});
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0); // autoLoad is false, no options
+				typeSearchText('bar');
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1); // input changes to 'bar', filter from ['foo', 'bar', 'fog'] by input
+				TestUtils.Simulate.blur(filterInputNode);
+				findAndFocusInputControl();
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1); // input remains 'bar', filter from ['foo', 'bar', 'fog'] by input
+			});
 		});
 	});
 

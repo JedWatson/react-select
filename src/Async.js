@@ -14,6 +14,7 @@ const propTypes = {
 	]),
 	loadOptions: React.PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: React.PropTypes.bool,                     // multi-value input
+	clearOptionsOnSelection: React.PropTypes.bool,   // clears options after selecting an option when `multi` is true; defaults to true
 	options: PropTypes.array.isRequired,             // array of options
 	placeholder: React.PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		React.PropTypes.string,
@@ -30,6 +31,8 @@ const propTypes = {
 	]),
 	onInputChange: React.PropTypes.func,             // optional for keeping track of what is being typed
 	value: React.PropTypes.any,                      // initial field value
+	onBlur: React.PropTypes.func,                    // onBlur handler: function (event) {}
+	onBlurResetsInput: React.PropTypes.bool,         // whether input is cleared on blur
 };
 
 const defaultCache = {};
@@ -43,6 +46,7 @@ const defaultProps = {
 	loadingPlaceholder: 'Loading...',
 	options: [],
 	searchPromptText: 'Type to search',
+	clearOptionsOnSelection: true,
 };
 
 export default class Async extends Component {
@@ -191,10 +195,24 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
-					this.clearOptions();
+				if (this.props.multi && this.props.clearOptionsOnSelection) {
+					// this.props.value may be null or undefined, so we have to confirm it has length prop
+					const prevValueLength = (this.props.value && this.props.value.length) ? this.props.value.length : 0;
+					if (newValues.length > prevValueLength) {
+						this.clearOptions();
+					}
 				}
-				this.props.onChange(newValues);
+				if (this.props.onChange) {
+					this.props.onChange(newValues);
+				}
+			},
+			onBlur: (...args) => {
+				if (this.props.onBlurResetsInput !== false) {
+					this._onInputChange('');
+				}
+				if (this.props.onBlur) {
+					this.props.onBlur(...args);
+				}
 			}
 		};
 
@@ -202,7 +220,7 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this._onInputChange,
 		});
 	}
 }
