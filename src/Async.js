@@ -31,6 +31,8 @@ const propTypes = {
 	]),
 	onInputChange: React.PropTypes.func,             // optional for keeping track of what is being typed
 	value: React.PropTypes.any,                      // initial field value
+	onBlur: React.PropTypes.func,                    // onBlur handler: function (event) {}
+	onBlurResetsInput: React.PropTypes.bool,         // whether input is cleared on blur
 };
 
 const defaultCache = {};
@@ -200,13 +202,15 @@ export default class Async extends Component {
 						this.clearOptions();
 					}
 				}
-				this.props.onChange(newValues);
+				if (this.props.onChange) {
+					this.props.onChange(newValues);
+				}
 			},
 			onBlur: (...args) => {
 				if (this.props.onBlurResetsInput !== false) {
 					this._onInputChange('');
 				}
-				if (typeof this.props.onBlur === 'function') {
+				if (this.props.onBlur) {
 					this.props.onBlur(...args);
 				}
 			}
