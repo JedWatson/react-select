@@ -14,7 +14,7 @@ const propTypes = {
 	]),
 	loadOptions: React.PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: React.PropTypes.bool,                     // multi-value input
-	clearOptionsOnSelection: React.PropTypes.bool,   // clears options after selecting a value when `multi` is true; defaults to true
+	clearOptionsOnSelection: React.PropTypes.bool,   // clears options after selecting an option when `multi` is true; defaults to true
 	options: PropTypes.array.isRequired,             // array of options
 	placeholder: React.PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		React.PropTypes.string,
