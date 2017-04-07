@@ -306,6 +306,15 @@ const Select = React.createClass({
 		// Fire the mouse events
 		this.handleMouseDown(event);
 	},
+	
+	handleTouchEndOnArrow (event) {
+		// Check if the view is being dragged, In this case
+		// we don't want to fire the click event (because the user only wants to scroll)
+		if (this.dragging) return;
+
+		// Clear the value
+		this.handleMouseDownOnArrow(event);
+	},
 
 	handleTouchEndClearValue (event) {
 		// Check if the view is being dragged, In this case
@@ -928,6 +937,9 @@ const Select = React.createClass({
 			<span
 				className="Select-arrow-zone"
 				onMouseDown={onMouseDown}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}
+				onTouchEnd={this.handleTouchEndOnArrow}
 			>
 				{arrow}
 			</span>
