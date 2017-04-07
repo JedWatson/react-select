@@ -165,6 +165,7 @@ const Select = React.createClass({
 
 	getInitialState () {
 		return {
+			hasInputChange: false,
 			inputValue: '',
 			isFocused: false,
 			isOpen: false,
@@ -273,7 +274,7 @@ const Select = React.createClass({
 	},
 
 	focus () {
-		if (!this.input) return;
+		if (!this.input) return;		
 		this.input.focus();
 
 		if (this.props.openAfterFocus) {
@@ -339,31 +340,63 @@ const Select = React.createClass({
 			});
 		}
 
+		// let inputValue = '';
+		// if (!this.props.multi && this.props.value && !this.props.valueRenderer) {
+		// 	const valueArray = this.getValueArray(this.props.value);
+		// 	inputValue = this.getOptionLabel(valueArray[0]);
+		// 	console.log('inputvalue', inputValue)
+		// }
+
+		// get value for single select, use label first if present
+		const valueArray = this.getValueArray(this.props.value);
+		const singleOption = !this.props.multi && valueArray.length ? valueArray[0] : {};
+		const value = singleOption.label || this.props.value || '';
+
+		// let renderLabel = this.props.valueRenderer || this.getOptionLabel;
+
+		// // used to manually set value of the input field for single, searchable selects
+		const inputValue = !this.props.multi && !this.state.inputValue ? { inputValue: value } : {};
+
+		// determines if the user mouse downed on the actual ValueComponent excluding placeholder text
+		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target) ? true : false;
+
+		// clears value so that the cursor will be a the end of input then the component re-renders
+		this.input.getInput().value = '';
+	
 		if (this.state.isFocused) {
 			// On iOS, we can get into a state where we think the input is focused but it isn't really,
 			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
 			// Call focus() again here to be safe.
 			this.focus();
+		
+			// this.setState(Object.assign({}, {
+			// 	isOpen: true,
+			// 	isPseudoFocused: false,
+			// 	inputValue: value
+			// }), () => {
+			// 	isOnValue && this.input.select();
+			// });
 
-			let input = this.input;
-			if (typeof input.getInput === 'function') {
-				// Get the actual DOM input if the ref is an <AutosizeInput /> component
-				input = input.getInput();
-			}
-
-			// clears the value so that the cursor will be at the end of input when the component re-renders
-			input.value = '';
-
-			// if the input is focused, ensure the menu is open
-			this.setState({
+			this.setState(Object.assign({}, {
 				isOpen: true,
 				isPseudoFocused: false,
+			}, 
+				inputValue
+			), () => {
+				isOnValue && this.input.select();
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openOnFocus;
+			this._openAfterFocus = true;
 			this.focus();
-		}
+
+			// check if state should be updated
+			if (inputValue.hasOwnProperty('inputValue')) {
+				this.setState(inputValue, () => {
+					isOnValue && this.input.select();
+				});
+			}
+		}		
 	},
 
 	handleMouseDownOnArrow (event) {
@@ -399,12 +432,14 @@ const Select = React.createClass({
 	closeMenu () {
 		if(this.props.onCloseResetsInput) {
 			this.setState({
+				hasInputChange: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: ''
 			});
 		} else {
 			this.setState({
+				hasInputChange: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: this.state.inputValue
@@ -415,13 +450,24 @@ const Select = React.createClass({
 
 	handleInputFocus (event) {
 		if (this.props.disabled) return;
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+		const isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
+
+		// To make the react-select act more natively, render the input value with the corresponding label on focus. However, we 
+		// cannot do this for custom valueRenderer's bc the label can be manipulated during render (e.g. option.label.toUpperCase())
+		// so the option labels could be inconsistent.
+		let inputValue = '';
+		if (!this.props.multi && this.props.value && !this.props.valueRenderer) {
+			const valueArray = this.getValueArray(this.props.value);
+			inputValue = this.getOptionLabel(valueArray[0]);
+		}
+
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen,
+			inputValue: inputValue
 		});
 		this._openAfterFocus = false;
 	},
@@ -437,6 +483,7 @@ const Select = React.createClass({
 			this.props.onBlur(event);
 		}
 		var onBlurredState = {
+			hasInputChange: false,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -459,6 +506,7 @@ const Select = React.createClass({
 		}
 
 		this.setState({
+			hasInputChange: true,
 			isOpen: true,
 			isPseudoFocused: false,
 			inputValue: newInputValue,
@@ -622,6 +670,7 @@ const Select = React.createClass({
 			});
 		} else {
 			this.setState({
+				hasInputChange: false,
 				isOpen: false,
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
@@ -668,6 +717,7 @@ const Select = React.createClass({
 		event.preventDefault();
 		this.setValue(this.getResetValue());
 		this.setState({
+			hasInputChange: false,
 			isOpen: false,
 			inputValue: '',
 		}, this.focus);
@@ -806,12 +856,13 @@ const Select = React.createClass({
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
+						disabled={this.props.disabled || value.clearableValue === false}
 						id={this._instancePrefix + '-value-' + i}
 						instancePrefix={this._instancePrefix}
-						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
 						onRemove={this.removeValue}
+						ref={ref => this.valueComponent = ref}
 						value={value}
 					>
 						{renderLabel(value, i)}
@@ -819,14 +870,15 @@ const Select = React.createClass({
 					</ValueComponent>
 				);
 			});
-		} else if (!this.state.inputValue) {
+		} else if (!this.state.inputValue && !isOpen) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
-					id={this._instancePrefix + '-value-item'}
 					disabled={this.props.disabled}
+					id={this._instancePrefix + '-value-item'}
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
+					ref={ref => this.valueComponent = ref}
 					value={valueArray[0]}
 				>
 					{renderLabel(valueArray[0])}
@@ -921,7 +973,7 @@ const Select = React.createClass({
 
 	renderArrow () {
 		const onMouseDown = this.handleMouseDownOnArrow;
-                const isOpen = this.state.isOpen;
+       	const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
 		return (
@@ -935,7 +987,7 @@ const Select = React.createClass({
 	},
 
 	filterOptions (excludeOptions) {
-		var filterValue = this.state.inputValue;
+		var filterValue = this.state.hasInputChange ? this.state.inputValue : '';
 		var options = this.props.options || [];
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
