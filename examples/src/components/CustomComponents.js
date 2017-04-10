@@ -1,20 +1,22 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Gravatar from 'react-gravatar';
 
 const USERS = require('../data/users');
 const GRAVATAR_SIZE = 15;
 
-const GravatarOption = React.createClass({
+const GravatarOption = createClass({
 	propTypes: {
-		children: React.PropTypes.node,
-		className: React.PropTypes.string,
-		isDisabled: React.PropTypes.bool,
-		isFocused: React.PropTypes.bool,
-		isSelected: React.PropTypes.bool,
-		onFocus: React.PropTypes.func,
-		onSelect: React.PropTypes.func,
-		option: React.PropTypes.object.isRequired,
+		children: PropTypes.node,
+		className: PropTypes.string,
+		isDisabled: PropTypes.bool,
+		isFocused: PropTypes.bool,
+		isSelected: PropTypes.bool,
+		onFocus: PropTypes.func,
+		onSelect: PropTypes.func,
+		option: PropTypes.object.isRequired,
 	},
 	handleMouseDown (event) {
 		event.preventDefault();
@@ -50,11 +52,11 @@ const GravatarOption = React.createClass({
 	}
 });
 
-const GravatarValue = React.createClass({
+const GravatarValue = createClass({
 	propTypes: {
-		children: React.PropTypes.node,
-		placeholder: React.PropTypes.string,
-		value: React.PropTypes.object
+		children: PropTypes.node,
+		placeholder: PropTypes.string,
+		value: PropTypes.object
 	},
 	render () {
 		var gravatarStyle = {
@@ -76,10 +78,10 @@ const GravatarValue = React.createClass({
 	}
 });
 
-const UsersField = React.createClass({
+const UsersField = createClass({
 	propTypes: {
-		hint: React.PropTypes.string,
-		label: React.PropTypes.string,
+		hint: PropTypes.string,
+		label: PropTypes.string,
 	},
 	getInitialState () {
 		return {};
