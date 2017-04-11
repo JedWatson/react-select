@@ -1440,7 +1440,7 @@ module.exports = function() {
 require('whatwg-fetch');
 module.exports = self.fetch.bind(self);
 
-},{"whatwg-fetch":83}],24:[function(require,module,exports){
+},{"whatwg-fetch":82}],24:[function(require,module,exports){
 (function(){
   var crypt = require('crypt'),
       utf8 = require('charenc').utf8,
@@ -1961,9 +1961,9 @@ function parserForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
 		case 'index':
 			return function (key, value, accumulator) {
-				result = /\[(\d*)]$/.exec(key);
+				result = /\[(\d*)\]$/.exec(key);
 
-				key = key.replace(/\[\d*]$/, '');
+				key = key.replace(/\[\d*\]$/, '');
 
 				if (!result) {
 					accumulator[key] = value;
@@ -1979,9 +1979,9 @@ function parserForArrayFormat(opts) {
 
 		case 'bracket':
 			return function (key, value, accumulator) {
-				result = /(\[])$/.exec(key);
+				result = /(\[\])$/.exec(key);
 
-				key = key.replace(/\[]$/, '');
+				key = key.replace(/\[\]$/, '');
 
 				if (!result || accumulator[key] === undefined) {
 					accumulator[key] = value;
@@ -2117,7 +2117,7 @@ exports.stringify = function (obj, opts) {
 	}).join('&') : '';
 };
 
-},{"object-assign":25,"strict-uri-encode":82}],29:[function(require,module,exports){
+},{"object-assign":25,"strict-uri-encode":81}],29:[function(require,module,exports){
 (function (global){
 var now = require('performance-now')
   , root = typeof window === 'undefined' ? global : window
@@ -2194,8 +2194,36 @@ module.exports.polyfill = function() {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"performance-now":26}],30:[function(require,module,exports){
-module.exports = require('react/lib/shallowCompare');
-},{"react/lib/shallowCompare":81}],31:[function(require,module,exports){
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule shallowCompare
+ */
+
+'use strict';
+
+var shallowEqual = require('fbjs/lib/shallowEqual');
+
+/**
+ * Does a shallow comparison for props and state.
+ * See ReactComponentWithPureRenderMixin
+ * See also https://facebook.github.io/react/docs/shallow-compare.html
+ */
+function shallowCompare(instance, nextProps, nextState) {
+  return (
+    !shallowEqual(instance.props, nextProps) ||
+    !shallowEqual(instance.state, nextState)
+  );
+}
+
+module.exports = shallowCompare;
+
+},{"fbjs/lib/shallowEqual":20}],31:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -9407,31 +9435,6 @@ module.exports = {
   removeResizeListener: removeResizeListener
 };
 },{}],81:[function(require,module,exports){
-/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-'use strict';
-
-var shallowEqual = require('fbjs/lib/shallowEqual');
-
-/**
- * Does a shallow comparison for props and state.
- * See ReactComponentWithPureRenderMixin
- * See also https://facebook.github.io/react/docs/shallow-compare.html
- */
-function shallowCompare(instance, nextProps, nextState) {
-  return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
-}
-
-module.exports = shallowCompare;
-},{"fbjs/lib/shallowEqual":20}],82:[function(require,module,exports){
 'use strict';
 module.exports = function (str) {
 	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
@@ -9439,7 +9442,7 @@ module.exports = function (str) {
 	});
 };
 
-},{}],83:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 (function(self) {
   'use strict';
 
@@ -9526,7 +9529,10 @@ module.exports = function (str) {
       headers.forEach(function(value, name) {
         this.append(name, value)
       }, this)
-
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        this.append(header[0], header[1])
+      }, this)
     } else if (headers) {
       Object.getOwnPropertyNames(headers).forEach(function(name) {
         this.append(name, headers[name])
