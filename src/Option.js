@@ -31,12 +31,10 @@ const Option = React.createClass({
 	handleMouseDown (event) {
 		event.preventDefault();
 		event.stopPropagation();
-		console.log('on select');
 		this.props.onSelect(this.props.option, event);
 	},
 
 	handleMouseEnter (event) {
-		console.log('mouse enter');
 		this.onFocus(event);
 	},
 
@@ -64,7 +62,6 @@ const Option = React.createClass({
 
 	onFocus (event) {
 		if (!this.props.isFocused) {
-
 			this.props.onFocus(this.props.option, event);
 		}
 	},

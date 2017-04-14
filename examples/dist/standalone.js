@@ -703,12 +703,10 @@ var Option = _react2['default'].createClass({
 	handleMouseDown: function handleMouseDown(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		console.log('on select');
 		this.props.onSelect(this.props.option, event);
 	},
 
 	handleMouseEnter: function handleMouseEnter(event) {
-		console.log('mouse enter');
 		this.onFocus(event);
 	},
 
@@ -736,7 +734,6 @@ var Option = _react2['default'].createClass({
 
 	onFocus: function onFocus(event) {
 		if (!this.props.isFocused) {
-
 			this.props.onFocus(this.props.option, event);
 		}
 	},
@@ -2051,14 +2048,13 @@ var Value = _react2['default'].createClass({
 		children: _react2['default'].PropTypes.node,
 		disabled: _react2['default'].PropTypes.bool, // disabled prop passed to ReactSelect
 		id: _react2['default'].PropTypes.string, // Unique id for the value - used for aria
-		index: _react2['default'].PropTypes.number,
+		index: _react2['default'].PropTypes.number, // Then index of the Value in list of components
 		onClick: _react2['default'].PropTypes.func, // method to handle click on value label
 		onRemove: _react2['default'].PropTypes.func, // method to handle removal of the value
 		value: _react2['default'].PropTypes.object.isRequired },
 
 	// the option object for this value
 	handleMouseDown: function handleMouseDown(event) {
-		console.log('mousedown');
 		if (event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
