@@ -41,6 +41,7 @@ var propTypes = {
 	loadingPlaceholder: _react2['default'].PropTypes.oneOfType([// replaces the placeholder while options are loading
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
 	loadOptions: _react2['default'].PropTypes.func.isRequired, // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
+	multi: _react2['default'].PropTypes.bool, // multi-value input
 	options: _react.PropTypes.array.isRequired, // array of options
 	placeholder: _react2['default'].PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	_react2['default'].PropTypes.string, _react2['default'].PropTypes.node]),
@@ -296,6 +297,10 @@ function reduce(obj) {
 var AsyncCreatable = _react2['default'].createClass({
 	displayName: 'AsyncCreatableSelect',
 
+	focus: function focus() {
+		this.select.focus();
+	},
+
 	render: function render() {
 		var _this = this;
 
@@ -313,6 +318,7 @@ var AsyncCreatable = _react2['default'].createClass({
 								return asyncProps.onInputChange(input);
 							},
 							ref: function (ref) {
+								_this.select = ref;
 								creatableProps.ref(ref);
 								asyncProps.ref(ref);
 							}
@@ -554,6 +560,10 @@ var Creatable = _react2['default'].createClass({
 		}
 	},
 
+	focus: function focus() {
+		this.select.focus();
+	},
+
 	render: function render() {
 		var _this = this;
 
@@ -693,10 +703,12 @@ var Option = _react2['default'].createClass({
 	handleMouseDown: function handleMouseDown(event) {
 		event.preventDefault();
 		event.stopPropagation();
+		console.log('on select');
 		this.props.onSelect(this.props.option, event);
 	},
 
 	handleMouseEnter: function handleMouseEnter(event) {
+		console.log('mouse enter');
 		this.onFocus(event);
 	},
 
@@ -724,6 +736,7 @@ var Option = _react2['default'].createClass({
 
 	onFocus: function onFocus(event) {
 		if (!this.props.isFocused) {
+
 			this.props.onFocus(this.props.option, event);
 		}
 	},
@@ -859,6 +872,8 @@ var Select = _react2['default'].createClass({
 
 	propTypes: {
 		addLabelText: _react2['default'].PropTypes.string, // placeholder displayed when you want to add a label on a multi-value input
+		allowDuplicates: _react2['default'].PropTypes.bool, // Allow duplicate multiple values to be selected
+		'aria-describedby': _react2['default'].PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': _react2['default'].PropTypes.string, // Aria label (for assistive tech)
 		'aria-labelledby': _react2['default'].PropTypes.string, // HTML ID of an element that should be used as the label (for assistive tech)
 		arrowRenderer: _react2['default'].PropTypes.func, // Create drop-down caret element
@@ -922,6 +937,7 @@ var Select = _react2['default'].createClass({
 		style: _react2['default'].PropTypes.object, // optional style to apply to the control
 		tabIndex: _react2['default'].PropTypes.string, // optional tab index of the control
 		tabSelectsValue: _react2['default'].PropTypes.bool, // whether to treat tabbing out while focused to be value selection
+		trackByIndex: _react2['default'].PropTypes.bool, // Track values by index key, allows for duplicate values
 		value: _react2['default'].PropTypes.any, // initial field value
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
@@ -1173,7 +1189,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openOnFocus;
 			this.focus();
 		}
 	},
@@ -1480,10 +1496,11 @@ var Select = _react2['default'].createClass({
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
 			this.focusOption(visibleOptions[lastValueIndex - 1]);
-		} else if (visibleOptions.length > lastValueIndex) {
-			// focus the option below the selected one
-			this.focusOption(visibleOptions[lastValueIndex + 1]);
-		}
+			//Don't change focus if duplicates allowed
+		} else if (visibleOptions.length > lastValueIndex && !this.props.allowDuplicates) {
+				// focus the option below the selected one
+				this.focusOption(visibleOptions[lastValueIndex + 1]);
+			}
 	},
 
 	popValue: function popValue() {
@@ -1493,12 +1510,19 @@ var Select = _react2['default'].createClass({
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
-	removeValue: function removeValue(value) {
-		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(function (i) {
-			return i !== value;
-		}));
-		this.focus();
+	removeValue: function removeValue(value, index) {
+		if (this.props.trackByIndex) {
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(index, 1);
+			this.setValue(valueArray);
+			this.focus();
+		} else {
+			var valueArray = this.getValueArray(this.props.value);
+			this.setValue(valueArray.filter(function (i) {
+				return i !== value;
+			}));
+			this.focus();
+		}
 	},
 
 	clearValue: function clearValue(event) {
@@ -1663,6 +1687,7 @@ var Select = _react2['default'].createClass({
 						disabled: _this4.props.disabled || value.clearableValue === false,
 						key: 'value-' + i + '-' + value[_this4.props.valueKey],
 						onClick: onClick,
+						index: i,
 						onRemove: _this4.removeValue,
 						value: value
 					},
@@ -1706,6 +1731,7 @@ var Select = _react2['default'].createClass({
 			'aria-owns': ariaOwns,
 			'aria-haspopup': '' + isOpen,
 			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+			'aria-describedby': this.props['aria-describedby'],
 			'aria-labelledby': this.props['aria-labelledby'],
 			'aria-label': this.props['aria-label'],
 			className: className,
@@ -1874,10 +1900,16 @@ var Select = _react2['default'].createClass({
 	getFocusableOptionIndex: function getFocusableOptionIndex(selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
-
 		var focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
-			var focusedOptionIndex = options.indexOf(focusedOption);
+			var focusedOptionIndex = -1;
+			options.some(function (option, index) {
+				var isOptionEqual = option.value === focusedOption.value;
+				if (isOptionEqual) {
+					focusedOptionIndex = index;
+				}
+				return isOptionEqual;
+			});
 			if (focusedOptionIndex !== -1) {
 				return focusedOptionIndex;
 			}
@@ -1919,11 +1951,15 @@ var Select = _react2['default'].createClass({
 		var _this8 = this;
 
 		var valueArray = this.getValueArray(this.props.value);
-		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		var options = [];
+		if (this.props.trackByIndex && this.props.allowDuplicates) {
+			options = this._visibleOptions = this.props.options;
+		} else {
+			options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		}
 		var isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
-		var focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
-
+		var focusedOptionIndex = this.getFocusableOptionIndex();
 		var focusedOption = null;
 		if (focusedOptionIndex !== null) {
 			focusedOption = this._focusedOption = options[focusedOptionIndex];
@@ -2015,12 +2051,14 @@ var Value = _react2['default'].createClass({
 		children: _react2['default'].PropTypes.node,
 		disabled: _react2['default'].PropTypes.bool, // disabled prop passed to ReactSelect
 		id: _react2['default'].PropTypes.string, // Unique id for the value - used for aria
+		index: _react2['default'].PropTypes.number,
 		onClick: _react2['default'].PropTypes.func, // method to handle click on value label
 		onRemove: _react2['default'].PropTypes.func, // method to handle removal of the value
 		value: _react2['default'].PropTypes.object.isRequired },
 
 	// the option object for this value
 	handleMouseDown: function handleMouseDown(event) {
+		console.log('mousedown');
 		if (event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
@@ -2037,7 +2075,7 @@ var Value = _react2['default'].createClass({
 	onRemove: function onRemove(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.onRemove(this.props.value);
+		this.props.onRemove(this.props.value, this.props.index);
 	},
 
 	handleTouchEndRemove: function handleTouchEndRemove(event) {

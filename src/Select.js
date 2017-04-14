@@ -46,6 +46,7 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+		allowDuplicates:React.PropTypes.bool,				// Allow duplicate multiple values to be selected
 		'aria-describedby': React.PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
@@ -110,6 +111,7 @@ const Select = React.createClass({
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: React.PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
+		trackByIndex:React.PropTypes.bool,					// Track values by index key, allows for duplicate values
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
@@ -639,7 +641,8 @@ const Select = React.createClass({
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
 			this.focusOption(visibleOptions[lastValueIndex - 1]);
-		} else if (visibleOptions.length > lastValueIndex) {
+			//Don't change focus if duplicates allowed
+		} else if (visibleOptions.length > lastValueIndex && ! this.props.allowDuplicates) {
 			// focus the option below the selected one
 			this.focusOption(visibleOptions[lastValueIndex + 1]);
 		}
@@ -652,10 +655,17 @@ const Select = React.createClass({
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
-	removeValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
-		this.focus();
+	removeValue (value,index) {
+		if(this.props.trackByIndex){
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(index,1);
+			this.setValue(valueArray);
+			this.focus();
+		}else{
+			var valueArray = this.getValueArray(this.props.value);
+			this.setValue(valueArray.filter(i => i !== value));
+			this.focus();
+		}
 	},
 
 	clearValue (event) {
@@ -811,6 +821,7 @@ const Select = React.createClass({
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
+						index={i}
 						onRemove={this.removeValue}
 						value={value}
 					>
@@ -1023,7 +1034,6 @@ const Select = React.createClass({
 	getFocusableOptionIndex (selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
-
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			let focusedOptionIndex = -1;
@@ -1065,11 +1075,15 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = [];
+		if (this.props.trackByIndex && this.props.allowDuplicates) {
+			 options = this._visibleOptions = this.props.options;
+		}else{
+			 options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		}
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
-		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
-
+		const focusedOptionIndex = this.getFocusableOptionIndex();
 		let focusedOption = null;
 		if (focusedOptionIndex !== null) {
 			focusedOption = this._focusedOption = options[focusedOptionIndex];

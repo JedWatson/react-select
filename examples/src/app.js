@@ -14,11 +14,13 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import DuplicateSelect from './components/DuplicateSelect';
 
 ReactDOM.render(
 	<div>
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
+		<DuplicateSelect label="DuplicateSelect" />
 		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
 		<GithubUsers label="Github users (Async with fetch.js)" />

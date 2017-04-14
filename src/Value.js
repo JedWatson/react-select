@@ -9,12 +9,14 @@ const Value = React.createClass({
 		children: React.PropTypes.node,
 		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
 		id: React.PropTypes.string,                   // Unique id for the value - used for aria
+		index: React.PropTypes.number,
 		onClick: React.PropTypes.func,                // method to handle click on value label
 		onRemove: React.PropTypes.func,               // method to handle removal of the value
 		value: React.PropTypes.object.isRequired,     // the option object for this value
 	},
 
 	handleMouseDown (event) {
+		console.log('mousedown');
 		if (event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
@@ -31,7 +33,7 @@ const Value = React.createClass({
 	onRemove (event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.onRemove(this.props.value);
+		this.props.onRemove(this.props.value,this.props.index);
 	},
 
 	handleTouchEndRemove (event){
