@@ -671,7 +671,7 @@ var DragDropManager = function () {
 }();
 
 exports.default = DragDropManager;
-},{"./DragDropMonitor":9,"./actions/dragDrop":13,"./reducers":20,"redux/lib/createStore":143}],9:[function(require,module,exports){
+},{"./DragDropMonitor":9,"./actions/dragDrop":13,"./reducers":20,"redux/lib/createStore":251}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4364,6 +4364,2077 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.isSafari = exports.isFirefox = undefined;
+
+var _memoize = require('lodash/memoize');
+
+var _memoize2 = _interopRequireDefault(_memoize);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var isFirefox = exports.isFirefox = (0, _memoize2.default)(function () {
+  return (/firefox/i.test(navigator.userAgent)
+  );
+});
+var isSafari = exports.isSafari = (0, _memoize2.default)(function () {
+  return Boolean(window.safari);
+});
+},{"lodash/memoize":213}],111:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _union = require('lodash/union');
+
+var _union2 = _interopRequireDefault(_union);
+
+var _without = require('lodash/without');
+
+var _without2 = _interopRequireDefault(_without);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EnterLeaveCounter = function () {
+  function EnterLeaveCounter() {
+    _classCallCheck(this, EnterLeaveCounter);
+
+    this.entered = [];
+  }
+
+  _createClass(EnterLeaveCounter, [{
+    key: 'enter',
+    value: function enter(enteringNode) {
+      var previousLength = this.entered.length;
+
+      var isNodeEntered = function isNodeEntered(node) {
+        return document.documentElement.contains(node) && (!node.contains || node.contains(enteringNode));
+      };
+
+      this.entered = (0, _union2.default)(this.entered.filter(isNodeEntered), [enteringNode]);
+
+      return previousLength === 0 && this.entered.length > 0;
+    }
+  }, {
+    key: 'leave',
+    value: function leave(leavingNode) {
+      var previousLength = this.entered.length;
+
+      this.entered = (0, _without2.default)(this.entered.filter(function (node) {
+        return document.documentElement.contains(node);
+      }), leavingNode);
+
+      return previousLength > 0 && this.entered.length === 0;
+    }
+  }, {
+    key: 'reset',
+    value: function reset() {
+      this.entered = [];
+    }
+  }]);
+
+  return EnterLeaveCounter;
+}();
+
+exports.default = EnterLeaveCounter;
+},{"lodash/union":216,"lodash/without":217}],112:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _defaults = require('lodash/defaults');
+
+var _defaults2 = _interopRequireDefault(_defaults);
+
+var _shallowEqual = require('./shallowEqual');
+
+var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
+
+var _EnterLeaveCounter = require('./EnterLeaveCounter');
+
+var _EnterLeaveCounter2 = _interopRequireDefault(_EnterLeaveCounter);
+
+var _BrowserDetector = require('./BrowserDetector');
+
+var _OffsetUtils = require('./OffsetUtils');
+
+var _NativeDragSources = require('./NativeDragSources');
+
+var _NativeTypes = require('./NativeTypes');
+
+var NativeTypes = _interopRequireWildcard(_NativeTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HTML5Backend = function () {
+  function HTML5Backend(manager) {
+    _classCallCheck(this, HTML5Backend);
+
+    this.actions = manager.getActions();
+    this.monitor = manager.getMonitor();
+    this.registry = manager.getRegistry();
+    this.context = manager.getContext();
+
+    this.sourcePreviewNodes = {};
+    this.sourcePreviewNodeOptions = {};
+    this.sourceNodes = {};
+    this.sourceNodeOptions = {};
+    this.enterLeaveCounter = new _EnterLeaveCounter2.default();
+
+    this.dragStartSourceIds = [];
+    this.dropTargetIds = [];
+    this.dragEnterTargetIds = [];
+    this.currentNativeSource = null;
+    this.currentNativeHandle = null;
+    this.currentDragSourceNode = null;
+    this.currentDragSourceNodeOffset = null;
+    this.currentDragSourceNodeOffsetChanged = false;
+    this.altKeyPressed = false;
+
+    this.getSourceClientOffset = this.getSourceClientOffset.bind(this);
+    this.handleTopDragStart = this.handleTopDragStart.bind(this);
+    this.handleTopDragStartCapture = this.handleTopDragStartCapture.bind(this);
+    this.handleTopDragEndCapture = this.handleTopDragEndCapture.bind(this);
+    this.handleTopDragEnter = this.handleTopDragEnter.bind(this);
+    this.handleTopDragEnterCapture = this.handleTopDragEnterCapture.bind(this);
+    this.handleTopDragLeaveCapture = this.handleTopDragLeaveCapture.bind(this);
+    this.handleTopDragOver = this.handleTopDragOver.bind(this);
+    this.handleTopDragOverCapture = this.handleTopDragOverCapture.bind(this);
+    this.handleTopDrop = this.handleTopDrop.bind(this);
+    this.handleTopDropCapture = this.handleTopDropCapture.bind(this);
+    this.handleSelectStart = this.handleSelectStart.bind(this);
+    this.endDragIfSourceWasRemovedFromDOM = this.endDragIfSourceWasRemovedFromDOM.bind(this);
+    this.endDragNativeItem = this.endDragNativeItem.bind(this);
+  }
+
+  _createClass(HTML5Backend, [{
+    key: 'setup',
+    value: function setup() {
+      if (this.window === undefined) {
+        return;
+      }
+
+      if (this.window.__isReactDndBackendSetUp) {
+        // eslint-disable-line no-underscore-dangle
+        throw new Error('Cannot have two HTML5 backends at the same time.');
+      }
+      this.window.__isReactDndBackendSetUp = true; // eslint-disable-line no-underscore-dangle
+      this.addEventListeners(this.window);
+    }
+  }, {
+    key: 'teardown',
+    value: function teardown() {
+      if (this.window === undefined) {
+        return;
+      }
+
+      this.window.__isReactDndBackendSetUp = false; // eslint-disable-line no-underscore-dangle
+      this.removeEventListeners(this.window);
+      this.clearCurrentDragSourceNode();
+    }
+  }, {
+    key: 'addEventListeners',
+    value: function addEventListeners(target) {
+      target.addEventListener('dragstart', this.handleTopDragStart);
+      target.addEventListener('dragstart', this.handleTopDragStartCapture, true);
+      target.addEventListener('dragend', this.handleTopDragEndCapture, true);
+      target.addEventListener('dragenter', this.handleTopDragEnter);
+      target.addEventListener('dragenter', this.handleTopDragEnterCapture, true);
+      target.addEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+      target.addEventListener('dragover', this.handleTopDragOver);
+      target.addEventListener('dragover', this.handleTopDragOverCapture, true);
+      target.addEventListener('drop', this.handleTopDrop);
+      target.addEventListener('drop', this.handleTopDropCapture, true);
+    }
+  }, {
+    key: 'removeEventListeners',
+    value: function removeEventListeners(target) {
+      target.removeEventListener('dragstart', this.handleTopDragStart);
+      target.removeEventListener('dragstart', this.handleTopDragStartCapture, true);
+      target.removeEventListener('dragend', this.handleTopDragEndCapture, true);
+      target.removeEventListener('dragenter', this.handleTopDragEnter);
+      target.removeEventListener('dragenter', this.handleTopDragEnterCapture, true);
+      target.removeEventListener('dragleave', this.handleTopDragLeaveCapture, true);
+      target.removeEventListener('dragover', this.handleTopDragOver);
+      target.removeEventListener('dragover', this.handleTopDragOverCapture, true);
+      target.removeEventListener('drop', this.handleTopDrop);
+      target.removeEventListener('drop', this.handleTopDropCapture, true);
+    }
+  }, {
+    key: 'connectDragPreview',
+    value: function connectDragPreview(sourceId, node, options) {
+      var _this = this;
+
+      this.sourcePreviewNodeOptions[sourceId] = options;
+      this.sourcePreviewNodes[sourceId] = node;
+
+      return function () {
+        delete _this.sourcePreviewNodes[sourceId];
+        delete _this.sourcePreviewNodeOptions[sourceId];
+      };
+    }
+  }, {
+    key: 'connectDragSource',
+    value: function connectDragSource(sourceId, node, options) {
+      var _this2 = this;
+
+      this.sourceNodes[sourceId] = node;
+      this.sourceNodeOptions[sourceId] = options;
+
+      var handleDragStart = function handleDragStart(e) {
+        return _this2.handleDragStart(e, sourceId);
+      };
+      var handleSelectStart = function handleSelectStart(e) {
+        return _this2.handleSelectStart(e, sourceId);
+      };
+
+      node.setAttribute('draggable', true);
+      node.addEventListener('dragstart', handleDragStart);
+      node.addEventListener('selectstart', handleSelectStart);
+
+      return function () {
+        delete _this2.sourceNodes[sourceId];
+        delete _this2.sourceNodeOptions[sourceId];
+
+        node.removeEventListener('dragstart', handleDragStart);
+        node.removeEventListener('selectstart', handleSelectStart);
+        node.setAttribute('draggable', false);
+      };
+    }
+  }, {
+    key: 'connectDropTarget',
+    value: function connectDropTarget(targetId, node) {
+      var _this3 = this;
+
+      var handleDragEnter = function handleDragEnter(e) {
+        return _this3.handleDragEnter(e, targetId);
+      };
+      var handleDragOver = function handleDragOver(e) {
+        return _this3.handleDragOver(e, targetId);
+      };
+      var handleDrop = function handleDrop(e) {
+        return _this3.handleDrop(e, targetId);
+      };
+
+      node.addEventListener('dragenter', handleDragEnter);
+      node.addEventListener('dragover', handleDragOver);
+      node.addEventListener('drop', handleDrop);
+
+      return function () {
+        node.removeEventListener('dragenter', handleDragEnter);
+        node.removeEventListener('dragover', handleDragOver);
+        node.removeEventListener('drop', handleDrop);
+      };
+    }
+  }, {
+    key: 'getCurrentSourceNodeOptions',
+    value: function getCurrentSourceNodeOptions() {
+      var sourceId = this.monitor.getSourceId();
+      var sourceNodeOptions = this.sourceNodeOptions[sourceId];
+
+      return (0, _defaults2.default)(sourceNodeOptions || {}, {
+        dropEffect: this.altKeyPressed ? 'copy' : 'move'
+      });
+    }
+  }, {
+    key: 'getCurrentDropEffect',
+    value: function getCurrentDropEffect() {
+      if (this.isDraggingNativeItem()) {
+        // It makes more sense to default to 'copy' for native resources
+        return 'copy';
+      }
+
+      return this.getCurrentSourceNodeOptions().dropEffect;
+    }
+  }, {
+    key: 'getCurrentSourcePreviewNodeOptions',
+    value: function getCurrentSourcePreviewNodeOptions() {
+      var sourceId = this.monitor.getSourceId();
+      var sourcePreviewNodeOptions = this.sourcePreviewNodeOptions[sourceId];
+
+      return (0, _defaults2.default)(sourcePreviewNodeOptions || {}, {
+        anchorX: 0.5,
+        anchorY: 0.5,
+        captureDraggingState: false
+      });
+    }
+  }, {
+    key: 'getSourceClientOffset',
+    value: function getSourceClientOffset(sourceId) {
+      return (0, _OffsetUtils.getNodeClientOffset)(this.sourceNodes[sourceId]);
+    }
+  }, {
+    key: 'isDraggingNativeItem',
+    value: function isDraggingNativeItem() {
+      var itemType = this.monitor.getItemType();
+      return Object.keys(NativeTypes).some(function (key) {
+        return NativeTypes[key] === itemType;
+      });
+    }
+  }, {
+    key: 'beginDragNativeItem',
+    value: function beginDragNativeItem(type) {
+      this.clearCurrentDragSourceNode();
+
+      var SourceType = (0, _NativeDragSources.createNativeDragSource)(type);
+      this.currentNativeSource = new SourceType();
+      this.currentNativeHandle = this.registry.addSource(type, this.currentNativeSource);
+      this.actions.beginDrag([this.currentNativeHandle]);
+
+      // On Firefox, if mousemove fires, the drag is over but browser failed to tell us.
+      // This is not true for other browsers.
+      if ((0, _BrowserDetector.isFirefox)()) {
+        this.window.addEventListener('mousemove', this.endDragNativeItem, true);
+      }
+    }
+  }, {
+    key: 'endDragNativeItem',
+    value: function endDragNativeItem() {
+      if (!this.isDraggingNativeItem()) {
+        return;
+      }
+
+      if ((0, _BrowserDetector.isFirefox)()) {
+        this.window.removeEventListener('mousemove', this.endDragNativeItem, true);
+      }
+
+      this.actions.endDrag();
+      this.registry.removeSource(this.currentNativeHandle);
+      this.currentNativeHandle = null;
+      this.currentNativeSource = null;
+    }
+  }, {
+    key: 'endDragIfSourceWasRemovedFromDOM',
+    value: function endDragIfSourceWasRemovedFromDOM() {
+      var node = this.currentDragSourceNode;
+      if (document.body.contains(node)) {
+        return;
+      }
+
+      if (this.clearCurrentDragSourceNode()) {
+        this.actions.endDrag();
+      }
+    }
+  }, {
+    key: 'setCurrentDragSourceNode',
+    value: function setCurrentDragSourceNode(node) {
+      this.clearCurrentDragSourceNode();
+      this.currentDragSourceNode = node;
+      this.currentDragSourceNodeOffset = (0, _OffsetUtils.getNodeClientOffset)(node);
+      this.currentDragSourceNodeOffsetChanged = false;
+
+      // Receiving a mouse event in the middle of a dragging operation
+      // means it has ended and the drag source node disappeared from DOM,
+      // so the browser didn't dispatch the dragend event.
+      this.window.addEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+    }
+  }, {
+    key: 'clearCurrentDragSourceNode',
+    value: function clearCurrentDragSourceNode() {
+      if (this.currentDragSourceNode) {
+        this.currentDragSourceNode = null;
+        this.currentDragSourceNodeOffset = null;
+        this.currentDragSourceNodeOffsetChanged = false;
+        this.window.removeEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: 'checkIfCurrentDragSourceRectChanged',
+    value: function checkIfCurrentDragSourceRectChanged() {
+      var node = this.currentDragSourceNode;
+      if (!node) {
+        return false;
+      }
+
+      if (this.currentDragSourceNodeOffsetChanged) {
+        return true;
+      }
+
+      this.currentDragSourceNodeOffsetChanged = !(0, _shallowEqual2.default)((0, _OffsetUtils.getNodeClientOffset)(node), this.currentDragSourceNodeOffset);
+
+      return this.currentDragSourceNodeOffsetChanged;
+    }
+  }, {
+    key: 'handleTopDragStartCapture',
+    value: function handleTopDragStartCapture() {
+      this.clearCurrentDragSourceNode();
+      this.dragStartSourceIds = [];
+    }
+  }, {
+    key: 'handleDragStart',
+    value: function handleDragStart(e, sourceId) {
+      this.dragStartSourceIds.unshift(sourceId);
+    }
+  }, {
+    key: 'handleTopDragStart',
+    value: function handleTopDragStart(e) {
+      var _this4 = this;
+
+      var dragStartSourceIds = this.dragStartSourceIds;
+
+      this.dragStartSourceIds = null;
+
+      var clientOffset = (0, _OffsetUtils.getEventClientOffset)(e);
+
+      // Don't publish the source just yet (see why below)
+      this.actions.beginDrag(dragStartSourceIds, {
+        publishSource: false,
+        getSourceClientOffset: this.getSourceClientOffset,
+        clientOffset: clientOffset
+      });
+
+      var dataTransfer = e.dataTransfer;
+
+      var nativeType = (0, _NativeDragSources.matchNativeItemType)(dataTransfer);
+
+      if (this.monitor.isDragging()) {
+        if (typeof dataTransfer.setDragImage === 'function') {
+          // Use custom drag image if user specifies it.
+          // If child drag source refuses drag but parent agrees,
+          // use parent's node as drag image. Neither works in IE though.
+          var sourceId = this.monitor.getSourceId();
+          var sourceNode = this.sourceNodes[sourceId];
+          var dragPreview = this.sourcePreviewNodes[sourceId] || sourceNode;
+
+          var _getCurrentSourcePrev = this.getCurrentSourcePreviewNodeOptions(),
+              anchorX = _getCurrentSourcePrev.anchorX,
+              anchorY = _getCurrentSourcePrev.anchorY;
+
+          var anchorPoint = { anchorX: anchorX, anchorY: anchorY };
+          var dragPreviewOffset = (0, _OffsetUtils.getDragPreviewOffset)(sourceNode, dragPreview, clientOffset, anchorPoint);
+          dataTransfer.setDragImage(dragPreview, dragPreviewOffset.x, dragPreviewOffset.y);
+        }
+
+        try {
+          // Firefox won't drag without setting data
+          dataTransfer.setData('application/json', {});
+        } catch (err) {}
+        // IE doesn't support MIME types in setData
+
+
+        // Store drag source node so we can check whether
+        // it is removed from DOM and trigger endDrag manually.
+        this.setCurrentDragSourceNode(e.target);
+
+        // Now we are ready to publish the drag source.. or are we not?
+
+        var _getCurrentSourcePrev2 = this.getCurrentSourcePreviewNodeOptions(),
+            captureDraggingState = _getCurrentSourcePrev2.captureDraggingState;
+
+        if (!captureDraggingState) {
+          // Usually we want to publish it in the next tick so that browser
+          // is able to screenshot the current (not yet dragging) state.
+          //
+          // It also neatly avoids a situation where render() returns null
+          // in the same tick for the source element, and browser freaks out.
+          setTimeout(function () {
+            return _this4.actions.publishDragSource();
+          });
+        } else {
+          // In some cases the user may want to override this behavior, e.g.
+          // to work around IE not supporting custom drag previews.
+          //
+          // When using a custom drag layer, the only way to prevent
+          // the default drag preview from drawing in IE is to screenshot
+          // the dragging state in which the node itself has zero opacity
+          // and height. In this case, though, returning null from render()
+          // will abruptly end the dragging, which is not obvious.
+          //
+          // This is the reason such behavior is strictly opt-in.
+          this.actions.publishDragSource();
+        }
+      } else if (nativeType) {
+        // A native item (such as URL) dragged from inside the document
+        this.beginDragNativeItem(nativeType);
+      } else if (!dataTransfer.types && (!e.target.hasAttribute || !e.target.hasAttribute('draggable'))) {
+        // Looks like a Safari bug: dataTransfer.types is null, but there was no draggable.
+        // Just let it drag. It's a native type (URL or text) and will be picked up in
+        // dragenter handler.
+        return; // eslint-disable-line no-useless-return
+      } else {
+        // If by this time no drag source reacted, tell browser not to drag.
+        e.preventDefault();
+      }
+    }
+  }, {
+    key: 'handleTopDragEndCapture',
+    value: function handleTopDragEndCapture() {
+      if (this.clearCurrentDragSourceNode()) {
+        // Firefox can dispatch this event in an infinite loop
+        // if dragend handler does something like showing an alert.
+        // Only proceed if we have not handled it already.
+        this.actions.endDrag();
+      }
+    }
+  }, {
+    key: 'handleTopDragEnterCapture',
+    value: function handleTopDragEnterCapture(e) {
+      this.dragEnterTargetIds = [];
+
+      var isFirstEnter = this.enterLeaveCounter.enter(e.target);
+      if (!isFirstEnter || this.monitor.isDragging()) {
+        return;
+      }
+
+      var dataTransfer = e.dataTransfer;
+
+      var nativeType = (0, _NativeDragSources.matchNativeItemType)(dataTransfer);
+
+      if (nativeType) {
+        // A native item (such as file or URL) dragged from outside the document
+        this.beginDragNativeItem(nativeType);
+      }
+    }
+  }, {
+    key: 'handleDragEnter',
+    value: function handleDragEnter(e, targetId) {
+      this.dragEnterTargetIds.unshift(targetId);
+    }
+  }, {
+    key: 'handleTopDragEnter',
+    value: function handleTopDragEnter(e) {
+      var _this5 = this;
+
+      var dragEnterTargetIds = this.dragEnterTargetIds;
+
+      this.dragEnterTargetIds = [];
+
+      if (!this.monitor.isDragging()) {
+        // This is probably a native item type we don't understand.
+        return;
+      }
+
+      this.altKeyPressed = e.altKey;
+
+      if (!(0, _BrowserDetector.isFirefox)()) {
+        // Don't emit hover in `dragenter` on Firefox due to an edge case.
+        // If the target changes position as the result of `dragenter`, Firefox
+        // will still happily dispatch `dragover` despite target being no longer
+        // there. The easy solution is to only fire `hover` in `dragover` on FF.
+        this.actions.hover(dragEnterTargetIds, {
+          clientOffset: (0, _OffsetUtils.getEventClientOffset)(e)
+        });
+      }
+
+      var canDrop = dragEnterTargetIds.some(function (targetId) {
+        return _this5.monitor.canDropOnTarget(targetId);
+      });
+
+      if (canDrop) {
+        // IE requires this to fire dragover events
+        e.preventDefault();
+        e.dataTransfer.dropEffect = this.getCurrentDropEffect();
+      }
+    }
+  }, {
+    key: 'handleTopDragOverCapture',
+    value: function handleTopDragOverCapture() {
+      this.dragOverTargetIds = [];
+    }
+  }, {
+    key: 'handleDragOver',
+    value: function handleDragOver(e, targetId) {
+      this.dragOverTargetIds.unshift(targetId);
+    }
+  }, {
+    key: 'handleTopDragOver',
+    value: function handleTopDragOver(e) {
+      var _this6 = this;
+
+      var dragOverTargetIds = this.dragOverTargetIds;
+
+      this.dragOverTargetIds = [];
+
+      if (!this.monitor.isDragging()) {
+        // This is probably a native item type we don't understand.
+        // Prevent default "drop and blow away the whole document" action.
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'none';
+        return;
+      }
+
+      this.altKeyPressed = e.altKey;
+
+      this.actions.hover(dragOverTargetIds, {
+        clientOffset: (0, _OffsetUtils.getEventClientOffset)(e)
+      });
+
+      var canDrop = dragOverTargetIds.some(function (targetId) {
+        return _this6.monitor.canDropOnTarget(targetId);
+      });
+
+      if (canDrop) {
+        // Show user-specified drop effect.
+        e.preventDefault();
+        e.dataTransfer.dropEffect = this.getCurrentDropEffect();
+      } else if (this.isDraggingNativeItem()) {
+        // Don't show a nice cursor but still prevent default
+        // "drop and blow away the whole document" action.
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'none';
+      } else if (this.checkIfCurrentDragSourceRectChanged()) {
+        // Prevent animating to incorrect position.
+        // Drop effect must be other than 'none' to prevent animation.
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      }
+    }
+  }, {
+    key: 'handleTopDragLeaveCapture',
+    value: function handleTopDragLeaveCapture(e) {
+      if (this.isDraggingNativeItem()) {
+        e.preventDefault();
+      }
+
+      var isLastLeave = this.enterLeaveCounter.leave(e.target);
+      if (!isLastLeave) {
+        return;
+      }
+
+      if (this.isDraggingNativeItem()) {
+        this.endDragNativeItem();
+      }
+    }
+  }, {
+    key: 'handleTopDropCapture',
+    value: function handleTopDropCapture(e) {
+      this.dropTargetIds = [];
+      e.preventDefault();
+
+      if (this.isDraggingNativeItem()) {
+        this.currentNativeSource.mutateItemByReadingDataTransfer(e.dataTransfer);
+      }
+
+      this.enterLeaveCounter.reset();
+    }
+  }, {
+    key: 'handleDrop',
+    value: function handleDrop(e, targetId) {
+      this.dropTargetIds.unshift(targetId);
+    }
+  }, {
+    key: 'handleTopDrop',
+    value: function handleTopDrop(e) {
+      var dropTargetIds = this.dropTargetIds;
+
+      this.dropTargetIds = [];
+
+      this.actions.hover(dropTargetIds, {
+        clientOffset: (0, _OffsetUtils.getEventClientOffset)(e)
+      });
+      this.actions.drop({ dropEffect: this.getCurrentDropEffect() });
+
+      if (this.isDraggingNativeItem()) {
+        this.endDragNativeItem();
+      } else {
+        this.endDragIfSourceWasRemovedFromDOM();
+      }
+    }
+  }, {
+    key: 'handleSelectStart',
+    value: function handleSelectStart(e) {
+      var target = e.target;
+
+      // Only IE requires us to explicitly say
+      // we want drag drop operation to start
+
+      if (typeof target.dragDrop !== 'function') {
+        return;
+      }
+
+      // Inputs and textareas should be selectable
+      if (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        return;
+      }
+
+      // For other targets, ask IE
+      // to enable drag and drop
+      e.preventDefault();
+      target.dragDrop();
+    }
+  }, {
+    key: 'window',
+    get: function get() {
+      if (this.context && this.context.window) {
+        return this.context.window;
+      } else if (typeof window !== 'undefined') {
+        return window;
+      }
+      return undefined;
+    }
+  }]);
+
+  return HTML5Backend;
+}();
+
+exports.default = HTML5Backend;
+},{"./BrowserDetector":110,"./EnterLeaveCounter":111,"./NativeDragSources":114,"./NativeTypes":115,"./OffsetUtils":116,"./shallowEqual":119,"lodash/defaults":199}],113:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* eslint
+   no-plusplus: off,
+   no-mixed-operators: off
+*/
+var MonotonicInterpolant = function () {
+  function MonotonicInterpolant(xs, ys) {
+    _classCallCheck(this, MonotonicInterpolant);
+
+    var length = xs.length;
+
+    // Rearrange xs and ys so that xs is sorted
+    var indexes = [];
+    for (var i = 0; i < length; i++) {
+      indexes.push(i);
+    }
+    indexes.sort(function (a, b) {
+      return xs[a] < xs[b] ? -1 : 1;
+    });
+
+    // Get consecutive differences and slopes
+    var dys = [];
+    var dxs = [];
+    var ms = [];
+    var dx = void 0;
+    var dy = void 0;
+    for (var _i = 0; _i < length - 1; _i++) {
+      dx = xs[_i + 1] - xs[_i];
+      dy = ys[_i + 1] - ys[_i];
+      dxs.push(dx);
+      dys.push(dy);
+      ms.push(dy / dx);
+    }
+
+    // Get degree-1 coefficients
+    var c1s = [ms[0]];
+    for (var _i2 = 0; _i2 < dxs.length - 1; _i2++) {
+      var _m = ms[_i2];
+      var mNext = ms[_i2 + 1];
+      if (_m * mNext <= 0) {
+        c1s.push(0);
+      } else {
+        dx = dxs[_i2];
+        var dxNext = dxs[_i2 + 1];
+        var common = dx + dxNext;
+        c1s.push(3 * common / ((common + dxNext) / _m + (common + dx) / mNext));
+      }
+    }
+    c1s.push(ms[ms.length - 1]);
+
+    // Get degree-2 and degree-3 coefficients
+    var c2s = [];
+    var c3s = [];
+    var m = void 0;
+    for (var _i3 = 0; _i3 < c1s.length - 1; _i3++) {
+      m = ms[_i3];
+      var c1 = c1s[_i3];
+      var invDx = 1 / dxs[_i3];
+      var _common = c1 + c1s[_i3 + 1] - m - m;
+      c2s.push((m - c1 - _common) * invDx);
+      c3s.push(_common * invDx * invDx);
+    }
+
+    this.xs = xs;
+    this.ys = ys;
+    this.c1s = c1s;
+    this.c2s = c2s;
+    this.c3s = c3s;
+  }
+
+  _createClass(MonotonicInterpolant, [{
+    key: "interpolate",
+    value: function interpolate(x) {
+      var xs = this.xs,
+          ys = this.ys,
+          c1s = this.c1s,
+          c2s = this.c2s,
+          c3s = this.c3s;
+
+      // The rightmost point in the dataset should give an exact result
+
+      var i = xs.length - 1;
+      if (x === xs[i]) {
+        return ys[i];
+      }
+
+      // Search for the interval x is in, returning the corresponding y if x is one of the original xs
+      var low = 0;
+      var high = c3s.length - 1;
+      var mid = void 0;
+      while (low <= high) {
+        mid = Math.floor(0.5 * (low + high));
+        var xHere = xs[mid];
+        if (xHere < x) {
+          low = mid + 1;
+        } else if (xHere > x) {
+          high = mid - 1;
+        } else {
+          return ys[mid];
+        }
+      }
+      i = Math.max(0, high);
+
+      // Interpolate
+      var diff = x - xs[i];
+      var diffSq = diff * diff;
+      return ys[i] + c1s[i] * diff + c2s[i] * diffSq + c3s[i] * diff * diffSq;
+    }
+  }]);
+
+  return MonotonicInterpolant;
+}();
+
+exports.default = MonotonicInterpolant;
+},{}],114:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _nativeTypesConfig;
+
+exports.createNativeDragSource = createNativeDragSource;
+exports.matchNativeItemType = matchNativeItemType;
+
+var _NativeTypes = require('./NativeTypes');
+
+var NativeTypes = _interopRequireWildcard(_NativeTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _defineEnumerableProperties(obj, descs) { for (var key in descs) { var desc = descs[key]; desc.configurable = desc.enumerable = true; if ("value" in desc) desc.writable = true; Object.defineProperty(obj, key, desc); } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function getDataFromDataTransfer(dataTransfer, typesToTry, defaultValue) {
+  var result = typesToTry.reduce(function (resultSoFar, typeToTry) {
+    return resultSoFar || dataTransfer.getData(typeToTry);
+  }, null);
+
+  return result != null ? // eslint-disable-line eqeqeq
+  result : defaultValue;
+}
+
+var nativeTypesConfig = (_nativeTypesConfig = {}, _defineProperty(_nativeTypesConfig, NativeTypes.FILE, {
+  exposeProperty: 'files',
+  matchesTypes: ['Files'],
+  getData: function getData(dataTransfer) {
+    return Array.prototype.slice.call(dataTransfer.files);
+  }
+}), _defineProperty(_nativeTypesConfig, NativeTypes.URL, {
+  exposeProperty: 'urls',
+  matchesTypes: ['Url', 'text/uri-list'],
+  getData: function getData(dataTransfer, matchesTypes) {
+    return getDataFromDataTransfer(dataTransfer, matchesTypes, '').split('\n');
+  }
+}), _defineProperty(_nativeTypesConfig, NativeTypes.TEXT, {
+  exposeProperty: 'text',
+  matchesTypes: ['Text', 'text/plain'],
+  getData: function getData(dataTransfer, matchesTypes) {
+    return getDataFromDataTransfer(dataTransfer, matchesTypes, '');
+  }
+}), _nativeTypesConfig);
+
+function createNativeDragSource(type) {
+  var _nativeTypesConfig$ty = nativeTypesConfig[type],
+      exposeProperty = _nativeTypesConfig$ty.exposeProperty,
+      matchesTypes = _nativeTypesConfig$ty.matchesTypes,
+      getData = _nativeTypesConfig$ty.getData;
+
+
+  return function () {
+    function NativeDragSource() {
+      var _item, _mutatorMap;
+
+      _classCallCheck(this, NativeDragSource);
+
+      this.item = (_item = {}, _mutatorMap = {}, _mutatorMap[exposeProperty] = _mutatorMap[exposeProperty] || {}, _mutatorMap[exposeProperty].get = function () {
+        console.warn( // eslint-disable-line no-console
+        'Browser doesn\'t allow reading "' + exposeProperty + '" until the drop event.');
+        return null;
+      }, _defineEnumerableProperties(_item, _mutatorMap), _item);
+    }
+
+    _createClass(NativeDragSource, [{
+      key: 'mutateItemByReadingDataTransfer',
+      value: function mutateItemByReadingDataTransfer(dataTransfer) {
+        delete this.item[exposeProperty];
+        this.item[exposeProperty] = getData(dataTransfer, matchesTypes);
+      }
+    }, {
+      key: 'canDrag',
+      value: function canDrag() {
+        return true;
+      }
+    }, {
+      key: 'beginDrag',
+      value: function beginDrag() {
+        return this.item;
+      }
+    }, {
+      key: 'isDragging',
+      value: function isDragging(monitor, handle) {
+        return handle === monitor.getSourceId();
+      }
+    }, {
+      key: 'endDrag',
+      value: function endDrag() {}
+    }]);
+
+    return NativeDragSource;
+  }();
+}
+
+function matchNativeItemType(dataTransfer) {
+  var dataTransferTypes = Array.prototype.slice.call(dataTransfer.types || []);
+
+  return Object.keys(nativeTypesConfig).filter(function (nativeItemType) {
+    var matchesTypes = nativeTypesConfig[nativeItemType].matchesTypes;
+
+    return matchesTypes.some(function (t) {
+      return dataTransferTypes.indexOf(t) > -1;
+    });
+  })[0] || null;
+}
+},{"./NativeTypes":115}],115:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var FILE = exports.FILE = '__NATIVE_FILE__';
+var URL = exports.URL = '__NATIVE_URL__';
+var TEXT = exports.TEXT = '__NATIVE_TEXT__';
+},{}],116:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getNodeClientOffset = getNodeClientOffset;
+exports.getEventClientOffset = getEventClientOffset;
+exports.getDragPreviewOffset = getDragPreviewOffset;
+
+var _BrowserDetector = require('./BrowserDetector');
+
+var _MonotonicInterpolant = require('./MonotonicInterpolant');
+
+var _MonotonicInterpolant2 = _interopRequireDefault(_MonotonicInterpolant);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint
+   no-mixed-operators: off
+*/
+var ELEMENT_NODE = 1;
+
+function getNodeClientOffset(node) {
+  var el = node.nodeType === ELEMENT_NODE ? node : node.parentElement;
+
+  if (!el) {
+    return null;
+  }
+
+  var _el$getBoundingClient = el.getBoundingClientRect(),
+      top = _el$getBoundingClient.top,
+      left = _el$getBoundingClient.left;
+
+  return { x: left, y: top };
+}
+
+function getEventClientOffset(e) {
+  return {
+    x: e.clientX,
+    y: e.clientY
+  };
+}
+
+function getDragPreviewOffset(sourceNode, dragPreview, clientOffset, anchorPoint) {
+  // The browsers will use the image intrinsic size under different conditions.
+  // Firefox only cares if it's an image, but WebKit also wants it to be detached.
+  var isImage = dragPreview.nodeName === 'IMG' && ((0, _BrowserDetector.isFirefox)() || !document.documentElement.contains(dragPreview));
+  var dragPreviewNode = isImage ? sourceNode : dragPreview;
+
+  var dragPreviewNodeOffsetFromClient = getNodeClientOffset(dragPreviewNode);
+  var offsetFromDragPreview = {
+    x: clientOffset.x - dragPreviewNodeOffsetFromClient.x,
+    y: clientOffset.y - dragPreviewNodeOffsetFromClient.y
+  };
+
+  var sourceWidth = sourceNode.offsetWidth,
+      sourceHeight = sourceNode.offsetHeight;
+  var anchorX = anchorPoint.anchorX,
+      anchorY = anchorPoint.anchorY;
+
+
+  var dragPreviewWidth = isImage ? dragPreview.width : sourceWidth;
+  var dragPreviewHeight = isImage ? dragPreview.height : sourceHeight;
+
+  // Work around @2x coordinate discrepancies in browsers
+  if ((0, _BrowserDetector.isSafari)() && isImage) {
+    dragPreviewHeight /= window.devicePixelRatio;
+    dragPreviewWidth /= window.devicePixelRatio;
+  } else if ((0, _BrowserDetector.isFirefox)() && !isImage) {
+    dragPreviewHeight *= window.devicePixelRatio;
+    dragPreviewWidth *= window.devicePixelRatio;
+  }
+
+  // Interpolate coordinates depending on anchor point
+  // If you know a simpler way to do this, let me know
+  var interpolantX = new _MonotonicInterpolant2.default([0, 0.5, 1], [
+  // Dock to the left
+  offsetFromDragPreview.x,
+  // Align at the center
+  offsetFromDragPreview.x / sourceWidth * dragPreviewWidth,
+  // Dock to the right
+  offsetFromDragPreview.x + dragPreviewWidth - sourceWidth]);
+  var interpolantY = new _MonotonicInterpolant2.default([0, 0.5, 1], [
+  // Dock to the top
+  offsetFromDragPreview.y,
+  // Align at the center
+  offsetFromDragPreview.y / sourceHeight * dragPreviewHeight,
+  // Dock to the bottom
+  offsetFromDragPreview.y + dragPreviewHeight - sourceHeight]);
+  var x = interpolantX.interpolate(anchorX);
+  var y = interpolantY.interpolate(anchorY);
+
+  // Work around Safari 8 positioning bug
+  if ((0, _BrowserDetector.isSafari)() && isImage) {
+    // We'll have to wait for @3x to see if this is entirely correct
+    y += (window.devicePixelRatio - 1) * dragPreviewHeight;
+  }
+
+  return { x: x, y: y };
+}
+},{"./BrowserDetector":110,"./MonotonicInterpolant":113}],117:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getEmptyImage;
+var emptyImage = void 0;
+function getEmptyImage() {
+  if (!emptyImage) {
+    emptyImage = new Image();
+    emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+  }
+
+  return emptyImage;
+}
+},{}],118:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getEmptyImage = exports.NativeTypes = undefined;
+exports.default = createHTML5Backend;
+
+var _HTML5Backend = require('./HTML5Backend');
+
+var _HTML5Backend2 = _interopRequireDefault(_HTML5Backend);
+
+var _getEmptyImage = require('./getEmptyImage');
+
+var _getEmptyImage2 = _interopRequireDefault(_getEmptyImage);
+
+var _NativeTypes = require('./NativeTypes');
+
+var NativeTypes = _interopRequireWildcard(_NativeTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.NativeTypes = NativeTypes;
+exports.getEmptyImage = _getEmptyImage2.default;
+function createHTML5Backend(manager) {
+  return new _HTML5Backend2.default(manager);
+}
+},{"./HTML5Backend":112,"./NativeTypes":115,"./getEmptyImage":117}],119:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = shallowEqual;
+function shallowEqual(objA, objB) {
+  if (objA === objB) {
+    return true;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  // Test for A's keys different from B.
+  var hasOwn = Object.prototype.hasOwnProperty;
+  for (var i = 0; i < keysA.length; i += 1) {
+    if (!hasOwn.call(objB, keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+      return false;
+    }
+
+    var valA = objA[keysA[i]];
+    var valB = objB[keysA[i]];
+
+    if (valA !== valB) {
+      return false;
+    }
+  }
+
+  return true;
+}
+},{}],120:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"./_hashClear":163,"./_hashDelete":164,"./_hashGet":165,"./_hashHas":166,"./_hashSet":167,"dup":25}],121:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"./_listCacheClear":174,"./_listCacheDelete":175,"./_listCacheGet":176,"./_listCacheHas":177,"./_listCacheSet":178,"dup":26}],122:[function(require,module,exports){
+arguments[4][27][0].apply(exports,arguments)
+},{"./_getNative":160,"./_root":189,"dup":27}],123:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"./_mapCacheClear":179,"./_mapCacheDelete":180,"./_mapCacheGet":181,"./_mapCacheHas":182,"./_mapCacheSet":183,"dup":28}],124:[function(require,module,exports){
+arguments[4][29][0].apply(exports,arguments)
+},{"./_getNative":160,"./_root":189,"dup":29}],125:[function(require,module,exports){
+arguments[4][30][0].apply(exports,arguments)
+},{"./_MapCache":123,"./_setCacheAdd":190,"./_setCacheHas":191,"dup":30}],126:[function(require,module,exports){
+arguments[4][31][0].apply(exports,arguments)
+},{"./_root":189,"dup":31}],127:[function(require,module,exports){
+arguments[4][32][0].apply(exports,arguments)
+},{"dup":32}],128:[function(require,module,exports){
+arguments[4][34][0].apply(exports,arguments)
+},{"./_baseIndexOf":140,"dup":34}],129:[function(require,module,exports){
+arguments[4][35][0].apply(exports,arguments)
+},{"dup":35}],130:[function(require,module,exports){
+var baseTimes = require('./_baseTimes'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isBuffer = require('./isBuffer'),
+    isIndex = require('./_isIndex'),
+    isTypedArray = require('./isTypedArray');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray(value),
+      isArg = !isArr && isArguments(value),
+      isBuff = !isArr && !isArg && isBuffer(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? baseTimes(value.length, String) : [],
+      length = result.length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (
+           // Safari 9 has enumerable `arguments.length` in strict mode.
+           key == 'length' ||
+           // Node.js 0.10 has enumerable non-index properties on buffers.
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           // PhantomJS 2 has enumerable non-index properties on typed arrays.
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           // Skip index properties.
+           isIndex(key, length)
+        ))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = arrayLikeKeys;
+
+},{"./_baseTimes":148,"./_isIndex":169,"./isArguments":202,"./isArray":203,"./isBuffer":206,"./isTypedArray":211}],131:[function(require,module,exports){
+arguments[4][36][0].apply(exports,arguments)
+},{"dup":36}],132:[function(require,module,exports){
+arguments[4][37][0].apply(exports,arguments)
+},{"dup":37}],133:[function(require,module,exports){
+var baseAssignValue = require('./_baseAssignValue'),
+    eq = require('./eq');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Assigns `value` to `key` of `object` if the existing value is not equivalent
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    baseAssignValue(object, key, value);
+  }
+}
+
+module.exports = assignValue;
+
+},{"./_baseAssignValue":135,"./eq":200}],134:[function(require,module,exports){
+arguments[4][38][0].apply(exports,arguments)
+},{"./eq":200,"dup":38}],135:[function(require,module,exports){
+var defineProperty = require('./_defineProperty');
+
+/**
+ * The base implementation of `assignValue` and `assignMergeValue` without
+ * value checks.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__' && defineProperty) {
+    defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+
+module.exports = baseAssignValue;
+
+},{"./_defineProperty":157}],136:[function(require,module,exports){
+arguments[4][39][0].apply(exports,arguments)
+},{"./_SetCache":125,"./_arrayIncludes":128,"./_arrayIncludesWith":129,"./_arrayMap":131,"./_baseUnary":149,"./_cacheHas":151,"dup":39}],137:[function(require,module,exports){
+arguments[4][40][0].apply(exports,arguments)
+},{"dup":40}],138:[function(require,module,exports){
+arguments[4][41][0].apply(exports,arguments)
+},{"./_arrayPush":132,"./_isFlattenable":168,"dup":41}],139:[function(require,module,exports){
+arguments[4][42][0].apply(exports,arguments)
+},{"./_Symbol":126,"./_getRawTag":161,"./_objectToString":187,"dup":42}],140:[function(require,module,exports){
+arguments[4][43][0].apply(exports,arguments)
+},{"./_baseFindIndex":137,"./_baseIsNaN":142,"./_strictIndexOf":195,"dup":43}],141:[function(require,module,exports){
+arguments[4][45][0].apply(exports,arguments)
+},{"./_baseGetTag":139,"./isObjectLike":210,"dup":45}],142:[function(require,module,exports){
+arguments[4][46][0].apply(exports,arguments)
+},{"dup":46}],143:[function(require,module,exports){
+arguments[4][47][0].apply(exports,arguments)
+},{"./_isMasked":172,"./_toSource":196,"./isFunction":207,"./isObject":209,"dup":47}],144:[function(require,module,exports){
+var baseGetTag = require('./_baseGetTag'),
+    isLength = require('./isLength'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+}
+
+module.exports = baseIsTypedArray;
+
+},{"./_baseGetTag":139,"./isLength":208,"./isObjectLike":210}],145:[function(require,module,exports){
+var isObject = require('./isObject'),
+    isPrototype = require('./_isPrototype'),
+    nativeKeysIn = require('./_nativeKeysIn');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeysIn(object) {
+  if (!isObject(object)) {
+    return nativeKeysIn(object);
+  }
+  var isProto = isPrototype(object),
+      result = [];
+
+  for (var key in object) {
+    if (!(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = baseKeysIn;
+
+},{"./_isPrototype":173,"./_nativeKeysIn":185,"./isObject":209}],146:[function(require,module,exports){
+arguments[4][48][0].apply(exports,arguments)
+},{"./_overRest":188,"./_setToString":193,"./identity":201,"dup":48}],147:[function(require,module,exports){
+arguments[4][49][0].apply(exports,arguments)
+},{"./_defineProperty":157,"./constant":198,"./identity":201,"dup":49}],148:[function(require,module,exports){
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+module.exports = baseTimes;
+
+},{}],149:[function(require,module,exports){
+arguments[4][50][0].apply(exports,arguments)
+},{"dup":50}],150:[function(require,module,exports){
+arguments[4][51][0].apply(exports,arguments)
+},{"./_SetCache":125,"./_arrayIncludes":128,"./_arrayIncludesWith":129,"./_cacheHas":151,"./_createSet":155,"./_setToArray":192,"dup":51}],151:[function(require,module,exports){
+arguments[4][53][0].apply(exports,arguments)
+},{"dup":53}],152:[function(require,module,exports){
+var assignValue = require('./_assignValue'),
+    baseAssignValue = require('./_baseAssignValue');
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property identifiers to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @param {Function} [customizer] The function to customize copied values.
+ * @returns {Object} Returns `object`.
+ */
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+
+    var newValue = customizer
+      ? customizer(object[key], source[key], key, object, source)
+      : undefined;
+
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      baseAssignValue(object, key, newValue);
+    } else {
+      assignValue(object, key, newValue);
+    }
+  }
+  return object;
+}
+
+module.exports = copyObject;
+
+},{"./_assignValue":133,"./_baseAssignValue":135}],153:[function(require,module,exports){
+arguments[4][55][0].apply(exports,arguments)
+},{"./_root":189,"dup":55}],154:[function(require,module,exports){
+var baseRest = require('./_baseRest'),
+    isIterateeCall = require('./_isIterateeCall');
+
+/**
+ * Creates a function like `_.assign`.
+ *
+ * @private
+ * @param {Function} assigner The function to assign values.
+ * @returns {Function} Returns the new assigner function.
+ */
+function createAssigner(assigner) {
+  return baseRest(function(object, sources) {
+    var index = -1,
+        length = sources.length,
+        customizer = length > 1 ? sources[length - 1] : undefined,
+        guard = length > 2 ? sources[2] : undefined;
+
+    customizer = (assigner.length > 3 && typeof customizer == 'function')
+      ? (length--, customizer)
+      : undefined;
+
+    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+      customizer = length < 3 ? undefined : customizer;
+      length = 1;
+    }
+    object = Object(object);
+    while (++index < length) {
+      var source = sources[index];
+      if (source) {
+        assigner(object, source, index, customizer);
+      }
+    }
+    return object;
+  });
+}
+
+module.exports = createAssigner;
+
+},{"./_baseRest":146,"./_isIterateeCall":170}],155:[function(require,module,exports){
+arguments[4][56][0].apply(exports,arguments)
+},{"./_Set":124,"./_setToArray":192,"./noop":214,"dup":56}],156:[function(require,module,exports){
+var eq = require('./eq');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used by `_.defaults` to customize its `_.assignIn` use to assign properties
+ * of source objects to the destination object for all destination properties
+ * that resolve to `undefined`.
+ *
+ * @private
+ * @param {*} objValue The destination value.
+ * @param {*} srcValue The source value.
+ * @param {string} key The key of the property to assign.
+ * @param {Object} object The parent object of `objValue`.
+ * @returns {*} Returns the value to assign.
+ */
+function customDefaultsAssignIn(objValue, srcValue, key, object) {
+  if (objValue === undefined ||
+      (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+    return srcValue;
+  }
+  return objValue;
+}
+
+module.exports = customDefaultsAssignIn;
+
+},{"./eq":200}],157:[function(require,module,exports){
+arguments[4][57][0].apply(exports,arguments)
+},{"./_getNative":160,"dup":57}],158:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"dup":58}],159:[function(require,module,exports){
+arguments[4][59][0].apply(exports,arguments)
+},{"./_isKeyable":171,"dup":59}],160:[function(require,module,exports){
+arguments[4][60][0].apply(exports,arguments)
+},{"./_baseIsNative":143,"./_getValue":162,"dup":60}],161:[function(require,module,exports){
+arguments[4][61][0].apply(exports,arguments)
+},{"./_Symbol":126,"dup":61}],162:[function(require,module,exports){
+arguments[4][62][0].apply(exports,arguments)
+},{"dup":62}],163:[function(require,module,exports){
+arguments[4][63][0].apply(exports,arguments)
+},{"./_nativeCreate":184,"dup":63}],164:[function(require,module,exports){
+arguments[4][64][0].apply(exports,arguments)
+},{"dup":64}],165:[function(require,module,exports){
+arguments[4][65][0].apply(exports,arguments)
+},{"./_nativeCreate":184,"dup":65}],166:[function(require,module,exports){
+arguments[4][66][0].apply(exports,arguments)
+},{"./_nativeCreate":184,"dup":66}],167:[function(require,module,exports){
+arguments[4][67][0].apply(exports,arguments)
+},{"./_nativeCreate":184,"dup":67}],168:[function(require,module,exports){
+arguments[4][68][0].apply(exports,arguments)
+},{"./_Symbol":126,"./isArguments":202,"./isArray":203,"dup":68}],169:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+module.exports = isIndex;
+
+},{}],170:[function(require,module,exports){
+var eq = require('./eq'),
+    isArrayLike = require('./isArrayLike'),
+    isIndex = require('./_isIndex'),
+    isObject = require('./isObject');
+
+/**
+ * Checks if the given arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+ *  else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+        ? (isArrayLike(object) && isIndex(index, object.length))
+        : (type == 'string' && index in object)
+      ) {
+    return eq(object[index], value);
+  }
+  return false;
+}
+
+module.exports = isIterateeCall;
+
+},{"./_isIndex":169,"./eq":200,"./isArrayLike":204,"./isObject":209}],171:[function(require,module,exports){
+arguments[4][69][0].apply(exports,arguments)
+},{"dup":69}],172:[function(require,module,exports){
+arguments[4][70][0].apply(exports,arguments)
+},{"./_coreJsData":153,"dup":70}],173:[function(require,module,exports){
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+},{}],174:[function(require,module,exports){
+arguments[4][71][0].apply(exports,arguments)
+},{"dup":71}],175:[function(require,module,exports){
+arguments[4][72][0].apply(exports,arguments)
+},{"./_assocIndexOf":134,"dup":72}],176:[function(require,module,exports){
+arguments[4][73][0].apply(exports,arguments)
+},{"./_assocIndexOf":134,"dup":73}],177:[function(require,module,exports){
+arguments[4][74][0].apply(exports,arguments)
+},{"./_assocIndexOf":134,"dup":74}],178:[function(require,module,exports){
+arguments[4][75][0].apply(exports,arguments)
+},{"./_assocIndexOf":134,"dup":75}],179:[function(require,module,exports){
+arguments[4][76][0].apply(exports,arguments)
+},{"./_Hash":120,"./_ListCache":121,"./_Map":122,"dup":76}],180:[function(require,module,exports){
+arguments[4][77][0].apply(exports,arguments)
+},{"./_getMapData":159,"dup":77}],181:[function(require,module,exports){
+arguments[4][78][0].apply(exports,arguments)
+},{"./_getMapData":159,"dup":78}],182:[function(require,module,exports){
+arguments[4][79][0].apply(exports,arguments)
+},{"./_getMapData":159,"dup":79}],183:[function(require,module,exports){
+arguments[4][80][0].apply(exports,arguments)
+},{"./_getMapData":159,"dup":80}],184:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"./_getNative":160,"dup":81}],185:[function(require,module,exports){
+/**
+ * This function is like
+ * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * except that it includes inherited enumerable properties.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function nativeKeysIn(object) {
+  var result = [];
+  if (object != null) {
+    for (var key in Object(object)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = nativeKeysIn;
+
+},{}],186:[function(require,module,exports){
+var freeGlobal = require('./_freeGlobal');
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+module.exports = nodeUtil;
+
+},{"./_freeGlobal":158}],187:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],188:[function(require,module,exports){
+arguments[4][83][0].apply(exports,arguments)
+},{"./_apply":127,"dup":83}],189:[function(require,module,exports){
+arguments[4][84][0].apply(exports,arguments)
+},{"./_freeGlobal":158,"dup":84}],190:[function(require,module,exports){
+arguments[4][85][0].apply(exports,arguments)
+},{"dup":85}],191:[function(require,module,exports){
+arguments[4][86][0].apply(exports,arguments)
+},{"dup":86}],192:[function(require,module,exports){
+arguments[4][87][0].apply(exports,arguments)
+},{"dup":87}],193:[function(require,module,exports){
+arguments[4][88][0].apply(exports,arguments)
+},{"./_baseSetToString":147,"./_shortOut":194,"dup":88}],194:[function(require,module,exports){
+arguments[4][89][0].apply(exports,arguments)
+},{"dup":89}],195:[function(require,module,exports){
+arguments[4][90][0].apply(exports,arguments)
+},{"dup":90}],196:[function(require,module,exports){
+arguments[4][91][0].apply(exports,arguments)
+},{"dup":91}],197:[function(require,module,exports){
+var copyObject = require('./_copyObject'),
+    createAssigner = require('./_createAssigner'),
+    keysIn = require('./keysIn');
+
+/**
+ * This method is like `_.assignIn` except that it accepts `customizer`
+ * which is invoked to produce the assigned values. If `customizer` returns
+ * `undefined`, assignment is handled by the method instead. The `customizer`
+ * is invoked with five arguments: (objValue, srcValue, key, object, source).
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @alias extendWith
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} sources The source objects.
+ * @param {Function} [customizer] The function to customize assigned values.
+ * @returns {Object} Returns `object`.
+ * @see _.assignWith
+ * @example
+ *
+ * function customizer(objValue, srcValue) {
+ *   return _.isUndefined(objValue) ? srcValue : objValue;
+ * }
+ *
+ * var defaults = _.partialRight(_.assignInWith, customizer);
+ *
+ * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+ * // => { 'a': 1, 'b': 2 }
+ */
+var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
+  copyObject(source, keysIn(source), object, customizer);
+});
+
+module.exports = assignInWith;
+
+},{"./_copyObject":152,"./_createAssigner":154,"./keysIn":212}],198:[function(require,module,exports){
+arguments[4][92][0].apply(exports,arguments)
+},{"dup":92}],199:[function(require,module,exports){
+var apply = require('./_apply'),
+    assignInWith = require('./assignInWith'),
+    baseRest = require('./_baseRest'),
+    customDefaultsAssignIn = require('./_customDefaultsAssignIn');
+
+/**
+ * Assigns own and inherited enumerable string keyed properties of source
+ * objects to the destination object for all destination properties that
+ * resolve to `undefined`. Source objects are applied from left to right.
+ * Once a property is set, additional values of the same property are ignored.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @see _.defaultsDeep
+ * @example
+ *
+ * _.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+ * // => { 'a': 1, 'b': 2 }
+ */
+var defaults = baseRest(function(args) {
+  args.push(undefined, customDefaultsAssignIn);
+  return apply(assignInWith, undefined, args);
+});
+
+module.exports = defaults;
+
+},{"./_apply":127,"./_baseRest":146,"./_customDefaultsAssignIn":156,"./assignInWith":197}],200:[function(require,module,exports){
+arguments[4][93][0].apply(exports,arguments)
+},{"dup":93}],201:[function(require,module,exports){
+arguments[4][94][0].apply(exports,arguments)
+},{"dup":94}],202:[function(require,module,exports){
+arguments[4][96][0].apply(exports,arguments)
+},{"./_baseIsArguments":141,"./isObjectLike":210,"dup":96}],203:[function(require,module,exports){
+arguments[4][97][0].apply(exports,arguments)
+},{"dup":97}],204:[function(require,module,exports){
+arguments[4][98][0].apply(exports,arguments)
+},{"./isFunction":207,"./isLength":208,"dup":98}],205:[function(require,module,exports){
+arguments[4][99][0].apply(exports,arguments)
+},{"./isArrayLike":204,"./isObjectLike":210,"dup":99}],206:[function(require,module,exports){
+var root = require('./_root'),
+    stubFalse = require('./stubFalse');
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+module.exports = isBuffer;
+
+},{"./_root":189,"./stubFalse":215}],207:[function(require,module,exports){
+arguments[4][100][0].apply(exports,arguments)
+},{"./_baseGetTag":139,"./isObject":209,"dup":100}],208:[function(require,module,exports){
+arguments[4][101][0].apply(exports,arguments)
+},{"dup":101}],209:[function(require,module,exports){
+arguments[4][102][0].apply(exports,arguments)
+},{"dup":102}],210:[function(require,module,exports){
+arguments[4][103][0].apply(exports,arguments)
+},{"dup":103}],211:[function(require,module,exports){
+var baseIsTypedArray = require('./_baseIsTypedArray'),
+    baseUnary = require('./_baseUnary'),
+    nodeUtil = require('./_nodeUtil');
+
+/* Node.js helper references. */
+var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+module.exports = isTypedArray;
+
+},{"./_baseIsTypedArray":144,"./_baseUnary":149,"./_nodeUtil":186}],212:[function(require,module,exports){
+var arrayLikeKeys = require('./_arrayLikeKeys'),
+    baseKeysIn = require('./_baseKeysIn'),
+    isArrayLike = require('./isArrayLike');
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+}
+
+module.exports = keysIn;
+
+},{"./_arrayLikeKeys":130,"./_baseKeysIn":145,"./isArrayLike":204}],213:[function(require,module,exports){
+var MapCache = require('./_MapCache');
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided, it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `clear`, `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoized function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result) || cache;
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Expose `MapCache`.
+memoize.Cache = MapCache;
+
+module.exports = memoize;
+
+},{"./_MapCache":123}],214:[function(require,module,exports){
+arguments[4][104][0].apply(exports,arguments)
+},{"dup":104}],215:[function(require,module,exports){
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = stubFalse;
+
+},{}],216:[function(require,module,exports){
+var baseFlatten = require('./_baseFlatten'),
+    baseRest = require('./_baseRest'),
+    baseUniq = require('./_baseUniq'),
+    isArrayLikeObject = require('./isArrayLikeObject');
+
+/**
+ * Creates an array of unique values, in order, from all given arrays using
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {...Array} [arrays] The arrays to inspect.
+ * @returns {Array} Returns the new array of combined values.
+ * @example
+ *
+ * _.union([2], [1, 2]);
+ * // => [2, 1]
+ */
+var union = baseRest(function(arrays) {
+  return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
+});
+
+module.exports = union;
+
+},{"./_baseFlatten":138,"./_baseRest":146,"./_baseUniq":150,"./isArrayLikeObject":205}],217:[function(require,module,exports){
+arguments[4][105][0].apply(exports,arguments)
+},{"./_baseDifference":136,"./_baseRest":146,"./isArrayLikeObject":205,"dup":105}],218:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.unpackBackendForEs5Users = exports.createChildContext = exports.CHILD_CONTEXT_TYPES = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -4476,7 +6547,7 @@ function DragDropContext(backendOrModule) {
     return (0, _hoistNonReactStatics2.default)(DragDropContextContainer, DecoratedComponent);
   };
 }
-},{"./utils/checkDecoratorArguments":126,"dnd-core":16,"hoist-non-react-statics":107,"invariant":108,"react":undefined}],111:[function(require,module,exports){
+},{"./utils/checkDecoratorArguments":234,"dnd-core":16,"hoist-non-react-statics":107,"invariant":108,"react":undefined}],219:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4554,7 +6625,7 @@ var DragDropContextProvider = (_temp = _class = function (_Component) {
   window: _react.PropTypes.object
 }, _temp);
 exports.default = DragDropContextProvider;
-},{"./DragDropContext":110,"react":undefined}],112:[function(require,module,exports){
+},{"./DragDropContext":218,"react":undefined}],220:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4709,7 +6780,7 @@ function DragLayer(collect) {
     return (0, _hoistNonReactStatics2.default)(DragLayerContainer, DecoratedComponent);
   };
 }
-},{"./utils/checkDecoratorArguments":126,"./utils/shallowEqual":129,"./utils/shallowEqualScalar":130,"hoist-non-react-statics":107,"invariant":108,"lodash/isPlainObject":142,"react":undefined}],113:[function(require,module,exports){
+},{"./utils/checkDecoratorArguments":234,"./utils/shallowEqual":237,"./utils/shallowEqualScalar":238,"hoist-non-react-statics":107,"invariant":108,"lodash/isPlainObject":250,"react":undefined}],221:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4788,7 +6859,7 @@ function DragSource(type, spec, collect) {
     });
   };
 }
-},{"./createSourceConnector":116,"./createSourceFactory":117,"./createSourceMonitor":118,"./decorateHandler":122,"./registerSource":124,"./utils/checkDecoratorArguments":126,"./utils/isValidType":128,"invariant":108,"lodash/isPlainObject":142}],114:[function(require,module,exports){
+},{"./createSourceConnector":224,"./createSourceFactory":225,"./createSourceMonitor":226,"./decorateHandler":230,"./registerSource":232,"./utils/checkDecoratorArguments":234,"./utils/isValidType":236,"invariant":108,"lodash/isPlainObject":250}],222:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4867,7 +6938,7 @@ function DropTarget(type, spec, collect) {
     });
   };
 }
-},{"./createTargetConnector":119,"./createTargetFactory":120,"./createTargetMonitor":121,"./decorateHandler":122,"./registerTarget":125,"./utils/checkDecoratorArguments":126,"./utils/isValidType":128,"invariant":108,"lodash/isPlainObject":142}],115:[function(require,module,exports){
+},{"./createTargetConnector":227,"./createTargetFactory":228,"./createTargetMonitor":229,"./decorateHandler":230,"./registerTarget":233,"./utils/checkDecoratorArguments":234,"./utils/isValidType":236,"invariant":108,"lodash/isPlainObject":250}],223:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4888,7 +6959,7 @@ function areOptionsEqual(nextOptions, currentOptions) {
 
   return currentOptions !== null && nextOptions !== null && (0, _shallowEqual2.default)(currentOptions, nextOptions);
 }
-},{"./utils/shallowEqual":129}],116:[function(require,module,exports){
+},{"./utils/shallowEqual":237}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4978,7 +7049,7 @@ function createSourceConnector(backend) {
     hooks: hooks
   };
 }
-},{"./areOptionsEqual":115,"./wrapConnectorHooks":131}],117:[function(require,module,exports){
+},{"./areOptionsEqual":223,"./wrapConnectorHooks":239}],225:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5079,7 +7150,7 @@ function createSourceFactory(spec) {
   };
 }
 }).call(this,require('_process'))
-},{"_process":109,"invariant":108,"lodash/isPlainObject":142}],118:[function(require,module,exports){
+},{"_process":109,"invariant":108,"lodash/isPlainObject":250}],226:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5190,7 +7261,7 @@ var SourceMonitor = function () {
 function createSourceMonitor(manager) {
   return new SourceMonitor(manager);
 }
-},{"invariant":108}],119:[function(require,module,exports){
+},{"invariant":108}],227:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5253,7 +7324,7 @@ function createTargetConnector(backend) {
     hooks: hooks
   };
 }
-},{"./areOptionsEqual":115,"./wrapConnectorHooks":131}],120:[function(require,module,exports){
+},{"./areOptionsEqual":223,"./wrapConnectorHooks":239}],228:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5350,7 +7421,7 @@ function createTargetFactory(spec) {
   };
 }
 }).call(this,require('_process'))
-},{"_process":109,"invariant":108,"lodash/isPlainObject":142}],121:[function(require,module,exports){
+},{"_process":109,"invariant":108,"lodash/isPlainObject":250}],229:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5453,7 +7524,7 @@ var TargetMonitor = function () {
 function createTargetMonitor(manager) {
   return new TargetMonitor(manager);
 }
-},{"invariant":108}],122:[function(require,module,exports){
+},{"invariant":108}],230:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5666,7 +7737,7 @@ function decorateHandler(_ref) {
   return (0, _hoistNonReactStatics2.default)(DragDropContainer, DecoratedComponent);
 }
 }).call(this,require('_process'))
-},{"./utils/shallowEqual":129,"./utils/shallowEqualScalar":130,"_process":109,"disposables":6,"hoist-non-react-statics":107,"invariant":108,"lodash/isPlainObject":142,"react":undefined}],123:[function(require,module,exports){
+},{"./utils/shallowEqual":237,"./utils/shallowEqualScalar":238,"_process":109,"disposables":6,"hoist-non-react-statics":107,"invariant":108,"lodash/isPlainObject":250,"react":undefined}],231:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5719,7 +7790,7 @@ Object.defineProperty(exports, 'DropTarget', {
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./DragDropContext":110,"./DragDropContextProvider":111,"./DragLayer":112,"./DragSource":113,"./DropTarget":114}],124:[function(require,module,exports){
+},{"./DragDropContext":218,"./DragDropContextProvider":219,"./DragLayer":220,"./DragSource":221,"./DropTarget":222}],232:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5739,7 +7810,7 @@ function registerSource(type, source, manager) {
     unregister: unregisterSource
   };
 }
-},{}],125:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5759,7 +7830,7 @@ function registerTarget(type, target, manager) {
     unregister: unregisterTarget
   };
 }
-},{}],126:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5780,7 +7851,7 @@ function checkDecoratorArguments(functionName, signature) {
   }
 }
 }).call(this,require('_process'))
-},{"_process":109}],127:[function(require,module,exports){
+},{"_process":109}],235:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5817,7 +7888,7 @@ function cloneWithRef(element, newRef) {
     }
   });
 }
-},{"invariant":108,"react":undefined}],128:[function(require,module,exports){
+},{"invariant":108,"react":undefined}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5839,43 +7910,9 @@ function isValidType(type, allowArray) {
               return isValidType(t, false);
        });
 }
-},{"lodash/isArray":140}],129:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = shallowEqual;
-function shallowEqual(objA, objB) {
-  if (objA === objB) {
-    return true;
-  }
-
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
-
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  // Test for A's keys different from B.
-  var hasOwn = Object.prototype.hasOwnProperty;
-  for (var i = 0; i < keysA.length; i += 1) {
-    if (!hasOwn.call(objB, keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
-      return false;
-    }
-
-    var valA = objA[keysA[i]];
-    var valB = objB[keysA[i]];
-
-    if (valA !== valB) {
-      return false;
-    }
-  }
-
-  return true;
-}
-},{}],130:[function(require,module,exports){
+},{"lodash/isArray":248}],237:[function(require,module,exports){
+arguments[4][119][0].apply(exports,arguments)
+},{"dup":119}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5918,7 +7955,7 @@ function shallowEqualScalar(objA, objB) {
 
   return true;
 }
-},{}],131:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5986,13 +8023,13 @@ function wrapConnectorHooks(hooks) {
 
   return wrappedHooks;
 }
-},{"./utils/cloneWithRef":127,"react":undefined}],132:[function(require,module,exports){
+},{"./utils/cloneWithRef":235,"react":undefined}],240:[function(require,module,exports){
 arguments[4][31][0].apply(exports,arguments)
-},{"./_root":139,"dup":31}],133:[function(require,module,exports){
+},{"./_root":247,"dup":31}],241:[function(require,module,exports){
 arguments[4][42][0].apply(exports,arguments)
-},{"./_Symbol":132,"./_getRawTag":136,"./_objectToString":137,"dup":42}],134:[function(require,module,exports){
+},{"./_Symbol":240,"./_getRawTag":244,"./_objectToString":245,"dup":42}],242:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"dup":58}],135:[function(require,module,exports){
+},{"dup":58}],243:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /** Built-in value references. */
@@ -6000,11 +8037,11 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 
 module.exports = getPrototype;
 
-},{"./_overArg":138}],136:[function(require,module,exports){
+},{"./_overArg":246}],244:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"./_Symbol":132,"dup":61}],137:[function(require,module,exports){
+},{"./_Symbol":240,"dup":61}],245:[function(require,module,exports){
 arguments[4][82][0].apply(exports,arguments)
-},{"dup":82}],138:[function(require,module,exports){
+},{"dup":82}],246:[function(require,module,exports){
 /**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
@@ -6021,13 +8058,13 @@ function overArg(func, transform) {
 
 module.exports = overArg;
 
-},{}],139:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 arguments[4][84][0].apply(exports,arguments)
-},{"./_freeGlobal":134,"dup":84}],140:[function(require,module,exports){
+},{"./_freeGlobal":242,"dup":84}],248:[function(require,module,exports){
 arguments[4][97][0].apply(exports,arguments)
-},{"dup":97}],141:[function(require,module,exports){
+},{"dup":97}],249:[function(require,module,exports){
 arguments[4][103][0].apply(exports,arguments)
-},{"dup":103}],142:[function(require,module,exports){
+},{"dup":103}],250:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     getPrototype = require('./_getPrototype'),
     isObjectLike = require('./isObjectLike');
@@ -6091,7 +8128,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_baseGetTag":133,"./_getPrototype":135,"./isObjectLike":141}],143:[function(require,module,exports){
+},{"./_baseGetTag":241,"./_getPrototype":243,"./isObjectLike":249}],251:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6353,30 +8390,30 @@ function createStore(reducer, preloadedState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2['default']] = observable, _ref2;
 }
-},{"lodash/isPlainObject":153,"symbol-observable":154}],144:[function(require,module,exports){
+},{"lodash/isPlainObject":261,"symbol-observable":262}],252:[function(require,module,exports){
 arguments[4][31][0].apply(exports,arguments)
-},{"./_root":151,"dup":31}],145:[function(require,module,exports){
+},{"./_root":259,"dup":31}],253:[function(require,module,exports){
 arguments[4][42][0].apply(exports,arguments)
-},{"./_Symbol":144,"./_getRawTag":148,"./_objectToString":149,"dup":42}],146:[function(require,module,exports){
+},{"./_Symbol":252,"./_getRawTag":256,"./_objectToString":257,"dup":42}],254:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"dup":58}],147:[function(require,module,exports){
-arguments[4][135][0].apply(exports,arguments)
-},{"./_overArg":150,"dup":135}],148:[function(require,module,exports){
+},{"dup":58}],255:[function(require,module,exports){
+arguments[4][243][0].apply(exports,arguments)
+},{"./_overArg":258,"dup":243}],256:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"./_Symbol":144,"dup":61}],149:[function(require,module,exports){
+},{"./_Symbol":252,"dup":61}],257:[function(require,module,exports){
 arguments[4][82][0].apply(exports,arguments)
-},{"dup":82}],150:[function(require,module,exports){
-arguments[4][138][0].apply(exports,arguments)
-},{"dup":138}],151:[function(require,module,exports){
+},{"dup":82}],258:[function(require,module,exports){
+arguments[4][246][0].apply(exports,arguments)
+},{"dup":246}],259:[function(require,module,exports){
 arguments[4][84][0].apply(exports,arguments)
-},{"./_freeGlobal":146,"dup":84}],152:[function(require,module,exports){
+},{"./_freeGlobal":254,"dup":84}],260:[function(require,module,exports){
 arguments[4][103][0].apply(exports,arguments)
-},{"dup":103}],153:[function(require,module,exports){
-arguments[4][142][0].apply(exports,arguments)
-},{"./_baseGetTag":145,"./_getPrototype":147,"./isObjectLike":152,"dup":142}],154:[function(require,module,exports){
+},{"dup":103}],261:[function(require,module,exports){
+arguments[4][250][0].apply(exports,arguments)
+},{"./_baseGetTag":253,"./_getPrototype":255,"./isObjectLike":260,"dup":250}],262:[function(require,module,exports){
 module.exports = require('./lib/index');
 
-},{"./lib/index":155}],155:[function(require,module,exports){
+},{"./lib/index":263}],263:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -6408,7 +8445,7 @@ if (typeof self !== 'undefined') {
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ponyfill":156}],156:[function(require,module,exports){
+},{"./ponyfill":264}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6432,7 +8469,7 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
-},{}],157:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -6702,7 +8739,7 @@ function defaultChildren(props) {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Select":161,"./utils/stripDiacritics":167}],158:[function(require,module,exports){
+},{"./Select":271,"./utils/stripDiacritics":279}],266:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -6767,7 +8804,71 @@ var AsyncCreatable = _react2['default'].createClass({
 module.exports = AsyncCreatable;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Select":161}],159:[function(require,module,exports){
+},{"./Select":271}],267:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDnd = require('react-dnd');
+
+var _reactDndHtml5Backend = require('react-dnd-html5-backend');
+
+var _reactDndHtml5Backend2 = _interopRequireDefault(_reactDndHtml5Backend);
+
+var Board = (function (_Component) {
+  _inherits(Board, _Component);
+
+  function Board(props) {
+    _classCallCheck(this, Board);
+
+    _get(Object.getPrototypeOf(Board.prototype), 'constructor', this).call(this, props);
+  }
+
+  _createClass(Board, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        { style: {
+            backgroundColor: 'brown',
+            color: 'brown',
+            width: '100%',
+            height: '100%'
+
+          } },
+        this.props.children
+      );
+    }
+  }]);
+
+  return Board;
+})(_react.Component);
+
+Board.propTypes = {
+  handleChange: _react.PropTypes.func
+};
+exports['default'] = (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2['default'])(Board);
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"react-dnd":231,"react-dnd-html5-backend":118}],268:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -7091,7 +9192,90 @@ function shouldKeyDownEventCreateNewOption(_ref6) {
 module.exports = Creatable;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Select":161,"./utils/defaultFilterOptions":165,"./utils/defaultMenuRenderer":166}],160:[function(require,module,exports){
+},{"./Select":271,"./utils/defaultFilterOptions":277,"./utils/defaultMenuRenderer":278}],269:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDnd = require('react-dnd');
+
+var knightSource = {
+  beginDrag: function beginDrag(props, thing) {
+    console.log(props, 'knight');
+    // props.handleDrag(props.index)
+    return {};
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+var Knight = (function (_Component) {
+  _inherits(Knight, _Component);
+
+  function Knight(props) {
+    _classCallCheck(this, Knight);
+
+    _get(Object.getPrototypeOf(Knight.prototype), 'constructor', this).call(this, props);
+  }
+
+  _createClass(Knight, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var connectDragSource = _props.connectDragSource;
+      var isDragging = _props.isDragging;
+
+      return connectDragSource(_react2['default'].createElement(
+        'div',
+        { style: {
+            opacity: isDragging ? 0.5 : 1,
+            fontSize: 25,
+            color: this.props.index == 1 ? 'red' : 'green',
+            fontWeight: 'bold',
+            cursor: 'move'
+          } },
+        '♘'
+      ));
+    }
+  }]);
+
+  return Knight;
+})(_react.Component);
+
+Knight.propTypes = {
+  connectDragSource: _react.PropTypes.func.isRequired,
+  isDragging: _react.PropTypes.bool.isRequired,
+  handleDrag: _react.PropTypes.func,
+  index: _react.PropTypes.number
+};
+
+exports['default'] = (0, _reactDnd.DragSource)('knight', knightSource, collect)(Knight);
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"react-dnd":231}],270:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -7206,7 +9390,7 @@ var Option = _react2['default'].createClass({
 module.exports = Option;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],161:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 (function (global){
 /*!
   Copyright (c) 2016 Jed Watson.
@@ -7280,6 +9464,22 @@ var _Value = require('./Value');
 
 var _Value2 = _interopRequireDefault(_Value);
 
+var _Square = require('./Square');
+
+var _Square2 = _interopRequireDefault(_Square);
+
+var _Board = require('./Board');
+
+var _Board2 = _interopRequireDefault(_Board);
+
+var _SquareValue = require('./SquareValue');
+
+var _SquareValue2 = _interopRequireDefault(_SquareValue);
+
+var _Knight = require('./Knight');
+
+var _Knight2 = _interopRequireDefault(_Knight);
+
 function stringifyValue(value) {
 	var valueType = typeof value;
 	if (valueType === 'string') {
@@ -7321,10 +9521,11 @@ var Select = _react2['default'].createClass({
 		deleteRemoves: _react2['default'].PropTypes.bool, // whether backspace removes an item if there is no text input
 		delimiter: _react2['default'].PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _react2['default'].PropTypes.bool, // whether the Select is disabled or not
+		dragAndDrop: _react2['default'].PropTypes.bool, // Allow for dragAndDrop functionality
 		escapeClearsValue: _react2['default'].PropTypes.bool, // whether escape clears the value when the menu is closed
 		filterOption: _react2['default'].PropTypes.func, // method to filter a single option (option, filterString)
 		filterOptions: _react2['default'].PropTypes.any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-		handleDrag: _react2['default'].PropTypes.handleDrag,
+		handleDrag: _react2['default'].PropTypes.func,
 		ignoreAccents: _react2['default'].PropTypes.bool, // whether to strip diacritics when filtering
 		ignoreCase: _react2['default'].PropTypes.bool, // whether to perform case-insensitive filtering
 		inputProps: _react2['default'].PropTypes.object, // custom attributes for the Input
@@ -8080,15 +10281,20 @@ var Select = _react2['default'].createClass({
 	getInputValue: function getInputValue() {
 		return this.state.inputValue;
 	},
-	handleDrag: function handleDrag(index) {
-		this.props.handleDrag(index);
-	},
+
 	selectFocusedOption: function selectFocusedOption() {
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
 	},
-
+	handleDrop: function handleDrop(endIndex) {
+		console.log(endIndex, 'endIndex');
+		// this.setState({ 'endIndex':endIndex})
+	},
+	handleDrag: function handleDrag(startIndex) {
+		console.log(startIndex, 'startIndex');
+		// this.setState({ 'startIndex':startIndex })
+	},
 	renderLoading: function renderLoading() {
 		if (!this.props.isLoading) return;
 		return _react2['default'].createElement(
@@ -8111,7 +10317,26 @@ var Select = _react2['default'].createClass({
 			) : null;
 		}
 		var onClick = this.props.onValueClick ? this.handleValueClick : null;
-		if (this.props.multi) {
+		if (this.props.dragAndDrop && this.props.multi) {
+			return valueArray.map(function (value, i) {
+				return _react2['default'].createElement(
+					_Square2['default'],
+					{ handleDrop: _this4.handleDrop, index: i, key: i },
+					_react2['default'].createElement(
+						_SquareValue2['default'],
+						{
+							index: i,
+							handleDrag: _this4.handleDrag,
+							onRemove: _this4.removeValue,
+							disabled: _this4.props.disabled || value.clearableValue === false,
+							key: 'value-' + i + '-' + value[_this4.props.valueKey],
+							value: value
+						},
+						renderLabel(value, i)
+					)
+				);
+			});
+		} else if (this.props.multi) {
 			return valueArray.map(function (value, i) {
 				return _react2['default'].createElement(
 					ValueComponent,
@@ -8421,41 +10646,76 @@ var Select = _react2['default'].createClass({
 				this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])
 			);
 		}
-
-		return _react2['default'].createElement(
-			'div',
-			{ ref: function (ref) {
-					return _this8.wrapper = ref;
-				},
-				className: className,
-				style: this.props.wrapperStyle },
-			this.renderHiddenField(valueArray),
-			_react2['default'].createElement(
+		if (this.props.dragAndDrop) {
+			return _react2['default'].createElement(
 				'div',
 				{ ref: function (ref) {
-						return _this8.control = ref;
+						return _this8.wrapper = ref;
 					},
-					className: 'Select-control',
-					style: this.props.style,
-					onKeyDown: this.handleKeyDown,
-					onMouseDown: this.handleMouseDown,
-					onTouchEnd: this.handleTouchEnd,
-					onTouchStart: this.handleTouchStart,
-					onTouchMove: this.handleTouchMove
-				},
+					className: className,
+					style: this.props.wrapperStyle },
+				this.renderHiddenField(valueArray),
 				_react2['default'].createElement(
-					'span',
-					{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
-					this.renderValue(valueArray, isOpen),
-					this.renderInput(valueArray, focusedOptionIndex)
+					'div',
+					{ ref: function (ref) {
+							return _this8.control = ref;
+						},
+						className: 'Select-control',
+						style: this.props.style
+					},
+					_react2['default'].createElement(
+						_Board2['default'],
+						null,
+						_react2['default'].createElement(
+							'span',
+							{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
+							this.renderValue(valueArray, isOpen),
+							this.renderInput(valueArray, focusedOptionIndex)
+						)
+					),
+					removeMessage,
+					this.renderLoading(),
+					this.renderClear(),
+					this.renderArrow()
 				),
-				removeMessage,
-				this.renderLoading(),
-				this.renderClear(),
-				this.renderArrow()
-			),
-			isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
-		);
+				isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
+			);
+		} else {
+			return _react2['default'].createElement(
+				'div',
+				{ ref: function (ref) {
+						return _this8.wrapper = ref;
+					},
+					className: className,
+					style: this.props.wrapperStyle },
+				this.renderHiddenField(valueArray),
+				_react2['default'].createElement(
+					'div',
+					{ ref: function (ref) {
+							return _this8.control = ref;
+						},
+						className: 'Select-control',
+						style: this.props.style,
+						onKeyDown: this.handleKeyDown,
+						onMouseDown: this.handleMouseDown,
+						onTouchEnd: this.handleTouchEnd,
+						onTouchStart: this.handleTouchStart,
+						onTouchMove: this.handleTouchMove
+					},
+					_react2['default'].createElement(
+						'span',
+						{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
+						this.renderValue(valueArray, isOpen),
+						this.renderInput(valueArray, focusedOptionIndex)
+					),
+					removeMessage,
+					this.renderLoading(),
+					this.renderClear(),
+					this.renderArrow()
+				),
+				isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
+			);
+		}
 	}
 
 });
@@ -8464,7 +10724,222 @@ exports['default'] = Select;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Async":157,"./AsyncCreatable":158,"./Creatable":159,"./Option":160,"./Value":162,"./utils/defaultArrowRenderer":163,"./utils/defaultClearRenderer":164,"./utils/defaultFilterOptions":165,"./utils/defaultMenuRenderer":166}],162:[function(require,module,exports){
+},{"./Async":265,"./AsyncCreatable":266,"./Board":267,"./Creatable":268,"./Knight":269,"./Option":270,"./Square":272,"./SquareValue":273,"./Value":274,"./utils/defaultArrowRenderer":275,"./utils/defaultClearRenderer":276,"./utils/defaultFilterOptions":277,"./utils/defaultMenuRenderer":278}],272:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDnd = require('react-dnd');
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
+var squareTarget = {
+  drop: function drop(props) {
+    console.log('hello world');
+    // moveKnight(0,props.index);
+    console.log(props, 'isdragging');
+    props.handleDrop(props.index);
+  }
+};
+
+var Square = (function (_Component) {
+  _inherits(Square, _Component);
+
+  function Square(props) {
+    _classCallCheck(this, Square);
+
+    _get(Object.getPrototypeOf(Square.prototype), 'constructor', this).call(this, props);
+    console.log(props, 'props');
+  }
+
+  _createClass(Square, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var x = _props.x;
+      var y = _props.y;
+      var connectDropTarget = _props.connectDropTarget;
+      var isOver = _props.isOver;
+
+      console.log(this.props, 'props in squares');
+      return connectDropTarget(_react2['default'].createElement(
+        'div',
+        { style: {
+            position: 'relative',
+            backgroundColor: 'green',
+            border: 'solid black 2px',
+            width: '100%',
+            height: '100%',
+            display: 'inline',
+            zIndex: 1
+          } },
+        this.props.children
+      ));
+    }
+  }]);
+
+  return Square;
+})(_react.Component);
+
+Square.propTypes = {
+  index: _react.PropTypes.number.isRequired,
+  isOver: _react.PropTypes.bool.isRequired,
+  handleDrop: _react.PropTypes.func
+};
+exports['default'] = (0, _reactDnd.DropTarget)('value', squareTarget, collect)(Square);
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"react-dnd":231}],273:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDnd = require('react-dnd');
+
+var _classnames = (typeof window !== "undefined" ? window['classNames'] : typeof global !== "undefined" ? global['classNames'] : null);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var knightSource = {
+  beginDrag: function beginDrag(props, thing) {
+    console.log(props, 'knight');
+    props.handleDrag(props.index);
+    return {};
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+var Knight = (function (_Component) {
+  _inherits(Knight, _Component);
+
+  function Knight(props) {
+    _classCallCheck(this, Knight);
+
+    _get(Object.getPrototypeOf(Knight.prototype), 'constructor', this).call(this, props);
+    console.log(props, 'props');
+  }
+
+  _createClass(Knight, [{
+    key: 'onRemove',
+    value: function onRemove(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.props.onRemove(this.props.value, this.props.index);
+    }
+  }, {
+    key: 'renderRemoveIcon',
+    value: function renderRemoveIcon() {
+      if (this.props.disabled || !this.props.onRemove) return;
+      return _react2['default'].createElement(
+        'span',
+        { className: 'Select-value-icon',
+          'aria-hidden': 'true',
+          onMouseDown: this.onRemove,
+          onTouchEnd: this.handleTouchEndRemove,
+          onTouchStart: this.handleTouchStart,
+          onTouchMove: this.handleTouchMove },
+        '×'
+      );
+    }
+  }, {
+    key: 'renderLabel',
+    value: function renderLabel() {
+      var className = 'Select-value-label';
+      return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
+        'a',
+        { className: className, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
+        this.props.children
+      ) : _react2['default'].createElement(
+        'span',
+        { className: className, onClick: this.handleDrag, role: 'option', 'aria-selected': 'true', id: this.props.id },
+        this.props.children
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var connectDragSource = _props.connectDragSource;
+      var isDragging = _props.isDragging;
+
+      return connectDragSource(_react2['default'].createElement(
+        'div',
+        { className: (0, _classnames2['default'])('Select-value', this.props.value.className),
+          style: this.props.value.style,
+          title: this.props.value.title
+        },
+        this.renderRemoveIcon(),
+        this.renderLabel()
+      ));
+    }
+  }]);
+
+  return Knight;
+})(_react.Component);
+
+Knight.propTypes = {
+  connectDragSource: _react.PropTypes.func.isRequired,
+  isDragging: _react.PropTypes.bool.isRequired,
+  children: _react2['default'].PropTypes.node,
+  disabled: _react2['default'].PropTypes.bool, // disabled prop passed to ReactSelect
+  handleDrag: _react2['default'].PropTypes.func,
+  id: _react2['default'].PropTypes.string, // Unique id for the value - used for aria
+  index: _react2['default'].PropTypes.number, // Then index of the Value in list of components
+  onClick: _react2['default'].PropTypes.func, // method to handle click on value label
+  onRemove: _react2['default'].PropTypes.func, // method to handle removal of the value
+  value: _react2['default'].PropTypes.object.isRequired };
+
+// the option object for this value
+exports['default'] = (0, _reactDnd.DragSource)('value', knightSource, collect)(Knight);
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"react-dnd":231}],274:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -8595,7 +11070,7 @@ module.exports = Value;
 // export default Value('value', knightSource, collect)(Value);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"react-dnd":123}],163:[function(require,module,exports){
+},{"react-dnd":231}],275:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -8623,7 +11098,7 @@ function arrowRenderer(_ref) {
 module.exports = exports["default"];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],164:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -8649,7 +11124,7 @@ function clearRenderer() {
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],165:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -8693,7 +11168,7 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 
 module.exports = filterOptions;
 
-},{"./stripDiacritics":167}],166:[function(require,module,exports){
+},{"./stripDiacritics":279}],278:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -8758,7 +11233,7 @@ function menuRenderer(_ref) {
 module.exports = menuRenderer;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],167:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 'use strict';
 
 var map = [{ 'base': 'A', 'letters': /[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g }, { 'base': 'AA', 'letters': /[\uA732]/g }, { 'base': 'AE', 'letters': /[\u00C6\u01FC\u01E2]/g }, { 'base': 'AO', 'letters': /[\uA734]/g }, { 'base': 'AU', 'letters': /[\uA736]/g }, { 'base': 'AV', 'letters': /[\uA738\uA73A]/g }, { 'base': 'AY', 'letters': /[\uA73C]/g }, { 'base': 'B', 'letters': /[\u0042\u24B7\uFF22\u1E02\u1E04\u1E06\u0243\u0182\u0181]/g }, { 'base': 'C', 'letters': /[\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E]/g }, { 'base': 'D', 'letters': /[\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779]/g }, { 'base': 'DZ', 'letters': /[\u01F1\u01C4]/g }, { 'base': 'Dz', 'letters': /[\u01F2\u01C5]/g }, { 'base': 'E', 'letters': /[\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E]/g }, { 'base': 'F', 'letters': /[\u0046\u24BB\uFF26\u1E1E\u0191\uA77B]/g }, { 'base': 'G', 'letters': /[\u0047\u24BC\uFF27\u01F4\u011C\u1E20\u011E\u0120\u01E6\u0122\u01E4\u0193\uA7A0\uA77D\uA77E]/g }, { 'base': 'H', 'letters': /[\u0048\u24BD\uFF28\u0124\u1E22\u1E26\u021E\u1E24\u1E28\u1E2A\u0126\u2C67\u2C75\uA78D]/g }, { 'base': 'I', 'letters': /[\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197]/g }, { 'base': 'J', 'letters': /[\u004A\u24BF\uFF2A\u0134\u0248]/g }, { 'base': 'K', 'letters': /[\u004B\u24C0\uFF2B\u1E30\u01E8\u1E32\u0136\u1E34\u0198\u2C69\uA740\uA742\uA744\uA7A2]/g }, { 'base': 'L', 'letters': /[\u004C\u24C1\uFF2C\u013F\u0139\u013D\u1E36\u1E38\u013B\u1E3C\u1E3A\u0141\u023D\u2C62\u2C60\uA748\uA746\uA780]/g }, { 'base': 'LJ', 'letters': /[\u01C7]/g }, { 'base': 'Lj', 'letters': /[\u01C8]/g }, { 'base': 'M', 'letters': /[\u004D\u24C2\uFF2D\u1E3E\u1E40\u1E42\u2C6E\u019C]/g }, { 'base': 'N', 'letters': /[\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4]/g }, { 'base': 'NJ', 'letters': /[\u01CA]/g }, { 'base': 'Nj', 'letters': /[\u01CB]/g }, { 'base': 'O', 'letters': /[\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C]/g }, { 'base': 'OI', 'letters': /[\u01A2]/g }, { 'base': 'OO', 'letters': /[\uA74E]/g }, { 'base': 'OU', 'letters': /[\u0222]/g }, { 'base': 'P', 'letters': /[\u0050\u24C5\uFF30\u1E54\u1E56\u01A4\u2C63\uA750\uA752\uA754]/g }, { 'base': 'Q', 'letters': /[\u0051\u24C6\uFF31\uA756\uA758\u024A]/g }, { 'base': 'R', 'letters': /[\u0052\u24C7\uFF32\u0154\u1E58\u0158\u0210\u0212\u1E5A\u1E5C\u0156\u1E5E\u024C\u2C64\uA75A\uA7A6\uA782]/g }, { 'base': 'S', 'letters': /[\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784]/g }, { 'base': 'T', 'letters': /[\u0054\u24C9\uFF34\u1E6A\u0164\u1E6C\u021A\u0162\u1E70\u1E6E\u0166\u01AC\u01AE\u023E\uA786]/g }, { 'base': 'TZ', 'letters': /[\uA728]/g }, { 'base': 'U', 'letters': /[\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244]/g }, { 'base': 'V', 'letters': /[\u0056\u24CB\uFF36\u1E7C\u1E7E\u01B2\uA75E\u0245]/g }, { 'base': 'VY', 'letters': /[\uA760]/g }, { 'base': 'W', 'letters': /[\u0057\u24CC\uFF37\u1E80\u1E82\u0174\u1E86\u1E84\u1E88\u2C72]/g }, { 'base': 'X', 'letters': /[\u0058\u24CD\uFF38\u1E8A\u1E8C]/g }, { 'base': 'Y', 'letters': /[\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE]/g }, { 'base': 'Z', 'letters': /[\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762]/g }, { 'base': 'a', 'letters': /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g }, { 'base': 'aa', 'letters': /[\uA733]/g }, { 'base': 'ae', 'letters': /[\u00E6\u01FD\u01E3]/g }, { 'base': 'ao', 'letters': /[\uA735]/g }, { 'base': 'au', 'letters': /[\uA737]/g }, { 'base': 'av', 'letters': /[\uA739\uA73B]/g }, { 'base': 'ay', 'letters': /[\uA73D]/g }, { 'base': 'b', 'letters': /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g }, { 'base': 'c', 'letters': /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g }, { 'base': 'd', 'letters': /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g }, { 'base': 'dz', 'letters': /[\u01F3\u01C6]/g }, { 'base': 'e', 'letters': /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g }, { 'base': 'f', 'letters': /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g }, { 'base': 'g', 'letters': /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g }, { 'base': 'h', 'letters': /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g }, { 'base': 'hv', 'letters': /[\u0195]/g }, { 'base': 'i', 'letters': /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g }, { 'base': 'j', 'letters': /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g }, { 'base': 'k', 'letters': /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g }, { 'base': 'l', 'letters': /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g }, { 'base': 'lj', 'letters': /[\u01C9]/g }, { 'base': 'm', 'letters': /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g }, { 'base': 'n', 'letters': /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g }, { 'base': 'nj', 'letters': /[\u01CC]/g }, { 'base': 'o', 'letters': /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g }, { 'base': 'oi', 'letters': /[\u01A3]/g }, { 'base': 'ou', 'letters': /[\u0223]/g }, { 'base': 'oo', 'letters': /[\uA74F]/g }, { 'base': 'p', 'letters': /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g }, { 'base': 'q', 'letters': /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g }, { 'base': 'r', 'letters': /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g }, { 'base': 's', 'letters': /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g }, { 'base': 't', 'letters': /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g }, { 'base': 'tz', 'letters': /[\uA729]/g }, { 'base': 'u', 'letters': /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g }, { 'base': 'v', 'letters': /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g }, { 'base': 'vy', 'letters': /[\uA761]/g }, { 'base': 'w', 'letters': /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g }, { 'base': 'x', 'letters': /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g }, { 'base': 'y', 'letters': /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g }, { 'base': 'z', 'letters': /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g }];
@@ -8770,5 +11245,5 @@ module.exports = function stripDiacritics(str) {
 	return str;
 };
 
-},{}]},{},[161])(161)
+},{}]},{},[271])(271)
 });
