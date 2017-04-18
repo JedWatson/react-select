@@ -67,6 +67,7 @@ const Select = React.createClass({
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+		handleDrag: React.PropTypes.handleDrag,
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
@@ -789,7 +790,9 @@ const Select = React.createClass({
 	getInputValue () {
 		return this.state.inputValue;
 	},
-
+	handleDrag(index){
+		this.props.handleDrag(index);
+	},
 	selectFocusedOption () {
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
@@ -821,6 +824,7 @@ const Select = React.createClass({
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
+						handleDrag={this.handleDrag}
 						index={i}
 						onRemove={this.removeValue}
 						value={value}
