@@ -19,7 +19,10 @@ import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
-
+import Square from './Square';
+import Board from './Board';
+import SquareValue from './SquareValue';
+import Knight from './Knight';
 function stringifyValue (value) {
 	const valueType = typeof value;
 	if (valueType === 'string') {
@@ -64,9 +67,11 @@ const Select = React.createClass({
 		deleteRemoves: React.PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
+		dragAndDrop:React.PropTypes.bool,						// Allow for dragAndDrop functionality
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+		handleDrag: React.PropTypes.func,
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
@@ -598,6 +603,8 @@ const Select = React.createClass({
 	},
 
 	setValue (value) {
+		console.log(value,'value');
+		console.log(this.props.required,'required');
 		if (this.props.autoBlur){
 			this.blurInput();
 		}
@@ -795,7 +802,19 @@ const Select = React.createClass({
 			return this.selectValue(this._focusedOption);
 		}
 	},
+	handleDrop(endIndex,value){
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(endIndex,0,valueArray.splice(this.state.startIndex,1)[0]);
+			console.log(valueArray,'valueArray');
+			this.setValue(valueArray);
+			this.focus();
 
+		// this.setState({ 'endIndex':endIndex})
+	},
+	handleDrag(startIndex){
+		console.log(startIndex,'startIndex');
+		this.setState({ 'startIndex':startIndex })
+	},
 	renderLoading () {
 		if (!this.props.isLoading) return;
 		return (
@@ -812,7 +831,25 @@ const Select = React.createClass({
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
-		if (this.props.multi) {
+		if(this.props.dragAndDrop && this.props.multi){
+			return valueArray.map((value, i) => {
+				return (
+					<Square value={value}handleDrop={this.handleDrop}index={i} key={i}>
+						<SquareValue
+							index={i}
+							handleDrag={this.handleDrag}
+							onRemove={this.removeValue}
+							disabled={this.props.disabled || value.clearableValue === false}
+							key={`value-${i}-${value[this.props.valueKey]}`}
+							value={value}
+							>
+							{renderLabel(value,i)}
+						</SquareValue>
+					</Square>
+				);
+			});
+		}
+		else if (this.props.multi) {
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
@@ -821,6 +858,7 @@ const Select = React.createClass({
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
+						handleDrag={this.handleDrag}
 						index={i}
 						onRemove={this.removeValue}
 						value={value}
@@ -1115,33 +1153,59 @@ const Select = React.createClass({
 				</span>
 			);
 		}
-
-		return (
-			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					style={this.props.style}
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchStart={this.handleTouchStart}
-					onTouchMove={this.handleTouchMove}
-				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
+		if(this.props.dragAndDrop){
+			return (
+				<div ref={ref => this.wrapper = ref}
+					 className={className}
+					 style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						style={this.props.style}
+					>
+					<Board>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+					</Board>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
-			</div>
-		);
+			);
+		}else{
+			return (
+				<div ref={ref => this.wrapper = ref}
+					 className={className}
+					 style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+						onTouchEnd={this.handleTouchEnd}
+						onTouchStart={this.handleTouchStart}
+						onTouchMove={this.handleTouchMove}
+					>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				</div>
+			);
+		}
+
 	}
 
 });
