@@ -9693,7 +9693,9 @@ var Select = _react2['default'].createClass({
 		if (this.props.disabled || event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
-
+		if (this.props.dragAndDrop && this.getValueArray(this.props.value).length > 0) {
+			return;
+		}
 		if (event.target.tagName === 'INPUT') {
 			return;
 		}
@@ -10349,7 +10351,9 @@ var Select = _react2['default'].createClass({
 		}
 		return _react2['default'].createElement(
 			'div',
-			{ className: className },
+			{ onClick: function () {
+					console.log('hello worlds');
+				}, className: className },
 			_react2['default'].createElement('input', inputProps)
 		);
 	},
@@ -10573,7 +10577,9 @@ var Select = _react2['default'].createClass({
 							return _this8.control = ref;
 						},
 						className: 'Select-control',
-						style: this.props.style
+						style: this.props.style,
+						onKeyDown: this.handleKeyDown,
+						onMouseDown: this.handleMouseDown
 					},
 					_react2['default'].createElement(
 						_Board2['default'],

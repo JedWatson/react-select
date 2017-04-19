@@ -30,6 +30,7 @@ var DuplicateSelect = React.createClass({
 	},
 
 	toggleDisabled (e) {
+    console.log('toggle ');
 		this.setState({ disabled: e.target.checked });
 	},
 	toggleChocolate (e) {
