@@ -1,14 +1,9 @@
 import React from 'react';
 import Select from 'react-select';
 
-const FLAVOURS = [
-	{ label: 'Chocolate', value: 'chocolate' },
-	{ label: 'Vanilla', value: 'vanilla' },
-	{ label: 'Strawberry', value: 'strawberry' },
-	{ label: 'Caramel', value: 'caramel' },
-	{ label: 'Cookies and Cream', value: 'cookiescream' },
-	{ label: 'Peppermint', value: 'peppermint' },
-];
+const FLAVOURS = [{ label: 'mathew', value: 'mathew' },
+{ label: 'mark', value: 'mark' },{ label: 'luke', value: 'luke' },
+{ label: 'paul', value: 'paul' }];
 
 const WHY_WOULD_YOU = [
 	{ label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
@@ -24,9 +19,9 @@ var DuplicateSelect = React.createClass({
 			disabled: false,
 			crazy: false,
 			options: FLAVOURS,
-			value: [{ label: 'Chocolate', value: 'chocolate' },
-			{ label: 'Vanilla', value: 'vanilla' },{ label: 'Strawberry', value: 'strawberry' },
-			{ label: 'Caramel', value: 'caramel' },{label:"Strawberry",value:'strawberry'}],
+			value: [{ label: 'mathew', value: 'mathew' },
+			{ label: 'mark', value: 'mark' },{ label: 'luke', value: 'luke' },
+			{ label: 'paul', value: 'paul' }],
 		};
 	},
 	handleSelectChange (value) {

@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
 import classNames from 'classnames';
 
-const knightSource = {
+const SquareSource = {
   beginDrag(props,thing) {
-    console.log(props,'knight');
-    props.handleDrag(props.index)
+    props.handleDrag(props.index);
     return {};
   }
 };
@@ -17,10 +16,10 @@ function collect(connect, monitor) {
   };
 }
 
-class Knight extends Component {
+class SquareValue extends Component {
   constructor(props){
     super(props);
-    console.log(props,'props');
+    this.onRemove = this.onRemove.bind(this)
   }
   onRemove (event) {
     event.preventDefault();
@@ -67,7 +66,7 @@ class Knight extends Component {
   }
 }
 
-Knight.propTypes = {
+SquareValue.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
   children: React.PropTypes.node,
@@ -80,4 +79,4 @@ Knight.propTypes = {
   value: React.PropTypes.object.isRequired,     // the option object for this value
 };
 
-export default DragSource('value', knightSource, collect)(Knight);
+export default DragSource('value', SquareSource, collect)(SquareValue);

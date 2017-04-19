@@ -9,8 +9,6 @@ class Board extends Component {
   render() {
     return (
       <div style={{
-        backgroundColor: 'brown',
-        color: 'brown',
         width: '100%',
         height: '100%',
 

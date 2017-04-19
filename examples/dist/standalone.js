@@ -8847,8 +8847,6 @@ var Board = (function (_Component) {
       return _react2['default'].createElement(
         'div',
         { style: {
-            backgroundColor: 'brown',
-            color: 'brown',
             width: '100%',
             height: '100%'
 
@@ -10080,6 +10078,8 @@ var Select = _react2['default'].createClass({
 	setValue: function setValue(value) {
 		var _this2 = this;
 
+		console.log(value, 'value');
+		console.log(this.props.required, 'required');
 		if (this.props.autoBlur) {
 			this.blurInput();
 		}
@@ -10287,13 +10287,18 @@ var Select = _react2['default'].createClass({
 			return this.selectValue(this._focusedOption);
 		}
 	},
-	handleDrop: function handleDrop(endIndex) {
-		console.log(endIndex, 'endIndex');
+	handleDrop: function handleDrop(endIndex, value) {
+		var valueArray = this.getValueArray(this.props.value);
+		valueArray.splice(endIndex, 0, valueArray.splice(this.state.startIndex, 1)[0]);
+		console.log(valueArray, 'valueArray');
+		this.setValue(valueArray);
+		this.focus();
+
 		// this.setState({ 'endIndex':endIndex})
 	},
 	handleDrag: function handleDrag(startIndex) {
 		console.log(startIndex, 'startIndex');
-		// this.setState({ 'startIndex':startIndex })
+		this.setState({ 'startIndex': startIndex });
 	},
 	renderLoading: function renderLoading() {
 		if (!this.props.isLoading) return;
@@ -10321,7 +10326,7 @@ var Select = _react2['default'].createClass({
 			return valueArray.map(function (value, i) {
 				return _react2['default'].createElement(
 					_Square2['default'],
-					{ handleDrop: _this4.handleDrop, index: i, key: i },
+					{ value: value, handleDrop: _this4.handleDrop, index: i, key: i },
 					_react2['default'].createElement(
 						_SquareValue2['default'],
 						{
@@ -10756,10 +10761,7 @@ function collect(connect, monitor) {
 }
 var squareTarget = {
   drop: function drop(props) {
-    console.log('hello world');
-    // moveKnight(0,props.index);
-    console.log(props, 'isdragging');
-    props.handleDrop(props.index);
+    props.handleDrop(props.index, props.value);
   }
 };
 
@@ -10770,7 +10772,6 @@ var Square = (function (_Component) {
     _classCallCheck(this, Square);
 
     _get(Object.getPrototypeOf(Square.prototype), 'constructor', this).call(this, props);
-    console.log(props, 'props');
   }
 
   _createClass(Square, [{
@@ -10782,13 +10783,10 @@ var Square = (function (_Component) {
       var connectDropTarget = _props.connectDropTarget;
       var isOver = _props.isOver;
 
-      console.log(this.props, 'props in squares');
       return connectDropTarget(_react2['default'].createElement(
         'div',
         { style: {
             position: 'relative',
-            backgroundColor: 'green',
-            border: 'solid black 2px',
             width: '100%',
             height: '100%',
             display: 'inline',
@@ -10805,7 +10803,8 @@ var Square = (function (_Component) {
 Square.propTypes = {
   index: _react.PropTypes.number.isRequired,
   isOver: _react.PropTypes.bool.isRequired,
-  handleDrop: _react.PropTypes.func
+  handleDrop: _react.PropTypes.func,
+  value: _react.PropTypes.object
 };
 exports['default'] = (0, _reactDnd.DropTarget)('value', squareTarget, collect)(Square);
 module.exports = exports['default'];
@@ -10839,9 +10838,8 @@ var _classnames = (typeof window !== "undefined" ? window['classNames'] : typeof
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var knightSource = {
+var SquareSource = {
   beginDrag: function beginDrag(props, thing) {
-    console.log(props, 'knight');
     props.handleDrag(props.index);
     return {};
   }
@@ -10854,17 +10852,17 @@ function collect(connect, monitor) {
   };
 }
 
-var Knight = (function (_Component) {
-  _inherits(Knight, _Component);
+var SquareValue = (function (_Component) {
+  _inherits(SquareValue, _Component);
 
-  function Knight(props) {
-    _classCallCheck(this, Knight);
+  function SquareValue(props) {
+    _classCallCheck(this, SquareValue);
 
-    _get(Object.getPrototypeOf(Knight.prototype), 'constructor', this).call(this, props);
-    console.log(props, 'props');
+    _get(Object.getPrototypeOf(SquareValue.prototype), 'constructor', this).call(this, props);
+    this.onRemove = this.onRemove.bind(this);
   }
 
-  _createClass(Knight, [{
+  _createClass(SquareValue, [{
     key: 'onRemove',
     value: function onRemove(event) {
       event.preventDefault();
@@ -10919,10 +10917,10 @@ var Knight = (function (_Component) {
     }
   }]);
 
-  return Knight;
+  return SquareValue;
 })(_react.Component);
 
-Knight.propTypes = {
+SquareValue.propTypes = {
   connectDragSource: _react.PropTypes.func.isRequired,
   isDragging: _react.PropTypes.bool.isRequired,
   children: _react2['default'].PropTypes.node,
@@ -10935,7 +10933,7 @@ Knight.propTypes = {
   value: _react2['default'].PropTypes.object.isRequired };
 
 // the option object for this value
-exports['default'] = (0, _reactDnd.DragSource)('value', knightSource, collect)(Knight);
+exports['default'] = (0, _reactDnd.DragSource)('value', SquareSource, collect)(SquareValue);
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

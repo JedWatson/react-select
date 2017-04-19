@@ -603,6 +603,8 @@ const Select = React.createClass({
 	},
 
 	setValue (value) {
+		console.log(value,'value');
+		console.log(this.props.required,'required');
 		if (this.props.autoBlur){
 			this.blurInput();
 		}
@@ -800,13 +802,18 @@ const Select = React.createClass({
 			return this.selectValue(this._focusedOption);
 		}
 	},
-	handleDrop(endIndex){
-		console.log(endIndex,'endIndex');
+	handleDrop(endIndex,value){
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(endIndex,0,valueArray.splice(this.state.startIndex,1)[0]);
+			console.log(valueArray,'valueArray');
+			this.setValue(valueArray);
+			this.focus();
+
 		// this.setState({ 'endIndex':endIndex})
 	},
 	handleDrag(startIndex){
 		console.log(startIndex,'startIndex');
-		// this.setState({ 'startIndex':startIndex })
+		this.setState({ 'startIndex':startIndex })
 	},
 	renderLoading () {
 		if (!this.props.isLoading) return;
@@ -827,7 +834,7 @@ const Select = React.createClass({
 		if(this.props.dragAndDrop && this.props.multi){
 			return valueArray.map((value, i) => {
 				return (
-					<Square handleDrop={this.handleDrop}index={i} key={i}>
+					<Square value={value}handleDrop={this.handleDrop}index={i} key={i}>
 						<SquareValue
 							index={i}
 							handleDrag={this.handleDrag}
