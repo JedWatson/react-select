@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd';
 import classNames from 'classnames';
 
 const SquareSource = {
-  beginDrag(props,thing) {
+  beginDrag(props) {
     props.handleDrag(props.index);
     return {};
   }
@@ -20,7 +20,6 @@ class SquareValue extends Component {
   constructor(props){
     super(props);
     this.onRemove = this.onRemove.bind(this);
-    this.renderLabel = this.renderLabel.bind(this);
   }
   onRemove (event) {
     event.preventDefault();

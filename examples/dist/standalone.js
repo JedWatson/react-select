@@ -4122,7 +4122,6 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 },{}],108:[function(require,module,exports){
-(function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4146,7 +4145,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
  */
 
 var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (process.env.NODE_ENV !== 'production') {
+  if ("production" !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
     }
@@ -4175,8 +4174,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-}).call(this,require('_process'))
-},{"_process":109}],109:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9485,9 +9483,9 @@ var Select = _react2['default'].createClass({
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
 		valueRenderer: _react2['default'].PropTypes.func, // valueRenderer: function (option) {}
-		wrapperStyle: _react2['default'].PropTypes.object },
+		wrapperStyle: _react2['default'].PropTypes.object // optional style to apply to the component wrapper
+	},
 
-	// optional style to apply to the component wrapper
 	statics: { Async: _Async2['default'], AsyncCreatable: _AsyncCreatable2['default'], Creatable: _Creatable2['default'] },
 
 	getDefaultProps: function getDefaultProps() {
@@ -10746,7 +10744,7 @@ var _classnames = (typeof window !== "undefined" ? window['classNames'] : typeof
 var _classnames2 = _interopRequireDefault(_classnames);
 
 var SquareSource = {
-  beginDrag: function beginDrag(props, thing) {
+  beginDrag: function beginDrag(props) {
     props.handleDrag(props.index);
     return {};
   }
@@ -10767,7 +10765,6 @@ var SquareValue = (function (_Component) {
 
     _get(Object.getPrototypeOf(SquareValue.prototype), 'constructor', this).call(this, props);
     this.onRemove = this.onRemove.bind(this);
-    this.renderLabel = this.renderLabel.bind(this);
   }
 
   _createClass(SquareValue, [{

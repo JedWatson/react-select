@@ -120,7 +120,7 @@ const Select = React.createClass({
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
-		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		wrapperStyle: React.PropTypes.object       // optional style to apply to the component wrapper
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
@@ -165,7 +165,7 @@ const Select = React.createClass({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: Value,
-			valueKey: 'value',
+			valueKey: 'value'
 		};
 	},
 
@@ -175,7 +175,7 @@ const Select = React.createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false,
+			required: false
 		};
 	},
 
@@ -185,7 +185,7 @@ const Select = React.createClass({
 
 		if (this.props.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], this.props.multi),
+				required: this.handleRequired(valueArray[0], this.props.multi)
 			});
 		}
 	},
@@ -201,7 +201,7 @@ const Select = React.createClass({
 
 		if (nextProps.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], nextProps.multi),
+				required: this.handleRequired(valueArray[0], nextProps.multi)
 			});
 		}
 	},
@@ -939,7 +939,7 @@ const Select = React.createClass({
 			);
 		}
 		return (
-			<div className={ className }>
+			<div  className={ className }>
 				<input {...inputProps} />
 			</div>
 		);
