@@ -340,22 +340,7 @@ const Select = React.createClass({
 			});
 		}
 
-		// let inputValue = '';
-		// if (!this.props.multi && this.props.value && !this.props.valueRenderer) {
-		// 	const valueArray = this.getValueArray(this.props.value);
-		// 	inputValue = this.getOptionLabel(valueArray[0]);
-		// 	console.log('inputvalue', inputValue)
-		// }
-
-		// get value for single select, use label first if present
-		const valueArray = this.getValueArray(this.props.value);
-		const singleOption = !this.props.multi && valueArray.length ? valueArray[0] : {};
-		const value = singleOption.label || this.props.value || '';
-
-		// let renderLabel = this.props.valueRenderer || this.getOptionLabel;
-
-		// // used to manually set value of the input field for single, searchable selects
-		const inputValue = !this.props.multi && !this.state.inputValue ? { inputValue: value } : {};
+		const inputLabel = this.getInputLabel();
 
 		// determines if the user mouse downed on the actual ValueComponent excluding placeholder text
 		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target) ? true : false;
@@ -369,20 +354,11 @@ const Select = React.createClass({
 			// Call focus() again here to be safe.
 			this.focus();
 		
-			// this.setState(Object.assign({}, {
-			// 	isOpen: true,
-			// 	isPseudoFocused: false,
-			// 	inputValue: value
-			// }), () => {
-			// 	isOnValue && this.input.select();
-			// });
-
-			this.setState(Object.assign({}, {
+			this.setState({
 				isOpen: true,
 				isPseudoFocused: false,
-			}, 
-				inputValue
-			), () => {
+				inputValue: inputLabel
+			}, () => {
 				isOnValue && this.input.select();
 			});
 		} else {
@@ -390,12 +366,11 @@ const Select = React.createClass({
 			this._openAfterFocus = true;
 			this.focus();
 
-			// check if state should be updated
-			if (inputValue.hasOwnProperty('inputValue')) {
-				this.setState(inputValue, () => {
-					isOnValue && this.input.select();
-				});
-			}
+			this.setState({
+				inputValue: inputLabel
+			}, () => {
+				isOnValue && this.input.select();
+			});
 		}		
 	},
 
@@ -458,16 +433,12 @@ const Select = React.createClass({
 		// To make the react-select act more natively, render the input value with the corresponding label on focus. However, we 
 		// cannot do this for custom valueRenderer's bc the label can be manipulated during render (e.g. option.label.toUpperCase())
 		// so the option labels could be inconsistent.
-		let inputValue = '';
-		if (!this.props.multi && this.props.value && !this.props.valueRenderer) {
-			const valueArray = this.getValueArray(this.props.value);
-			inputValue = this.getOptionLabel(valueArray[0]);
-		}
+		let inputLabel = this.getInputLabel();
 
 		this.setState({
 			isFocused: true,
 			isOpen: isOpen,
-			inputValue: inputValue
+			inputValue: inputLabel
 		});
 		this._openAfterFocus = false;
 	},
@@ -828,6 +799,15 @@ const Select = React.createClass({
 
 	getInputValue () {
 		return this.state.inputValue;
+	},
+
+	getInputLabel() {
+		let inputLabel = '';
+		if (!this.props.multi && !this.props.valueRenderer && this.props.value) {
+			const valueArray = this.getValueArray(this.props.value);
+			inputLabel = this.getOptionLabel(valueArray[0]);
+		}
+		return inputLabel;
 	},
 
 	selectFocusedOption () {
