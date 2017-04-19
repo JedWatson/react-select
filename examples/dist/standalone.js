@@ -10237,6 +10237,7 @@ var Select = _react2['default'].createClass({
 						_SquareValue2['default'],
 						{
 							index: i,
+							onClick: onClick,
 							handleDrag: _this4.handleDrag,
 							onRemove: _this4.removeValue,
 							disabled: _this4.props.disabled || value.clearableValue === false,
@@ -10766,6 +10767,7 @@ var SquareValue = (function (_Component) {
 
     _get(Object.getPrototypeOf(SquareValue.prototype), 'constructor', this).call(this, props);
     this.onRemove = this.onRemove.bind(this);
+    this.renderLabel = this.renderLabel.bind(this);
   }
 
   _createClass(SquareValue, [{
@@ -10796,7 +10798,7 @@ var SquareValue = (function (_Component) {
       var className = 'Select-value-label';
       return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
         'a',
-        { className: className, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
+        { className: className, onClick: this.props.onClick, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
         this.props.children
       ) : _react2['default'].createElement(
         'span',
@@ -10829,14 +10831,14 @@ var SquareValue = (function (_Component) {
 SquareValue.propTypes = {
   connectDragSource: _react.PropTypes.func.isRequired,
   isDragging: _react.PropTypes.bool.isRequired,
-  children: _react2['default'].PropTypes.node,
-  disabled: _react2['default'].PropTypes.bool, // disabled prop passed to ReactSelect
-  handleDrag: _react2['default'].PropTypes.func,
-  id: _react2['default'].PropTypes.string, // Unique id for the value - used for aria
-  index: _react2['default'].PropTypes.number, // Then index of the Value in list of components
-  onClick: _react2['default'].PropTypes.func, // method to handle click on value label
-  onRemove: _react2['default'].PropTypes.func, // method to handle removal of the value
-  value: _react2['default'].PropTypes.object.isRequired };
+  children: _react.PropTypes.node,
+  disabled: _react.PropTypes.bool, // disabled prop passed to ReactSelect
+  handleDrag: _react.PropTypes.func,
+  id: _react.PropTypes.string, // Unique id for the value - used for aria
+  index: _react.PropTypes.number, // Then index of the Value in list of components
+  onClick: _react.PropTypes.func, // method to handle click on value label
+  onRemove: _react.PropTypes.func, // method to handle removal of the value
+  value: _react.PropTypes.object.isRequired };
 
 // the option object for this value
 exports['default'] = (0, _reactDnd.DragSource)('value', SquareSource, collect)(SquareValue);

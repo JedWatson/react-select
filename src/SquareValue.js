@@ -19,13 +19,15 @@ function collect(connect, monitor) {
 class SquareValue extends Component {
   constructor(props){
     super(props);
-    this.onRemove = this.onRemove.bind(this)
+    this.onRemove = this.onRemove.bind(this);
+    this.renderLabel = this.renderLabel.bind(this);
   }
   onRemove (event) {
     event.preventDefault();
     event.stopPropagation();
     this.props.onRemove(this.props.value,this.props.index);
   }
+
   renderRemoveIcon () {
     if (this.props.disabled || !this.props.onRemove) return;
     return (
@@ -42,7 +44,7 @@ class SquareValue extends Component {
   renderLabel () {
     let className = 'Select-value-label';
     return this.props.onClick || this.props.value.href ? (
-      <a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
+      <a className={className} onClick={this.props.onClick} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
         {this.props.children}
       </a>
     ) : (
@@ -69,14 +71,14 @@ class SquareValue extends Component {
 SquareValue.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  children: React.PropTypes.node,
-  disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
-  handleDrag: React.PropTypes.func,
-  id: React.PropTypes.string,                   // Unique id for the value - used for aria
-  index: React.PropTypes.number,								// Then index of the Value in list of components
-  onClick: React.PropTypes.func,                // method to handle click on value label
-  onRemove: React.PropTypes.func,               // method to handle removal of the value
-  value: React.PropTypes.object.isRequired,     // the option object for this value
+  children: PropTypes.node,
+  disabled: PropTypes.bool,               // disabled prop passed to ReactSelect
+  handleDrag: PropTypes.func,
+  id: PropTypes.string,                   // Unique id for the value - used for aria
+  index: PropTypes.number,								// Then index of the Value in list of components
+  onClick: PropTypes.func,                // method to handle click on value label
+  onRemove: PropTypes.func,               // method to handle removal of the value
+  value: PropTypes.object.isRequired,     // the option object for this value
 };
 
 export default DragSource('value', SquareSource, collect)(SquareValue);

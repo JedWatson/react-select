@@ -30,13 +30,12 @@ var DuplicateSelect = React.createClass({
 		};
 	},
 	handleSelectChange (value) {
-		console.log('You\'ve selected:', value);
 		this.setState({ value });
 	},
 	handleDrag(index){
 		let caramelIndex = this.state.value.map((e)=>{return e.label;}).indexOf('Caramel');
 		this.state.value.splice(index, 0, this.state.value.splice(caramelIndex, 1)[0]);
-		this.forceUpdate();
+		this.forceUpdate()
 	},
 	toggleDisabled (e) {
 		this.setState({ disabled: e.target.checked });
