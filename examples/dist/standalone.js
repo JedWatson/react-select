@@ -4122,6 +4122,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 },{}],108:[function(require,module,exports){
+(function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4145,7 +4146,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
  */
 
 var invariant = function(condition, format, a, b, c, d, e, f) {
-  if ("production" !== 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
     }
@@ -4174,7 +4175,8 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-},{}],109:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":109}],109:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -10795,7 +10797,7 @@ var SquareValue = (function (_Component) {
       var className = 'Select-value-label';
       return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
         'a',
-        { className: className, onClick: this.props.onClick, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
+        { className: className, doubleClick: this.props.onClick, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
         this.props.children
       ) : _react2['default'].createElement(
         'span',

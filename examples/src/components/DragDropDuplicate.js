@@ -42,11 +42,29 @@ var DuplicateSelect = React.createClass({
   onValueClick(){
     console.log('value click');
   },
+  arrowRenderer(){
+    return (
+      <span onClick={this.onValueClick}>+</span>
+    )
+  },
 	render () {
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue onValueClick={this.onValueClick}dragAndDrop={true} trackByIndex={true}allowDuplicates={true}disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<Select
+          multi
+          simpleValue
+          onValueClick={this.onValueClick}
+          arrowRenderer={this.arrowRenderer}
+          dragAndDrop={true}
+          trackByIndex={true}
+          allowDuplicates={true}
+          disabled={this.state.disabled}
+          value={this.state.value}
+          placeholder="Select your favourite(s)"
+          options={this.state.options}
+          onChange={this.handleSelectChange} />
+
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />

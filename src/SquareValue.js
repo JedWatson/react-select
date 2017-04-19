@@ -43,7 +43,7 @@ class SquareValue extends Component {
   renderLabel () {
     let className = 'Select-value-label';
     return this.props.onClick || this.props.value.href ? (
-      <a className={className} onClick={this.props.onClick} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
+      <a className={className} doubleClick={this.props.onClick} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
         {this.props.children}
       </a>
     ) : (
