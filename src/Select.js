@@ -22,7 +22,7 @@ import Value from './Value';
 import Square from './Square';
 import Board from './Board';
 import SquareValue from './SquareValue';
-import Knight from './Knight';
+
 function stringifyValue (value) {
 	const valueType = typeof value;
 	if (valueType === 'string') {
@@ -71,7 +71,6 @@ const Select = React.createClass({
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-		handleDrag: React.PropTypes.func,
 		ignoreAccents: React.PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: React.PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: React.PropTypes.object,         // custom attributes for the Input
@@ -603,8 +602,6 @@ const Select = React.createClass({
 	},
 
 	setValue (value) {
-		console.log(value,'value');
-		console.log(this.props.required,'required');
 		if (this.props.autoBlur){
 			this.blurInput();
 		}
@@ -805,15 +802,11 @@ const Select = React.createClass({
 	handleDrop(endIndex,value){
 			var valueArray = this.getValueArray(this.props.value);
 			valueArray.splice(endIndex,0,valueArray.splice(this.state.startIndex,1)[0]);
-			console.log(valueArray,'valueArray');
 			this.setValue(valueArray);
 			this.focus();
-
-		// this.setState({ 'endIndex':endIndex})
 	},
 	handleDrag(startIndex){
-		console.log(startIndex,'startIndex');
-		this.setState({ 'startIndex':startIndex })
+		this.setState({ 'startIndex':startIndex });
 	},
 	renderLoading () {
 		if (!this.props.isLoading) return;
@@ -941,7 +934,7 @@ const Select = React.createClass({
 
 		if (this.props.autosize) {
 			return (
-				<AutosizeInput {...inputProps} minWidth="5" />
+				<AutosizeInput {...inputProps} minWidth="50" />
 			);
 		}
 		return (

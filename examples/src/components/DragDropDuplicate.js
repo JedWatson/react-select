@@ -3,7 +3,7 @@ import Select from 'react-select';
 
 const FLAVOURS = [{ label: 'mathew', value: 'mathew' },
 { label: 'mark', value: 'mark' },{ label: 'luke', value: 'luke' },
-{ label: 'paul', value: 'paul' }];
+{ label: 'paul', value: 'paul' },{'label':'john','value':'john'}];
 
 const WHY_WOULD_YOU = [
 	{ label: 'Chocolate (are you crazy?)', value: 'chocolate', disabled: true },
