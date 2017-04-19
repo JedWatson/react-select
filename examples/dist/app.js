@@ -220,7 +220,7 @@ var Contributors = _react2['default'].createClass({
 					_react2['default'].createElement(
 						'span',
 						{ className: 'checkbox-label' },
-						'Multiselect'
+						'Multiselect  ssds'
 					)
 				),
 				_react2['default'].createElement(
@@ -634,6 +634,9 @@ var DuplicateSelect = _react2['default'].createClass({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS
 		});
 	},
+	onValueClick: function onValueClick() {
+		console.log('value click');
+	},
 	render: function render() {
 		return _react2['default'].createElement(
 			'div',
@@ -643,7 +646,7 @@ var DuplicateSelect = _react2['default'].createClass({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_reactSelect2['default'], { multi: true, simpleValue: true, dragAndDrop: true, trackByIndex: true, allowDuplicates: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: this.state.options, onChange: this.handleSelectChange }),
+			_react2['default'].createElement(_reactSelect2['default'], { multi: true, simpleValue: true, onValueClick: this.onValueClick, dragAndDrop: true, trackByIndex: true, allowDuplicates: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: this.state.options, onChange: this.handleSelectChange }),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
@@ -695,7 +698,6 @@ var DuplicateSelect = _react2['default'].createClass({
 		};
 	},
 	handleSelectChange: function handleSelectChange(value) {
-		console.log('You\'ve selected:', value);
 		this.setState({ value: value });
 	},
 	handleDrag: function handleDrag(index) {
@@ -2146,13 +2148,11 @@ function parserForArrayFormat(opts) {
 		case 'bracket':
 			return function (key, value, accumulator) {
 				result = /(\[\])$/.exec(key);
+
 				key = key.replace(/\[\]$/, '');
 
-				if (!result) {
+				if (!result || accumulator[key] === undefined) {
 					accumulator[key] = value;
-					return;
-				} else if (accumulator[key] === undefined) {
-					accumulator[key] = [value];
 					return;
 				}
 

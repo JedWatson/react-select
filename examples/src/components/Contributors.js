@@ -57,7 +57,7 @@ const Contributors = React.createClass({
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
-						<span className="checkbox-label">Multiselect</span>
+						<span className="checkbox-label">Multiselect  ssds</span>
 					</label>
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={!this.state.multi} onChange={this.switchToSingle}/>

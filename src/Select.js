@@ -830,6 +830,7 @@ const Select = React.createClass({
 					<Square value={value}handleDrop={this.handleDrop}index={i} key={i}>
 						<SquareValue
 							index={i}
+							onClick={onClick}
 							handleDrag={this.handleDrag}
 							onRemove={this.removeValue}
 							disabled={this.props.disabled || value.clearableValue === false}
