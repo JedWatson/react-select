@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd';
 import classNames from 'classnames';
 
 const SquareSource = {
-  beginDrag(props,thing) {
+  beginDrag(props) {
     props.handleDrag(props.index);
     return {};
   }
@@ -19,7 +19,7 @@ function collect(connect, monitor) {
 class SquareValue extends Component {
   constructor(props){
     super(props);
-    this.onRemove = this.onRemove.bind(this)
+    this.onRemove = this.onRemove.bind(this);
   }
   onRemove (event) {
     event.preventDefault();
@@ -76,7 +76,7 @@ SquareValue.propTypes = {
   index: React.PropTypes.number,								// Then index of the Value in list of components
   onClick: React.PropTypes.func,                // method to handle click on value label
   onRemove: React.PropTypes.func,               // method to handle removal of the value
-  value: React.PropTypes.object.isRequired,     // the option object for this value
+  value: React.PropTypes.object.isRequired     // the option object for this value
 };
 
 export default DragSource('value', SquareSource, collect)(SquareValue);
