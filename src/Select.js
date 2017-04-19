@@ -328,7 +328,9 @@ const Select = React.createClass({
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
-
+		if(this.props.dragAndDrop && this.getValueArray(this.props.value).length > 0){
+			return;
+		}
 		if (event.target.tagName === 'INPUT') {
 			return;
 		}
@@ -939,7 +941,7 @@ const Select = React.createClass({
 			);
 		}
 		return (
-			<div  className={ className }>
+			<div  onClick={()=>{console.log('hello worlds')}}className={ className }>
 				<input {...inputProps} />
 			</div>
 		);
@@ -1156,6 +1158,8 @@ const Select = React.createClass({
 					<div ref={ref => this.control = ref}
 						className="Select-control"
 						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
 					>
 					<Board>
 						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>

@@ -4122,7 +4122,6 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 },{}],108:[function(require,module,exports){
-(function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -4146,7 +4145,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
  */
 
 var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (process.env.NODE_ENV !== 'production') {
+  if ("production" !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
     }
@@ -4175,8 +4174,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 
-}).call(this,require('_process'))
-},{"_process":109}],109:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9693,7 +9691,9 @@ var Select = _react2['default'].createClass({
 		if (this.props.disabled || event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
-
+		if (this.props.dragAndDrop && this.getValueArray(this.props.value).length > 0) {
+			return;
+		}
 		if (event.target.tagName === 'INPUT') {
 			return;
 		}
@@ -10349,7 +10349,9 @@ var Select = _react2['default'].createClass({
 		}
 		return _react2['default'].createElement(
 			'div',
-			{ className: className },
+			{ onClick: function () {
+					console.log('hello worlds');
+				}, className: className },
 			_react2['default'].createElement('input', inputProps)
 		);
 	},
@@ -10573,7 +10575,9 @@ var Select = _react2['default'].createClass({
 							return _this8.control = ref;
 						},
 						className: 'Select-control',
-						style: this.props.style
+						style: this.props.style,
+						onKeyDown: this.handleKeyDown,
+						onMouseDown: this.handleMouseDown
 					},
 					_react2['default'].createElement(
 						_Board2['default'],
@@ -10797,7 +10801,7 @@ var SquareValue = (function (_Component) {
       var className = 'Select-value-label';
       return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
         'a',
-        { className: className, doubleClick: this.props.onClick, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
+        { className: className, onDoubleClick: this.props.onClick, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
         this.props.children
       ) : _react2['default'].createElement(
         'span',
