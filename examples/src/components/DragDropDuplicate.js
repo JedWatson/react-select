@@ -40,7 +40,8 @@ var DuplicateSelect = React.createClass({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS,
 		});
 	},
-  onValueClick(){
+  onValueClick(prop){
+		console.log(prop,'prop');
     console.log('value click');
   },
   arrowRenderer(){
