@@ -1,5 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
+import { DragSource } from 'react-dnd';
+
+const knightSource = {
+  beginDrag(props) {
+    console.log(props.props);
+    return {};
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
 
 const Value = React.createClass({
 
@@ -8,12 +23,16 @@ const Value = React.createClass({
 	propTypes: {
 		children: React.PropTypes.node,
 		disabled: React.PropTypes.bool,               // disabled prop passed to ReactSelect
+		handleDrag: React.PropTypes.func,
 		id: React.PropTypes.string,                   // Unique id for the value - used for aria
+		index: React.PropTypes.number,								// Then index of the Value in list of components
 		onClick: React.PropTypes.func,                // method to handle click on value label
 		onRemove: React.PropTypes.func,               // method to handle removal of the value
 		value: React.PropTypes.object.isRequired,     // the option object for this value
 	},
-
+	handleDrag(){
+		this.props.handleDrag(this.props.index);
+	},
 	handleMouseDown (event) {
 		if (event.type === 'mousedown' && event.button !== 0) {
 			return;
@@ -31,7 +50,7 @@ const Value = React.createClass({
 	onRemove (event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.onRemove(this.props.value);
+		this.props.onRemove(this.props.value,this.props.index);
 	},
 
 	handleTouchEndRemove (event){
@@ -74,7 +93,7 @@ const Value = React.createClass({
 				{this.props.children}
 			</a>
 		) : (
-			<span className={className} role="option" aria-selected="true" id={this.props.id}>
+			<span className={className} onClick={this.handleDrag} role="option" aria-selected="true" id={this.props.id}>
 				{this.props.children}
 			</span>
 		);
@@ -95,3 +114,4 @@ const Value = React.createClass({
 });
 
 module.exports = Value;
+// export default Value('value', knightSource, collect)(Value);

@@ -14,9 +14,12 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
-
+import DuplicateSelect from './components/DuplicateSelect';
+import DragDrop from './components/DragDropDuplicate'
 ReactDOM.render(
 	<div>
+		<DragDrop label="Drag And Drop"/>
+		<DuplicateSelect label="DuplicateSelect" />
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
 		<Virtualized label="Virtualized" />
