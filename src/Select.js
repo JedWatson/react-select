@@ -19,6 +19,9 @@ import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
+import Square from './Square';
+import Board from './Board';
+import SquareValue from './SquareValue';
 
 function stringifyValue (value) {
 	const valueType = typeof value;
@@ -46,6 +49,7 @@ const Select = React.createClass({
 
 	propTypes: {
 		addLabelText: React.PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+		allowDuplicates:React.PropTypes.bool,				// Allow duplicate multiple values to be selected
 		'aria-describedby': React.PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': React.PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
@@ -63,6 +67,7 @@ const Select = React.createClass({
 		deleteRemoves: React.PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: React.PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: React.PropTypes.bool,             // whether the Select is disabled or not
+		dragAndDrop:React.PropTypes.bool,						// Allow for dragAndDrop functionality
 		escapeClearsValue: React.PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: React.PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: React.PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -110,11 +115,12 @@ const Select = React.createClass({
 		style: React.PropTypes.object,              // optional style to apply to the control
 		tabIndex: React.PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: React.PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
+		trackByIndex:React.PropTypes.bool,					// Track values by index key, allows for duplicate values
 		value: React.PropTypes.any,                 // initial field value
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
-		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		wrapperStyle: React.PropTypes.object       // optional style to apply to the component wrapper
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
@@ -159,7 +165,7 @@ const Select = React.createClass({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: Value,
-			valueKey: 'value',
+			valueKey: 'value'
 		};
 	},
 
@@ -169,7 +175,7 @@ const Select = React.createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false,
+			required: false
 		};
 	},
 
@@ -179,7 +185,7 @@ const Select = React.createClass({
 
 		if (this.props.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], this.props.multi),
+				required: this.handleRequired(valueArray[0], this.props.multi)
 			});
 		}
 	},
@@ -195,7 +201,7 @@ const Select = React.createClass({
 
 		if (nextProps.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], nextProps.multi),
+				required: this.handleRequired(valueArray[0], nextProps.multi)
 			});
 		}
 	},
@@ -322,7 +328,9 @@ const Select = React.createClass({
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
-
+		if(this.props.dragAndDrop && this.getValueArray(this.props.value).length > 0){
+			return;
+		}
 		if (event.target.tagName === 'INPUT') {
 			return;
 		}
@@ -639,7 +647,8 @@ const Select = React.createClass({
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
 			this.focusOption(visibleOptions[lastValueIndex - 1]);
-		} else if (visibleOptions.length > lastValueIndex) {
+			//Don't change focus if duplicates allowed
+		} else if (visibleOptions.length > lastValueIndex && ! this.props.allowDuplicates) {
 			// focus the option below the selected one
 			this.focusOption(visibleOptions[lastValueIndex + 1]);
 		}
@@ -652,10 +661,17 @@ const Select = React.createClass({
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
-	removeValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
-		this.focus();
+	removeValue (value,index) {
+		if(this.props.trackByIndex){
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(index,1);
+			this.setValue(valueArray);
+			this.focus();
+		}else{
+			var valueArray = this.getValueArray(this.props.value);
+			this.setValue(valueArray.filter(i => i !== value));
+			this.focus();
+		}
 	},
 
 	clearValue (event) {
@@ -785,7 +801,15 @@ const Select = React.createClass({
 			return this.selectValue(this._focusedOption);
 		}
 	},
-
+	handleDrop(endIndex,value){
+			var valueArray = this.getValueArray(this.props.value);
+			valueArray.splice(endIndex,0,valueArray.splice(this.state.startIndex,1)[0]);
+			this.setValue(valueArray);
+			this.focus();
+	},
+	handleDrag(startIndex){
+		this.setState({ 'startIndex':startIndex });
+	},
 	renderLoading () {
 		if (!this.props.isLoading) return;
 		return (
@@ -802,7 +826,26 @@ const Select = React.createClass({
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
-		if (this.props.multi) {
+		if(this.props.dragAndDrop && this.props.multi){
+			return valueArray.map((value, i) => {
+				return (
+					<Square value={value}handleDrop={this.handleDrop}index={i} key={i}>
+						<SquareValue
+							index={i}
+							onClick={onClick}
+							handleDrag={this.handleDrag}
+							onRemove={this.removeValue}
+							disabled={this.props.disabled || value.clearableValue === false}
+							key={`value-${i}-${value[this.props.valueKey]}`}
+							value={value}
+							>
+							{renderLabel(value,i)}
+						</SquareValue>
+					</Square>
+				);
+			});
+		}
+		else if (this.props.multi) {
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
@@ -811,6 +854,8 @@ const Select = React.createClass({
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
+						handleDrag={this.handleDrag}
+						index={i}
 						onRemove={this.removeValue}
 						value={value}
 					>
@@ -892,11 +937,11 @@ const Select = React.createClass({
 
 		if (this.props.autosize) {
 			return (
-				<AutosizeInput {...inputProps} minWidth="5" />
+				<AutosizeInput {...inputProps} minWidth="50" />
 			);
 		}
 		return (
-			<div className={ className }>
+			<div  className={ className }>
 				<input {...inputProps} />
 			</div>
 		);
@@ -1023,7 +1068,6 @@ const Select = React.createClass({
 	getFocusableOptionIndex (selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
-
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			let focusedOptionIndex = -1;
@@ -1065,11 +1109,15 @@ const Select = React.createClass({
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = [];
+		if (this.props.trackByIndex && this.props.allowDuplicates) {
+			 options = this._visibleOptions = this.filterOptions([]);
+		}else{
+			 options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		}
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
-		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
-
+		const focusedOptionIndex = this.getFocusableOptionIndex();
 		let focusedOption = null;
 		if (focusedOptionIndex !== null) {
 			focusedOption = this._focusedOption = options[focusedOptionIndex];
@@ -1101,33 +1149,61 @@ const Select = React.createClass({
 				</span>
 			);
 		}
-
-		return (
-			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					style={this.props.style}
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchStart={this.handleTouchStart}
-					onTouchMove={this.handleTouchMove}
-				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
+		if(this.props.dragAndDrop){
+			return (
+				<div ref={ref => this.wrapper = ref}
+					 className={className}
+					 style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+					>
+					<Board>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+					</Board>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
-			</div>
-		);
+			);
+		}else{
+			return (
+				<div ref={ref => this.wrapper = ref}
+					 className={className}
+					 style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+						onTouchEnd={this.handleTouchEnd}
+						onTouchStart={this.handleTouchStart}
+						onTouchMove={this.handleTouchMove}
+					>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				</div>
+			);
+		}
+
 	}
 
 });
