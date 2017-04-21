@@ -10416,6 +10416,7 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderMenu: function renderMenu(options, valueArray, focusedOption) {
+		console.log(options, 'menu');
 		if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption: focusedOption,
@@ -10498,6 +10499,7 @@ var Select = _react2['default'].createClass({
 	renderOuter: function renderOuter(options, valueArray, focusedOption) {
 		var _this7 = this;
 
+		console.log(options, 'renderOuter');
 		var menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
@@ -10527,8 +10529,9 @@ var Select = _react2['default'].createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		var options = [];
 		if (this.props.trackByIndex && this.props.allowDuplicates) {
-			options = this._visibleOptions = this.props.options;
+			options = this._visibleOptions = this.filterOptions([]);
 		} else {
+			console.log(this._visibleOptions, 'options');
 			options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		}
 		var isOpen = this.state.isOpen;
