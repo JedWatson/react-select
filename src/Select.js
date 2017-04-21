@@ -941,7 +941,7 @@ const Select = React.createClass({
 			);
 		}
 		return (
-			<div  onClick={()=>{console.log('hello worlds')}}className={ className }>
+			<div  className={ className }>
 				<input {...inputProps} />
 			</div>
 		);
@@ -1014,7 +1014,6 @@ const Select = React.createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
-		console.log(options,'menu');
 		if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption,
@@ -1091,7 +1090,6 @@ const Select = React.createClass({
 	},
 
 	renderOuter (options, valueArray, focusedOption) {
-		console.log(options,'renderOuter');
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
@@ -1115,7 +1113,6 @@ const Select = React.createClass({
 		if (this.props.trackByIndex && this.props.allowDuplicates) {
 			 options = this._visibleOptions = this.filterOptions([]);
 		}else{
-			console.log(this._visibleOptions,'options');
 			 options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		}
 		let isOpen = this.state.isOpen;

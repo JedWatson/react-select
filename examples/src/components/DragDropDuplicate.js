@@ -55,7 +55,6 @@ var DuplicateSelect = React.createClass({
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
           multi
-          simpleValue
           onValueClick={this.onValueClick}
           arrowRenderer={this.arrowRenderer}
           dragAndDrop={true}

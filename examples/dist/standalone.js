@@ -10349,9 +10349,7 @@ var Select = _react2['default'].createClass({
 		}
 		return _react2['default'].createElement(
 			'div',
-			{ onClick: function () {
-					console.log('hello worlds');
-				}, className: className },
+			{ className: className },
 			_react2['default'].createElement('input', inputProps)
 		);
 	},
@@ -10416,7 +10414,6 @@ var Select = _react2['default'].createClass({
 	},
 
 	renderMenu: function renderMenu(options, valueArray, focusedOption) {
-		console.log(options, 'menu');
 		if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption: focusedOption,
@@ -10499,7 +10496,6 @@ var Select = _react2['default'].createClass({
 	renderOuter: function renderOuter(options, valueArray, focusedOption) {
 		var _this7 = this;
 
-		console.log(options, 'renderOuter');
 		var menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
@@ -10531,7 +10527,6 @@ var Select = _react2['default'].createClass({
 		if (this.props.trackByIndex && this.props.allowDuplicates) {
 			options = this._visibleOptions = this.filterOptions([]);
 		} else {
-			console.log(this._visibleOptions, 'options');
 			options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		}
 		var isOpen = this.state.isOpen;

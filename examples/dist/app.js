@@ -657,7 +657,6 @@ var DuplicateSelect = _react2['default'].createClass({
 			),
 			_react2['default'].createElement(_reactSelect2['default'], {
 				multi: true,
-				simpleValue: true,
 				onValueClick: this.onValueClick,
 				arrowRenderer: this.arrowRenderer,
 				dragAndDrop: true,
