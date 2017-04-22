@@ -76,7 +76,6 @@
 }
 
 .is-open > .Select-control {
-	.border-bottom-radius( 0 );
 	background: @select-input-bg;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
 
@@ -85,6 +84,14 @@
 		top: -2px;
 		border-color: transparent transparent @select-arrow-color;
 		border-width: 0 @select-arrow-width @select-arrow-width;
+	}
+
+	&--on-bottom {
+		.border-bottom-radius( 0 );
+	}
+
+	&--on-top {
+		.border-top-radius( 0 );
 	}
 }
 

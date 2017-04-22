@@ -5,8 +5,9 @@
 */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import AutosizeInput from 'react-input-autosize';
+import { Manager, Popper, Target } from 'react-popper';
 import classNames from 'classnames';
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
@@ -170,6 +171,7 @@ const Select = React.createClass({
 			isOpen: false,
 			isPseudoFocused: false,
 			required: false,
+			placement: 'bottom',
 		};
 	},
 
@@ -1045,6 +1047,17 @@ const Select = React.createClass({
 		return null;
 	},
 
+	updatePlacement () {
+		return {
+			enabled: true,
+			order: 890,
+			function: (data) => {
+				this.setState({ placement: data.placement });
+				return data;
+			},
+		};
+	},
+
 	renderOuter (options, valueArray, focusedOption) {
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
@@ -1052,14 +1065,19 @@ const Select = React.createClass({
 		}
 
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<Popper
+				ref={ref => this.menuContainer = findDOMNode(ref)}
+				className="Select-menu-outer"
+				style={this.props.menuContainerStyle}
+				modifiers={{ updatePlacement: this.updatePlacement() }}
+			>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
 						 onScroll={this.handleMenuScroll}
 						 onMouseDown={this.handleMouseDownOnMenu}>
 					{menu}
 				</div>
-			</div>
+			</Popper>
 		);
 	},
 
@@ -1103,30 +1121,36 @@ const Select = React.createClass({
 		}
 
 		return (
-			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					style={this.props.style}
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchStart={this.handleTouchStart}
-					onTouchMove={this.handleTouchMove}
-				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
+			<Manager>
+				<div ref={ref => this.wrapper = ref}
+					 className={className}
+					 style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<Target ref={ref => this.control = ref}
+						className={classNames(
+							'Select-control',
+							{ 'Select-control--on-bottom': this.state.placement === 'bottom' },
+							{ 'Select-control--on-top': this.state.placement === 'top' }
+						)}
+						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+						onTouchEnd={this.handleTouchEnd}
+						onTouchStart={this.handleTouchStart}
+						onTouchMove={this.handleTouchMove}
+					>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</Target>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
-			</div>
+			</Manager>
 		);
 	}
 

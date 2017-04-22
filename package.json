@@ -33,6 +33,7 @@
     "react-dom": "^15.0",
     "react-gravatar": "^2.4.5",
     "react-highlight-words": "^0.3.0",
+    "react-popper": "^0.4.3",
     "react-virtualized": "^7.23.0",
     "react-virtualized-select": "^1.4.0",
     "sinon": "^1.17.5",
