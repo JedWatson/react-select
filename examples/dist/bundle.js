@@ -1196,9 +1196,10 @@ var Select = _react2['default'].createClass({
 		valueComponent: _react2['default'].PropTypes.func, // value component to render
 		valueKey: _react2['default'].PropTypes.string, // path of the label value in option objects
 		valueRenderer: _react2['default'].PropTypes.func, // valueRenderer: function (option) {}
-		wrapperStyle: _react2['default'].PropTypes.object },
+		wrapperStyle: _react2['default'].PropTypes.object, // optional style to apply to the component wrapper,
+		hiddenInputvalueKey: _react2['default'].PropTypes.string // optional key, if you want a specific value rendered in to hidden input
+	},
 
-	// optional style to apply to the component wrapper
 	statics: { Async: _Async2['default'], AsyncCreatable: _AsyncCreatable2['default'], Creatable: _Creatable2['default'] },
 
 	getDefaultProps: function getDefaultProps() {
@@ -2114,13 +2115,21 @@ var Select = _react2['default'].createClass({
 		}
 	},
 
+	/**
+  * Returns the hidden input for the multivalue array
+  * @param	{String}	name		name for inte input, compulsory
+  * @param 	{String}	hiddenInputvalueKey key used for setting the values in to input
+  * @param 	{String}	valueKey key used for setting the values in to input, if hiddenInputValueKey is not present
+  */
 	renderHiddenField: function renderHiddenField(valueArray) {
 		var _this6 = this;
 
 		if (!this.props.name) return;
+
+		var key = this.props.hiddenInputvalueKey ? this.props.hiddenInputvalueKey : this.props.valueKey;
 		if (this.props.joinValues) {
 			var value = valueArray.map(function (i) {
-				return stringifyValue(i[_this6.props.valueKey]);
+				return stringifyValue(i[key]);
 			}).join(this.props.delimiter);
 			return _react2['default'].createElement('input', {
 				type: 'hidden',
@@ -2136,7 +2145,7 @@ var Select = _react2['default'].createClass({
 				type: 'hidden',
 				ref: 'value' + index,
 				name: _this6.props.name,
-				value: stringifyValue(item[_this6.props.valueKey]),
+				value: stringifyValue(item[key]),
 				disabled: _this6.props.disabled });
 		});
 	},

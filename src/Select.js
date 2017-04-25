@@ -113,7 +113,8 @@ const Select = React.createClass({
 		valueComponent: React.PropTypes.func,       // value component to render
 		valueKey: React.PropTypes.string,           // path of the label value in option objects
 		valueRenderer: React.PropTypes.func,        // valueRenderer: function (option) {}
-		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper
+		wrapperStyle: React.PropTypes.object,       // optional style to apply to the component wrapper,
+		hiddenInputvalueKey: React.PropTypes.string // optional key, if you want a specific value rendered in to hidden input
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
@@ -995,10 +996,18 @@ const Select = React.createClass({
 		}
 	},
 
+	/**
+	 * Returns the hidden input for the multivalue array
+	 * @param	{String}	name		name for inte input, compulsory
+	 * @param 	{String}	hiddenInputvalueKey key used for setting the values in to input
+	 * @param 	{String}	valueKey key used for setting the values in to input, if hiddenInputValueKey is not present
+	 */
 	renderHiddenField (valueArray) {
 		if (!this.props.name) return;
+
+		const key = (this.props.hiddenInputvalueKey ? this.props.hiddenInputvalueKey: this.props.valueKey);
 		if (this.props.joinValues) {
-			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
+			let value = valueArray.map(i => stringifyValue(i[key])).join(this.props.delimiter);
 			return (
 				<input
 					type="hidden"
@@ -1013,7 +1022,7 @@ const Select = React.createClass({
 				type="hidden"
 				ref={'value' + index}
 				name={this.props.name}
-				value={stringifyValue(item[this.props.valueKey])}
+				value={stringifyValue(item[key])}
 				disabled={this.props.disabled} />
 		));
 	},
