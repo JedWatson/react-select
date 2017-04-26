@@ -1457,6 +1457,7 @@ var Select = _react2['default'].createClass({
 				inputValue: '',
 				focusedIndex: null
 			}, function () {
+				_this3.props.onInputChange('');
 				_this3.addValue(value);
 			});
 		} else {
@@ -1465,6 +1466,7 @@ var Select = _react2['default'].createClass({
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused
 			}, function () {
+				_this3.props.onInputChange('');
 				_this3.setValue(value);
 			});
 		}
