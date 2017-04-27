@@ -7,6 +7,7 @@ import Select from 'react-select';
 import Creatable from './components/Creatable';
 import Contributors from './components/Contributors';
 import GithubUsers from './components/GithubUsers';
+import CustomClose from './components/CustomClose';
 import CustomComponents from './components/CustomComponents';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
@@ -24,6 +25,7 @@ ReactDOM.render(
 		<GithubUsers label="Github users (Async with fetch.js)" />
 		<NumericSelect label="Numeric Values" />
 		<BooleanSelect label="Boolean Values" />
+		<CustomClose label="Custom Close Logic" />
 		<CustomRender label="Custom Render Methods"/>
 		<CustomComponents label="Custom Placeholder, Option, Value, and Arrow Components" />
 		<Creatable

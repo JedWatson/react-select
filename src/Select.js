@@ -51,6 +51,7 @@ const Select = React.createClass({
 		'aria-labelledby': React.PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
 		arrowRenderer: React.PropTypes.func,				// Create drop-down caret element
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
+		autoClose: React.PropTypes.bool,            // automatically close the dropdown menu when an item is selected / input is blurred
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
@@ -102,6 +103,7 @@ const Select = React.createClass({
 		options: React.PropTypes.array,             // array of options
 		pageSize: React.PropTypes.number,           // number of entries to page when using page up/down keys
 		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		requestClose: React.PropTypes.func,         // Called when `autoClose` is set to `false` and the dropdown menu should close
 		required: React.PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: React.PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: React.PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
@@ -123,6 +125,7 @@ const Select = React.createClass({
 		return {
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: defaultArrowRenderer,
+			autoClose: true,
 			autosize: true,
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
@@ -237,7 +240,7 @@ const Select = React.createClass({
 		}
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
-			this.closeMenu();
+			this.closeMenuInternal();
 		}
 	},
 
@@ -268,7 +271,7 @@ const Select = React.createClass({
 	handleTouchOutside (event) {
 		// handle touch outside on ios to dismiss menu
 		if (this.wrapper && !this.wrapper.contains(event.target)) {
-			this.closeMenu();
+			this.closeMenuInternal();
 		}
 	},
 
@@ -380,7 +383,7 @@ const Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 		// close the menu
-		this.closeMenu();
+		this.closeMenuInternal();
 	},
 
 	handleMouseDownOnMenu (event) {
@@ -396,20 +399,33 @@ const Select = React.createClass({
 		this.focus();
 	},
 
-	closeMenu () {
-		if(this.props.onCloseResetsInput) {
-			this.setState({
-				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: ''
-			});
+	close () {
+		this.setState({
+			isOpen: false
+		});
+	},
+
+	requestCloseMenu () {
+		if (this.state.isOpen && !this.props.autoClose) {
+			this.props.requestClose();
+			return false;
 		} else {
-			this.setState({
-				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: this.state.inputValue
-			});
+			return true;
 		}
+	},
+
+	closeMenuInternal () {
+		var shouldClose = this.requestCloseMenu();
+		var closedState = {
+			isPseudoFocused: this.state.isFocused && !this.props.multi,
+			inputValue: this.props.onCloseResetsInput ? '' : this.state.inputValue
+		};
+
+		if (shouldClose) {
+			closedState.isOpen = false;
+		}
+
+		this.setState(closedState);
 		this.hasScrolledToOption = false;
 	},
 
@@ -436,11 +452,15 @@ const Select = React.createClass({
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
 		}
+
+		var shouldClose = this.requestCloseMenu();
 		var onBlurredState = {
 			isFocused: false,
-			isOpen: false,
 			isPseudoFocused: false,
 		};
+		if (shouldClose) {
+			onBlurredState.isOpen = false;
+		}
 		if (this.props.onBlurResetsInput) {
 			onBlurredState.inputValue = '';
 		}
@@ -495,7 +515,7 @@ const Select = React.createClass({
 			break;
 			case 27: // escape
 				if (this.state.isOpen) {
-					this.closeMenu();
+					this.closeMenuInternal();
 					event.stopPropagation();
 				} else if (this.props.clearable && this.props.escapeClearsValue) {
 					this.clearValue(event);
@@ -621,11 +641,17 @@ const Select = React.createClass({
 				this.addValue(value);
 			});
 		} else {
-			this.setState({
-				isOpen: false,
+			var shouldClose = this.requestCloseMenu();
+			var nextState = {
 				inputValue: '',
-				isPseudoFocused: this.state.isFocused,
-			}, () => {
+				isPseudoFocused: this.state.isFocused
+			};
+
+			if (shouldClose) {
+				nextState.isOpen = false;
+			}
+
+			this.setState(nextState, () => {
 				this.setValue(value);
 			});
 		}
@@ -667,10 +693,17 @@ const Select = React.createClass({
 		event.stopPropagation();
 		event.preventDefault();
 		this.setValue(this.getResetValue());
-		this.setState({
-			isOpen: false,
-			inputValue: '',
-		}, this.focus);
+
+		var shouldClose = this.requestCloseMenu();
+		var nextState = {
+			inputValue: ''
+		};
+
+		if (shouldClose) {
+			nextState.isOpen = false;
+		}
+
+		this.setState(nextState, this.focus);
 	},
 
 	getResetValue () {

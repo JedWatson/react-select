@@ -348,6 +348,7 @@ function onInputKeyDown(event) {
 | addLabelText | string | 'Add "{label}"?' | text to display when `allowCreate` is true |
   arrowRenderer | func | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown, isOpen })` |
 | autoBlur | bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices |
+| autoClose | bool | true | Automatically closes the dropdown when an item is selected / when the input blurs. If `false`, you must a provide a function for the `requestClose` property.
 | autofocus | bool | undefined | autofocus the component on mount |
 | autoload | bool | true | whether to auto-load the default async options set |
 | autosize | bool | true | If enabled, the input will expand as the length of its value increases |
@@ -393,6 +394,7 @@ function onInputKeyDown(event) {
 | optionRenderer | func | undefined | function which returns a custom way to render the options in the menu |
 | options | array | undefined | array of options |
 | placeholder | string\|node | 'Select ...' | field placeholder, displayed when there's no value |
+| requestClose | func | undefined | Called when `autoClose` is set to `false` and the dropdown menu should close
 | scrollMenuIntoView | bool | true | whether the viewport will shift to display the entire menu when engaged |
 | searchable | bool | true | whether to enable searching feature or not |
 | searchPromptText | string\|node | 'Type to search' | label to prompt for search input |
