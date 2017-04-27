@@ -406,12 +406,26 @@ function onInputKeyDown(event) {
 
 ### Methods
 
-Right now there's simply a `focus()` method that gives the control focus. All other methods on `<Select>` elements should be considered private and prone to change.
+Right now there are two public instance methods available:
+
+* `focus()`: gives the control focus.
 
 ```javascript
 // focuses the input element
 <instance>.focus();
 ```
+
+* `close()`: closes the dropdown menu.
+
+Used in conjunction with `autoClose: false`, you can manually specify when the menu should close.
+Useful for performing actions like animating the menu on close, before it is removed from the DOM.
+
+```javascript
+// closes the dropdown menu
+<instance>.close();
+```
+
+All other methods on `<Select>` elements should be considered private and prone to change.
 
 # Contributing
 
