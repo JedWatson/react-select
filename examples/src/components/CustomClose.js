@@ -45,7 +45,7 @@ var CustomCloseLogic = React.createClass({
 					simpleValue
 					value={this.state.value}
 					/>
-				<div className="hint">This example implements custom close logic.</div>
+				<div className="hint">This example implements custom close logic. The dropdown menu will close 1 second after selection / blur.</div>
 			</div>
 		);
 	}
