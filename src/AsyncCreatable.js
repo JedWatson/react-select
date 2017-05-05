@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import Select from './Select';
 
 function reduce(obj, props = {}){

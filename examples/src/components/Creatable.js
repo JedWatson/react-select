@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'react-proptypes';
 import Select from 'react-select';
 
 var CreatableDemo = React.createClass({
 	displayName: 'CreatableDemo',
 	propTypes: {
-		hint: React.PropTypes.string,
-		label: React.PropTypes.string
+		hint: PropTypes.string,
+		label: PropTypes.string
 	},
 	getInitialState () {
 		return {
