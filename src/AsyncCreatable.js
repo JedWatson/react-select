@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'react-proptypes';
+import createReactClass from 'create-react-class';
 import Select from './Select';
 
 function reduce(obj, props = {}){
@@ -11,7 +11,7 @@ function reduce(obj, props = {}){
   }, props);
 }
 
-const AsyncCreatable = React.createClass({
+const AsyncCreatable = createReactClass({
 	displayName: 'AsyncCreatableSelect',
 
 	focus () {

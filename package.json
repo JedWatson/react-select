@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.4",
+    "create-react-class": "^15.5.2",
     "react-input-autosize": "^1.1.0",
     "react-proptypes": "^1.0.0"
   },
