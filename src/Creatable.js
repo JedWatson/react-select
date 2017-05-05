@@ -255,7 +255,7 @@ function isOptionUnique ({ option, options, labelKey, valueKey }) {
 	return options
 		.filter((existingOption) =>
 			existingOption[labelKey] === option[labelKey] ||
-			existingOption[valueKey] === option[valueKey]
+			typeof option[valueKey] !== 'undefined' && existingOption[valueKey] === option[valueKey]
 		)
 		.length === 0;
 };
