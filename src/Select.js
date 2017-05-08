@@ -637,11 +637,9 @@ const Select = React.createClass({
 		var valueArray = this.getValueArray(this.props.value);
 
 		if (this.props.filterOptionsMulti === true) {
-			console.log('filterOptionMulti true ');
 			valueArray = valueArray.concat(value);
 			this.setValue(valueArray);
 		} else {
-			console.log('filterOptionMulti false ');
 			if (valueArray.indexOf(value) === -1) {
 				valueArray = valueArray.concat(value);
 				this.setValue(valueArray);
@@ -652,7 +650,6 @@ const Select = React.createClass({
 
 		// if filterOptionsMulti is set to false, don't focus any option when adding value
 		if (this.props.filterOptionsMulti === true) {
-			console.log('scroll');
 			const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 			const lastValueIndex = visibleOptions.indexOf(value);
 
