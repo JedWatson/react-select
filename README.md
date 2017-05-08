@@ -365,6 +365,7 @@ function onInputKeyDown(event) {
 | disabled | bool | false | whether the Select is disabled or not |
 | filterOption | func | undefined | method to filter a single option: `function(option, filterString)` |
 | filterOptions | func | undefined | method to filter the options array: `function([options], filterString, [values])` |
+| filterOptionsMulti | bool | true | whether to filter options when `multi` is true |
 | ignoreAccents | bool | true | whether to strip accents when filtering |
 | ignoreCase | bool | true | whether to perform case-insensitive filtering |
 | inputProps | object | {} | custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}` |
