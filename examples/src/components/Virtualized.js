@@ -1,9 +1,10 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import VirtualizedSelect from 'react-virtualized-select';
 
 const DATA = require('../data/cities');
 
-var CitiesField = React.createClass({
+var CitiesField = createReactClass({
 	displayName: 'CitiesField',
 	getInitialState () {
 		return {};
