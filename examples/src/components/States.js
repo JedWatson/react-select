@@ -1,21 +1,22 @@
 import React from 'react';
 import Select from 'react-select';
+import PropTypes from 'prop-types';
 
 const STATES = require('../data/states');
 
 var StatesField = React.createClass({
 	displayName: 'StatesField',
 	propTypes: {
-		label: React.PropTypes.string,
-		searchable: React.PropTypes.bool,
+		label: PropTypes.string,
+		searchable: PropTypes.bool,
 	},
-	getDefaultProps () {
+	getDefaultProps() {
 		return {
 			label: 'States:',
 			searchable: true,
 		};
 	},
-	getInitialState () {
+	getInitialState() {
 		return {
 			country: 'AU',
 			disabled: false,
@@ -24,7 +25,7 @@ var StatesField = React.createClass({
 			clearable: true,
 		};
 	},
-	switchCountry (e) {
+	switchCountry(e) {
 		var newCountry = e.target.value;
 		console.log('Country changed to ' + newCountry);
 		this.setState({
@@ -32,49 +33,62 @@ var StatesField = React.createClass({
 			selectValue: null
 		});
 	},
-	updateValue (newValue) {
+	updateValue(newValue) {
 		console.log('State changed to ' + newValue);
 		this.setState({
 			selectValue: newValue
 		});
 	},
-	focusStateSelect () {
+	focusStateSelect() {
 		this.refs.stateSelect.focus();
 	},
-	toggleCheckbox (e) {
+	toggleCheckbox(e) {
 		let newState = {};
 		newState[e.target.name] = e.target.checked;
 		this.setState(newState);
 	},
-	render () {
+	render() {
 		var options = STATES[this.state.country];
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+				<div style={{ height: 36, overflow: 'hidden' }}>
+					<Select
+						ref="stateSelect"
+						autofocus
+						options={options}
+						simpleValue
+						clearable={this.state.clearable}
+						name="selected-state"
+						disabled={this.state.disabled}
+						value={this.state.selectValue}
+						onChange={this.updateValue}
+						wrapperStyle={{ margin: '0 10px' }}
+						searchable={this.state.searchable} />
+				</div>
 
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
 					<label className="checkbox" style={{ marginLeft: 10 }}>
-						<input type="checkbox" className="checkbox-control" name="searchable" checked={this.state.searchable} onChange={this.toggleCheckbox}/>
+						<input type="checkbox" className="checkbox-control" name="searchable" checked={this.state.searchable} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">Searchable</span>
 					</label>
 					<label className="checkbox" style={{ marginLeft: 10 }}>
-						<input type="checkbox" className="checkbox-control" name="disabled" checked={this.state.disabled} onChange={this.toggleCheckbox}/>
+						<input type="checkbox" className="checkbox-control" name="disabled" checked={this.state.disabled} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">Disabled</span>
 					</label>
 					<label className="checkbox" style={{ marginLeft: 10 }}>
-						<input type="checkbox" className="checkbox-control" name="clearable" checked={this.state.clearable} onChange={this.toggleCheckbox}/>
+						<input type="checkbox" className="checkbox-control" name="clearable" checked={this.state.clearable} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">Clearable</span>
 					</label>
 				</div>
 				<div className="checkbox-list">
 					<label className="checkbox">
-						<input type="radio" className="checkbox-control" checked={this.state.country === 'AU'} value="AU" onChange={this.switchCountry}/>
+						<input type="radio" className="checkbox-control" checked={this.state.country === 'AU'} value="AU" onChange={this.switchCountry} />
 						<span className="checkbox-label">Australia</span>
 					</label>
 					<label className="checkbox">
-						<input type="radio" className="checkbox-control" checked={this.state.country === 'US'} value="US" onChange={this.switchCountry}/>
+						<input type="radio" className="checkbox-control" checked={this.state.country === 'US'} value="US" onChange={this.switchCountry} />
 						<span className="checkbox-label">United States</span>
 					</label>
 				</div>
