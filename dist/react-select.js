@@ -2793,7 +2793,7 @@ var Select = _react2['default'].createClass({
 			return null;
 		}
 
-		var target = this.wrapper,
+		var target = this.control,
 		    nodePosition = this.getNodePosition(target);
 
 		return _react2['default'].createElement(
@@ -2803,7 +2803,7 @@ var Select = _react2['default'].createClass({
 					zIndex: 1,
 					left: nodePosition.x,
 					top: nodePosition.y + target.clientHeight,
-					width: target.clientWidth
+					width: target.offsetWidth
 				} },
 			_react2['default'].createElement(
 				'div',

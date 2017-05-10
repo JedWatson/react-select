@@ -53,7 +53,18 @@ var StatesField = React.createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<div style={{ height: 36, overflow: 'hidden' }}>
-					<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+					<Select
+						ref="stateSelect"
+						autofocus
+						options={options}
+						simpleValue
+						clearable={this.state.clearable}
+						name="selected-state"
+						disabled={this.state.disabled}
+						value={this.state.selectValue}
+						onChange={this.updateValue}
+						wrapperStyle={{ margin: '0 10px' }}
+						searchable={this.state.searchable} />
 				</div>
 
 				<div style={{ marginTop: 14 }}>

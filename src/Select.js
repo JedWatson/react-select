@@ -1069,7 +1069,7 @@ const Select = React.createClass({
 			return null;
 		}
 
-		const target = this.wrapper
+		const target = this.control
 			, nodePosition = this.getNodePosition(target);
 
 		return (
@@ -1078,7 +1078,7 @@ const Select = React.createClass({
 				zIndex: 1,
 				left: nodePosition.x,
 				top: nodePosition.y + target.clientHeight,
-				width: target.clientWidth,
+				width: target.offsetWidth,
 			}}>
 				<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
 					<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
