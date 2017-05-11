@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.4",
+    "lodash": "^4.17.4",
     "react-input-autosize": "^1.1.0"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "istanbul": "^0.4.5",
     "jsdom": "^9.5.0",
     "mocha": "^3.0.2",
+    "prop-types": "^15.5.9",
     "react": "^15.0",
     "react-addons-shallow-compare": "^15.0",
     "react-addons-test-utils": "^15.0",

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import fetch from 'isomorphic-fetch';
 
@@ -6,7 +7,7 @@ import fetch from 'isomorphic-fetch';
 const GithubUsers = React.createClass({
 	displayName: 'GithubUsers',
 	propTypes: {
-		label: React.PropTypes.string,
+		label: PropTypes.string,
 	},
 	getInitialState () {
 		return {

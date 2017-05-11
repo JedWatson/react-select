@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 const CONTRIBUTORS = require('../data/contributors');
@@ -8,7 +9,7 @@ const ASYNC_DELAY = 500;
 const Contributors = React.createClass({
 	displayName: 'Contributors',
 	propTypes: {
-		label: React.PropTypes.string,
+		label: PropTypes.string,
 	},
 	getInitialState () {
 		return {
