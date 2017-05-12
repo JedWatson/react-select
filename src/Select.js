@@ -807,6 +807,7 @@ const Select = React.createClass({
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
+						index={i}
 						id={this._instancePrefix + '-value-' + i}
 						instancePrefix={this._instancePrefix}
 						disabled={this.props.disabled || value.clearableValue === false}
@@ -814,6 +815,7 @@ const Select = React.createClass({
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+						handlerReorder={this.handlerReorder}
 					>
 						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
@@ -1062,6 +1064,14 @@ const Select = React.createClass({
 				</div>
 			</div>
 		);
+	},
+
+	handlerReorder(dragIndex, hoverIndex) {
+		const options = this.getValueArray(this.props.value);
+		const dragOption = options[dragIndex];
+		const target = options.splice(dragIndex, 1)[0];
+		options.splice(hoverIndex, 0, target);
+		this.props.onChange(options);
 	},
 
 	render () {
