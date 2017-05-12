@@ -13,6 +13,8 @@
   "dependencies": {
     "classnames": "^2.2.4",
     "lodash": "^4.17.4",
+    "react-dnd": "^2.4.0",
+    "react-dnd-html5-backend": "^2.4.1",
     "react-input-autosize": "^1.1.0"
   },
   "devDependencies": {
@@ -32,8 +34,6 @@
     "react-addons-shallow-compare": "^15.0",
     "react-addons-test-utils": "^15.0",
     "react-component-gulp-tasks": "^0.7.7",
-    "react-dnd": "^2.4.0",
-    "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.0",
     "react-gravatar": "^2.4.5",
     "react-highlight-words": "^0.3.0",
