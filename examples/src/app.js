@@ -4,9 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
 
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider } from 'react-dnd';
-
 import Creatable from './components/Creatable';
 import Contributors from './components/Contributors';
 import GithubUsers from './components/GithubUsers';
@@ -17,24 +14,24 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import DraggableMultiselect from './components/DraggableMultiselect';
 
 ReactDOM.render(
-	<DragDropContextProvider backend={HTML5Backend}>
-		<div>
-			<States label="States1" searchable />
-			<Multiselect label="Multiselect" />
-			<Virtualized label="Virtualized" />
-			<Contributors label="Contributors (Async)" />
-			<GithubUsers label="Github users (Async with fetch.js)" />
-			<NumericSelect label="Numeric Values" />
-			<BooleanSelect label="Boolean Values" />
-			<CustomRender label="Custom Render Methods"/>
-			<CustomComponents label="Custom Placeholder, Option, Value, and Arrow Components" />
-			<Creatable
-				hint="Enter a value that's NOT in the list, then hit return"
-				label="Custom tag creation"
-			/>
-		</div>
-	</DragDropContextProvider>,
+	<div>
+		<States label="States" searchable />
+		<Multiselect label="Multiselect" />
+		<Virtualized label="Virtualized" />
+		<Contributors label="Contributors (Async)" />
+		<GithubUsers label="Github users (Async with fetch.js)" />
+		<NumericSelect label="Numeric Values" />
+		<BooleanSelect label="Boolean Values" />
+		<CustomRender label="Custom Render Methods"/>
+		<CustomComponents label="Custom Placeholder, Option, Value, and Arrow Components" />
+		<Creatable
+			hint="Enter a value that's NOT in the list, then hit return"
+			label="Custom tag creation"
+		/>
+		<DraggableMultiselect label="Draggable Multiselect" />
+	</div>,
 	document.getElementById('example')
 );

@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContextProvider } from 'react-dnd';
+
 const FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },
 	{ label: 'Vanilla', value: 'vanilla' },
@@ -25,7 +28,7 @@ var MultiSelectField = React.createClass({
 			disabled: false,
 			crazy: false,
 			options: FLAVOURS,
-			value: [],
+			value: 'chocolate',
 		};
 	},
 	handleSelectChange (value) {
@@ -46,7 +49,9 @@ var MultiSelectField = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<DragDropContextProvider backend={HTML5Backend}>
+					<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} draggable />
+				</DragDropContextProvider>
 
 				<div className="checkbox-list">
 					<label className="checkbox">
