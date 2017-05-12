@@ -363,6 +363,7 @@ function onInputKeyDown(event) {
 | deleteRemoves | bool | true | whether pressing delete key removes the last item when there is no input value |
 | delimiter | string | ',' | delimiter to use to join multiple values |
 | disabled | bool | false | whether the Select is disabled or not |
+| draggable | bool | false | whether the value is draggable, only applicable for `multi=true` |
 | filterOption | func | undefined | method to filter a single option: `function(option, filterString)` |
 | filterOptions | func | undefined | method to filter the options array: `function([options], filterString, [values])` |
 | ignoreAccents | bool | true | whether to strip accents when filtering |
