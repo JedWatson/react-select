@@ -38,7 +38,8 @@
 
 	// common
 	.Select-value-icon,
-	.Select-value-label {
+	.Select-value-label,
+	.Select-value-drag-icon {
 		display: inline-block;
 		vertical-align: middle;
 	}
@@ -60,7 +61,8 @@
 	}
 
 	// icon
-	.Select-value-icon {
+	.Select-value-icon,
+	.Select-value-drag-icon {
 		cursor: pointer;
 		.border-left-radius( @select-item-border-radius );
 		border-right: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
@@ -90,7 +92,8 @@
 		color: @select-item-disabled-color;
 	}
 	// icon
-	.Select-value-icon {
+	.Select-value-icon,
+	.Select-value-drag-icon {
 		cursor: not-allowed;
 		border-right: 1px solid @select-item-disabled-border-color;
 
