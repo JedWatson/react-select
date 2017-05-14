@@ -117,7 +117,7 @@ const Select = createClass({
 		valueComponent: PropTypes.func,       // value component to render
 		valueKey: PropTypes.string,           // path of the label value in option objects
 		valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
-		wrapperStyle: PropTypes.object,       // optional style to apply to the component wrappe
+		wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
 	},
 
 	statics: { Async, AsyncCreatable, Creatable },
