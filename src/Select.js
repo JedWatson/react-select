@@ -151,7 +151,6 @@ const Select = createClass({
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
 			onCloseResetsInput: true,
-			openAfterFocus: false,
 			optionComponent: Option,
 			pageSize: 5,
 			placeholder: 'Select...',
@@ -277,12 +276,6 @@ const Select = createClass({
 	focus () {
 		if (!this.input) return;
 		this.input.focus();
-
-		if (this.props.openAfterFocus) {
-			this.setState({
-				isOpen: true,
-			});
-		}
 	},
 
 	blurInput () {
@@ -363,7 +356,7 @@ const Select = createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openOnFocus;
+			this._openAfterFocus = true;
 			this.focus();
 		}
 	},

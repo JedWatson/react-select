@@ -1,5 +1,13 @@
 # React-Select
 
+## v1.0.0-rc.4 / 2017-05-14
+
+* fixed; no more warning when using React 15.5, thanks [Adam Girton](https://github.com/agirton)
+* fixed; issue comparing objects in `getFocusableOptionIndex`, thanks [rndm2](https://github.com/rndm2)
+* fixed; missing .focus() method in `Creatable`, thanks [Anton Alexandrenok](https://github.com/the-spyke)
+* added; support for `aria-describedby` attribute, thanks [Eric Lee](https://github.com/ericj17)
+* added; `.is-clearable` className when clearable is true, thanks [Dan Diaz](https://github.com/dan-diaz)
+
 ## v1.0.0-rc.3 / 2017-02-01
 
 * added; `arrowRenderer` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
