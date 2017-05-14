@@ -482,6 +482,8 @@ const Select = createClass({
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
 					event.preventDefault();
 					this.popValue();
+				} else if (this.state.inputValue && this.state.inputValue.length === 1 && this.props.backspaceRemoves) {
+					this.popValue();
 				}
 			return;
 			case 9: // tab

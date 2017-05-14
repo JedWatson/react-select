@@ -1173,7 +1173,7 @@ var Select = _react2['default'].createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openOnFocus;
 			this.focus();
 		}
 	},
@@ -1292,6 +1292,8 @@ var Select = _react2['default'].createClass({
 				// backspace
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
 					event.preventDefault();
+					this.popValue();
+				} else if (this.state.inputValue && this.state.inputValue.length === 1 && this.props.backspaceRemoves) {
 					this.popValue();
 				}
 				return;
