@@ -880,7 +880,7 @@ const Select = createClass({
 					{...divProps}
 					role="combobox"
 					aria-expanded={isOpen}
-					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
+					aria-owns={isOpen ? this._instancePrefix + '-list' : ''}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
