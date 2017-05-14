@@ -2166,6 +2166,10 @@ var _stripDiacritics = require('./stripDiacritics');
 
 var _stripDiacritics2 = _interopRequireDefault(_stripDiacritics);
 
+var _stripPunctuation2 = require('./stripPunctuation');
+
+var _stripPunctuation3 = _interopRequireDefault(_stripPunctuation2);
+
 function filterOptions(options, filterValue, excludeOptions, props) {
 	var _this = this;
 
@@ -2190,6 +2194,10 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 		if (props.ignoreAccents) {
 			if (props.matchProp !== 'label') valueTest = (0, _stripDiacritics2['default'])(valueTest);
 			if (props.matchProp !== 'value') labelTest = (0, _stripDiacritics2['default'])(labelTest);
+		}
+		if (props.ignorePunctuation) {
+			if (props.matchProp !== 'label') valueTest = _stripPunctuation(valueTest);
+			if (props.matchProp !== 'value') labelTest = _stripPunctuation(labelTest);
 		}
 		if (props.ignoreCase) {
 			if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
@@ -2276,6 +2284,14 @@ module.exports = function stripDiacritics(str) {
 		str = str.replace(map[i].letters, map[i].base);
 	}
 	return str;
+};
+
+},{}],11:[function(require,module,exports){
+'use strict';
+var puncuation = /[.,\/'#!%\^&\*;:{}=\-_`~()]/g;
+var empty = '';
+module.exports = function stripPunctuation(str) {
+    return str.replace(puncuation, empty);
 };
 
 },{}]},{},[5])(5)

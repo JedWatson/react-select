@@ -921,6 +921,10 @@ var _stripDiacritics = require('./stripDiacritics');
 
 var _stripDiacritics2 = _interopRequireDefault(_stripDiacritics);
 
+var _stripPunctuation2 = require('./stripPunctuation');
+
+var _stripPunctuation3 = _interopRequireDefault(_stripPunctuation2);
+
 function filterOptions(options, filterValue, excludeOptions, props) {
 	var _this = this;
 
@@ -946,6 +950,10 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 			if (props.matchProp !== 'label') valueTest = (0, _stripDiacritics2['default'])(valueTest);
 			if (props.matchProp !== 'value') labelTest = (0, _stripDiacritics2['default'])(labelTest);
 		}
+		if (props.ignorePunctuation) {
+			if (props.matchProp !== 'label') valueTest = _stripPunctuation(valueTest);
+			if (props.matchProp !== 'value') labelTest = _stripPunctuation(labelTest);
+		}
 		if (props.ignoreCase) {
 			if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
 			if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
@@ -955,6 +963,7 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 }
 
 module.exports = filterOptions;
+
 
 },{"./stripDiacritics":10}],9:[function(require,module,exports){
 'use strict';
@@ -1029,6 +1038,14 @@ module.exports = function stripDiacritics(str) {
 		str = str.replace(map[i].letters, map[i].base);
 	}
 	return str;
+};
+
+},{}],10:[function(require,module,exports){
+'use strict';
+var puncuation = /[.,\/'#!%\^&\*;:{}=\-_`~()]/g;
+var empty = '';
+module.exports = function stripPunctuation(str) {
+    return str.replace(puncuation, empty);
 };
 
 },{}],"react-select":[function(require,module,exports){
@@ -2260,4 +2277,6 @@ var Select = _react2['default'].createClass({
 exports['default'] = Select;
 module.exports = exports['default'];
 
+
+  
 },{"./Async":1,"./AsyncCreatable":2,"./Creatable":3,"./Option":4,"./Value":5,"./utils/defaultArrowRenderer":6,"./utils/defaultClearRenderer":7,"./utils/defaultFilterOptions":8,"./utils/defaultMenuRenderer":9,"classnames":undefined,"react":undefined,"react-dom":undefined,"react-input-autosize":undefined}]},{},[]);
