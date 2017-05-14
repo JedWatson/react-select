@@ -513,15 +513,17 @@ var Creatable = _react2['default'].createClass({
 		}));
 	},
 
-	onInputChange: function onInputChange(input) {
+	onInputChange: function onInputChange(inputValue) {
 		var onInputChange = this.props.onInputChange;
 
 		if (onInputChange) {
-			onInputChange(input);
+			inputValue = onInputChange(inputValue);
 		}
 
 		// This value may be needed in between Select mounts (when this.select is null)
-		this.inputValue = input;
+		this.inputValue = inputValue;
+
+		return inputValue;
 	},
 
 	onInputKeyDown: function onInputKeyDown(event) {
