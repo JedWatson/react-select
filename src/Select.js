@@ -868,12 +868,17 @@ const Select = createClass({
 
 		if (this.props.disabled || !this.props.searchable) {
 			const { inputClassName, ...divProps } = this.props.inputProps;
+
+			const ariaOwns = classNames({
+				[this._instancePrefix + '-list']: isOpen,
+			});
+
 			return (
 				<div
 					{...divProps}
 					role="combobox"
 					aria-expanded={isOpen}
-					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
+					aria-owns={ariaOwns}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
