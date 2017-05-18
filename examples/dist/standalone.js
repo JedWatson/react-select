@@ -1829,7 +1829,10 @@ var Select = (0, _createReactClass2['default'])({
 			'span',
 			{
 				className: 'Select-arrow-zone',
-				onMouseDown: onMouseDown
+				onMouseDown: onMouseDown,
+				onTouchStart: this.handleTouchStart,
+				onTouchMove: this.handleTouchMove,
+				onTouchEnd: this.handleTouchEndOnArrow
 			},
 			arrow
 		);

@@ -938,6 +938,9 @@ const Select = createClass({
 			<span
 				className="Select-arrow-zone"
 				onMouseDown={onMouseDown}
+				onTouchStart={this.handleTouchStart}
+				onTouchMove={this.handleTouchMove}
+				onTouchEnd={this.handleTouchEndOnArrow}
 			>
 				{arrow}
 			</span>
