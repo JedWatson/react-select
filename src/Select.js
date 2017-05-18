@@ -1025,11 +1025,12 @@ const Select = createClass({
 		var options = this._visibleOptions;
 		if (!options.length) return null;
 
+		const valueKey = this.props.valueKey;
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			let focusedOptionIndex = -1;
 			options.some((option, index) => {
-				const isOptionEqual = option.value === focusedOption.value;
+				const isOptionEqual = option[valueKey] === focusedOption[valueKey];
 				if (isOptionEqual) {
 					focusedOptionIndex = index;
 				}
