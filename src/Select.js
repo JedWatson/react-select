@@ -618,7 +618,9 @@ const Select = React.createClass({
 				inputValue: '',
 				focusedIndex: null
 			}, () => {
-				this.props.onInputChange('');
+				if (this.props.onInputChange) {
+					this.props.onInputChange('');
+				}
 				this.addValue(value);
 			});
 		} else {
@@ -627,7 +629,9 @@ const Select = React.createClass({
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
-				this.props.onInputChange('');
+				if (this.props.onInputChange) {
+					this.props.onInputChange('');
+				}
 				this.setValue(value);
 			});
 		}
