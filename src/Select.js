@@ -968,6 +968,7 @@ const Select = createClass({
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
+				inputValue: this.state.inputValue,
 				instancePrefix: this._instancePrefix,
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
