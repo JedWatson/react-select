@@ -215,4 +215,4 @@ function defaultChildren (props) {
 	return (
 		<Select {...props} />
 	);
-};
+}

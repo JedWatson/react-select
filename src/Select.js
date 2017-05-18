@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import AutosizeInput from 'react-input-autosize';
@@ -42,7 +43,7 @@ const stringOrNode = PropTypes.oneOfType([
 
 let instanceId = 1;
 
-const Select = React.createClass({
+const Select = createClass({
 
 	displayName: 'Select',
 
@@ -153,7 +154,6 @@ const Select = React.createClass({
 			noResultsText: 'No results found',
 			onBlurResetsInput: true,
 			onCloseResetsInput: true,
-			openAfterFocus: false,
 			optionComponent: Option,
 			pageSize: 5,
 			placeholder: 'Select...',
@@ -279,12 +279,6 @@ const Select = React.createClass({
 	focus () {
 		if (!this.input) return;
 		this.input.focus();
-
-		if (this.props.openAfterFocus) {
-			this.setState({
-				isOpen: true,
-			});
-		}
 	},
 
 	blurInput () {
@@ -365,7 +359,7 @@ const Select = React.createClass({
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openOnFocus;
+			this._openAfterFocus = true;
 			this.focus();
 		}
 	},
@@ -879,12 +873,17 @@ const Select = React.createClass({
 
 		if (this.props.disabled || !this.props.searchable) {
 			const { inputClassName, ...divProps } = this.props.inputProps;
+
+			const ariaOwns = classNames({
+				[this._instancePrefix + '-list']: isOpen,
+			});
+
 			return (
 				<div
 					{...divProps}
 					role="combobox"
 					aria-expanded={isOpen}
-					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
+					aria-owns={ariaOwns}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
@@ -909,7 +908,8 @@ const Select = React.createClass({
 	},
 
 	renderClear () {
-		if (!this.props.clearable || (!this.props.value || this.props.value === 0) || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
+
+		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
 		return (
@@ -1093,6 +1093,7 @@ const Select = React.createClass({
 		let className = classNames('Select', this.props.className, {
 			'Select--multi': this.props.multi,
 			'Select--single': !this.props.multi,
+			'is-clearable': this.props.clearable,
 			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.props.isLoading,

@@ -1,4 +1,5 @@
 import React from 'react';
+import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
@@ -6,7 +7,7 @@ const CONTRIBUTORS = require('../data/contributors');
 const MAX_CONTRIBUTORS = 6;
 const ASYNC_DELAY = 500;
 
-const Contributors = React.createClass({
+const Contributors = createClass({
 	displayName: 'Contributors',
 	propTypes: {
 		label: PropTypes.string,
