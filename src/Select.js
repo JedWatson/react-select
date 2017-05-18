@@ -311,6 +311,15 @@ const Select = createClass({
 		this.clearValue(event);
 	},
 
+	handleTouchEndOnArrow (event) {
+ 		// Check if the view is being dragged, In this case
+ 		// we don't want to fire the click event (because the user only wants to scroll)
+ 		if (this.dragging) return;
+
+ 		// Clear the value
+ 		this.handleMouseDownOnArrow(event);
+ 	},
+
 	handleMouseDown (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.

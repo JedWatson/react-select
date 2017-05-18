@@ -1162,6 +1162,15 @@ var Select = (0, _createReactClass2['default'])({
 		this.clearValue(event);
 	},
 
+	handleTouchEndOnArrow: function handleTouchEndOnArrow(event) {
+		// Check if the view is being dragged, In this case
+		// we don't want to fire the click event (because the user only wants to scroll)
+		if (this.dragging) return;
+
+		// Clear the value
+		this.handleMouseDownOnArrow(event);
+	},
+
 	handleMouseDown: function handleMouseDown(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
@@ -1765,10 +1774,12 @@ var Select = (0, _createReactClass2['default'])({
 
 			var divProps = _objectWithoutProperties(_props$inputProps, ['inputClassName']);
 
+			var _ariaOwns = (0, _classnames2['default'])(_defineProperty({}, this._instancePrefix + '-list', isOpen));
+
 			return _react2['default'].createElement('div', _extends({}, divProps, {
 				role: 'combobox',
 				'aria-expanded': isOpen,
-				'aria-owns': isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value',
+				'aria-owns': _ariaOwns,
 				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
 				className: className,
 				tabIndex: this.props.tabIndex || 0,
@@ -1792,7 +1803,8 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	renderClear: function renderClear() {
-		if (!this.props.clearable || !this.props.value || this.props.value === 0 || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
+
+		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		var clear = this.props.clearRenderer();
 
 		return _react2['default'].createElement(
