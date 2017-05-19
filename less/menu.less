@@ -72,20 +72,16 @@
 	padding: @select-padding-vertical @select-padding-horizontal;
 }
 
-.select-wrapper-white {
-  .Select-menu-outer {
- 		// background-color: @gray !important;
-	  width: 100%;
-	  .Select-menu {
-  		// background-color: @gray !important;
-  		.Select-option {
-  			color: @white;
-	      background-color: #34343A;
-  		}
-	    .Select-option.is-focused {
-	      color: @black;
-	      background-color: @white;
-	    }
-	  }
-	}
+.Select-transparent .Select-menu-outer {
+  width: 100%;
+  .Select-menu {
+		.Select-option {
+			color: @white;
+      background-color: #34343A;
+		}
+    .Select-option.is-focused {
+      color: @black;
+      background-color: @white;
+    }
+  }
 }

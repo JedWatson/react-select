@@ -48,6 +48,7 @@ var DisabledUpsellOptions = createClass({
 					onChange={this.setValue}
 					value={this.state.value}
 					valueRenderer={this.renderValue}
+					isTransparent={false}
 					/>
 				<div className="hint">This demonstates custom render methods and links in disabled options</div>
 			</div>

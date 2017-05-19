@@ -47,6 +47,7 @@ const Select = createClass({
 	displayName: 'Select',
 
 	propTypes: {
+		isTransparent: PropTypes.bool,					// made for dark themes. If set to true the component style will switch for dark backgrounds
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
@@ -123,6 +124,7 @@ const Select = createClass({
 
 	getDefaultProps () {
 		return {
+			isTransparent: false,
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: defaultArrowRenderer,
 			autosize: true,
@@ -1099,6 +1101,7 @@ const Select = createClass({
 			focusedOption = this._focusedOption = null;
 		}
 		let className = classNames('Select', this.props.className, {
+			'Select-transparent': this.props.isTransparent,
 			'Select--multi': this.props.multi,
 			'Select--single': !this.props.multi,
 			'is-clearable': this.props.clearable,

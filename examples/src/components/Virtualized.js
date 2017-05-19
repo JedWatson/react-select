@@ -29,6 +29,7 @@ var CitiesField = createClass({
 					searchable
 					labelKey="name"
 					valueKey="name"
+					isTransparent={false}
 				/>
 				<div className="hint">
 					Uses <a href="https://github.com/bvaughn/react-virtualized">react-virtualized</a> and <a href="https://github.com/bvaughn/react-virtualized-select/">react-virtualized-select</a> to display a list of the world's 1,000 largest cities.

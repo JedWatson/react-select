@@ -249,37 +249,37 @@
   color: #fff;
   background-color: #000;
 }
-.select-wrapper-white .Select-control {
+.Select-transparent .Select-control {
   border-color: #c1c1c1;
-  background-color: black;
+  background-color: transparent;
 }
-.select-wrapper-white * {
+.Select-transparent * {
   color: #fff;
-  background-color: black;
+  background-color: transparent;
 }
-.select-wrapper-white .Select--multi .Select-value {
+.Select-transparent .Select--multi .Select-value {
   border-color: #fff;
 }
-.select-wrapper-white .Select-placeholder,
-.select-wrapper-white .Select .Select-value-label {
+.Select-transparent .Select-placeholder,
+.Select-transparent .Select .Select-value-label {
   color: #fff !important;
 }
-.select-wrapper-white .Select-clear,
-.select-wrapper-white .Select-arrow:before {
+.Select-transparent .Select-clear,
+.Select-transparent .Select-arrow:before {
   color: #c1c1c1 !important;
 }
-.select-wrapper-white .Select-menu-outer {
+.Select-transparent .Select-menu-outer {
   background-color: #c1c1c1 !important;
   width: 100%;
 }
-.select-wrapper-white .Select-menu-outer .Select-menu {
+.Select-transparent .Select-menu-outer .Select-menu {
   background-color: #c1c1c1 !important;
 }
-.select-wrapper-white .Select-menu-outer .Select-menu .Select-option.is-focused {
+.Select-transparent .Select-menu-outer .Select-menu .Select-option.is-focused {
   color: #000;
   background-color: #fff;
 }
-.select-wrapper-white .Select-menu-outer .Select-menu input {
+.Select-transparent .Select-menu-outer .Select-menu input {
   text-shadow: 0px 0px 0px #fff;
 }
 @-webkit-keyframes Select-animation-fadeIn {
@@ -347,14 +347,14 @@
   display: block;
   padding: 8px 10px;
 }
-.select-wrapper-white .Select-menu-outer {
+.Select-transparent .Select-menu-outer {
   width: 100%;
 }
-.select-wrapper-white .Select-menu-outer .Select-menu .Select-option {
+.Select-transparent .Select-menu-outer .Select-menu .Select-option {
   color: #fff;
   background-color: #34343A;
 }
-.select-wrapper-white .Select-menu-outer .Select-menu .Select-option.is-focused {
+.Select-transparent .Select-menu-outer .Select-menu .Select-option.is-focused {
   color: #000;
   background-color: #fff;
 }
@@ -397,11 +397,6 @@
 }
 .Select--multi .Select-value-icon {
   cursor: pointer;
-  border-bottom-left-radius: 2px;
-  border-top-left-radius: 2px;
-  border-right: 1px solid #c2c2c2;
-  /* Fallback color for IE 8 */
-  border-right: 1px solid rgba(0, 0, 0, 0.24);
   padding: 1px 5px 3px;
 }
 .Select--multi .Select-value-icon:hover,
@@ -423,7 +418,6 @@
 }
 .Select--multi.is-disabled .Select-value-icon {
   cursor: not-allowed;
-  border-right: 1px solid #e3e3e3;
 }
 .Select--multi.is-disabled .Select-value-icon:hover,
 .Select--multi.is-disabled .Select-value-icon:focus,

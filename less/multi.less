@@ -56,9 +56,6 @@
 	// icon
 	.Select-value-icon {
 		cursor: pointer;
-		.border-left-radius( @select-item-border-radius );
-		border-right: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
-		border-right: 1px solid @select-item-border-color;
 
 		// move the baseline up by 1px
 		padding: (@select-item-padding-vertical - 1) @select-item-padding-horizontal (@select-item-padding-vertical + 1);
@@ -86,7 +83,6 @@
 	// icon
 	.Select-value-icon {
 		cursor: not-allowed;
-		border-right: 1px solid @select-item-disabled-border-color;
 
 		&:hover,
 		&:focus,

@@ -67,6 +67,7 @@ var ValuesAsNumbersField = createClass({
 					options={this.state.options}
 					simpleValue
 					value={this.state.value}
+					isTransparent={false}
 					/>
 				<div className="checkbox-list">
 					<label className="checkbox">
