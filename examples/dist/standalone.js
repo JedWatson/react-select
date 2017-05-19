@@ -461,6 +461,8 @@ var Creatable = (0, _createReactClass2['default'])({
 			if (_isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
+					// Artlimes addition. Clears the input values on click.
+					this.select.clearInputs(option);
 				} else {
 					options.unshift(option);
 
@@ -1425,6 +1427,15 @@ var Select = (0, _createReactClass2['default'])({
 
 	getOptionLabel: function getOptionLabel(op) {
 		return op[this.props.labelKey];
+	},
+	/**
+  * Artlimes Addition. Clear the input value. Called from Creatable
+  */
+
+	clearInputs: function selectValue(value) {
+		this.setState({
+			inputValue: ''
+		});
 	},
 
 	/**

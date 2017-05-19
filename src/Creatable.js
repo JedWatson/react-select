@@ -91,6 +91,8 @@ const Creatable = createClass({
 			if (isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
+					// Artlimes addition. Clears the input values on click.
+					this.select.clearInputs(option);
 				} else {
 					options.unshift(option);
 
