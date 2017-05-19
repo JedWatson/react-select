@@ -4,17 +4,6 @@
 
 // Mixins
 
-// focused styles
-.Select-focus-state(@color) {
-	border-color: @color;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px fade(@color, 10%);
-}
-// "classic" focused styles: maintain for legacy
-.Select-focus-state-classic() {
-	border-color: @select-input-border-focus lighten(@select-input-border-focus, 5%) lighten(@select-input-border-focus, 5%);
-	box-shadow: @select-input-box-shadow-focus;
-}
-
 // base
 
 .Select {
@@ -40,16 +29,13 @@
 		pointer-events: none;
 		opacity: 0.35;
 	}
+	& * {
+    color: @black;
+  }
 }
-
-// base
 
 .Select-control {
 	background-color: @select-input-bg;
-	border-color: lighten(@select-input-border-color, 5%) @select-input-border-color darken(@select-input-border-color, 10%);
-	border-radius: @select-input-border-radius;
-	border: @select-input-border-width solid @select-input-border-color;
-	color: @select-text-color;
 	cursor: default;
 	display: table;
 	border-spacing: 0;
@@ -59,14 +45,22 @@
 	overflow: hidden;
 	position: relative;
 	width: 100%;
-
-	&:hover {
-		box-shadow: @select-input-hover-box-shadow;
-	}
+  border: 0;
+  border-bottom: 1px solid @gray-dark;
+  border-radius: 0;
 
 	.Select-input:focus {
 		outline: none;
 	}
+}
+
+.Select.is-focused ~ .section-heading {
+	color: @magenta;
+}
+
+.Select.is-focused .Select-control {
+	  border-bottom: 1px solid @magenta;
+	  border-radius: 0;
 }
 
 .is-searchable {
@@ -79,13 +73,6 @@
 	.border-bottom-radius( 0 );
 	background: @select-input-bg;
 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
-
-	// flip the arrow so its pointing up when the menu is open
-	.Select-arrow {
-		top: -2px;
-		border-color: transparent transparent @select-arrow-color;
-		border-width: 0 @select-arrow-width @select-arrow-width;
-	}
 }
 
 .is-searchable {
@@ -95,7 +82,7 @@
 }
 
 .is-focused:not(.is-open) > .Select-control {
-	.Select-focus-state(@select-input-border-focus);
+	// .Select-focus-state(@select-input-border-focus);
 }
 
 // placeholder
@@ -105,8 +92,8 @@
 	color: @select-input-placeholder;
 	left: 0;
 	line-height: @select-input-internal-height;
-	padding-left: @select-padding-horizontal;
 	padding-right: @select-padding-horizontal;
+	padding-left: 0;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -118,6 +105,22 @@
 	white-space: nowrap;
 }
 
+.Select-placeholder {
+  padding: 0;
+  font-size: @font-size-base;
+  /* FF 4-18 */
+  font-weight: 300;
+  line-height: 18px;
+  color: @gray-dark;
+}
+
+.Select-value:hover .Select-value-icon, {
+	color: @magenta;
+	&:hover {
+		color: @magenta;
+	}
+}
+
 .has-value.Select--single > .Select-control .Select-value,
 .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
 	.Select-value-label {
@@ -126,14 +129,11 @@
 	a.Select-value-label {
 		cursor: pointer;
 		text-decoration: none;
-
-		&:hover,
-		&:focus {
-			color: @select-link-hover-color;
-			outline: none;
-			text-decoration: underline;
-		}
 	}
+}
+
+.has-value.Select--single .Select-clear {
+	display: none;
 }
 
 
@@ -142,9 +142,8 @@
 .Select-input {
 	// inherits `display: inline-block` from "react-input-autosize"
 	height: @select-input-internal-height;
-	padding-left: @select-padding-horizontal;
-	padding-right: @select-padding-horizontal;
 	vertical-align: middle;
+	padding: 0 !important;
 
 	> input {
 		width: 100%;
@@ -155,24 +154,27 @@
 		display: inline-block;
 		font-family: inherit;
 		font-size: inherit;
-		// height: @select-input-internal-height;
 		margin: 0;
 		outline: none;
-		// padding: 0;
+		color: @magenta;
+		text-shadow: 0px 0px 0px @black;
+    -webkit-text-fill-color: transparent;
 		line-height: 14px;  /* For IE 8 compatibility */
 		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
 		-webkit-appearance: none;
-
 		.is-focused & {
 			cursor: text;
 		}
 	}
-
 }
 
 // fake-hide the input when the control is pseudo-focused
 .has-value.is-pseudo-focused .Select-input {
 	opacity: 0;
+}
+
+.has.value.is-Searchable .Select-input {
+	vertical-align: bottom;
 }
 
 // fake input
@@ -212,6 +214,7 @@
 	}
 }
 .Select-clear {
+	color: @gray-dark;
 	display: inline-block;
 	font-size: @select-clear-size;
 	line-height: 1;
@@ -234,17 +237,36 @@
 }
 
 .Select-arrow {
-	border-color: @select-arrow-color transparent transparent;
-	border-style: solid;
-	border-width: @select-arrow-width @select-arrow-width (@select-arrow-width / 2);
-	display: inline-block;
-	height: 0;
-	width: 0;
-	position: relative;
+	display:inline-block!important;
+	position:relative;
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	box-sizing:content-box;
 }
+.Select-arrow:before {
+	position: absolute;
+	content: '';
+	border-bottom: 2px solid @gray-dark;
+	border-right: 2px solid @gray-dark;
+	width: 8px;
+	height: 8px;
+	transform: rotate(45deg);
+	bottom: 4px;
+}
+
+
 .is-open .Select-arrow,
 .Select-arrow-zone:hover > .Select-arrow {
 	border-top-color: @select-arrow-color-hover;
+}
+
+.is-open .Select-arrow:before {
+	border: 0;
+	border-top: 2px solid @magenta;
+	border-right: 2px solid @magenta;
+	transform: rotate(-45deg);
+	bottom: -4px;
 }
 
 .Select--multi .Select-multi-value-wrapper {
@@ -260,6 +282,53 @@
   float: left;
 }
 
+.Select-menu-outer {
+  width: 100%;
+  .Select-menu {
+    .Select-option.is-focused {
+      color: @white;
+      background-color: @black;
+    }
+  }
+}
+
+// .Select.Select-transparent {
+.select-wrapper-white {
+  .Select-control {
+    border-color:  @gray;
+    background-color: black;
+  }
+  & * {
+    color: @white;
+    background-color: black; // to delete
+  }
+  .Select--multi .Select-value {
+    border-color: @white;
+  }
+  .Select-placeholder,
+  .Select .Select-value-label {
+    color: @white !important;
+  }
+  .Select-clear,
+  .Select-arrow:before {
+  	color: @gray !important;
+  }
+  .Select-menu-outer {
+ 		background-color: @gray !important;
+	  width: 100%;
+	  .Select-menu {
+  		background-color: @gray !important;
+	    .Select-option.is-focused {
+	      color: @black;
+	      background-color: @white;
+	    }
+	    input {
+	    	text-shadow: 0px 0px 0px @white;
+	    }
+	  }
+	}
+}
+
 // Animation
 // ------------------------------
 
@@ -273,3 +342,7 @@
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
+
+
+
+

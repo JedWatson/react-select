@@ -11,18 +11,13 @@
 	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
 	// have to repaint on scroll.
 	.border-bottom-radius( @select-input-border-radius );
-	background-color: @select-input-bg;
-	border: 1px solid @select-input-border-color;
-	border-top-color: mix(@select-input-bg, @select-input-border-color, 50%);
-	box-shadow: @select-menu-box-shadow;
+	// background-color: @select-input-bg;
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: @select-menu-max-height;
-	position: absolute;
-	top: 100%;
-	width: 100%;
 	z-index: @select-menu-zindex;
 	-webkit-overflow-scrolling: touch;
+	border: none;
 }
 
 
@@ -32,7 +27,6 @@
 	max-height: (@select-menu-max-height - 2px);
 	overflow-y: auto;
 }
-
 
 // options
 
@@ -49,8 +43,8 @@
 	}
 
 	&.is-selected {
-		background-color: @select-option-selected-bg-fb;  /* Fallback color for IE 8 */
-		background-color: @select-option-selected-bg;
+		background-color: @select-option-selected-bg-fb !important;  /* Fallback color for IE 8 */
+		background-color: @select-option-selected-bg !important;
 		color: @select-option-selected-color;
 	}
 
@@ -76,4 +70,22 @@
 	cursor: default;
 	display: block;
 	padding: @select-padding-vertical @select-padding-horizontal;
+}
+
+.select-wrapper-white {
+  .Select-menu-outer {
+ 		// background-color: @gray !important;
+	  width: 100%;
+	  .Select-menu {
+  		// background-color: @gray !important;
+  		.Select-option {
+  			color: @white;
+	      background-color: #34343A;
+  		}
+	    .Select-option.is-focused {
+	      color: @black;
+	      background-color: @white;
+	    }
+	  }
+	}
 }

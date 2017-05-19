@@ -10,15 +10,9 @@
 	// add margin to the input element
 	.Select-input {
 		vertical-align: middle;
-		// border: 1px solid transparent;
-		margin-left: @select-padding-horizontal;
 		padding: 0;
 	}
 
-	// reduce margin once there is value
-	&.has-value .Select-input {
-		margin-left: @select-item-gutter;
-	}
 
 	// Items
 	.Select-value {
@@ -31,9 +25,13 @@
 		display: inline-block;
 		font-size: @select-item-font-size;
 		line-height: 1.4;
-		margin-left: @select-item-gutter;
-		margin-top: @select-item-gutter;
 		vertical-align: top;
+		// Minimal Addition
+		margin: 0 2px 0 0;
+  	border: 1px solid black;
+  	background-color: transparent;
+  	color: @black;
+		//End
 	}
 
 	// common
@@ -50,13 +48,9 @@
 		padding: @select-item-padding-vertical @select-item-padding-horizontal;
 	}
 	a.Select-value-label {
-		color: @select-item-color;
+		color: @black;
 		cursor: pointer;
 		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 
 	// icon

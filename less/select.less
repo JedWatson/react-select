@@ -10,7 +10,7 @@
 // ------------------------------
 
 // common
-@select-primary-color:              #007eff;
+@select-primary-color:              @black;
 
 // control options
 @select-input-bg:                   #fff;
@@ -40,8 +40,8 @@
 @select-option-focused-color:       @select-text-color;
 @select-option-focused-bg:          fade(@select-primary-color, 8%);
 @select-option-focused-bg-fb:       mix(@select-primary-color, @select-option-bg, 8%);  // Fallback color for IE 8
-@select-option-selected-color:      @select-text-color;
-@select-option-selected-bg:         fade(@select-primary-color, 4%);
+@select-option-selected-color:      @white;
+@select-option-selected-bg:         @magenta;
 @select-option-selected-bg-fb:      mix(@select-primary-color, @select-option-bg, 4%);  // Fallback color for IE 8
 @select-option-disabled-color:      lighten(@select-text-color, 60%);
 
@@ -83,6 +83,25 @@
 
 @select-item-padding-horizontal:    5px;
 @select-item-padding-vertical:      2px;
+
+// Minimal
+
+// Colors
+@black:           #000;
+@gray-darker:     #626265;
+@gray-dark:       #9b9b9b;
+@gray:            #c1c1c1;
+@gray-light:      #dde3ea;
+@gray-lighter:    #e5e9ee;
+@white-artlimes:  #f1f1f1;
+@white:           #fff;
+@magenta:         #ff115f;
+@magenta-hover:   #ff0053;
+
+// Font sizes
+@font-size-base:  14px;
+
+//End of Minimal
 
 // imports
 @import "control.less";

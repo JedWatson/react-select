@@ -1,0 +1,1052 @@
+Searching 7 files for ".Select-input"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   74  	}
+   75
+   76: 	.Select-input:focus {
+   77  		outline: none;
+   78  	}
+   ..
+  167  // the <input> element users type in
+  168
+  169: .Select-input {
+  170  	// inherits `display: inline-block` from "react-input-autosize"
+  171  	height: @select-input-internal-height;
+  ...
+  203
+  204  // fake-hide the input when the control is pseudo-focused
+  205: .has-value.is-pseudo-focused .Select-input {
+  206  	opacity: 0;
+  207  }
+  208
+  209  // fake input
+  210: .Select-control:not(.is-searchable) > .Select-input {
+  211  	outline: none;
+  212  }
+  ...
+  351  // .Select--multi {
+  352  //   .Select-value,
+  353: //   .Select-input {
+  354  //     vertical-align: text-bottom;
+  355  //   }
+  ...
+  465  //   }
+  466  // }
+  467: // .Select-input {
+  468  //   margin-left: 0;
+  469  // }
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+    9
+   10  	// add margin to the input element
+   11: 	.Select-input {
+   12  		vertical-align: middle;
+   13  		// border: 1px solid transparent;
+   ..
+   17
+   18  	// reduce margin once there is value
+   19: 	&.has-value .Select-input {
+   20  		margin-left: @select-item-gutter;
+   21  	}
+
+8 matches across 2 files
+
+
+Searching 7 files for ".Select--single"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   99  // placeholder
+  100  .Select-placeholder,
+  101: .Select--single > .Select-control .Select-value {
+  102  	bottom: 0;
+  103  	color: @select-input-placeholder;
+  ...
+  126  }
+  127
+  128: .has-value.Select--single > .Select-control .Select-value,
+  129: .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+  130  	.Select-value-label {
+  131  		color: @select-text-color;
+  ...
+  298    }
+  299    .Select-placeholder,
+  300:   .Select--single .Select-value-label {
+  301      color: @gray !important;
+  302    }
+
+4 matches in 1 file
+
+
+Searching 7 files for ".Select--single"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   99  // placeholder
+  100  .Select-placeholder,
+  101: .Select--single > .Select-control .Select-value {
+  102  	bottom: 0;
+  103  	color: @select-input-placeholder;
+  ...
+  126  }
+  127
+  128: .has-value.Select--single > .Select-control .Select-value,
+  129: .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+  130  	.Select-value-label {
+  131  		color: @select-text-color;
+  ...
+  298    }
+  299    .Select-placeholder,
+  300:   .Select--single .Select-value-label {
+  301      color: @gray !important;
+  302    }
+
+4 matches in 1 file
+
+
+Searching 7 files for ".Select-clear"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  144  }
+  145
+  146: .has-value.Select--single .Select-clear {
+  147  	display: none;
+  148  }
+  ...
+  206  // the little cross that clears the field
+  207
+  208: .Select-clear-zone {
+  209  	.animation( Select-animation-fadeIn 200ms );
+  210  	color: @select-clear-color;
+  ...
+  220  	}
+  221  }
+  222: .Select-clear {
+  223  	display: inline-block;
+  224  	font-size: @select-clear-size;
+  225  	line-height: 1;
+  226  }
+  227: .Select--multi .Select-clear-zone {
+  228  	width: @select-clear-width;
+  229  }
+
+4 matches in 1 file
+
+
+Searching 7 files for "clear-zone"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  204  // the little cross that clears the field
+  205
+  206: .Select-clear-zone {
+  207  	.animation( Select-animation-fadeIn 200ms );
+  208  	color: @select-clear-color;
+  ...
+  223  	line-height: 1;
+  224  }
+  225: .Select--multi .Select-clear-zone {
+  226  	width: @select-clear-width;
+  227  }
+
+2 matches in 1 file
+
+
+Searching 7 files for "clear-zone"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  204  // the little cross that clears the field
+  205
+  206: .Select-clear-zone {
+  207  	.animation( Select-animation-fadeIn 200ms );
+  208  	color: @select-clear-color;
+  ...
+  223  	line-height: 1;
+  224  }
+  225: .Select--multi .Select-clear-zone {
+  226  	width: @select-clear-width;
+  227  }
+
+2 matches in 1 file
+
+
+Searching 7 files for "select-clear"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  139  }
+  140
+  141: .has-value.Select--single .Select-clear {
+  142  	display: none;
+  143  }
+  ...
+  204  // the little cross that clears the field
+  205
+  206: .Select-clear-zone {
+  207  	.animation( Select-animation-fadeIn 200ms );
+  208: 	color: @select-clear-color;
+  209  	cursor: pointer;
+  210  	display: table-cell;
+  ...
+  212  	text-align: center;
+  213  	vertical-align: middle;
+  214: 	width: @select-clear-width;
+  215
+  216  	&:hover {
+  217: 		color: @select-clear-hover-color;
+  218  	}
+  219  }
+  220: .Select-clear {
+  221  	display: inline-block;
+  222: 	font-size: @select-clear-size;
+  223  	line-height: 1;
+  224  }
+  225: .Select--multi .Select-clear-zone {
+  226: 	width: @select-clear-width;
+  227  }
+  228
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   49
+   50  // clear "x" button
+   51: @select-clear-size:                 floor((@select-input-height / 2));
+   52: @select-clear-color:                #999;
+   53: @select-clear-hover-color:          #D0021B; // red
+   54: @select-clear-width:                (@select-input-internal-height / 2);
+   55
+   56  // arrow indicator
+
+13 matches across 2 files
+
+
+Searching 7 files for "select-arrow-zone"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   25  		}
+   26  	}
+   27: 	&.is-disabled .Select-arrow-zone {
+   28  		cursor: default;
+   29  		pointer-events: none;
+   ..
+  231  // arrow indicator
+  232
+  233: .Select-arrow-zone {
+  234  	cursor: pointer;
+  235  	display: table-cell;
+  ...
+  268
+  269  .is-open .Select-arrow,
+  270: .Select-arrow-zone:hover > .Select-arrow {
+  271  	border-top-color: @select-arrow-color-hover;
+  272  }
+  ...
+  371  //       display: none;
+  372  //     }
+  373: //     .Select-arrow-zone {
+  374  //       vertical-align: middle;
+  375  //     }
+  ...
+  421  //   // background: @brand-primary;
+  422  // }
+  423: // .Select-arrow-zone {
+  424  //   width: 50px;
+  425  //   // padding-right: @filter-panel-horizontal-padding-hd;
+
+5 matches in 1 file
+
+
+Searching 7 files for ".Select-menu-outer"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  298  }
+  299
+  300: .Select-menu-outer {
+  301    width: 100%;
+  302    .Select-menu {
+  ...
+  328    	color: @gray !important;
+  329    }
+  330:   .Select-menu-outer {
+  331  	  width: 100%;
+  332  	  .Select-menu {
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+    6  // wrapper around the menu
+    7
+    8: .Select-menu-outer {
+    9  	// Unfortunately, having both border-radius and allows scrolling using overflow defined on the same
+   10  	// element forces the browser to repaint on scroll.  However, if these definitions are split into an
+
+3 matches across 2 files
+
+
+Searching 7 files for "5px"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+   20  	border: none;
+   21    position: relative;
+   22:   top: 5px;
+   23  }
+   24
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   19  @select-input-border-radius:        4px;
+   20  @select-input-border-focus:         @select-primary-color;
+   21: @select-input-box-shadow-focus:     inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus, 50%);
+   22  @select-input-border-width:         1px;
+   23  @select-input-height:               36px;
+   ..
+   57  @select-arrow-color:                #999;
+   58  @select-arrow-color-hover:          #666;
+   59: @select-arrow-width:                5px;
+   60
+   61  // loading indicator
+   ..
+   80
+   81  @select-item-border-radius:         2px;
+   82: @select-item-gutter:                5px;
+   83
+   84: @select-item-padding-horizontal:    5px;
+   85  @select-item-padding-vertical:      2px;
+   86
+
+5 matches across 2 files
+
+
+Searching 7 files for "underline"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  134  			color: @select-link-hover-color;
+  135  			outline: none;
+  136: 			text-decoration: underline;
+  137  		}
+  138  	}
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+   54
+   55  		&:hover {
+   56: 			text-decoration: underline;
+   57  		}
+   58  	}
+
+2 matches across 2 files
+
+
+Searching 7 files for "underline"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  134  			color: @select-link-hover-color;
+  135  			outline: none;
+  136: 			text-decoration: underline;
+  137  		}
+  138  	}
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+   54
+   55  		&:hover {
+   56: 			text-decoration: underline;
+   57  		}
+   58  	}
+
+2 matches across 2 files
+
+
+Searching 7 files for "underline"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  138  		// 	color: @select-link-hover-color;
+  139  		// 	outline: none;
+  140: 		// 	text-decoration: underline;
+  141  		// }
+  142  	}
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+   54
+   55  		&:hover {
+   56: 			text-decoration: underline;
+   57  		}
+   58  	}
+
+2 matches across 2 files
+
+
+Searching 7 files for "border"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   15  	& input,
+   16  	& span {
+   17: 		.box-sizing(border-box);
+   18  	}
+   19
+   ..
+   39  	cursor: default;
+   40  	display: table;
+   41: 	border-spacing: 0;
+   42: 	border-collapse: separate;
+   43  	height: @select-input-height;
+   44  	outline: none;
+   ..
+   46  	position: relative;
+   47  	width: 100%;
+   48:   border: 0;
+   49:   border-bottom: 1px solid @gray-dark;
+   50:   border-radius: 0;
+   51
+   52  	.Select-input:focus {
+   ..
+   56
+   57  .Select.is-focused {
+   58: 	  border-bottom: 1px solid @magenta;
+   59: 	  border-radius: 0;
+   60  	  .Select-control {
+   61: 	    border-color: @magenta;
+   62  	  }
+   63  	}
+   ..
+   70
+   71  .is-open > .Select-control {
+   72: 	.border-bottom-radius( 0 );
+   73  	background: @select-input-bg;
+   74: 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+   75
+   76  	// flip the arrow so its pointing up when the menu is open
+   77  	.Select-arrow {
+   78  		top: -2px;
+   79: 		border-color: transparent transparent @select-arrow-color;
+   80: 		border-width: 0 @select-arrow-width @select-arrow-width;
+   81  	}
+   82  }
+   ..
+   89
+   90  .is-focused:not(.is-open) > .Select-control {
+   91: 	// .Select-focus-state(@select-input-border-focus);
+   92  }
+   93
+   ..
+  162  		width: 100%;
+  163  		background: none transparent;
+  164: 		border: 0 none;
+  165  		box-shadow: none;
+  166  		cursor: default;
+  ...
+  253  	width: 8px;
+  254  	height: 8px;
+  255: 	border-radius: 100%;
+  256  	box-sizing:content-box;
+  257  }
+  ...
+  259  	position: absolute;
+  260  	content: '';
+  261: 	border-bottom: 2px solid @gray-dark;
+  262: 	border-right: 2px solid @gray-dark;
+  263  	width: 8px;
+  264  	height: 8px;
+  ...
+  270  .is-open .Select-arrow,
+  271  .Select-arrow-zone:hover > .Select-arrow {
+  272: 	border-top-color: @select-arrow-color-hover;
+  273  }
+  274
+  275  .is-open .Select-arrow:before {
+  276: 	border: 0;
+  277: 	border-top: 2px solid @gray-dark;
+  278: 	border-right: 2px solid @gray-dark;
+  279  	transform: rotate(-45deg);
+  280  	bottom: -4px;
+  ...
+  306  .select-wrapper-white {
+  307    .Select-control {
+  308:     border-color:  @gray;
+  309      background-color: black;
+  310    }
+  ...
+  314    }
+  315    .Select--multi .Select-value {
+  316:     border-color: @white;
+  317    }
+  318    .Select-placeholder,
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+    7
+    8  .Select-menu-outer {
+    9: 	// Unfortunately, having both border-radius and allows scrolling using overflow defined on the same
+   10  	// element forces the browser to repaint on scroll.  However, if these definitions are split into an
+   11  	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
+   12  	// have to repaint on scroll.
+   13: 	.border-bottom-radius( @select-input-border-radius );
+   14  	// background-color: @select-input-bg;
+   15: 	box-sizing: border-box;
+   16  	margin-top: -1px;
+   17  	max-height: @select-menu-max-height;
+   18  	z-index: @select-menu-zindex;
+   19  	-webkit-overflow-scrolling: touch;
+   20: 	border: none;
+   21  }
+   22
+   ..
+   47
+   48  .Select-option {
+   49: 	box-sizing: border-box;
+   50  	background-color: @select-option-bg;
+   51  	color: @select-option-color;
+   ..
+   55
+   56  	&:last-child {
+   57: 		.border-bottom-radius( @select-input-border-radius );
+   58  	}
+   59
+   ..
+   81
+   82  .Select-noresults {
+   83: 	box-sizing: border-box;
+   84  	color: @select-noresults-color;
+   85  	cursor: default;
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/mixins.less:
+   13  	.size(@size; @size);
+   14  }
+   15: .border-top-radius(@radius) {
+   16: 	border-top-right-radius: @radius;
+   17: 	border-top-left-radius: @radius;
+   18  }
+   19: .border-right-radius(@radius) {
+   20: 	border-bottom-right-radius: @radius;
+   21: 	border-top-right-radius: @radius;
+   22  }
+   23: .border-bottom-radius(@radius) {
+   24: 	border-bottom-right-radius: @radius;
+   25: 	border-bottom-left-radius: @radius;
+   26  }
+   27: .border-left-radius(@radius) {
+   28: 	border-bottom-left-radius: @radius;
+   29: 	border-top-left-radius: @radius;
+   30  }
+   31
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+   19  		background-color: @select-item-bg-fb;  /* Fallback color for IE 8 */
+   20  		background-color: @select-item-bg;
+   21: 		border-radius: @select-item-border-radius;
+   22: 		border: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
+   23: 		border: 1px solid @select-item-border-color;
+   24  		color: @select-item-color;
+   25  		display: inline-block;
+   ..
+   29  		// Minimal Addition
+   30  		margin: 0 2px 0 0;
+   31:   	border: 1px solid black;
+   32    	background-color: transparent;
+   33    	color: @black;
+   ..
+   44  	// label
+   45  	.Select-value-label {
+   46: 		.border-right-radius( @select-item-border-radius );
+   47  		cursor: default;
+   48  		padding: @select-item-padding-vertical @select-item-padding-horizontal;
+   ..
+   57  	.Select-value-icon {
+   58  		cursor: pointer;
+   59: 		.border-left-radius( @select-item-border-radius );
+   60: 		border-right: 1px solid @select-item-border-color-fb;  /* Fallback color for IE 8 */
+   61: 		border-right: 1px solid @select-item-border-color;
+   62
+   63  		// move the baseline up by 1px
+   ..
+   71  		}
+   72  		&:active {
+   73: 			background-color: @select-item-border-color-fb;  /* Fallback color for IE 8 */
+   74: 			background-color: @select-item-border-color;
+   75  		}
+   76  	}
+   ..
+   81  	.Select-value {
+   82  		background-color: @select-item-disabled-bg;
+   83: 		border: 1px solid @select-item-disabled-border-color;
+   84  		color: @select-item-disabled-color;
+   85  	}
+   ..
+   87  	.Select-value-icon {
+   88  		cursor: not-allowed;
+   89: 		border-right: 1px solid @select-item-disabled-border-color;
+   90
+   91  		&:hover,
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   16  @select-input-bg:                   #fff;
+   17  @select-input-bg-disabled:          #f9f9f9;
+   18: @select-input-border-color:         #ccc;
+   19: @select-input-border-radius:        4px;
+   20: @select-input-border-focus:         @select-primary-color;
+   21: @select-input-box-shadow-focus:     inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus, 50%);
+   22: @select-input-border-width:         1px;
+   23  @select-input-height:               36px;
+   24: @select-input-internal-height:      (@select-input-height - (@select-input-border-width * 2));
+   25  @select-input-placeholder:          #aaa;
+   26  @select-text-color:                 #333;
+   27: @select-link-hover-color:           @select-input-border-focus;
+   28  @select-input-hover-box-shadow:     0 1px 0 rgba(0, 0, 0, 0.06);
+   29
+   ..
+   62  @select-loading-size:               16px;
+   63  @select-loading-color:              @select-text-color;
+   64: @select-loading-color-bg:           @select-input-border-color;
+   65
+   66  // multi-select item
+   ..
+   70  @select-item-bg-fb:                 mix(@select-primary-color, @select-input-bg, 8%);  // Fallback color for IE 8
+   71  @select-item-color:                 @select-primary-color;
+   72: @select-item-border-color:          fade(@select-primary-color, 24%);
+   73: @select-item-border-color-fb:       mix(@select-primary-color, @select-input-bg, 24%);  // Fallback color for IE 8
+   74  @select-item-hover-color:           darken(@select-item-color, 5%);
+   75  @select-item-hover-bg:              darken(@select-item-bg, 5%);
+   ..
+   77  @select-item-disabled-color:        #333;
+   78  @select-item-disabled-bg:           #fcfcfc;
+   79: @select-item-disabled-border-color: darken(@select-item-disabled-bg, 10%);
+   80
+   81: @select-item-border-radius:         2px;
+   82  @select-item-gutter:                5px;
+   83
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/spinner.less:
+    6  	.animation( Select-animation-spin 400ms infinite linear );
+    7  	.square(@size);
+    8: 	box-sizing: border-box;
+    9: 	border-radius: 50%;
+   10: 	border: floor((@size / 8)) solid @orbit;
+   11: 	border-right-color: @satellite;
+   12  	display: inline-block;
+   13  	position: relative;
+
+85 matches across 6 files
+
+
+Searching 7 files for ".Select-control"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   19
+   20  	// handle disabled state
+   21: 	&.is-disabled > .Select-control {
+   22  		background-color: @select-input-bg-disabled;
+   23  		&:hover {
+   ..
+   35  }
+   36
+   37: .Select-control {
+   38  	background-color: @select-input-bg;
+   39  	cursor: default;
+   ..
+   58  	  border-bottom: 1px solid @magenta;
+   59  	  border-radius: 0;
+   60: 	  .Select-control {
+   61  	    border-color: @magenta;
+   62  	  }
+   ..
+   64
+   65  .is-searchable {
+   66: 	&.is-open > .Select-control {
+   67  		cursor: text;
+   68  	}
+   69  }
+   70
+   71: .is-open > .Select-control {
+   72  	.border-bottom-radius( 0 );
+   73  	background: @select-input-bg;
+   ..
+   83
+   84  .is-searchable {
+   85: 	&.is-focused:not(.is-open) > .Select-control {
+   86  		cursor: text;
+   87  	}
+   88  }
+   89
+   90: .is-focused:not(.is-open) > .Select-control {
+   91  	// .Select-focus-state(@select-input-border-focus);
+   92  }
+   ..
+   94  // placeholder
+   95  .Select-placeholder,
+   96: .Select--single > .Select-control .Select-value {
+   97  	bottom: 0;
+   98  	color: @select-input-placeholder;
+   ..
+  128  }
+  129
+  130: .has-value.Select--single > .Select-control .Select-value,
+  131: .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+  132  	.Select-value-label {
+  133  		color: @select-text-color;
+  ...
+  190
+  191  // fake input
+  192: .Select-control:not(.is-searchable) > .Select-input {
+  193  	outline: none;
+  194  }
+  ...
+  305
+  306  .select-wrapper-white {
+  307:   .Select-control {
+  308      border-color:  @gray;
+  309      background-color: black;
+
+12 matches in 1 file
+
+
+Searching 7 files for ".Select-control"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   19
+   20  	// handle disabled state
+   21: 	&.is-disabled > .Select-control {
+   22  		background-color: @select-input-bg-disabled;
+   23  		&:hover {
+   ..
+   35  }
+   36
+   37: .Select-control {
+   38  	background-color: @select-input-bg;
+   39  	cursor: default;
+   ..
+   58  	  border-bottom: 1px solid @magenta;
+   59  	  border-radius: 0;
+   60: 	  .Select-control {
+   61  	    border-color: @magenta;
+   62  	  }
+   ..
+   64
+   65  .is-searchable {
+   66: 	&.is-open > .Select-control {
+   67  		cursor: text;
+   68  	}
+   69  }
+   70
+   71: .is-open > .Select-control {
+   72  	.border-bottom-radius( 0 );
+   73  	background: @select-input-bg;
+   ..
+   83
+   84  .is-searchable {
+   85: 	&.is-focused:not(.is-open) > .Select-control {
+   86  		cursor: text;
+   87  	}
+   88  }
+   89
+   90: .is-focused:not(.is-open) > .Select-control {
+   91  	// .Select-focus-state(@select-input-border-focus);
+   92  }
+   ..
+   94  // placeholder
+   95  .Select-placeholder,
+   96: .Select--single > .Select-control .Select-value {
+   97  	bottom: 0;
+   98  	color: @select-input-placeholder;
+   ..
+  128  }
+  129
+  130: .has-value.Select--single > .Select-control .Select-value,
+  131: .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+  132  	.Select-value-label {
+  133  		color: @select-text-color;
+  ...
+  183
+  184  // fake input
+  185: .Select-control:not(.is-searchable) > .Select-input {
+  186  	outline: none;
+  187  }
+  ...
+  298
+  299  .select-wrapper-white {
+  300:   .Select-control {
+  301      border-color:  @gray;
+  302      background-color: black;
+
+12 matches in 1 file
+
+
+Searching 7 files for "imput"
+
+0 matches
+
+Searching 7 files for "input"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   13  	&,
+   14  	& div,
+   15: 	& input,
+   16  	& span {
+   17  		.box-sizing(border-box);
+   ..
+   20  	// handle disabled state
+   21  	&.is-disabled > .Select-control {
+   22: 		background-color: @select-input-bg-disabled;
+   23  		&:hover {
+   24  			box-shadow: none;
+   ..
+   36
+   37  .Select-control {
+   38: 	background-color: @select-input-bg;
+   39  	cursor: default;
+   40  	display: table;
+   41  	border-spacing: 0;
+   42  	border-collapse: separate;
+   43: 	height: @select-input-height;
+   44  	outline: none;
+   45  	overflow: hidden;
+   ..
+   50    border-radius: 0;
+   51
+   52: 	.Select-input:focus {
+   53  		outline: none;
+   54  	}
+   ..
+   68  .is-open > .Select-control {
+   69  	.border-bottom-radius( 0 );
+   70: 	background: @select-input-bg;
+   71: 	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+   72
+   73  	// flip the arrow so its pointing up when the menu is open
+   ..
+   86
+   87  .is-focused:not(.is-open) > .Select-control {
+   88: 	// .Select-focus-state(@select-input-border-focus);
+   89  }
+   90
+   ..
+   93  .Select--single > .Select-control .Select-value {
+   94  	bottom: 0;
+   95: 	color: @select-input-placeholder;
+   96  	left: 0;
+   97: 	line-height: @select-input-internal-height;
+   98  	padding-right: @select-padding-horizontal;
+   99  	padding-left: 0;
+  ...
+  141
+  142
+  143: // the <input> element users type in
+  144
+  145: .Select-input {
+  146: 	// inherits `display: inline-block` from "react-input-autosize"
+  147: 	height: @select-input-internal-height;
+  148  	vertical-align: middle;
+  149  	padding: 0 !important;
+  150
+  151: 	> input {
+  152  		width: 100%;
+  153  		background: none transparent;
+  ...
+  161  		outline: none;
+  162  		line-height: 14px;  /* For IE 8 compatibility */
+  163: 		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
+  164  		-webkit-appearance: none;
+  165
+  ...
+  170  }
+  171
+  172: // fake-hide the input when the control is pseudo-focused
+  173: .has-value.is-pseudo-focused .Select-input {
+  174  	opacity: 0;
+  175  }
+  176
+  177: .has.value.is-Searchable .Select-input {
+  178  	vertical-align: bottom;
+  179  }
+  180
+  181: // fake input
+  182: .Select-control:not(.is-searchable) > .Select-input {
+  183  	outline: none;
+  184  }
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+   11  	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
+   12  	// have to repaint on scroll.
+   13: 	.border-bottom-radius( @select-input-border-radius );
+   14: 	// background-color: @select-input-bg;
+   15  	box-sizing: border-box;
+   16  	margin-top: -1px;
+   ..
+   55
+   56  	&:last-child {
+   57: 		.border-bottom-radius( @select-input-border-radius );
+   58  	}
+   59
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+    8  .Select--multi {
+    9
+   10: 	// add margin to the input element
+   11: 	.Select-input {
+   12  		vertical-align: middle;
+   13  		padding: 0;
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   14
+   15  // control options
+   16: @select-input-bg:                   #fff;
+   17: @select-input-bg-disabled:          #f9f9f9;
+   18: @select-input-border-color:         #ccc;
+   19: @select-input-border-radius:        4px;
+   20: @select-input-border-focus:         @select-primary-color;
+   21: @select-input-box-shadow-focus:     inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus, 50%);
+   22: @select-input-border-width:         1px;
+   23: @select-input-height:               36px;
+   24: @select-input-internal-height:      (@select-input-height - (@select-input-border-width * 2));
+   25: @select-input-placeholder:          #aaa;
+   26  @select-text-color:                 #333;
+   27: @select-link-hover-color:           @select-input-border-focus;
+   28: @select-input-hover-box-shadow:     0 1px 0 rgba(0, 0, 0, 0.06);
+   29
+   30  @select-padding-vertical:           8px;
+   ..
+   34  @select-menu-zindex:                1;
+   35  @select-menu-max-height:            200px;
+   36: @select-menu-box-shadow:            @select-input-hover-box-shadow;
+   37
+   38  @select-option-color:               lighten(@select-text-color, 20%);
+   39: @select-option-bg:                  @select-input-bg;
+   40  @select-option-focused-color:       @select-text-color;
+   41  @select-option-focused-bg:          fade(@select-primary-color, 8%);
+   ..
+   49
+   50  // clear "x" button
+   51: @select-clear-size:                 floor((@select-input-height / 2));
+   52  @select-clear-color:                #999;
+   53  @select-clear-hover-color:          #D0021B; // red
+   54: @select-clear-width:                (@select-input-internal-height / 2);
+   55
+   56  // arrow indicator
+   ..
+   62  @select-loading-size:               16px;
+   63  @select-loading-color:              @select-text-color;
+   64: @select-loading-color-bg:           @select-input-border-color;
+   65
+   66  // multi-select item
+   ..
+   68
+   69  @select-item-bg:                    fade(@select-primary-color, 8%);
+   70: @select-item-bg-fb:                 mix(@select-primary-color, @select-input-bg, 8%);  // Fallback color for IE 8
+   71  @select-item-color:                 @select-primary-color;
+   72  @select-item-border-color:          fade(@select-primary-color, 24%);
+   73: @select-item-border-color-fb:       mix(@select-primary-color, @select-input-bg, 24%);  // Fallback color for IE 8
+   74  @select-item-hover-color:           darken(@select-item-color, 5%);
+   75  @select-item-hover-bg:              darken(@select-item-bg, 5%);
+
+51 matches across 4 files
+
+
+Searching 7 files for ".Select-option"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  287    width: 100%;
+  288    .Select-menu {
+  289:     .Select-option.is-focused {
+  290        color: @white;
+  291        background-color: @black;
+  ...
+  319  	  .Select-menu {
+  320    		background-color: @gray !important;
+  321: 	    .Select-option.is-focused {
+  322  	      color: @black;
+  323  	      background-color: @white;
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+   35  	  .Select-menu {
+   36    		background-color: @gray !important;
+   37: 	    .Select-option.is-focused {
+   38  	      color: @black;
+   39  	      background-color: @white;
+   ..
+   46  // options
+   47
+   48: .Select-option {
+   49  	box-sizing: border-box;
+   50  	background-color: @select-option-bg;
+
+4 matches across 2 files
+
+
+Searching 7 files for "@magenta"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+   56
+   57  .Select.is-focused .Select-control {
+   58: 	  border-bottom: 1px solid @magenta;
+   59  	  border-radius: 0;
+   60  }
+   ..
+  119
+  120  .Select-value:hover .Select-value-icon, {
+  121: 	color: @magenta;
+  122  	&:hover {
+  123: 		color: @magenta;
+  124  	}
+  125  }
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   42  @select-option-focused-bg-fb:       mix(@select-primary-color, @select-option-bg, 8%);  // Fallback color for IE 8
+   43  @select-option-selected-color:      @white;
+   44: @select-option-selected-bg:         @magenta;
+   45  @select-option-selected-bg-fb:      mix(@select-primary-color, @select-option-bg, 4%);  // Fallback color for IE 8
+   46  @select-option-disabled-color:      lighten(@select-text-color, 60%);
+   ..
+   96  @white-artlimes:  #f1f1f1;
+   97  @white:           #fff;
+   98: @magenta:         #ff115f;
+   99: @magenta-hover:   #ff0053;
+  100
+  101  // Font sizes
+
+6 matches across 2 files
+
+
+Searching 7 files for "@select-option-selected-bg"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/menu.less:
+   63
+   64  	&.is-selected {
+   65: 		background-color: @select-option-selected-bg-fb;  /* Fallback color for IE 8 */
+   66: 		background-color: @select-option-selected-bg;
+   67  		color: @select-option-selected-color;
+   68  	}
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   42  @select-option-focused-bg-fb:       mix(@select-primary-color, @select-option-bg, 8%);  // Fallback color for IE 8
+   43  @select-option-selected-color:      @white;
+   44: @select-option-selected-bg:         @magenta;
+   45: @select-option-selected-bg-fb:      mix(@select-primary-color, @select-option-bg, 4%);  // Fallback color for IE 8
+   46  @select-option-disabled-color:      lighten(@select-text-color, 60%);
+   47
+
+4 matches across 2 files
+
+
+Searching 7 files for "transparent"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/control.less:
+  144  	> input {
+  145  		width: 100%;
+  146: 		background: none transparent;
+  147  		border: 0 none;
+  148  		box-shadow: none;
+  ...
+  287  }
+  288
+  289: // .Select.Select-transparent {
+  290  .select-wrapper-white {
+  291    .Select-control {
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/multi.less:
+   30  		margin: 0 2px 0 0;
+   31    	border: 1px solid black;
+   32:   	background-color: transparent;
+   33    	color: @black;
+   34  		//End
+
+3 matches across 2 files
+
+
+Searching 7 files for "artlimes"
+
+/home/ydrargyros/Desktop/Artlimes/artlimes-select-2/react-select/less/select.less:
+   94  @gray-light:      #dde3ea;
+   95  @gray-lighter:    #e5e9ee;
+   96: @white-artlimes:  #f1f1f1;
+   97  @white:           #fff;
+   98  @magenta:         #ff115f;
+
+1 match in 1 file
