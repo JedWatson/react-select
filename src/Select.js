@@ -119,8 +119,6 @@ const Select = createClass({
 		wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
 	},
 
-	statics: { Async, AsyncCreatable, Creatable },
-
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
