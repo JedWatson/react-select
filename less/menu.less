@@ -49,7 +49,6 @@
 	}
 
 	&.is-focused {
-		background-color: @select-option-focused-bg-fb;  /* Fallback color for IE 8 */
 		background-color: @select-option-focused-bg;
 		color: @select-option-focused-color;
 	}
@@ -72,16 +71,16 @@
 	padding: @select-padding-vertical @select-padding-horizontal;
 }
 
-.Select-transparent .Select-menu-outer {
+.Select-dark .Select-menu-outer {
   width: 100%;
   .Select-menu {
 		.Select-option {
-			color: @white;
-      background-color: #34343A;
+			color: @dark-select-option-color;
+      background-color: @dark-select-option-bg;
 		}
     .Select-option.is-focused {
-      color: @black;
-      background-color: @white;
+      color: @dark-select-option-focused-color;
+      background-color: @dark-select-option-focused-bg;
     }
   }
 }

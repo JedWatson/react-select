@@ -30,7 +30,7 @@ var ValuesAsBooleansField = createClass({
 					options={this.state.options}
 					simpleValue
 					value={this.state.value}
-					isTransparent={false}
+					theme="dark"
 					/>
 				<div className="hint">This example uses simple boolean values</div>
 			</div>

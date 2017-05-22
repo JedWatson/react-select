@@ -40,6 +40,7 @@ var CreatableDemo = createClass({
 					onChange={this.handleOnChange}
 					value={multi ? multiValue : value}
 					isTransparent={false}
+					theme="dark"
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">

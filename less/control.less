@@ -2,9 +2,12 @@
 // Control
 // ------------------------------
 
-// Mixins
 
 // base
+
+body {
+  background-color: black;
+}
 
 .Select {
 	position: relative;
@@ -29,9 +32,6 @@
 		pointer-events: none;
 		opacity: 0.35;
 	}
-	& * {
-    color: @black;
-  }
 }
 
 .Select-control {
@@ -46,7 +46,7 @@
 	position: relative;
 	width: 100%;
   border: 0;
-  border-bottom: 1px solid @gray-dark;
+  border-bottom: @select-input-border-width solid @select-input-border-color;
   border-radius: 0;
 
 	.Select-input:focus {
@@ -54,12 +54,8 @@
 	}
 }
 
-.Select.is-focused ~ .section-heading {
-	color: @magenta;
-}
-
 .Select.is-focused .Select-control {
-	  border-bottom: 1px solid @magenta;
+	  border-bottom: @select-input-border-width solid @select-input-focused-border-color;
 	  border-radius: 0;
 }
 
@@ -111,20 +107,20 @@
   /* FF 4-18 */
   font-weight: 300;
   line-height: 18px;
-  color: @gray-dark;
+  color: @select-input-placeholder;
 }
 
 .Select-value:hover .Select-value-icon, {
-	color: @magenta;
+	color: @select-icon-hover-color;
 	&:hover {
-		color: @magenta;
+		color: @select-icon-hover-color;
 	}
 }
 
 .has-value.Select--single > .Select-control .Select-value,
 .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
 	.Select-value-label {
-		color: @select-text-color;
+		// color: @select-text-color;
 	}
 	a.Select-value-label {
 		cursor: pointer;
@@ -156,8 +152,8 @@
 		font-size: inherit;
 		margin: 0;
 		outline: none;
-		color: @magenta;
-		text-shadow: 0px 0px 0px @black;
+		color: @select-input-indicator-color;
+		text-shadow: 0px 0px 0px @select-primary-color;
     -webkit-text-fill-color: transparent;
 		line-height: 14px;  /* For IE 8 compatibility */
 		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
@@ -214,7 +210,7 @@
 	}
 }
 .Select-clear {
-	color: @gray-dark;
+	color: @select-clear-color;
 	display: inline-block;
 	font-size: @select-clear-size;
 	line-height: 1;
@@ -247,8 +243,8 @@
 .Select-arrow:before {
 	position: absolute;
 	content: '';
-	border-bottom: 2px solid @gray-dark;
-	border-right: 2px solid @gray-dark;
+	border-bottom: 2px solid @select-arrow-color;
+	border-right: 2px solid @select-arrow-color;
 	width: 8px;
 	height: 8px;
 	transform: rotate(45deg);
@@ -263,8 +259,8 @@
 
 .is-open .Select-arrow:before {
 	border: 0;
-	border-top: 2px solid @magenta;
-	border-right: 2px solid @magenta;
+	border-top: 2px solid @select-arrow-color-hover;
+	border-right: 2px solid @select-arrow-color-hover;
 	transform: rotate(-45deg);
 	bottom: -4px;
 }
@@ -282,51 +278,38 @@
   float: left;
 }
 
-.Select-menu-outer {
-  width: 100%;
-  .Select-menu {
-    .Select-option.is-focused {
-      color: @white;
-      background-color: @black;
-    }
-  }
-}
-
-// .Select.Select-transparent {
-.Select-transparent {
+.Select-dark {
   .Select-control {
-    border-color:  @gray;
-    background-color: transparent;
-  }
-  & * {
-    color: @white;
+    border-color: @dark-select-input-border-color;
     background-color: transparent;
   }
   .Select--multi .Select-value {
-    border-color: @white;
+    border-color: @dark-select-item-border-color;
   }
-  .Select-placeholder,
-  .Select .Select-value-label {
-    color: @white !important;
+  .Select-placeholder {
+    color: @gray !important;
+  }
+  .Select-value {
+    border-color: @dark-select-item-border-color !important;
+  }
+  .Select-value-label {
+    color: @gray;
+  }
+  &.Select--multi .Select-value-label,
+  .Select-value-icon {
+    color: @dark-select-primary-color;
   }
   .Select-clear,
   .Select-arrow:before {
-  	color: @gray !important;
+  	color: @dark-select-arrow-color;
   }
-  .Select-menu-outer {
- 		background-color: @gray !important;
-	  width: 100%;
-	  .Select-menu {
-  		background-color: @gray !important;
-	    .Select-option.is-focused {
-	      color: @black;
-	      background-color: @white;
-	    }
-	    input {
-	    	text-shadow: 0px 0px 0px @white;
-	    }
-	  }
+  .Select-input > input {
+    text-shadow: 0px 0px 0px @white;
+
 	}
+  & ~ .checkbox-list {
+    color: @dark-select-primary-color;
+  }
 }
 
 // Animation

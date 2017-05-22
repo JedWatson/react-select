@@ -5,6 +5,9 @@
  * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs
  * MIT License: https://github.com/JedWatson/react-select
 */
+body {
+  background-color: black;
+}
 .Select {
   position: relative;
 }
@@ -27,9 +30,6 @@
   pointer-events: none;
   opacity: 0.35;
 }
-.Select * {
-  color: #000;
-}
 .Select-control {
   background-color: #fff;
   cursor: default;
@@ -48,9 +48,6 @@
 .Select-control .Select-input:focus {
   outline: none;
 }
-.Select.is-focused ~ .section-heading {
-  color: #ff115f;
-}
 .Select.is-focused .Select-control {
   border-bottom: 1px solid #ff115f;
   border-radius: 0;
@@ -62,7 +59,7 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   background: #fff;
-  border-color: #b3b3b3 #ccc #d9d9d9;
+  border-color: #828282 #9b9b9b #a8a8a8;
 }
 .is-searchable.is-focused:not(.is-open) > .Select-control {
   cursor: text;
@@ -70,7 +67,7 @@
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
   bottom: 0;
-  color: #aaa;
+  color: #9b9b9b;
   left: 0;
   line-height: 34px;
   padding-right: 10px;
@@ -96,10 +93,6 @@
 }
 .Select-value:hover .Select-value-icon:hover {
   color: #ff115f;
-}
-.has-value.Select--single > .Select-control .Select-value .Select-value-label,
-.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
-  color: #333;
 }
 .has-value.Select--single > .Select-control .Select-value a.Select-value-label,
 .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value a.Select-value-label {
@@ -162,7 +155,7 @@
   height: 16px;
   box-sizing: border-box;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 2px solid #9b9b9b;
   border-right-color: #333;
   display: inline-block;
   position: relative;
@@ -172,7 +165,7 @@
   -webkit-animation: Select-animation-fadeIn 200ms;
   -o-animation: Select-animation-fadeIn 200ms;
   animation: Select-animation-fadeIn 200ms;
-  color: #999;
+  color: #9b9b9b;
   cursor: pointer;
   display: table-cell;
   position: relative;
@@ -221,7 +214,7 @@
 }
 .is-open .Select-arrow,
 .Select-arrow-zone:hover > .Select-arrow {
-  border-top-color: #666;
+  border-top-color: #ff115f;
 }
 .is-open .Select-arrow:before {
   border: 0;
@@ -242,45 +235,35 @@
   overflow: hidden;
   float: left;
 }
-.Select-menu-outer {
-  width: 100%;
-}
-.Select-menu-outer .Select-menu .Select-option.is-focused {
-  color: #fff;
-  background-color: #000;
-}
-.Select-transparent .Select-control {
+.Select-dark .Select-control {
   border-color: #c1c1c1;
   background-color: transparent;
 }
-.Select-transparent * {
-  color: #fff;
-  background-color: transparent;
-}
-.Select-transparent .Select--multi .Select-value {
+.Select-dark .Select--multi .Select-value {
   border-color: #fff;
 }
-.Select-transparent .Select-placeholder,
-.Select-transparent .Select .Select-value-label {
-  color: #fff !important;
-}
-.Select-transparent .Select-clear,
-.Select-transparent .Select-arrow:before {
+.Select-dark .Select-placeholder {
   color: #c1c1c1 !important;
 }
-.Select-transparent .Select-menu-outer {
-  background-color: #c1c1c1 !important;
-  width: 100%;
+.Select-dark .Select-value {
+  border-color: #fff !important;
 }
-.Select-transparent .Select-menu-outer .Select-menu {
-  background-color: #c1c1c1 !important;
+.Select-dark .Select-value-label {
+  color: #c1c1c1;
 }
-.Select-transparent .Select-menu-outer .Select-menu .Select-option.is-focused {
-  color: #000;
-  background-color: #fff;
+.Select-dark.Select--multi .Select-value-label,
+.Select-dark .Select-value-icon {
+  color: #fff;
 }
-.Select-transparent .Select-menu-outer .Select-menu input {
+.Select-dark .Select-clear,
+.Select-dark .Select-arrow:before {
+  color: #c1c1c1;
+}
+.Select-dark .Select-input > input {
   text-shadow: 0px 0px 0px #fff;
+}
+.Select-dark ~ .checkbox-list {
+  color: #fff;
 }
 @-webkit-keyframes Select-animation-fadeIn {
   from {
@@ -315,7 +298,7 @@
 .Select-option {
   box-sizing: border-box;
   background-color: #fff;
-  color: #666666;
+  color: #626265;
   cursor: pointer;
   display: block;
   padding: 8px 10px;
@@ -331,10 +314,8 @@
   color: #fff;
 }
 .Select-option.is-focused {
-  background-color: #ebebeb;
-  /* Fallback color for IE 8 */
-  background-color: rgba(0, 0, 0, 0.08);
-  color: #333;
+  background-color: #000;
+  color: #fff;
 }
 .Select-option.is-disabled {
   color: #cccccc;
@@ -347,14 +328,14 @@
   display: block;
   padding: 8px 10px;
 }
-.Select-transparent .Select-menu-outer {
+.Select-dark .Select-menu-outer {
   width: 100%;
 }
-.Select-transparent .Select-menu-outer .Select-menu .Select-option {
+.Select-dark .Select-menu-outer .Select-menu .Select-option {
   color: #fff;
   background-color: #34343A;
 }
-.Select-transparent .Select-menu-outer .Select-menu .Select-option.is-focused {
+.Select-dark .Select-menu-outer .Select-menu .Select-option.is-focused {
   color: #000;
   background-color: #fff;
 }
@@ -363,21 +344,15 @@
   padding: 0;
 }
 .Select--multi .Select-value {
-  background-color: #ebebeb;
-  /* Fallback color for IE 8 */
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: transparent;
   border-radius: 2px;
-  border: 1px solid #c2c2c2;
-  /* Fallback color for IE 8 */
-  border: 1px solid rgba(0, 0, 0, 0.24);
+  border: 1px solid #000;
+  color: #000;
   display: inline-block;
   font-size: 0.9em;
   line-height: 1.4;
   vertical-align: top;
   margin: 0 2px 0 0;
-  border: 1px solid black;
-  background-color: transparent;
-  color: #000;
 }
 .Select--multi .Select-value-icon,
 .Select--multi .Select-value-label {
@@ -391,7 +366,6 @@
   padding: 2px 5px;
 }
 .Select--multi a.Select-value-label {
-  color: #000;
   cursor: pointer;
   text-decoration: none;
 }
@@ -401,15 +375,14 @@
 }
 .Select--multi .Select-value-icon:hover,
 .Select--multi .Select-value-icon:focus {
-  background-color: #d8d8d8;
   /* Fallback color for IE 8 */
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: transparent;
   color: #000000;
 }
 .Select--multi .Select-value-icon:active {
-  background-color: #c2c2c2;
+  background-color: transparent;
   /* Fallback color for IE 8 */
-  background-color: rgba(0, 0, 0, 0.24);
+  background-color: #000;
 }
 .Select--multi.is-disabled .Select-value {
   background-color: #fcfcfc;
