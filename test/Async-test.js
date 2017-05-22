@@ -20,7 +20,7 @@ var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var sinon = require('sinon');
 
-var Select = require('../src/Select');
+var Async = require('../src/Async');
 
 describe('Async', () => {
 	let asyncInstance, asyncNode, filterInputNode, loadOptions;
@@ -28,7 +28,7 @@ describe('Async', () => {
 	function createControl (props = {}) {
 		loadOptions = props.loadOptions || sinon.stub();
 		asyncInstance = TestUtils.renderIntoDocument(
-			<Select.Async
+			<Async
 				autoload={false}
 				openOnFocus
 				{...props}

@@ -16,7 +16,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var sinon = require('sinon');
-var Select = require('../src/Select');
+var AsyncCreatable = require('../src/AsyncCreatable');
 
 describe('AsyncCreatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, loadOptions, renderer;
@@ -29,7 +29,7 @@ describe('AsyncCreatable', () => {
 	function createControl (props = {}) {
 		props.loadOptions = props.loadOptions || loadOptions;
 		creatableInstance = TestUtils.renderIntoDocument(
-			<Select.AsyncCreatable {...props} />
+			<AsyncCreatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
 		findAndFocusInputControl();
