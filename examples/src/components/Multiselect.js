@@ -1,7 +1,7 @@
 import React from 'react';
 import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select from 'minimal-react-select';
 
 const FLAVOURS = [
 	{ label: 'Chocolate', value: 'chocolate' },

@@ -1,7 +1,7 @@
 import React from 'react';
 import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select from 'minimal-react-select';
 
 var CreatableDemo = createClass({
 	displayName: 'CreatableDemo',
@@ -39,7 +39,6 @@ var CreatableDemo = createClass({
 					options={options}
 					onChange={this.handleOnChange}
 					value={multi ? multiValue : value}
-					isTransparent={false}
 					theme={this.props.theme}
 				/>
 				<div className="hint">{this.props.hint}</div>

@@ -124,7 +124,6 @@ const Select = createClass({
 
 	getDefaultProps () {
 		return {
-			isTransparent: '',
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: defaultArrowRenderer,
 			autosize: true,
@@ -163,6 +162,7 @@ const Select = createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			theme: ''
 		};
 	},
 
@@ -172,12 +172,12 @@ const Select = createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false,
+			required: false
 		};
 	},
 
 	componentWillMount () {
-		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
+		this._instancePrefix = 'minimal-react-select-' + (this.props.instanceId || ++instanceId) + '-';
 		const valueArray = this.getValueArray(this.props.value);
 
 		if (this.props.required) {
@@ -1101,7 +1101,7 @@ const Select = createClass({
 			focusedOption = this._focusedOption = null;
 		}
 		let className = classNames('Select', this.props.className, {
-			'Select-dark': this.props.theme == 'dark',
+			'Select-dark': (this.props.theme === 'dark'),
 			'Select--multi': this.props.multi,
 			'Select--single': !this.props.multi,
 			'is-clearable': this.props.clearable,

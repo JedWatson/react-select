@@ -977,7 +977,6 @@ var Select = (0, _createReactClass2['default'])({
 
 	getDefaultProps: function getDefaultProps() {
 		return {
-			isTransparent: '',
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: _utilsDefaultArrowRenderer2['default'],
 			autosize: true,
@@ -1015,7 +1014,8 @@ var Select = (0, _createReactClass2['default'])({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: _Value2['default'],
-			valueKey: 'value'
+			valueKey: 'value',
+			theme: ''
 		};
 	},
 
@@ -1030,7 +1030,7 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	componentWillMount: function componentWillMount() {
-		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
+		this._instancePrefix = 'minimal-react-select-' + (this.props.instanceId || ++instanceId) + '-';
 		var valueArray = this.getValueArray(this.props.value);
 
 		if (this.props.required) {
@@ -2001,7 +2001,7 @@ var Select = (0, _createReactClass2['default'])({
 			focusedOption = this._focusedOption = null;
 		}
 		var className = (0, _classnames2['default'])('Select', this.props.className, {
-			'Select-dark': this.props.theme == 'dark',
+			'Select-dark': this.props.theme === 'dark',
 			'Select--multi': this.props.multi,
 			'Select--single': !this.props.multi,
 			'is-clearable': this.props.clearable,

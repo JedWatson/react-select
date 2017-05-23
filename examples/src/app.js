@@ -2,8 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Select from 'react-select';
-
+import Select from 'minimal-react-select';
 import Creatable from './components/Creatable';
 import Contributors from './components/Contributors';
 import GithubUsers from './components/GithubUsers';
@@ -12,7 +11,6 @@ import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
 import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
-import Virtualized from './components/Virtualized';
 import States from './components/States';
 
 ReactDOM.render(
@@ -21,7 +19,6 @@ ReactDOM.render(
 			<div className="components-container">
 				<States label="States" searchable theme=""/>
 				<Multiselect label="Multiselect" theme=""/>
-				<Virtualized label="Virtualized" theme=""/>
 				<Contributors label="Contributors (Async)" theme=""/>
 				<GithubUsers label="Github users (Async with fetch.js)" theme="" />
 				<NumericSelect label="Numeric Values" theme="" />
@@ -39,7 +36,6 @@ ReactDOM.render(
 			<div className="components-container">
 				<States label="States" searchable theme="dark"/>
 				<Multiselect label="Multiselect" theme="dark"/>
-				<Virtualized label="Virtualized" theme="dark"/>
 				<Contributors label="Contributors (Async)" theme="dark"/>
 				<GithubUsers label="Github users (Async with fetch.js)" theme="dark"/>
 				<NumericSelect label="Numeric Values" theme="dark" />
