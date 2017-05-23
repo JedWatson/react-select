@@ -212,7 +212,7 @@ const Select = createClass({
 			this.focus();
 		}
 		const menuStyle = this.getMenuStyle(this.props);
-		const overlayStyle = mergeOverlayStyles(this.state, {overlayStyle: DEFAULT_OVERLAY_STYLE});
+		const overlayStyle = mergeOverlayStyles(this.state, {overlayStyle: DEFAULT_OVERLAY_STYLE}, this.props);
 		this.setState({menuStyle, overlayStyle});
 		
 	},
@@ -1153,7 +1153,7 @@ const Select = createClass({
 				</span>
 			);
 		}
-
+		
 		return (
 			<div ref={ref => this.wrapper = ref}
 				className={className}
