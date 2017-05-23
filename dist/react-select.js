@@ -4170,7 +4170,7 @@ var Select = (0, _createReactClass2['default'])({
 			this.renderHiddenField(valueArray),
 			_react2['default'].createElement(
 				_reactTether2['default'],
-				{ attachment: 'top left', targetAttachment: 'bottom left', optimizations: { gpu: false }, style: {} },
+				{ attachment: 'top left', targetAttachment: 'bottom left', optimizations: { gpu: false }, style: this.state.overlayStyle },
 				_react2['default'].createElement(
 					'div',
 					{ ref: function (ref) {

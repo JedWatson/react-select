@@ -1159,7 +1159,7 @@ const Select = createClass({
 				className={className}
 				style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}} style={{}}>
+				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}} style={this.state.overlayStyle}>
 					<div ref={ref => this.control = ref}
 						className="Select-control"
 						style={this.props.style}
