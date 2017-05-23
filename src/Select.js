@@ -9,7 +9,9 @@ import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import AutosizeInput from 'react-input-autosize';
+import TetherComponent from 'react-tether'
 import classNames from 'classnames';
+
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
@@ -22,7 +24,8 @@ import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
 
-function stringifyValue (value) {
+
+function stringifyValue(value) {
 	const valueType = typeof value;
 	if (valueType === 'string') {
 		return value;
@@ -41,6 +44,17 @@ const stringOrNode = PropTypes.oneOfType([
 ]);
 
 let instanceId = 1;
+
+const DEFAULT_STYLE = {
+	width: 200
+};
+
+const getElementWidth = (htmlElement) => {
+	const boundingClientRect = htmlElement.getBoundingClientRect();
+	return {
+		width: boundingClientRect.width
+	};
+}
 
 const Select = createClass({
 
@@ -121,7 +135,7 @@ const Select = createClass({
 
 	statics: { Async, AsyncCreatable, Creatable },
 
-	getDefaultProps () {
+	getDefaultProps() {
 		return {
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: defaultArrowRenderer,
@@ -161,20 +175,20 @@ const Select = createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
-		};
+};
 	},
 
-	getInitialState () {
+	getInitialState() {
 		return {
 			inputValue: '',
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false,
+			required: false
 		};
 	},
 
-	componentWillMount () {
+	componentWillMount() {
 		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
 		const valueArray = this.getValueArray(this.props.value);
 
@@ -185,23 +199,34 @@ const Select = createClass({
 		}
 	},
 
-	componentDidMount () {
+	componentDidMount() {
 		if (this.props.autofocus) {
 			this.focus();
 		}
+		const menuStyle = this.getMenuStyle(this.props);
+		this.setState({menuStyle})
 	},
 
-	componentWillReceiveProps (nextProps) {
+	componentWillReceiveProps(nextProps) {
 		const valueArray = this.getValueArray(nextProps.value, nextProps);
-
+		let state = {};
+		let updatedState = false;
 		if (nextProps.required) {
-			this.setState({
-				required: this.handleRequired(valueArray[0], nextProps.multi),
-			});
+			updatedState = true;
+			state.required = this.handleRequired(valueArray[0], nextProps.multi);
+		}
+		
+		if (nextProps.menuStyle) {
+			updatedState = true;
+			state.menuStyle = this.getMenuStyle(this.props);
+		}
+
+		if (updatedState) {
+			this.setState(state);
 		}
 	},
 
-	componentWillUpdate (nextProps, nextState) {
+	componentWillUpdate(nextProps, nextState) {
 		if (nextState.isOpen !== this.state.isOpen) {
 			this.toggleTouchOutsideEvent(nextState.isOpen);
 			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
@@ -209,7 +234,7 @@ const Select = createClass({
 		}
 	},
 
-	componentDidUpdate (prevProps, prevState) {
+	componentDidUpdate(prevProps, prevState) {
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
 			let focusedOptionNode = ReactDOM.findDOMNode(this.focused);
@@ -242,7 +267,7 @@ const Select = createClass({
 		}
 	},
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		if (!document.removeEventListener && document.detachEvent) {
 			document.detachEvent('ontouchstart', this.handleTouchOutside);
 		} else {
@@ -250,7 +275,7 @@ const Select = createClass({
 		}
 	},
 
-	toggleTouchOutsideEvent (enabled) {
+	toggleTouchOutsideEvent(enabled) {
 		if (enabled) {
 			if (!document.addEventListener && document.attachEvent) {
 				document.attachEvent('ontouchstart', this.handleTouchOutside);
@@ -266,34 +291,34 @@ const Select = createClass({
 		}
 	},
 
-	handleTouchOutside (event) {
+	handleTouchOutside(event) {
 		// handle touch outside on ios to dismiss menu
 		if (this.wrapper && !this.wrapper.contains(event.target)) {
 			this.closeMenu();
 		}
 	},
 
-	focus () {
+	focus() {
 		if (!this.input) return;
 		this.input.focus();
 	},
 
-	blurInput () {
+	blurInput() {
 		if (!this.input) return;
 		this.input.blur();
 	},
 
-	handleTouchMove (event) {
+	handleTouchMove(event) {
 		// Set a flag that the view is being dragged
 		this.dragging = true;
 	},
 
-	handleTouchStart (event) {
+	handleTouchStart(event) {
 		// Set a flag that the view is not being dragged
 		this.dragging = false;
 	},
 
-	handleTouchEnd (event) {
+	handleTouchEnd(event) {
 		// Check if the view is being dragged, In this case
 		// we don't want to fire the click event (because the user only wants to scroll)
 		if (this.dragging) return;
@@ -302,7 +327,7 @@ const Select = createClass({
 		this.handleMouseDown(event);
 	},
 
-	handleTouchEndClearValue (event) {
+	handleTouchEndClearValue(event) {
 		// Check if the view is being dragged, In this case
 		// we don't want to fire the click event (because the user only wants to scroll)
 		if (this.dragging) return;
@@ -311,7 +336,7 @@ const Select = createClass({
 		this.clearValue(event);
 	},
 
-	handleMouseDown (event) {
+	handleMouseDown(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
@@ -361,7 +386,7 @@ const Select = createClass({
 		}
 	},
 
-	handleMouseDownOnArrow (event) {
+	handleMouseDownOnArrow(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
@@ -378,7 +403,7 @@ const Select = createClass({
 		this.closeMenu();
 	},
 
-	handleMouseDownOnMenu (event) {
+	handleMouseDownOnMenu(event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
@@ -391,8 +416,8 @@ const Select = createClass({
 		this.focus();
 	},
 
-	closeMenu () {
-		if(this.props.onCloseResetsInput) {
+	closeMenu() {
+		if (this.props.onCloseResetsInput) {
 			this.setState({
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
@@ -408,7 +433,7 @@ const Select = createClass({
 		this.hasScrolledToOption = false;
 	},
 
-	handleInputFocus (event) {
+	handleInputFocus(event) {
 		if (this.props.disabled) return;
 		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
@@ -421,7 +446,7 @@ const Select = createClass({
 		this._openAfterFocus = false;
 	},
 
-	handleInputBlur (event) {
+	handleInputBlur(event) {
 		// The check for menu.contains(activeElement) is necessary to prevent IE11's scrollbar from closing the menu in certain contexts.
 		if (this.menu && (this.menu === document.activeElement || this.menu.contains(document.activeElement))) {
 			this.focus();
@@ -442,8 +467,8 @@ const Select = createClass({
 		this.setState(onBlurredState);
 	},
 
-	handleInputChange (event) {
-		let newInputValue = event.target.value;
+	handleInputChange(event) {
+		let newInputValue = event.target.value;DEFAULT_STYLE
 
 		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newInputValue);
@@ -460,7 +485,7 @@ const Select = createClass({
 		});
 	},
 
-	handleKeyDown (event) {
+	handleKeyDown(event) {
 		if (this.props.disabled) return;
 
 		if (typeof this.props.onInputKeyDown === 'function') {
@@ -476,18 +501,18 @@ const Select = createClass({
 					event.preventDefault();
 					this.popValue();
 				}
-			return;
+				return;
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
-					return;
+					return;componentWillR
 				}
 				this.selectFocusedOption();
-			return;
+				return;
 			case 13: // enter
 				if (!this.state.isOpen) return;
 				event.stopPropagation();
 				this.selectFocusedOption();
-			break;
+				break;
 			case 27: // escape
 				if (this.state.isOpen) {
 					this.closeMenu();
@@ -496,48 +521,48 @@ const Select = createClass({
 					this.clearValue(event);
 					event.stopPropagation();
 				}
-			break;
+				break;
 			case 38: // up
 				this.focusPreviousOption();
-			break;
+				break;
 			case 40: // down
 				this.focusNextOption();
-			break;
+				break;
 			case 33: // page up
 				this.focusPageUpOption();
-			break;
+				break;
 			case 34: // page down
 				this.focusPageDownOption();
-			break;
+				break;
 			case 35: // end key
 				if (event.shiftKey) {
 					return;
 				}
 				this.focusEndOption();
-			break;
+				break;
 			case 36: // home key
 				if (event.shiftKey) {
 					return;
 				}
 				this.focusStartOption();
-			break;
+				break;
 			case 46: // backspace
 				if (!this.state.inputValue && this.props.deleteRemoves) {
 					event.preventDefault();
 					this.popValue();
 				}
-			return;
+				return;
 			default: return;
 		}
 		event.preventDefault();
 	},
 
-	handleValueClick (option, event) {
+	handleValueClick(option, event) {
 		if (!this.props.onValueClick) return;
 		this.props.onValueClick(option, event);
 	},
 
-	handleMenuScroll (event) {
+	handleMenuScroll(event) {
 		if (!this.props.onMenuScrollToBottom) return;
 		let { target } = event;
 		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
@@ -545,22 +570,22 @@ const Select = createClass({
 		}
 	},
 
-	handleRequired (value, multi) {
+	handleRequired(value, multi) {
 		if (!value) return true;
 		return (multi ? value.length === 0 : Object.keys(value).length === 0);
 	},
 
-	getOptionLabel (op) {
+	getOptionLabel(op) {
 		return op[this.props.labelKey];
 	},
 
-	/**
+	/**menuRenderer
 	 * Turns a value into an array from the given options
 	 * @param	{String|Number|Array}	value		- the value of the select input
 	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
-	getValueArray (value, nextProps) {
+	getValueArray(value, nextProps) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
@@ -576,11 +601,21 @@ const Select = createClass({
 	},
 
 	/**
+	 * Get style for dropdown menu
+	 * @param {Object} props 
+	 * @returns {Object}
+	 */
+	getMenuStyle(props) {
+		const defaultStyle = (this.wrapper) ? getElementWidth(this.wrapper) : DEFAULT_STYLE;
+		return Object.assign({}, defaultStyle, props.menuStyle);
+	},
+
+	/**
 	 * Retrieve a value from the given options and valueKey
 	 * @param	{String|Number|Array}	value	- the selected value(s)
 	 * @param	{Object}		props	- the Select component's props (or nextProps)
 	 */
-	expandValue (value, props) {
+	expandValue(value, props) {
 		const valueType = typeof value;
 		if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
 		let { options, valueKey } = props;
@@ -590,8 +625,8 @@ const Select = createClass({
 		}
 	},
 
-	setValue (value) {
-		if (this.props.autoBlur){
+	setValue(value) {
+		if (this.props.autoBlur) {
 			this.blurInput();
 		}
 		if (!this.props.onChange) return;
@@ -605,7 +640,7 @@ const Select = createClass({
 		this.props.onChange(value);
 	},
 
-	selectValue (value) {
+	selectValue(value) {
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
@@ -626,7 +661,7 @@ const Select = createClass({
 		}
 	},
 
-	addValue (value) {
+	addValue(value) {
 		var valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
@@ -640,22 +675,22 @@ const Select = createClass({
 		}
 	},
 
-	popValue () {
+	popValue() {
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
-		if (valueArray[valueArray.length-1].clearableValue === false) return;
+		if (valueArray[valueArray.length - 1].clearableValue === false) return;
 		this.setValue(valueArray.slice(0, valueArray.length - 1));
 	},
 
-	removeValue (value) {
+	removeValue(value) {
 		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
 		this.focus();
 	},
 
-	clearValue (event) {
+	clearValue(event) {
 		// if the event was triggered by a mousedown and not the primary
-		// button, ignore it.
+		// button, ignore it.componentWillR
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
@@ -668,7 +703,7 @@ const Select = createClass({
 		}, this.focus);
 	},
 
-	getResetValue () {
+	getResetValue() {
 		if (this.props.resetValue !== undefined) {
 			return this.props.resetValue;
 		} else if (this.props.multi) {
@@ -678,37 +713,37 @@ const Select = createClass({
 		}
 	},
 
-	focusOption (option) {
+	focusOption(option) {
 		this.setState({
 			focusedOption: option
 		});
 	},
 
-	focusNextOption () {
+	focusNextOption() {
 		this.focusAdjacentOption('next');
 	},
 
-	focusPreviousOption () {
+	focusPreviousOption() {
 		this.focusAdjacentOption('previous');
 	},
 
-	focusPageUpOption () {
+	focusPageUpOption() {
 		this.focusAdjacentOption('page_up');
 	},
 
-	focusPageDownOption () {
+	focusPageDownOption() {
 		this.focusAdjacentOption('page_down');
 	},
 
-	focusStartOption () {
+	focusStartOption() {
 		this.focusAdjacentOption('start');
 	},
 
-	focusEndOption () {
+	focusEndOption() {
 		this.focusAdjacentOption('end');
 	},
 
-	focusAdjacentOption (dir) {
+	focusAdjacentOption(dir) {
 		var options = this._visibleOptions
 			.map((option, index) => ({ option, index }))
 			.filter(option => !option.option.disabled);
@@ -729,7 +764,7 @@ const Select = createClass({
 				break;
 			}
 		}
-		if (dir === 'next' && focusedIndex !== -1 ) {
+		if (dir === 'next' && focusedIndex !== -1) {
 			focusedIndex = (focusedIndex + 1) % options.length;
 		} else if (dir === 'previous') {
 			if (focusedIndex > 0) {
@@ -767,21 +802,21 @@ const Select = createClass({
 		});
 	},
 
-	getFocusedOption () {
+	getFocusedOption() {
 		return this._focusedOption;
 	},
 
-	getInputValue () {
+	getInputValue() {
 		return this.state.inputValue;
 	},
 
-	selectFocusedOption () {
+	selectFocusedOption() {
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
 	},
 
-	renderLoading () {
+	renderLoading() {
 		if (!this.props.isLoading) return;
 		return (
 			<span className="Select-loading-zone" aria-hidden="true">
@@ -790,7 +825,7 @@ const Select = createClass({
 		);
 	},
 
-	renderValue (valueArray, isOpen) {
+	renderValue(valueArray, isOpen) {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
@@ -830,16 +865,16 @@ const Select = createClass({
 		}
 	},
 
-	renderInput (valueArray, focusedOptionIndex) {
+	renderInput(valueArray, focusedOptionIndex) {
 		var className = classNames('Select-input', this.props.inputProps.className);
 		const isOpen = !!this.state.isOpen;
 
 		const ariaOwns = classNames({
 			[this._instancePrefix + '-list']: isOpen,
 			[this._instancePrefix + '-backspace-remove-message']: this.props.multi
-				&& !this.props.disabled
-				&& this.state.isFocused
-				&& !this.state.inputValue
+			&& !this.props.disabled
+			&& this.state.isFocused
+			&& !this.state.inputValue
 		});
 
 		// TODO: Check how this project includes Object.assign()
@@ -849,7 +884,7 @@ const Select = createClass({
 			'aria-owns': ariaOwns,
 			'aria-haspopup': '' + isOpen,
 			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
-			'aria-describedby': this.props['aria-describedby'],
+			'Statearia-describedby': this.props['aria-describedby'],
 			'aria-labelledby': this.props['aria-labelledby'],
 			'aria-label': this.props['aria-label'],
 			className: className,
@@ -886,7 +921,7 @@ const Select = createClass({
 					onFocus={this.handleInputFocus}
 					ref={ref => this.input = ref}
 					aria-readonly={'' + !!this.props.disabled}
-					style={{ border: 0, width: 1, display:'inline-block' }}/>
+					style={{ border: 0, width: 1, display: 'inline-block' }} />
 			);
 		}
 
@@ -896,13 +931,13 @@ const Select = createClass({
 			);
 		}
 		return (
-			<div className={ className }>
+			<div className={className}>
 				<input {...inputProps} />
 			</div>
 		);
 	},
 
-	renderClear () {
+	renderClear() {
 
 		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
@@ -920,9 +955,9 @@ const Select = createClass({
 		);
 	},
 
-	renderArrow () {
+	renderArrow() {
 		const onMouseDown = this.handleMouseDownOnArrow;
-                const isOpen = this.state.isOpen;
+		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
 		return (
@@ -935,7 +970,7 @@ const Select = createClass({
 		);
 	},
 
-	filterOptions (excludeOptions) {
+	filterOptions(excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
 		if (this.props.filterOptions) {
@@ -969,7 +1004,7 @@ const Select = createClass({
 		}
 	},
 
-	renderMenu (options, valueArray, focusedOption) {
+	renderMenu(options, valueArray, focusedOption) {
 		if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption,
@@ -998,7 +1033,7 @@ const Select = createClass({
 		}
 	},
 
-	renderHiddenField (valueArray) {
+	renderHiddenField(valueArray) {
 		if (!this.props.name) return;
 		if (this.props.joinValues) {
 			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
@@ -1021,7 +1056,7 @@ const Select = createClass({
 		));
 	},
 
-	getFocusableOptionIndex (selectedOption) {
+	getFocusableOptionIndex(selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
 
@@ -1047,25 +1082,25 @@ const Select = createClass({
 		return null;
 	},
 
-	renderOuter (options, valueArray, focusedOption) {
+	renderOuter(options, valueArray, focusedOption, defaultStyle) {
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
 		}
-
+		const {menuStyle} = this.state;
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={menuStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
-						 style={this.props.menuStyle}
-						 onScroll={this.handleMenuScroll}
-						 onMouseDown={this.handleMouseDownOnMenu}>
+					style={this.props.menuStyle}
+					onScroll={this.handleMenuScroll}
+					onMouseDown={this.handleMouseDownOnMenu}>
 					{menu}
 				</div>
 			</div>
 		);
 	},
 
-	render () {
+	render() {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
@@ -1107,28 +1142,30 @@ const Select = createClass({
 
 		return (
 			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
+				className={className}
+				style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					style={this.props.style}
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchStart={this.handleTouchStart}
-					onTouchMove={this.handleTouchMove}
-				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
-				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}}>
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						style={this.props.style}
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+						onTouchEnd={this.handleTouchEnd}
+						onTouchStart={this.handleTouchStart}
+						onTouchMove={this.handleTouchMove}
+					>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				</TetherComponent>
 			</div>
 		);
 	}
