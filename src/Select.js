@@ -46,7 +46,8 @@ const stringOrNode = PropTypes.oneOfType([
 let instanceId = 1;
 
 const DEFAULT_STYLE = {
-	width: 200
+	width: 200,
+	zIndex: 1001
 };
 
 const getElementWidth = (htmlElement) => {

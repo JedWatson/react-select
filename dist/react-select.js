@@ -3009,7 +3009,8 @@ var stringOrNode = _propTypes2['default'].oneOfType([_propTypes2['default'].stri
 var instanceId = 1;
 
 var DEFAULT_STYLE = {
-	width: 200
+	width: 200,
+	zIndex: 1001
 };
 
 var getElementWidth = function getElementWidth(htmlElement) {
@@ -4091,7 +4092,6 @@ var Select = (0, _createReactClass2['default'])({
 		}
 		var menuStyle = this.state.menuStyle;
 
-		console.log(menuStyle);
 		return _react2['default'].createElement(
 			'div',
 			{ ref: function (ref) {
