@@ -564,10 +564,10 @@ const Select = createClass({
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
 	},
-	/**
-	 * Artlimes Addition. Clear the input value. Called from Creatable
-	 */
 
+	/**
+	 * Clears the input value. Called from Creatable
+	 */
 	clearInputs: function selectValue(value) {
 		this.setState({
 				inputValue: ''

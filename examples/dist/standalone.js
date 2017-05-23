@@ -1430,10 +1430,10 @@ var Select = (0, _createReactClass2['default'])({
 	getOptionLabel: function getOptionLabel(op) {
 		return op[this.props.labelKey];
 	},
-	/**
-  * Artlimes Addition. Clear the input value. Called from Creatable
-  */
 
+	/**
+  * Clears the input value. Called from Creatable
+  */
 	clearInputs: function selectValue(value) {
 		this.setState({
 			inputValue: ''

@@ -5,9 +5,7 @@
 
 // base
 
-body {
-  background-color: black;
-}
+
 
 .Select {
 	position: relative;
@@ -204,16 +202,15 @@ body {
 	text-align: center;
 	vertical-align: middle;
 	width: @select-clear-width;
-
-	&:hover {
-		color: @select-clear-hover-color;
-	}
 }
 .Select-clear {
 	color: @select-clear-color;
 	display: inline-block;
 	font-size: @select-clear-size;
 	line-height: 1;
+  &:hover {
+    color: @select-clear-hover-color !important;
+  }
 }
 .Select--multi .Select-clear-zone {
 	width: @select-clear-width;
@@ -223,6 +220,7 @@ body {
 // arrow indicator
 
 .Select-arrow-zone {
+  color: @select-arrow-color;
 	cursor: pointer;
 	display: table-cell;
 	position: relative;
@@ -243,8 +241,8 @@ body {
 .Select-arrow:before {
 	position: absolute;
 	content: '';
-	border-bottom: 2px solid @select-arrow-color;
-	border-right: 2px solid @select-arrow-color;
+	border-bottom: @select-input-border-width solid @select-arrow-color;
+	border-right: @select-input-border-width solid @select-arrow-color;
 	width: 8px;
 	height: 8px;
 	transform: rotate(45deg);
@@ -259,8 +257,8 @@ body {
 
 .is-open .Select-arrow:before {
 	border: 0;
-	border-top: 2px solid @select-arrow-color-hover;
-	border-right: 2px solid @select-arrow-color-hover;
+	border-top: @select-input-border-width solid @select-arrow-color-hover;
+	border-right: @select-input-border-width solid @select-arrow-color-hover;
 	transform: rotate(-45deg);
 	bottom: -4px;
 }

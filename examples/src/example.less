@@ -49,11 +49,28 @@ a {
 .container {
 	margin-left: auto;
 	margin-right: auto;
-	max-width: 400px;
+	max-width: 800px;
 	padding: 0 @gutter;
 }
 
+.dark-theme-container {
+  background-color: black;
+  width: 45% !important;
+  display: inline-block;
+  .section-heading {
+  	color: @gray;
+  }
+}
 
+.white-theme-container {
+  background-color: @white;
+  width: 45% !important;
+  display: inline-block;
+}
+
+.components-container {
+	padding: 10px;
+}
 
 
 // Headings

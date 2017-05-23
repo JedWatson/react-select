@@ -67,7 +67,7 @@ var ValuesAsNumbersField = createClass({
 					options={this.state.options}
 					simpleValue
 					value={this.state.value}
-					theme="dark"
+					theme={this.props.theme}
 					/>
 				<div className="checkbox-list">
 					<label className="checkbox">

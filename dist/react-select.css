@@ -5,9 +5,6 @@
  * https://twitter.com/jedwatson https://twitter.com/jossmackison https://twitter.com/keystonejs
  * MIT License: https://github.com/JedWatson/react-select
 */
-body {
-  background-color: black;
-}
 .Select {
   position: relative;
 }
@@ -173,19 +170,20 @@ body {
   vertical-align: middle;
   width: 17px;
 }
-.Select-clear-zone:hover {
-  color: #D0021B;
-}
 .Select-clear {
   color: #9b9b9b;
   display: inline-block;
   font-size: 18px;
   line-height: 1;
 }
+.Select-clear:hover {
+  color: #ff115f !important;
+}
 .Select--multi .Select-clear-zone {
   width: 17px;
 }
 .Select-arrow-zone {
+  color: #9b9b9b;
   cursor: pointer;
   display: table-cell;
   position: relative;
@@ -205,8 +203,8 @@ body {
 .Select-arrow:before {
   position: absolute;
   content: '';
-  border-bottom: 2px solid #9b9b9b;
-  border-right: 2px solid #9b9b9b;
+  border-bottom: 1px solid #9b9b9b;
+  border-right: 1px solid #9b9b9b;
   width: 8px;
   height: 8px;
   transform: rotate(45deg);
@@ -218,8 +216,8 @@ body {
 }
 .is-open .Select-arrow:before {
   border: 0;
-  border-top: 2px solid #ff115f;
-  border-right: 2px solid #ff115f;
+  border-top: 1px solid #ff115f;
+  border-right: 1px solid #ff115f;
   transform: rotate(-45deg);
   bottom: -4px;
 }
@@ -257,7 +255,7 @@ body {
 }
 .Select-dark .Select-clear,
 .Select-dark .Select-arrow:before {
-  color: #c1c1c1;
+  color: #9b9b9b;
 }
 .Select-dark .Select-input > input {
   text-shadow: 0px 0px 0px #fff;
@@ -371,6 +369,7 @@ body {
 }
 .Select--multi .Select-value-icon {
   cursor: pointer;
+  font-size: 1.2em;
   padding: 1px 5px 3px;
 }
 .Select--multi .Select-value-icon:hover,
