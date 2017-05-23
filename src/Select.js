@@ -17,6 +17,7 @@ import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 import defaultClearRenderer from './utils/defaultClearRenderer';
+import {createStyle} from './utils/styleUtils';
 
 import Async from './Async';
 import AsyncCreatable from './AsyncCreatable';
@@ -24,6 +25,8 @@ import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
 
+
+const mergeOverlayStyles = createStyle('overlayStyle');
 
 function stringifyValue(value) {
 	const valueType = typeof value;
@@ -47,7 +50,10 @@ let instanceId = 1;
 
 const DEFAULT_STYLE = {
 	width: 200,
-	zIndex: 1001
+};
+
+const DEFAULT_OVERLAY_STYLE = {
+	zIndex: 10001
 };
 
 const getElementWidth = (htmlElement) => {
@@ -111,6 +117,7 @@ const Select = createClass({
 		onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: PropTypes.func,               // fires when the menu is opened
 		onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+		overlayStyle: PropTypes.object,		  // overlay style 
 		openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
 		openOnFocus: PropTypes.bool,          // always open options menu on focus
 		optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
@@ -205,7 +212,9 @@ const Select = createClass({
 			this.focus();
 		}
 		const menuStyle = this.getMenuStyle(this.props);
-		this.setState({menuStyle})
+		const overlayStyle = mergeOverlayStyles(this.state, {overlayStyle: DEFAULT_OVERLAY_STYLE});
+		this.setState({menuStyle, overlayStyle});
+		
 	},
 
 	componentWillReceiveProps(nextProps) {
@@ -220,6 +229,10 @@ const Select = createClass({
 		if (nextProps.menuStyle) {
 			updatedState = true;
 			state.menuStyle = this.getMenuStyle(this.props);
+		}
+		
+		if (nextProps.overlayStyle) {
+			state.overlayStyle = mergeOverlayStyles(this.state, this.props);
 		}
 
 		if (updatedState) {
@@ -505,7 +518,7 @@ const Select = createClass({
 				return;
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
-					return;componentWillR
+					return;
 				}
 				this.selectFocusedOption();
 				return;
@@ -1146,7 +1159,7 @@ const Select = createClass({
 				className={className}
 				style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}}>
+				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}} style={{}}>
 					<div ref={ref => this.control = ref}
 						className="Select-control"
 						style={this.props.style}

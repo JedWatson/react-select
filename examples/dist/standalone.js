@@ -2971,6 +2971,8 @@ var _utilsDefaultClearRenderer = require('./utils/defaultClearRenderer');
 
 var _utilsDefaultClearRenderer2 = _interopRequireDefault(_utilsDefaultClearRenderer);
 
+var _utilsStyleUtils = require('./utils/styleUtils');
+
 var _Async = require('./Async');
 
 var _Async2 = _interopRequireDefault(_Async);
@@ -2991,6 +2993,8 @@ var _Value = require('./Value');
 
 var _Value2 = _interopRequireDefault(_Value);
 
+var mergeOverlayStyles = (0, _utilsStyleUtils.createStyle)('overlayStyle');
+
 function stringifyValue(value) {
 	var valueType = typeof value;
 	if (valueType === 'string') {
@@ -3009,8 +3013,11 @@ var stringOrNode = _propTypes2['default'].oneOfType([_propTypes2['default'].stri
 var instanceId = 1;
 
 var DEFAULT_STYLE = {
-	width: 200,
-	zIndex: 1001
+	width: 200
+};
+
+var DEFAULT_OVERLAY_STYLE = {
+	zIndex: 10001
 };
 
 var getElementWidth = function getElementWidth(htmlElement) {
@@ -3074,6 +3081,7 @@ var Select = (0, _createReactClass2['default'])({
 		onMenuScrollToBottom: _propTypes2['default'].func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: _propTypes2['default'].func, // fires when the menu is opened
 		onValueClick: _propTypes2['default'].func, // onClick handler for value labels: function (value, event) {}
+		overlayStyle: _propTypes2['default'].object, // overlay style
 		openAfterFocus: _propTypes2['default'].bool, // boolean to enable opening dropdown when focused
 		openOnFocus: _propTypes2['default'].bool, // always open options menu on focus
 		optionClassName: _propTypes2['default'].string, // additional class(es) to apply to the <Option /> elements
@@ -3168,7 +3176,8 @@ var Select = (0, _createReactClass2['default'])({
 			this.focus();
 		}
 		var menuStyle = this.getMenuStyle(this.props);
-		this.setState({ menuStyle: menuStyle });
+		var overlayStyle = mergeOverlayStyles(this.state, { overlayStyle: DEFAULT_OVERLAY_STYLE });
+		this.setState({ menuStyle: menuStyle, overlayStyle: overlayStyle });
 	},
 
 	componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -3183,6 +3192,10 @@ var Select = (0, _createReactClass2['default'])({
 		if (nextProps.menuStyle) {
 			updatedState = true;
 			state.menuStyle = this.getMenuStyle(this.props);
+		}
+
+		if (nextProps.overlayStyle) {
+			state.overlayStyle = mergeOverlayStyles(this.state, this.props);
 		}
 
 		if (updatedState) {
@@ -3470,7 +3483,7 @@ var Select = (0, _createReactClass2['default'])({
 			case 9:
 				// tab
 				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
-					return;componentWillR;
+					return;
 				}
 				this.selectFocusedOption();
 				return;
@@ -4157,7 +4170,7 @@ var Select = (0, _createReactClass2['default'])({
 			this.renderHiddenField(valueArray),
 			_react2['default'].createElement(
 				_reactTether2['default'],
-				{ attachment: 'top left', targetAttachment: 'bottom left', optimizations: { gpu: false } },
+				{ attachment: 'top left', targetAttachment: 'bottom left', optimizations: { gpu: false }, style: {} },
 				_react2['default'].createElement(
 					'div',
 					{ ref: function (ref) {
@@ -4193,7 +4206,7 @@ exports['default'] = Select;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Async":4,"./AsyncCreatable":5,"./Creatable":6,"./Option":7,"./Value":9,"./utils/defaultArrowRenderer":10,"./utils/defaultClearRenderer":11,"./utils/defaultFilterOptions":12,"./utils/defaultMenuRenderer":13,"create-react-class":undefined,"prop-types":undefined,"react-tether":2}],9:[function(require,module,exports){
+},{"./Async":4,"./AsyncCreatable":5,"./Creatable":6,"./Option":7,"./Value":9,"./utils/defaultArrowRenderer":10,"./utils/defaultClearRenderer":11,"./utils/defaultFilterOptions":12,"./utils/defaultMenuRenderer":13,"./utils/styleUtils":15,"create-react-class":undefined,"prop-types":undefined,"react-tether":2}],9:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -4485,6 +4498,25 @@ module.exports = function stripDiacritics(str) {
 	}
 	return str;
 };
+
+},{}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var createStyle = function createStyle(propertyName) {
+    return function (state, props) {
+        var stateStyle = state[propertyName];
+        var propStyle = props[propertyName];
+
+        return _extends({}, stateStyle, propStyle);
+    };
+};
+exports.createStyle = createStyle;
 
 },{}]},{},[8])(8)
 });
