@@ -318,7 +318,7 @@ const Select = createClass({
 			return;
 		}
 
-		if (event.target.tagName === 'INPUT' && this.props.autosize) {
+		if (event.target.tagName === 'INPUT') {
 			return;
 		}
 
