@@ -1,10 +1,10 @@
 # React-Select
 
-## v1.0.0-rc.5 / 2017-05-21
+## v1.0.0-rc.5 / 2017-05-25
 
 * fixed; Allow `falsey` values to be clearable, thanks [Simon Gaestel](https://github.com/sgaestel)
-* fixed; issue where Firefox would crash due to incorrect use of `aria-owns` attribute, thanks  [Max Hubenthal](https://github.com/mhubenthal)
-* fixed; regression where options not using the value key couldn't be focused [Benjamin Piouffle](https://github.com/Betree)
+* fixed; issue where Firefox would crash due to incorrect use of `aria-owns` attribute, thanks [Max Hubenthal](https://github.com/mhubenthal)
+* fixed; regression where options not using the value key couldn't be focused, thanks [Benjamin Piouffle](https://github.com/Betree)
 
 ## v1.0.0-rc.4 / 2017-05-14
 
