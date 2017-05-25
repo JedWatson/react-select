@@ -903,8 +903,8 @@ const Select = createClass({
 	},
 
 	renderClear () {
-
-		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
+		let valueArray = this.getValueArray(this.props.value);
+		if (!this.props.clearable || valueArray.length === 0 || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
 		return (
