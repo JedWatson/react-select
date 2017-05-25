@@ -1120,8 +1120,8 @@ const Select = createClass({
 					onTouchMove={this.handleTouchMove}
 				>
 					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
+						{this.renderValue(valueArray, isOpen)}
 					</span>
 					{removeMessage}
 					{this.renderLoading()}

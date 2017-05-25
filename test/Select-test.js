@@ -575,6 +575,21 @@ describe('Select', () => {
 				required: undefined
 			});
 		});
+
+		it('should open the options again when clicked after selection has been made and still focused', () => {
+			// Click to show options
+			const node = ReactDOM.findDOMNode(instance);
+			const selectControl = getSelectControl(instance);
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
+			// Should be open
+			expect(node, 'queried for', '.Select-option', 'to have length', 3);
+			// Select first option
+			TestUtils.Simulate.mouseDown(node.querySelector('.Select-option'), { button: 0 });
+			// Click again to show options
+			TestUtils.Simulate.mouseDown(selectControl, { button: 0 });
+			// Should be open again
+			expect(node, 'queried for', '.Select-option', 'to have length', 3);
+		});
 	});
 
 	describe('with a return from onInputChange', () => {
@@ -3914,6 +3929,32 @@ describe('Select', () => {
 			expect(input, 'not to equal', document.activeElement);
 			instance.focus();
 			expect(input, 'to equal', document.activeElement);
+		});
+	});
+
+	describe('with autosize=false, searchable=true', () => {
+		beforeEach(() => {
+			instance = createControl({
+				autosize: false,
+				options: [{ value: 1, label: '1' }, { value: 2, label: '2' }],
+				value: 1,
+			});
+		});
+
+		it('should open the options again when clicked after selection has been made and still focused', () => {
+			// Click to show options
+			const node = ReactDOM.findDOMNode(instance);
+			TestUtils.Simulate.mouseDown(getSelectControl(instance), { button: 0 });
+			// Should open menu
+			expect(node, 'queried for', '.Select-option', 'to have length', 2);
+			// Select first option
+			TestUtils.Simulate.mouseDown(node.querySelector('.Select-option'), { button: 0 });
+			// Should close menu (and keep focus)
+			expect(node, 'queried for', '.Select-option', 'to have length', 0);
+			// Click again to show options
+			TestUtils.Simulate.mouseDown(getSelectControl(instance), { button: 0 });
+			// Should open menu again
+			expect(node, 'queried for', '.Select-option', 'to have length', 2);
 		});
 	});
 });
