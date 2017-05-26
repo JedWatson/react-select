@@ -87,6 +87,7 @@ var Async = (function (_Component) {
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this._onBlur = this._onBlur.bind(this);
 	}
 
 	_createClass(Async, [{

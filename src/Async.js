@@ -58,6 +58,7 @@ export default class Async extends Component {
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this._onBlur = this._onBlur.bind(this);
 	}
 
 	componentDidMount () {
