@@ -3189,11 +3189,6 @@ var Select = (0, _createReactClass2['default'])({
 			state.required = this.handleRequired(valueArray[0], nextProps.multi);
 		}
 
-		if (nextProps.menuStyle) {
-			updatedState = true;
-			state.menuStyle = this.getMenuStyle(this.props);
-		}
-
 		if (nextProps.overlayStyle) {
 			state.overlayStyle = mergeOverlayStyles(this.state, this.props);
 		}
@@ -3597,13 +3592,16 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	/**
-  * Get style for dropdown menu
-  * @param {Object} props 
+  * Get style for outer menu
+  * @param {Object} props
   * @returns {Object}
   */
 	getMenuStyle: function getMenuStyle(props) {
 		var defaultStyle = this.wrapper ? getElementWidth(this.wrapper) : DEFAULT_STYLE;
-		return _extends({}, defaultStyle, props.menuStyle);
+		if (props.menuStyle) {
+			return _extends({}, defaultStyle, props.menuStyle);
+		}
+		return defaultStyle;
 	},
 
 	/**
@@ -4096,14 +4094,17 @@ var Select = (0, _createReactClass2['default'])({
 		return null;
 	},
 
-	renderOuter: function renderOuter(options, valueArray, focusedOption, defaultStyle) {
+	renderOuter: function renderOuter(options, valueArray, focusedOption) {
 		var _this7 = this;
 
 		var menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
 		}
-		var menuStyle = this.state.menuStyle;
+
+		var _getMenuStyle = this.getMenuStyle(this.props);
+
+		var menuStyle = _getMenuStyle.menuStyle;
 
 		return _react2['default'].createElement(
 			'div',
@@ -4170,7 +4171,9 @@ var Select = (0, _createReactClass2['default'])({
 			this.renderHiddenField(valueArray),
 			_react2['default'].createElement(
 				_reactTether2['default'],
-				{ attachment: 'top left', targetAttachment: 'bottom left', optimizations: { gpu: false }, style: this.state.overlayStyle },
+				{ attachment: 'top left', targetAttachment: 'bottom left',
+					optimizations: { gpu: false },
+					style: this.state.overlayStyle },
 				_react2['default'].createElement(
 					'div',
 					{ ref: function (ref) {

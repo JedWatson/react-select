@@ -1088,7 +1088,7 @@ const Select = createClass({
 			}
 		}
 
-		for (const i = 0; i < options.length; i++) {
+		for (let i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return i;
 		}
 		return null;
