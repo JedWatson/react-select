@@ -1,5 +1,19 @@
 # React-Select
 
+## v1.0.0-rc.5 / 2017-05-25
+
+* fixed; Allow `falsey` values to be clearable, thanks [Simon Gaestel](https://github.com/sgaestel)
+* fixed; issue where Firefox would crash due to incorrect use of `aria-owns` attribute, thanks [Max Hubenthal](https://github.com/mhubenthal)
+* fixed; regression where options not using the value key couldn't be focused, thanks [Benjamin Piouffle](https://github.com/Betree)
+
+## v1.0.0-rc.4 / 2017-05-14
+
+* fixed; no more warning when using React 15.5, thanks [Adam Girton](https://github.com/agirton)
+* fixed; issue comparing objects in `getFocusableOptionIndex`, thanks [rndm2](https://github.com/rndm2)
+* fixed; missing .focus() method in `Creatable`, thanks [Anton Alexandrenok](https://github.com/the-spyke)
+* added; support for `aria-describedby` attribute, thanks [Eric Lee](https://github.com/ericj17)
+* added; `.is-clearable` className when clearable is true, thanks [Dan Diaz](https://github.com/dan-diaz)
+
 ## v1.0.0-rc.3 / 2017-02-01
 
 * added; `arrowRenderer` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
