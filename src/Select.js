@@ -117,7 +117,7 @@ const Select = createClass({
 		onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 		onOpen: PropTypes.func,               // fires when the menu is opened
 		onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
-		overlayStyle: PropTypes.object,		  // overlay style 
+		overlayStyle: PropTypes.object,		  // overlay style
 		openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
 		openOnFocus: PropTypes.bool,          // always open options menu on focus
 		optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
@@ -214,7 +214,7 @@ const Select = createClass({
 		const menuStyle = this.getMenuStyle(this.props);
 		const overlayStyle = mergeOverlayStyles(this.state, {overlayStyle: DEFAULT_OVERLAY_STYLE}, this.props);
 		this.setState({menuStyle, overlayStyle});
-		
+
 	},
 
 	componentWillReceiveProps(nextProps) {
@@ -225,12 +225,7 @@ const Select = createClass({
 			updatedState = true;
 			state.required = this.handleRequired(valueArray[0], nextProps.multi);
 		}
-		
-		if (nextProps.menuStyle) {
-			updatedState = true;
-			state.menuStyle = this.getMenuStyle(this.props);
-		}
-		
+
 		if (nextProps.overlayStyle) {
 			state.overlayStyle = mergeOverlayStyles(this.state, this.props);
 		}
@@ -615,13 +610,16 @@ const Select = createClass({
 	},
 
 	/**
-	 * Get style for dropdown menu
-	 * @param {Object} props 
+	 * Get style for outer menu
+	 * @param {Object} props
 	 * @returns {Object}
 	 */
 	getMenuStyle(props) {
 		const defaultStyle = (this.wrapper) ? getElementWidth(this.wrapper) : DEFAULT_STYLE;
-		return Object.assign({}, defaultStyle, props.menuStyle);
+		if (props.menuStyle) {
+			return Object.assign({}, defaultStyle, props.menuStyle);
+		}
+		return defaultStyle;
 	},
 
 	/**
@@ -1071,7 +1069,7 @@ const Select = createClass({
 	},
 
 	getFocusableOptionIndex(selectedOption) {
-		var options = this._visibleOptions;
+		const options = this._visibleOptions;
 		if (!options.length) return null;
 
 		const valueKey = this.props.valueKey;
@@ -1090,18 +1088,18 @@ const Select = createClass({
 			}
 		}
 
-		for (var i = 0; i < options.length; i++) {
+		for (const i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return i;
 		}
 		return null;
 	},
 
-	renderOuter(options, valueArray, focusedOption, defaultStyle) {
+	renderOuter(options, valueArray, focusedOption) {
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
 		}
-		const {menuStyle} = this.state;
+		const { menuStyle } = this.getMenuStyle(this.props);
 		return (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={menuStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
@@ -1153,13 +1151,15 @@ const Select = createClass({
 				</span>
 			);
 		}
-		
+
 		return (
 			<div ref={ref => this.wrapper = ref}
 				className={className}
 				style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
-				<TetherComponent attachment = 'top left' targetAttachment = 'bottom left' optimizations = {{gpu: false}} style={this.state.overlayStyle}>
+				<TetherComponent attachment = "top left" targetAttachment = "bottom left"
+								 optimizations = {{ gpu: false }}
+								 style={this.state.overlayStyle}>
 					<div ref={ref => this.control = ref}
 						className="Select-control"
 						style={this.props.style}
