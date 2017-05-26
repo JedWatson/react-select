@@ -61,7 +61,7 @@ const getElementWidth = (htmlElement) => {
 	return {
 		width: boundingClientRect.width
 	};
-}
+};
 
 const Select = createClass({
 
@@ -619,6 +619,7 @@ const Select = createClass({
 		if (props.menuStyle) {
 			return Object.assign({}, defaultStyle, props.menuStyle);
 		}
+
 		return defaultStyle;
 	},
 
@@ -1099,7 +1100,8 @@ const Select = createClass({
 		if (!menu) {
 			return null;
 		}
-		const { menuStyle } = this.getMenuStyle(this.props);
+		const menuStyle = this.getMenuStyle(this.props);
+
 		return (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={menuStyle}>
 				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}

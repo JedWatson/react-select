@@ -3899,6 +3899,7 @@ var Select = (0, _createReactClass2['default'])({
 		if (props.menuStyle) {
 			return _extends({}, defaultStyle, props.menuStyle);
 		}
+
 		return defaultStyle;
 	},
 
@@ -4399,10 +4400,7 @@ var Select = (0, _createReactClass2['default'])({
 		if (!menu) {
 			return null;
 		}
-
-		var _getMenuStyle = this.getMenuStyle(this.props);
-
-		var menuStyle = _getMenuStyle.menuStyle;
+		var menuStyle = this.getMenuStyle(this.props);
 
 		return _react2['default'].createElement(
 			'div',
