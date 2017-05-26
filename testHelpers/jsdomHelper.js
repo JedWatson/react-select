@@ -4,9 +4,11 @@ module.exports = function (html) {
 		return;
 	}
 
-	var jsdom = require('jsdom').jsdom;
-	global.document = jsdom(html || '');
-	global.window = global.document.defaultView;
+	const JSDOM = require('jsdom').JSDOM;
+	const jsdom = new JSDOM(html || '');
+
+	global.document = jsdom.window.document;
+	global.window = jsdom.window;
 	global.navigator = {
 		userAgent: 'JSDOM'
 	};
