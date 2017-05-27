@@ -3930,4 +3930,5 @@ describe('Select', () => {
 
 			expect(arrow, 'to be', undefined);
 		});
+	});
 });
