@@ -921,6 +921,10 @@ const Select = createClass({
 	},
 
 	renderArrow () {
+		if (this.props.arrowRenderer === null) {
+			return null;
+		}
+
 		const onMouseDown = this.handleMouseDownOnArrow;
                 const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
@@ -1126,7 +1130,7 @@ const Select = createClass({
 					{removeMessage}
 					{this.renderLoading()}
 					{this.renderClear()}
-					{this.props.arrowRenderer !== null ? this.renderArrow() : null}
+					{this.renderArrow()}
 				</div>
 				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
