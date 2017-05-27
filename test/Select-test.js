@@ -3919,16 +3919,7 @@ describe('Select', () => {
 
 	describe('arrowRenderer', () => {
 		beforeEach(() => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' }
-			];
-
 			instance = createControl({
-				name: 'form-field-name',
-				value: 'one',
-				options: options,
 				arrowRenderer: null
 			});
 		});
