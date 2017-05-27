@@ -1126,7 +1126,7 @@ const Select = createClass({
 					{removeMessage}
 					{this.renderLoading()}
 					{this.renderClear()}
-					{this.renderArrow()}
+					{this.props.arrowRenderer !== null ? this.renderArrow() : null}
 				</div>
 				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
