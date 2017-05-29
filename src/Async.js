@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from './Select';
-import stripDiacritics from './utils/stripDiacritics';
 
 const propTypes = {
 	autoload: PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
 	cache: PropTypes.any,                      // object to use to cache results; set to null/false to disable caching
 	children: PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
-	ignoreAccents: PropTypes.bool,             // strip diacritics when filtering; defaults to true
-	ignoreCase: PropTypes.bool,                // perform case-insensitive filtering; defaults to true
+	filterOption: PropTypes.bool,              // method to filter a single option (option, filterString)
 	loadingPlaceholder: PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		PropTypes.string,
 		PropTypes.node
@@ -35,12 +33,13 @@ const propTypes = {
 
 const defaultCache = {};
 
+const constantlyTrue = () => true;
+
 const defaultProps = {
 	autoload: true,
 	cache: defaultCache,
 	children: defaultChildren,
-	ignoreAccents: true,
-	ignoreCase: true,
+	filterOption: constantlyTrue,
 	loadingPlaceholder: 'Loading...',
 	options: [],
 	searchPromptText: 'Type to search',
@@ -139,15 +138,7 @@ export default class Async extends Component {
 	}
 
 	_onInputChange (inputValue) {
-		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
-
-		if (ignoreAccents) {
-			inputValue = stripDiacritics(inputValue);
-		}
-
-		if (ignoreCase) {
-			inputValue = inputValue.toLowerCase();
-		}
+		const { onInputChange } = this.props;
 
 		if (onInputChange) {
 			onInputChange(inputValue);
