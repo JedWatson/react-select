@@ -179,6 +179,9 @@
 .Select-clear:hover {
   color: #ff115f !important;
 }
+.Select-clear-menu {
+  float: right;
+}
 .Select--multi .Select-clear-zone {
   width: 17px;
 }

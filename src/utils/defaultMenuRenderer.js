@@ -7,6 +7,7 @@ function menuRenderer ({
 	labelKey,
 	onFocus,
 	onSelect,
+	onDelete,
 	optionClassName,
 	optionComponent,
 	optionRenderer,
@@ -24,8 +25,13 @@ function menuRenderer ({
 			'Select-option': true,
 			'is-selected': isSelected,
 			'is-focused': isFocused,
-			'is-disabled': option.disabled,
+			'is-disabled': option.disabled
 		});
+		// ,
+			// 'is-deleted': option.deleted
+		// if (option.deleted) {
+		// 	return null;
+		// }
 
 		return (
 			<Option
@@ -40,9 +46,11 @@ function menuRenderer ({
 				option={option}
 				optionIndex={i}
 				ref={ref => { onOptionRef(ref, isFocused); }}
+				onDelete={onDelete}
 			>
 				{optionRenderer(option, i)}
 			</Option>
+				// isDeleted={option.deleted}
 		);
 	});
 }

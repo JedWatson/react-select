@@ -646,6 +646,12 @@ const Select = createClass({
 		}
 	},
 
+	deleteOption (option) {
+		// debugger;
+		// var options=this._visibleOptions;
+		return null;
+	},
+
 	addValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
@@ -1001,6 +1007,7 @@ const Select = createClass({
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
+				onDelete: this.deleteOption,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,

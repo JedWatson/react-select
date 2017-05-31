@@ -31,6 +31,7 @@ const Option = createClass({
 	},
 
 	handleMouseDown (event) {
+		if(event.currentTarget)
 		event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
@@ -67,6 +68,11 @@ const Option = createClass({
 			this.props.onFocus(this.props.option, event);
 		}
 	},
+	handleOptionDelete(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option);
+	},
 	render () {
 		var { option, instancePrefix, optionIndex } = this.props;
 		var className = classNames(this.props.className, option.className);
@@ -75,6 +81,7 @@ const Option = createClass({
 			<div className={className}
 				onMouseDown={this.blockEvent}
 				onClick={this.blockEvent}>
+				<span className="Select-clear Select-clear-menu" onMouseDown={this.handleOptionDelete}>x</span>
 				{this.props.children}
 			</div>
 		) : (
@@ -89,6 +96,9 @@ const Option = createClass({
 				onTouchEnd={this.handleTouchEnd}
 				id={instancePrefix + '-option-' + optionIndex}
 				title={option.title}>
+				<span className="Select-clear Select-clear-menu"
+					onMouseDown={this.handleOptionDelete}>x
+				</span>
 				{this.props.children}
 			</div>
 		);

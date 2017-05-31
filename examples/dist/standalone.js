@@ -725,7 +725,7 @@ var Option = (0, _createReactClass2['default'])({
 	},
 
 	handleMouseDown: function handleMouseDown(event) {
-		event.preventDefault();
+		if (event.currentTarget) event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
 	},
@@ -761,6 +761,11 @@ var Option = (0, _createReactClass2['default'])({
 			this.props.onFocus(this.props.option, event);
 		}
 	},
+	handleOptionDelete: function handleOptionDelete(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option);
+	},
 	render: function render() {
 		var _props = this.props;
 		var option = _props.option;
@@ -774,6 +779,11 @@ var Option = (0, _createReactClass2['default'])({
 			{ className: className,
 				onMouseDown: this.blockEvent,
 				onClick: this.blockEvent },
+			_react2['default'].createElement(
+				'span',
+				{ className: 'Select-clear Select-clear-menu', onMouseDown: this.handleOptionDelete },
+				'x'
+			),
 			this.props.children
 		) : _react2['default'].createElement(
 			'div',
@@ -788,6 +798,12 @@ var Option = (0, _createReactClass2['default'])({
 				onTouchEnd: this.handleTouchEnd,
 				id: instancePrefix + '-option-' + optionIndex,
 				title: option.title },
+			_react2['default'].createElement(
+				'span',
+				{ className: 'Select-clear Select-clear-menu',
+					onMouseDown: this.handleOptionDelete },
+				'x'
+			),
 			this.props.children
 		);
 	}
@@ -1526,6 +1542,12 @@ var Select = (0, _createReactClass2['default'])({
 		}
 	},
 
+	deleteOption: function deleteOption(option) {
+		// debugger;
+		// var options=this._visibleOptions;
+		return null;
+	},
+
 	addValue: function addValue(value) {
 		var valueArray = this.getValueArray(this.props.value);
 		var visibleOptions = this._visibleOptions.filter(function (val) {
@@ -1887,6 +1909,7 @@ var Select = (0, _createReactClass2['default'])({
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
+				onDelete: this.deleteOption,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
@@ -2301,6 +2324,7 @@ function menuRenderer(_ref) {
 	var labelKey = _ref.labelKey;
 	var onFocus = _ref.onFocus;
 	var onSelect = _ref.onSelect;
+	var onDelete = _ref.onDelete;
 	var optionClassName = _ref.optionClassName;
 	var optionComponent = _ref.optionComponent;
 	var optionRenderer = _ref.optionRenderer;
@@ -2320,6 +2344,11 @@ function menuRenderer(_ref) {
 			'is-focused': isFocused,
 			'is-disabled': option.disabled
 		});
+		// ,
+		// 'is-deleted': option.deleted
+		// if (option.deleted) {
+		// 	return null;
+		// }
 
 		return _react2['default'].createElement(
 			Option,
@@ -2336,10 +2365,13 @@ function menuRenderer(_ref) {
 				optionIndex: i,
 				ref: function (ref) {
 					onOptionRef(ref, isFocused);
-				}
+				},
+				onDelete: onDelete
 			},
 			optionRenderer(option, i)
-		);
+		)
+		// isDeleted={option.deleted}
+		;
 	});
 }
 
