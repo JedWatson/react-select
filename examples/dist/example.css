@@ -234,20 +234,20 @@
   float: left;
 }
 .Select-dark .Select-control {
-  border-color: #c1c1c1;
+  border-color: #9b9b9b;
   background-color: transparent;
 }
 .Select-dark .Select--multi .Select-value {
   border-color: #fff;
 }
 .Select-dark .Select-placeholder {
-  color: #c1c1c1 !important;
+  color: #9b9b9b !important;
 }
 .Select-dark .Select-value {
   border-color: #fff !important;
 }
 .Select-dark .Select-value-label {
-  color: #c1c1c1;
+  color: #9b9b9b;
 }
 .Select-dark.Select--multi .Select-value-label,
 .Select-dark .Select-value-icon {
@@ -350,7 +350,7 @@
   font-size: 0.9em;
   line-height: 1.4;
   vertical-align: top;
-  margin: 0 2px 0 0;
+  margin: 4px 4px 0 0;
 }
 .Select--multi .Select-value-icon,
 .Select--multi .Select-value-label {

@@ -47,7 +47,7 @@ const Select = createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		theme: PropTypes.string,					// made for dark themes. If set to true the component style will switch for dark backgrounds
+		theme: PropTypes.string,							// made for dark themes. If set to true the component style will switch for dark backgrounds
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
