@@ -63,6 +63,7 @@ var MultiSelectField = createClass({
 					onChange={this.handleSelectChange}
 					theme={this.props.theme}
 					deleteOption={this.handleOptionDelete}
+					selectLabel="Select Field Label"
 				/>
 				<div className="checkbox-list">
 					<label className="checkbox">

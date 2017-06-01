@@ -27,6 +27,14 @@
   pointer-events: none;
   opacity: 0.35;
 }
+.Select .select-field-label {
+  color: #000;
+  line-height: 34px;
+}
+.Select .select-field-label.select-field-label-focused {
+  color: #ff115f;
+  font-size: 1.2em;
+}
 .Select-control {
   background-color: #fff;
   cursor: default;
@@ -235,6 +243,9 @@
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
   float: left;
+}
+.Select-dark .select-field-label {
+  color: #fff;
 }
 .Select-dark .Select-control {
   border-color: #9b9b9b;

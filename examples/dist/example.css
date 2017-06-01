@@ -27,6 +27,14 @@
   pointer-events: none;
   opacity: 0.35;
 }
+.Select .select-field-label {
+  color: #000;
+  line-height: 34px;
+}
+.Select .select-field-label.select-field-label-focused {
+  color: #ff115f;
+  font-size: 1.2em;
+}
 .Select-control {
   background-color: #fff;
   cursor: default;
@@ -236,6 +244,9 @@
   overflow: hidden;
   float: left;
 }
+.Select-dark .select-field-label {
+  color: #fff;
+}
 .Select-dark .Select-control {
   border-color: #9b9b9b;
   background-color: transparent;
@@ -433,7 +444,7 @@ a:hover {
 .dark-theme-container {
   background-color: black;
   width: 45% !important;
-  display: inline-block;
+  display: inline-flex;
 }
 .dark-theme-container .section-heading {
   color: #c1c1c1;
@@ -441,7 +452,7 @@ a:hover {
 .white-theme-container {
   background-color: #fff;
   width: 45% !important;
-  display: inline-block;
+  display: inline-flex;
 }
 .components-container {
   padding: 10px;

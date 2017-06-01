@@ -47,7 +47,6 @@ const Select = createClass({
 	displayName: 'Select',
 
 	propTypes: {
-		theme: PropTypes.string,							// made for dark themes. If set to true the component style will switch for dark backgrounds
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
@@ -111,10 +110,12 @@ const Select = createClass({
 		resetValue: PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: PropTypes.bool,           // whether to enable searching feature or not
+		selectLabel: PropTypes.string,				// The field title
 		simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: PropTypes.object,              // optional style to apply to the control
 		tabIndex: PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
+		theme: PropTypes.string,							// made for dark themes. If set to true the component style will switch for dark backgrounds
 		value: PropTypes.any,                 // initial field value
 		valueComponent: PropTypes.func,       // value component to render
 		valueKey: PropTypes.string,           // path of the label value in option objects
@@ -163,9 +164,9 @@ const Select = createClass({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
-			theme: ''
+			theme: '',
 			valueComponent: Value,
-			valueKey: 'value',
+			valueKey: 'value'
 		};
 	},
 
@@ -1098,6 +1099,14 @@ const Select = createClass({
 		);
 	},
 
+	renderSelectLabel () {
+		if(this.props.selectLabel) {
+			let classNames = this.state.isFocused ? 'select-field-label select-field-label-focused' : 'select-field-label';
+			return <h3 className={classNames}>{this.props.selectLabel}</h3>;
+		}
+		return null;
+	},
+
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
@@ -1143,6 +1152,7 @@ const Select = createClass({
 			<div ref={ref => this.wrapper = ref}
 				 className={className}
 				 style={this.props.wrapperStyle}>
+				 {this.renderSelectLabel()}
 				{this.renderHiddenField(valueArray)}
 				<div ref={ref => this.control = ref}
 					className="Select-control"

@@ -30,6 +30,14 @@
 		pointer-events: none;
 		opacity: 0.35;
 	}
+  .select-field-label {
+    color: @select-primary-color;
+    line-height: @select-input-internal-height;
+    &.select-field-label-focused {
+     color: @select-input-focused-border-color;
+     font-size: 1.2em;
+    }
+  }
 }
 
 .Select-control {
@@ -280,6 +288,9 @@
 }
 
 .Select-dark {
+  .select-field-label {
+    color: @dark-select-primary-color;
+  }
   .Select-control {
     border-color: @dark-select-input-border-color;
     background-color: transparent;
