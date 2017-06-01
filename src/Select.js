@@ -63,7 +63,9 @@ const Select = createClass({
 		clearRenderer: PropTypes.func,        // create clearable x element
 		clearValueText: stringOrNode,               // title for the "clear" control
 		clearable: PropTypes.bool,            // should it be possible to reset value
+		deletable: PropTypes.bool,			// shows x button to remove options from menu
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
+		deleteOption: PropTypes.func,					// handles the memu option delete. Takes the clicked option obj as argument
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
@@ -133,6 +135,7 @@ const Select = createClass({
 			clearAllText: 'Clear all',
 			clearRenderer: defaultClearRenderer,
 			clearValueText: 'Clear value',
+			deletable: true,
 			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
@@ -160,9 +163,9 @@ const Select = createClass({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
+			theme: ''
 			valueComponent: Value,
 			valueKey: 'value',
-			theme: ''
 		};
 	},
 
@@ -646,6 +649,12 @@ const Select = createClass({
 		}
 	},
 
+	deleteOption (option) {
+		if (this.props.deleteOption) {
+			return this.props.deleteOption( option );
+		}
+	},
+
 	addValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
@@ -1001,6 +1010,8 @@ const Select = createClass({
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
+				onDelete: this.deleteOption,
+				deletable: this.props.deletable,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,

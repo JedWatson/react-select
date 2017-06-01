@@ -67,30 +67,67 @@ const Option = createClass({
 			this.props.onFocus(this.props.option, event);
 		}
 	},
+	handleOptionDelete(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option, event);
+	},
+	handleOptionDeleteTouchEnd(event) {
+		if(this.dragging) return;
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option, event);
+	},
 	render () {
-		var { option, instancePrefix, optionIndex } = this.props;
+		var { option, instancePrefix, optionIndex, deletable } = this.props;
 		var className = classNames(this.props.className, option.className);
 
-		return option.disabled ? (
-			<div className={className}
-				onMouseDown={this.blockEvent}
-				onClick={this.blockEvent}>
-				{this.props.children}
-			</div>
+		return deletable ? (
+			option.disabled ? (
+				<div className={className}
+					onMouseDown={this.blockEvent}
+					onClick={this.blockEvent}>
+					<span className="Select-clear Select-clear-menu" onMouseDown={this.handleOptionDelete}>x</span>
+					{this.props.children}
+				</div>
+			) : (
+				<div className={className}
+					style={option.style}
+					role="option"
+					onMouseDown={this.handleMouseDown}
+					onMouseEnter={this.handleMouseEnter}
+					onMouseMove={this.handleMouseMove}
+					onTouchStart={this.handleTouchStart}
+					onTouchMove={this.handleTouchMove}
+					onTouchEnd={this.handleTouchEnd}
+					id={instancePrefix + '-option-' + optionIndex}
+					title={option.title}>
+					<span className="Select-clear Select-clear-menu" onMouseDown={this.handleOptionDelete} onTouchEnd={this.handleOptionDeleteTouchEnd}>x</span>
+					{this.props.children}
+				</div>
+			)
 		) : (
-			<div className={className}
-				style={option.style}
-				role="option"
-				onMouseDown={this.handleMouseDown}
-				onMouseEnter={this.handleMouseEnter}
-				onMouseMove={this.handleMouseMove}
-				onTouchStart={this.handleTouchStart}
-				onTouchMove={this.handleTouchMove}
-				onTouchEnd={this.handleTouchEnd}
-				id={instancePrefix + '-option-' + optionIndex}
-				title={option.title}>
-				{this.props.children}
-			</div>
+			option.disabled ? (
+				<div className={className}
+					onMouseDown={this.blockEvent}
+					onClick={this.blockEvent}>
+					{this.props.children}
+				</div>
+			) : (
+				<div className={className}
+					style={option.style}
+					role="option"
+					onMouseDown={this.handleMouseDown}
+					onMouseEnter={this.handleMouseEnter}
+					onMouseMove={this.handleMouseMove}
+					onTouchStart={this.handleTouchStart}
+					onTouchMove={this.handleTouchMove}
+					onTouchEnd={this.handleTouchEnd}
+					id={instancePrefix + '-option-' + optionIndex}
+					title={option.title}>
+					{this.props.children}
+				</div>
+			)
 		);
 	}
 });
