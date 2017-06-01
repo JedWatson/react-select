@@ -900,7 +900,6 @@ var Select = (0, _createReactClass2['default'])({
 	displayName: 'Select',
 
 	propTypes: {
-		theme: _propTypes2['default'].string, // made for dark themes. If set to true the component style will switch for dark backgrounds
 		addLabelText: _propTypes2['default'].string, // placeholder displayed when you want to add a label on a multi-value input
 		'aria-describedby': _propTypes2['default'].string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': _propTypes2['default'].string, // Aria label (for assistive tech)
@@ -962,10 +961,12 @@ var Select = (0, _createReactClass2['default'])({
 		resetValue: _propTypes2['default'].any, // value to use when you clear the control
 		scrollMenuIntoView: _propTypes2['default'].bool, // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 		searchable: _propTypes2['default'].bool, // whether to enable searching feature or not
+		selectLabel: _propTypes2['default'].string, // The field title
 		simpleValue: _propTypes2['default'].bool, // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 		style: _propTypes2['default'].object, // optional style to apply to the control
 		tabIndex: _propTypes2['default'].string, // optional tab index of the control
 		tabSelectsValue: _propTypes2['default'].bool, // whether to treat tabbing out while focused to be value selection
+		theme: _propTypes2['default'].string, // made for dark themes. If set to true the component style will switch for dark backgrounds
 		value: _propTypes2['default'].any, // initial field value
 		valueComponent: _propTypes2['default'].func, // value component to render
 		valueKey: _propTypes2['default'].string, // path of the label value in option objects
@@ -1012,10 +1013,11 @@ var Select = (0, _createReactClass2['default'])({
 			scrollMenuIntoView: true,
 			searchable: true,
 			simpleValue: false,
+			selectLabel: "",
 			tabSelectsValue: true,
+			theme: '',
 			valueComponent: _Value2['default'],
-			valueKey: 'value',
-			theme: ''
+			valueKey: 'value'
 		};
 	},
 
@@ -1985,6 +1987,18 @@ var Select = (0, _createReactClass2['default'])({
 		);
 	},
 
+	renderSelectLabel: function renderSelectLabel() {
+		if (this.props.selectLabel) {
+			var _classNames3 = this.state.isFocused ? 'select-field-label select-field-label-focused' : 'select-field-label';
+			return _react2['default'].createElement(
+				'h3',
+				{ className: _classNames3 },
+				this.props.selectLabel
+			);
+		}
+		return;
+	},
+
 	render: function render() {
 		var _this8 = this;
 
@@ -2030,6 +2044,7 @@ var Select = (0, _createReactClass2['default'])({
 				},
 				className: className,
 				style: this.props.wrapperStyle },
+			this.renderSelectLabel(),
 			this.renderHiddenField(valueArray),
 			_react2['default'].createElement(
 				'div',
