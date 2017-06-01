@@ -461,7 +461,7 @@ var Creatable = (0, _createReactClass2['default'])({
 			if (_isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
-					// Artlimes addition. Clears the input values on click.
+					// Clears the input values on click.
 					this.select.clearInputs(option);
 				} else {
 					options.unshift(option);
@@ -761,15 +761,57 @@ var Option = (0, _createReactClass2['default'])({
 			this.props.onFocus(this.props.option, event);
 		}
 	},
+	handleOptionDelete: function handleOptionDelete(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option, event);
+	},
+	handleOptionDeleteTouchEnd: function handleOptionDeleteTouchEnd(event) {
+		if (this.dragging) return;
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option, event);
+	},
 	render: function render() {
 		var _props = this.props;
 		var option = _props.option;
 		var instancePrefix = _props.instancePrefix;
 		var optionIndex = _props.optionIndex;
+		var deletable = _props.deletable;
 
 		var className = (0, _classnames2['default'])(this.props.className, option.className);
 
-		return option.disabled ? _react2['default'].createElement(
+		return deletable ? option.disabled ? _react2['default'].createElement(
+			'div',
+			{ className: className,
+				onMouseDown: this.blockEvent,
+				onClick: this.blockEvent },
+			_react2['default'].createElement(
+				'span',
+				{ className: 'Select-clear Select-clear-menu', onMouseDown: this.handleOptionDelete },
+				'x'
+			),
+			this.props.children
+		) : _react2['default'].createElement(
+			'div',
+			{ className: className,
+				style: option.style,
+				role: 'option',
+				onMouseDown: this.handleMouseDown,
+				onMouseEnter: this.handleMouseEnter,
+				onMouseMove: this.handleMouseMove,
+				onTouchStart: this.handleTouchStart,
+				onTouchMove: this.handleTouchMove,
+				onTouchEnd: this.handleTouchEnd,
+				id: instancePrefix + '-option-' + optionIndex,
+				title: option.title },
+			_react2['default'].createElement(
+				'span',
+				{ className: 'Select-clear Select-clear-menu', onMouseDown: this.handleOptionDelete, onTouchEnd: this.handleOptionDeleteTouchEnd },
+				'x'
+			),
+			this.props.children
+		) : option.disabled ? _react2['default'].createElement(
 			'div',
 			{ className: className,
 				onMouseDown: this.blockEvent,
@@ -915,7 +957,9 @@ var Select = (0, _createReactClass2['default'])({
 		clearRenderer: _propTypes2['default'].func, // create clearable x element
 		clearValueText: stringOrNode, // title for the "clear" control
 		clearable: _propTypes2['default'].bool, // should it be possible to reset value
+		deletable: _propTypes2['default'].bool, // shows x button to remove options from menu
 		deleteRemoves: _propTypes2['default'].bool, // whether backspace removes an item if there is no text input
+		deleteOption: _propTypes2['default'].func, // handles the memu option delete. Takes the clicked option obj as argument
 		delimiter: _propTypes2['default'].string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _propTypes2['default'].bool, // whether the Select is disabled or not
 		escapeClearsValue: _propTypes2['default'].bool, // whether escape clears the value when the menu is closed
@@ -987,6 +1031,7 @@ var Select = (0, _createReactClass2['default'])({
 			clearAllText: 'Clear all',
 			clearRenderer: _utilsDefaultClearRenderer2['default'],
 			clearValueText: 'Clear value',
+			deletable: true,
 			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
@@ -1527,6 +1572,12 @@ var Select = (0, _createReactClass2['default'])({
 		}
 	},
 
+	deleteOption: function deleteOption(option) {
+		if (this.props.deleteOption) {
+			return this.props.deleteOption(option);
+		}
+	},
+
 	addValue: function addValue(value) {
 		var valueArray = this.getValueArray(this.props.value);
 		var visibleOptions = this._visibleOptions.filter(function (val) {
@@ -1888,6 +1939,8 @@ var Select = (0, _createReactClass2['default'])({
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
+				onDelete: this.deleteOption,
+				deletable: this.props.deletable,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
@@ -2315,6 +2368,8 @@ function menuRenderer(_ref) {
 	var labelKey = _ref.labelKey;
 	var onFocus = _ref.onFocus;
 	var onSelect = _ref.onSelect;
+	var onDelete = _ref.onDelete;
+	var deletable = _ref.deletable;
 	var optionClassName = _ref.optionClassName;
 	var optionComponent = _ref.optionComponent;
 	var optionRenderer = _ref.optionRenderer;
@@ -2346,6 +2401,8 @@ function menuRenderer(_ref) {
 				key: 'option-' + i + '-' + option[valueKey],
 				onFocus: onFocus,
 				onSelect: onSelect,
+				onDelete: onDelete,
+				deletable: deletable,
 				option: option,
 				optionIndex: i,
 				ref: function (ref) {

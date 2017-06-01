@@ -53,8 +53,20 @@ var StatesField = createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} theme={this.props.theme} selectLabel="Select Field Label" />
-
+				<Select
+					ref="stateSelect"
+					autofocus
+					options={options}
+					simpleValue
+					clearable={this.state.clearable}
+					name="selected-state"
+					disabled={this.state.disabled}
+					value={this.state.selectValue}
+					onChange={this.updateValue}
+					searchable={this.state.searchable}
+					theme={this.props.theme}
+					selectLabel="Select Field Label"
+				/>
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
 					<label className="checkbox" style={{ marginLeft: 10 }}>

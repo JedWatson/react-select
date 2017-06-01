@@ -91,7 +91,7 @@ const Creatable = createClass({
 			if (isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
-					// Artlimes addition. Clears the input values on click.
+					// Clears the input values on click.
 					this.select.clearInputs(option);
 				} else {
 					options.unshift(option);
@@ -291,4 +291,4 @@ function shouldKeyDownEventCreateNewOption ({ keyCode }) {
 	return false;
 };
 
-module.exports = Creatable;
+module.exports = Creatable

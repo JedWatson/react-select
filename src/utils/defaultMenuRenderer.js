@@ -7,6 +7,8 @@ function menuRenderer ({
 	labelKey,
 	onFocus,
 	onSelect,
+	onDelete,
+	deletable,
 	optionClassName,
 	optionComponent,
 	optionRenderer,
@@ -24,7 +26,7 @@ function menuRenderer ({
 			'Select-option': true,
 			'is-selected': isSelected,
 			'is-focused': isFocused,
-			'is-disabled': option.disabled,
+			'is-disabled': option.disabled
 		});
 
 		return (
@@ -37,6 +39,8 @@ function menuRenderer ({
 				key={`option-${i}-${option[valueKey]}`}
 				onFocus={onFocus}
 				onSelect={onSelect}
+				onDelete={onDelete}
+				deletable={deletable}
 				option={option}
 				optionIndex={i}
 				ref={ref => { onOptionRef(ref, isFocused); }}

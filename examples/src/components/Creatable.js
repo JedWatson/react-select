@@ -29,6 +29,12 @@ var CreatableDemo = createClass({
 			this.setState({ value });
 		}
 	},
+	handleOptionDelete (option) {
+		const newOptions = this.state.options.filter((el) => {
+			return el.label !== option.label;
+		});
+		this.setState({ options: newOptions });
+	},
 	render () {
 		const { multi, multiValue, options, value } = this.state;
 		return (
@@ -40,6 +46,7 @@ var CreatableDemo = createClass({
 					onChange={this.handleOnChange}
 					value={multi ? multiValue : value}
 					theme={this.props.theme}
+					deleteOption={this.handleOptionDelete}
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">
