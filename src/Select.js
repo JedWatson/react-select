@@ -63,14 +63,14 @@ const Select = createClass({
 		clearRenderer: PropTypes.func,        // create clearable x element
 		clearValueText: stringOrNode,               // title for the "clear" control
 		clearable: PropTypes.bool,            // should it be possible to reset value
+		deletable: PropTypes.bool,			// shows x button to remove options from menu
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
+		deleteOption: PropTypes.func,					// handles the memu option delete. Takes the clicked option obj as argument
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: PropTypes.bool,             // whether the Select is disabled or not
 		escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-		deleteOption: PropTypes.func,					// handles the memu option delete. Takes the clicked option obj as argument
-		deletable: PropTypes.bool,			// shows x button to remove options from menu
 		ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: PropTypes.object,         // custom attributes for the Input
@@ -132,10 +132,10 @@ const Select = createClass({
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
-			deletable: true,
 			clearAllText: 'Clear all',
 			clearRenderer: defaultClearRenderer,
 			clearValueText: 'Clear value',
+			deletable: true,
 			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
@@ -163,9 +163,9 @@ const Select = createClass({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
+			theme: ''
 			valueComponent: Value,
 			valueKey: 'value',
-			theme: ''
 		};
 	},
 
