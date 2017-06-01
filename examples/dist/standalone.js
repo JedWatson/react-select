@@ -1013,7 +1013,6 @@ var Select = (0, _createReactClass2['default'])({
 			scrollMenuIntoView: true,
 			searchable: true,
 			simpleValue: false,
-			selectLabel: "",
 			tabSelectsValue: true,
 			theme: '',
 			valueComponent: _Value2['default'],
@@ -1996,7 +1995,7 @@ var Select = (0, _createReactClass2['default'])({
 				this.props.selectLabel
 			);
 		}
-		return;
+		return null;
 	},
 
 	render: function render() {

@@ -160,7 +160,6 @@ const Select = createClass({
 			scrollMenuIntoView: true,
 			searchable: true,
 			simpleValue: false,
-			selectLabel: "",
 			tabSelectsValue: true,
 			theme: '',
 			valueComponent: Value,
@@ -1094,7 +1093,7 @@ const Select = createClass({
 			let classNames = this.state.isFocused ? 'select-field-label select-field-label-focused' : 'select-field-label';
 			return <h3 className={classNames}>{this.props.selectLabel}</h3>;
 		}
-		return
+		return null;
 	},
 
 	render () {
