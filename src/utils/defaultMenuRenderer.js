@@ -8,7 +8,7 @@ function menuRenderer ({
 	onFocus,
 	onSelect,
 	onDelete,
-	deletableOptions,
+	deletable,
 	optionClassName,
 	optionComponent,
 	optionRenderer,
@@ -40,7 +40,7 @@ function menuRenderer ({
 				onFocus={onFocus}
 				onSelect={onSelect}
 				onDelete={onDelete}
-				deletableOptions={deletableOptions}
+				deletable={deletable}
 				option={option}
 				optionIndex={i}
 				ref={ref => { onOptionRef(ref, isFocused); }}

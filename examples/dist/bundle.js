@@ -770,11 +770,11 @@ var Option = (0, _createReactClass2['default'])({
 		var option = _props.option;
 		var instancePrefix = _props.instancePrefix;
 		var optionIndex = _props.optionIndex;
-		var deletableOptions = _props.deletableOptions;
+		var deletable = _props.deletable;
 
 		var className = (0, _classnames2['default'])(this.props.className, option.className);
 
-		return deletableOptions ? option.disabled ? _react2['default'].createElement(
+		return deletable ? option.disabled ? _react2['default'].createElement(
 			'div',
 			{ className: className,
 				onMouseDown: this.blockEvent,
@@ -1060,7 +1060,7 @@ function menuRenderer(_ref) {
 	var onFocus = _ref.onFocus;
 	var onSelect = _ref.onSelect;
 	var onDelete = _ref.onDelete;
-	var deletableOptions = _ref.deletableOptions;
+	var deletable = _ref.deletable;
 	var optionClassName = _ref.optionClassName;
 	var optionComponent = _ref.optionComponent;
 	var optionRenderer = _ref.optionRenderer;
@@ -1093,7 +1093,7 @@ function menuRenderer(_ref) {
 				onFocus: onFocus,
 				onSelect: onSelect,
 				onDelete: onDelete,
-				deletableOptions: deletableOptions,
+				deletable: deletable,
 				option: option,
 				optionIndex: i,
 				ref: function (ref) {
@@ -1245,7 +1245,7 @@ var Select = (0, _createReactClass2['default'])({
 		filterOption: _propTypes2['default'].func, // method to filter a single option (option, filterString)
 		filterOptions: _propTypes2['default'].any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		deleteOption: _propTypes2['default'].func, // handles the memu option delete. Takes the clicked option obj as argument
-		deletableOptions: _propTypes2['default'].bool, // shows x button to remove options from menu
+		deletable: _propTypes2['default'].bool, // shows x button to remove options from menu
 		ignoreAccents: _propTypes2['default'].bool, // whether to strip diacritics when filtering
 		ignoreCase: _propTypes2['default'].bool, // whether to perform case-insensitive filtering
 		inputProps: _propTypes2['default'].object, // custom attributes for the Input
@@ -1307,7 +1307,7 @@ var Select = (0, _createReactClass2['default'])({
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
-			deletableOptions: true,
+			deletable: true,
 			clearAllText: 'Clear all',
 			clearRenderer: _utilsDefaultClearRenderer2['default'],
 			clearValueText: 'Clear value',
@@ -1852,9 +1852,7 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	deleteOption: function deleteOption(option) {
-		// debugger;
 		if (this.props.deleteOption) {
-			// debugger;
 			return this.props.deleteOption(option);
 		}
 	},
@@ -2221,7 +2219,7 @@ var Select = (0, _createReactClass2['default'])({
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
 				onDelete: this.deleteOption,
-				deletableOptions: this.props.deletableOptions,
+				deletable: this.props.deletable,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,

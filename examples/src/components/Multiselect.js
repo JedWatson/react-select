@@ -45,7 +45,7 @@ var MultiSelectField = createClass({
 	},
 	handleOptionDelete (option) {
 		const newOptions = this.state.options.filter((el) => {
-			return el.label != option.label;
+			return el.label !== option.label;
 		});
 		this.setState({ options: newOptions });
 	},
@@ -53,8 +53,17 @@ var MultiSelectField = createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} theme={this.props.theme} deleteOption={this.handleOptionDelete} />
-
+				<Select
+					multi
+					simpleValue
+					disabled={this.state.disabled}
+					value={this.state.value}
+					placeholder="Select your favourite(s)"
+					options={this.state.options}
+					onChange={this.handleSelectChange}
+					theme={this.props.theme}
+					deleteOption={this.handleOptionDelete}
+				/>
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />

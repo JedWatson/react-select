@@ -241,7 +241,16 @@ var Contributors = (0, _createReactClass2['default'])({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_minimalReactSelect2['default'].Async, { multi: this.state.multi, value: this.state.value, onChange: this.onChange, onValueClick: this.gotoContributor, valueKey: 'github', labelKey: 'name', loadOptions: this.getContributors, theme: this.props.theme }),
+			_react2['default'].createElement(_minimalReactSelect2['default'].Async, {
+				multi: this.state.multi,
+				value: this.state.value,
+				onChange: this.onChange,
+				onValueClick: this.gotoContributor,
+				valueKey: 'github',
+				labelKey: 'name',
+				loadOptions: this.getContributors,
+				theme: this.props.theme
+			}),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
@@ -323,7 +332,7 @@ var CreatableDemo = (0, _createReactClass2['default'])({
 	},
 	handleOptionDelete: function handleOptionDelete(option) {
 		var newOptions = this.state.options.filter(function (el) {
-			return el.label != option.label;
+			return el.label !== option.label;
 		});
 		this.setState({ options: newOptions });
 	},
@@ -737,7 +746,16 @@ var GithubUsers = (0, _createReactClass2['default'])({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(AsyncComponent, { multi: this.state.multi, value: this.state.value, onChange: this.onChange, onValueClick: this.gotoUser, valueKey: 'id', labelKey: 'login', loadOptions: this.getUsers, backspaceRemoves: this.state.backspaceRemoves }),
+			_react2['default'].createElement(AsyncComponent, {
+				multi: this.state.multi,
+				value: this.state.value,
+				onChange: this.onChange,
+				onValueClick: this.gotoUser,
+				valueKey: 'id',
+				labelKey: 'login',
+				loadOptions: this.getUsers,
+				backspaceRemoves: this.state.backspaceRemoves
+			}),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
@@ -851,7 +869,7 @@ var MultiSelectField = (0, _createReactClass2['default'])({
 	},
 	handleOptionDelete: function handleOptionDelete(option) {
 		var newOptions = this.state.options.filter(function (el) {
-			return el.label != option.label;
+			return el.label !== option.label;
 		});
 		this.setState({ options: newOptions });
 	},
@@ -864,7 +882,17 @@ var MultiSelectField = (0, _createReactClass2['default'])({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_minimalReactSelect2['default'], { multi: true, simpleValue: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: this.state.options, onChange: this.handleSelectChange, theme: this.props.theme, deleteOption: this.handleOptionDelete }),
+			_react2['default'].createElement(_minimalReactSelect2['default'], {
+				multi: true,
+				simpleValue: true,
+				disabled: this.state.disabled,
+				value: this.state.value,
+				placeholder: 'Select your favourite(s)',
+				options: this.state.options,
+				onChange: this.handleSelectChange,
+				theme: this.props.theme,
+				deleteOption: this.handleOptionDelete
+			}),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
@@ -1112,7 +1140,19 @@ var StatesField = (0, _createReactClass2['default'])({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_minimalReactSelect2['default'], { ref: 'stateSelect', autofocus: true, options: options, simpleValue: true, clearable: this.state.clearable, name: 'selected-state', disabled: this.state.disabled, value: this.state.selectValue, onChange: this.updateValue, searchable: this.state.searchable, theme: this.props.theme }),
+			_react2['default'].createElement(_minimalReactSelect2['default'], {
+				ref: 'stateSelect',
+				autofocus: true,
+				options: options,
+				simpleValue: true,
+				clearable: this.state.clearable,
+				name: 'selected-state',
+				disabled: this.state.disabled,
+				value: this.state.selectValue,
+				onChange: this.updateValue,
+				searchable: this.state.searchable,
+				theme: this.props.theme
+			}),
 			_react2['default'].createElement(
 				'div',
 				{ style: { marginTop: 14 } },

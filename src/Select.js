@@ -70,7 +70,7 @@ const Select = createClass({
 		filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 		deleteOption: PropTypes.func,					// handles the memu option delete. Takes the clicked option obj as argument
-		deletableOptions: PropTypes.bool,			// shows x button to remove options from menu
+		deletable: PropTypes.bool,			// shows x button to remove options from menu
 		ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 		ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 		inputProps: PropTypes.object,         // custom attributes for the Input
@@ -132,7 +132,7 @@ const Select = createClass({
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
-			deletableOptions: true,
+			deletable: true,
 			clearAllText: 'Clear all',
 			clearRenderer: defaultClearRenderer,
 			clearValueText: 'Clear value',
@@ -650,9 +650,7 @@ const Select = createClass({
 	},
 
 	deleteOption (option) {
-		// debugger;
 		if (this.props.deleteOption) {
-			// debugger;
 			return this.props.deleteOption( option );
 		}
 	},
@@ -1013,7 +1011,7 @@ const Select = createClass({
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
 				onDelete: this.deleteOption,
-				deletableOptions: this.props.deletableOptions,
+				deletable: this.props.deletable,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,

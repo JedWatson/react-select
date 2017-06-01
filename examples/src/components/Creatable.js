@@ -31,7 +31,7 @@ var CreatableDemo = createClass({
 	},
 	handleOptionDelete (option) {
 		const newOptions = this.state.options.filter((el) => {
-			return el.label != option.label;
+			return el.label !== option.label;
 		});
 		this.setState({ options: newOptions });
 	},

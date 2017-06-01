@@ -79,10 +79,10 @@ const Option = createClass({
 		return this.props.onDelete(this.props.option, event);
 	},
 	render () {
-		var { option, instancePrefix, optionIndex, deletableOptions } = this.props;
+		var { option, instancePrefix, optionIndex, deletable } = this.props;
 		var className = classNames(this.props.className, option.className);
 
-		return deletableOptions ? (
+		return deletable ? (
 			option.disabled ? (
 				<div className={className}
 					onMouseDown={this.blockEvent}

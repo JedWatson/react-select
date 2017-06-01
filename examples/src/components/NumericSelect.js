@@ -68,7 +68,7 @@ var ValuesAsNumbersField = createClass({
 					simpleValue
 					value={this.state.value}
 					theme={this.props.theme}
-					/>
+				/>
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.multi} onChange={this.onChangeMulti} />
