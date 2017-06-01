@@ -461,7 +461,7 @@ var Creatable = (0, _createReactClass2['default'])({
 			if (_isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
-					// Artlimes addition. Clears the input values on click.
+					// Clears the input values on click.
 					this.select.clearInputs(option);
 				} else {
 					options.unshift(option);
@@ -725,7 +725,7 @@ var Option = (0, _createReactClass2['default'])({
 	},
 
 	handleMouseDown: function handleMouseDown(event) {
-		if (event.currentTarget) event.preventDefault();
+		event.preventDefault();
 		event.stopPropagation();
 		this.props.onSelect(this.props.option, event);
 	},
@@ -764,17 +764,24 @@ var Option = (0, _createReactClass2['default'])({
 	handleOptionDelete: function handleOptionDelete(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		return this.props.onDelete(this.props.option);
+		return this.props.onDelete(this.props.option, event);
+	},
+	handleOptionDeleteTouchEnd: function handleOptionDeleteTouchEnd(event) {
+		if (this.dragging) return;
+		event.preventDefault();
+		event.stopPropagation();
+		return this.props.onDelete(this.props.option, event);
 	},
 	render: function render() {
 		var _props = this.props;
 		var option = _props.option;
 		var instancePrefix = _props.instancePrefix;
 		var optionIndex = _props.optionIndex;
+		var deletableOptions = _props.deletableOptions;
 
 		var className = (0, _classnames2['default'])(this.props.className, option.className);
 
-		return option.disabled ? _react2['default'].createElement(
+		return deletableOptions ? option.disabled ? _react2['default'].createElement(
 			'div',
 			{ className: className,
 				onMouseDown: this.blockEvent,
@@ -800,10 +807,29 @@ var Option = (0, _createReactClass2['default'])({
 				title: option.title },
 			_react2['default'].createElement(
 				'span',
-				{ className: 'Select-clear Select-clear-menu',
-					onMouseDown: this.handleOptionDelete },
+				{ className: 'Select-clear Select-clear-menu', onMouseDown: this.handleOptionDelete, onTouchEnd: this.handleOptionDeleteTouchEnd },
 				'x'
 			),
+			this.props.children
+		) : option.disabled ? _react2['default'].createElement(
+			'div',
+			{ className: className,
+				onMouseDown: this.blockEvent,
+				onClick: this.blockEvent },
+			this.props.children
+		) : _react2['default'].createElement(
+			'div',
+			{ className: className,
+				style: option.style,
+				role: 'option',
+				onMouseDown: this.handleMouseDown,
+				onMouseEnter: this.handleMouseEnter,
+				onMouseMove: this.handleMouseMove,
+				onTouchStart: this.handleTouchStart,
+				onTouchMove: this.handleTouchMove,
+				onTouchEnd: this.handleTouchEnd,
+				id: instancePrefix + '-option-' + optionIndex,
+				title: option.title },
 			this.props.children
 		);
 	}
@@ -938,6 +964,8 @@ var Select = (0, _createReactClass2['default'])({
 		escapeClearsValue: _propTypes2['default'].bool, // whether escape clears the value when the menu is closed
 		filterOption: _propTypes2['default'].func, // method to filter a single option (option, filterString)
 		filterOptions: _propTypes2['default'].any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+		deleteOption: _propTypes2['default'].func, // handles the memu option delete. Takes the clicked option obj as argument
+		deletableOptions: _propTypes2['default'].bool, // shows x button to remove options from menu
 		ignoreAccents: _propTypes2['default'].bool, // whether to strip diacritics when filtering
 		ignoreCase: _propTypes2['default'].bool, // whether to perform case-insensitive filtering
 		inputProps: _propTypes2['default'].object, // custom attributes for the Input
@@ -999,6 +1027,7 @@ var Select = (0, _createReactClass2['default'])({
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
+			deletableOptions: true,
 			clearAllText: 'Clear all',
 			clearRenderer: _utilsDefaultClearRenderer2['default'],
 			clearValueText: 'Clear value',
@@ -1544,8 +1573,10 @@ var Select = (0, _createReactClass2['default'])({
 
 	deleteOption: function deleteOption(option) {
 		// debugger;
-		// var options=this._visibleOptions;
-		return null;
+		if (this.props.deleteOption) {
+			// debugger;
+			return this.props.deleteOption(option);
+		}
 	},
 
 	addValue: function addValue(value) {
@@ -1910,6 +1941,7 @@ var Select = (0, _createReactClass2['default'])({
 				onFocus: this.focusOption,
 				onSelect: this.selectValue,
 				onDelete: this.deleteOption,
+				deletableOptions: this.props.deletableOptions,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
@@ -2325,6 +2357,7 @@ function menuRenderer(_ref) {
 	var onFocus = _ref.onFocus;
 	var onSelect = _ref.onSelect;
 	var onDelete = _ref.onDelete;
+	var deletableOptions = _ref.deletableOptions;
 	var optionClassName = _ref.optionClassName;
 	var optionComponent = _ref.optionComponent;
 	var optionRenderer = _ref.optionRenderer;
@@ -2344,11 +2377,6 @@ function menuRenderer(_ref) {
 			'is-focused': isFocused,
 			'is-disabled': option.disabled
 		});
-		// ,
-		// 'is-deleted': option.deleted
-		// if (option.deleted) {
-		// 	return null;
-		// }
 
 		return _react2['default'].createElement(
 			Option,
@@ -2361,17 +2389,16 @@ function menuRenderer(_ref) {
 				key: 'option-' + i + '-' + option[valueKey],
 				onFocus: onFocus,
 				onSelect: onSelect,
+				onDelete: onDelete,
+				deletableOptions: deletableOptions,
 				option: option,
 				optionIndex: i,
 				ref: function (ref) {
 					onOptionRef(ref, isFocused);
-				},
-				onDelete: onDelete
+				}
 			},
 			optionRenderer(option, i)
-		)
-		// isDeleted={option.deleted}
-		;
+		);
 	});
 }
 

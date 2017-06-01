@@ -321,6 +321,12 @@ var CreatableDemo = (0, _createReactClass2['default'])({
 			this.setState({ value: value });
 		}
 	},
+	handleOptionDelete: function handleOptionDelete(option) {
+		var newOptions = this.state.options.filter(function (el) {
+			return el.label != option.label;
+		});
+		this.setState({ options: newOptions });
+	},
 	render: function render() {
 		var _this = this;
 
@@ -343,7 +349,8 @@ var CreatableDemo = (0, _createReactClass2['default'])({
 				options: options,
 				onChange: this.handleOnChange,
 				value: multi ? multiValue : value,
-				theme: this.props.theme
+				theme: this.props.theme,
+				deleteOption: this.handleOptionDelete
 			}),
 			_react2['default'].createElement(
 				'div',
@@ -842,6 +849,12 @@ var MultiSelectField = (0, _createReactClass2['default'])({
 			options: crazy ? WHY_WOULD_YOU : FLAVOURS
 		});
 	},
+	handleOptionDelete: function handleOptionDelete(option) {
+		var newOptions = this.state.options.filter(function (el) {
+			return el.label != option.label;
+		});
+		this.setState({ options: newOptions });
+	},
 	render: function render() {
 		return _react2['default'].createElement(
 			'div',
@@ -851,7 +864,7 @@ var MultiSelectField = (0, _createReactClass2['default'])({
 				{ className: 'section-heading' },
 				this.props.label
 			),
-			_react2['default'].createElement(_minimalReactSelect2['default'], { multi: true, simpleValue: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: this.state.options, onChange: this.handleSelectChange, theme: this.props.theme }),
+			_react2['default'].createElement(_minimalReactSelect2['default'], { multi: true, simpleValue: true, disabled: this.state.disabled, value: this.state.value, placeholder: 'Select your favourite(s)', options: this.state.options, onChange: this.handleSelectChange, theme: this.props.theme, deleteOption: this.handleOptionDelete }),
 			_react2['default'].createElement(
 				'div',
 				{ className: 'checkbox-list' },
