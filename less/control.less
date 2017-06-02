@@ -34,8 +34,11 @@
     color: @select-primary-color;
     line-height: @select-input-internal-height;
     &.select-field-label-focused {
-     color: @select-input-focused-border-color;
-     font-size: 1.2em;
+      color: @select-input-focused-border-color;
+      transition: transform 250ms;
+      transform: scale(.875, .875);
+      transform-origin: bottom left;
+
     }
   }
 }
@@ -112,7 +115,7 @@
   font-size: @font-size-base;
   /* FF 4-18 */
   font-weight: 300;
-  line-height: 18px;
+  line-height: 30px;
   color: @select-input-placeholder;
 }
 
