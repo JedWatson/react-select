@@ -33,7 +33,9 @@
 }
 .Select .select-field-label.select-field-label-focused {
   color: #ff115f;
-  font-size: 1.2em;
+  transition: transform 250ms;
+  transform: scale(0.875, 0.875);
+  transform-origin: bottom left;
 }
 .Select-control {
   background-color: #fff;
@@ -90,7 +92,7 @@
   font-size: 14px;
   /* FF 4-18 */
   font-weight: 300;
-  line-height: 18px;
+  line-height: 30px;
   color: #9b9b9b;
 }
 .Select-value:hover .Select-value-icon {
