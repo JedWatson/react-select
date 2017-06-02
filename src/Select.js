@@ -152,6 +152,7 @@ const Select = createClass({
 			onBlurResetsInput: true,
 			onCloseResetsInput: true,
 			optionComponent: Option,
+			options: [],
 			pageSize: 5,
 			placeholder: 'Select...',
 			required: false,
