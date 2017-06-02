@@ -1136,3 +1136,4 @@ const Select = createClass({
 });
 
 export default Select;
+export Async;
