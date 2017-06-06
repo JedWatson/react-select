@@ -21,6 +21,7 @@ import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
 import Option from './Option';
 import Value from './Value';
+import DraggableValue from './DraggableValue';
 
 function stringifyValue (value) {
 	const valueType = typeof value;
@@ -65,6 +66,7 @@ const Select = createClass({
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: PropTypes.bool,             // whether the Select is disabled or not
+		draggable: PropTypes.bool,            // whether the value is draggable, only applicable for multi=true
 		escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -135,6 +137,7 @@ const Select = createClass({
 			deleteRemoves: true,
 			delimiter: ',',
 			disabled: false,
+			draggable: false,
 			escapeClearsValue: true,
 			filterOptions: defaultFilterOptions,
 			ignoreAccents: true,
@@ -159,7 +162,7 @@ const Select = createClass({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
-			valueComponent: Value,
+			valueComponent: null,
 			valueKey: 'value',
 		};
 	},
@@ -792,7 +795,7 @@ const Select = createClass({
 
 	renderValue (valueArray, isOpen) {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
-		let ValueComponent = this.props.valueComponent;
+		let ValueComponent = this.props.valueComponent || ((this.props.draggable && this.props.multi) ? DraggableValue : Value);
 		if (!valueArray.length) {
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
@@ -801,6 +804,7 @@ const Select = createClass({
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
+						index={i}
 						id={this._instancePrefix + '-value-' + i}
 						instancePrefix={this._instancePrefix}
 						disabled={this.props.disabled || value.clearableValue === false}
@@ -808,6 +812,7 @@ const Select = createClass({
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+						handlerReorder={this.handlerReorder}
 					>
 						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
@@ -1063,6 +1068,14 @@ const Select = createClass({
 				</div>
 			</div>
 		);
+	},
+
+	handlerReorder(dragIndex, hoverIndex) {
+		const options = this.getValueArray(this.props.value);
+		const dragOption = options[dragIndex];
+		const target = options.splice(dragIndex, 1)[0];
+		options.splice(hoverIndex, 0, target);
+		this.props.onChange(options);
 	},
 
 	render () {
