@@ -86,6 +86,7 @@ var Async = (function (_Component) {
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this._onBlur = this._onBlur.bind(this);
 	}
 
 	_createClass(Async, [{
@@ -169,6 +170,16 @@ var Async = (function (_Component) {
 			return inputValue;
 		}
 	}, {
+		key: '_onBlur',
+		value: function _onBlur(event) {
+			if (this.props.onBlur) {
+				this.props.onBlur(event);
+			}
+			if (this.props.onBlurResetsInput) {
+				this.loadOptions('');
+			}
+		}
+	}, {
 		key: '_onInputChange',
 		value: function _onInputChange(inputValue) {
 			var _props = this.props;
@@ -242,6 +253,7 @@ var Async = (function (_Component) {
 				ref: function ref(_ref) {
 					return _this3.select = _ref;
 				},
+				onBlur: this._onBlur,
 				onChange: function onChange(newValues) {
 					if (_this3.props.multi && _this3.props.value && newValues.length > _this3.props.value.length) {
 						_this3.clearOptions();

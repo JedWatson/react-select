@@ -58,6 +58,7 @@ export default class Async extends Component {
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this._onBlur = this._onBlur.bind(this);
 	}
 
 	componentDidMount () {
@@ -134,7 +135,14 @@ export default class Async extends Component {
 
 		return inputValue;
 	}
-
+	_onBlur(event) {
+		if (this.props.onBlur) {
+			this.props.onBlur(event);
+		}
+		if (this.props.onBlurResetsInput) {
+			this.loadOptions('');
+		}
+	}
 	_onInputChange (inputValue) {
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
 
@@ -188,6 +196,7 @@ export default class Async extends Component {
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
+			onBlur: this._onBlur,
 			onChange: (newValues) => {
 				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
 					this.clearOptions();
