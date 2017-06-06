@@ -448,7 +448,7 @@ const Select = createClass({
 		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newInputValue);
 			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
+			if (nextState != null && typeof nextState !== 'object' && typeof nextState.then === 'undefined') {
 				newInputValue = '' + nextState;
 			}
 		}
