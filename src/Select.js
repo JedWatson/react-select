@@ -273,6 +273,10 @@ const Select = createClass({
 		}
 	},
 
+	blur () {
+		this.refs.input.focus();
+	}
+
 	focus () {
 		if (!this.input) return;
 		this.input.focus();
