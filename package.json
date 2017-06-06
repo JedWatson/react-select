@@ -26,7 +26,7 @@
     "gulp": "^3.9.1",
     "isomorphic-fetch": "^2.2.1",
     "istanbul": "^0.4.5",
-    "jsdom": "^9.5.0",
+    "jsdom": "^11.0.0",
     "mocha": "^3.0.2",
     "react": "^15.0",
     "react-addons-shallow-compare": "^15.0",
