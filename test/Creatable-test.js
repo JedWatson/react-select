@@ -170,6 +170,14 @@ describe('Creatable', () => {
 		expect(childProps.allowCreate, 'to equal', true);
 	});
 
+	it('should call onInputChange if passed as props', () => {
+		createControl({
+			onInputChange: (val) => val + '+BAR'
+		});
+		typeSearchText('FOO');
+		expect(filterInputNode.value, 'to equal', 'FOO+BAR');
+	});
+
 	it('default :children function renders a Select component', () => {
 		createControl();
 		expect(creatableNode.className, 'to contain', 'Select');
