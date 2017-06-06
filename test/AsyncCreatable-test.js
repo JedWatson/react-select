@@ -14,7 +14,7 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var ReactTestUtils = require('react-dom/test-utils');
 var sinon = require('sinon');
 var Select = require('../src/Select');
 
@@ -23,12 +23,12 @@ describe('AsyncCreatable', () => {
 
 	beforeEach(() => {
 		loadOptions = sinon.stub();
-		renderer = TestUtils.createRenderer();
+		renderer = ReactTestUtils.createRenderer();
 	});
 
 	function createControl (props = {}) {
 		props.loadOptions = props.loadOptions || loadOptions;
-		creatableInstance = TestUtils.renderIntoDocument(
+		creatableInstance = ReactTestUtils.renderIntoDocument(
 			<Select.AsyncCreatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
@@ -38,7 +38,7 @@ describe('AsyncCreatable', () => {
 	function findAndFocusInputControl () {
 		filterInputNode = creatableNode.querySelector('input');
 		if (filterInputNode) {
-			TestUtils.Simulate.focus(filterInputNode);
+			ReactTestUtils.Simulate.focus(filterInputNode);
 		}
 	};
 
@@ -63,7 +63,7 @@ describe('AsyncCreatable', () => {
 	describe('.focus()', () => {
 		beforeEach(() => {
 			createControl({});
-			TestUtils.Simulate.blur(filterInputNode);
+			ReactTestUtils.Simulate.blur(filterInputNode);
 		});
 
 		it('focuses the search input', () => {

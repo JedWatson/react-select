@@ -15,13 +15,13 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var ReactTestUtils = require('react-dom/test-utils');
 var Select = require('../src/Select');
 
 describe('Creatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, innserSelectInstance, renderer;
 
-	beforeEach(() => renderer = TestUtils.createRenderer());
+	beforeEach(() => renderer = ReactTestUtils.createRenderer());
 
 	const defaultOptions = [
 		{ value: 'one', label: 'One' },
@@ -32,7 +32,7 @@ describe('Creatable', () => {
 
 	function createControl (props = {}) {
 		props.options = props.options || defaultOptions;
-		creatableInstance = TestUtils.renderIntoDocument(
+		creatableInstance = ReactTestUtils.renderIntoDocument(
 			<Select.Creatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
@@ -43,12 +43,12 @@ describe('Creatable', () => {
 	function findAndFocusInputControl () {
 		filterInputNode = creatableNode.querySelector('input');
 		if (filterInputNode) {
-			TestUtils.Simulate.focus(filterInputNode);
+			ReactTestUtils.Simulate.focus(filterInputNode);
 		}
 	};
 
 	function typeSearchText (text) {
-		TestUtils.Simulate.change(filterInputNode, { target: { value: text } });
+		ReactTestUtils.Simulate.change(filterInputNode, { target: { value: text } });
 	};
 
 	it('should render a decorated Select (with passed through properties)', () => {
@@ -125,7 +125,7 @@ describe('Creatable', () => {
 			options
 		});
 		typeSearchText('foo');
-		TestUtils.Simulate.mouseDown(creatableNode.querySelector('.Select-create-option-placeholder'));
+		ReactTestUtils.Simulate.mouseDown(creatableNode.querySelector('.Select-create-option-placeholder'));
 		expect(options, 'to have length', 1);
 		expect(options[0].label, 'to equal', 'foo');
 		expect(selectedOption, 'to be', options[0]);
@@ -140,7 +140,7 @@ describe('Creatable', () => {
 			shouldKeyDownEventCreateNewOption: () => true
 		});
 		typeSearchText('foo');
-		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
+		ReactTestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
 		expect(options, 'to have length', 1);
 		expect(options[0].label, 'to equal', 'foo');
 		expect(selectedOption, 'to be', options[0]);
@@ -153,8 +153,8 @@ describe('Creatable', () => {
 			shouldKeyDownEventCreateNewOption: ({ keyCode }) => keyCode === 13
 		});
 		typeSearchText('on'); // ['Create option "on"', 'One']
-		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' }); // Select 'One'
-		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
+		ReactTestUtils.Simulate.keyDown(filterInputNode, { keyCode: 40, key: 'ArrowDown' }); // Select 'One'
+		ReactTestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
 		expect(options, 'to have length', 1);
 	});
 
@@ -241,7 +241,7 @@ describe('Creatable', () => {
 	describe('.focus()', () => {
 		beforeEach(() => {
 			createControl({});
-			TestUtils.Simulate.blur(filterInputNode);
+			ReactTestUtils.Simulate.blur(filterInputNode);
 		});
 
 		it('focuses the search input', () => {
