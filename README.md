@@ -303,7 +303,8 @@ The custom `menuRenderer` property accepts the following named parameters:
 
 ### Updating input values with onInputChange
 
-You can manipulate the input using the onInputChange and returning a new value.
+You can manipulate the input by providing a `onInputChange` callback that returns a new value.
+**Please note:** When you want to use `onInputChange` only to listen to the input updates, you still have to return the unchanged value!
 
 ```js
 function cleanInput(inputValue) {
@@ -385,7 +386,7 @@ function onInputKeyDown(event) {
 | onClose | func | undefined | handler for when the menu closes: `function () {}` |
 | onCloseResetsInput | bool | true | whether to clear input when closing the menu through the arrow |
 | onFocus | func | undefined | onFocus handler: `function(event) {}` |
-| onInputChange | func | undefined | onInputChange handler: `function(inputValue) {}` |
+| onInputChange | func | undefined | onInputChange handler/interceptor: `function(inputValue: string): string` |
 | onInputKeyDown | func | undefined | input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}` |
 | onOpen | func | undefined | handler for when the menu opens: `function () {}` |
 | onValueClick | func | undefined | onClick handler for value labels: `function (value, event) {}` |
