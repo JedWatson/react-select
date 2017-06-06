@@ -23,7 +23,7 @@
   box-shadow: none;
 }
 .Select.is-disabled .Select-arrow-zone {
-  cursor: default;
+  cursor: no-drop;
   pointer-events: none;
   opacity: 0.35;
 }
