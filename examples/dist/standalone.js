@@ -462,7 +462,8 @@ var Creatable = (0, _createReactClass2['default'])({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 					// Clears the input values on click.
-					this.select.clearInputs(option);
+					// this.select.clearInputs(option);
+					this.select.closeMenu();
 				} else {
 					options.unshift(option);
 
@@ -1481,9 +1482,16 @@ var Select = (0, _createReactClass2['default'])({
   * Clears the input value. Called from Creatable
   */
 	clearInputs: function selectValue(value) {
-		this.setState({
-			inputValue: ''
-		});
+		if (this.props.multi) {
+			this.setState({
+				inputValue: ''
+			});
+		} else {
+			this.setState({
+				inputValue: '',
+				isOpen: false
+			});
+		}
 	},
 
 	/**
@@ -1574,6 +1582,7 @@ var Select = (0, _createReactClass2['default'])({
 
 	deleteOption: function deleteOption(option) {
 		if (this.props.deleteOption) {
+			this.setState({ inputValue: this.state.inputValue });
 			return this.props.deleteOption(option);
 		}
 	},

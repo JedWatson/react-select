@@ -573,9 +573,16 @@ const Select = createClass({
 	 * Clears the input value. Called from Creatable
 	 */
 	clearInputs: function selectValue(value) {
-		this.setState({
+		if (this.props.multi) {
+			this.setState({
 				inputValue: ''
-		})
+			});
+		} else {
+			this.setState({
+				inputValue: '',
+				isOpen: false
+			});
+		}
 	},
 
 	/**
@@ -652,6 +659,7 @@ const Select = createClass({
 
 	deleteOption (option) {
 		if (this.props.deleteOption) {
+			this.setState({inputValue: this.state.inputValue});
 			return this.props.deleteOption( option );
 		}
 	},

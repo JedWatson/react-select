@@ -92,7 +92,8 @@ const Creatable = createClass({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 					// Clears the input values on click.
-					this.select.clearInputs(option);
+					// this.select.clearInputs(option);
+					this.select.closeMenu();
 				} else {
 					options.unshift(option);
 
