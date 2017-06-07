@@ -659,7 +659,6 @@ const Select = createClass({
 
 	deleteOption (option) {
 		if (this.props.deleteOption) {
-			this.setState({inputValue: this.state.inputValue});
 			return this.props.deleteOption( option );
 		}
 	},

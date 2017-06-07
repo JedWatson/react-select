@@ -1582,8 +1582,6 @@ var Select = (0, _createReactClass2['default'])({
 
 	deleteOption: function deleteOption(option) {
 		if (this.props.deleteOption) {
-			console.log("lalalala");
-			this.setState({ inputValue: this.state.inputValue });
 			return this.props.deleteOption(option);
 		}
 	},
