@@ -622,6 +622,7 @@ const Select = createClass({
 
 	selectValue (value) {
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
+		debugger;
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
