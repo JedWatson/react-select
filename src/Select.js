@@ -570,22 +570,6 @@ const Select = createClass({
 	},
 
 	/**
-	 * Clears the input value. Called from Creatable
-	 */
-	clearInputs: function selectValue(value) {
-		if (this.props.multi) {
-			this.setState({
-				inputValue: ''
-			});
-		} else {
-			this.setState({
-				inputValue: '',
-				isOpen: false
-			});
-		}
-	},
-
-	/**
 	 * Turns a value into an array from the given options
 	 * @param	{String|Number|Array}	value		- the value of the select input
 	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration

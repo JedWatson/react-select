@@ -461,8 +461,7 @@ var Creatable = (0, _createReactClass2['default'])({
 			if (_isOptionUnique) {
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
-					// Clears the input values on click.
-					// this.select.clearInputs(option);
+					// Closes the menu when a new option is clicked. Clears the input values if onCloseResetsInput is set to true {default: true}.
 					this.select.closeMenu();
 				} else {
 					options.unshift(option);
@@ -1476,22 +1475,6 @@ var Select = (0, _createReactClass2['default'])({
 
 	getOptionLabel: function getOptionLabel(op) {
 		return op[this.props.labelKey];
-	},
-
-	/**
-  * Clears the input value. Called from Creatable
-  */
-	clearInputs: function selectValue(value) {
-		if (this.props.multi) {
-			this.setState({
-				inputValue: ''
-			});
-		} else {
-			this.setState({
-				inputValue: '',
-				isOpen: false
-			});
-		}
 	},
 
 	/**
