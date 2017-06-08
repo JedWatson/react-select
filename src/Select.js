@@ -1016,7 +1016,7 @@ const Select = createClass({
 				type="hidden"
 				ref={'value' + index}
 				name={this.props.name}
-				value={stringifyValue(item[this.props.valueKey])}
+				value={stringifyValue(item[this.props.valueKey]) || ""}
 				disabled={this.props.disabled} />
 		));
 	},
