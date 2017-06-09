@@ -311,10 +311,22 @@ const Select = createClass({
 		this.clearValue(event);
 	},
 
+	disableEventList () {
+		// Android webview touchstart and touchend triggers and opens and
+		// immediately closes select and thus we ignore the the touchend event
+		let events = ['mousedown'];
+		const ua = navigator.userAgent.toLowerCase();
+		// If Android and not Chrome
+		if (ua.indexOf("android") > -1 && ua.indexOf("chrome") === -1) {
+			events.push('touchend');
+		}
+		return events;
+	},
+
 	handleMouseDown (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+		if (this.props.disabled || (this.disableEventList().indexOf(event.type) !== -1 && event.button !== 0)) {
 			return;
 		}
 
@@ -364,7 +376,7 @@ const Select = createClass({
 	handleMouseDownOnArrow (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+		if (this.props.disabled || (this.disableEventList().indexOf(event.type) !== -1 && event.button !== 0)) {
 			return;
 		}
 		// If the menu isn't open, let the event bubble to the main handleMouseDown
@@ -381,7 +393,7 @@ const Select = createClass({
 	handleMouseDownOnMenu (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
+		if (this.props.disabled || (this.disableEventList().indexOf(event.type) !== -1 && event.button !== 0)) {
 			return;
 		}
 		event.stopPropagation();
