@@ -47,6 +47,7 @@ var CreatableDemo = createClass({
 					value={multi ? multiValue : value}
 					theme={this.props.theme}
 					deleteOption={this.handleOptionDelete}
+					onCloseResetsInput={true}
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">

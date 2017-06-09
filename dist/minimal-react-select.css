@@ -303,7 +303,7 @@
   max-height: 200px;
   z-index: 1;
   -webkit-overflow-scrolling: touch;
-  border: none;
+  position: absolute;
 }
 .Select-menu {
   max-height: 198px;
