@@ -3893,4 +3893,15 @@ describe('Select', () => {
 			expect(input, 'to equal', document.activeElement);
 		});
 	});
+
+	describe('rtl', () => {
+		describe('className', () => {
+			it('assigns the className Select-rtl to the outer-most element', () => {
+				var instance = createControl({ rtl: true });
+				expect(ReactDOM.findDOMNode(instance), 'to have attributes', {
+					class: 'Select-rtl'
+				});
+			});
+		});
+	});
 });
