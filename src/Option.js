@@ -1,19 +1,21 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const Option = React.createClass({
+const Option = createClass({
 	propTypes: {
-		children: React.PropTypes.node,
-		className: React.PropTypes.string,             // className (based on mouse position)
-		instancePrefix: React.PropTypes.string.isRequired,  // unique prefix for the ids (used for aria)
-		isDisabled: React.PropTypes.bool,              // the option is disabled
-		isFocused: React.PropTypes.bool,               // the option is focused
-		isSelected: React.PropTypes.bool,              // the option is selected
-		onFocus: React.PropTypes.func,                 // method to handle mouseEnter on option element
-		onSelect: React.PropTypes.func,                // method to handle click on option element
-		onUnfocus: React.PropTypes.func,               // method to handle mouseLeave on option element
-		option: React.PropTypes.object.isRequired,     // object that is base for that option
-		optionIndex: React.PropTypes.number,           // index of the option, used to generate unique ids for aria
+		children: PropTypes.node,
+		className: PropTypes.string,             // className (based on mouse position)
+		instancePrefix: PropTypes.string.isRequired,  // unique prefix for the ids (used for aria)
+		isDisabled: PropTypes.bool,              // the option is disabled
+		isFocused: PropTypes.bool,               // the option is focused
+		isSelected: PropTypes.bool,              // the option is selected
+		onFocus: PropTypes.func,                 // method to handle mouseEnter on option element
+		onSelect: PropTypes.func,                // method to handle click on option element
+		onUnfocus: PropTypes.func,               // method to handle mouseLeave on option element
+		option: PropTypes.object.isRequired,     // object that is base for that option
+		optionIndex: PropTypes.number,           // index of the option, used to generate unique ids for aria
 	},
 	blockEvent (event) {
 		event.preventDefault();

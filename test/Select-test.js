@@ -691,6 +691,11 @@ describe('Select', () => {
 			expect(onChange, 'was called with', 0);
 		});
 
+        it('displays the X button for 0 value', () => {
+            wrapper.setPropsForChild({ value: 0 });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
+
 		describe('with multi=true', () => {
 
 			beforeEach(() => {
@@ -961,6 +966,11 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 					'to have text', 'No');
 		});
+
+        it('displays the X button for false value', () => {
+            wrapper.setPropsForChild({ value: false });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
 
 		describe('with multi=true', () => {
 
@@ -3802,6 +3812,19 @@ describe('Select', () => {
 				expect(instance,
 					'to contain', <input role="combobox" aria-labelledby="test-label-id" />);
 			});
+
+			it('passes through the aria-describedby prop', () => {
+
+				instance = createControl({
+					options: defaultOptions,
+					value: 'one',
+					'aria-describedby': 'test-label1-id test-label2-id'
+				});
+
+				expect(instance,
+					'to contain', <input role="combobox" aria-describedby="test-label1-id test-label2-id" />);
+			});
+
 
 			it('passes through the aria-label prop', () => {
 
