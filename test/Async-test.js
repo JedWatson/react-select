@@ -262,6 +262,85 @@ describe('Async', () => {
 		});
 	});
 
+	describe('with ignoreAccents', () => {
+		it('calls loadOptions with unchanged text', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: false
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'TeSt');
+		});
+
+		it('strips accents before calling loadOptions when enabled', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: false
+			});
+			typeSearchText('Gedünstmaßig');
+			// This should really be Gedunstmassig: ß -> ss
+			expect(loadOptions, 'was called with', 'Gedunstmasig');
+		});
+
+		it('does not strip accents before calling loadOptions when diabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: false
+			});
+			typeSearchText('Gedünstmaßig');
+			expect(loadOptions, 'was called with', 'Gedünstmaßig');
+		});
+	});
+
+	describe('with ignore case', () => {
+		it('converts everything to lowercase when enabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: true
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('converts accents to lowercase when enabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: true
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'wäre');
+		});
+
+		it('does not convert text to lowercase when disabled', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: false
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'WÄRE');
+		});
+	});
+
+	describe('with ignore case and ignore accents', () => {
+		it('converts everything to lowercase', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('TeSt');
+			expect(loadOptions, 'was called with', 'test');
+		});
+
+		it('removes accents and converts to lowercase', () => {
+			createControl({
+				ignoreAccents: true,
+				ignoreCase: true
+			});
+			typeSearchText('WÄRE');
+			expect(loadOptions, 'was called with', 'ware');
+		});
+	});
+
 	describe('noResultsText', () => {
 
 		beforeEach(() => {
