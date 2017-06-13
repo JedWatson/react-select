@@ -18,12 +18,14 @@
 @select-input-border-color:         #ccc;
 @select-input-border-radius:        4px;
 @select-input-border-focus:         @select-primary-color;
+@select-input-box-shadow-focus:     inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px -1px fade(@select-input-border-focus, 50%);
 @select-input-border-width:         1px;
 @select-input-height:               36px;
 @select-input-internal-height:      (@select-input-height - (@select-input-border-width * 2));
 @select-input-placeholder:          #aaa;
 @select-text-color:                 #333;
 @select-link-hover-color:           @select-input-border-focus;
+@select-input-hover-box-shadow:     0 1px 0 rgba(0, 0, 0, 0.06);
 
 @select-padding-vertical:           8px;
 @select-padding-horizontal:         10px;
@@ -31,6 +33,7 @@
 // menu options
 @select-menu-zindex:                1;
 @select-menu-max-height:            200px;
+@select-menu-box-shadow:            @select-input-hover-box-shadow;
 
 @select-option-color:               lighten(@select-text-color, 20%);
 @select-option-bg:                  @select-input-bg;
