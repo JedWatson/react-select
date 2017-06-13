@@ -1029,10 +1029,9 @@ const Select = createClass({
 
 	getFocusableOptionIndex (selectedOption) {
 		var options = this._visibleOptions;
-		var valueKey = this.props.valueKey
+		var valueKey = this.props.valueKey;
 		if (!options.length) return null;
 
-		const valueKey = this.props.valueKey;
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			let focusedOptionIndex = -1;

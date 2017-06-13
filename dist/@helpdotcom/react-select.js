@@ -14,8 +14,6 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -99,26 +97,18 @@ var Async = (function (_Component) {
 			}
 		}
 	}, {
-		key: 'componentWillUpdate',
-		value: function componentWillUpdate(nextProps, nextState) {
-			var _this = this;
-
-			var propertiesToSync = ['options'];
-			propertiesToSync.forEach(function (prop) {
-				if (_this.props[prop] !== nextProps[prop]) {
-					_this.setState(_defineProperty({}, prop, nextProps[prop]));
-				}
-			});
-		}
-	}, {
-		key: 'clearOptions',
-		value: function clearOptions() {
-			this.setState({ options: [] });
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			if (nextProps.options !== this.props.options) {
+				this.setState({
+					options: nextProps.options
+				});
+			}
 		}
 	}, {
 		key: 'loadOptions',
 		value: function loadOptions(inputValue) {
-			var _this2 = this;
+			var _this = this;
 
 			var loadOptions = this.props.loadOptions;
 
@@ -133,8 +123,8 @@ var Async = (function (_Component) {
 			}
 
 			var callback = function callback(error, data) {
-				if (callback === _this2._callback) {
-					_this2._callback = null;
+				if (callback === _this._callback) {
+					_this._callback = null;
 
 					var options = data && data.options || [];
 
@@ -142,7 +132,7 @@ var Async = (function (_Component) {
 						cache[inputValue] = options;
 					}
 
-					_this2.setState({
+					_this.setState({
 						isLoading: false,
 						options: options
 					});
@@ -226,7 +216,7 @@ var Async = (function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this3 = this;
+			var _this2 = this;
 
 			var _props3 = this.props;
 			var children = _props3.children;
@@ -241,13 +231,7 @@ var Async = (function (_Component) {
 				placeholder: isLoading ? loadingPlaceholder : placeholder,
 				options: isLoading && loadingPlaceholder ? [] : options,
 				ref: function ref(_ref) {
-					return _this3.select = _ref;
-				},
-				onChange: function onChange(newValues) {
-					if (_this3.props.multi && _this3.props.value && newValues.length > _this3.props.value.length) {
-						_this3.clearOptions();
-					}
-					_this3.props.onChange(newValues);
+					return _this2.select = _ref;
 				}
 			};
 
@@ -1491,6 +1475,9 @@ var Select = (0, _createReactClass2['default'])({
 				inputValue: '',
 				focusedIndex: null
 			}, function () {
+				if (_this3.props.onInputChange) {
+					_this3.props.onInputChange('');
+				}
 				_this3.addValue(value);
 			});
 		} else {
@@ -1499,6 +1486,9 @@ var Select = (0, _createReactClass2['default'])({
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused
 			}, function () {
+				if (_this3.props.onInputChange) {
+					_this3.props.onInputChange('');
+				}
 				_this3.setValue(value);
 			});
 		}
@@ -1911,9 +1901,9 @@ var Select = (0, _createReactClass2['default'])({
 
 	getFocusableOptionIndex: function getFocusableOptionIndex(selectedOption) {
 		var options = this._visibleOptions;
+		var valueKey = this.props.valueKey;
 		if (!options.length) return null;
 
-		var valueKey = this.props.valueKey;
 		var focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			var focusedOptionIndex = -1;
