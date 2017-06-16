@@ -1,5 +1,10 @@
 # React-Select
 
+## Next
+
+* fixed; issues synchronising options props in `Async`, thanks [cbergmiller](https://github.com/cbergmiller)
+* fixed; backspace handling for non-multi select controls, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+
 ## v1.0.0-rc.5 / 2017-05-25
 
 * fixed; Allow `falsey` values to be clearable, thanks [Simon Gaestel](https://github.com/sgaestel)
