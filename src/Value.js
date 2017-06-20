@@ -9,11 +9,18 @@ const Value = createClass({
 
 	propTypes: {
 		children: PropTypes.node,
+		cssPrefix: PropTypes.string,
 		disabled: PropTypes.bool,               // disabled prop passed to ReactSelect
 		id: PropTypes.string,                   // Unique id for the value - used for aria
 		onClick: PropTypes.func,                // method to handle click on value label
 		onRemove: PropTypes.func,               // method to handle removal of the value
 		value: PropTypes.object.isRequired,     // the option object for this value
+	},
+
+	getDefaultProps () {
+		return {
+			cssPrefix: 'Select'
+		};
 	},
 
 	handleMouseDown (event) {
@@ -56,9 +63,10 @@ const Value = createClass({
 	},
 
 	renderRemoveIcon () {
+		const { cssPrefix } = this.props;
 		if (this.props.disabled || !this.props.onRemove) return;
 		return (
-			<span className="Select-value-icon"
+			<span className={`${cssPrefix}-value-icon`}
 				aria-hidden="true"
 				onMouseDown={this.onRemove}
 				onTouchEnd={this.handleTouchEndRemove}
@@ -70,7 +78,8 @@ const Value = createClass({
 	},
 
 	renderLabel () {
-		let className = 'Select-value-label';
+		const { cssPrefix } = this.props;
+		let className = `${cssPrefix}-value-label`;
 		return this.props.onClick || this.props.value.href ? (
 			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
 				{this.props.children}
@@ -83,8 +92,9 @@ const Value = createClass({
 	},
 
 	render () {
+		const { cssPrefix } = this.props;
 		return (
-			<div className={classNames('Select-value', this.props.value.className)}
+			<div className={classNames(`${cssPrefix}-value`, this.props.value.className)}
 				style={this.props.value.style}
 				title={this.props.value.title}
 				>

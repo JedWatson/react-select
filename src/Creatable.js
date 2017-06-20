@@ -14,6 +14,9 @@ const Creatable = createClass({
 		// (props: Object): PropTypes.element
 		children: PropTypes.func,
 
+		// css prefix for class names
+		cssPrefix: PropTypes.string,
+
 		// See Select.propTypes.filterOptions
 		filterOptions: PropTypes.any,
 
@@ -22,15 +25,15 @@ const Creatable = createClass({
 		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
 		isOptionUnique: PropTypes.func,
 
-	    // Determines if the current input text represents a valid option.
-	    // ({ label: string }): boolean
-	    isValidNewOption: PropTypes.func,
+    // Determines if the current input text represents a valid option.
+    // ({ label: string }): boolean
+    isValidNewOption: PropTypes.func,
 
 		// See Select.propTypes.menuRenderer
 		menuRenderer: PropTypes.any,
 
-	    // Factory to create new option.
-	    // ({ label: string, labelKey: string, valueKey: string }): Object
+    // Factory to create new option.
+    // ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: PropTypes.func,
 
 		// input change handler: function (inputValue) {}
@@ -64,6 +67,7 @@ const Creatable = createClass({
 
 	getDefaultProps () {
 		return {
+			cssPrefix: 'Select',
 			filterOptions: defaultFilterOptions,
 			isOptionUnique,
 			isValidNewOption,
@@ -76,6 +80,7 @@ const Creatable = createClass({
 
 	createNewOption () {
 		const {
+			cssPrefix,
 			isValidNewOption,
 			newOptionCreator,
 			onNewOptionClick,
@@ -84,7 +89,7 @@ const Creatable = createClass({
 		} = this.props;
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			const option = newOptionCreator({ cssPrefix, label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
 			const isOptionUnique = this.isOptionUnique({ option });
 
 			// Don't add the same option twice.
@@ -101,7 +106,7 @@ const Creatable = createClass({
 	},
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
+		const { cssPrefix, filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -114,6 +119,7 @@ const Creatable = createClass({
 			const { newOptionCreator } = this.props;
 
 			const option = newOptionCreator({
+				cssPrefix,
 				label: this.inputValue,
 				labelKey: this.labelKey,
 				valueKey: this.valueKey
@@ -130,6 +136,7 @@ const Creatable = createClass({
 				const prompt = promptTextCreator(this.inputValue);
 
 				this._createPlaceholderOption = newOptionCreator({
+					cssPrefix,
 					label: prompt,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
@@ -266,11 +273,11 @@ function isValidNewOption ({ label }) {
 	return !!label;
 };
 
-function newOptionCreator ({ label, labelKey, valueKey }) {
+function newOptionCreator ({ cssPrefix='Select', label, labelKey, valueKey }) {
 	const option = {};
 	option[valueKey] = label;
  	option[labelKey] = label;
- 	option.className = 'Select-create-option-placeholder';
+ 	option.className = `${cssPrefix}-create-option-placeholder`;
  	return option;
 };
 
