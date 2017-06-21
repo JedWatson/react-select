@@ -400,6 +400,7 @@ function onInputKeyDown(event) {
 | loadingPlaceholder | string\|node | 'Loading...' | label to prompt for loading search result |
 | tabSelectsValue | bool | true | whether to select the currently focused value when the `[tab]` key is pressed |
 | value | any | undefined | initial field value |
+| valueComponent | func | <Value /> | function which returns a custom way to render/manage the value selected `<CustomValue />` |
 | valueKey | string | 'value' | the option property to use for the value |
 | valueRenderer | func | undefined | function which returns a custom way to render the value selected `function (option) {}` |
 
