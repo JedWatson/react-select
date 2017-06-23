@@ -971,6 +971,7 @@ var Select = (0, _createReactClass2['default'])({
 		inputRenderer: _propTypes2['default'].func, // returns a custom input component
 		instanceId: _propTypes2['default'].string, // set the components instanceId
 		isLoading: _propTypes2['default'].bool, // whether the Select is loading externally or not (such as options being loaded)
+		isRequired: _propTypes2['default'].bool, // custom styling in the label if there is not a value at onBlur
 		joinValues: _propTypes2['default'].bool, // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: _propTypes2['default'].string, // path of the label value in option objects
 		matchPos: _propTypes2['default'].string, // (any|start) match the start or entire string when filtering
@@ -1041,6 +1042,7 @@ var Select = (0, _createReactClass2['default'])({
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
+			isRequired: false,
 			joinValues: false,
 			labelKey: 'label',
 			matchPos: 'any',
@@ -1071,7 +1073,8 @@ var Select = (0, _createReactClass2['default'])({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false
+			required: false,
+			showRequiredMsg: false
 		};
 	},
 
@@ -1332,6 +1335,8 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	handleInputBlur: function handleInputBlur(event) {
+		// makes the "field is required" message to appear on blur"
+		this.props.isRequired && this.setState({ showRequiredMsg: true });
 		// The check for menu.contains(activeElement) is necessary to prevent IE11's scrollbar from closing the menu in certain contexts.
 		if (this.menu && (this.menu === document.activeElement || this.menu.contains(document.activeElement))) {
 			this.focus();
@@ -1979,6 +1984,15 @@ var Select = (0, _createReactClass2['default'])({
 		});
 	},
 
+	renderRequiredMessage: function renderRequiredMessage() {
+		var fieldRequiredMessage = 'Field is required';
+		return _react2['default'].createElement(
+			'span',
+			{ className: 'required-message' },
+			fieldRequiredMessage
+		);
+	},
+
 	getFocusableOptionIndex: function getFocusableOptionIndex(selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
@@ -2036,7 +2050,12 @@ var Select = (0, _createReactClass2['default'])({
 			return _react2['default'].createElement(
 				'h3',
 				{ className: _classNames3 },
-				this.props.selectLabel
+				this.props.selectLabel,
+				this.props.isRequired && _react2['default'].createElement(
+					'span',
+					{ className: 'required-asterisk' },
+					' *'
+				)
 			);
 		}
 		return null;
@@ -2048,6 +2067,7 @@ var Select = (0, _createReactClass2['default'])({
 		var valueArray = this.getValueArray(this.props.value);
 		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		var isOpen = this.state.isOpen;
+		var showRequiredMsg = this.state.showRequiredMsg;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		var focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
@@ -2113,6 +2133,7 @@ var Select = (0, _createReactClass2['default'])({
 				this.renderClear(),
 				this.renderArrow()
 			),
+			!isOpen && showRequiredMsg && this.props.isRequired && !valueArray.length && this.renderRequiredMessage(),
 			isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
 		);
 	}

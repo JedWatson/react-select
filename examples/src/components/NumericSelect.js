@@ -68,6 +68,7 @@ var ValuesAsNumbersField = createClass({
 					simpleValue
 					value={this.state.value}
 					theme={this.props.theme}
+					isRequired={true}
 				/>
 				<div className="checkbox-list">
 					<label className="checkbox">

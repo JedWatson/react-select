@@ -76,6 +76,7 @@ const Select = createClass({
 		inputRenderer: PropTypes.func,        // returns a custom input component
 		instanceId: PropTypes.string,         // set the components instanceId
 		isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
+		isRequired: PropTypes.bool,           // custom styling in the label if there is not a value at onBlur
 		joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: PropTypes.string,           // path of the label value in option objects
 		matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
@@ -146,6 +147,7 @@ const Select = createClass({
 			ignoreCase: true,
 			inputProps: {},
 			isLoading: false,
+			isRequired: false,
 			joinValues: false,
 			labelKey: 'label',
 			matchPos: 'any',
@@ -176,7 +178,8 @@ const Select = createClass({
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false
+			required: false,
+			showRequiredMsg: false
 		};
 	},
 
@@ -437,6 +440,8 @@ const Select = createClass({
 	},
 
 	handleInputBlur (event) {
+		// makes the "field is required" message to appear on blur"
+		this.props.isRequired && this.setState({showRequiredMsg:true});
 		// The check for menu.contains(activeElement) is necessary to prevent IE11's scrollbar from closing the menu in certain contexts.
 		if (this.menu && (this.menu === document.activeElement || this.menu.contains(document.activeElement))) {
 			this.focus();
@@ -1047,6 +1052,11 @@ const Select = createClass({
 		));
 	},
 
+	renderRequiredMessage () {
+		const fieldRequiredMessage = 'Field is required';
+		return <span className="required-message">{fieldRequiredMessage}</span>
+	},
+
 	getFocusableOptionIndex (selectedOption) {
 		var options = this._visibleOptions;
 		if (!options.length) return null;
@@ -1093,7 +1103,7 @@ const Select = createClass({
 	renderSelectLabel () {
 		if(this.props.selectLabel) {
 			let classNames = this.state.isFocused ? 'select-field-label select-field-label-focused' : 'select-field-label';
-			return <h3 className={classNames}>{this.props.selectLabel}</h3>;
+			return <h3 className={classNames}>{this.props.selectLabel}{this.props.isRequired && <span className="required-asterisk"> *</span>}</h3>;
 		}
 		return null;
 	},
@@ -1102,6 +1112,7 @@ const Select = createClass({
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
+		let showRequiredMsg = this.state.showRequiredMsg;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
@@ -1163,6 +1174,7 @@ const Select = createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
+				{!isOpen && showRequiredMsg && this.props.isRequired && !valueArray.length && this.renderRequiredMessage()}
 				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
 		);
