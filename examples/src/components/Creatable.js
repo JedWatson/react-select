@@ -48,6 +48,7 @@ var CreatableDemo = createClass({
 					theme={this.props.theme}
 					deleteOption={this.handleOptionDelete}
 					onCloseResetsInput={true}
+					isRequired={true}
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">

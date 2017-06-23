@@ -10,6 +10,7 @@
 	// element forces the browser to repaint on scroll.  However, if these definitions are split into an
 	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
 	// have to repaint on scroll.
+	min-width: 100%;
 	.border-bottom-radius( @select-input-border-radius );
 	// background-color: @select-input-bg;
 	box-sizing: border-box;
@@ -72,7 +73,6 @@
 }
 
 .Select-dark .Select-menu-outer {
-  width: 100%;
   .Select-menu {
 		.Select-option {
 			color: @dark-select-option-color;

@@ -31,6 +31,7 @@ var ValuesAsBooleansField = createClass({
 					simpleValue
 					value={this.state.value}
 					theme={this.props.theme}
+					isRequired={true}
 				/>
 				<div className="hint">This example uses simple boolean values</div>
 			</div>

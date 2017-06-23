@@ -64,6 +64,7 @@ const Contributors = createClass({
 					labelKey="name"
 					loadOptions={this.getContributors}
 					theme={this.props.theme}
+					isRequired={true}
 				/>
 				<div className="checkbox-list">
 					<label className="checkbox">

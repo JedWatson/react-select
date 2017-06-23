@@ -54,6 +54,7 @@ var StatesField = createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
 				<Select
+					isRequired={true}
 					ref="stateSelect"
 					autofocus
 					options={options}
