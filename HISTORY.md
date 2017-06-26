@@ -1,5 +1,16 @@
 # React-Select
 
+## Next
+
+* fixed; issues synchronising options props in `Async`, thanks [cbergmiller](https://github.com/cbergmiller)
+* fixed; backspace handling for non-multi select controls, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+
+## v1.0.0-rc.5 / 2017-05-25
+
+* fixed; Allow `falsey` values to be clearable, thanks [Simon Gaestel](https://github.com/sgaestel)
+* fixed; issue where Firefox would crash due to incorrect use of `aria-owns` attribute, thanks [Max Hubenthal](https://github.com/mhubenthal)
+* fixed; regression where options not using the value key couldn't be focused, thanks [Benjamin Piouffle](https://github.com/Betree)
+
 ## v1.0.0-rc.4 / 2017-05-14
 
 * fixed; no more warning when using React 15.5, thanks [Adam Girton](https://github.com/agirton)

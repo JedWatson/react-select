@@ -1850,6 +1850,19 @@ describe('Select', () => {
 			]);
 		});
 
+		it('removes the last item with backspace', () => {
+
+			wrapper.setPropsForChild({
+				multi: false,
+				value: 'one'
+			});
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressBackspace();
+
+			expect(onChange, 'was called with', null);
+		});
+
 		it('doesn\'t show the X if clearableValue=false', () => {
 
 			setValueProp(['two']);

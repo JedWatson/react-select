@@ -448,6 +448,21 @@ describe('Async', () => {
 		});
 	});
 
+	describe('props sync test', () => {
+		it('should update options on componentWillReceiveProps', () => {
+			createControl({
+			});
+			asyncInstance.componentWillReceiveProps({
+				options: [{
+					label: 'bar',
+					value: 'foo',
+				}]
+			});
+			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
+			expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'bar');
+		});
+	});
+
 	describe('with pagination', () => {
 		it('should pass the page to loadOptions', () => {
 			createControl({

@@ -48,19 +48,19 @@ const Select = createClass({
 
 	propTypes: {
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
-		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
+		'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
-		'aria-labelledby': PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
-		arrowRenderer: PropTypes.func,				// Create drop-down caret element
+		'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
+		arrowRenderer: PropTypes.func,        // Create drop-down caret element
 		autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: PropTypes.bool,            // autofocus the component on mount
 		autosize: PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: PropTypes.bool,     // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
 		className: PropTypes.string,          // className for the outer element
-		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
+		clearAllText: stringOrNode,           // title for the "clear" control when multi: true
 		clearRenderer: PropTypes.func,        // create clearable x element
-		clearValueText: stringOrNode,               // title for the "clear" control
+		clearValueText: stringOrNode,         // title for the "clear" control
 		clearable: PropTypes.bool,            // should it be possible to reset value
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
@@ -84,12 +84,12 @@ const Select = createClass({
 		menuStyle: PropTypes.object,          // optional style to apply to the menu
 		multi: PropTypes.bool,                // multi-value input
 		name: PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
-		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
+		noResultsText: stringOrNode,          // placeholder displayed when there are no matching search results
 		onBlur: PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: PropTypes.bool,    // whether input is cleared on blur
 		onChange: PropTypes.func,             // onChange handler: function (newValue) {}
 		onClose: PropTypes.func,              // fires when the menu is closed
-		onCloseResetsInput: PropTypes.bool,		// whether input is cleared when menu is closed through the arrow
+		onCloseResetsInput: PropTypes.bool,   // whether input is cleared when menu is closed through the arrow
 		onFocus: PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onInputKeyDown: PropTypes.func,       // input keyDown handler: function (event) {}
@@ -103,7 +103,7 @@ const Select = createClass({
 		optionRenderer: PropTypes.func,       // optionRenderer: function (option) {}
 		options: PropTypes.array,             // array of options
 		pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
-		placeholder: stringOrNode,                  // field placeholder, displayed when there's no value
+		placeholder: stringOrNode,            // field placeholder, displayed when there's no value
 		required: PropTypes.bool,             // applies HTML5 required attribute when needed
 		resetValue: PropTypes.any,            // value to use when you clear the control
 		scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
@@ -396,13 +396,12 @@ const Select = createClass({
 			this.setState({
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: ''
+				inputValue: this.handleInputValueChange('')
 			});
 		} else {
 			this.setState({
 				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi,
-				inputValue: this.state.inputValue
+				isPseudoFocused: this.state.isFocused && !this.props.multi
 			});
 		}
 		this.hasScrolledToOption = false;
@@ -437,7 +436,7 @@ const Select = createClass({
 			isPseudoFocused: false,
 		};
 		if (this.props.onBlurResetsInput) {
-			onBlurredState.inputValue = '';
+			onBlurredState.inputValue = this.handleInputValueChange('');
 		}
 		this.setState(onBlurredState);
 	},
@@ -445,12 +444,8 @@ const Select = createClass({
 	handleInputChange (event) {
 		let newInputValue = event.target.value;
 
-		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
-			let nextState = this.props.onInputChange(newInputValue);
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
-				newInputValue = '' + nextState;
-			}
+		if (this.state.inputValue !== event.target.value) {
+			newInputValue = this.handleInputValueChange(newInputValue);
 		}
 
 		this.setState({
@@ -458,6 +453,17 @@ const Select = createClass({
 			isPseudoFocused: false,
 			inputValue: newInputValue,
 		});
+	},
+
+	handleInputValueChange(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			// Note: != used deliberately here to catch undefined and null
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		return newValue;
 	},
 
 	handleKeyDown (event) {
@@ -610,7 +616,7 @@ const Select = createClass({
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				focusedIndex: null
 			}, () => {
 				this.addValue(value);
@@ -618,7 +624,7 @@ const Select = createClass({
 		} else {
 			this.setState({
 				isOpen: false,
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
@@ -644,7 +650,7 @@ const Select = createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
-		this.setValue(valueArray.slice(0, valueArray.length - 1));
+		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	},
 
 	removeValue (value) {
@@ -664,7 +670,7 @@ const Select = createClass({
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,
-			inputValue: '',
+			inputValue: this.handleInputValueChange(''),
 		}, this.focus);
 	},
 
@@ -922,7 +928,7 @@ const Select = createClass({
 
 	renderArrow () {
 		const onMouseDown = this.handleMouseDownOnArrow;
-                const isOpen = this.state.isOpen;
+		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
 		return (
