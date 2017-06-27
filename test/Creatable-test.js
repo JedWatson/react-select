@@ -146,6 +146,19 @@ describe('Creatable', () => {
 		expect(selectedOption, 'to be', options[0]);
 	});
 
+	it('should not create a new option when the event is default prevented within shouldKeyDownEventCreateNewOption', () => {
+		let selectedOption;
+		const options = [];
+		createControl({
+			onChange: (option) => selectedOption = option,
+			options,
+			shouldKeyDownEventCreateNewOption: (event) => event.preventDefault()
+		});
+		typeSearchText('foo');
+		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
+		expect(options, 'to have length', 0);
+	});
+
 	it('should not create a new option if the placeholder option is not selected but should select the focused option', () => {
 		const options = [{ label: 'One', value: 1 }];
 		createControl({

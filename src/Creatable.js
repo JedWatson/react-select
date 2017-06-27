@@ -186,7 +186,7 @@ const Creatable = createClass({
 		if (
 			focusedOption &&
 			focusedOption === this._createPlaceholderOption &&
-			shouldKeyDownEventCreateNewOption({ keyCode: event.keyCode })
+			shouldKeyDownEventCreateNewOption(event)
 		) {
 			this.createNewOption();
 
@@ -278,8 +278,8 @@ function promptTextCreator (label) {
 	return `Create option "${label}"`;
 }
 
-function shouldKeyDownEventCreateNewOption ({ keyCode }) {
-	switch (keyCode) {
+function shouldKeyDownEventCreateNewOption (event) {
+	switch (event.keyCode) {
 		case 9:   // TAB
 		case 13:  // ENTER
 		case 188: // COMMA
