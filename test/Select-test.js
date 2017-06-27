@@ -84,6 +84,10 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 8, key: 'Backspace' });
 	};
 
+	var pressDelete = () => {
+		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 46, key: 'Backspace' });
+	};
+
 	var pressUp = () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 38, key: 'ArrowUp' });
 	};
@@ -687,6 +691,11 @@ describe('Select', () => {
 			expect(onChange, 'was called with', 0);
 		});
 
+        it('displays the X button for 0 value', () => {
+            wrapper.setPropsForChild({ value: 0 });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
+
 		describe('with multi=true', () => {
 
 			beforeEach(() => {
@@ -957,6 +966,11 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 					'to have text', 'No');
 		});
+
+        it('displays the X button for false value', () => {
+            wrapper.setPropsForChild({ value: false });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
 
 		describe('with multi=true', () => {
 
@@ -1796,6 +1810,32 @@ describe('Select', () => {
                 </span>);
 		});
 
+		it('removes the last selected option with delete', () => {
+
+			setValueProp(['four','three']);
+			onChange.reset();  // Ignore previous onChange calls
+			pressDelete();
+			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+		});
+
+		it('does not remove the last selected option with delete when deleteRemoves=false', () => {
+
+			// Disable delete
+			wrapper.setPropsForChild({
+				deleteRemoves: false,
+				value: ['four', 'three']
+			});
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressDelete();
+			expect(onChange, 'was not called');
+			expect(instance, 'to contain',
+				<span className="Select-multi-value-wrapper">
+                    <div><span className="Select-value-label">Four</span></div>
+                    <div><span className="Select-value-label">Three</span></div>
+                </span>);
+		});
+
 		it('removes an item when clicking on the X', () => {
 
 			setValueProp(['four', 'three', 'two']);
@@ -1808,6 +1848,19 @@ describe('Select', () => {
 				{ label: 'Four', value: 'four' },
 				{ label: 'Two', value: 'two' }
 			]);
+		});
+
+		it('removes the last item with backspace', () => {
+
+			wrapper.setPropsForChild({
+				multi: false,
+				value: 'one'
+			});
+			onChange.reset();  // Ignore previous onChange calls
+
+			pressBackspace();
+
+			expect(onChange, 'was called with', null);
 		});
 
 		it('doesn\'t show the X if clearableValue=false', () => {
@@ -2222,6 +2275,23 @@ describe('Select', () => {
 				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear-zone'), 'to have attributes', {
 					title: 'Remove All Items Test Title'
 				});
+			});
+		});
+
+		describe('clearRenderer', () => {
+
+			beforeEach(() => {
+				instance = createControl({
+					clearable: true,
+					value: 'three',
+					clearRenderer: () => <span className="Select-custom-clear">O</span>,
+					options: defaultOptions
+				});
+			});
+
+			it('renders a custom clear', () => {
+
+				expect(instance, 'to contain', <span className="Select-custom-clear">O</span>);
 			});
 		});
 
@@ -3031,6 +3101,40 @@ describe('Select', () => {
 			});
 		});
 
+		describe('inputRenderer', () => {
+
+			var inputRenderer;
+
+			beforeEach(() => {
+
+				inputRenderer = (inputProps) => {
+					return (
+						<input id="custom-input" type="text" />
+					);
+				};
+
+				inputRenderer = sinon.spy(inputRenderer);
+
+				instance = createControl({
+					options: defaultOptions,
+					inputRenderer: inputRenderer
+				});
+			});
+
+			it('renders the options using the inputRenderer', () => {
+				var input = ReactDOM.findDOMNode(instance).querySelector('#custom-input');
+				expect(input, 'not to equal', undefined);
+			});
+
+			it('calls the renderer exactly once', () => {
+				expect(inputRenderer, 'was called times', 1);
+			});
+
+			it('calls the renderer with props', () => {
+				expect(inputRenderer, 'was called with', { value: '', className: 'Select-input' });
+			});
+		});
+
 		describe('optionRenderer', () => {
 
 			var optionRenderer;
@@ -3722,6 +3826,19 @@ describe('Select', () => {
 					'to contain', <input role="combobox" aria-labelledby="test-label-id" />);
 			});
 
+			it('passes through the aria-describedby prop', () => {
+
+				instance = createControl({
+					options: defaultOptions,
+					value: 'one',
+					'aria-describedby': 'test-label1-id test-label2-id'
+				});
+
+				expect(instance,
+					'to contain', <input role="combobox" aria-describedby="test-label1-id test-label2-id" />);
+			});
+
+
 			it('passes through the aria-label prop', () => {
 
 				instance = createControl({
@@ -3797,6 +3914,19 @@ describe('Select', () => {
 					});
 
 			});
+		});
+	});
+
+	describe('.focus()', () => {
+		beforeEach(() => {
+			instance = createControl({});
+		});
+
+		it('focuses the search input', () => {
+			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			expect(input, 'not to equal', document.activeElement);
+			instance.focus();
+			expect(input, 'to equal', document.activeElement);
 		});
 	});
 });

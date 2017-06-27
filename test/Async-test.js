@@ -117,6 +117,14 @@ describe('Async', () => {
 			typeSearchText('a');
 			return expect(loadOptions, 'was called times', 1);
 		});
+
+		it('should not use the same cache for every instance by default', () => {
+			createControl();
+			const instance1 = asyncInstance;
+			createControl();
+			const instance2 = asyncInstance;
+			expect(instance1._cache !== instance2._cache, 'to equal', true);
+		});
 	});
 
 	describe('loadOptions', () => {
@@ -333,6 +341,67 @@ describe('Async', () => {
 		});
 	});
 
+	describe('noResultsText', () => {
+
+		beforeEach(() => {
+			createControl({
+				searchPromptText: 'searchPromptText',
+				loadingPlaceholder: 'loadingPlaceholder',
+				noResultsText: 'noResultsText',
+			});
+		});
+
+		describe('before the user inputs text', () => {
+			it('returns the searchPromptText', () => {
+				expect(asyncInstance.noResultsText(), 'to equal', 'searchPromptText');
+			});
+		});
+
+		describe('while results are loading', () => {
+			beforeEach((cb) => {
+				asyncInstance.setState({
+					isLoading: true,
+				}, cb);
+			});
+			it('returns the loading indicator', () => {
+				asyncInstance.select = { state: { inputValue: 'asdf' } };
+				expect(asyncInstance.noResultsText(), 'to equal', 'loadingPlaceholder');
+			});
+		});
+
+		describe('after an empty result set loads', () => {
+			beforeEach((cb) => {
+				asyncInstance.setState({
+					isLoading: false,
+				}, cb);
+			});
+
+			describe('if noResultsText has been provided', () => {
+				it('returns the noResultsText', () => {
+					asyncInstance.select = { state: { inputValue: 'asdf' } };
+					expect(asyncInstance.noResultsText(), 'to equal', 'noResultsText');
+				});
+			});
+
+			describe('if noResultsText is empty', () => {
+				beforeEach((cb) => {
+					createControl({
+						searchPromptText: 'searchPromptText',
+						loadingPlaceholder: 'loadingPlaceholder'
+					});
+					asyncInstance.setState({
+						isLoading: false,
+						inputValue: 'asdfkljhadsf'
+					}, cb);
+				});
+				it('falls back to searchPromptText', () => {
+					asyncInstance.select = { state: { inputValue: 'asdf' } };
+					expect(asyncInstance.noResultsText(), 'to equal', 'searchPromptText');
+				});
+			});
+		});
+	});
+
 	describe('children function', () => {
 		it('should allow a custom select type to be rendered', () => {
 			let childProps;
@@ -363,6 +432,35 @@ describe('Async', () => {
 			});
 			typeSearchText('a');
 			return expect(onInputChange, 'was called times', 1);
+		});
+	});
+
+	describe('.focus()', () => {
+		beforeEach(() => {
+			createControl({});
+		});
+
+		it('focuses the search input', () => {
+			var input = asyncNode.querySelector('input');
+			expect(input, 'not to equal', document.activeElement);
+			asyncInstance.focus();
+			expect(input, 'to equal', document.activeElement);
+		});
+	});
+
+
+	describe('props sync test', () => {
+		it('should update options on componentWillReceiveProps', () => {
+			createControl({
+			});
+			asyncInstance.componentWillReceiveProps({
+				options: [{
+					label: 'bar',
+					value: 'foo',
+				}]
+			});
+			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
+			expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'bar');
 		});
 	});
 });
