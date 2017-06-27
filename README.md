@@ -417,14 +417,14 @@ Right now there are two public instance methods available:
 <instance>.focus();
 ```
 
-* `close()`: closes the dropdown menu.
+* `closeMenu()`: closes the dropdown menu.
 
 Used in conjunction with `autoClose: false`, you can manually specify when the menu should close.
 Useful for performing actions like animating the menu on close, before it is removed from the DOM.
 
 ```javascript
 // closes the dropdown menu
-<instance>.close();
+<instance>.closeMenu();
 ```
 
 All other methods on `<Select>` elements should be considered private and prone to change.
