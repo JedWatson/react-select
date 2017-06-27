@@ -48,10 +48,10 @@ const Select = createClass({
 
 	propTypes: {
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
-		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
+		'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
-		'aria-labelledby': PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
-		arrowRenderer: PropTypes.func,				// Create drop-down caret element
+		'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
+		arrowRenderer: PropTypes.func,        // Create drop-down caret element
 		autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
     autoClose: React.PropTypes.bool,      // automatically close the dropdown menu when an item is selected / input is blurred
 		autofocus: PropTypes.bool,            // autofocus the component on mount
@@ -59,9 +59,9 @@ const Select = createClass({
 		backspaceRemoves: PropTypes.bool,     // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
 		className: PropTypes.string,          // className for the outer element
-		clearAllText: stringOrNode,                 // title for the "clear" control when multi: true
+		clearAllText: stringOrNode,           // title for the "clear" control when multi: true
 		clearRenderer: PropTypes.func,        // create clearable x element
-		clearValueText: stringOrNode,               // title for the "clear" control
+		clearValueText: stringOrNode,         // title for the "clear" control
 		clearable: PropTypes.bool,            // should it be possible to reset value
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
@@ -85,12 +85,12 @@ const Select = createClass({
 		menuStyle: PropTypes.object,          // optional style to apply to the menu
 		multi: PropTypes.bool,                // multi-value input
 		name: PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
-		noResultsText: stringOrNode,                // placeholder displayed when there are no matching search results
+		noResultsText: stringOrNode,          // placeholder displayed when there are no matching search results
 		onBlur: PropTypes.func,               // onBlur handler: function (event) {}
 		onBlurResetsInput: PropTypes.bool,    // whether input is cleared on blur
 		onChange: PropTypes.func,             // onChange handler: function (newValue) {}
 		onClose: PropTypes.func,              // fires when the menu is closed
-		onCloseResetsInput: PropTypes.bool,		// whether input is cleared when menu is closed through the arrow
+		onCloseResetsInput: PropTypes.bool,   // whether input is cleared when menu is closed through the arrow
 		onFocus: PropTypes.func,              // onFocus handler: function (event) {}
 		onInputChange: PropTypes.func,        // onInputChange handler: function (inputValue) {}
 		onInputKeyDown: PropTypes.func,       // input keyDown handler: function (event) {}
@@ -394,18 +394,27 @@ const Select = createClass({
 		this.focus();
 	},
 
-	close () {
-		this.setState({
-			isOpen: false
-		});
-	},
-
 	requestCloseMenu () {
 		if (this.state.isOpen && !this.props.autoClose) {
 			this.props.requestClose();
 			return false;
 		} else {
 			return true;
+    }
+  },
+
+	closeMenu () {
+		if(this.props.onCloseResetsInput) {
+			this.setState({
+				isOpen: false,
+				isPseudoFocused: this.state.isFocused && !this.props.multi,
+				inputValue: this.handleInputValueChange('')
+			});
+		} else {
+			this.setState({
+				isOpen: false,
+				isPseudoFocused: this.state.isFocused && !this.props.multi
+			});
 		}
 	},
 
@@ -457,7 +466,7 @@ const Select = createClass({
 			onBlurredState.isOpen = false;
 		}
 		if (this.props.onBlurResetsInput) {
-			onBlurredState.inputValue = '';
+			onBlurredState.inputValue = this.handleInputValueChange('');
 		}
 		this.setState(onBlurredState);
 	},
@@ -465,12 +474,8 @@ const Select = createClass({
 	handleInputChange (event) {
 		let newInputValue = event.target.value;
 
-		if (this.state.inputValue !== event.target.value && this.props.onInputChange) {
-			let nextState = this.props.onInputChange(newInputValue);
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
-				newInputValue = '' + nextState;
-			}
+		if (this.state.inputValue !== event.target.value) {
+			newInputValue = this.handleInputValueChange(newInputValue);
 		}
 
 		this.setState({
@@ -478,6 +483,17 @@ const Select = createClass({
 			isPseudoFocused: false,
 			inputValue: newInputValue,
 		});
+	},
+
+	handleInputValueChange(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			// Note: != used deliberately here to catch undefined and null
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		return newValue;
 	},
 
 	handleKeyDown (event) {
@@ -630,7 +646,7 @@ const Select = createClass({
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				focusedIndex: null
 			}, () => {
 				this.addValue(value);
@@ -638,7 +654,7 @@ const Select = createClass({
 		} else {
 			var shouldClose = this.requestCloseMenu();
 			var nextState = {
-				inputValue: '',
+				inputValue: this.handleInputValueChange(''),
 				isPseudoFocused: this.state.isFocused
 			};
 
@@ -670,7 +686,7 @@ const Select = createClass({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
-		this.setValue(valueArray.slice(0, valueArray.length - 1));
+		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	},
 
 	removeValue (value) {
@@ -691,7 +707,7 @@ const Select = createClass({
 
 		var shouldClose = this.requestCloseMenu();
 		var nextState = {
-			inputValue: ''
+			inputValue: this.handleInputValueChange('')
 		};
 
 		if (shouldClose) {
@@ -901,12 +917,17 @@ const Select = createClass({
 
 		if (this.props.disabled || !this.props.searchable) {
 			const { inputClassName, ...divProps } = this.props.inputProps;
+
+			const ariaOwns = classNames({
+				[this._instancePrefix + '-list']: isOpen,
+			});
+
 			return (
 				<div
 					{...divProps}
 					role="combobox"
 					aria-expanded={isOpen}
-					aria-owns={isOpen ? this._instancePrefix + '-list' : this._instancePrefix + '-value'}
+					aria-owns={ariaOwns}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
@@ -931,7 +952,8 @@ const Select = createClass({
 	},
 
 	renderClear () {
-		if (!this.props.clearable || (!this.props.value || this.props.value === 0) || (this.props.multi && !this.props.value.length) || this.props.disabled || this.props.isLoading) return;
+
+		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
 		return (
@@ -949,7 +971,7 @@ const Select = createClass({
 
 	renderArrow () {
 		const onMouseDown = this.handleMouseDownOnArrow;
-                const isOpen = this.state.isOpen;
+		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
 		return (
@@ -1052,11 +1074,12 @@ const Select = createClass({
 		var options = this._visibleOptions;
 		if (!options.length) return null;
 
+		const valueKey = this.props.valueKey;
 		let focusedOption = this.state.focusedOption || selectedOption;
 		if (focusedOption && !focusedOption.disabled) {
 			let focusedOptionIndex = -1;
 			options.some((option, index) => {
-				const isOptionEqual = option.value === focusedOption.value;
+				const isOptionEqual = option[valueKey] === focusedOption[valueKey];
 				if (isOptionEqual) {
 					focusedOptionIndex = index;
 				}
