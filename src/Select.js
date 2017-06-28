@@ -487,6 +487,7 @@ const Select = createClass({
 				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
 					return;
 				}
+				event.preventDefault();
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
