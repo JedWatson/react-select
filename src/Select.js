@@ -536,6 +536,7 @@ const Select = createClass({
 			default: return;
 		}
 		event.preventDefault();
+		event.stopPropagation();
 	},
 
 	handleValueClick (option, event) {
