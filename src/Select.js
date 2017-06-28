@@ -537,6 +537,7 @@ const Select = createClass({
 		}
 		event.preventDefault();
 		event.stopPropagation();
+		console.log('I AM FORKED');
 	},
 
 	handleValueClick (option, event) {
