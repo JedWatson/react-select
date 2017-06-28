@@ -722,7 +722,8 @@ const Select = createClass({
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
-				inputValue: '',
+				// prevent reset of inputValue when hit 'down' key, after close menu
+				// inputValue: '',
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null)
 			});
 			return;
