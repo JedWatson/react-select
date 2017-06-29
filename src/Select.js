@@ -65,6 +65,7 @@ const Select = createClass({
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: PropTypes.bool,             // whether the Select is disabled or not
+    displayPlaceholderWhenOpen: PropTypes.bool,  // should placeholer display when open
 		escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 		filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 		filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -799,7 +800,7 @@ const Select = createClass({
 	renderValue (valueArray, isOpen) {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
-		if (!valueArray.length) {
+		if (!valueArray.length || this.props.displayPlaceholderWhenOpen && isOpen) {
 			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
