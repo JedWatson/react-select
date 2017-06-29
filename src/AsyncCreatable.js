@@ -1,6 +1,8 @@
 import React from 'react';
 import createClass from 'create-react-class';
 import Select from './Select';
+import Async from './Async';
+import Creatable from './Creatable';
 
 function reduce(obj, props = {}){
   return Object.keys(obj)
@@ -20,9 +22,9 @@ const AsyncCreatable = createClass({
 
 	render () {
 		return (
-			<Select.Async {...this.props}>
+			<Async {...this.props}>
 				{(asyncProps) => (
-					<Select.Creatable {...this.props}>
+					<Creatable {...this.props}>
 						{(creatableProps) => (
 							<Select
 								{...reduce(asyncProps, reduce(creatableProps, {}))}
@@ -37,9 +39,9 @@ const AsyncCreatable = createClass({
 								}}
 							/>
 						)}
-					</Select.Creatable>
+					</Creatable>
 				)}
-			</Select.Async>
+			</Async>
 		);
 	}
 });

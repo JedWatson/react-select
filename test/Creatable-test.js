@@ -16,7 +16,7 @@ var expect = unexpected
 var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
-var Select = require('../src/Select');
+var Creatable = require('../src/Creatable');
 
 describe('Creatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance, renderer;
@@ -33,7 +33,7 @@ describe('Creatable', () => {
 	function createControl (props = {}) {
 		props.options = props.options || defaultOptions;
 		creatableInstance = TestUtils.renderIntoDocument(
-			<Select.Creatable {...props} />
+			<Creatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
 		innerSelectInstance = creatableInstance.select;
@@ -65,7 +65,7 @@ describe('Creatable', () => {
 	it('should add a placeholder "create..." prompt when filter text is entered that does not match any existing options', () => {
 		createControl();
 		typeSearchText('foo');
-		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', Select.Creatable.promptTextCreator('foo'));
+		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', Creatable.promptTextCreator('foo'));
 	});
 
 	it('should not show a "create..." prompt if current filter text is an exact match for an existing option', () => {
@@ -73,7 +73,7 @@ describe('Creatable', () => {
 			isOptionUnique: () => false
 		});
 		typeSearchText('existing');
-		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Select.Creatable.promptTextCreator('existing'));
+		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Creatable.promptTextCreator('existing'));
 	});
 
 	it('should filter the "create..." prompt using both filtered options and currently-selected options', () => {
@@ -114,7 +114,7 @@ describe('Creatable', () => {
 			isValidNewOption: () => false
 		});
 		typeSearchText('invalid');
-		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Select.Creatable.promptTextCreator('invalid'));
+		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Creatable.promptTextCreator('invalid'));
 	});
 
 	it('should create (and auto-select) a new option when placeholder option is clicked', () => {
@@ -208,7 +208,7 @@ describe('Creatable', () => {
 		};
 
 		function test (option) {
-			return Select.Creatable.isOptionUnique({
+			return Creatable.isOptionUnique({
 				labelKey: 'label',
 				option,
 				options,
@@ -224,7 +224,7 @@ describe('Creatable', () => {
 
 	it('default :isValidNewOption function should just ensure a non-empty string is provided', () => {
 		function test (label) {
-			return Select.Creatable.isValidNewOption({ label });
+			return Creatable.isValidNewOption({ label });
 		};
 
 		expect(test(''), 'to be', false);
@@ -233,7 +233,7 @@ describe('Creatable', () => {
 	});
 
 	it('default :newOptionCreator function should create an option with a :label and :value equal to the label string', () => {
-		const option = Select.Creatable.newOptionCreator({
+		const option = Creatable.newOptionCreator({
 			label: 'foo',
 			labelKey: 'label',
 			valueKey: 'value'
@@ -245,7 +245,7 @@ describe('Creatable', () => {
 
 	it('default :shouldKeyDownEventCreateNewOption function should accept TAB, ENTER, and comma keys', () => {
 		function test (keyCode) {
-			return Select.Creatable.shouldKeyDownEventCreateNewOption({ keyCode });
+			return Creatable.shouldKeyDownEventCreateNewOption({ keyCode });
 		};
 
 		expect(test(9), 'to be', true);
