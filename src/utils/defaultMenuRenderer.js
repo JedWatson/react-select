@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 function menuRenderer ({
+	cssPrefix,
 	focusedOption,
 	instancePrefix,
 	labelKey,
@@ -20,8 +21,7 @@ function menuRenderer ({
 	return options.map((option, i) => {
 		let isSelected = valueArray && valueArray.indexOf(option) > -1;
 		let isFocused = option === focusedOption;
-		let optionClass = classNames(optionClassName, {
-			'Select-option': true,
+		let optionClass = classNames(optionClassName, `${cssPrefix}-option`, {
 			'is-selected': isSelected,
 			'is-focused': isFocused,
 			'is-disabled': option.disabled,

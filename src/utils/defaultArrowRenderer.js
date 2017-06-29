@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function arrowRenderer ({ onMouseDown }) {
+export default function arrowRenderer ({ onMouseDown, cssPrefix }) {
 	return (
 		<span
-			className="Select-arrow"
+			className={`${cssPrefix}-arrow`}
 			onMouseDown={onMouseDown}
 		/>
 	);

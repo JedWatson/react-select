@@ -62,6 +62,7 @@ const Select = createClass({
 		clearRenderer: PropTypes.func,        // create clearable x element
 		clearValueText: stringOrNode,         // title for the "clear" control
 		clearable: PropTypes.bool,            // should it be possible to reset value
+		cssPrefix: PropTypes.string,						// add a prefix to the components class names
 		deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 		delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 		disabled: PropTypes.bool,             // whether the Select is disabled or not
@@ -161,6 +162,7 @@ const Select = createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			cssPrefix: 'Select'
 		};
 	},
 
@@ -788,19 +790,21 @@ const Select = createClass({
 	},
 
 	renderLoading () {
+		const { cssPrefix } = this.props;
 		if (!this.props.isLoading) return;
 		return (
-			<span className="Select-loading-zone" aria-hidden="true">
-				<span className="Select-loading" />
+			<span className={`${cssPrefix}-loading-zone`} aria-hidden="true">
+				<span className={`${cssPrefix}-loading`} />
 			</span>
 		);
 	},
 
 	renderValue (valueArray, isOpen) {
+		const { cssPrefix } = this.props;
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
-			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
+			return !this.state.inputValue ? <div className={`${cssPrefix}-placeholder`}>{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
@@ -808,6 +812,7 @@ const Select = createClass({
 				return (
 					<ValueComponent
 						id={this._instancePrefix + '-value-' + i}
+						cssPrefix={cssPrefix}
 						instancePrefix={this._instancePrefix}
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
@@ -816,7 +821,7 @@ const Select = createClass({
 						value={value}
 					>
 						{renderLabel(value, i)}
-						<span className="Select-aria-only">&nbsp;</span>
+						<span className={`${cssPrefix}-aria-only`}>&nbsp;</span>
 					</ValueComponent>
 				);
 			});
@@ -825,6 +830,7 @@ const Select = createClass({
 			return (
 				<ValueComponent
 					id={this._instancePrefix + '-value-item'}
+					cssPrefix={cssPrefix}
 					disabled={this.props.disabled}
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
@@ -837,7 +843,8 @@ const Select = createClass({
 	},
 
 	renderInput (valueArray, focusedOptionIndex) {
-		var className = classNames('Select-input', this.props.inputProps.className);
+		const { cssPrefix } = this.props;
+		var className = classNames(`${cssPrefix}-input`, this.props.inputProps.className);
 		const isOpen = !!this.state.isOpen;
 
 		const ariaOwns = classNames({
@@ -909,12 +916,12 @@ const Select = createClass({
 	},
 
 	renderClear () {
-
+		const { cssPrefix } = this.props;
 		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
-		const clear = this.props.clearRenderer();
+		const clear = this.props.clearRenderer({ cssPrefix });
 
 		return (
-			<span className="Select-clear-zone" title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
+			<span className={`${cssPrefix}-clear-zone`} title={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 				aria-label={this.props.multi ? this.props.clearAllText : this.props.clearValueText}
 				onMouseDown={this.clearValue}
 				onTouchStart={this.handleTouchStart}
@@ -927,13 +934,14 @@ const Select = createClass({
 	},
 
 	renderArrow () {
+		const { cssPrefix } = this.props;
 		const onMouseDown = this.handleMouseDownOnArrow;
 		const isOpen = this.state.isOpen;
-		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
+		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen, cssPrefix });
 
 		return (
 			<span
-				className="Select-arrow-zone"
+				className={`${cssPrefix}-arrow-zone`}
 				onMouseDown={onMouseDown}
 			>
 				{arrow}
@@ -976,8 +984,10 @@ const Select = createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
+		const { cssPrefix } = this.props;
 		if (options && options.length) {
 			return this.props.menuRenderer({
+				cssPrefix,
 				focusedOption,
 				focusOption: this.focusOption,
 				instancePrefix: this._instancePrefix,
@@ -995,7 +1005,7 @@ const Select = createClass({
 			});
 		} else if (this.props.noResultsText) {
 			return (
-				<div className="Select-noresults">
+				<div className={`${cssPrefix}-noresults`}>
 					{this.props.noResultsText}
 				</div>
 			);
@@ -1054,14 +1064,15 @@ const Select = createClass({
 	},
 
 	renderOuter (options, valueArray, focusedOption) {
+		const { cssPrefix } = this.props;
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
 		}
 
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
-				<div ref={ref => this.menu = ref} role="listbox" className="Select-menu" id={this._instancePrefix + '-list'}
+			<div ref={ref => this.menuContainer = ref} className={`${cssPrefix}-menu-outer`} style={this.props.menuContainerStyle}>
+				<div ref={ref => this.menu = ref} role="listbox" className={`${cssPrefix}-menu`} id={this._instancePrefix + '-list'}
 						 style={this.props.menuStyle}
 						 onScroll={this.handleMenuScroll}
 						 onMouseDown={this.handleMouseDownOnMenu}>
@@ -1072,6 +1083,7 @@ const Select = createClass({
 	},
 
 	render () {
+		const { cssPrefix } = this.props;
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
@@ -1084,9 +1096,9 @@ const Select = createClass({
 		} else {
 			focusedOption = this._focusedOption = null;
 		}
-		let className = classNames('Select', this.props.className, {
-			'Select--multi': this.props.multi,
-			'Select--single': !this.props.multi,
+		let className = classNames(cssPrefix, this.props.className, {
+			[`${cssPrefix}--multi`]: this.props.multi,
+			[`${cssPrefix}--single`]: !this.props.multi,
 			'is-clearable': this.props.clearable,
 			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
@@ -1105,7 +1117,7 @@ const Select = createClass({
 			this.state.isFocused &&
 			this.props.backspaceRemoves) {
 			removeMessage = (
-				<span id={this._instancePrefix + '-backspace-remove-message'} className="Select-aria-only" aria-live="assertive">
+				<span id={this._instancePrefix + '-backspace-remove-message'} className={`${cssPrefix}-aria-only`} aria-live="assertive">
 					{this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])}
 				</span>
 			);
@@ -1117,7 +1129,7 @@ const Select = createClass({
 				 style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
 				<div ref={ref => this.control = ref}
-					className="Select-control"
+					className={`${cssPrefix}-control`}
 					style={this.props.style}
 					onKeyDown={this.handleKeyDown}
 					onMouseDown={this.handleMouseDown}
@@ -1125,7 +1137,7 @@ const Select = createClass({
 					onTouchStart={this.handleTouchStart}
 					onTouchMove={this.handleTouchMove}
 				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+					<span className={`${cssPrefix}-multi-value-wrapper`} id={this._instancePrefix + '-value'}>
 						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
 					</span>

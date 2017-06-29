@@ -29,6 +29,7 @@ ReactDOM.render(
 		<Creatable
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
+			cssPrefix="Select"
 		/>
 	</div>,
 	document.getElementById('example')

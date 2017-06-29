@@ -14,8 +14,6 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -99,16 +97,13 @@ var Async = (function (_Component) {
 			}
 		}
 	}, {
-		key: 'componentWillUpdate',
-		value: function componentWillUpdate(nextProps, nextState) {
-			var _this = this;
-
-			var propertiesToSync = ['options'];
-			propertiesToSync.forEach(function (prop) {
-				if (_this.props[prop] !== nextProps[prop]) {
-					_this.setState(_defineProperty({}, prop, nextProps[prop]));
-				}
-			});
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			if (nextProps.options !== this.props.options) {
+				this.setState({
+					options: nextProps.options
+				});
+			}
 		}
 	}, {
 		key: 'clearOptions',
@@ -118,7 +113,7 @@ var Async = (function (_Component) {
 	}, {
 		key: 'loadOptions',
 		value: function loadOptions(inputValue) {
-			var _this2 = this;
+			var _this = this;
 
 			var loadOptions = this.props.loadOptions;
 
@@ -133,8 +128,8 @@ var Async = (function (_Component) {
 			}
 
 			var callback = function callback(error, data) {
-				if (callback === _this2._callback) {
-					_this2._callback = null;
+				if (callback === _this._callback) {
+					_this._callback = null;
 
 					var options = data && data.options || [];
 
@@ -142,7 +137,7 @@ var Async = (function (_Component) {
 						cache[inputValue] = options;
 					}
 
-					_this2.setState({
+					_this.setState({
 						isLoading: false,
 						options: options
 					});
@@ -226,7 +221,7 @@ var Async = (function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this3 = this;
+			var _this2 = this;
 
 			var _props3 = this.props;
 			var children = _props3.children;
@@ -241,13 +236,13 @@ var Async = (function (_Component) {
 				placeholder: isLoading ? loadingPlaceholder : placeholder,
 				options: isLoading && loadingPlaceholder ? [] : options,
 				ref: function ref(_ref) {
-					return _this3.select = _ref;
+					return _this2.select = _ref;
 				},
 				onChange: function onChange(newValues) {
-					if (_this3.props.multi && _this3.props.value && newValues.length > _this3.props.value.length) {
-						_this3.clearOptions();
+					if (_this2.props.multi && _this2.props.value && newValues.length > _this2.props.value.length) {
+						_this2.clearOptions();
 					}
-					_this3.props.onChange(newValues);
+					_this2.props.onChange(newValues);
 				}
 			};
 
@@ -446,6 +441,7 @@ var Creatable = (0, _createReactClass2['default'])({
 
 	createNewOption: function createNewOption() {
 		var _props = this.props;
+		var cssPrefix = _props.cssPrefix;
 		var isValidNewOption = _props.isValidNewOption;
 		var newOptionCreator = _props.newOptionCreator;
 		var onNewOptionClick = _props.onNewOptionClick;
@@ -454,7 +450,7 @@ var Creatable = (0, _createReactClass2['default'])({
 		var shouldKeyDownEventCreateNewOption = _props.shouldKeyDownEventCreateNewOption;
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			var option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			var option = newOptionCreator({ cssPrefix: cssPrefix, label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
 			var _isOptionUnique = this.isOptionUnique({ option: option });
 
 			// Don't add the same option twice.
@@ -476,6 +472,7 @@ var Creatable = (0, _createReactClass2['default'])({
 		var isValidNewOption = _props2.isValidNewOption;
 		var options = _props2.options;
 		var promptTextCreator = _props2.promptTextCreator;
+		var cssPrefix = _props2.cssPrefix;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -488,6 +485,7 @@ var Creatable = (0, _createReactClass2['default'])({
 			var _newOptionCreator = this.props.newOptionCreator;
 
 			var option = _newOptionCreator({
+				cssPrefix: cssPrefix,
 				label: this.inputValue,
 				labelKey: this.labelKey,
 				valueKey: this.valueKey
@@ -504,6 +502,7 @@ var Creatable = (0, _createReactClass2['default'])({
 				var _prompt = promptTextCreator(this.inputValue);
 
 				this._createPlaceholderOption = _newOptionCreator({
+					cssPrefix: cssPrefix,
 					label: _prompt,
 					labelKey: this.labelKey,
 					valueKey: this.valueKey
@@ -641,6 +640,7 @@ function isValidNewOption(_ref4) {
 };
 
 function newOptionCreator(_ref5) {
+	var cssPrefix = _ref5.cssPrefix;
 	var label = _ref5.label;
 	var labelKey = _ref5.labelKey;
 	var valueKey = _ref5.valueKey;
@@ -648,7 +648,7 @@ function newOptionCreator(_ref5) {
 	var option = {};
 	option[valueKey] = label;
 	option[labelKey] = label;
-	option.className = 'Select-create-option-placeholder';
+	option.className = cssPrefix + '-create-option-placeholder';
 	return option;
 };
 
@@ -913,6 +913,7 @@ var Select = (0, _createReactClass2['default'])({
 		clearRenderer: _propTypes2['default'].func, // create clearable x element
 		clearValueText: stringOrNode, // title for the "clear" control
 		clearable: _propTypes2['default'].bool, // should it be possible to reset value
+		cssPrefix: _propTypes2['default'].string, // add a prefix to the components class names
 		deleteRemoves: _propTypes2['default'].bool, // whether backspace removes an item if there is no text input
 		delimiter: _propTypes2['default'].string, // delimiter to use to join multiple values for the hidden field value
 		disabled: _propTypes2['default'].bool, // whether the Select is disabled or not
@@ -1011,7 +1012,8 @@ var Select = (0, _createReactClass2['default'])({
 			simpleValue: false,
 			tabSelectsValue: true,
 			valueComponent: _Value2['default'],
-			valueKey: 'value'
+			valueKey: 'value',
+			cssPrefix: 'Select'
 		};
 	},
 
@@ -1524,7 +1526,7 @@ var Select = (0, _createReactClass2['default'])({
 		var valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length - 1].clearableValue === false) return;
-		this.setValue(valueArray.slice(0, valueArray.length - 1));
+		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	},
 
 	removeValue: function removeValue(value) {
@@ -1666,23 +1668,27 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	renderLoading: function renderLoading() {
+		var cssPrefix = this.props.cssPrefix;
+
 		if (!this.props.isLoading) return;
 		return _react2['default'].createElement(
 			'span',
-			{ className: 'Select-loading-zone', 'aria-hidden': 'true' },
-			_react2['default'].createElement('span', { className: 'Select-loading' })
+			{ className: cssPrefix + '-loading-zone', 'aria-hidden': 'true' },
+			_react2['default'].createElement('span', { className: cssPrefix + '-loading' })
 		);
 	},
 
 	renderValue: function renderValue(valueArray, isOpen) {
 		var _this4 = this;
 
+		var cssPrefix = this.props.cssPrefix;
+
 		var renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		var ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
 			return !this.state.inputValue ? _react2['default'].createElement(
 				'div',
-				{ className: 'Select-placeholder' },
+				{ className: cssPrefix + '-placeholder' },
 				this.props.placeholder
 			) : null;
 		}
@@ -1693,6 +1699,7 @@ var Select = (0, _createReactClass2['default'])({
 					ValueComponent,
 					{
 						id: _this4._instancePrefix + '-value-' + i,
+						cssPrefix: cssPrefix,
 						instancePrefix: _this4._instancePrefix,
 						disabled: _this4.props.disabled || value.clearableValue === false,
 						key: 'value-' + i + '-' + value[_this4.props.valueKey],
@@ -1703,7 +1710,7 @@ var Select = (0, _createReactClass2['default'])({
 					renderLabel(value, i),
 					_react2['default'].createElement(
 						'span',
-						{ className: 'Select-aria-only' },
+						{ className: cssPrefix + '-aria-only' },
 						' '
 					)
 				);
@@ -1714,6 +1721,7 @@ var Select = (0, _createReactClass2['default'])({
 				ValueComponent,
 				{
 					id: this._instancePrefix + '-value-item',
+					cssPrefix: cssPrefix,
 					disabled: this.props.disabled,
 					instancePrefix: this._instancePrefix,
 					onClick: onClick,
@@ -1728,7 +1736,9 @@ var Select = (0, _createReactClass2['default'])({
 		var _classNames,
 		    _this5 = this;
 
-		var className = (0, _classnames2['default'])('Select-input', this.props.inputProps.className);
+		var cssPrefix = this.props.cssPrefix;
+
+		var className = (0, _classnames2['default'])(cssPrefix + '-input', this.props.inputProps.className);
 		var isOpen = !!this.state.isOpen;
 
 		var ariaOwns = (0, _classnames2['default'])((_classNames = {}, _defineProperty(_classNames, this._instancePrefix + '-list', isOpen), _defineProperty(_classNames, this._instancePrefix + '-backspace-remove-message', this.props.multi && !this.props.disabled && this.state.isFocused && !this.state.inputValue), _classNames));
@@ -1794,13 +1804,14 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	renderClear: function renderClear() {
+		var cssPrefix = this.props.cssPrefix;
 
 		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
-		var clear = this.props.clearRenderer();
+		var clear = this.props.clearRenderer({ cssPrefix: cssPrefix });
 
 		return _react2['default'].createElement(
 			'span',
-			{ className: 'Select-clear-zone', title: this.props.multi ? this.props.clearAllText : this.props.clearValueText,
+			{ className: cssPrefix + '-clear-zone', title: this.props.multi ? this.props.clearAllText : this.props.clearValueText,
 				'aria-label': this.props.multi ? this.props.clearAllText : this.props.clearValueText,
 				onMouseDown: this.clearValue,
 				onTouchStart: this.handleTouchStart,
@@ -1812,14 +1823,16 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	renderArrow: function renderArrow() {
+		var cssPrefix = this.props.cssPrefix;
+
 		var onMouseDown = this.handleMouseDownOnArrow;
 		var isOpen = this.state.isOpen;
-		var arrow = this.props.arrowRenderer({ onMouseDown: onMouseDown, isOpen: isOpen });
+		var arrow = this.props.arrowRenderer({ onMouseDown: onMouseDown, isOpen: isOpen, cssPrefix: cssPrefix });
 
 		return _react2['default'].createElement(
 			'span',
 			{
-				className: 'Select-arrow-zone',
+				className: cssPrefix + '-arrow-zone',
 				onMouseDown: onMouseDown
 			},
 			arrow
@@ -1854,8 +1867,11 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	renderMenu: function renderMenu(options, valueArray, focusedOption) {
+		var cssPrefix = this.props.cssPrefix;
+
 		if (options && options.length) {
 			return this.props.menuRenderer({
+				cssPrefix: cssPrefix,
 				focusedOption: focusedOption,
 				focusOption: this.focusOption,
 				instancePrefix: this._instancePrefix,
@@ -1874,7 +1890,7 @@ var Select = (0, _createReactClass2['default'])({
 		} else if (this.props.noResultsText) {
 			return _react2['default'].createElement(
 				'div',
-				{ className: 'Select-noresults' },
+				{ className: cssPrefix + '-noresults' },
 				this.props.noResultsText
 			);
 		} else {
@@ -1938,6 +1954,8 @@ var Select = (0, _createReactClass2['default'])({
 	renderOuter: function renderOuter(options, valueArray, focusedOption) {
 		var _this7 = this;
 
+		var cssPrefix = this.props.cssPrefix;
+
 		var menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
@@ -1947,12 +1965,12 @@ var Select = (0, _createReactClass2['default'])({
 			'div',
 			{ ref: function (ref) {
 					return _this7.menuContainer = ref;
-				}, className: 'Select-menu-outer', style: this.props.menuContainerStyle },
+				}, className: cssPrefix + '-menu-outer', style: this.props.menuContainerStyle },
 			_react2['default'].createElement(
 				'div',
 				{ ref: function (ref) {
 						return _this7.menu = ref;
-					}, role: 'listbox', className: 'Select-menu', id: this._instancePrefix + '-list',
+					}, role: 'listbox', className: cssPrefix + '-menu', id: this._instancePrefix + '-list',
 					style: this.props.menuStyle,
 					onScroll: this.handleMenuScroll,
 					onMouseDown: this.handleMouseDownOnMenu },
@@ -1962,7 +1980,10 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	render: function render() {
-		var _this8 = this;
+		var _classNames3,
+		    _this8 = this;
+
+		var cssPrefix = this.props.cssPrefix;
 
 		var valueArray = this.getValueArray(this.props.value);
 		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
@@ -1976,24 +1997,13 @@ var Select = (0, _createReactClass2['default'])({
 		} else {
 			focusedOption = this._focusedOption = null;
 		}
-		var className = (0, _classnames2['default'])('Select', this.props.className, {
-			'Select--multi': this.props.multi,
-			'Select--single': !this.props.multi,
-			'is-clearable': this.props.clearable,
-			'is-disabled': this.props.disabled,
-			'is-focused': this.state.isFocused,
-			'is-loading': this.props.isLoading,
-			'is-open': isOpen,
-			'is-pseudo-focused': this.state.isPseudoFocused,
-			'is-searchable': this.props.searchable,
-			'has-value': valueArray.length
-		});
+		var className = (0, _classnames2['default'])(cssPrefix, this.props.className, (_classNames3 = {}, _defineProperty(_classNames3, cssPrefix + '--multi', this.props.multi), _defineProperty(_classNames3, cssPrefix + '--single', !this.props.multi), _defineProperty(_classNames3, 'is-clearable', this.props.clearable), _defineProperty(_classNames3, 'is-disabled', this.props.disabled), _defineProperty(_classNames3, 'is-focused', this.state.isFocused), _defineProperty(_classNames3, 'is-loading', this.props.isLoading), _defineProperty(_classNames3, 'is-open', isOpen), _defineProperty(_classNames3, 'is-pseudo-focused', this.state.isPseudoFocused), _defineProperty(_classNames3, 'is-searchable', this.props.searchable), _defineProperty(_classNames3, 'has-value', valueArray.length), _classNames3));
 
 		var removeMessage = null;
 		if (this.props.multi && !this.props.disabled && valueArray.length && !this.state.inputValue && this.state.isFocused && this.props.backspaceRemoves) {
 			removeMessage = _react2['default'].createElement(
 				'span',
-				{ id: this._instancePrefix + '-backspace-remove-message', className: 'Select-aria-only', 'aria-live': 'assertive' },
+				{ id: this._instancePrefix + '-backspace-remove-message', className: cssPrefix + '-aria-only', 'aria-live': 'assertive' },
 				this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])
 			);
 		}
@@ -2011,7 +2021,7 @@ var Select = (0, _createReactClass2['default'])({
 				{ ref: function (ref) {
 						return _this8.control = ref;
 					},
-					className: 'Select-control',
+					className: cssPrefix + '-control',
 					style: this.props.style,
 					onKeyDown: this.handleKeyDown,
 					onMouseDown: this.handleMouseDown,
@@ -2021,7 +2031,7 @@ var Select = (0, _createReactClass2['default'])({
 				},
 				_react2['default'].createElement(
 					'span',
-					{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
+					{ className: cssPrefix + '-multi-value-wrapper', id: this._instancePrefix + '-value' },
 					this.renderValue(valueArray, isOpen),
 					this.renderInput(valueArray, focusedOptionIndex)
 				),
@@ -2068,6 +2078,7 @@ var Value = (0, _createReactClass2['default'])({
 
 	propTypes: {
 		children: _propTypes2['default'].node,
+		cssPrefix: _propTypes2['default'].string,
 		disabled: _propTypes2['default'].bool, // disabled prop passed to ReactSelect
 		id: _propTypes2['default'].string, // Unique id for the value - used for aria
 		onClick: _propTypes2['default'].func, // method to handle click on value label
@@ -2115,10 +2126,12 @@ var Value = (0, _createReactClass2['default'])({
 	},
 
 	renderRemoveIcon: function renderRemoveIcon() {
+		var cssPrefix = this.props.cssPrefix;
+
 		if (this.props.disabled || !this.props.onRemove) return;
 		return _react2['default'].createElement(
 			'span',
-			{ className: 'Select-value-icon',
+			{ className: cssPrefix + '-value-icon',
 				'aria-hidden': 'true',
 				onMouseDown: this.onRemove,
 				onTouchEnd: this.handleTouchEndRemove,
@@ -2129,7 +2142,9 @@ var Value = (0, _createReactClass2['default'])({
 	},
 
 	renderLabel: function renderLabel() {
-		var className = 'Select-value-label';
+		var cssPrefix = this.props.cssPrefix;
+
+		var className = cssPrefix + '-value-label';
 		return this.props.onClick || this.props.value.href ? _react2['default'].createElement(
 			'a',
 			{ className: className, href: this.props.value.href, target: this.props.value.target, onMouseDown: this.handleMouseDown, onTouchEnd: this.handleMouseDown },
@@ -2142,9 +2157,11 @@ var Value = (0, _createReactClass2['default'])({
 	},
 
 	render: function render() {
+		var cssPrefix = this.props.cssPrefix;
+
 		return _react2['default'].createElement(
 			'div',
-			{ className: (0, _classnames2['default'])('Select-value', this.props.value.className),
+			{ className: (0, _classnames2['default'])(cssPrefix + '-value', this.props.value.className),
 				style: this.props.value.style,
 				title: this.props.value.title
 			},
@@ -2160,14 +2177,14 @@ module.exports = Value;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"create-react-class":undefined,"prop-types":undefined}],7:[function(require,module,exports){
 (function (global){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
 	value: true
 });
-exports["default"] = arrowRenderer;
+exports['default'] = arrowRenderer;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
@@ -2175,15 +2192,16 @@ var _react2 = _interopRequireDefault(_react);
 
 function arrowRenderer(_ref) {
 	var onMouseDown = _ref.onMouseDown;
+	var cssPrefix = _ref.cssPrefix;
 
-	return _react2["default"].createElement("span", {
-		className: "Select-arrow",
+	return _react2['default'].createElement('span', {
+		className: cssPrefix + '-arrow',
 		onMouseDown: onMouseDown
 	});
 }
 
 ;
-module.exports = exports["default"];
+module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],8:[function(require,module,exports){
@@ -2201,9 +2219,11 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 
 var _react2 = _interopRequireDefault(_react);
 
-function clearRenderer() {
+function clearRenderer(_ref) {
+	var cssPrefix = _ref.cssPrefix;
+
 	return _react2['default'].createElement('span', {
-		className: 'Select-clear',
+		className: cssPrefix + '-clear',
 		dangerouslySetInnerHTML: { __html: '&times;' }
 	});
 }
@@ -2271,6 +2291,7 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 var _react2 = _interopRequireDefault(_react);
 
 function menuRenderer(_ref) {
+	var cssPrefix = _ref.cssPrefix;
 	var focusedOption = _ref.focusedOption;
 	var instancePrefix = _ref.instancePrefix;
 	var labelKey = _ref.labelKey;
@@ -2289,8 +2310,7 @@ function menuRenderer(_ref) {
 	return options.map(function (option, i) {
 		var isSelected = valueArray && valueArray.indexOf(option) > -1;
 		var isFocused = option === focusedOption;
-		var optionClass = (0, _classnames2['default'])(optionClassName, {
-			'Select-option': true,
+		var optionClass = (0, _classnames2['default'])(optionClassName, cssPrefix + '-option', {
 			'is-selected': isSelected,
 			'is-focused': isFocused,
 			'is-disabled': option.disabled
