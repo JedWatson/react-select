@@ -2044,6 +2044,40 @@ describe('Select', () => {
 
 	describe('with props', () => {
 
+		describe('autoClose', () => {
+			beforeEach(() => {
+				instance = createControl({
+					autoClose: false,
+					requestClose: () => {},
+					options: [
+						{ value: 'one', label: 'label one' },
+						{ value: 'two', label: 'label two' },
+						{ value: 'three', label: 'label three' }
+					]
+				});
+			});
+
+			it('doesn\'t automatically close the dropdown when value selected', () => {
+				clickArrowToOpen();
+				expect(instance.menuContainer, 'not to equal', null);
+				expect(instance.menuContainer, 'not to equal', undefined);
+				pressDown();
+				pressEnterToAccept();
+				expect(instance.menuContainer, 'not to equal', null);
+				expect(instance.menuContainer, 'not to equal', undefined);
+			});
+
+			it('doesn\'t automatically close the dropdown input is blurred', () => {
+				clickArrowToOpen();
+				expect(instance.menuContainer, 'not to equal', null);
+				expect(instance.menuContainer, 'not to equal', undefined);
+				
+				TestUtils.Simulate.blur(searchInputNode);
+				expect(instance.menuContainer, 'not to equal', null);
+				expect(instance.menuContainer, 'not to equal', undefined);
+			});
+		});
+
 		describe('className', () => {
 
 			it('assigns the className to the outer-most element', () => {
@@ -3927,6 +3961,20 @@ describe('Select', () => {
 			expect(input, 'not to equal', document.activeElement);
 			instance.focus();
 			expect(input, 'to equal', document.activeElement);
+		});
+	});
+
+	describe('.close()', () => {
+		beforeEach(() => {
+			instance = createControl({});
+		});
+
+		it('closes the dropdown menu', () => {
+			clickArrowToOpen();
+			expect(instance.menuContainer, 'not to equal', null);
+			expect(instance.menuContainer, 'not to equal', undefined);
+			instance.close();
+			expect(instance.menuContainer, 'to equal', null);
 		});
 	});
 });

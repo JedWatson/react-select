@@ -349,6 +349,7 @@ function onInputKeyDown(event) {
 | addLabelText | string | 'Add "{label}"?' | text to display when `allowCreate` is true |
   arrowRenderer | func | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown, isOpen })` |
 | autoBlur | bool | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices |
+| autoClose | bool | true | Automatically closes the dropdown when an item is selected / when the input blurs. If `false`, you must a provide a function for the `requestClose` property.
 | autofocus | bool | undefined | autofocus the component on mount |
 | autoload | bool | true | whether to auto-load the default async options set |
 | autosize | bool | true | If enabled, the input will expand as the length of its value increases |
@@ -394,6 +395,7 @@ function onInputKeyDown(event) {
 | optionRenderer | func | undefined | function which returns a custom way to render the options in the menu |
 | options | array | undefined | array of options |
 | placeholder | string\|node | 'Select ...' | field placeholder, displayed when there's no value |
+| requestClose | func | undefined | Called when `autoClose` is set to `false` and the dropdown menu should close
 | scrollMenuIntoView | bool | true | whether the viewport will shift to display the entire menu when engaged |
 | searchable | bool | true | whether to enable searching feature or not |
 | searchPromptText | string\|node | 'Type to search' | label to prompt for search input |
@@ -406,12 +408,26 @@ function onInputKeyDown(event) {
 
 ### Methods
 
-Right now there's simply a `focus()` method that gives the control focus. All other methods on `<Select>` elements should be considered private and prone to change.
+Right now there are two public instance methods available:
+
+* `focus()`: gives the control focus.
 
 ```javascript
 // focuses the input element
 <instance>.focus();
 ```
+
+* `closeMenu()`: closes the dropdown menu.
+
+Used in conjunction with `autoClose: false`, you can manually specify when the menu should close.
+Useful for performing actions like animating the menu on close, before it is removed from the DOM.
+
+```javascript
+// closes the dropdown menu
+<instance>.closeMenu();
+```
+
+All other methods on `<Select>` elements should be considered private and prone to change.
 
 # Contributing
 
