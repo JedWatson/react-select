@@ -2,15 +2,6 @@ import React from 'react';
 import createClass from 'create-react-class';
 import Select from './Select';
 
-function reduce(obj, props = {}){
-  return Object.keys(obj)
-  .reduce((props, key) => {
-    const value = obj[key];
-    if (value !== undefined) props[key] = value;
-    return props;
-  }, props);
-}
-
 const AsyncCreatable = createClass({
 	displayName: 'AsyncCreatableSelect',
 
@@ -25,7 +16,8 @@ const AsyncCreatable = createClass({
 					<Select.Creatable {...this.props}>
 						{(creatableProps) => (
 							<Select
-								{...reduce(asyncProps, reduce(creatableProps, {}))}
+								{...asyncProps}
+								{...creatableProps}
 								onInputChange={(input) => {
 									creatableProps.onInputChange(input);
 									return asyncProps.onInputChange(input);

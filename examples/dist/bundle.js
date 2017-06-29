@@ -284,16 +284,6 @@ var _Select = require('./Select');
 
 var _Select2 = _interopRequireDefault(_Select);
 
-function reduce(obj) {
-	var props = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	return Object.keys(obj).reduce(function (props, key) {
-		var value = obj[key];
-		if (value !== undefined) props[key] = value;
-		return props;
-	}, props);
-}
-
 var AsyncCreatable = (0, _createReactClass2['default'])({
 	displayName: 'AsyncCreatableSelect',
 
@@ -312,7 +302,7 @@ var AsyncCreatable = (0, _createReactClass2['default'])({
 					_Select2['default'].Creatable,
 					_this.props,
 					function (creatableProps) {
-						return _react2['default'].createElement(_Select2['default'], _extends({}, reduce(asyncProps, reduce(creatableProps, {})), {
+						return _react2['default'].createElement(_Select2['default'], _extends({}, asyncProps, creatableProps, {
 							onInputChange: function (input) {
 								creatableProps.onInputChange(input);
 								return asyncProps.onInputChange(input);
