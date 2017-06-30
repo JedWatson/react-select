@@ -73,6 +73,7 @@ const Select = createClass({
 		inputProps: PropTypes.object,         // custom attributes for the Input
 		inputRenderer: PropTypes.func,        // returns a custom input component
 		instanceId: PropTypes.string,         // set the components instanceId
+		isAlwaysOpen: PropTypes.bool,         // never close the select
 		isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 		joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
 		labelKey: PropTypes.string,           // path of the label value in option objects
@@ -161,6 +162,7 @@ const Select = createClass({
 			tabSelectsValue: true,
 			valueComponent: Value,
 			valueKey: 'value',
+			isAlwaysOpen: false,
 		};
 	},
 
@@ -1076,6 +1078,7 @@ const Select = createClass({
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
+		isOpen = this.props.isAlwaysOpen ? true : isOpen;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
 		let focusedOption = null;

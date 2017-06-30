@@ -22,15 +22,15 @@ const Creatable = createClass({
 		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
 		isOptionUnique: PropTypes.func,
 
-	    // Determines if the current input text represents a valid option.
-	    // ({ label: string }): boolean
-	    isValidNewOption: PropTypes.func,
+		// Determines if the current input text represents a valid option.
+		// ({ label: string }): boolean
+		isValidNewOption: PropTypes.func,
 
 		// See Select.propTypes.menuRenderer
 		menuRenderer: PropTypes.any,
 
-	    // Factory to create new option.
-	    // ({ label: string, labelKey: string, valueKey: string }): Object
+		// Factory to create new option.
+		// ({ label: string, labelKey: string, valueKey: string }): Object
 		newOptionCreator: PropTypes.func,
 
 		// input change handler: function (inputValue) {}
@@ -45,8 +45,8 @@ const Creatable = createClass({
 		// See Select.propTypes.options
 		options: PropTypes.array,
 
-	    // Creates prompt/placeholder option text.
-	    // (filterText: string): string
+		// Creates prompt/placeholder option text.
+		// (filterText: string): string
 		promptTextCreator: PropTypes.func,
 
 		// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
@@ -92,8 +92,8 @@ const Creatable = createClass({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 				} else {
+					this.inputValue = '';
 					options.unshift(option);
-
 					this.select.selectValue(option);
 				}
 			}
@@ -174,7 +174,6 @@ const Creatable = createClass({
 		if (onInputChange) {
 			onInputChange(input);
 		}
-
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
 	},
