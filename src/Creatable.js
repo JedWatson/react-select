@@ -42,9 +42,6 @@ const Creatable = createClass({
 		// new option click handler: function (option) {}
 		onNewOptionClick: PropTypes.func,
 
-		// new option click handler: function (option) {}
-		onNewOptionClick: React.PropTypes.func,
-
 		// See Select.propTypes.options
 		options: PropTypes.array,
 
