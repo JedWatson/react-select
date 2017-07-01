@@ -61,7 +61,6 @@
   border: 0;
   border-bottom: @select-input-border-width solid @select-input-border-color;
   border-radius: 0;
-  padding-bottom: 2px;
 
 	.Select-input:focus {
 		outline: none;
@@ -180,6 +179,7 @@
 		line-height: 14px;  /* For IE 8 compatibility */
 		// padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
     padding: 0;
+    vertical-align: top;
 		-webkit-appearance: none;
 		.is-focused & {
 			cursor: text;

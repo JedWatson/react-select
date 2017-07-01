@@ -54,7 +54,6 @@
   border: 0;
   border-bottom: 1px solid #9b9b9b;
   border-radius: 0;
-  padding-bottom: 2px;
 }
 .Select-control .Select-input:focus {
   outline: none;
@@ -143,6 +142,7 @@
   line-height: 14px;
   /* For IE 8 compatibility */
   padding: 0;
+  vertical-align: top;
   -webkit-appearance: none;
 }
 .is-focused .Select-input > input {
