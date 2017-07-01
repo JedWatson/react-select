@@ -54,6 +54,7 @@
   border: 0;
   border-bottom: 1px solid #9b9b9b;
   border-radius: 0;
+  padding-bottom: 2px;
 }
 .Select-control .Select-input:focus {
   outline: none;
@@ -121,7 +122,6 @@
   display: none;
 }
 .Select-input {
-  height: 20px;
   vertical-align: middle;
   padding: 0 !important;
   font-size: 16px;
@@ -216,6 +216,10 @@
   width: 25px;
   padding-right: 5px;
 }
+.Select.is-open .Select-arrow-zone {
+  position: relative;
+  bottom: 3px;
+}
 .Select-arrow {
   display: inline-block !important;
   position: relative;
@@ -232,6 +236,7 @@
   width: 8px;
   height: 8px;
   transform: rotate(45deg);
+  transition: transform 250ms;
   bottom: 4px;
 }
 .is-open .Select-arrow,
@@ -243,6 +248,7 @@
   border-top: 1px solid #ff115f;
   border-right: 1px solid #ff115f;
   transform: rotate(-45deg);
+  transition: transform 250ms;
   bottom: -4px;
 }
 .Select--multi .Select-multi-value-wrapper {
