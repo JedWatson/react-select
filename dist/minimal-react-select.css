@@ -29,7 +29,9 @@
 }
 .Select .select-field-label {
   color: #000;
-  line-height: 34px;
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0;
 }
 .Select .select-field-label.select-field-label-focused {
   color: #ff115f;
@@ -43,7 +45,8 @@
   display: table;
   border-spacing: 0;
   border-collapse: separate;
-  height: 36px;
+  height: 20px;
+  margin: 0;
   outline: none;
   overflow: hidden;
   position: relative;
@@ -76,9 +79,10 @@
   bottom: 0;
   color: #9b9b9b;
   left: 0;
-  line-height: 34px;
+  line-height: 20px;
   padding-right: 10px;
   padding-left: 0;
+  padding-bottom: 2px;
   position: absolute;
   right: 0;
   top: 0;
@@ -113,7 +117,7 @@
   display: none;
 }
 .Select-input {
-  height: 34px;
+  height: 20px;
   vertical-align: middle;
   padding: 0 !important;
 }
@@ -133,8 +137,7 @@
   -webkit-text-fill-color: transparent;
   line-height: 14px;
   /* For IE 8 compatibility */
-  padding: 8px 0 12px;
-  /* For IE 8 compatibility */
+  padding: 0;
   -webkit-appearance: none;
 }
 .is-focused .Select-input > input {
@@ -239,6 +242,7 @@
 }
 .Select--multi .Select-multi-value-wrapper {
   display: inline-block;
+  width: 100%;
 }
 .Select .Select-aria-only {
   display: inline-block;
@@ -308,6 +312,9 @@
   z-index: 1;
   -webkit-overflow-scrolling: touch;
   position: absolute;
+  max-width: 100%;
+  transform: translateY(1px);
+  word-break: break-all;
 }
 .Select-menu {
   max-height: 198px;
@@ -365,7 +372,8 @@
   color: #000;
   display: inline-block;
   font-size: 0.9em;
-  line-height: 1.4;
+  line-height: 20px;
+  padding-bottom: 2px;
   vertical-align: top;
   margin: 4px 4px 0 0;
 }
