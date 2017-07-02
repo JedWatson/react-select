@@ -42,8 +42,8 @@ const stringOrNode = PropTypes.oneOfType([
 let instanceId = 1;
 
 class Select extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 
 		this.state = {
 			inputValue: '',
@@ -74,6 +74,13 @@ class Select extends React.Component {
 		this.removeValue = this.removeValue.bind(this);
 		this.selectValue = this.selectValue.bind(this);
 		this.focusOption = this.focusOption.bind(this);
+
+		this.setInputRef = ref => this.input = ref;
+		this.setValueRef = ref => this.value = ref;
+		this.setMenuContainerRef = ref => this.menuContainer = ref;
+		this.setMenuRef = ref => this.menu = ref;
+		this.setWrapperRef = ref => this.wrapper = ref;
+		this.setControlRef = ref => this.control = ref;
 	}
 
 	componentWillMount() {
@@ -747,7 +754,7 @@ class Select extends React.Component {
 			onBlur: this.handleInputBlur,
 			onChange: this.handleInputChange,
 			onFocus: this.handleInputFocus,
-			ref: ref => this.input = ref,
+			ref: this.setInputRef,
 			required: this.state.required,
 			value: this.state.inputValue
 		});
@@ -774,7 +781,7 @@ class Select extends React.Component {
 					tabIndex={this.props.tabIndex || 0}
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
-					ref={ref => this.input = ref}
+					ref={this.setInputRef}
 					aria-readonly={'' + !!this.props.disabled}
 					style={{ border: 0, width: 1, display: 'inline-block' }} />
 			);
@@ -797,11 +804,10 @@ class Select extends React.Component {
 			!this.props.clearable
 			|| this.props.value === undefined
 			|| this.props.value === null
-			|| this.props.multi
+			|| this.props.multi && !this.props.value.length
 			|| this.props.disabled
 			|| this.props.isLoading
-			&& !this.props.value.length
-		) return null;
+		) return;
 
 		return (
 			<span
@@ -899,19 +905,21 @@ class Select extends React.Component {
 			return (
 				<input
 					type="hidden"
-					ref={ref => this.value = ref}
+					ref={this.setValueRef}
 					name={this.props.name}
 					value={value}
 					disabled={this.props.disabled} />
 			);
 		}
 		return valueArray.map((item, index) => (
-			<input key={'hidden.' + index}
-						 type="hidden"
-						 ref={'value' + index}
-						 name={this.props.name}
-						 value={stringifyValue(item[ this.props.valueKey ])}
-						 disabled={this.props.disabled} />
+			<input
+				key={'hidden.' + index}
+				type="hidden"
+				ref={'value' + index}
+				name={this.props.name}
+				value={stringifyValue(item[ this.props.valueKey ])}
+				disabled={this.props.disabled}
+			/>
 		));
 	}
 
@@ -945,9 +953,13 @@ class Select extends React.Component {
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 		if (menu) {
 			return (
-				<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+				<div
+					ref={this.setMenuContainerRef}
+					className="Select-menu-outer"
+					style={this.props.menuContainerStyle}
+				>
 					<div
-						ref={ref => this.menu = ref}
+						ref={this.setMenuRef}
 						role="listbox"
 						className="Select-menu"
 						id={this._instancePrefix + '-list'}
@@ -1006,13 +1018,13 @@ class Select extends React.Component {
 
 		return (
 			<div
-				ref={ref => this.wrapper = ref}
+				ref={this.setWrapperRef}
 				className={className}
 				style={this.props.wrapperStyle}
 			>
 				{this.renderHiddenField(valueArray)}
 				<div
-					ref={ref => this.control = ref}
+					ref={this.setControlRef}
 					className="Select-control"
 					style={this.props.style}
 					onKeyDown={this.handleKeyDown}
@@ -1168,5 +1180,4 @@ Select.propTypes = {
 	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
 };
 
-export { Async, AsyncCreatable, Creatable };
 export default Select;

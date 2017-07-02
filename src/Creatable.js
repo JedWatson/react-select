@@ -5,8 +5,8 @@ import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 
 class Creatable extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 
 		this.filterOptions = this.filterOptions.bind(this);
 		this.menuRenderer = this.menuRenderer.bind(this);

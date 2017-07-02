@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class Value extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 
 		this.handleMouseDown = this.handleMouseDown.bind(this);
 		this.onRemove = this.onRemove.bind(this);

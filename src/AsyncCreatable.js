@@ -10,8 +10,8 @@ function reduce(obj, props = {}) {
 }
 
 class AsyncCreatable extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(props, context) {
+		super(props, context);
 
 		this.focus = this.focus.bind(this);
 	}

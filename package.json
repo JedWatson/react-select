@@ -11,16 +11,16 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "create-react-class": "^15.5.2",
     "classnames": "^2.2.4",
-    "react-input-autosize": "^1.1.3",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.8",
+    "react-input-autosize": "^1.1.3"
   },
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.3",
     "chai": "^4.0.2",
     "coveralls": "^2.11.12",
+    "create-react-class": "^15.6.0",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
     "gulp": "^3.9.1",
