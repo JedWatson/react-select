@@ -47,7 +47,7 @@ const defaultProps = {
 };
 
 export default class Async extends Component {
-	constructor (props, context) {
+	constructor(props, context) {
 		super(props, context);
 
 		this._cache = props.cache === defaultCache ? {} : props.cache;
@@ -60,7 +60,7 @@ export default class Async extends Component {
 		this._onInputChange = this._onInputChange.bind(this);
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		const { autoload } = this.props;
 
 		if (autoload) {
@@ -80,7 +80,7 @@ export default class Async extends Component {
 		this.setState({ options: [] });
 	}
 
-	loadOptions (inputValue) {
+	loadOptions(inputValue) {
 		const { loadOptions } = this.props;
 		const cache = this._cache;
 
@@ -89,7 +89,7 @@ export default class Async extends Component {
 			cache.hasOwnProperty(inputValue)
 		) {
 			this.setState({
-				options: cache[inputValue]
+				options: cache[ inputValue ]
 			});
 
 			return;
@@ -102,7 +102,7 @@ export default class Async extends Component {
 				const options = data && data.options || [];
 
 				if (cache) {
-					cache[inputValue] = options;
+					cache[ inputValue ] = options;
 				}
 
 				this.setState({
@@ -135,7 +135,7 @@ export default class Async extends Component {
 		return inputValue;
 	}
 
-	_onInputChange (inputValue) {
+	_onInputChange(inputValue) {
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
 
 		if (ignoreAccents) {
@@ -175,11 +175,11 @@ export default class Async extends Component {
 		return searchPromptText;
 	}
 
-	focus () {
+	focus() {
 		this.select.focus();
 	}
 
-	render () {
+	render() {
 		const { children, loadingPlaceholder, placeholder } = this.props;
 		const { isLoading, options } = this.state;
 
@@ -208,7 +208,7 @@ export default class Async extends Component {
 Async.propTypes = propTypes;
 Async.defaultProps = defaultProps;
 
-function defaultChildren (props) {
+function defaultChildren(props) {
 	return (
 		<Select {...props} />
 	);

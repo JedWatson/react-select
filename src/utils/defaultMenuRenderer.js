@@ -1,21 +1,21 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export default function menuRenderer ({
-									focusedOption,
-									instancePrefix,
-									labelKey,
-									onFocus,
-									onSelect,
-									optionClassName,
-									optionComponent,
-									optionRenderer,
-									options,
-									valueArray,
-									valueKey,
-									onOptionRef
-								}){
-	return options.map(function (option, i){
+export default function menuRenderer({
+																			 focusedOption,
+																			 instancePrefix,
+																			 labelKey,
+																			 onFocus,
+																			 onSelect,
+																			 optionClassName,
+																			 optionComponent,
+																			 optionRenderer,
+																			 options,
+																			 valueArray,
+																			 valueKey,
+																			 onOptionRef
+																		 }) {
+	return options.map(function (option, i) {
 		const optionProps = {
 			instancePrefix: instancePrefix,
 			isDisabled: option.disabled,

@@ -1,6 +1,6 @@
 import stripDiacritics from './stripDiacritics';
 
-export default function filterOptions (options, filterValue, excludeOptions, props) {
+export default function filterOptions(options, filterValue, excludeOptions, props) {
 	if (props.ignoreAccents) {
 		filterValue = stripDiacritics(filterValue);
 	}
@@ -9,10 +9,10 @@ export default function filterOptions (options, filterValue, excludeOptions, pro
 		filterValue = filterValue.toLowerCase();
 	}
 
-	if (excludeOptions) excludeOptions = excludeOptions.map(i => i[props.valueKey]);
+	if (excludeOptions) excludeOptions = excludeOptions.map(i => i[ props.valueKey ]);
 
 	return options.filter(option => {
-		if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
+		if (excludeOptions && excludeOptions.indexOf(option[ props.valueKey ]) > -1) return false;
 		if (props.filterOption) return props.filterOption.call(this, option, filterValue);
 		if (!filterValue) return true;
 		let valueTest = String(option[ props.valueKey ]);
