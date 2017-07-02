@@ -2,50 +2,52 @@
 /* global describe, it, beforeEach */
 /* eslint react/jsx-boolean-value: 0 */
 
-var jsdomHelper = require('../testHelpers/jsdomHelper');
+const jsdomHelper = require('../testHelpers/jsdomHelper');
 jsdomHelper();
-var unexpected = require('unexpected');
-var unexpectedDom = require('unexpected-dom');
-var unexpectedReact = require('unexpected-react');
-var expect = unexpected
+const unexpected = require('unexpected');
+const unexpectedDom = require('unexpected-dom');
+const unexpectedReact = require('unexpected-react');
+const expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
 	.installPlugin(unexpectedReact);
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
-var sinon = require('sinon');
-var Select = require('../src/Select');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-dom/test-utils');
+const ShallowRenderer = require('react-test-renderer/shallow');
+const sinon = require('sinon');
+const Select = require('../src/Select');
 
+// noinspection JSUnnecessarySemicolon
 describe('AsyncCreatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, loadOptions, renderer;
 
 	beforeEach(() => {
 		loadOptions = sinon.stub();
-		renderer = TestUtils.createRenderer();
+		renderer = new ShallowRenderer();
 	});
 
-	function createControl (props = {}) {
+	function createControl(props = {}) {
 		props.loadOptions = props.loadOptions || loadOptions;
 		creatableInstance = TestUtils.renderIntoDocument(
 			<Select.AsyncCreatable {...props} />
 		);
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
 		findAndFocusInputControl();
-	};
+	}
 
-	function findAndFocusInputControl () {
+	function findAndFocusInputControl() {
 		filterInputNode = creatableNode.querySelector('input');
 		if (filterInputNode) {
 			TestUtils.Simulate.focus(filterInputNode);
 		}
-	};
+	}
 
 	it('should create an inner Select', () => {
 		createControl();
 		expect(creatableNode, 'to have attributes', {
-			class: ['Select']
+			class: [ 'Select' ]
 		});
 	});
 
@@ -56,7 +58,7 @@ describe('AsyncCreatable', () => {
 			}
 		});
 		expect(creatableNode.querySelector('.Select-input'), 'to have attributes', {
-			class: ['foo']
+			class: [ 'foo' ]
 		});
 	});
 

@@ -3,25 +3,26 @@
 /* eslint react/jsx-boolean-value: 0 */
 
 // Copied from Async-test verbatim; may need to be reevaluated later.
-var jsdomHelper = require('../testHelpers/jsdomHelper');
+const jsdomHelper = require('../testHelpers/jsdomHelper');
 jsdomHelper();
-var unexpected = require('unexpected');
-var unexpectedDom = require('unexpected-dom');
-var unexpectedReact = require('unexpected-react');
-var expect = unexpected
+const unexpected = require('unexpected');
+const unexpectedDom = require('unexpected-dom');
+const unexpectedReact = require('unexpected-react');
+const expect = unexpected
 	.clone()
 	.installPlugin(unexpectedDom)
 	.installPlugin(unexpectedReact);
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
-var Select = require('../src/Select');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-dom/test-utils');
+const ShallowRenderer = require('react-test-renderer/shallow');
+const Select = require('../src/Select');
 
 describe('Creatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance, renderer;
 
-	beforeEach(() => renderer = TestUtils.createRenderer());
+	beforeEach(() => renderer = new ShallowRenderer());
 
 	const defaultOptions = [
 		{ value: 'one', label: 'One' },
@@ -30,7 +31,7 @@ describe('Creatable', () => {
 		{ value: 'four', label: 'AbcDef' }
 	];
 
-	function createControl (props = {}) {
+	function createControl(props = {}) {
 		props.options = props.options || defaultOptions;
 		creatableInstance = TestUtils.renderIntoDocument(
 			<Select.Creatable {...props} />
@@ -38,18 +39,18 @@ describe('Creatable', () => {
 		creatableNode = ReactDOM.findDOMNode(creatableInstance);
 		innerSelectInstance = creatableInstance.select;
 		findAndFocusInputControl();
-	};
+	}
 
-	function findAndFocusInputControl () {
+	function findAndFocusInputControl() {
 		filterInputNode = creatableNode.querySelector('input');
 		if (filterInputNode) {
 			TestUtils.Simulate.focus(filterInputNode);
 		}
-	};
+	}
 
-	function typeSearchText (text) {
+	function typeSearchText(text) {
 		TestUtils.Simulate.change(filterInputNode, { target: { value: text } });
-	};
+	}
 
 	it('should render a decorated Select (with passed through properties)', () => {
 		createControl({
@@ -58,7 +59,7 @@ describe('Creatable', () => {
 			}
 		});
 		expect(creatableNode.querySelector('.Select-input'), 'to have attributes', {
-			class: ['foo']
+			class: [ 'foo' ]
 		});
 	});
 
@@ -127,8 +128,8 @@ describe('Creatable', () => {
 		typeSearchText('foo');
 		TestUtils.Simulate.mouseDown(creatableNode.querySelector('.Select-create-option-placeholder'));
 		expect(options, 'to have length', 1);
-		expect(options[0].label, 'to equal', 'foo');
-		expect(selectedOption, 'to be', options[0]);
+		expect(options[ 0 ].label, 'to equal', 'foo');
+		expect(selectedOption, 'to be', options[ 0 ]);
 	});
 
 	it('should create (and auto-select) a new option when ENTER is pressed while placeholder option is selected', () => {
@@ -142,12 +143,12 @@ describe('Creatable', () => {
 		typeSearchText('foo');
 		TestUtils.Simulate.keyDown(filterInputNode, { keyCode: 13 });
 		expect(options, 'to have length', 1);
-		expect(options[0].label, 'to equal', 'foo');
-		expect(selectedOption, 'to be', options[0]);
+		expect(options[ 0 ].label, 'to equal', 'foo');
+		expect(selectedOption, 'to be', options[ 0 ]);
 	});
 
 	it('should not create a new option if the placeholder option is not selected but should select the focused option', () => {
-		const options = [{ label: 'One', value: 1 }];
+		const options = [ { label: 'One', value: 1 } ];
 		createControl({
 			options,
 		});
@@ -203,18 +204,18 @@ describe('Creatable', () => {
 			newOption('baz', 3)
 		];
 
-		function newOption (label, value) {
+		function newOption(label, value) {
 			return { label, value };
-		};
+		}
 
-		function test (option) {
+		function test(option) {
 			return Select.Creatable.isOptionUnique({
 				labelKey: 'label',
 				option,
 				options,
 				valueKey: 'value'
 			});
-		};
+		}
 
 		expect(test(newOption('foo', 0)), 'to be', false);
 		expect(test(newOption('qux', 1)), 'to be', false);
@@ -223,9 +224,9 @@ describe('Creatable', () => {
 	});
 
 	it('default :isValidNewOption function should just ensure a non-empty string is provided', () => {
-		function test (label) {
+		function test(label) {
 			return Select.Creatable.isValidNewOption({ label });
-		};
+		}
 
 		expect(test(''), 'to be', false);
 		expect(test('a'), 'to be', true);
@@ -244,9 +245,9 @@ describe('Creatable', () => {
 	});
 
 	it('default :shouldKeyDownEventCreateNewOption function should accept TAB, ENTER, and comma keys', () => {
-		function test (keyCode) {
+		function test(keyCode) {
 			return Select.Creatable.shouldKeyDownEventCreateNewOption({ keyCode });
-		};
+		}
 
 		expect(test(9), 'to be', true);
 		expect(test(13), 'to be', true);
