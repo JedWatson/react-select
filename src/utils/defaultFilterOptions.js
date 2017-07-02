@@ -15,8 +15,8 @@ export default function filterOptions (options, filterValue, excludeOptions, pro
 		if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
 		if (props.filterOption) return props.filterOption.call(this, option, filterValue);
 		if (!filterValue) return true;
-		var valueTest = String(option[props.valueKey]);
-		var labelTest = String(option[props.labelKey]);
+		let valueTest = String(option[ props.valueKey ]);
+		let labelTest = String(option[ props.labelKey ]);
 		if (props.ignoreAccents) {
 			if (props.matchProp !== 'label') valueTest = stripDiacritics(valueTest);
 			if (props.matchProp !== 'value') labelTest = stripDiacritics(labelTest);

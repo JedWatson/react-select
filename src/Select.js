@@ -222,16 +222,16 @@ const Select = createClass({
 
 		if (this._scrollToFocusedOptionOnUpdate && this.focused && this.menu) {
 			this._scrollToFocusedOptionOnUpdate = false;
-			var focusedDOM = ReactDOM.findDOMNode(this.focused);
-			var menuDOM = ReactDOM.findDOMNode(this.menu);
-			var focusedRect = focusedDOM.getBoundingClientRect();
-			var menuRect = menuDOM.getBoundingClientRect();
+			const focusedDOM = ReactDOM.findDOMNode(this.focused);
+			const menuDOM = ReactDOM.findDOMNode(this.menu);
+			const focusedRect = focusedDOM.getBoundingClientRect();
+			const menuRect = menuDOM.getBoundingClientRect();
 			if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
 				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
 			}
 		}
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
-			var menuContainerRect = this.menuContainer.getBoundingClientRect();
+			const menuContainerRect = this.menuContainer.getBoundingClientRect();
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
 				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
@@ -409,7 +409,7 @@ const Select = createClass({
 
 	handleInputFocus (event) {
 		if (this.props.disabled) return;
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+		const isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -430,7 +430,7 @@ const Select = createClass({
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
 		}
-		var onBlurredState = {
+		const onBlurredState = {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -459,7 +459,7 @@ const Select = createClass({
 		if (this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newValue);
 			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
+			if (nextState !== null && typeof nextState !== 'object') {
 				newValue = '' + nextState;
 			}
 		}
@@ -563,7 +563,7 @@ const Select = createClass({
 	/**
 	 * Turns a value into an array from the given options
 	 * @param	{String|Number|Array}	value		- the value of the select input
-	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
+	 * @param	{Object}	nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
 	getValueArray (value, nextProps) {
@@ -577,7 +577,7 @@ const Select = createClass({
 			}
 			return value.map(value => this.expandValue(value, props)).filter(i => i);
 		}
-		var expandedValue = this.expandValue(value, props);
+		const expandedValue = this.expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
 	},
 
@@ -591,7 +591,7 @@ const Select = createClass({
 		if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
 		let { options, valueKey } = props;
 		if (!options) return;
-		for (var i = 0; i < options.length; i++) {
+		for (let i = 0; i < options.length; i++) {
 			if (options[i][valueKey] === value) return options[i];
 		}
 	},
@@ -633,7 +633,7 @@ const Select = createClass({
 	},
 
 	addValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
+		const valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
 		this.setValue(valueArray.concat(value));
@@ -647,14 +647,14 @@ const Select = createClass({
 	},
 
 	popValue () {
-		var valueArray = this.getValueArray(this.props.value);
+		const valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
 		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	},
 
 	removeValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
+		const valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
 		this.focus();
 	},
@@ -715,7 +715,8 @@ const Select = createClass({
 	},
 
 	focusAdjacentOption (dir) {
-		var options = this._visibleOptions
+		let potentialIndex;
+		const options = this._visibleOptions
 			.map((option, index) => ({ option, index }))
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
@@ -728,8 +729,8 @@ const Select = createClass({
 			return;
 		}
 		if (!options.length) return;
-		var focusedIndex = -1;
-		for (var i = 0; i < options.length; i++) {
+		let focusedIndex = -1;
+		for (let i = 0; i < options.length; i++) {
 			if (this._focusedOption === options[i].option) {
 				focusedIndex = i;
 				break;
@@ -748,14 +749,14 @@ const Select = createClass({
 		} else if (dir === 'end') {
 			focusedIndex = options.length - 1;
 		} else if (dir === 'page_up') {
-			var potentialIndex = focusedIndex - this.props.pageSize;
+			potentialIndex = focusedIndex - this.props.pageSize;
 			if (potentialIndex < 0) {
 				focusedIndex = 0;
 			} else {
 				focusedIndex = potentialIndex;
 			}
 		} else if (dir === 'page_down') {
-			var potentialIndex = focusedIndex + this.props.pageSize;
+			potentialIndex = focusedIndex + this.props.pageSize;
 			if (potentialIndex > options.length - 1) {
 				focusedIndex = options.length - 1;
 			} else {
@@ -837,7 +838,7 @@ const Select = createClass({
 	},
 
 	renderInput (valueArray, focusedOptionIndex) {
-		var className = classNames('Select-input', this.props.inputProps.className);
+		const className = classNames('Select-input', this.props.inputProps.className);
 		const isOpen = !!this.state.isOpen;
 
 		const ariaOwns = classNames({
@@ -942,8 +943,8 @@ const Select = createClass({
 	},
 
 	filterOptions (excludeOptions) {
-		var filterValue = this.state.inputValue;
-		var options = this.props.options || [];
+		const filterValue = this.state.inputValue;
+		const options = this.props.options || [];
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
 			const filterOptions = typeof this.props.filterOptions === 'function'
@@ -1028,7 +1029,7 @@ const Select = createClass({
 	},
 
 	getFocusableOptionIndex (selectedOption) {
-		var options = this._visibleOptions;
+		const options = this._visibleOptions;
 		if (!options.length) return null;
 
 		const valueKey = this.props.valueKey;
@@ -1047,7 +1048,7 @@ const Select = createClass({
 			}
 		}
 
-		for (var i = 0; i < options.length; i++) {
+		for (let i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return i;
 		}
 		return null;
