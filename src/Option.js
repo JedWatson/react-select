@@ -95,4 +95,4 @@ const Option = createClass({
 	}
 });
 
-module.exports = Option;
+export default Option;

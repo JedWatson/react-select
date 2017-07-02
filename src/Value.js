@@ -96,4 +96,4 @@ const Value = createClass({
 
 });
 
-module.exports = Value;
+export default Value;

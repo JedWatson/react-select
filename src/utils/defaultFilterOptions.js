@@ -1,6 +1,6 @@
 import stripDiacritics from './stripDiacritics';
 
-function filterOptions (options, filterValue, excludeOptions, props) {
+export default function filterOptions (options, filterValue, excludeOptions, props) {
 	if (props.ignoreAccents) {
 		filterValue = stripDiacritics(filterValue);
 	}
@@ -34,5 +34,3 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 		);
 	});
 }
-
-module.exports = filterOptions;

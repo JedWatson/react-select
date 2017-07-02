@@ -44,4 +44,4 @@ const AsyncCreatable = createClass({
 	}
 });
 
-module.exports = AsyncCreatable;
+export default AsyncCreatable;

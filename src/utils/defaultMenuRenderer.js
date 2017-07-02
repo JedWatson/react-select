@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-function menuRenderer ({
+export default function menuRenderer ({
 	focusedOption,
 	instancePrefix,
 	labelKey,
@@ -46,5 +46,3 @@ function menuRenderer ({
 		);
 	});
 }
-
-module.exports = menuRenderer;
