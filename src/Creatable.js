@@ -1,80 +1,22 @@
 import React from 'react';
-import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import Select from './Select';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 
-const Creatable = createClass({
-	displayName: 'CreatableSelect',
+class Creatable extends React.Component {
+	constructor(props, context) {
+		super(props, context);
 
-	propTypes: {
-		// Child function responsible for creating the inner Select component
-		// This component can be used to compose HOCs (eg Creatable and Async)
-		// (props: Object): PropTypes.element
-		children: PropTypes.func,
+		this.filterOptions = this.filterOptions.bind(this);
+		this.menuRenderer = this.menuRenderer.bind(this);
+		this.onInputKeyDown = this.onInputKeyDown.bind(this);
+		this.onInputChange = this.onInputChange.bind(this);
+		this.onOptionSelect = this.onOptionSelect.bind(this);
+		this.focus = this.focus.bind(this);
+	}
 
-		// See Select.propTypes.filterOptions
-		filterOptions: PropTypes.any,
-
-		// Searches for any matching option within the set of options.
-		// This function prevents duplicate options from being created.
-		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
-		isOptionUnique: PropTypes.func,
-
-	    // Determines if the current input text represents a valid option.
-	    // ({ label: string }): boolean
-	    isValidNewOption: PropTypes.func,
-
-		// See Select.propTypes.menuRenderer
-		menuRenderer: PropTypes.any,
-
-	    // Factory to create new option.
-	    // ({ label: string, labelKey: string, valueKey: string }): Object
-		newOptionCreator: PropTypes.func,
-
-		// input change handler: function (inputValue) {}
-		onInputChange: PropTypes.func,
-
-		// input keyDown handler: function (event) {}
-		onInputKeyDown: PropTypes.func,
-
-		// new option click handler: function (option) {}
-		onNewOptionClick: PropTypes.func,
-
-		// See Select.propTypes.options
-		options: PropTypes.array,
-
-	    // Creates prompt/placeholder option text.
-	    // (filterText: string): string
-		promptTextCreator: PropTypes.func,
-
-		// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
-		shouldKeyDownEventCreateNewOption: PropTypes.func,
-	},
-
-	// Default prop methods
-	statics: {
-		isOptionUnique,
-		isValidNewOption,
-		newOptionCreator,
-		promptTextCreator,
-		shouldKeyDownEventCreateNewOption
-	},
-
-	getDefaultProps () {
-		return {
-			filterOptions: defaultFilterOptions,
-			isOptionUnique,
-			isValidNewOption,
-			menuRenderer: defaultMenuRenderer,
-			newOptionCreator,
-			promptTextCreator,
-			shouldKeyDownEventCreateNewOption,
-		};
-	},
-
-	createNewOption () {
+	createNewOption() {
 		const {
 			isValidNewOption,
 			newOptionCreator,
@@ -98,15 +40,15 @@ const Creatable = createClass({
 				}
 			}
 		}
-	},
+	}
 
-	filterOptions (...params) {
+	filterOptions(...params) {
 		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
 		// This covers async edge-cases where a newly-created Option isn't yet in the async-loaded array.
-		const excludeOptions = params[2] || [];
+		const excludeOptions = params[ 2 ] || [];
 
 		const filteredOptions = filterOptions(...params) || [];
 
@@ -140,25 +82,20 @@ const Creatable = createClass({
 		}
 
 		return filteredOptions;
-	},
+	}
 
-	isOptionUnique ({
-		option,
-		options
-	}) {
-		const { isOptionUnique } = this.props;
-
+	isOptionUnique({ option, options }) {
 		options = options || this.select.filterOptions();
 
-		return isOptionUnique({
+		return this.props.isOptionUnique({
 			labelKey: this.labelKey,
 			option,
 			options,
 			valueKey: this.valueKey
 		});
-	},
+	}
 
-	menuRenderer (params) {
+	menuRenderer(params) {
 		const { menuRenderer } = this.props;
 
 		return menuRenderer({
@@ -166,9 +103,9 @@ const Creatable = createClass({
 			onSelect: this.onOptionSelect,
 			selectValue: this.onOptionSelect
 		});
-	},
+	}
 
-	onInputChange (input) {
+	onInputChange(input) {
 		const { onInputChange } = this.props;
 
 		if (onInputChange) {
@@ -177,9 +114,9 @@ const Creatable = createClass({
 
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
-	},
+	}
 
-	onInputKeyDown (event) {
+	onInputKeyDown(event) {
 		const { shouldKeyDownEventCreateNewOption, onInputKeyDown } = this.props;
 		const focusedOption = this.select.getFocusedOption();
 
@@ -195,21 +132,21 @@ const Creatable = createClass({
 		} else if (onInputKeyDown) {
 			onInputKeyDown(event);
 		}
-	},
+	}
 
-	onOptionSelect (option, event) {
+	onOptionSelect(option, event) {
 		if (option === this._createPlaceholderOption) {
 			this.createNewOption();
 		} else {
 			this.select.selectValue(option);
 		}
-	},
+	}
 
-	focus () {
+	focus() {
 		this.select.focus();
-	},
+	}
 
-	render () {
+	render() {
 		const {
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
@@ -245,48 +182,107 @@ const Creatable = createClass({
 
 		return children(props);
 	}
-});
-
-function defaultChildren (props) {
-	return (
-		<Select {...props} />
-	);
-};
-
-function isOptionUnique ({ option, options, labelKey, valueKey }) {
-	return options
-		.filter((existingOption) =>
-			existingOption[labelKey] === option[labelKey] ||
-			existingOption[valueKey] === option[valueKey]
-		)
-		.length === 0;
-};
-
-function isValidNewOption ({ label }) {
-	return !!label;
-};
-
-function newOptionCreator ({ label, labelKey, valueKey }) {
-	const option = {};
-	option[valueKey] = label;
- 	option[labelKey] = label;
- 	option.className = 'Select-create-option-placeholder';
- 	return option;
-};
-
-function promptTextCreator (label) {
-	return `Create option "${label}"`;
 }
 
-function shouldKeyDownEventCreateNewOption ({ keyCode }) {
+const promptTextCreator = label => `Create option "${label}"`;
+
+const isValidNewOption = ({ label }) => !!label;
+
+function isOptionUnique({ option, options, labelKey, valueKey }) {
+	return options
+		.filter((existingOption) => {
+			return (
+				existingOption[ labelKey ] === option[ labelKey ]
+				|| existingOption[ valueKey ] === option[ valueKey ]
+			);
+		})
+		.length === 0;
+}
+
+function newOptionCreator({ label, labelKey, valueKey }) {
+	const option = {};
+	option[ valueKey ] = label;
+	option[ labelKey ] = label;
+	option.className = 'Select-create-option-placeholder';
+	return option;
+}
+
+function shouldKeyDownEventCreateNewOption({ keyCode }) {
 	switch (keyCode) {
 		case 9:   // TAB
 		case 13:  // ENTER
 		case 188: // COMMA
 			return true;
+		default:
+			return false;
 	}
+}
 
-	return false;
+Creatable.isOptionUnique = isOptionUnique;
+Creatable.isValidNewOption = isValidNewOption;
+Creatable.newOptionCreator = newOptionCreator;
+Creatable.promptTextCreator = promptTextCreator;
+Creatable.shouldKeyDownEventCreateNewOption = shouldKeyDownEventCreateNewOption;
+
+Creatable.defaultProps = {
+	filterOptions: defaultFilterOptions,
+	isOptionUnique,
+	isValidNewOption,
+	menuRenderer: defaultMenuRenderer,
+	newOptionCreator,
+	promptTextCreator,
+	shouldKeyDownEventCreateNewOption,
 };
 
-module.exports = Creatable;
+Creatable.propTypes = {
+	// Child function responsible for creating the inner Select component
+	// This component can be used to compose HOCs (eg Creatable and Async)
+	// (props: Object): PropTypes.element
+	children: PropTypes.func,
+
+	// See Select.propTypes.filterOptions
+	filterOptions: PropTypes.any,
+
+	// Searches for any matching option within the set of options.
+	// This function prevents duplicate options from being created.
+	// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
+	isOptionUnique: PropTypes.func,
+
+	// Determines if the current input text represents a valid option.
+	// ({ label: string }): boolean
+	isValidNewOption: PropTypes.func,
+
+	// See Select.propTypes.menuRenderer
+	menuRenderer: PropTypes.any,
+
+	// Factory to create new option.
+	// ({ label: string, labelKey: string, valueKey: string }): Object
+	newOptionCreator: PropTypes.func,
+
+	// input change handler: function (inputValue) {}
+	onInputChange: PropTypes.func,
+
+	// input keyDown handler: function (event) {}
+	onInputKeyDown: PropTypes.func,
+
+	// new option click handler: function (option) {}
+	onNewOptionClick: PropTypes.func,
+
+	// See Select.propTypes.options
+	options: PropTypes.array,
+
+	// Creates prompt/placeholder option text.
+	// (filterText: string): string
+	promptTextCreator: PropTypes.func,
+
+	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
+	shouldKeyDownEventCreateNewOption: PropTypes.func,
+};
+
+function defaultChildren(props) {
+	return (
+		<Select {...props} />
+	);
+}
+
+export default Creatable;
