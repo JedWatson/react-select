@@ -74,6 +74,7 @@ const GithubUsers = createClass({
 					labelKey="login"
 					loadOptions={this.getUsers}
 					backspaceRemoves={this.state.backspaceRemoves}
+					isRequired={true}
 				/>
 				<div className="checkbox-list">
 					<label className="checkbox">

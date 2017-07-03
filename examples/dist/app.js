@@ -549,7 +549,8 @@ var UsersField = (0, _createReactClass2['default'])({
 				placeholder: placeholder,
 				value: this.state.value,
 				valueComponent: GravatarValue,
-				theme: this.props.theme
+				theme: this.props.theme,
+				isRequired: true
 			}),
 			_react2['default'].createElement(
 				'div',
@@ -759,7 +760,8 @@ var GithubUsers = (0, _createReactClass2['default'])({
 				valueKey: 'id',
 				labelKey: 'login',
 				loadOptions: this.getUsers,
-				backspaceRemoves: this.state.backspaceRemoves
+				backspaceRemoves: this.state.backspaceRemoves,
+				isRequired: true
 			}),
 			_react2['default'].createElement(
 				'div',

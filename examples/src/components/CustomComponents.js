@@ -104,6 +104,7 @@ const UsersField = createClass({
 					value={this.state.value}
 					valueComponent={GravatarValue}
 					theme={this.props.theme}
+					isRequired={true}
 				/>
 				<div className="hint">
 					This example implements custom Option and Value components to render a Gravatar image for each user based on their email.

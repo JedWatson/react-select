@@ -1178,7 +1178,8 @@ const Select = createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{!isOpen && showRequiredMsg && this.props.isRequired && !valueArray.length && this.renderRequiredMessage()}
+				{!isOpen && showRequiredMsg && this.props.isRequired && this.props.multi && !valueArray.length && this.renderRequiredMessage()}
+				{!isOpen && showRequiredMsg && this.props.isRequired && !this.props.multi && !this.props.value && this.renderRequiredMessage()}
 				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
 		);
