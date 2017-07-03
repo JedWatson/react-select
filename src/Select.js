@@ -893,6 +893,7 @@ class Select extends React.Component {
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
 				options,
 				selectValue: this.selectValue,
+				removeValue: this.removeValue,
 				valueArray,
 				valueKey: this.props.valueKey,
 				onOptionRef: this.onOptionRef,
@@ -1038,7 +1039,7 @@ class Select extends React.Component {
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+				{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
 			</div>
 		);
 	}
