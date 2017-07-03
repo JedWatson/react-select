@@ -1068,17 +1068,18 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	getInitialState: function getInitialState() {
+		var fValue = '';
+		if (!this.props.multi && this.props.value) {
+			fValue = this.props.value;
+		}
 		return {
-			inputValue: '',
+			inputValue: fValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
 			required: false,
 			showRequiredMsg: false
 		};
-		if (!this.props.multi && this.props.value) {
-			this.setState({ inputValue: this.props.value });
-		}
 	},
 
 	componentWillMount: function componentWillMount() {
