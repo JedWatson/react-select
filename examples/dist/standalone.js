@@ -1076,6 +1076,9 @@ var Select = (0, _createReactClass2['default'])({
 			required: false,
 			showRequiredMsg: false
 		};
+		if (!this.props.multi && this.props.value) {
+			this.setState({ inputValue: this.props.value });
+		}
 	},
 
 	componentWillMount: function componentWillMount() {

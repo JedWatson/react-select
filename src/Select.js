@@ -181,6 +181,9 @@ const Select = createClass({
 			required: false,
 			showRequiredMsg: false
 		};
+		if (!this.props.multi && this.props.value) {
+			this.setState({inputValue: this.props.value});
+		}
 	},
 
 	componentWillMount () {
