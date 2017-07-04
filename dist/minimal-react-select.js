@@ -463,7 +463,8 @@ var Creatable = (0, _createReactClass2['default'])({
 					onNewOptionClick(option);
 					// Closes the menu when a new option is clicked. Clears the input values if onCloseResetsInput is set to true {default: true}.
 					this.select.closeMenu();
-					this.select.selectValue(option);
+					// Remove requiredMsg
+					this.select.removeRequiredMsg();
 				} else {
 					options.unshift(option);
 
@@ -1553,8 +1554,8 @@ var Select = (0, _createReactClass2['default'])({
 	selectValue: function selectValue(value) {
 		var _this3 = this;
 
+		console.log(value);
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
-		var label = value.label ? value.label : '';
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
@@ -1564,10 +1565,9 @@ var Select = (0, _createReactClass2['default'])({
 				_this3.addValue(value);
 			});
 		} else {
-			console.log(label);
 			this.setState({
 				isOpen: false,
-				inputValue: label,
+				inputValue: value.label,
 				isPseudoFocused: this.state.isFocused
 			}, function () {
 				_this3.setValue(value);
@@ -1635,6 +1635,12 @@ var Select = (0, _createReactClass2['default'])({
 		} else {
 			return null;
 		}
+	},
+
+	removeRequiredMsg: function removeRequiredMsg() {
+		this.setState({
+			showRequiredMsg: false
+		});
 	},
 
 	focusOption: function focusOption(option) {

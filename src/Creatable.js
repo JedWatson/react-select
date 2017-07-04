@@ -93,7 +93,8 @@ const Creatable = createClass({
 					onNewOptionClick(option);
 					// Closes the menu when a new option is clicked. Clears the input values if onCloseResetsInput is set to true {default: true}.
 					this.select.closeMenu();
-					this.select.selectValue(option);
+					// Remove requiredMsg
+					this.select.removeRequiredMsg();
 				} else {
 					options.unshift(option);
 

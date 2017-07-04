@@ -630,8 +630,8 @@ const Select = createClass({
 	},
 
 	selectValue (value) {
+		console.log(value);
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
-		let label = value.label ? value.label : '';
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
 			this.setState({
@@ -641,10 +641,9 @@ const Select = createClass({
 				this.addValue(value);
 			});
 		} else {
-			console.log(label);
 			this.setState({
 				isOpen: false,
-				inputValue: label,
+				inputValue: value.label,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
@@ -708,6 +707,12 @@ const Select = createClass({
 		} else {
 			return null;
 		}
+	},
+
+	removeRequiredMsg () {
+		this.setState({
+			showRequiredMsg: false
+		});
 	},
 
 	focusOption (option) {
