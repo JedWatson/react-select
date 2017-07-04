@@ -17,7 +17,7 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var ReactTestUtils = require('react-dom/test-utils');
 var sinon = require('sinon');
 
 var Select = require('../src/Select');
@@ -27,7 +27,7 @@ describe('Async', () => {
 
 	function createControl (props = {}) {
 		loadOptions = props.loadOptions || sinon.stub();
-		asyncInstance = TestUtils.renderIntoDocument(
+		asyncInstance = ReactTestUtils.renderIntoDocument(
 			<Select.Async
 				autoload={false}
 				openOnFocus
@@ -51,12 +51,12 @@ describe('Async', () => {
 	function findAndFocusInputControl () {
 		filterInputNode = asyncNode.querySelector('input');
 		if (filterInputNode) {
-			TestUtils.Simulate.focus(filterInputNode);
+			ReactTestUtils.Simulate.focus(filterInputNode);
 		}
 	};
 
 	function typeSearchText (text) {
-		TestUtils.Simulate.change(filterInputNode, { target: { value: text } });
+		ReactTestUtils.Simulate.change(filterInputNode, { target: { value: text } });
 	};
 
 	describe('autoload', () => {

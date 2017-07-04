@@ -16,7 +16,7 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var ReactTestUtils = require('react-dom/test-utils');
 
 var OPTION = { label: 'TEST-LABEL', value: 'TEST-VALUE' };
 
@@ -32,34 +32,34 @@ describe('Value component', function() {
 			value: OPTION,
 			onRemove: sinon.spy()
 		};
-		value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+		value = ReactTestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
 	});
 
 	it('requests its own removal when the remove icon is clicked', function() {
-		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
-		TestUtils.Simulate.mouseDown(selectItemIcon);
+		var selectItemIcon = ReactTestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
+		ReactTestUtils.Simulate.mouseDown(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
 	it('requests its own removal when the remove icon is touched', function() {
-		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
-		TestUtils.Simulate.touchStart(selectItemIcon);
-		TestUtils.Simulate.touchEnd(selectItemIcon);
+		var selectItemIcon = ReactTestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
+		ReactTestUtils.Simulate.touchStart(selectItemIcon);
+		ReactTestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was called');
 	});
 
 	it('ignores its own removal when the remove icon is touched and dragged', function() {
-		var selectItemIcon = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
-		TestUtils.Simulate.touchStart(selectItemIcon);
-		TestUtils.Simulate.touchMove(selectItemIcon);
-		TestUtils.Simulate.touchEnd(selectItemIcon);
+		var selectItemIcon = ReactTestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-icon');
+		ReactTestUtils.Simulate.touchStart(selectItemIcon);
+		ReactTestUtils.Simulate.touchMove(selectItemIcon);
+		ReactTestUtils.Simulate.touchEnd(selectItemIcon);
 		expect(props.onRemove, 'was not called');
 	});
 
 	describe('without a custom click handler', function() {
 
 		it('presents the given label', function() {
-			var selectItemLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
+			var selectItemLabel = ReactTestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
 			expect(ReactDOM.findDOMNode(selectItemLabel), 'to have text', OPTION.label);
 		});
 
@@ -74,8 +74,8 @@ describe('Value component', function() {
 				onRemove: sinon.spy(),
 				onClick: sinon.spy(),
 			};
-			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
-			valueLabel = TestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
+			value = ReactTestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			valueLabel = ReactTestUtils.findRenderedDOMComponentWithClass(value, 'Select-value-label');
 		});
 
 		it('presents the given label', function() {
@@ -83,12 +83,12 @@ describe('Value component', function() {
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
-			TestUtils.Simulate.mouseDown(valueLabel, { button: 0 });
+			ReactTestUtils.Simulate.mouseDown(valueLabel, { button: 0 });
 			expect(props.onClick, 'was called');
 		});
 
 		it('calls a custom callback when the anchor is touched', function() {
-			TestUtils.Simulate.touchEnd(valueLabel);
+			ReactTestUtils.Simulate.touchEnd(valueLabel);
 			expect(props.onClick, 'was called');
 		});
 
