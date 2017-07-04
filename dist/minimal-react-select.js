@@ -1572,6 +1572,7 @@ var Select = (0, _createReactClass2['default'])({
 				_this3.setValue(value);
 			});
 		}
+		this.removeRequiredMsg();
 	},
 
 	deleteOption: function deleteOption(option) {

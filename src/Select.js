@@ -648,6 +648,7 @@ const Select = createClass({
 				this.setValue(value);
 			});
 		}
+		this.removeRequiredMsg();
 	},
 
 	deleteOption (option) {
