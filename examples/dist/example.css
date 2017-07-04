@@ -100,7 +100,8 @@
   color: #9b9b9b;
 }
 .required-message {
-  color: #ff115f;
+  color: #D7001A;
+  font-size: 12px;
 }
 .Select-value:hover .Select-value-icon {
   color: #ff115f;

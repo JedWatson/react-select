@@ -1159,7 +1159,7 @@ var StatesField = (0, _createReactClass2['default'])({
 				clearable: this.state.clearable,
 				name: 'selected-state',
 				disabled: this.state.disabled,
-				value: 'lalakia',
+				value: this.state.selectValue,
 				onChange: this.updateValue,
 				searchable: this.state.searchable,
 				theme: this.props.theme,
