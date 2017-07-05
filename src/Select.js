@@ -238,6 +238,15 @@ class Select extends React.Component {
 			});
 		}
 
+        let newInputValue = this.state.inputValue;
+		if (this.props.onInputChange && this.props.onBlurResetsInput) {
+			let nextState = this.props.onInputChange('');
+			// Note: != used deliberately here to catch undefined and null
+			if (nextState != null && typeof nextState !== 'object') {
+				newInputValue = '' + nextState;
+			}
+		}
+
 		if (this.state.isFocused) {
 			// On iOS, we can get into a state where we think the input is focused but it isn't really,
 			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
@@ -257,9 +266,14 @@ class Select extends React.Component {
 			this.setState({
 				isOpen: true,
 				isPseudoFocused: false,
+				inputValue: newInputValue
 			});
 		} else {
-			// otherwise, focus the input and open the menu
+			//otherwise, focus the input and open the menu
+			this.setState({
+				inputValue: newInputValue
+			});
+
 			this._openAfterFocus = true;
 			this.focus();
 		}

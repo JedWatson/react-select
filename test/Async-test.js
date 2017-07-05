@@ -33,7 +33,7 @@ describe('Async', () => {
 				openOnFocus
 				{...props}
 				loadOptions={loadOptions}
-			/>
+				/>
 		);
 		asyncNode = ReactDOM.findDOMNode(asyncInstance);
 		findAndFocusInputControl();
@@ -45,7 +45,7 @@ describe('Async', () => {
 				label: option,
 				value: option
 			}))
-	  };
+		};
 	}
 
 	function findAndFocusInputControl () {
@@ -146,6 +146,38 @@ describe('Async', () => {
 			return expect(asyncNode.textContent, 'to contain', 'Loading');
 		});
 
+		describe('onBlur', () => {
+			it('should load options with onBlurResetsInput=true', () => {
+				function loadOptions(input, resolve) {
+					resolve(null, createOptionsResponse(['foo']));
+				}
+				createControl({
+					cache: false,
+					loadOptions,
+					onBlurResetsInput: true
+				});
+				var searchInputNode = asyncNode.querySelector('input');
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0);
+				TestUtils.Simulate.mouseDown(asyncNode.querySelector('.Select-control'), { button: 0 });
+				if (searchInputNode) {
+					TestUtils.Simulate.focus(searchInputNode);
+				}
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
+				expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'foo');
+				if (searchInputNode) {
+					TestUtils.Simulate.blur(searchInputNode);
+				}
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0);
+				expect(asyncNode.querySelector('input').value, 'to equal', '');
+				TestUtils.Simulate.mouseDown(asyncNode.querySelector('.Select-control'), { button: 0 });
+				if (searchInputNode) {
+					TestUtils.Simulate.focus(searchInputNode);
+				}
+				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
+				expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'foo');
+			});
+		});
+
 		describe('with callbacks', () => {
 			it('should display the loaded options', () => {
 				function loadOptions (input, resolve) {
@@ -164,7 +196,7 @@ describe('Async', () => {
 			it('should display the most recently-requested loaded options (if results are returned out of order)', () => {
 				const callbacks = [];
 				function loadOptions (input, callback) {
-				  callbacks.push(callback);
+					callbacks.push(callback);
 				}
 				createControl({
 					cache: false,
