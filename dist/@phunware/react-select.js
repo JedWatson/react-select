@@ -10,7 +10,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -45,6 +45,7 @@ var propTypes = {
 	loadOptions: _propTypes2['default'].func.isRequired, // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: _propTypes2['default'].bool, // multi-value input
 	options: _propTypes2['default'].array.isRequired, // array of options
+	pagination: _propTypes2['default'].bool, // automatically load more options when the option list is scrolled to the end; default to false
 	placeholder: _propTypes2['default'].oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	_propTypes2['default'].string, _propTypes2['default'].node]),
 	noResultsText: _propTypes2['default'].oneOfType([// field noResultsText, displayed when no options come back from the server
@@ -66,6 +67,7 @@ var defaultProps = {
 	ignoreCase: true,
 	loadingPlaceholder: 'Loading...',
 	options: [],
+	pagination: false,
 	searchPromptText: 'Type to search'
 };
 
@@ -81,10 +83,13 @@ var Async = (function (_Component) {
 
 		this.state = {
 			isLoading: false,
+			isLoadingPage: false,
+			page: 1,
 			options: props.options
 		};
 
 		this._onInputChange = this._onInputChange.bind(this);
+		this._onMenuScrollToBottom = this._onMenuScrollToBottom.bind(this);
 	}
 
 	_createClass(Async, [{
@@ -115,16 +120,22 @@ var Async = (function (_Component) {
 		value: function loadOptions(inputValue) {
 			var _this = this;
 
-			var loadOptions = this.props.loadOptions;
+			var page = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+			var _props = this.props;
+			var loadOptions = _props.loadOptions;
+			var pagination = _props.pagination;
 
 			var cache = this._cache;
 
 			if (cache && cache.hasOwnProperty(inputValue)) {
 				this.setState({
-					options: cache[inputValue]
+					options: cache[inputValue].options,
+					page: cache[inputValue].page
 				});
 
-				return;
+				if (!pagination || pagination && (cache[inputValue].page >= page || cache[inputValue].hasReachedLastPage)) {
+					return;
+				}
 			}
 
 			var callback = function callback(error, data) {
@@ -133,12 +144,20 @@ var Async = (function (_Component) {
 
 					var options = data && data.options || [];
 
+					var hasReachedLastPage = pagination && options.length === 0;
+
+					if (page > 1) {
+						options = _this.state.options.concat(options);
+					}
+
 					if (cache) {
-						cache[inputValue] = options;
+						cache[inputValue] = { page: page, options: options, hasReachedLastPage: hasReachedLastPage };
 					}
 
 					_this.setState({
 						isLoading: false,
+						isLoadingPage: false,
+						page: page,
 						options: options
 					});
 				}
@@ -147,7 +166,14 @@ var Async = (function (_Component) {
 			// Ignore all but the most recent request
 			this._callback = callback;
 
-			var promise = loadOptions(inputValue, callback);
+			var promise = undefined;
+
+			if (pagination) {
+				promise = loadOptions(inputValue, page, callback);
+			} else {
+				promise = loadOptions(inputValue, callback);
+			}
+
 			if (promise) {
 				promise.then(function (data) {
 					return callback(null, data);
@@ -158,7 +184,8 @@ var Async = (function (_Component) {
 
 			if (this._callback && !this.state.isLoading) {
 				this.setState({
-					isLoading: true
+					isLoading: true,
+					isLoadingPage: page > this.state.page
 				});
 			}
 
@@ -167,10 +194,10 @@ var Async = (function (_Component) {
 	}, {
 		key: '_onInputChange',
 		value: function _onInputChange(inputValue) {
-			var _props = this.props;
-			var ignoreAccents = _props.ignoreAccents;
-			var ignoreCase = _props.ignoreCase;
-			var onInputChange = _props.onInputChange;
+			var _props2 = this.props;
+			var ignoreAccents = _props2.ignoreAccents;
+			var ignoreCase = _props2.ignoreCase;
+			var onInputChange = _props2.onInputChange;
 
 			if (ignoreAccents) {
 				inputValue = (0, _utilsStripDiacritics2['default'])(inputValue);
@@ -197,10 +224,10 @@ var Async = (function (_Component) {
 	}, {
 		key: 'noResultsText',
 		value: function noResultsText() {
-			var _props2 = this.props;
-			var loadingPlaceholder = _props2.loadingPlaceholder;
-			var noResultsText = _props2.noResultsText;
-			var searchPromptText = _props2.searchPromptText;
+			var _props3 = this.props;
+			var loadingPlaceholder = _props3.loadingPlaceholder;
+			var noResultsText = _props3.noResultsText;
+			var searchPromptText = _props3.searchPromptText;
 			var isLoading = this.state.isLoading;
 
 			var inputValue = this.inputValue();
@@ -219,22 +246,30 @@ var Async = (function (_Component) {
 			this.select.focus();
 		}
 	}, {
+		key: '_onMenuScrollToBottom',
+		value: function _onMenuScrollToBottom(inputValue) {
+			if (!this.props.pagination || this.state.isLoading) return;
+
+			this.loadOptions(inputValue, this.state.page + 1);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
 
-			var _props3 = this.props;
-			var children = _props3.children;
-			var loadingPlaceholder = _props3.loadingPlaceholder;
-			var placeholder = _props3.placeholder;
+			var _props4 = this.props;
+			var children = _props4.children;
+			var loadingPlaceholder = _props4.loadingPlaceholder;
+			var placeholder = _props4.placeholder;
 			var _state = this.state;
 			var isLoading = _state.isLoading;
+			var isLoadingPage = _state.isLoadingPage;
 			var options = _state.options;
 
 			var props = {
 				noResultsText: this.noResultsText(),
 				placeholder: isLoading ? loadingPlaceholder : placeholder,
-				options: isLoading && loadingPlaceholder ? [] : options,
+				options: isLoading && loadingPlaceholder && !isLoadingPage ? [] : options,
 				ref: function ref(_ref) {
 					return _this2.select = _ref;
 				},
@@ -248,7 +283,8 @@ var Async = (function (_Component) {
 
 			return children(_extends({}, this.props, props, {
 				isLoading: isLoading,
-				onInputChange: this._onInputChange
+				onInputChange: this._onInputChange,
+				onMenuScrollToBottom: this._onMenuScrollToBottom
 			}));
 		}
 	}]);
@@ -1405,8 +1441,8 @@ var Select = (0, _createReactClass2['default'])({
 		if (!this.props.onMenuScrollToBottom) return;
 		var target = event.target;
 
-		if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
-			this.props.onMenuScrollToBottom();
+		if (target.scrollHeight > target.offsetHeight && target.scrollHeight - target.offsetHeight <= target.scrollTop) {
+			this.props.onMenuScrollToBottom(this.state.inputValue);
 		}
 	},
 
