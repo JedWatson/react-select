@@ -642,7 +642,7 @@ const Select = createClass({
 		} else {
 			this.setState({
 				isOpen: false,
-				inputValue: value.label,
+				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
