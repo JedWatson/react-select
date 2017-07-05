@@ -131,26 +131,28 @@ export default class Async extends Component {
 				isLoading: true
 			});
 		}
-
-		return inputValue;
 	}
 
 	_onInputChange (inputValue) {
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
+		let transformedInputValue = inputValue;
 
 		if (ignoreAccents) {
-			inputValue = stripDiacritics(inputValue);
+			transformedInputValue = stripDiacritics(transformedInputValue);
 		}
 
 		if (ignoreCase) {
-			inputValue = inputValue.toLowerCase();
+			transformedInputValue = transformedInputValue.toLowerCase();
 		}
 
 		if (onInputChange) {
-			onInputChange(inputValue);
+			onInputChange(transformedInputValue);
 		}
 
-		return this.loadOptions(inputValue);
+		this.loadOptions(transformedInputValue);
+
+		// Return the original input value to avoid modifying the user's view of the input while typing.
+		return inputValue;
 	}
 
 	inputValue() {
