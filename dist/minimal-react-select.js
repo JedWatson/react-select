@@ -2147,7 +2147,7 @@ var Select = (0, _createReactClass2['default'])({
 				this.renderArrow()
 			),
 			!isOpen && showRequiredMsg && this.props.isRequired && this.props.multi && !valueArray.length && this.renderRequiredMessage(),
-			!isOpen && showRequiredMsg && this.props.isRequired && !this.props.multi && !this.state.inputValue && this.renderRequiredMessage(),
+			!isOpen && showRequiredMsg && this.props.isRequired && !this.props.multi && !this.state.inputValue && !this.props.value && this.renderRequiredMessage(),
 			isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
 		);
 	}
