@@ -20,7 +20,7 @@ var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var sinon = require('sinon');
 
-var Select = require('../src/Select');
+var Select = require('../src');
 
 describe('Async', () => {
 	let asyncInstance, asyncNode, filterInputNode, loadOptions;
@@ -31,8 +31,8 @@ describe('Async', () => {
 			<Select.Async
 				autoload={false}
 				openOnFocus
-				{...props}
 				loadOptions={loadOptions}
+				{...props}
 			/>
 		);
 		asyncNode = ReactDOM.findDOMNode(asyncInstance);
@@ -438,13 +438,13 @@ describe('Async', () => {
 	describe('.focus()', () => {
 		beforeEach(() => {
 			createControl({});
+			TestUtils.Simulate.blur(filterInputNode);
 		});
 
 		it('focuses the search input', () => {
-			var input = asyncNode.querySelector('input');
-			expect(input, 'not to equal', document.activeElement);
+			expect(filterInputNode, 'not to equal', document.activeElement);
 			asyncInstance.focus();
-			expect(input, 'to equal', document.activeElement);
+			expect(filterInputNode, 'to equal', document.activeElement);
 		});
 	});
 

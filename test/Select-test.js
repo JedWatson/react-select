@@ -2479,7 +2479,7 @@ describe('Select', () => {
 				expect(spyFilterOption, 'was called with', defaultOptions[1], '');
 				expect(spyFilterOption, 'was called with', defaultOptions[2], '');
 				expect(spyFilterOption, 'was called with', defaultOptions[3], '');
-			});
+			}).timeout(5000);
 
 			describe('when entering text', () => {
 
@@ -2497,7 +2497,7 @@ describe('Select', () => {
 					expect(spyFilterOption, 'was called with', defaultOptions[1], 'xyz');
 					expect(spyFilterOption, 'was called with', defaultOptions[2], 'xyz');
 					expect(spyFilterOption, 'was called with', defaultOptions[3], 'xyz');
-				});
+				}).timeout(5000);
 
 				it('only shows the filtered option', () => {
 

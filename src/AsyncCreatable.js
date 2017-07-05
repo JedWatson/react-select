@@ -1,5 +1,7 @@
 import React from 'react';
 import Select from './Select';
+import Async from './Async';
+import Creatable from './Creatable';
 
 function reduce(obj, props = {}){
   return Object.keys(obj)
@@ -18,9 +20,9 @@ class AsyncCreatableSelect extends React.Component {
 
 	render () {
 		return (
-			<Select.Async {...this.props}>
+			<Async {...this.props}>
 				{(asyncProps) => (
-					<Select.Creatable {...this.props}>
+					<Creatable {...this.props}>
 						{(creatableProps) => (
 							<Select
 								{...reduce(asyncProps, reduce(creatableProps, {}))}
@@ -35,12 +37,11 @@ class AsyncCreatableSelect extends React.Component {
 								}}
 							/>
 						)}
-					</Select.Creatable>
+					</Creatable>
 				)}
-			</Select.Async>
+			</Async>
 		);
 	}
 };
 
 module.exports = AsyncCreatableSelect;
-
