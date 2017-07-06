@@ -319,6 +319,15 @@ describe('Async', () => {
 			typeSearchText('WÄRE');
 			expect(loadOptions, 'was called with', 'WÄRE');
 		});
+
+		it('does not mutate the user input', () => {
+			createControl({
+				ignoreAccents: false,
+				ignoreCase: true
+			});
+			typeSearchText('A');
+			expect(asyncNode.textContent, 'to begin with', 'A');
+		});
 	});
 
 	describe('with ignore case and ignore accents', () => {
