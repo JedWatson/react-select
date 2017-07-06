@@ -174,7 +174,7 @@ const Select = createClass({
 
 	getInitialState () {
 		let fValue = '';
-		if (!this.props.multi && this.props.value) {
+		if (!this.props.multi && this.props.searchable && this.props.value) {
 			fValue = this.props.value;
 		}
 		return {
