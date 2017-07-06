@@ -5,7 +5,7 @@
 * use componentDidUpdate for binding the closeMenuIfClicked... handlers (are these still needed?)
 * the behaviour of searchable=false isn't very good yet, needs docus handling & close on body click
 * pagination support in Async component
-
+some stuff
 ## Component Methods
 
 * handle _ closeMenuIfClickedOutside
