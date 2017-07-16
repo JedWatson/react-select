@@ -1041,7 +1041,7 @@ class Select extends React.Component {
 	}
 };
 
-Select.propTypes = {
+export const selectPropTypes = Select.propTypes = {
     addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
     'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
     'aria-label': PropTypes.string,       // Aria label (for assistive tech)
