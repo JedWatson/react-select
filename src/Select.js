@@ -568,6 +568,9 @@ class Select extends React.Component {
 		}
 		event.stopPropagation();
 		event.preventDefault();
+		if (this.props.onInputChange) {
+			this.props.onInputChange('');
+		}
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,
