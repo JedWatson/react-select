@@ -32,12 +32,14 @@
 	}
   .select-field-label {
     color: @select-primary-color;
-    line-height: @select-input-internal-height;
+    font-size: @font-size-medium;
+    line-height: 20px;
+    margin: 0;
     &.select-field-label-focused {
       color: @select-input-focused-border-color;
       transition: transform 250ms;
       transform: scale(.875, .875);
-      transform-origin: bottom left;
+      transform-origin: top left;
 
     }
   }
@@ -49,7 +51,9 @@
 	display: table;
 	border-spacing: 0;
 	border-collapse: separate;
-	height: @select-input-height;
+	// height: @select-input-height;
+  height: 20px;
+  margin: 0;
 	outline: none;
 	overflow: hidden;
 	position: relative;
@@ -94,11 +98,12 @@
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
 	bottom: 0;
-	color: @select-input-placeholder;
 	left: 0;
-	line-height: @select-input-internal-height;
+	// line-height: @select-input-internal-height;
+  line-height: 20px;
 	padding-right: @select-padding-horizontal;
 	padding-left: 0;
+  padding-bottom: 2px;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -115,13 +120,15 @@
   font-size: @font-size-base;
   /* FF 4-18 */
   font-weight: 300;
-  line-height: 30px;
+  line-height: 20px;
+  margin-right: 20px;
   color: @select-input-placeholder;
 }
 
 // required message
 .required-message {
-  color: @magenta;
+  color: #D7001A;
+  font-size: 12px;
 }
 
 .Select-value:hover .Select-value-icon, {
@@ -134,7 +141,7 @@
 .has-value.Select--single > .Select-control .Select-value,
 .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
 	.Select-value-label {
-		// color: @select-text-color;
+    font-size: @font-size-medium
 	}
 	a.Select-value-label {
 		cursor: pointer;
@@ -151,9 +158,10 @@
 
 .Select-input {
 	// inherits `display: inline-block` from "react-input-autosize"
-	height: @select-input-internal-height;
+	// height: @select-input-internal-height;
 	vertical-align: middle;
 	padding: 0 !important;
+  font-size: @font-size-medium;
 
 	> input {
 		width: 100%;
@@ -170,7 +178,9 @@
 		text-shadow: 0px 0px 0px @select-primary-color;
     -webkit-text-fill-color: transparent;
 		line-height: 14px;  /* For IE 8 compatibility */
-		padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
+		// padding: ((@select-input-internal-height - 14) / 2 - 2) 0 ((@select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
+    padding: 0;
+    vertical-align: top;
 		-webkit-appearance: none;
 		.is-focused & {
 			cursor: text;
@@ -249,6 +259,11 @@
 	padding-right: @select-arrow-width;
 }
 
+.Select.is-open .Select-arrow-zone {
+  position: relative;
+  bottom: 3px;
+}
+
 .Select-arrow {
 	display:inline-block!important;
 	position:relative;
@@ -265,6 +280,7 @@
 	width: 8px;
 	height: 8px;
 	transform: rotate(45deg);
+  transition: transform 250ms;
 	bottom: 4px;
 }
 
@@ -279,11 +295,13 @@
 	border-top: @select-input-border-width solid @select-arrow-color-hover;
 	border-right: @select-input-border-width solid @select-arrow-color-hover;
 	transform: rotate(-45deg);
+  transition: transform 250ms;
 	bottom: -4px;
 }
 
 .Select--multi .Select-multi-value-wrapper {
   display: inline-block;
+  width: 100%;
 }
 .Select .Select-aria-only {
   display: inline-block;
@@ -313,7 +331,7 @@
     border-color: @dark-select-item-border-color !important;
   }
   .Select-value-label {
-    color: @gray-dark;
+    color: @white;
   }
   &.Select--multi .Select-value-label,
   .Select-value-icon {

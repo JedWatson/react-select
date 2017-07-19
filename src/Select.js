@@ -173,8 +173,12 @@ const Select = createClass({
 	},
 
 	getInitialState () {
+		var fValue = '';
+		if (!this.props.multi && this.props.searchable && this.props.value) {
+			fValue = this.props.value;
+		}
 		return {
-			inputValue: '',
+			inputValue: fValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -644,6 +648,7 @@ const Select = createClass({
 				this.setValue(value);
 			});
 		}
+		this.removeRequiredMsg();
 	},
 
 	deleteOption (option) {
@@ -702,6 +707,12 @@ const Select = createClass({
 		} else {
 			return null;
 		}
+	},
+
+	removeRequiredMsg () {
+		this.setState({
+			showRequiredMsg: false
+		});
 	},
 
 	focusOption (option) {
@@ -1174,7 +1185,8 @@ const Select = createClass({
 					{this.renderClear()}
 					{this.renderArrow()}
 				</div>
-				{!isOpen && showRequiredMsg && this.props.isRequired && !valueArray.length && this.renderRequiredMessage()}
+				{!isOpen && showRequiredMsg && this.props.isRequired && this.props.multi && !valueArray.length && this.renderRequiredMessage()}
+				{!isOpen && showRequiredMsg && this.props.isRequired && !this.props.multi && !this.state.inputValue && !this.props.value && this.renderRequiredMessage()}
 				{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
 			</div>
 		);

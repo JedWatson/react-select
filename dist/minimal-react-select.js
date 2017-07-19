@@ -463,6 +463,8 @@ var Creatable = (0, _createReactClass2['default'])({
 					onNewOptionClick(option);
 					// Closes the menu when a new option is clicked. Clears the input values if onCloseResetsInput is set to true {default: true}.
 					this.select.closeMenu();
+					// Remove requiredMsg
+					this.select.removeRequiredMsg();
 				} else {
 					options.unshift(option);
 
@@ -1068,8 +1070,12 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	getInitialState: function getInitialState() {
+		var fValue = '';
+		if (!this.props.multi && this.props.searchable && this.props.value) {
+			fValue = this.props.value;
+		}
 		return {
-			inputValue: '',
+			inputValue: fValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -1566,6 +1572,7 @@ var Select = (0, _createReactClass2['default'])({
 				_this3.setValue(value);
 			});
 		}
+		this.removeRequiredMsg();
 	},
 
 	deleteOption: function deleteOption(option) {
@@ -1628,6 +1635,12 @@ var Select = (0, _createReactClass2['default'])({
 		} else {
 			return null;
 		}
+	},
+
+	removeRequiredMsg: function removeRequiredMsg() {
+		this.setState({
+			showRequiredMsg: false
+		});
 	},
 
 	focusOption: function focusOption(option) {
@@ -2133,7 +2146,8 @@ var Select = (0, _createReactClass2['default'])({
 				this.renderClear(),
 				this.renderArrow()
 			),
-			!isOpen && showRequiredMsg && this.props.isRequired && !valueArray.length && this.renderRequiredMessage(),
+			!isOpen && showRequiredMsg && this.props.isRequired && this.props.multi && !valueArray.length && this.renderRequiredMessage(),
+			!isOpen && showRequiredMsg && this.props.isRequired && !this.props.multi && !this.state.inputValue && !this.props.value && this.renderRequiredMessage(),
 			isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
 		);
 	}
