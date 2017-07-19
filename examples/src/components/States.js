@@ -67,6 +67,8 @@ var StatesField = createClass({
 					searchable={this.state.searchable}
 					theme={this.props.theme}
 					selectLabel="Select Field Label"
+					onCloseResetsInput={true}
+      		onBlurResetsInput={false}
 				/>
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
