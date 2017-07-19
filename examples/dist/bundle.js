@@ -457,7 +457,7 @@ var Creatable = (0, _createReactClass2['default'])({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 					// Closes the menu when a new option is clicked. Clears the input values if onCloseResetsInput is set to true {default: true}.
-					this.select.closeMenu();
+					// this.select.closeMenu();
 					// Remove requiredMsg
 					this.select.removeRequiredMsg();
 				} else {
@@ -1350,12 +1350,12 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	getInitialState: function getInitialState() {
-		var fValue = '';
-		if (!this.props.multi && this.props.searchable && this.props.value) {
-			fValue = this.props.value;
-		}
+		// var fValue = '';
+		// if (!this.props.multi && this.props.searchable && this.props.value) {
+		// 	fValue = this.props.value;
+		// }
 		return {
-			inputValue: fValue,
+			inputValue: '',
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
