@@ -173,8 +173,12 @@ const Select = createClass({
 	},
 
 	getInitialState () {
+		var fValue = '';
+-		if (!this.props.multi && this.props.searchable && this.props.value) {
+-			fValue = this.props.value;
+-		}
 		return {
-			inputValue: '',
+			inputValue: fValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -206,6 +210,12 @@ const Select = createClass({
 		if (nextProps.required) {
 			this.setState({
 				required: this.handleRequired(valueArray[0], nextProps.multi),
+			});
+		}
+
+		if (naxtProps.value !== this.props.value && !nextProps.multi) {
+			this.setState({
+				inputValue: nextProps.value || ''
 			});
 		}
 	},
@@ -248,11 +258,6 @@ const Select = createClass({
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
-		}
-		if (prevProps.value !== this.props.value && !this.props.multi) {
-			this.setState({
-				inputValue: this.props.value || ''
-			});
 		}
 	},
 
