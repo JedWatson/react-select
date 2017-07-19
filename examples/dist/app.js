@@ -1163,9 +1163,7 @@ var StatesField = (0, _createReactClass2['default'])({
 				onChange: this.updateValue,
 				searchable: this.state.searchable,
 				theme: this.props.theme,
-				selectLabel: 'Select Field Label',
-				onCloseResetsInput: true,
-				onBlurResetsInput: false
+				selectLabel: 'Select Field Label'
 			}),
 			_react2['default'].createElement(
 				'div',

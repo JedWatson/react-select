@@ -1350,8 +1350,12 @@ var Select = (0, _createReactClass2['default'])({
 	},
 
 	getInitialState: function getInitialState() {
+		var fValue = '';
+		if (!this.props.multi && this.props.searchable && this.props.value) {
+			fValue = this.props.value;
+		}
 		return {
-			inputValue: '',
+			inputValue: fValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -1425,11 +1429,6 @@ var Select = (0, _createReactClass2['default'])({
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
-		}
-		if (prevProps.value !== this.props.value && !this.props.multi) {
-			this.setState({
-				inputValue: this.props.value || ''
-			});
 		}
 	},
 

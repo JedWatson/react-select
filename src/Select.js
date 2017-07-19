@@ -174,9 +174,9 @@ const Select = createClass({
 
 	getInitialState () {
 		var fValue = '';
--		if (!this.props.multi && this.props.searchable && this.props.value) {
--			fValue = this.props.value;
--		}
+		if (!this.props.multi && this.props.searchable && this.props.value) {
+			fValue = this.props.value;
+		}
 		return {
 			inputValue: fValue,
 			isFocused: false,
@@ -210,12 +210,6 @@ const Select = createClass({
 		if (nextProps.required) {
 			this.setState({
 				required: this.handleRequired(valueArray[0], nextProps.multi),
-			});
-		}
-
-		if (naxtProps.value !== this.props.value && !nextProps.multi) {
-			this.setState({
-				inputValue: nextProps.value || ''
 			});
 		}
 	},
