@@ -173,10 +173,6 @@ const Select = createClass({
 	},
 
 	getInitialState () {
-		// let fValue = '';
-		// if (!this.props.multi && this.props.searchable && this.props.value) {
-		// 	fValue = this.props.value;
-		// }
 		return {
 			inputValue: '',
 			isFocused: false,
@@ -253,8 +249,7 @@ const Select = createClass({
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
 		}
-		if (this.props.value && prevProps.value !== this.props.value && !this.props.multi) {
-			console.log ('I am running');
+		if (prevProps.value !== this.props.value && !this.props.multi) {
 			this.setState({
 				inputValue: this.props.value || ''
 			});
