@@ -3098,6 +3098,7 @@ var Select = (0, _createReactClass2['default'])({
 		style: _propTypes2['default'].object, // optional style to apply to the control
 		tabIndex: _propTypes2['default'].string, // optional tab index of the control
 		tabSelectsValue: _propTypes2['default'].bool, // whether to treat tabbing out while focused to be value selection
+		tetherEnabled: _propTypes2['default'].bool, // applies tether when needed, defaults to true
 		value: _propTypes2['default'].any, // initial field value
 		valueComponent: _propTypes2['default'].func, // value component to render
 		valueKey: _propTypes2['default'].string, // path of the label value in option objects
@@ -3145,6 +3146,7 @@ var Select = (0, _createReactClass2['default'])({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
+			tetherEnabled: true,
 			valueComponent: _Value2['default'],
 			valueKey: 'value'
 		};
@@ -4159,19 +4161,57 @@ var Select = (0, _createReactClass2['default'])({
 			);
 		}
 
-		return _react2['default'].createElement(
-			'div',
-			{ ref: function (ref) {
-					return _this8.wrapper = ref;
+		if (this.props.tetherEnabled) {
+			return _react2['default'].createElement(
+				'div',
+				{ ref: function (ref) {
+						return _this8.wrapper = ref;
+					},
+					className: className,
+					style: this.props.wrapperStyle },
+				this.renderHiddenField(valueArray),
+				_react2['default'].createElement(
+					_reactTether2['default'],
+					{ attachment: 'top left', targetAttachment: 'bottom left',
+						optimizations: { gpu: false },
+						style: this.state.overlayStyle },
+					_react2['default'].createElement(
+						'div',
+						{ ref: function (ref) {
+								return _this8.control = ref;
+							},
+							className: 'Select-control',
+							style: this.props.style,
+							onKeyDown: this.handleKeyDown,
+							onMouseDown: this.handleMouseDown,
+							onTouchEnd: this.handleTouchEnd,
+							onTouchStart: this.handleTouchStart,
+							onTouchMove: this.handleTouchMove
+						},
+						_react2['default'].createElement(
+							'span',
+							{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
+							this.renderValue(valueArray, isOpen),
+							this.renderInput(valueArray, focusedOptionIndex)
+						),
+						removeMessage,
+						this.renderLoading(),
+						this.renderClear(),
+						this.renderArrow()
+					),
+					isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
+				)
+			);
+		} else {
+			return _react2['default'].createElement(
+				'div',
+				{ ref: function (ref) {
+						return _this8.wrapper = ref;
+					},
+					className: className,
+					style: this.props.wrapperStyle
 				},
-				className: className,
-				style: this.props.wrapperStyle },
-			this.renderHiddenField(valueArray),
-			_react2['default'].createElement(
-				_reactTether2['default'],
-				{ attachment: 'top left', targetAttachment: 'bottom left',
-					optimizations: { gpu: false },
-					style: this.state.overlayStyle },
+				this.renderHiddenField(valueArray),
 				_react2['default'].createElement(
 					'div',
 					{ ref: function (ref) {
@@ -4197,8 +4237,8 @@ var Select = (0, _createReactClass2['default'])({
 					this.renderArrow()
 				),
 				isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null
-			)
-		);
+			);
+		}
 	}
 
 });

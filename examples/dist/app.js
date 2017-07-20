@@ -2373,7 +2373,7 @@ var Gravatar = function (_React$Component) {
       if (this.props.md5) {
         hash = this.props.md5;
       } else if (typeof this.props.email === 'string') {
-        hash = (0, _md2.default)(formattedEmail);
+        hash = (0, _md2.default)(formattedEmail, { encoding: "binary" });
       } else {
         console.warn('Gravatar image can not be fetched. Either the "email" or "md5" prop must be specified.');
         return _react2.default.createElement('script', null);

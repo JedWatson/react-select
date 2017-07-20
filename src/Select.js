@@ -134,6 +134,7 @@ const Select = createClass({
 		style: PropTypes.object,              // optional style to apply to the control
 		tabIndex: PropTypes.string,           // optional tab index of the control
 		tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
+		tetherEnabled: PropTypes.bool,        // applies tether when needed, defaults to true
 		value: PropTypes.any,                 // initial field value
 		valueComponent: PropTypes.func,       // value component to render
 		valueKey: PropTypes.string,           // path of the label value in option objects
@@ -181,6 +182,7 @@ const Select = createClass({
 			searchable: true,
 			simpleValue: false,
 			tabSelectsValue: true,
+			tetherEnabled: true,
 			valueComponent: Value,
 			valueKey: 'value',
 };
@@ -1154,14 +1156,44 @@ const Select = createClass({
 			);
 		}
 
-		return (
-			<div ref={ref => this.wrapper = ref}
-				className={className}
-				style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<TetherComponent attachment = "top left" targetAttachment = "bottom left"
-								 optimizations = {{ gpu: false }}
-								 style={this.state.overlayStyle}>
+		if (this.props.tetherEnabled) {
+			return (
+				<div ref={ref => this.wrapper = ref}
+					className={className}
+					style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<TetherComponent attachment = "top left" targetAttachment = "bottom left"
+									 optimizations = {{ gpu: false }}
+									 style={this.state.overlayStyle}>
+						<div ref={ref => this.control = ref}
+							className="Select-control"
+							style={this.props.style}
+							onKeyDown={this.handleKeyDown}
+							onMouseDown={this.handleMouseDown}
+							onTouchEnd={this.handleTouchEnd}
+							onTouchStart={this.handleTouchStart}
+							onTouchMove={this.handleTouchMove}
+						>
+							<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+								{this.renderValue(valueArray, isOpen)}
+								{this.renderInput(valueArray, focusedOptionIndex)}
+							</span>
+							{removeMessage}
+							{this.renderLoading()}
+							{this.renderClear()}
+							{this.renderArrow()}
+						</div>
+						{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
+					</TetherComponent>
+				</div>
+			);
+		} else {
+			return (
+				<div ref={ref => this.wrapper = ref}
+					className={className}
+					style={this.props.wrapperStyle}
+				>
+					{this.renderHiddenField(valueArray)}
 					<div ref={ref => this.control = ref}
 						className="Select-control"
 						style={this.props.style}
@@ -1181,9 +1213,9 @@ const Select = createClass({
 						{this.renderArrow()}
 					</div>
 					{isOpen ? this.renderOuter(options, !this.props.multi ? valueArray : null, focusedOption) : null}
-				</TetherComponent>
-			</div>
-		);
+				</div>
+			);
+		}
 	}
 
 });
