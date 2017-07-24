@@ -377,6 +377,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -470,6 +472,12 @@ var Creatable = (0, _createReactClass2['default'])({
 		};
 	},
 
+	getInitialState: function getInitialState() {
+		return {
+			newOptions: []
+		};
+	},
+
 	createNewOption: function createNewOption() {
 		var _props = this.props;
 		var isValidNewOption = _props.isValidNewOption;
@@ -488,7 +496,7 @@ var Creatable = (0, _createReactClass2['default'])({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 				} else {
-					options.unshift(option);
+					this.setState({ newOptions: [option].concat(_toConsumableArray(this.state.newOptions)) });
 
 					this.select.selectValue(option);
 				}
@@ -500,7 +508,6 @@ var Creatable = (0, _createReactClass2['default'])({
 		var _props2 = this.props;
 		var filterOptions = _props2.filterOptions;
 		var isValidNewOption = _props2.isValidNewOption;
-		var options = _props2.options;
 		var promptTextCreator = _props2.promptTextCreator;
 
 		// TRICKY Check currently selected options as well.
@@ -612,8 +619,10 @@ var Creatable = (0, _createReactClass2['default'])({
 		var _props4 = this.props;
 		var newOptionCreator = _props4.newOptionCreator;
 		var shouldKeyDownEventCreateNewOption = _props4.shouldKeyDownEventCreateNewOption;
+		var _props4$options = _props4.options;
+		var propOptions = _props4$options === undefined ? [] : _props4$options;
 
-		var restProps = _objectWithoutProperties(_props4, ['newOptionCreator', 'shouldKeyDownEventCreateNewOption']);
+		var restProps = _objectWithoutProperties(_props4, ['newOptionCreator', 'shouldKeyDownEventCreateNewOption', 'options']);
 
 		var children = this.props.children;
 
@@ -624,7 +633,10 @@ var Creatable = (0, _createReactClass2['default'])({
 			children = defaultChildren;
 		}
 
+		var options = [].concat(_toConsumableArray(this.state.newOptions), _toConsumableArray(propOptions));
+
 		var props = _extends({}, restProps, {
+			options: options,
 			allowCreate: true,
 			filterOptions: this.filterOptions,
 			menuRenderer: this.menuRenderer,
