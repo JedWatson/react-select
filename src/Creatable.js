@@ -74,6 +74,12 @@ const Creatable = createClass({
 		};
 	},
 
+	getInitialState () {
+		return {
+			newOptions: []
+		};
+	},
+
 	createNewOption () {
 		const {
 			isValidNewOption,
@@ -92,7 +98,7 @@ const Creatable = createClass({
 				if (onNewOptionClick) {
 					onNewOptionClick(option);
 				} else {
-					options.unshift(option);
+					this.setState({ newOptions: [option, ...this.state.newOptions] });
 
 					this.select.selectValue(option);
 				}
@@ -101,7 +107,7 @@ const Creatable = createClass({
 	},
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
+		const { filterOptions, isValidNewOption, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -213,6 +219,7 @@ const Creatable = createClass({
 		const {
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
+			options: propOptions = [],
 			...restProps
 		} = this.props;
 
@@ -225,8 +232,11 @@ const Creatable = createClass({
 			children = defaultChildren;
 		}
 
+		const options = [...this.state.newOptions, ...propOptions];
+
 		const props = {
 			...restProps,
+			options,
 			allowCreate: true,
 			filterOptions: this.filterOptions,
 			menuRenderer: this.menuRenderer,
