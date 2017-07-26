@@ -1175,6 +1175,7 @@ Select.defaultProps = {
     optionComponent: Option,
     pageSize: 5,
     placeholder: 'Select...',
+    removeSelected: true,
     required: false,
     scrollMenuIntoView: true,
     searchable: true,
