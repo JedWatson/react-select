@@ -54,7 +54,7 @@
     "react-input-autosize": "global:AutosizeInput"
   },
   "scripts": {
-    "build": "gulp clean && NODE_ENV=production gulp build",
+    "build": "gulp clean && NODE_ENV=production gulp build && mv dist/@phunware/*.* dist && rm -R dist/@phunware",
     "bump": "gulp bump",
     "bump:major": "gulp bump:major",
     "bump:minor": "gulp bump:minor",
