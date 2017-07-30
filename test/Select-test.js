@@ -2042,7 +2042,7 @@ describe('Select', () => {
 
 	});
 
-	describe('with removeSelected=true', () => {
+	describe('with removeSelected=false', () => {
 		beforeEach(() => {
 			options = [
 				{ value: 'one', label: 'One' },
@@ -2123,6 +2123,26 @@ describe('Select', () => {
 						{ value: 'four', label: 'Four' },
 					],
 				],
+			]);
+		});
+
+		it('removes a selected value if chosen again', () => {
+
+			clickArrowToOpen();
+
+			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+
+			// Click the option "Two" to select it
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(onChange, 'was called times', 1);
+
+			// Click the option "Two" again to deselect it
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(onChange, 'was called times', 2);
+
+			expect(onChange.args, 'to equal', [
+				[[{ value: 'two', label: 'Two' }]],
+				[[]],
 			]);
 		});
 	});
