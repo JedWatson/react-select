@@ -104,7 +104,7 @@ The built-in Options renderer also support custom classNames, just add a `classN
 
 You can enable multi-value selection by setting `multi={true}`. In this mode:
 
-* Selected options will be removed from the dropdown menu
+* Selected options will be removed from the dropdown menu by default. If you want them to remain in the list, set `removeSelected={true}`
 * The selected values are submitted in multiple `<input type="hidden">` fields, use `joinValues` to submit joined values in a single field instead
 * The values of the selected items are joined using the `delimiter` prop to create the input value when `joinValues` is true
 * A simple value, if provided, will be split using the `delimiter` prop
