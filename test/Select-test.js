@@ -2051,8 +2051,6 @@ describe('Select', () => {
 				{ value: 'four', label: 'Four' }
 			];
 
-			onChange.reset();
-
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: '',
