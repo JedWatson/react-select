@@ -257,7 +257,7 @@ class Select extends React.Component {
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = true;
+			this._openAfterFocus = this.props.openAfterFocus;
 			this.focus();
 		}
 	}
