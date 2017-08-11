@@ -715,6 +715,7 @@ class Select extends React.Component {
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+            			removeRenderer={this.props.removeRenderer}
 					>
 						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
@@ -1112,6 +1113,7 @@ Select.propTypes = {
     valueKey: PropTypes.string,           // path of the label value in option objects
     valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
     wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
+  removeRenderer: PropTypes.func, // create a value's x icon
 };
 
 Select.defaultProps = {
