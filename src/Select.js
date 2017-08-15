@@ -8,7 +8,7 @@ import React from 'react';
 import createClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import AutosizeInput from 'react-input-autosize';
+import AutosizeInput from '@helpdotcom/react-input-autosize';
 import classNames from 'classnames';
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
