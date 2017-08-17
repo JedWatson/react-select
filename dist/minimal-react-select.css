@@ -32,7 +32,7 @@
   color: #4A4A4A;
   font-size: 16px;
   line-height: 20px;
-  margin: 0;
+  margin-bottom: 4px;
 }
 .Select .select-field-label.select-field-label-focused {
   color: #ff115f;
@@ -47,8 +47,7 @@
   border-spacing: 0;
   border-collapse: separate;
   min-height: 22px;
-  margin-top: 4px;
-  padding-bottom: 3px;
+  padding-bottom: 4px;
   outline: none;
   overflow: hidden;
   position: relative;
