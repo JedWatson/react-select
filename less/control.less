@@ -29,6 +29,12 @@
 	}
 
 	// handle disabled state
+	&.is-input-disabled > .Select-control {
+		background-color: @select-input-bg-disabled;
+		&:hover {
+			box-shadow: none;
+		}
+	}
 	&.is-disabled > .Select-control {
 		background-color: @select-input-bg-disabled;
 		&:hover {
