@@ -11,7 +11,8 @@
 	// outer and an inner element, the browser is able to optimize the scrolling behavior and does not
 	// have to repaint on scroll.
 	min-width: 100%;
-	.border-bottom-radius( @select-input-border-radius );
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.17);
+	// .border-bottom-radius( @select-input-border-radius );
 	// background-color: @select-input-bg;
 	box-sizing: border-box;
 	margin-top: -1px;
@@ -41,6 +42,7 @@
 	cursor: pointer;
 	display: block;
 	padding: @select-padding-vertical @select-padding-horizontal;
+	font-size: @font-size-base;
 
 	&:last-child {
 		.border-bottom-radius( @select-input-border-radius );

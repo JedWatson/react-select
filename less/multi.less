@@ -17,42 +17,42 @@
 	// Items
 	.Select-value {
 		background-color: transparent;
-		border-radius: @select-item-border-radius;
-		border: 1px solid @select-item-border-color;
 		color: @select-item-color;
 		display: inline-block;
 		font-size: @select-item-font-size;
 		// line-height: 1.4;
 		line-height: 20px;
-		margin: 2px 4px 2px 0;
+		margin-right: 10px;
 	}
 
 	// common
 	.Select-value-icon,
 	.Select-value-label {
-		font-size: 12px;
-    line-height: 15px;
-    padding: 0 3px;
+    line-height: 14px;
+    padding: 0 4px 0 0;
     vertical-align: baseline;
 	}
 
 	// label
 	.Select-value-label {
+		font-size: 12px;
 		.border-right-radius( @select-item-border-radius );
 		cursor: default;
-		padding: @select-item-padding-vertical @select-item-padding-horizontal;
+		// padding: @select-item-padding-vertical @select-item-padding-horizontal;
 	}
 	a.Select-value-label {
+		font-size: 12px;
 		cursor: pointer;
 		text-decoration: none;
 	}
 
 	// icon
 	.Select-value-icon {
+		font-size: 12px;
 		cursor: pointer;
 
 		// move the baseline up by 1px
-		padding: (@select-item-padding-vertical - 1) @select-item-padding-horizontal (@select-item-padding-vertical + 1);
+		// padding: (@select-item-padding-vertical - 1) @select-item-padding-horizontal (@select-item-padding-vertical + 1);
 
 		&:hover,
 		&:focus {
