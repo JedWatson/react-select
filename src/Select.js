@@ -18,18 +18,7 @@ import defaultClearRenderer from './utils/defaultClearRenderer';
 import Option from './Option';
 import Value from './Value';
 
-function stringifyValue (value) {
-	const valueType = typeof value;
-	if (valueType === 'string') {
-		return value;
-	} else if (valueType === 'object') {
-		return JSON.stringify(value);
-	} else if (valueType === 'number' || valueType === 'boolean') {
-		return String(value);
-	} else {
-		return '';
-	}
-}
+const stringifyValue = (value) => typeof value === 'string' ? value : value !== null && JSON.stringify(value) || '';
 
 const stringOrNode = PropTypes.oneOfType([
 	PropTypes.string,
