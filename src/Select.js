@@ -1145,6 +1145,7 @@ Select.defaultProps = {
     noResultsText: 'No results found',
     onBlurResetsInput: true,
     onCloseResetsInput: true,
+    onValueRemove: ()=>{},
     optionComponent: Option,
     pageSize: 5,
     placeholder: 'Select...',
