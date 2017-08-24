@@ -557,6 +557,7 @@ class Select extends React.Component {
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
+		this.props.onValueRemove(value);
 		this.focus();
 	}
 
@@ -1091,6 +1092,7 @@ Select.propTypes = {
     onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
     onOpen: PropTypes.func,               // fires when the menu is opened
     onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+    onValueRemove: PropTypes.func, 	  // fires when a value is removed
     openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
     openOnFocus: PropTypes.bool,          // always open options menu on focus
     optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
