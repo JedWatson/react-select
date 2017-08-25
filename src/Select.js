@@ -48,6 +48,7 @@ const Select = createClass({
 
 	propTypes: {
 		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+		alwaysShowLoadingIndicator: PropTypes.bool,
 		'aria-describedby': PropTypes.string,	// HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 		'aria-label': PropTypes.string,       // Aria label (for assistive tech)
 		'aria-labelledby': PropTypes.string,	// HTML ID of an element that should be used as the label (for assistive tech)
@@ -124,6 +125,7 @@ const Select = createClass({
 	getDefaultProps () {
 		return {
 			addLabelText: 'Add "{label}"?',
+			alwaysShowLoadingIndicator: false,
 			arrowRenderer: defaultArrowRenderer,
 			autosize: true,
 			backspaceRemoves: true,
@@ -976,7 +978,10 @@ const Select = createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
+		if (
+			!(this.props.alwaysShowLoadingIndicator && this.props.isLoading) &&
+			options && options.length
+		) {
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
