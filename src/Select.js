@@ -100,6 +100,8 @@ class Select extends React.Component {
 				required: this.handleRequired(valueArray[0], nextProps.multi),
 			});
 		}
+
+    this.setState({ isOpen: nextProps.isOpen });
 	}
 
 	componentWillUpdate (nextProps, nextState) {

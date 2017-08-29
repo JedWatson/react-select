@@ -3929,4 +3929,12 @@ describe('Select', () => {
 			expect(input, 'to equal', document.activeElement);
 		});
 	});
+
+  describe('isOpen', () => {
+    it('renders the select options if isOpen is true', () => {
+      instance = createControl({ options: defaultOptions, isOpen: true });
+      const selector = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option');
+      expect(selector, 'to have length', 4);
+    });
+  });
 });
