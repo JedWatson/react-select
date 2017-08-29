@@ -20,7 +20,7 @@ var TestUtils = require('react-addons-test-utils');
 
 var OPTION = { label: 'TEST-LABEL', value: 'TEST-VALUE' };
 
-var Value = require('../src/Value');
+var Value = require('../src/Value').default;
 
 describe('Value component', function() {
 

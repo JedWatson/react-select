@@ -44,4 +44,4 @@ class AsyncCreatableSelect extends React.Component {
 	}
 };
 
-module.exports = AsyncCreatableSelect;
+export default AsyncCreatableSelect;
