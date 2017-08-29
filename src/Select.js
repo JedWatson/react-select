@@ -212,54 +212,59 @@ class Select extends React.Component {
 		this.clearValue(event);
 	}
 
-	handleMouseDown (event) {
+  handleMouseDown (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
-			return;
-		}
+    var self = this;
+    var evt = event;
+    event.persist();
+    setTimeout(function() {
+      if (self.props.disabled || evt.type === 'mousedown' && evt.button !== 0) {
+        return;
+      }
 
-		if (event.target.tagName === 'INPUT') {
-			return;
-		}
+      if (evt.target.tagName === 'INPUT') {
+        return;
+      }
 
-		// prevent default event handlers
-		event.stopPropagation();
-		event.preventDefault();
+      // prevent default event handlers
+      evt.stopPropagation();
+      evt.preventDefault();
 
-		// for the non-searchable select, toggle the menu
-		if (!this.props.searchable) {
-			this.focus();
-			return this.setState({
-				isOpen: !this.state.isOpen,
-			});
-		}
+      // for the non-searchable select, toggle the menu
+      if (!self.props.searchable) {
+        self.focus();
+        return self.setState({
+          isOpen: !self.state.isOpen
+        });
+      }
 
-		if (this.state.isFocused) {
-			// On iOS, we can get into a state where we think the input is focused but it isn't really,
-			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
-			// Call focus() again here to be safe.
-			this.focus();
+      if (self.state.isFocused) {
+        // On iOS, we can get into a state where we think the input is focused but it isn't really,
+        // since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
+        // Call focus() again here to be safe.
+        self.focus();
 
-			let input = this.input;
-			if (typeof input.getInput === 'function') {
-				// Get the actual DOM input if the ref is an <AutosizeInput /> component
-				input = input.getInput();
-			}
+        var input = self.input;
+        if (typeof input.getInput === 'function') {
+          // Get the actual DOM input if the ref is an <AutosizeInput /> component
+          input = input.getInput();
+        }
 
-			// clears the value so that the cursor will be at the end of input when the component re-renders
-			input.value = '';
+        // clears the value so that the cursor will be at the end of input when the component re-renders
+        input.value = '';
 
-			// if the input is focused, ensure the menu is open
-			this.setState({
-				isOpen: true,
-				isPseudoFocused: false,
-			});
-		} else {
-			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openAfterFocus;
-			this.focus();
-		}
+        // if the input is focused, ensure the menu is open
+        self.setState({
+          isOpen: true,
+          isPseudoFocused: false
+        });
+      } else {
+        // otherwise, focus the input and open the menu
+        self._openAfterFocus = true;
+        self.focus();
+      }
+    }, 0);
 	}
 
 	handleMouseDownOnArrow (event) {
