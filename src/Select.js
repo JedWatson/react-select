@@ -69,7 +69,7 @@ class Select extends React.Component {
 		this.state = {
 			inputValue: '',
 			isFocused: false,
-			isOpen: false,
+			isOpen: props.isOpen,
 			isPseudoFocused: false,
 			required: false,
 		};
@@ -1069,6 +1069,7 @@ Select.propTypes = {
     inputRenderer: PropTypes.func,        // returns a custom input component
     instanceId: PropTypes.string,         // set the components instanceId
     isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
+    isOpen: PropTypes.bool,               // whether the Select is open via props
     joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
     labelKey: PropTypes.string,           // path of the label value in option objects
     matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
@@ -1133,6 +1134,7 @@ Select.defaultProps = {
     ignoreCase: true,
     inputProps: {},
     isLoading: false,
+    isOpen: false,
     joinValues: false,
     labelKey: 'label',
     matchPos: 'any',
