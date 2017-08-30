@@ -42,7 +42,7 @@ export default class CustomActivation extends React.PureComponent {
             placeholder="Select your favourite(s)"
             option={FLAVOURS}
             onChange={this.handleSelectChange}
-            isOpen={this.state.isOpen}
+            alwaysOpen={this.state.isOpen}
           />
         </div>
       </div>

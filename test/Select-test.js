@@ -3930,9 +3930,9 @@ describe('Select', () => {
 		});
 	});
 
-  describe('isOpen', () => {
-    it('renders the select options if isOpen is true', () => {
-      instance = createControl({ options: defaultOptions, isOpen: true });
+  describe('alwaysOpen', () => {
+    it('renders the select options if alwaysOpen is true', () => {
+      instance = createControl({ options: defaultOptions, alwaysOpen: true });
       const selector = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-menu .Select-option');
       expect(selector, 'to have length', 4);
     });
