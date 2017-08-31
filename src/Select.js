@@ -516,11 +516,11 @@ class Select extends React.Component {
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
-      const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
-      this.setState({
+			const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
+			this.setState({
 				inputValue: this.handleInputValueChange(updatedValue),
 				focusedIndex: null
-      } , () => {
+			} , () => {
 				this.addValue(value);
 			});
 		} else {
