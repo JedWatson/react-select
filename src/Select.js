@@ -520,7 +520,7 @@ class Select extends React.Component {
 			this.setState({
 				inputValue: this.handleInputValueChange(updatedValue),
 				focusedIndex: null
-			} , () => {
+			}, () => {
 				this.addValue(value);
 			});
 		} else {
