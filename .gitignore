@@ -25,3 +25,8 @@ bower_components
 .DS_Store
 
 yarn.lock
+
+# genererated files
+/lib/
+/dist/
+/examples/dist/
