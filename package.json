@@ -31,6 +31,7 @@
     "chai": "^4.1.2",
     "coveralls": "^2.11.12",
     "create-react-class": "^15.5.2",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "eslint": "^4.6.1",
     "extract-text-webpack-plugin": "^3.0.0",
@@ -82,8 +83,8 @@
   },
   "scripts": {
     "build": "nps build",
-    "cover": "istanbul cover _mocha -- -u exports --compilers js:babel-core/register -R spec",
-    "coveralls": "NODE_ENV=test nyc mocha",
+    "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
+    "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha | coveralls",
     "lint": "eslint .",
     "publish:examples": "NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",

@@ -7,5 +7,6 @@
     "babel-register"
   ],
   "sourceMap": false,
-  "instrument": false
+  "instrument": false,
+  "report-dir": "./coverage"
 }
