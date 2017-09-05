@@ -3,9 +3,9 @@
 Thanks for your interest in React-Select. All forms of contribution are
 welcome, from issue reports to PRs and documentation / write-ups.
 
-* We use node.js v8 for development and testing. Due to incompatibilities with
-JSDOM and older versions of node.js, you'll need to use node 4 to run the
-tests.  If you can't install node v8 as your "default" node installation, you
+* We use node.js v4+ for development and testing. Due to incompatibilities with
+JSDOM and older versions of node.js, you'll need to use node 4 and above to run the
+tests.  If you can't install node v4 or above as your "default" node installation, you
 could try using [nvm](https://github.com/creationix/nvm) to install multiple
 versions concurrently.
 * If you're upgrading your node.js 0.x environment, it's sometimes necessary
@@ -20,7 +20,7 @@ Before you open a PR:
 the change is aligned with the project roadmap by opening an issue first,
 especially if you're going to spend a lot of time on it.
 * In development, run `npm start` to build (+watch) the project source, and run
-the [development server](http://localhost:8080).
+the [development server](http://localhost:8000).
 * Please ensure all the examples work correctly after your change. If you're
 adding a major new use-case, add a new example demonstrating its use.
 * Please **do not** commit the build files. Make sure **only** your changes to
@@ -39,7 +39,7 @@ know. We'll help you get started, rather than adding it to the queue.
 * Where possible, include tests with your changes, either that demonstrates the
 bug, or tests the new functionality. If you're not sure how to test your
 changes, feel free to ping @bruderstein
-* Run `npm run coveralls` to check that the coverage hasn't dropped, and look at the
+* Run `npm run cover` to check that the coverage hasn't dropped, and look at the
 report (under the generated `coverage` directory) to check that your changes are
 covered
 * Please [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
@@ -50,5 +50,5 @@ but please ensure there are not more violations than before your changes.
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
 * _Make sure you revert your build before submitting a PR_ to reduce the chance
-of conflicts. `npm run build` is run after PRs are merged and before any
+of conflicts. `gulp build-scripts` is run after PRs are merged and before any
 releases are made.
