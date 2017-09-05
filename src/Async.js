@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
-
 const propTypes = {
 	autoload: PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
 	cache: PropTypes.any,                      // object to use to cache results; set to null/false to disable caching

@@ -110,4 +110,4 @@ Option.propTypes = {
 	optionIndex: PropTypes.number,           // index of the option, used to generate unique ids for aria
 };
 
-module.exports = Option;
+export default Option;

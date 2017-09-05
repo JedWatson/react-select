@@ -22,8 +22,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 
-var Select = require('../src/Select');
-var Value = require('../src/Value');
+var Select = require('../src').default;
 
 // The displayed text of the currently selected item, when items collapsed
 var DISPLAYED_SELECTION_SELECTOR = '.Select-value';
