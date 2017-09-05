@@ -3,9 +3,9 @@
 Thanks for your interest in React-Select. All forms of contribution are
 welcome, from issue reports to PRs and documentation / write-ups.
 
-* We use node.js v4 for development and testing. Due to incompatibilities with
-JSDOM and older versions of node.js, you'll need to use node 4 to run the
-tests.  If you can't install node v4 as your "default" node installation, you
+* We use node.js v4+ for development and testing. Due to incompatibilities with
+JSDOM and older versions of node.js, you'll need to use node 4 and above to run the
+tests.  If you can't install node v4 or above as your "default" node installation, you
 could try using [nvm](https://github.com/creationix/nvm) to install multiple
 versions concurrently.
 * If you're upgrading your node.js 0.x environment, it's sometimes necessary

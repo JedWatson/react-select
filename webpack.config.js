@@ -15,7 +15,7 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'examples/src'),
-    port: 8080,
+    port: 8000,
   },
   module: {
     rules: [
