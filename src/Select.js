@@ -37,7 +37,7 @@ const stringOrNode = PropTypes.oneOfType([
 
 let instanceId = 1;
 
-class Select extends React.Component {
+class Select extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
@@ -94,11 +94,11 @@ class Select extends React.Component {
 	componentWillReceiveProps (nextProps) {
 		const valueArray = this.getValueArray(nextProps.value, nextProps);
 
-		if (nextProps.required) {
-			this.setState({
-				required: this.handleRequired(valueArray[0], nextProps.multi),
-			});
-		}
+    if (nextProps.required) {
+      this.setState({
+        required: this.handleRequired(valueArray[0], nextProps.multi)
+      });
+    }
 	}
 
 	componentWillUpdate (nextProps, nextState) {
@@ -975,7 +975,7 @@ class Select extends React.Component {
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
-		let isOpen = this.state.isOpen;
+		let isOpen = this.props.alwaysOpen || this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
@@ -1043,6 +1043,7 @@ class Select extends React.Component {
 
 Select.propTypes = {
     addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+    alwaysOpen: PropTypes.bool,           // whether the Select is open via props
     'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
     'aria-label': PropTypes.string,       // Aria label (for assistive tech)
     'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
@@ -1115,6 +1116,7 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
+    alwaysOpen: false,
     addLabelText: 'Add "{label}"?',
     arrowRenderer: defaultArrowRenderer,
     autosize: true,
