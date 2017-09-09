@@ -516,8 +516,9 @@ class Select extends React.Component {
 		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
 		this.hasScrolledToOption = false;
 		if (this.props.multi) {
+			const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
-				inputValue: this.handleInputValueChange(''),
+				inputValue: this.handleInputValueChange(updatedValue),
 				focusedIndex: null
 			}, () => {
 				this.addValue(value);
@@ -1090,6 +1091,7 @@ Select.propTypes = {
     onInputKeyDown: PropTypes.func,       // input keyDown handler: function (event) {}
     onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
     onOpen: PropTypes.func,               // fires when the menu is opened
+    onSelectResetsInput: PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
     onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
     openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
     openOnFocus: PropTypes.bool,          // always open options menu on focus
@@ -1142,6 +1144,7 @@ Select.defaultProps = {
     multi: false,
     noResultsText: 'No results found',
     onBlurResetsInput: true,
+    onSelectResetsInput: true,
     onCloseResetsInput: true,
     optionComponent: Option,
     pageSize: 5,
