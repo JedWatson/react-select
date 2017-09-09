@@ -389,6 +389,7 @@ function onInputKeyDown(event) {
 | onInputChange | func | undefined | onInputChange handler/interceptor: `function(inputValue: string): string` |
 | onInputKeyDown | func | undefined | input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}` |
 | onOpen | func | undefined | handler for when the menu opens: `function () {}` |
+| onSelectResetsInput | bool | true | whether the input value should be reset when options are selected, for `multi`
 | onValueClick | func | undefined | onClick handler for value labels: `function (value, event) {}` |
 | openOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true) |
 | optionRenderer | func | undefined | function which returns a custom way to render the options in the menu |
