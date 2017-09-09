@@ -98,6 +98,9 @@ class Select extends React.Component {
 			this.setState({
 				required: this.handleRequired(valueArray[0], nextProps.multi),
 			});
+		} else if (this.props.required) {
+			// Used to be required but it's not any more
+			this.setState({ required: false });
 		}
 	}
 
