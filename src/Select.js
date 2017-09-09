@@ -1046,10 +1046,10 @@ class Select extends React.Component {
 };
 
 Select.propTypes = {
-    addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
     'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
     'aria-label': PropTypes.string,       // Aria label (for assistive tech)
     'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
+		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
     arrowRenderer: PropTypes.func,        // Create drop-down caret element
     autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
     autofocus: PropTypes.bool,            // autofocus the component on mount

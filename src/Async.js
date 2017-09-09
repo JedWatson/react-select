@@ -8,27 +8,27 @@ const propTypes = {
 	children: PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 	ignoreAccents: PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: PropTypes.bool,                // perform case-insensitive filtering; defaults to true
+	loadOptions: PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	loadingPlaceholder: PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		PropTypes.string,
 		PropTypes.node
 	]),
-	loadOptions: PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: PropTypes.bool,                     // multi-value input
-	options: PropTypes.array.isRequired,             // array of options
-	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
-		PropTypes.string,
-		PropTypes.node
-	]),
 	noResultsText: PropTypes.oneOfType([       // field noResultsText, displayed when no options come back from the server
 		PropTypes.string,
 		PropTypes.node
 	]),
 	onChange: PropTypes.func,                  // onChange handler: function (newValue) {}
+	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
+	options: PropTypes.array.isRequired,       // array of options
+	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
+		PropTypes.string,
+		PropTypes.node
+	]),
 	searchPromptText: PropTypes.oneOfType([    // label to prompt for search input
 		PropTypes.string,
 		PropTypes.node
 	]),
-	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
 	value: PropTypes.any,                      // initial field value
 };
 
