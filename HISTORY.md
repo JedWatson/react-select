@@ -1,6 +1,7 @@
 # React-Select
 
-## Next
+## v1.0.0-rc.6 / 2017-09-10
+
 * fixed; changing `required` prop from `true` to `false` now works as expected, thanks [George Karagkiaouris](https://github.com/karaggeorge)
 * added; new prop `onSelectResetsInput` controls whether the input value is cleared when options are selected, thanks [David Roeca](https://github.com/davidroeca) and [Alexander Nosov](https://github.com/nosovsh)
 * fixed; tabindex parent bug fix for Edge, thanks [George Payne](https://github.com/George-A-Payne)
