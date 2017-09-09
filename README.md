@@ -424,4 +424,4 @@ Thanks to the projects this was inspired by: [Selectize](http://selectize.github
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2016.
+MIT Licensed. Copyright (c) Jed Watson 2017.
