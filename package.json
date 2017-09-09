@@ -48,7 +48,6 @@
     "nyc": "^11.1.0",
     "react": "^15.5.0",
     "react-addons-shallow-compare": "^15.5.0",
-    "react-addons-test-utils": "^15.5.0",
     "react-dom": "^15.5.0",
     "react-gravatar": "^2.4.5",
     "react-highlight-words": "^0.8.1",
