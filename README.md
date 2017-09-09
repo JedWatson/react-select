@@ -404,7 +404,7 @@ function onInputKeyDown(event) {
 | value | any | undefined | initial field value |
 | valueComponent | func | <Value /> | function which returns a custom way to render/manage the value selected `<CustomValue />` |
 | valueKey | string | 'value' | the option property to use for the value |
-| valueRenderer | func | undefined | function which returns a custom way to render the value selected `function (option) {}` |
+| valueRenderer | func | undefined | function which returns a custom way to render the value selected `function (option, isOpen) {}` |
 
 ### Methods
 
