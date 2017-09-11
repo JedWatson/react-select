@@ -28,7 +28,8 @@ export default {
     ],
     plugins: [
       babel({
-        presets: [['es2015', { 'modules': false }]],
+        babelrc: false,
+        presets: [['es2015', { 'modules': false }], 'stage-0', 'react'],
         plugins: ['external-helpers']
       }),
       resolve(),
