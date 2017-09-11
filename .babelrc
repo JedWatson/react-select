@@ -1,10 +1,9 @@
 {
   "ignore": ["node-modules/**", "src/index.umd.js"],
-  "presets": ["stage-0", "react"],
+  "presets": [ "es2015", "stage-0", "react"],
   "env": {
     "test": {
-      "presets": ["es2015"],
       "plugins": ["istanbul"],
-    }
+    },
   }
 }
