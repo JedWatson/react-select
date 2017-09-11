@@ -1,5 +1,9 @@
 # React-Select
 
+## v1.0.0-rc.7 / 2017-09-11
+
+* fixed; issue with `lib` build preventing use in ES2015 environments
+
 ## v1.0.0-rc.6 / 2017-09-10
 
 * fixed; changing `required` prop from `true` to `false` now works as expected, thanks [George Karagkiaouris](https://github.com/karaggeorge)
