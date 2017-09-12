@@ -80,10 +80,6 @@ export default class Async extends Component {
 		this._callback = null;
 	}
 
-	clearOptions() {
-		this.setState({ options: [] });
-	}
-
 	loadOptions (inputValue) {
 		const { loadOptions } = this.props;
 		const cache = this._cache;
@@ -186,14 +182,6 @@ export default class Async extends Component {
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
-			onChange: (newValues) => {
-				if (multi && value && (newValues.length > value.length)) {
-					this.clearOptions();
-				}
-				if (typeof onChange === 'function') {
-					onChange(newValues);
-				}
-			}
 		};
 
 		return children({
