@@ -761,7 +761,8 @@ class Select extends React.Component {
 			onFocus: this.handleInputFocus,
 			ref: ref => this.input = ref,
 			required: this.state.required,
-			value: this.state.inputValue
+			value: this.state.inputValue,
+			disabled: this.props.inputDisabled,
 		});
 
 		if (this.props.inputRenderer) {
@@ -985,6 +986,7 @@ class Select extends React.Component {
 			'Select--single': !this.props.multi,
 			'is-clearable': this.props.clearable,
 			'is-disabled': this.props.disabled,
+			'is-input-disabled': this.props.inputDisabled,
 			'is-focused': this.state.isFocused,
 			'is-loading': this.props.isLoading,
 			'is-open': isOpen,
@@ -1060,6 +1062,7 @@ Select.propTypes = {
     filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
     ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
     ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
+    inputDisabled: PropTypes.bool,        // whether the input is disabled or not
     inputProps: PropTypes.object,         // custom attributes for the Input
     inputRenderer: PropTypes.func,        // returns a custom input component
     instanceId: PropTypes.string,         // set the components instanceId
@@ -1123,6 +1126,7 @@ Select.defaultProps = {
     deleteRemoves: true,
     delimiter: ',',
     disabled: false,
+    inputDisabled: false,
     escapeClearsValue: true,
     filterOptions: defaultFilterOptions,
     ignoreAccents: true,
