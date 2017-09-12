@@ -66,7 +66,7 @@ export default class Async extends Component {
 			this.loadOptions('');
 		}
 	}
-	
+
 	componentWillUnmount () {
 		this._callback = null;
 	}
@@ -185,7 +185,7 @@ export default class Async extends Component {
 	}
 
 	render () {
-		const { children, loadingPlaceholder, placeholder } = this.props;
+		const { children, loadingPlaceholder, onChange, placeholder } = this.props;
 		const { isLoading, options } = this.state;
 
 		const props = {
@@ -197,7 +197,9 @@ export default class Async extends Component {
 				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
 					this.clearOptions();
 				}
-				this.props.onChange(newValues);
+				if (typeof onChange === 'function') {
+					onChange(newValues);
+				}
 			}
 		};
 

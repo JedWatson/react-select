@@ -1,5 +1,9 @@
 # React-Select
 
+## Unreleased
+
+* fixed; `Async` component always called `onChange` even when it wasn't provided
+
 ## v1.0.0-rc.8 / 2017-09-12
 
 * fixed; `onMenuScrollToBottom` does not work in chrome 58.0, thanks [Simon Hartcher](https://github.com/deevus)
