@@ -552,6 +552,7 @@ class Select extends React.Component {
 	removeValue (value) {
 		var valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i !== value));
+		this.props.onValueRemove(value);
 		this.focus();
 	}
 
@@ -1087,6 +1088,7 @@ Select.propTypes = {
     onOpen: PropTypes.func,               // fires when the menu is opened
     onSelectResetsInput: PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
     onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
+    onValueRemove: PropTypes.func, 	  // fires when a value is removed
     openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
     openOnFocus: PropTypes.bool,          // always open options menu on focus
     optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
@@ -1140,6 +1142,7 @@ Select.defaultProps = {
     onBlurResetsInput: true,
     onSelectResetsInput: true,
     onCloseResetsInput: true,
+    onValueRemove: ()=>{},
     optionComponent: Option,
     pageSize: 5,
     placeholder: 'Select...',
