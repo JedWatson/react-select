@@ -32,7 +32,7 @@ const Contributors = createClass({
 	switchToSingle () {
 		this.setState({
 			multi: false,
-			value: this.state.value[0],
+			value: this.state.value.length ? this.state.value[0] : null
 		});
 	},
 	getContributors (input, callback) {
@@ -55,7 +55,7 @@ const Contributors = createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoContributor} valueKey="github" labelKey="name" loadOptions={this.getContributors} />
+				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoContributor} valueKey="github" labelKey="name" loadOptions={this.getContributors} openOnFocus={undefined && true} />
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
