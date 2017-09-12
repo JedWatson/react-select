@@ -1,5 +1,11 @@
 # React-Select
 
+## v1.0.0-rc.8 / 2017-09-12
+
+* fixed; `onMenuScrollToBottom` does not work in chrome 58.0, thanks [Simon Hartcher](https://github.com/deevus)
+* fixed; missing es6 module build for `js:next` entrypoint
+* updated; `react-input-autosize@2.0.0` including several fixes for react-select (see [changes](https://github.com/JedWatson/react-input-autosize/blob/master/HISTORY.md))
+
 ## v1.0.0-rc.7 / 2017-09-11
 
 * fixed; issue with `lib` build preventing use in ES2015 environments
