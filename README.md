@@ -43,6 +43,13 @@ The easiest way to use React-Select is to install it from NPM and include it in 
 npm install react-select --save
 ```
 
+React-Select is also available on Bower, but you have to specify version number to get the latest version:
+
+```javascript
+bower install react-select#1.0.0-rc.4 --save
+```
+
+
 At this point you can import react-select and its styles in your application as follows:
 
 ```js
