@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import defaultRemoveRenderer from './utils/defaultRemoveRenderer';
 
 class Value extends React.Component {
 
@@ -12,6 +13,7 @@ class Value extends React.Component {
 		this.handleTouchEndRemove = this.handleTouchEndRemove.bind(this);
 		this.handleTouchMove = this.handleTouchMove.bind(this);
 		this.handleTouchStart = this.handleTouchStart.bind(this);
+		this.removeRenderer = this.props.removeRenderer.bind(this);
 	}
 
 	handleMouseDown (event) {
@@ -53,19 +55,6 @@ class Value extends React.Component {
 		this.dragging = false;
 	}
 
-	renderRemoveIcon () {
-		if (this.props.disabled || !this.props.onRemove) return;
-		return (
-			<span className="Select-value-icon"
-				aria-hidden="true"
-				onMouseDown={this.onRemove}
-				onTouchEnd={this.handleTouchEndRemove}
-				onTouchStart={this.handleTouchStart}
-				onTouchMove={this.handleTouchMove}>
-				&times;
-			</span>
-		);
-	}
 
 	renderLabel () {
 		let className = 'Select-value-label';
@@ -86,7 +75,7 @@ class Value extends React.Component {
 				style={this.props.value.style}
 				title={this.props.value.title}
 				>
-				{this.renderRemoveIcon()}
+				{this.removeRenderer()}
 				{this.renderLabel()}
 			</div>
 		);
@@ -101,6 +90,11 @@ Value.propTypes = {
 	onClick: PropTypes.func,                // method to handle click on value label
 	onRemove: PropTypes.func,               // method to handle removal of the value
 	value: PropTypes.object.isRequired,     // the option object for this value
+  	removeRenderer: PropTypes.func,
+};
+
+Value.defaultProps = {
+  removeRenderer: defaultRemoveRenderer,
 };
 
 export default Value;
