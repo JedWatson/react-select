@@ -595,18 +595,9 @@ Value.propTypes = {
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/react-select
 */
-function stringifyValue(value) {
-	var valueType = typeof value === 'undefined' ? 'undefined' : _typeof(value);
-	if (valueType === 'string') {
-		return value;
-	} else if (valueType === 'object') {
-		return JSON.stringify(value);
-	} else if (valueType === 'number' || valueType === 'boolean') {
-		return String(value);
-	} else {
-		return '';
-	}
-}
+var stringifyValue = function stringifyValue(value) {
+	return typeof value === 'string' ? value : value !== null && JSON.stringify(value) || '';
+};
 
 var stringOrNode = PropTypes.oneOfType([PropTypes.string, PropTypes.node]);
 
@@ -620,28 +611,9 @@ var Select$1 = function (_React$Component) {
 
 		var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
 
-		_this.handleTouchOutside = _this.handleTouchOutside.bind(_this);
-		_this.handleTouchMove = _this.handleTouchMove.bind(_this);
-		_this.handleTouchStart = _this.handleTouchStart.bind(_this);
-		_this.handleTouchEnd = _this.handleTouchEnd.bind(_this);
-		_this.handleTouchEndClearValue = _this.handleTouchEndClearValue.bind(_this);
-		_this.handleMouseDown = _this.handleMouseDown.bind(_this);
-		_this.handleMouseDownOnArrow = _this.handleMouseDownOnArrow.bind(_this);
-		_this.handleMouseDownOnMenu = _this.handleMouseDownOnMenu.bind(_this);
-		_this.handleInputFocus = _this.handleInputFocus.bind(_this);
-		_this.handleInputBlur = _this.handleInputBlur.bind(_this);
-		_this.handleInputChange = _this.handleInputChange.bind(_this);
-		_this.handleInputValueChange = _this.handleInputValueChange.bind(_this);
-		_this.handleKeyDown = _this.handleKeyDown.bind(_this);
-		_this.handleValueClick = _this.handleValueClick.bind(_this);
-		_this.handleMenuScroll = _this.handleMenuScroll.bind(_this);
-		_this.handleRequired = _this.handleRequired.bind(_this);
-		_this.getOptionLabel = _this.getOptionLabel.bind(_this);
-		_this.onOptionRef = _this.onOptionRef.bind(_this);
-		_this.clearValue = _this.clearValue.bind(_this);
-		_this.removeValue = _this.removeValue.bind(_this);
-		_this.selectValue = _this.selectValue.bind(_this);
-		_this.focusOption = _this.focusOption.bind(_this);
+		['clearValue', 'focusOption', 'handleInputBlur', 'handleInputChange', 'handleInputFocus', 'handleInputValueChange', 'handleKeyDown', 'handleMenuScroll', 'handleMouseDown', 'handleMouseDownOnArrow', 'handleMouseDownOnMenu', 'handleRequired', 'handleTouchOutside', 'handleTouchMove', 'handleTouchStart', 'handleTouchEnd', 'handleTouchEndClearValue', 'handleValueClick', 'getOptionLabel', 'onOptionRef', 'removeValue', 'selectValue'].forEach(function (fn) {
+			return _this[fn] = _this[fn].bind(_this);
+		});
 
 		_this.state = {
 			inputValue: '',
@@ -1141,37 +1113,42 @@ var Select$1 = function (_React$Component) {
 			if (this.props.autoBlur) {
 				this.blurInput();
 			}
-			if (!this.props.onChange) return;
 			if (this.props.required) {
 				var required = this.handleRequired(value, this.props.multi);
 				this.setState({ required: required });
 			}
-			if (this.props.simpleValue && value) {
-				value = this.props.multi ? value.map(function (i) {
-					return i[_this3.props.valueKey];
-				}).join(this.props.delimiter) : value[this.props.valueKey];
+			if (this.props.onChange) {
+				if (this.props.simpleValue && value) {
+					value = this.props.multi ? value.map(function (i) {
+						return i[_this3.props.valueKey];
+					}).join(this.props.delimiter) : value[this.props.valueKey];
+				}
+				this.props.onChange(value);
 			}
-			this.props.onChange(value);
 		}
 	}, {
 		key: 'selectValue',
 		value: function selectValue(value) {
 			var _this4 = this;
 
-			//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
-			this.hasScrolledToOption = false;
+			// NOTE: we actually add/set the value in a callback to make sure the
+			// input value is empty to avoid styling issues in Chrome
+			if (this.props.closeOnSelect) {
+				this.hasScrolledToOption = false;
+			}
 			if (this.props.multi) {
 				var updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 				this.setState({
+					focusedIndex: null,
 					inputValue: this.handleInputValueChange(updatedValue),
-					focusedIndex: null
+					isOpen: !this.props.closeOnSelect
 				}, function () {
 					_this4.addValue(value);
 				});
 			} else {
 				this.setState({
-					isOpen: false,
 					inputValue: this.handleInputValueChange(''),
+					isOpen: !this.props.closeOnSelect,
 					isPseudoFocused: this.state.isFocused
 				}, function () {
 					_this4.setValue(value);
@@ -1427,8 +1404,7 @@ var Select$1 = function (_React$Component) {
 
 			var ariaOwns = classNames((_classNames = {}, defineProperty(_classNames, this._instancePrefix + '-list', isOpen), defineProperty(_classNames, this._instancePrefix + '-backspace-remove-message', this.props.multi && !this.props.disabled && this.state.isFocused && !this.state.inputValue), _classNames));
 
-			// TODO: Check how this project includes Object.assign()
-			var inputProps = Object.assign({}, this.props.inputProps, {
+			var inputProps = _extends({}, this.props.inputProps, {
 				role: 'combobox',
 				'aria-expanded': '' + isOpen,
 				'aria-owns': ariaOwns,
@@ -1489,7 +1465,6 @@ var Select$1 = function (_React$Component) {
 	}, {
 		key: 'renderClear',
 		value: function renderClear() {
-
 			if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 			var clear = this.props.clearRenderer();
 
@@ -1758,6 +1733,7 @@ Select$1.propTypes = {
 	clearRenderer: PropTypes.func, // create clearable x element
 	clearValueText: stringOrNode, // title for the "clear" control
 	clearable: PropTypes.bool, // should it be possible to reset value
+	closeOnSelect: React.PropTypes.bool, // whether to close the menu when a value is selected
 	deleteRemoves: PropTypes.bool, // whether backspace removes an item if there is no text input
 	delimiter: PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool, // whether the Select is disabled or not
@@ -1826,6 +1802,7 @@ Select$1.defaultProps = {
 	clearAllText: 'Clear all',
 	clearRenderer: clearRenderer,
 	clearValueText: 'Clear value',
+	closeOnSelect: true,
 	deleteRemoves: true,
 	delimiter: ',',
 	disabled: false,
@@ -1904,11 +1881,12 @@ var Async = function (_Component) {
 		_this._cache = props.cache === defaultCache ? {} : props.cache;
 
 		_this.state = {
+			inputValue: '',
 			isLoading: false,
 			options: props.options
 		};
 
-		_this._onInputChange = _this._onInputChange.bind(_this);
+		_this.onInputChange = _this.onInputChange.bind(_this);
 		return _this;
 	}
 
@@ -1932,9 +1910,9 @@ var Async = function (_Component) {
 			}
 		}
 	}, {
-		key: 'clearOptions',
-		value: function clearOptions() {
-			this.setState({ options: [] });
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this._callback = null;
 		}
 	}, {
 		key: 'loadOptions',
@@ -1989,8 +1967,8 @@ var Async = function (_Component) {
 			}
 		}
 	}, {
-		key: '_onInputChange',
-		value: function _onInputChange(inputValue) {
+		key: 'onInputChange',
+		value: function onInputChange(inputValue) {
 			var _props = this.props,
 			    ignoreAccents = _props.ignoreAccents,
 			    ignoreCase = _props.ignoreCase,
@@ -2010,18 +1988,11 @@ var Async = function (_Component) {
 				onInputChange(transformedInputValue);
 			}
 
+			this.setState({ inputValue: inputValue });
 			this.loadOptions(transformedInputValue);
 
 			// Return the original input value to avoid modifying the user's view of the input while typing.
 			return inputValue;
-		}
-	}, {
-		key: 'inputValue',
-		value: function inputValue() {
-			if (this.select) {
-				return this.select.state.inputValue;
-			}
-			return '';
 		}
 	}, {
 		key: 'noResultsText',
@@ -2030,10 +2001,10 @@ var Async = function (_Component) {
 			    loadingPlaceholder = _props2.loadingPlaceholder,
 			    noResultsText = _props2.noResultsText,
 			    searchPromptText = _props2.searchPromptText;
-			var isLoading = this.state.isLoading;
+			var _state = this.state,
+			    inputValue = _state.inputValue,
+			    isLoading = _state.isLoading;
 
-
-			var inputValue = this.inputValue();
 
 			if (isLoading) {
 				return loadingPlaceholder;
@@ -2056,10 +2027,12 @@ var Async = function (_Component) {
 			var _props3 = this.props,
 			    children = _props3.children,
 			    loadingPlaceholder = _props3.loadingPlaceholder,
+			    multi = _props3.multi,
+			    onChange = _props3.onChange,
 			    placeholder = _props3.placeholder;
-			var _state = this.state,
-			    isLoading = _state.isLoading,
-			    options = _state.options;
+			var _state2 = this.state,
+			    isLoading = _state2.isLoading,
+			    options = _state2.options;
 
 
 			var props = {
@@ -2068,18 +2041,12 @@ var Async = function (_Component) {
 				options: isLoading && loadingPlaceholder ? [] : options,
 				ref: function ref(_ref) {
 					return _this3.select = _ref;
-				},
-				onChange: function onChange(newValues) {
-					if (_this3.props.multi && _this3.props.value && newValues.length > _this3.props.value.length) {
-						_this3.clearOptions();
-					}
-					_this3.props.onChange(newValues);
 				}
 			};
 
 			return children(_extends({}, this.props, props, {
 				isLoading: isLoading,
-				onInputChange: this._onInputChange
+				onInputChange: this.onInputChange
 			}));
 		}
 	}]);
@@ -2474,6 +2441,7 @@ var AsyncCreatableSelect = function (_React$Component) {
 Select$1.Async = Async;
 Select$1.AsyncCreatable = AsyncCreatableSelect;
 Select$1.Creatable = CreatableSelect;
+Select$1.Value = Value;
 
-export { Async, AsyncCreatableSelect as AsyncCreatable, CreatableSelect as Creatable };
+export { Async, AsyncCreatableSelect as AsyncCreatable, CreatableSelect as Creatable, Value };
 export default Select$1;
