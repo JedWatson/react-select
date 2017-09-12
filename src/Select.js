@@ -42,28 +42,30 @@ class Select extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.handleTouchOutside = this.handleTouchOutside.bind(this);
-		this.handleTouchMove = this.handleTouchMove.bind(this);
-		this.handleTouchStart = this.handleTouchStart.bind(this);
-		this.handleTouchEnd = this.handleTouchEnd.bind(this);
-		this.handleTouchEndClearValue = this.handleTouchEndClearValue.bind(this);
-		this.handleMouseDown = this.handleMouseDown.bind(this);
-		this.handleMouseDownOnArrow = this.handleMouseDownOnArrow.bind(this);
-		this.handleMouseDownOnMenu = this.handleMouseDownOnMenu.bind(this);
-		this.handleInputFocus = this.handleInputFocus.bind(this);
-		this.handleInputBlur = this.handleInputBlur.bind(this);
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleInputValueChange = this.handleInputValueChange.bind(this);
-		this.handleKeyDown = this.handleKeyDown.bind(this);
-		this.handleValueClick = this.handleValueClick.bind(this);
-		this.handleMenuScroll = this.handleMenuScroll.bind(this);
-		this.handleRequired = this.handleRequired.bind(this);
-		this.getOptionLabel = this.getOptionLabel.bind(this);
-		this.onOptionRef = this.onOptionRef.bind(this);
-		this.clearValue = this.clearValue.bind(this);
-		this.removeValue = this.removeValue.bind(this);
-		this.selectValue = this.selectValue.bind(this);
-		this.focusOption = this.focusOption.bind(this);
+               [
+                 'clearValue',
+                 'focusOption',
+                 'handleInputBlur',
+                 'handleInputChange',
+                 'handleInputFocus',
+                 'handleInputValueChange',
+                 'handleKeyDown',
+                 'handleMenuScroll',
+                 'handleMouseDown',
+                 'handleMouseDownOnArrow',
+                 'handleMouseDownOnMenu',
+                 'handleRequired',
+                 'handleTouchOutside',
+                 'handleTouchMove',
+                 'handleTouchStart',
+                 'handleTouchEnd',
+                 'handleTouchEndClearValue',
+                 'handleValueClick',
+                 'getOptionLabel',
+                 'onOptionRef',
+                 'removeValue',
+                 'selectValue'
+               ].forEach((fn) => this[fn] = this[fn].bind(this));
 
 		this.state = {
 			inputValue: '',
