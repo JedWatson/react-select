@@ -496,15 +496,16 @@ class Select extends React.Component {
 		if (this.props.autoBlur) {
 			this.blurInput();
 		}
-		if (!this.props.onChange) return;
 		if (this.props.required) {
 			const required = this.handleRequired(value, this.props.multi);
 			this.setState({ required });
 		}
-		if (this.props.simpleValue && value) {
-			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+		if (this.props.onChange) {
+			if (this.props.simpleValue && value) {
+				value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+			}
+			this.props.onChange(value);
 		}
-		this.props.onChange(value);
 	}
 
 	selectValue (value) {

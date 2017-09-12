@@ -6,6 +6,7 @@
 * changed; by default, the menu for multi-selects now closes when an option is selected
 * fixed; `Async` component always called `onChange` even when it wasn't provided
 * fixed; input lag for the `Async` component when results are returned from cache
+* fixed; required was not being updated without an onChange handler
 
 ## v1.0.0-rc.8 / 2017-09-12
 
