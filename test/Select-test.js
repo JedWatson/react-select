@@ -1958,7 +1958,8 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				searchable: false,
-				multi: true
+				multi: true,
+				closeOnSelect: false,
 			}, {
 				wireUpOnChangeToValue: true
 			});
@@ -3864,7 +3865,8 @@ describe('Select', () => {
 						{ value: 'five', label: 'label five' }
 					],
 					value: [ 'three', 'two' ],
-					multi: true
+					multi: true,
+					closeOnSelect: false,
 				}, {
 					wireUpOnChangeToValue: true
 				});
