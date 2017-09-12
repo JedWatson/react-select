@@ -386,26 +386,30 @@ describe('Async', () => {
 			});
 
 			describe('if noResultsText has been provided', () => {
-				it('returns the noResultsText', () => {
-					asyncInstance.select = { state: { inputValue: 'asdf' } };
-					expect(asyncInstance.noResultsText(), 'to equal', 'noResultsText');
+				it('returns the noResultsText', (cb) => {
+					asyncInstance.setState({
+						inputValue: 'asfd',
+					}, () => {
+						expect(asyncInstance.noResultsText(), 'to equal', 'noResultsText');
+						cb();
+					});
 				});
 			});
 
 			describe('if noResultsText is empty', () => {
-				beforeEach((cb) => {
+				beforeEach(() => {
 					createControl({
 						searchPromptText: 'searchPromptText',
 						loadingPlaceholder: 'loadingPlaceholder'
 					});
-					asyncInstance.setState({
-						isLoading: false,
-						inputValue: 'asdfkljhadsf'
-					}, cb);
 				});
-				it('falls back to searchPromptText', () => {
-					asyncInstance.select = { state: { inputValue: 'asdf' } };
-					expect(asyncInstance.noResultsText(), 'to equal', 'searchPromptText');
+				it('falls back to searchPromptText', (cb) => {
+					asyncInstance.setState({
+						inputValue: 'asfd',
+					}, () => {
+						expect(asyncInstance.noResultsText(), 'to equal', 'searchPromptText');
+						cb();
+					});
 				});
 			});
 		});

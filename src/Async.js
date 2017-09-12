@@ -68,16 +68,16 @@ export default class Async extends Component {
 		}
 	}
 
-	componentWillUnmount () {
-		this._callback = null;
-	}
-
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.options !== this.props.options) {
 			this.setState({
 				options: nextProps.options,
 			});
 		}
+	}
+
+	componentWillUnmount () {
+		this._callback = null;
 	}
 
 	clearOptions() {
@@ -92,7 +92,6 @@ export default class Async extends Component {
 			cache &&
 			cache.hasOwnProperty(inputValue)
 		) {
-			console.log(`loadOptions returning with cache:`, cache[inputValue]);
 			this.setState({
 				options: cache[inputValue]
 			});
@@ -139,7 +138,6 @@ export default class Async extends Component {
 	}
 
 	onInputChange (inputValue) {
-
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
 		let transformedInputValue = inputValue;
 
