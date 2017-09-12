@@ -1,47 +1,43 @@
 <!doctype html>
 <head>
-	<title>React-Select Example</title>
+	<title>react-select umd example</title>
 	<link rel="stylesheet" href="example.css">
 </head>
 <body>
 	<div class="container">
 		<h1 style="margin-top: 40px;">React Select</h1>
-		<h2>Standalone bulid</h2>
-		<div>For usage without babel / browserify / webpack</div>
+		<h2>Standalone (UMD) Bulid</h2>
+		<div>For usage without browserify / rollup / webpack</div>
 		<div id="select" style="margin: 20px 0;"></div>
 		<div class="footer">
 			Copyright &copy; Jed Watson 2017. MIT Licensed.
 		</div>
 	</div>
-	<script src="//unpkg.com/react@0.14.2/dist/react.min.js"></script>
-	<script src="//unpkg.com/react-dom@0.14.2/dist/react-dom.min.js"></script>
-	<script src="//unpkg.com/classnames@2.0.0/index.js"></script>
-	<script src="//unpkg.com/prop-types@15.5.10/prop-types"></script>
-	<script src="//unpkg.com/react-input-autosize@0.6.3/dist/react-input-autosize.min.js"></script>
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+	<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+	<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+	<script src="https://unpkg.com/prop-types@15.5.10/prop-types.js"></script>
+	<script src="https://unpkg.com/classnames@2.2.5/index.js"></script>
+	<script src="https://unpkg.com/react-input-autosize@2.0.0/dist/react-input-autosize.js"></script>
 	<script src="../../dist/react-select.js"></script>
-	<script>
-		var options = [
+	<script type="text/babel">
+		const options = [
 			{ label: 'One', value: 1 },
 			{ label: 'Two', value: 2 },
 			{ label: 'Three', value: 3 },
 		];
-		var Container = React.createClass({
-			getInitialState () {
-				return { value: '' };
-			},
-			updateValue (value) {
-				this.setState({ value: value });
-			},
-			render () {
-				return React.createElement(Select, {
-					options: options,
-					onChange: this.updateValue,
-					value: this.state.value,
-				});
+		class App extends React.Component {
+			state = { value: '' }
+			updateValue = (value) => {
+				this.setState({ value });
 			}
-		});
-		React.render(
-			React.createElement(Container),
+			render () {
+				const { value } = this.state;
+				return <Select options={options} onChange={this.updateValue} value={value} />
+			}
+		};
+		ReactDOM.render(
+			<App />,
 			document.getElementById('select')
 		);
 	</script>
