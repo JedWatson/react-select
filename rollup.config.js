@@ -26,6 +26,7 @@ export default [
 			file: path + '.es.js',
 			format: 'es',
 		},
+		external: external,
 		plugins: [babel(babelOptions)],
 	},
 	{
