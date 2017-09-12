@@ -14,7 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.4",
     "prop-types": "^15.5.8",
-    "react-input-autosize": "^1.1.5"
+    "react-input-autosize": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
