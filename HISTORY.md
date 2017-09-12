@@ -3,6 +3,7 @@
 ## Unreleased
 
 * fixed; `Async` component always called `onChange` even when it wasn't provided
+* fixed; input lag for the `Async` component when results are returned from cache
 
 ## v1.0.0-rc.8 / 2017-09-12
 
