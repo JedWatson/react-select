@@ -750,8 +750,8 @@ class Select extends React.Component {
 				&& !this.state.inputValue
 		});
 
-		// TODO: Check how this project includes Object.assign()
-		const inputProps = Object.assign({}, this.props.inputProps, {
+		const inputProps = {
+			...this.props.inputProps,
 			role: 'combobox',
 			'aria-expanded': '' + isOpen,
 			'aria-owns': ariaOwns,
@@ -767,8 +767,8 @@ class Select extends React.Component {
 			onFocus: this.handleInputFocus,
 			ref: ref => this.input = ref,
 			required: this.state.required,
-			value: this.state.inputValue
-		});
+			value: this.state.inputValue,
+		};
 
 		if (this.props.inputRenderer) {
 			return this.props.inputRenderer(inputProps);

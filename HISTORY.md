@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fixed; removed use of `Object.assign`, fixes IE
 * added; new `closeOnSelect` prop (defaults to `true`) that controls whether the menu is closed when an option is selected, thanks to [Michael Elgar](https://github.com/melgar) for the original idea
 * changed; by default, the menu for multi-selects now closes when an option is selected
 * changed; `Async` component no longer always clears options when one is selected (although the menu is now closed by default). Use `closeOnSelect={false} onSelectResetsInput={false}` to leave the menu open.
