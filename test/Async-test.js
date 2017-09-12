@@ -326,7 +326,7 @@ describe('Async', () => {
 				ignoreCase: true
 			});
 			typeSearchText('A');
-			expect(asyncNode.textContent, 'to begin with', 'A');
+			expect(asyncNode.textContent.substr(asyncNode.textContent.indexOf('}') + 1), 'to begin with', 'A');
 		});
 	});
 
