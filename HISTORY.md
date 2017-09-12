@@ -1,14 +1,20 @@
 # React-Select
 
-## Unreleased
+## v1.0.0-rc.8 / 2017-09-13
 
-* fixed; removed use of `Object.assign`, fixes IE
+* fixed; clearable padding style, thanks [Minori Miyauchi](https://github.com/mmiyauchi)
+* fixed; removed use of `Object.assign`, fixes IE compatibility
 * added; new `closeOnSelect` prop (defaults to `true`) that controls whether the menu is closed when an option is selected, thanks to [Michael Elgar](https://github.com/melgar) for the original idea
 * changed; by default, the menu for multi-selects now closes when an option is selected
 * changed; `Async` component no longer always clears options when one is selected (although the menu is now closed by default). Use `closeOnSelect={false} onSelectResetsInput={false}` to leave the menu open.
 * fixed; `Async` component always called `onChange` even when it wasn't provided
 * fixed; input lag for the `Async` component when results are returned from cache
 * fixed; required was not being updated without an onChange handler
+* fixed; peer dependencies for `prop-types`, thanks [Michaël De Boey](https://github.com/MichaelDeBoey)
+* fixed; internal optimisations, thanks [Kieran Boyle](https://github.com/dysfunc)
+* added; `Value` component is now exported, thanks [Prof Gra](https://github.com/Grahack)
+* fixed; callback fired after `Async` component unmounts, thanks [Andrew Russell](https://github.com/DeadHeadRussell)
+* fixed; wrapping on Firefox in SCSS files, thanks [Michael Williamson](https://github.com/mwilliamson)
 
 ## v1.0.0-rc.8 / 2017-09-12
 

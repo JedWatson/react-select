@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.9",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",
@@ -14,7 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.4",
     "prop-types": "^15.5.8",
-    "react-input-autosize": "^2.0.0"
+    "react-input-autosize": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
