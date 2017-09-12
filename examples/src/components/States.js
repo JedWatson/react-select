@@ -31,13 +31,13 @@ var StatesField = createClass({
 		console.log('Country changed to ' + newCountry);
 		this.setState({
 			country: newCountry,
-			selectValue: null
+			selectValue: null,
 		});
 	},
 	updateValue (newValue) {
 		console.log('State changed to ' + newValue);
 		this.setState({
-			selectValue: newValue
+			selectValue: newValue,
 		});
 	},
 	focusStateSelect () {

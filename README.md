@@ -360,7 +360,7 @@ function onInputKeyDown(event) {
 | clearAllText | string | 'Clear all' | title for the "clear" control when `multi` is true |
 | clearRenderer | func | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()` |
 | clearValueText | string | 'Clear value' | title for the "clear" control |
-| resetValue | any | null | value to use when you clear the control |
+| closeOnSelect | bool | true | whether to close the menu when a value is selected
 | deleteRemoves | bool | true | whether pressing delete key removes the last item when there is no input value |
 | delimiter | string | ',' | delimiter to use to join multiple values |
 | disabled | bool | false | whether the Select is disabled or not |
@@ -396,6 +396,7 @@ function onInputKeyDown(event) {
 | options | array | undefined | array of options |
 | placeholder | string\|node | 'Select ...' | field placeholder, displayed when there's no value |
 | required | bool | false | applies HTML5 required attribute when needed |
+| resetValue | any | null | value to set when the control is cleared |
 | scrollMenuIntoView | bool | true | whether the viewport will shift to display the entire menu when engaged |
 | searchable | bool | true | whether to enable searching feature or not |
 | searchPromptText | string\|node | 'Type to search' | label to prompt for search input |

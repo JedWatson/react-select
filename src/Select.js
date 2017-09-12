@@ -17,44 +17,46 @@ import defaultClearRenderer from './utils/defaultClearRenderer';
 import Option from './Option';
 import Value from './Value';
 
-const stringifyValue = (value) => typeof value === 'string' ? value : value !== null && JSON.stringify(value) || '';
+const stringifyValue = value =>
+	typeof value === 'string'
+		? value
+		: (value !== null && JSON.stringify(value)) || '';
 
 const stringOrNode = PropTypes.oneOfType([
 	PropTypes.string,
-	PropTypes.node
+	PropTypes.node,
 ]);
 
 let instanceId = 1;
 
 class Select extends React.Component {
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
-
-               [
-                 'clearValue',
-                 'focusOption',
-                 'handleInputBlur',
-                 'handleInputChange',
-                 'handleInputFocus',
-                 'handleInputValueChange',
-                 'handleKeyDown',
-                 'handleMenuScroll',
-                 'handleMouseDown',
-                 'handleMouseDownOnArrow',
-                 'handleMouseDownOnMenu',
-                 'handleRequired',
-                 'handleTouchOutside',
-                 'handleTouchMove',
-                 'handleTouchStart',
-                 'handleTouchEnd',
-                 'handleTouchEndClearValue',
-                 'handleValueClick',
-                 'getOptionLabel',
-                 'onOptionRef',
-                 'removeValue',
-                 'selectValue'
-               ].forEach((fn) => this[fn] = this[fn].bind(this));
+		[
+			'clearValue',
+			'focusOption',
+			'handleInputBlur',
+			'handleInputChange',
+			'handleInputFocus',
+			'handleInputValueChange',
+			'handleKeyDown',
+			'handleMenuScroll',
+			'handleMouseDown',
+			'handleMouseDownOnArrow',
+			'handleMouseDownOnMenu',
+			'handleRequired',
+			'handleTouchOutside',
+			'handleTouchMove',
+			'handleTouchStart',
+			'handleTouchEnd',
+			'handleTouchEndClearValue',
+			'handleValueClick',
+			'getOptionLabel',
+			'onOptionRef',
+			'removeValue',
+			'selectValue',
+		].forEach((fn) => this[fn] = this[fn].bind(this));
 
 		this.state = {
 			inputValue: '',
@@ -492,7 +494,7 @@ class Select extends React.Component {
 	}
 
 	setValue (value) {
-		if (this.props.autoBlur){
+		if (this.props.autoBlur) {
 			this.blurInput();
 		}
 		if (!this.props.onChange) return;
@@ -507,20 +509,24 @@ class Select extends React.Component {
 	}
 
 	selectValue (value) {
-		//NOTE: update value in the callback to make sure the input value is empty so that there are no styling issues (Chrome had issue otherwise)
-		this.hasScrolledToOption = false;
+		// NOTE: we actually add/set the value in a callback to make sure the
+		// input value is empty to avoid styling issues in Chrome
+		if (this.props.closeOnSelect) {
+			this.hasScrolledToOption = false;
+		}
 		if (this.props.multi) {
 			const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
+				focusedIndex: null,
 				inputValue: this.handleInputValueChange(updatedValue),
-				focusedIndex: null
+				isOpen: !this.props.closeOnSelect,
 			}, () => {
 				this.addValue(value);
 			});
 		} else {
 			this.setState({
-				isOpen: false,
 				inputValue: this.handleInputValueChange(''),
+				isOpen: !this.props.closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
@@ -805,7 +811,6 @@ class Select extends React.Component {
 	}
 
 	renderClear () {
-
 		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
@@ -1040,7 +1045,7 @@ Select.propTypes = {
     'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
     'aria-label': PropTypes.string,       // Aria label (for assistive tech)
     'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
-		addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
+	addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
     arrowRenderer: PropTypes.func,        // Create drop-down caret element
     autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
     autofocus: PropTypes.bool,            // autofocus the component on mount
@@ -1052,6 +1057,7 @@ Select.propTypes = {
     clearRenderer: PropTypes.func,        // create clearable x element
     clearValueText: stringOrNode,         // title for the "clear" control
     clearable: PropTypes.bool,            // should it be possible to reset value
+	closeOnSelect: React.PropTypes.bool,  // whether to close the menu when a value is selected
     deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
     delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
     disabled: PropTypes.bool,             // whether the Select is disabled or not
@@ -1120,6 +1126,7 @@ Select.defaultProps = {
     clearAllText: 'Clear all',
     clearRenderer: defaultClearRenderer,
     clearValueText: 'Clear value',
+	closeOnSelect: true,
     deleteRemoves: true,
     delimiter: ',',
     disabled: false,
