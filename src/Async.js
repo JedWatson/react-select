@@ -66,6 +66,10 @@ export default class Async extends Component {
 			this.loadOptions('');
 		}
 	}
+	
+	componentWillUnmount () {
+		this._callback = null;
+	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.options !== this.props.options) {
