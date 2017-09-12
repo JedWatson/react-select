@@ -52,11 +52,12 @@ export default class Async extends Component {
 		this._cache = props.cache === defaultCache ? {} : props.cache;
 
 		this.state = {
+			inputValue: '',
 			isLoading: false,
 			options: props.options,
 		};
 
-		this._onInputChange = this._onInputChange.bind(this);
+		this.onInputChange = this.onInputChange.bind(this);
 	}
 
 	componentDidMount () {
@@ -91,6 +92,7 @@ export default class Async extends Component {
 			cache &&
 			cache.hasOwnProperty(inputValue)
 		) {
+			console.log(`loadOptions returning with cache:`, cache[inputValue]);
 			this.setState({
 				options: cache[inputValue]
 			});
@@ -136,7 +138,8 @@ export default class Async extends Component {
 		}
 	}
 
-	_onInputChange (inputValue) {
+	onInputChange (inputValue) {
+
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
 		let transformedInputValue = inputValue;
 
@@ -152,24 +155,16 @@ export default class Async extends Component {
 			onInputChange(transformedInputValue);
 		}
 
+		this.setState({ inputValue });
 		this.loadOptions(transformedInputValue);
 
 		// Return the original input value to avoid modifying the user's view of the input while typing.
 		return inputValue;
 	}
 
-	inputValue() {
-		if (this.select) {
-			return this.select.state.inputValue;
-		}
-		return '';
-	}
-
 	noResultsText() {
 		const { loadingPlaceholder, noResultsText, searchPromptText } = this.props;
-		const { isLoading } = this.state;
-
-		const inputValue = this.inputValue();
+		const { inputValue, isLoading } = this.state;
 
 		if (isLoading) {
 			return loadingPlaceholder;
@@ -185,7 +180,7 @@ export default class Async extends Component {
 	}
 
 	render () {
-		const { children, loadingPlaceholder, onChange, placeholder } = this.props;
+		const { children, loadingPlaceholder, multi, onChange, placeholder, value } = this.props;
 		const { isLoading, options } = this.state;
 
 		const props = {
@@ -194,7 +189,7 @@ export default class Async extends Component {
 			options: (isLoading && loadingPlaceholder) ? [] : options,
 			ref: (ref) => (this.select = ref),
 			onChange: (newValues) => {
-				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
+				if (multi && value && (newValues.length > value.length)) {
 					this.clearOptions();
 				}
 				if (typeof onChange === 'function') {
@@ -207,7 +202,7 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange
+			onInputChange: this.onInputChange
 		});
 	}
 }
