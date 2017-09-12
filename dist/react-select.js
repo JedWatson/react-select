@@ -1074,7 +1074,7 @@ var Select$1 = function (_React$Component) {
 			if (!this.props.onMenuScrollToBottom) return;
 			var target = event.target;
 
-			if (target.scrollHeight > target.offsetHeight && !(target.scrollHeight - target.offsetHeight - target.scrollTop)) {
+			if (target.scrollHeight > target.offsetHeight && target.scrollHeight - target.offsetHeight - target.scrollTop <= 0) {
 				this.props.onMenuScrollToBottom();
 			}
 		}
