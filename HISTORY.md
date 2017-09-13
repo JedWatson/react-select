@@ -1,10 +1,13 @@
 # React-Select
 
-## Unreleased
+## v1.0.0-rc.10 / 2017-09-13
 
 * changed; `openAfterFocus` prop has been renamed to `openOnClick`, and now default to `true`
+* fixed; React.PropTypes deprecation warning, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* improved; scrolling behaviour when navigating the menu with the keyboard, thanks [boatkorachal](https://github.com/boatkorachal)
+* fixed; error with the `Async` cache when you type `"hasOwnProperty"`, thanks [SuhushinAS](https://github.com/SuhushinAS)
 
-## v1.0.0-rc.8 / 2017-09-13
+## v1.0.0-rc.9 / 2017-09-13
 
 * fixed; clearable padding style, thanks [Minori Miyauchi](https://github.com/mmiyauchi)
 * fixed; removed use of `Object.assign`, fixes IE compatibility
