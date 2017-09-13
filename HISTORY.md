@@ -2,7 +2,7 @@
 
 ## v1.0.0-rc.10 / 2017-09-13
 
-* changed; `openAfterFocus` prop has been renamed to `openOnClick`, and now default to `true`
+* changed; `openAfterFocus` prop has been renamed to `openOnClick`, and now defaults to `true`
 * fixed; React.PropTypes deprecation warning, thanks [Jeremy Liberman](https://github.com/MrLeebo)
 * improved; scrolling behaviour when navigating the menu with the keyboard, thanks [boatkorachal](https://github.com/boatkorachal)
 * fixed; error with the `Async` cache when you type `"hasOwnProperty"`, thanks [SuhushinAS](https://github.com/SuhushinAS)
