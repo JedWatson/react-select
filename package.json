@@ -73,12 +73,6 @@
     "react": "^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0",
     "react-dom": "^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0"
   },
-  "browserify-shim": {
-    "classnames": "global:classNames",
-    "react": "global:React",
-    "react-dom": "global:ReactDOM",
-    "react-input-autosize": "global:AutosizeInput"
-  },
   "scripts": {
     "build": "nps build",
     "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
