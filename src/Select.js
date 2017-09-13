@@ -1057,7 +1057,7 @@ Select.propTypes = {
 	clearRenderer: PropTypes.func,        // create clearable x element
 	clearValueText: stringOrNode,         // title for the "clear" control
 	clearable: PropTypes.bool,            // should it be possible to reset value
-	closeOnSelect: React.PropTypes.bool,  // whether to close the menu when a value is selected
+	closeOnSelect: PropTypes.bool,        // whether to close the menu when a value is selected
 	deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
