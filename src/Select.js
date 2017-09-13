@@ -121,8 +121,10 @@ class Select extends React.Component {
 			var menuDOM = ReactDOM.findDOMNode(this.menu);
 			var focusedRect = focusedDOM.getBoundingClientRect();
 			var menuRect = menuDOM.getBoundingClientRect();
-			if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
+			if (focusedRect.bottom > menuRect.bottom) {
 				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
+			} else if (focusedRect.top < menuRect.top) {
+				menuDOM.scrollTop = focusedDOM.offsetTop;
 			}
 		}
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
