@@ -117,6 +117,7 @@
 
 	.Select-input:focus {
 		outline: none;
+		background: $select-input-bg-focus;
 	}
 }
 
@@ -139,7 +140,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
 
 // the <input> element users type in
 
