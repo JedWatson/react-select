@@ -254,7 +254,7 @@ class Select extends React.Component {
 			});
 		} else {
 			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openAfterFocus;
+			this._openAfterFocus = this.props.openOnClick;
 			this.focus();
 		}
 	}
@@ -313,7 +313,7 @@ class Select extends React.Component {
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen,
 		});
 		this._openAfterFocus = false;
 	}
@@ -1095,7 +1095,7 @@ Select.propTypes = {
 	onOpen: PropTypes.func,               // fires when the menu is opened
 	onSelectResetsInput: PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
 	onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
-	openAfterFocus: PropTypes.bool,       // boolean to enable opening dropdown when focused
+	openOnClick: PropTypes.bool,          // boolean to control opening the menu when the control is clicked
 	openOnFocus: PropTypes.bool,          // always open options menu on focus
 	optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
 	optionComponent: PropTypes.func,      // option component to render in dropdown
@@ -1149,6 +1149,7 @@ Select.defaultProps = {
 	onBlurResetsInput: true,
 	onSelectResetsInput: true,
 	onCloseResetsInput: true,
+	openOnClick: true,
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',

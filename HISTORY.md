@@ -1,5 +1,9 @@
 # React-Select
 
+## Unreleased
+
+* changed; `openAfterFocus` prop has been renamed to `openOnClick`, and now default to `true`
+
 ## v1.0.0-rc.8 / 2017-09-13
 
 * fixed; clearable padding style, thanks [Minori Miyauchi](https://github.com/mmiyauchi)
