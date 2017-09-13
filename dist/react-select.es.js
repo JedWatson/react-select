@@ -114,6 +114,7 @@ function clearRenderer() {
 	});
 }
 
+var babelHelpers = {};
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -343,6 +344,28 @@ var possibleConstructorReturn = function (self, call) {
 
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+babelHelpers;
 
 var Option = function (_React$Component) {
 	inherits(Option, _React$Component);
@@ -686,8 +709,10 @@ var Select$1 = function (_React$Component) {
 				var menuDOM = ReactDOM.findDOMNode(this.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
-				if (focusedRect.bottom > menuRect.bottom || focusedRect.top < menuRect.top) {
+				if (focusedRect.bottom > menuRect.bottom) {
 					menuDOM.scrollTop = focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight;
+				} else if (focusedRect.top < menuRect.top) {
+					menuDOM.scrollTop = focusedDOM.offsetTop;
 				}
 			}
 			if (this.props.scrollMenuIntoView && this.menuContainer) {
@@ -1733,7 +1758,7 @@ Select$1.propTypes = {
 	clearRenderer: PropTypes.func, // create clearable x element
 	clearValueText: stringOrNode, // title for the "clear" control
 	clearable: PropTypes.bool, // should it be possible to reset value
-	closeOnSelect: React.PropTypes.bool, // whether to close the menu when a value is selected
+	closeOnSelect: PropTypes.bool, // whether to close the menu when a value is selected
 	deleteRemoves: PropTypes.bool, // whether backspace removes an item if there is no text input
 	delimiter: PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool, // whether the Select is disabled or not
