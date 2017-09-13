@@ -272,6 +272,7 @@ describe('Select', () => {
 		});
 
 		it('should show the options on mouse click', function () {
+			// the input already has the focus here (see beforeEach -> createControl)
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option', 'to have length', 3);
@@ -3952,6 +3953,19 @@ describe('Select', () => {
 			expect(input, 'not to equal', document.activeElement);
 			instance.focus();
 			expect(input, 'to equal', document.activeElement);
+		});
+	});
+
+	// https://github.com/JedWatson/react-select/issues/1980
+	describe('without initial focus', () => {
+		beforeEach(() => {
+			instance = createControl({ options: defaultOptions }, { initialFocus: false });
+		});
+
+		it('opens the menu when clicked', () => {
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'queried for', '.Select-option', 'to have length', 4);
 		});
 	});
 });
