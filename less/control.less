@@ -8,11 +8,13 @@
 .Select-focus-state(@color) {
 	border-color: @color;
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px fade(@color, 10%);
+	background: @select-input-bg-focus;
 }
 // "classic" focused styles: maintain for legacy
 .Select-focus-state-classic() {
 	border-color: @select-input-border-focus lighten(@select-input-border-focus, 5%) lighten(@select-input-border-focus, 5%);
 	box-shadow: @select-input-box-shadow-focus;
+	background: @select-input-bg-focus;
 }
 
 // base
@@ -128,7 +130,12 @@
 
 	.Select-input:focus {
 		outline: none;
+		background: @select-input-bg-focus;
 	}
+}
+
+.is-focused > .Select-control {
+	background: @select-input-bg-focus;
 }
 
 // placeholder
@@ -150,6 +157,26 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+.has-value.Select--single > .Select-control .Select-value,
+.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+	.Select-value-label {
+		color: @select-text-color;
+	}
+	a.Select-value-label {
+		cursor: pointer;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: @select-link-hover-color;
+			outline: none;
+			text-decoration: underline;
+			background: @select-input-bg-focus;
+		}
+	}
+}
+
 
 // the <input> element users type in
 
