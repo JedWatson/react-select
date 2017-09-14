@@ -52,12 +52,14 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 ```
 
-You can also use the standalone build by including `react-select.js` and `react-select.css` in your page. (If you do this though you'll also need to include the dependencies.) For example:
+You can also use the standalone UMD build by including `dist/react-select.js` and `dist/react-select.css` in your page. If you do this you'll also need to include the dependencies. For example:
+
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
-<script src="https://unpkg.com/classnames/index.js"></script>
-<script src="https://unpkg.com/react-input-autosize/dist/react-input-autosize.js"></script>
+<script src="https://unpkg.com/react@15.6.1/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js"></script>
+<script src="https://unpkg.com/prop-types@15.5.10/prop-types.js"></script>
+<script src="https://unpkg.com/classnames@2.2.5/index.js"></script>
+<script src="https://unpkg.com/react-input-autosize@2.0.0/dist/react-input-autosize.js"></script>
 <script src="https://unpkg.com/react-select/dist/react-select.js"></script>
 
 <link rel="stylesheet" href="https://unpkg.com/react-select/dist/react-select.css">
@@ -83,7 +85,7 @@ var options = [
 ];
 
 function logChange(val) {
-  console.log("Selected: " + val);
+  console.log("Selected: " + JSON.stringify(val));
 }
 
 <Select
@@ -305,7 +307,7 @@ The default `filterOptions` method scans the options array for matches each time
 This works well but can get slow as the options array grows to several hundred objects.
 For larger options lists a custom filter function like [`react-select-fast-filter-options`](https://github.com/bvaughn/react-select-fast-filter-options) will produce better results.
 
-### Effeciently rendering large lists with windowing
+### Efficiently rendering large lists with windowing
 
 The `menuRenderer` property can be used to override the default drop-down list of options.
 This should be done when the list is large (hundreds or thousands of items) for faster rendering.
@@ -331,7 +333,8 @@ The custom `menuRenderer` property accepts the following named parameters:
 
 ### Updating input values with onInputChange
 
-You can manipulate the input using the onInputChange and returning a new value.
+You can manipulate the input by providing a `onInputChange` callback that returns a new value.
+**Please note:** When you want to use `onInputChange` only to listen to the input updates, you still have to return the unchanged value!
 
 ```js
 function cleanInput(inputValue) {
@@ -387,7 +390,7 @@ function onInputKeyDown(event) {
 | clearAllText | string | 'Clear all' | title for the "clear" control when `multi` is true |
 | clearRenderer | func | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()` |
 | clearValueText | string | 'Clear value' | title for the "clear" control |
-| resetValue | any | null | value to use when you clear the control |
+| closeOnSelect | bool | true | whether to close the menu when a value is selected
 | deleteRemoves | bool | true | whether pressing delete key removes the last item when there is no input value |
 | delimiter | string | ',' | delimiter to use to join multiple values |
 | disabled | bool | false | whether the Select is disabled or not |
@@ -413,21 +416,26 @@ function onInputKeyDown(event) {
 | onClose | func | undefined | handler for when the menu closes: `function () {}` |
 | onCloseResetsInput | bool | true | whether to clear input when closing the menu through the arrow |
 | onFocus | func | undefined | onFocus handler: `function(event) {}` |
-| onInputChange | func | undefined | onInputChange handler: `function(inputValue) {}` |
+| onInputChange | func | undefined | onInputChange handler/interceptor: `function(inputValue: string): string` |
 | onInputKeyDown | func | undefined | input keyDown handler; call `event.preventDefault()` to override default `Select` behavior: `function(event) {}` |
 | onOpen | func | undefined | handler for when the menu opens: `function () {}` |
+| onSelectResetsInput | bool | true | whether the input value should be reset when options are selected, for `multi`
 | onValueClick | func | undefined | onClick handler for value labels: `function (value, event) {}` |
-| openOnFocus | bool | false | open the options menu when the input gets focus (requires searchable = true) |
+| openOnClick | bool | true | open the options menu when the control is clicked (requires searchable = true) |
+| openOnFocus | bool | false | open the options menu when the control gets focus (requires searchable = true) |
 | optionRenderer | func | undefined | function which returns a custom way to render the options in the menu |
 | options | array | undefined | array of options |
 | pagination	|	bool	|	false		|	Load more options when the menu is scrolled to the bottom. `loadOptions` is given a page: `function(input, page, [callback])`
 | placeholder | string\|node | 'Select ...' | field placeholder, displayed when there's no value |
+| required | bool | false | applies HTML5 required attribute when needed |
+| resetValue | any | null | value to set when the control is cleared |
 | scrollMenuIntoView | bool | true | whether the viewport will shift to display the entire menu when engaged |
 | searchable | bool | true | whether to enable searching feature or not |
 | searchPromptText | string\|node | 'Type to search' | label to prompt for search input |
 | loadingPlaceholder | string\|node | 'Loading...' | label to prompt for loading search result |
 | tabSelectsValue | bool | true | whether to select the currently focused value when the `[tab]` key is pressed |
 | value | any | undefined | initial field value |
+| valueComponent | func | <Value /> | function which returns a custom way to render/manage the value selected `<CustomValue />` |
 | valueKey | string | 'value' | the option property to use for the value |
 | valueRenderer | func | undefined | function which returns a custom way to render the value selected `function (option) {}` |
 
@@ -444,9 +452,9 @@ Right now there's simply a `focus()` method that gives the control focus. All ot
 
 See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
 
-Thanks to the projects this was inspired by: [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user experience), [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a quality React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
+Thanks to the projects this was inspired by: [Selectize](http://selectize.github.io/selectize.js/) (in terms of behaviour and user experience), [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a quality React Combobox implementation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2016.
+MIT Licensed. Copyright (c) Jed Watson 2017.

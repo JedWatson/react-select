@@ -2,35 +2,34 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from './Select';
 import stripDiacritics from './utils/stripDiacritics';
-
 const propTypes = {
 	autoload: PropTypes.bool.isRequired,       // automatically call the `loadOptions` prop on-mount; defaults to true
 	cache: PropTypes.any,                      // object to use to cache results; set to null/false to disable caching
 	children: PropTypes.func.isRequired,       // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 	ignoreAccents: PropTypes.bool,             // strip diacritics when filtering; defaults to true
 	ignoreCase: PropTypes.bool,                // perform case-insensitive filtering; defaults to true
+	loadOptions: PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	loadingPlaceholder: PropTypes.oneOfType([  // replaces the placeholder while options are loading
 		PropTypes.string,
 		PropTypes.node
 	]),
-	loadOptions: PropTypes.func.isRequired,    // callback to load options asynchronously; (inputValue: string, callback: Function): ?Promise
 	multi: PropTypes.bool,                     // multi-value input
-	options: PropTypes.array.isRequired,             // array of options
-	pagination: PropTypes.bool,								 // automatically load more options when the option list is scrolled to the end; default to false
-	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
-		PropTypes.string,
-		PropTypes.node
-	]),
 	noResultsText: PropTypes.oneOfType([       // field noResultsText, displayed when no options come back from the server
 		PropTypes.string,
 		PropTypes.node
 	]),
 	onChange: PropTypes.func,                  // onChange handler: function (newValue) {}
+	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
+	options: PropTypes.array.isRequired,       // array of options
+  pagination: PropTypes.bool,								 // automatically load more options when the option list is scrolled to the end; default to false
+	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
+		PropTypes.string,
+		PropTypes.node
+	]),
 	searchPromptText: PropTypes.oneOfType([    // label to prompt for search input
 		PropTypes.string,
 		PropTypes.node
 	]),
-	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
 	value: PropTypes.any,                      // initial field value
 };
 
@@ -55,14 +54,15 @@ export default class Async extends Component {
 		this._cache = props.cache === defaultCache ? {} : props.cache;
 
 		this.state = {
+			inputValue: '',
 			isLoading: false,
 			isLoadingPage: false,
 			page: 1,
 			options: props.options,
 		};
 
-		this._onInputChange = this._onInputChange.bind(this);
-		this._onMenuScrollToBottom = this._onMenuScrollToBottom.bind(this);
+		this.onInputChange = this.onInputChange.bind(this);
+		this.onMenuScrollToBottom = this.onMenuScrollToBottom.bind(this);
 	}
 
 	componentDidMount () {
@@ -73,19 +73,16 @@ export default class Async extends Component {
 		}
 	}
 
-	componentWillUpdate (nextProps, nextState) {
-		const propertiesToSync = ['options'];
-		propertiesToSync.forEach((prop) => {
-			if (this.props[prop] !== nextProps[prop]) {
-				this.setState({
-					[prop]: nextProps[prop]
-				});
-			}
-		});
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.options !== this.props.options) {
+			this.setState({
+				options: nextProps.options,
+			});
+		}
 	}
 
-	clearOptions() {
-		this.setState({ options: [] });
+	componentWillUnmount () {
+		this._callback = null;
 	}
 
 	loadOptions (inputValue, page = 1) {
@@ -94,7 +91,7 @@ export default class Async extends Component {
 
 		if (
 			cache &&
-			cache.hasOwnProperty(inputValue)
+			Object.prototype.hasOwnProperty.call(cache, inputValue)
 		) {
 			this.setState({
 				options: cache[inputValue].options,
@@ -161,40 +158,34 @@ export default class Async extends Component {
 				isLoadingPage: page > this.state.page,
 			});
 		}
-
-		return inputValue;
 	}
 
-	_onInputChange (inputValue) {
+	onInputChange (inputValue) {
 		const { ignoreAccents, ignoreCase, onInputChange } = this.props;
+		let transformedInputValue = inputValue;
 
 		if (ignoreAccents) {
-			inputValue = stripDiacritics(inputValue);
+			transformedInputValue = stripDiacritics(transformedInputValue);
 		}
 
 		if (ignoreCase) {
-			inputValue = inputValue.toLowerCase();
+			transformedInputValue = transformedInputValue.toLowerCase();
 		}
 
 		if (onInputChange) {
-			onInputChange(inputValue);
+			onInputChange(transformedInputValue);
 		}
 
-		return this.loadOptions(inputValue);
-	}
+		this.setState({ inputValue });
+		this.loadOptions(transformedInputValue);
 
-	inputValue() {
-		if (this.select) {
-			return this.select.state.inputValue;
-		}
-		return '';
+		// Return the original input value to avoid modifying the user's view of the input while typing.
+		return inputValue;
 	}
 
 	noResultsText() {
 		const { loadingPlaceholder, noResultsText, searchPromptText } = this.props;
-		const { isLoading } = this.state;
-
-		const inputValue = this.inputValue();
+		const { inputValue, isLoading } = this.state;
 
 		if (isLoading) {
 			return loadingPlaceholder;
@@ -209,14 +200,14 @@ export default class Async extends Component {
 		this.select.focus();
 	}
 
-	_onMenuScrollToBottom (inputValue) {
+	onMenuScrollToBottom (inputValue) {
 		if (!this.props.pagination || this.state.isLoading) return;
 
 		this.loadOptions(inputValue, this.state.page + 1);
 	}
 
 	render () {
-		const { children, loadingPlaceholder, placeholder } = this.props;
+		const { children, loadingPlaceholder, multi, onChange, placeholder, value } = this.props;
 		const { isLoading, isLoadingPage, options } = this.state;
 
 		const props = {
@@ -224,20 +215,14 @@ export default class Async extends Component {
 			placeholder: isLoading ? loadingPlaceholder : placeholder,
 			options: (isLoading && loadingPlaceholder && !isLoadingPage) ? [] : options,
 			ref: (ref) => (this.select = ref),
-			onChange: (newValues) => {
-				if (this.props.multi && this.props.value && (newValues.length > this.props.value.length)) {
-					this.clearOptions();
-				}
-				this.props.onChange(newValues);
-			}
 		};
 
 		return children({
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this._onInputChange,
-			onMenuScrollToBottom: this._onMenuScrollToBottom,
+			onInputChange: this.onInputChange,
+			onMenuScrollToBottom: this.onMenuScrollToBottom,
 		});
 	}
 }
