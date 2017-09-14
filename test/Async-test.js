@@ -506,7 +506,7 @@ describe('Async', () => {
 			});
 			typeSearchText('a');
 			expect(loadOptions, 'was not called');
-			asyncInstance._onMenuScrollToBottom('a');
+			asyncInstance.onMenuScrollToBottom('a');
 			expect(loadOptions, 'was called with', 'a', 2);
 		});
 
@@ -519,7 +519,7 @@ describe('Async', () => {
 			});
 			typeSearchText('a');
 			expect(loadOptions, 'was not called');
-			asyncInstance._onMenuScrollToBottom('a');
+			asyncInstance.onMenuScrollToBottom('a');
 			expect(loadOptions, 'was not called');
 		});
 
@@ -533,7 +533,7 @@ describe('Async', () => {
 					a: { options: createOptionsResponse(['foo']).options, page: 1 },
 				}
 			});
-			asyncInstance._onMenuScrollToBottom('a');
+			asyncInstance.onMenuScrollToBottom('a');
 			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 2);
 			expect(asyncNode.querySelectorAll('[role=option]')[0].textContent, 'to equal', 'foo');
 			expect(asyncNode.querySelectorAll('[role=option]')[1].textContent, 'to equal', 'bar');
