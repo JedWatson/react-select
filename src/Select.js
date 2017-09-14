@@ -79,10 +79,10 @@ class Select extends React.Component {
 
 	componentDidMount () {
 		if (typeof this.props.autofocus !== 'undefined' && typeof console !== 'undefined') {
-      console.warn('Warning: The autofocus prop will be deprecated in react-select1.0.0 in favor of autoFocus to match React\'s autoFocus prop');
+			console.warn('Warning: The autofocus prop will be deprecated in react-select1.0.0 in favor of autoFocus to match React\'s autoFocus prop');
 		}
 		if (this.props.autoFocus || this.props.autofocus) {
-      this.focus();
+			this.focus();
 		}
 	}
 

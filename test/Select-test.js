@@ -39,7 +39,6 @@ class PropsWrapper extends React.Component {
 		super(props);
 		this.state = props || {};
 	}
-
 	setPropsForChild(props) {
 		this.setState(props);
 	}
@@ -3928,6 +3927,45 @@ describe('Select', () => {
 			expect(input, 'not to equal', document.activeElement);
 			instance.focus();
 			expect(input, 'to equal', document.activeElement);
+		});
+	});
+
+	describe('with autoFocus', () => {
+		it('focuses select input on mount', () => {
+			wrapper = createControl({
+				autoFocus: true,
+				options: defaultOptions,
+			});
+			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			expect(input, 'to equal', document.activeElement);
+		});
+		it('with autofocus as well, calls focus() only once', () => {
+			wrapper = createControl({
+				autofocus: true,
+				autoFocus: true,
+				options: defaultOptions,
+			});
+			var focus = sinon.spy(instance, 'focus');
+			instance.componentDidMount();
+			expect(focus, 'was called once');
+		});
+	});
+	describe('with autofocus', () => {
+		it('focuses the select input on mount', () => {
+			wrapper = createControl({
+				autofocus: true,
+				options: defaultOptions,
+			});
+			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			expect(input, 'to equal', document.activeElement);
+		});
+		it('calls console.warn', () => {
+			var warn = sinon.spy(console, 'warn');
+			wrapper = createControl({
+				autofocus: true,
+				options: defaultOptions,
+			});
+			expect(warn, 'was called once');
 		});
 	});
 });
