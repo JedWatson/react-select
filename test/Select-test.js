@@ -3010,7 +3010,7 @@ describe('Select', () => {
 				expect(instance.state.isOpen, 'to be true');
 			});
 
-			it('should open the menu on focus when false', () => {
+			it('should not open the menu on focus when false', () => {
 				instance = createControl({
 					options: defaultOptions,
 					openOnFocus: false,
