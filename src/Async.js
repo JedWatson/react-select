@@ -96,14 +96,14 @@ export default class Async extends Component {
 		}
 
 		const callback = (error, data) => {
+			const options = data && data.options || [];
+
+			if (cache) {
+				cache[inputValue] = options;
+			}
+
 			if (callback === this._callback) {
 				this._callback = null;
-
-				const options = data && data.options || [];
-
-				if (cache) {
-					cache[inputValue] = options;
-				}
 
 				this.setState({
 					isLoading: false,
