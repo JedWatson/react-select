@@ -88,6 +88,8 @@ export default class Async extends Component {
 			cache &&
 			Object.prototype.hasOwnProperty.call(cache, inputValue)
 		) {
+			this._callback = null;
+
 			this.setState({
 				options: cache[inputValue]
 			});
