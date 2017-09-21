@@ -1051,8 +1051,8 @@ Select.propTypes = {
 	addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 	arrowRenderer: PropTypes.func,        // Create drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
-	autofocus: PropTypes.bool,            // [DEPRECATED] autofocus the component on mount
-	autoFocus: PropTypes.bool,						// autofocus the component on mount
+	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
+	autoFocus: PropTypes.bool,            // autofocus the component on mount
 	autosize: PropTypes.bool,             // whether to enable autosizing or not
 	backspaceRemoves: PropTypes.bool,     // whether backspace removes an item if there is no text input
 	backspaceToRemoveMessage: PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
