@@ -12,7 +12,7 @@ A Select control built with and for [React](http://facebook.github.io/react/inde
 
 ## New version 1.0.0-rc
 
-I've nearly completed a major rewrite of this component (see issue [#568](https://github.com/JedWatson/react-select/issues/568) for details and progress). The new code has been merged into `master`, and `react-select@1.0.0-rc` has been published to npm and bower.
+I've nearly completed a major rewrite of this component (see issue [#568](https://github.com/JedWatson/react-select/issues/568) for details and progress). The new code has been merged into `master`, and `react-select@1.0.0-rc.10` has been published to npm and bower.
 
 1.0.0 has some breaking changes. The documentation is still being updated for the new API; notes on the changes can be found in [CHANGES.md](https://github.com/JedWatson/react-select/blob/master/CHANGES.md) and will be finalised into [HISTORY.md](https://github.com/JedWatson/react-select/blob/master/HISTORY.md) soon.
 
