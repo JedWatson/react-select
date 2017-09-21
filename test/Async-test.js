@@ -145,17 +145,18 @@ describe('Async', () => {
 			typeSearchText('te');
 			return expect(asyncNode.textContent, 'to contain', 'Loading');
 		});
-
-		// TODO: I'm not sure what the best way to test this is, because this test returns positive even
-		// before the change. However, manual testing by throttling the network with Chrome devtools shows
-		// that this fixes the issue.
-		it.skip('caches the result of all option fetches', () => {
-			const optionResponse = createOptionsResponse(['foo']);
+		
+		it('caches the result of all option fetches', (cb) => {
+			const res = {
+				t: createOptionsResponse(['t']),
+				te: createOptionsResponse(['te']),
+				tes: createOptionsResponse(['tes']),
+			}
 			function loadOptions (input, resolve) {
+				const delay = 10 * (3 - input.length);
 				setTimeout(function() {
-					resolve(null, optionResponse);
-				}, 10 - input.length);
-				// resolve(null, optionResponse);
+					resolve(null, res[input]);
+				}, delay);
 			}
 			createControl({
 				loadOptions,
@@ -167,10 +168,10 @@ describe('Async', () => {
 
 			// TODO: How to test this?
 			setTimeout(function() {
-				console.log(instance._cache);
-				expect(instance._cache.t, 'to equal', optionResponse.options);
-				expect(instance._cache.te, 'to equal', optionResponse.options);
-				expect(instance._cache.tes, 'to equal', optionResponse.options);
+				expect(instance._cache.t, 'to equal', res.t.options);
+				expect(instance._cache.te, 'to equal', res.te.options);
+				expect(instance._cache.tes, 'to equal', res.tes.options);
+				cb();
 			}, 30);
 		});
 
