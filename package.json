@@ -4,6 +4,7 @@
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",
+  "module": "dist/react-select.es.js",
   "style": "dist/react-select.min.css",
   "author": "Jed Watson",
   "license": "MIT",
