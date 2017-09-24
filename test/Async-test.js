@@ -151,7 +151,7 @@ describe('Async', () => {
 				t: createOptionsResponse(['t']),
 				te: createOptionsResponse(['te']),
 				tes: createOptionsResponse(['tes']),
-			}
+			};
 			function loadOptions (input, resolve) {
 				const delay = 10 * (3 - input.length);
 				setTimeout(function() {
