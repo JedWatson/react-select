@@ -69,6 +69,10 @@
 		}
 	}
 
+	&.is-focused > .Select-control {
+		background: @select-input-bg-focus;
+	}
+
 	&.is-focused:not(.is-open) > .Select-control {
 		.Select-focus-state(@select-input-border-focus);
 	}
@@ -91,6 +95,10 @@
 				color: @select-link-hover-color;
 				outline: none;
 				text-decoration: underline;
+			}
+
+			&:focus {
+				background: @select-input-bg-focus;
 			}
 		}
 	}
@@ -134,10 +142,6 @@
 	}
 }
 
-.is-focused > .Select-control {
-	background: @select-input-bg-focus;
-}
-
 // placeholder
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
@@ -157,29 +161,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
-.has-value.Select--single > .Select-control .Select-value,
-.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
-	.Select-value-label {
-		color: @select-text-color;
-	}
-	a.Select-value-label {
-		cursor: pointer;
-		text-decoration: none;
-
-		&:hover,
-		&:focus {
-			color: @select-link-hover-color;
-			outline: none;
-			text-decoration: underline;
-		}
-
-		&:focus {
-			background: @select-input-bg-focus;
-		}
-	}
-}
-
 
 // the <input> element users type in
 
