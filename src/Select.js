@@ -110,8 +110,7 @@ class Select extends React.Component {
 	componentDidUpdate (prevProps, prevState) {
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
-			let focusedOptionNode = ReactDOM.findDOMNode(this.focused);
-			this.menu.scrollTop = focusedOptionNode.offsetTop;
+			this.menu.scrollTop = this.focused.offsetTop;
 			this.hasScrolledToOption = true;
 		} else if (!this.state.isOpen) {
 			this.hasScrolledToOption = false;
@@ -119,13 +118,12 @@ class Select extends React.Component {
 
 		if (this._scrollToFocusedOptionOnUpdate && this.focused && this.menu) {
 			this._scrollToFocusedOptionOnUpdate = false;
-			var focusedDOM = ReactDOM.findDOMNode(this.focused);
-			var focusedRect = focusedDOM.getBoundingClientRect();
+			var focusedRect = this.focused.getBoundingClientRect();
 			var menuRect = this.menu.getBoundingClientRect();
 			if (focusedRect.bottom > menuRect.bottom) {
-				this.menu.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - this.menu.offsetHeight);
+				this.menu.scrollTop = (this.focused.offsetTop + this.focused.clientHeight - this.menu.offsetHeight);
 			} else if (focusedRect.top < menuRect.top) {
-				this.menu.scrollTop = focusedDOM.offsetTop;
+				this.menu.scrollTop = this.focused.offsetTop;
 			}
 		}
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
