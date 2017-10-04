@@ -44,8 +44,8 @@ report (under the generated `coverage` directory) to check that your changes are
 covered
 * Please [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
 (with regards to formatting, etc)
-* You can also run `npm run lint` and `npm run style` - our linter is a WIP
-but please ensure there are not more violations than before your changes.
+* You can also run `npm run lint` - our linter is a WIP but please ensure there
+are not more violations than before your changes.
 * All new features and changes need documentation. We have three translations,
 please read our [Documentation Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
