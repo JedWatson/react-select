@@ -39,7 +39,7 @@ function menuRenderer ({
 				onSelect={onSelect}
 				option={option}
 				optionIndex={i}
-				ref={ref => { onOptionRef(ref, isFocused); }}
+				onOptionRef={onOptionRef}
 			>
 				{optionRenderer(option, i)}
 			</Option>

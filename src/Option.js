@@ -64,6 +64,7 @@ class Option extends React.Component {
 
 	onFocus (event) {
 		if (!this.props.isFocused) {
+			this.props.onOptionRef(this.ref);
 			this.props.onFocus(this.props.option, event);
 		}
 	}
@@ -89,6 +90,7 @@ class Option extends React.Component {
 				onTouchMove={this.handleTouchMove}
 				onTouchEnd={this.handleTouchEnd}
 				id={instancePrefix + '-option-' + optionIndex}
+				ref={ref => { this.ref = ref; }}
 				title={option.title}>
 				{this.props.children}
 			</div>
@@ -104,6 +106,7 @@ Option.propTypes = {
 	isFocused: PropTypes.bool,               // the option is focused
 	isSelected: PropTypes.bool,              // the option is selected
 	onFocus: PropTypes.func,                 // method to handle mouseEnter on option element
+	onOptionRef: PropTypes.func.isRequired,  // method to set Select.focused ref
 	onSelect: PropTypes.func,                // method to handle click on option element
 	onUnfocus: PropTypes.func,               // method to handle mouseLeave on option element
 	option: PropTypes.object.isRequired,     // object that is base for that option
