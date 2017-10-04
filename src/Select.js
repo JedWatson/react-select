@@ -873,11 +873,9 @@ class Select extends React.Component {
 		}
 	}
 
-	onOptionRef(ref, isFocused) {
-		if (isFocused) {
-			this.focused = ref;
-		}
-	}
+       onOptionRef(ref) {
+               this.focused = ref;
+       }
 
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
