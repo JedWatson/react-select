@@ -391,7 +391,10 @@ class Select extends React.Component {
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen) {
+					this.focusNextOption();
+					return;	
+				}
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
