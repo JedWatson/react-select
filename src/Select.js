@@ -165,7 +165,7 @@ const Select = React.createClass({
 
 	getInitialState () {
 		return {
-			hasInputChange: false,
+			hasInputChanged: false,
 			inputValue: '',
 			isFocused: false,
 			isOpen: false,
@@ -407,14 +407,14 @@ const Select = React.createClass({
 	closeMenu () {
 		if(this.props.onCloseResetsInput) {
 			this.setState({
-				hasInputChange: false,
+				hasInputChanged: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: ''
 			});
 		} else {
 			this.setState({
-				hasInputChange: false,
+				hasInputChanged: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: this.state.inputValue
@@ -454,7 +454,7 @@ const Select = React.createClass({
 			this.props.onBlur(event);
 		}
 		var onBlurredState = {
-			hasInputChange: false,
+			hasInputChanged: false,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -477,7 +477,7 @@ const Select = React.createClass({
 		}
 
 		this.setState({
-			hasInputChange: true,
+			hasInputChanged: true,
 			isOpen: true,
 			isPseudoFocused: false,
 			inputValue: newInputValue,
@@ -641,7 +641,7 @@ const Select = React.createClass({
 			});
 		} else {
 			this.setState({
-				hasInputChange: false,
+				hasInputChanged: false,
 				isOpen: false,
 				inputValue: '',
 				isPseudoFocused: this.state.isFocused,
@@ -688,7 +688,7 @@ const Select = React.createClass({
 		event.preventDefault();
 		this.setValue(this.getResetValue());
 		this.setState({
-			hasInputChange: false,
+			hasInputChanged: false,
 			isOpen: false,
 			inputValue: '',
 		}, this.focus);
@@ -967,7 +967,7 @@ const Select = React.createClass({
 	},
 
 	filterOptions (excludeOptions) {
-		var filterValue = this.state.hasInputChange ? this.state.inputValue : '';
+		var filterValue = this.state.hasInputChanged ? this.state.inputValue : '';
 		var options = this.props.options || [];
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
