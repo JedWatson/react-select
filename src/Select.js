@@ -343,7 +343,7 @@ const Select = React.createClass({
 		const inputLabel = this.getInputLabel();
 
 		// determines if the user mouse downed on the actual ValueComponent excluding placeholder text
-		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target) ? true : false;
+		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target);
 
 		// clears value so that the cursor will be a the end of input then the component re-renders
 		this.input.getInput().value = '';
