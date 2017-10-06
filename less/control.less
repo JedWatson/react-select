@@ -169,15 +169,6 @@
 	}
 }
 
-// in FF, the input field jumps a pixel when enabled, this adjust for that so the label and input are perfectly aligned
-@-moz-document url-prefix() {
-	.Select-input {
-		> input {
-			margin: 0 0 0 -1px;
-		}
-	}
-}
-
 // fake-hide the input when the control is pseudo-focused
 .has-value.is-pseudo-focused .Select-input {
 	opacity: 0;

@@ -147,20 +147,11 @@
 		outline: none;
 		// padding: 0;
 		line-height: 14px;  /* For IE 8 compatibility */
-		padding: -1 (($select-input-internal-height - 14) / 2 - 1) 0 (($select-input-internal-height - 14) / 2);  /* For IE 8 compatibility */
+		padding: (($select-input-internal-height - 14) / 2 - 1) 0 (($select-input-internal-height - 14) / 2);  /* For IE 8 compatibility */
 		-webkit-appearance: none;
 
 		.is-focused & {
 			cursor: text;
-		}
-	}
-}
-
-// in FF, the input field jumps a pixel when enabled, this adjust for that so the label and input are perfectly aligned
-@-moz-document url-prefix() {
-	.Select-input {
-		> input {
-			margin: 0 0 0 -1px;
 		}
 	}
 }
