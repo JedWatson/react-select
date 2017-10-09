@@ -345,8 +345,14 @@ const Select = React.createClass({
 		// determines if the user mouse downed on the actual ValueComponent excluding placeholder text
 		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target);
 
+		let input = this.input;
+		if (typeof input.getInput === 'function') {
+			// Get the actual DOM input if the ref is an <AutosizeInput /> component
+			input = input.getInput();
+		}
+
 		// clears value so that the cursor will be a the end of input then the component re-renders
-		this.input.getInput().value = '';
+		input.value = '';
 	
 		if (this.state.isFocused) {
 			// On iOS, we can get into a state where we think the input is focused but it isn't really,
