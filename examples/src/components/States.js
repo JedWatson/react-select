@@ -1,13 +1,15 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 const STATES = require('../data/states');
 
-var StatesField = React.createClass({
+var StatesField = createClass({
 	displayName: 'StatesField',
 	propTypes: {
-		label: React.PropTypes.string,
-		searchable: React.PropTypes.bool,
+		label: PropTypes.string,
+		searchable: PropTypes.bool,
 	},
 	getDefaultProps () {
 		return {
@@ -29,13 +31,13 @@ var StatesField = React.createClass({
 		console.log('Country changed to ' + newCountry);
 		this.setState({
 			country: newCountry,
-			selectValue: null
+			selectValue: null,
 		});
 	},
 	updateValue (newValue) {
 		console.log('State changed to ' + newValue);
 		this.setState({
-			selectValue: newValue
+			selectValue: newValue,
 		});
 	},
 	focusStateSelect () {
@@ -51,7 +53,7 @@ var StatesField = React.createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+				<Select ref="stateSelect" autoFocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
 
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>

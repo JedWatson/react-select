@@ -1,23 +1,14 @@
 {
   "name": "react-select",
-  "main": [
-    "dist/react-select.min.js",
-    "dist/react-select.min.css"
-  ],
-  "version": "1.0.0-beta14",
+  "main": ["dist/react-select.min.js", "dist/react-select.min.css"],
+  "version": "1.0.0-rc.10",
   "homepage": "https://github.com/JedWatson/react-select",
-  "authors": [
-    "Jed Watson"
-  ],
+  "authors": ["Jed Watson"],
   "description": "A Select control built with and for ReactJS",
-  "moduleType": [
-    "amd",
-    "globals",
-    "node"
-  ],
+  "moduleType": ["amd", "globals", "node"],
   "dependencies": {
     "classnames": "^2.2.0",
-    "react-input-autosize": "^1.1.0"
+    "react-input-autosize": "^2.0.1"
   },
   "keywords": [
     "react",
