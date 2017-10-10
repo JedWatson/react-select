@@ -325,7 +325,7 @@ class Select extends React.Component {
 
 	handleInputFocus (event) {
 		if (this.props.disabled) return;
-		const isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+			const isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -708,17 +708,17 @@ class Select extends React.Component {
 		return this._focusedOption;
 	}
 
-	getInputValue () {
-		return this.state.inputValue;
-	}
-
-	getInputLabel() {
+	getInputLabel () {
 		let inputLabel = '';
-		if (!this.props.multi && !this.props.valueRenderer && this.props.value) {
+		if (!this.props.multi && this.props.value) {
 			const valueArray = this.getValueArray(this.props.value);
 			inputLabel = this.getOptionLabel(valueArray[0]);
 		}
 		return inputLabel;
+	}
+
+	getInputValue () {
+		return this.state.inputValue;
 	}
 
 	selectFocusedOption () {
