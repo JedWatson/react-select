@@ -1009,6 +1009,11 @@ describe('Select', () => {
             expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
         });
 
+        it('displays the X button for false value', () => {
+            wrapper.setPropsForChild({ value: false });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
+
 		describe('with multi=true', () => {
 
 			beforeEach(() => {

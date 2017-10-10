@@ -272,7 +272,7 @@ class Select extends React.Component {
 			}, () => {
 				isOnValue && this.input.select();
 			});
-		}		
+		}
 	}
 
 	handleMouseDownOnArrow (event) {
@@ -336,7 +336,7 @@ class Select extends React.Component {
 		this.setState({
 			isFocused: true,
 			isOpen: isOpen,
-			inputValue: this.getInputLabel(),
+			inputValue: this.getInputLabel()
 		});
 		this._openAfterFocus = false;
 	}
