@@ -145,7 +145,7 @@ describe('Async', () => {
 			typeSearchText('te');
 			return expect(asyncNode.textContent, 'to contain', 'Loading');
 		});
-		
+
 		it('caches the result of all option fetches', (cb) => {
 			const res = {
 				t: createOptionsResponse(['t']),
@@ -168,9 +168,9 @@ describe('Async', () => {
 
 			// TODO: How to test this?
 			setTimeout(function() {
-				expect(instance._cache.t, 'to equal', res.t.options);
-				expect(instance._cache.te, 'to equal', res.te.options);
-				expect(instance._cache.tes, 'to equal', res.tes.options);
+				expect(instance._cache.t.options, 'to equal', res.t.options);
+				expect(instance._cache.te.options, 'to equal', res.te.options);
+				expect(instance._cache.tes.options, 'to equal', res.tes.options);
 				cb();
 			}, 30);
 		});
