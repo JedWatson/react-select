@@ -93,6 +93,8 @@ export default class Async extends Component {
 			cache &&
 			Object.prototype.hasOwnProperty.call(cache, inputValue)
 		) {
+			this._callback = null;
+
 			this.setState({
 				options: cache[inputValue].options,
 				page: cache[inputValue].page,
@@ -107,20 +109,20 @@ export default class Async extends Component {
 		}
 
 		const callback = (error, data) => {
+			let options = data && data.options || [];
+
+			const hasReachedLastPage = pagination && options.length === 0;
+
+			if(page > 1) {
+				options = this.state.options.concat(options);
+			}
+
+			if (cache) {
+				cache[inputValue] = { page, options, hasReachedLastPage };
+			}
+
 			if (callback === this._callback) {
 				this._callback = null;
-
-				let options = data && data.options || [];
-
-				const hasReachedLastPage = pagination && options.length === 0;
-
-				if(page > 1) {
-					options = this.state.options.concat(options);
-				}
-
-				if (cache) {
-					cache[inputValue] = { page, options, hasReachedLastPage };
-				}
 
 				this.setState({
 					isLoading: false,

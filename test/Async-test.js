@@ -145,6 +145,35 @@ describe('Async', () => {
 			typeSearchText('te');
 			return expect(asyncNode.textContent, 'to contain', 'Loading');
 		});
+		
+		it('caches the result of all option fetches', (cb) => {
+			const res = {
+				t: createOptionsResponse(['t']),
+				te: createOptionsResponse(['te']),
+				tes: createOptionsResponse(['tes']),
+			};
+			function loadOptions (input, resolve) {
+				const delay = 10 * (3 - input.length);
+				setTimeout(function() {
+					resolve(null, res[input]);
+				}, delay);
+			}
+			createControl({
+				loadOptions,
+			});
+			const instance = asyncInstance;
+			typeSearchText('t');
+			typeSearchText('te');
+			typeSearchText('tes');
+
+			// TODO: How to test this?
+			setTimeout(function() {
+				expect(instance._cache.t, 'to equal', res.t.options);
+				expect(instance._cache.te, 'to equal', res.te.options);
+				expect(instance._cache.tes, 'to equal', res.tes.options);
+				cb();
+			}, 30);
+		});
 
 		describe('with callbacks', () => {
 			it('should display the loaded options', () => {
