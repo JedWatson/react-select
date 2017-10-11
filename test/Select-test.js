@@ -1132,6 +1132,89 @@ describe('Select', () => {
 				]);
 			});
 		});
+		describe('with externalOptions=true multi=true', () => {
+
+			beforeEach(() => {
+				options = [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three' },
+					{ value: 'four', label: 'Four' }
+				];
+
+				wrapper = createControlWithWrapper({
+					value: ['one', 'three'],
+					options: options,
+					externalOptions: true,
+					multi: true,
+					searchable: true
+				});
+			});
+			it('selects the initial value, but sticks it in the external wrapper', () => {
+				expect(instance, 'to contain',
+						<span className="Select-multi-value-wrapper">
+					</span>);
+				expect(instance, 'to contain',
+						<div className="Select-multi-value-wrapper-external">
+                        <div><span className="Select-value-label">One</span></div>
+                        <div><span className="Select-value-label">Three</span></div>
+					</div>);
+			});
+			it('removes the last selected option with backspace', () => {
+
+				setValueProp(['four','three']);
+				onChange.reset();  // Ignore previous onChange calls
+				pressBackspace();
+				expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+			});
+			it('removes the last selected option with delete', () => {
+				setValueProp(['two', 'four']);
+				onChange.reset();  // Ignore previous onChange calls
+				pressDelete();
+				expect(onChange, 'was called with', [{ label: 'Two', value: 'two' }]);
+			});
+			it('selects a single option on enter', () => {
+				setValueProp([]);
+				onChange.reset();  // Ignore previous onChange calls
+				typeSearchText('fo');
+				pressEnterToAccept();
+				expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
+			});
+			it('displays selected options', () => {
+				setValueProp(['four', 'three']);
+				expect(instance, 'to contain',
+					<div className="Select-multi-value-wrapper-external">
+                        <div><span className="Select-value-label">Four</span></div>
+                        <div><span className="Select-value-label">Three</span></div>
+					</div>);
+			});
+		});
+		describe('with externalOptions=true multi=false', () => {
+			beforeEach(() => {
+				options = [
+					{ value: 'one', label: 'One' },
+					{ value: 'two', label: 'Two' },
+					{ value: 'three', label: 'Three' },
+					{ value: 'four', label: 'Four' }
+				];
+
+				wrapper = createControlWithWrapper({
+					value: 'one',
+					options: options,
+					externalOptions: true,
+					multi: false,
+					searchable: true
+				});
+			});
+			it('selects the initial value, but ignores external wrapper', () => {
+				expect(instance, 'not to contain',
+						<span className="Select-multi-value-wrapper-external">
+					</span>);
+				expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'One');
+			});
+
+		});
 
 		describe('searching', () => {
 

@@ -27,6 +27,7 @@ var MultiSelectField = createClass({
 			disabled: false,
 			crazy: false,
 			stayOpen: false,
+			externalOptions: false,
 			value: [],
 			rtl: false,
 		};
@@ -46,7 +47,7 @@ var MultiSelectField = createClass({
 	},
 
 	render () {
-		const { crazy, disabled, stayOpen, value } = this.state;
+		const { crazy, disabled, externalOptions, stayOpen, value } = this.state;
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
 		return (
 			<div className="section">
@@ -55,6 +56,7 @@ var MultiSelectField = createClass({
 					closeOnSelect={!stayOpen}
 					disabled={disabled}
 					multi
+					externalOptions={externalOptions}
 					onChange={this.handleSelectChange}
 					options={options}
 					placeholder="Select your favourite(s)"
@@ -75,7 +77,7 @@ var MultiSelectField = createClass({
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="crazy" checked={crazy} onChange={this.toggleCheckbox} />
-						<span className="checkbox-label">I don't like Chocolate (disabled the option)</span>
+						<span className="checkbox-label">I don&apos;t like Chocolate (disabled the option)</span>
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="stayOpen" checked={stayOpen} onChange={this.toggleCheckbox}/>
@@ -84,6 +86,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">rtl</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="externalOptions" checked={externalOptions} onChange={this.toggleCheckbox}/>
+						<span className="checkbox-label">Show selected options outside of the select box.</span>
 					</label>
 				</div>
 			</div>

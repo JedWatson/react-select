@@ -15,9 +15,11 @@ const GithubUsers = createClass({
 			backspaceRemoves: true,
 			multi: true,
 			creatable: false,
+			externalOptions: false,
 		};
 	},
 	onChange (value) {
+		console.log('You\'ve selected:', value);
 		this.setState({
 			value: value,
 		});
@@ -53,6 +55,11 @@ const GithubUsers = createClass({
 			backspaceRemoves: !this.state.backspaceRemoves
 		});
 	},
+	toggleExternal () {
+		this.setState({
+			externalOptions: !this.state.externalOptions
+		});
+	},
 	toggleCreatable () {
 		this.setState({
 			creatable: !this.state.creatable
@@ -66,7 +73,17 @@ const GithubUsers = createClass({
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/GithubUsers.js">(Source)</a></h3>
-				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={this.state.backspaceRemoves} />
+				<AsyncComponent
+					externalOptions={this.state.externalOptions}
+					multi={this.state.multi}
+					value={this.state.value}
+					onChange={this.onChange}
+					onValueClick={this.gotoUser}
+					valueKey="id"
+					labelKey="login"
+					loadOptions={this.getUsers}
+					backspaceRemoves={this.state.backspaceRemoves}
+				/>
 				<div className="checkbox-list">
 					<label className="checkbox">
 						<input type="radio" className="checkbox-control" checked={this.state.multi} onChange={this.switchToMulti}/>
@@ -81,6 +98,10 @@ const GithubUsers = createClass({
 					<label className="checkbox">
 					   <input type="checkbox" className="checkbox-control" checked={this.state.creatable} onChange={this.toggleCreatable} />
 					   <span className="checkbox-label">Creatable?</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.externalOptions} onChange={this.toggleExternal}/>
+						<span className="checkbox-label">External Options</span>
 					</label>
 					<label className="checkbox">
 					   <input type="checkbox" className="checkbox-control" checked={this.state.backspaceRemoves} onChange={this.toggleBackspaceRemoves} />

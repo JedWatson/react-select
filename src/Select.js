@@ -807,13 +807,9 @@ class Select extends React.Component {
 		);
 	}
 
-	renderValue (valueArray, isOpen) {
+	renderValueArray (valueArray, isOpen) {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
-		if (!valueArray.length) {
-			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
-			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
-		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
 			return valueArray.map((value, i) => {
@@ -848,6 +844,14 @@ class Select extends React.Component {
 				</ValueComponent>
 			);
 		}
+	}
+
+	renderValue (valueArray, isOpen) {
+		if ((this.props.externalOptions && this.props.multi) || !valueArray.length) {
+			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
+			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
+		}
+		return this.renderValueArray(valueArray, isOpen);
 	}
 
 	renderInput (valueArray, focusedOptionIndex) {
@@ -1160,29 +1164,41 @@ class Select extends React.Component {
 		}
 
 		return (
-			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchMove={this.handleTouchMove}
-					onTouchStart={this.handleTouchStart}
-					style={this.props.style}
-				>
-					<span className="Select-multi-value-wrapper" id={`${this._instancePrefix}-value`}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
+			<div
+				ref={ref => this.wrapper = ref}
+				className={className}
+				style={this.props.wrapperStyle}>
+				<div
+					className={className}
+					style={this.props.wrapperStyle}>
+					{this.renderHiddenField(valueArray)}
+					<div ref={ref => this.control = ref}
+						className="Select-control"
+						onKeyDown={this.handleKeyDown}
+						onMouseDown={this.handleMouseDown}
+						onTouchEnd={this.handleTouchEnd}
+						onTouchMove={this.handleTouchMove}
+						onTouchStart={this.handleTouchStart}
+						style={this.props.style}
+					>
+						<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+							{this.renderValue(valueArray, isOpen)}
+							{this.renderInput(valueArray, focusedOptionIndex)}
+						</span>
+						{removeMessage}
+						{this.renderLoading()}
+						{this.renderClear()}
+						{this.renderArrow()}
+					</div>
+					{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
 				</div>
-				{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
+				{this.props.multi && this.props.externalOptions && !!valueArray.length &&
+					<div
+						style={this.props.externalOptionStyle}
+						className="Select-multi-value-wrapper-external">
+						{ this.renderValueArray(valueArray, isOpen) }
+					</div>
+				}
 			</div>
 		);
 	}
@@ -1209,6 +1225,8 @@ Select.propTypes = {
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
+	externalOptionStyle: PropTypes.object,// optional style to apply to external option wrapper
+	externalOptions: PropTypes.bool,      // whether multiselect options appear outside the select controller
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 	id: PropTypes.string, 				        // html id to set on the input element for accessibility or tests
@@ -1281,6 +1299,7 @@ Select.defaultProps = {
 	delimiter: ',',
 	disabled: false,
 	escapeClearsValue: true,
+	externalOptions: false,
 	filterOptions: defaultFilterOptions,
 	ignoreAccents: true,
 	ignoreCase: true,
