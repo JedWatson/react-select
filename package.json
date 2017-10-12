@@ -1,6 +1,6 @@
 {
   "name": "@helpdotcom/react-select",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/Select.js",
   "style": "dist/react-select.min.css",
@@ -13,7 +13,7 @@
   "dependencies": {
     "create-react-class": "^15.5.2",
     "classnames": "^2.2.4",
-    "@helpdotcom/react-input-autosize": "^1.1.5",
+    "@helpdotcom/react-input-autosize": "^1.1.6",
     "prop-types": "^15.5.8"
   },
   "devDependencies": {
@@ -44,8 +44,8 @@
     "unexpected-sinon": "^10.4.0"
   },
   "peerDependencies": {
-    "react": "^0.14 || ^15.0.0-rc || ^15.0",
-    "react-dom": "^0.14 || ^15.0.0-rc || ^15.0"
+    "react": "^15.4.0 || ^16.0.0",
+    "react-dom": "^15.4.0 || ^16.0.0"
   },
   "browserify-shim": {
     "classnames": "global:classNames",
