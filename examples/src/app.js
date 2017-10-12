@@ -22,7 +22,7 @@ ReactDOM.render(
 		<Multiselect label="Multiselect" />
 		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
-		<GithubUsers label="Github users (Async with fetch.js)" />
+		<GithubUsers label="GitHub users (Async with fetch.js)" />
 		<NumericSelect label="Numeric Values" />
 		<BooleanSelect label="Boolean Values" />
 		<CustomRender label="Custom Render Methods"/>
