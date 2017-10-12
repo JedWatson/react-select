@@ -3782,6 +3782,24 @@ describe('Select', () => {
 		});
 	});
 
+	describe('custom arrowRenderer option', () => {
+		it('should render the custom arrow', () => {
+			const instance = createControl({
+				options: [1,2,3],
+				arrowRenderer: () => <div className="customArrow" />
+			});
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customArrow');
+		});
+
+		it('should not render the clickable arrow container if the arrowRenderer returns a falsy value', () => {
+			const instance = createControl({
+				options: [1,2,3],
+				arrowRenderer: () => null
+			});
+			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-arrow-zone');
+		});
+	});
+
 	describe('accessibility', () => {
 
 		describe('with basic searchable control', () => {
