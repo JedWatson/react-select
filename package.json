@@ -84,6 +84,10 @@
     "start": "webpack-dev-server --progress",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register"
   },
+  "files": [
+    "dist",
+    "lib"
+  ],
   "keywords": [
     "combobox",
     "form",
