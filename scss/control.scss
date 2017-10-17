@@ -150,7 +150,7 @@
 	padding-right: $select-padding-horizontal;
 	vertical-align: middle;
 
-	> input {
+	&--value {
 		background: none transparent;
 		border: 0 none;
 		box-shadow: none;
