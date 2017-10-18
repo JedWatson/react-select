@@ -1605,8 +1605,7 @@ describe('Select', () => {
 				value: 'one',
 				options: options,
 				allowCreate: true,
-				searchable: true,
-				addLabelText: 'Add {label} to values?'
+				searchable: true
 			});
 		});
 
