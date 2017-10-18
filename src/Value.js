@@ -15,23 +15,27 @@ class Value extends React.Component {
 	}
 
 	handleMouseDown (event) {
+		const { onClick, value } = this.props;
+
 		if (event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
-		if (this.props.onClick) {
+		if (onClick) {
 			event.stopPropagation();
-			this.props.onClick(this.props.value, event);
+			onClick(value, event);
 			return;
 		}
-		if (this.props.value.href) {
+		if (value.href) {
 			event.stopPropagation();
 		}
 	}
 
 	onRemove (event) {
+		const { value, onRemove } = this.props;
+
 		event.preventDefault();
 		event.stopPropagation();
-		this.props.onRemove(this.props.value);
+		onRemove(value);
 	}
 
 	handleTouchEndRemove (event){
@@ -54,7 +58,9 @@ class Value extends React.Component {
 	}
 
 	renderRemoveIcon () {
-		if (this.props.disabled || !this.props.onRemove) return;
+		const { disabled, onRemove } = this.props;
+
+		if (disabled || !onRemove) return;
 		return (
 			<span className="Select-value-icon"
 				aria-hidden="true"
@@ -68,23 +74,27 @@ class Value extends React.Component {
 	}
 
 	renderLabel () {
+		const { value, onClick, children, id } = this.props;
+
 		let className = 'Select-value-label';
-		return this.props.onClick || this.props.value.href ? (
-			<a className={className} href={this.props.value.href} target={this.props.value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
-				{this.props.children}
+		return onClick || value.href ? (
+			<a className={className} href={value.href} target={value.target} onMouseDown={this.handleMouseDown} onTouchEnd={this.handleMouseDown}>
+				{children}
 			</a>
 		) : (
-			<span className={className} role="option" aria-selected="true" id={this.props.id}>
-				{this.props.children}
+			<span className={className} role="option" aria-selected="true" id={id}>
+				{children}
 			</span>
 		);
 	}
 
 	render () {
+		const { value } = this.props;
+
 		return (
-			<div className={classNames('Select-value', this.props.value.className)}
-				style={this.props.value.style}
-				title={this.props.value.title}
+			<div className={classNames('Select-value', value.className)}
+				style={value.style}
+				title={value.title}
 				>
 				{this.renderRemoveIcon()}
 				{this.renderLabel()}
