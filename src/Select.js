@@ -143,11 +143,7 @@ class Select extends React.Component {
 	}
 
 	componentWillUnmount () {
-		if (!document.removeEventListener && document.detachEvent) {
-			document.detachEvent('ontouchstart', this.handleTouchOutside);
-		} else {
-			document.removeEventListener('touchstart', this.handleTouchOutside);
-		}
+		this.toggleTouchOutsideEvent(false);
 	}
 
 	toggleTouchOutsideEvent (enabled) {
