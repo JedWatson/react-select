@@ -259,6 +259,22 @@ describe('Creatable', () => {
 		return creatableInstance.onInputKeyDown({ keyCode: 97 });
 	});
 
+	it('default :onInputChange should run user provided handler.', (done) => {
+		createControl({ onInputChange: value => done() });
+		return creatableInstance.onInputChange('a');
+	});
+
+	it(':onInputChange should return the changed input value', () => {
+		createControl({ onInputChange: value => 'a' });
+
+		function test (value) {
+			return creatableInstance.onInputChange(value);
+		}
+
+		expect(test('a'), 'to be', 'a');
+		expect(test('b'), 'to be', 'a');
+	});
+
 	describe('.focus()', () => {
 		beforeEach(() => {
 			createControl({});
