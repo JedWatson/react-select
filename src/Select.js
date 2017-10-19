@@ -833,6 +833,10 @@ class Select extends React.Component {
 		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
 
+		if (!arrow) {
+			return null;
+		}
+
 		return (
 			<span
 				className="Select-arrow-zone"
