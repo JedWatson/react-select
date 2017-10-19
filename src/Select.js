@@ -813,7 +813,7 @@ class Select extends React.Component {
 	}
 
 	renderClear () {
-		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
+		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.value === '' || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
 		return (
@@ -830,9 +830,15 @@ class Select extends React.Component {
 	}
 
 	renderArrow () {
+		if (!this.props.arrowRenderer) return;
+
 		const onMouseDown = this.handleMouseDownOnArrow;
 		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
+
+		if (!arrow) {
+			return null;
+		}
 
 		return (
 			<span
