@@ -1,6 +1,7 @@
 import React from 'react';
-import createClass from 'create-react-class';
 import Select from './Select';
+import Async from './Async';
+import Creatable from './Creatable';
 
 function reduce(obj, props = {}){
   return Object.keys(obj)
@@ -11,18 +12,17 @@ function reduce(obj, props = {}){
   }, props);
 }
 
-const AsyncCreatable = createClass({
-	displayName: 'AsyncCreatableSelect',
+class AsyncCreatableSelect extends React.Component {
 
 	focus () {
 		this.select.focus();
-	},
+	}
 
 	render () {
 		return (
-			<Select.Async {...this.props}>
+			<Async {...this.props}>
 				{(asyncProps) => (
-					<Select.Creatable {...this.props}>
+					<Creatable {...this.props}>
 						{(creatableProps) => (
 							<Select
 								{...reduce(asyncProps, reduce(creatableProps, {}))}
@@ -37,11 +37,11 @@ const AsyncCreatable = createClass({
 								}}
 							/>
 						)}
-					</Select.Creatable>
+					</Creatable>
 				)}
-			</Select.Async>
+			</Async>
 		);
 	}
-});
+};
 
-module.exports = AsyncCreatable;
+export default AsyncCreatableSelect;

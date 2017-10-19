@@ -29,16 +29,78 @@
 	}
 
 	// handle disabled state
-	&.is-disabled > .Select-control {
-		background-color: @select-input-bg-disabled;
-		&:hover {
-			box-shadow: none;
+	&.is-disabled {
+		.Select-arrow-zone {
+			cursor: default;
+			pointer-events: none;
+			opacity: 0.35;
+		}
+
+		> .Select-control {
+			background-color: @select-input-bg-disabled;
+			&:hover {
+				box-shadow: none;
+			}
 		}
 	}
-	&.is-disabled .Select-arrow-zone {
-		cursor: default;
-		pointer-events: none;
-		opacity: 0.35;
+
+	&.is-open > .Select-control {
+		.border-bottom-radius( 0 );
+		background: @select-input-bg;
+		border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
+
+		// flip the arrow so its pointing up when the menu is open
+		.Select-arrow {
+			top: -2px;
+			border-color: transparent transparent @select-arrow-color;
+			border-width: 0 @select-arrow-width @select-arrow-width;
+		}
+	}
+
+	&.is-searchable {
+		&.is-open > .Select-control {
+			cursor: text;
+		}
+
+		&.is-focused:not(.is-open) > .Select-control {
+			cursor: text;
+		}
+	}
+
+	&.is-focused:not(.is-open) > .Select-control {
+		.Select-focus-state(@select-input-border-focus);
+	}
+
+	&.has-value.is-clearable.Select--single > .Select-control .Select-value {
+		padding-right: (@select-clear-width + @select-arrow-width * 5);
+	}
+
+	&.has-value.Select--single > .Select-control .Select-value,
+	&.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
+		.Select-value-label {
+			color: @select-text-color;
+		}
+		a.Select-value-label {
+			cursor: pointer;
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				color: @select-link-hover-color;
+				outline: none;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// fake-hide the input when the control is pseudo-focused
+	&.has-value.is-pseudo-focused .Select-input {
+		opacity: 0;
+	}
+
+	&.is-open .Select-arrow,
+	.Select-arrow-zone:hover > .Select-arrow {
+		border-top-color: @select-arrow-color-hover;
 	}
 }
 
@@ -69,35 +131,6 @@
 	}
 }
 
-.is-searchable {
-	&.is-open > .Select-control {
-		cursor: text;
-	}
-}
-
-.is-open > .Select-control {
-	.border-bottom-radius( 0 );
-	background: @select-input-bg;
-	border-color: darken(@select-input-border-color, 10%) @select-input-border-color lighten(@select-input-border-color, 5%);
-
-	// flip the arrow so its pointing up when the menu is open
-	.Select-arrow {
-		top: -2px;
-		border-color: transparent transparent @select-arrow-color;
-		border-width: 0 @select-arrow-width @select-arrow-width;
-	}
-}
-
-.is-searchable {
-	&.is-focused:not(.is-open) > .Select-control {
-		cursor: text;
-	}
-}
-
-.is-focused:not(.is-open) > .Select-control {
-	.Select-focus-state(@select-input-border-focus);
-}
-
 // placeholder
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
@@ -117,25 +150,6 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-
-.has-value.Select--single > .Select-control .Select-value,
-.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value {
-	.Select-value-label {
-		color: @select-text-color;
-	}
-	a.Select-value-label {
-		cursor: pointer;
-		text-decoration: none;
-
-		&:hover,
-		&:focus {
-			color: @select-link-hover-color;
-			outline: none;
-			text-decoration: underline;
-		}
-	}
-}
-
 
 // the <input> element users type in
 
@@ -240,10 +254,6 @@
 	height: 0;
 	width: 0;
 	position: relative;
-}
-.is-open .Select-arrow,
-.Select-arrow-zone:hover > .Select-arrow {
-	border-top-color: @select-arrow-color-hover;
 }
 
 .Select-control > *:last-child {

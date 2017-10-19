@@ -94,7 +94,7 @@ const UsersField = createClass({
 
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/CustomComponents.js">(Source)</a></h3>
 				<Select
 					arrowRenderer={arrowRenderer}
 					onChange={this.setValue}

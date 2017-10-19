@@ -31,13 +31,13 @@ var StatesField = createClass({
 		console.log('Country changed to ' + newCountry);
 		this.setState({
 			country: newCountry,
-			selectValue: null
+			selectValue: null,
 		});
 	},
 	updateValue (newValue) {
 		console.log('State changed to ' + newValue);
 		this.setState({
-			selectValue: newValue
+			selectValue: newValue,
 		});
 	},
 	focusStateSelect () {
@@ -52,8 +52,8 @@ var StatesField = createClass({
 		var options = STATES[this.state.country];
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
-				<Select ref="stateSelect" autofocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/States.js">(Source)</a></h3>
+				<Select ref="stateSelect" autoFocus options={options} simpleValue clearable={this.state.clearable} name="selected-state" disabled={this.state.disabled} value={this.state.selectValue} onChange={this.updateValue} searchable={this.state.searchable} />
 
 				<div style={{ marginTop: 14 }}>
 					<button type="button" onClick={this.focusStateSelect}>Focus Select</button>
