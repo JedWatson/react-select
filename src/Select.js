@@ -526,11 +526,12 @@ class Select extends React.Component {
 			});
 		} else {
 			this.setState({
-				inputValue: this.handleInputValueChange(''),
+				inputValue: this.handleInputValueChange(this.props.keepInputValue ? value[this.props.labelKey] : ''),
 				isOpen: !this.props.closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
+				this.blurInput();
 			});
 		}
 	}
@@ -1072,6 +1073,7 @@ Select.propTypes = {
 	instanceId: PropTypes.string,         // set the components instanceId
 	isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 	joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
+	keepInputValue: PropTypes.bool,       // optional to keep the text input value
 	labelKey: PropTypes.string,           // path of the label value in option objects
 	matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
 	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
@@ -1158,6 +1160,7 @@ Select.defaultProps = {
 	tabSelectsValue: true,
 	valueComponent: Value,
 	valueKey: 'value',
+	keepInputValue: false,
 };
 
 export default Select;
