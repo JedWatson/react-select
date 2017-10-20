@@ -49,7 +49,7 @@ var DisabledUpsellOptions = createClass({
 					value={this.state.value}
 					valueRenderer={this.renderValue}
 					/>
-				<div className="hint">This demonstates custom render methods and links in disabled options</div>
+				<div className="hint">This demonstrates custom render methods and links in disabled options</div>
 			</div>
 		);
 	}
