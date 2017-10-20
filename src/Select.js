@@ -375,7 +375,7 @@ class Select extends React.Component {
 
 		switch (event.keyCode) {
 			case 8: // backspace
-				if (!this.state.inputValue && this.props.backspaceRemoves) {
+				if (!this.state.inputValue && this.props.backspaceRemoves && this.props.multi) {
 					event.preventDefault();
 					this.popValue();
 				}
