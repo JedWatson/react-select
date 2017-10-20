@@ -85,7 +85,7 @@ var map = [
 	{ 'base':'z', 'letters':/[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g },
 ];
 
-module.exports = function stripDiacritics (str) {
+export default function stripDiacritics (str) {
 	for (var i = 0; i < map.length; i++) {
 		str = str.replace(map[i].letters, map[i].base);
 	}

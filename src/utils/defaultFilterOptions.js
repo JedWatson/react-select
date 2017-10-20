@@ -42,4 +42,4 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 	});
 }
 
-module.exports = filterOptions;
+export default filterOptions;
