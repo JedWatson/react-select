@@ -143,11 +143,7 @@ class Select extends React.Component {
 	}
 
 	componentWillUnmount () {
-		if (!document.removeEventListener && document.detachEvent) {
-			document.detachEvent('ontouchstart', this.handleTouchOutside);
-		} else {
-			document.removeEventListener('touchstart', this.handleTouchOutside);
-		}
+		this.toggleTouchOutsideEvent(false);
 	}
 
 	toggleTouchOutsideEvent (enabled) {
@@ -816,7 +812,7 @@ class Select extends React.Component {
 	}
 
 	renderClear () {
-		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
+		if (!this.props.clearable || this.props.value === undefined || this.props.value === null || this.props.value === '' || this.props.multi && !this.props.value.length || this.props.disabled || this.props.isLoading) return;
 		const clear = this.props.clearRenderer();
 
 		return (
@@ -833,9 +829,15 @@ class Select extends React.Component {
 	}
 
 	renderArrow () {
+		if (!this.props.arrowRenderer) return;
+
 		const onMouseDown = this.handleMouseDownOnArrow;
 		const isOpen = this.state.isOpen;
 		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
+
+		if (!arrow) {
+			return null;
+		}
 
 		return (
 			<span
@@ -1050,7 +1052,6 @@ Select.propTypes = {
 	'aria-describedby': PropTypes.string, // HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
 	'aria-label': PropTypes.string,       // Aria label (for assistive tech)
 	'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
-	addLabelText: PropTypes.string,       // placeholder displayed when you want to add a label on a multi-value input
 	arrowRenderer: PropTypes.func,        // Create drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
 	autoFocus: PropTypes.bool,            // autofocus the component on mount
@@ -1064,7 +1065,7 @@ Select.propTypes = {
 	clearValueText: stringOrNode,         // title for the "clear" control
 	clearable: PropTypes.bool,            // should it be possible to reset value
 	closeOnSelect: PropTypes.bool,        // whether to close the menu when a value is selected
-	deleteRemoves: PropTypes.bool,        // whether backspace removes an item if there is no text input
+	deleteRemoves: PropTypes.bool,        // whether delete removes an item if there is no text input
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
@@ -1124,7 +1125,6 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-	addLabelText: 'Add "{label}"?',
 	arrowRenderer: defaultArrowRenderer,
 	autosize: true,
 	backspaceRemoves: true,
