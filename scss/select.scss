@@ -12,6 +12,7 @@
 // control options
 $select-input-bg:                   #fff !default;
 $select-input-bg-disabled:          #f9f9f9 !default;
+$select-input-bg-focus:             $select-input-bg !default;
 $select-input-border-color:         #ccc !default;
 $select-input-border-radius:        4px !default;
 $select-input-border-focus:         #08c !default; // blue
