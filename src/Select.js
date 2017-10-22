@@ -750,7 +750,6 @@ class Select extends React.Component {
 				&& this.state.isFocused
 				&& !this.state.inputValue
 		});
-
 		const inputProps = {
 			...this.props.inputProps,
 			role: 'combobox',
@@ -781,8 +780,8 @@ class Select extends React.Component {
 			const ariaOwns = classNames({
 				[this._instancePrefix + '-list']: isOpen,
 			});
-
 			return (
+				
 				<div
 					{...divProps}
 					role="combobox"
@@ -794,6 +793,7 @@ class Select extends React.Component {
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
 					ref={ref => this.input = ref}
+					id={divProps.id ? divProps.id : this.props.id}
 					aria-readonly={'' + !!this.props.disabled}
 					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
@@ -801,12 +801,12 @@ class Select extends React.Component {
 
 		if (this.props.autosize) {
 			return (
-				<AutosizeInput {...inputProps} minWidth="5" />
+				<AutosizeInput id={this.props.id} {...inputProps} minWidth="5" />
 			);
 		}
 		return (
 			<div className={ className } key="input-wrap">
-				<input {...inputProps} />
+				<input id={this.props.id} {...inputProps} />
 			</div>
 		);
 	}
@@ -1054,8 +1054,8 @@ Select.propTypes = {
 	'aria-labelledby': PropTypes.string,  // HTML ID of an element that should be used as the label (for assistive tech)
 	arrowRenderer: PropTypes.func,        // Create drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
-	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
 	autoFocus: PropTypes.bool,            // autofocus the component on mount
+	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
 	autosize: PropTypes.bool,             // whether to enable autosizing or not
 	backspaceRemoves: PropTypes.bool,     // whether backspace removes an item if there is no text input
 	backspaceToRemoveMessage: PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
@@ -1071,6 +1071,7 @@ Select.propTypes = {
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
+	id: PropTypes.string, 				  // String to set at the input the a custom id, you can use it for the browser test
 	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 	inputProps: PropTypes.object,         // custom attributes for the Input
