@@ -116,7 +116,7 @@ class CreatableSelect extends React.Component {
 		this.inputValue = input;
 
 		if (onInputChange) {
-			this.inputValue =  onInputChange(input);
+			this.inputValue = onInputChange(input);
 		}
 
 		return this.inputValue;
