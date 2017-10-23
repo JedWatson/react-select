@@ -11,6 +11,8 @@ class Option extends React.Component {
 		this.handleMouseEnter = this.handleMouseEnter.bind(this);
 		this.handleMouseMove = this.handleMouseMove.bind(this);
 		this.handleTouchStart = this.handleTouchStart.bind(this);
+		this.handleTouchEnd = this.handleTouchEnd.bind(this);
+		this.handleTouchMove = this.handleTouchMove.bind(this);
 		this.onFocus = this.onFocus.bind(this);
 	}
 
@@ -65,7 +67,7 @@ class Option extends React.Component {
 			this.props.onFocus(this.props.option, event);
 		}
 	}
-	
+
 	render () {
 		var { option, instancePrefix, optionIndex } = this.props;
 		var className = classNames(this.props.className, option.className);
@@ -80,6 +82,7 @@ class Option extends React.Component {
 			<div className={className}
 				style={option.style}
 				role="option"
+				aria-label={option.label}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
@@ -108,4 +111,4 @@ Option.propTypes = {
 	optionIndex: PropTypes.number,           // index of the option, used to generate unique ids for aria
 };
 
-module.exports = Option;
+export default Option;

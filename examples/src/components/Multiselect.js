@@ -26,7 +26,7 @@ var MultiSelectField = createClass({
 			removeSelected: true,
 			disabled: false,
 			crazy: false,
-			options: FLAVOURS,
+			stayOpen: false,
 			value: [],
 		};
 	},
@@ -34,24 +34,28 @@ var MultiSelectField = createClass({
 		console.log('You\'ve selected:', value);
 		this.setState({ value });
 	},
-	toggleRemove (e) {
-		this.setState({ removeSelected: e.target.checked });
-	},
-	toggleDisabled (e) {
-		this.setState({ disabled: e.target.checked });
-	},
-	toggleChocolate (e) {
-		let crazy = e.target.checked;
+	toggleCheckbox (e) {
 		this.setState({
-			crazy: crazy,
-			options: crazy ? WHY_WOULD_YOU : FLAVOURS,
+			[e.target.name]: e.target.checked,
 		});
 	},
 	render () {
+		const { crazy, disabled, stayOpen, value } = this.state;
+		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
-				<Select multi simpleValue removeSelected={this.state.removeSelected} disabled={this.state.disabled} value={this.state.value} placeholder="Select your favourite(s)" options={this.state.options} onChange={this.handleSelectChange} />
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Multiselect.js">(Source)</a></h3>
+				<Select
+          closeOnSelect={!stayOpen}
+          disabled={this.state.disabled}    
+          multi
+          onChange={this.handleSelectChange}
+          options={this.state.options}
+          placeholder="Select your favourite(s)"
+          removeSelected={this.state.removeSelected}
+          simpleValue
+          value={this.state.value}
+        />
 
 				<div className="checkbox-list">
 					<label className="checkbox">
@@ -63,8 +67,12 @@ var MultiSelectField = createClass({
 						<span className="checkbox-label">Disable the control</span>
 					</label>
 					<label className="checkbox">
-						<input type="checkbox" className="checkbox-control" checked={this.state.crazy} onChange={this.toggleChocolate} />
+						<input type="checkbox" className="checkbox-control" name="crazy" checked={crazy} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">I don't like Chocolate (disabled the option)</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="stayOpen" checked={stayOpen} onChange={this.toggleCheckbox}/>
+						<span className="checkbox-label">Stay open when an Option is selected</span>
 					</label>
 				</div>
 			</div>

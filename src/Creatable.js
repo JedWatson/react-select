@@ -112,12 +112,14 @@ class CreatableSelect extends React.Component {
 	onInputChange (input) {
 		const { onInputChange } = this.props;
 
-		if (onInputChange) {
-			onInputChange(input);
-		}
-
 		// This value may be needed in between Select mounts (when this.select is null)
 		this.inputValue = input;
+
+		if (onInputChange) {
+			this.inputValue = onInputChange(input);
+		}
+
+		return this.inputValue;
 	}
 
 	onInputKeyDown (event) {
@@ -294,4 +296,4 @@ CreatableSelect.propTypes = {
 };
 
 
-module.exports = CreatableSelect;
+export default CreatableSelect;

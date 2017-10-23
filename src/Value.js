@@ -103,4 +103,4 @@ Value.propTypes = {
 	value: PropTypes.object.isRequired,     // the option object for this value
 };
 
-module.exports = Value;
+export default Value;
