@@ -21,7 +21,7 @@ const propTypes = {
 	onChange: PropTypes.func,                  // onChange handler: function (newValue) {}
 	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
 	options: PropTypes.array.isRequired,       // array of options
-  pagination: PropTypes.bool,								 // automatically load more options when the option list is scrolled to the end; default to false
+	pagination: PropTypes.bool,		   // automatically load more options when the option list is scrolled to the end; default to false
 	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		PropTypes.string,
 		PropTypes.node
@@ -96,7 +96,7 @@ export default class Async extends Component {
 			this._callback = null;
 
 			this.setState({
-        isLoading: false,
+        			isLoading: false,
 				options: cache[inputValue].options,
 				page: cache[inputValue].page,
 			});
