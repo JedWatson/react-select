@@ -3500,6 +3500,42 @@ describe('Select', () => {
 			});
 		});
 
+		describe('with trimFilter=true', () => {
+			beforeEach(() => {
+
+				instance = createControl({
+					searchable: true,
+					trimFilter: true,
+					options: defaultOptions
+				});
+			});
+
+			it('finds options for a filter wrapped around with whitespaces', () => {
+
+				typeSearchText('  def  ');
+				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'AbcDef');
+				expect(options, 'to have length', 1);
+			});
+		});
+
+		describe('with trimFilter=false', () => {
+			beforeEach(() => {
+
+				instance = createControl({
+					searchable: true,
+					trimFilter: false,
+					options: defaultOptions
+				});
+			});
+
+			it('finds options for a filter wrapped around with whitespaces', () => {
+
+				typeSearchText('  def  ');
+				expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-option');
+			});
+		});
+
 		describe('valueRenderer', () => {
 
 			var valueRenderer;
