@@ -4,15 +4,6 @@ import Select from './Select';
 import Async from './Async';
 import Creatable from './Creatable';
 
-function reduce(obj, props = {}){
-  return Object.keys(obj)
-  .reduce((props, key) => {
-    const value = obj[key];
-    if (value !== undefined) props[key] = value;
-    return props;
-  }, props);
-}
-
 class AsyncCreatableSelect extends React.Component {
 
 	focus () {
