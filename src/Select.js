@@ -424,7 +424,7 @@ class Select extends React.Component {
 				}
 				this.focusStartOption();
 			break;
-			case 46: // backspace
+			case 46: // delete
 				if (!this.state.inputValue && this.props.deleteRemoves) {
 					event.preventDefault();
 					this.popValue();
