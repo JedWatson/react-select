@@ -82,6 +82,7 @@ class Option extends React.Component {
 			<div className={className}
 				style={option.style}
 				role="option"
+				aria-label={option.label}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
