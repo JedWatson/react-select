@@ -469,10 +469,6 @@ class Select extends React.Component {
 		if (props.multi) {
 			if (typeof value === 'string') {
 				value = value.split(props.delimiter);
-				// convert string array to numbers array if made of numbers only
-				if (!value.some(isNaN)) {
-					value = value.map(Number);
-				}				
 			}
 			if (!Array.isArray(value)) {
 				if (value === null || value === undefined) return [];
@@ -495,7 +491,7 @@ class Select extends React.Component {
 		let { options, valueKey } = props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
-			if (options[i][valueKey] === value) return options[i];
+			if (String(options[i][valueKey]) === String(value)) return options[i];
 		}
 	}
 
@@ -787,7 +783,7 @@ class Select extends React.Component {
 				[this._instancePrefix + '-list']: isOpen,
 			});
 			return (
-				
+
 				<div
 					{...divProps}
 					role="combobox"

@@ -742,6 +742,17 @@ describe('Select', () => {
                         <div><span className="Select-value-label">Four</span></div>
 					</span>);
 			});
+			it('supports updating the values as a string', () => {
+				wrapper.setPropsForChild({
+					value: '3,4',
+				});
+
+				expect(instance, 'to contain',
+					<span className="Select-multi-value-wrapper">
+												<div><span className="Select-value-label">Three</span></div>
+												<div><span className="Select-value-label">Four</span></div>
+					</span>);
+			});
 
 			it('supports updating the value to a single value', () => {
 
