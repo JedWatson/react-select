@@ -99,14 +99,6 @@ class Select extends React.Component {
 		}
 	}
 
-	componentWillUpdate (nextProps, nextState) {
-		if (nextState.isOpen !== this.state.isOpen) {
-			this.toggleTouchOutsideEvent(nextState.isOpen);
-			const handler = nextState.isOpen ? nextProps.onOpen : nextProps.onClose;
-			handler && handler();
-		}
-	}
-
 	componentDidUpdate (prevProps, prevState) {
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
@@ -139,6 +131,11 @@ class Select extends React.Component {
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
 			this.closeMenu();
+		}
+		if (prevState.isOpen !== this.state.isOpen) {
+			this.toggleTouchOutsideEvent(this.state.isOpen);
+			const handler = this.state.isOpen ? this.props.onOpen : this.props.onClose;
+			handler && handler();
 		}
 	}
 

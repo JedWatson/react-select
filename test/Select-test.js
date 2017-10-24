@@ -3063,6 +3063,17 @@ describe('Select', () => {
 				clickArrowToOpen();
 				expect(eventHandler, 'was called once');
 			});
+
+			it('is called after dom has rendered', (done) => {
+				instance = createControl({
+					onOpen: () => {
+						expect(instance.menu, 'not to equal', undefined);
+						done();
+					}
+				});
+
+				clickArrowToOpen();
+			});
 		});
 
 		describe('onClose', () => {
