@@ -2054,6 +2054,7 @@ describe('Select', () => {
 				value: '',
 				options: options,
 				multi: true,
+				closeOnSelect: false,
 				removeSelected: false
 			}, {
 				wireUpOnChangeToValue: true
