@@ -110,6 +110,10 @@ describe('Select', () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 36, key: 'Home' });
 	};
 
+	var pressSpacebar = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 32, key: 'Space' });
+	};
+
 	var typeSearchText = (text) => {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
 	};
@@ -2037,6 +2041,13 @@ describe('Select', () => {
 			items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
 			expect(items[0], 'to have text', 'Three');
 			expect(items, 'to have length', 1);
+		});
+
+		it('opens the menu on spacebar', () => {
+			instance.focus();
+			expect(instance.state.isOpen, 'to equal', false);
+			pressSpacebar();
+			expect(instance.state.isOpen, 'to equal', true);
 		});
 
 	});
