@@ -781,7 +781,7 @@ class Select extends React.Component {
 				[this._instancePrefix + '-list']: isOpen,
 			});
 			return (
-				
+
 				<div
 					{...divProps}
 					role="combobox"
@@ -1005,6 +1005,7 @@ class Select extends React.Component {
 			'is-pseudo-focused': this.state.isPseudoFocused,
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
+			'Select--rtl': this.props.rtl,
 		});
 
 		let removeMessage = null;
@@ -1113,6 +1114,7 @@ Select.propTypes = {
 	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
+	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
 	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
@@ -1162,6 +1164,7 @@ Select.defaultProps = {
 	pageSize: 5,
 	placeholder: 'Select...',
 	required: false,
+	rtl: false,
 	scrollMenuIntoView: true,
 	searchable: true,
 	simpleValue: false,

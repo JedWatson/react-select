@@ -27,6 +27,7 @@ var MultiSelectField = createClass({
 			crazy: false,
 			stayOpen: false,
 			value: [],
+			rtl: false,
 		};
 	},
 	handleSelectChange (value) {
@@ -38,6 +39,11 @@ var MultiSelectField = createClass({
 			[e.target.name]: e.target.checked,
 		});
 	},
+	toggleRtl (e) {
+		let rtl = e.target.checked;
+		this.setState({ rtl });
+	},
+
 	render () {
 		const { crazy, disabled, stayOpen, value } = this.state;
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
@@ -51,6 +57,7 @@ var MultiSelectField = createClass({
 					onChange={this.handleSelectChange}
 					options={options}
 					placeholder="Select your favourite(s)"
+					rtl={this.state.rtl}
 					simpleValue
 					value={value}
 				/>
@@ -67,6 +74,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="stayOpen" checked={stayOpen} onChange={this.toggleCheckbox}/>
 						<span className="checkbox-label">Stay open when an Option is selected</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
+						<span className="checkbox-label">rtl</span>
 					</label>
 				</div>
 			</div>
