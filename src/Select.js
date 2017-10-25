@@ -481,7 +481,9 @@ class Select extends React.Component {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
-			if (typeof value === 'string') value = value.split(props.delimiter);
+			if (typeof value === 'string') {
+				value = value.split(props.delimiter);
+			}
 			if (!Array.isArray(value)) {
 				if (value === null || value === undefined) return [];
 				value = [value];
@@ -503,7 +505,7 @@ class Select extends React.Component {
 		let { options, valueKey } = props;
 		if (!options) return;
 		for (var i = 0; i < options.length; i++) {
-			if (options[i][valueKey] === value) return options[i];
+			if (String(options[i][valueKey]) === String(value)) return options[i];
 		}
 	}
 

@@ -719,8 +719,8 @@ describe('Select', () => {
 
 				expect(instance, 'to contain',
 					<span className="Select-multi-value-wrapper">
-                        <div><span className="Select-value-label">Two</span></div>
-                        <div><span className="Select-value-label">One</span></div>
+						<div><span className="Select-value-label">Two</span></div>
+						<div><span className="Select-value-label">One</span></div>
 					</span>);
 			});
 
@@ -739,8 +739,19 @@ describe('Select', () => {
 
 				expect(instance, 'to contain',
 					<span className="Select-multi-value-wrapper">
-                        <div><span className="Select-value-label">Three</span></div>
-                        <div><span className="Select-value-label">Four</span></div>
+						<div><span className="Select-value-label">Three</span></div>
+						<div><span className="Select-value-label">Four</span></div>
+					</span>);
+			});
+			it('supports updating the values as a string', () => {
+				wrapper.setPropsForChild({
+					value: '3,4',
+				});
+
+				expect(instance, 'to contain',
+					<span className="Select-multi-value-wrapper">
+						<div><span className="Select-value-label">Three</span></div>
+						<div><span className="Select-value-label">Four</span></div>
 					</span>);
 			});
 
@@ -765,7 +776,7 @@ describe('Select', () => {
 
 				expect(instance, 'to contain',
 					<span className="Select-multi-value-wrapper">
-                        <div><span className="Select-value-label">Zero</span></div>
+						<div><span className="Select-value-label">Zero</span></div>
 					</span>);
 			});
 
