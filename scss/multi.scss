@@ -14,6 +14,10 @@
 		margin-left: $select-padding-horizontal;
 		padding: 0;
 	}
+	&.Select--rtl .Select-input {
+		margin-left: 0;
+		margin-right: $select-padding-horizontal;
+	}
 
 	// reduce margin once there is value
 	&.has-value .Select-input {
@@ -75,6 +79,16 @@
 		}
 	}
 
+	&.Select--rtl {
+		.Select-value {
+		  margin-left: 0;
+		  margin-right: $select-item-gutter;
+		}
+		.Select-value-icon {
+			border-right: none;
+			border-left: 1px solid $select-item-border-color;
+		}
+	}
 }
 
 .Select--multi.is-disabled {

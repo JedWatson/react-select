@@ -28,6 +28,7 @@ var MultiSelectField = createClass({
 			crazy: false,
 			stayOpen: false,
 			value: [],
+			rtl: false,
 		};
 	},
 	handleSelectChange (value) {
@@ -39,6 +40,11 @@ var MultiSelectField = createClass({
 			[e.target.name]: e.target.checked,
 		});
 	},
+	toggleRtl (e) {
+		let rtl = e.target.checked;
+		this.setState({ rtl });
+	},
+
 	render () {
 		const { crazy, disabled, stayOpen, value } = this.state;
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
@@ -46,16 +52,17 @@ var MultiSelectField = createClass({
 			<div className="section">
 				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Multiselect.js">(Source)</a></h3>
 				<Select
-          closeOnSelect={!stayOpen}
-          disabled={this.state.disabled}    
-          multi
-          onChange={this.handleSelectChange}
-          options={this.state.options}
-          placeholder="Select your favourite(s)"
+					closeOnSelect={!stayOpen}
+					disabled={disabled}
+					multi
+					onChange={this.handleSelectChange}
+					options={options}
+					placeholder="Select your favourite(s)"
           removeSelected={this.state.removeSelected}
-          simpleValue
-          value={this.state.value}
-        />
+					rtl={this.state.rtl}
+					simpleValue
+					value={value}
+				/>
 
 				<div className="checkbox-list">
 					<label className="checkbox">
@@ -73,6 +80,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="stayOpen" checked={stayOpen} onChange={this.toggleCheckbox}/>
 						<span className="checkbox-label">Stay open when an Option is selected</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
+						<span className="checkbox-label">rtl</span>
 					</label>
 				</div>
 			</div>

@@ -387,7 +387,10 @@ class Select extends React.Component {
 				this.selectFocusedOption();
 			return;
 			case 13: // enter
-				if (!this.state.isOpen) return;
+				if (!this.state.isOpen) {
+					this.focusNextOption();
+					return;
+				}
 				event.stopPropagation();
 				this.selectFocusedOption();
 			break;
@@ -399,6 +402,17 @@ class Select extends React.Component {
 					this.clearValue(event);
 					event.stopPropagation();
 				}
+			break;
+			case 32: // space
+				if (!this.props.searchable) {
+					event.preventDefault();
+				}
+				if (!this.state.isOpen) {
+					this.focusNextOption();
+					return;
+				}
+				event.stopPropagation();
+				this.selectFocusedOption();
 			break;
 			case 38: // up
 				this.focusPreviousOption();
@@ -424,7 +438,7 @@ class Select extends React.Component {
 				}
 				this.focusStartOption();
 			break;
-			case 46: // backspace
+			case 46: // delete
 				if (!this.state.inputValue && this.props.deleteRemoves) {
 					event.preventDefault();
 					this.popValue();
@@ -786,20 +800,21 @@ class Select extends React.Component {
 				[this._instancePrefix + '-list']: isOpen,
 			});
 			return (
-				
+
 				<div
 					{...divProps}
 					role="combobox"
 					aria-expanded={isOpen}
 					aria-owns={ariaOwns}
 					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
+					aria-labelledby={this.props['aria-labelledby']}
+					aria-label={this.props['aria-label']}
 					className={className}
 					tabIndex={this.props.tabIndex || 0}
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
 					ref={ref => this.input = ref}
-					id={divProps.id ? divProps.id : this.props.id}
-					aria-readonly={'' + !!this.props.disabled}
+					aria-disabled={'' + !!this.props.disabled}
 					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
@@ -894,6 +909,7 @@ class Select extends React.Component {
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
+				inputValue: this.state.inputValue,
 				instancePrefix: this._instancePrefix,
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
@@ -903,6 +919,7 @@ class Select extends React.Component {
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
 				options,
 				selectValue: this.selectValue,
+				removeValue: this.removeValue,
 				valueArray,
 				valueKey: this.props.valueKey,
 				onOptionRef: this.onOptionRef,
@@ -1009,6 +1026,7 @@ class Select extends React.Component {
 			'is-pseudo-focused': this.state.isPseudoFocused,
 			'is-searchable': this.props.searchable,
 			'has-value': valueArray.length,
+			'Select--rtl': this.props.rtl,
 		});
 
 		let removeMessage = null;
@@ -1118,6 +1136,7 @@ Select.propTypes = {
 	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
+	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
 	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
@@ -1168,6 +1187,7 @@ Select.defaultProps = {
 	placeholder: 'Select...',
   	removeSelected: true,
 	required: false,
+	rtl: false,
 	scrollMenuIntoView: true,
 	searchable: true,
 	simpleValue: false,

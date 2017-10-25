@@ -112,6 +112,10 @@
 	.Select-arrow-zone:hover > .Select-arrow {
 		border-top-color: @select-arrow-color-hover;
 	}
+	&.Select--rtl {
+		direction: rtl;
+		text-align: right;
+	}
 }
 
 // base
@@ -255,6 +259,12 @@
 	text-align: center;
 	vertical-align: middle;
 	width: (@select-arrow-width * 5);
+	padding-right: @select-arrow-width;
+
+	.Select--rtl & {
+		padding-right: 0;
+		padding-left: @select-arrow-width;
+	}
 }
 
 .Select-arrow {
