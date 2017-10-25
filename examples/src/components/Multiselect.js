@@ -23,6 +23,7 @@ var MultiSelectField = createClass({
 	},
 	getInitialState () {
 		return {
+			removeSelected: true,
 			disabled: false,
 			crazy: false,
 			stayOpen: false,
@@ -57,6 +58,7 @@ var MultiSelectField = createClass({
 					onChange={this.handleSelectChange}
 					options={options}
 					placeholder="Select your favourite(s)"
+          removeSelected={this.state.removeSelected}
 					rtl={this.state.rtl}
 					simpleValue
 					value={value}
@@ -64,7 +66,11 @@ var MultiSelectField = createClass({
 
 				<div className="checkbox-list">
 					<label className="checkbox">
-						<input type="checkbox" className="checkbox-control" name="disabled" checked={disabled} onChange={this.toggleCheckbox} />
+						<input type="checkbox" className="checkbox-control" checked={this.state.removeSelected} onChange={this.toggleRemove} />
+						<span className="checkbox-label">Remove selected options</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
 						<span className="checkbox-label">Disable the control</span>
 					</label>
 					<label className="checkbox">
