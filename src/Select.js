@@ -570,9 +570,10 @@ class Select extends React.Component {
 		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	}
 
-	removeValue (value) {
+	removeValue (index) {
 		var valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i !== value));
+		valueArray.splice(index,1);
+		this.setValue(valueArray);
 		this.focus();
 	}
 
@@ -729,7 +730,7 @@ class Select extends React.Component {
 						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
-						onRemove={this.removeValue}
+						onRemove={() => this.removeValue(i)}
 						value={value}
 					>
 						{renderLabel(value, i)}
@@ -999,7 +1000,7 @@ class Select extends React.Component {
 
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
-		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
+		let options = this._visibleOptions = this.filterOptions(this.props.multi && this.props.removeSelected ? valueArray : null);
 		let isOpen = this.state.isOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
@@ -1128,6 +1129,7 @@ Select.propTypes = {
 	options: PropTypes.array,             // array of options
 	pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
 	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
+	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
 	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
@@ -1179,6 +1181,7 @@ Select.defaultProps = {
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',
+	removeSelected: true,
 	required: false,
 	rtl: false,
 	scrollMenuIntoView: true,
