@@ -23,10 +23,12 @@ var MultiSelectField = createClass({
 	},
 	getInitialState () {
 		return {
+			removeSelected: true,
 			disabled: false,
 			crazy: false,
 			stayOpen: false,
 			value: [],
+			rtl: false,
 		};
 	},
 	handleSelectChange (value) {
@@ -38,6 +40,11 @@ var MultiSelectField = createClass({
 			[e.target.name]: e.target.checked,
 		});
 	},
+	toggleRtl (e) {
+		let rtl = e.target.checked;
+		this.setState({ rtl });
+	},
+
 	render () {
 		const { crazy, disabled, stayOpen, value } = this.state;
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
@@ -51,13 +58,19 @@ var MultiSelectField = createClass({
 					onChange={this.handleSelectChange}
 					options={options}
 					placeholder="Select your favourite(s)"
+          removeSelected={this.state.removeSelected}
+					rtl={this.state.rtl}
 					simpleValue
 					value={value}
 				/>
 
 				<div className="checkbox-list">
 					<label className="checkbox">
-						<input type="checkbox" className="checkbox-control" name="disabled" checked={disabled} onChange={this.toggleCheckbox} />
+						<input type="checkbox" className="checkbox-control" checked={this.state.removeSelected} onChange={this.toggleRemove} />
+						<span className="checkbox-label">Remove selected options</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
 						<span className="checkbox-label">Disable the control</span>
 					</label>
 					<label className="checkbox">
@@ -67,6 +80,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="stayOpen" checked={stayOpen} onChange={this.toggleCheckbox}/>
 						<span className="checkbox-label">Stay open when an Option is selected</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
+						<span className="checkbox-label">rtl</span>
 					</label>
 				</div>
 			</div>
