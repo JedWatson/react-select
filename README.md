@@ -384,7 +384,7 @@ function onInputKeyDown(event) {
 | noResultsText | string | 'No results found' | placeholder displayed when there are no matching search results or a falsy value to hide it (can also be a react component) |
 | onBlur | func | undefined | onBlur handler: `function(event) {}` |
 | onBlurResetsInput | bool | true | whether to clear input on blur or not |
-| onChange | func | undefined | onChange handler: `function(newValue) {}` |
+| onChange | func | undefined | onChange handler: `function(newOption) {}` |
 | onClose | func | undefined | handler for when the menu closes: `function () {}` |
 | onCloseResetsInput | bool | true | whether to clear input when closing the menu through the arrow |
 | onFocus | func | undefined | onFocus handler: `function(event) {}` |
