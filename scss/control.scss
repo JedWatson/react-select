@@ -8,6 +8,18 @@
 .Select {
 	position: relative;
 
+	// disable some browser-specific behaviours that break the input
+	input::-webkit-contacts-auto-fill-button,
+	input::-webkit-credentials-auto-fill-button {
+		display: none !important;
+	}
+	input::-ms-clear {
+		display: none !important;
+	}
+	input::-ms-reveal {
+		display: none !important;
+	}
+
 	// preferred box model
 	&,
 	& div,
