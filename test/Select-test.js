@@ -1950,6 +1950,17 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), { button: 0 });
 			expect(onChange, 'was called with', []);
 		});
+		describe('if supplied with an invalid starting value', () => {
+			it('should not render the clear componnet', () => {
+				wrapper = createControlWithWrapper({
+					options: options,
+					value: 'nonsense, someothernonsense',
+					multi: true,
+					clearable: true,
+				});
+				expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-clear');
+			});
+		});
 	});
 
 	describe('with multi=true and searchable=false', () => {
@@ -2184,6 +2195,16 @@ describe('Select', () => {
 				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 					'to have items satisfying', 'to have text', 'Three');
 
+			});
+			describe('if supplied with an invalid starting value', () => {
+				it('should not render the clear componnet', () => {
+					wrapper = createControlWithWrapper({
+						options: defaultOptions,
+						value: 'nonsense',
+						clearable: true,
+					});
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-clear');
+				});
 			});
 
 			describe('on pressing escape', () => {
@@ -4224,4 +4245,6 @@ describe('Select', () => {
 			});
 		});
 	});
+
+
 });
