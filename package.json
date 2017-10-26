@@ -102,6 +102,6 @@
     "ui"
   ],
   "lint-staged": {
-    "*.js": ["eslint", "git add"]
+    "*.js": "eslint"
   }
 }
