@@ -3197,8 +3197,19 @@ describe('Select', () => {
 			});
 
 			it('is called when the options are displayed', () => {
-				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+				clickArrowToOpen();
 				expect(eventHandler, 'was called once');
+			});
+
+			it('is called after dom has rendered', (done) => {
+				instance = createControl({
+					onOpen: () => {
+						expect(instance.menu, 'not to equal', undefined);
+						done();
+					}
+				});
+
+				clickArrowToOpen();
 			});
 		});
 
@@ -3218,10 +3229,9 @@ describe('Select', () => {
 
 			it('is called after the options are hidden', () => {
 				const domNode = ReactDOM.findDOMNode(instance);
-				TestUtils.Simulate.mouseDown(domNode.querySelector('.Select-control'));
+				clickArrowToOpen();
 				eventHandler.reset();
-
-				TestUtils.Simulate.keyDown(domNode.querySelector('input'), { keyCode: 27, key: 'Escape' });
+				pressEscape();
 				expect(eventHandler, 'was called once');
 			});
 		});
