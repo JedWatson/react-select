@@ -629,7 +629,7 @@ describe('Select', () => {
 		});
 	});
 
-	describe('with values as numbers', () => {
+	describe('with values as numbers with initalFocus = false', () => {
 		beforeEach(() => {
 			options = [
 				{ value: 0, label: 'Zero' },
@@ -643,6 +643,8 @@ describe('Select', () => {
 				name: 'field',
 				options: options,
 				simpleValue: true,
+			}, {
+				initialFocus: false,
 			});
 		});
 
@@ -651,14 +653,40 @@ describe('Select', () => {
 				'to have text', 'Two');
 		});
 
-		it('set the initial value of the hidden input control', () => {
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '2' );
-		});
-
 		it('updates the value when the value prop is set', () => {
 			wrapper.setPropsForChild({ value: 3 });
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 				'to have text', 'Three');
+		});
+
+		it('supports setting the value to 0 via prop', () => {
+			wrapper.setPropsForChild({ value: 0 });
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+				'to have text', 'Zero');
+		});
+	});
+
+	describe('with values as numbers with initalFocus = true', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 0, label: 'Zero' },
+				{ value: 1, label: 'One' },
+				{ value: 2, label: 'Two' },
+				{ value: 3, label: 'Three' }
+			];
+
+			wrapper = createControlWithWrapper({
+				value: 2,
+				name: 'field',
+				options: options,
+				simpleValue: true,
+			}, {
+				initialFocus: true,
+			});
+		});
+
+		it('set the initial value of the hidden input control', () => {
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', '2' );
 		});
 
 		it('updates the value of the hidden input control after new value prop', () => {
@@ -667,22 +695,13 @@ describe('Select', () => {
 		});
 
 		it('calls onChange with the new value as a number', () => {
-
 			clickArrowToOpen();
 			pressDown();
 			pressEnterToAccept();
 			expect(onChange, 'was called with', 3);
 		});
 
-		it('supports setting the value to 0 via prop', () => {
-
-			wrapper.setPropsForChild({ value: 0 });
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
-				'to have text', 'Zero');
-		});
-
 		it('supports selecting the zero value', () => {
-
 			clickArrowToOpen();
 			pressUp();
 			pressUp();
@@ -929,7 +948,7 @@ describe('Select', () => {
 		});
 	});
 
-	describe('with values as booleans', () => {
+	describe('with values as booleans with initalFocus = false', () => {
 		beforeEach(() => {
 			options = [
 				{ value: true, label: 'Yes' },
@@ -941,6 +960,8 @@ describe('Select', () => {
 				name: 'field',
 				options: options,
 				simpleValue: true,
+			}, {
+				initialFocus: false,
 			});
 		});
 
@@ -949,14 +970,38 @@ describe('Select', () => {
 					'to have text', 'Yes');
 		});
 
-		it('set the initial value of the hidden input control', () => {
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'true' );
-		});
-
 		it('updates the value when the value prop is set', () => {
 			wrapper.setPropsForChild({ value: false });
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
 					'to have text', 'No');
+		});
+
+		it('supports setting the value via prop', () => {
+			wrapper.setPropsForChild({ value: false });
+			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
+					'to have text', 'No');
+		});
+	});
+
+	describe('with values as booleans with initialFocus = true', () => {
+		beforeEach(() => {
+			options = [
+				{ value: true, label: 'Yes' },
+				{ value: false, label: 'No' },
+			];
+
+			wrapper = createControlWithWrapper({
+				value: true,
+				name: 'field',
+				options: options,
+				simpleValue: true,
+			}, {
+				initialFocus: true,
+			});
+		});
+
+		it('set the initial value of the hidden input control', () => {
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'true' );
 		});
 
 		it('updates the value of the hidden input control after new value prop', () => {
@@ -971,11 +1016,10 @@ describe('Select', () => {
 			expect(onChange, 'was called with', false);
 		});
 
-		it('supports setting the value via prop', () => {
-			wrapper.setPropsForChild({ value: false });
-			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
-					'to have text', 'No');
-		});
+        it('displays the X button for false value', () => {
+            wrapper.setPropsForChild({ value: false });
+            expect(ReactDOM.findDOMNode(instance).querySelector('.Select-clear'), 'not to equal', undefined);
+        });
 
         it('displays the X button for false value', () => {
             wrapper.setPropsForChild({ value: false });
@@ -1191,9 +1235,8 @@ describe('Select', () => {
 		});
 	});
 
-	describe('with options and value', () => {
+	describe('with options and value with initialFocus = false', () => {
 		beforeEach(() => {
-
 			options = [
 				{ value: 'one', label: 'One' },
 				{ value: 'two', label: 'Two' },
@@ -1206,18 +1249,17 @@ describe('Select', () => {
 				value: 'one',
 				options: options,
 				searchable: true
+			}, {
+				initialFocus: false,
 			});
 		});
 
 		it('starts with the given value', () => {
-
-			var node = ReactDOM.findDOMNode(instance);
-			expect(node, 'queried for', DISPLAYED_SELECTION_SELECTOR,
+			expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'One');
 		});
 
 		it('supports setting the value via prop', () => {
-
 			wrapper.setPropsForChild({
 				value: 'three'
 			});
@@ -1226,17 +1268,7 @@ describe('Select', () => {
 				'to have items satisfying', 'to have text', 'Three');
 		});
 
-		it('sets the value of the hidden form node', () => {
-
-			wrapper.setPropsForChild({
-				value: 'three'
-			});
-
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'three' );
-		});
-
 		it('display the raw value if the option is not available', () => {
-
 			wrapper.setPropsForChild({
 				value: { value: 'new', label: 'something new' }
 			});
@@ -1246,7 +1278,6 @@ describe('Select', () => {
 		});
 
 		it('updates the display text if the option appears later', () => {
-
 			wrapper.setPropsForChild({
 				value: 'new'
 			});
@@ -1262,7 +1293,34 @@ describe('Select', () => {
 
 			expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
 				'to have items satisfying', 'to have text', 'New item in the options');
+		});		
+	});
 
+	describe('with options and value with initialFocus = true', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			// Render an instance of the component
+			wrapper = createControlWithWrapper({
+				name: 'out-select-control',
+				value: 'one',
+				options: options,
+				searchable: true
+			}, {
+				initialFocus: true,
+			});
+		});
+
+		it('sets the value of the hidden form node', () => {
+			wrapper.setPropsForChild({
+				value: 'three'
+			});
+
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'three' );
 		});
 
 		it('the input should not have a required attribute', () => {
@@ -2192,8 +2250,7 @@ describe('Select', () => {
 					wireUpOnChangeToValue: true
 				});
 
-				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
-					'to have items satisfying', 'to have text', 'Three');
+				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-input > input').value, 'to equal', 'Three' );
 
 			});
 			describe('if supplied with an invalid starting value', () => {
@@ -2215,7 +2272,7 @@ describe('Select', () => {
 				});
 
 				it('calls onChange with null', () => {
-
+			
 					expect(onChange, 'was called with', null);
 				});
 
@@ -2279,8 +2336,7 @@ describe('Select', () => {
 						resetValue: 'reset'
 					});
 
-					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
-						'to have items satisfying', 'to have text', 'Three');
+					expect(ReactDOM.findDOMNode(instance).querySelector('.Select-input > input').value, 'to equal', 'Three' );
 				});
 
 				it('calls onChange with a custom resetValue', () => {
@@ -2320,8 +2376,7 @@ describe('Select', () => {
 					wireUpOnChangeToValue: true
 				});
 
-				expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
-					'to have items satisfying', 'to have text', 'Three');
+				expect(ReactDOM.findDOMNode(instance).querySelector('.Select-input > input').value, 'to equal', 'Three' );
 
 			});
 
@@ -2343,8 +2398,7 @@ describe('Select', () => {
 
 				it('does not reset the display value', () => {
 
-					expect(ReactDOM.findDOMNode(instance), 'queried for', DISPLAYED_SELECTION_SELECTOR,
-						'to have items satisfying', 'to have text', 'Three');
+					expect(ReactDOM.findDOMNode(instance).querySelector('.Select-input > input').value, 'to equal', 'Three' );
 				});
 
 				it('does not reset the control value', () => {

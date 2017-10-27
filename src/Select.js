@@ -167,7 +167,7 @@ class Select extends React.Component {
 	}
 
 	focus () {
-		if (!this.input) return;
+		if (!this.input) return;		
 		this.input.focus();
 	}
 
@@ -228,30 +228,43 @@ class Select extends React.Component {
 			});
 		}
 
+		const inputLabel = this.getInputLabel();
+
+		// determines if the user mouse downed on the actual ValueComponent excluding placeholder text
+		const isOnValue = this.valueComponent && (this.valueComponent.valueNode === event.target);
+
+		let input = this.input;
+		if (typeof input.getInput === 'function') {
+			// Get the actual DOM input if the ref is an <AutosizeInput /> component
+			input = input.getInput();
+		}
+
+		// clears value so that the cursor will be a the end of input then the component re-renders
+		input.value = '';
+	
 		if (this.state.isFocused) {
 			// On iOS, we can get into a state where we think the input is focused but it isn't really,
 			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
 			// Call focus() again here to be safe.
 			this.focus();
-
-			let input = this.input;
-			if (typeof input.getInput === 'function') {
-				// Get the actual DOM input if the ref is an <AutosizeInput /> component
-				input = input.getInput();
-			}
-
-			// clears the value so that the cursor will be at the end of input when the component re-renders
-			input.value = '';
-
-			// if the input is focused, ensure the menu is open
+		
 			this.setState({
 				isOpen: true,
 				isPseudoFocused: false,
+				inputValue: inputLabel
+			}, () => {
+				isOnValue && this.input.select();
 			});
 		} else {
 			// otherwise, focus the input and open the menu
 			this._openAfterFocus = this.props.openOnClick;
 			this.focus();
+
+			this.setState({
+				inputValue: inputLabel
+			}, () => {
+				isOnValue && this.input.select();
+			});
 		}
 	}
 
@@ -288,12 +301,14 @@ class Select extends React.Component {
 	closeMenu () {
 		if(this.props.onCloseResetsInput) {
 			this.setState({
+				hasInputChanged: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi,
 				inputValue: this.handleInputValueChange('')
 			});
 		} else {
 			this.setState({
+				hasInputChanged: false,
 				isOpen: false,
 				isPseudoFocused: this.state.isFocused && !this.props.multi
 			});
@@ -303,13 +318,18 @@ class Select extends React.Component {
 
 	handleInputFocus (event) {
 		if (this.props.disabled) return;
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+			const isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
+
+		// To make the react-select act more natively, render the inputValue with the corresponding label on focus. However, we 
+		// cannot do this for custom valueRenderer's bc the label can be manipulated during render (e.g. option.label.toUpperCase())
+		// so the option labels could be inconsistent.
 		this.setState({
 			isFocused: true,
 			isOpen: isOpen,
+			inputValue: this.getInputLabel()
 		});
 		this._openAfterFocus = false;
 	}
@@ -325,6 +345,7 @@ class Select extends React.Component {
 			this.props.onBlur(event);
 		}
 		var onBlurredState = {
+			hasInputChanged: false,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -343,6 +364,7 @@ class Select extends React.Component {
 		}
 
 		this.setState({
+			hasInputChanged: true,
 			isOpen: true,
 			isPseudoFocused: false,
 			inputValue: newInputValue,
@@ -547,6 +569,7 @@ class Select extends React.Component {
 			});
 		} else {
 			this.setState({
+				hasInputChanged: false,
 				inputValue: this.handleInputValueChange(''),
 				isOpen: !this.props.closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
@@ -593,6 +616,7 @@ class Select extends React.Component {
 		event.preventDefault();
 		this.setValue(this.getResetValue());
 		this.setState({
+			hasInputChanged: false,
 			isOpen: false,
 			inputValue: this.handleInputValueChange(''),
 		}, this.focus);
@@ -701,6 +725,15 @@ class Select extends React.Component {
 		return this._focusedOption;
 	}
 
+	getInputLabel () {
+		let inputLabel = '';
+		if (!this.props.multi && this.props.value) {
+			const valueArray = this.getValueArray(this.props.value);
+			inputLabel = this.getOptionLabel(valueArray[0]);
+		}
+		return inputLabel;
+	}
+
 	getInputValue () {
 		return this.state.inputValue;
 	}
@@ -731,12 +764,13 @@ class Select extends React.Component {
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
+						disabled={this.props.disabled || value.clearableValue === false}
 						id={this._instancePrefix + '-value-' + i}
 						instancePrefix={this._instancePrefix}
-						disabled={this.props.disabled || value.clearableValue === false}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
 						onRemove={this.removeValue}
+						ref={ref => this.valueComponent = ref}
 						value={value}
 					>
 						{renderLabel(value, i)}
@@ -744,14 +778,15 @@ class Select extends React.Component {
 					</ValueComponent>
 				);
 			});
-		} else if (!this.state.inputValue) {
+		} else if (!this.state.inputValue && !isOpen) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
-					id={this._instancePrefix + '-value-item'}
 					disabled={this.props.disabled}
+					id={this._instancePrefix + '-value-item'}
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
+					ref={ref => this.valueComponent = ref}
 					value={valueArray[0]}
 				>
 					{renderLabel(valueArray[0])}
@@ -876,7 +911,7 @@ class Select extends React.Component {
 	}
 
 	filterOptions (excludeOptions) {
-		var filterValue = this.state.inputValue;
+		var filterValue = this.state.hasInputChanged ? this.state.inputValue : '';
 		var options = this.props.options || [];
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
