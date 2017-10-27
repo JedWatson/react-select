@@ -66,11 +66,11 @@ var MultiSelectField = createClass({
 
 				<div className="checkbox-list">
 					<label className="checkbox">
-						<input type="checkbox" className="checkbox-control" checked={this.state.removeSelected} onChange={this.toggleRemove} />
+						<input type="checkbox" className="checkbox-control" name="removeSelected" checked={this.state.removeSelected} onChange={this.toggleRemove} />
 						<span className="checkbox-label">Remove selected options</span>
 					</label>
 					<label className="checkbox">
-						<input type="checkbox" className="checkbox-control" checked={this.state.disabled} onChange={this.toggleDisabled} />
+						<input type="checkbox" className="checkbox-control" name="disabled" checked={this.state.disabled} onChange={this.toggleDisabled} />
 						<span className="checkbox-label">Disable the control</span>
 					</label>
 					<label className="checkbox">
