@@ -156,6 +156,7 @@ class CreatableSelect extends React.Component {
 		const {
 			newOptionCreator,
 			shouldKeyDownEventCreateNewOption,
+			ref: refProp,
 			...restProps
 		} = this.props;
 
@@ -182,6 +183,9 @@ class CreatableSelect extends React.Component {
 				if (ref) {
 					this.labelKey = ref.props.labelKey;
 					this.valueKey = ref.props.valueKey;
+				}
+				if (refProp) {
+					refProp(ref);
 				}
 			}
 		};
