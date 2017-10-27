@@ -125,7 +125,7 @@ class Select extends React.Component {
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
 			var menuContainerRect = this.menuContainer.getBoundingClientRect();
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
+				this.menuContainer.scrollIntoView();
 			}
 		}
 		if (prevProps.disabled !== this.props.disabled) {
