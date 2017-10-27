@@ -1098,7 +1098,7 @@ Select.propTypes = {
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-	id: PropTypes.string, 				  // String to set at the input the a custom id, you can use it for the browser test
+	id: PropTypes.string, 				        // String to set at the input the a custom id, you can use it for the browser test
 	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 	inputProps: PropTypes.object,         // custom attributes for the Input
@@ -1188,7 +1188,7 @@ Select.defaultProps = {
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',
-  	removeSelected: true,
+	removeSelected: true,
 	required: false,
 	rtl: false,
 	scrollMenuIntoView: true,
