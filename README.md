@@ -85,7 +85,7 @@ var options = [
 ];
 
 function logChange(val) {
-  console.log("Selected: " + JSON.stringify(val));
+  console.log('Selected: ', val);
 }
 
 <Select
