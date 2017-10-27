@@ -221,6 +221,25 @@ describe('Async', () => {
 				typeSearchText('bar');
 				expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 0);
 			});
+
+			it('should not swallow rejected promises', done => {
+				const handler = sinon.spy();
+
+				process.on('unhandledRejection', handler);
+
+			  Promise.reject(new Error('rejection'));
+
+				createControl({
+					loadOptions: () => Promise.reject(new Error('rejection')),
+					autoload: true,
+				});
+
+				setTimeout(() => {
+					expect(handler, 'was called times', 2);
+
+					done();
+				}, 500);
+			});
 		});
 
 		describe('with promises', () => {
