@@ -2248,6 +2248,10 @@ describe('Select', () => {
 				it('resets the control value', () => {
 					expect(ReactDOM.findDOMNode(instance).querySelector('input').value, 'to equal', '');
 				});
+
+				it('calls props.onInputChange with empty string', () => {
+					expect(onInputChange, 'was called with', '');
+				});
 			});
 
 			describe('on tapping `clear`', () => {
