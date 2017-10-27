@@ -31,3 +31,8 @@ complex option values are much better supported now, won't throw duplicate key e
 ## Notes
 
 `undefined` default props are no longer declared
+
+
+## Added the id custom value
+
+Now you can add an id to the select element to use it for testing. 

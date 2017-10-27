@@ -15,8 +15,8 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
-var Select = require('../src/Select');
+var TestUtils = require('react-dom/test-utils');
+var Select = require('../src');
 
 describe('Creatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance, renderer;
@@ -257,6 +257,22 @@ describe('Creatable', () => {
 	it('default :onInputKeyDown should run user provided handler.', (done) => {
 		createControl({ onInputKeyDown: event => done() });
 		return creatableInstance.onInputKeyDown({ keyCode: 97 });
+	});
+
+	it('default :onInputChange should run user provided handler.', (done) => {
+		createControl({ onInputChange: value => done() });
+		return creatableInstance.onInputChange('a');
+	});
+
+	it(':onInputChange should return the changed input value', () => {
+		createControl({ onInputChange: value => 'a' });
+
+		function test (value) {
+			return creatableInstance.onInputChange(value);
+		}
+
+		expect(test('a'), 'to be', 'a');
+		expect(test('b'), 'to be', 'a');
 	});
 
 	describe('.focus()', () => {
