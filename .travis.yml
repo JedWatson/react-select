@@ -1,6 +1,8 @@
 sudo: false
 language: node_js
 node_js:
-    - "v4"
+  - "v4"
 script:
-    - npm run coveralls
+  - npm run lint
+  - npm run test
+  - npm run coveralls

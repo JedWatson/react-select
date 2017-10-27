@@ -1,9 +1,10 @@
 import React from 'react';
+import createClass from 'create-react-class';
 import VirtualizedSelect from 'react-virtualized-select';
 
 const DATA = require('../data/cities');
 
-var CitiesField = React.createClass({
+var CitiesField = createClass({
 	displayName: 'CitiesField',
 	getInitialState () {
 		return {};
@@ -17,7 +18,7 @@ var CitiesField = React.createClass({
 		var options = DATA.CITIES;
 		return (
 			<div className="section">
-				<h3 className="section-heading">Cities (Large Dataset)</h3>
+				<h3 className="section-heading">Cities (Large Dataset) <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Virtualized.js">(Source)</a></h3>
 				<VirtualizedSelect ref="citySelect"
 					options={options}
 					simpleValue

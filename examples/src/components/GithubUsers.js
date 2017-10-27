@@ -1,12 +1,14 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import fetch from 'isomorphic-fetch';
 
 
-const GithubUsers = React.createClass({
+const GithubUsers = createClass({
 	displayName: 'GithubUsers',
 	propTypes: {
-		label: React.PropTypes.string,
+		label: PropTypes.string,
 	},
 	getInitialState () {
 		return {
@@ -62,7 +64,7 @@ const GithubUsers = React.createClass({
 
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/GithubUsers.js">(Source)</a></h3>
 				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={this.state.backspaceRemoves} />
 				<div className="checkbox-list">
 					<label className="checkbox">

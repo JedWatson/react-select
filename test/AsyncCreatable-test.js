@@ -14,9 +14,9 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 var sinon = require('sinon');
-var Select = require('../src/Select');
+var Select = require('../src');
 
 describe('AsyncCreatable', () => {
 	let creatableInstance, creatableNode, filterInputNode, loadOptions, renderer;
@@ -57,6 +57,19 @@ describe('AsyncCreatable', () => {
 		});
 		expect(creatableNode.querySelector('.Select-input'), 'to have attributes', {
 			class: ['foo']
+		});
+	});
+
+	describe('.focus()', () => {
+		beforeEach(() => {
+			createControl({});
+			TestUtils.Simulate.blur(filterInputNode);
+		});
+
+		it('focuses the search input', () => {
+			expect(filterInputNode, 'not to equal', document.activeElement);
+			creatableInstance.focus();
+			expect(filterInputNode, 'to equal', document.activeElement);
 		});
 	});
 });

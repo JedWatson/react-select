@@ -10,6 +10,7 @@ pids
 # Coverage tools
 lib-cov
 coverage
+.nyc_output
 
 # Dependency directory
 node_modules
@@ -23,3 +24,5 @@ bower_components
 
 # Other
 .DS_Store
+
+yarn.lock
