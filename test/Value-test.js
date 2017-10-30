@@ -104,9 +104,9 @@ describe('Value component', function() {
 
 		it('should stop propagation when value has href and no onClick in props', function () {
 			props = {
-				value: {href: '1'},
+				value: { href: '1' },
 			};
-			event = {stopPropagation: sinon.spy()};
+			event = { stopPropagation: sinon.spy() };
 			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
 			value.handleMouseDown(event);
 			expect(event.stopPropagation, 'was called once');
@@ -116,7 +116,7 @@ describe('Value component', function() {
 			props = {
 				value: OPTION,
 			};
-			event = {stopPropagation: sinon.spy()};
+			event = { stopPropagation: sinon.spy() };
 			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
 			value.handleMouseDown(event);
 			expect(event.stopPropagation, 'was not called');
