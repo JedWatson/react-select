@@ -40,7 +40,7 @@ function defaultChildren (props) {
 	);
 };
 
-AsyncCreatableSelect.PropTypes = {
+AsyncCreatableSelect.propTypes = {
 	children: PropTypes.func.isRequired, // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
 };
 
