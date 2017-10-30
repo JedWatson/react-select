@@ -1,3 +1,3 @@
-module.exports = function trim(str) {
+export default function trim(str) {
     return str.replace(/^\s+|\s+$/g, '');
-};
+}
