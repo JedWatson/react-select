@@ -295,6 +295,8 @@ CreatableSelect.propTypes = {
 		// (filterText: string): string
 	promptTextCreator: PropTypes.func,
 
+	ref: PropTypes.func,
+
 	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
 	shouldKeyDownEventCreateNewOption: PropTypes.func,
 };
