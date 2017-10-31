@@ -92,6 +92,36 @@ describe('Value component', function() {
 			expect(props.onClick, 'was called');
 		});
 
+		it('does not call a custom callback when the anchor is clicked and button !== 0', function() {
+			TestUtils.Simulate.mouseDown(valueLabel, { button: 2 });
+			expect(props.onClick, 'was not called');
+		});
+
+	});
+
+	describe('handleMouseDown', function() {
+		var event;
+
+		it('should stop propagation when value has href and no onClick in props', function () {
+			props = {
+				value: { href: '1' },
+			};
+			event = { stopPropagation: sinon.spy() };
+			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			value.handleMouseDown(event);
+			expect(event.stopPropagation, 'was called once');
+		});
+
+		it('should return when value does not have href and no onClick in props', function () {
+			props = {
+				value: OPTION,
+			};
+			event = { stopPropagation: sinon.spy() };
+			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			value.handleMouseDown(event);
+			expect(event.stopPropagation, 'was not called');
+		});
+
 	});
 
 });
