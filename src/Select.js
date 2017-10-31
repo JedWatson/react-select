@@ -701,10 +701,6 @@ class Select extends React.Component {
 		return this._focusedOption;
 	}
 
-	getInputValue () {
-		return this.state.inputValue;
-	}
-
 	selectFocusedOption () {
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
