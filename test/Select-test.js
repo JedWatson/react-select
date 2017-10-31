@@ -2705,6 +2705,25 @@ describe('Select', () => {
 				expect(options, 'to have length', 2);
 			});
 		});
+		describe('empty filterOptions function', () => {
+
+			beforeEach(() => {
+
+				instance = createControl({
+					options: defaultOptions,
+					filterOptions: null,
+					searchable: true
+				});
+			});
+			it('uses the default options', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-arrow'), { button: 0 });
+				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'One');
+				expect(options[1], 'to have text', '222');
+				expect(options, 'to have length', 4);
+			});
+
+		});
 
 		describe('ignoreCase=false', () => {
 
