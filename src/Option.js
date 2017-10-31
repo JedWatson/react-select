@@ -20,13 +20,15 @@ class Option extends React.Component {
 	blockEvent (event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
+                const target = event.target;
+                const href = target.href;
+		if ((target.tagName !== 'A') || !('href' in target)) {
 			return;
 		}
-		if (event.target.target) {
-			window.open(event.target.href, event.target.target);
+		if (target.target) {
+			window.open(href, target.target);
 		} else {
-			window.location.href = event.target.href;
+			window.location.href = href;
 		}
 	}
 
