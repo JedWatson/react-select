@@ -26,6 +26,10 @@ const stringOrNode = PropTypes.oneOfType([
 	PropTypes.string,
 	PropTypes.node,
 ]);
+const stringOrNumber = PropTypes.oneOfType([
+	PropTypes.string,
+	PropTypes.number
+]);
 
 let instanceId = 1;
 
@@ -1143,7 +1147,7 @@ Select.propTypes = {
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 	style: PropTypes.object,              // optional style to apply to the control
-	tabIndex: PropTypes.string,           // optional tab index of the control
+	tabIndex: stringOrNumber,           // optional tab index of the control
 	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
 	value: PropTypes.any,                 // initial field value
