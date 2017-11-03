@@ -4275,5 +4275,32 @@ describe('Select', () => {
 		});
 	});
 
-
+	describe('onSelectResetsInput', () => {
+		let onInputChangeOverride;
+		let instanceOptions;
+		beforeEach(() => {
+			options = [
+				{ value: 'x', label: 'x' }
+			];
+			onInputChangeOverride = sinon.stub();
+			instanceOptions = {
+				name: 'form-field-name',
+				options: options,
+				onInputChange: onInputChangeOverride
+			};
+		});
+		it('should reset the input', () => {
+			instance = createControl(instanceOptions);
+			typeSearchText('x');
+			pressEnterToAccept();
+			expect(onInputChangeOverride, 'was called with', '');
+		});
+		it('should not reset the input', () => {
+			instanceOptions.onSelectResetsInput = false;
+			instance = createControl(instanceOptions);
+			typeSearchText('x');
+			pressEnterToAccept();
+			expect(onInputChangeOverride, 'was never called with', '');
+		});
+	});
 });

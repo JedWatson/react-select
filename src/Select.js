@@ -535,11 +535,13 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
+		const updatedValue = this.handleInputValueChange(
+			this.props.onSelectResetsInput ? '' : this.state.inputValue
+		);
 		if (this.props.multi) {
-			const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
 				focusedIndex: null,
-				inputValue: this.handleInputValueChange(updatedValue),
+				inputValue: updatedValue,
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
 				var valueArray = this.getValueArray(this.props.value);
@@ -551,7 +553,7 @@ class Select extends React.Component {
 			});
 		} else {
 			this.setState({
-				inputValue: this.handleInputValueChange(''),
+				inputValue: updatedValue,
 				isOpen: !this.props.closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
