@@ -145,7 +145,7 @@ describe('Async', () => {
 			typeSearchText('te');
 			return expect(asyncNode.textContent, 'to contain', 'Loading');
 		});
-		
+
 		it('caches the result of all option fetches', (cb) => {
 			const res = {
 				t: createOptionsResponse(['t']),
@@ -474,6 +474,15 @@ describe('Async', () => {
 			});
 			typeSearchText('a');
 			return expect(onInputChange, 'was called times', 1);
+		});
+
+		it('should change the value when onInputChange returns a value', () => {
+			const onInputChange = sinon.stub().returns('2');
+			const instance = createControl({
+				onInputChange,
+			});
+			typeSearchText('1');
+			return expect(filterInputNode.value, 'to equal', '2');
 		});
 	});
 
