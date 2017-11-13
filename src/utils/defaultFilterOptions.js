@@ -1,7 +1,7 @@
 import stripDiacritics from './stripDiacritics';
 import trim from './trim';
 
-function renderOptions(option, filterValue, excludeOptions, props, earlyMatchRequired) {
+function getFilteredOptions(option, filterValue, excludeOptions, props, startMatchRequired) {
 	if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
 	if (props.filterOption) return props.filterOption.call(this, option, filterValue);
 	if (!filterValue) return true;
@@ -15,23 +15,13 @@ function renderOptions(option, filterValue, excludeOptions, props, earlyMatchReq
 		if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
 		if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
 	}
-	if(earlyMatchRequired) {
-		return props.matchPos === 'start' ? (
-			(props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
-			(props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
-		) : (
-			(props.matchProp !== 'label' && valueTest.indexOf(filterValue) == 0) ||
-			(props.matchProp !== 'value' && labelTest.indexOf(filterValue) == 0)
-		);
-	} else {
-		return props.matchPos === 'start' ? (
-			(props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
-			(props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
-		) : (
-			(props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
-			(props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
-		);
-	}
+	return (props.matchPos === 'start' || startMatchRequired) ? (
+		(props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
+		(props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
+	) : (
+		(props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0) ||
+		(props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
+	);
 }
 
 function filterOptions (options, filterValue, excludeOptions, props) {
@@ -51,13 +41,13 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 
 	if (excludeOptions) excludeOptions = excludeOptions.map(i => i[props.valueKey]);
 	var optionsStartWithFilterValue = options.filter(function (option) {
-		return renderOptions(option, filterValue, excludeOptions, props, true)
+		return getFilteredOptions(option, filterValue, excludeOptions, props, true);
 	});
 	var optionsContainFilterValue = options.filter(function (option) {
-		return renderOptions(option, filterValue, excludeOptions, props);
+		return getFilteredOptions(option, filterValue, excludeOptions, props);
 	});
-	return props.preferEarlyMatch ?
-		optionsStartWithFilterValue.concat(optionsContainFilterValue)
+	return props.preferStartMatch ?
+		optionsStartWithFilterValue.concat(optionsContainFilterValue);
 		:
 		optionsContainFilterValue;
 }
