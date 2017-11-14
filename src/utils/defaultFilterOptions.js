@@ -47,7 +47,7 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 		return getFilteredOptions(option, filterValue, excludeOptions, props);
 	});
 	return props.preferStartMatch ?
-		optionsStartWithFilterValue.concat(optionsContainFilterValue);
+		optionsStartWithFilterValue.concat(optionsContainFilterValue)
 		:
 		optionsContainFilterValue;
 }
