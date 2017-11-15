@@ -1,7 +1,7 @@
 import stripDiacritics from './stripDiacritics';
 import trim from './trim';
 
-function getFilteredOptions(option, filterValue, excludeOptions, props, startMatchRequired, excludeStartMatch) {
+function getFilteredOptions(option, filterValue, excludeOptions, props, startMatchRequired) {
 	if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
 	if (props.filterOption) return props.filterOption.call(this, option, filterValue);
 	if (!filterValue) return true;
@@ -15,12 +15,12 @@ function getFilteredOptions(option, filterValue, excludeOptions, props, startMat
 		if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
 		if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
 	}
-	return (props.matchPos === 'start' || startMatchRequired) ? (
+	return startMatchRequired ? (
 		(props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue) ||
 		(props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue)
 	) : (
-		(props.matchProp !== 'label' && (excludeStartMatch ? valueTest.indexOf(filterValue) > 0 : valueTest.indexOf(filterValue) >= 0)) ||
-		(props.matchProp !== 'value' && (excludeStartMatch ? labelTest.indexOf(filterValue) > 0 : labelTest.indexOf(filterValue) >= 0))
+		(props.matchProp !== 'label' && valueTest.indexOf(filterValue) > 0) ||
+		(props.matchProp !== 'value' && labelTest.indexOf(filterValue) > 0)
 	);
 }
 
@@ -44,12 +44,9 @@ function preferableFilterOptions (options, filterValue, excludeOptions, props) {
 		return getFilteredOptions(option, filterValue, excludeOptions, props, true);
 	});
 	var optionsContainFilterValue = options.filter(function (option) {
-		return getFilteredOptions(option, filterValue, excludeOptions, props, null, props.preferStartMatch);
+		return getFilteredOptions(option, filterValue, excludeOptions, props);
 	});
-	return props.preferStartMatch ?
-		optionsStartWithFilterValue.concat(optionsContainFilterValue)
-		:
-		optionsContainFilterValue;
+	return optionsStartWithFilterValue.concat(optionsContainFilterValue);
 }
 
 export default preferableFilterOptions;

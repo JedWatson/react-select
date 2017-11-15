@@ -927,11 +927,11 @@ describe('Select', () => {
 				});
 			});
 
-			describe('with preferStartMatch=true and matchProp=value', () => {
+			describe('with matchPos=preferStart and matchProp=value', () => {
 
 				beforeEach(() => {
 					instance = createControl({
-						preferStartMatch: true,
+						matchPos: 'preferStart',
 						matchProp: 'value',
 						options: [
 							{ value: 'abc', label: 'AaBbCc' },
@@ -962,11 +962,11 @@ describe('Select', () => {
 				});
 			});
 
-			describe('with preferStartMatch=true and matchProp=label', () => {
+			describe('with matchPos=preferStart and matchProp=label', () => {
 
 				beforeEach(() => {
 					instance = createControl({
-						preferStartMatch: true,
+						matchPos: 'preferStart',
 						matchProp: 'label',
 						options: [
 							{ value: 'abc', label: 'ABC' },
