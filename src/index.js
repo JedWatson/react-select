@@ -5,6 +5,11 @@ import Creatable from './Creatable';
 import Value from './Value';
 import Option from './Option';
 
+import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import defaultArrowRenderer from './utils/defaultArrowRenderer';
+import defaultClearRenderer from './utils/defaultClearRenderer';
+import defaultFilterOptions from './utils/defaultFilterOptions';
+
 Select.Async = Async;
 Select.AsyncCreatable = AsyncCreatable;
 Select.Creatable = Creatable;
@@ -17,5 +22,9 @@ export {
 	AsyncCreatable,
 	Creatable,
 	Value,
-	Option
+	Option,
+	defaultMenuRenderer,
+	defaultArrowRenderer,
+	defaultClearRenderer,
+	defaultFilterOptions
 };
