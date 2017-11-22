@@ -4028,6 +4028,57 @@ describe('Select', () => {
 		});
 	});
 
+	describe('when keepCursorAtEnd=true', () => {
+			it('should have isPseudoFocused return a falsy value', () => {
+				const instance = createControl({
+						options: [1,2,3],
+						keepCursorAtEnd: true,
+				});
+				expect(instance.state.isPseudoFocused, 'to be false');
+			});
+
+			it('should have an inputValue equal to the option label if value is provided', () => {
+				const instance = createControl({
+						options: [
+							{ value: 'one', label: 'label one' },
+							{ value: 'two', label: 'label two' },
+							{ value: 'three', label: 'label three' }
+						],
+						value: 'two',
+						keepCursorAtEnd: true,
+				});
+				expect(instance.state.inputValue, 'to equal', 'label two');
+			});
+
+			it('should have an inputValue equal to empty string if multi=true', () => {
+				const instance = createControl({
+						options: [
+							{ value: 'one', label: 'label one' },
+							{ value: 'two', label: 'label two' },
+							{ value: 'three', label: 'label three' }
+						],
+						multi: true,
+						value: 'two',
+						keepCursorAtEnd: true,
+				});
+				expect(instance.state.inputValue, 'to equal', '');
+			});
+
+			it('should remove inputValue if newInputValue is length 0, and multi=false', () => {
+				const instance = createControl({
+						options: [
+							{ value: 'two', label: 'label two' },
+						],
+						multi: false,
+						value: 'two',
+						keepCursorAtEnd: true,
+				});
+				typeSearchText('');
+				expect(instance.state.inputValue, 'to equal', '');
+			});
+
+	});
+
 	describe('custom arrowRenderer option', () => {
 		it('should render the custom arrow', () => {
 			const instance = createControl({

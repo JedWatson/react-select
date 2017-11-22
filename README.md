@@ -294,7 +294,7 @@ You can manipulate the input by providing a `onInputChange` callback that return
 function cleanInput(inputValue) {
     // Strip all non-number characters from the input
     return inputValue.replace(/[^0-9]/g, "");
-}   
+}
 
 <Select
     name="form-field-name"
@@ -361,6 +361,7 @@ function onInputKeyDown(event) {
 | `instanceId` | string | increment | instance ID used internally to set html ids on elements for accessibility, specify for universal rendering |
 | `isLoading` | boolean | false | whether the Select is loading externally or not (such as options being loaded) |
 | `joinValues` | boolean | false | join multiple values into a single hidden input using the `delimiter` |
+| `keepCursorAtEnd` | boolean | false | keeps the cursor at the end of the input (for non multi selects, ignores `onBlurResetsInput` and `backspaceRemoves` for single value) |
 | `labelKey` | string | 'label' | the option property to use for the label |
 | `matchPos` | string | 'any' | (any, start) match the start or entire string when filtering |
 | `matchProp` | string | 'any' | (any, label, value) which option property to filter on |
