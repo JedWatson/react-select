@@ -24,7 +24,7 @@ class CreatableSelect extends React.Component {
 			shouldKeyDownEventCreateNewOption
 		} = this.props;
 
-		if (isValidNewOption({ label: this.inputValue })) {
+		if (isValidNewOption({ label: this.inputValue }) || onNewOptionClick) {
 			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
 			const isOptionUnique = this.isOptionUnique({ option });
 
@@ -42,7 +42,7 @@ class CreatableSelect extends React.Component {
 	}
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, promptTextCreator } = this.props;
+		const { alwaysShowNewOptionItem, filterOptions, isValidNewOption, onNewOptionClick, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -51,11 +51,11 @@ class CreatableSelect extends React.Component {
 
 		const filteredOptions = filterOptions(...params) || [];
 
-		if (isValidNewOption({ label: this.inputValue })) {
+		if (isValidNewOption({ label: this.inputValue }) || (onNewOptionClick && alwaysShowNewOptionItem)) {
 			const { newOptionCreator } = this.props;
 
 			const option = newOptionCreator({
-				label: this.inputValue,
+				label: this.inputValue || '',
 				labelKey: this.labelKey,
 				valueKey: this.valueKey
 			});
@@ -68,7 +68,7 @@ class CreatableSelect extends React.Component {
 			});
 
 			if (isOptionUnique) {
-				const prompt = promptTextCreator(this.inputValue);
+				const prompt = promptTextCreator(this.inputValue || '');
 
 				this._createPlaceholderOption = newOptionCreator({
 					label: prompt,
@@ -245,6 +245,7 @@ CreatableSelect.shouldKeyDownEventCreateNewOption = shouldKeyDownEventCreateNewO
 
 
 CreatableSelect.defaultProps = {
+	alwaysShowNewOptionItem: false,
 	filterOptions: defaultFilterOptions,
 	isOptionUnique,
 	isValidNewOption,
@@ -255,6 +256,11 @@ CreatableSelect.defaultProps = {
 };
 
 CreatableSelect.propTypes = {
+	// If there is a custom `onNewOptionClick` function, give the option
+	// to always show the new option creator for users to click before
+	// inputting anything.
+	alwaysShowNewOptionItem: PropTypes.bool,
+
 	// Child function responsible for creating the inner Select component
 	// This component can be used to compose HOCs (eg Creatable and Async)
 	// (props: Object): PropTypes.element
