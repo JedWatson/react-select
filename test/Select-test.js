@@ -63,7 +63,7 @@ describe('Select', () => {
 		return ReactDOM.findDOMNode(instance).querySelector('.Select-control');
 	};
 
-	var enterSingleCharacter = ()  =>{
+	var enterSingleCharacter = ()  => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 65, key: 'a' });
 	};
 
@@ -109,6 +109,10 @@ describe('Select', () => {
 
 	var pressHomeDown = () => {
 		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 36, key: 'Home' });
+	};
+
+	var pressSpaceBar = () => {
+		TestUtils.Simulate.keyDown(getSelectControl(instance), { keyCode: 32, key: 'Space' });
 	};
 
 	var typeSearchText = (text) => {
@@ -4274,6 +4278,48 @@ describe('Select', () => {
 			});
 		});
 	});
-
-
+	describe('spacebar functionality', () => {
+		describe('if not searchable', () => {
+			beforeEach(() => {
+				instance = createControl({
+					searchable: false,
+					simpleValue: true,
+					options: [
+						{ value: 'Two', label: 'Two' },
+						{ value: 'Three', label: 'Three' },
+						{ value: 'Twenty two', label: 'Twenty two' }
+					],
+				});
+			});
+			it('selects the focused option', () => {
+				clickArrowToOpen();
+				pressSpaceBar();
+				expect(onChange, 'was called with', 'Two');
+			});
+		});
+		describe('if searchable', () => {
+			beforeEach(() => {
+				instance = createControl({
+					searchable: true,
+					simpleValue: true,
+					options: [
+						{ value: 'Two', label: 'Two' },
+						{ value: 'Three', label: 'Three' },
+						{ value: 'Twenty two', label: 'Twenty two' }
+					],
+				});
+			});
+			it("doesn't select the focused option", () => {
+				typeSearchText('Twenty two');  // Matches label
+				pressSpaceBar();
+				expect(onChange, 'was not called');
+				// And the menu is still open
+				expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
+				expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
+					'to satisfy', [
+						expect.it('to have text', 'Twenty two')
+					]);
+			});
+		});
+	});
 });
