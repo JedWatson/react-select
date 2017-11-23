@@ -36,6 +36,7 @@
     "eslint": "^4.6.1",
     "eslint-plugin-react": "^7.3.0",
     "extract-text-webpack-plugin": "^3.0.0",
+    "gh-pages": "^1.1.0",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
@@ -82,7 +83,7 @@
     "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
     "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "publish:examples": "NODE_ENV=production nps publish",
+    "deploy": "NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register",
     "precommit": "lint-staged && yarn run test"
