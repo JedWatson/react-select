@@ -1,7 +1,11 @@
 # React-Select
 
-## New Release
+## ## v1.0.0 / 2017-11-23
 
+* reverted spacebar-selects-option behaviour for searchable selects, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2163)
+* fixed behaviour where async doesn't handle onInputChange returning a value, thanks [Anton](https://github.com/tehbi4) - [see PR](https://github.com/JedWatson/react-select/pull/2133)
+* fixed Creatable bug where the first enter keypress is ignored when `promptTextCreator` returns only the label, thanks [George Karagkiaouris](https://github.com/karaggeorge) - [see PR](https://github.com/JedWatson/react-select/pull/2140)
+* Utility functions are now exported from the es6 build, thanks [Deiru](https://github.com/Deiru2k) - [see PR](https://github.com/JedWatson/react-select/pull/2154)
 * Update aria-only class to have absolute positioning, thanks [Jacob Hilker](https://github.com/JHilker) - [see PR](https://github.com/JedWatson/react-select/pull/1243)
 * gives possibility to use ref property for Creatable, thanks [blacktemplar](https://github.com/blacktemplar) - [see PR](https://github.com/JedWatson/react-select/pull/1646)
 * Adds lint and test pre-commit hooks, thanks [carymcpoland](https://github.com/mcpolandc) - [see PR](https://github.com/JedWatson/react-select/pull/2077)
@@ -21,10 +25,10 @@
 * replace trim fn loop with regex, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2085)
 * Trim search text from beginning and the end. (fixes #1861), thanks [Serkan Ozer](https://github.com/serkanozer) - [see PR](https://github.com/JedWatson/react-select/pull/1862)
 * Add variable for focused input background, thanks [Aron Strandberg](https://github.com/aronstrandberg) - [see PR](https://github.com/JedWatson/react-select/pull/1998)
-* Added id in the input select, thanks [Jed Watson](https://github.com/thecreazy) - [see PR](https://github.com/JedWatson/react-select/pull/2027)
+* Added id in the input select, thanks [thecreazy](https://github.com/thecreazy) - [see PR](https://github.com/JedWatson/react-select/pull/2027)
 * adding a nvmrc file and adding coverage to eslintignore, thanks [Dave Birch](https://github.com/uxtx) - [see PR](https://github.com/JedWatson/react-select/pull/1137)
 * Updated the comment for the deleteRemoves option., thanks [Abul Dider](https://github.com/dider7) - [see PR](https://github.com/JedWatson/react-select/pull/2078)
-* implemented optional rendering of arrow, thanks [Jed Watson](https://github.com/rolandjohann) - [see PR](https://github.com/JedWatson/react-select/pull/1761)
+* implemented optional rendering of arrow, thanks [rolandjohann](https://github.com/rolandjohann) - [see PR](https://github.com/JedWatson/react-select/pull/1761)
 * Skip rendering arrow wrapper when custom arrow renderer returns falsy value, thanks [Mike Lewis](https://github.com/mtlewis) - [see PR](https://github.com/JedWatson/react-select/pull/2055)
 * do not show clear button if value is an empty string, thanks [Marie Godon](https://github.com/mariegodon) - [see PR](https://github.com/JedWatson/react-select/pull/2074)
 * Set isLoading to false if cache hit, thanks [timhwang21](https://github.com/timhwang21) - [see PR](https://github.com/JedWatson/react-select/pull/2042)
@@ -39,7 +43,7 @@
 * strip proptypes in production build (fixes #1882), thanks [Jochen Berger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/2003)
 * Support Webpack 2, Webpack 3, rollup., thanks [Matthew Schnee](https://github.com/mschnee) - [see PR](https://github.com/JedWatson/react-select/pull/2020)
 * Add missing semicolon, thanks [jochenberger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/2018)
-* autofocus --> autoFocus, thanks [Jed Watson](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2002)
+* autofocus --> autoFocus, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2002)
 * Async> cache async response regardless of req order, thanks [Timothy Hwang](https://github.com/timhwang21) - [see PR](https://github.com/JedWatson/react-select/pull/2012)
 * Make this work in preact., thanks [liaoxuezhi](https://github.com/2betop) - [see PR](https://github.com/JedWatson/react-select/pull/2013)
 * Correct release candidate version on README, thanks [Damon Aw](https://github.com/daemonsy) - [see PR](https://github.com/JedWatson/react-select/pull/2017)
