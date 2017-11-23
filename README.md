@@ -395,7 +395,7 @@ function onInputKeyDown(event) {
 | onSelectResetsInput | bool | true | whether the input value should be reset when options are selected, for `multi`
 | onValueClick | func | undefined | onClick handler for value labels: `function (value, event) {}` |
 | openOnClick | bool | true | open the options menu when the control is clicked (requires searchable = true) |
-| openOnFocus | bool | false | open the options menu when the control gets focus (requires searchable = true) |
+| openOnFocus | bool | false | open the options menu when the control gets focus |
 | optionRenderer | func | undefined | function which returns a custom way to render the options in the menu |
 | options | array | undefined | array of options |
 | placeholder | string\|node | 'Select ...' | field placeholder, displayed when there's no value |
