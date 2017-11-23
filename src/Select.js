@@ -408,9 +408,10 @@ class Select extends React.Component {
 				}
 			break;
 			case 32: // space
-				if (!this.props.searchable) {
-					event.preventDefault();
+				if (this.props.searchable) {
+					return;
 				}
+				event.preventDefault();
 				if (!this.state.isOpen) {
 					this.focusNextOption();
 					return;
