@@ -41,7 +41,7 @@
   outline: none;
   overflow: hidden;
   position: relative;
-  width: 100%;
+  max-width: 100%;
 }
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -113,7 +113,7 @@
   vertical-align: middle;
 }
 .Select-input > input {
-  width: 100%;
+  max-width: 100%;
   background: none transparent;
   border: 0 none;
   box-shadow: none;
@@ -245,7 +245,7 @@
   max-height: 200px;
   position: absolute;
   top: 100%;
-  width: 100%;
+  max-width: 100%;
   z-index: 1;
   -webkit-overflow-scrolling: touch;
 }
