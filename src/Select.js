@@ -267,13 +267,17 @@ class Select extends React.Component {
 		}
 		// If the menu isn't open, let the event bubble to the main handleMouseDown
 		if (!this.state.isOpen) {
-			return;
+			this.setState({
+				isOpen: true,
+			});
 		}
 		// prevent default event handlers
 		event.stopPropagation();
 		event.preventDefault();
 		// close the menu
-		this.closeMenu();
+		if(this.state.isOpen){
+			this.closeMenu();
+		}
 	}
 
 	handleMouseDownOnMenu (event) {
