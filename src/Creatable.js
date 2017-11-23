@@ -275,8 +275,8 @@ CreatableSelect.propTypes = {
 	// See Select.propTypes.menuRenderer
 	menuRenderer: PropTypes.any,
 
-		// Factory to create new option.
-		// ({ label: string, labelKey: string, valueKey: string }): Object
+	// Factory to create new option.
+	// ({ label: string, labelKey: string, valueKey: string }): Object
 	newOptionCreator: PropTypes.func,
 
 	// input change handler: function (inputValue) {}
@@ -291,8 +291,8 @@ CreatableSelect.propTypes = {
 	// See Select.propTypes.options
 	options: PropTypes.array,
 
-		// Creates prompt/placeholder option text.
-		// (filterText: string): string
+	// Creates prompt/placeholder option text.
+	// (filterText: string): string
 	promptTextCreator: PropTypes.func,
 
 	ref: PropTypes.func,
