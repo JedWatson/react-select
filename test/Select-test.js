@@ -4171,34 +4171,6 @@ describe('Select', () => {
 						});
 
 			});
-
-			it('updates the active descendant after a selection using space bar', () => {
-
-				return expect(wrapper,
-						'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />,
-						'with event', 'keyDown', KEY_SPACE, 'on', <div className="Select-control" />,
-						'queried for', <input role="combobox" />)
-						.then(input => {
-
-							// [ 'three', 'two', 'one' ] is now selected,
-							// therefore in-focus should be 'four'
-
-							const activeId = input.attributes['aria-activedescendant'].value;
-							expect(ReactDOM.findDOMNode(instance), 'queried for first', '#' + activeId, 'to have text', 'label four');
-						});
-
-			});
-
-			it('expands the drop down when the space bar is pressed', () => {
-
-				return expect(wrapper,
-						'with event', 'keyDown', KEY_SPACE, 'on', <div className="Select-control" />,
-						'queried for', <input role="combobox" />)
-						.then(input => {
-							expect(instance.state.focusedOption, 'to equal', { value: 'one', label: 'label one' });
-						});
-
-			});
 		});
 	});
 
