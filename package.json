@@ -90,7 +90,9 @@
   },
   "files": [
     "dist",
-    "lib"
+    "less",
+    "lib",
+    "scss"
   ],
   "keywords": [
     "combobox",
