@@ -108,6 +108,10 @@ var options = [
 ```
 Note: the `clearable` prop of the Select component should also be set to `false` to prevent allowing clearing all fields at once
 
+#### Accessibility Note
+
+Selected values aren't focus targets, which means keyboard users can't tab to them, and are restricted to removing them using backspace in order. This isn't ideal and I'm looking at other options for the future; in the meantime if you want to use a custom `valueComponent` that implements tabIndex and keyboard event handling, see #2098 for an example.
+
 ### Async options
 
 If you want to load options asynchronously, use the `Async` export and provide a `loadOptions` Function.
