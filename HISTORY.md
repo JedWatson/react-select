@@ -1,10 +1,15 @@
 # React-Select
 
-## ## v1.0.1 / 2017-11-24
+## Unreleased
+
+* more props are passed to the Option component: `focusOption`, `inputValue`, `selectValue`, `removeValue`
+* the `inputValue` is passed as the third argument to the `optionRenderer`
+
+## v1.0.1 / 2017-11-24
 
 * reintroduced source files for scss and less stylesheets into the npm package
 
-## ## v1.0.0 / 2017-11-23
+## v1.0.0 / 2017-11-23
 
 * reverted spacebar-selects-option behaviour for searchable selects, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2163)
 * fixed behaviour where async doesn't handle onInputChange returning a value, thanks [Anton](https://github.com/tehbi4) - [see PR](https://github.com/JedWatson/react-select/pull/2133)
