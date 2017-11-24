@@ -216,6 +216,15 @@ class Select extends React.Component {
 		}
 
 		if (event.target.tagName === 'INPUT') {
+			if (!this.state.isFocused) {
+				this._openAfterFocus = this.props.openOnClick;
+				this.focus();
+			} else if (!this.state.isOpen) {
+				this.setState({
+					isOpen: true,
+					isPseudoFocused: false,
+				});
+			}
 			return;
 		}
 
