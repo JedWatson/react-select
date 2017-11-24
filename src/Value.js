@@ -8,6 +8,7 @@ class Value extends React.Component {
 		super(props);
 
 		this.handleMouseDown = this.handleMouseDown.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 		this.handleTouchEndRemove = this.handleTouchEndRemove.bind(this);
 		this.handleTouchMove = this.handleTouchMove.bind(this);
@@ -25,6 +26,14 @@ class Value extends React.Component {
 		}
 		if (this.props.value.href) {
 			event.stopPropagation();
+		}
+	}
+
+	onKeyDown (event) {
+		if (event.keyCode === 13 || event.keyCode === 32) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.onRemove(event);
 		}
 	}
 
@@ -57,8 +66,10 @@ class Value extends React.Component {
 		if (this.props.disabled || !this.props.onRemove) return;
 		return (
 			<span className="Select-value-icon"
+				tabIndex="0"
 				aria-hidden="true"
 				onMouseDown={this.onRemove}
+				onKeyDown={this.onKeyDown}
 				onTouchEnd={this.handleTouchEndRemove}
 				onTouchStart={this.handleTouchStart}
 				onTouchMove={this.handleTouchMove}>
