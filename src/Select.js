@@ -220,7 +220,6 @@ class Select extends React.Component {
 		}
 
 		// prevent default event handlers
-		event.stopPropagation();
 		event.preventDefault();
 
 		// for the non-searchable select, toggle the menu
