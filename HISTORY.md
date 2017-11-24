@@ -1,5 +1,9 @@
 # React-Select
 
+## ## v1.0.1 / 2017-11-24
+
+* reintroduced source files for scss and less stylesheets into the npm package
+
 ## ## v1.0.0 / 2017-11-23
 
 * reverted spacebar-selects-option behaviour for searchable selects, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2163)
