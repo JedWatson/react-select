@@ -68,7 +68,7 @@ class App extends React.Component {
   render() {
     return (
       <Select
-        name="form-field-name",
+        name="form-field-name"
         value={this.state.value}
         onChange={this.handleChange}
         options={[
