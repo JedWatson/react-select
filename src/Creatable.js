@@ -234,8 +234,6 @@ function shouldKeyDownEventCreateNewOption ({ keyCode }) {
 		default:
 			return false;
 	}
-
-	return false;
 };
 
 	// Default prop methods
