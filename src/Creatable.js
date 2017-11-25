@@ -12,7 +12,7 @@ class CreatableSelect extends React.Component {
 		this.menuRenderer = this.menuRenderer.bind(this);
 		this.onInputKeyDown = this.onInputKeyDown.bind(this);
 		this.onInputChange = this.onInputChange.bind(this);
-		this.onOptionSelect  = this.onOptionSelect .bind(this);
+		this.onOptionSelect  = this.onOptionSelect.bind(this);
 	}
 
 	createNewOption () {
@@ -42,7 +42,7 @@ class CreatableSelect extends React.Component {
 	}
 
 	filterOptions (...params) {
-		const { filterOptions, isValidNewOption, options, promptTextCreator } = this.props;
+		const { filterOptions, isValidNewOption, promptTextCreator } = this.props;
 
 		// TRICKY Check currently selected options as well.
 		// Don't display a create-prompt for a value that's selected.
@@ -231,6 +231,8 @@ function shouldKeyDownEventCreateNewOption ({ keyCode }) {
 		case 13:  // ENTER
 		case 188: // COMMA
 			return true;
+		default:
+			return false;
 	}
 
 	return false;
