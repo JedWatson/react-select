@@ -972,6 +972,76 @@ describe('Select', () => {
 						'.Select-option');
 				});
 			});
+
+			describe('with matchPos=preferStart and matchProp=value', () => {
+
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'preferStart',
+						matchProp: 'value',
+						options: [
+							{ value: 'abc', label: 'AaBbCc' },
+							{ value: 'bcd', label: 'BbCcDd' },
+							{ value: 'efg', label: 'EeFfGg' },
+							{ value: 'cdb', label: 'CcDdBb' }
+						]
+					});
+				});
+
+				it('finds text firstly at the start of the value, then anywhere in value', () => {
+
+					typeSearchText('cd');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'CcDdBb'),
+							expect.it('to have text', 'BbCcDd')
+						]);
+				});
+
+				it('does not match text at end', () => {
+
+					typeSearchText('cg');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
+				});
+			});
+
+			describe('with matchPos=preferStart and matchProp=label', () => {
+
+				beforeEach(() => {
+					instance = createControl({
+						matchPos: 'preferStart',
+						matchProp: 'label',
+						options: [
+							{ value: 'abc', label: 'ABC' },
+							{ value: 'bcd', label: 'BCD' },
+							{ value: 'efg', label: 'EFG' },
+							{ value: 'cdb', label: 'CDB' }
+						]
+					});
+				});
+
+				it('finds text firstly at the start of the label, then anywhere in label', () => {
+
+					typeSearchText('cd');
+					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
+						'to satisfy', [
+							expect.it('to have text', 'CDB'),
+							expect.it('to have text', 'BCD')
+						]);
+				});
+
+				it('does not match text at end', () => {
+
+					typeSearchText('cg');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
+				});
+			});
 		});
 	});
 

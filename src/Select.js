@@ -11,6 +11,7 @@ import classNames from 'classnames';
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
+import preferableFilterOptions from './utils/preferableFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
 import defaultClearRenderer from './utils/defaultClearRenderer';
 
@@ -902,11 +903,21 @@ class Select extends React.Component {
 	filterOptions (excludeOptions) {
 		var filterValue = this.state.inputValue;
 		var options = this.props.options || [];
-		if (this.props.filterOptions) {
+		if (this.props.filterOptions || this.props.preferableFilterOptions) {
 			// Maintain backwards compatibility with boolean attribute
-			const filterOptions = typeof this.props.filterOptions === 'function'
-				? this.props.filterOptions
-				: defaultFilterOptions;
+			let filterOptions;
+			switch(this.props.matchPos) {
+				case 'preferStart':
+					filterOptions = (typeof this.props.preferableFilterOptions === 'function')
+						? this.props.preferableFilterOptions
+						: preferableFilterOptions;
+					break;
+				case 'start':
+				default:
+					filterOptions = (typeof this.props.filterOptions === 'function')
+						? this.props.filterOptions
+						: defaultFilterOptions;
+			}
 
 			return filterOptions(
 				options,
@@ -1134,7 +1145,7 @@ Select.propTypes = {
 	isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 	joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
 	labelKey: PropTypes.string,           // path of the label value in option objects
-	matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
+	matchPos: PropTypes.string,           // (any|start|preferStart) match the start, match entire string or firstly match the start, then the entire string when filtering
 	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
 	menuBuffer: PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 	menuContainerStyle: PropTypes.object, // optional style to apply to the menu container
@@ -1163,6 +1174,7 @@ Select.propTypes = {
 	options: PropTypes.array,             // array of options
 	pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
 	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
+	preferableFilterOptions: PropTypes.any,  // boolean to enable filtering or function to filter the options array ([options], filterString, [values]) when preferStartMatch property is true
 	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
@@ -1215,6 +1227,7 @@ Select.defaultProps = {
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',
+	preferableFilterOptions: preferableFilterOptions,
 	removeSelected: true,
 	required: false,
 	rtl: false,
