@@ -16,11 +16,11 @@ var expect = unexpected
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var TestUtils = require('react-addons-test-utils');
+var TestUtils = require('react-dom/test-utils');
 
 var OPTION = { label: 'TEST-LABEL', value: 'TEST-VALUE' };
 
-var Value = require('../src/Value');
+var Value = require('../src/Value').default;
 
 describe('Value component', function() {
 
@@ -83,13 +83,43 @@ describe('Value component', function() {
 		});
 
 		it('calls a custom callback when the anchor is clicked', function() {
-			TestUtils.Simulate.mouseDown(valueLabel);
+			TestUtils.Simulate.mouseDown(valueLabel, { button: 0 });
 			expect(props.onClick, 'was called');
 		});
 
 		it('calls a custom callback when the anchor is touched', function() {
 			TestUtils.Simulate.touchEnd(valueLabel);
 			expect(props.onClick, 'was called');
+		});
+
+		it('does not call a custom callback when the anchor is clicked and button !== 0', function() {
+			TestUtils.Simulate.mouseDown(valueLabel, { button: 2 });
+			expect(props.onClick, 'was not called');
+		});
+
+	});
+
+	describe('handleMouseDown', function() {
+		var event;
+
+		it('should stop propagation when value has href and no onClick in props', function () {
+			props = {
+				value: { href: '1' },
+			};
+			event = { stopPropagation: sinon.spy() };
+			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			value.handleMouseDown(event);
+			expect(event.stopPropagation, 'was called once');
+		});
+
+		it('should return when value does not have href and no onClick in props', function () {
+			props = {
+				value: OPTION,
+			};
+			event = { stopPropagation: sinon.spy() };
+			value = TestUtils.renderIntoDocument(<Value {...props}>{OPTION.label}</Value>);
+			value.handleMouseDown(event);
+			expect(event.stopPropagation, 'was not called');
 		});
 
 	});

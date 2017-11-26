@@ -14,7 +14,7 @@
 	background-color: @select-input-bg;
 	border: 1px solid @select-input-border-color;
 	border-top-color: mix(@select-input-bg, @select-input-border-color, 50%);
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: @select-menu-box-shadow;
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: @select-menu-max-height;
@@ -48,7 +48,14 @@
 		.border-bottom-radius( @select-input-border-radius );
 	}
 
+	&.is-selected {
+		background-color: @select-option-selected-bg-fb;  /* Fallback color for IE 8 */
+		background-color: @select-option-selected-bg;
+		color: @select-option-selected-color;
+	}
+
 	&.is-focused {
+		background-color: @select-option-focused-bg-fb;  /* Fallback color for IE 8 */
 		background-color: @select-option-focused-bg;
 		color: @select-option-focused-color;
 	}

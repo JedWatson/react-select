@@ -1,5 +1,235 @@
 # React-Select
 
+## Unreleased
+
+* more props are passed to the Option component: `focusOption`, `inputValue`, `selectValue`, `removeValue`
+* the `inputValue` is passed as the third argument to the `optionRenderer`
+
+## v1.0.1 / 2017-11-24
+
+* reintroduced source files for scss and less stylesheets into the npm package
+
+## v1.0.0 / 2017-11-23
+
+* reverted spacebar-selects-option behaviour for searchable selects, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2163)
+* fixed behaviour where async doesn't handle onInputChange returning a value, thanks [Anton](https://github.com/tehbi4) - [see PR](https://github.com/JedWatson/react-select/pull/2133)
+* fixed Creatable bug where the first enter keypress is ignored when `promptTextCreator` returns only the label, thanks [George Karagkiaouris](https://github.com/karaggeorge) - [see PR](https://github.com/JedWatson/react-select/pull/2140)
+* Utility functions are now exported from the es6 build, thanks [Deiru](https://github.com/Deiru2k) - [see PR](https://github.com/JedWatson/react-select/pull/2154)
+* Update aria-only class to have absolute positioning, thanks [Jacob Hilker](https://github.com/JHilker) - [see PR](https://github.com/JedWatson/react-select/pull/1243)
+* gives possibility to use ref property for Creatable, thanks [blacktemplar](https://github.com/blacktemplar) - [see PR](https://github.com/JedWatson/react-select/pull/1646)
+* Adds lint and test pre-commit hooks, thanks [carymcpoland](https://github.com/mcpolandc) - [see PR](https://github.com/JedWatson/react-select/pull/2077)
+* Disable some browser-specific behaviours that break the input, thanks [Jed Watson](https://github.com/JedWatson) - [see PR](https://github.com/JedWatson/react-select/pull/2101)
+* onOpen: run after dom has rendered, thanks [Karl-Aksel Puulmann](https://github.com/macobo) - [see PR](https://github.com/JedWatson/react-select/pull/#1756)
+* fix not clearing when given invalid values, from #1756, thanks [Mário][https://github.com/ticklemynausea] - [see PR](https://github.com/JedWatson/react-select/pull/2100)
+* Exports Option Component, thanks [Erkelens, Jan Paul](https://github.com/jperkelens) - [see PR](https://github.com/JedWatson/react-select/pull/2097)
+* Fix/numeric multi select, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2086)
+* removeSelected prop (round 2), for optionally keeping selected values in dropdown, thanks [Jed Watson](https://github.com/banderson) - [see PR](https://github.com/JedWatson/react-select/pull/1891)
+* pass removeValue() and always pass valueArray, thanks [kcliu](https://github.com/kcliu) - [see PR](https://github.com/JedWatson/react-select/pull/1850)
+* Accessibility Enhancements - Aria tags, Space/Enter keys, thanks [sushmabadam](https://github.com/sushmabadam) - [see PR](https://github.com/JedWatson/react-select/pull/1428)
+* added rtl support, thanks [Dekel](https://github.com/dekelb) - [see PR](https://github.com/JedWatson/react-select/pull/1613)
+* Add inputValue to menuRenderer, thanks [headcanon](https://github.com/chronick) - [see PR](https://github.com/JedWatson/react-select/pull/1732)
+* fix typo in handleKeyDown method, thanks [jasonchangxo](https://github.com/jasonchangxo) - [see PR](https://github.com/JedWatson/react-select/pull/2088)
+* Fix/numeric multi select, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2086)
+* expose children in AsyncCreatable.js, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2084)
+* replace trim fn loop with regex, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2085)
+* Trim search text from beginning and the end. (fixes #1861), thanks [Serkan Ozer](https://github.com/serkanozer) - [see PR](https://github.com/JedWatson/react-select/pull/1862)
+* Add variable for focused input background, thanks [Aron Strandberg](https://github.com/aronstrandberg) - [see PR](https://github.com/JedWatson/react-select/pull/1998)
+* Added id in the input select, thanks [thecreazy](https://github.com/thecreazy) - [see PR](https://github.com/JedWatson/react-select/pull/2027)
+* adding a nvmrc file and adding coverage to eslintignore, thanks [Dave Birch](https://github.com/uxtx) - [see PR](https://github.com/JedWatson/react-select/pull/1137)
+* Updated the comment for the deleteRemoves option., thanks [Abul Dider](https://github.com/dider7) - [see PR](https://github.com/JedWatson/react-select/pull/2078)
+* implemented optional rendering of arrow, thanks [rolandjohann](https://github.com/rolandjohann) - [see PR](https://github.com/JedWatson/react-select/pull/1761)
+* Skip rendering arrow wrapper when custom arrow renderer returns falsy value, thanks [Mike Lewis](https://github.com/mtlewis) - [see PR](https://github.com/JedWatson/react-select/pull/2055)
+* do not show clear button if value is an empty string, thanks [Marie Godon](https://github.com/mariegodon) - [see PR](https://github.com/JedWatson/react-select/pull/2074)
+* Set isLoading to false if cache hit, thanks [timhwang21](https://github.com/timhwang21) - [see PR](https://github.com/JedWatson/react-select/pull/2042)
+* Add aria-labels to Options, thanks [jasonchangxo](https://github.com/jasonchangxo) - [see PR](https://github.com/JedWatson/react-select/pull/2036)
+* Adds source links to each example, thanks [Damon Bauer](https://github.com/damonbauer) - [see PR](https://github.com/JedWatson/react-select/pull/2051)
+* Issue #2056: onInputChange should return modified value, thanks [Caleb Scholze](https://github.com/cscholze) - [see PR](https://github.com/JedWatson/react-select/pull/2057)
+* Remove option `addLabelText` from README and propTypes, thanks [Jannes Jeising](https://github.com/jjeising) - [see PR](https://github.com/JedWatson/react-select/pull/2040)
+* GitHub has a capital H, thanks [David Baumgold](https://github.com/singingwolfboy) - [see PR](https://github.com/JedWatson/react-select/pull/2053)
+* refactor componentWillUnmount(), thanks [riophae](https://github.com/riophae) - [see PR](https://github.com/JedWatson/react-select/pull/2064)
+* Slim down NPM package, thanks [Valentin Agachi](https://github.com/avaly) - [see PR](https://github.com/JedWatson/react-select/pull/2062)
+* Update contributing doc, thanks [Gregg Brewster](https://github.com/greggb) - [see PR](https://github.com/JedWatson/react-select/pull/2059)
+* strip proptypes in production build (fixes #1882), thanks [Jochen Berger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/2003)
+* Support Webpack 2, Webpack 3, rollup., thanks [Matthew Schnee](https://github.com/mschnee) - [see PR](https://github.com/JedWatson/react-select/pull/2020)
+* Add missing semicolon, thanks [jochenberger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/2018)
+* autofocus --> autoFocus, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2002)
+* Async> cache async response regardless of req order, thanks [Timothy Hwang](https://github.com/timhwang21) - [see PR](https://github.com/JedWatson/react-select/pull/2012)
+* Make this work in preact., thanks [liaoxuezhi](https://github.com/2betop) - [see PR](https://github.com/JedWatson/react-select/pull/2013)
+* Correct release candidate version on README, thanks [Damon Aw](https://github.com/daemonsy) - [see PR](https://github.com/JedWatson/react-select/pull/2017)
+* Fix test name, thanks [jochenberger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/2005)
+* Fixing css states to be scoped with Select selector, closes #1951., thanks [Adam Girton](https://github.com/agirton) - [see PR](https://github.com/JedWatson/react-select/pull/2000)
+* fix typo, thanks [jochenberger](https://github.com/jochenberger) - [see PR](https://github.com/JedWatson/react-select/pull/1999)
+
+## v1.0.0-rc.10 / 2017-09-13
+
+* changed; `openAfterFocus` prop has been renamed to `openOnClick`, and now defaults to `true`
+* fixed; React.PropTypes deprecation warning, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+* improved; scrolling behaviour when navigating the menu with the keyboard, thanks [boatkorachal](https://github.com/boatkorachal)
+* fixed; error with the `Async` cache when you type `"hasOwnProperty"`, thanks [SuhushinAS](https://github.com/SuhushinAS)
+
+## v1.0.0-rc.9 / 2017-09-13
+
+* fixed; clearable padding style, thanks [Minori Miyauchi](https://github.com/mmiyauchi)
+* fixed; removed use of `Object.assign`, fixes IE compatibility
+* added; new `closeOnSelect` prop (defaults to `true`) that controls whether the menu is closed when an option is selected, thanks to [Michael Elgar](https://github.com/melgar) for the original idea
+* changed; by default, the menu for multi-selects now closes when an option is selected
+* changed; `Async` component no longer always clears options when one is selected (although the menu is now closed by default). Use `closeOnSelect={false} onSelectResetsInput={false}` to leave the menu open.
+* fixed; `Async` component always called `onChange` even when it wasn't provided
+* fixed; input lag for the `Async` component when results are returned from cache
+* fixed; required was not being updated without an onChange handler
+* fixed; peer dependencies for `prop-types`, thanks [Michaël De Boey](https://github.com/MichaelDeBoey)
+* fixed; internal optimisations, thanks [Kieran Boyle](https://github.com/dysfunc)
+* added; `Value` component is now exported, thanks [Prof Gra](https://github.com/Grahack)
+* fixed; callback fired after `Async` component unmounts, thanks [Andrew Russell](https://github.com/DeadHeadRussell)
+* fixed; wrapping on Firefox in SCSS files, thanks [Michael Williamson](https://github.com/mwilliamson)
+
+## v1.0.0-rc.8 / 2017-09-12
+
+* fixed; `onMenuScrollToBottom` does not work in chrome 58.0, thanks [Simon Hartcher](https://github.com/deevus)
+* fixed; missing es6 module build for `js:next` entrypoint
+* updated; `react-input-autosize@2.0.0` including several fixes for react-select (see [changes](https://github.com/JedWatson/react-input-autosize/blob/master/HISTORY.md))
+
+## v1.0.0-rc.7 / 2017-09-11
+
+* fixed; issue with `lib` build preventing use in ES2015 environments
+
+## v1.0.0-rc.6 / 2017-09-10
+
+* fixed; changing `required` prop from `true` to `false` now works as expected, thanks [George Karagkiaouris](https://github.com/karaggeorge)
+* added; new prop `onSelectResetsInput` controls whether the input value is cleared when options are selected, thanks [David Roeca](https://github.com/davidroeca) and [Alexander Nosov](https://github.com/nosovsh)
+* fixed; tabindex parent bug fix for Edge, thanks [George Payne](https://github.com/George-A-Payne)
+* fixed; update selectize link in README.md, thanks [kerumen](https://github.com/kerumen)
+* added; standard issue template, thanks [agirton](https://github.com/agirton)
+* added; new build process using rollup and webpack. Removed grunt. thanks [gwyneplaine](https://github.com/gwyneplaine)
+* fixed; updated contributor docs with the correct node version reference [gwyneplaine](https://github.com/gwyneplaine)
+* fixed; missing method binds in Option, thanks [agirton](https://github.com/agirton)
+* fixed; converted components to use es6 classes, thanks [jochenberger](https://github.com/jochenberger)
+* fixed; console.log example in usage docs, thanks [rohmanhm](https://github.com/rohmanhm)
+* fixed; hide create option after closing menu, thanks [andreme](https://github.com/andreme)
+* fixed; remove circular reference, thanks [agirton](https://github.com/agirton)
+* fixed; readme typo, thanks [ieldanr](https:/github.com/ieldanr)
+* fixed; add missing function binds in Option component, thanks [agirton](https://github.com/agirton) and [blacktemplar](https://github.com/blacktemplar)
+* fixed; re-added fix to [#1580](https://github.com/JedWatson/react-select/issues/1580), thanks [agirton](https://github.com/agirton)
+* fixed; avoid mutating user inputs when ignoring case/accents, thanks [not-an-aardvark](https://github.com/not-an-aardvark)
+* fixed; issues synchronising options props in `Async`, thanks [cbergmiller](https://github.com/cbergmiller)
+* fixed; backspace handling for non-multi select controls, thanks [Jeremy Liberman](https://github.com/MrLeebo)
+
+## v1.0.0-rc.5 / 2017-05-25
+
+* fixed; Allow `falsey` values to be clearable, thanks [Simon Gaestel](https://github.com/sgaestel)
+* fixed; issue where Firefox would crash due to incorrect use of `aria-owns` attribute, thanks [Max Hubenthal](https://github.com/mhubenthal)
+* fixed; regression where options not using the value key couldn't be focused, thanks [Benjamin Piouffle](https://github.com/Betree)
+
+## v1.0.0-rc.4 / 2017-05-14
+
+* fixed; no more warning when using React 15.5, thanks [Adam Girton](https://github.com/agirton)
+* fixed; issue comparing objects in `getFocusableOptionIndex`, thanks [rndm2](https://github.com/rndm2)
+* fixed; missing .focus() method in `Creatable`, thanks [Anton Alexandrenok](https://github.com/the-spyke)
+* added; support for `aria-describedby` attribute, thanks [Eric Lee](https://github.com/ericj17)
+* added; `.is-clearable` className when clearable is true, thanks [Dan Diaz](https://github.com/dan-diaz)
+
+## v1.0.0-rc.3 / 2017-02-01
+
+* added; `arrowRenderer` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; child-function support to `Async` and `Creatable` components so that they can compose each other (or future HOCs), thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; `asyncCreatable` HOC that combines `Async` and `Creatable` so they can be used together, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; undocumented arguments for `menuRenderer`, thanks [Julian Krispel-Samsel](https://github.com/juliankrispel)
+* fixed; Do not focus and open menu when disabled, thanks [nhducit](https://github.com/nhducit)
+* fixed; Scrolling with arrow-keys is not working correctly, thanks [Damian Pieczynski](https://github.com/piecyk)
+* added; "select all text" functionality `Shift+Home|Del`, thanks [Damian Pieczynski](https://github.com/piecyk)
+* added; support for `boolean` values, thanks [Aaron Hardy](https://github.com/Aaronius)
+* fixed; Remove duplicated `promptTextCreator` field from readme, thanks [Jih-Chi Lee](https://github.com/jihchi)
+* fixed; Adding back ref that was removed in rc2, thanks [Martin Jujou](https://github.com/jooj123)
+* fixed; `Creatable` component doesn't allow input key down handling, thanks [Ivan Leonenko](https://github.com/IvanLeonenko)
+* added; Allow react nodes to be passed as loadingPlaceholder, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; IE8 compatibility issues, thanks [Kirill Mesnyankin](https://github.com/strayiker)
+* improved; Allow users to specify noResultsText, thanks [Daniel Heath](https://github.com/DanielHeath)
+* added; Only remove options if a loading placeholder is available, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; firefox display items in two rows due to reflow, thanks [Daniel Heath](https://github.com/DanielHeath)
+* fixed; `Creatable` readme typo, thanks [Ben](https://github.com/rockingskier)
+* fixed; explain way to implement `allowCreate` functionality with `Creatable` to readme, thanks [mayerwin](https://github.com/mayerwin)
+* added; delete key removes an item when there is no input, thanks [forum-is](https://github.com/forum-is)
+* added; `onNewOptionClick` handler for `Creatable`, thanks [Lee Siong Chan](https://github.com/leesiongchan)
+* fixed; `onInputChange` consistent for `Creatable`, thanks [Lee Siong Chan](https://github.com/leesiongchan)
+* fixed; `menuRenderer` is treated consistently between `Creatable` and `Select`, thanks [Brian Vaughn](https://github.com/bvaughn)
+* fixed; `asyncCreatable` options parsing will not parse undefined values into props, thanks [Romain Dardour](https://github.com/unity)
+* added; pass `inputProps` to `inputRenderer`, thanks [Alec Winograd](https://github.com/awinograd)
+* fixed; no exception when clearing an Async field that is not set to multi, thanks [Patrik Stutz](https://github.com/VanCoding)
+* added; allow rendering a custom clear component, thanks [Conor Hastings](https://github.com/conorhastings)
+* fixed; document `ignoreAccents`, thanks [Domenico Matteo](https://github.com/dmatteo)
+* fixed; arrowing up or down in `Select` with 0 options does not throw type error, thanks [Alex Howard](https://github.com/thezanke)
+* fixed; `Creatable` handles null children prop, thanks [Jack Coulter](https://github.com/jscinoz)
+* added; provide `isOpen` to arrowRenderer, thanks [Kuan](https://github.com/khankuan)
+* fixed; re-added the `focus()` method on `Select.Async`, thanks, [Maarten Claes](https://github.com/mcls)
+* fixed; focus the next available option after a selection, not the top option, thanks [Nicolas Raynaud](https://github.com/nraynaud)
+
+Note there has also been a breaking change to the props for the `Async` component: both `minimumInput` and `searchingText` have been removed. See #1226 for more details. Apologies for doing this in an RC release, but we had to trade off between resolving some important bugs and breaking the API, and figured it was better to do this before declaring 1.0.0 stable.
+
+
+## v1.0.0-rc.1 / 2016-09-04
+
+* fixed; reset value to `[]` when `multi=true`, thanks [Michael Williamson](https://github.com/mwilliamson)
+* added; pass index to `renderLabel` method, thanks [nhducit](https://github.com/nhducit)
+* fixed; uncontrolled to controlled component warning in React 15.3
+* fixed; props cleanup, thanks [Forbes Lindesay](https://github.com/ForbesLindesay)
+* fixed; issue where a value of the number `0` would be assumed to be no value, thanks [Hanwen Cheng](https://github.com/hanwencheng)
+* fixed; internal refs converted to callbacks instead of strings, thanks [Johnny Nguyen](https://github.com/gojohnnygo)
+* added; optional `instanceId` prop for server-side rendering, thanks [Jevin Anderson](https://github.com/JevinAnderson)
+* added; `onCloseResetsInput` prop, thanks [Frankie](https://github.com/frankievx)
+* added; `Creatable` component, replaces pre-1.0 `allowCreate` prop, thanks [Brian Vaughn](https://github.com/bvaughn)
+
+## v1.0.0-beta14 / 2016-07-17
+
+* fixed; `react-input-autosize` has been udpated to `1.1.0`, which includes fixes for the new warnings that React 15.2 logs
+* fixed; "Unknown prop `inputClassName` on <div> tag" warning, thanks [Max Stoiber](https://github.com/mxstbr)
+* fixed; Removed unnecessary `onUnfocus`, thanks [Johnny Nguyen](https://github.com/gojohnnygo)
+* added; Support for react components in `searchPromptText`, thanks [Matt](https://github.com/hellaeon)
+* fixed; focus bug on iOS, thanks [Tony deCatanzaro](https://github.com/tonydecat)
+* fixed; Async bugs with Promises, thanks [Vladimir](https://github.com/VladimirPal) and [Ian Firkin](https://github.com/lobsteropteryx)
+* fixed; `searchingText` bug, thanks [Tony deCatanzaro](https://github.com/tonydecat)
+* improved; More antive-like input behaviour, thanks [Johnny Nguyen](https://github.com/gojohnnygo)
+* fixed; Added missing unit (px) to `minWidth` attribute, thanks [Ian Witherow](https://github.com/ianwitherow)
+* added; Support for assistive technologies, thanks [Dave Brotherstone](https://github.com/bruderstein)
+* fixed; React error if `onChange` callback causes a root component to unmount, thanks [Nathan Norton](https://github.com/Xesued)
+* fixed; Open menu is now closed if `disabled` becomes true, thanks [Jason Moon](https://github.com/jsnmoon)
+* fixed; Prevent `getFocusableOptionIndex` from returning a disabled option, thanks [Brian Powers](https://github.com/brianspowers)
+* added; Home, End, Page Up/Down support, thanks [Jason Kadrmas](https://github.com/blackjk3)
+* fixed; Don't render `backspaceToRemoveMessage` if `backspaceRemoves` is set to false, thanks [Ryan Zec](https://github.com/ryanzec)
+* fixed; Issue with an outline appearing on the auto sized input, thanks [Ryan Zec](https://github.com/ryanzec)
+* fixed; Events don't propagate when `esc` is pressed, thanks [Yoshihide Jimbo](https://github.com/jmblog)
+* fixed; Update `required` prop based on nextProps on update, thanks [Matt Shwery](https://github.com/mshwery)
+* fixed; On focus check whether input ref is a real input or an input component, thanks [Peter Brant](https://github.com/pbrant) and [Greg Poole](https://github.com/gpoole)
+
+Also a big thanks to [Brian Vaughn](https://github.com/bvaughn) for his help triaging issues for this release!
+
+## v1.0.0-beta13 / 2016-05-30
+
+* added; `inputRenderer` prop, allows you to override the input component, thanks [Sean Burke](https://github.com/leftmostcat)
+* added; `openOnFocus` prop, causes the menu to always open when the select control is focused, thanks [HuysentruytRuben](https://github.com/HuysentruytRuben)
+* added; `react-virtualised-select` HOC example, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; `tabSelectsValue` prop can be set to false to prevent selection of focused option when tab is pressed, thanks [Byron Anderson](https://github.com/byronanderson)
+* added; ability to override `resetValue` when clearing the control, thanks [Alexander Luberg](https://github.com/LubergAlexander)
+* added; input can be updated with `onInputChange`, thanks [Brett DeWoody](https://github.com/brettdewoody)
+* added; Styles for .is-selected class, thanks [Danny Herran](https://github.com/dherran)
+* fixed; `noResultsText` prop type is now `stringOrNode` for Async component, thanks [Michael Groeneman](https://github.com/mgroeneman)
+* fixed; `onInputChange` is wrapped by Async component, thanks [Eric O'Connell](https://github.com/drd)
+* fixed; `scrollMenuIntoView` behaviour in IE10, thanks [Ivan Jager](https://github.com/aij)
+* fixed; isEqualNode replaced with strict equality check, thanks [Alexandre Balhier](https://github.com/abalhier)
+* fixed; issue with value object not being passed to `handleRequired`, thanks [Andrew Hite](https://github.com/andyhite)
+* fixed; the menu-outer container is no longer rendered when it does not contain anything, thanks [Kuan](https://github.com/khankuan)
+* improved; better support for IE8 in styles, thanks [Rockallite Wulf](https://github.com/rockallite)
+
+## v1.0.0-beta12 / 2016-04-02
+
+* added; `menuRenderer` method and example for effeciently rendering thousands of options, thanks [Brian Vaughn](https://github.com/bvaughn)
+* added; `optionClassName` prop, thanks [Max Tyler](https://github.com/iam4x)
+
+## v1.0.0-beta11 / 2016-03-09
+
+* updated dependencies to allow use with React 15.x
+* changed; multiple selected values are now submitted using multiple inputs, thanks [Trinh Hoang Nhu](https://github.com/james4388)
+* added; `joinValues` prop to revert the above change and submit multiple values in a single field with the delimiter
+
 ## v1.0.0-beta10 / 2016-02-23
 
 * fixed build issues with v1.0.0-beta9
@@ -299,7 +529,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 ## v0.4.2 / 2015-03-23
 
 * added; ESLint and contributing guide
-* fixed; incorrect `classnames` variable assignement in window scope
+* fixed; incorrect `classnames` variable assignment in window scope
 * fixed; all ESLint errors and warnings (except invalid JSX undefined/unused vars due to ESLint bug)
 * fixed; first option is now focused correctly, thanks [Eivind Siqveland Larsen](https://github.com/esiqveland)
 
@@ -313,7 +543,7 @@ Otherwise known as "the real 0.6.2" this includes the updated build for the last
 
 ## v0.3.5 / 2015-03-09
 
-* improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
+* improved; less/no repaint on scroll for performance wins, thanks [jsmunich](https://github.com/jsmunich)
 * added; `onBlur` and `onFocus` event handlers, thanks [Jonas Budelmann](https://github.com/cloudkite)
 * added; support for `inputProps` prop, passed to the `<input>` component, thanks [Yann Plantevin](https://github.com/YannPl)
 * changed; now using [react-component-gulp-tasks](https://github.com/JedWatson/react-component-gulp-tasks) for build

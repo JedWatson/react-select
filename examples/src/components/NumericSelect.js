@@ -1,10 +1,12 @@
 import React from 'react';
+import createClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-var ValuesAsNumbersField = React.createClass({
+var ValuesAsNumbersField = createClass({
 	displayName: 'ValuesAsNumbersField',
 	propTypes: {
-		label: React.PropTypes.string
+		label: PropTypes.string
 	},
 	getInitialState () {
 		return {
@@ -56,7 +58,7 @@ var ValuesAsNumbersField = React.createClass({
 		}
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/NumericSelect.js">(Source)</a></h3>
 				<Select
 					matchPos={this.state.matchPos}
 					matchProp={matchProp}
@@ -73,11 +75,11 @@ var ValuesAsNumbersField = React.createClass({
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchValue} onChange={this.onChangeMatchValue} />
-						<span className="checkbox-label">Match value only</span>
+						<span className="checkbox-label">Match value</span>
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchLabel} onChange={this.onChangeMatchLabel} />
-						<span className="checkbox-label">Match label only</span>
+						<span className="checkbox-label">Match label</span>
 					</label>
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" checked={this.state.matchPos === 'start'} onChange={this.onChangeMatchStart} />
