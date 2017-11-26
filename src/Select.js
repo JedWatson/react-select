@@ -108,7 +108,19 @@ class Select extends React.Component {
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
 			let focusedOptionNode = findDOMNode(this.focused);
 			let menuNode = findDOMNode(this.menu);
-			menuNode.scrollTop = focusedOptionNode.offsetTop;
+
+			const scrollTop = menuNode.scrollTop;
+			const scrollBottom = scrollTop + menuNode.offsetHeight;
+			const optionTop = focusedOptionNode.offsetTop;
+			const optionBottom = optionTop + focusedOptionNode.offsetHeight;
+
+			if (scrollTop > optionTop || scrollBottom < optionBottom) {
+				menuNode.scrollTop = focusedOptionNode.offsetTop;
+			}
+
+			// We still set hasScrolledToOption to true even if we didn't
+			// actually need to scroll, as we've still confirmed that the
+			// option is in view.
 			this.hasScrolledToOption = true;
 		} else if (!this.state.isOpen) {
 			this.hasScrolledToOption = false;
