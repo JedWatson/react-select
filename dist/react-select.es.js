@@ -579,7 +579,7 @@ var Value = function (_React$Component) {
 				this.props.children
 			) : React.createElement(
 				'span',
-				{ className: className, role: 'option', 'aria-selected': 'true', id: this.props.id },
+				{ className: className, role: 'option', 'aria-selected': 'true', id: this.props.id, title: this.props.value.value },
 				this.props.children
 			);
 		}
@@ -667,6 +667,9 @@ var Select$1 = function (_React$Component) {
 			}
 			if (this.props.autoFocus || this.props.autofocus) {
 				this.focus();
+			}
+			if (this.props.isSortable) {
+				this.props.sortableHandler(this._instancePrefix);
 			}
 		}
 	}, {
@@ -1863,7 +1866,9 @@ Select$1.propTypes = {
 	valueComponent: PropTypes.func, // value component to render
 	valueKey: PropTypes.string, // path of the label value in option objects
 	valueRenderer: PropTypes.func, // valueRenderer: function (option) {}
-	wrapperStyle: PropTypes.object // optional style to apply to the component wrapper
+	wrapperStyle: PropTypes.object, // optional style to apply to the component wrapper
+	isSortable: PropTypes.bool, // boolean to enable the select options if they could be draggable, defaults to boolean
+	sortableHandler: PropTypes.func // make options draggable
 };
 
 Select$1.defaultProps = {
@@ -1909,7 +1914,9 @@ Select$1.defaultProps = {
 	tabSelectsValue: true,
 	trimFilter: true,
 	valueComponent: Value,
-	valueKey: 'value'
+	valueKey: 'value',
+	isSortable: false,
+	sortableHandler: function sortableHandler() {}
 };
 
 var propTypes = {

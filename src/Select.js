@@ -88,6 +88,9 @@ class Select extends React.Component {
 		if (this.props.autoFocus || this.props.autofocus) {
 			this.focus();
 		}
+		if(this.props.isSortable) {
+			this.props.sortableHandler(this._instancePrefix);
+	    }
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -1169,6 +1172,8 @@ Select.propTypes = {
 	valueKey: PropTypes.string,           // path of the label value in option objects
 	valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
 	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
+	isSortable: PropTypes.bool,           // boolean to enable the select options if they could be draggable, defaults to boolean
+	sortableHandler: PropTypes.func,      // make options draggable
 };
 
 Select.defaultProps = {
@@ -1215,6 +1220,8 @@ Select.defaultProps = {
  	trimFilter: true,
 	valueComponent: Value,
 	valueKey: 'value',
+	isSortable: false,
+	sortableHandler: () => {},
 };
 
 export default Select;
