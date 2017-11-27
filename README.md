@@ -147,6 +147,10 @@ const getOptions = (input, callback) => {
 />
 ```
 
+#### Note about filtering async options
+
+The `Async` component doesn't change the default behaviour for filtering the options based on user input, but if you're already filtering the options server-side you may want to customise or disable this feature (see [filtering options](#filtering-options) below)
+
 ### Async options with Promises
 
 `loadOptions` supports Promises, which can be used in very much the same way as callbacks.
