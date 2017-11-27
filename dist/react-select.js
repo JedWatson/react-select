@@ -76,17 +76,21 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 
 function menuRenderer(_ref) {
 	var focusedOption = _ref.focusedOption,
+	    focusOption = _ref.focusOption,
+	    inputValue = _ref.inputValue,
 	    instancePrefix = _ref.instancePrefix,
 	    labelKey = _ref.labelKey,
 	    onFocus = _ref.onFocus,
+	    onOptionRef = _ref.onOptionRef,
 	    onSelect = _ref.onSelect,
 	    optionClassName = _ref.optionClassName,
 	    optionComponent = _ref.optionComponent,
 	    optionRenderer = _ref.optionRenderer,
 	    options = _ref.options,
+	    removeValue = _ref.removeValue,
+	    selectValue = _ref.selectValue,
 	    valueArray = _ref.valueArray,
-	    valueKey = _ref.valueKey,
-	    onOptionRef = _ref.onOptionRef;
+	    valueKey = _ref.valueKey;
 
 	var Option = optionComponent;
 
@@ -106,6 +110,8 @@ function menuRenderer(_ref) {
 			Option,
 			{
 				className: optionClass,
+				focusOption: focusOption,
+				inputValue: inputValue,
 				instancePrefix: instancePrefix,
 				isDisabled: option.disabled,
 				isFocused: isFocused,
@@ -117,9 +123,11 @@ function menuRenderer(_ref) {
 				optionIndex: i,
 				ref: function ref(_ref2) {
 					onOptionRef(_ref2, isFocused);
-				}
+				},
+				removeValue: removeValue,
+				selectValue: selectValue
 			},
-			optionRenderer(option, i)
+			optionRenderer(option, i, inputValue)
 		);
 	});
 }
@@ -687,7 +695,19 @@ var Select$1 = function (_React$Component) {
 			if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
 				var focusedOptionNode = reactDom.findDOMNode(this.focused);
 				var menuNode = reactDom.findDOMNode(this.menu);
-				menuNode.scrollTop = focusedOptionNode.offsetTop;
+
+				var scrollTop = menuNode.scrollTop;
+				var scrollBottom = scrollTop + menuNode.offsetHeight;
+				var optionTop = focusedOptionNode.offsetTop;
+				var optionBottom = optionTop + focusedOptionNode.offsetHeight;
+
+				if (scrollTop > optionTop || scrollBottom < optionBottom) {
+					menuNode.scrollTop = focusedOptionNode.offsetTop;
+				}
+
+				// We still set hasScrolledToOption to true even if we didn't
+				// actually need to scroll, as we've still confirmed that the
+				// option is in view.
 				this.hasScrolledToOption = true;
 			} else if (!this.state.isOpen) {
 				this.hasScrolledToOption = false;
@@ -805,11 +825,19 @@ var Select$1 = function (_React$Component) {
 			}
 
 			if (event.target.tagName === 'INPUT') {
+				if (!this.state.isFocused) {
+					this._openAfterFocus = this.props.openOnClick;
+					this.focus();
+				} else if (!this.state.isOpen) {
+					this.setState({
+						isOpen: true,
+						isPseudoFocused: false
+					});
+				}
 				return;
 			}
 
 			// prevent default event handlers
-			event.stopPropagation();
 			event.preventDefault();
 
 			// for the non-searchable select, toggle the menu
@@ -857,13 +885,17 @@ var Select$1 = function (_React$Component) {
 			}
 			// If the menu isn't open, let the event bubble to the main handleMouseDown
 			if (!this.state.isOpen) {
-				return;
+				this.setState({
+					isOpen: true
+				});
 			}
 			// prevent default event handlers
 			event.stopPropagation();
 			event.preventDefault();
 			// close the menu
-			this.closeMenu();
+			if (this.state.isOpen) {
+				this.closeMenu();
+			}
 		}
 	}, {
 		key: 'handleMouseDownOnMenu',
@@ -1243,7 +1275,6 @@ var Select$1 = function (_React$Component) {
 			if (event && event.type === 'mousedown' && event.button !== 0) {
 				return;
 			}
-			event.stopPropagation();
 			event.preventDefault();
 			this.setValue(this.getResetValue());
 			this.setState({
@@ -2177,7 +2208,6 @@ var CreatableSelect = function (_React$Component) {
 			var _props2 = this.props,
 			    filterOptions$$1 = _props2.filterOptions,
 			    isValidNewOption = _props2.isValidNewOption,
-			    options = _props2.options,
 			    promptTextCreator = _props2.promptTextCreator;
 
 			// TRICKY Check currently selected options as well.
@@ -2389,9 +2419,9 @@ function shouldKeyDownEventCreateNewOption(_ref6) {
 		case 188:
 			// COMMA
 			return true;
+		default:
+			return false;
 	}
-
-	return false;
 }
 
 // Default prop methods
