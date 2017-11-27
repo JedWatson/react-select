@@ -1,9 +1,13 @@
 # React-Select
 
-## Unreleased
+## v1.1.0 / 2017-11-28
 
-* more props are passed to the Option component: `focusOption`, `inputValue`, `selectValue`, `removeValue`
-* the `inputValue` is passed as the third argument to the `optionRenderer`
+* added; more props are passed to the Option component: `focusOption`, `inputValue`, `selectValue`, `removeValue`
+* added; the `inputValue` is passed as the third argument to the `optionRenderer`
+* fixed; issues opening the menu correctly for multiselect when `autosize={false}`
+* fixed; removed `event.stopPropagation()` from Select's `clearValue` and `onClick` handlers, thanks [Thomas Burke](https://github.com/etburke)
+* fixed; `handleMouseDownOnArrow` when `openOnClick={false}`, thanks [elias ghali](https://github.com/elghali)
+* fixed; conditional scrolling into view of focused option, thanks [Michael Lewis](https://github.com/mtlewis)
 
 ## v1.0.1 / 2017-11-24
 
