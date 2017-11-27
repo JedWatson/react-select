@@ -6,6 +6,7 @@ import Select from 'react-select';
 import './example.less';
 
 import Creatable from './components/Creatable';
+import Draggable from './components/Draggable';
 import Contributors from './components/Contributors';
 import GithubUsers from './components/GithubUsers';
 import CustomComponents from './components/CustomComponents';
@@ -30,6 +31,10 @@ ReactDOM.render(
 		<Creatable
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
+		/>
+		<Draggable
+			hint="Try to draggable these options"
+			label="Draggable option"
 		/>
 	</div>,
 	document.getElementById('example')

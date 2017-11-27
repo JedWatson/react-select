@@ -74,7 +74,7 @@ class Value extends React.Component {
 				{this.props.children}
 			</a>
 		) : (
-			<span className={className} role="option" aria-selected="true" id={this.props.id}>
+			<span className={className} role="option" aria-selected="true" id={this.props.id} title={this.props.value.value}>
 				{this.props.children}
 			</span>
 		);

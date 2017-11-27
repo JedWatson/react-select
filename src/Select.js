@@ -88,6 +88,9 @@ class Select extends React.Component {
 		if (this.props.autoFocus || this.props.autofocus) {
 			this.focus();
 		}
+		if(this.props.isSortable) {
+			this.props.sortableHandler(this._instancePrefix);
+	    }
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -1088,7 +1091,9 @@ class Select extends React.Component {
 					onTouchMove={this.handleTouchMove}
 				>
 					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
-						{this.renderValue(valueArray, isOpen)}
+						<div id={this._instancePrefix + '-draggable-wrapper'}>
+							{this.renderValue(valueArray, isOpen)}
+						</div>
 						{this.renderInput(valueArray, focusedOptionIndex)}
 					</span>
 					{removeMessage}
@@ -1179,6 +1184,8 @@ Select.propTypes = {
 	valueKey: PropTypes.string,           // path of the label value in option objects
 	valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
 	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
+	isSortable: PropTypes.bool,           // boolean to enable the select options if they could be draggable, defaults to boolean
+	sortableHandler: PropTypes.func,      // make options draggable
 };
 
 Select.defaultProps = {
@@ -1225,6 +1232,8 @@ Select.defaultProps = {
  	trimFilter: true,
 	valueComponent: Value,
 	valueKey: 'value',
+	isSortable: false,
+	sortableHandler: () => {},
 };
 
 export default Select;

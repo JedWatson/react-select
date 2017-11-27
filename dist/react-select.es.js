@@ -71,17 +71,21 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 
 function menuRenderer(_ref) {
 	var focusedOption = _ref.focusedOption,
+	    focusOption = _ref.focusOption,
+	    inputValue = _ref.inputValue,
 	    instancePrefix = _ref.instancePrefix,
 	    labelKey = _ref.labelKey,
 	    onFocus = _ref.onFocus,
+	    onOptionRef = _ref.onOptionRef,
 	    onSelect = _ref.onSelect,
 	    optionClassName = _ref.optionClassName,
 	    optionComponent = _ref.optionComponent,
 	    optionRenderer = _ref.optionRenderer,
 	    options = _ref.options,
+	    removeValue = _ref.removeValue,
+	    selectValue = _ref.selectValue,
 	    valueArray = _ref.valueArray,
-	    valueKey = _ref.valueKey,
-	    onOptionRef = _ref.onOptionRef;
+	    valueKey = _ref.valueKey;
 
 	var Option = optionComponent;
 
@@ -101,6 +105,8 @@ function menuRenderer(_ref) {
 			Option,
 			{
 				className: optionClass,
+				focusOption: focusOption,
+				inputValue: inputValue,
 				instancePrefix: instancePrefix,
 				isDisabled: option.disabled,
 				isFocused: isFocused,
@@ -112,9 +118,11 @@ function menuRenderer(_ref) {
 				optionIndex: i,
 				ref: function ref(_ref2) {
 					onOptionRef(_ref2, isFocused);
-				}
+				},
+				removeValue: removeValue,
+				selectValue: selectValue
 			},
-			optionRenderer(option, i)
+			optionRenderer(option, i, inputValue)
 		);
 	});
 }
@@ -571,7 +579,7 @@ var Value = function (_React$Component) {
 				this.props.children
 			) : React.createElement(
 				'span',
-				{ className: className, role: 'option', 'aria-selected': 'true', id: this.props.id },
+				{ className: className, role: 'option', 'aria-selected': 'true', id: this.props.id, title: this.props.value.value },
 				this.props.children
 			);
 		}
@@ -659,6 +667,9 @@ var Select$1 = function (_React$Component) {
 			}
 			if (this.props.autoFocus || this.props.autofocus) {
 				this.focus();
+			}
+			if (this.props.isSortable) {
+				this.props.sortableHandler(this._instancePrefix);
 			}
 		}
 	}, {
@@ -800,11 +811,19 @@ var Select$1 = function (_React$Component) {
 			}
 
 			if (event.target.tagName === 'INPUT') {
+				if (!this.state.isFocused) {
+					this._openAfterFocus = this.props.openOnClick;
+					this.focus();
+				} else if (!this.state.isOpen) {
+					this.setState({
+						isOpen: true,
+						isPseudoFocused: false
+					});
+				}
 				return;
 			}
 
 			// prevent default event handlers
-			event.stopPropagation();
 			event.preventDefault();
 
 			// for the non-searchable select, toggle the menu
@@ -852,13 +871,17 @@ var Select$1 = function (_React$Component) {
 			}
 			// If the menu isn't open, let the event bubble to the main handleMouseDown
 			if (!this.state.isOpen) {
-				return;
+				this.setState({
+					isOpen: true
+				});
 			}
 			// prevent default event handlers
 			event.stopPropagation();
 			event.preventDefault();
 			// close the menu
-			this.closeMenu();
+			if (this.state.isOpen) {
+				this.closeMenu();
+			}
 		}
 	}, {
 		key: 'handleMouseDownOnMenu',
@@ -1238,7 +1261,6 @@ var Select$1 = function (_React$Component) {
 			if (event && event.type === 'mousedown' && event.button !== 0) {
 				return;
 			}
-			event.stopPropagation();
 			event.preventDefault();
 			this.setValue(this.getResetValue());
 			this.setState({
@@ -1747,7 +1769,11 @@ var Select$1 = function (_React$Component) {
 					React.createElement(
 						'span',
 						{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
-						this.renderValue(valueArray, isOpen),
+						React.createElement(
+							'div',
+							{ id: this._instancePrefix + '-draggable-wrapper' },
+							this.renderValue(valueArray, isOpen)
+						),
 						this.renderInput(valueArray, focusedOptionIndex)
 					),
 					removeMessage,
@@ -1840,7 +1866,9 @@ Select$1.propTypes = {
 	valueComponent: PropTypes.func, // value component to render
 	valueKey: PropTypes.string, // path of the label value in option objects
 	valueRenderer: PropTypes.func, // valueRenderer: function (option) {}
-	wrapperStyle: PropTypes.object // optional style to apply to the component wrapper
+	wrapperStyle: PropTypes.object, // optional style to apply to the component wrapper
+	isSortable: PropTypes.bool, // boolean to enable the select options if they could be draggable, defaults to boolean
+	sortableHandler: PropTypes.func // make options draggable
 };
 
 Select$1.defaultProps = {
@@ -1886,7 +1914,9 @@ Select$1.defaultProps = {
 	tabSelectsValue: true,
 	trimFilter: true,
 	valueComponent: Value,
-	valueKey: 'value'
+	valueKey: 'value',
+	isSortable: false,
+	sortableHandler: function sortableHandler() {}
 };
 
 var propTypes = {
