@@ -1,6 +1,10 @@
 import stripDiacritics from './stripDiacritics';
 import trim from './trim';
 
+function isValid(value) {
+	return typeof (value) !== 'undefined' && value !== null && value !== '';
+}
+
 function filterOptions (options, filterValue, excludeOptions, props) {
 	if (props.ignoreAccents) {
 		filterValue = stripDiacritics(filterValue);
@@ -23,8 +27,8 @@ function filterOptions (options, filterValue, excludeOptions, props) {
 
 		var value = option[props.valueKey];
 		var label = option[props.labelKey];
-		var hasValue = typeof (value) !== 'undefined' && value !== null && value !== '';
-		var hasLabel = typeof (label) !== 'undefined' && label !== null && label !== '';
+		var hasValue = isValid(value);
+		var hasLabel = isValid(label);
 
 		if (!hasValue && !hasLabel) {
 			return false;
