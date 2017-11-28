@@ -487,7 +487,7 @@ class Select extends React.Component {
 		if (!this.props.onMenuScrollToBottom) return;
 		let { target } = event;
 		if (target.scrollHeight > target.offsetHeight && (target.scrollHeight - target.offsetHeight - target.scrollTop) <= 0) {
-			this.props.onMenuScrollToBottom();
+			this.props.onMenuScrollToBottom(this.state.inputValue);
 		}
 	}
 
