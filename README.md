@@ -186,6 +186,34 @@ const getOptions = (input) => {
 />
 ```
 
+### Async options with pagination
+
+If you want to load additional options asynchronously when the user reaches the bottom of the options menu, you can pass the `pagination` prop.
+
+This will change the signature of `loadOptions` to pass the page which needs to be loaded: `loadOptions(inputValue, page, [callback])`.
+
+An example using the `fetch` API and ES6 syntax, with an API that returns the same object as the previous example:
+
+```javascript
+import Select from 'react-select';
+
+const getOptions = (input, page) => {
+  return fetch(`/users/${input}.json?page=${page}`)
+    .then((response) => {
+      return response.json();
+    }).then((json) => {
+      return { options: json };
+    });
+}
+
+<Select.Async
+	name="form-field-name"
+	value="one"
+	loadOptions={getOptions}
+	pagination
+/>
+```
+
 ### Async options loaded externally
 
 If you want to load options asynchronously externally from the `Select` component, you can have the `Select` component show a loading spinner by passing in the `isLoading` prop set to `true`.
@@ -389,6 +417,7 @@ function onInputKeyDown(event) {
 | `optionComponent` | function | undefined | option component to render in dropdown |
 | `optionRenderer` | function | undefined | custom function to render the options in the menu |
 | `options` | array | undefined | array of options |
+| `pagination`	|	bool	|	false		|	Load more options when the menu is scrolled to the bottom. `loadOptions` is given a page: `function(input, page, [callback])`
 | `removeSelected` | boolean | true | whether the selected option is removed from the dropdown on multi selects |
 | `pageSize` | number | 5 | number of options to jump when using page up/down keys |
 | `placeholder` | string or node | 'Select ...' | field placeholder, displayed when there's no value |
