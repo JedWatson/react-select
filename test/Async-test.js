@@ -168,9 +168,9 @@ describe('Async', () => {
 
 			// TODO: How to test this?
 			setTimeout(function() {
-				expect(instance._cache.t, 'to equal', res.t.options);
-				expect(instance._cache.te, 'to equal', res.te.options);
-				expect(instance._cache.tes, 'to equal', res.tes.options);
+				expect(instance._cache.t.options, 'to equal', res.t.options);
+				expect(instance._cache.te.options, 'to equal', res.te.options);
+				expect(instance._cache.tes.options, 'to equal', res.tes.options);
 				cb();
 			}, 30);
 		});
@@ -512,6 +512,69 @@ describe('Async', () => {
 			});
 			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 1);
 			expect(asyncNode.querySelector('[role=option]').textContent, 'to equal', 'bar');
+		});
+	});
+
+	describe('with pagination', () => {
+		it('should pass the page to loadOptions', () => {
+			createControl({
+				pagination: true
+			});
+			typeSearchText('a');
+			expect(loadOptions, 'was called with', 'a', 1);
+		});
+
+		it('should not try to load a page it has cached', () => {
+			createControl({
+				pagination: true,
+				cache: {
+					a: { options: [], page: 1 },
+				}
+			});
+			typeSearchText('a');
+			expect(loadOptions, 'was not called');
+		});
+
+		it('should load the next a page it on scroll to bottom', () => {
+			createControl({
+				pagination: true,
+				cache: {
+					a: { options: [], page: 1 },
+				}
+			});
+			typeSearchText('a');
+			expect(loadOptions, 'was not called');
+			asyncInstance.onMenuScrollToBottom('a');
+			expect(loadOptions, 'was called with', 'a', 2);
+		});
+
+		it('should not load the next a page it on scroll to bottom when pagination is false', () => {
+			createControl({
+				pagination: false,
+				cache: {
+					a: { options: [], page: 1 },
+				}
+			});
+			typeSearchText('a');
+			expect(loadOptions, 'was not called');
+			asyncInstance.onMenuScrollToBottom('a');
+			expect(loadOptions, 'was not called');
+		});
+
+		it('should combine the existing options with the additional options', () => {
+			createControl({
+				pagination: true,
+				loadOptions: (value, page, cb) => {
+					cb(null, createOptionsResponse(['bar']));
+				},
+				cache: {
+					a: { options: createOptionsResponse(['foo']).options, page: 1 },
+				}
+			});
+			asyncInstance.onMenuScrollToBottom('a');
+			expect(asyncNode.querySelectorAll('[role=option]').length, 'to equal', 2);
+			expect(asyncNode.querySelectorAll('[role=option]')[0].textContent, 'to equal', 'foo');
+			expect(asyncNode.querySelectorAll('[role=option]')[1].textContent, 'to equal', 'bar');
 		});
 	});
 });

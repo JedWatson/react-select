@@ -1108,7 +1108,7 @@ var Select$1 = function (_React$Component) {
 			var target = event.target;
 
 			if (target.scrollHeight > target.offsetHeight && target.scrollHeight - target.offsetHeight - target.scrollTop <= 0) {
-				this.props.onMenuScrollToBottom();
+				this.props.onMenuScrollToBottom(this.state.inputValue);
 			}
 		}
 	}, {
@@ -1940,6 +1940,7 @@ var propTypes = {
 	onChange: PropTypes.func, // onChange handler: function (newValue) {}
 	onInputChange: PropTypes.func, // optional for keeping track of what is being typed
 	options: PropTypes.array.isRequired, // array of options
+	pagination: PropTypes.bool, // automatically load more options when the option list is scrolled to the end; default to false
 	placeholder: PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	PropTypes.string, PropTypes.node]),
 	searchPromptText: PropTypes.oneOfType([// label to prompt for search input
@@ -1957,6 +1958,7 @@ var defaultProps = {
 	ignoreCase: true,
 	loadingPlaceholder: 'Loading...',
 	options: [],
+	pagination: false,
 	searchPromptText: 'Type to search'
 };
 
@@ -1973,10 +1975,13 @@ var Async = function (_Component) {
 		_this.state = {
 			inputValue: '',
 			isLoading: false,
+			isLoadingPage: false,
+			page: 1,
 			options: props.options
 		};
 
 		_this.onInputChange = _this.onInputChange.bind(_this);
+		_this.onMenuScrollToBottom = _this.onMenuScrollToBottom.bind(_this);
 		return _this;
 	}
 
@@ -2009,7 +2014,10 @@ var Async = function (_Component) {
 		value: function loadOptions(inputValue) {
 			var _this2 = this;
 
-			var loadOptions = this.props.loadOptions;
+			var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+			var _props = this.props,
+			    loadOptions = _props.loadOptions,
+			    pagination = _props.pagination;
 
 			var cache = this._cache;
 
@@ -2018,17 +2026,26 @@ var Async = function (_Component) {
 
 				this.setState({
 					isLoading: false,
-					options: cache[inputValue]
+					options: cache[inputValue].options,
+					page: cache[inputValue].page
 				});
 
-				return;
+				if (!pagination || pagination && (cache[inputValue].page >= page || cache[inputValue].hasReachedLastPage)) {
+					return;
+				}
 			}
 
 			var callback = function callback(error, data) {
 				var options = data && data.options || [];
 
+				var hasReachedLastPage = pagination && options.length === 0;
+
+				if (page > 1) {
+					options = _this2.state.options.concat(options);
+				}
+
 				if (cache) {
-					cache[inputValue] = options;
+					cache[inputValue] = { page: page, options: options, hasReachedLastPage: hasReachedLastPage };
 				}
 
 				if (callback === _this2._callback) {
@@ -2036,6 +2053,8 @@ var Async = function (_Component) {
 
 					_this2.setState({
 						isLoading: false,
+						isLoadingPage: false,
+						page: page,
 						options: options
 					});
 				}
@@ -2044,7 +2063,14 @@ var Async = function (_Component) {
 			// Ignore all but the most recent request
 			this._callback = callback;
 
-			var promise = loadOptions(inputValue, callback);
+			var promise = void 0;
+
+			if (pagination) {
+				promise = loadOptions(inputValue, page, callback);
+			} else {
+				promise = loadOptions(inputValue, callback);
+			}
+
 			if (promise) {
 				promise.then(function (data) {
 					return callback(null, data);
@@ -2055,17 +2081,19 @@ var Async = function (_Component) {
 
 			if (this._callback && !this.state.isLoading) {
 				this.setState({
-					isLoading: true
+					isLoading: true,
+					isLoadingPage: page > this.state.page
 				});
 			}
 		}
 	}, {
 		key: 'onInputChange',
 		value: function onInputChange(inputValue) {
-			var _props = this.props,
-			    ignoreAccents = _props.ignoreAccents,
-			    ignoreCase = _props.ignoreCase,
-			    onInputChange = _props.onInputChange;
+			var _props2 = this.props,
+			    ignoreAccents = _props2.ignoreAccents,
+			    ignoreCase = _props2.ignoreCase,
+			    onInputChange = _props2.onInputChange;
+
 
 			var newInputValue = inputValue;
 
@@ -2096,10 +2124,10 @@ var Async = function (_Component) {
 	}, {
 		key: 'noResultsText',
 		value: function noResultsText() {
-			var _props2 = this.props,
-			    loadingPlaceholder = _props2.loadingPlaceholder,
-			    noResultsText = _props2.noResultsText,
-			    searchPromptText = _props2.searchPromptText;
+			var _props3 = this.props,
+			    loadingPlaceholder = _props3.loadingPlaceholder,
+			    noResultsText = _props3.noResultsText,
+			    searchPromptText = _props3.searchPromptText;
 			var _state = this.state,
 			    inputValue = _state.inputValue,
 			    isLoading = _state.isLoading;
@@ -2119,25 +2147,33 @@ var Async = function (_Component) {
 			this.select.focus();
 		}
 	}, {
+		key: 'onMenuScrollToBottom',
+		value: function onMenuScrollToBottom(inputValue) {
+			if (!this.props.pagination || this.state.isLoading) return;
+
+			this.loadOptions(inputValue, this.state.page + 1);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this3 = this;
 
-			var _props3 = this.props,
-			    children = _props3.children,
-			    loadingPlaceholder = _props3.loadingPlaceholder,
-			    multi = _props3.multi,
-			    onChange = _props3.onChange,
-			    placeholder = _props3.placeholder;
+			var _props4 = this.props,
+			    children = _props4.children,
+			    loadingPlaceholder = _props4.loadingPlaceholder,
+			    multi = _props4.multi,
+			    onChange = _props4.onChange,
+			    placeholder = _props4.placeholder;
 			var _state2 = this.state,
 			    isLoading = _state2.isLoading,
+			    isLoadingPage = _state2.isLoadingPage,
 			    options = _state2.options;
 
 
 			var props = {
 				noResultsText: this.noResultsText(),
 				placeholder: isLoading ? loadingPlaceholder : placeholder,
-				options: isLoading && loadingPlaceholder ? [] : options,
+				options: isLoading && loadingPlaceholder && !isLoadingPage ? [] : options,
 				ref: function ref(_ref) {
 					return _this3.select = _ref;
 				}
@@ -2145,7 +2181,8 @@ var Async = function (_Component) {
 
 			return children(_extends({}, this.props, props, {
 				isLoading: isLoading,
-				onInputChange: this.onInputChange
+				onInputChange: this.onInputChange,
+				onMenuScrollToBottom: this.onMenuScrollToBottom
 			}));
 		}
 	}]);
