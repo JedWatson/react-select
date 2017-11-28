@@ -848,7 +848,11 @@ describe('Select', () => {
 				{ value: 20, label: 'Twenty' },
 				{ value: 21, label: 'Twenty-one' },
 				{ value: 34, label: 'Thirty-four' },
-				{ value: 54, label: 'Fifty-four' }
+				{ value: 54, label: 'Fifty-four' },
+				{ value: null, label: null },
+				{ fish: 'salomon', type: 'inedible' },
+				{ value: 0, type: 'inedible' },
+				{ label: 0, type: 'inedible' },
 			];
 
 			describe('with matchPos=any and matchProp=any', () => {
@@ -879,6 +883,22 @@ describe('Select', () => {
 							expect.it('to have text', 'Thirty-four'),
 							expect.it('to have text', 'Fifty-four')
 						]);
+				});
+
+				it('should not match text when value and/or label are invalid for search', () => {
+					typeSearchText('ined');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
+				});
+
+				it('should not match text when value and/or label are null', () => {
+					typeSearchText('null');
+					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
+						'.Select-noresults');
+					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
+						'.Select-option');
 				});
 			});
 
