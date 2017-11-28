@@ -839,7 +839,7 @@ describe('Select', () => {
 			});
 		});
 
-		describe.only('searching', () => {
+		describe('searching', () => {
 
 			let searchOptions = [
 				{ value: 1, label: 'One' },
