@@ -336,6 +336,31 @@ function onInputKeyDown(event) {
 />
 ```
 
+### Supporting browser autofill
+
+Add the `autoComplete` prop to your select. Please notice that this feature is ignored for a Multiselect. The `autosize` prop should be set to `false` because autosize will shrink the input so the clickable area to trigger autofill suggestions does not expand over the whole select field.
+
+The value for `autoComplete` should be from [this list of possible values](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete).
+
+Usage example:
+```JS
+<Select
+	id="country"
+	multi={false} //required with autoComplete
+	autosize={false} //recommended with autoComplete
+	options={COUNTRIES}
+	simpleValue
+	name="country"
+	value={this.state.selectValue}
+	onChange={this.updateValue}
+	autoComplete="country"
+	onAutoFill={this.handleAutoFill}
+/>
+```
+
+You can use the `onAutoFill` callback to react to autofill state changes.
+This feature is currently only tested in Chrome >= v63.
+
 ### Select Props
 
 | Property | Type | Default | Description |
@@ -345,6 +370,7 @@ function onInputKeyDown(event) {
 | `aria`-labelledby | string | undefined | HTML ID of an element that should be used as the label (for assistive tech) |
 | `arrowRenderer` | function | undefined | Renders a custom drop-down arrow to be shown in the right-hand side of the select: `arrowRenderer({ onMouseDown, isOpen })`. Won't render when set to `null`
 | `autoBlur` | boolean | false | Blurs the input element after a selection has been made. Handy for lowering the keyboard on mobile devices |
+| `autoComplete` | string | undefined | Value to support autofill feature |
 | `autofocus` | boolean | undefined | deprecated; use the autoFocus prop instead |
 | `autoFocus` | boolean | undefined | autofocus the component on mount |
 | `autoload` | boolean | true | whether to auto-load the default async options set |
@@ -381,6 +407,7 @@ function onInputKeyDown(event) {
 | `multi` | boolean | undefined | multi-value input |
 | `name` | string | undefined | field name, for hidden `<input />` tag |
 | `noResultsText` | string | 'No results found' | placeholder displayed when there are no matching search results or a falsy value to hide it (can also be a react component) |
+| `onAutoFill` | function | undefined | onAutoFill handler: `function(event) {}` |
 | `onBlur` | function | undefined | onBlur handler: `function(event) {}` |
 | `onBlurResetsInput` | boolean | true | Whether to clear input on blur or not. If set to false, it only works if onCloseResetsInput is false as well. |
 | `onChange` | function | undefined | onChange handler: `function(newOption) {}` |

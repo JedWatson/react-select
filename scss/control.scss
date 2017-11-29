@@ -5,8 +5,25 @@
 @import 'spinner';
 @import 'mixins';
 
+// Animations
+@-webkit-keyframes onAutoFillStart {  from {/**/}  to {/**/}}
+@-webkit-keyframes onAutoFillCancel {  from {/**/}  to {/**/}}
+
 .Select {
 	position: relative;
+
+	input:-webkit-autofill {
+		// Expose a hook for JavaScript when autofill is shown
+		// JavaScript can capture 'animationstart' events
+		// @see https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+		animation-name: onAutoFillStart;
+	}
+
+	input:not(:-webkit-autofill) {
+		// Expose a hook for JS onAutoFillCancel
+		// JavaScript can capture 'animationstart' events
+		animation-name: onAutoFillCancel;
+	}
 
 	// disable some browser-specific behaviours that break the input
 	input::-webkit-contacts-auto-fill-button,
@@ -115,6 +132,15 @@
 		direction: rtl;
 		text-align: right;
 	}
+
+	&.is-autofilled > .Select-control,
+	&.is-autofill > .Select-control,
+	&.is-autofill.is-focused .Select-input,
+	&.is-autofill.is-focused:not(.is-open) > .Select-control {
+		@media (-webkit-min-device-pixel-ratio:0) {
+			background-color: $chrome-autofill-color;
+		}
+	}
 }
 
 // base
@@ -157,6 +183,7 @@
 	position: absolute;
 	right: 0;
 	top: 0;
+	pointer-events: none;
 
 	// crop text
 	max-width: 100%;
@@ -285,8 +312,18 @@
 	position: relative;
 }
 
+// visually hidden fields
 
-
+.Select-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
 
 // Animation
 // ------------------------------

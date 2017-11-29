@@ -46,11 +46,11 @@ const shouldShowValue = (state, props) => {
 	return false;
 };
 
-const shouldShowPlaceholder = (state, props, isOpen) => {
-	const { inputValue, isPseudoFocused, isFocused } = state;
+const shouldShowPlaceholder = (state, props, isOpen, hasValue) => {
+	const { inputValue, isPseudoFocused, isFocused, isAutoFill } = state;
 	const { onSelectResetsInput } = props;
 
-	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
+	return !inputValue && (!isAutoFill && !hasValue) || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
 };
 
 /**
@@ -77,18 +77,23 @@ class Select extends React.Component {
 	constructor (props) {
 		super(props);
 		[
+			'addAutoFillListener',
 			'clearValue',
 			'focusOption',
 			'getOptionLabel',
+			'handleAutoFillAnimation',
+			'handleInputClick',
 			'handleInputBlur',
 			'handleInputChange',
 			'handleInputFocus',
 			'handleInputValueChange',
+			'handleHiddenInputChange',
 			'handleKeyDown',
 			'handleMenuScroll',
 			'handleMouseDown',
 			'handleMouseDownOnArrow',
 			'handleMouseDownOnMenu',
+			'handleSelect',
 			'handleTouchEnd',
 			'handleTouchEndClearValue',
 			'handleTouchMove',
@@ -102,6 +107,8 @@ class Select extends React.Component {
 
 		this.state = {
 			inputValue: '',
+			isAutoFill: false,
+			isAutoFilled: false,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -126,6 +133,12 @@ class Select extends React.Component {
 		}
 		if (this.props.autoFocus || this.props.autofocus) {
 			this.focus();
+		}
+		if (this.props.autoComplete && this.props.multi) {
+			console.warn('Warning: To enable autoComplete the prop "multi" must be set to "false".');
+		}
+		if (this.isAutoCompleteEnabled()) {
+			this.addAutoFillListener();
 		}
 	}
 
@@ -200,6 +213,27 @@ class Select extends React.Component {
 
 	componentWillUnmount () {
 		this.toggleTouchOutsideEvent(false);
+	}
+
+	isAutoCompleteEnabled() {
+		return !this.props.multi && this.props.autoComplete && this.props.autoComplete !== 'off';
+	}
+
+	handleAutoFillAnimation (e) {
+		if (e.animationName === 'onAutoFillStart') {
+			this.setAutofill();
+		} else {
+			this.clearAutofill();
+			this.clearAutofilled();
+		}
+		this.props.onAutoFill && this.props.onAutoFill(e);
+	}
+
+	addAutoFillListener () {
+		// hack to receive -webkit-autofill event
+		// @see https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+		this.inputField && this.inputField.addEventListener('animationstart', this.handleAutoFillAnimation, false);
+		this.value && this.value.addEventListener('animationstart', this.handleAutoFillAnimation, false);
 	}
 
 	toggleTouchOutsideEvent (enabled) {
@@ -425,14 +459,13 @@ class Select extends React.Component {
 
 	handleInputChange (event) {
 		let newInputValue = event.target.value;
-
 		if (this.state.inputValue !== event.target.value) {
 			newInputValue = this.handleInputValueChange(newInputValue);
 		}
 
 		this.setState({
 			inputValue: newInputValue,
-			isOpen: true,
+			isOpen: !this.state.isAutoFilled,
 			isPseudoFocused: false,
 		});
 	}
@@ -447,6 +480,17 @@ class Select extends React.Component {
 		this.setState({
 			inputValue: newValue
 		});
+
+		if (this.state.isAutoFill) {
+			this.setAutofilled();
+			this.selectValue({ value: newInputValue });
+		} else {
+			this.clearAutofilled();
+			this.setState({
+				isPseudoFocused: false,
+				inputValue: newInputValue,
+			});
+		}
 	}
 
 	handleInputValueChange(newValue) {
@@ -459,6 +503,13 @@ class Select extends React.Component {
 		}
 		return newValue;
 	}
+
+	handleHiddenInputChange (e) {
+		this.selectValue({ value: e.target.value });
+		// basically a change event on the hidden field means the autoComplete function of the browser was used
+		this.setAutofilled();
+	}
+
 
 	handleKeyDown (event) {
 		if (this.props.disabled) return;
@@ -567,6 +618,11 @@ class Select extends React.Component {
 		}
 	}
 
+	handleSelect (value) {
+		this.clearAutofilled();
+		this.selectValue(value);
+	}
+
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
 	}
@@ -668,6 +724,7 @@ class Select extends React.Component {
 		this.focus();
 	}
 
+
 	clearValue (event) {
 		// if the event was triggered by a mousedown and not the primary
 		// button, ignore it.
@@ -678,12 +735,38 @@ class Select extends React.Component {
 		event.preventDefault();
 
 		this.setValue(this.getResetValue());
+		this.clearAutofilled();
 		this.setState({
 			inputValue: this.handleInputValueChange(''),
 			isOpen: false,
 		}, this.focus);
 
 		this._focusAfterClear = true;
+	}
+
+	setAutofill () {
+		this.setState({
+			isAutoFill: true,
+			isPseudoFocused: false,
+		});
+	}
+
+	clearAutofill () {
+		this.setState({
+			isAutoFill: false,
+		});
+	}
+
+	setAutofilled () {
+		this.setState({
+			isAutoFilled: true,
+		});
+	}
+
+	clearAutofilled () {
+		this.setState({
+			isAutoFilled: false,
+		});
 	}
 
 	getResetValue () {
@@ -808,10 +891,11 @@ class Select extends React.Component {
 	}
 
 	renderValue (valueArray, isOpen) {
+		const hasValue = this.getValueArray(this.props.value).length;
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
-			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
+			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen, hasValue);
 			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
@@ -844,15 +928,22 @@ class Select extends React.Component {
 					placeholder={this.props.placeholder}
 					value={valueArray[0]}
 				>
-					{renderLabel(valueArray[0])}
+					{ renderLabel(valueArray[0]) }
 				</ValueComponent>
 			);
 		}
 	}
 
+	handleInputClick(e) {
+		this._openAfterFocus = true;
+		this.focus();
+	}
+
 	renderInput (valueArray, focusedOptionIndex) {
 		const className = classNames('Select-input', this.props.inputProps.className);
 		const isOpen = this.state.isOpen;
+		const hasValue = this.getValueArray(this.props.value).length;
+		const useAutoComplete = this.isAutoCompleteEnabled() && !hasValue;
 
 		const ariaOwns = classNames({
 			[this._instancePrefix + '-list']: isOpen,
@@ -870,6 +961,7 @@ class Select extends React.Component {
 
 		const inputProps = {
 			...this.props.inputProps,
+			autoComplete: useAutoComplete ? this.props.autoComplete : null,
 			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
 			'aria-describedby': this.props['aria-describedby'],
 			'aria-expanded': '' + isOpen,
@@ -881,6 +973,7 @@ class Select extends React.Component {
 			onBlur: this.handleInputBlur,
 			onChange: this.handleInputChange,
 			onFocus: this.handleInputFocus,
+			onClick: this.handleInputClick,
 			ref: ref => this.input = ref,
 			role: 'combobox',
 			required: this.state.required,
@@ -921,12 +1014,12 @@ class Select extends React.Component {
 
 		if (this.props.autosize) {
 			return (
-				<AutosizeInput id={this.props.id} {...inputProps} minWidth="5" />
+				<AutosizeInput inputRef={ref => this.inputField = ref} id={useAutoComplete ? this.props.id : null} {...inputProps} minWidth="5" />
 			);
 		}
 		return (
 			<div className={ className } key="input-wrap">
-				<input id={this.props.id} {...inputProps} />
+				<input ref={ref => this.inputField = ref} id={useAutoComplete ? this.props.id : null}  {...inputProps} />
 			</div>
 		);
 	}
@@ -1021,7 +1114,7 @@ class Select extends React.Component {
 				labelKey: this.props.labelKey,
 				onFocus: this.focusOption,
 				onOptionRef: this.onOptionRef,
-				onSelect: this.selectValue,
+				onSelect: this.handleSelect,
 				optionClassName: this.props.optionClassName,
 				optionComponent: this.props.optionComponent,
 				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
@@ -1043,28 +1136,30 @@ class Select extends React.Component {
 	}
 
 	renderHiddenField (valueArray) {
+		const hasValue = this.getValueArray(this.props.value).length;
+		const useAutoComplete = this.isAutoCompleteEnabled();
+
 		if (!this.props.name) return;
-		if (this.props.joinValues) {
+		if (!this.props.multi || this.props.joinValues) {
 			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
 			return (
 				<input
-					disabled={this.props.disabled}
-					name={this.props.name}
+					className="Select-hidden"
+					onChange={this.handleHiddenInputChange}
 					ref={ref => this.value = ref}
-					type="hidden"
-					value={value}
-				/>
+					autoComplete={useAutoComplete ? this.props.autoComplete : 'off'}
+					name={this.props.name}
+					value={value} />
 			);
 		}
 		return valueArray.map((item, index) => (
-			<input
-				disabled={this.props.disabled}
-				key={'hidden.' + index}
-				name={this.props.name}
+			<input key={'hidden.' + index}
+				className="Select-hidden"
+				onChange={this.handleHiddenInputChange}
 				ref={'value' + index}
-				type="hidden"
-				value={stringifyValue(item[this.props.valueKey])}
-			/>
+				autoComplete={useAutoComplete ? this.props.autoComplete : 'off'}
+				name={this.props.name}
+				value={stringifyValue(item[this.props.valueKey])} />
 		));
 	}
 
@@ -1133,6 +1228,8 @@ class Select extends React.Component {
 		}
 		let className = classNames('Select', this.props.className, {
 			'has-value': valueArray.length,
+			'is-autofill': this.state.isAutoFill,
+			'is-autofilled': this.state.isAutoFilled,
 			'is-clearable': this.props.clearable,
 			'is-disabled': this.props.disabled,
 			'is-focused': this.state.isFocused,
@@ -1194,6 +1291,7 @@ Select.propTypes = {
 	'aria-labelledby': PropTypes.string,  // html id of an element that should be used as the label (for assistive tech)
 	arrowRenderer: PropTypes.func,        // create the drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
+	autoComplete: PropTypes.string,       // support for form auto completion
 	autoFocus: PropTypes.bool,            // autofocus the component on mount
 	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
 	autosize: PropTypes.bool,             // whether to enable autosizing or not
@@ -1229,6 +1327,7 @@ Select.propTypes = {
 	multi: PropTypes.bool,                // multi-value input
 	name: PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
 	noResultsText: stringOrNode,          // placeholder displayed when there are no matching search results
+	onAutoFill: PropTypes.func,           // fires when autofill state changed
 	onBlur: PropTypes.func,               // onBlur handler: function (event) {}
 	onBlurResetsInput: PropTypes.bool,    // whether input is cleared on blur
 	onChange: PropTypes.func,             // onChange handler: function (newValue) {}

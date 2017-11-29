@@ -73,3 +73,6 @@ $select-item-hover-bg:              darken($select-item-bg, 5%) !default;
 $select-item-disabled-color:        #333 !default;
 $select-item-disabled-bg:           #fcfcfc !default;
 $select-item-disabled-border-color: darken($select-item-disabled-bg, 10%) !default;
+
+// browser specific
+$chrome-autofill-color: #faffbd; // simulate Chrome's native autofill styling

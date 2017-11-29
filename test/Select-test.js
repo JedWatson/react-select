@@ -26,7 +26,7 @@ var Select = require('../src').default;
 
 // The displayed text of the currently selected item, when items collapsed
 var DISPLAYED_SELECTION_SELECTOR = '.Select-value';
-var FORM_VALUE_SELECTOR = '.Select > input';
+var FORM_VALUE_SELECTOR = '.Select-hidden';
 var PLACEHOLDER_SELECTOR = '.Select-placeholder';
 
 var ARROW_UP = { keyCode: 38, key: 'ArrowUp' };
@@ -64,7 +64,11 @@ describe('Select', () => {
 		return ReactDOM.findDOMNode(instance).querySelector('.Select-control');
 	};
 
-	var enterSingleCharacter = ()  => {
+	var getHiddenInput = (instane) => {
+		return ReactDOM.findDOMNode(instance).querySelector(FORM_VALUE_SELECTOR);
+	};
+
+	var enterSingleCharacter = ()  =>{
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 65, key: 'a' });
 	};
 
@@ -118,6 +122,14 @@ describe('Select', () => {
 
 	var typeSearchText = (text) => {
 		TestUtils.Simulate.change(searchInputNode, { target: { value: text } });
+	};
+
+	var simulateAutoFill = (text) => {
+		const hiddenInput = getHiddenInput(instance);
+		if (!hiddenInput) {
+			throw new Error('Can\'t simulateAutoFill, hiddenInput doesn\'t exist');
+		}
+		TestUtils.Simulate.change(hiddenInput, { target: { value: text } });
 	};
 
 	var clickArrowToOpen = () => {
@@ -631,6 +643,51 @@ describe('Select', () => {
 			typeSearchText('Test');
 			const displayedValue = ReactDOM.findDOMNode(instance).querySelector('.Select-input input').value;
 			expect(displayedValue, 'to equal', 'foo');
+		});
+	});
+
+	describe('with autoComplete', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 0, label: 'Zero' },
+				{ value: 1, label: 'One' },
+				{ value: 2, label: 'Two' },
+				{ value: 3, label: 'Three' }
+			];
+
+			wrapper = createControlWithWrapper({
+				value: null,
+				autoComplete: 'test',
+				multi: false,
+				name: 'field',
+				options: options,
+				simpleValue: true,
+			});
+		});
+
+		it('calls onChange with the autofilled value', () => {
+			simulateAutoFill(3);
+			expect(onChange, 'was called with', 3);
+		});
+
+		it('changes the state on autofill', () => {
+			simulateAutoFill(3);
+			expect(instance.state.isAutoFilled, 'to be', true);
+		});
+
+		it('adds a class on autofill', () => {
+			simulateAutoFill(3);
+			expect(ReactDOM.findDOMNode(instance),
+			'to have attributes', {
+				class: 'is-autofilled'
+			});
+		});
+
+		it('adds the autoComplete attribute to the hidden input', () => {
+			expect(getHiddenInput(instance),
+			'to have attributes', {
+				autocomplete: 'test'
+		  });
 		});
 	});
 
