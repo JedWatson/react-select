@@ -101,6 +101,10 @@ class Select extends React.Component {
 			// Used to be required but it's not any more
 			this.setState({ required: false });
 		}
+
+		if (this.state.inputValue && this.props.value !== nextProps.value) {
+			this.setState({ inputValue: this.handleInputValueChange('') });
+		}
 	}
 
 	componentDidUpdate (prevProps, prevState) {
