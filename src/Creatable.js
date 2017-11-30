@@ -201,6 +201,10 @@ function defaultChildren (props) {
 };
 
 function isOptionUnique ({ option, options, labelKey, valueKey }) {
+	if (!options || !options.length) {
+		return true;
+	}
+	
 	return options
 		.filter((existingOption) =>
 			existingOption[labelKey] === option[labelKey] ||
