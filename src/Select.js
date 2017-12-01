@@ -153,6 +153,12 @@ class Select extends React.Component {
 			const handler = this.state.isOpen ? this.props.onOpen : this.props.onClose;
 			handler && handler();
 		}
+
+		// let the input have focus as current code does not close menu on clicking outside on the body
+		// with focus user can perform all the actions and get more control over closing the menu
+		if(this.state.isOpen){
+			this.focus();
+		}
 	}
 
 	componentWillUnmount () {
@@ -350,7 +356,16 @@ class Select extends React.Component {
 		}
 
 		if (this.props.onBlur) {
-			this.props.onBlur(event);
+			// allow onBlur to decide to close the menu or keep it open
+			// this will allow tether users to take control of closing the menu on their conditions
+			// this fix is useful when consumer is using tether and avoiding closing menu if you drag the scroll bar in IE
+			const allowBlur = this.props.onBlur(event);
+
+			// explicit check for false value to avoid break in code
+			if(allowBlur === false){
+				this.focus();
+				return;
+			}
 		}
 		var onBlurredState = {
 			isFocused: false,
