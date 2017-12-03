@@ -69,7 +69,7 @@ class App extends React.Component {
     return (
       <Select
         name="form-field-name"
-        value={this.state.value}
+        value={this.state.selectedOption.value}
         onChange={this.handleChange}
         options={[
           { value: 'one', label: 'One' },
