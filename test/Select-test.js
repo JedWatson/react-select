@@ -3172,6 +3172,36 @@ describe('Select', () => {
 			});
 		});
 
+		describe('option onBlur returns non false value', () => {
+			it('menu should be closed', () => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlur: (e) => {
+						return true;
+					}
+				});
+
+				clickArrowToOpen();
+				instance.handleInputBlur();
+				expect( instance.state.isOpen, 'to be false');
+			});
+		});
+
+		describe('option onBlur returns false', () => {
+			it('menu must remain open', () => {
+				instance = createControl({
+					options: defaultOptions,
+					onBlur: (e) => {
+						return false;
+					}
+				});
+
+				clickArrowToOpen();
+				instance.handleInputBlur();
+				expect( instance.state.isOpen, 'to be true');
+			});
+		});
+
 		describe('onFocus', () => {
 
 			var onFocus;
