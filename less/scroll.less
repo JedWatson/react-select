@@ -1,0 +1,65 @@
+//Custom scrollbar
+
+.clipper, .content__scrolling {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+
+}
+.clipper {
+  width: 100%;
+}
+.content__scrolling {
+  max-width: 100%;
+}
+.scroller {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  flex: 1 1 auto;
+  height: calc(@select-menu-max-height - 2px);
+  border-bottom: 1px solid #333;
+}
+
+.track {
+  opacity: 0;
+  position: absolute;
+  z-index: 3;
+  top: 2px;
+  bottom: 2px;
+  right: 6px;
+  width: 0;
+}
+.clipper .track, .content__scrolling .track, .notification__scrolling .track {
+  opacity: 1;
+}
+.bar {
+  position: absolute;
+  z-index: 1;
+  width: 4px;
+  border-radius: 3px;
+  background: #9195d6;
+  opacity: 0;
+  transition: .1s opacity .4s linear;
+  pointer-events: auto;
+}
+/* hide default chrome scrollbar */
+.scroller::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.clipper .bar:hover, .clipper._scrolling .bar {
+  transition-duration: 0s;
+  transition-delay: 0s;
+  opacity: .5;
+}
+.content__scrolling .bar:hover, .content__scrolling._scrolling .bar {
+  transition-duration: 0s;
+  transition-delay: 0s;
+  opacity: .5;
+}
+
+.notification__scrolling .bar:hover, .notification__scrolling._scrolling .bar {
+  opacity: 1;
+}
