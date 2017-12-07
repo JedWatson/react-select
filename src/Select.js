@@ -237,6 +237,7 @@ class Select extends React.Component {
 					isPseudoFocused: false,
 				});
 			}
+
 			return;
 		}
 
@@ -259,6 +260,8 @@ class Select extends React.Component {
 			this.focus();
 
 			let input = this.input;
+			let toOpen = true;
+
 			if (typeof input.getInput === 'function') {
 				// Get the actual DOM input if the ref is an <AutosizeInput /> component
 				input = input.getInput();
@@ -267,9 +270,14 @@ class Select extends React.Component {
 			// clears the value so that the cursor will be at the end of input when the component re-renders
 			input.value = '';
 
+			if (this._focusAfterClear) {
+				toOpen = false;
+				this._focusAfterClear = false;
+			}
+
 			// if the input is focused, ensure the menu is open
 			this.setState({
-				isOpen: true,
+				isOpen: toOpen,
 				isPseudoFocused: false,
 			});
 		} else {
@@ -285,15 +293,18 @@ class Select extends React.Component {
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
+
 		// If the menu isn't open, let the event bubble to the main handleMouseDown
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
 			});
 		}
+
 		// prevent default event handlers
 		event.stopPropagation();
 		event.preventDefault();
+
 		// close the menu
 		if(this.state.isOpen){
 			this.closeMenu();
@@ -306,6 +317,7 @@ class Select extends React.Component {
 		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
 			return;
 		}
+
 		event.stopPropagation();
 		event.preventDefault();
 
@@ -331,15 +343,21 @@ class Select extends React.Component {
 
 	handleInputFocus (event) {
 		if (this.props.disabled) return;
-		var isOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+
+		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
+		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
+		
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
+
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen,
+			isOpen: toOpen,
 		});
+
 		this._openAfterFocus = false;
+		this._focusAfterClear = false;
 	}
 
 	handleInputBlur (event) {
@@ -618,12 +636,16 @@ class Select extends React.Component {
 		if (event && event.type === 'mousedown' && event.button !== 0) {
 			return;
 		}
+
 		event.preventDefault();
+
 		this.setValue(this.getResetValue());
 		this.setState({
 			isOpen: false,
 			inputValue: this.handleInputValueChange(''),
 		}, this.focus);
+
+		this._focusAfterClear = true;
 	}
 
 	getResetValue () {

@@ -2771,6 +2771,7 @@ describe('Select', () => {
 				expect(options, 'to have length', 2);
 			});
 		});
+		
 		describe('empty filterOptions function', () => {
 
 			beforeEach(() => {
@@ -3235,6 +3236,42 @@ describe('Select', () => {
 					options: defaultOptions,
 					openOnFocus: false,
 				});
+				expect(instance.state.isOpen, 'to be falsy');
+			});
+		});
+
+		describe('clearValues', () => {
+			let instance = null;
+			const preventDefault = sinon.spy();
+			const event = {
+				'preventDefault': preventDefault,
+				'type': 'mousedown', 
+				'button': 0 
+			};
+
+			beforeEach(() => {
+				instance = createControl({
+					options: defaultOptions,
+					multi: true,
+					openOnFocus: true,
+					value: ['two', 'one']
+				});
+			});
+						
+			it('after clearValue called, menu shall remain closed', () => {
+				
+				instance.clearValue(event);
+
+				expect(instance.state.isOpen, 'to be falsy');
+				expect(instance._focusAfterClear, 'to be true');
+				expect(preventDefault, 'was called once');
+			});
+
+			it('click on Clear button, menu shall remain closed', () => {
+
+				const domNode = ReactDOM.findDOMNode(instance).querySelector('.Select-clear-zone');
+
+				TestUtils.Simulate.mouseDown(domNode, event);
 				expect(instance.state.isOpen, 'to be falsy');
 			});
 		});
