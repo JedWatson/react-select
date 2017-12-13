@@ -102,7 +102,7 @@ class Select extends React.Component {
 			this.setState({ required: false });
 		}
 
-		if (this.state.inputValue && this.props.value !== nextProps.value) {
+		if (this.state.inputValue && this.props.value !== nextProps.value && this.props.onSelectResetsInput) {
 			this.setState({ inputValue: this.handleInputValueChange('') });
 		}
 	}
@@ -565,6 +565,7 @@ class Select extends React.Component {
 			this.hasScrolledToOption = false;
 		}
 		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
+		console.log(this.props.onSelectResetsInput, this.state.inputValue, updatedValue);
 		if (this.props.multi) {
 			this.setState({
 				focusedIndex: null,
