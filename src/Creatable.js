@@ -26,7 +26,7 @@ class CreatableSelect extends React.Component {
 
 		if (isValidNewOption({ label: this.inputValue })) {
 			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
-			const isOptionUnique = this.isOptionUnique({ option });
+			const isOptionUnique = this.isOptionUnique({ option, options });
 
 			// Don't add the same option twice.
 			if (isOptionUnique) {
@@ -201,6 +201,10 @@ function defaultChildren (props) {
 };
 
 function isOptionUnique ({ option, options, labelKey, valueKey }) {
+	if (!options || !options.length) {
+		return true;
+	}
+	
 	return options
 		.filter((existingOption) =>
 			existingOption[labelKey] === option[labelKey] ||
