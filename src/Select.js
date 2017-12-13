@@ -565,7 +565,6 @@ class Select extends React.Component {
 			this.hasScrolledToOption = false;
 		}
 		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
-		console.log(this.props.onSelectResetsInput, this.state.inputValue, updatedValue);
 		if (this.props.multi) {
 			this.setState({
 				focusedIndex: null,

@@ -2129,6 +2129,66 @@ describe('Select', () => {
 
 	});
 
+	describe('with multi=true and onSelectResetsInput=false', () => {
+		it('should have retained inputValue after accepting selection', () => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'four', label: 'Four' }
+			];
+
+			// Render an instance of the component
+			wrapper = createControlWithWrapper({
+				value: '',
+				options: options,
+				multi: true,
+				closeOnSelect: false,
+				removeSelected: false,
+				onSelectResetsInput: false
+			});
+
+			instance.setState({
+				isFocused: true
+			});
+
+			clickArrowToOpen();
+			typeSearchText('two');
+			pressEnterToAccept();
+			setValueProp('two'); // trigger componentWillReceiveProps
+
+			expect(instance.state.inputValue, 'to equal', 'two');
+		});
+
+		it('should have reset the inputValue after accepting selection', () => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' },
+				{ value: 'four', label: 'Four' }
+			];
+
+			// Render an instance of the component
+			wrapper = createControlWithWrapper({
+				value: '',
+				options: options,
+				multi: true,
+				closeOnSelect: false,
+				removeSelected: false
+			});
+
+			instance.setState({
+				isFocused: true
+			});
+
+			clickArrowToOpen();
+			typeSearchText('two');
+			pressEnterToAccept();
+
+			expect(instance.state.inputValue, 'to equal', '');
+		});
+	});
+
 	describe('with removeSelected=false', () => {
 		beforeEach(() => {
 			options = [
