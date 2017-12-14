@@ -83,9 +83,9 @@
     "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
     "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "deploy": "NODE_ENV=production nps publish",
+    "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register",
+    "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register",
     "precommit": "lint-staged && yarn run test"
   },
   "files": [
