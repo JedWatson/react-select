@@ -347,7 +347,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -579,8 +579,8 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
-		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 		if (this.props.multi) {
+		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
 				focusedIndex: null,
 				inputValue: this.handleInputValueChange(updatedValue),
@@ -594,6 +594,7 @@ class Select extends React.Component {
 				}
 			});
 		} else {
+			const updatedValue = '';
 			this.setState({
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
