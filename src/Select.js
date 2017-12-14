@@ -525,7 +525,7 @@ class Select extends React.Component {
 	 * @param {Object}				nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
-	getValueArray (value, nextProps) {
+	getValueArray (value, nextProps = undefined) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
@@ -538,7 +538,7 @@ class Select extends React.Component {
 			}
 			return value.map(value => this.expandValue(value, props)).filter(i => i);
 		}
-		var expandedValue = this.expandValue(value, props);
+		const expandedValue = this.expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
 	}
 
