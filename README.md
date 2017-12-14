@@ -26,7 +26,7 @@ You can then import react-select and its styles in your application as follows:
 
 ```js
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import '!style-loader!css-loader!react-select/dist/react-select.css';
 ```
 
 You can also use the standalone UMD build by including `dist/react-select.js` and `dist/react-select.css` in your page. If you do this you'll also need to include the dependencies. For example:
