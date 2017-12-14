@@ -522,7 +522,7 @@ class Select extends React.Component {
 	/**
 	 * Turns a value into an array from the given options
 	 * @param {String|Number|Array}	value	- the value of the select input
-	 * @param {Object}  			nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
+	 * @param {Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
 	getValueArray (value, nextProps = undefined) {
@@ -545,7 +545,7 @@ class Select extends React.Component {
 	/**
 	 * Retrieve a value from the given options and valueKey
 	 * @param {String|Number|Array}	value	- the selected value(s)
-	 * @param {Object}				props	- the Select component's props (or nextProps)
+	 * @param {Object}		props	- the Select component's props (or nextProps)
 	 */
 	expandValue (value, props) {
 		const valueType = typeof value;
