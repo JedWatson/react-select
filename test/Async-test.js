@@ -475,6 +475,15 @@ describe('Async', () => {
 			typeSearchText('a');
 			return expect(onInputChange, 'was called times', 1);
 		});
+
+		it('should change the value when onInputChange returns a value', () => {
+			const onInputChange = sinon.stub().returns('2');
+			const instance = createControl({
+				onInputChange,
+			});
+			typeSearchText('1');
+			return expect(filterInputNode.value, 'to equal', '2');
+		});
 	});
 
 	describe('.focus()', () => {

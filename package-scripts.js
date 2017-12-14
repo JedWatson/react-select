@@ -28,7 +28,7 @@ module.exports = {
 				rimraf('examples/dist'),
 				'webpack --progress -p',
 				'cp examples/src/.gitignore examples/dist/.gitignore',
-				'git subtree push --prefix examples/dist origin gh-pages'
+				'gh-pages -d examples/dist'
 			),
 		},
 	},

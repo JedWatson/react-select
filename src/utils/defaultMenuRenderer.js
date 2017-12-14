@@ -3,17 +3,21 @@ import React from 'react';
 
 function menuRenderer ({
 	focusedOption,
+	focusOption,
+	inputValue,
 	instancePrefix,
 	labelKey,
 	onFocus,
+	onOptionRef,
 	onSelect,
 	optionClassName,
 	optionComponent,
 	optionRenderer,
 	options,
+	removeValue,
+	selectValue,
 	valueArray,
 	valueKey,
-	onOptionRef
 }) {
 	let Option = optionComponent;
 
@@ -30,6 +34,8 @@ function menuRenderer ({
 		return (
 			<Option
 				className={optionClass}
+				focusOption={focusOption}
+				inputValue={inputValue}
 				instancePrefix={instancePrefix}
 				isDisabled={option.disabled}
 				isFocused={isFocused}
@@ -40,8 +46,10 @@ function menuRenderer ({
 				option={option}
 				optionIndex={i}
 				ref={ref => { onOptionRef(ref, isFocused); }}
+				removeValue={removeValue}
+				selectValue={selectValue}
 			>
-				{optionRenderer(option, i)}
+				{optionRenderer(option, i, inputValue)}
 			</Option>
 		);
 	});

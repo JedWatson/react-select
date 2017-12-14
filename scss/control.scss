@@ -8,6 +8,18 @@
 .Select {
 	position: relative;
 
+	// disable some browser-specific behaviours that break the input
+	input::-webkit-contacts-auto-fill-button,
+	input::-webkit-credentials-auto-fill-button {
+		display: none !important;
+	}
+	input::-ms-clear {
+		display: none !important;
+	}
+	input::-ms-reveal {
+		display: none !important;
+	}
+
 	// preferred box model
 	&,
 	& div,
@@ -175,7 +187,7 @@
 		margin: 0;
 		outline: none;
 		// padding: 0;
-		line-height: 14px;  /* For IE 8 compatibility */
+		line-height: 17px;  /* For IE 8 compatibility */
 		padding: (($select-input-internal-height - 14) / 2 - 2) 0 (($select-input-internal-height - 14) / 2 + 2);  /* For IE 8 compatibility */
 		-webkit-appearance: none;
 
@@ -235,6 +247,7 @@
   display: inline-block;
 }
 .Select .Select-aria-only {
+	position: absolute;
 	display: inline-block;
 	height: 1px;
 	width: 1px;
