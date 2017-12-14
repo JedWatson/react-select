@@ -2160,7 +2160,7 @@ describe('Select', () => {
 			expect(instance.state.inputValue, 'to equal', 'two');
 		});
 
-		it('should have reset the inputValue after accepting selection', () => {
+		it('should have reset the inputValue after accepting selection when onSelectResetsInput= true or not set', () => {
 			options = [
 				{ value: 'one', label: 'One' },
 				{ value: 'two', label: 'Two' },
