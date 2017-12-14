@@ -2129,8 +2129,8 @@ describe('Select', () => {
 
 	});
 
-	describe('with multi=true and onSelectResetsInput=false', () => {
-		it('should have retained inputValue after accepting selection', () => {
+	describe('with multi=true different onSelectResetsInput', () => {
+		it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
 			options = [
 				{ value: 'one', label: 'One' },
 				{ value: 'two', label: 'Two' },
