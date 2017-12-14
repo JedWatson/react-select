@@ -586,7 +586,7 @@ class Select extends React.Component {
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
-				var valueArray = this.getValueArray(this.props.value);
+				const valueArray = this.getValueArray(this.props.value);
 				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 					this.removeValue(value);
 				} else {
