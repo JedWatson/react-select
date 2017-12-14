@@ -15,6 +15,7 @@
 
 ## v1.0.0 / 2017-11-23
 
+* breaking; removed `getInputValue` function - [see PR](https://github.com/JedWatson/react-select/pull/2108)
 * reverted spacebar-selects-option behaviour for searchable selects, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2163)
 * fixed behaviour where async doesn't handle onInputChange returning a value, thanks [Anton](https://github.com/tehbi4) - [see PR](https://github.com/JedWatson/react-select/pull/2133)
 * fixed Creatable bug where the first enter keypress is ignored when `promptTextCreator` returns only the label, thanks [George Karagkiaouris](https://github.com/karaggeorge) - [see PR](https://github.com/JedWatson/react-select/pull/2140)

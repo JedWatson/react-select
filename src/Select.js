@@ -101,6 +101,10 @@ class Select extends React.Component {
 			// Used to be required but it's not any more
 			this.setState({ required: false });
 		}
+
+		if (this.state.inputValue && this.props.value !== nextProps.value) {
+			this.setState({ inputValue: this.handleInputValueChange('') });
+		}
 	}
 
 	componentDidUpdate (prevProps, prevState) {
@@ -294,20 +298,17 @@ class Select extends React.Component {
 			return;
 		}
 
-		// If the menu isn't open, let the event bubble to the main handleMouseDown
-		if (!this.state.isOpen) {
+		if (this.state.isOpen) {
+			// prevent default event handlers
+			event.stopPropagation();
+			event.preventDefault();
+			// close the menu
+			this.closeMenu();
+		} else {
+			// If the menu isn't open, let the event bubble to the main handleMouseDown
 			this.setState({
 				isOpen: true,
 			});
-		}
-
-		// prevent default event handlers
-		event.stopPropagation();
-		event.preventDefault();
-
-		// close the menu
-		if(this.state.isOpen){
-			this.closeMenu();
 		}
 	}
 
@@ -578,8 +579,8 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
+		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 		if (this.props.multi) {
-			const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
 				focusedIndex: null,
 				inputValue: this.handleInputValueChange(updatedValue),
@@ -594,7 +595,7 @@ class Select extends React.Component {
 			});
 		} else {
 			this.setState({
-				inputValue: this.handleInputValueChange(''),
+				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {

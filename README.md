@@ -69,7 +69,7 @@ class App extends React.Component {
     return (
       <Select
         name="form-field-name"
-        value={this.state.value}
+        value={this.state.selectedOption.value}
         onChange={this.handleChange}
         options={[
           { value: 'one', label: 'One' },
@@ -372,7 +372,7 @@ function onInputKeyDown(event) {
 | `name` | string | undefined | field name, for hidden `<input />` tag |
 | `noResultsText` | string | 'No results found' | placeholder displayed when there are no matching search results or a falsy value to hide it (can also be a react component) |
 | `onBlur` | function | undefined | onBlur handler: `function(event) {}` |
-| `onBlurResetsInput` | boolean | true | whether to clear input on blur or not |
+| `onBlurResetsInput` | boolean | true | Whether to clear input on blur or not. If set to false, it only works if onCloseResetsInput is false as well. |
 | `onChange` | function | undefined | onChange handler: `function(newOption) {}` |
 | `onClose` | function | undefined | handler for when the menu closes: `function () {}` |
 | `onCloseResetsInput` | boolean | true | whether to clear input when closing the menu through the arrow |
