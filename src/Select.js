@@ -347,7 +347,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -521,11 +521,11 @@ class Select extends React.Component {
 
 	/**
 	 * Turns a value into an array from the given options
-	 * @param	{String|Number|Array}	value		- the value of the select input
-	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
+	 * @param {String|Number|Array}	value	- the value of the select input
+	 * @param {Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
-	getValueArray (value, nextProps) {
+	getValueArray (value, nextProps = undefined) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
@@ -538,14 +538,14 @@ class Select extends React.Component {
 			}
 			return value.map(value => this.expandValue(value, props)).filter(i => i);
 		}
-		var expandedValue = this.expandValue(value, props);
+		const expandedValue = this.expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
 	}
 
 	/**
 	 * Retrieve a value from the given options and valueKey
-	 * @param	{String|Number|Array}	value	- the selected value(s)
-	 * @param	{Object}		props	- the Select component's props (or nextProps)
+	 * @param {String|Number|Array}	value	- the selected value(s)
+	 * @param {Object}		props	- the Select component's props (or nextProps)
 	 */
 	expandValue (value, props) {
 		const valueType = typeof value;
@@ -579,14 +579,14 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
-		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 		if (this.props.multi) {
+		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 			this.setState({
 				focusedIndex: null,
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
-				var valueArray = this.getValueArray(this.props.value);
+				const valueArray = this.getValueArray(this.props.value);
 				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 					this.removeValue(value);
 				} else {
@@ -594,6 +594,7 @@ class Select extends React.Component {
 				}
 			});
 		} else {
+			const updatedValue = '';
 			this.setState({
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
