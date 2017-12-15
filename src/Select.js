@@ -33,13 +33,25 @@ const stringOrNumber = PropTypes.oneOfType([
 
 let instanceId = 1;
 
-function shouldShowInputValue(state, props, isOpen){
-	if (!state.inputValue) return true;
-	if (!props.onSelectResetsInput && !isOpen){
-		return !(!state.isFocused && state.isPseudoFocused);
+const shouldShowValue = (state, props, isOpen) => {
+	const { inputValue, isPseudoFocused, isFocused } = state;
+	const { onSelectResetsInput } = props;
+
+	if (!inputValue) return true;
+
+	if (!onSelectResetsInput && !isOpen){
+		return !(!isFocused && isPseudoFocused || isFocused && !isPseudoFocused);
 	}
+
 	return false;
-}
+};
+
+const shouldShowPlaceholder = (state, props, isOpen) => {
+	const { inputValue, isPseudoFocused, isFocused } = state;
+	const { onSelectResetsInput } = props;
+
+	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
+};
 
 class Select extends React.Component {
 	constructor (props) {
@@ -779,7 +791,8 @@ class Select extends React.Component {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
-			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
+			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
+			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
@@ -799,7 +812,7 @@ class Select extends React.Component {
 					</ValueComponent>
 				);
 			});
-		} else if (shouldShowInputValue(this.state, this.props, isOpen)) {
+		} else if (shouldShowValue(this.state, this.props, isOpen)) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
