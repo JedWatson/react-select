@@ -2130,14 +2130,14 @@ describe('Select', () => {
 	});
 
 	describe('with multi=true different onSelectResetsInput', () => {
-		it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
+		options = [
+			{ value: 'one', label: 'One' },
+			{ value: 'two', label: 'Two' },
+			{ value: 'three', label: 'Three' },
+			{ value: 'four', label: 'Four' }
+		];
 
+		it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: '',
@@ -2161,13 +2161,6 @@ describe('Select', () => {
 		});
 
 		it('should have reset the inputValue after accepting selection when onSelectResetsInput=true or not set', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
-
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: '',
@@ -2189,13 +2182,6 @@ describe('Select', () => {
 		});
 
 		it('should reset inputValue after accepting selection with onSelectResetsInput=false and multi=false or not set', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
-
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: '',
@@ -2216,13 +2202,6 @@ describe('Select', () => {
 		});
 
 		it('should have reset the inputValue after accepting selection when onSelectResetsInput=true or not set and multi=false or not set', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
-
 			// Render an instance of the component
 			wrapper = createControlWithWrapper({
 				value: '',
