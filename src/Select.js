@@ -33,6 +33,14 @@ const stringOrNumber = PropTypes.oneOfType([
 
 let instanceId = 1;
 
+function shouldShowInputValue(state, props, isOpen){
+	if (!state.inputValue) return true;
+	if (!props.onSelectResetsInput && !isOpen){
+		return !(!state.isFocused && state.isPseudoFocused);
+	}
+	return false;
+}
+
 class Select extends React.Component {
 	constructor (props) {
 		super(props);
@@ -347,7 +355,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -791,7 +799,7 @@ class Select extends React.Component {
 					</ValueComponent>
 				);
 			});
-		} else if (!this.state.inputValue) {
+		} else if (shouldShowInputValue(this.state, this.props, isOpen)) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
@@ -818,6 +826,12 @@ class Select extends React.Component {
 				&& this.state.isFocused
 				&& !this.state.inputValue
 		});
+		let value;
+		if (!this.props.onSelectResetsInput && !isOpen && !this.state.isFocused){
+			value= '';
+		} else {
+			value = this.state.inputValue;
+		}
 		const inputProps = {
 			...this.props.inputProps,
 			role: 'combobox',
@@ -835,7 +849,7 @@ class Select extends React.Component {
 			onFocus: this.handleInputFocus,
 			ref: ref => this.input = ref,
 			required: this.state.required,
-			value: this.state.inputValue,
+			value,
 		};
 
 		if (this.props.inputRenderer) {
