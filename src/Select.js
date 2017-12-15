@@ -82,10 +82,7 @@ class Select extends React.Component {
 	}
 
 	componentDidMount () {
-		if (typeof this.props.autofocus !== 'undefined' && typeof console !== 'undefined') {
-			console.warn('Warning: The autofocus prop has changed to autoFocus, support will be removed after react-select@1.0');
-		}
-		if (this.props.autoFocus || this.props.autofocus) {
+		if (this.props.autoFocus) {
 			this.focus();
 		}
 	}
@@ -347,7 +344,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}

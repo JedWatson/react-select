@@ -2859,7 +2859,7 @@ describe('Select', () => {
 				expect(options, 'to have length', 2);
 			});
 		});
-		
+
 		describe('empty filterOptions function', () => {
 
 			beforeEach(() => {
@@ -2870,6 +2870,7 @@ describe('Select', () => {
 					searchable: true
 				});
 			});
+
 			it('uses the default options', () => {
 				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-arrow'), { button: 0 });
 				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
@@ -3333,8 +3334,8 @@ describe('Select', () => {
 			const preventDefault = sinon.spy();
 			const event = {
 				'preventDefault': preventDefault,
-				'type': 'mousedown', 
-				'button': 0 
+				'type': 'mousedown',
+				'button': 0
 			};
 
 			beforeEach(() => {
@@ -3345,9 +3346,9 @@ describe('Select', () => {
 					value: ['two', 'one']
 				});
 			});
-						
+
 			it('after clearValue called, menu shall remain closed', () => {
-				
+
 				instance.clearValue(event);
 
 				expect(instance.state.isOpen, 'to be falsy');
@@ -4400,7 +4401,6 @@ describe('Select', () => {
 		});
 		it('with autofocus as well, calls focus() only once', () => {
 			wrapper = createControl({
-				autofocus: true,
 				autoFocus: true,
 				options: defaultOptions,
 			});
@@ -4412,19 +4412,11 @@ describe('Select', () => {
 	describe('with autofocus', () => {
 		it('focuses the select input on mount', () => {
 			wrapper = createControl({
-				autofocus: true,
+				autoFocus: true,
 				options: defaultOptions,
 			});
 			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
 			expect(input, 'to equal', document.activeElement);
-		});
-		it('calls console.warn', () => {
-			var warn = sinon.spy(console, 'warn');
-			wrapper = createControl({
-				autofocus: true,
-				options: defaultOptions,
-			});
-			expect(warn, 'was called once');
 		});
 	});
 	describe('rtl', () => {
