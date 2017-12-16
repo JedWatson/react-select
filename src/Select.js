@@ -347,7 +347,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -785,6 +785,7 @@ class Select extends React.Component {
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+						placeholder={this.props.placeholder}
 					>
 						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
@@ -800,6 +801,7 @@ class Select extends React.Component {
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
 					value={valueArray[0]}
+					placeholder={this.props.placeholder}
 				>
 					{renderLabel(valueArray[0])}
 				</ValueComponent>
