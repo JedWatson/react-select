@@ -381,7 +381,7 @@ function onInputKeyDown(event) {
 | `onInputKeyDown` | function | undefined | input keyDown handler; call `event.preventDefault()` to override default `Select` behaviour: `function(event) {}` |
 | `onMenuScrollToBottom` | function | undefined | called when the menu is scrolled to the bottom |
 | `onOpen` | function | undefined | handler for when the menu opens: `function () {}` |
-| `onSelectResetsInput` | boolean | true | whether the input value should be reset when options are selected, for `multi`
+| `onSelectResetsInput` | boolean | true | whether the input value should be reset when options are selected.  Also input value will be set to empty if 'onSelectResetsInput=true' and Select will get new value that not equal previous value. |
 | `onValueClick` | function | undefined | onClick handler for value labels: `function (value, event) {}` |
 | `openOnClick` | boolean | true | open the options menu when the control is clicked (requires searchable = true) |
 | `openOnFocus` | boolean | false | open the options menu when the control gets focus |
