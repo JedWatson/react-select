@@ -122,7 +122,7 @@ class Select extends React.Component {
 			this.setState({ required: false });
 		}
 
-		if (this.state.inputValue && this.props.value !== nextProps.value && this.props.onSelectResetsInput) {
+		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
 			this.setState({ inputValue: this.handleInputValueChange('') });
 		}
 	}
