@@ -841,8 +841,8 @@ class Select extends React.Component {
 		});
 
 		let value = this.state.inputValue;
-		if (value && !this.props.multi && !this.props.onSelectResetsInput && !this.state.isFocused){
-			// it's for single select because need to hide input value when not focused, not reset on select
+		if (value && !this.props.onSelectResetsInput && !this.state.isFocused){
+			// it hides input value when it is not focused and was not reset on select
 			value= '';
 		}
 
