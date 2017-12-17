@@ -839,12 +839,12 @@ class Select extends React.Component {
 				&& this.state.isFocused
 				&& !this.state.inputValue
 		});
-		let value;
+
+		let value = this.state.inputValue;
 		if (!this.props.onSelectResetsInput && !this.state.isFocused){
 			value= '';
-		} else {
-			value = this.state.inputValue;
 		}
+
 		const inputProps = {
 			...this.props.inputProps,
 			role: 'combobox',
