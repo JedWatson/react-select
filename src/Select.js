@@ -33,13 +33,13 @@ const stringOrNumber = PropTypes.oneOfType([
 
 let instanceId = 1;
 
-const shouldShowValue = (state, props, isOpen) => {
+const shouldShowValue = (state, props) => {
 	const { inputValue, isPseudoFocused, isFocused } = state;
 	const { onSelectResetsInput } = props;
 
 	if (!inputValue) return true;
 
-	if (!onSelectResetsInput && !isOpen){
+	if (!onSelectResetsInput){
 		return !(!isFocused && isPseudoFocused || isFocused && !isPseudoFocused);
 	}
 
@@ -812,7 +812,7 @@ class Select extends React.Component {
 					</ValueComponent>
 				);
 			});
-		} else if (shouldShowValue(this.state, this.props, isOpen)) {
+		} else if (shouldShowValue(this.state, this.props)) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
@@ -840,7 +840,7 @@ class Select extends React.Component {
 				&& !this.state.inputValue
 		});
 		let value;
-		if (!this.props.onSelectResetsInput && !isOpen && !this.state.isFocused){
+		if (!this.props.onSelectResetsInput && !this.state.isFocused){
 			value= '';
 		} else {
 			value = this.state.inputValue;
