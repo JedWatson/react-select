@@ -82,7 +82,7 @@ class Select extends React.Component {
 		].forEach((fn) => this[fn] = this[fn].bind(this));
 
 		this.state = {
-			inputValue: '',
+			inputValue: props.inputValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -909,7 +909,7 @@ class Select extends React.Component {
 		}
 		return (
 			<div className={ className } key="input-wrap">
-				<input id={this.props.id} {...inputProps} />
+				<input id={this.props.id} {...inputProps}/>
 			</div>
 		);
 	}
@@ -1186,6 +1186,7 @@ Select.propTypes = {
 	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 	inputProps: PropTypes.object,         // custom attributes for the Input
+	inputValue: PropTypes.string,         // initial input text (e.g. if restoring partially entered input)
 	inputRenderer: PropTypes.func,        // returns a custom input component
 	instanceId: PropTypes.string,         // set the components instanceId
 	isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
@@ -1256,6 +1257,7 @@ Select.defaultProps = {
 	ignoreAccents: true,
 	ignoreCase: true,
 	inputProps: {},
+	inputValue: '',
 	isLoading: false,
 	joinValues: false,
 	labelKey: 'label',
