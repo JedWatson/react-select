@@ -721,7 +721,6 @@ class Select extends React.Component {
 		if (!this.state.isOpen) {
 			this.setState({
 				isOpen: true,
-				inputValue: '',
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null)
 			});
 			return;

@@ -2190,6 +2190,27 @@ describe('Select', () => {
 				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
 				expect(instance, 'to contain', <input value=""/>);
 			});
+
+			it('should have retained inputValue after enter on closed dropdown with onSelectResetsInput=false', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					onSelectResetsInput: false,
+					onCloseResetsInput: false,
+					onBlurResetsInput: false,
+				});
+
+				clickArrowToOpen();
+				typeSearchText('two');
+				pressEnterToAccept();
+
+				expect(instance.state.inputValue, 'to equal', 'two');
+				expect(instance.state.isOpen, 'to equal', false);
+				pressEnterToAccept();
+				expect(instance.state.inputValue, 'to equal', 'two');
+				expect(instance.state.isOpen, 'to equal', true);
+			});
 		});
 
 		describe('with multi select', () => {
@@ -2225,6 +2246,28 @@ describe('Select', () => {
 				setValueProp('two'); // trigger componentWillReceiveProps
 
 				expect(instance.state.inputValue, 'to equal', '');
+			});
+
+			it('should have retained inputValue after enter on closed dropdown with onSelectResetsInput=false', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					multi: true,
+					onSelectResetsInput: false,
+					onCloseResetsInput: false,
+					onBlurResetsInput: false,
+				});
+
+				clickArrowToOpen();
+				typeSearchText('two');
+				pressEnterToAccept();
+
+				expect(instance.state.inputValue, 'to equal', 'two');
+				expect(instance.state.isOpen, 'to equal', false);
+				pressEnterToAccept();
+				expect(instance.state.inputValue, 'to equal', 'two');
+				expect(instance.state.isOpen, 'to equal', true);
 			});
 		});
 	});
