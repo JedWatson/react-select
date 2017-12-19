@@ -4435,31 +4435,37 @@ describe('Select', () => {
 				autoFocus: true,
 				options: defaultOptions,
 			});
-			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			const input = ReactDOM.findDOMNode(instance.input).querySelector('input');
 			expect(input, 'to equal', document.activeElement);
 		});
 		it('with autofocus as well, calls focus() only once', () => {
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				autoFocus: true,
 				options: defaultOptions,
 			});
-			var focus = sinon.spy(instance, 'focus');
+			const focus = sinon.spy(instance, 'focus');
 			instance.componentDidMount();
 			expect(focus, 'was called once');
+
+			warn.restore();
 		});
 	});
 	describe('with autofocus', () => {
 		it('focuses the select input on mount', () => {
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				options: defaultOptions,
 			});
-			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			const input = ReactDOM.findDOMNode(instance.input).querySelector('input');
 			expect(input, 'to equal', document.activeElement);
+
+			warn.restore();
 		});
 		it('calls console.warn', () => {
-			var warn = sinon.spy(console, 'warn');
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				options: defaultOptions,
