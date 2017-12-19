@@ -53,6 +53,27 @@ const shouldShowPlaceholder = (state, props, isOpen) => {
 	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
 };
 
+/**
+ * Retrieve a value from the given options and valueKey
+ * @param {String|Number|Array}	value	- the selected value(s)
+ * @param {Object}		props	- the Select component's props (or nextProps)
+ */
+const expandValue = (value, props) => {
+	const valueType = typeof value;
+	if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
+	let { options, valueKey } = props;
+	if (!options) return;
+	for (let i = 0; i < options.length; i++) {
+		if (String(options[i][valueKey]) === String(value)) return options[i];
+	}
+};
+
+
+const handleRequired = (value, multi) => {
+	if (!value) return true;
+	return (multi ? value.length === 0 : Object.keys(value).length === 0);
+};
+
 class Select extends React.Component {
 	constructor (props) {
 		super(props);
@@ -68,7 +89,6 @@ class Select extends React.Component {
 			'handleMouseDown',
 			'handleMouseDownOnArrow',
 			'handleMouseDownOnMenu',
-			'handleRequired',
 			'handleTouchOutside',
 			'handleTouchMove',
 			'handleTouchStart',
@@ -96,7 +116,7 @@ class Select extends React.Component {
 
 		if (this.props.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], this.props.multi),
+				required: handleRequired(valueArray[0], this.props.multi),
 			});
 		}
 	}
@@ -115,7 +135,7 @@ class Select extends React.Component {
 
 		if (nextProps.required) {
 			this.setState({
-				required: this.handleRequired(valueArray[0], nextProps.multi),
+				required: handleRequired(valueArray[0], nextProps.multi),
 			});
 		} else if (this.props.required) {
 			// Used to be required but it's not any more
@@ -130,7 +150,7 @@ class Select extends React.Component {
 	componentDidUpdate (prevProps, prevState) {
 		// focus to the selected option
 		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
-			let focusedOptionNode = findDOMNode(this.focused);
+			const focusedOptionNode = findDOMNode(this.focused);
 			let menuNode = findDOMNode(this.menu);
 
 			const scrollTop = menuNode.scrollTop;
@@ -152,10 +172,10 @@ class Select extends React.Component {
 
 		if (this._scrollToFocusedOptionOnUpdate && this.focused && this.menu) {
 			this._scrollToFocusedOptionOnUpdate = false;
-			var focusedDOM = findDOMNode(this.focused);
-			var menuDOM = findDOMNode(this.menu);
-			var focusedRect = focusedDOM.getBoundingClientRect();
-			var menuRect = menuDOM.getBoundingClientRect();
+			const focusedDOM = findDOMNode(this.focused);
+			let menuDOM = findDOMNode(this.menu);
+			const focusedRect = focusedDOM.getBoundingClientRect();
+			const menuRect = menuDOM.getBoundingClientRect();
 			if (focusedRect.bottom > menuRect.bottom) {
 				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
 			} else if (focusedRect.top < menuRect.top) {
@@ -163,7 +183,7 @@ class Select extends React.Component {
 			}
 		}
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
-			var menuContainerRect = this.menuContainer.getBoundingClientRect();
+			const menuContainerRect = this.menuContainer.getBoundingClientRect();
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
 				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
 			}
@@ -216,12 +236,12 @@ class Select extends React.Component {
 		this.input.blur();
 	}
 
-	handleTouchMove (event) {
+	handleTouchMove () {
 		// Set a flag that the view is being dragged
 		this.dragging = true;
 	}
 
-	handleTouchStart (event) {
+	handleTouchStart () {
 		// Set a flag that the view is not being dragged
 		this.dragging = false;
 	}
@@ -270,7 +290,7 @@ class Select extends React.Component {
 
 		// for the non-searchable select, toggle the menu
 		if (!this.props.searchable) {
-			// TODO: This code means that if a select is searchable, onClick the options menu will not appear, only on subsequent click will it open.
+			// This code means that if a select is searchable, onClick the options menu will not appear, only on subsequent click will it open.
 			this.focus();
 			return this.setState({
 				isOpen: !this.state.isOpen,
@@ -391,7 +411,7 @@ class Select extends React.Component {
 		if (this.props.onBlur) {
 			this.props.onBlur(event);
 		}
-		var onBlurredState = {
+		let onBlurredState = {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -534,22 +554,17 @@ class Select extends React.Component {
 		}
 	}
 
-	handleRequired (value, multi) {
-		if (!value) return true;
-		return (multi ? value.length === 0 : Object.keys(value).length === 0);
-	}
-
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
 	}
 
 	/**
 	 * Turns a value into an array from the given options
-	 * @param	{String|Number|Array}	value		- the value of the select input
-	 * @param	{Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
+	 * @param {String|Number|Array}	value		- the value of the select input
+	 * @param {Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
 	 * @returns	{Array}	the value of the select represented in an array
 	 */
-	getValueArray (value, nextProps) {
+	getValueArray (value, nextProps = undefined) {
 		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
 		const props = typeof nextProps === 'object' ? nextProps : this.props;
 		if (props.multi) {
@@ -560,25 +575,10 @@ class Select extends React.Component {
 				if (value === null || value === undefined) return [];
 				value = [value];
 			}
-			return value.map(value => this.expandValue(value, props)).filter(i => i);
+			return value.map(value => expandValue(value, props)).filter(i => i);
 		}
-		var expandedValue = this.expandValue(value, props);
+		const expandedValue = expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
-	}
-
-	/**
-	 * Retrieve a value from the given options and valueKey
-	 * @param	{String|Number|Array}	value	- the selected value(s)
-	 * @param	{Object}		props	- the Select component's props (or nextProps)
-	 */
-	expandValue (value, props) {
-		const valueType = typeof value;
-		if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
-		let { options, valueKey } = props;
-		if (!options) return;
-		for (var i = 0; i < options.length; i++) {
-			if (String(options[i][valueKey]) === String(value)) return options[i];
-		}
 	}
 
 	setValue (value) {
@@ -586,7 +586,7 @@ class Select extends React.Component {
 			this.blurInput();
 		}
 		if (this.props.required) {
-			const required = this.handleRequired(value, this.props.multi);
+			const required = handleRequired(value, this.props.multi);
 			this.setState({ required });
 		}
 		if (this.props.onChange) {
@@ -610,7 +610,7 @@ class Select extends React.Component {
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
-				var valueArray = this.getValueArray(this.props.value);
+				const valueArray = this.getValueArray(this.props.value);
 				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
 					this.removeValue(value);
 				} else {
@@ -629,7 +629,7 @@ class Select extends React.Component {
 	}
 
 	addValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
+		let valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
 		this.setValue(valueArray.concat(value));
@@ -643,14 +643,14 @@ class Select extends React.Component {
 	}
 
 	popValue () {
-		var valueArray = this.getValueArray(this.props.value);
+		let valueArray = this.getValueArray(this.props.value);
 		if (!valueArray.length) return;
 		if (valueArray[valueArray.length-1].clearableValue === false) return;
 		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
 	}
 
 	removeValue (value) {
-		var valueArray = this.getValueArray(this.props.value);
+		let valueArray = this.getValueArray(this.props.value);
 		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
 		this.focus();
 	}
@@ -714,7 +714,7 @@ class Select extends React.Component {
 	}
 
 	focusAdjacentOption (dir) {
-		var options = this._visibleOptions
+		const options = this._visibleOptions
 			.map((option, index) => ({ option, index }))
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
@@ -727,8 +727,8 @@ class Select extends React.Component {
 			return;
 		}
 		if (!options.length) return;
-		var focusedIndex = -1;
-		for (var i = 0; i < options.length; i++) {
+		let focusedIndex = -1;
+		for (let i = 0; i < options.length; i++) {
 			if (this._focusedOption === options[i].option) {
 				focusedIndex = i;
 				break;
@@ -747,14 +747,14 @@ class Select extends React.Component {
 		} else if (dir === 'end') {
 			focusedIndex = options.length - 1;
 		} else if (dir === 'page_up') {
-			var potentialIndex = focusedIndex - this.props.pageSize;
+			const potentialIndex = focusedIndex - this.props.pageSize;
 			if (potentialIndex < 0) {
 				focusedIndex = 0;
 			} else {
 				focusedIndex = potentialIndex;
 			}
 		} else if (dir === 'page_down') {
-			var potentialIndex = focusedIndex + this.props.pageSize;
+			const potentialIndex = focusedIndex + this.props.pageSize;
 			if (potentialIndex > options.length - 1) {
 				focusedIndex = options.length - 1;
 			} else {
@@ -835,7 +835,7 @@ class Select extends React.Component {
 	}
 
 	renderInput (valueArray, focusedOptionIndex) {
-		var className = classNames('Select-input', this.props.inputProps.className);
+		const className = classNames('Select-input', this.props.inputProps.className);
 		const isOpen = !!this.state.isOpen;
 
 		const ariaOwns = classNames({
@@ -877,7 +877,7 @@ class Select extends React.Component {
 		}
 
 		if (this.props.disabled || !this.props.searchable) {
-			const { inputClassName, ...divProps } = this.props.inputProps;
+			const { ...divProps } = this.props.inputProps;
 
 			const ariaOwns = classNames({
 				[this._instancePrefix + '-list']: isOpen,
@@ -957,8 +957,8 @@ class Select extends React.Component {
 	}
 
 	filterOptions (excludeOptions) {
-		var filterValue = this.state.inputValue;
-		var options = this.props.options || [];
+		const filterValue = this.state.inputValue;
+		const options = this.props.options || [];
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
 			const filterOptions = typeof this.props.filterOptions === 'function'
@@ -1046,7 +1046,7 @@ class Select extends React.Component {
 	}
 
 	getFocusableOptionIndex (selectedOption) {
-		var options = this._visibleOptions;
+		const options = this._visibleOptions;
 		if (!options.length) return null;
 
 		const valueKey = this.props.valueKey;
@@ -1065,7 +1065,7 @@ class Select extends React.Component {
 			}
 		}
 
-		for (var i = 0; i < options.length; i++) {
+		for (let i = 0; i < options.length; i++) {
 			if (!options[i].disabled) return i;
 		}
 		return null;
@@ -1157,7 +1157,7 @@ class Select extends React.Component {
 			</div>
 		);
 	}
-};
+}
 
 Select.propTypes = {
 	'aria-describedby': PropTypes.string, // html id(s) of element(s) that should be used to describe this input (for assistive tech)
