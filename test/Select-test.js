@@ -4465,6 +4465,8 @@ describe('Select', () => {
 				options: defaultOptions,
 			});
 			expect(warn, 'was called once');
+
+			warn.restore();
 		});
 	});
 	describe('rtl', () => {
