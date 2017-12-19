@@ -40,6 +40,7 @@ class PropsWrapper extends React.Component {
 		super(props);
 		this.state = props || {};
 	}
+
 	setPropsForChild(props) {
 		this.setState(props);
 	}
@@ -148,7 +149,7 @@ describe('Select', () => {
 				onChange={onChange}
 				onInputChange={onInputChange}
 				{...props}
-				/>
+			/>
 		);
 		if (options.initialFocus !== false) {
 			findAndFocusInputControl();
@@ -177,7 +178,7 @@ describe('Select', () => {
 				onChange={onChange}
 				onInputChange={onInputChange}
 				{...props}
-				/>
+			/>
 		);
 
 		instance = wrapper.getChild();
@@ -275,7 +276,7 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(selectInputElement).name, 'to equal', 'form-field-name');
 		});
 
-		it('should show the options on mouse click', function () {
+		it('should show the options on mouse click', () => {
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option', 'to have length', 3);
@@ -348,14 +349,14 @@ describe('Select', () => {
 
 		});
 
-		it('should display the options menu when tapped', function() {
+		it('should display the options menu when tapped', () => {
 			TestUtils.Simulate.touchStart(getSelectControl(instance));
 			TestUtils.Simulate.touchEnd(getSelectControl(instance));
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option', 'to have length', 3);
 		});
 
-		it('should not display the options menu when touched and dragged', function() {
+		it('should not display the options menu when touched and dragged', () => {
 			TestUtils.Simulate.touchStart(getSelectControl(instance));
 			TestUtils.Simulate.touchMove(getSelectControl(instance));
 			TestUtils.Simulate.touchEnd(getSelectControl(instance));
@@ -721,7 +722,6 @@ describe('Select', () => {
 			});
 
 			it('selects the initial value', () => {
-
 				expect(instance, 'to contain',
 					<span className="Select-multi-value-wrapper">
 						<div><span className="Select-value-label">Two</span></div>
@@ -868,7 +868,7 @@ describe('Select', () => {
 
 					typeSearchText('1');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-					'to satisfy', [
+						'to satisfy', [
 							expect.it('to have text', 'One'),
 							expect.it('to have text', 'Ten'),
 							expect.it('to have text', 'Twenty-one')
@@ -1016,18 +1016,18 @@ describe('Select', () => {
 		});
 
 		it('set the initial value of the hidden input control', () => {
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'true' );
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'true');
 		});
 
 		it('updates the value when the value prop is set', () => {
 			wrapper.setPropsForChild({ value: false });
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
-					'to have text', 'No');
+				'to have text', 'No');
 		});
 
 		it('updates the value of the hidden input control after new value prop', () => {
 			wrapper.setPropsForChild({ value: false });
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'false' );
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'false');
 		});
 
 		it('calls onChange with the new value as a boolean', () => {
@@ -1040,7 +1040,7 @@ describe('Select', () => {
 		it('supports setting the value via prop', () => {
 			wrapper.setPropsForChild({ value: false });
 			expect(ReactDOM.findDOMNode(instance), 'queried for first', DISPLAYED_SELECTION_SELECTOR,
-					'to have text', 'No');
+				'to have text', 'No');
 		});
 
         it('displays the X button for false value', () => {
@@ -1068,7 +1068,7 @@ describe('Select', () => {
 			it('selects the initial value', () => {
 
 				expect(instance, 'to contain',
-						<span className="Select-multi-value-wrapper">
+					<span className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Yes</span></div>
                         <div><span className="Select-value-label">No</span></div>
 					</span>);
@@ -1088,7 +1088,7 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-						<span className="Select-multi-value-wrapper">
+					<span className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">No</span></div>
 					</span>);
 			});
@@ -1100,7 +1100,7 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-						<span className="Select-multi-value-wrapper">
+					<span className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Yes</span></div>
 					</span>);
 			});
@@ -1113,7 +1113,7 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-						<span className="Select-multi-value-wrapper">
+					<span className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">No</span></div>
 					</span>);
 			});
@@ -1153,18 +1153,18 @@ describe('Select', () => {
 
 					typeSearchText('fal');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'No'),
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'No'),
+						]);
 				});
 
 				it('finds text at end', () => {
 
 					typeSearchText('se');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'No'),
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'No'),
+						]);
 				});
 			});
 
@@ -1182,18 +1182,18 @@ describe('Select', () => {
 
 					typeSearchText('fa');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'No')
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'No')
+						]);
 				});
 
 				it('does not match text at end', () => {
 
 					typeSearchText('se');
 					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
-							'.Select-noresults');
+						'.Select-noresults');
 					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
-							'.Select-option');
+						'.Select-option');
 				});
 			});
 
@@ -1210,19 +1210,19 @@ describe('Select', () => {
 
 					typeSearchText('al');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'No'),
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'No'),
+						]);
 				});
 
 				it('finds text at end', () => {
 
 					typeSearchText('e');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'Yes'),
-								expect.it('to have text', 'No')
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'Yes'),
+							expect.it('to have text', 'No')
+						]);
 				});
 			});
 
@@ -1240,18 +1240,18 @@ describe('Select', () => {
 
 					typeSearchText('tr');
 					expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
-							'to satisfy', [
-								expect.it('to have text', 'Yes')
-							]);
+						'to satisfy', [
+							expect.it('to have text', 'Yes')
+						]);
 				});
 
 				it('does not match text at end', () => {
 
 					typeSearchText('e');
 					expect(ReactDOM.findDOMNode(instance), 'to contain elements matching',
-							'.Select-noresults');
+						'.Select-noresults');
 					expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching',
-							'.Select-option');
+						'.Select-option');
 				});
 			});
 		});
@@ -1298,7 +1298,7 @@ describe('Select', () => {
 				value: 'three'
 			});
 
-			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'three' );
+			expect(ReactDOM.findDOMNode(wrapper).querySelector(FORM_VALUE_SELECTOR).value, 'to equal', 'three');
 		});
 
 		it('display the raw value if the option is not available', () => {
@@ -1361,7 +1361,7 @@ describe('Select', () => {
 			expect(ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option')[1],
 				'to have attributes', {
 					class: 'is-disabled'
-            });
+				});
 		});
 
 		it('is not selectable by clicking', () => {
@@ -1488,7 +1488,7 @@ describe('Select', () => {
 			expect(onChange, 'was not called');
 			// And the menu is still open
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
-			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
 				]);
@@ -1501,7 +1501,7 @@ describe('Select', () => {
 			expect(onChange, 'was not called');
 			// And the menu is still open
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
-			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
 				]);
@@ -1514,7 +1514,7 @@ describe('Select', () => {
 			expect(onChange, 'was not called');
 			// And the menu is still open
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
-			expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
+			expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 				'to satisfy', [
 					expect.it('to have text', 'Two')
 				]);
@@ -1848,7 +1848,7 @@ describe('Select', () => {
 
 		it('filters the existing selections from the options', () => {
 
-			setValueProp(['four','three']);
+			setValueProp(['four', 'three']);
 
 			typeSearchText('o');
 
@@ -1861,7 +1861,7 @@ describe('Select', () => {
 
 		it('removes the last selected option with backspace', () => {
 
-			setValueProp(['four','three']);
+			setValueProp(['four', 'three']);
 			onChange.reset();  // Ignore previous onChange calls
 			pressBackspace();
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
@@ -1887,7 +1887,7 @@ describe('Select', () => {
 
 		it('removes the last selected option with delete', () => {
 
-			setValueProp(['four','three']);
+			setValueProp(['four', 'three']);
 			onChange.reset();  // Ignore previous onChange calls
 			pressDelete();
 			expect(onChange, 'was called with', [{ label: 'Four', value: 'four' }]);
@@ -2129,63 +2129,103 @@ describe('Select', () => {
 
 	});
 
-	describe('with multi=true different onSelectResetsInput', () => {
-		it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
+	describe('onSelectResetsInput', () => {
+		options = [
+			{ value: 'one', label: 'One' },
+			{ value: 'two', label: 'Two' },
+			{ value: 'three', label: 'Three' },
+			{ value: 'four', label: 'Four' }
+		];
 
-			// Render an instance of the component
-			wrapper = createControlWithWrapper({
-				value: '',
-				options: options,
-				multi: true,
-				closeOnSelect: false,
-				removeSelected: false,
-				onSelectResetsInput: false
+		describe('with single select', () => {
+			it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					onSelectResetsInput: false,
+					onCloseResetsInput: false,
+					onBlurResetsInput: false,
+				});
+
+				clickArrowToOpen();
+				typeSearchText('tw');
+				pressEnterToAccept();
+				setValueProp('two'); // trigger componentWillReceiveProps
+
+				expect(instance.state.inputValue, 'to equal', 'tw');
+				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
+				expect(instance, 'to contain', <input value="tw"/>);
+
+				instance.setState({
+					isFocused: false,
+					isPseudoFocused: false,
+				});
+
+				expect(instance, 'to contain', <input value=""/>);
+				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
+
+				instance.setState({
+					isFocused: true,
+				});
+
+				expect(instance, 'to contain', <input value="tw"/>);
+				expect(instance, 'not to contain', <div><span className="Select-value-label">Two</span></div>);
 			});
 
-			instance.setState({
-				isFocused: true
+			it('should have reset the inputValue after accepting selection when onSelectResetsInput= true or not set', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+				});
+
+				clickArrowToOpen();
+				typeSearchText('tw');
+				expect(instance.state.inputValue, 'to equal', 'tw');
+				pressEnterToAccept();
+				setValueProp('two'); // trigger componentWillReceiveProps
+
+				expect(instance.state.inputValue, 'to equal', '');
+				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
+				expect(instance, 'to contain', <input value=""/>);
 			});
-
-			clickArrowToOpen();
-			typeSearchText('two');
-			pressEnterToAccept();
-			setValueProp('two'); // trigger componentWillReceiveProps
-
-			expect(instance.state.inputValue, 'to equal', 'two');
 		});
 
-		it('should have reset the inputValue after accepting selection when onSelectResetsInput= true or not set', () => {
-			options = [
-				{ value: 'one', label: 'One' },
-				{ value: 'two', label: 'Two' },
-				{ value: 'three', label: 'Three' },
-				{ value: 'four', label: 'Four' }
-			];
+		describe('with multi select', () => {
+			it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					multi: true,
+					onSelectResetsInput: false
+				});
 
-			// Render an instance of the component
-			wrapper = createControlWithWrapper({
-				value: '',
-				options: options,
-				multi: true,
-				closeOnSelect: false,
-				removeSelected: false
+				clickArrowToOpen();
+				typeSearchText('two');
+				pressEnterToAccept();
+				setValueProp('two'); // trigger componentWillReceiveProps
+
+				expect(instance.state.inputValue, 'to equal', 'two');
 			});
 
-			instance.setState({
-				isFocused: true
+			it('should have reset the inputValue after accepting selection when onSelectResetsInput= true or not set', () => {
+				// Render an instance of the component
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					multi: true,
+				});
+
+				clickArrowToOpen();
+				typeSearchText('two');
+				expect(instance.state.inputValue, 'to equal', 'two');
+				pressEnterToAccept();
+				setValueProp('two'); // trigger componentWillReceiveProps
+
+				expect(instance.state.inputValue, 'to equal', '');
 			});
-
-			clickArrowToOpen();
-			typeSearchText('two');
-			pressEnterToAccept();
-
-			expect(instance.state.inputValue, 'to equal', '');
 		});
 	});
 
@@ -2717,16 +2757,16 @@ describe('Select', () => {
 				    instance = ReactDOM.render(<Select searchable={true} value="three" options={defaultOptions} />, node);
 				});
 
-				it('should set the isFocused state to false if disabled=true', function(){
+				it('should set the isFocused state to false if disabled=true', () => {
 
-						expect(instance.state.isFocused, 'to equal', false);
-						findAndFocusInputControl();
-						expect(instance.state.isFocused, 'to equal', true);
-				    ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions} />, node);
-						expect(instance.state.isFocused, 'to equal', false);
+					expect(instance.state.isFocused, 'to equal', false);
+					findAndFocusInputControl();
+					expect(instance.state.isFocused, 'to equal', true);
+					ReactDOM.render(<Select disabled={true} searchable={true} value="three" options={defaultOptions}/>, node);
+					expect(instance.state.isFocused, 'to equal', false);
 				});
 
-				it('should close the opened menu if disabled=true', function(){
+				it('should close the opened menu if disabled=true', () => {
 
 					findAndFocusInputControl();
 					TestUtils.Simulate.mouseDown(getSelectControl(instance), { button: 0 });
@@ -2859,7 +2899,7 @@ describe('Select', () => {
 				expect(options, 'to have length', 2);
 			});
 		});
-		
+
 		describe('empty filterOptions function', () => {
 
 			beforeEach(() => {
@@ -3205,30 +3245,30 @@ describe('Select', () => {
 			} );
 			*/
 
-			it( 'should not focus the input when menu is not active', () => {
+			it('should not focus the input when menu is not active', () => {
 				instance = createControl({
 					options: defaultOptions
 				});
 
-				var inputFocus = sinon.spy( instance.input, 'focus' );
+				var inputFocus = sinon.spy(instance.input, 'focus');
 				instance.handleInputBlur();
 
-				expect( instance.input.focus, 'was not called' );
-			} );
+				expect(inputFocus, 'was not called');
+			});
 
-			it( 'should set onBlurredState', () => {
+			it('should set onBlurredState', () => {
 				instance = createControl({
 					options: defaultOptions
 				});
 
-				var inputFocus = sinon.spy( instance.input, 'focus' );
+				var inputFocus = sinon.spy(instance.input, 'focus');
 				instance.handleInputBlur();
 
-				expect( instance.state.isFocused, 'to be false');
-				expect( instance.state.isOpen, 'to be false');
-				expect( instance.state.isPseudoFocused, 'to be false');
+				expect(instance.state.isFocused, 'to be false');
+				expect(instance.state.isOpen, 'to be false');
+				expect(instance.state.isPseudoFocused, 'to be false');
 
-			} );
+			});
 		});
 
 		describe('with onBlurResetsInput=true', () => {
@@ -3333,8 +3373,8 @@ describe('Select', () => {
 			const preventDefault = sinon.spy();
 			const event = {
 				'preventDefault': preventDefault,
-				'type': 'mousedown', 
-				'button': 0 
+				'type': 'mousedown',
+				'button': 0
 			};
 
 			beforeEach(() => {
@@ -3345,9 +3385,9 @@ describe('Select', () => {
 					value: ['two', 'one']
 				});
 			});
-						
+
 			it('after clearValue called, menu shall remain closed', () => {
-				
+
 				instance.clearValue(event);
 
 				expect(instance.state.isOpen, 'to be falsy');
@@ -4146,7 +4186,7 @@ describe('Select', () => {
 	describe('custom menuRenderer option', () => {
 		it('should render the custom menu', () => {
 			const instance = createControl({
-				options: [1,2,3],
+				options: [1, 2, 3],
 				menuRenderer: () => <div className="customMenu">Custom menu</div>
 			});
 			clickArrowToOpen();
@@ -4156,7 +4196,7 @@ describe('Select', () => {
 		it('should pass the expected parameters', () => {
 			let paramsReceived;
 			const instance = createControl({
-				options: [1,2,3],
+				options: [1, 2, 3],
 				menuRenderer: (params) => {
 					paramsReceived = params;
 					return <div>Custom menu</div>;
@@ -4176,15 +4216,15 @@ describe('Select', () => {
 	describe('custom arrowRenderer option', () => {
 		it('should render the custom arrow', () => {
 			const instance = createControl({
-				options: [1,2,3],
-				arrowRenderer: () => <div className="customArrow" />
+				options: [1, 2, 3],
+				arrowRenderer: () => <div className="customArrow"/>
 			});
 			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customArrow');
 		});
 
 		it('should not render the clickable arrow container if the arrowRenderer returns a falsy value', () => {
 			const instance = createControl({
-				options: [1,2,3],
+				options: [1, 2, 3],
 				arrowRenderer: () => null
 			});
 			expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', '.Select-arrow-zone');
@@ -4296,7 +4336,7 @@ describe('Select', () => {
 						{ value: 'four', label: 'label four' },
 						{ value: 'five', label: 'label five' }
 					],
-					value: [ 'three', 'two' ],
+					value: ['three', 'two'],
 					multi: true,
 					closeOnSelect: false,
 				}, {
@@ -4323,7 +4363,7 @@ describe('Select', () => {
 
 			it('updates the backspace message when the selected values update', () => {
 
-				wrapper.setPropsForChild({ value: [ 'three', 'two', 'one' ] });
+				wrapper.setPropsForChild({ value: ['three', 'two', 'one'] });
 				expect(instance,
 					'to contain',
 					<span className="Select-aria-only" aria-live="assertive">
@@ -4474,7 +4514,7 @@ describe('Select', () => {
 				expect(onChange, 'was not called');
 				// And the menu is still open
 				expect(ReactDOM.findDOMNode(instance), 'to contain no elements matching', DISPLAYED_SELECTION_SELECTOR);
-				expect(ReactDOM.findDOMNode(instance), 'queried for' , '.Select-option',
+				expect(ReactDOM.findDOMNode(instance), 'queried for', '.Select-option',
 					'to satisfy', [
 						expect.it('to have text', 'Twenty two')
 					]);
