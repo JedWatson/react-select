@@ -1085,14 +1085,15 @@ class Select extends React.Component {
 
 		return (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
-				<div ref={ref => this.menu = ref}
-					 className="Select-menu"
-					 id={this._instancePrefix + '-list'}
-					 onMouseDown={this.handleMouseDownOnMenu}
-					 onScroll={this.handleMenuScroll}
-					 role="listbox"
-					 style={this.props.menuStyle}
-					 tabIndex={-1}
+				<div
+					className="Select-menu"
+					id={this._instancePrefix + '-list'}
+					onMouseDown={this.handleMouseDownOnMenu}
+					onScroll={this.handleMenuScroll}
+					ref={ref => this.menu = ref}
+					role="listbox"
+					style={this.props.menuStyle}
+					tabIndex={-1}
 				>
 					{menu}
 				</div>
