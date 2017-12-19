@@ -33,6 +33,26 @@ const stringOrNumber = PropTypes.oneOfType([
 
 let instanceId = 1;
 
+const shouldShowValue = (state, props) => {
+	const { inputValue, isPseudoFocused, isFocused } = state;
+	const { onSelectResetsInput } = props;
+
+	if (!inputValue) return true;
+
+	if (!onSelectResetsInput){
+		return !(!isFocused && isPseudoFocused || isFocused && !isPseudoFocused);
+	}
+
+	return false;
+};
+
+const shouldShowPlaceholder = (state, props, isOpen) => {
+	const { inputValue, isPseudoFocused, isFocused } = state;
+	const { onSelectResetsInput } = props;
+
+	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
+};
+
 class Select extends React.Component {
 	constructor (props) {
 		super(props);
@@ -102,7 +122,7 @@ class Select extends React.Component {
 			this.setState({ required: false });
 		}
 
-		if (this.state.inputValue && this.props.value !== nextProps.value && this.props.onSelectResetsInput) {
+		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
 			this.setState({ inputValue: this.handleInputValueChange('') });
 		}
 	}
@@ -347,7 +367,7 @@ class Select extends React.Component {
 
 		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
 		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-		
+
 		if (this.props.onFocus) {
 			this.props.onFocus(event);
 		}
@@ -423,14 +443,14 @@ class Select extends React.Component {
 					event.preventDefault();
 					this.popValue();
 				}
-			return;
+				break;
 			case 9: // tab
 				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
-					return;
+					break;
 				}
 				event.preventDefault();
 				this.selectFocusedOption();
-			return;
+				break;
 			case 13: // enter
 				event.preventDefault();
 				event.stopPropagation();
@@ -439,9 +459,9 @@ class Select extends React.Component {
 				} else {
 					this.focusNextOption();
 				}
-				return;
-			break;
+				break;
 			case 27: // escape
+				event.preventDefault();
 				if (this.state.isOpen) {
 					this.closeMenu();
 					event.stopPropagation();
@@ -449,52 +469,56 @@ class Select extends React.Component {
 					this.clearValue(event);
 					event.stopPropagation();
 				}
-			break;
+				break;
 			case 32: // space
 				if (this.props.searchable) {
-					return;
+					break;
 				}
 				event.preventDefault();
 				if (!this.state.isOpen) {
 					this.focusNextOption();
-					return;
+					break;
 				}
 				event.stopPropagation();
 				this.selectFocusedOption();
-			break;
+				break;
 			case 38: // up
+				event.preventDefault();
 				this.focusPreviousOption();
-			break;
+				break;
 			case 40: // down
+				event.preventDefault();
 				this.focusNextOption();
-			break;
+				break;
 			case 33: // page up
+				event.preventDefault();
 				this.focusPageUpOption();
-			break;
+				break;
 			case 34: // page down
+				event.preventDefault();
 				this.focusPageDownOption();
-			break;
+				break;
 			case 35: // end key
 				if (event.shiftKey) {
-					return;
+					break;
 				}
+				event.preventDefault();
 				this.focusEndOption();
-			break;
+				break;
 			case 36: // home key
 				if (event.shiftKey) {
-					return;
+					break;
 				}
+				event.preventDefault();
 				this.focusStartOption();
-			break;
+				break;
 			case 46: // delete
+				event.preventDefault();
 				if (!this.state.inputValue && this.props.deleteRemoves) {
-					event.preventDefault();
 					this.popValue();
 				}
-			return;
-			default: return;
+				break;
 		}
-		event.preventDefault();
 	}
 
 	handleValueClick (option, event) {
@@ -771,7 +795,8 @@ class Select extends React.Component {
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
-			return !this.state.inputValue ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
+			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
+			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
@@ -785,13 +810,14 @@ class Select extends React.Component {
 						onClick={onClick}
 						onRemove={this.removeValue}
 						value={value}
+						placeholder={this.props.placeholder}
 					>
 						{renderLabel(value, i)}
 						<span className="Select-aria-only">&nbsp;</span>
 					</ValueComponent>
 				);
 			});
-		} else if (!this.state.inputValue) {
+		} else if (shouldShowValue(this.state, this.props)) {
 			if (isOpen) onClick = null;
 			return (
 				<ValueComponent
@@ -800,6 +826,7 @@ class Select extends React.Component {
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
 					value={valueArray[0]}
+					placeholder={this.props.placeholder}
 				>
 					{renderLabel(valueArray[0])}
 				</ValueComponent>
@@ -818,6 +845,13 @@ class Select extends React.Component {
 				&& this.state.isFocused
 				&& !this.state.inputValue
 		});
+
+		let value = this.state.inputValue;
+		if (value && !this.props.onSelectResetsInput && !this.state.isFocused){
+			// it hides input value when it is not focused and was not reset on select
+			value= '';
+		}
+
 		const inputProps = {
 			...this.props.inputProps,
 			role: 'combobox',
@@ -835,7 +869,7 @@ class Select extends React.Component {
 			onFocus: this.handleInputFocus,
 			ref: ref => this.input = ref,
 			required: this.state.required,
-			value: this.state.inputValue,
+			value,
 		};
 
 		if (this.props.inputRenderer) {
