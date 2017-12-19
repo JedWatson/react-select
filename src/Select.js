@@ -393,7 +393,7 @@ class Select extends React.Component {
 
 		this.setState({
 			isFocused: true,
-			isOpen: toOpen,
+			isOpen: !!toOpen,
 		});
 
 		this._openAfterFocus = false;
@@ -835,7 +835,7 @@ class Select extends React.Component {
 
 	renderInput (valueArray, focusedOptionIndex) {
 		const className = classNames('Select-input', this.props.inputProps.className);
-		const isOpen = !!this.state.isOpen;
+		const isOpen = this.state.isOpen;
 
 		const ariaOwns = classNames({
 			[this._instancePrefix + '-list']: isOpen,
@@ -896,7 +896,7 @@ class Select extends React.Component {
 					onBlur={this.handleInputBlur}
 					onFocus={this.handleInputFocus}
 					ref={ref => this.input = ref}
-					aria-disabled={'' + !!this.props.disabled}
+					aria-disabled={'' + this.props.disabled}
 					style={{ border: 0, width: 1, display:'inline-block' }}/>
 			);
 		}
