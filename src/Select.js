@@ -68,7 +68,6 @@ const expandValue = (value, props) => {
 	}
 };
 
-
 const handleRequired = (value, multi) => {
 	if (!value) return true;
 	return (multi ? value.length === 0 : Object.keys(value).length === 0);
