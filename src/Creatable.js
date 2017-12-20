@@ -31,7 +31,7 @@ class CreatableSelect extends React.Component {
 			// Don't add the same option twice.
 			if (isOptionUnique) {
 				if (onNewOptionClick) {
-					onNewOptionClick(option);
+					onNewOptionClick.call(this, option);
 				} else {
 					options.unshift(option);
 
