@@ -1,29 +1,25 @@
-'use strict';
 /* global describe, it, beforeEach */
 
-var helper = require('../testHelpers/jsdomHelper');
+import helper from '../testHelpers/jsdomHelper';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import sinon from 'sinon';
+import TestUtils from 'react-dom/test-utils';
+import unexpected from 'unexpected';
+import unexpectedDom from 'unexpected-dom';
+import unexpectedSinon from 'unexpected-sinon';
+
+import Option from '../src/Option';
+
 helper();
-
-var unexpected = require('unexpected');
-var unexpectedDom = require('unexpected-dom');
-var unexpectedSinon = require('unexpected-sinon');
-var sinon = require('sinon');
-
-var expect = unexpected
+const expect = unexpected
 	.clone()
 	.installPlugin(unexpectedSinon)
 	.installPlugin(unexpectedDom);
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-dom/test-utils');
-
-var Option = require('../src/Option').default;
-
-
-describe('Option component', function() {
-	var onFocus, onSelect, onUnfocus, instance;
-	var createOption = (props) => {
+describe('Option component', () => {
+	let onFocus, onSelect, onUnfocus, instance, node;
+	const createOption = props => {
 		onFocus = sinon.spy();
 		onSelect = sinon.spy();
 		onUnfocus = sinon.spy();
@@ -36,12 +32,12 @@ describe('Option component', function() {
 				{...props}
 				/>
 		);
-		return instance;
 
+		return instance;
 	};
 
-	it('renders the given option', function() {
-		var props = {
+	beforeEach(() => {
+		const props = {
 			instancePrefix: 'test',
 			className: 'Wrapper-Class',
 			children: 'Test Label',
@@ -52,7 +48,10 @@ describe('Option component', function() {
 			}
 		};
 		instance = createOption(props);
-		var node = ReactDOM.findDOMNode(instance);
+		node = ReactDOM.findDOMNode(instance);
+	});
+
+	it('renders the given option', () => {
 		expect(node.textContent, 'to equal', 'Test Label');
 		expect(onSelect, 'was not called');
 		TestUtils.Simulate.mouseDown(node);
@@ -63,8 +62,9 @@ describe('Option component', function() {
 		TestUtils.Simulate.mouseMove(node);
 		expect(onFocus, 'was called');
 	});
-	it('does not focus if Option isFocused already', function() {
-		var props = {
+
+	it('does not focus if Option isFocused already', () => {
+		const props = {
 			isFocused: true,
 			instancePrefix: 'test',
 			className: 'Wrapper-Class',
@@ -76,24 +76,13 @@ describe('Option component', function() {
 			}
 		};
 		instance = createOption(props);
-		var node = ReactDOM.findDOMNode(instance);
+		node = ReactDOM.findDOMNode(instance);
 		expect(onFocus, 'was not called');
 		TestUtils.Simulate.mouseEnter(node);
 		expect(onFocus, 'was not called');
 	});
-	it('simulates touch events', function() {
-		var props = {
-			instancePrefix: 'test',
-			className: 'Wrapper-Class',
-			children: 'Test Label',
-			option: {
-				title: 'testitem',
-				label: 'testitem',
-				className: 'Option-Class'
-			}
-		};
-		instance = createOption(props);
-		var node = ReactDOM.findDOMNode(instance);
+
+	it('simulates touch events', () => {
 		expect(instance.dragging, 'to equal', undefined);
 		// simulate scrolling event
 		TestUtils.Simulate.touchStart(node);
@@ -109,5 +98,103 @@ describe('Option component', function() {
 		TestUtils.Simulate.touchEnd(node);
 		expect(onSelect, 'was called');
 		expect(instance.dragging, 'to equal', false);
+	});
+
+	describe('blockEvent', () => {
+		let preventDefault, stopPropagation, openStub;
+		beforeEach(() =>{
+			preventDefault = sinon.spy();
+			stopPropagation = sinon.spy();
+			openStub = sinon.stub(window, 'open');
+		});
+
+		afterEach(() => {
+			openStub.restore();
+		});
+
+		it('should call window.open', () => {
+			const event = {
+				target: {
+					href: 'http://go.com',
+					tagName: 'A',
+					target: 'yes',
+				},
+				preventDefault,
+				stopPropagation,
+			};
+
+			instance.blockEvent(event);
+
+			expect(openStub, 'was called once');
+			expect(openStub, 'was called with', event.target.href, event.target.target);
+		});
+
+		it('should set window.location.href and not call window.open', () => {
+			const event = {
+				target: {
+					href: 'http://go.com',
+					tagName: 'A',
+				},
+				preventDefault,
+				stopPropagation,
+			};
+
+			Object.defineProperty(window.location, 'href', {
+				writable: true,
+				value: 'url'
+			});
+
+			expect(window.location.href, 'not to equal', event.target.href);
+
+			instance.blockEvent(event);
+
+			expect(window.location.href, 'to equal', event.target.href);
+			expect(openStub, 'was not called');
+		});
+
+		it('should return and not call window.open when tagName !=A', () => {
+			const event = {
+				target: {
+					href: 'http://go.com',
+					tagName: '',
+				},
+				preventDefault,
+				stopPropagation,
+			};
+
+			Object.defineProperty(window.location, 'href', {
+				writable: true,
+				value: 'url'
+			});
+
+			expect(window.location.href, 'to equal', 'url');
+
+			instance.blockEvent(event);
+
+			expect(window.location.href, 'to equal', 'url');
+			expect(openStub, 'was not called');
+		});
+
+		it('should return and not call window.open when no href', () => {
+			const event = {
+				target: {
+					tagName: 'A',
+				},
+				preventDefault,
+				stopPropagation,
+			};
+
+			Object.defineProperty(window.location, 'href', {
+				writable: true,
+				value: 'url'
+			});
+
+			expect(window.location.href, 'to equal', 'url');
+
+			instance.blockEvent(event);
+
+			expect(window.location.href, 'to equal', 'url');
+			expect(openStub, 'was not called');
+		});
 	});
 });
