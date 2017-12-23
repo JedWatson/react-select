@@ -4523,9 +4523,14 @@ describe('Select', () => {
 	});
 
 	describe('handleMouseDown method', () => {
-		it('for isFocused=false should set _openAfterFocus and call focus, setState, preventDefault', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+		let preventDefault = {};
+		let event = {};
+		let focusStub = {};
+		let setStateStub = {};
+
+		beforeEach(() => {
+			preventDefault = sinon.spy();
+			event = {
 				type: 'mousedown',
 				button: 0,
 				target: {
@@ -4536,18 +4541,19 @@ describe('Select', () => {
 
 			instance = createControl({
 				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
 			});
+
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
+		});
+
+		afterEach(() => {
+			focusStub.restore();
+			setStateStub.restore();
+		});
+
+		it('for isFocused=false should set _openAfterFocus and call focus, setState, preventDefault', () => {
 			instance.state.isFocused = false;
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
-
 			expect(instance._openAfterFocus, 'to equal', false );
 			expect(instance.props.openOnClick, 'to equal', true );
 			expect(instance.state.isFocused, 'to equal', false );
@@ -4559,35 +4565,9 @@ describe('Select', () => {
 			expect(setStateStub, 'was called once');
 			expect(instance._openAfterFocus, 'to equal', true );
 			expect(setStateStub, 'was called with', { focusedOption: null });
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for isFocused=true and _focusAfterClear=false should  call focus, setState, preventDefault', () => {
-			const preventDefault = sinon.spy();
-			const event = {
-				type: 'mousedown',
-				button: 0,
-				target: {
-					tagName: 'yo',
-				},
-				preventDefault,
-			};
-
-			instance = createControl({
-				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
-
 			expect(instance._focusAfterClear, 'to equal', false );
 			expect(instance.state.isFocused, 'to equal', true );
 
@@ -4603,34 +4583,10 @@ describe('Select', () => {
 					focusedOption: null
 				});
 
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for isFocused=true and _focusAfterClear=true should set _focusAfterClear and call focus, setState, preventDefault', () => {
-			const preventDefault = sinon.spy();
-			const event = {
-				type: 'mousedown',
-				button: 0,
-				target: {
-					tagName: 'yo',
-				},
-				preventDefault,
-			};
-
-			instance = createControl({
-				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
 			instance._focusAfterClear = true;
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
 
 			expect(instance._focusAfterClear, 'to equal', true );
 			expect(instance.state.isFocused, 'to equal', true );
@@ -4647,34 +4603,13 @@ describe('Select', () => {
 					isPseudoFocused: false,
 					focusedOption: null
 				});
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for searchable=false and should call focus, setState, preventDefault', () => {
-			const preventDefault = sinon.spy();
-			const event = {
-				type: 'mousedown',
-				button: 0,
-				target: {
-					tagName: 'yo',
-				},
-				preventDefault,
-			};
+			instance = createControl({ searchable: false });
 
-			instance = createControl({
-				searchable: false,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
 			const isOpen = instance.state.isOpen;
 
 			instance.handleMouseDown(event);
@@ -4683,14 +4618,10 @@ describe('Select', () => {
 			expect(focusStub, 'was called once');
 			expect(setStateStub, 'was called once');
 			expect(setStateStub, 'was called with', { isOpen: !isOpen });
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for tagName="INPUT", isFocused=false should call only focus', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+			event = {
 				type: 'mousedown',
 				button: 0,
 				target: {
@@ -4699,36 +4630,19 @@ describe('Select', () => {
 				preventDefault,
 			};
 
-			instance = createControl({
-				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
 			instance.state.isFocused = false;
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
 			expect(instance._openAfterFocus, 'to equal', false );
 
 			instance.handleMouseDown(event);
 
 			expect(instance._openAfterFocus, 'to equal', true );
-
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was called once');
 			expect(setStateStub, 'was not called');
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for tagName="INPUT", isFocused=true, isOpen=false should call setState', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+			event = {
 				type: 'mousedown',
 				button: 0,
 				target: {
@@ -4737,20 +4651,8 @@ describe('Select', () => {
 				preventDefault,
 			};
 
-			instance = createControl({
-				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
 			instance.state.isFocused = true;
 			instance.state.isOpen = false;
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
 
 			instance.handleMouseDown(event);
 
@@ -4758,14 +4660,10 @@ describe('Select', () => {
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was called once');
 			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false });
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('for tagName="INPUT", isFocused=true, isOpen=true should return', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+			event = {
 				type: 'mousedown',
 				button: 0,
 				target: {
@@ -4774,34 +4672,18 @@ describe('Select', () => {
 				preventDefault,
 			};
 
-			instance = createControl({
-				openOnClick: true,
-				value: 'two',
-				options: [
-					{ value: 'one', label: 'One' },
-					{ value: 'two', label: 'Two' },
-					{ value: 'three', label: 'Three' }
-				]
-			});
 			instance.state.isFocused = true;
 			instance.state.isOpen = true;
 
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
-
 			instance.handleMouseDown(event);
 
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was not called');
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('should return for disabled', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+			event = {
 				type: 'mousedown',
 				button: 0,
 				target: {
@@ -4810,28 +4692,20 @@ describe('Select', () => {
 				preventDefault,
 			};
 
-			instance = createControl({
-				disabled: true,
-				value: 'two',
-				options: []
-			});
+			instance = createControl({ disabled: true });
 
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
 
 			instance.handleMouseDown(event);
 
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was not called');
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 
 		it('should return for button !=0', () => {
-			const preventDefault = sinon.spy();
-			const event = {
+			event = {
 				type: 'mousedown',
 				button: 2,
 				target: {
@@ -4840,22 +4714,11 @@ describe('Select', () => {
 				preventDefault,
 			};
 
-			instance = createControl({
-				value: '',
-				options: []
-			});
-
-			const focusStub = sinon.stub(instance, 'focus');
-			const setStateStub = sinon.stub(instance, 'setState');
-
 			instance.handleMouseDown(event);
 
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was not called');
-
-			focusStub.restore();
-			setStateStub.restore();
 		});
 	});
 });
