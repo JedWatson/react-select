@@ -27,6 +27,9 @@ var StatesField = createClass({
 			rtl: false,
 		};
 	},
+	clearValue (e) {
+		this.select.setInputValue('');
+	},
 	switchCountry (e) {
 		var newCountry = e.target.value;
 		this.setState({
@@ -54,7 +57,9 @@ var StatesField = createClass({
 				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/States.js">(Source)</a></h3>
 				<Select
 					id="state-select"
-					ref="stateSelect"
+					ref={(ref) => { this.select = ref; }}
+					onBlurResetsInput={false}
+					onSelectResetsInput={false}
 					autoFocus
 					options={options}
 					simpleValue
@@ -68,6 +73,8 @@ var StatesField = createClass({
 					searchable={this.state.searchable}
 				/>
 				<button style={{ marginTop: '15px' }} type="button" onClick={this.focusStateSelect}>Focus Select</button>
+				<button style={{ marginTop: '15px' }} type="button" onClick={this.clearValue}>Clear Value</button>
+
 				<div className="checkbox-list">
 
 					<label className="checkbox">
