@@ -416,6 +416,18 @@ class Select extends React.Component {
 		});
 	}
 
+	setInputValue(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		this.setState({
+			inputValue: newValue
+		});
+	}
+
 	handleInputValueChange(newValue) {
 		if (this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newValue);
@@ -589,10 +601,10 @@ class Select extends React.Component {
 			const required = this.handleRequired(value, this.props.multi);
 			this.setState({ required });
 		}
+		if (this.props.simpleValue && value) {
+			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+		}
 		if (this.props.onChange) {
-			if (this.props.simpleValue && value) {
-				value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
-			}
 			this.props.onChange(value);
 		}
 	}
@@ -719,11 +731,15 @@ class Select extends React.Component {
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
-			this.setState({
+			const newState = {
+				...this.state,
 				isOpen: true,
-				inputValue: '',
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null)
-			});
+			};
+			if (this.props.onSelectResetsInput) {
+				newState.inputValue = '';
+			}
+			this.setState(newState);
 			return;
 		}
 		if (!options.length) return;

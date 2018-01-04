@@ -2138,6 +2138,24 @@ describe('Select', () => {
 		];
 
 		describe('with single select', () => {
+			it('should have retained inputValue after accepting selection with onSelectResetsInput=false, when navigating via keyboard', () => {
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					onSelectResetsInput: false,
+					onCloseResetsInput: false,
+					onBlurResetsInput: false,
+					simpleValue: true,
+				});
+				clickArrowToOpen();
+				typeSearchText('tw');
+				pressEnterToAccept();
+				setValueProp('two');
+
+				expect(instance.state.inputValue, 'to equal', 'tw');
+				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
+				expect(instance, 'to contain', <input value="tw"/>);
+			});
 			it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
 				// Render an instance of the component
 				wrapper = createControlWithWrapper({
@@ -2146,6 +2164,7 @@ describe('Select', () => {
 					onSelectResetsInput: false,
 					onCloseResetsInput: false,
 					onBlurResetsInput: false,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();
@@ -2199,7 +2218,8 @@ describe('Select', () => {
 					value: '',
 					options: options,
 					multi: true,
-					onSelectResetsInput: false
+					onSelectResetsInput: false,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();
@@ -2216,6 +2236,7 @@ describe('Select', () => {
 					value: '',
 					options: options,
 					multi: true,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();

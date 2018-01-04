@@ -515,7 +515,7 @@ describe('Async', () => {
 		});
 
 		it('should not update options on componentWillReceiveProps', () => {
-			const props = {options: []};
+			const props = { options: [] };
 			createControl(props);
 
 			const setStateStub = sinon.stub(asyncInstance, 'setState');
