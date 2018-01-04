@@ -126,12 +126,9 @@ class Select extends React.Component {
 		// 1. There currently actually is an inputValue in state
 		// 2. The new value is different to the old value OR the new value is == null
 		// 3. The new value is not the same as the last set value OR onSelectResetsInput has been enabled
-		if (this.state.inputValue
-			&& (this.props.value !== nextProps.value || !nextProps.value)
-			&& (nextProps.value !== this._lastSetValue || nextProps.onSelectResetsInput)) {
-			this.setState({
-				inputValue: this.handleInputValueChange('')
-			});
+ 		//		(this is to ensure that the value prop change is not a result of selecting a value)
+		if (this.state.inputValue) {
+			this.clearInputValue(nextProps);
 		}
 
 		delete this._lastSetValue;
@@ -191,6 +188,15 @@ class Select extends React.Component {
 
 	componentWillUnmount () {
 		this.toggleTouchOutsideEvent(false);
+	}
+
+	clearInputValue (nextProps) {
+		if ((this.props.value !== nextProps.value || !nextProps.value)
+			&& (nextProps.value !== this._lastSetValue || nextProps.onSelectResetsInput)) {
+			this.setState({
+				inputValue: this.handleInputValueChange(''),
+			});
+		}
 	}
 
 	toggleTouchOutsideEvent (enabled) {
@@ -731,10 +737,11 @@ class Select extends React.Component {
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
 			const newState = {
+				...this.state,
 				isOpen: true,
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null)
 			};
-			if (!this.props.onSelectResetsInput) {
+			if (this.props.onSelectResetsInput) {
 				newState.inputValue = '';
 			}
 			this.setState(newState);
