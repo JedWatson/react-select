@@ -416,6 +416,18 @@ class Select extends React.Component {
 		});
 	}
 
+	setInputValue(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		this.setState({
+			inputValue: newValue
+		});
+	}
+
 	handleInputValueChange(newValue) {
 		if (this.props.onInputChange) {
 			let nextState = this.props.onInputChange(newValue);
