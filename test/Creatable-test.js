@@ -19,9 +19,7 @@ var TestUtils = require('react-dom/test-utils');
 var Select = require('../src');
 
 describe('Creatable', () => {
-	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance, renderer;
-
-	beforeEach(() => renderer = TestUtils.createRenderer());
+	let creatableInstance, creatableNode, filterInputNode, innerSelectInstance;
 
 	const defaultOptions = [
 		{ value: 'one', label: 'One' },
@@ -221,7 +219,7 @@ describe('Creatable', () => {
 		expect(test(newOption('qux', 4)), 'to be', true);
 		expect(test(newOption('Foo', 11)), 'to be', true);
 	});
-	
+
 	it('default: isOptionUnique function should always return true if given options are empty', () => {
 		const options = [];
 

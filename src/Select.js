@@ -122,16 +122,9 @@ class Select extends React.Component {
 			this.setState({ required: false });
 		}
 
-		// Here we only want to clear the input value under the following conditions.
-		// 1. There currently actually is an inputValue in state
-		// 2. The new value is different to the old value OR the new value is == null
-		// 3. The new value is not the same as the last set value OR onSelectResetsInput has been enabled
- 		//		(this is to ensure that the value prop change is not a result of selecting a value)
-		if (this.state.inputValue) {
-			this.clearInputValue(nextProps);
+		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
+			this.setState({ inputValue: this.handleInputValueChange('') });
 		}
-
-		delete this._lastSetValue;
 	}
 
 	componentDidUpdate (prevProps, prevState) {
@@ -188,15 +181,6 @@ class Select extends React.Component {
 
 	componentWillUnmount () {
 		this.toggleTouchOutsideEvent(false);
-	}
-
-	clearInputValue (nextProps) {
-		if ((this.props.value !== nextProps.value || !nextProps.value)
-			&& (nextProps.value !== this._lastSetValue || nextProps.onSelectResetsInput)) {
-			this.setState({
-				inputValue: this.handleInputValueChange(''),
-			});
-		}
 	}
 
 	toggleTouchOutsideEvent (enabled) {
@@ -608,7 +592,6 @@ class Select extends React.Component {
 		if (this.props.simpleValue && value) {
 			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
 		}
-		this._lastSetValue = value;
 		if (this.props.onChange) {
 			this.props.onChange(value);
 		}
