@@ -1,5 +1,33 @@
 # React-Select
 
+## Unreleased
+
+## New Release
+
+* Source cleanup, thanks to [Yuri S](https://github.com/yuri-sakharov) and [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2262)
+* Switched from babel-preset-es2015 to babel-preset-env, thanks [Rambabu Yadlapalli](https://github.com/RamYadlapalli) - [see PR](https://github.com/JedWatson/react-select/pull/2254)
+* Fixed focused option. Issue #2237, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2245)
+* Fix onSelectResetsInput bug from keyboard navigation, thanks [Charles Lee](https://github.com/gwyneplaine) - [see PR](https://github.com/JedWatson/react-select/pull/2259)
+* Fixed all warnings on running tests, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2231)
+* Added missing tests for Option.js and refactored Option-test.js., thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2249)
+* Added missing tests for Async.js, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2250)
+* Fixed console error in GitHub users example, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2244)
+* Fixed readme example. Issue #2235, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2246)
+* Regression fix for single select with onSelectResetsInput=false, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2226)
+* Pass placeholder prop to ValueComponent, thanks [Aravind Srivatsan](https://github.com/aravindsrivats) - [see PR](https://github.com/JedWatson/react-select/pull/2225)
+* Refactored handleKeyDown switch, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2228)
+* onSelectResetsInput regression fixed, thanks [Jed Watson](https://github.com/dehamilton) - [see PR](https://github.com/JedWatson/react-select/pull/2215)
+* Don't open drop down menu when clear values, thanks [Jed Watson](https://github.com/Chopinsky) - [see PR](https://github.com/JedWatson/react-select/pull/2198)
+* Clear input value on receiving props with another value., thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2183)
+* Fix/is option unique crash, thanks [Jacob Zuo](https://github.com/Chopinsky) - [see PR](https://github.com/JedWatson/react-select/pull/2185)
+* Use react-input-autosize v2.1.2 for guard against undefined window, thanks [DStyleZ](https://github.com/sximba) - [see PR](https://github.com/JedWatson/react-select/pull/2187)
+* Fix issue #2182, thanks [Kurt Hoyt](https://github.com/kurtinatlanta) - [see PR](https://github.com/JedWatson/react-select/pull/2213)
+* Documenting behavior of onBlurResetsInput in the readme., thanks [hobbsl](https://github.com/levininja) - [see PR](https://github.com/JedWatson/react-select/pull/2212)
+* Use onSelectResetsInput for single select, thanks [lachiet](https://github.com/lachiet) - [see PR](https://github.com/JedWatson/react-select/pull/2205)
+* Fix state value in README example, thanks [Srishan Bhattarai](https://github.com/srishanbhattarai) - [see PR](https://github.com/JedWatson/react-select/pull/2192)
+* document breaking change of removing getInputValue, thanks [Turadg Aleahmad](https://github.com/turadg) - [see PR](https://github.com/JedWatson/react-select/pull/2195)
+* Fixed search for invalid label and/or value, thanks [Yuri S](https://github.com/yuri-sakharov) - [see PR](https://github.com/JedWatson/react-select/pull/2179)
+
 ## v1.1.0 / 2017-11-28
 
 * added; more props are passed to the Option component: `focusOption`, `inputValue`, `selectValue`, `removeValue`
