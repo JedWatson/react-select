@@ -303,11 +303,13 @@ class Select extends React.Component {
 			this.setState({
 				isOpen: toOpen,
 				isPseudoFocused: false,
+				focusedOption: null,
 			});
 		} else {
 			// otherwise, focus the input and open the menu
 			this._openAfterFocus = this.props.openOnClick;
 			this.focus();
+			this.setState({ focusedOption: null });
 		}
 	}
 
