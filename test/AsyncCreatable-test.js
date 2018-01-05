@@ -19,11 +19,10 @@ var sinon = require('sinon');
 var Select = require('../src');
 
 describe('AsyncCreatable', () => {
-	let creatableInstance, creatableNode, filterInputNode, loadOptions, renderer;
+	let creatableInstance, creatableNode, filterInputNode, loadOptions;
 
 	beforeEach(() => {
 		loadOptions = sinon.stub();
-		renderer = TestUtils.createRenderer();
 	});
 
 	function createControl (props = {}) {

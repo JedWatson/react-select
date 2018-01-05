@@ -1,6 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+const blockEvent = event => {
+	event.preventDefault();
+	event.stopPropagation();
+	if ((event.target.tagName !== 'A') || !('href' in event.target)) {
+		return;
+	}
+	if (event.target.target) {
+		window.open(event.target.href, event.target.target);
+	} else {
+		window.location.href = event.target.href;
+	}
+};
 
 class Option extends React.Component {
 
@@ -14,20 +27,6 @@ class Option extends React.Component {
 		this.handleTouchEnd = this.handleTouchEnd.bind(this);
 		this.handleTouchMove = this.handleTouchMove.bind(this);
 		this.onFocus = this.onFocus.bind(this);
-	}
-
-
-	blockEvent (event) {
-		event.preventDefault();
-		event.stopPropagation();
-		if ((event.target.tagName !== 'A') || !('href' in event.target)) {
-			return;
-		}
-		if (event.target.target) {
-			window.open(event.target.href, event.target.target);
-		} else {
-			window.location.href = event.target.href;
-		}
 	}
 
 	handleMouseDown (event) {
@@ -52,12 +51,12 @@ class Option extends React.Component {
 		this.handleMouseDown(event);
 	}
 
-	handleTouchMove (event) {
+	handleTouchMove () {
 		// Set a flag that the view is being dragged
 		this.dragging = true;
 	}
 
-	handleTouchStart (event) {
+	handleTouchStart () {
 		// Set a flag that the view is not being dragged
 		this.dragging = false;
 	}
@@ -69,13 +68,13 @@ class Option extends React.Component {
 	}
 
 	render () {
-		var { option, instancePrefix, optionIndex } = this.props;
-		var className = classNames(this.props.className, option.className);
+		const { option, instancePrefix, optionIndex } = this.props;
+		const className = classNames(this.props.className, option.className);
 
 		return option.disabled ? (
 			<div className={className}
-				onMouseDown={this.blockEvent}
-				onClick={this.blockEvent}>
+				onMouseDown={blockEvent}
+				onClick={blockEvent}>
 				{this.props.children}
 			</div>
 		) : (
@@ -95,7 +94,7 @@ class Option extends React.Component {
 			</div>
 		);
 	}
-};
+}
 
 Option.propTypes = {
 	children: PropTypes.node,

@@ -1,12 +1,12 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-function menuRenderer ({
+const menuRenderer = ({
 	focusedOption,
 	focusOption,
 	inputValue,
 	instancePrefix,
-	labelKey,
 	onFocus,
 	onOptionRef,
 	onSelect,
@@ -18,11 +18,11 @@ function menuRenderer ({
 	selectValue,
 	valueArray,
 	valueKey,
-}) {
+}) => {
 	let Option = optionComponent;
 
 	return options.map((option, i) => {
-		let isSelected = valueArray && valueArray.some(x => x[valueKey] == option[valueKey]);
+		let isSelected = valueArray && valueArray.some(x => x[valueKey] === option[valueKey]);
 		let isFocused = option === focusedOption;
 		let optionClass = classNames(optionClassName, {
 			'Select-option': true,
@@ -53,6 +53,24 @@ function menuRenderer ({
 			</Option>
 		);
 	});
-}
+};
+
+menuRenderer.propTypes = {
+	focusOption: PropTypes.func,
+	focusedOption: PropTypes.object,
+	inputValue: PropTypes.string,
+	instancePrefix: PropTypes.string,
+	onFocus: PropTypes.func,
+	onOptionRef: PropTypes.func,
+	onSelect: PropTypes.func,
+	optionClassName: PropTypes.string,
+	optionComponent: PropTypes.func,
+	optionRenderer: PropTypes.func,
+	options: PropTypes.array,
+	removeValue: PropTypes.func,
+	selectValue: PropTypes.func,
+	valueArray: PropTypes.array,
+	valueKey: PropTypes.string,
+};
 
 export default menuRenderer;

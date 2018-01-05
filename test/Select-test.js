@@ -2138,6 +2138,24 @@ describe('Select', () => {
 		];
 
 		describe('with single select', () => {
+			it('should have retained inputValue after accepting selection with onSelectResetsInput=false, when navigating via keyboard', () => {
+				wrapper = createControlWithWrapper({
+					value: '',
+					options: options,
+					onSelectResetsInput: false,
+					onCloseResetsInput: false,
+					onBlurResetsInput: false,
+					simpleValue: true,
+				});
+				clickArrowToOpen();
+				typeSearchText('tw');
+				pressEnterToAccept();
+				setValueProp('two');
+
+				expect(instance.state.inputValue, 'to equal', 'tw');
+				expect(instance, 'to contain', <div><span className="Select-value-label">Two</span></div>);
+				expect(instance, 'to contain', <input value="tw"/>);
+			});
 			it('should have retained inputValue after accepting selection with onSelectResetsInput=false', () => {
 				// Render an instance of the component
 				wrapper = createControlWithWrapper({
@@ -2146,6 +2164,7 @@ describe('Select', () => {
 					onSelectResetsInput: false,
 					onCloseResetsInput: false,
 					onBlurResetsInput: false,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();
@@ -2199,7 +2218,8 @@ describe('Select', () => {
 					value: '',
 					options: options,
 					multi: true,
-					onSelectResetsInput: false
+					onSelectResetsInput: false,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();
@@ -2216,6 +2236,7 @@ describe('Select', () => {
 					value: '',
 					options: options,
 					multi: true,
+					simpleValue: true,
 				});
 
 				clickArrowToOpen();
@@ -4434,36 +4455,44 @@ describe('Select', () => {
 				autoFocus: true,
 				options: defaultOptions,
 			});
-			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			const input = ReactDOM.findDOMNode(instance.input).querySelector('input');
 			expect(input, 'to equal', document.activeElement);
 		});
 		it('with autofocus as well, calls focus() only once', () => {
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				autoFocus: true,
 				options: defaultOptions,
 			});
-			var focus = sinon.spy(instance, 'focus');
+			const focus = sinon.spy(instance, 'focus');
 			instance.componentDidMount();
 			expect(focus, 'was called once');
+
+			warn.restore();
 		});
 	});
 	describe('with autofocus', () => {
 		it('focuses the select input on mount', () => {
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				options: defaultOptions,
 			});
-			var input = ReactDOM.findDOMNode(instance.input).querySelector('input');
+			const input = ReactDOM.findDOMNode(instance.input).querySelector('input');
 			expect(input, 'to equal', document.activeElement);
+
+			warn.restore();
 		});
 		it('calls console.warn', () => {
-			var warn = sinon.spy(console, 'warn');
+			const warn = sinon.stub(console, 'warn');
 			wrapper = createControl({
 				autofocus: true,
 				options: defaultOptions,
 			});
 			expect(warn, 'was called once');
+
+			warn.restore();
 		});
 	});
 	describe('rtl', () => {
@@ -4518,6 +4547,206 @@ describe('Select', () => {
 						expect.it('to have text', 'Twenty two')
 					]);
 			});
+		});
+	});
+
+	describe('handleMouseDown method', () => {
+		let preventDefault = {};
+		let event = {};
+		let focusStub = {};
+		let setStateStub = {};
+
+		beforeEach(() => {
+			preventDefault = sinon.spy();
+			event = {
+				type: 'mousedown',
+				button: 0,
+				target: {
+					tagName: 'yo',
+				},
+				preventDefault,
+			};
+
+			instance = createControl({
+				openOnClick: true,
+			});
+
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
+		});
+
+		afterEach(() => {
+			focusStub.restore();
+			setStateStub.restore();
+		});
+
+		it('for isFocused=false should set _openAfterFocus and call focus, setState, preventDefault', () => {
+			instance.state.isFocused = false;
+			expect(instance._openAfterFocus, 'to equal', false );
+			expect(instance.props.openOnClick, 'to equal', true );
+			expect(instance.state.isFocused, 'to equal', false );
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was called once');
+			expect(focusStub, 'was called once');
+			expect(setStateStub, 'was called once');
+			expect(instance._openAfterFocus, 'to equal', true );
+			expect(setStateStub, 'was called with', { focusedOption: null });
+		});
+
+		it('for isFocused=true and _focusAfterClear=false should  call focus, setState, preventDefault', () => {
+			expect(instance._focusAfterClear, 'to equal', false );
+			expect(instance.state.isFocused, 'to equal', true );
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was called once');
+			expect(focusStub, 'was called once');
+			expect(setStateStub, 'was called once');
+			expect(setStateStub, 'was called with',
+				{
+					isOpen: true,
+					isPseudoFocused: false,
+					focusedOption: null
+				});
+
+		});
+
+		it('for isFocused=true and _focusAfterClear=true should set _focusAfterClear and call focus, setState, preventDefault', () => {
+			instance._focusAfterClear = true;
+
+			expect(instance._focusAfterClear, 'to equal', true );
+			expect(instance.state.isFocused, 'to equal', true );
+
+			instance.handleMouseDown(event);
+
+			expect(instance._focusAfterClear, 'to equal', false );
+			expect(preventDefault, 'was called once');
+			expect(focusStub, 'was called once');
+			expect(setStateStub, 'was called once');
+			expect(setStateStub, 'was called with',
+				{
+					isOpen: false,
+					isPseudoFocused: false,
+					focusedOption: null
+				});
+		});
+
+		it('for searchable=false and should call focus, setState, preventDefault', () => {
+			instance = createControl({ searchable: false });
+
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
+			const isOpen = instance.state.isOpen;
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was called once');
+			expect(focusStub, 'was called once');
+			expect(setStateStub, 'was called once');
+			expect(setStateStub, 'was called with', { isOpen: !isOpen });
+		});
+
+		it('for tagName="INPUT", isFocused=false should call only focus', () => {
+			event = {
+				type: 'mousedown',
+				button: 0,
+				target: {
+					tagName: 'INPUT',
+				},
+				preventDefault,
+			};
+
+			instance.state.isFocused = false;
+			expect(instance._openAfterFocus, 'to equal', false );
+
+			instance.handleMouseDown(event);
+
+			expect(instance._openAfterFocus, 'to equal', true );
+			expect(preventDefault, 'was not called');
+			expect(focusStub, 'was called once');
+			expect(setStateStub, 'was not called');
+		});
+
+		it('for tagName="INPUT", isFocused=true, isOpen=false should call setState', () => {
+			event = {
+				type: 'mousedown',
+				button: 0,
+				target: {
+					tagName: 'INPUT',
+				},
+				preventDefault,
+			};
+
+			instance.state.isFocused = true;
+			instance.state.isOpen = false;
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was not called');
+			expect(focusStub, 'was not called');
+			expect(setStateStub, 'was called once');
+			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false });
+		});
+
+		it('for tagName="INPUT", isFocused=true, isOpen=true should return', () => {
+			event = {
+				type: 'mousedown',
+				button: 0,
+				target: {
+					tagName: 'INPUT',
+				},
+				preventDefault,
+			};
+
+			instance.state.isFocused = true;
+			instance.state.isOpen = true;
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was not called');
+			expect(focusStub, 'was not called');
+			expect(setStateStub, 'was not called');
+		});
+
+		it('should return for disabled', () => {
+			event = {
+				type: 'mousedown',
+				button: 0,
+				target: {
+					tagName: 'INPUT',
+				},
+				preventDefault,
+			};
+
+			instance = createControl({ disabled: true });
+
+			focusStub = sinon.stub(instance, 'focus');
+			setStateStub = sinon.stub(instance, 'setState');
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was not called');
+			expect(focusStub, 'was not called');
+			expect(setStateStub, 'was not called');
+		});
+
+		it('should return for button !=0', () => {
+			event = {
+				type: 'mousedown',
+				button: 2,
+				target: {
+					tagName: 'INPUT',
+				},
+				preventDefault,
+			};
+
+			instance.handleMouseDown(event);
+
+			expect(preventDefault, 'was not called');
+			expect(focusStub, 'was not called');
+			expect(setStateStub, 'was not called');
 		});
 	});
 });

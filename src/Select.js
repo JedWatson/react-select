@@ -322,11 +322,13 @@ class Select extends React.Component {
 			this.setState({
 				isOpen: toOpen,
 				isPseudoFocused: false,
+				focusedOption: null,
 			});
 		} else {
 			// otherwise, focus the input and open the menu
 			this._openAfterFocus = this.props.openOnClick;
 			this.focus();
+			this.setState({ focusedOption: null });
 		}
 	}
 
@@ -432,6 +434,18 @@ class Select extends React.Component {
 			inputValue: newInputValue,
 			isOpen: true,
 			isPseudoFocused: false,
+		});
+	}
+
+	setInputValue(newValue) {
+		if (this.props.onInputChange) {
+			let nextState = this.props.onInputChange(newValue);
+			if (nextState != null && typeof nextState !== 'object') {
+				newValue = '' + nextState;
+			}
+		}
+		this.setState({
+			inputValue: newValue
 		});
 	}
 
@@ -588,10 +602,10 @@ class Select extends React.Component {
 			const required = handleRequired(value, this.props.multi);
 			this.setState({ required });
 		}
+		if (this.props.simpleValue && value) {
+			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+		}
 		if (this.props.onChange) {
-			if (this.props.simpleValue && value) {
-				value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
-			}
 			this.props.onChange(value);
 		}
 	}
@@ -718,11 +732,15 @@ class Select extends React.Component {
 			.filter(option => !option.option.disabled);
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
-			this.setState({
+			const newState = {
+				...this.state,
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null),
-				inputValue: '',
 				isOpen: true,
-			});
+			};
+			if (this.props.onSelectResetsInput) {
+				newState.inputValue = '';
+			}
+			this.setState(newState);
 			return;
 		}
 		if (!options.length) return;
