@@ -9,6 +9,8 @@ import unexpected from 'unexpected';
 import unexpectedDom from 'unexpected-dom';
 import unexpectedSinon from 'unexpected-sinon';
 
+import blockEvent from '../src/utils/blockEvent';
+
 import Option from '../src/Option';
 
 helper();
@@ -123,7 +125,7 @@ describe('Option component', () => {
 				stopPropagation,
 			};
 
-			instance.blockEvent(event);
+			blockEvent(event);
 
 			expect(openStub, 'was called once');
 			expect(openStub, 'was called with', event.target.href, event.target.target);
@@ -146,7 +148,7 @@ describe('Option component', () => {
 
 			expect(window.location.href, 'not to equal', event.target.href);
 
-			instance.blockEvent(event);
+			blockEvent(event);
 
 			expect(window.location.href, 'to equal', event.target.href);
 			expect(openStub, 'was not called');
@@ -169,7 +171,7 @@ describe('Option component', () => {
 
 			expect(window.location.href, 'to equal', 'url');
 
-			instance.blockEvent(event);
+			blockEvent(event);
 
 			expect(window.location.href, 'to equal', 'url');
 			expect(openStub, 'was not called');
@@ -191,7 +193,7 @@ describe('Option component', () => {
 
 			expect(window.location.href, 'to equal', 'url');
 
-			instance.blockEvent(event);
+			blockEvent(event);
 
 			expect(window.location.href, 'to equal', 'url');
 			expect(openStub, 'was not called');

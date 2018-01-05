@@ -733,7 +733,6 @@ class Select extends React.Component {
 		this._scrollToFocusedOptionOnUpdate = true;
 		if (!this.state.isOpen) {
 			const newState = {
-				...this.state,
 				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null),
 				isOpen: true,
 			};
