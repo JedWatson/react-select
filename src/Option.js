@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { blockEvent } from './utils/blockEvent';
+import blockEvent from './utils/blockEvent';
 
 class Option extends React.Component {
 
