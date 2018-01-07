@@ -68,7 +68,7 @@ class App extends React.Component {
   render() {
   	const { selectedOption } = this.state;
   	const value = selectedOption && selectedOption.value;
-  	
+
     return (
       <Select
         name="form-field-name"
@@ -451,4 +451,4 @@ Thanks to the projects this was inspired by: [Selectize](http://selectize.github
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2017.
+MIT Licensed. Copyright (c) Jed Watson 2018.
