@@ -22,7 +22,7 @@ const filterOptions = (options, filterValue, excludeOptions, props) => {
 
 	return options.filter(option => {
 		if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
-		if (props.filterOption) return props.filterOption.call(this, option, filterValue);
+		if (props.filterOption) return props.filterOption.call(undefined, option, filterValue);
 		if (!filterValue) return true;
 
 		const value = option[props.valueKey];
