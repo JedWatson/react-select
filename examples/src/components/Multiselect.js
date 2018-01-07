@@ -18,9 +18,11 @@ const WHY_WOULD_YOU = [
 
 var MultiSelectField = createClass({
 	displayName: 'MultiSelectField',
+
 	propTypes: {
 		label: PropTypes.string,
 	},
+
 	getInitialState () {
 		return {
 			removeSelected: true,
@@ -29,17 +31,21 @@ var MultiSelectField = createClass({
 			stayOpen: false,
 			value: [],
 			rtl: false,
+			showSelectAll: true,
 		};
 	},
+
 	handleSelectChange (value) {
 		console.log('You\'ve selected:', value);
 		this.setState({ value });
 	},
+
 	toggleCheckbox (e) {
 		this.setState({
 			[e.target.name]: e.target.checked,
 		});
 	},
+
 	toggleRtl (e) {
 		let rtl = e.target.checked;
 		this.setState({ rtl });
@@ -61,7 +67,7 @@ var MultiSelectField = createClass({
           removeSelected={this.state.removeSelected}
 					rtl={this.state.rtl}
 					simpleValue
-					showSelectAll={true}
+					showSelectAll={this.state.showSelectAll}
 					value={value}
 				/>
 

@@ -1082,7 +1082,7 @@ class Select extends React.Component {
 					{selectAllButton}
 					{optionsMenu}
 				</div>
-			)
+			);
 		} else if (this.props.noResultsText) {
 			return (
 				<div className="Select-noresults">
