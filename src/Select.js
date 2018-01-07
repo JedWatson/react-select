@@ -1057,8 +1057,7 @@ class Select extends React.Component {
 
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
-			let selectAllButton = this.renderSelectAll(options);
-			let optionsMenu = this.props.menuRenderer({
+			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,
 				inputValue: this.state.inputValue,
@@ -1076,13 +1075,6 @@ class Select extends React.Component {
 				valueArray,
 				valueKey: this.props.valueKey,
 			});
-
-			return (
-				<div>
-					{selectAllButton}
-					{optionsMenu}
-				</div>
-			);
 		} else if (this.props.noResultsText) {
 			return (
 				<div className="Select-noresults">
@@ -1147,33 +1139,41 @@ class Select extends React.Component {
 	}
 
 	renderSelectAll (options) {
-		let button = null;
-		if (this.props.showSelectAll) {
+		let buttonElement = null;
+		if (this.props.showSelectAll && options && options.length) {
 			let selectAllHandler = (event) => this.selectAllValues(options);
 
 			const defaultButtonStyle = {
 				width: '100%',
 				height: '35px',
-				borderWidth: '1px 0 1px 0',
+				borderWidth: '1px',
+				borderRadius: '0',
 			};
 
-			button = (
-				<button
-					style={defaultButtonStyle}
-					className="Select-option Select-all-button"
-					title={this.props.selectAllCaption}
-					onMouseDown={selectAllHandler}
-					onTouchStart={selectAllHandler}
-				>
-					{this.props.selectAllCaption}
-				</button>
+			const defaultContainerStyle = {
+				paddingBottom: '1px'
+			};
+
+			buttonElement = (
+				<div style={defaultContainerStyle}>
+					<button
+						style={defaultButtonStyle}
+						className="Select-option Select-all-button"
+						title={this.props.selectAllCaption}
+						onMouseDown={selectAllHandler}
+						onTouchStart={selectAllHandler}
+					>
+						{this.props.selectAllCaption}
+					</button>
+				</div>
 			);
 		}
 
-		return button;
+		return buttonElement;
 	}
 
 	renderOuter (options, valueArray, focusedOption) {
+		let selectAllButton = this.renderSelectAll(options);
 		let menu = this.renderMenu(options, valueArray, focusedOption);
 
 		if (!menu) {
@@ -1181,22 +1181,25 @@ class Select extends React.Component {
 		}
 
 		return (
-			<div
-				ref={ref => this.menuContainer = ref}
-				className="Select-menu-outer"
-				style={this.props.menuContainerStyle}
-			>
+			<div>
+				{selectAllButton}
 				<div
-					className="Select-menu"
-					id={this._instancePrefix + '-list'}
-					onMouseDown={this.handleMouseDownOnMenu}
-					onScroll={this.handleMenuScroll}
-					ref={ref => this.menu = ref}
-					role="listbox"
-					style={this.props.menuStyle}
-					tabIndex={-1}
+					ref={ref => this.menuContainer = ref}
+					className="Select-menu-outer"
+					style={this.props.menuContainerStyle}
 				>
-					{menu}
+					<div
+						className="Select-menu"
+						id={this._instancePrefix + '-list'}
+						onMouseDown={this.handleMouseDownOnMenu}
+						onScroll={this.handleMenuScroll}
+						ref={ref => this.menu = ref}
+						role="listbox"
+						style={this.props.menuStyle}
+						tabIndex={-1}
+					>
+						{menu}
+					</div>
 				</div>
 			</div>
 		);
