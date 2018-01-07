@@ -61,6 +61,7 @@ var MultiSelectField = createClass({
           removeSelected={this.state.removeSelected}
 					rtl={this.state.rtl}
 					simpleValue
+					showSelectAll={true}
 					value={value}
 				/>
 
