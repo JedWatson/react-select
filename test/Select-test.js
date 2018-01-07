@@ -280,18 +280,17 @@ describe('Select', () => {
 			expect(node, 'queried for', '.Select-all-button:nth-child(1)', 'to have items satisfying', 'to have text', 'Select All');
 		});
 
-		it('select all should close menu', () => {
+		it('should close menu', () => {
 			clickArrowToOpen();
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-all-button'), { button: 0 });
 			expect(instance.state.isOpen, 'to equal', false);
 			expect(instance.state.focusedIndex, 'to equal', 0);
 		});
 
-		it('select all to select all remaining values', () => {
+		it('to select all remaining values', () => {
 			clickArrowToOpen();
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-all-button'), { button: 0 });
 			expect(onChange, 'was called with', 'one,two,three');
-
 		});
 	});
 
@@ -778,6 +777,19 @@ describe('Select', () => {
 				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 				var node = ReactDOM.findDOMNode(instance);
 				expect(node, 'to contain no elements matching', '.Select-all-button');
+			});
+
+			it('call selectAllValues will only close the menu', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+				expect(instance.state.isOpen, 'to equal', true);
+
+				instance.selectAllValues([
+					{ value: 0, label: 'Zero' },
+					{ value: 1, label: 'One' },
+				]);
+
+				expect(instance.state.isOpen, 'to equal', false);
+				expect(instance.props.value, 'to equal', [2, 1]);
 			});
 
 			it('selects the initial hidden value', () => {
@@ -3295,6 +3307,17 @@ describe('Select', () => {
 
 				TestUtils.Simulate.blur(searchInputNode);
 				expect(onBlur, 'was called once');
+			});
+
+			it('calls the blurInput prop when blurring the input', () => {
+				instance = createControl({
+					options: defaultOptions,
+				});
+
+				var inputBlur = sinon.spy(instance.input, 'blur');
+				instance.blurInput();
+
+				expect(inputBlur, 'was called once');
 			});
 
 			/*

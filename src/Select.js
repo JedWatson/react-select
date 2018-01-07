@@ -661,17 +661,11 @@ class Select extends React.Component {
 	}
 
 	selectAllValues (values) {
-		console.log('select all', values);
-
 		if (!this.props.showSelectAll || !this.props.multi || !values) {
 			this.setState({
-				isOpen: false,  // shouldn't happen, but close the menu to `soft reset`
+				isOpen: false,     // shouldn't happen, but close the menu to `soft reset`
 			});
 		} else {
-			if (!Array.isArray(values)) {
-				values = [values];
-			}
-
 			this.setState({
 				focusedIndex: 0,   // select the first option, since everything has been selected at this moment
 				isOpen: !this.props.closeOnSelect,
