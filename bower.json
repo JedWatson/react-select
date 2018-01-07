@@ -1,7 +1,7 @@
 {
   "name": "react-select",
   "main": ["dist/react-select.min.js", "dist/react-select.min.css"],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "homepage": "https://github.com/JedWatson/react-select",
   "authors": ["Jed Watson"],
   "description": "A Select control built with and for ReactJS",
