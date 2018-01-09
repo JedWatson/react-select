@@ -152,7 +152,14 @@ const getOptions = (input, callback) => {
 
 #### Note about filtering async options
 
-The `Async` component doesn't change the default behaviour for filtering the options based on user input, but if you're already filtering the options server-side you may want to customise or disable this feature (see [filtering options](#filtering-options) below)
+The `Async` component doesn't change the default behaviour for filtering the options based on user input, but if you're already filtering the options server-side you may want to customise or disable this feature (see [filtering options](#filtering-options) below). For example, if you would like to completely disable client side filtering, you can do so with:
+
+```js
+filterOptions={(options, filter, currentValues) => {
+  // Do no filtering, just return all options
+  return options;
+}}
+```
 
 ### Async options with Promises
 
