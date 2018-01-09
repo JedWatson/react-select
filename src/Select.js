@@ -1100,8 +1100,10 @@ class Select extends React.Component {
 			return null;
 		}
 
+		const className = classNames('Select-menu-outer', this.props.menuContainerClassName);
+
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<div ref={ref => this.menuContainer = ref} className={className} style={this.props.menuContainerStyle}>
 				<div
 					className="Select-menu"
 					id={this._instancePrefix + '-list'}
@@ -1145,6 +1147,8 @@ class Select extends React.Component {
 			'Select--single': !this.props.multi,
 		});
 
+		const controlClassName = classNames('Select-control', this.props.controlClassName);
+
 		let removeMessage = null;
 		if (this.props.multi &&
 			!this.props.disabled &&
@@ -1165,7 +1169,7 @@ class Select extends React.Component {
 				 style={this.props.wrapperStyle}>
 				{this.renderHiddenField(valueArray)}
 				<div ref={ref => this.control = ref}
-					className="Select-control"
+					className={controlClassName}
 					onKeyDown={this.handleKeyDown}
 					onMouseDown={this.handleMouseDown}
 					onTouchEnd={this.handleTouchEnd}
@@ -1205,6 +1209,7 @@ Select.propTypes = {
 	clearValueText: stringOrNode,         // title for the "clear" control
 	clearable: PropTypes.bool,            // should it be possible to reset value
 	closeOnSelect: PropTypes.bool,        // whether to close the menu when a value is selected
+	controlClassName: PropTypes.string,   // className for the select control element
 	deleteRemoves: PropTypes.bool,        // whether delete removes an item if there is no text input
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
@@ -1223,6 +1228,7 @@ Select.propTypes = {
 	matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
 	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
 	menuBuffer: PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
+	menuContainerClassName: PropTypes.string, // className for the menu container
 	menuContainerStyle: PropTypes.object, // optional style to apply to the menu container
 	menuRenderer: PropTypes.func,         // renders a custom menu with options
 	menuStyle: PropTypes.object,          // optional style to apply to the menu

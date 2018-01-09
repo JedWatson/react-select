@@ -350,6 +350,7 @@ function onInputKeyDown(event) {
 | `clearRenderer` | function | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()` |
 | `clearValueText` | string | 'Clear value' | title for the "clear" control |
 | `closeOnSelect` | boolean | true | whether to close the menu when a value is selected
+| `controlClassName` | string | undefined | additional class(es) to apply to the select control element |
 | `deleteRemoves` | boolean | true | whether pressing delete key removes the last item when there is no input value |
 | `delimiter` | string | ',' | delimiter to use to join multiple values |
 | `disabled` | boolean | false | whether the Select is disabled or not |
@@ -368,6 +369,7 @@ function onInputKeyDown(event) {
 | `matchPos` | string | 'any' | (any, start) match the start or entire string when filtering |
 | `matchProp` | string | 'any' | (any, label, value) which option property to filter on |
 | `menuBuffer` | number | 0 | buffer of px between the base of the dropdown and the viewport to shift if menu doesnt fit in viewport |
+| `menuContainerClassName` | string | undefined | additional class(es) to apply to the menu container |
 | `menuContainerStyle` | object | undefined | optional style to apply to the menu container |
 | `menuRenderer` | function | undefined | Renders a custom menu with options; accepts the following named parameters: `menuRenderer({ focusedOption, focusOption, options, selectValue, valueArray })` |
 | `menuStyle` | object | undefined | optional style to apply to the menu |
