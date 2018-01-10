@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "glam": "^5.0.1",
     "prop-types": "^15.6.0",
     "react-input-autosize": "^2.2.1"
   },
