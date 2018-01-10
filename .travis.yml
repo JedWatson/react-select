@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "v4"
+  - "v8"
 script:
   - npm run lint
   - npm run test

@@ -1,6 +1,4 @@
 lib/*
 dist/*
 coverage/*
-examples/dist/*
 node_modules/*
-bower_components/*
