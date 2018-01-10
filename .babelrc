@@ -1,6 +1,6 @@
 {
-  "ignore": ["node-modules/**", "src/index.umd.js"],
-  "presets": [ "env", "stage-0", "react"],
+  "plugins": ["transform-class-properties", "transform-object-rest-spread"],
+  "presets": ["react", "env"],
   "env": {
     "test": {
       "plugins": ["istanbul"],

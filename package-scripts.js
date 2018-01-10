@@ -11,17 +11,10 @@ module.exports = {
 			default: series(
 				rimraf('dist'),
 				rimraf('lib'),
-				concurrent.nps('build.css', 'build.cssmin'),
 				concurrent.nps('build.rollup', 'build.babel')
 			),
 			rollup: 'rollup --config',
 			babel: 'babel src -d lib',
-			css: 'lessc less/default.less dist/react-select.css',
-			cssmin: 'lessc --clean-css less/default.less dist/react-select.min.css',
-			standalone: series(
-				'cp examples/src/standalone.html examples/dist/standalone.html',
-				'lessc examples/src/example.less examples/dist/example.css'
-			),
 		},
 		publish: {
 			default: series(
