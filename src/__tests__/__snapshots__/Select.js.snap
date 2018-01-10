@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`defaults 1`] = `
+<div>
+  <SelectContainer
+    aria-expanded={false}
+    isDisabled={false}
+    onKeyDown={[Function]}
+    role="combobox"
+  >
+    <AriaStatus
+      availableResults={0}
+    />
+    <Control
+      isDisabled={false}
+      isFocused={false}
+      onClick={[Function]}
+    >
+      <ValueContainer
+        hasValue={false}
+        isMulti={false}
+      >
+        <Placeholder>
+          Select...
+        </Placeholder>
+        <AutosizeInput
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          id="react-select-2--input"
+          injectStyles={true}
+          inputStyle={
+            Object {
+              "background": "transparent",
+              "border": 0,
+              "fontSize": "inherit",
+              "opacity": 100,
+              "outline": 0,
+            }
+          }
+          minWidth={1}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          role="textbox"
+          spellCheck="false"
+          tabIndex="0"
+          value=""
+        />
+      </ValueContainer>
+      <Component>
+        <Component
+          isFocused={false}
+          onMouseDown={[Function]}
+        />
+      </Component>
+    </Control>
+  </SelectContainer>
+</div>
+`;
