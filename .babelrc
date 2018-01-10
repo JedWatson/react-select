@@ -1,9 +1,10 @@
 {
   "plugins": ["transform-class-properties", "transform-object-rest-spread"],
-  "presets": ["react", "env"],
+  "presets": ["env", "react"],
+  "ignore": ["node_modules"],
   "env": {
     "test": {
-      "plugins": ["istanbul"],
-    },
+      "plugins": ["istanbul"]
+    }
   }
 }
