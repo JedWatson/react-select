@@ -345,20 +345,35 @@ The value for `autoComplete` should be from [this list of possible values](https
 Usage example:
 ```JS
 <Select
-	id="country"
-	multi={false} //required with autoComplete
-	autosize={false} //recommended with autoComplete
-	options={COUNTRIES}
-	simpleValue
-	name="country"
-	value={this.state.selectValue}
-	onChange={this.updateValue}
-	autoComplete="country"
-	onAutoFill={this.handleAutoFill}
+  id="country"
+  name="country"
+  autoComplete="country"
+  multi={false} //required with autoComplete
+  autosize={false} //recommended with autoComplete
+  options={COUNTRIES}
+  onAutoFill={this.handleAutoFill}
+  //... other props
 />
 ```
 
-You can use the `onAutoFill` callback to react to autofill state changes.
+Example for credit card expiry date selects:
+```JS
+<Select
+  autoComplete="cc-exp-month"
+  multi={false} //required with autoComplete
+  autosize={false} //recommended with autoComplete
+  //... other props
+/>
+<Select
+  autoComplete="cc-exp-year"
+  multi={false} //required with autoComplete
+  autosize={false} //recommended with autoComplete
+  //... other props
+/>
+```
+
+You can use the `onAutoFill` callback to react to autofill state changes, for example to adjust the styling of a wrapper component.
+
 This feature is currently only tested in Chrome >= v63.
 
 ### Select Props
