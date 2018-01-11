@@ -48,9 +48,10 @@ export class ValueContainer extends Component<ValueContainerProps> {
   };
   render() {
     const { isMulti, hasValue, maxHeight, ...props } = this.props;
+
     return (
       <Div
-        innerRef={isMulti && this.getScrollContainer}
+        innerRef={isMulti ? this.getScrollContainer : null}
         css={{
           alignItems: 'baseline',
           display: 'flex ',
