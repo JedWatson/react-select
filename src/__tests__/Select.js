@@ -1,11 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
 
 import Select from '../Select';
 import { components } from '../components';
 
 const { Option, SingleValue } = components;
+
+configure({ adapter: new Adapter() });
 
 test('defaults', () => {
 	const tree = shallow(<Select />);
