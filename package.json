@@ -30,8 +30,11 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "coveralls": "^2.11.12",
-    "cross-env": "^5.0.5",
+    "cross-env": "^5.1.3",
     "css-loader": "^0.28.7",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
     "eslint": "^4.6.1",
     "eslint-plugin-react": "^7.3.0",
     "flow-bin": "^0.63.1",
@@ -39,6 +42,7 @@
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
+    "jest": "^22.0.5",
     "lint-staged": "^6.0.0",
     "nps": "^5.7.1",
     "nps-utils": "^1.3.0",
@@ -69,9 +73,14 @@
     "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register",
+    "test:jest": "jest --coverage",
     "precommit": "lint-staged"
   },
-  "files": ["dist", "lib", "src"],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "keywords": [
     "combobox",
     "form",
@@ -82,6 +91,15 @@
     "select",
     "ui"
   ],
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "./node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "testRegex": "(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.?(test|spec)?\\.(js?))$"
+  },
   "lint-staged": {
     "*.js": "eslint"
   }
