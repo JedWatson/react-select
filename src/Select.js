@@ -347,7 +347,7 @@ export default class Select extends Component<Props, State> {
     });
   }
   selectValue = (newValue: OptionType) => {
-    const { closeMenuOnSelect, isMulti } = this.props;
+    const { closeMenuOnSelect, isMulti, onChange } = this.props;
     // We update the state here because we should clear inputValue when an
     // option is selected; the onChange event fires when that's reconciled
     // otherwise the new menu items will be filtered with the old inputValue
@@ -360,39 +360,49 @@ export default class Select extends Component<Props, State> {
           }
         : this.buildStateForInputValue(),
       () => {
-        const { selectValue } = this.state;
-        if (isMulti) {
-          if (this.isSelected(newValue, selectValue)) {
-            this.props.onChange(selectValue.filter(i => i !== newValue), {
-              action: 'deselect-value',
-            });
+        if (onChange) {
+          if (isMulti) {
+            const { selectValue } = this.state;
+            if (this.isSelected(newValue, selectValue)) {
+              onChange(selectValue.filter(i => i !== newValue), {
+                action: 'deselect-value',
+              });
+            } else {
+              onChange([...selectValue, newValue], {
+                action: 'select-option',
+              });
+            }
           } else {
-            this.props.onChange([...selectValue, newValue], {
-              action: 'select-option',
-            });
+            onChange(newValue, { action: 'select-option' });
           }
-        } else {
-          this.props.onChange(newValue, { action: 'select-option' });
         }
       }
     );
   };
   removeValue = (removedValue: OptionType) => {
-    const { selectValue } = this.state;
-    this.props.onChange(selectValue.filter(i => i !== removedValue), {
-      action: 'remove-value',
-    });
+    const { onChange } = this.props;
+    if (onChange) {
+      const { selectValue } = this.state;
+      onChange(selectValue.filter(i => i !== removedValue), {
+        action: 'remove-value',
+      });
+    }
     this.focus();
   };
   clearValue = () => {
-    const { isMulti } = this.props;
-    this.props.onChange(isMulti ? [] : null, { action: 'clear' });
+    const { isMulti, onChange } = this.props;
+    if (onChange) {
+      onChange(isMulti ? [] : null, { action: 'clear' });
+    }
   };
   popValue = () => {
-    const { selectValue } = this.state;
-    this.props.onChange(selectValue.slice(0, selectValue.length - 1), {
-      action: 'pop-value',
-    });
+    const { onChange } = this.props;
+    if (onChange) {
+      const { selectValue } = this.state;
+      onChange(selectValue.slice(0, selectValue.length - 1), {
+        action: 'pop-value',
+      });
+    }
   };
   onControlRef = (ref: ElRef) => {
     this.controlRef = ref;
