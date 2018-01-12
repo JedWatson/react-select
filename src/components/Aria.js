@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 
-import { Div, SROnly } from '../primitives';
+import { SROnly } from '../primitives';
 
 type StatusProps = { availableResults: number };
 export const AriaStatus = ({ availableResults }: StatusProps) => (
