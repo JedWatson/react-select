@@ -1,6 +1,6 @@
 // @flow
 // @jsx glam
-import React, { Component, type Element, type ElementRef } from 'react';
+import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
 import { defaultComponents, type SelectComponents } from './components/index';
@@ -782,7 +782,6 @@ export default class Select extends Component<Props, State> {
   render() {
     const {
       Control,
-      DropdownIndicator,
       IndicatorsContainer,
       Label,
       SelectContainer,

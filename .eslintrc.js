@@ -7,6 +7,16 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    'no-unused-vars': [
+      'error',
+      {
+        args: 'after-used',
+        argsIgnorePattern: '^event$',
+        ignoreRestSiblings: true,
+        vars: 'all',
+        varsIgnorePattern: '^glam$',
+      },
+    ],
     curly: [2, 'multi-line'],
     'jsx-quotes': 1,
     'no-shadow': 1,
