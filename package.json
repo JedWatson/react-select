@@ -15,7 +15,8 @@
     "classnames": "^2.2.5",
     "glam": "^5.0.1",
     "prop-types": "^15.6.0",
-    "react-input-autosize": "^2.2.1"
+    "react-input-autosize": "^2.2.1",
+    "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -76,7 +77,7 @@
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register",
     "test:jest": "jest --coverage",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
-		"test:cypress-watch":	"node ./node_modules/.bin/cypress open",
+    "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "lint-staged"
   },
   "files": [

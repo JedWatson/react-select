@@ -54,12 +54,9 @@ const Indicator = ({ isFocused, ...props }: { isFocused: boolean }) => (
   />
 );
 
-export const DropdownIndicator = ({
-  children,
-  ...props
-}: {
-  children: ElementType,
-}) => (
+type IndicatorProps = { children: ElementType };
+
+export const DropdownIndicator = ({ children, ...props }: IndicatorProps) => (
   <Indicator role="button" {...props}>
     {children}
   </Indicator>
@@ -68,12 +65,7 @@ DropdownIndicator.defaultProps = {
   children: <DownChevron label="Toggle Menu" />,
 };
 
-export const ClearIndicator = ({
-  children,
-  ...props
-}: {
-  children: ElementType,
-}) => (
+export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
   <Indicator role="button" {...props}>
     {children}
   </Indicator>
