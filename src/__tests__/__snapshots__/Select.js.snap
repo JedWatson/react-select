@@ -3,57 +3,68 @@
 exports[`defaults 1`] = `
 <div>
   <SelectContainer
-    aria-expanded={false}
     isDisabled={false}
     onKeyDown={[Function]}
-    role="combobox"
   >
     <AriaStatus
       availableResults={0}
     />
     <Control
+      innerRef={[Function]}
       isDisabled={false}
       isFocused={false}
-      onClick={[Function]}
+      onMouseDown={[Function]}
     >
       <ValueContainer
         hasValue={false}
         isMulti={false}
+        maxHeight={100}
       >
-        <Placeholder>
+        <Placeholder
+          isDisabled={false}
+          isMulti={false}
+          key="placeholder"
+        >
           Select...
         </Placeholder>
-        <AutosizeInput
+        <Input
+          aria-autocomplete="list"
+          aria-expanded={false}
+          aria-haspopup={false}
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect="off"
           id="react-select-2--input"
-          injectStyles={true}
+          innerRef={[Function]}
           inputStyle={
             Object {
               "background": "transparent",
               "border": 0,
               "fontSize": "inherit",
-              "opacity": 100,
+              "opacity": 1,
               "outline": 0,
             }
           }
-          minWidth={1}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
-          role="textbox"
+          role="combobox"
           spellCheck="false"
           tabIndex="0"
+          type="text"
           value=""
         />
       </ValueContainer>
-      <Component>
-        <Component
+      <IndicatorsContainer>
+        <DropdownIndicator
           isFocused={false}
           onMouseDown={[Function]}
-        />
-      </Component>
+        >
+          <DownChevron
+            label="Toggle Menu"
+          />
+        </DropdownIndicator>
+      </IndicatorsContainer>
     </Control>
   </SelectContainer>
 </div>
