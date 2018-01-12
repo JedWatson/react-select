@@ -17,6 +17,13 @@ lib-cov
 coverage
 .nyc_output
 
+# Cypress
+cypress/videos
+cypress/screenshots
+cypress/support
+cypress/fixtures
+cypress/plugins
+
 # Dependency directory
 node_modules
 bower_components

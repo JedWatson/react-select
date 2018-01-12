@@ -4,5 +4,4 @@ node_js:
   - "v8"
 script:
   - npm run lint
-  - npm run test
-  - npm run coveralls
+  - npm run test:jest
