@@ -32,16 +32,16 @@ type Customisations = {
 */
 
 type Props = {
-  backspaceRemovesValue: boolean,
+  clearable: boolean,
   closeMenuOnSelect: boolean,
+  escapeClearsValue: boolean,
+  backspaceRemovesValue: boolean,
   components: SelectComponents,
   deleteRemovesValue: boolean,
   disabledKey: string,
-  escapeClearsValue: boolean,
   formatters: Formatters,
   hideSelectedOptions: boolean,
   instanceId?: number | string,
-  isClearable: boolean,
   isDisabled: boolean,
   isMulti: boolean,
   label: string,
@@ -56,13 +56,13 @@ type Props = {
 };
 
 const defaultProps = {
-  backspaceRemovesValue: true,
+  clearable: true,
   closeMenuOnSelect: true,
+  escapeClearsValue: false,
+  backspaceRemovesValue: true,
   deleteRemovesValue: true,
   disabledKey: 'disabled',
-  escapeClearsValue: false,
   hideSelectedOptions: true,
-  isClearable: true,
   isDisabled: false,
   isMulti: false,
   maxMenuHeight: 300,
@@ -415,7 +415,7 @@ export default class Select extends Component<Props, State> {
   onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
       backspaceRemovesValue,
-      isClearable,
+      clearable,
       deleteRemovesValue,
       escapeClearsValue,
       isDisabled,
@@ -467,7 +467,7 @@ export default class Select extends Component<Props, State> {
             menuIsOpen: false,
             ...this.buildStateForInputValue(),
           });
-        } else if (isClearable && escapeClearsValue) {
+        } else if (clearable && escapeClearsValue) {
           this.clearValue();
         }
         break;
@@ -693,12 +693,10 @@ export default class Select extends Component<Props, State> {
   }
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
-    const { isClearable, isDisabled } = this.props;
+    const { isDisabled } = this.props;
     const { isFocused } = this.state;
 
-    if (!isClearable || !ClearIndicator || isDisabled || !this.hasValue()) {
-      return null;
-    }
+    if (!ClearIndicator || isDisabled || !this.hasValue()) return null;
 
     return (
       <ClearIndicator
