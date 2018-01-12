@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { components } from 'react-select';
+import { components } from '../components';
 
 import { type BaseTransition } from './transitions';
 
