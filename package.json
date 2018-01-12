@@ -67,6 +67,7 @@
   },
   "scripts": {
     "build": "nps build",
+    "watch": "nps build.watch",
     "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
     "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
