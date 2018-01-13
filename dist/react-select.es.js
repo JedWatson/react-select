@@ -1193,8 +1193,8 @@ var Select$1 = function (_React$Component) {
 					break;
 				case 46:
 					// delete
-					event.preventDefault();
 					if (!this.state.inputValue && this.props.deleteRemoves) {
+						event.preventDefault();
 						this.popValue();
 					}
 					break;
@@ -1625,7 +1625,7 @@ var Select$1 = function (_React$Component) {
 			}
 			return React.createElement(
 				'div',
-				{ className: className, key: 'input-wrap' },
+				{ className: className, key: 'input-wrap', style: { display: 'inline-block' } },
 				React.createElement('input', _extends({ id: this.props.id }, inputProps))
 			);
 		}
