@@ -4,7 +4,7 @@ node_js:
   - "v8"
 
 before_script:
-  - npm start
+  - npm start & sleep 7
   
 script:
   - npm run lint
