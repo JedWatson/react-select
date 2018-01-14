@@ -5,6 +5,7 @@ node_js:
 
 before_script:
   - npm start & sleep 7
+  - npm install xvfb
   
 script:
   - npm run lint
