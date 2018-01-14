@@ -13,6 +13,7 @@
   "singleGroupedInputValue": "div:nth-child(7) > .css-1ycyyax",
   "singleInputValue": ".css-1k0mijm.css-1ycyyax",
   "singleSelectDefaultValues": ".css-1k0mijm.css-1ycyyax",
+  "singleSelectFirstValue": "div:nth-child(4) .css-1k0mijm.css-1ycyyax",
   "singleSelectGroupedInput": "#react-select-3--input",
   "singleSelectSingleInput": "#react-select-2--input",
   "toggleMenus": "[label='Toggle Menu']",
