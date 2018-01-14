@@ -10,6 +10,7 @@ const FLAVOURS = [
 	{ label: 'Caramel', value: 'caramel' },
 	{ label: 'Cookies and Cream', value: 'cookiescream' },
 	{ label: 'Peppermint', value: 'peppermint' },
+	{ label: 'Coffee', value: 'coffee' },
 ];
 
 const WHY_WOULD_YOU = [
@@ -18,9 +19,11 @@ const WHY_WOULD_YOU = [
 
 var MultiSelectField = createClass({
 	displayName: 'MultiSelectField',
+
 	propTypes: {
 		label: PropTypes.string,
 	},
+
 	getInitialState () {
 		return {
 			removeSelected: true,
@@ -29,17 +32,21 @@ var MultiSelectField = createClass({
 			stayOpen: false,
 			value: [],
 			rtl: false,
+			showSelectAll: true,
 		};
 	},
+
 	handleSelectChange (value) {
 		console.log('You\'ve selected:', value);
 		this.setState({ value });
 	},
+
 	toggleCheckbox (e) {
 		this.setState({
 			[e.target.name]: e.target.checked,
 		});
 	},
+
 	toggleRtl (e) {
 		let rtl = e.target.checked;
 		this.setState({ rtl });
@@ -61,6 +68,7 @@ var MultiSelectField = createClass({
           removeSelected={this.state.removeSelected}
 					rtl={this.state.rtl}
 					simpleValue
+					showSelectAll={this.state.showSelectAll}
 					value={value}
 				/>
 
@@ -84,6 +92,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">rtl</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="showSelectAll" checked={this.state.showSelectAll} onChange={this.toggleCheckbox} />
+						<span className="checkbox-label">Show Select All Option</span>
 					</label>
 				</div>
 			</div>

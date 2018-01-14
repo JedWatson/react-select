@@ -26,6 +26,7 @@ const stringOrNode = PropTypes.oneOfType([
 	PropTypes.string,
 	PropTypes.node,
 ]);
+
 const stringOrNumber = PropTypes.oneOfType([
 	PropTypes.string,
 	PropTypes.number
@@ -73,6 +74,13 @@ const handleRequired = (value, multi) => {
 	return (multi ? value.length === 0 : Object.keys(value).length === 0);
 };
 
+const defaultButtonStyle = {
+	width: '100%',
+	height: '35px',
+	fontWeight: 'bold',
+	border: '0px',
+};
+
 class Select extends React.Component {
 	constructor (props) {
 		super(props);
@@ -106,6 +114,7 @@ class Select extends React.Component {
 			isOpen: false,
 			isPseudoFocused: false,
 			required: false,
+			selectAllButtonStyle: null,
 		};
 	}
 
@@ -444,6 +453,7 @@ class Select extends React.Component {
 				newValue = '' + nextState;
 			}
 		}
+
 		this.setState({
 			inputValue: newValue
 		});
@@ -457,6 +467,7 @@ class Select extends React.Component {
 				newValue = '' + nextState;
 			}
 		}
+
 		return newValue;
 	}
 
@@ -588,8 +599,10 @@ class Select extends React.Component {
 				if (value === null || value === undefined) return [];
 				value = [value];
 			}
+
 			return value.map(value => expandValue(value, props)).filter(i => i);
 		}
+
 		const expandedValue = expandValue(value, props);
 		return expandedValue ? [expandedValue] : [];
 	}
@@ -598,13 +611,18 @@ class Select extends React.Component {
 		if (this.props.autoBlur) {
 			this.blurInput();
 		}
+
 		if (this.props.required) {
 			const required = handleRequired(value, this.props.multi);
 			this.setState({ required });
 		}
+
 		if (this.props.simpleValue && value) {
-			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
+			value = this.props.multi
+				? value.map(i => i[this.props.valueKey]).join(this.props.delimiter)
+				: value[this.props.valueKey];
 		}
+
 		if (this.props.onChange) {
 			this.props.onChange(value);
 		}
@@ -616,6 +634,7 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
+
 		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
 		if (this.props.multi) {
 			this.setState({
@@ -641,11 +660,29 @@ class Select extends React.Component {
 		}
 	}
 
+	selectAllValues (values) {
+		if (!this.props.showSelectAll || !this.props.multi || !values) {
+			this.setState({
+				isOpen: false,     // shouldn't happen, but close the menu to `soft reset`
+			});
+		} else {
+			this.setState({
+				focusedIndex: 0,   // select the first option, since everything has been selected at this moment
+				isOpen: !this.props.closeOnSelect,
+			}, () => {
+				let valueArray = this.getValueArray(this.props.value);
+				this.setValue(valueArray.concat(values));
+			});
+		}
+	}
+
 	addValue (value) {
 		let valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
+
 		this.setValue(valueArray.concat(value));
+
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
 			this.focusOption(visibleOptions[lastValueIndex - 1]);
@@ -979,6 +1016,7 @@ class Select extends React.Component {
 	filterOptions (excludeOptions) {
 		const filterValue = this.state.inputValue;
 		const options = this.props.options || [];
+
 		if (this.props.filterOptions) {
 			// Maintain backwards compatibility with boolean attribute
 			const filterOptions = typeof this.props.filterOptions === 'function'
@@ -1094,25 +1132,68 @@ class Select extends React.Component {
 		return null;
 	}
 
+	renderSelectAll (options) {
+		let buttonElement = null;
+		if (this.props.showSelectAll && options && options.length) {
+			let selectAllHandler = (event) => this.selectAllValues(options);
+
+			const defaultButtonStyle = {
+				width: '100%',
+				height: '35px',
+				borderWidth: '1px',
+				borderRadius: '0',
+			};
+
+			const defaultContainerStyle = {
+				paddingBottom: '1px'
+			};
+
+			buttonElement = (
+				<div style={defaultContainerStyle}>
+					<button
+						style={defaultButtonStyle}
+						className="Select-option Select-all-button"
+						title={this.props.selectAllCaption}
+						onMouseDown={selectAllHandler}
+						onTouchStart={selectAllHandler}
+					>
+						{this.props.selectAllCaption}
+					</button>
+				</div>
+			);
+		}
+
+		return buttonElement;
+	}
+
 	renderOuter (options, valueArray, focusedOption) {
+		let selectAllButton = this.renderSelectAll(options);
 		let menu = this.renderMenu(options, valueArray, focusedOption);
+
 		if (!menu) {
 			return null;
 		}
 
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<div>
+				{selectAllButton}
 				<div
-					className="Select-menu"
-					id={this._instancePrefix + '-list'}
-					onMouseDown={this.handleMouseDownOnMenu}
-					onScroll={this.handleMenuScroll}
-					ref={ref => this.menu = ref}
-					role="listbox"
-					style={this.props.menuStyle}
-					tabIndex={-1}
+					ref={ref => this.menuContainer = ref}
+					className="Select-menu-outer"
+					style={this.props.menuContainerStyle}
 				>
-					{menu}
+					<div
+						className="Select-menu"
+						id={this._instancePrefix + '-list'}
+						onMouseDown={this.handleMouseDownOnMenu}
+						onScroll={this.handleMenuScroll}
+						ref={ref => this.menu = ref}
+						role="listbox"
+						style={this.props.menuStyle}
+						tabIndex={-1}
+					>
+						{menu}
+					</div>
 				</div>
 			</div>
 		);
@@ -1255,6 +1336,8 @@ Select.propTypes = {
 	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
 	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
+	selectAllCaption: PropTypes.string,
+	showSelectAll: PropTypes.bool,        // if to render `select all` button if multi-input is enabled
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 	style: PropTypes.object,              // optional style to apply to the control
 	tabIndex: stringOrNumber,             // optional tab index of the control
@@ -1306,6 +1389,8 @@ Select.defaultProps = {
 	rtl: false,
 	scrollMenuIntoView: true,
 	searchable: true,
+	selectAllCaption: 'Select All',
+	showSelectAll: false,
 	simpleValue: false,
 	tabSelectsValue: true,
  	trimFilter: true,

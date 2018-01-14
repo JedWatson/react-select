@@ -255,6 +255,45 @@ describe('Select', () => {
 		});
 	});
 
+	describe('select all option', () => {
+		beforeEach(() => {
+			options = [
+				{ value: 'one', label: 'One' },
+				{ value: 'two', label: 'Two' },
+				{ value: 'three', label: 'Three' }
+			];
+
+			instance = createControl({
+				name: 'form-field-name',
+				multi: true,
+				value: 'one',
+				options: options,
+				simpleValue: true,
+				showSelectAll: true,
+			});
+		});
+
+		it('should render show-all button', () => {
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'queried for', '.Select-all-button', 'to have length', 1);
+			expect(node, 'queried for', '.Select-all-button:nth-child(1)', 'to have items satisfying', 'to have text', 'Select All');
+		});
+
+		it('should close menu', () => {
+			clickArrowToOpen();
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-all-button'), { button: 0 });
+			expect(instance.state.isOpen, 'to equal', false);
+			expect(instance.state.focusedIndex, 'to equal', 0);
+		});
+
+		it('to select all remaining values', () => {
+			clickArrowToOpen();
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-all-button'), { button: 0 });
+			expect(onChange, 'was called with', 'one,two,three');
+		});
+	});
+
 	describe('with simple options', () => {
 		beforeEach(() => {
 			options = [
@@ -280,6 +319,12 @@ describe('Select', () => {
 			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
 			var node = ReactDOM.findDOMNode(instance);
 			expect(node, 'queried for', '.Select-option', 'to have length', 3);
+		});
+
+		it('the options menu should not have select-all button', () => {
+			TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+			var node = ReactDOM.findDOMNode(instance);
+			expect(node, 'to contain no elements matching', '.Select-all-button');
 		});
 
 		it('should display the labels on mouse click', () => {
@@ -672,7 +717,6 @@ describe('Select', () => {
 		});
 
 		it('calls onChange with the new value as a number', () => {
-
 			clickArrowToOpen();
 			pressDown();
 			pressEnterToAccept();
@@ -729,6 +773,25 @@ describe('Select', () => {
 					</span>);
 			});
 
+			it('the options menu should not have select-all button', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+				var node = ReactDOM.findDOMNode(instance);
+				expect(node, 'to contain no elements matching', '.Select-all-button');
+			});
+
+			it('call selectAllValues will only close the menu', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-control'), { button: 0 });
+				expect(instance.state.isOpen, 'to equal', true);
+
+				instance.selectAllValues([
+					{ value: 0, label: 'Zero' },
+					{ value: 1, label: 'One' },
+				]);
+
+				expect(instance.state.isOpen, 'to equal', false);
+				expect(instance.props.value, 'to equal', [2, 1]);
+			});
+
 			it('selects the initial hidden value', () => {
 				expect(ReactDOM.findDOMNode(wrapper), 'queried for', '.Select > input','to satisfy', [
 					expect.it('to have attributes', { 'value': '2' }),
@@ -755,6 +818,7 @@ describe('Select', () => {
 						<div><span className="Select-value-label">Four</span></div>
 					</span>);
 			});
+
 			it('supports updating the values as a string', () => {
 				wrapper.setPropsForChild({
 					value: '3,4',
@@ -3245,6 +3309,17 @@ describe('Select', () => {
 				expect(onBlur, 'was called once');
 			});
 
+			it('calls the blurInput prop when blurring the input', () => {
+				instance = createControl({
+					options: defaultOptions,
+				});
+
+				var inputBlur = sinon.spy(instance.input, 'blur');
+				instance.blurInput();
+
+				expect(inputBlur, 'was called once');
+			});
+
 			/*
 			TODO: This test doesn't work now that we're checking
 			this.menu === document.activeElement in the method. Needs and review to work
@@ -4222,7 +4297,9 @@ describe('Select', () => {
 					return <div>Custom menu</div>;
 				}
 			});
+
 			clickArrowToOpen();
+
 			const keys = Object.keys(paramsReceived);
 			expect(keys, 'to contain', 'focusedOption');
 			expect(keys, 'to contain', 'focusOption');
