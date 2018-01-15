@@ -254,3 +254,94 @@ h6, .h6 {
 .virtual-scroll {
 	z-index: 1;
 }
+
+
+// Draggable item
+// ------------------------------
+
+// Replicate styles for the dragging state
+// @TODO need a better way to copy over style
+
+@select-item-border-radius:         2px;
+@select-item-gutter:                5px;
+@select-item-padding-vertical:      2px;
+@select-item-padding-horizontal:    5px;
+@select-item-font-size:             .9em;
+@select-item-color:                 #08c; // pale blue
+@select-item-bg:                    #f2f9fc;
+@select-item-border-color:          darken(@select-item-bg, 10%);
+@select-item-hover-color:           darken(@select-item-color, 5%); // pale blue
+@select-item-hover-bg:              darken(@select-item-bg, 5%);
+@select-item-disabled-color:        #333;
+@select-item-disabled-bg:           #fcfcfc;
+@select-item-disabled-border-color: darken(@select-item-disabled-bg, 10%);
+
+
+.Select-value {
+	&.draggable-dragging {
+		background-color: @select-item-bg;
+		border-radius: @select-item-border-radius;
+		border: 1px solid @select-item-border-color;
+		color: @select-item-color;
+		display: inline-block;
+		font-size: @select-item-font-size;
+		line-height: 1.4;
+		margin-left: @select-item-gutter;
+		margin-top: @select-item-gutter;
+		vertical-align: top;
+
+		// common
+		.Select-value-icon,
+		.Select-value-label {
+			display: inline-block;
+			vertical-align: middle;
+			box-sizing: border-box;
+			float: left;
+		}
+
+		// label
+		.Select-value-label {
+			border-bottom-right-radius: @select-item-border-radius;
+			border-top-right-radius: @select-item-border-radius;
+			cursor: default;
+			padding: @select-item-padding-vertical 0 @select-item-padding-vertical @select-item-padding-horizontal;
+		}
+
+		// icon
+		.Select-value-icon {
+			cursor: pointer;
+			border-bottom-left-radius: @select-item-border-radius;
+			border-top-left-radius: @select-item-border-radius;
+			border-right: 1px solid @select-item-border-color;
+
+			// move the baseline up by 1px
+			padding: (@select-item-padding-vertical - 1) @select-item-padding-horizontal (@select-item-padding-vertical + 1);
+
+			&:hover,
+			&:focus {
+				background-color: @select-item-hover-bg;
+				color: @select-item-hover-color;
+			}
+			&:active {
+				background-color: @select-item-border-color;
+			}
+		}
+	}
+}
+
+.draggable-dragging {
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+	background-color: rgba(255, 255, 255, 0.8);
+	cursor: row-resize;
+	z-index: 10;
+	border-radius: 5px;
+
+	* {
+		-webkit-touch-callout: none;
+		user-select: none;
+	}
+
+	label, p {
+		text-align: left;
+	}
+}

@@ -11,6 +11,7 @@ import GithubUsers from './components/GithubUsers';
 import CustomComponents from './components/CustomComponents';
 import CustomRender from './components/CustomRender';
 import Multiselect from './components/Multiselect';
+import MultiselectSortable from './components/MultiselectSortable';
 import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
@@ -20,6 +21,7 @@ ReactDOM.render(
 	<div>
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
+    <MultiselectSortable label="Multiselect (Sortable react-sortable-hoc)" />
 		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
 		<GithubUsers label="GitHub users (Async with fetch.js)" />
