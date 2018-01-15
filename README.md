@@ -304,7 +304,7 @@ You can manipulate the input by providing a `onInputChange` callback that return
 function cleanInput(inputValue) {
     // Strip all non-number characters from the input
     return inputValue.replace(/[^0-9]/g, "");
-}   
+}
 
 <Select
     name="form-field-name"
@@ -425,6 +425,7 @@ function onInputKeyDown(event) {
 |:---|:---|:---|:---|
 | `autoload` | boolean | true | automatically call the `loadOptions` prop on-mount |
 | `cache` | object | undefined | Sets the cache object used for options. Set to `false` if you would like to disable caching.
+| `keepMenuOpenDuringLoading` | boolean | false | keep the menu dropdown open while waiting for `loadOptions` to return |
 | `loadingPlaceholder` | string or node | 'Loading...' | label to prompt for loading search result |
 | `loadOptions` | function | undefined | function that returns a promise or calls a callback with the options: `function(input, [callback])` |
 
