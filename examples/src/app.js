@@ -21,7 +21,7 @@ ReactDOM.render(
 	<div>
 		<States label="States" searchable />
 		<Multiselect label="Multiselect" />
-    <MultiselectSortable label="Multiselect (Sortable react-sortable-hoc)" />
+		<MultiselectSortable label="Multiselect (Sortable react-sortable-hoc)" />
 		<Virtualized label="Virtualized" />
 		<Contributors label="Contributors (Async)" />
 		<GithubUsers label="GitHub users (Async with fetch.js)" />
