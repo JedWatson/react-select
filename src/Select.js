@@ -13,6 +13,7 @@ import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultClearRenderer from './utils/defaultClearRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import getScrollParent from './utils/getScrollParent';
 
 import Option from './Option';
 import Value from './Value';
@@ -183,9 +184,19 @@ class Select extends React.Component {
 		}
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
 			const menuContainerRect = this.menuContainer.getBoundingClientRect();
-			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
-			}
+      const menuBottom = menuContainerRect.bottom + this.props.menuBuffer;
+      const scrollParent = getScrollParent(this.menuContainer);
+      if (scrollParent) {
+        const containerRect = scrollParent.getBoundingClientRect();
+        const scrollBottom = scrollParent.scrollTop + containerRect.height;
+        if (scrollBottom < menuBottom) {
+          scrollParent.scrollTop += menuBottom - scrollBottom;
+        }
+      } else {
+        if (window.innerHeight < menuBottom) {
+          window.scrollBy(0, menuBottom - window.innerHeight);
+        }
+      }
 		}
 		if (prevProps.disabled !== this.props.disabled) {
 			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state

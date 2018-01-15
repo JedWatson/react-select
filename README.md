@@ -405,7 +405,7 @@ function onInputKeyDown(event) {
 | `required` | boolean | false | applies HTML5 required attribute when needed |
 | `resetValue` | any | null | value to set when the control is cleared |
 | `rtl` | boolean | false | use react-select in right-to-left direction |
-| `scrollMenuIntoView` | boolean | true | whether the viewport will shift to display the entire menu when engaged |
+| `scrollMenuIntoView` | boolean | true | whether the parent scrolling container will shift to display the entire menu when engaged |
 | `searchable` | boolean | true | whether to enable searching feature or not |
 | `searchPromptText` | string or node | 'Type to search' | label to prompt for search input |
 | `simpleValue` | boolean | false | pass the value to onChange as a string |
