@@ -21,14 +21,13 @@ describe('New Select', function() {
         cy
           .get(selector.singleSelectDefaultValues)
           .should('have.length', 2)
-          .each(function(element) {
-            expect(element).to.contain('Red');
-          });
+          .get(selector.singleSelectFirstValue)
+          .should('contain', 'Red');
       });
       it('Should clear the default value ' + view, function() {
         cy
           .get(selector.clearValues)
-          .should('have.length', 3)
+          .should('have.length', 4)
           .click({ multiple: true })
           .each(function(element) {
             expect(element).to.not.be.visible; // eslint-disable-line no-unused-expressions
@@ -37,7 +36,7 @@ describe('New Select', function() {
       it('Should expand the menu when click on the arrow ' + view, function() {
         cy
           .get(selector.toggleMenus)
-          .should('have.length', 3)
+          .should('have.length', 4)
           .get(selector.singleSelectSingleInput)
           .should('have.attr', 'aria-expanded', 'false')
           .get(selector.toggleMenuSingle)
@@ -113,9 +112,11 @@ describe('New Select', function() {
           cy
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
-              expect($defaultValue).to.have.length(2);
-              expect($defaultValue.eq(0)).to.contain('Purple');
-              expect($defaultValue.eq(1)).to.contain('Blue');
+              expect($defaultValue).to.have.length(4);
+              expect($defaultValue.eq(0)).to.contain('Blue');
+              expect($defaultValue.eq(1)).to.contain('Green');
+              expect($defaultValue.eq(2)).to.contain('Yellow');
+              expect($defaultValue.eq(3)).to.contain('Grey');
             });
 
           cy
@@ -123,8 +124,8 @@ describe('New Select', function() {
             .click()
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
-              expect($defaultValue).to.have.length(1);
-              expect($defaultValue.eq(0)).to.contain('Purple');
+              expect($defaultValue).to.have.length(3);
+              expect($defaultValue.eq(0)).to.contain('Green');
             })
             .get(selector.menuMulti)
             .should('not.be.visible');
@@ -143,7 +144,7 @@ describe('New Select', function() {
             .get(selector.menuMulti)
             .should('be.visible')
             .get(selector.menuOption)
-            .contains('Green')
+            .contains('Purple')
             .click()
             .get(selector.toggleMenuMulti)
             .click()
@@ -156,10 +157,10 @@ describe('New Select', function() {
             .type('{enter}', { force: true })
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
-              expect($defaultValue).to.have.length(5);
-              expect($defaultValue.eq(0)).to.contain('Purple');
-              expect($defaultValue.eq(1)).to.contain('Blue');
-              expect($defaultValue.eq(2)).to.contain('Green');
+              expect($defaultValue).to.have.length(7);
+              expect($defaultValue.eq(0)).to.contain('Blue');
+              expect($defaultValue.eq(1)).to.contain('Green');
+              expect($defaultValue.eq(2)).to.contain('Purple');
               expect($defaultValue.eq(3)).to.contain('Yellow');
               expect($defaultValue.eq(4)).to.contain('Grey');
             });

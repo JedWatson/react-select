@@ -21,7 +21,6 @@ coverage
 cypress/videos
 cypress/screenshots
 cypress/support
-cypress/fixtures
 cypress/plugins
 
 # Dependency directory
