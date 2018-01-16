@@ -6,6 +6,7 @@ import glam from 'glam';
 import { defaultComponents, type SelectComponents } from './components/index';
 import { AriaStatus } from './components/Aria';
 import { defaultFormatters, type Formatters } from './formatters';
+import { defaultStyles, type Styles } from './styles';
 
 import type {
   ActionMeta,
@@ -51,6 +52,7 @@ type Props = {
   onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
   options: OptionsType,
   placeholder?: string,
+  styles: Styles,
   tabSelectsValue: boolean,
   value: ValueType,
 };
@@ -69,6 +71,7 @@ const defaultProps = {
   maxValueHeight: 100,
   options: [],
   placeholder: 'Select...',
+  styles: {},
   tabSelectsValue: true,
 };
 
@@ -664,6 +667,11 @@ export default class Select extends Component<Props, State> {
   getValueLabel(data: OptionType) {
     return this.formatters.valueLabel(data);
   }
+  getStyles = (key: string, props: {}) => {
+    const base = defaultStyles[key](props);
+    const custom = this.props.styles[key];
+    return custom ? custom(base, props) : base;
+  };
   renderPlaceholderOrValue() {
     const { MultiValue, SingleValue, Placeholder } = this.components;
     const { isDisabled, isMulti, placeholder } = this.props;
@@ -698,6 +706,7 @@ export default class Select extends Component<Props, State> {
         children={this.getValueLabel(singleValue)}
         data={singleValue}
         isDisabled={isDisabled}
+        getStyles={this.getStyles}
       />
     );
   }
