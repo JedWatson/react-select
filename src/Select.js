@@ -16,6 +16,7 @@ import {
   type Formatters,
   type FormattersConfig,
 } from './formatters';
+import { defaultStyles, type Styles } from './styles';
 
 import type {
   ActionMeta,
@@ -135,6 +136,7 @@ type Props = {
     Placeholder text for the select value
   */
   placeholder?: string,
+  styles: Styles,
   /*
     Select the currently focused option when the user presses tab
   */
@@ -162,6 +164,7 @@ const defaultProps = {
   maxValueHeight: 100,
   options: [],
   placeholder: 'Select...',
+  styles: {},
   tabSelectsValue: true,
 };
 
@@ -764,6 +767,11 @@ export default class Select extends Component<Props, State> {
   getValueLabel(data: OptionType) {
     return this.formatters.valueLabel(data);
   }
+  getStyles = (key: string, props: {}) => {
+    const base = defaultStyles[key](props);
+    const custom = this.props.styles[key];
+    return custom ? custom(base, props) : base;
+  };
   renderPlaceholderOrValue() {
     const { MultiValue, SingleValue, Placeholder } = this.components;
     const { isDisabled, isMulti, placeholder } = this.props;
@@ -798,6 +806,7 @@ export default class Select extends Component<Props, State> {
         children={this.getValueLabel(singleValue)}
         data={singleValue}
         isDisabled={isDisabled}
+        getStyles={this.getStyles}
       />
     );
   }

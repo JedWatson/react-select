@@ -2,26 +2,25 @@
 import React from 'react';
 
 import { className } from '../utils';
-import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
-import { marginHorizontal } from '../mixins';
+import { type GetStyles } from '../styles';
 
 type ValueProps = {
   children: string,
   data: any,
+  getStyles: GetStyles,
   isDisabled: boolean,
 };
 
-const SingleValue = ({ isDisabled, ...props }: ValueProps) => (
-  <Div
-    className={className('singlevalue', { isDisabled })}
-    css={{
-      ...marginHorizontal(spacing.baseUnit / 2),
-      color: isDisabled ? colors.neutral40 : colors.text,
-      position: 'absolute',
-    }}
-    {...props}
-  />
-);
+const SingleValue = ({ getStyles, ...props }: ValueProps) => {
+  const { isDisabled, data, ...cleanProps } = props;
+  return (
+    <Div
+      className={className('singlevalue', { isDisabled })}
+      css={getStyles('singleValue', props)}
+      {...cleanProps}
+    />
+  );
+};
 
 export default SingleValue;
