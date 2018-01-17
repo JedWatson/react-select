@@ -140,10 +140,6 @@ class Select extends React.Component {
 			// Used to be required but it's not any more
 			this.setState({ required: false });
 		}
-
-		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
-			this.setState({ inputValue: this.handleInputValueChange('') });
-		}
 	}
 
 	componentDidUpdate (prevProps, prevState) {
@@ -925,7 +921,7 @@ class Select extends React.Component {
 			);
 		}
 		return (
-			<div className={ className } key="input-wrap" style={{display: 'inline-block'}}>
+			<div className={className} key="input-wrap" style={{ display: 'inline-block' }}>
 				<input id={this.props.id} {...inputProps} />
 			</div>
 		);

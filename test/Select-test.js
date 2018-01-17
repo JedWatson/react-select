@@ -2367,21 +2367,21 @@ describe('Select', () => {
 			});
 		});
 
-		describe('clear the display value on receiving props', () => {
+		describe('should not clear display value on receiving props', () => {
 			beforeEach(() => {
 				var wrapper = createControlWithWrapper({
 					options: defaultOptions,
 					value: 'one',
 				});
 			});
-			it('should clear display value if display is not empty', () => {
+			it('should not clear display value if display is not empty', () => {
 				expect(instance.state.inputValue, 'to equal', '');
 				typeSearchText('and');
 				expect(instance.state.inputValue, 'to equal', 'and');
 				wrapper.setPropsForChild({
 					value: 'newValue',
 				});
-				expect(instance.state.inputValue, 'to equal', '');
+				expect(instance.state.inputValue, 'to equal', 'and');
 			});
 
 			it('should not clear display value if value in next props is equal to previous', () => {
