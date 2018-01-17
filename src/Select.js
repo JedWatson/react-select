@@ -921,7 +921,7 @@ class Select extends React.Component {
 			);
 		}
 		return (
-			<div className={className} key="input-wrap" style={{ display: 'inline-block' }}>
+			<div className={className} key="input-wrap" style={{display: 'inline-block'}}>
 				<input id={this.props.id} {...inputProps} />
 			</div>
 		);
