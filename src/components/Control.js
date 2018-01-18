@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 
+import { className } from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 
@@ -8,6 +9,7 @@ type FocusType = { isDisabled: boolean, isFocused: boolean };
 
 const Control = ({ isDisabled, isFocused, ...props }: FocusType) => (
   <Div
+    className={className('control', { isDisabled, isFocused })}
     css={{
       alignItems: 'center',
       backgroundColor: isDisabled
