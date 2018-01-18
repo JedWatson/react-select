@@ -714,6 +714,7 @@ export default class Select extends Component<Props, State> {
       <ClearIndicator
         isFocused={isFocused}
         onMouseDown={this.onClearIndicatorMouseDown}
+        role="button"
       />
     );
   }
@@ -726,6 +727,7 @@ export default class Select extends Component<Props, State> {
       <DropdownIndicator
         isFocused={isFocused}
         onMouseDown={this.onDropdownIndicatorMouseDown}
+        role="button"
       />
     );
   }
@@ -746,9 +748,12 @@ export default class Select extends Component<Props, State> {
       return (
         <Option
           {...option}
+          aria-selected={option.isSelected}
           id={id}
-          isFocused={isFocused}
           innerRef={isFocused ? this.onFocusedOptionRef : undefined}
+          isFocused={isFocused}
+          role={option.withinGroup ? 'treeitem' : 'option'}
+          tabIndex="-1"
         >
           {option.label}
         </Option>
@@ -762,7 +767,12 @@ export default class Select extends Component<Props, State> {
         if (item.type === 'group') {
           const { children, type, ...group } = item;
           return (
-            <Group {...group}>
+            <Group
+              // aria-label={label} // TODO @jedwatson need to define groupLabelKey
+              aria-expanded="true"
+              role="group"
+              {...group}
+            >
               {item.children.map(option => render(option))}
             </Group>
           );
@@ -778,11 +788,13 @@ export default class Select extends Component<Props, State> {
       <Menu onMouseDown={this.onMenuMouseDown}>
         <MenuList
           aria-labelledby={this.getElementId('label')}
+          aria-multiselectable={isMulti}
           id={this.getElementId('listbox')}
           innerRef={this.onMenuRef}
           isMulti={isMulti}
           maxHeight={maxMenuHeight}
           role={this.hasGroups ? 'tree' : 'listbox'}
+          tabIndex="-1"
         >
           {menuUI}
         </MenuList>
@@ -814,7 +826,9 @@ export default class Select extends Component<Props, State> {
           </Label>
         ) : null}
         <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
-          <AriaStatus availableResults={this.hasOptions({ length: true })} />
+          <AriaStatus aria-atomic="true" aria-live="polite" role="status">
+            {this.hasOptions({ length: true })} results are available.
+          </AriaStatus>
           <Control
             isDisabled={isDisabled}
             isFocused={isFocused}

@@ -59,7 +59,6 @@ type IndicatorProps = { children: ElementType };
 
 export const DropdownIndicator = ({ children, ...props }: IndicatorProps) => (
   <Indicator
-    role="button"
     className={className(['indicator', 'dropdown-indicator'])}
     {...props}
   >
@@ -71,11 +70,7 @@ DropdownIndicator.defaultProps = {
 };
 
 export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
-  <Indicator
-    role="button"
-    className={className(['indicator', 'clear-indicator'])}
-    {...props}
-  >
+  <Indicator className={className(['indicator', 'clear-indicator'])} {...props}>
     {children}
   </Indicator>
 );

@@ -5,9 +5,9 @@ import { className } from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 
-type FocusType = { isDisabled: boolean, isFocused: boolean };
+type Props = { isDisabled: boolean, isFocused: boolean };
 
-const Control = ({ isDisabled, isFocused, ...props }: FocusType) => (
+const Control = ({ isDisabled, isFocused, ...props }: Props) => (
   <Div
     className={className('control', { isDisabled, isFocused })}
     css={{

@@ -41,10 +41,6 @@ export const MenuList = ({
   ...props
 }: MenuListProps) => (
   <Ul
-    aria-multiselectable={isMulti}
-    id={id}
-    role={role}
-    tabIndex="-1"
     className={className('menu-list', { isMulti })}
     css={{
       maxHeight,

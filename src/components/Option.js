@@ -9,27 +9,13 @@ import { paddingHorizontal, paddingVertical } from '../mixins';
 
 const Option = ({
   data,
-  index,
-  id,
   isFocused,
   isSelected,
-  label,
-  innerRef,
-  onClick,
-  onMouseOver,
-  value,
   withinGroup,
   ...props
 }: OptionProps) => (
   <Li
-    aria-selected={isSelected}
     className={className('option', { isFocused, isSelected, withinGroup })}
-    id={id}
-    onClick={onClick}
-    onMouseOver={onMouseOver}
-    role={withinGroup ? 'treeitem' : 'option'}
-    tabIndex="-1"
-    innerRef={innerRef}
     css={{
       backgroundColor: isSelected
         ? colors.primary

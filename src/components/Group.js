@@ -16,9 +16,6 @@ const Group = ({ children, label, ...props }: Props) => {
 
   return (
     <Li
-      aria-label={label}
-      aria-expanded="true"
-      role="group"
       className={className('group')}
       css={paddingVertical(spacing.baseUnit * 2)}
       {...props}
