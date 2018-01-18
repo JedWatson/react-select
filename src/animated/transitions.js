@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, type ComponentType, type ElementRef } from 'react';
+
 import { Transition } from 'react-transition-group';
 
 export type fn = () => void;

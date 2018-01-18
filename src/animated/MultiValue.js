@@ -4,7 +4,9 @@ import React from 'react';
 import { components } from '../components';
 
 import { Collapse, type fn } from './transitions';
+
 import type { ValueProps as MultiValueProps } from '../components/MultiValue';
+
 // strip transition props off before spreading onto select component
 type Props = {
   ...MultiValueProps,
