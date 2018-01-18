@@ -2,7 +2,7 @@
 import React from 'react';
 
 import type { OptionProps } from '../types';
-
+import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Li } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
@@ -23,6 +23,7 @@ const Option = ({
 }: OptionProps) => (
   <Li
     aria-selected={isSelected}
+    className={className('option', { isFocused, isSelected, withinGroup })}
     id={id}
     onClick={onClick}
     onMouseOver={onMouseOver}

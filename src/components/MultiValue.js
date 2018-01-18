@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { borderRadius, colors, spacing } from '../theme';
+import { className } from '../utils';
 import { CrossIcon } from './indicators';
 import { Div } from '../primitives';
 import { paddingHorizontal } from '../mixins';
@@ -21,6 +22,7 @@ const MultiValue = ({
   ...props
 }: ValueProps) => (
   <Div
+    className={className('multivalue', { isDisabled })}
     css={{
       backgroundColor: colors.neutral10,
       borderRadius: borderRadius / 2,
@@ -30,6 +32,7 @@ const MultiValue = ({
     {...props}
   >
     <Div
+      className={className('multivalue__label')}
       css={{
         color: colors.text,
         fontSize: '85%',
@@ -40,6 +43,7 @@ const MultiValue = ({
       {label}
     </Div>
     <Div
+      className={className('multivalue__remove')}
       css={{
         alignItems: 'center',
         borderRadius: borderRadius / 2,

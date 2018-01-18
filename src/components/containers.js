@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 
+import { className } from '../utils';
 import { Div } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { spacing } from '../theme';
@@ -16,6 +17,7 @@ export const SelectContainer = ({
       pointerEvents: isDisabled ? 'none' : 'initial',
       position: 'relative',
     }}
+    className={className('container', { isDisabled })}
     {...props}
   />
 );
@@ -52,6 +54,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
     return (
       <Div
         innerRef={isMulti ? this.getScrollContainer : null}
+        className={className('value-container', { isMulti, hasValue })}
         css={{
           alignItems: 'baseline',
           display: 'flex ',
@@ -70,6 +73,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
 
 export const IndicatorsContainer = (props: any) => (
   <Div
+    className={className('indicators')}
     css={{
       display: 'flex ',
       flexShrink: 0,
