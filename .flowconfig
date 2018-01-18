@@ -1,5 +1,7 @@
 [ignore]
 
+.*/node_modules/cypress/.*
+
 [include]
 
 [libs]
