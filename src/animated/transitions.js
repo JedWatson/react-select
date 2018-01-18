@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
+import React, { Component, type ComponentType, type ElementRef } from 'react';
+
 import { Transition } from 'react-transition-group';
 
 export type fn = () => void;
@@ -11,7 +12,7 @@ export type BaseTransition = { in: boolean, onExited: fn };
 // ==============================
 
 type FadeProps = BaseTransition & {
-  component: ComponentType,
+  component: ComponentType<*>,
   duration: number,
 };
 export const Fade = ({
@@ -60,7 +61,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  getWidth = (ref: HTMLElement) => {
+  getWidth = (ref: ElementRef<any>) => {
     if (ref && isNaN(this.state.width)) {
       this.setState({ width: ref.offsetWidth });
     }
