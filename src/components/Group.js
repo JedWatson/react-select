@@ -1,6 +1,7 @@
 // @flow
 import React, { Children, cloneElement, type Node } from 'react';
 
+import { className } from '../utils';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { Li, Ul, Strong } from '../primitives';
 import { spacing } from '../theme';
@@ -18,6 +19,7 @@ const Group = ({ children, label, ...props }: Props) => {
       aria-label={label}
       aria-expanded="true"
       role="group"
+      className={className('group')}
       css={paddingVertical(spacing.baseUnit * 2)}
       {...props}
     >
@@ -29,6 +31,7 @@ const Group = ({ children, label, ...props }: Props) => {
 
 const GroupHeading = props => (
   <Strong
+    className={className('group-heading')}
     css={{
       color: '#999',
       cursor: 'default',

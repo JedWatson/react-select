@@ -1,12 +1,14 @@
 // @flow
 import React from 'react';
 
+import { className } from '../utils';
 import { Div, Ul } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import { marginVertical, paddingHorizontal, paddingVertical } from '../mixins';
 
 const Menu = (props: any) => (
   <Div
+    className={className('menu')}
     css={{
       backgroundColor: colors.neutral0,
       boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${
@@ -43,6 +45,7 @@ export const MenuList = ({
     id={id}
     role={role}
     tabIndex="-1"
+    className={className('menu-list', { isMulti })}
     css={{
       maxHeight,
       overflowY: 'auto',
@@ -55,6 +58,7 @@ export const MenuList = ({
 
 export const NoOptions = (props: any) => (
   <Div
+    className={className('menu-no-option')}
     css={{
       color: colors.neutral40,
       ...paddingHorizontal(spacing.baseUnit * 3),

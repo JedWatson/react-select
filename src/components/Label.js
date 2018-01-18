@@ -1,6 +1,7 @@
 // @flow
 import React, { type Node } from 'react';
 
+import { className } from '../utils';
 import { SROnly } from '../primitives';
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
   id: string,
 };
 
-const Label = (props: Props) => <SROnly tag="label" {...props} />;
+const Label = (props: Props) => (
+  <SROnly className={className('label')} tag="label" {...props} />
+);
 
 export default Label;
