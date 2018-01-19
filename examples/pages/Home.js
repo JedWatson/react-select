@@ -9,7 +9,7 @@ import { Hr, Note } from '../components';
 import { colourOptions, groupedOptions } from '../data';
 
 const SelectWithValue = withValue(Select);
-type State = { isDisabled: boolean };
+type State = { isDisabled: boolean, isLoading: boolean };
 
 export default class App extends Component<*, State> {
   state = { isDisabled: false, isLoading: false };
