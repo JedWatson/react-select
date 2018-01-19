@@ -34,17 +34,12 @@ type MenuListProps = {
   role: 'listbox' | 'tree',
 };
 export const MenuList = ({
-  id,
   isMulti,
   maxHeight,
   role,
   ...props
 }: MenuListProps) => (
   <Ul
-    aria-multiselectable={isMulti}
-    id={id}
-    role={role}
-    tabIndex="-1"
     className={className('menu-list', { isMulti })}
     css={{
       maxHeight,

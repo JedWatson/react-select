@@ -13,8 +13,7 @@ export const SelectContainer = ({
 }: SelectContainerProps) => (
   <Div
     css={{
-      // cancel mouse events when disabled
-      pointerEvents: isDisabled ? 'none' : 'initial',
+      pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
       position: 'relative',
     }}
     className={className('container', { isDisabled })}

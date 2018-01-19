@@ -6,7 +6,11 @@ import { className } from '../utils';
 import { spacing } from '../theme';
 import { marginHorizontal } from '../mixins';
 
-const Input = ({ innerRef, ...props }: any) => (
+type Props = {
+  innerRef: HTMLElement => void
+}
+
+const Input = ({ innerRef, ...props }: Props) => (
   <AutosizeInput
     className={className('input')}
     ref={innerRef}

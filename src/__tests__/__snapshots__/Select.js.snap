@@ -7,8 +7,13 @@ exports[`defaults 1`] = `
     onKeyDown={[Function]}
   >
     <AriaStatus
-      availableResults={0}
-    />
+      aria-atomic="true"
+      aria-live="polite"
+      role="status"
+    >
+      0
+       results are available.
+    </AriaStatus>
     <Control
       innerRef={[Function]}
       isDisabled={false}
@@ -59,6 +64,7 @@ exports[`defaults 1`] = `
         <DropdownIndicator
           isFocused={false}
           onMouseDown={[Function]}
+          role="button"
         >
           <DownChevron
             label="Toggle Menu"
