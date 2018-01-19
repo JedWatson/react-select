@@ -203,19 +203,13 @@ class Select extends React.Component {
 	}
 
 	toggleTouchOutsideEvent (enabled) {
-		if (enabled) {
-			if (!document.addEventListener && document.attachEvent) {
-				document.attachEvent('ontouchstart', this.handleTouchOutside);
-			} else {
-				document.addEventListener('touchstart', this.handleTouchOutside);
-			}
-		} else {
-			if (!document.removeEventListener && document.detachEvent) {
-				document.detachEvent('ontouchstart', this.handleTouchOutside);
-			} else {
-				document.removeEventListener('touchstart', this.handleTouchOutside);
-			}
-		}
+		var eventTogglerName = enabled ?
+			(document.addEventListener ? 'addEventListener' : 'attachEvent') :
+			(document.removeEventListener ? 'removeEventListener' : 'detachEvent');
+		var pref = document.addEventListener ? '' : 'on';
+
+		document[eventTogglerName](pref + 'touchstart', this.handleTouchOutside);
+		document[eventTogglerName](pref + 'mousedown', this.handleTouchOutside);
 	}
 
 	handleTouchOutside (event) {
