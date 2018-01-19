@@ -537,7 +537,9 @@ export default class Select extends Component<Props, State> {
     this.input = input;
 
     // cache the input height to use when the select is disabled
-    if (input && input.input) this.inputHeight = input.input.clientHeight;
+    if (input && !this.inputHeight) {
+      this.inputHeight = input.clientHeight;
+    }
   };
   onInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
