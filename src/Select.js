@@ -768,7 +768,7 @@ export default class Select extends Component<Props, State> {
           const { children, type, ...group } = item;
           return (
             <Group
-              // aria-label={label} // TODO @jedwatson need to define groupLabelKey
+              aria-label={group.label} // TODO @jedwatson need to define groupLabelKey
               aria-expanded="true"
               role="group"
               {...group}

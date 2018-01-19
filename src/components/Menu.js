@@ -34,7 +34,6 @@ type MenuListProps = {
   role: 'listbox' | 'tree',
 };
 export const MenuList = ({
-  id,
   isMulti,
   maxHeight,
   role,
