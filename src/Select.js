@@ -228,19 +228,23 @@ export default class Select extends Component<Props, State> {
     const focusable = [];
 
     const toOption = (option, i) => {
+      const isDisabled = this.isDisabled(option);
       const isSelected = this.isSelected(option, selectValue);
+
       if (isMulti && hideSelectedOptions && isSelected) return;
       if (!filterOption(this.getOptionLabel(option), inputValue)) return;
-      if (!this.isDisabled(option)) {
+      if (!isDisabled) {
         focusable.push(option);
       }
+
       return {
         type: 'option',
         label: this.getOptionLabel(option),
         key: `${i}-${this.getOptionValue(option)}`,
+        isDisabled,
         isSelected,
-        onMouseOver: () => this.onOptionHover(option),
-        onClick: () => this.selectValue(option),
+        onMouseOver: isDisabled ? undefined : () => this.onOptionHover(option),
+        onClick: isDisabled ? undefined : () => this.selectValue(option),
         data: option,
       };
     };
