@@ -4,8 +4,12 @@ import React, { type ElementType } from 'react';
 import glam from 'glam';
 
 import { className } from '../utils';
-import { Div } from '../primitives';
+import { Div, Span, SROnly } from '../primitives';
 import { colors, spacing } from '../theme';
+
+// ==============================
+// Dropdown & Clear Icons
+// ==============================
 
 const Svg = ({ size, ...props }: { size: number }) => (
   <svg
@@ -34,6 +38,10 @@ const DownChevron = (props: any) => (
     <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z" />
   </Svg>
 );
+
+// ==============================
+// Dropdown & Clear Buttons
+// ==============================
 
 const Indicator = ({ isFocused, ...props }: { isFocused: boolean }) => (
   <Div
@@ -76,4 +84,83 @@ export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
 );
 ClearIndicator.defaultProps = {
   children: <CrossIcon label="Clear Value" />,
+};
+
+// ==============================
+// Loading
+// ==============================
+
+const keyframesName = 'react-select-loading-indicator';
+
+const LoadingContainer = ({ size, ...props }: { size: number }) => (
+  <Div
+    css={{
+      alignSelf: 'center',
+      fontSize: size,
+      lineHeight: 1,
+      marginRight: size,
+      textAlign: 'center',
+      verticalAlign: 'middle',
+    }}
+    {...props}
+  />
+);
+type DotProps = { color: string, delay: number, offset: boolean };
+const LoadingDot = ({ color, delay, offset }: DotProps) => (
+  <Span
+    css={{
+      animationDuration: '1s',
+      animationDelay: `${delay}ms`,
+      animationIterationCount: 'infinite',
+      animationName: keyframesName,
+      animationTimingFunction: 'ease-in-out',
+      backgroundColor: color,
+      borderRadius: '1em',
+      display: 'inline-block',
+      marginLeft: offset ? '1em' : null,
+      height: '1em',
+      verticalAlign: 'top',
+      width: '1em',
+    }}
+  />
+);
+// TODO @jossmac Source `keyframes` solution for glam
+const LoadingAnimation = () => (
+  <style type="text/css">
+    {`@keyframes ${keyframesName} {
+        0%, 80%, 100% { opacity: 0; }
+        40% { opacity: 1; }
+    };`}
+  </style>
+);
+type LoadingIconProps = { color: string, size: number };
+const LoadingIcon = ({ color, size }: LoadingIconProps) => (
+  <LoadingContainer size={size}>
+    <LoadingAnimation />
+    <LoadingDot color={color} />
+    <LoadingDot color={color} delay={160} offset />
+    <LoadingDot color={color} delay={320} offset />
+    <SROnly>Loading</SROnly>
+  </LoadingContainer>
+);
+LoadingIcon.defaultProps = {
+  color: colors.neutral40,
+  size: 4,
+};
+
+type LoadingIndicatorProps = { children: Node };
+export const LoadingIndicator = ({
+  children,
+  ...props
+}: LoadingIndicatorProps) => (
+  <Indicator
+    role="presentation"
+    className={className(['indicator', 'loading-indicator'])}
+    {...props}
+  >
+    {children}
+  </Indicator>
+);
+LoadingIndicator.defaultProps = {
+  children: <LoadingIcon />,
 };

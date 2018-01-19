@@ -4,7 +4,11 @@ import {
   SelectContainer,
   ValueContainer,
 } from './containers';
-import { ClearIndicator, DropdownIndicator } from './indicators';
+import {
+  ClearIndicator,
+  DropdownIndicator,
+  LoadingIndicator,
+} from './indicators';
 
 import Control from './Control';
 import Group from './Group';
@@ -22,6 +26,7 @@ export type SelectComponents = {
   DropdownIndicator: typeof DropdownIndicator,
   Group: typeof Group,
   Label: typeof Label,
+  LoadingIndicator: typeof LoadingIndicator,
   IndicatorsContainer: typeof IndicatorsContainer,
   Input: typeof Input,
   Menu: typeof Menu,
@@ -41,6 +46,7 @@ export const components: SelectComponents = {
   DropdownIndicator: DropdownIndicator,
   Group: Group,
   Label: Label,
+  LoadingIndicator: LoadingIndicator,
   IndicatorsContainer: IndicatorsContainer,
   Input: Input,
   Menu: Menu,
