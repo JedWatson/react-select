@@ -26,7 +26,7 @@ export const Li = ({ css, ...props }: { css?: {} }) => (
   <Base tag="li" css={{ listStyle: 'none', ...css }} {...props} />
 );
 
-export const SROnly = ({ tag: Tag = 'div', ...props }: { tag: string }) => (
+export const SROnly = ({ tag: Tag = 'div', ...props }: { tag?: string }) => (
   <Tag
     css={{
       border: 0,

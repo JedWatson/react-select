@@ -43,6 +43,7 @@ type Props = {
   instanceId?: number | string,
   isClearable: boolean,
   isDisabled: boolean,
+  isLoading: boolean,
   isMulti: boolean,
   label: string,
   maxMenuHeight: number,
@@ -64,6 +65,7 @@ const defaultProps = {
   hideSelectedOptions: true,
   isClearable: true,
   isDisabled: false,
+  isLoading: false,
   isMulti: false,
   maxMenuHeight: 300,
   maxValueHeight: 100,
@@ -703,10 +705,16 @@ export default class Select extends Component<Props, State> {
   }
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
-    const { isClearable, isDisabled } = this.props;
+    const { isClearable, isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
 
-    if (!isClearable || !ClearIndicator || isDisabled || !this.hasValue()) {
+    if (
+      !isClearable ||
+      !ClearIndicator ||
+      isDisabled ||
+      !this.hasValue() ||
+      isLoading
+    ) {
       return null;
     }
 
@@ -717,6 +725,14 @@ export default class Select extends Component<Props, State> {
         role="button"
       />
     );
+  }
+  renderLoadingIndicator() {
+    const { LoadingIndicator } = this.components;
+    const { isLoading } = this.props;
+
+    if (!LoadingIndicator || !isLoading) return null;
+
+    return <LoadingIndicator />;
   }
   renderDropdownIndicator() {
     const { DropdownIndicator } = this.components;
@@ -845,6 +861,7 @@ export default class Select extends Component<Props, State> {
             </ValueContainer>
             <IndicatorsContainer>
               {this.renderClearIndicator()}
+              {this.renderLoadingIndicator()}
               {this.renderDropdownIndicator()}
             </IndicatorsContainer>
           </Control>

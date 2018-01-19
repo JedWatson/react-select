@@ -1,6 +1,6 @@
 {
   "clearValues": "[label='Clear Value']",
-  "disabledCheckbox": ".css-1fm094k [type='checkbox']",
+  "disabledCheckbox": "#cypress-single__disabled-checkbox",
   "groupColor": "[aria-label='Colours']",
   "menuGrouped": "#react-select-3--listbox",
   "menuMulti": "#react-select-4--listbox",
@@ -10,14 +10,17 @@
   "multiSelectInput": "#react-select-4--input",
   "noOptionsValue": ".css-59b0oj.css-1ycyyax",
   "removeBlue": "[label='Remove Blue']",
-  "singleGroupedInputValue": "div:nth-child(7) > .css-1ycyyax",
-  "singleInputValue": ".css-1k0mijm.css-1ycyyax",
-  "singleSelectDefaultValues": ".css-1k0mijm.css-1ycyyax",
-  "singleSelectFirstValue": "div:nth-child(4) .css-1k0mijm.css-1ycyyax",
-  "singleSelectGroupedInput": "#react-select-3--input",
+  "singleGroupedInputValue":
+    "#cypress-single-grouped .react-select__singlevalue",
+  "singleInputValue": ".react-select__singlevalue",
+  "singleSelectDefaultValues": ".react-select__singlevalue",
+  "singleSelectFirstValue": "#cypress-single .react-select__singlevalue",
+  "singleSelectGroupedInput":
+    "#cypress-single-grouped .react-select__input input",
   "singleSelectSingleInput": "#react-select-2--input",
-  "toggleMenus": "[label='Toggle Menu']",
-  "toggleMenuGrouped": "div:nth-child(7) [label='Toggle Menu']",
-  "toggleMenuMulti": "div:nth-child(10) [label='Toggle Menu']",
-  "toggleMenuSingle": "div:nth-child(4) [label='Toggle Menu']"
+  "toggleMenus": ".react-select__dropdown-indicator",
+  "toggleMenuGrouped":
+    "#cypress-single-grouped .react-select__dropdown-indicator",
+  "toggleMenuMulti": "#cypress-multi .react-select__dropdown-indicator",
+  "toggleMenuSingle": "#cypress-single .react-select__dropdown-indicator"
 }

@@ -9,12 +9,14 @@ import { Hr, Note } from '../components';
 import { colourOptions, groupedOptions } from '../data';
 
 const SelectWithValue = withValue(Select);
-type State = { isDisabled: boolean };
+type State = { isDisabled: boolean, isLoading: boolean };
 
 export default class App extends Component<*, State> {
-  state = { isDisabled: false };
+  state = { isDisabled: false, isLoading: false };
   toggleDisabled = () =>
     this.setState(state => ({ isDisabled: !state.isDisabled }));
+  toggleLoading = () =>
+    this.setState(state => ({ isLoading: !state.isLoading }));
   render() {
     return (
       <div>
@@ -22,45 +24,66 @@ export default class App extends Component<*, State> {
         <p>A sandbox for the new react-select</p>
 
         <h2>Single</h2>
-        <SelectWithValue
-          autoFocus
-          defaultValue={colourOptions[0]}
-          isDisabled={this.state.isDisabled}
-          label="Single select"
-          options={colourOptions}
-        />
+        <div id="cypress-single">
+          <SelectWithValue
+            autoFocus
+            defaultValue={colourOptions[0]}
+            isDisabled={this.state.isDisabled}
+            isLoading={this.state.isLoading}
+            label="Single select"
+            options={colourOptions}
+          />
+        </div>
         <Note Tag="label">
-          <input type="checkbox" onChange={this.toggleDisabled} />
+          <input
+            type="checkbox"
+            onChange={this.toggleDisabled}
+            id="cypress-single__disabled-checkbox"
+          />
           Disabled
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input
+            type="checkbox"
+            onChange={this.toggleLoading}
+            id="cypress-single__loading-checkbox"
+          />
+          Loading
         </Note>
 
         <h4>Grouped</h4>
-        <SelectWithValue
-          defaultValue={colourOptions[1]}
-          label="Grouped select"
-          options={groupedOptions}
-        />
+        <div id="cypress-single-grouped">
+          <SelectWithValue
+            defaultValue={colourOptions[1]}
+            label="Grouped select"
+            options={groupedOptions}
+          />
+        </div>
 
         <Hr />
 
         <h2>Multi</h2>
-        <SelectWithValue
-          defaultValue={[colourOptions[2], colourOptions[3]]}
-          isMulti
-          label="Multi select"
-          options={colourOptions}
-        />
+        <div id="cypress-multi">
+          <SelectWithValue
+            defaultValue={[colourOptions[2], colourOptions[3]]}
+            isMulti
+            label="Multi select"
+            options={colourOptions}
+          />
+        </div>
 
         <Hr />
 
         <h2>Animated</h2>
-        <SelectWithValue
-          components={Animated}
-          defaultValue={[colourOptions[4], colourOptions[5]]}
-          isMulti
-          label="Multi select"
-          options={colourOptions}
-        />
+        <div id="cypress-multi-animated">
+          <SelectWithValue
+            components={Animated}
+            defaultValue={[colourOptions[4], colourOptions[5]]}
+            isMulti
+            label="Multi select"
+            options={colourOptions}
+          />
+        </div>
       </div>
     );
   }
