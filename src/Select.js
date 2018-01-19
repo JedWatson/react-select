@@ -43,6 +43,7 @@ type Props = {
   instanceId?: number | string,
   isClearable: boolean,
   isDisabled: boolean,
+  isLoading: boolean,
   isMulti: boolean,
   label: string,
   maxMenuHeight: number,
@@ -64,6 +65,7 @@ const defaultProps = {
   hideSelectedOptions: true,
   isClearable: true,
   isDisabled: false,
+  isLoading: false,
   isMulti: false,
   maxMenuHeight: 300,
   maxValueHeight: 100,
@@ -81,7 +83,6 @@ type State = {
   inputValue: string,
   inputIsHidden: boolean,
   isFocused: boolean,
-  isLoading: boolean,
   focusedOption: OptionType | null,
   menuIsOpen: boolean,
   menuOptions: MenuOptions,
@@ -160,7 +161,6 @@ export default class Select extends Component<Props, State> {
     inputIsHidden: false,
     inputValue: '',
     isFocused: false,
-    isLoading: true,
     menuIsOpen: false,
     menuOptions: { render: [], focusable: [] },
     focusedOption: null,
@@ -705,8 +705,8 @@ export default class Select extends Component<Props, State> {
   }
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
-    const { isClearable, isDisabled } = this.props;
-    const { isFocused, isLoading } = this.state;
+    const { isClearable, isDisabled, isLoading } = this.props;
+    const { isFocused } = this.state;
 
     if (
       !isClearable ||
@@ -728,7 +728,7 @@ export default class Select extends Component<Props, State> {
   }
   renderLoadingIndicator() {
     const { LoadingIndicator } = this.components;
-    const { isLoading } = this.state;
+    const { isLoading } = this.props;
 
     if (!LoadingIndicator || !isLoading) return null;
 

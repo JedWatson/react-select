@@ -12,9 +12,11 @@ const SelectWithValue = withValue(Select);
 type State = { isDisabled: boolean };
 
 export default class App extends Component<*, State> {
-  state = { isDisabled: false };
+  state = { isDisabled: false, isLoading: false };
   toggleDisabled = () =>
     this.setState(state => ({ isDisabled: !state.isDisabled }));
+  toggleLoading = () =>
+    this.setState(state => ({ isLoading: !state.isLoading }));
   render() {
     return (
       <div>
@@ -26,12 +28,17 @@ export default class App extends Component<*, State> {
           autoFocus
           defaultValue={colourOptions[0]}
           isDisabled={this.state.isDisabled}
+          isLoading={this.state.isLoading}
           label="Single select"
           options={colourOptions}
         />
         <Note Tag="label">
           <input type="checkbox" onChange={this.toggleDisabled} />
           Disabled
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input type="checkbox" onChange={this.toggleLoading} />
+          Loading
         </Note>
 
         <h4>Grouped</h4>
