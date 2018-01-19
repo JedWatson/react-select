@@ -7,13 +7,13 @@ import { spacing } from '../theme';
 import { marginHorizontal } from '../mixins';
 
 type Props = {
-  innerRef: HTMLElement => void
-}
+  innerRef: HTMLElement => void,
+};
 
 const Input = ({ innerRef, ...props }: Props) => (
   <AutosizeInput
     className={className('input')}
-    ref={innerRef}
+    inputRef={innerRef}
     style={marginHorizontal(spacing.baseUnit / 2)}
     {...props}
   />
