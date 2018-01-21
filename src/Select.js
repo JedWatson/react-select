@@ -774,7 +774,7 @@ export default class Select extends Component<Props, State> {
           id={id}
           innerRef={isFocused ? this.onFocusedOptionRef : undefined}
           isFocused={isFocused}
-          role={option.withinGroup ? 'treeitem' : 'option'}
+          role="option"
           tabIndex="-1"
         >
           {option.label}
@@ -789,12 +789,7 @@ export default class Select extends Component<Props, State> {
         if (item.type === 'group') {
           const { children, type, ...group } = item;
           return (
-            <Group
-              aria-label={group.label} // TODO @jedwatson need to define groupLabelKey
-              aria-expanded="true"
-              role="group"
-              {...group}
-            >
+            <Group aria-expanded="true" role="group" {...group}>
               {item.children.map(option => render(option))}
             </Group>
           );

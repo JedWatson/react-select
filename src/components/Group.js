@@ -1,5 +1,5 @@
 // @flow
-import React, { Children, cloneElement, type Node } from 'react';
+import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { paddingHorizontal, paddingVertical } from '../mixins';
@@ -11,17 +11,19 @@ type Props = {
   label: Node,
 };
 
-const Group = ({ children, label, ...props }: Props) => {
-  const cloneProps = { withinGroup: true, ...props };
+// TODO: Group currently expects a `label` property, which must be a string.
+// we could possibly implement a formatter for it, with aria-labelledby here
 
+const Group = ({ children, label, ...props }: Props) => {
   return (
     <Li
+      aria-label={label}
       className={className('group')}
       css={paddingVertical(spacing.baseUnit * 2)}
       {...props}
     >
       <GroupHeading>{label}</GroupHeading>
-      <Ul>{Children.map(children, k => cloneElement(k, cloneProps))}</Ul>
+      <Ul>{children}</Ul>
     </Li>
   );
 };
