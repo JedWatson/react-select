@@ -32,27 +32,87 @@ type Customisations = {
 */
 
 type Props = {
+  /*
+    Remove the currently focused option when the user presses backspace
+  */
   backspaceRemovesValue: boolean,
+  /*
+    Close the select menu when the user selects an option
+  */
   closeMenuOnSelect: boolean,
+  /*
+    Close the select menu when the user selects an option
+  */
   components: SelectComponents,
-  deleteRemovesValue: boolean,
+  /*
+    Remove the currently focused option when the user presses delete
+  */
+  deleteRemovesValue: false,
   disabledKey: string,
+  /*
+    Clear all values when the user presses escape AND the menu is closed
+  */
   escapeClearsValue: boolean,
+  /*
+    Functions to manipulate how the options data is represented when rendered
+  */
   formatters: Formatters,
+  /*
+    Hide the selected option from the menu
+  */
   hideSelectedOptions: boolean,
+  /*
+    Define an id prefix for the select components e.g. {your-id}-value
+  */
   instanceId?: number | string,
+  /*
+    Is the select value clearable
+  */
   isClearable: boolean,
+  /*
+    Is the select disabled
+  */
   isDisabled: boolean,
+  /*
+    Is the select in a state of loading (async)
+  */
   isLoading: boolean,
+  /*
+    Support multiple selected options
+  */
   isMulti: boolean,
   label: string,
+  /*
+    Maximum height of the menu before scrolling
+  */
   maxMenuHeight: number,
+  /*
+    Maximum height of the value container before scrolling
+  */
   maxValueHeight: number,
+  /*
+    Handle change events on the select
+  */
   onChange: (ValueType, ActionMeta) => void,
+  /*
+    Handle key down events on the select
+  */
   onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  /*
+    Array of options that populate the select menu
+  */
   options: OptionsType,
+  /*
+    Placeholder text for the select value
+  */
   placeholder?: string,
+  /*
+    Select the currently focused option when the user presses tab
+  */
   tabSelectsValue: boolean,
+  /*
+    The value of the select; reflected by the selected option
+  */
   value: ValueType,
 };
 
