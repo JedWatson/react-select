@@ -10,6 +10,10 @@ export type OptionsType = Array<OptionType>;
 
 export type ValueType = OptionType | OptionsType | null | void;
 
+export type PropsWithInnerRef = {
+  innerRef: (?HTMLElement) => void,
+};
+
 export type ActionMeta = {
   action:
     | 'select-option'
@@ -27,11 +31,11 @@ export type FocusDirection =
   | 'first'
   | 'last';
 
-export type OptionProps = {
+export type OptionProps = PropsWithInnerRef & {
   data: any,
   id: number,
   index: number,
-  innerRef: HTMLElement => void,
+  isDisabled: boolean,
   isFocused: boolean,
   isSelected: boolean,
   label: string,

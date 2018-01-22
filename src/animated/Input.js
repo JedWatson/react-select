@@ -4,11 +4,14 @@ import React from 'react';
 import { components } from '../components';
 
 import { type BaseTransition } from './transitions';
+import { type PropsWithInnerRef } from '../types';
+
+type InputProps = BaseTransition & PropsWithInnerRef;
 
 // strip transition props off before spreading onto select component
-// eslint-disable-next-line no-unused-vars
-const Input = ({ in: inProp, onExited, ...props }: BaseTransition) => {
-  return <components.Input {...props} />;
+// note we need to be explicit about innerRef for flow
+const Input = ({ in: inProp, onExited, innerRef, ...props }: InputProps) => {
+  return <components.Input innerRef={innerRef} {...props} />;
 };
 
 export default Input;
