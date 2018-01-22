@@ -24,7 +24,7 @@ const Option = ({
       color: isDisabled
         ? colors.neutral20
         : isSelected ? colors.neutral0 : 'inherit',
-      cursor: isDisabled ? 'default' : 'pointer',
+      cursor: 'default',
       display: 'block',
       fontSize: 'inherit',
       ...paddingHorizontal(spacing.baseUnit * 3),
