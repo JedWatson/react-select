@@ -24,5 +24,9 @@ bower_components
 
 # Other
 .DS_Store
-
+.env
 yarn.lock
+
+# v2 ignores
+.NOTES.md
+.TODO.md

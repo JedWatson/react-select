@@ -66,10 +66,13 @@ class App extends React.Component {
     console.log(`Selected: ${selectedOption.label}`);
   }
   render() {
+  	const { selectedOption } = this.state;
+  	const value = selectedOption && selectedOption.value;
+
     return (
       <Select
         name="form-field-name"
-        value={this.state.selectedOption.value}
+        value={value}
         onChange={this.handleChange}
         options={[
           { value: 'one', label: 'One' },
@@ -149,7 +152,14 @@ const getOptions = (input, callback) => {
 
 #### Note about filtering async options
 
-The `Async` component doesn't change the default behaviour for filtering the options based on user input, but if you're already filtering the options server-side you may want to customise or disable this feature (see [filtering options](#filtering-options) below)
+The `Async` component doesn't change the default behaviour for filtering the options based on user input, but if you're already filtering the options server-side you may want to customise or disable this feature (see [filtering options](#filtering-options) below). For example, if you would like to completely disable client side filtering, you can do so with:
+
+```js
+filterOptions={(options, filter, currentValues) => {
+  // Do no filtering, just return all options
+  return options;
+}}
+```
 
 ### Async options with Promises
 
@@ -478,4 +488,4 @@ Thanks to the projects this was inspired by: [Selectize](http://selectize.github
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2017.
+MIT Licensed. Copyright (c) Jed Watson 2018.

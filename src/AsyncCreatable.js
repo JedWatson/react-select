@@ -1,8 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import Select from './Select';
+import React from 'react';
+
 import Async from './Async';
 import Creatable from './Creatable';
+import Select from './Select';
 
 class AsyncCreatableSelect extends React.Component {
 
@@ -32,13 +33,9 @@ class AsyncCreatableSelect extends React.Component {
 			</Async>
 		);
 	}
-};
+}
 
-function defaultChildren (props) {
-	return (
-		<Select {...props} />
-	);
-};
+const defaultChildren = props => <Select {...props} />;
 
 AsyncCreatableSelect.propTypes = {
 	children: PropTypes.func.isRequired, // Child function responsible for creating the inner Select component; (props: Object): PropTypes.element
