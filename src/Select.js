@@ -3,6 +3,9 @@
 import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
+import { className } from './utils';
+import { borderRadius, colors, spacing } from './theme';
+import { marginVertical, paddingVertical, paddingHorizontal } from './mixins';
 import { defaultComponents, type SelectComponents } from './components/index';
 import { AriaStatus } from './components/Aria';
 import { defaultFormatters, type Formatters } from './formatters';
@@ -754,6 +757,30 @@ export default class Select extends Component<Props, State> {
     );
   }
 
+  getMenuProps() {
+    return {
+      onMouseDown: this.onMenuMouseDown,
+      className: className('menu'),
+      css: {
+        backgroundColor: colors.neutral0,
+        boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${
+          colors.neutral10a
+        }`,
+        borderRadius: borderRadius,
+        ...marginVertical(spacing.baseUnit * 2),
+        position: 'absolute',
+        top: '100%',
+        width: '100%',
+        zIndex: 1,
+      },
+    };
+  }
+  getGroupProps() {
+    return {
+      className: className('group'),
+      css: paddingVertical(spacing.baseUnit * 2),
+    };
+  }
   renderMenu() {
     const { Group, Menu, MenuList, Option, NoOptions } = this.components;
     const { focusedOption, menuIsOpen, menuOptions } = this.state;
@@ -762,20 +789,42 @@ export default class Select extends Component<Props, State> {
     if (!menuIsOpen) return null;
 
     // TODO: Internal Option Type here
-    const render = (option: OptionType) => {
+    const render = (option: OptionType, withinGroup: boolean) => {
       const id = `${this.getElementId('option')}-${this.getOptionValue(
         option.data
       )}`;
       const isFocused = focusedOption === option.data;
       return (
         <Option
-          {...option}
-          aria-selected={option.isSelected}
-          id={id}
+          data={option}
+          optionClassName={className('option', {
+            isFocused,
+            isSelected: option.isSelected,
+            withinGroup,
+          })}
+          optionStyles={{
+            backgroundColor: option.isSelected
+              ? colors.primary
+              : isFocused ? colors.primaryLight : 'transparent',
+            color: option.isDisabled
+              ? colors.neutral20
+              : option.isSelected ? colors.neutral0 : 'inherit',
+            cursor: 'default',
+            display: 'block',
+            fontSize: 'inherit',
+            ...paddingHorizontal(spacing.baseUnit * 3),
+            ...paddingVertical(spacing.baseUnit * 2),
+            width: '100%',
+          }}
+          optionProps={{
+            role: 'option',
+            tabIndex: '-1',
+            'aria-selected': option.isSelected,
+            id: id,
+          }}
           innerRef={isFocused ? this.onFocusedOptionRef : undefined}
           isFocused={isFocused}
-          role="option"
-          tabIndex="-1"
+          withinGroup={withinGroup}
         >
           {option.label}
         </Option>
@@ -785,16 +834,20 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = menuOptions.render.map(item => {
+      menuUI = menuOptions.render.map((item, i) => {
         if (item.type === 'group') {
           const { children, type, ...group } = item;
           return (
-            <Group aria-expanded="true" role="group" {...group}>
-              {item.children.map(option => render(option))}
+            <Group
+              key={`group-${i}`}
+              groupProps={this.getGroupProps()}
+              data={group}
+            >
+              {item.children.map(option => render(option, true))}
             </Group>
           );
         } else if (item.type === 'option') {
-          return render(item);
+          return render(item, false);
         }
       });
     } else {
@@ -802,7 +855,7 @@ export default class Select extends Component<Props, State> {
     }
 
     return (
-      <Menu onMouseDown={this.onMenuMouseDown}>
+      <Menu menuProps={this.getMenuProps()}>
         <MenuList
           aria-labelledby={this.getElementId('label')}
           aria-multiselectable={isMulti}
@@ -817,6 +870,14 @@ export default class Select extends Component<Props, State> {
         </MenuList>
       </Menu>
     );
+  }
+  getAriaStatusProps() {
+    return {
+      'aria-atomic': true,
+      'aria-live': 'polite',
+      className: className('aria-status'),
+      role: 'status',
+    };
   }
   render() {
     const {
@@ -843,7 +904,7 @@ export default class Select extends Component<Props, State> {
           </Label>
         ) : null}
         <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
-          <AriaStatus aria-atomic="true" aria-live="polite" role="status">
+          <AriaStatus ariaStatusProps={this.getAriaStatusProps()}>
             {this.hasOptions({ length: true })} results are available.
           </AriaStatus>
           <Control

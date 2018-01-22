@@ -3,26 +3,11 @@ import React from 'react';
 
 import { className } from '../utils';
 import { Div, Ul } from '../primitives';
-import { borderRadius, colors, spacing } from '../theme';
-import { marginVertical, paddingHorizontal, paddingVertical } from '../mixins';
+import { colors, spacing } from '../theme';
+import { paddingHorizontal, paddingVertical } from '../mixins';
 
-const Menu = (props: any) => (
-  <Div
-    className={className('menu')}
-    css={{
-      backgroundColor: colors.neutral0,
-      boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${
-        colors.neutral10a
-      }`,
-      borderRadius: borderRadius,
-      ...marginVertical(spacing.baseUnit * 2),
-      position: 'absolute',
-      top: '100%',
-      width: '100%',
-      zIndex: 1,
-    }}
-    {...props}
-  />
+const Menu = ({ menuProps, children }: any) => (
+  <Div {...menuProps}>{children}</Div>
 );
 
 export default Menu;
