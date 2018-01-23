@@ -30,7 +30,6 @@ export default class App extends Component<*, State> {
             defaultValue={colourOptions[0]}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
-            label="Single select"
             options={colourOptions}
           />
         </div>
@@ -55,7 +54,6 @@ export default class App extends Component<*, State> {
         <div id="cypress-single-grouped">
           <SelectWithValue
             defaultValue={colourOptions[1]}
-            label="Grouped select"
             options={groupedOptions}
           />
         </div>
@@ -67,7 +65,6 @@ export default class App extends Component<*, State> {
           <SelectWithValue
             defaultValue={[colourOptions[2], colourOptions[3]]}
             isMulti
-            label="Multi select"
             options={colourOptions}
           />
         </div>
@@ -80,7 +77,6 @@ export default class App extends Component<*, State> {
             components={Animated}
             defaultValue={[colourOptions[4], colourOptions[5]]}
             isMulti
-            label="Multi select"
             options={colourOptions}
           />
         </div>

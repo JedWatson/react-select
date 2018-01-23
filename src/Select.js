@@ -33,6 +33,18 @@ type Customisations = {
 
 type Props = {
   /*
+    HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
+  */
+  'aria-describedby': string,
+  /*
+    Aria label (for assistive tech)
+  */
+  'aria-label': string,
+  /*
+    HTML ID of an element that should be used as the label (for assistive tech)
+  */
+  'aria-labelledby': string,
+  /*
     Remove the currently focused option when the user presses backspace
   */
   backspaceRemovesValue: boolean,
@@ -77,7 +89,6 @@ type Props = {
     Support multiple selected options
   */
   isMulti: boolean,
-  label: string,
   /*
     Maximum height of the menu before scrolling
   */
@@ -667,7 +678,7 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
     setTimeout(() => this.focus());
   };
-  getElementId = (element: 'input' | 'label' | 'listbox' | 'option') => {
+  getElementId = (element: 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
   getActiveDescendentId = () => {
@@ -684,12 +695,15 @@ export default class Select extends Component<Props, State> {
     // maintain baseline alignment when the input is removed
     if (isDisabled) return <div style={{ height: this.inputHeight }} />;
 
-    // aria properties makes the JSX "noisy", separated for clarity
+    // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-activedescendant': this.getActiveDescendentId(),
       'aria-autocomplete': 'list',
+      'aria-describedby': this.props['aria-describedby'],
       'aria-expanded': menuIsOpen,
       'aria-haspopup': menuIsOpen,
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
       'aria-owns': menuIsOpen ? this.getElementId('listbox') : undefined,
       role: 'combobox',
     };
@@ -854,7 +868,6 @@ export default class Select extends Component<Props, State> {
     return (
       <Menu onMouseDown={this.onMenuMouseDown}>
         <MenuList
-          aria-labelledby={this.getElementId('label')}
           aria-multiselectable={isMulti}
           id={this.getElementId('listbox')}
           innerRef={this.onMenuRef}
@@ -872,26 +885,19 @@ export default class Select extends Component<Props, State> {
     const {
       Control,
       IndicatorsContainer,
-      Label,
       SelectContainer,
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, isMulti, label, maxValueHeight } = this.props;
+    const { isDisabled, isMulti, maxValueHeight } = this.props;
     const { isFocused } = this.state;
     const inputId = this.getElementId('input');
-    const labelId = this.getElementId('label');
 
     // TODO
     // - return React.Fragment when v16
     // - add `aria-busy` to SelectContainer when loading async
     return (
       <div>
-        {label ? (
-          <Label htmlFor={inputId} id={labelId}>
-            {label}
-          </Label>
-        ) : null}
         <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
           <AriaStatus aria-atomic="true" aria-live="polite" role="status">
             {this.hasOptions({ length: true })} results are available.
