@@ -3,9 +3,17 @@
 import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
-import { defaultComponents, type SelectComponents } from './components/index';
+import {
+  defaultComponents,
+  type SelectComponents,
+  type SelectComponentsConfig,
+} from './components/index';
 import { AriaStatus } from './components/Aria';
-import { defaultFormatters, type Formatters } from './formatters';
+import {
+  defaultFormatters,
+  type Formatters,
+  type FormattersConfig,
+} from './formatters';
 
 import type {
   ActionMeta,
@@ -14,6 +22,10 @@ import type {
   OptionsType,
   ValueType,
 } from './types';
+
+const filterOption = (optionLabel: string, inputValue: string) => {
+  return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
+};
 
 /*
 // TODO: make sure these are implemented comprehensively
@@ -35,15 +47,15 @@ type Props = {
   /*
     HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
   */
-  'aria-describedby': string,
+  'aria-describedby'?: string,
   /*
     Aria label (for assistive tech)
   */
-  'aria-label': string,
+  'aria-label'?: string,
   /*
     HTML ID of an element that should be used as the label (for assistive tech)
   */
-  'aria-labelledby': string,
+  'aria-labelledby'?: string,
   /*
     Remove the currently focused option when the user presses backspace
   */
@@ -53,18 +65,22 @@ type Props = {
   */
   closeMenuOnSelect: boolean,
   /*
-    Close the select menu when the user selects an option
+    Custom components to use
   */
-  components: SelectComponents,
+  components: SelectComponentsConfig,
   disabledKey: string,
   /*
     Clear all values when the user presses escape AND the menu is closed
   */
   escapeClearsValue: boolean,
   /*
+    Custom method to filter whether an option should be displayed in the menu
+  */
+  filterOption: ((string, string) => boolean) | null,
+  /*
     Functions to manipulate how the options data is represented when rendered
   */
-  formatters: Formatters,
+  formatters: FormattersConfig,
   /*
     Hide the selected option from the menu
   */
@@ -100,11 +116,15 @@ type Props = {
   /*
     Handle change events on the select
   */
-  onChange: (ValueType, ActionMeta) => void,
+  onChange?: (ValueType, ActionMeta) => void,
+  /*
+    Handle change events on the input
+  */
+  onInputChange?: string => void,
   /*
     Handle key down events on the select
   */
-  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void,
   /*
     Array of options that populate the select menu
   */
@@ -120,14 +140,17 @@ type Props = {
   /*
     The value of the select; reflected by the selected option
   */
-  value: ValueType,
+  value?: ValueType,
 };
 
 const defaultProps = {
   backspaceRemovesValue: true,
   closeMenuOnSelect: true,
+  components: {},
   disabledKey: 'disabled',
   escapeClearsValue: false,
+  filterOption: filterOption,
+  formatters: {},
   hideSelectedOptions: true,
   isClearable: true,
   isDisabled: false,
@@ -164,10 +187,6 @@ const inputStyle = {
   border: 0,
   fontSize: 'inherit',
   outline: 0,
-};
-
-const filterOption = (optionLabel: string, inputValue: string) => {
-  return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
 };
 
 const cleanValue = (value: ValueType): OptionsType => {
@@ -294,11 +313,12 @@ export default class Select extends Component<Props, State> {
     const focusable = [];
 
     const toOption = (option, i) => {
-      const isDisabled = this.isDisabled(option);
       const isSelected = this.isSelected(option, selectValue);
 
       if (isMulti && hideSelectedOptions && isSelected) return;
-      if (!filterOption(this.getOptionLabel(option), inputValue)) return;
+      if (!this.filterOption(this.getOptionLabel(option), inputValue)) return;
+
+      const isDisabled = this.isDisabled(option);
       if (!isDisabled) {
         focusable.push(option);
       }
@@ -337,6 +357,11 @@ export default class Select extends Component<Props, State> {
       }
     });
     return { render, focusable };
+  }
+  filterOption(optionLabel: string, inputValue: string) {
+    return this.props.filterOption
+      ? this.props.filterOption(optionLabel, inputValue)
+      : true;
   }
   buildStateForInputValue(inputValue: string = '') {
     const { options } = this.props;
@@ -604,6 +629,7 @@ export default class Select extends Component<Props, State> {
   };
   onInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
+    if (this.props.onInputChange) this.props.onInputChange(inputValue);
     this.setState({
       inputIsHidden: false,
       menuIsOpen: true,

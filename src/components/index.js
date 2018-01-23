@@ -38,6 +38,8 @@ export type SelectComponents = {
   ValueContainer: typeof ValueContainer,
 };
 
+export type SelectComponentsConfig = $Shape<SelectComponents>;
+
 export const components: SelectComponents = {
   ClearIndicator: ClearIndicator,
   Control: Control,
@@ -58,7 +60,7 @@ export const components: SelectComponents = {
 };
 
 type Props = {
-  components: SelectComponents,
+  components: SelectComponentsConfig,
 };
 
 export const defaultComponents = (props: Props) => ({
