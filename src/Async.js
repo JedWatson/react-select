@@ -2,11 +2,13 @@
 
 import React, { Component } from 'react';
 import Select from './Select';
+import { handleInputChange } from './utils';
 import type { OptionsType } from './types';
 
 type Props = {
   defaultOptions: OptionsType | boolean,
   loadOptions: (string, (any, OptionsType) => void) => void,
+  onInputChange?: string => void,
 };
 
 const defaultProps = {
@@ -50,11 +52,12 @@ export default class Async extends Component<Props, State> {
   componentWillUnmount() {
     this.mounted = false;
   }
-  handleInputChange = (inputValue: string) => {
+  handleInputChange = (newValue: string) => {
+    const inputValue = handleInputChange(newValue, this.props.onInputChange);
     if (!inputValue) {
       delete this.lastRequest;
       this.setState({
-        inputValue,
+        inputValue: '',
         loadedInputValue: '',
         loadedOptions: [],
         isLoading: false,
@@ -73,6 +76,7 @@ export default class Async extends Component<Props, State> {
         });
       });
     });
+    return inputValue;
   };
   render() {
     const { loadOptions, ...props } = this.props;

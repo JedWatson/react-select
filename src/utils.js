@@ -1,5 +1,16 @@
 // @flow
 
+export function handleInputChange(
+  inputValue: string,
+  onInputChange?: string => string | void
+) {
+  if (onInputChange) {
+    const newValue = onInputChange(inputValue);
+    if (typeof newValue === 'string') return newValue;
+  }
+  return inputValue;
+}
+
 export const CLASS_PREFIX = 'react-select';
 
 type State = { [key: string]: boolean };

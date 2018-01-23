@@ -7,7 +7,9 @@ import AsyncSelect from '../../src/Async';
 import { colourOptions } from '../data';
 
 const SelectWithValue = withValue(AsyncSelect);
-type State = {};
+type State = {
+  inputValue: string,
+};
 
 // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -28,7 +30,12 @@ const loadOptions = (inputValue, callback) => {
 // };
 
 export default class App extends Component<*, State> {
-  state = {};
+  state = { inputValue: '' };
+  handleInputChange = (newValue: string) => {
+    const inputValue = newValue.replace(/\W/g, '');
+    this.setState({ inputValue });
+    return inputValue;
+  };
   render() {
     return (
       <div>
@@ -37,7 +44,13 @@ export default class App extends Component<*, State> {
 
         <h2>Async</h2>
         <div>
-          <SelectWithValue autoFocus loadOptions={loadOptions} defaultOptions />
+          <pre>inputValue: "{this.state.inputValue}"</pre>
+          <SelectWithValue
+            autoFocus
+            loadOptions={loadOptions}
+            defaultOptions
+            onInputChange={this.handleInputChange}
+          />
         </div>
         {/* <SelectWithValue autoFocus loadOptions={asyncOptions} /> */}
       </div>
