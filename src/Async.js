@@ -23,6 +23,7 @@ type State = {
   isLoading: boolean,
   loadedInputValue?: string,
   loadedOptions: OptionsType,
+  passEmptyOptions: boolean,
 };
 
 export default class Async extends Component<Props, State> {
@@ -39,6 +40,7 @@ export default class Async extends Component<Props, State> {
       inputValue: '',
       isLoading: props.defaultOptions === true ? true : false,
       loadedOptions: [],
+      passEmptyOptions: false,
     };
   }
   componentDidMount() {
@@ -71,6 +73,7 @@ export default class Async extends Component<Props, State> {
         loadedInputValue: '',
         loadedOptions: [],
         isLoading: false,
+        passEmptyOptions: false,
       });
       return;
     }
@@ -80,22 +83,31 @@ export default class Async extends Component<Props, State> {
         loadedInputValue: inputValue,
         loadedOptions: this.optionsCache[inputValue],
         isLoading: false,
+        passEmptyOptions: false,
       });
     } else {
       const request = (this.lastRequest = {});
-      this.setState({ inputValue, isLoading: true }, () => {
-        this.props.loadOptions(inputValue, options => {
-          if (!this.mounted || !options) return;
-          this.optionsCache[inputValue] = options;
-          if (request !== this.lastRequest) return;
-          delete this.lastRequest;
-          this.setState({
-            isLoading: false,
-            loadedInputValue: inputValue,
-            loadedOptions: options,
+      this.setState(
+        {
+          inputValue,
+          isLoading: true,
+          passEmptyOptions: !this.state.loadedInputValue,
+        },
+        () => {
+          this.props.loadOptions(inputValue, options => {
+            if (!this.mounted || !options) return;
+            this.optionsCache[inputValue] = options;
+            if (request !== this.lastRequest) return;
+            delete this.lastRequest;
+            this.setState({
+              isLoading: false,
+              loadedInputValue: inputValue,
+              loadedOptions: options,
+              passEmptyOptions: false,
+            });
           });
-        });
-      });
+        }
+      );
     }
     return inputValue;
   };
@@ -107,9 +119,11 @@ export default class Async extends Component<Props, State> {
       isLoading,
       loadedInputValue,
       loadedOptions,
+      passEmptyOptions,
     } = this.state;
-    const options =
-      inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
+    const options = passEmptyOptions
+      ? []
+      : inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
     return (
       <Select
         {...props}

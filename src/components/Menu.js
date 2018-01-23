@@ -51,9 +51,22 @@ export const MenuList = ({
   />
 );
 
-export const NoOptions = (props: any) => (
+export const NoOptionsMessage = (props: any) => (
   <Div
-    className={className('menu-no-option')}
+    className={className('menu-no-options-message')}
+    css={{
+      color: colors.neutral40,
+      ...paddingHorizontal(spacing.baseUnit * 3),
+      ...paddingVertical(spacing.baseUnit * 2),
+      textAlign: 'center',
+    }}
+    {...props}
+  />
+);
+
+export const LoadingMessage = (props: any) => (
+  <Div
+    className={className('menu-loading-message')}
     css={{
       color: colors.neutral40,
       ...paddingHorizontal(spacing.baseUnit * 3),

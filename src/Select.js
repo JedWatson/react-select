@@ -847,9 +847,16 @@ export default class Select extends Component<Props, State> {
   }
 
   renderMenu() {
-    const { Group, Menu, MenuList, Option, NoOptions } = this.components;
+    const {
+      Group,
+      LoadingMessage,
+      Menu,
+      MenuList,
+      NoOptionsMessage,
+      Option,
+    } = this.components;
     const { focusedOption, menuIsOpen, menuOptions } = this.state;
-    const { isMulti, maxMenuHeight } = this.props;
+    const { isLoading, isMulti, maxMenuHeight } = this.props;
 
     if (!menuIsOpen) return null;
 
@@ -889,8 +896,10 @@ export default class Select extends Component<Props, State> {
           return render(item);
         }
       });
+    } else if (isLoading) {
+      menuUI = <LoadingMessage>Loading...</LoadingMessage>;
     } else {
-      menuUI = <NoOptions>No options...</NoOptions>;
+      menuUI = <NoOptionsMessage>No options</NoOptionsMessage>;
     }
 
     return (
