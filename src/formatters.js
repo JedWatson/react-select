@@ -9,6 +9,8 @@ export type Formatters = {
   valueLabel: ValueLabelFormatterArgs => string,
 };
 
+export type FormattersConfig = $Shape<Formatters>;
+
 export const formatters: Formatters = {
   optionLabel: ({ label }) => label,
   optionValue: ({ value }) => value,

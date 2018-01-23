@@ -3,9 +3,17 @@
 import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
-import { defaultComponents, type SelectComponents } from './components/index';
+import {
+  defaultComponents,
+  type SelectComponents,
+  type SelectComponentsConfig,
+} from './components/index';
 import { AriaStatus } from './components/Aria';
-import { defaultFormatters, type Formatters } from './formatters';
+import {
+  defaultFormatters,
+  type Formatters,
+  type FormattersConfig,
+} from './formatters';
 
 import type {
   ActionMeta,
@@ -14,6 +22,10 @@ import type {
   OptionsType,
   ValueType,
 } from './types';
+
+const filterOption = (optionLabel: string, inputValue: string) => {
+  return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
+};
 
 /*
 // TODO: make sure these are implemented comprehensively
@@ -34,34 +46,39 @@ type Customisations = {
 type Props = {
   backspaceRemovesValue: boolean,
   closeMenuOnSelect: boolean,
-  components: SelectComponents,
+  components: SelectComponentsConfig,
   deleteRemovesValue: boolean,
   disabledKey: string,
   escapeClearsValue: boolean,
-  formatters: Formatters,
+  filterOption: ((string, string) => boolean) | null,
+  formatters: FormattersConfig,
   hideSelectedOptions: boolean,
   instanceId?: number | string,
   isClearable: boolean,
   isDisabled: boolean,
   isLoading: boolean,
   isMulti: boolean,
-  label: string,
+  label?: string,
   maxMenuHeight: number,
   maxValueHeight: number,
-  onChange: (ValueType, ActionMeta) => void,
-  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  onChange?: (ValueType, ActionMeta) => void,
+  onInputChange?: string => void,
+  onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void,
   options: OptionsType,
   placeholder?: string,
   tabSelectsValue: boolean,
-  value: ValueType,
+  value?: ValueType,
 };
 
 const defaultProps = {
   backspaceRemovesValue: true,
   closeMenuOnSelect: true,
+  components: {},
   deleteRemovesValue: true,
   disabledKey: 'disabled',
   escapeClearsValue: false,
+  filterOption: filterOption,
+  formatters: {},
   hideSelectedOptions: true,
   isClearable: true,
   isDisabled: false,
@@ -98,10 +115,6 @@ const inputStyle = {
   border: 0,
   fontSize: 'inherit',
   outline: 0,
-};
-
-const filterOption = (optionLabel: string, inputValue: string) => {
-  return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
 };
 
 const cleanValue = (value: ValueType): OptionsType => {
@@ -228,11 +241,12 @@ export default class Select extends Component<Props, State> {
     const focusable = [];
 
     const toOption = (option, i) => {
-      const isDisabled = this.isDisabled(option);
       const isSelected = this.isSelected(option, selectValue);
 
       if (isMulti && hideSelectedOptions && isSelected) return;
-      if (!filterOption(this.getOptionLabel(option), inputValue)) return;
+      if (!this.filterOption(this.getOptionLabel(option), inputValue)) return;
+
+      const isDisabled = this.isDisabled(option);
       if (!isDisabled) {
         focusable.push(option);
       }
@@ -271,6 +285,11 @@ export default class Select extends Component<Props, State> {
       }
     });
     return { render, focusable };
+  }
+  filterOption(optionLabel: string, inputValue: string) {
+    return this.props.filterOption
+      ? this.props.filterOption(optionLabel, inputValue)
+      : true;
   }
   buildStateForInputValue(inputValue: string = '') {
     const { options } = this.props;
@@ -543,6 +562,7 @@ export default class Select extends Component<Props, State> {
   };
   onInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
+    if (this.props.onInputChange) this.props.onInputChange(inputValue);
     this.setState({
       inputIsHidden: false,
       menuIsOpen: true,
