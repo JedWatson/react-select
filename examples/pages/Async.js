@@ -47,6 +47,7 @@ export default class App extends Component<*, State> {
           <pre>inputValue: "{this.state.inputValue}"</pre>
           <SelectWithValue
             autoFocus
+            cacheOptions
             loadOptions={loadOptions}
             defaultOptions
             onInputChange={this.handleInputChange}

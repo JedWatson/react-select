@@ -9,9 +9,11 @@ type Props = {
   defaultOptions: OptionsType | boolean,
   loadOptions: (string, (any, OptionsType) => void) => void,
   onInputChange?: string => void,
+  cacheOptions: any,
 };
 
 const defaultProps = {
+  cacheOptions: false,
   defaultOptions: false,
 };
 
@@ -27,6 +29,7 @@ export default class Async extends Component<Props, State> {
   static defaultProps = defaultProps;
   lastRequest: {};
   mounted: boolean = false;
+  optionsCache: { [string]: OptionsType } = {};
   constructor(props: Props) {
     super();
     this.state = {
@@ -49,11 +52,18 @@ export default class Async extends Component<Props, State> {
       });
     }
   }
+  componentWillReceiveProps(nextProps: Props) {
+    // if the cacheOptions prop changes, clear the cache
+    if (nextProps.cacheOptions !== this.props.cacheOptions) {
+      this.optionsCache = {};
+    }
+  }
   componentWillUnmount() {
     this.mounted = false;
   }
   handleInputChange = (newValue: string) => {
-    const inputValue = handleInputChange(newValue, this.props.onInputChange);
+    const { cacheOptions, onInputChange } = this.props;
+    const inputValue = handleInputChange(newValue, onInputChange);
     if (!inputValue) {
       delete this.lastRequest;
       this.setState({
@@ -64,18 +74,29 @@ export default class Async extends Component<Props, State> {
       });
       return;
     }
-    const request = (this.lastRequest = {});
-    this.setState({ inputValue, isLoading: true }, () => {
-      this.props.loadOptions(inputValue, options => {
-        if (!this.mounted || request !== this.lastRequest || !options) return;
-        delete this.lastRequest;
-        this.setState({
-          isLoading: false,
-          loadedInputValue: inputValue,
-          loadedOptions: options,
+    if (cacheOptions && this.optionsCache[inputValue]) {
+      this.setState({
+        inputValue,
+        loadedInputValue: inputValue,
+        loadedOptions: this.optionsCache[inputValue],
+        isLoading: false,
+      });
+    } else {
+      const request = (this.lastRequest = {});
+      this.setState({ inputValue, isLoading: true }, () => {
+        this.props.loadOptions(inputValue, options => {
+          if (!this.mounted || !options) return;
+          this.optionsCache[inputValue] = options;
+          if (request !== this.lastRequest) return;
+          delete this.lastRequest;
+          this.setState({
+            isLoading: false,
+            loadedInputValue: inputValue,
+            loadedOptions: options,
+          });
         });
       });
-    });
+    }
     return inputValue;
   };
   render() {
