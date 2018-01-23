@@ -3,6 +3,8 @@
 import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
+import { handleInputChange } from './utils';
+
 import {
   defaultComponents,
   type SelectComponents,
@@ -118,9 +120,9 @@ type Props = {
   */
   onChange?: (ValueType, ActionMeta) => void,
   /*
-    Handle change events on the input
+    Handle change events on the input; return a string to modify the value
   */
-  onInputChange?: string => void,
+  onInputChange?: string => string | void,
   /*
     Handle key down events on the select
   */
@@ -363,7 +365,8 @@ export default class Select extends Component<Props, State> {
       ? this.props.filterOption(optionLabel, inputValue)
       : true;
   }
-  buildStateForInputValue(inputValue: string = '') {
+  buildStateForInputValue(newValue: string = '') {
+    const inputValue = handleInputChange(newValue, this.props.onInputChange);
     const { options } = this.props;
     const { selectValue } = this.state;
     const menuOptions = this.buildMenuOptions(options, selectValue, inputValue);
@@ -629,7 +632,6 @@ export default class Select extends Component<Props, State> {
   };
   onInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
-    if (this.props.onInputChange) this.props.onInputChange(inputValue);
     this.setState({
       inputIsHidden: false,
       menuIsOpen: true,
@@ -845,9 +847,16 @@ export default class Select extends Component<Props, State> {
   }
 
   renderMenu() {
-    const { Group, Menu, MenuList, Option, NoOptions } = this.components;
+    const {
+      Group,
+      LoadingMessage,
+      Menu,
+      MenuList,
+      NoOptionsMessage,
+      Option,
+    } = this.components;
     const { focusedOption, menuIsOpen, menuOptions } = this.state;
-    const { isMulti, maxMenuHeight } = this.props;
+    const { isLoading, isMulti, maxMenuHeight } = this.props;
 
     if (!menuIsOpen) return null;
 
@@ -887,8 +896,10 @@ export default class Select extends Component<Props, State> {
           return render(item);
         }
       });
+    } else if (isLoading) {
+      menuUI = <LoadingMessage>Loading...</LoadingMessage>;
     } else {
-      menuUI = <NoOptions>No options...</NoOptions>;
+      menuUI = <NoOptionsMessage>No options</NoOptionsMessage>;
     }
 
     return (

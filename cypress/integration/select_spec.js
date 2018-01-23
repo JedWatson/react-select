@@ -70,7 +70,7 @@ describe('New Select', function() {
           .click({ force: true })
           .type('/', { force: true })
           .get(selector.noOptionsValue)
-          .should('contain', 'No options...');
+          .should('contain', 'No options');
       });
       it('Should be disabled once disabled is checked ' + view, function() {
         cy

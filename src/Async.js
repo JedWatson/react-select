@@ -2,14 +2,18 @@
 
 import React, { Component } from 'react';
 import Select from './Select';
+import { handleInputChange } from './utils';
 import type { OptionsType } from './types';
 
 type Props = {
   defaultOptions: OptionsType | boolean,
   loadOptions: (string, (any, OptionsType) => void) => void,
+  onInputChange?: string => void,
+  cacheOptions: any,
 };
 
 const defaultProps = {
+  cacheOptions: false,
   defaultOptions: false,
 };
 
@@ -19,12 +23,14 @@ type State = {
   isLoading: boolean,
   loadedInputValue?: string,
   loadedOptions: OptionsType,
+  passEmptyOptions: boolean,
 };
 
 export default class Async extends Component<Props, State> {
   static defaultProps = defaultProps;
   lastRequest: {};
   mounted: boolean = false;
+  optionsCache: { [string]: OptionsType } = {};
   constructor(props: Props) {
     super();
     this.state = {
@@ -34,6 +40,7 @@ export default class Async extends Component<Props, State> {
       inputValue: '',
       isLoading: props.defaultOptions === true ? true : false,
       loadedOptions: [],
+      passEmptyOptions: false,
     };
   }
   componentDidMount() {
@@ -47,32 +54,62 @@ export default class Async extends Component<Props, State> {
       });
     }
   }
+  componentWillReceiveProps(nextProps: Props) {
+    // if the cacheOptions prop changes, clear the cache
+    if (nextProps.cacheOptions !== this.props.cacheOptions) {
+      this.optionsCache = {};
+    }
+  }
   componentWillUnmount() {
     this.mounted = false;
   }
-  handleInputChange = (inputValue: string) => {
+  handleInputChange = (newValue: string) => {
+    const { cacheOptions, onInputChange } = this.props;
+    const inputValue = handleInputChange(newValue, onInputChange);
     if (!inputValue) {
       delete this.lastRequest;
       this.setState({
-        inputValue,
+        inputValue: '',
         loadedInputValue: '',
         loadedOptions: [],
         isLoading: false,
+        passEmptyOptions: false,
       });
       return;
     }
-    const request = (this.lastRequest = {});
-    this.setState({ inputValue, isLoading: true }, () => {
-      this.props.loadOptions(inputValue, options => {
-        if (!this.mounted || request !== this.lastRequest || !options) return;
-        delete this.lastRequest;
-        this.setState({
-          isLoading: false,
-          loadedInputValue: inputValue,
-          loadedOptions: options,
-        });
+    if (cacheOptions && this.optionsCache[inputValue]) {
+      this.setState({
+        inputValue,
+        loadedInputValue: inputValue,
+        loadedOptions: this.optionsCache[inputValue],
+        isLoading: false,
+        passEmptyOptions: false,
       });
-    });
+    } else {
+      const request = (this.lastRequest = {});
+      this.setState(
+        {
+          inputValue,
+          isLoading: true,
+          passEmptyOptions: !this.state.loadedInputValue,
+        },
+        () => {
+          this.props.loadOptions(inputValue, options => {
+            if (!this.mounted || !options) return;
+            this.optionsCache[inputValue] = options;
+            if (request !== this.lastRequest) return;
+            delete this.lastRequest;
+            this.setState({
+              isLoading: false,
+              loadedInputValue: inputValue,
+              loadedOptions: options,
+              passEmptyOptions: false,
+            });
+          });
+        }
+      );
+    }
+    return inputValue;
   };
   render() {
     const { loadOptions, ...props } = this.props;
@@ -82,9 +119,11 @@ export default class Async extends Component<Props, State> {
       isLoading,
       loadedInputValue,
       loadedOptions,
+      passEmptyOptions,
     } = this.state;
-    const options =
-      inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
+    const options = passEmptyOptions
+      ? []
+      : inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
     return (
       <Select
         {...props}

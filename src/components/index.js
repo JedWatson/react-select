@@ -13,7 +13,7 @@ import {
 import Control from './Control';
 import Group from './Group';
 import Input from './Input';
-import Menu, { MenuList, NoOptions } from './Menu';
+import Menu, { MenuList, NoOptionsMessage, LoadingMessage } from './Menu';
 import MultiValue from './MultiValue';
 import Option from './Option';
 import Placeholder from './Placeholder';
@@ -24,13 +24,14 @@ export type SelectComponents = {
   Control: typeof Control,
   DropdownIndicator: typeof DropdownIndicator,
   Group: typeof Group,
-  LoadingIndicator: typeof LoadingIndicator,
   IndicatorsContainer: typeof IndicatorsContainer,
   Input: typeof Input,
+  LoadingIndicator: typeof LoadingIndicator,
+  LoadingMessage: typeof LoadingMessage,
   Menu: typeof Menu,
   MenuList: typeof MenuList,
   MultiValue: typeof MultiValue,
-  NoOptions: typeof NoOptions,
+  NoOptionsMessage: typeof NoOptionsMessage,
   Option: typeof Option,
   Placeholder: typeof Placeholder,
   SelectContainer: typeof SelectContainer,
@@ -45,13 +46,14 @@ export const components: SelectComponents = {
   Control: Control,
   DropdownIndicator: DropdownIndicator,
   Group: Group,
-  LoadingIndicator: LoadingIndicator,
   IndicatorsContainer: IndicatorsContainer,
   Input: Input,
+  LoadingIndicator: LoadingIndicator,
+  LoadingMessage: LoadingMessage,
   Menu: Menu,
   MenuList: MenuList,
   MultiValue: MultiValue,
-  NoOptions: NoOptions,
+  NoOptionsMessage: NoOptionsMessage,
   Option: Option,
   Placeholder: Placeholder,
   SelectContainer: SelectContainer,
