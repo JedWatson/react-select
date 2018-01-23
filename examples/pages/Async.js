@@ -18,7 +18,7 @@ const filterColors = (inputValue: string) =>
 
 const loadOptions = (inputValue, callback) => {
   setTimeout(() => {
-    callback(null, filterColors(inputValue));
+    callback(filterColors(inputValue));
   }, 1000);
 };
 
@@ -36,8 +36,8 @@ export default class App extends Component<*, State> {
         <p>A sandbox for the new react-select</p>
 
         <h2>Async</h2>
-        <div id="cypress-single">
-          <SelectWithValue autoFocus loadOptions={loadOptions} />
+        <div>
+          <SelectWithValue autoFocus loadOptions={loadOptions} defaultOptions />
         </div>
         {/* <SelectWithValue autoFocus loadOptions={asyncOptions} /> */}
       </div>
