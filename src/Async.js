@@ -53,7 +53,12 @@ export default class Async extends Component<Props, State> {
   handleInputChange = (inputValue: string) => {
     if (!inputValue) {
       delete this.lastRequest;
-      this.setState({ inputValue, loadedInputValue: '', loadedOptions: [] });
+      this.setState({
+        inputValue,
+        loadedInputValue: '',
+        loadedOptions: [],
+        isLoading: false,
+      });
       return;
     }
     const request = (this.lastRequest = {});
