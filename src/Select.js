@@ -44,29 +44,102 @@ type Customisations = {
 */
 
 type Props = {
+  /*
+    HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
+  */
+  'aria-describedby'?: string,
+  /*
+    Aria label (for assistive tech)
+  */
+  'aria-label'?: string,
+  /*
+    HTML ID of an element that should be used as the label (for assistive tech)
+  */
+  'aria-labelledby'?: string,
+  /*
+    Remove the currently focused option when the user presses backspace
+  */
   backspaceRemovesValue: boolean,
+  /*
+    Close the select menu when the user selects an option
+  */
   closeMenuOnSelect: boolean,
+  /*
+    Custom components to use
+  */
   components: SelectComponentsConfig,
-  deleteRemovesValue: boolean,
   disabledKey: string,
+  /*
+    Clear all values when the user presses escape AND the menu is closed
+  */
   escapeClearsValue: boolean,
+  /*
+    Custom method to filter whether an option should be displayed in the menu
+  */
   filterOption: ((string, string) => boolean) | null,
+  /*
+    Functions to manipulate how the options data is represented when rendered
+  */
   formatters: FormattersConfig,
+  /*
+    Hide the selected option from the menu
+  */
   hideSelectedOptions: boolean,
+  /*
+    Define an id prefix for the select components e.g. {your-id}-value
+  */
   instanceId?: number | string,
+  /*
+    Is the select value clearable
+  */
   isClearable: boolean,
+  /*
+    Is the select disabled
+  */
   isDisabled: boolean,
+  /*
+    Is the select in a state of loading (async)
+  */
   isLoading: boolean,
+  /*
+    Support multiple selected options
+  */
   isMulti: boolean,
-  label?: string,
+  /*
+    Maximum height of the menu before scrolling
+  */
   maxMenuHeight: number,
+  /*
+    Maximum height of the value container before scrolling
+  */
   maxValueHeight: number,
+  /*
+    Handle change events on the select
+  */
   onChange?: (ValueType, ActionMeta) => void,
+  /*
+    Handle change events on the input
+  */
   onInputChange?: string => void,
+  /*
+    Handle key down events on the select
+  */
   onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  /*
+    Array of options that populate the select menu
+  */
   options: OptionsType,
+  /*
+    Placeholder text for the select value
+  */
   placeholder?: string,
+  /*
+    Select the currently focused option when the user presses tab
+  */
   tabSelectsValue: boolean,
+  /*
+    The value of the select; reflected by the selected option
+  */
   value?: ValueType,
 };
 
@@ -74,7 +147,6 @@ const defaultProps = {
   backspaceRemovesValue: true,
   closeMenuOnSelect: true,
   components: {},
-  deleteRemovesValue: true,
   disabledKey: 'disabled',
   escapeClearsValue: false,
   filterOption: filterOption,
@@ -451,7 +523,6 @@ export default class Select extends Component<Props, State> {
     const {
       backspaceRemovesValue,
       isClearable,
-      deleteRemovesValue,
       escapeClearsValue,
       isDisabled,
       onKeyDown,
@@ -471,10 +542,6 @@ export default class Select extends Component<Props, State> {
     switch (event.keyCode) {
       case 8: // backspace
         if (inputValue || !backspaceRemovesValue) return;
-        this.popValue();
-        break;
-      case 46: // delete
-        if (inputValue || !deleteRemovesValue) return;
         this.popValue();
         break;
       case 9: // tab
@@ -637,7 +704,7 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
     setTimeout(() => this.focus());
   };
-  getElementId = (element: 'input' | 'label' | 'listbox' | 'option') => {
+  getElementId = (element: 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
   getActiveDescendentId = () => {
@@ -654,12 +721,15 @@ export default class Select extends Component<Props, State> {
     // maintain baseline alignment when the input is removed
     if (isDisabled) return <div style={{ height: this.inputHeight }} />;
 
-    // aria properties makes the JSX "noisy", separated for clarity
+    // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-activedescendant': this.getActiveDescendentId(),
       'aria-autocomplete': 'list',
+      'aria-describedby': this.props['aria-describedby'],
       'aria-expanded': menuIsOpen,
       'aria-haspopup': menuIsOpen,
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
       'aria-owns': menuIsOpen ? this.getElementId('listbox') : undefined,
       role: 'combobox',
     };
@@ -824,7 +894,6 @@ export default class Select extends Component<Props, State> {
     return (
       <Menu onMouseDown={this.onMenuMouseDown}>
         <MenuList
-          aria-labelledby={this.getElementId('label')}
           aria-multiselectable={isMulti}
           id={this.getElementId('listbox')}
           innerRef={this.onMenuRef}
@@ -842,26 +911,19 @@ export default class Select extends Component<Props, State> {
     const {
       Control,
       IndicatorsContainer,
-      Label,
       SelectContainer,
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, isMulti, label, maxValueHeight } = this.props;
+    const { isDisabled, isMulti, maxValueHeight } = this.props;
     const { isFocused } = this.state;
     const inputId = this.getElementId('input');
-    const labelId = this.getElementId('label');
 
     // TODO
     // - return React.Fragment when v16
     // - add `aria-busy` to SelectContainer when loading async
     return (
       <div>
-        {label ? (
-          <Label htmlFor={inputId} id={labelId}>
-            {label}
-          </Label>
-        ) : null}
         <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
           <AriaStatus aria-atomic="true" aria-live="polite" role="status">
             {this.hasOptions({ length: true })} results are available.

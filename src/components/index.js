@@ -13,7 +13,6 @@ import {
 import Control from './Control';
 import Group from './Group';
 import Input from './Input';
-import Label from './Label';
 import Menu, { MenuList, NoOptions } from './Menu';
 import MultiValue from './MultiValue';
 import Option from './Option';
@@ -25,7 +24,6 @@ export type SelectComponents = {
   Control: typeof Control,
   DropdownIndicator: typeof DropdownIndicator,
   Group: typeof Group,
-  Label: typeof Label,
   LoadingIndicator: typeof LoadingIndicator,
   IndicatorsContainer: typeof IndicatorsContainer,
   Input: typeof Input,
@@ -47,7 +45,6 @@ export const components: SelectComponents = {
   Control: Control,
   DropdownIndicator: DropdownIndicator,
   Group: Group,
-  Label: Label,
   LoadingIndicator: LoadingIndicator,
   IndicatorsContainer: IndicatorsContainer,
   Input: Input,
