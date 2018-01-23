@@ -42,5 +42,4 @@ export type OptionProps = PropsWithInnerRef & {
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,
   value: any,
-  withinGroup: boolean,
 };

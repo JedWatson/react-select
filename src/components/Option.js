@@ -12,11 +12,10 @@ const Option = ({
   isDisabled,
   isFocused,
   isSelected,
-  withinGroup,
   ...props
 }: OptionProps) => (
   <Li
-    className={className('option', { isFocused, isSelected, withinGroup })}
+    className={className('option', { isFocused, isSelected })}
     css={{
       backgroundColor: isSelected
         ? colors.primary
