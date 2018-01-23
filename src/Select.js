@@ -118,6 +118,12 @@ class Select extends React.Component {
 				required: handleRequired(valueArray[0], this.props.multi),
 			});
 		}
+
+		if (this.props.initInput && valueArray.length === 1) {
+			this.setState({
+				inputValue: valueArray[0].value
+			});
+		}
 	}
 
 	componentDidMount () {
@@ -478,17 +484,26 @@ class Select extends React.Component {
 				}
 				break;
 			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
+				if (event.shiftKey || !this.state.isOpen) {
 					break;
 				}
-				event.preventDefault();
-				this.selectFocusedOption();
+				if (this.props.tabSelectsInput) {
+					event.preventDefault();
+					this.selectValue({value: this.state.inputValue, label: this.state.inputValue});
+				} else if (this.props.tabSelectsValue) {
+					event.preventDefault();
+					this.selectFocusedOption();
+				}
 				break;
 			case 13: // enter
 				event.preventDefault();
 				event.stopPropagation();
 				if (this.state.isOpen) {
-					this.selectFocusedOption();
+					if (this.props.enterSelectsInput) {
+						this.selectValue({value: this.state.inputValue, label: this.state.inputValue});
+					} else {
+						this.selectFocusedOption();
+					}
 				} else {
 					this.focusNextOption();
 				}
@@ -616,7 +631,14 @@ class Select extends React.Component {
 		if (this.props.closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
-		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
+		let updatedValue;
+		if (this.props.selectChangesInput) {
+			updatedValue = value[this.props.labelKey];
+		} else if (this.props.onSelectResetsInput) {
+			updatedValue = '';
+		} else {
+			updatedValue = this.state.inputValue;
+		}
 		if (this.props.multi) {
 			this.setState({
 				focusedIndex: null,
@@ -778,14 +800,20 @@ class Select extends React.Component {
 			}
 		}
 
+
 		if (focusedIndex === -1) {
 			focusedIndex = 0;
 		}
 
-		this.setState({
+		const newState2 = {
 			focusedIndex: options[focusedIndex].index,
 			focusedOption: options[focusedIndex].option
-		});
+		};
+
+		if (this.props.focusChangesInput) {
+			newState2.inputValue = options[focusedIndex].option.value;
+		}
+		this.setState(newState2);
 	}
 
 	getFocusedOption () {
@@ -1208,12 +1236,15 @@ Select.propTypes = {
 	deleteRemoves: PropTypes.bool,        // whether delete removes an item if there is no text input
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
+	enterSelectsInput: PropTypes.bool,    // select value within input field upon enter key pressed
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-	id: PropTypes.string, 				        // html id to set on the input element for accessibility or tests
+	focusChangesInput: PropTypes.bool,    // whether to update the input field as user cursors through menu options
+	id: PropTypes.string, 				  // html id to set on the input element for accessibility or tests
 	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
+	initInput: PropTypes.bool,            // whether to initialize the input field with any pre-selected value upon mount
 	inputProps: PropTypes.object,         // custom attributes for the Input
 	inputRenderer: PropTypes.func,        // returns a custom input component
 	instanceId: PropTypes.string,         // set the components instanceId
@@ -1258,6 +1289,7 @@ Select.propTypes = {
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 	style: PropTypes.object,              // optional style to apply to the control
 	tabIndex: stringOrNumber,             // optional tab index of the control
+	tabSelectsInput: PropTypes.bool,      // select value from input field upon tab key pressed; takes precedence over tabSelectsValue
 	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
 	value: PropTypes.any,                 // initial field value

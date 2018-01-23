@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "1.2.1",
+  "version": "1.2.1-A",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",
@@ -86,7 +86,7 @@
     "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register",
-    "precommit": "lint-staged && yarn run test"
+    "precommit": "lint-staged && npm run test"
   },
   "files": ["dist", "less", "lib", "scss"],
   "keywords": [

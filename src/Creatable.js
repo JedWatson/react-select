@@ -25,7 +25,12 @@ class CreatableSelect extends React.Component {
 		} = this.props;
 
 		if (isValidNewOption({ label: this.inputValue })) {
-			const option = newOptionCreator({ label: this.inputValue, labelKey: this.labelKey, valueKey: this.valueKey });
+			const option = newOptionCreator({
+				label: this.inputValue,
+				labelKey: this.labelKey,
+				valueKey: this.valueKey,
+				value: this.inputValue
+			});
 			const isOptionUnique = this.isOptionUnique({ option, options });
 
 			// Don't add the same option twice.
@@ -57,7 +62,8 @@ class CreatableSelect extends React.Component {
 			const option = newOptionCreator({
 				label: this.inputValue,
 				labelKey: this.labelKey,
-				valueKey: this.valueKey
+				valueKey: this.valueKey,
+				value: this.inputValue
 			});
 
 			// TRICKY Compare to all options (not just filtered options) in case option has already been selected).
@@ -73,10 +79,19 @@ class CreatableSelect extends React.Component {
 				this._createPlaceholderOption = newOptionCreator({
 					label: prompt,
 					labelKey: this.labelKey,
+					value: this.inputValue,
 					valueKey: this.valueKey
 				});
 
-				filteredOptions.unshift(this._createPlaceholderOption);
+				// Ensure we don't add the placeholder option twice:
+				const reallyUnique = this.isOptionUnique({
+					option: this._createPlaceholderOption,
+					options: excludeOptions.concat(filteredOptions)
+				});
+
+				if (reallyUnique) {
+					filteredOptions.unshift(this._createPlaceholderOption);
+				}
 			}
 		}
 
@@ -209,9 +224,9 @@ const isOptionUnique = ({ option, options, labelKey, valueKey }) => {
 
 const isValidNewOption = ({ label }) => !!label;
 
-const newOptionCreator = ({ label, labelKey, valueKey }) => {
+const newOptionCreator = ({ label, labelKey, valueKey, value }) => {
 	const option = {};
-	option[valueKey] = label;
+	option[valueKey] = value;
 	option[labelKey] = label;
 	option.className = 'Select-create-option-placeholder';
 
