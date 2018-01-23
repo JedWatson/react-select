@@ -44,10 +44,6 @@ type Props = {
     Close the select menu when the user selects an option
   */
   components: SelectComponents,
-  /*
-    Remove the currently focused option when the user presses delete
-  */
-  deleteRemovesValue: false,
   disabledKey: string,
   /*
     Clear all values when the user presses escape AND the menu is closed
@@ -119,7 +115,6 @@ type Props = {
 const defaultProps = {
   backspaceRemovesValue: true,
   closeMenuOnSelect: true,
-  deleteRemovesValue: true,
   disabledKey: 'disabled',
   escapeClearsValue: false,
   hideSelectedOptions: true,
@@ -492,7 +487,6 @@ export default class Select extends Component<Props, State> {
     const {
       backspaceRemovesValue,
       isClearable,
-      deleteRemovesValue,
       escapeClearsValue,
       isDisabled,
       onKeyDown,
@@ -512,10 +506,6 @@ export default class Select extends Component<Props, State> {
     switch (event.keyCode) {
       case 8: // backspace
         if (inputValue || !backspaceRemovesValue) return;
-        this.popValue();
-        break;
-      case 46: // delete
-        if (inputValue || !deleteRemovesValue) return;
         this.popValue();
         break;
       case 9: // tab
