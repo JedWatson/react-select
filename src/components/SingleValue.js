@@ -10,6 +10,7 @@ import { type PropsWithStyles } from '../types';
 type ValueProps = PropsWithStyles & {
   children: string,
   data: any,
+  getStyles: GetStyles,
   isDisabled: boolean,
 };
 

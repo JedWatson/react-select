@@ -8,6 +8,13 @@ import * as Animated from '../../src/animated';
 import { Hr, Note } from '../components';
 import { colourOptions, groupedOptions } from '../data';
 
+const colourStyles = {
+  singleValue: (styles, { data }) => ({
+    ...styles,
+    color: data.color,
+  }),
+};
+
 const SelectWithValue = withValue(Select);
 type State = { isDisabled: boolean, isLoading: boolean };
 
@@ -68,6 +75,16 @@ export default class App extends Component<*, State> {
             options={colourOptions}
           />
         </div>
+
+        <Hr />
+
+        <h2>Colours</h2>
+        <SelectWithValue
+          defaultValue={colourOptions[4]}
+          label="Single select"
+          options={colourOptions}
+          styles={colourStyles}
+        />
 
         <Hr />
 
