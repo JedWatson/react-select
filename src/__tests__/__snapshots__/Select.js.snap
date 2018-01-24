@@ -1,77 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`defaults 1`] = `
-<div>
-  <SelectContainer
-    isDisabled={false}
-    onKeyDown={[Function]}
+<SelectContainer
+  getStyles={[Function]}
+  isDisabled={false}
+  onKeyDown={[Function]}
+>
+  <AriaStatus
+    aria-atomic="true"
+    aria-live="polite"
+    role="status"
   >
-    <AriaStatus
-      aria-atomic="true"
-      aria-live="polite"
-      role="status"
+    0
+     results are available.
+  </AriaStatus>
+  <Control
+    getStyles={[Function]}
+    innerRef={[Function]}
+    isDisabled={false}
+    isFocused={false}
+    onMouseDown={[Function]}
+  >
+    <ValueContainer
+      getStyles={[Function]}
+      hasValue={false}
+      isMulti={false}
+      maxHeight={100}
     >
-      0
-       results are available.
-    </AriaStatus>
-    <Control
-      innerRef={[Function]}
-      isDisabled={false}
-      isFocused={false}
-      onMouseDown={[Function]}
-    >
-      <ValueContainer
-        hasValue={false}
+      <Placeholder
+        getStyles={[Function]}
+        isDisabled={false}
         isMulti={false}
-        maxHeight={100}
+        key="placeholder"
       >
-        <Placeholder
-          isDisabled={false}
-          isMulti={false}
-          key="placeholder"
-        >
-          Select...
-        </Placeholder>
-        <Input
-          aria-autocomplete="list"
-          aria-expanded={false}
-          aria-haspopup={false}
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect="off"
-          id="react-select-2--input"
-          innerRef={[Function]}
-          inputStyle={
-            Object {
-              "background": "transparent",
-              "border": 0,
-              "fontSize": "inherit",
-              "opacity": 1,
-              "outline": 0,
-            }
-          }
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          role="combobox"
-          spellCheck="false"
-          tabIndex="0"
-          type="text"
-          value=""
+        Select...
+      </Placeholder>
+      <Input
+        aria-autocomplete="list"
+        aria-busy={false}
+        aria-expanded={false}
+        aria-haspopup={false}
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect="off"
+        getStyles={[Function]}
+        id="react-select-2--input"
+        innerRef={[Function]}
+        isHidden={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        role="combobox"
+        spellCheck="false"
+        tabIndex="0"
+        type="text"
+        value=""
+      />
+    </ValueContainer>
+    <IndicatorsContainer
+      getStyles={[Function]}
+    >
+      <DropdownIndicator
+        getStyles={[Function]}
+        isFocused={false}
+        onMouseDown={[Function]}
+        role="button"
+      >
+        <DownChevron
+          label="Toggle Menu"
         />
-      </ValueContainer>
-      <IndicatorsContainer>
-        <DropdownIndicator
-          isFocused={false}
-          onMouseDown={[Function]}
-          role="button"
-        >
-          <DownChevron
-            label="Toggle Menu"
-          />
-        </DropdownIndicator>
-      </IndicatorsContainer>
-    </Control>
-  </SelectContainer>
-</div>
+      </DropdownIndicator>
+    </IndicatorsContainer>
+  </Control>
+</SelectContainer>
 `;
