@@ -719,7 +719,7 @@ export default class Select extends Component<Props, State> {
       : undefined;
   };
   renderInput(id: string) {
-    const { isDisabled } = this.props;
+    const { isDisabled, isLoading } = this.props;
     const { Input } = this.components;
     const { inputIsHidden, inputValue, menuIsOpen } = this.state;
 
@@ -730,6 +730,7 @@ export default class Select extends Component<Props, State> {
     const ariaAttributes = {
       'aria-activedescendant': this.getActiveDescendentId(),
       'aria-autocomplete': 'list',
+      'aria-busy': isLoading,
       'aria-describedby': this.props['aria-describedby'],
       'aria-expanded': menuIsOpen,
       'aria-haspopup': menuIsOpen,
@@ -939,38 +940,33 @@ export default class Select extends Component<Props, State> {
     const { isFocused } = this.state;
     const inputId = this.getElementId('input');
 
-    // TODO
-    // - return React.Fragment when v16
-    // - add `aria-busy` to SelectContainer when loading async
     return (
-      <div>
-        <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
-          <AriaStatus aria-atomic="true" aria-live="polite" role="status">
-            {this.hasOptions({ length: true })} results are available.
-          </AriaStatus>
-          <Control
-            isDisabled={isDisabled}
-            isFocused={isFocused}
-            onMouseDown={this.onControlMouseDown}
-            innerRef={this.onControlRef}
+      <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
+        <AriaStatus aria-atomic="true" aria-live="polite" role="status">
+          {this.hasOptions({ length: true })} results are available.
+        </AriaStatus>
+        <Control
+          isDisabled={isDisabled}
+          isFocused={isFocused}
+          onMouseDown={this.onControlMouseDown}
+          innerRef={this.onControlRef}
+        >
+          <ValueContainer
+            isMulti={isMulti}
+            hasValue={this.hasValue()}
+            maxHeight={maxValueHeight}
           >
-            <ValueContainer
-              isMulti={isMulti}
-              hasValue={this.hasValue()}
-              maxHeight={maxValueHeight}
-            >
-              {this.renderPlaceholderOrValue()}
-              {this.renderInput(inputId)}
-            </ValueContainer>
-            <IndicatorsContainer>
-              {this.renderClearIndicator()}
-              {this.renderLoadingIndicator()}
-              {this.renderDropdownIndicator()}
-            </IndicatorsContainer>
-          </Control>
-          {this.renderMenu()}
-        </SelectContainer>
-      </div>
+            {this.renderPlaceholderOrValue()}
+            {this.renderInput(inputId)}
+          </ValueContainer>
+          <IndicatorsContainer>
+            {this.renderClearIndicator()}
+            {this.renderLoadingIndicator()}
+            {this.renderDropdownIndicator()}
+          </IndicatorsContainer>
+        </Control>
+        {this.renderMenu()}
+      </SelectContainer>
     );
   }
 }
