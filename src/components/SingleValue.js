@@ -10,7 +10,6 @@ import { type PropsWithStyles } from '../types';
 type ValueProps = PropsWithStyles & {
   children: string,
   data: any,
-  getStyles: GetStyles,
   isDisabled: boolean,
 };
 
@@ -25,7 +24,7 @@ const SingleValue = ({ getStyles, ...props }: ValueProps) => {
   return (
     <Div
       className={className('single-value', { isDisabled })}
-      css={getStyles(props)}
+      css={getStyles('singleValue', props)}
       {...cleanProps}
     />
   );

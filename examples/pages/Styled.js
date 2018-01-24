@@ -35,7 +35,7 @@ const colourStyles = {
       color: isDisabled
         ? '#ccc'
         : isSelected
-          ? chroma.contrast(color, 'white') > 4.5 ? 'white' : 'black'
+          ? chroma.contrast(color, 'white') > 2 ? 'white' : 'black'
           : data.color,
       cursor: isDisabled ? 'not-allowed' : 'default',
     };

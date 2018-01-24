@@ -187,13 +187,6 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const inputStyle = {
-  background: 'transparent',
-  border: 0,
-  fontSize: 'inherit',
-  outline: 0,
-};
-
 const cleanValue = (value: ValueType): OptionsType => {
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
@@ -748,7 +741,7 @@ export default class Select extends Component<Props, State> {
         getStyles={this.getStyles}
         id={id}
         innerRef={this.onInputRef}
-        inputStyle={{ ...inputStyle, opacity: inputIsHidden ? 0 : 1 }}
+        isHidden={inputIsHidden}
         onBlur={this.onInputBlur}
         onChange={this.onInputChange}
         onFocus={this.onInputFocus}
@@ -824,7 +817,7 @@ export default class Select extends Component<Props, State> {
         children={this.getValueLabel(singleValue)}
         data={singleValue}
         isDisabled={isDisabled}
-        getStyles={props => this.getStyles('singleValue', props)}
+        getStyles={this.getStyles}
       />
     );
   }
