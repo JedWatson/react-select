@@ -5,27 +5,47 @@ import { className } from '../utils';
 import { Div } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { spacing } from '../theme';
+import { type PropsWithStyles } from '../types';
 
-type SelectContainerProps = { isDisabled: boolean };
-export const SelectContainer = ({
-  isDisabled,
-  ...props
-}: SelectContainerProps) => (
-  <Div
-    css={{
-      pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
-      position: 'relative',
-    }}
-    className={className('container', { isDisabled })}
-    {...props}
-  />
-);
+// ==============================
+// Root Container
+// ==============================
 
-type ValueContainerProps = {
+type ContainerProps = PropsWithStyles & { isDisabled: boolean };
+export const containerCSS = ({ isDisabled }: { isDisabled: boolean }) => ({
+  pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
+  position: 'relative',
+});
+export const SelectContainer = ({ getStyles, ...props }: ContainerProps) => {
+  const { isDisabled, ...cleanProps } = props;
+  return (
+    <Div
+      css={getStyles('container', props)}
+      className={className('container', { isDisabled })}
+      {...cleanProps}
+    />
+  );
+};
+
+// ==============================
+// Value Container
+// ==============================
+
+type ValueContainerProps = PropsWithStyles & {
   isMulti: boolean,
   hasValue: boolean,
   maxHeight: number,
 };
+export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
+  alignItems: 'baseline',
+  display: 'flex ',
+  flex: 1,
+  flexWrap: 'wrap',
+  maxHeight: maxHeight, // max-height allows scroll when multi
+  overflowY: 'auto',
+  ...paddingHorizontal(spacing.baseUnit * 2),
+  ...paddingVertical(spacing.baseUnit / 2),
+});
 export class ValueContainer extends Component<ValueContainerProps> {
   shouldScrollBottom: boolean = false;
   node: HTMLElement;
@@ -48,35 +68,42 @@ export class ValueContainer extends Component<ValueContainerProps> {
     this.node = ref;
   };
   render() {
-    const { isMulti, hasValue, maxHeight, ...props } = this.props;
+    const {
+      isMulti,
+      getStyles,
+      hasValue,
+      maxHeight, // Unused var: invalid DOM attribute, React will warn if not removed
+      ...cleanProps
+    } = this.props;
 
     return (
       <Div
         innerRef={isMulti ? this.getScrollContainer : null}
         className={className('value-container', { isMulti, hasValue })}
-        css={{
-          alignItems: 'baseline',
-          display: 'flex ',
-          flex: 1,
-          flexWrap: 'wrap',
-          maxHeight: maxHeight, // max-height allows scroll when multi
-          overflowY: 'auto',
-          ...paddingHorizontal(spacing.baseUnit * 2),
-          ...paddingVertical(spacing.baseUnit / 2),
-        }}
-        {...props}
+        css={getStyles('valueContainer', this.props)}
+        {...cleanProps}
       />
     );
   }
 }
 
-export const IndicatorsContainer = (props: any) => (
-  <Div
-    className={className('indicators')}
-    css={{
-      display: 'flex ',
-      flexShrink: 0,
-    }}
-    {...props}
-  />
-);
+// ==============================
+// Indicator Container
+// ==============================
+
+export const indicatorsContainerCSS = () => ({
+  display: 'flex ',
+  flexShrink: 0,
+});
+export const IndicatorsContainer = ({
+  getStyles,
+  ...props
+}: PropsWithStyles) => {
+  return (
+    <Div
+      className={className('indicators')}
+      css={getStyles('indicatorsContainer', props)}
+      {...props}
+    />
+  );
+};

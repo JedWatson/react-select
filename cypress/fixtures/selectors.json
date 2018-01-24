@@ -11,10 +11,10 @@
   "noOptionsValue": ".css-59b0oj.css-1ycyyax",
   "removeBlue": "[label='Remove Blue']",
   "singleGroupedInputValue":
-    "#cypress-single-grouped .react-select__singlevalue",
-  "singleInputValue": ".react-select__singlevalue",
-  "singleSelectDefaultValues": ".react-select__singlevalue",
-  "singleSelectFirstValue": "#cypress-single .react-select__singlevalue",
+    "#cypress-single-grouped .react-select__single-value",
+  "singleInputValue": ".react-select__single-value",
+  "singleSelectDefaultValues": ".react-select__single-value",
+  "singleSelectFirstValue": "#cypress-single .react-select__single-value",
   "singleSelectGroupedInput":
     "#cypress-single-grouped .react-select__input input",
   "singleSelectSingleInput": "#react-select-2--input",

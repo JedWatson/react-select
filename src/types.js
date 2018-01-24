@@ -13,6 +13,9 @@ export type ValueType = OptionType | OptionsType | null | void;
 export type PropsWithInnerRef = {
   innerRef: (?HTMLElement) => void,
 };
+export type PropsWithStyles = {
+  getStyles: (string, any) => {},
+};
 
 export type ActionMeta = {
   action:

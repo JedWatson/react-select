@@ -5,19 +5,26 @@ import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
 import { marginHorizontal } from '../mixins';
+import { type PropsWithStyles } from '../types';
 
-type Props = { isDisabled: boolean, isMulti: boolean };
+type PlaceholderProps = { isDisabled: boolean, isMulti: boolean };
+type Props = PropsWithStyles & PlaceholderProps;
 
-const Placeholder = ({ isDisabled, isMulti, ...props }: Props) => (
-  <Div
-    className={className('placeholder')}
-    css={{
-      ...marginHorizontal(spacing.baseUnit / 2),
-      color: colors.neutral60,
-      position: 'absolute',
-    }}
-    {...props}
-  />
-);
+export const css = () => ({
+  ...marginHorizontal(spacing.baseUnit / 2),
+  color: colors.neutral60,
+  position: 'absolute',
+});
+
+const Placeholder = ({ getStyles, ...props }: Props) => {
+  const { isDisabled, isMulti, ...cleanProps } = props;
+  return (
+    <Div
+      className={className('placeholder')}
+      css={getStyles('placeholder', props)}
+      {...cleanProps}
+    />
+  );
+};
 
 export default Placeholder;

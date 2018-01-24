@@ -5,30 +5,34 @@ import { className } from '../utils';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { Li, Ul, Strong } from '../primitives';
 import { spacing } from '../theme';
+import { type PropsWithStyles } from '../types';
 
-type Props = {
+type GroupProps = {
   children: Node,
-  label: Node,
+  components: { Heading: typeof GroupHeading },
+  label: string,
 };
+type Props = PropsWithStyles & GroupProps;
 
-// TODO: Group currently expects a `label` property, which must be a string.
-// we could possibly implement a formatter for it, with aria-labelledby here
+export const css = () => paddingVertical(spacing.baseUnit * 2);
 
-const Group = ({ children, label, ...props }: Props) => {
+const Group = ({ components, getStyles, ...props }: Props) => {
+  const { children, label, ...cleanProps } = props;
+  const { Heading } = components;
   return (
     <Li
       aria-label={label}
       className={className('group')}
-      css={paddingVertical(spacing.baseUnit * 2)}
-      {...props}
+      css={getStyles('group', props)}
+      {...cleanProps}
     >
-      <GroupHeading>{label}</GroupHeading>
+      <Heading>{label}</Heading>
       <Ul>{children}</Ul>
     </Li>
   );
 };
 
-const GroupHeading = props => (
+export const GroupHeading = (props: any) => (
   <Strong
     className={className('group-heading')}
     css={{
