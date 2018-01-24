@@ -11,10 +11,10 @@ import {
 } from './indicators';
 
 import Control from './Control';
-import Group from './Group';
+import Group, { GroupHeading } from './Group';
 import Input from './Input';
 import Menu, { MenuList, NoOptionsMessage, LoadingMessage } from './Menu';
-import MultiValue from './MultiValue';
+import MultiValue, { MultiValueLabel, MultiValueRemove } from './MultiValue';
 import Option from './Option';
 import Placeholder from './Placeholder';
 import SingleValue from './SingleValue';
@@ -24,6 +24,7 @@ export type SelectComponents = {
   Control: typeof Control,
   DropdownIndicator: typeof DropdownIndicator,
   Group: typeof Group,
+  GroupHeading: typeof GroupHeading,
   IndicatorsContainer: typeof IndicatorsContainer,
   Input: typeof Input,
   LoadingIndicator: typeof LoadingIndicator,
@@ -31,6 +32,8 @@ export type SelectComponents = {
   Menu: typeof Menu,
   MenuList: typeof MenuList,
   MultiValue: typeof MultiValue,
+  MultiValueLabel: typeof MultiValueLabel,
+  MultiValueRemove: typeof MultiValueRemove,
   NoOptionsMessage: typeof NoOptionsMessage,
   Option: typeof Option,
   Placeholder: typeof Placeholder,
@@ -46,6 +49,7 @@ export const components: SelectComponents = {
   Control: Control,
   DropdownIndicator: DropdownIndicator,
   Group: Group,
+  GroupHeading: GroupHeading,
   IndicatorsContainer: IndicatorsContainer,
   Input: Input,
   LoadingIndicator: LoadingIndicator,
@@ -53,6 +57,8 @@ export const components: SelectComponents = {
   Menu: Menu,
   MenuList: MenuList,
   MultiValue: MultiValue,
+  MultiValueLabel: MultiValueLabel,
+  MultiValueRemove: MultiValueRemove,
   NoOptionsMessage: NoOptionsMessage,
   Option: Option,
   Placeholder: Placeholder,

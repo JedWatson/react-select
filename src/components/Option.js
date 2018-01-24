@@ -6,32 +6,34 @@ import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Li } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
+import { type PropsWithStyles } from '../types';
 
-const Option = ({
-  data,
-  isDisabled,
-  isFocused,
-  isSelected,
-  ...props
-}: OptionProps) => (
-  <Li
-    className={className('option', { isFocused, isSelected })}
-    css={{
-      backgroundColor: isSelected
-        ? colors.primary
-        : isFocused ? colors.primaryLight : 'transparent',
-      color: isDisabled
-        ? colors.neutral20
-        : isSelected ? colors.neutral0 : 'inherit',
-      cursor: 'default',
-      display: 'block',
-      fontSize: 'inherit',
-      ...paddingHorizontal(spacing.baseUnit * 3),
-      ...paddingVertical(spacing.baseUnit * 2),
-      width: '100%',
-    }}
-    {...props}
-  />
-);
+type Props = PropsWithStyles & OptionProps;
+
+export const css = ({ isDisabled, isFocused, isSelected }: OptionProps) => ({
+  backgroundColor: isSelected
+    ? colors.primary
+    : isFocused ? colors.primaryLight : 'transparent',
+  color: isDisabled
+    ? colors.neutral20
+    : isSelected ? colors.neutral0 : 'inherit',
+  cursor: 'default',
+  display: 'block',
+  fontSize: 'inherit',
+  ...paddingHorizontal(spacing.baseUnit * 3),
+  ...paddingVertical(spacing.baseUnit * 2),
+  width: '100%',
+});
+
+const Option = ({ getStyles, ...props }: Props) => {
+  const { data, isDisabled, isFocused, isSelected, ...cleanProps } = props;
+  return (
+    <Li
+      className={className('option', { isFocused, isSelected })}
+      css={getStyles('option', props)}
+      {...cleanProps}
+    />
+  );
+};
 
 export default Option;

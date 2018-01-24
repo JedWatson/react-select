@@ -6,7 +6,7 @@ import glam from 'glam';
 import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
-import { Home, Async, NoMatch } from './pages';
+import { Async, Home, NoMatch, Styled } from './pages';
 
 const navWidth = 200;
 const AppContainer = props => (
@@ -69,6 +69,7 @@ const NavItem = ({ selected, ...props }) => (
 const links = [
   { label: 'Home', value: '/' },
   { label: 'Async', value: '/async' },
+  { label: 'Styled', value: '/styled' },
 ];
 
 export default class App extends Component<*> {
@@ -95,6 +96,7 @@ export default class App extends Component<*> {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/async" component={Async} />
+                <Route exact path="/styled" component={Styled} />
                 <Route component={NoMatch} />
               </Switch>
             </AppContent>

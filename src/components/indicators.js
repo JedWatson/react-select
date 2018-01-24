@@ -6,6 +6,7 @@ import glam from 'glam';
 import { className } from '../utils';
 import { Div, Span, SROnly } from '../primitives';
 import { colors, spacing } from '../theme';
+import { type PropsWithStyles } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -43,27 +44,30 @@ const DownChevron = (props: any) => (
 // Dropdown & Clear Buttons
 // ==============================
 
-const Indicator = ({ isFocused, ...props }: { isFocused: boolean }) => (
-  <Div
-    css={{
-      color: isFocused ? colors.text : colors.neutral20,
-      cursor: 'pointer',
-      display: 'flex ',
-      padding: '8px 2px',
-      transition: 'opacity 200ms',
+type IndicatorProps = PropsWithStyles & {
+  children: ElementType,
+  isFocused: boolean,
+};
 
-      ':first-child': { paddingLeft: spacing.baseUnit * 2 },
-      ':last-child': { paddingRight: spacing.baseUnit * 2 },
+export const css = ({ isFocused }: IndicatorProps) => ({
+  color: isFocused ? colors.text : colors.neutral20,
+  cursor: 'pointer',
+  display: 'flex ',
+  padding: '8px 2px',
+  transition: 'opacity 200ms',
 
-      ':hover': {
-        color: isFocused ? colors.text : colors.neutral40,
-      },
-    }}
-    {...props}
-  />
-);
+  ':first-child': { paddingLeft: spacing.baseUnit * 2 },
+  ':last-child': { paddingRight: spacing.baseUnit * 2 },
 
-type IndicatorProps = { children: ElementType };
+  ':hover': {
+    color: isFocused ? colors.text : colors.neutral40,
+  },
+});
+
+const Indicator = ({ getStyles, ...props }: IndicatorProps) => {
+  const { isFocused, ...cleanProps } = props;
+  return <Div css={getStyles('indicator', props)} {...cleanProps} />;
+};
 
 export const DropdownIndicator = ({ children, ...props }: IndicatorProps) => (
   <Indicator
@@ -125,6 +129,7 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
   />
 );
 // TODO @jossmac Source `keyframes` solution for glam
+// - at the very least, ensure this is only rendered once to the DOM
 const LoadingAnimation = () => (
   <style type="text/css">
     {`@keyframes ${keyframesName} {
@@ -133,34 +138,32 @@ const LoadingAnimation = () => (
     };`}
   </style>
 );
-type LoadingIconProps = { color: string, size: number };
-const LoadingIcon = ({ color, size }: LoadingIconProps) => (
-  <LoadingContainer size={size}>
-    <LoadingAnimation />
-    <LoadingDot color={color} />
-    <LoadingDot color={color} delay={160} offset />
-    <LoadingDot color={color} delay={320} offset />
-    <SROnly>Loading</SROnly>
-  </LoadingContainer>
-);
-LoadingIcon.defaultProps = {
-  color: colors.neutral40,
-  size: 4,
+
+type LoadingIconProps = { isFocused: boolean, size: number };
+const LoadingIcon = ({ isFocused, size = 4 }: LoadingIconProps) => {
+  const clr = isFocused ? colors.text : colors.neutral20;
+
+  return (
+    <LoadingContainer size={size}>
+      <LoadingAnimation />
+      <LoadingDot color={clr} />
+      <LoadingDot color={clr} delay={160} offset />
+      <LoadingDot color={clr} delay={320} offset />
+      <SROnly>Loading</SROnly>
+    </LoadingContainer>
+  );
 };
 
-type LoadingIndicatorProps = { children: Node };
 export const LoadingIndicator = ({
   children,
+  isFocused,
   ...props
-}: LoadingIndicatorProps) => (
+}: IndicatorProps) => (
   <Indicator
     role="presentation"
     className={className(['indicator', 'loading-indicator'])}
     {...props}
   >
-    {children}
+    <LoadingIcon isFocused={isFocused} />
   </Indicator>
 );
-LoadingIndicator.defaultProps = {
-  children: <LoadingIcon />,
-};

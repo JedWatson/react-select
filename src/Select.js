@@ -745,6 +745,7 @@ export default class Select extends Component<Props, State> {
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
+        getStyles={this.getStyles}
         id={id}
         innerRef={this.onInputRef}
         inputStyle={{ ...inputStyle, opacity: inputIsHidden ? 0 : 1 }}
@@ -774,13 +775,20 @@ export default class Select extends Component<Props, State> {
     return custom ? custom(base, props) : base;
   };
   renderPlaceholderOrValue() {
-    const { MultiValue, SingleValue, Placeholder } = this.components;
+    const {
+      MultiValue,
+      MultiValueLabel,
+      MultiValueRemove,
+      SingleValue,
+      Placeholder,
+    } = this.components;
     const { isDisabled, isMulti, placeholder } = this.props;
     const { inputValue, selectValue } = this.state;
 
     if (!this.hasValue()) {
       return inputValue ? null : (
         <Placeholder
+          getStyles={this.getStyles}
           key="placeholder"
           isDisabled={isDisabled}
           isMulti={isMulti}
@@ -792,10 +800,19 @@ export default class Select extends Component<Props, State> {
     if (isMulti) {
       return selectValue.map(opt => (
         <MultiValue
+          components={{
+            Label: MultiValueLabel,
+            Remove: MultiValueRemove,
+          }}
+          getStyles={this.getStyles}
           isDisabled={isDisabled}
-          label={this.getValueLabel(opt)}
           key={this.getOptionValue(opt)}
-          onRemove={this.removeValue}
+          label={this.getValueLabel(opt)}
+          onRemoveClick={() => this.removeValue(opt)}
+          onRemoveMouseDown={e => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           data={opt}
         />
       ));
@@ -807,7 +824,7 @@ export default class Select extends Component<Props, State> {
         children={this.getValueLabel(singleValue)}
         data={singleValue}
         isDisabled={isDisabled}
-        getStyles={this.getStyles}
+        getStyles={props => this.getStyles('singleValue', props)}
       />
     );
   }
@@ -828,6 +845,7 @@ export default class Select extends Component<Props, State> {
 
     return (
       <ClearIndicator
+        getStyles={this.getStyles}
         isFocused={isFocused}
         onMouseDown={this.onClearIndicatorMouseDown}
         role="button"
@@ -837,10 +855,13 @@ export default class Select extends Component<Props, State> {
   renderLoadingIndicator() {
     const { LoadingIndicator } = this.components;
     const { isLoading } = this.props;
+    const { isFocused } = this.state;
 
     if (!LoadingIndicator || !isLoading) return null;
 
-    return <LoadingIndicator />;
+    return (
+      <LoadingIndicator getStyles={this.getStyles} isFocused={isFocused} />
+    );
   }
   renderDropdownIndicator() {
     const { DropdownIndicator } = this.components;
@@ -849,6 +870,7 @@ export default class Select extends Component<Props, State> {
 
     return (
       <DropdownIndicator
+        getStyles={this.getStyles}
         isFocused={isFocused}
         onMouseDown={this.onDropdownIndicatorMouseDown}
         role="button"
@@ -859,6 +881,7 @@ export default class Select extends Component<Props, State> {
   renderMenu() {
     const {
       Group,
+      GroupHeading,
       LoadingMessage,
       Menu,
       MenuList,
@@ -880,6 +903,7 @@ export default class Select extends Component<Props, State> {
         <Option
           {...option}
           aria-selected={option.isSelected}
+          getStyles={this.getStyles}
           id={id}
           innerRef={isFocused ? this.onFocusedOptionRef : undefined}
           isFocused={isFocused}
@@ -898,7 +922,13 @@ export default class Select extends Component<Props, State> {
         if (item.type === 'group') {
           const { children, type, ...group } = item;
           return (
-            <Group aria-expanded="true" role="group" {...group}>
+            <Group
+              aria-expanded="true"
+              role="group"
+              components={{ Heading: GroupHeading }}
+              getStyles={this.getStyles}
+              {...group}
+            >
               {item.children.map(option => render(option))}
             </Group>
           );
@@ -913,14 +943,15 @@ export default class Select extends Component<Props, State> {
     }
 
     return (
-      <Menu onMouseDown={this.onMenuMouseDown}>
+      <Menu onMouseDown={this.onMenuMouseDown} getStyles={this.getStyles}>
         <MenuList
           aria-multiselectable={isMulti}
+          getStyles={this.getStyles}
           id={this.getElementId('listbox')}
           innerRef={this.onMenuRef}
           isMulti={isMulti}
           maxHeight={maxMenuHeight}
-          role={this.hasGroups ? 'tree' : 'listbox'}
+          role="listbox"
           tabIndex="-1"
         >
           {menuUI}
@@ -941,11 +972,16 @@ export default class Select extends Component<Props, State> {
     const inputId = this.getElementId('input');
 
     return (
-      <SelectContainer isDisabled={isDisabled} onKeyDown={this.onKeyDown}>
+      <SelectContainer
+        isDisabled={isDisabled}
+        getStyles={this.getStyles}
+        onKeyDown={this.onKeyDown}
+      >
         <AriaStatus aria-atomic="true" aria-live="polite" role="status">
           {this.hasOptions({ length: true })} results are available.
         </AriaStatus>
         <Control
+          getStyles={this.getStyles}
           isDisabled={isDisabled}
           isFocused={isFocused}
           onMouseDown={this.onControlMouseDown}
@@ -953,13 +989,14 @@ export default class Select extends Component<Props, State> {
         >
           <ValueContainer
             isMulti={isMulti}
+            getStyles={this.getStyles}
             hasValue={this.hasValue()}
             maxHeight={maxValueHeight}
           >
             {this.renderPlaceholderOrValue()}
             {this.renderInput(inputId)}
           </ValueContainer>
-          <IndicatorsContainer>
+          <IndicatorsContainer getStyles={this.getStyles}>
             {this.renderClearIndicator()}
             {this.renderLoadingIndicator()}
             {this.renderDropdownIndicator()}
