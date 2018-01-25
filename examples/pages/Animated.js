@@ -17,7 +17,8 @@ export default class App extends Component<*> {
       <div>
         <h1>Animated Components</h1>
         <p>
-          React-Select comes with Animated component variants.{' '}
+          React-Select comes with Animated variants that wrap the built-in
+          components.{' '}
           <Link
             href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Animated.js"
             target="_blank"
@@ -25,10 +26,12 @@ export default class App extends Component<*> {
             Source
           </Link>
         </p>
+        <p>Remove the values below to see them in action.</p>
 
         <h2>Example</h2>
         <div id="cypress-multi-animated">
           <SelectWithValue
+            autoFocus
             components={Animated}
             defaultValue={[colourOptions[4], colourOptions[5]]}
             isMulti
