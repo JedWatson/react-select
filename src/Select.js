@@ -60,6 +60,10 @@ type Props = {
   */
   'aria-labelledby'?: string,
   /*
+    Focus the control when it is mounted
+  */
+  autoFocus?: boolean,
+  /*
     Remove the currently focused option when the user presses backspace
   */
   backspaceRemovesValue: boolean,
