@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
 import AsyncSelect from '../../src/Async';
+import { Code, Link } from '../components';
 import { colourOptions } from '../data';
 
 const SelectWithValue = withValue(AsyncSelect);
@@ -39,10 +40,23 @@ export default class App extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>new-select</h1>
-        <p>A sandbox for the new react-select</p>
+        <h1>Async Variant</h1>
+        <p>
+          {' '}
+          Use the Async component to load options from a remote source as the
+          user types.{' '}
+          <Link
+            href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Async.js"
+            target="_blank"
+          >
+            Source
+          </Link>
+        </p>
+        <p>
+          <Code>{"import { Async } from 'react-select'"}</Code>
+        </p>
 
-        <h2>Async</h2>
+        <h2>Example</h2>
         <div>
           <pre>inputValue: "{this.state.inputValue}"</pre>
           <SelectWithValue

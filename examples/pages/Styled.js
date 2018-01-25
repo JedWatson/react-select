@@ -6,6 +6,7 @@ import { withValue } from 'react-value';
 import chroma from 'chroma-js';
 
 import Select from '../../src';
+import { Code, Link } from '../components';
 import { colourOptions } from '../data';
 
 const dot = (color = '#ccc') => ({
@@ -80,10 +81,21 @@ export default class StyledApp extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>Styled</h1>
-        <p>Style individual component with custom css.</p>
+        <h1>Custom Styles</h1>
+        <p>
+          Style individual components with custom css using the{' '}
+          <Code>styles</Code> prop.{' '}
+          <Link
+            href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Styled.js"
+            target="_blank"
+          >
+            Source
+          </Link>
+        </p>
 
-        <h2>Colours</h2>
+        <h2>Examples</h2>
+
+        <h4>Single Select</h4>
         <SelectWithValue
           autoFocus
           defaultValue={colourOptions[4]}

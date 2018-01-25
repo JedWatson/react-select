@@ -1,12 +1,12 @@
 body {
-	-moz-font-feature-settings: 'liga' on;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: antialiased;
-	font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
-		sans-serif;
-	font-style: normal;
-	font-weight: 400;
-	margin: 0;
-	padding: 0;
-	text-rendering: optimizeLegibility;
+  -moz-font-feature-settings: 'liga' on;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  text-rendering: optimizeLegibility;
 }

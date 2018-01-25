@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
 import Select from '../../src';
-import * as Animated from '../../src/animated';
-import { Hr, Note } from '../components';
+import { Code, Link, Hr, Note } from '../components';
 import { colourOptions, groupedOptions } from '../data';
 
 const SelectWithValue = withValue(Select);
@@ -20,10 +19,28 @@ export default class App extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>new-select</h1>
-        <p>A sandbox for the new react-select</p>
+        <h1>React Select v2</h1>
+        <p>Currently in alpha. Try it out:</p>
+        <p>
+          <Code>yarn add react-select@next</Code>
+        </p>
+        <p>
+          <Link
+            href="https://github.com/JedWatson/react-select/tree/v2"
+            target="_blank"
+          >
+            GitHub Project
+          </Link>
+          {' | '}
+          <Link
+            href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Home.js"
+            target="_blank"
+          >
+            Examples Source
+          </Link>
+        </p>
 
-        <h2>Single</h2>
+        <h2>Single Select</h2>
         <div id="cypress-single">
           <SelectWithValue
             autoFocus
@@ -60,22 +77,10 @@ export default class App extends Component<*, State> {
 
         <Hr />
 
-        <h2>Multi</h2>
+        <h2>Multi Select</h2>
         <div id="cypress-multi">
           <SelectWithValue
             defaultValue={[colourOptions[2], colourOptions[3]]}
-            isMulti
-            options={colourOptions}
-          />
-        </div>
-
-        <Hr />
-
-        <h2>Animated</h2>
-        <div id="cypress-multi-animated">
-          <SelectWithValue
-            components={Animated}
-            defaultValue={[colourOptions[4], colourOptions[5]]}
             isMulti
             options={colourOptions}
           />

@@ -4,6 +4,40 @@
 import glam from 'glam';
 import React from 'react';
 
+const fontFamilyFixed =
+  'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
+
+export const Code = (props: {}) => (
+  <code
+    css={{
+      backgroundColor: '#eee',
+      fontFamily: fontFamilyFixed,
+      fontSize: '85%',
+      padding: '2px 4px',
+      borderRadius: 4,
+    }}
+    {...props}
+  />
+);
+
+const linkCSS = {
+  color: '#2684ff',
+  textDecoration: 'none',
+  borderBottom: '2px solid #deebff',
+};
+export const Link = (props: {}) => (
+  <a
+    css={{
+      ...linkCSS,
+      ':visited': linkCSS,
+      ':hover': {
+        borderBottomColor: '#2684ff',
+      },
+    }}
+    {...props}
+  />
+);
+
 export const Hr = () => (
   <div
     css={{
