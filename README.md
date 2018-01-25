@@ -67,7 +67,7 @@ class App extends React.Component {
   }
   render() {
   	const { selectedOption } = this.state;
-  	const value = selectedOption && selectedOption.value;
+  	const value = selectedOption || selectedOption.value;
 
     return (
       <Select
