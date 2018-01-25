@@ -16,8 +16,8 @@ export const css = () => ({
   position: 'absolute',
 });
 
-const Placeholder = ({ getStyles, ...props }: Props) => {
-  const { isDisabled, isMulti, ...cleanProps } = props;
+const Placeholder = (props: Props) => {
+  const { getStyles, isDisabled, isMulti, ...cleanProps } = props;
   return (
     <Div
       className={className('placeholder')}

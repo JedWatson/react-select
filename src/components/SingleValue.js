@@ -7,20 +7,21 @@ import { colors, spacing } from '../theme';
 import { className } from '../utils';
 import { type PropsWithStyles } from '../types';
 
-type ValueProps = PropsWithStyles & {
+type ValueProps = {
   children: string,
   data: any,
   isDisabled: boolean,
 };
+type Props = PropsWithStyles & ValueProps;
 
-export const css = ({ isDisabled }: { isDisabled: boolean }) => ({
+export const css = ({ isDisabled }: ValueProps) => ({
   ...marginHorizontal(spacing.baseUnit / 2),
   color: isDisabled ? colors.neutral40 : colors.text,
   position: 'absolute',
 });
 
-const SingleValue = ({ getStyles, ...props }: ValueProps) => {
-  const { isDisabled, data, ...cleanProps } = props;
+const SingleValue = (props: Props) => {
+  const { getStyles, isDisabled, data, ...cleanProps } = props;
   return (
     <Div
       className={className('single-value', { isDisabled })}

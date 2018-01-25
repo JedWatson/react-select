@@ -35,8 +35,8 @@ export const css = ({ isDisabled, isFocused }: ControlProps) => ({
   },
 });
 
-const Control = ({ getStyles, ...props }: Props) => {
-  const { isDisabled, isFocused, ...cleanProps } = props;
+const Control = (props: Props) => {
+  const { getStyles, isDisabled, isFocused, ...cleanProps } = props;
   return (
     <Div
       className={className('control', { isDisabled, isFocused })}

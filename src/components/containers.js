@@ -11,13 +11,16 @@ import { type PropsWithStyles } from '../types';
 // Root Container
 // ==============================
 
-type ContainerProps = PropsWithStyles & { isDisabled: boolean };
+type ContainerProps = PropsWithStyles & {
+  isDisabled: boolean,
+  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
+};
 export const containerCSS = ({ isDisabled }: { isDisabled: boolean }) => ({
   pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
   position: 'relative',
 });
-export const SelectContainer = ({ getStyles, ...props }: ContainerProps) => {
-  const { isDisabled, ...cleanProps } = props;
+export const SelectContainer = (props: ContainerProps) => {
+  const { getStyles, isDisabled, ...cleanProps } = props;
   return (
     <Div
       css={getStyles('container', props)}

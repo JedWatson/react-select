@@ -16,7 +16,7 @@ import {
   type Formatters,
   type FormattersConfig,
 } from './formatters';
-import { defaultStyles, type Styles } from './styles';
+import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
   ActionMeta,
@@ -135,8 +135,11 @@ type Props = {
   /*
     Placeholder text for the select value
   */
-  placeholder?: string,
-  styles: Styles,
+  placeholder: string,
+  /*
+    Style modifier methods
+  */
+  styles: StylesConfig,
   /*
     Select the currently focused option when the user presses tab
   */

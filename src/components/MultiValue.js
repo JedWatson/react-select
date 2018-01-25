@@ -46,10 +46,11 @@ export const multiValueRemoveCSS = () => ({
 export const MultiValueLabel = Div;
 export const MultiValueRemove = Div;
 
-const MultiValue = ({ getStyles, ...props }: Props) => {
+const MultiValue = (props: Props) => {
   const {
     components,
     data,
+    getStyles,
     isDisabled,
     label,
     onRemoveClick,

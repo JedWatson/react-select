@@ -16,8 +16,8 @@ type Props = PropsWithStyles & GroupProps;
 
 export const css = () => paddingVertical(spacing.baseUnit * 2);
 
-const Group = ({ components, getStyles, ...props }: Props) => {
-  const { children, label, ...cleanProps } = props;
+const Group = (props: Props) => {
+  const { components, getStyles, children, label, ...cleanProps } = props;
   const { Heading } = components;
   return (
     <Li

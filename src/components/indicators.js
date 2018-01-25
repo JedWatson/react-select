@@ -64,8 +64,8 @@ export const css = ({ isFocused }: IndicatorProps) => ({
   },
 });
 
-const Indicator = ({ getStyles, ...props }: IndicatorProps) => {
-  const { isFocused, ...cleanProps } = props;
+const Indicator = (props: IndicatorProps) => {
+  const { getStyles, isFocused, ...cleanProps } = props;
   return <Div css={getStyles('indicator', props)} {...cleanProps} />;
 };
 

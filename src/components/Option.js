@@ -25,8 +25,15 @@ export const css = ({ isDisabled, isFocused, isSelected }: OptionProps) => ({
   width: '100%',
 });
 
-const Option = ({ getStyles, ...props }: Props) => {
-  const { data, isDisabled, isFocused, isSelected, ...cleanProps } = props;
+const Option = (props: Props) => {
+  const {
+    data,
+    getStyles,
+    isDisabled,
+    isFocused,
+    isSelected,
+    ...cleanProps
+  } = props;
   return (
     <Li
       className={className('option', { isFocused, isSelected })}

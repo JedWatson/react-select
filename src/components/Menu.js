@@ -40,8 +40,8 @@ export const menulistCSS = ({ maxHeight }: MenuListProps) => ({
   ...paddingVertical(spacing.baseUnit),
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
 });
-export const MenuList = ({ getStyles, ...props }: Props) => {
-  const { isMulti, maxHeight, ...cleanProps } = props;
+export const MenuList = (props: Props) => {
+  const { getStyles, isMulti, maxHeight, ...cleanProps } = props;
   return (
     <Ul
       className={className('menu-list', { isMulti })}
