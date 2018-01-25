@@ -1,5 +1,18 @@
 # React-Select
 
+## v2.0.0-alpha.2 / 2018-01-25
+
+Ongoing rewrite. Major changes since last alpha:
+
+* `Async` component added
+* `styles` prop added to Select component
+* `isLoading` prop to Select component and new indicator added
+* Support added for disabled options
+* Internal components cleaned up
+* Cypress tests added
+* CSS class names added to default components
+* Accessibility improvements
+
 ## v2.0.0-alpha.1 / 2018-01-12
 
 Complete rewrite, docs and upgrade notes on changes from v1 to come later.
