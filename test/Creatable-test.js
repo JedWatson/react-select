@@ -270,14 +270,15 @@ describe('Creatable', () => {
 		expect(test(' '), 'to be', true);
 	});
 
-	it('default :newOptionCreator function should create an option with a :label and :value equal to the label string', () => {
+	it('default :newOptionCreator function should create an option with a :label equal to the label string', () => {
 		const option = Select.Creatable.newOptionCreator({
-			label: 'foo',
+			label: 'Foo',
 			labelKey: 'label',
+			value: 'foo',
 			valueKey: 'value'
 		});
 		expect(option.className, 'to equal', 'Select-create-option-placeholder');
-		expect(option.label, 'to equal', 'foo');
+		expect(option.label, 'to equal', 'Foo');
 		expect(option.value, 'to equal', 'foo');
 	});
 
