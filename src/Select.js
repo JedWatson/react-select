@@ -1,9 +1,14 @@
 // @flow
 // @jsx glam
-import React, { Component, type ElementRef } from 'react';
+import React, { Component, type ElementRef, type Node } from 'react';
 import glam from 'glam';
 
-import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
+import {
+  formatOptionLabel,
+  getOptionLabel,
+  getOptionValue,
+  isOptionDisabled,
+} from './builtins';
 import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
 
 import {
@@ -61,6 +66,8 @@ type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((string, string) => boolean) | null,
+  /* Formats option labels in the menu and control as React components */
+  formatOptionLabel: (string, {}) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
   getOptionLabel: OptionType => string,
   /* Resolves option data to a string to compare options and specify value attributes */
@@ -109,7 +116,7 @@ const defaultProps = {
   components: {},
   escapeClearsValue: false,
   filterOption: filterOption,
-  formatters: {},
+  formatOptionLabel: formatOptionLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
@@ -288,14 +295,14 @@ export default class Select extends Component<Props, State> {
     const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
     return { inputValue, menuOptions, focusedOption };
   }
-  hasValue() {
-    const { selectValue } = this.state;
-    return selectValue.length > 0;
-  }
-  hasOptions(options?: { length: boolean }) {
-    const length = options && options.length;
-    const count = this.state.menuOptions.render.length;
-    return length ? count : Boolean(count);
+  formatOptionLabel(data: OptionType, context: string): Node {
+    const { inputValue, selectValue } = this.state;
+    const label = this.getOptionLabel(data);
+    return this.props.formatOptionLabel(label, {
+      context,
+      inputValue,
+      selectValue,
+    });
   }
   getOptionLabel(data: OptionType): string {
     return this.props.getOptionLabel(data);
@@ -308,6 +315,15 @@ export default class Select extends Component<Props, State> {
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
+  hasValue() {
+    const { selectValue } = this.state;
+    return selectValue.length > 0;
+  }
+  hasOptions(options?: { length: boolean }) {
+    const length = options && options.length;
+    const count = this.state.menuOptions.render.length;
+    return length ? count : Boolean(count);
+  }
   isOptionDisabled(option: OptionType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
       ? this.props.isOptionDisabled(option)
@@ -709,29 +725,25 @@ export default class Select extends Component<Props, State> {
       );
     }
     if (isMulti) {
-      return selectValue.map(opt => {
-        const label = this.getOptionLabel(opt);
-        return (
-          <MultiValue
-            components={{
-              Label: MultiValueLabel,
-              Remove: MultiValueRemove,
-            }}
-            getStyles={this.getStyles}
-            isDisabled={isDisabled}
-            key={this.getOptionValue(opt)}
-            label={label}
-            onRemoveClick={() => this.removeValue(opt)}
-            onRemoveMouseDown={e => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            data={opt}
-          >
-            {label}
-          </MultiValue>
-        );
-      });
+      return selectValue.map(opt => (
+        <MultiValue
+          components={{
+            Label: MultiValueLabel,
+            Remove: MultiValueRemove,
+          }}
+          getStyles={this.getStyles}
+          isDisabled={isDisabled}
+          key={this.getOptionValue(opt)}
+          onRemoveClick={() => this.removeValue(opt)}
+          onRemoveMouseDown={e => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          data={opt}
+        >
+          {this.formatOptionLabel(opt, 'value')}
+        </MultiValue>
+      ));
     }
     if (inputValue) return null;
     const singleValue = selectValue[0];
@@ -741,7 +753,7 @@ export default class Select extends Component<Props, State> {
         isDisabled={isDisabled}
         getStyles={this.getStyles}
       >
-        {this.getOptionLabel(singleValue)}
+        {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>
     );
   }
@@ -827,7 +839,7 @@ export default class Select extends Component<Props, State> {
           role="option"
           tabIndex="-1"
         >
-          {option.label}
+          {this.formatOptionLabel(option.data, 'menu')}
         </Option>
       );
     };
