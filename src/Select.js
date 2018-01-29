@@ -36,10 +36,6 @@ const filterOption = (optionLabel: string, inputValue: string) => {
 
 <Select
   filterOption={createOptionFilter()}
-  formatters={{
-    optionLabel: OptionType => Node,
-    valueLabel: OptionType => Node,
-  }}
   getOptionLabel={option => option.label}
   getOptionValue={option => option.value}
   optionIsDisabled={option => !!option.isDisabled}
