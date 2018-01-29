@@ -1,5 +1,6 @@
 // @flow
 // @jsx glam
+
 import React from 'react';
 import glam from 'glam';
 

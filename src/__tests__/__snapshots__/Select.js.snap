@@ -6,14 +6,14 @@ exports[`defaults 1`] = `
   isDisabled={false}
   onKeyDown={[Function]}
 >
-  <AriaStatus
+  <SROnly
     aria-atomic="true"
     aria-live="polite"
     role="status"
   >
     0
      results are available.
-  </AriaStatus>
+  </SROnly>
   <Control
     getStyles={[Function]}
     innerRef={[Function]}

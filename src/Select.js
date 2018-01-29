@@ -16,7 +16,7 @@ import {
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
-import { AriaStatus } from './components/Aria';
+import { SROnly } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
@@ -315,10 +315,11 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     return selectValue.length > 0;
   }
-  hasOptions(options?: { length: boolean }) {
-    const length = options && options.length;
-    const count = this.state.menuOptions.render.length;
-    return length ? count : Boolean(count);
+  hasOptions() {
+    return !!this.state.menuOptions.render.length;
+  }
+  countOptions() {
+    return this.state.menuOptions.focusable.length;
   }
   isOptionDisabled(option: OptionType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
@@ -655,6 +656,13 @@ export default class Select extends Component<Props, State> {
       ? `${this.getElementId('option')}-${this.getOptionValue(focusedOption)}`
       : undefined;
   };
+  renderScreenReaderStatus() {
+    return (
+      <SROnly aria-atomic="true" aria-live="polite" role="status">
+        {this.countOptions()} results are available.
+      </SROnly>
+    );
+  }
   renderInput(id: string) {
     const { isDisabled, isLoading } = this.props;
     const { Input } = this.components;
@@ -802,7 +810,6 @@ export default class Select extends Component<Props, State> {
       />
     );
   }
-
   renderMenu() {
     const {
       Group,
@@ -902,9 +909,7 @@ export default class Select extends Component<Props, State> {
         getStyles={this.getStyles}
         onKeyDown={this.onKeyDown}
       >
-        <AriaStatus aria-atomic="true" aria-live="polite" role="status">
-          {this.hasOptions({ length: true })} results are available.
-        </AriaStatus>
+        {this.renderScreenReaderStatus()}
         <Control
           getStyles={this.getStyles}
           isDisabled={isDisabled}
