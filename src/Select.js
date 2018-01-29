@@ -47,110 +47,58 @@ type Customisations = {
 */
 
 type Props = {
-  /*
-    HTML ID(s) of element(s) that should be used to describe this input (for assistive tech)
-  */
+  /* HTML ID(s) of element(s) that should be used to describe this input (for assistive tech) */
   'aria-describedby'?: string,
-  /*
-    Aria label (for assistive tech)
-  */
+  /* Aria label (for assistive tech) */
   'aria-label'?: string,
-  /*
-    HTML ID of an element that should be used as the label (for assistive tech)
-  */
+  /* HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string,
-  /*
-    Focus the control when it is mounted
-  */
+  /* Focus the control when it is mounted */
   autoFocus?: boolean,
-  /*
-    Remove the currently focused option when the user presses backspace
-  */
+  /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
-  /*
-    Close the select menu when the user selects an option
-  */
+  /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
-  /*
-    Custom components to use
-  */
+  /* Custom components to use */
   components: SelectComponentsConfig,
   disabledKey: string,
-  /*
-    Clear all values when the user presses escape AND the menu is closed
-  */
+  /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
-  /*
-    Custom method to filter whether an option should be displayed in the menu
-  */
+  /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((string, string) => boolean) | null,
-  /*
-    Functions to manipulate how the options data is represented when rendered
-  */
+  /* Functions to manipulate how the options data is represented when rendered */
   formatters: FormattersConfig,
-  /*
-    Hide the selected option from the menu
-  */
+  /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
-  /*
-    Define an id prefix for the select components e.g. {your-id}-value
-  */
+  /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
-  /*
-    Is the select value clearable
-  */
+  /* Is the select value clearable */
   isClearable: boolean,
-  /*
-    Is the select disabled
-  */
+  /* Is the select disabled */
   isDisabled: boolean,
-  /*
-    Is the select in a state of loading (async)
-  */
+  /* Is the select in a state of loading (async) */
   isLoading: boolean,
-  /*
-    Support multiple selected options
-  */
+  /* Support multiple selected options */
   isMulti: boolean,
-  /*
-    Maximum height of the menu before scrolling
-  */
+  /* Maximum height of the menu before scrolling */
   maxMenuHeight: number,
-  /*
-    Maximum height of the value container before scrolling
-  */
+  /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
-  /*
-    Handle change events on the select
-  */
+  /* Handle change events on the select */
   onChange?: (ValueType, ActionMeta) => void,
-  /*
-    Handle change events on the input; return a string to modify the value
-  */
+  /* Handle change events on the input; return a string to modify the value */
   onInputChange?: string => string | void,
-  /*
-    Handle key down events on the select
-  */
+  /* Handle key down events on the select */
   onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void,
-  /*
-    Array of options that populate the select menu
-  */
+  /* Array of options that populate the select menu */
   options: OptionsType,
-  /*
-    Placeholder text for the select value
-  */
+  /* Placeholder text for the select value */
   placeholder: string,
-  /*
-    Style modifier methods
-  */
+  /* Style modifier methods */
   styles: StylesConfig,
-  /*
-    Select the currently focused option when the user presses tab
-  */
+  /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean,
-  /*
-    The value of the select; reflected by the selected option
-  */
+  /* The value of the select; reflected by the selected option */
   value?: ValueType,
 };
 
