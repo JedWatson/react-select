@@ -21,13 +21,15 @@ export const css = ({ isDisabled }: ValueProps) => ({
 });
 
 const SingleValue = (props: Props) => {
-  const { getStyles, isDisabled, data, ...cleanProps } = props;
+  const { children, data, getStyles, isDisabled, ...cleanProps } = props;
   return (
     <Div
       className={className('single-value', { isDisabled })}
       css={getStyles('singleValue', props)}
       {...cleanProps}
-    />
+    >
+      {children}
+    </Div>
   );
 };
 

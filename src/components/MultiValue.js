@@ -9,6 +9,7 @@ import { paddingHorizontal } from '../mixins';
 import { type PropsWithStyles } from '../types';
 
 export type ValueProps = {
+  children: Node,
   components: any,
   data: any,
   isDisabled: boolean,
@@ -48,6 +49,7 @@ export const MultiValueRemove = Div;
 
 const MultiValue = (props: Props) => {
   const {
+    children,
     components,
     data,
     getStyles,
@@ -72,7 +74,7 @@ const MultiValue = (props: Props) => {
   return (
     <Div className={cn.root} css={css.root} {...cleanProps}>
       <Label className={cn.label} css={css.label}>
-        {label}
+        {children}
       </Label>
       <Remove
         className={cn.remove}
@@ -80,7 +82,7 @@ const MultiValue = (props: Props) => {
         onClick={onRemoveClick}
         onMouseDown={onRemoveMouseDown}
       >
-        <CrossIcon label={`Remove ${label}`} size={14} />
+        <CrossIcon size={14} />
       </Remove>
     </Div>
   );
