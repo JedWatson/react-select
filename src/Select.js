@@ -3,7 +3,7 @@
 import React, { Component, type ElementRef } from 'react';
 import glam from 'glam';
 
-import { handleInputChange } from './utils';
+import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
 
 import {
   defaultComponents,
@@ -193,43 +193,6 @@ type State = {
 type ElRef = ElementRef<*>;
 
 let instanceId = 1;
-
-const cleanValue = (value: ValueType): OptionsType => {
-  if (Array.isArray(value)) return value.filter(Boolean);
-  if (typeof value === 'object' && value !== null) return [value];
-  return [];
-};
-
-const toKey = (str: string): string => {
-  return str.replace(/\W/g, '-');
-};
-
-// TODO @jedwatson `findIndex` not used. Safe to remove?
-// const findIndex = (arr: Array<*>, match: any): number => {
-// 	let index = 0;
-// 	while (index < arr.length) {
-// 		if (arr[index] === match) return index;
-// 	}
-// 	return -1;
-// };
-
-const scrollIntoView = (menuEl: HTMLElement, focusedEl: HTMLElement): void => {
-  // TODO: Is there a way to overscroll to group headings?
-  const menuRect = menuEl.getBoundingClientRect();
-  const focusedRect = focusedEl.getBoundingClientRect();
-  const overScroll = focusedEl.offsetHeight / 3;
-  if (focusedRect.bottom + overScroll > menuRect.bottom) {
-    menuEl.scrollTop = Math.min(
-      focusedEl.offsetTop +
-        focusedEl.clientHeight -
-        menuEl.offsetHeight +
-        overScroll,
-      menuEl.scrollHeight
-    );
-  } else if (focusedRect.top - overScroll < menuRect.top) {
-    menuEl.scrollTop = Math.max(focusedEl.offsetTop - overScroll, 0);
-  }
-};
 
 // TODO: turn this into a prop or measure it when there's a menu ref
 const PAGE_SIZE = 5;
