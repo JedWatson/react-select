@@ -78,8 +78,12 @@ type Props = {
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
+  /* Handle blur events on the control */
+  onBlur?: (SyntheticFocusEvent<HTMLElement>) => void,
   /* Handle change events on the select */
   onChange?: (ValueType, ActionMeta) => void,
+  /* Handle focus events on the control */
+  onFocus?: (SyntheticFocusEvent<HTMLElement>) => void,
   /* Handle change events on the input; return a string to modify the value */
   onInputChange?: string => string | void,
   /* Handle key down events on the select */
@@ -572,6 +576,9 @@ export default class Select extends Component<Props, State> {
     });
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
     this.setState({
       inputIsHidden: false,
       isFocused: true,
@@ -582,6 +589,9 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
     this.setState({
       isFocused: false,
       menuIsOpen: false,
