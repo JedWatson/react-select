@@ -6,7 +6,7 @@ import glam from 'glam';
 import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
-import { Animated, Async, Home, NoMatch, Styled } from './pages';
+import { Animated, Async, Experimental, Home, NoMatch, Styled } from './pages';
 
 const navWidth = 200;
 const AppContainer = props => (
@@ -71,6 +71,7 @@ const links = [
   { label: 'Animation', value: '/animated' },
   { label: 'Async Options', value: '/async' },
   { label: 'Custom Styles', value: '/styled' },
+  { label: 'Experimental', value: '/experimental' },
 ];
 
 export default class App extends Component<*> {
@@ -99,6 +100,7 @@ export default class App extends Component<*> {
                 <Route exact path="/animated" component={Animated} />
                 <Route exact path="/async" component={Async} />
                 <Route exact path="/styled" component={Styled} />
+                <Route exact path="/experimental" component={Experimental} />
                 <Route component={NoMatch} />
               </Switch>
             </AppContent>
