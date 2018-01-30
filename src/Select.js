@@ -710,6 +710,7 @@ export default class Select extends Component<Props, State> {
   renderPlaceholderOrValue() {
     const {
       MultiValue,
+      MultiValueContainer,
       MultiValueLabel,
       MultiValueRemove,
       SingleValue,
@@ -734,6 +735,7 @@ export default class Select extends Component<Props, State> {
       return selectValue.map(opt => (
         <MultiValue
           components={{
+            Container: MultiValueContainer,
             Label: MultiValueLabel,
             Remove: MultiValueRemove,
           }}
