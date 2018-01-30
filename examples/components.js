@@ -49,7 +49,7 @@ export const Hr = () => (
   />
 );
 
-export const Note = ({ Tag = 'div', ...props }: { Tag: string }) => (
+export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
   <Tag
     css={{
       color: 'hsl(0, 0%, 40%)',

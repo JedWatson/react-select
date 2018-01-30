@@ -4,32 +4,127 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import chrono from 'chrono-node';
 
+import { Div, Li, Span, Ul } from '../../src/primitives';
+import { components as SelectComponents } from '../../src';
+
 import Select from '../../src';
 
-import { Link } from '../components';
+import { Link, Note } from '../components';
 
-const createOptionForDate = date => {
-  const m = moment(date);
+const createOptionForDate = d => {
+  const date = moment.isMoment(d) ? d : moment(d);
   return {
-    value: date,
-    label: m.calendar(null, {
-      sameDay: '[Today] (Do MMM)',
-      nextDay: '[Tomorrow] (Do MMM)',
-      nextWeek: '[Next] dddd (Do MMM)',
-      lastDay: '[Yesterday] (Do MMM)',
-      lastWeek: '[Last] dddd (Do MMM)',
+    date,
+    value: date.toDate(),
+    label: date.calendar(null, {
+      sameDay: '[Today] (Do MMM YYYY)',
+      nextDay: '[Tomorrow] (Do MMM YYYY)',
+      nextWeek: '[Next] dddd (Do MMM YYYY)',
+      lastDay: '[Yesterday] (Do MMM YYYY)',
+      lastWeek: '[Last] dddd (Do MMM YYYY)',
       sameElse: 'Do MMMM YYYY',
     }),
   };
 };
 
-const last28 = [];
-for (let i = 2; i < 30; i++) {
-  last28.push(`${i} days ago`);
-}
-const defaultOptions = ['tomorrow', 'today', 'yesterday']
-  .concat(last28)
-  .map(i => createOptionForDate(chrono.parseDate(i)));
+const defaultOptions = ['today', 'tomorrow', 'yesterday'].map(i =>
+  createOptionForDate(chrono.parseDate(i))
+);
+
+const createCalendarOptions = (date = new Date()) => {
+  // $FlowFixMe
+  const daysInMonth = Array.apply(null, {
+    length: moment(date).daysInMonth(),
+  }).map((x, i) => {
+    const d = moment(date).date(i + 1);
+    return { ...createOptionForDate(d), display: 'calendar' };
+  });
+  return {
+    label: moment(date).format('MMMM YYYY'),
+    options: daysInMonth,
+  };
+};
+
+defaultOptions.push(createCalendarOptions());
+
+const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+const daysHeaderStyles = {
+  marginTop: '5px',
+  paddingTop: '5px',
+  paddingLeft: '2%',
+  borderTop: '1px solid #eee',
+};
+const daysHeaderItemStyles = {
+  color: '#999',
+  cursor: 'default',
+  display: 'block',
+  fontSize: '75%',
+  fontWeight: '500',
+  display: 'inline-block',
+  width: '12%',
+  margin: '0 1%',
+  textAlign: 'center',
+};
+const daysContainerStyles = {
+  paddingTop: '5px',
+  paddingLeft: '2%',
+};
+
+const Group = props => {
+  const { components, getStyles, children, label, ...cleanProps } = props;
+  const { Heading } = components;
+  return (
+    <Li aria-label={label} css={getStyles('group', props)} {...cleanProps}>
+      <Heading getStyles={getStyles}>{label}</Heading>
+      <Div css={daysHeaderStyles}>
+        {days.map((day, i) => (
+          <Span key={`${i}-${day}`} css={daysHeaderItemStyles}>
+            {day}
+          </Span>
+        ))}
+      </Div>
+      <Ul css={daysContainerStyles}>{children}</Ul>
+    </Li>
+  );
+};
+
+const getOptionStyles = defaultStyles => ({
+  ...defaultStyles,
+  display: 'inline-block',
+  width: '12%',
+  margin: '0 1%',
+  textAlign: 'center',
+  borderRadius: '4px',
+});
+
+const Option = props => {
+  const {
+    children,
+    data,
+    getStyles,
+    innerRef,
+    isDisabled,
+    isFocused,
+    isSelected,
+    ...cleanProps
+  } = props;
+  if (data.display === 'calendar') {
+    const defaultStyles = getStyles('option', props);
+    const styles = getOptionStyles(defaultStyles);
+    if (data.date.date() === 1) {
+      const indentBy = data.date.day();
+      if (indentBy) {
+        styles.marginLeft = `${indentBy * 14 + 1}%`;
+      }
+    }
+    return (
+      <Span {...cleanProps} css={styles} ref={innerRef}>
+        {data.date.format('D')}
+      </Span>
+    );
+  } else return <SelectComponents.Option {...props} />;
+};
 
 class DatePicker extends Component<*, *> {
   state = {
@@ -43,7 +138,7 @@ class DatePicker extends Component<*, *> {
     const date = chrono.parseDate(value);
     if (date) {
       this.setState({
-        options: [createOptionForDate(date)],
+        options: [createOptionForDate(date), createCalendarOptions(date)],
       });
     } else {
       this.setState({
@@ -57,10 +152,13 @@ class DatePicker extends Component<*, *> {
     return (
       <Select
         {...this.props}
+        components={{ Group, Option }}
         filterOption={null}
+        isMulti={false}
+        isOptionSelected={(o, v) => v.some(i => i.date.isSame(o.date, 'day'))}
+        maxMenuHeight={380}
         onChange={this.props.onChange}
         onInputChange={this.handleInputChange}
-        isMulti={false}
         options={options}
         value={value}
       />
@@ -70,7 +168,7 @@ class DatePicker extends Component<*, *> {
 
 export default class App extends Component<*, *> {
   state = {
-    value: defaultOptions[1],
+    value: defaultOptions[0],
   };
   handleChange = (value: any) => {
     this.setState({ value });
@@ -82,7 +180,7 @@ export default class App extends Component<*, *> {
       <div>
         <h1>Labs</h1>
         <p>
-          Don't try this at home... but if you do:{' '}
+          Wild experiments with react-select v2{' '}
           <Link
             href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Experimental.js"
             target="_blank"
@@ -96,6 +194,14 @@ export default class App extends Component<*, *> {
           <DatePicker autoFocus value={value} onChange={this.handleChange} />
         </div>
         <pre>Value: {displayValue}</pre>
+        <Note>
+          This example uses a combination of custom components and functions to
+          make react-select behave like a date picker.
+        </Note>
+        <Note>
+          Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks
+          from now" into the field to get date suggestions.
+        </Note>
       </div>
     );
   }
