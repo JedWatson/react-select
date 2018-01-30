@@ -107,7 +107,7 @@ describe('New Select', function() {
         cy.reload();
       });
       it(
-        'Should display several default values and can be cleared ' + view,
+        'Should display several default values that can be removed ' + view,
         function() {
           cy
             .get(selector.multiSelectDefaultValues)
@@ -118,7 +118,8 @@ describe('New Select', function() {
             });
 
           cy
-            .get(selector.removeBlue)
+            .get(selector.removeOption)
+            .first()
             .click()
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
