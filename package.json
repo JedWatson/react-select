@@ -79,7 +79,7 @@
     "test:jest": "jest --coverage",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
-    "precommit": "lint-staged"
+    "precommit": "flow check && lint-staged"
   },
   "files": [
     "dist",
