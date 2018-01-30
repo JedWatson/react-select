@@ -118,8 +118,7 @@ describe('New Select', function() {
             });
 
           cy
-            .get(selector.removeOption)
-            .first()
+            .get(selector.firstMultiValueRemove)
             .click()
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
