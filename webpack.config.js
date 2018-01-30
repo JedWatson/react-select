@@ -1,6 +1,7 @@
 // @flow
 
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -45,5 +46,6 @@ module.exports = {
       inject: false,
       template: path.resolve(__dirname, 'examples/index.html'),
     }),
+    new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
   ],
 };

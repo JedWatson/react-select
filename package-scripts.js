@@ -17,13 +17,7 @@ module.exports = {
       rollup: 'rollup --config',
       babel: 'babel src -d lib',
       watch: 'babel src -d lib -w',
-      examples: series(
-        rimraf('examples/dist'),
-        'webpack --progress -p',
-        'cp examples/favicon.ico examples/dist/favicon.ico',
-        'cp examples/index.css examples/dist/index.css',
-        "echo '/*    /index.html   200' >> examples/dist/_redirects"
-      ),
+      examples: series(rimraf('examples/dist'), 'webpack --progress -p'),
     },
     publish: {
       default: series(
