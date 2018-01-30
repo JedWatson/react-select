@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
 import Select from '../../src';
-import { Code, Link, Hr, Note } from '../components';
+import { Code, Link, H1, Hr, Note } from '../components';
 import { colourOptions, groupedOptions } from '../data';
 
 const SelectWithValue = withValue(Select);
@@ -19,7 +19,7 @@ export default class App extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>React Select v2</h1>
+        <H1>React Select v2</H1>
         <p>Currently in alpha. Try it out:</p>
         <p>
           <Code>yarn add react-select@next</Code>

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
 import AsyncSelect from '../../src/Async';
-import { Code, Link } from '../components';
+import { Code, Link, H1 } from '../components';
 import { colourOptions } from '../data';
 
 const SelectWithValue = withValue(AsyncSelect);
@@ -40,7 +40,7 @@ export default class App extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>Async Variant</h1>
+        <H1>Async Variant</H1>
         <p>
           {' '}
           Use the Async component to load options from a remote source as the
