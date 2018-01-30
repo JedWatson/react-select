@@ -3,12 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 import glam from 'glam';
 
-import {
-  formatOptionLabel,
-  getOptionLabel,
-  getOptionValue,
-  isOptionDisabled,
-} from './builtins';
+import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
 import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
 
 import {
@@ -43,6 +38,13 @@ const filterOption = (optionLabel: string, inputValue: string) => {
 />
 */
 
+type FormatOptionLabelContext = 'menu' | 'value';
+type FormatOptionLabelMeta = {
+  context: FormatOptionLabelContext,
+  inputValue: string,
+  selectValue: ValueType,
+};
+
 type Props = {
   /* HTML ID(s) of element(s) that should be used to describe this input (for assistive tech) */
   'aria-describedby'?: string,
@@ -63,7 +65,7 @@ type Props = {
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((string, string) => boolean) | null,
   /* Formats option labels in the menu and control as React components */
-  formatOptionLabel: (string, {}) => Node,
+  formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
   getOptionLabel: OptionType => string,
   /* Resolves option data to a string to compare options and specify value attributes */
@@ -112,7 +114,6 @@ const defaultProps = {
   components: {},
   escapeClearsValue: false,
   filterOption: filterOption,
-  formatOptionLabel: formatOptionLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
@@ -291,14 +292,17 @@ export default class Select extends Component<Props, State> {
     const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
     return { inputValue, menuOptions, focusedOption };
   }
-  formatOptionLabel(data: OptionType, context: string): Node {
-    const { inputValue, selectValue } = this.state;
-    const label = this.getOptionLabel(data);
-    return this.props.formatOptionLabel(label, {
-      context,
-      inputValue,
-      selectValue,
-    });
+  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+    if (typeof this.props.formatOptionLabel === 'function') {
+      const { inputValue, selectValue } = this.state;
+      return this.props.formatOptionLabel(data, {
+        context,
+        inputValue,
+        selectValue,
+      });
+    } else {
+      return this.getOptionLabel(data);
+    }
   }
   getOptionLabel(data: OptionType): string {
     return this.props.getOptionLabel(data);

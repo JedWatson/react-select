@@ -15,31 +15,9 @@ test('defaults', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
-test('formatters.optionLabel', () => {
-  function optionLabel({ label, value }) {
-    return `${label} ${value}`;
-  }
-  const tree = shallow(
-    <Select
-      formatters={{ optionLabel }}
-      options={[
-        { label: '1', value: 'one' },
-        { label: '2', value: 'two' },
-        { label: '3', value: 'three' },
-      ]}
-    />
-  );
-  tree.setState({ menuIsOpen: true });
-  const opts = tree.find(Option);
-  expect(opts).toHaveLength(3);
-  expect(opts.at(0).props().label).toBe('1 one');
-  expect(opts.at(1).props().label).toBe('2 two');
-  expect(opts.at(2).props().label).toBe('3 three');
-});
-
-test('formatters.valueLabel', () => {
-  function valueLabel({ label, value }) {
-    return `${label} ${value}`;
+test('formatOptionLabel', () => {
+  function formatOptionLabel({ label, value }, { context }) {
+    return `${label} ${value} ${context}`;
   }
   const opts = [
     { label: '1', value: 'one' },
@@ -47,8 +25,18 @@ test('formatters.valueLabel', () => {
     { label: '3', value: 'three' },
   ];
   const tree = shallow(
-    <Select formatters={{ valueLabel }} options={opts} value={opts[1]} />
+    <Select
+      formatOptionLabel={formatOptionLabel}
+      options={opts}
+      value={opts[1]}
+    />
   );
-  const sval = tree.find(SingleValue).at(0);
-  expect(sval.props().children).toBe('2 two');
+  const value = tree.find(SingleValue).at(0);
+  expect(value.props().children).toBe('2 two value');
+  tree.setState({ menuIsOpen: true });
+  const menu = tree.find(Option);
+  expect(menu).toHaveLength(3);
+  expect(menu.at(0).props().children).toBe('1 one menu');
+  expect(menu.at(1).props().children).toBe('2 two menu');
+  expect(menu.at(2).props().children).toBe('3 three menu');
 });
