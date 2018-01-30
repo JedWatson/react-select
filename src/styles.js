@@ -11,7 +11,12 @@ import { css as indicatorCSS } from './components/indicators';
 import { css as inputCSS } from './components/Input';
 import { css as placeholderCSS } from './components/Placeholder';
 import { css as optionCSS } from './components/Option';
-import { menuCSS, menulistCSS } from './components/Menu';
+import {
+  menuCSS,
+  menuListCSS,
+  menuNoticeNoOptionsCSS,
+  menuNoticeLoadingCSS,
+} from './components/Menu';
 import { css as singleValueCSS } from './components/SingleValue';
 import {
   multiValueCSS,
@@ -30,7 +35,9 @@ export type Styles = {
   indicatorsContainer?: Props => {},
   input?: Props => {},
   menu?: Props => {},
-  menulist?: Props => {},
+  menuList?: Props => {},
+  menuNoticeNoOptionsCSS?: Props => {},
+  menuNoticeLoadingCSS?: Props => {},
   multiValue?: Props => {},
   multiValueLabel?: Props => {},
   multiValueRemove?: Props => {},
@@ -51,7 +58,9 @@ export const defaultStyles: Styles = {
   indicatorsContainer: indicatorsContainerCSS,
   input: inputCSS,
   menu: menuCSS,
-  menulist: menulistCSS,
+  menuList: menuListCSS,
+  menuNoticeLoading: menuNoticeLoadingCSS,
+  menuNoticeNoOptions: menuNoticeNoOptionsCSS,
   multiValue: multiValueCSS,
   multiValueLabel: multiValueLabelCSS,
   multiValueRemove: multiValueRemoveCSS,

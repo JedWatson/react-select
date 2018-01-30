@@ -816,10 +816,10 @@ export default class Select extends Component<Props, State> {
     const {
       Group,
       GroupHeading,
-      LoadingMessage,
       Menu,
       MenuList,
-      NoOptionsMessage,
+      MenuNoticeLoading,
+      MenuNoticeNoOptions,
       Option,
     } = this.components;
     const { focusedOption, menuIsOpen, menuOptions } = this.state;
@@ -871,9 +871,9 @@ export default class Select extends Component<Props, State> {
         }
       });
     } else if (isLoading) {
-      menuUI = <LoadingMessage>Loading...</LoadingMessage>;
+      menuUI = <MenuNoticeLoading getStyles={this.getStyles} />;
     } else {
-      menuUI = <NoOptionsMessage>No options</NoOptionsMessage>;
+      menuUI = <MenuNoticeNoOptions getStyles={this.getStyles} />;
     }
 
     return (
