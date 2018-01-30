@@ -6,7 +6,7 @@ import {
   valueContainerCSS,
 } from './components/containers';
 import { css as controlCSS } from './components/Control';
-import { css as groupCSS } from './components/Group';
+import { groupCSS, groupHeadingCSS } from './components/Group';
 import { css as indicatorCSS } from './components/indicators';
 import { css as inputCSS } from './components/Input';
 import { css as placeholderCSS } from './components/Placeholder';
@@ -25,6 +25,7 @@ export type Styles = {
   container?: Props => {},
   control?: Props => {},
   group?: Props => {},
+  groupHeading?: Props => {},
   indicator?: Props => {},
   indicatorsContainer?: Props => {},
   input?: Props => {},
@@ -45,6 +46,7 @@ export const defaultStyles: Styles = {
   container: containerCSS,
   control: controlCSS,
   group: groupCSS,
+  groupHeading: groupHeadingCSS,
   indicator: indicatorCSS,
   indicatorsContainer: indicatorsContainerCSS,
   input: inputCSS,

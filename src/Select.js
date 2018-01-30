@@ -26,18 +26,6 @@ const filterOption = (optionLabel: string, inputValue: string) => {
   return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
 };
 
-/*
-// TODO: make sure these are implemented comprehensively
-
-<Select
-  filterOption={createOptionFilter()}
-  getOptionLabel={option => option.label}
-  getOptionValue={option => option.value}
-  optionIsDisabled={option => !!option.isDisabled}
-  optionIsSelected={(option, value) => value.some(i => option.value === i.value)}
-/>
-*/
-
 type FormatOptionLabelContext = 'menu' | 'value';
 type FormatOptionLabelMeta = {
   context: FormatOptionLabelContext,

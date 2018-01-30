@@ -14,7 +14,7 @@ type GroupProps = {
 };
 type Props = PropsWithStyles & GroupProps;
 
-export const css = () => paddingVertical(spacing.baseUnit * 2);
+export const groupCSS = () => paddingVertical(spacing.baseUnit * 2);
 
 const Group = (props: Props) => {
   const { components, getStyles, children, label, ...cleanProps } = props;
@@ -26,27 +26,32 @@ const Group = (props: Props) => {
       css={getStyles('group', props)}
       {...cleanProps}
     >
-      <Heading>{label}</Heading>
+      <Heading getStyles={getStyles}>{label}</Heading>
       <Ul>{children}</Ul>
     </Li>
   );
 };
 
-export const GroupHeading = (props: any) => (
-  <Strong
-    className={className('group-heading')}
-    css={{
-      color: '#999',
-      cursor: 'default',
-      display: 'block',
-      fontSize: '75%',
-      fontWeight: '500',
-      marginBottom: '0.25em',
-      ...paddingHorizontal(spacing.baseUnit * 3),
-      textTransform: 'uppercase',
-    }}
-    {...props}
-  />
-);
+export const groupHeadingCSS = () => ({
+  color: '#999',
+  cursor: 'default',
+  display: 'block',
+  fontSize: '75%',
+  fontWeight: '500',
+  marginBottom: '0.25em',
+  ...paddingHorizontal(spacing.baseUnit * 3),
+  textTransform: 'uppercase',
+});
+
+export const GroupHeading = (props: any) => {
+  const { getStyles, ...cleanProps } = props;
+  return (
+    <Strong
+      className={className('group-heading')}
+      css={getStyles('groupHeading', props)}
+      {...cleanProps}
+    />
+  );
+};
 
 export default Group;
