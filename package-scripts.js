@@ -21,7 +21,8 @@ module.exports = {
         rimraf('examples/dist'),
         'webpack --progress -p',
         'cp examples/favicon.ico examples/dist/favicon.ico',
-        'cp examples/index.css examples/dist/index.css'
+        'cp examples/index.css examples/dist/index.css',
+        "echo '/*    /index.html   200' >> examples/dist/_redirects"
       ),
     },
     publish: {
