@@ -38,6 +38,7 @@ const AppContainer = props => (
 const PageContent = props => (
   <div
     css={{
+      paddingBottom: contentGutter,
       paddingTop: contentGutter,
 
       [smallDevice]: {
