@@ -13,7 +13,7 @@ import {
 import Control from './Control';
 import Group, { GroupHeading } from './Group';
 import Input from './Input';
-import Menu, { MenuList, MenuNoticeNoOptions, MenuNoticeLoading } from './Menu';
+import Menu, { MenuList, NoOptionsMessage, LoadingMessage } from './Menu';
 import MultiValue, {
   MultiValueContainer,
   MultiValueLabel,
@@ -34,8 +34,8 @@ export type SelectComponents = {
   LoadingIndicator: typeof LoadingIndicator,
   Menu: typeof Menu,
   MenuList: typeof MenuList,
-  MenuNoticeLoading: typeof MenuNoticeLoading,
-  MenuNoticeNoOptions: typeof MenuNoticeNoOptions,
+  LoadingMessage: typeof LoadingMessage,
+  NoOptionsMessage: typeof NoOptionsMessage,
   MultiValue: typeof MultiValue,
   MultiValueContainer: typeof MultiValueContainer,
   MultiValueLabel: typeof MultiValueLabel,
@@ -60,8 +60,8 @@ export const components: SelectComponents = {
   LoadingIndicator: LoadingIndicator,
   Menu: Menu,
   MenuList: MenuList,
-  MenuNoticeLoading: MenuNoticeLoading,
-  MenuNoticeNoOptions: MenuNoticeNoOptions,
+  LoadingMessage: LoadingMessage,
+  NoOptionsMessage: NoOptionsMessage,
   MultiValue: MultiValue,
   MultiValueContainer: MultiValueContainer,
   MultiValueLabel: MultiValueLabel,

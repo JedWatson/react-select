@@ -69,37 +69,37 @@ const noticeCSS = () => ({
   ...paddingVertical(spacing.baseUnit * 2),
   textAlign: 'center',
 });
-export const menuNoticeNoOptionsCSS = noticeCSS;
-export const menuNoticeLoadingCSS = noticeCSS;
+export const noOptionsMessageCSS = noticeCSS;
+export const loadingMessageCSS = noticeCSS;
 
 type NoticeProps = PropsWithStyles & {
   children: Node,
 };
 
-export const MenuNoticeNoOptions = (props: NoticeProps) => {
+export const NoOptionsMessage = (props: NoticeProps) => {
   const { getStyles, ...cleanProps } = props;
   return (
     <Div
       className={className('menu-notice menu-notice--no-options')}
-      css={getStyles('menuNoticeNoOptions', props)}
+      css={getStyles('noOptionsMessage', props)}
       {...cleanProps}
     />
   );
 };
-MenuNoticeNoOptions.defaultProps = {
+NoOptionsMessage.defaultProps = {
   children: 'No options',
 };
 
-export const MenuNoticeLoading = (props: NoticeProps) => {
+export const LoadingMessage = (props: NoticeProps) => {
   const { getStyles, ...cleanProps } = props;
   return (
     <Div
       className={className('menu-notice menu-notice--loading')}
-      css={getStyles('menuNoticeLoading', props)}
+      css={getStyles('loadingMessage', props)}
       {...cleanProps}
     />
   );
 };
-MenuNoticeLoading.defaultProps = {
+LoadingMessage.defaultProps = {
   children: 'Loading...',
 };
