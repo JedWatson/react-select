@@ -47,6 +47,42 @@ const createCalendarOptions = (date = new Date()) => {
 
 defaultOptions.push(createCalendarOptions());
 
+const suggestions = [
+  'sunday',
+  'saturday',
+  'friday',
+  'thursday',
+  'wednesday',
+  'tuesday',
+  'monday',
+  'december',
+  'november',
+  'october',
+  'september',
+  'august',
+  'july',
+  'june',
+  'may',
+  'april',
+  'march',
+  'february',
+  'january',
+  'yesterday',
+  'tomorrow',
+  'today',
+].reduce((acc, str) => {
+  for (let i = 1; i < str.length; i++) {
+    acc[str.substr(0, i)] = str;
+  }
+  return acc;
+}, {});
+
+const suggest = str =>
+  str
+    .split(/\b/)
+    .map(i => suggestions[i] || i)
+    .join('');
+
 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
 const daysHeaderStyles = {
@@ -135,7 +171,7 @@ class DatePicker extends Component<*, *> {
       this.setState({ options: defaultOptions });
       return;
     }
-    const date = chrono.parseDate(value);
+    const date = chrono.parseDate(suggest(value.toLowerCase()));
     if (date) {
       this.setState({
         options: [createOptionForDate(date), createCalendarOptions(date)],
