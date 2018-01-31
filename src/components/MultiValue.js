@@ -14,8 +14,10 @@ export type ValueProps = {
   data: any,
   isDisabled: boolean,
   label: string,
-  onRemoveClick: any => void,
-  onRemoveMouseDown: any => void,
+  removeProps: {
+    onClick: any => void,
+    onMouseDown: any => void,
+  },
 };
 type Props = PropsWithStyles & ValueProps;
 
@@ -56,8 +58,7 @@ const MultiValue = (props: Props) => {
     getStyles,
     isDisabled,
     label,
-    onRemoveClick,
-    onRemoveMouseDown,
+    removeProps,
     ...cleanProps
   } = props;
   const cn = {
@@ -77,12 +78,7 @@ const MultiValue = (props: Props) => {
       <Label className={cn.label} css={css.label}>
         {children}
       </Label>
-      <Remove
-        className={cn.remove}
-        css={css.remove}
-        onClick={onRemoveClick}
-        onMouseDown={onRemoveMouseDown}
-      >
+      <Remove className={cn.remove} css={css.remove} {...removeProps}>
         <CrossIcon size={14} />
       </Remove>
     </Container>

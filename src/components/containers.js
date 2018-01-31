@@ -1,32 +1,36 @@
 // @flow
-import React, { Component } from 'react';
+import React, { type Node, Component } from 'react';
 
 import { className } from '../utils';
 import { Div } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { spacing } from '../theme';
-import { type PropsWithStyles } from '../types';
+import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 
 // ==============================
 // Root Container
 // ==============================
 
-type ContainerProps = PropsWithStyles & {
-  isDisabled: boolean,
-  onKeyDown: (SyntheticKeyboardEvent<HTMLElement>) => void,
-};
-export const containerCSS = ({ isDisabled }: { isDisabled: boolean }) => ({
+type ContainerState = { isDisabled: boolean };
+type ContainerProps = PropsWithStyles &
+  ContainerState & {
+    children: Node,
+    innerProps: { onKeyDown: KeyboardEventHandler },
+  };
+export const containerCSS = ({ isDisabled }: ContainerState) => ({
   pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { getStyles, isDisabled, ...cleanProps } = props;
+  const { children, getStyles, isDisabled, innerProps } = props;
   return (
     <Div
       css={getStyles('container', props)}
       className={className('container', { isDisabled })}
-      {...cleanProps}
-    />
+      {...innerProps}
+    >
+      {children}
+    </Div>
   );
 };
 

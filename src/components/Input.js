@@ -12,20 +12,21 @@ import type { PropsWithInnerRef, PropsWithStyles } from '../types';
 type Props = PropsWithStyles & PropsWithInnerRef & { isHidden: boolean };
 
 export const css = () => marginHorizontal(spacing.baseUnit / 2);
+const inputStyle = isHidden => ({
+  background: 0,
+  border: 0,
+  fontSize: 'inherit',
+  opacity: isHidden ? 0 : 1,
+  outline: 0,
+  padding: 0,
+});
 
 const Input = ({ getStyles, innerRef, isHidden, ...props }: Props) => (
   <Div css={getStyles('input', props)}>
     <AutosizeInput
       className={className('input')}
       inputRef={innerRef}
-      inputStyle={{
-        background: 0,
-        border: 0,
-        padding: 0,
-        fontSize: 'inherit',
-        outline: 0,
-        opacity: isHidden ? 0 : 1,
-      }}
+      inputStyle={inputStyle(isHidden)}
       {...props}
     />
   </Div>

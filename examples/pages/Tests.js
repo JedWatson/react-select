@@ -28,12 +28,6 @@ export default class Tests extends Component<*, State> {
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
             options={colourOptions}
-            onFocus={() => {
-              console.log('Select Focused');
-            }}
-            onBlur={() => {
-              console.log('Select Blurred');
-            }}
           />
         </div>
         <Note Tag="label">
