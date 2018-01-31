@@ -17,8 +17,10 @@ import { defaultStyles, type StylesConfig } from './styles';
 import type {
   ActionMeta,
   FocusDirection,
-  OptionType,
+  FocusEventHandler,
+  KeyboardEventHandler,
   OptionsType,
+  OptionType,
   ValueType,
 } from './types';
 
@@ -79,15 +81,15 @@ type Props = {
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
   /* Handle blur events on the control */
-  onBlur?: (SyntheticFocusEvent<HTMLElement>) => void,
+  onBlur?: FocusEventHandler,
   /* Handle change events on the select */
   onChange?: (ValueType, ActionMeta) => void,
   /* Handle focus events on the control */
-  onFocus?: (SyntheticFocusEvent<HTMLElement>) => void,
+  onFocus?: FocusEventHandler,
   /* Handle change events on the input; return a string to modify the value */
   onInputChange?: string => string | void,
   /* Handle key down events on the select */
-  onKeyDown?: (SyntheticKeyboardEvent<HTMLElement>) => void,
+  onKeyDown?: KeyboardEventHandler,
   /* Array of options that populate the select menu */
   options: OptionsType,
   /* Placeholder text for the select value */
@@ -226,25 +228,36 @@ export default class Select extends Component<Props, State> {
     const focusable = [];
 
     const toOption = (option, i) => {
+      const isDisabled = this.isOptionDisabled(option);
       const isSelected = this.isOptionSelected(option, selectValue);
+      const id = `${this.getElementId('option')}-${this.getOptionValue(
+        option
+      )}`;
 
       if (isMulti && hideSelectedOptions && isSelected) return;
       if (!this.filterOption(this.getOptionLabel(option), inputValue)) return;
 
-      const isDisabled = this.isOptionDisabled(option);
       if (!isDisabled) {
         focusable.push(option);
       }
 
       return {
-        type: 'option',
-        label: this.getOptionLabel(option),
-        key: `${i}-${this.getOptionValue(option)}`,
+        innerProps: {
+          'aria-selected': isSelected,
+          id,
+          onClick: isDisabled ? undefined : () => this.selectValue(option),
+          onMouseOver: isDisabled
+            ? undefined
+            : () => this.onOptionHover(option),
+          role: 'option',
+          tabIndex: -1,
+        },
+        data: option,
         isDisabled,
         isSelected,
-        onMouseOver: isDisabled ? undefined : () => this.onOptionHover(option),
-        onClick: isDisabled ? undefined : () => this.selectValue(option),
-        data: option,
+        key: `${i}-${this.getOptionValue(option)}`,
+        label: this.getOptionLabel(option),
+        type: 'option',
       };
     };
 
@@ -354,9 +367,9 @@ export default class Select extends Component<Props, State> {
 
     this.scrollToFocusedOptionOnUpdate = true;
     this.setState({
-      menuIsOpen: true,
       focusedOption: menuOptions.focusable[openAtIndex],
       inputIsHidden: false,
+      menuIsOpen: true,
     });
   }
   focusOption(direction: FocusDirection = 'first') {
@@ -612,10 +625,8 @@ export default class Select extends Component<Props, State> {
   onFocusedOptionRef = (ref: ?HTMLElement) => {
     this.focusedOptionRef = ref;
   };
-  onOptionHover = (data: OptionType) => {
-    this.setState({
-      focusedOption: data,
-    });
+  onOptionHover = (focusedOption: OptionType) => {
+    this.setState({ focusedOption });
   };
   onDropdownIndicatorMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
     // ignore mouse events that weren't triggered by the primary button
@@ -742,10 +753,12 @@ export default class Select extends Component<Props, State> {
           getStyles={this.getStyles}
           isDisabled={isDisabled}
           key={this.getOptionValue(opt)}
-          onRemoveClick={() => this.removeValue(opt)}
-          onRemoveMouseDown={e => {
-            e.preventDefault();
-            e.stopPropagation();
+          removeProps={{
+            onClick: () => this.removeValue(opt),
+            onMouseDown: e => {
+              e.preventDefault();
+              e.stopPropagation();
+            },
           }}
           data={opt}
         >
@@ -831,20 +844,21 @@ export default class Select extends Component<Props, State> {
 
     // TODO: Internal Option Type here
     const render = (option: OptionType) => {
-      const id = `${this.getElementId('option')}-${this.getOptionValue(
-        option.data
-      )}`;
+      const { innerProps, ...cleanProps } = option;
+
+      // isFocused must be assessed after `buildMenuOptions`
       const isFocused = focusedOption === option.data;
+      const updatedProps = {
+        ...innerProps,
+        innerRef: isFocused ? this.onFocusedOptionRef : undefined,
+      };
+
       return (
         <Option
-          {...option}
-          aria-selected={option.isSelected}
-          getStyles={this.getStyles}
-          id={id}
-          innerRef={isFocused ? this.onFocusedOptionRef : undefined}
+          {...cleanProps}
+          innerProps={updatedProps}
           isFocused={isFocused}
-          role="option"
-          tabIndex="-1"
+          getStyles={this.getStyles}
         >
           {this.formatOptionLabel(option.data, 'menu')}
         </Option>
@@ -857,11 +871,18 @@ export default class Select extends Component<Props, State> {
       menuUI = menuOptions.render.map(item => {
         if (item.type === 'group') {
           const { children, type, ...group } = item;
+
+          // TODO implement getGroupLabel method
+          const label = (group: any).label;
+
           return (
             <Group
-              aria-expanded="true"
-              role="group"
-              components={{ Heading: GroupHeading }}
+              innerProps={{
+                'aria-expanded': true,
+                'aria-label': label,
+                role: 'group',
+              }}
+              Heading={GroupHeading}
               getStyles={this.getStyles}
               {...group}
             >
@@ -881,14 +902,15 @@ export default class Select extends Component<Props, State> {
     return (
       <Menu onMouseDown={this.onMenuMouseDown} getStyles={this.getStyles}>
         <MenuList
-          aria-multiselectable={isMulti}
           getStyles={this.getStyles}
-          id={this.getElementId('listbox')}
-          innerRef={this.onMenuRef}
+          innerProps={{
+            'aria-multiselectable': isMulti,
+            id: this.getElementId('listbox'),
+            innerRef: this.onMenuRef,
+            role: 'listbox',
+          }}
           isMulti={isMulti}
           maxHeight={maxMenuHeight}
-          role="listbox"
-          tabIndex="-1"
         >
           {menuUI}
         </MenuList>
@@ -911,15 +933,19 @@ export default class Select extends Component<Props, State> {
       <SelectContainer
         isDisabled={isDisabled}
         getStyles={this.getStyles}
-        onKeyDown={this.onKeyDown}
+        innerProps={{
+          onKeyDown: this.onKeyDown,
+        }}
       >
         {this.renderScreenReaderStatus()}
         <Control
           getStyles={this.getStyles}
           isDisabled={isDisabled}
           isFocused={isFocused}
-          onMouseDown={this.onControlMouseDown}
-          innerRef={this.onControlRef}
+          innerProps={{
+            onMouseDown: this.onControlMouseDown,
+            innerRef: this.onControlRef,
+          }}
         >
           <ValueContainer
             isMulti={isMulti}

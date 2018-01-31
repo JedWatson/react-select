@@ -5,7 +5,7 @@ import { className } from '../utils';
 import { Div, Ul } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import { marginVertical, paddingHorizontal, paddingVertical } from '../mixins';
-import { type PropsWithStyles } from '../types';
+import { type PropsWithStyles, type InnerRef } from '../types';
 
 // ==============================
 // Menu
@@ -36,26 +36,37 @@ export default Menu;
 // Menu List
 // ==============================
 
-type MenuListProps = {
-  id: string,
+type MenuListState = {
   isMulti: boolean,
   maxHeight: number,
 };
-type Props = PropsWithStyles & MenuListProps;
-export const menuListCSS = ({ maxHeight }: MenuListProps) => ({
+
+type MenuListProps = {
+  children: Node,
+  innerProps: {
+    'aria-multiselectable': boolean,
+    id: string,
+    innerRef: InnerRef,
+    role: 'listbox',
+  },
+};
+type Props = PropsWithStyles & MenuListProps & MenuListState;
+export const menuListCSS = ({ maxHeight }: MenuListState) => ({
   maxHeight,
   overflowY: 'auto',
   ...paddingVertical(spacing.baseUnit),
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
 });
 export const MenuList = (props: Props) => {
-  const { getStyles, isMulti, maxHeight, ...cleanProps } = props;
+  const { children, getStyles, isMulti, innerProps } = props;
   return (
     <Ul
       className={className('menu-list', { isMulti })}
       css={getStyles('menuList', props)}
-      {...cleanProps}
-    />
+      {...innerProps}
+    >
+      {children}
+    </Ul>
   );
 };
 
