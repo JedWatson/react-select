@@ -18,7 +18,7 @@ const changes = [
   },
   {
     icon: '🤖',
-    text: 'Simpler and more extensible; fewer properties',
+    text: 'Simpler and more extensible; fewer props',
   },
   { icon: '⚡️', text: 'Attention to performance' },
 ];
@@ -64,7 +64,7 @@ export default class Home extends Component<*, State> {
             href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Home.js"
             target="_blank"
           >
-            divs Source
+            Examples Source
           </Link>
         </p>
 
