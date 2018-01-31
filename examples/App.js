@@ -86,7 +86,7 @@ const Nav = props => (
         position: 'fixed',
         top: 0,
         width: '100%',
-        '-webkit-overflow-scrolling': 'touch',
+        WebkitOverflowScrolling: 'touch',
       },
 
       [largeDevice]: {
