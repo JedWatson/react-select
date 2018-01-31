@@ -3,6 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 import glam from 'glam';
 
+import { createFilter } from './filters';
 import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
 import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
 
@@ -23,10 +24,6 @@ import type {
   OptionType,
   ValueType,
 } from './types';
-
-const filterOption = (optionLabel: string, inputValue: string) => {
-  return optionLabel.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
-};
 
 type FormatOptionLabelContext = 'menu' | 'value';
 type FormatOptionLabelMeta = {
@@ -55,7 +52,7 @@ type Props = {
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
-  filterOption: ((string, string) => boolean) | null,
+  filterOption: ((Object, string) => boolean) | null,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
@@ -111,7 +108,7 @@ const defaultProps = {
   closeMenuOnSelect: true,
   components: {},
   escapeClearsValue: false,
-  filterOption: filterOption,
+  filterOption: createFilter(),
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
@@ -231,15 +228,18 @@ export default class Select extends Component<Props, State> {
     const render = [];
     const focusable = [];
 
-    const toOption = (option, i) => {
+    const toOption = option => {
       const isDisabled = this.isOptionDisabled(option);
       const isSelected = this.isOptionSelected(option, selectValue);
-      const id = `${this.getElementId('option')}-${this.getOptionValue(
-        option
-      )}`;
+      const label = this.getOptionLabel(option);
+      const value = this.getOptionValue(option);
 
-      if (isMulti && hideSelectedOptions && isSelected) return;
-      if (!this.filterOption(this.getOptionLabel(option), inputValue)) return;
+      if (
+        (isMulti && hideSelectedOptions && isSelected) ||
+        !this.filterOption({ label, value, data: option }, inputValue)
+      ) {
+        return;
+      }
 
       if (!isDisabled) {
         focusable.push(option);
@@ -248,7 +248,6 @@ export default class Select extends Component<Props, State> {
       return {
         innerProps: {
           'aria-selected': isSelected,
-          id,
           onClick: isDisabled ? undefined : () => this.selectValue(option),
           onMouseOver: isDisabled
             ? undefined
@@ -259,9 +258,10 @@ export default class Select extends Component<Props, State> {
         data: option,
         isDisabled,
         isSelected,
-        key: `${i}-${this.getOptionValue(option)}`,
-        label: this.getOptionLabel(option),
+        key: `option-${value}`,
+        label,
         type: 'option',
+        value,
       };
     };
 
@@ -282,15 +282,15 @@ export default class Select extends Component<Props, State> {
           });
         }
       } else {
-        const option = toOption(item, itemIndex);
+        const option = toOption(item);
         if (option) render.push(option);
       }
     });
     return { render, focusable };
   }
-  filterOption(optionLabel: string, inputValue: string) {
+  filterOption(option: {}, inputValue: string) {
     return this.props.filterOption
-      ? this.props.filterOption(optionLabel, inputValue)
+      ? this.props.filterOption(option, inputValue)
       : true;
   }
   buildStateForInputValue(newValue: string = '') {
