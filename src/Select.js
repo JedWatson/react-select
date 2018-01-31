@@ -563,7 +563,7 @@ export default class Select extends Component<Props, State> {
     this.input = input;
 
     // cache the input height to use when the select is disabled
-    if (input && !this.inputHeight) {
+    if (input) {
       this.inputHeight = input.clientHeight;
     }
   };
