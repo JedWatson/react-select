@@ -18,19 +18,26 @@ import {
 
 const borderColor = 'hsl(0, 0%, 88%)';
 const navWidth = 180;
+const appWidth = 640;
 const appGutter = 20;
 const contentGutter = 30;
+const pagePadding = 260;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
 const AppContainer = props => (
   <div
     css={{
+      boxSizing: 'border-box',
       marginLeft: 'auto',
       marginRight: 'auto',
-      maxWidth: 640,
+      maxWidth: appWidth + navWidth / 2,
       minHeight: '100vh',
-      padding: `0 ${appGutter}px`,
+      padding: `0 ${appGutter}px ${pagePadding}px`,
+
+      [smallDevice]: {
+        maxWidth: appWidth,
+      },
     }}
     {...props}
   />
@@ -40,6 +47,7 @@ const PageContent = props => (
     css={{
       paddingBottom: contentGutter,
       paddingTop: contentGutter,
+      paddingRight: navWidth / 2,
 
       [smallDevice]: {
         paddingTop: contentGutter * 2,

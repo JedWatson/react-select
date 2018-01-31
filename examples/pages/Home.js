@@ -67,13 +67,13 @@ export default class Home extends Component<*, State> {
             href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Home.js"
             target="_blank"
           >
-            Examples Source
+            divs Source
           </Link>
         </p>
 
         <h2 css={{ marginTop: '2em' }}>Basic Usage</h2>
         <h4>Single Select</h4>
-        <div id="cypress-single">
+        <div>
           <SelectWithValue
             autoFocus
             defaultValue={colourOptions[0]}
@@ -89,23 +89,15 @@ export default class Home extends Component<*, State> {
           />
         </div>
         <Note Tag="label">
-          <input
-            type="checkbox"
-            onChange={this.toggleDisabled}
-            id="cypress-single__disabled-checkbox"
-          />
+          <input type="checkbox" onChange={this.toggleDisabled} />
           Disabled
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <input
-            type="checkbox"
-            onChange={this.toggleLoading}
-            id="cypress-single__loading-checkbox"
-          />
+          <input type="checkbox" onChange={this.toggleLoading} />
           Loading
         </Note>
         <h4>Grouped</h4>
-        <div id="cypress-single-grouped">
+        <div>
           <SelectWithValue
             defaultValue={colourOptions[1]}
             options={groupedOptions}
@@ -113,7 +105,7 @@ export default class Home extends Component<*, State> {
         </div>
         <Hr />
         <h4>Multi Select</h4>
-        <div id="cypress-multi">
+        <div>
           <SelectWithValue
             defaultValue={[colourOptions[2], colourOptions[3]]}
             isMulti

@@ -7,6 +7,10 @@ import React from 'react';
 const fontFamilyFixed =
   'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
 
+export const Example = (props: {}) => (
+  <div css={{ paddingRight: '100px' }} {...props} />
+);
+
 export const Code = (props: {}) => (
   <code
     css={{
