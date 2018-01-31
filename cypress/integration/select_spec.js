@@ -4,9 +4,9 @@ const viewport = ['macbook-15'];
 
 describe('New Select', function() {
   before(function() {
-    cy.visit('http://localhost:8000');
+    cy.visit('http://localhost:8000/tests');
     cy.title().should('equal', 'React-Select');
-    cy.get('h1').should('contain', 'React Select v2');
+    cy.get('h1').should('contain', 'Test Page for Cypress');
   });
 
   describe('Single Select', function() {
@@ -118,8 +118,7 @@ describe('New Select', function() {
             });
 
           cy
-            .get(selector.removeOption)
-            .first()
+            .get(selector.firstMultiValueRemove)
             .click()
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {

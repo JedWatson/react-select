@@ -6,7 +6,15 @@ import glam from 'glam';
 import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
-import { Animated, Async, Experimental, Home, NoMatch, Styled } from './pages';
+import {
+  Animated,
+  Async,
+  Experimental,
+  Home,
+  NoMatch,
+  Styled,
+  Tests,
+} from './pages';
 
 const borderColor = 'hsl(0, 0%, 88%)';
 const navWidth = 180;
@@ -164,6 +172,7 @@ export default class App extends Component<*> {
                   <Route exact path="/async" component={Async} />
                   <Route exact path="/styled" component={Styled} />
                   <Route exact path="/experimental" component={Experimental} />
+                  <Route exact path="/tests" component={Tests} />
                   <Route component={NoMatch} />
                 </Switch>
               </PageContent>
