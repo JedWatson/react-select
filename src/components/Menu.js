@@ -1,11 +1,15 @@
 // @flow
-import React from 'react';
+import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { Div, Ul } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import { marginVertical, paddingHorizontal, paddingVertical } from '../mixins';
 import { type PropsWithStyles } from '../types';
+
+// ==============================
+// Menu
+// ==============================
 
 export const menuCSS = () => ({
   backgroundColor: colors.neutral0,
@@ -28,13 +32,17 @@ const Menu = ({ getStyles, ...props }: PropsWithStyles) => (
 
 export default Menu;
 
+// ==============================
+// Menu List
+// ==============================
+
 type MenuListProps = {
   id: string,
   isMulti: boolean,
   maxHeight: number,
 };
 type Props = PropsWithStyles & MenuListProps;
-export const menulistCSS = ({ maxHeight }: MenuListProps) => ({
+export const menuListCSS = ({ maxHeight }: MenuListProps) => ({
   maxHeight,
   overflowY: 'auto',
   ...paddingVertical(spacing.baseUnit),
@@ -45,34 +53,53 @@ export const MenuList = (props: Props) => {
   return (
     <Ul
       className={className('menu-list', { isMulti })}
-      css={getStyles('menulist', props)}
+      css={getStyles('menuList', props)}
       {...cleanProps}
     />
   );
 };
 
-export const NoOptionsMessage = (props: any) => (
-  <Div
-    className={className('menu-no-options-message')}
-    css={{
-      color: colors.neutral40,
-      ...paddingHorizontal(spacing.baseUnit * 3),
-      ...paddingVertical(spacing.baseUnit * 2),
-      textAlign: 'center',
-    }}
-    {...props}
-  />
-);
+// ==============================
+// Menu Notices
+// ==============================
 
-export const LoadingMessage = (props: any) => (
-  <Div
-    className={className('menu-loading-message')}
-    css={{
-      color: colors.neutral40,
-      ...paddingHorizontal(spacing.baseUnit * 3),
-      ...paddingVertical(spacing.baseUnit * 2),
-      textAlign: 'center',
-    }}
-    {...props}
-  />
-);
+const noticeCSS = () => ({
+  color: colors.neutral40,
+  ...paddingHorizontal(spacing.baseUnit * 3),
+  ...paddingVertical(spacing.baseUnit * 2),
+  textAlign: 'center',
+});
+export const noOptionsMessageCSS = noticeCSS;
+export const loadingMessageCSS = noticeCSS;
+
+type NoticeProps = PropsWithStyles & {
+  children: Node,
+};
+
+export const NoOptionsMessage = (props: NoticeProps) => {
+  const { getStyles, ...cleanProps } = props;
+  return (
+    <Div
+      className={className('menu-notice menu-notice--no-options')}
+      css={getStyles('noOptionsMessage', props)}
+      {...cleanProps}
+    />
+  );
+};
+NoOptionsMessage.defaultProps = {
+  children: 'No options',
+};
+
+export const LoadingMessage = (props: NoticeProps) => {
+  const { getStyles, ...cleanProps } = props;
+  return (
+    <Div
+      className={className('menu-notice menu-notice--loading')}
+      css={getStyles('loadingMessage', props)}
+      {...cleanProps}
+    />
+  );
+};
+LoadingMessage.defaultProps = {
+  children: 'Loading...',
+};
