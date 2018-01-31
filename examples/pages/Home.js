@@ -76,6 +76,7 @@ export default class Home extends Component<*, State> {
             defaultValue={colourOptions[0]}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
+            name="color"
             options={colourOptions}
             onFocus={() => {
               console.log('Select Focused');
@@ -106,6 +107,7 @@ export default class Home extends Component<*, State> {
           <SelectWithValue
             defaultValue={[colourOptions[2], colourOptions[3]]}
             isMulti
+            name="colors"
             options={colourOptions}
           />
         </div>

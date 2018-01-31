@@ -50,6 +50,8 @@ type Props = {
   closeMenuOnSelect: boolean,
   /* Custom components to use */
   components: SelectComponentsConfig,
+  /* Delimiter used to join multiple values into a single HTML Input value */
+  delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
@@ -80,6 +82,8 @@ type Props = {
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
+  /* Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -917,6 +921,37 @@ export default class Select extends Component<Props, State> {
       </Menu>
     );
   }
+  renderFormField() {
+    const { delimiter, isDisabled, isMulti, name } = this.props;
+    const { selectValue } = this.state;
+
+    if (!name || isDisabled) return;
+
+    if (isMulti) {
+      if (delimiter) {
+        const value = selectValue
+          .map(opt => this.getOptionValue(opt))
+          .join(delimiter);
+        return <input name={name} type="hidden" value={value} />;
+      } else {
+        return (
+          <div>
+            {selectValue.map((opt, i) => (
+              <input
+                key={`i-${i}`}
+                name={name}
+                type="hidden"
+                value={this.getOptionValue(opt)}
+              />
+            ))}
+          </div>
+        );
+      }
+    } else {
+      const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
+      return <input name={name} type="hidden" value={value} />;
+    }
+  }
   render() {
     const {
       Control,
@@ -963,6 +998,7 @@ export default class Select extends Component<Props, State> {
           </IndicatorsContainer>
         </Control>
         {this.renderMenu()}
+        {this.renderFormField()}
       </SelectContainer>
     );
   }
