@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:8000",
+  "baseUrl": "http://localhost:8000/tests",
   "screenshotOnHeadlessFailure": false,
   "videoRecording": false
 }

@@ -6,7 +6,7 @@ import { withValue } from 'react-value';
 import Select from '../../src';
 import * as Animated from '../../src/animated';
 
-import { Link } from '../components';
+import { Link, H1 } from '../components';
 import { colourOptions } from '../data';
 
 const SelectWithValue = withValue(Select);
@@ -15,7 +15,7 @@ export default class App extends Component<*> {
   render() {
     return (
       <div>
-        <h1>Animated Components</h1>
+        <H1>Animated Components</H1>
         <p>
           React-Select comes with Animated variants that wrap the built-in
           components.{' '}

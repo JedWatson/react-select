@@ -6,7 +6,7 @@ import { withValue } from 'react-value';
 import chroma from 'chroma-js';
 
 import Select from '../../src';
-import { Code, Link } from '../components';
+import { Code, Link, H1 } from '../components';
 import { colourOptions } from '../data';
 
 const dot = (color = '#ccc') => ({
@@ -81,7 +81,7 @@ export default class StyledApp extends Component<*, State> {
   render() {
     return (
       <div>
-        <h1>Custom Styles</h1>
+        <H1>Custom Styles</H1>
         <p>
           Style individual components with custom css using the{' '}
           <Code>styles</Code> prop.{' '}
