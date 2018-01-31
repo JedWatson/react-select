@@ -7,6 +7,11 @@ export type OptionType = {
 
 export type OptionsType = Array<OptionType>;
 
+export type MenuOptions = {
+  render: OptionsType,
+  focusable: OptionsType,
+};
+
 export type ValueType = OptionType | OptionsType | null | void;
 
 export type FocusEventHandler = (SyntheticFocusEvent<HTMLElement>) => void;
@@ -59,6 +64,7 @@ export type FocusDirection =
 export type OptionProps = PropsWithInnerRef & {
   data: any,
   id: number,
+  key: string,
   index: number,
   isDisabled: boolean,
   isFocused: boolean,
