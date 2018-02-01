@@ -6,7 +6,7 @@ import { withValue } from 'react-value';
 import chroma from 'chroma-js';
 
 import Select from '../../src';
-import { Code, Link, H1 } from '../components';
+import { Code, Link, H1, Section } from '../components';
 import { colourOptions } from '../data';
 
 const dot = (color = '#ccc') => ({
@@ -80,7 +80,7 @@ export default class StyledApp extends Component<*, State> {
   state = {};
   render() {
     return (
-      <div>
+      <Section id={this.props.id}>
         <H1>Custom Styles</H1>
         <p>
           Style individual components with custom css using the{' '}
@@ -93,11 +93,8 @@ export default class StyledApp extends Component<*, State> {
           </Link>
         </p>
 
-        <h2>Examples</h2>
-
         <h4>Single Select</h4>
         <SelectWithValue
-          autoFocus
           defaultValue={colourOptions[4]}
           label="Single select"
           options={colourOptions}
@@ -111,7 +108,7 @@ export default class StyledApp extends Component<*, State> {
           isMulti
           options={colourOptions}
         />
-      </div>
+      </Section>
     );
   }
 }

@@ -9,7 +9,7 @@ import { components as SelectComponents } from '../../src';
 
 import Select from '../../src';
 
-import { Link, Note, H1 } from '../components';
+import { Link, Note, H1, Section } from '../components';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);
@@ -213,7 +213,7 @@ export default class App extends Component<*, *> {
     const { value } = this.state;
     const displayValue = value && value.value ? value.value.toString() : 'null';
     return (
-      <div>
+      <Section id={this.props.id}>
         <H1>Experimental</H1>
         <p>
           Wild experiments with react-select v2{' '}
@@ -225,9 +225,9 @@ export default class App extends Component<*, *> {
           </Link>
         </p>
 
-        <h2>Date Picker</h2>
+        <h4>Date Picker</h4>
         <div>
-          <DatePicker autoFocus value={value} onChange={this.handleChange} />
+          <DatePicker value={value} onChange={this.handleChange} />
         </div>
         <pre>Value: {displayValue}</pre>
         <Note>
@@ -238,7 +238,7 @@ export default class App extends Component<*, *> {
           Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks
           from now" into the field to get date suggestions.
         </Note>
-      </div>
+      </Section>
     );
   }
 }

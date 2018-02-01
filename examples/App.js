@@ -4,24 +4,25 @@
 import './index.css';
 import glam from 'glam';
 import React, { Component } from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import ScrollLink from 'react-scrollchor';
 
 import {
   Animated,
   Async,
   Experimental,
-  Home,
+  Basic,
   NoMatch,
   Styled,
   Tests,
 } from './pages';
+import { Code, H1, Link } from './components';
 
 const borderColor = 'hsl(0, 0%, 88%)';
-const navWidth = 180;
 const appWidth = 640;
 const appGutter = 20;
-const contentGutter = 30;
-const pagePadding = 260;
+export const contentGutter = 30;
+const navWidth = 180;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
@@ -33,7 +34,7 @@ const AppContainer = props => (
       marginRight: 'auto',
       maxWidth: appWidth + navWidth / 2,
       minHeight: '100vh',
-      padding: `0 ${appGutter}px ${pagePadding}px`,
+      padding: `0 ${appGutter}px`,
 
       [smallDevice]: {
         maxWidth: appWidth,
@@ -45,9 +46,8 @@ const AppContainer = props => (
 const PageContent = props => (
   <div
     css={{
-      paddingBottom: contentGutter,
       paddingTop: contentGutter,
-      paddingRight: navWidth / 2,
+      paddingBottom: contentGutter * 2,
 
       [smallDevice]: {
         paddingTop: contentGutter * 2,
@@ -95,6 +95,7 @@ const Nav = props => (
         top: 0,
         width: '100%',
         WebkitOverflowScrolling: 'touch',
+        zIndex: 1,
       },
 
       [largeDevice]: {
@@ -110,7 +111,7 @@ const Nav = props => (
   />
 );
 const NavItem = ({ selected, ...props }) => (
-  <Link
+  <ScrollLink
     css={{
       color: selected ? 'hsl(0, 0%, 0%)' : 'hsl(0, 0%, 40%)',
       display: 'inline-block',
@@ -119,8 +120,11 @@ const NavItem = ({ selected, ...props }) => (
       textDecoration: 'none',
       whiteSpace: 'nowrap',
 
-      ':hover, :active': {
-        color: selected ? 'hsl(0, 0%, 10%)' : '#2684FF',
+      ':hover': {
+        color: selected ? 'black' : '#2684FF',
+      },
+      ':active': {
+        color: 'black',
       },
 
       [smallDevice]: {
@@ -145,13 +149,80 @@ const NavItem = ({ selected, ...props }) => (
     {...props}
   />
 );
-const links = [
-  { label: 'Home', value: '/' },
-  { label: 'Animation', value: '/animated' },
-  { label: 'Async Options', value: '/async' },
-  { label: 'Custom Styles', value: '/styled' },
-  { label: 'Experimental', value: '/experimental' },
+
+const changes = [
+  { icon: '🎨', text: 'CSS-in-JS with a complete styling API' },
+  {
+    icon: '🏗',
+    text: 'Replace any of the built-in rendering components',
+  },
+  {
+    icon: '🤖',
+    text: 'Simpler and more extensible; fewer properties',
+  },
+  { icon: '⚡️', text: 'Attention to detail and performance' },
 ];
+const List = ({ items }) => (
+  <ul style={{ listStyle: 'none', padding: 0 }}>
+    {items.map(({ icon, text }, j) => (
+      <li key={j} style={{ alignItems: 'center', display: 'flex ' }}>
+        <span style={{ marginRight: '0.5em' }}>{icon}</span>
+        <span style={{ fontSize: 14 }}>{text}</span>
+      </li>
+    ))}
+  </ul>
+);
+
+const Intro = () => (
+  <div>
+    <H1>
+      React Select v2{' '}
+      <small style={{ color: '#999', fontWeight: 500 }}>(alpha)</small>
+    </H1>
+    <h4>Areas of improvement on v1:</h4>
+    <List items={changes} />
+    <h4>Try it out:</h4>
+    <p>
+      <Code>yarn add react-select@next</Code>
+    </p>
+    <p style={{ color: '#999' }}>
+      <Link
+        href="https://github.com/JedWatson/react-select/tree/v2"
+        target="_blank"
+      >
+        GitHub Project
+      </Link>{' '}
+      &middot;{' '}
+      <Link
+        href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Basic.js"
+        target="_blank"
+      >
+        Examples Source
+      </Link>
+    </p>
+  </div>
+);
+
+function upcase(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+const pages = [
+  { label: 'Basic', id: 'basic', component: Basic },
+  { label: 'Animation', id: 'animated', component: Animated },
+  { label: 'Async Options', id: 'async', component: Async },
+  { label: 'Custom Styles', id: 'styled', component: Styled },
+  { label: 'Experimental', id: 'experimental', component: Experimental },
+];
+const OnePageScroller = () => (
+  <div>
+    <Intro />
+    {pages.map(l => {
+      const Page = l.component;
+      return <Page key={l.id} id={l.id} />;
+    })}
+  </div>
+);
 
 export default class App extends Component<*> {
   render() {
@@ -159,24 +230,42 @@ export default class App extends Component<*> {
       <BrowserRouter>
         <Route>
           <AppContainer>
-            <Route
-              render={({ location }) => (
-                <Nav>
-                  {links.map(l => {
-                    const selected = location.pathname === l.value;
-                    return (
-                      <NavItem key={l.value} selected={selected} to={l.value}>
-                        {l.label}
-                      </NavItem>
-                    );
-                  })}
-                </Nav>
-              )}
-            />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={({ location }) => (
+                  <Nav>
+                    {pages.map(l => {
+                      const selected = location.hash.substr(1) === l.id;
+                      return (
+                        <NavItem key={l.id} selected={selected} to={`#${l.id}`}>
+                          {l.label}
+                        </NavItem>
+                      );
+                    })}
+                  </Nav>
+                )}
+              />
+              <Route
+                render={({ location }) => {
+                  const page = upcase(location.pathname.substr(1));
+                  const href = `https://github.com/JedWatson/react-select/blob/v2/examples/pages/${page}.js`;
+                  return (
+                    <Nav>
+                      <Link href="/">Home</Link> &middot;{' '}
+                      <Link href={href} target="_blank">
+                        Source
+                      </Link>
+                    </Nav>
+                  );
+                }}
+              />
+            </Switch>
             <AppContent>
               <PageContent>
                 <Switch>
-                  <Route exact path="/" component={Home} />
+                  <Route exact path="/" component={OnePageScroller} />
                   <Route exact path="/animated" component={Animated} />
                   <Route exact path="/async" component={Async} />
                   <Route exact path="/styled" component={Styled} />

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
 import AsyncSelect from '../../src/Async';
-import { Code, Link, H1 } from '../components';
+import { Code, Link, H1, Section } from '../components';
 import { colourOptions } from '../data';
 
 const SelectWithValue = withValue(AsyncSelect);
@@ -39,7 +39,7 @@ export default class App extends Component<*, State> {
   };
   render() {
     return (
-      <div>
+      <Section id={this.props.id}>
         <H1>Async Variant</H1>
         <p>
           {' '}
@@ -56,11 +56,9 @@ export default class App extends Component<*, State> {
           <Code>{"import { Async } from 'react-select'"}</Code>
         </p>
 
-        <h2>Example</h2>
         <div>
           <pre>inputValue: "{this.state.inputValue}"</pre>
           <SelectWithValue
-            autoFocus
             cacheOptions
             loadOptions={loadOptions}
             defaultOptions
@@ -68,7 +66,7 @@ export default class App extends Component<*, State> {
           />
         </div>
         {/* <SelectWithValue autoFocus loadOptions={asyncOptions} /> */}
-      </div>
+      </Section>
     );
   }
 }

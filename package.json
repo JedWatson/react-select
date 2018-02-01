@@ -16,6 +16,7 @@
     "glam": "^5.0.1",
     "prop-types": "^15.6.0",
     "react-input-autosize": "^2.2.1",
+    "react-scrollchor": "^4.2.1",
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {

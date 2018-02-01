@@ -4,11 +4,27 @@
 import glam from 'glam';
 import React from 'react';
 
+import { contentGutter } from './App';
+
 const fontFamilyFixed =
   'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
 
 export const Example = (props: {}) => (
   <div css={{ paddingRight: '100px' }} {...props} />
+);
+
+export const Section = (props: { id: string }) => (
+  <section
+    css={
+      props.id
+        ? {
+            marginTop: contentGutter,
+            paddingTop: contentGutter,
+          }
+        : null
+    }
+    {...props}
+  />
 );
 
 export const Code = (props: {}) => (
@@ -66,4 +82,6 @@ export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
   />
 );
 
-export const H1 = (props: any) => <h1 css={{ marginTop: 0 }} {...props} />;
+export const H1 = (props: any) => (
+  <h1 css={{ fontSize: '2em', marginTop: 0 }} {...props} />
+);
