@@ -20,13 +20,13 @@ const changes = [
     icon: '🤖',
     text: 'Simpler and more extensible; fewer props',
   },
-  { icon: '⚡️', text: 'Attention to performance' },
+  { icon: '⚡️', text: 'Attention to detail and performance' },
 ];
 const List = ({ items }) => (
   <ul style={{ listStyle: 'none', padding: 0 }}>
     {items.map(({ icon, text }, j) => (
       <li key={j} style={{ alignItems: 'center', display: 'flex ' }}>
-        <span style={{ marginRight: '0.5em' }}>{icon}</span>
+        <span style={{ fontSize: 24, marginRight: '0.5em' }}>{icon}</span>
         <span style={{ fontSize: 14 }}>{text}</span>
       </li>
     ))}
