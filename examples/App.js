@@ -47,7 +47,7 @@ const PageContent = props => (
   <div
     css={{
       paddingTop: contentGutter,
-      paddingBottom: contentGutter * 2,
+      paddingBottom: 300,
 
       [smallDevice]: {
         paddingTop: contentGutter * 2,
@@ -166,7 +166,7 @@ const List = ({ items }) => (
   <ul style={{ listStyle: 'none', padding: 0 }}>
     {items.map(({ icon, text }, j) => (
       <li key={j} style={{ alignItems: 'center', display: 'flex ' }}>
-        <span style={{ marginRight: '0.5em' }}>{icon}</span>
+        <span style={{ fontSize: 24, marginRight: '0.5em' }}>{icon}</span>
         <span style={{ fontSize: 14 }}>{text}</span>
       </li>
     ))}
@@ -251,6 +251,7 @@ export default class App extends Component<*> {
                 render={({ location }) => {
                   const page = upcase(location.pathname.substr(1));
                   const href = `https://github.com/JedWatson/react-select/blob/v2/examples/pages/${page}.js`;
+
                   return (
                     <Nav>
                       <Link href="/">Home</Link> &middot;{' '}
