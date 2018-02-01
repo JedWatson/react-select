@@ -75,12 +75,16 @@ type Props = {
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
   isMulti: boolean,
+  /* Async: Text to display when loading options */
+  loadingMessage: ({ inputValue: string }) => string,
   /* Maximum height of the menu before scrolling */
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
+  /* Text to display when there are no options */
+  noOptionsMessage: ({ inputValue: string }) => string,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -95,6 +99,8 @@ type Props = {
   options: OptionsType,
   /* Placeholder text for the select value */
   placeholder: string,
+  /* Status to relay to screen readers */
+  screenReaderStatus: ({ count: number }) => string,
   /* Style modifier methods */
   styles: StylesConfig,
   /* Select the currently focused option when the user presses tab */
@@ -117,10 +123,14 @@ const defaultProps = {
   isLoading: false,
   isMulti: false,
   isOptionDisabled: isOptionDisabled,
+  loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   maxValueHeight: 100,
+  noOptionsMessage: () => 'No options',
   options: [],
   placeholder: 'Select...',
+  screenReaderStatus: ({ count }: { count: number }) =>
+    `${count} result${count !== 1 ? 's' : ''} available.`,
   styles: {},
   tabSelectsValue: true,
 };
@@ -674,9 +684,10 @@ export default class Select extends Component<Props, State> {
       : undefined;
   };
   renderScreenReaderStatus() {
+    const { screenReaderStatus } = this.props;
     return (
       <SROnly aria-atomic="true" aria-live="polite" role="status">
-        {this.countOptions()} results are available.
+        {screenReaderStatus({ count: this.countOptions() })}
       </SROnly>
     );
   }
@@ -685,7 +696,7 @@ export default class Select extends Component<Props, State> {
     const { Input } = this.components;
     const { inputIsHidden, inputValue, menuIsOpen } = this.state;
 
-    // maintain baseline alignment when the input is removed
+    // maintain baseline alignment when the input is removed for disabled state
     if (isDisabled) return <div style={{ height: this.inputHeight }} />;
 
     // aria attributes makes the JSX "noisy", separated for clarity
@@ -841,8 +852,14 @@ export default class Select extends Component<Props, State> {
       NoOptionsMessage,
       Option,
     } = this.components;
-    const { focusedOption, menuIsOpen, menuOptions } = this.state;
-    const { isLoading, isMulti, maxMenuHeight } = this.props;
+    const { inputValue, focusedOption, menuIsOpen, menuOptions } = this.state;
+    const {
+      isLoading,
+      isMulti,
+      maxMenuHeight,
+      loadingMessage,
+      noOptionsMessage,
+    } = this.props;
 
     if (!menuIsOpen) return null;
 
@@ -898,9 +915,17 @@ export default class Select extends Component<Props, State> {
         }
       });
     } else if (isLoading) {
-      menuUI = <LoadingMessage getStyles={this.getStyles} />;
+      menuUI = (
+        <LoadingMessage getStyles={this.getStyles}>
+          {loadingMessage({ inputValue })}
+        </LoadingMessage>
+      );
     } else {
-      menuUI = <NoOptionsMessage getStyles={this.getStyles} />;
+      menuUI = (
+        <NoOptionsMessage getStyles={this.getStyles}>
+          {noOptionsMessage({ inputValue })}
+        </NoOptionsMessage>
+      );
     }
 
     return (
