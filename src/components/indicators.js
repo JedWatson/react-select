@@ -88,7 +88,7 @@ export const DropdownIndicator = ({ children, ...props }: IndicatorProps) => (
   </Indicator>
 );
 DropdownIndicator.defaultProps = {
-  children: <DownChevron label="Toggle Menu" />,
+  children: <DownChevron />,
 };
 
 export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
@@ -97,7 +97,7 @@ export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
   </Indicator>
 );
 ClearIndicator.defaultProps = {
-  children: <CrossIcon label="Clear Value" />,
+  children: <CrossIcon />,
 };
 
 // ==============================
