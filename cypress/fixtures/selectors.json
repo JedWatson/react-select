@@ -1,5 +1,5 @@
 {
-  "clearValues": "[label='Clear Value']",
+  "clearValues": ".react-select__clear-indicator",
   "disabledCheckbox": "#cypress-single__disabled-checkbox",
   "groupColor": "[aria-label='Colours']",
   "menuGrouped": "#react-select-3--listbox",

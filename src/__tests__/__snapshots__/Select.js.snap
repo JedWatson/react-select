@@ -15,8 +15,7 @@ exports[`defaults 1`] = `
     aria-live="polite"
     role="status"
   >
-    0
-     results are available.
+    0 results available.
   </SROnly>
   <Control
     getStyles={[Function]}
@@ -74,9 +73,7 @@ exports[`defaults 1`] = `
         onMouseDown={[Function]}
         role="button"
       >
-        <DownChevron
-          label="Toggle Menu"
-        />
+        <DownChevron />
       </DropdownIndicator>
     </IndicatorsContainer>
   </Control>
