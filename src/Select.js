@@ -14,6 +14,7 @@ import {
 } from './components/index';
 import { SROnly } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
+import { ScrollLock } from './components/internal';
 
 import type {
   ActionMeta,
@@ -930,19 +931,31 @@ export default class Select extends Component<Props, State> {
 
     return (
       <Menu onMouseDown={this.onMenuMouseDown} getStyles={this.getStyles}>
-        <MenuList
-          getStyles={this.getStyles}
-          innerProps={{
-            'aria-multiselectable': isMulti,
-            id: this.getElementId('listbox'),
-            innerRef: this.onMenuRef,
-            role: 'listbox',
+        <ScrollLock>
+          {({ elementRef }) => {
+            // resolve refs for both Select and ScrollLock
+            const innerRef = ref => {
+              this.onMenuRef(ref);
+              elementRef(ref);
+            };
+
+            return (
+              <MenuList
+                getStyles={this.getStyles}
+                innerProps={{
+                  'aria-multiselectable': isMulti,
+                  id: this.getElementId('listbox'),
+                  innerRef,
+                  role: 'listbox',
+                }}
+                isMulti={isMulti}
+                maxHeight={maxMenuHeight}
+              >
+                {menuUI}
+              </MenuList>
+            );
           }}
-          isMulti={isMulti}
-          maxHeight={maxMenuHeight}
-        >
-          {menuUI}
-        </MenuList>
+        </ScrollLock>
       </Menu>
     );
   }
