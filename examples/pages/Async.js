@@ -1,5 +1,14 @@
 // @flow
 
+/*
+NOTE: this example includes an async/await variant, which is transformed by
+babel and requires babel-polyfill to be loaded. This adds 100k to the page
+weight, so it's commented out for production.
+
+If you are working on the Async component and want to test async/await make sure
+you also uncomment the <script> tag in ../index.html that loads the polyfill.
+*/
+
 import React, { Component } from 'react';
 import { withValue } from 'react-value';
 
@@ -12,8 +21,6 @@ type State = {
   inputValue: string,
 };
 
-// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 const filterColors = (inputValue: string) =>
   colourOptions.filter(i =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
@@ -25,10 +32,19 @@ const loadOptions = (inputValue, callback) => {
   }, 1000);
 };
 
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+//
 // const asyncOptions = async inputValue => {
 //   await delay(1000);
 //   return filterColors(inputValue);
 // };
+
+const promiseOptions = inputValue =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(filterColors(inputValue));
+    }, 1000);
+  });
 
 export default class App extends Component<*, State> {
   state = { inputValue: '' };
@@ -58,6 +74,7 @@ export default class App extends Component<*, State> {
 
         <h2>Example</h2>
         <div>
+          <h4>Using Callbacks</h4>
           <pre>inputValue: "{this.state.inputValue}"</pre>
           <SelectWithValue
             autoFocus
@@ -67,7 +84,22 @@ export default class App extends Component<*, State> {
             onInputChange={this.handleInputChange}
           />
         </div>
-        {/* <SelectWithValue autoFocus loadOptions={asyncOptions} /> */}
+        {/* <div>
+          <h4>Using Async / Await</h4>
+          <SelectWithValue
+            cacheOptions
+            defaultOptions
+            loadOptions={asyncOptions}
+          />
+        </div> */}
+        <div>
+          <h4>Using Promises</h4>
+          <SelectWithValue
+            cacheOptions
+            defaultOptions
+            loadOptions={promiseOptions}
+          />
+        </div>
       </div>
     );
   }

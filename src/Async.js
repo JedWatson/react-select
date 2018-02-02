@@ -7,7 +7,7 @@ import type { OptionsType } from './types';
 
 type Props = {
   defaultOptions: OptionsType | boolean,
-  loadOptions: (string, (any, OptionsType) => void) => void,
+  loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
   onInputChange?: string => void,
   cacheOptions: any,
 };
@@ -47,10 +47,10 @@ export default class Async extends Component<Props, State> {
     this.mounted = true;
     const { defaultOptions } = this.props;
     if (defaultOptions === true) {
-      this.props.loadOptions('', options => {
-        if (!this.mounted || !options) return;
+      this.loadOptions('', options => {
+        if (!this.mounted) return;
         const isLoading = !!this.lastRequest;
-        this.setState({ defaultOptions: options, isLoading });
+        this.setState({ defaultOptions: options || [], isLoading });
       });
     }
   }
@@ -62,6 +62,14 @@ export default class Async extends Component<Props, State> {
   }
   componentWillUnmount() {
     this.mounted = false;
+  }
+  loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    const { loadOptions } = this.props;
+    if (!loadOptions) return callback();
+    const loader = loadOptions(inputValue, callback);
+    if (loader && typeof loader.then === 'function') {
+      loader.then(callback, () => callback());
+    }
   }
   handleInputChange = (newValue: string) => {
     const { cacheOptions, onInputChange } = this.props;
@@ -94,15 +102,17 @@ export default class Async extends Component<Props, State> {
           passEmptyOptions: !this.state.loadedInputValue,
         },
         () => {
-          this.props.loadOptions(inputValue, options => {
-            if (!this.mounted || !options) return;
-            this.optionsCache[inputValue] = options;
+          this.loadOptions(inputValue, options => {
+            if (!this.mounted) return;
+            if (options) {
+              this.optionsCache[inputValue] = options;
+            }
             if (request !== this.lastRequest) return;
             delete this.lastRequest;
             this.setState({
               isLoading: false,
               loadedInputValue: inputValue,
-              loadedOptions: options,
+              loadedOptions: options || [],
               passEmptyOptions: false,
             });
           });
