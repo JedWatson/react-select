@@ -32,6 +32,7 @@ export default class App extends Component<*> {
         <div id="cypress-multi-animated">
           <SelectWithValue
             autoFocus
+            closeMenuOnSelect={false}
             components={Animated}
             defaultValue={[colourOptions[4], colourOptions[5]]}
             isMulti

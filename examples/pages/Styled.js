@@ -106,10 +106,11 @@ export default class StyledApp extends Component<*, State> {
 
         <h4>Multi Select</h4>
         <SelectWithValue
-          styles={colourStylesMulti}
+          closeMenuOnSelect={false}
           defaultValue={[colourOptions[2], colourOptions[3]]}
           isMulti
           options={colourOptions}
+          styles={colourStylesMulti}
         />
       </div>
     );
