@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",

@@ -1,5 +1,19 @@
 # React-Select
 
+## v2.0.0-alpha.2 / 2018-02-02
+
+Ongoing rewrite. Major changes since last alpha:
+
+* Added `getOptionValue`, `getOptionLabel` and `formatOptionLabel` props
+* Added `isOptionSelected` and `isOptionDisabled` props
+* Added `name` and `delimiter` props to support hidden html inputs for forms
+* Added `loadingMessage`, `noOptionsMessage` and `screenReaderStatus` props so messages can be customised
+* Customisable components are now passed `innerProps` for simpler implementation
+* Cleaned up internal Components and made sure they can all be styled
+* Implemented customisable filtering function with support for case and diacritics
+* Fixed various css bugs and vendor prefixing issues
+* Accessibility improvements
+
 ## v2.0.0-alpha.2 / 2018-01-25
 
 Ongoing rewrite. Major changes since last alpha:
