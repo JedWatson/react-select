@@ -159,6 +159,7 @@ const PAGE_SIZE = 5;
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
+  blockOptionHover: boolean = false;
   components: SelectComponents;
   controlRef: ElRef;
   focusedOptionRef: ?HTMLElement;
@@ -213,13 +214,16 @@ export default class Select extends Component<Props, State> {
       this.setState({ menuOptions, selectValue, focusedOption });
     }
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (
       this.menuRef &&
       this.focusedOptionRef &&
       this.scrollToFocusedOptionOnUpdate
     ) {
       scrollIntoView(this.menuRef, this.focusedOptionRef);
+    }
+    if (prevState.menuIsOpen !== this.state.menuIsOpen) {
+      this.blockOptionHover = false;
     }
     this.scrollToFocusedOptionOnUpdate = false;
   }
@@ -255,13 +259,14 @@ export default class Select extends Component<Props, State> {
         focusable.push(option);
       }
 
+      const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
+
       return {
         innerProps: {
           'aria-selected': isSelected,
           onClick: isDisabled ? undefined : () => this.selectValue(option),
-          onMouseOver: isDisabled
-            ? undefined
-            : () => this.onOptionHover(option),
+          onMouseMove: onHover,
+          onMouseOver: onHover,
           role: 'option',
           tabIndex: -1,
         },
@@ -386,7 +391,10 @@ export default class Select extends Component<Props, State> {
       menuIsOpen: true,
     });
   }
-  focusOption(direction: FocusDirection = 'first') {
+  focusOption(
+    direction: FocusDirection = 'first',
+    blockOptionHover: boolean = false
+  ) {
     const { focusedOption, menuOptions } = this.state;
     const options = menuOptions.focusable;
     if (!options.length) return;
@@ -404,6 +412,9 @@ export default class Select extends Component<Props, State> {
       if (nextFocus > options.length - 1) nextFocus = options.length - 1;
     } else if (direction === 'last') {
       nextFocus = options.length - 1;
+    }
+    if (blockOptionHover) {
+      this.blockOptionHover = true;
     }
     this.scrollToFocusedOptionOnUpdate = true;
     this.setState({
@@ -553,33 +564,33 @@ export default class Select extends Component<Props, State> {
         break;
       case 38: // up
         if (menuIsOpen) {
-          this.focusOption('up');
+          this.focusOption('up', true);
         } else {
           this.openMenu('last');
         }
         break;
       case 40: // down
         if (menuIsOpen) {
-          this.focusOption('down');
+          this.focusOption('down', true);
         } else {
           this.openMenu('first');
         }
         break;
       case 33: // page up
         if (!menuIsOpen) return;
-        this.focusOption('pageup');
+        this.focusOption('pageup', true);
         break;
       case 34: // page down
         if (!menuIsOpen) return;
-        this.focusOption('pagedown');
+        this.focusOption('pagedown', true);
         break;
       case 36: // home key
         if (!menuIsOpen) return;
-        this.focusOption('first');
+        this.focusOption('first', true);
         break;
       case 35: // end key
         if (!menuIsOpen) return;
-        this.focusOption('last');
+        this.focusOption('last', true);
         break;
       default:
         return;
@@ -636,10 +647,16 @@ export default class Select extends Component<Props, State> {
     event.preventDefault();
     this.focus();
   };
+  onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
+    this.blockOptionHover = false;
+  };
   onFocusedOptionRef = (ref: ?HTMLElement) => {
     this.focusedOptionRef = ref;
   };
   onOptionHover = (focusedOption: OptionType) => {
+    if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
+      return;
+    }
     this.setState({ focusedOption });
   };
   onDropdownIndicatorMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
