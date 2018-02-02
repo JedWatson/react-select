@@ -23,13 +23,16 @@ export type PropsWithStyles = {
   getStyles: (string, any) => {},
 };
 
+export type ActionTypes =
+  | 'select-option'
+  | 'deselect-option'
+  | 'remove-value'
+  | 'pop-value'
+  | 'set-value'
+  | 'clear';
+
 export type ActionMeta = {
-  action:
-    | 'select-option'
-    | 'remove-value'
-    | 'deselect-value'
-    | 'pop-value'
-    | 'clear',
+  action: ActionTypes,
 };
 
 export type FocusDirection =

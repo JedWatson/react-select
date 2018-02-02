@@ -17,6 +17,7 @@ import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
   ActionMeta,
+  ActionTypes,
   FocusDirection,
   FocusEventHandler,
   KeyboardEventHandler,
@@ -421,38 +422,36 @@ export default class Select extends Component<Props, State> {
       focusedOption: options[nextFocus],
     });
   }
-  selectValue = (newValue: OptionType) => {
+  setValue = (newValue: ValueType, action: ActionTypes = 'set-value') => {
     const { closeMenuOnSelect, isMulti, onChange } = this.props;
-    // We update the state here because we should clear inputValue when an
+    // We update the state first because we should clear inputValue when an
     // option is selected; the onChange event fires when that's reconciled
     // otherwise the new menu items will be filtered with the old inputValue
+    const newState: any = this.buildStateForInputValue();
+    if (closeMenuOnSelect) {
+      newState.menuIsOpen = false;
+      newState.inputIsHidden = isMulti ? false : true;
+    }
     this.setState(
-      closeMenuOnSelect
-        ? {
-            menuIsOpen: false,
-            inputIsHidden: isMulti ? false : true,
-            ...this.buildStateForInputValue(),
-          }
-        : this.buildStateForInputValue(),
-      () => {
-        if (onChange) {
-          if (isMulti) {
-            const { selectValue } = this.state;
-            if (this.isOptionSelected(newValue, selectValue)) {
-              onChange(selectValue.filter(i => i !== newValue), {
-                action: 'deselect-value',
-              });
-            } else {
-              onChange([...selectValue, newValue], {
-                action: 'select-option',
-              });
-            }
-          } else {
-            onChange(newValue, { action: 'select-option' });
-          }
-        }
-      }
+      newState,
+      onChange ? () => onChange(newValue, { action }) : undefined
     );
+  };
+  selectValue = (newValue: OptionType) => {
+    const { isMulti } = this.props;
+    if (isMulti) {
+      const { selectValue } = this.state;
+      if (this.isOptionSelected(newValue, selectValue)) {
+        this.setValue(
+          selectValue.filter(i => i !== newValue),
+          'deselect-option'
+        );
+      } else {
+        this.setValue([...selectValue, newValue], 'select-option');
+      }
+    } else {
+      this.setValue(newValue, 'select-option');
+    }
   };
   removeValue = (removedValue: OptionType) => {
     const { onChange } = this.props;
