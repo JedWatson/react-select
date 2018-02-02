@@ -929,7 +929,12 @@ export default class Select extends Component<Props, State> {
     }
 
     return (
-      <Menu onMouseDown={this.onMenuMouseDown} getStyles={this.getStyles}>
+      <Menu
+        getStyles={this.getStyles}
+        innerProps={{
+          onMouseDown: this.onMenuMouseDown,
+        }}
+      >
         <MenuList
           getStyles={this.getStyles}
           innerProps={{

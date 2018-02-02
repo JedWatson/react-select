@@ -11,6 +11,8 @@ import { type PropsWithStyles, type InnerRef } from '../types';
 // Menu
 // ==============================
 
+type MenuProps = PropsWithStyles & { children: Node, innerProps: Object };
+
 export const menuCSS = () => ({
   backgroundColor: colors.neutral0,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
@@ -22,13 +24,18 @@ export const menuCSS = () => ({
   zIndex: 1,
 });
 
-const Menu = ({ getStyles, ...props }: PropsWithStyles) => (
-  <Div
-    className={className('menu')}
-    css={getStyles('menu', props)}
-    {...props}
-  />
-);
+const Menu = (props: MenuProps) => {
+  const { children, getStyles, innerProps } = props;
+  return (
+    <Div
+      className={className('menu')}
+      css={getStyles('menu', props)}
+      {...innerProps}
+    >
+      {children}
+    </Div>
+  );
+};
 
 export default Menu;
 
