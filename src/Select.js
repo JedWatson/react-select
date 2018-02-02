@@ -50,6 +50,8 @@ type Props = {
   autoFocus?: boolean,
   /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
+  /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
+  captureMenuScroll: boolean,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /* Custom components to use */
@@ -120,6 +122,7 @@ type Props = {
 
 const defaultProps = {
   backspaceRemovesValue: true,
+  captureMenuScroll: true,
   closeMenuOnSelect: true,
   components: {},
   escapeClearsValue: false,
@@ -902,6 +905,7 @@ export default class Select extends Component<Props, State> {
     const { commonProps } = this;
     const { inputValue, focusedOption, menuIsOpen, menuOptions } = this.state;
     const {
+      captureMenuScroll,
       isLoading,
       isMulti,
       maxMenuHeight,
@@ -980,12 +984,12 @@ export default class Select extends Component<Props, State> {
         }}
         isLoading={isLoading}
       >
-        <ScrollLock>
-          {({ elementRef }) => {
+        <ScrollLock enabled={captureMenuScroll}>
+          {({ scrollableRef }) => {
             // resolve refs for both Select and ScrollLock
             const innerRef = ref => {
               this.onMenuRef(ref);
-              elementRef(ref);
+              scrollableRef(ref);
             };
 
             return (

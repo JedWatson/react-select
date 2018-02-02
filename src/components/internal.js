@@ -2,9 +2,9 @@
 import { Component } from 'react';
 
 // TODO
-// elementRef should be ElementRef<typeof HTMLElement> but can't get flow to behave
+// scrollableRef should be ElementRef<typeof HTMLElement> but can't get flow to behave
 type Props = {
-  children: ({ elementRef: HTMLElement => void }) => any,
+  children: ({ scrollableRef: HTMLElement => void }) => any,
   enabled: boolean,
 };
 
@@ -115,6 +115,6 @@ export class ScrollLock extends Component<Props> {
   };
 
   render() {
-    return this.props.children({ elementRef: this.setScrollingElement });
+    return this.props.children({ scrollableRef: this.setScrollingElement });
   }
 }
