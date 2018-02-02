@@ -98,7 +98,7 @@ export default class StyledApp extends Component<*, State> {
         <h4>Single Select</h4>
         <SelectWithValue
           autoFocus
-          defaultValue={colourOptions[4]}
+          defaultValue={colourOptions[2]}
           label="Single select"
           options={colourOptions}
           styles={colourStylesSingle}
@@ -107,7 +107,7 @@ export default class StyledApp extends Component<*, State> {
         <h4>Multi Select</h4>
         <SelectWithValue
           closeMenuOnSelect={false}
-          defaultValue={[colourOptions[2], colourOptions[3]]}
+          defaultValue={[colourOptions[0], colourOptions[1]]}
           isMulti
           options={colourOptions}
           styles={colourStylesMulti}
