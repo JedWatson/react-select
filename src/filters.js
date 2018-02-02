@@ -1,20 +1,32 @@
 // @flow
 
+type Config = {
+  ignoreCase?: boolean,
+  ignoreAccents?: boolean,
+  stringify?: Object => string,
+  trim?: boolean,
+  matchFrom?: 'any' | 'start',
+};
+
 import { stripDiacritics } from './diacritics';
 
-const trim = str => str.replace(/^\s+|\s+$/g, '');
+const trimString = str => str.replace(/^\s+|\s+$/g, '');
+const defaulStringify = option => `${option.label} ${option.value}`;
 
-export const createFilter = (
-  toString: Object => string = option => `${option.label} ${option.value}`,
-  ignoreCase: boolean = true,
-  ignoreAccents: boolean = true,
-  matchFrom: 'any' | 'start' = 'any'
-) => (
+export const createFilter = (config: ?Config) => (
   option: { label: string, value: string, data: any },
   rawInput: string
 ) => {
-  let input = trim(rawInput);
-  let candidate = trim(toString(option));
+  const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {
+    ignoreCase: true,
+    ignoreAccents: true,
+    stringify: defaulStringify,
+    trim: true,
+    matchFrom: 'any',
+    ...config,
+  };
+  let input = trim ? trimString(rawInput) : rawInput;
+  let candidate = trim ? trimString(stringify(option)) : stringify(option);
   if (ignoreCase) {
     input = input.toLowerCase();
     candidate = candidate.toLowerCase();

@@ -1013,11 +1013,11 @@ export default class Select extends Component<Props, State> {
 
     return (
       <SelectContainer
-        isDisabled={isDisabled}
         getStyles={this.getStyles}
         innerProps={{
           onKeyDown: this.onKeyDown,
         }}
+        isDisabled={isDisabled}
       >
         {this.renderScreenReaderStatus()}
         <Control
