@@ -42,6 +42,8 @@ type ValueContainerProps = PropsWithStyles & {
   isMulti: boolean,
   hasValue: boolean,
   maxHeight: number,
+  innerProps: any,
+  children: Node,
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   alignItems: 'baseline',
@@ -67,7 +69,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
     if (!this.props.isMulti) return;
 
     // ensure we're showing items being added by forcing scroll to the bottom
-    if (this.shouldScrollBottom) {
+    if (this.shouldScrollBottom && this.node) {
       this.node.scrollTop = this.node.scrollHeight;
     }
   }
@@ -75,21 +77,16 @@ export class ValueContainer extends Component<ValueContainerProps> {
     this.node = ref;
   };
   render() {
-    const {
-      isMulti,
-      getStyles,
-      hasValue,
-      maxHeight, // Unused var: invalid DOM attribute, React will warn if not removed
-      ...cleanProps
-    } = this.props;
+    const { children, isMulti, getStyles, hasValue } = this.props;
 
     return (
       <Div
         innerRef={isMulti ? this.getScrollContainer : null}
         className={className('value-container', { isMulti, hasValue })}
         css={getStyles('valueContainer', this.props)}
-        {...cleanProps}
-      />
+      >
+        {children}
+      </Div>
     );
   }
 }
@@ -97,20 +94,21 @@ export class ValueContainer extends Component<ValueContainerProps> {
 // ==============================
 // Indicator Container
 // ==============================
-
+type IndicatorsContainerProps = PropsWithStyles & {
+  children: Node,
+};
 export const indicatorsContainerCSS = () => ({
   display: 'flex ',
   flexShrink: 0,
 });
-export const IndicatorsContainer = ({
-  getStyles,
-  ...props
-}: PropsWithStyles) => {
+export const IndicatorsContainer = (props: IndicatorsContainerProps) => {
+  const { children, getStyles } = props;
   return (
     <Div
       className={className('indicators')}
       css={getStyles('indicatorsContainer', props)}
-      {...props}
-    />
+    >
+      {children}
+    </Div>
   );
 };
