@@ -110,7 +110,7 @@ class Select extends React.Component {
 	}
 
 	componentWillMount () {
-		this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
+		this._instancePrefix = `react-select-${(this.props.instanceId || ++instanceId)}-`;
 		const valueArray = this.getValueArray(this.props.value);
 
 		if (this.props.required) {
@@ -820,7 +820,7 @@ class Select extends React.Component {
 				return (
 					<ValueComponent
 						disabled={this.props.disabled || value.clearableValue === false}
-						id={this._instancePrefix + '-value-' + i}
+						id={`${this._instancePrefix}-value-${i}`}
 						instancePrefix={this._instancePrefix}
 						key={`value-${i}-${value[this.props.valueKey]}`}
 						onClick={onClick}
@@ -838,7 +838,7 @@ class Select extends React.Component {
 			return (
 				<ValueComponent
 					disabled={this.props.disabled}
-					id={this._instancePrefix + '-value-item'}
+					id={`${this._instancePrefix}-value-item`}
 					instancePrefix={this._instancePrefix}
 					onClick={onClick}
 					placeholder={this.props.placeholder}
@@ -855,8 +855,8 @@ class Select extends React.Component {
 		const isOpen = this.state.isOpen;
 
 		const ariaOwns = classNames({
-			[this._instancePrefix + '-list']: isOpen,
-			[this._instancePrefix + '-backspace-remove-message']: this.props.multi
+			[`${this._instancePrefix}-list`]: isOpen,
+			[`${this._instancePrefix}-backspace-remove-message`]: this.props.multi
 				&& !this.props.disabled
 				&& this.state.isFocused
 				&& !this.state.inputValue
@@ -870,7 +870,7 @@ class Select extends React.Component {
 
 		const inputProps = {
 			...this.props.inputProps,
-			'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
+			'aria-activedescendant': isOpen ? `${this._instancePrefix}-option-${focusedOptionIndex}` : `${this._instancePrefix}-value`,
 			'aria-describedby': this.props['aria-describedby'],
 			'aria-expanded': '' + isOpen,
 			'aria-haspopup': '' + isOpen,
@@ -896,7 +896,7 @@ class Select extends React.Component {
 			const { ...divProps } = this.props.inputProps;
 
 			const ariaOwns = classNames({
-				[this._instancePrefix + '-list']: isOpen,
+				[`${this._instancePrefix}-list`]: isOpen,
 			});
 			return (
 
@@ -904,7 +904,7 @@ class Select extends React.Component {
 					{...divProps}
 					aria-expanded={isOpen}
 					aria-owns={ariaOwns}
-					aria-activedescendant={isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value'}
+					aria-activedescendant={isOpen ? `${this._instancePrefix}-option-${focusedOptionIndex}` : `${this._instancePrefix}-value`}
 					aria-disabled={'' + this.props.disabled}
 					aria-label={this.props['aria-label']}
 					aria-labelledby={this.props['aria-labelledby']}
@@ -925,7 +925,7 @@ class Select extends React.Component {
 			);
 		}
 		return (
-			<div className={ className } key="input-wrap" style={{display: 'inline-block'}}>
+			<div className={ className } key="input-wrap" style={{ display: 'inline-block' }}>
 				<input id={this.props.id} {...inputProps} />
 			</div>
 		);
@@ -1059,9 +1059,9 @@ class Select extends React.Component {
 		return valueArray.map((item, index) => (
 			<input
 				disabled={this.props.disabled}
-				key={'hidden.' + index}
+				key={`hidden.${index}`}
 				name={this.props.name}
-				ref={'value' + index}
+				ref={`value${index}`}
 				type="hidden"
 				value={stringifyValue(item[this.props.valueKey])}
 			/>
@@ -1104,7 +1104,7 @@ class Select extends React.Component {
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
 				<div
 					className="Select-menu"
-					id={this._instancePrefix + '-list'}
+					id={`${this._instancePrefix}-list`}
 					onMouseDown={this.handleMouseDownOnMenu}
 					onScroll={this.handleMenuScroll}
 					ref={ref => this.menu = ref}
@@ -1153,7 +1153,7 @@ class Select extends React.Component {
 			this.state.isFocused &&
 			this.props.backspaceRemoves) {
 			removeMessage = (
-				<span id={this._instancePrefix + '-backspace-remove-message'} className="Select-aria-only" aria-live="assertive">
+				<span id={`${this._instancePrefix}-backspace-remove-message`} className="Select-aria-only" aria-live="assertive">
 					{this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])}
 				</span>
 			);
@@ -1173,7 +1173,7 @@ class Select extends React.Component {
 					onTouchStart={this.handleTouchStart}
 					style={this.props.style}
 				>
-					<span className="Select-multi-value-wrapper" id={this._instancePrefix + '-value'}>
+					<span className="Select-multi-value-wrapper" id={`${this._instancePrefix}-value`}>
 						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
 					</span>
