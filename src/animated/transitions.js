@@ -60,7 +60,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  getWidth = (ref: ElementRef<any>) => {
+  getWidth = (ref: ElementRef<*>) => {
     if (ref && isNaN(this.state.width)) {
       this.setState({ width: ref.offsetWidth });
     }
