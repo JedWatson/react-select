@@ -66,7 +66,9 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   // width must be calculated; cannot transition from `undefined` to `number`
   getWidth = (ref: ElementRef<*>) => {
     if (ref && isNaN(this.state.width)) {
-      this.setState({ width: ref.offsetWidth });
+      // cannot use `offsetWidth` because it is rounded
+      const { width } = ref.getBoundingClientRect();
+      this.setState({ width });
     }
   };
 
