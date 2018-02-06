@@ -481,7 +481,7 @@ export default class Select extends Component<Props, State> {
       });
     }
   };
-  onControlRef = (ref: ElRef) => {
+  onControlRef = (ref: ElementRef<*>) => {
     this.controlRef = ref;
   };
   onControlMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
@@ -638,7 +638,7 @@ export default class Select extends Component<Props, State> {
       ...this.buildStateForInputValue(''),
     });
   };
-  onMenuRef = (ref: ?HTMLElement) => {
+  onMenuRef = (ref: ElementRef<*>) => {
     this.menuRef = ref;
   };
   onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
@@ -652,7 +652,7 @@ export default class Select extends Component<Props, State> {
   onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
     this.blockOptionHover = false;
   };
-  onFocusedOptionRef = (ref: ?HTMLElement) => {
+  onFocusedOptionRef = (ref: ElementRef<*>) => {
     this.focusedOptionRef = ref;
   };
   onOptionHover = (focusedOption: OptionType) => {
@@ -1059,6 +1059,7 @@ export default class Select extends Component<Props, State> {
         {this.renderScreenReaderStatus()}
         <Control
           {...commonProps}
+          // $FlowFixMe
           innerProps={{
             onMouseDown: this.onControlMouseDown,
             innerRef: this.onControlRef,
