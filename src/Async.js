@@ -22,6 +22,7 @@ const propTypes = {
 	]),
 	onChange: PropTypes.func,                  // onChange handler: function (newValue) {}
 	onInputChange: PropTypes.func,             // optional for keeping track of what is being typed
+	onOpen: PropTypes.func,
 	options: PropTypes.array.isRequired,       // array of options
 	placeholder: PropTypes.oneOfType([         // field placeholder, displayed when there's no value (shared with Select)
 		PropTypes.string,
@@ -62,6 +63,8 @@ export default class Async extends Component {
 		};
 
 		this.onInputChange = this.onInputChange.bind(this);
+		this.loadOptions = this.loadOptions.bind(this);
+		this.onOpen = this.onOpen.bind(this);
 	}
 
 	componentDidMount () {
@@ -169,6 +172,18 @@ export default class Async extends Component {
 		return newInputValue;
 	}
 
+	onOpen  () {
+		let cacheKey = this.state.inputValue;
+
+		if (!this._cache[cacheKey]) {
+			this.loadOptions('');
+		}
+
+		if (this.props.onOpen) {
+			this.props.onOpen();
+		}
+	}
+
 	noResultsText() {
 		const { loadingPlaceholder, noResultsText, searchPromptText } = this.props;
 		const { inputValue, isLoading } = this.state;
@@ -201,7 +216,8 @@ export default class Async extends Component {
 			...this.props,
 			...props,
 			isLoading,
-			onInputChange: this.onInputChange
+			onInputChange: this.onInputChange,
+			onOpen: this.onOpen
 		});
 	}
 }
