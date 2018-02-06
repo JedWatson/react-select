@@ -339,6 +339,7 @@ export default class Select extends Component<Props, State> {
   }
   getStyles = (key: string, props: {}): {} => {
     const base = defaultStyles[key](props);
+    base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };

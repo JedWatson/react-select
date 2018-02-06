@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const Base = ({ css, innerRef, tag: Tag, ...props }: Props) => (
-  <Tag ref={innerRef} css={{ boxSizing: 'border-box', ...css }} {...props} />
+  <Tag ref={innerRef} css={css} {...props} />
 );
 
 export const Button = (props: {}) => <Base tag="button" {...props} />;
