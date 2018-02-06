@@ -961,6 +961,7 @@ export default class Select extends Component<Props, State> {
         {...commonProps}
         innerProps={{
           onMouseDown: this.onMenuMouseDown,
+          onMouseMove: this.onMenuMouseMove,
         }}
         isLoading={isLoading}
       >
