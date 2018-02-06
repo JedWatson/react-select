@@ -25,12 +25,16 @@ export const multiValueCSS = () => ({
   borderRadius: borderRadius / 2,
   display: 'flex ',
   margin: spacing.baseUnit / 2,
+  minWidth: 0, // resolves flex/text-overflow bug
 });
 export const multiValueLabelCSS = () => ({
   color: colors.text,
   fontSize: '85%',
+  overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap'
 });
 export const multiValueRemoveCSS = () => ({
   alignItems: 'center',
