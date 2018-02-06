@@ -1,7 +1,6 @@
 // @flow
-// @jsx glam
+
 import React, { Component, type ElementRef, type Node } from 'react';
-import glam from 'glam';
 
 import { createFilter } from './filters';
 import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
@@ -702,7 +701,9 @@ export default class Select extends Component<Props, State> {
   };
   getActiveDescendentId = () => {
     const { focusedOption, menuIsOpen } = this.state;
-    return focusedOption && menuIsOpen ? this.getOptionId(focusedOption) : undefined;
+    return focusedOption && menuIsOpen
+      ? this.getOptionId(focusedOption)
+      : undefined;
   };
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
