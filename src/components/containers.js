@@ -53,6 +53,7 @@ export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   overflowY: 'auto',
   ...paddingHorizontal(spacing.baseUnit * 2),
   ...paddingVertical(spacing.baseUnit / 2),
+  position: 'relative',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   shouldScrollBottom: boolean = false;

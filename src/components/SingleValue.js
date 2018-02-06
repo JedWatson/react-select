@@ -18,7 +18,11 @@ type Props = PropsWithStyles & ValueProps & State;
 export const css = ({ isDisabled }: State) => ({
   ...marginHorizontal(spacing.baseUnit / 2),
   color: isDisabled ? colors.neutral40 : colors.text,
+  maxWidth: '100%',
+  overflow: 'hidden',
   position: 'absolute',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
 const SingleValue = (props: Props) => {
