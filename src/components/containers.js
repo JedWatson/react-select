@@ -42,7 +42,6 @@ type ValueContainerProps = PropsWithStyles & {
   isMulti: boolean,
   hasValue: boolean,
   maxHeight: number,
-  innerProps: any,
   children: Node,
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
