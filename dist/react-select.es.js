@@ -2044,6 +2044,7 @@ var propTypes = {
 	PropTypes.string, PropTypes.node]),
 	onChange: PropTypes.func, // onChange handler: function (newValue) {}
 	onInputChange: PropTypes.func, // optional for keeping track of what is being typed
+	onOpen: PropTypes.func,
 	options: PropTypes.array.isRequired, // array of options
 	placeholder: PropTypes.oneOfType([// field placeholder, displayed when there's no value (shared with Select)
 	PropTypes.string, PropTypes.node]),
@@ -2086,6 +2087,8 @@ var Async = function (_Component) {
 		};
 
 		_this.onInputChange = _this.onInputChange.bind(_this);
+		_this.loadOptions = _this.loadOptions.bind(_this);
+		_this.onOpen = _this.onOpen.bind(_this);
 		return _this;
 	}
 
@@ -2203,6 +2206,19 @@ var Async = function (_Component) {
 			return newInputValue;
 		}
 	}, {
+		key: 'onOpen',
+		value: function onOpen() {
+			var cacheKey = this.state.inputValue;
+
+			if (!this._cache[cacheKey]) {
+				this.loadOptions('');
+			}
+
+			if (this.props.onOpen) {
+				this.props.onOpen();
+			}
+		}
+	}, {
 		key: 'noResultsText',
 		value: function noResultsText() {
 			var _props2 = this.props,
@@ -2252,7 +2268,8 @@ var Async = function (_Component) {
 
 			return children(_extends({}, this.props, props, {
 				isLoading: isLoading,
-				onInputChange: this.onInputChange
+				onInputChange: this.onInputChange,
+				onOpen: this.onOpen
 			}));
 		}
 	}]);
