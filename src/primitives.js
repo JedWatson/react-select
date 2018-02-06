@@ -4,31 +4,34 @@
 import React from 'react';
 import glam from 'glam';
 
+import type { InnerRef } from './types';
+
 type Props = {
   css?: {},
-  innerRef?: HTMLElement => void,
-  tag: string,
+  innerRef?: InnerRef,
 };
 
-export const Base = ({ css, innerRef, tag: Tag, ...props }: Props) => (
-  <Tag ref={innerRef} css={{ boxSizing: 'border-box', ...css }} {...props} />
+const createPrimitive = (Tag: string) => ({
+  css,
+  innerRef,
+  ...props
+}: Props) => <Tag ref={innerRef} css={css} {...props} />;
+
+export const Button = createPrimitive('button');
+export const Div = createPrimitive('div');
+export const Span = createPrimitive('span');
+export const Strong = createPrimitive('strong');
+export const Em = createPrimitive('em');
+
+export const Ul = ({ css, innerRef, ...props }: Props) => (
+  <ul ref={innerRef} css={{ margin: 0, padding: 0, ...css }} {...props} />
+);
+export const Li = ({ css, innerRef, ...props }: Props) => (
+  <li ref={innerRef} css={{ listStyle: 'none', ...css }} {...props} />
 );
 
-export const Button = (props: {}) => <Base tag="button" {...props} />;
-export const Div = (props: {}) => <Base tag="div" {...props} />;
-export const Span = (props: {}) => <Base tag="span" {...props} />;
-export const Strong = (props: {}) => <Base tag="strong" {...props} />;
-export const Em = (props: {}) => <Base tag="em" {...props} />;
-
-export const Ul = ({ css, ...props }: { css?: {} }) => (
-  <Base tag="ul" css={{ margin: 0, padding: 0, ...css }} {...props} />
-);
-export const Li = ({ css, ...props }: { css?: {} }) => (
-  <Base tag="li" css={{ listStyle: 'none', ...css }} {...props} />
-);
-
-export const SROnly = ({ tag: Tag = 'div', ...props }: { tag?: string }) => (
-  <Tag
+export const SROnly = (props: any) => (
+  <span
     css={{
       border: 0,
       clip: 'rect(1px, 1px, 1px, 1px)',

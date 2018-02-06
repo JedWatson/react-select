@@ -22,7 +22,7 @@ describe('New Select', function() {
           .get(selector.singleSelectDefaultValues)
           .should('have.length', 2)
           .get(selector.singleSelectFirstValue)
-          .should('contain', 'Red');
+          .should('contain', 'Ocean');
       });
       it('Should clear the default value ' + view, function() {
         cy
@@ -142,7 +142,7 @@ describe('New Select', function() {
             .get(selector.menuMulti)
             .should('be.visible')
             .get(selector.menuOption)
-            .contains('Purple')
+            .contains('Orange')
             .click()
             .get(selector.toggleMenuMulti)
             .click()
@@ -151,16 +151,16 @@ describe('New Select', function() {
             .click()
             .get(selector.multiSelectInput)
             .click({ force: true })
-            .type('Grey', { force: true })
+            .type('Slate', { force: true })
             .type('{enter}', { force: true })
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
               expect($defaultValue).to.have.length(5);
-              expect($defaultValue.eq(0)).to.contain('Blue');
-              expect($defaultValue.eq(1)).to.contain('Green');
-              expect($defaultValue.eq(2)).to.contain('Purple');
+              expect($defaultValue.eq(0)).to.contain('Purple');
+              expect($defaultValue.eq(1)).to.contain('Red');
+              expect($defaultValue.eq(2)).to.contain('Orange');
               expect($defaultValue.eq(3)).to.contain('Yellow');
-              expect($defaultValue.eq(4)).to.contain('Grey');
+              expect($defaultValue.eq(4)).to.contain('Slate');
             });
         }
       );

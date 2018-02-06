@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node, Component } from 'react';
+import React, { Component, type Node, type ElementRef } from 'react';
 
 import { className } from '../utils';
 import { Div } from '../primitives';
@@ -42,6 +42,7 @@ type ValueContainerProps = PropsWithStyles & {
   isMulti: boolean,
   hasValue: boolean,
   maxHeight: number,
+  children: Node,
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   alignItems: 'baseline',
@@ -67,29 +68,24 @@ export class ValueContainer extends Component<ValueContainerProps> {
     if (!this.props.isMulti) return;
 
     // ensure we're showing items being added by forcing scroll to the bottom
-    if (this.shouldScrollBottom) {
+    if (this.shouldScrollBottom && this.node) {
       this.node.scrollTop = this.node.scrollHeight;
     }
   }
-  getScrollContainer = (ref: HTMLElement) => {
+  getScrollContainer = (ref: ElementRef<*>) => {
     this.node = ref;
   };
   render() {
-    const {
-      isMulti,
-      getStyles,
-      hasValue,
-      maxHeight, // Unused var: invalid DOM attribute, React will warn if not removed
-      ...cleanProps
-    } = this.props;
+    const { children, isMulti, getStyles, hasValue } = this.props;
 
     return (
       <Div
-        innerRef={isMulti ? this.getScrollContainer : null}
+        innerRef={isMulti ? this.getScrollContainer : undefined}
         className={className('value-container', { isMulti, hasValue })}
         css={getStyles('valueContainer', this.props)}
-        {...cleanProps}
-      />
+      >
+        {children}
+      </Div>
     );
   }
 }
@@ -97,20 +93,21 @@ export class ValueContainer extends Component<ValueContainerProps> {
 // ==============================
 // Indicator Container
 // ==============================
-
+type IndicatorsContainerProps = PropsWithStyles & {
+  children: Node,
+};
 export const indicatorsContainerCSS = () => ({
   display: 'flex ',
   flexShrink: 0,
 });
-export const IndicatorsContainer = ({
-  getStyles,
-  ...props
-}: PropsWithStyles) => {
+export const IndicatorsContainer = (props: IndicatorsContainerProps) => {
+  const { children, getStyles } = props;
   return (
     <Div
       className={className('indicators')}
       css={getStyles('indicatorsContainer', props)}
-      {...props}
-    />
+    >
+      {children}
+    </Div>
   );
 };

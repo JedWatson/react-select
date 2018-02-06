@@ -4,7 +4,7 @@ import React from 'react';
 import { components } from '../components';
 import { Collapse, type fn } from './transitions';
 
-// strip transition props off before spreading onto select component
+// strip transition props off before spreading onto actual component
 type Props = {
   in: boolean,
   onExited: fn,

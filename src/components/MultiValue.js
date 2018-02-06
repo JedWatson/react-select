@@ -11,9 +11,8 @@ import { type PropsWithStyles } from '../types';
 export type ValueProps = {
   children: Node,
   components: any,
-  data: any,
+  innerProps: any,
   isDisabled: boolean,
-  label: string,
   removeProps: {
     onClick: any => void,
     onMouseDown: any => void,
@@ -54,12 +53,10 @@ const MultiValue = (props: Props) => {
   const {
     children,
     components,
-    data,
     getStyles,
+    innerProps,
     isDisabled,
-    label,
     removeProps,
-    ...cleanProps
   } = props;
   const cn = {
     container: className('multi-value', { isDisabled }),
@@ -74,7 +71,7 @@ const MultiValue = (props: Props) => {
   const { Container, Label, Remove } = components;
 
   return (
-    <Container className={cn.container} css={css.container} {...cleanProps}>
+    <Container className={cn.container} css={css.container} {...innerProps}>
       <Label className={cn.label} css={css.label}>
         {children}
       </Label>

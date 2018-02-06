@@ -11,6 +11,7 @@ type State = { isDisabled: boolean };
 type ValueProps = {
   children: string,
   data: any,
+  innerProps: any,
 };
 type Props = PropsWithStyles & ValueProps & State;
 
@@ -21,13 +22,15 @@ export const css = ({ isDisabled }: State) => ({
 });
 
 const SingleValue = (props: Props) => {
-  const { data, getStyles, isDisabled, ...cleanProps } = props;
+  const { children, getStyles, isDisabled, innerProps } = props;
   return (
     <Div
       className={className('single-value', { isDisabled })}
       css={getStyles('singleValue', props)}
-      {...cleanProps}
-    />
+      {...innerProps}
+    >
+      {children}
+    </Div>
   );
 };
 
