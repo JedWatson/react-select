@@ -75,31 +75,34 @@ export const css = ({ isFocused }: IndicatorProps) => ({
   },
 });
 
-const Indicator = (props: IndicatorProps) => {
+export const DropdownIndicator = (props: IndicatorProps) => {
   const { children, getStyles, innerProps } = props;
   return (
-    <Div css={getStyles('indicator', props)} {...innerProps}>
+    <Div
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'dropdown-indicator'])}
+    >
       {children}
     </Div>
   );
 };
-
-export const DropdownIndicator = (props: IndicatorProps) => (
-  <Indicator
-    {...props}
-    className={className(['indicator', 'dropdown-indicator'])}
-  />
-);
 DropdownIndicator.defaultProps = {
   children: <DownChevron />,
 };
 
-export const ClearIndicator = (props: IndicatorProps) => (
-  <Indicator
-    {...props}
-    className={className(['indicator', 'clear-indicator'])}
-  />
-);
+export const ClearIndicator = (props: IndicatorProps) => {
+  const { children, getStyles, innerProps } = props;
+  return (
+    <Div
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'clear-indicator'])}
+    >
+      {children}
+    </Div>
+  );
+};
 ClearIndicator.defaultProps = {
   children: <CrossIcon />,
 };
@@ -167,11 +170,15 @@ const LoadingIcon = ({ isFocused, size = 4 }: LoadingIconProps) => {
   );
 };
 
-export const LoadingIndicator = (props: IndicatorProps) => (
-  <Indicator
-    {...props}
-    className={className(['indicator', 'loading-indicator'])}
-  >
-    <LoadingIcon isFocused={props.isFocused} />
-  </Indicator>
-);
+export const LoadingIndicator = (props: IndicatorProps) => {
+  const { getStyles, innerProps } = props;
+  return (
+    <Div
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'loading-indicator'])}
+    >
+      <LoadingIcon isFocused={props.isFocused} />
+    </Div>
+  );
+};

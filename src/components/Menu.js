@@ -98,7 +98,7 @@ export const NoOptionsMessage = (props: NoticeProps) => {
   const { getStyles, ...cleanProps } = props;
   return (
     <Div
-      className={className('menu-notice menu-notice--no-options')}
+      className={className(['menu-notice', 'menu-notice--no-options'])}
       css={getStyles('noOptionsMessage', props)}
       {...cleanProps}
     />
@@ -112,7 +112,7 @@ export const LoadingMessage = (props: NoticeProps) => {
   const { getStyles, ...cleanProps } = props;
   return (
     <Div
-      className={className('menu-notice menu-notice--loading')}
+      className={className(['menu-notice', 'menu-notice--loading'])}
       css={getStyles('loadingMessage', props)}
       {...cleanProps}
     />
