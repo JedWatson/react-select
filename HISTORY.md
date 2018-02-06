@@ -1,6 +1,20 @@
 # React-Select
 
-## v2.0.0-alpha.2 / 2018-02-02
+## v2.0.0-alpha.4 / 2018-02-06
+
+Ongoing rewrite. Major changes since last alpha:
+
+* Added support for Promises in the Async component
+* Added `setValue` method on the Select class
+* More consistent use of `innerProps` for internal components
+* Internal components are now provided a consistent set of props and API
+* Improved handling of keyboard and mouse interaction for options in the menu
+* Default filtering behaviour now has parity with v1
+* New `createFilter` method lets you customise the filter options
+* Some unnecessary components have been removed for better performance
+* Long values are now truncated
+
+## v2.0.0-alpha.3 / 2018-02-02
 
 Ongoing rewrite. Major changes since last alpha:
 
