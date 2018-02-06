@@ -92,16 +92,19 @@ export const loadingMessageCSS = noticeCSS;
 
 type NoticeProps = PropsWithStyles & {
   children: Node,
+  innerProps: { [string]: any },
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
-  const { getStyles, ...cleanProps } = props;
+  const { children, getStyles, innerProps } = props;
   return (
     <Div
       className={className(['menu-notice', 'menu-notice--no-options'])}
       css={getStyles('noOptionsMessage', props)}
-      {...cleanProps}
-    />
+      {...innerProps}
+    >
+      {children}
+    </Div>
   );
 };
 NoOptionsMessage.defaultProps = {
@@ -109,13 +112,15 @@ NoOptionsMessage.defaultProps = {
 };
 
 export const LoadingMessage = (props: NoticeProps) => {
-  const { getStyles, ...cleanProps } = props;
+  const { children, getStyles, innerProps } = props;
   return (
     <Div
       className={className(['menu-notice', 'menu-notice--loading'])}
       css={getStyles('loadingMessage', props)}
-      {...cleanProps}
-    />
+      {...innerProps}
+    >
+      {children}
+    </Div>
   );
 };
 LoadingMessage.defaultProps = {

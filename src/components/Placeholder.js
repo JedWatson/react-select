@@ -9,6 +9,7 @@ import { type PropsWithStyles } from '../types';
 
 type Props = PropsWithStyles & {
   children: Node,
+  innerProps: { [string]: any },
 };
 
 export const css = () => ({
@@ -18,11 +19,12 @@ export const css = () => ({
 });
 
 const Placeholder = (props: Props) => {
-  const { children, getStyles } = props;
+  const { children, getStyles, innerProps } = props;
   return (
     <Div
       className={className('placeholder')}
       css={getStyles('placeholder', props)}
+      {...innerProps}
     >
       {children}
     </Div>
