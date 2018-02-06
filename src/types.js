@@ -19,8 +19,21 @@ export type InnerRef = ElementRef<typeof HTMLElement>;
 export type PropsWithInnerRef = {
   innerRef: InnerRef,
 };
+
 export type PropsWithStyles = {
   getStyles: (string, any) => {},
+};
+
+export type CommonProps = {
+  clearValue: () => void,
+  getStyles: (string, any) => {},
+  getValue: () => ValueType,
+  hasValue: boolean,
+  isMulti: boolean,
+  options: OptionsType,
+  selectOption: OptionType => void,
+  selectProps: any,
+  setValue: (ValueType, ActionTypes) => void,
 };
 
 export type ActionTypes =
