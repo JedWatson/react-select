@@ -267,6 +267,7 @@ export default class Select extends Component<Props, State> {
       return {
         innerProps: {
           'aria-selected': isSelected,
+          id: this.getOptionId(option),
           onClick: onSelect,
           onMouseMove: onHover,
           onMouseOver: onHover,
@@ -696,11 +697,12 @@ export default class Select extends Component<Props, State> {
   getElementId = (element: 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
+  getOptionId = (option: OptionType) => {
+    return `${this.getElementId('option')}-${this.getOptionValue(option)}`;
+  };
   getActiveDescendentId = () => {
     const { focusedOption, menuIsOpen } = this.state;
-    return menuIsOpen && focusedOption
-      ? `${this.getElementId('option')}-${this.getOptionValue(focusedOption)}`
-      : undefined;
+    return focusedOption && menuIsOpen ? this.getOptionId(focusedOption) : undefined;
   };
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
