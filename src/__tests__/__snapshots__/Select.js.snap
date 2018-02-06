@@ -2,13 +2,47 @@
 
 exports[`defaults 1`] = `
 <SelectContainer
+  clearValue={[Function]}
   getStyles={[Function]}
+  getValue={[Function]}
+  hasValue={false}
   innerProps={
     Object {
       "onKeyDown": [Function],
     }
   }
   isDisabled={false}
+  isFocused={false}
+  isMulti={false}
+  options={Array []}
+  selectOption={[Function]}
+  selectProps={
+    Object {
+      "backspaceRemovesValue": true,
+      "closeMenuOnSelect": true,
+      "components": Object {},
+      "escapeClearsValue": false,
+      "filterOption": [Function],
+      "getOptionLabel": [Function],
+      "getOptionValue": [Function],
+      "hideSelectedOptions": true,
+      "isClearable": true,
+      "isDisabled": false,
+      "isLoading": false,
+      "isMulti": false,
+      "isOptionDisabled": [Function],
+      "loadingMessage": [Function],
+      "maxMenuHeight": 300,
+      "maxValueHeight": 100,
+      "noOptionsMessage": [Function],
+      "options": Array [],
+      "placeholder": "Select...",
+      "screenReaderStatus": [Function],
+      "styles": Object {},
+      "tabSelectsValue": true,
+    }
+  }
+  setValue={[Function]}
 >
   <SROnly
     aria-atomic="true"
@@ -18,7 +52,10 @@ exports[`defaults 1`] = `
     0 results available.
   </SROnly>
   <Control
+    clearValue={[Function]}
     getStyles={[Function]}
+    getValue={[Function]}
+    hasValue={false}
     innerProps={
       Object {
         "innerRef": [Function],
@@ -27,18 +64,112 @@ exports[`defaults 1`] = `
     }
     isDisabled={false}
     isFocused={false}
+    isMulti={false}
+    options={Array []}
+    selectOption={[Function]}
+    selectProps={
+      Object {
+        "backspaceRemovesValue": true,
+        "closeMenuOnSelect": true,
+        "components": Object {},
+        "escapeClearsValue": false,
+        "filterOption": [Function],
+        "getOptionLabel": [Function],
+        "getOptionValue": [Function],
+        "hideSelectedOptions": true,
+        "isClearable": true,
+        "isDisabled": false,
+        "isLoading": false,
+        "isMulti": false,
+        "isOptionDisabled": [Function],
+        "loadingMessage": [Function],
+        "maxMenuHeight": 300,
+        "maxValueHeight": 100,
+        "noOptionsMessage": [Function],
+        "options": Array [],
+        "placeholder": "Select...",
+        "screenReaderStatus": [Function],
+        "styles": Object {},
+        "tabSelectsValue": true,
+      }
+    }
+    setValue={[Function]}
   >
     <ValueContainer
+      clearValue={[Function]}
       getStyles={[Function]}
+      getValue={[Function]}
       hasValue={false}
+      isDisabled={false}
       isMulti={false}
       maxHeight={100}
+      options={Array []}
+      selectOption={[Function]}
+      selectProps={
+        Object {
+          "backspaceRemovesValue": true,
+          "closeMenuOnSelect": true,
+          "components": Object {},
+          "escapeClearsValue": false,
+          "filterOption": [Function],
+          "getOptionLabel": [Function],
+          "getOptionValue": [Function],
+          "hideSelectedOptions": true,
+          "isClearable": true,
+          "isDisabled": false,
+          "isLoading": false,
+          "isMulti": false,
+          "isOptionDisabled": [Function],
+          "loadingMessage": [Function],
+          "maxMenuHeight": 300,
+          "maxValueHeight": 100,
+          "noOptionsMessage": [Function],
+          "options": Array [],
+          "placeholder": "Select...",
+          "screenReaderStatus": [Function],
+          "styles": Object {},
+          "tabSelectsValue": true,
+        }
+      }
+      setValue={[Function]}
     >
       <Placeholder
+        clearValue={[Function]}
         getStyles={[Function]}
+        getValue={[Function]}
+        hasValue={false}
         isDisabled={false}
         isMulti={false}
         key="placeholder"
+        options={Array []}
+        selectOption={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "hideSelectedOptions": true,
+            "isClearable": true,
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "maxValueHeight": 100,
+            "noOptionsMessage": [Function],
+            "options": Array [],
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabSelectsValue": true,
+          }
+        }
+        setValue={[Function]}
       >
         Select...
       </Placeholder>
@@ -65,13 +196,85 @@ exports[`defaults 1`] = `
       />
     </ValueContainer>
     <IndicatorsContainer
+      clearValue={[Function]}
       getStyles={[Function]}
+      getValue={[Function]}
+      hasValue={false}
+      isDisabled={false}
+      isMulti={false}
+      options={Array []}
+      selectOption={[Function]}
+      selectProps={
+        Object {
+          "backspaceRemovesValue": true,
+          "closeMenuOnSelect": true,
+          "components": Object {},
+          "escapeClearsValue": false,
+          "filterOption": [Function],
+          "getOptionLabel": [Function],
+          "getOptionValue": [Function],
+          "hideSelectedOptions": true,
+          "isClearable": true,
+          "isDisabled": false,
+          "isLoading": false,
+          "isMulti": false,
+          "isOptionDisabled": [Function],
+          "loadingMessage": [Function],
+          "maxMenuHeight": 300,
+          "maxValueHeight": 100,
+          "noOptionsMessage": [Function],
+          "options": Array [],
+          "placeholder": "Select...",
+          "screenReaderStatus": [Function],
+          "styles": Object {},
+          "tabSelectsValue": true,
+        }
+      }
+      setValue={[Function]}
     >
       <DropdownIndicator
+        clearValue={[Function]}
         getStyles={[Function]}
+        getValue={[Function]}
+        hasValue={false}
+        innerProps={
+          Object {
+            "onMouseDown": [Function],
+            "role": "button",
+          }
+        }
+        isDisabled={false}
         isFocused={false}
-        onMouseDown={[Function]}
-        role="button"
+        isMulti={false}
+        options={Array []}
+        selectOption={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "hideSelectedOptions": true,
+            "isClearable": true,
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "maxValueHeight": 100,
+            "noOptionsMessage": [Function],
+            "options": Array [],
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabSelectsValue": true,
+          }
+        }
+        setValue={[Function]}
       >
         <DownChevron />
       </DropdownIndicator>
