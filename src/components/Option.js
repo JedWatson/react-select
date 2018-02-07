@@ -3,7 +3,7 @@ import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { colors, spacing } from '../theme';
-import { Li } from '../primitives';
+import { Div } from '../primitives';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { type PropsWithStyles, type InnerRef } from '../types';
 
@@ -49,13 +49,13 @@ const Option = (props: Props) => {
   const { children, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
-    <Li
+    <Div
       className={className('option', { isFocused, isSelected })}
       css={getStyles('option', props)}
       {...innerProps}
     >
       {children}
-    </Li>
+    </Div>
   );
 };
 

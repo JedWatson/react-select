@@ -3,7 +3,7 @@ import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { paddingHorizontal, paddingVertical } from '../mixins';
-import { Li, Ul, Strong } from '../primitives';
+import { Div, Strong } from '../primitives';
 import { spacing } from '../theme';
 import { type PropsWithStyles } from '../types';
 
@@ -24,14 +24,14 @@ export const groupCSS = () => paddingVertical(spacing.baseUnit * 2);
 const Group = (props: Props) => {
   const { children, getStyles, Heading, label, innerProps } = props;
   return (
-    <Li
+    <Div
       className={className('group')}
       css={getStyles('group', props)}
       {...innerProps}
     >
       <Heading getStyles={getStyles}>{label}</Heading>
-      <Ul>{children}</Ul>
-    </Li>
+      <Div>{children}</Div>
+    </Div>
   );
 };
 

@@ -2,7 +2,7 @@
 import React, { type Node } from 'react';
 
 import { className } from '../utils';
-import { Div, Ul } from '../primitives';
+import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import { marginVertical, paddingHorizontal, paddingVertical } from '../mixins';
 import { type PropsWithStyles, type InnerRef } from '../types';
@@ -67,13 +67,13 @@ export const menuListCSS = ({ maxHeight }: MenuListState) => ({
 export const MenuList = (props: Props) => {
   const { children, getStyles, isMulti, innerProps } = props;
   return (
-    <Ul
+    <Div
       className={className('menu-list', { isMulti })}
       css={getStyles('menuList', props)}
       {...innerProps}
     >
       {children}
-    </Ul>
+    </Div>
   );
 };
 
