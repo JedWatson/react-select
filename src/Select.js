@@ -11,7 +11,7 @@ import {
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
-import { SROnly } from './primitives';
+import { A11yText } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
@@ -708,9 +708,9 @@ export default class Select extends Component<Props, State> {
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
     return (
-      <SROnly aria-atomic="true" aria-live="polite" role="status">
+      <A11yText aria-atomic="true" aria-live="polite" role="status">
         {screenReaderStatus({ count: this.countOptions() })}
-      </SROnly>
+      </A11yText>
     );
   }
   renderInput(id: string) {

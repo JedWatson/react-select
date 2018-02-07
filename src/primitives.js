@@ -23,8 +23,8 @@ export const Span = createPrimitive('span');
 export const Strong = createPrimitive('strong');
 export const Em = createPrimitive('em');
 
-
-export const SROnly = (props: any) => (
+// Assistive text to describe visual elements. Hidden for sighted users.
+export const A11yText = (props: any) => (
   <span
     css={{
       border: 0,
