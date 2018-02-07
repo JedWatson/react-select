@@ -20,8 +20,6 @@ const createPrimitive = (Tag: string) => ({
 export const Button = createPrimitive('button');
 export const Div = createPrimitive('div');
 export const Span = createPrimitive('span');
-export const Strong = createPrimitive('strong');
-export const Em = createPrimitive('em');
 
 // Assistive text to describe visual elements. Hidden for sighted users.
 export const A11yText = (props: any) => (
