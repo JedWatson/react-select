@@ -706,7 +706,7 @@ var Select$1 = function (_React$Component) {
 
 		var _this = possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this, props));
 
-		['clearValue', 'focusOption', 'getOptionLabel', 'handleInputBlur', 'handleInputChange', 'handleInputFocus', 'handleInputValueChange', 'handleKeyDown', 'handleMenuScroll', 'handleMouseDown', 'handleMouseDownOnArrow', 'handleMouseDownOnMenu', 'handleTouchEnd', 'handleTouchEndClearValue', 'handleTouchMove', 'handleTouchOutside', 'handleTouchStart', 'handleValueClick', 'onOptionRef', 'removeValue', 'selectValue'].forEach(function (fn) {
+		['clearValue', 'focusOption', 'getOptionLabel', 'handleInputBlur', 'handleInputChange', 'handleInputFocus', 'handleInputValueChange', 'handleKeyDown', 'handleMenuScroll', 'handleMouseDown', 'handleMouseDownOnArrow', 'handleMouseDownOnMenu', 'handleMouseOutOnMenu', 'handleTouchEnd', 'handleTouchEndClearValue', 'handleTouchMove', 'handleTouchOutside', 'handleTouchStart', 'handleValueClick', 'onOptionRef', 'removeValue', 'selectValue'].forEach(function (fn) {
 			return _this[fn] = _this[fn].bind(_this);
 		});
 
@@ -993,6 +993,16 @@ var Select$1 = function (_React$Component) {
 
 			this._openAfterFocus = true;
 			this.focus();
+		}
+	}, {
+		key: 'handleMouseOutOnMenu',
+		value: function handleMouseOutOnMenu(event) {
+			event.stopPropagation();
+			event.preventDefault();
+
+			this.setState({
+				focusedOption: null
+			});
 		}
 	}, {
 		key: 'closeMenu',
@@ -1814,6 +1824,7 @@ var Select$1 = function (_React$Component) {
 						className: 'Select-menu',
 						id: this._instancePrefix + '-list',
 						onMouseDown: this.handleMouseDownOnMenu,
+						onMouseOut: this.handleMouseOutOnMenu,
 						onScroll: this.handleMenuScroll,
 						ref: function ref(_ref4) {
 							return _this8.menu = _ref4;

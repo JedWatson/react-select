@@ -89,6 +89,7 @@ class Select extends React.Component {
 			'handleMouseDown',
 			'handleMouseDownOnArrow',
 			'handleMouseDownOnMenu',
+			'handleMouseOutOnMenu',
 			'handleTouchEnd',
 			'handleTouchEndClearValue',
 			'handleTouchMove',
@@ -365,6 +366,15 @@ class Select extends React.Component {
 
 		this._openAfterFocus = true;
 		this.focus();
+	}
+
+	handleMouseOutOnMenu (event) {
+		event.stopPropagation();
+		event.preventDefault();
+
+		this.setState({
+			focusedOption: null
+		});
 	}
 
 	closeMenu () {
@@ -1106,6 +1116,7 @@ class Select extends React.Component {
 					className="Select-menu"
 					id={`${this._instancePrefix}-list`}
 					onMouseDown={this.handleMouseDownOnMenu}
+					onMouseOut={this.handleMouseOutOnMenu}
 					onScroll={this.handleMenuScroll}
 					ref={ref => this.menu = ref}
 					role="listbox"
