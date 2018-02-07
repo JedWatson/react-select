@@ -10,26 +10,13 @@ you also uncomment the <script> tag in ../index.html that loads the polyfill.
 */
 
 import React, { Component } from 'react';
-import { withValue } from 'react-value';
+import { Code, Link, H1 } from '../../components';
+import ExampleWrapper from '../../ExampleWrapper';
+import UsingCallbacks from './UsingCallbacks';
+import UsingPromises from './UsingPromises';
 
-import AsyncSelect from '../../src/Async';
-import { Code, Link, H1 } from '../components';
-import { colourOptions } from '../data';
-
-const SelectWithValue = withValue(AsyncSelect);
 type State = {
   inputValue: string,
-};
-
-const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-
-const loadOptions = (inputValue, callback) => {
-  setTimeout(() => {
-    callback(filterColors(inputValue));
-  }, 1000);
 };
 
 // const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -38,13 +25,6 @@ const loadOptions = (inputValue, callback) => {
 //   await delay(1000);
 //   return filterColors(inputValue);
 // };
-
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve(filterColors(inputValue));
-    }, 1000);
-  });
 
 export default class App extends Component<*, State> {
   state = { inputValue: '' };
@@ -73,17 +53,12 @@ export default class App extends Component<*, State> {
         </p>
 
         <h2>Example</h2>
-        <div>
-          <h4>Using Callbacks</h4>
-          <pre>inputValue: "{this.state.inputValue}"</pre>
-          <SelectWithValue
-            autoFocus
-            cacheOptions
-            loadOptions={loadOptions}
-            defaultOptions
-            onInputChange={this.handleInputChange}
-          />
-        </div>
+        <ExampleWrapper
+          label="Using Callbacks"
+          urlPath="/examples/pages/Async/UsingCallbacks.js"
+        >
+          <UsingCallbacks />
+        </ExampleWrapper>
         {/* <div>
           <h4>Using Async / Await</h4>
           <SelectWithValue
@@ -93,12 +68,12 @@ export default class App extends Component<*, State> {
           />
         </div> */}
         <div>
-          <h4>Using Promises</h4>
-          <SelectWithValue
-            cacheOptions
-            defaultOptions
-            loadOptions={promiseOptions}
-          />
+          <ExampleWrapper
+            label="Using Promises"
+            urlPath="/examples/pages/Async/UsingPromises.js"
+          >
+            <UsingPromises />
+          </ExampleWrapper>
         </div>
       </div>
     );

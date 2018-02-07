@@ -1,15 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import { withValue } from 'react-value';
 
-import Select from '../../src';
-import * as Animated from '../../src/animated';
-
-import { Link, H1 } from '../components';
-import { colourOptions } from '../data';
-
-const SelectWithValue = withValue(Select);
+import { Link, H1 } from '../../components';
+import ExampleWrapper from '../../ExampleWrapper';
+import Example from './Example';
 
 export default class App extends Component<*> {
   render() {
@@ -27,18 +22,13 @@ export default class App extends Component<*> {
           </Link>
         </p>
         <p>Remove the values below to see them in action.</p>
-
         <h2>Example</h2>
-        <div id="cypress-multi-animated">
-          <SelectWithValue
-            autoFocus
-            closeMenuOnSelect={false}
-            components={Animated}
-            defaultValue={[colourOptions[4], colourOptions[5]]}
-            isMulti
-            options={colourOptions}
-          />
-        </div>
+        <ExampleWrapper
+          label="Animation"
+          urlPath="/examples/pages/Animated/Example.js"
+        >
+          <Example />
+        </ExampleWrapper>
       </div>
     );
   }
