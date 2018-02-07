@@ -23,6 +23,7 @@ exports[`defaults 1`] = `
       "components": Object {},
       "escapeClearsValue": false,
       "filterOption": [Function],
+      "formatGroupLabel": [Function],
       "getOptionLabel": [Function],
       "getOptionValue": [Function],
       "hideSelectedOptions": true,
@@ -44,13 +45,13 @@ exports[`defaults 1`] = `
   }
   setValue={[Function]}
 >
-  <SROnly
+  <A11yText
     aria-atomic="true"
     aria-live="polite"
     role="status"
   >
     0 results available.
-  </SROnly>
+  </A11yText>
   <Control
     clearValue={[Function]}
     getStyles={[Function]}
@@ -74,6 +75,7 @@ exports[`defaults 1`] = `
         "components": Object {},
         "escapeClearsValue": false,
         "filterOption": [Function],
+        "formatGroupLabel": [Function],
         "getOptionLabel": [Function],
         "getOptionValue": [Function],
         "hideSelectedOptions": true,
@@ -112,6 +114,7 @@ exports[`defaults 1`] = `
           "components": Object {},
           "escapeClearsValue": false,
           "filterOption": [Function],
+          "formatGroupLabel": [Function],
           "getOptionLabel": [Function],
           "getOptionValue": [Function],
           "hideSelectedOptions": true,
@@ -150,6 +153,7 @@ exports[`defaults 1`] = `
             "components": Object {},
             "escapeClearsValue": false,
             "filterOption": [Function],
+            "formatGroupLabel": [Function],
             "getOptionLabel": [Function],
             "getOptionValue": [Function],
             "hideSelectedOptions": true,
@@ -211,6 +215,7 @@ exports[`defaults 1`] = `
           "components": Object {},
           "escapeClearsValue": false,
           "filterOption": [Function],
+          "formatGroupLabel": [Function],
           "getOptionLabel": [Function],
           "getOptionValue": [Function],
           "hideSelectedOptions": true,
@@ -255,6 +260,7 @@ exports[`defaults 1`] = `
             "components": Object {},
             "escapeClearsValue": false,
             "filterOption": [Function],
+            "formatGroupLabel": [Function],
             "getOptionLabel": [Function],
             "getOptionValue": [Function],
             "hideSelectedOptions": true,
@@ -275,9 +281,7 @@ exports[`defaults 1`] = `
           }
         }
         setValue={[Function]}
-      >
-        <DownChevron />
-      </DropdownIndicator>
+      />
     </IndicatorsContainer>
   </Control>
 </SelectContainer>
