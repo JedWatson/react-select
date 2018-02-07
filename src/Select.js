@@ -20,6 +20,7 @@ import type {
   FocusDirection,
   FocusEventHandler,
   KeyboardEventHandler,
+  MenuOptions,
   OptionsType,
   OptionType,
   ValueType,
@@ -133,11 +134,6 @@ const defaultProps = {
     `${count} result${count !== 1 ? 's' : ''} available.`,
   styles: {},
   tabSelectsValue: true,
-};
-
-type MenuOptions = {
-  render: Array<OptionType>,
-  focusable: Array<OptionType>,
 };
 
 type State = {
@@ -358,14 +354,17 @@ export default class Select extends Component<Props, State> {
       ? this.props.isOptionDisabled(option)
       : false;
   }
-  isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
+  isOptionSelected = (
+    option: OptionType,
+    selectValue: OptionsType
+  ): boolean => {
     if (selectValue.indexOf(option) > -1) return true;
     if (typeof this.props.isOptionSelected === 'function') {
       return this.props.isOptionSelected(option, selectValue);
     }
     const candidate = this.getOptionValue(option);
     return selectValue.some(i => this.getOptionValue(i) === candidate);
-  }
+  };
   focus() {
     if (!this.input) return;
     this.input.focus();
@@ -888,8 +887,10 @@ export default class Select extends Component<Props, State> {
       NoOptionsMessage,
       Option,
     } = this.components;
+
     const { commonProps } = this;
     const { inputValue, focusedOption, menuIsOpen, menuOptions } = this.state;
+
     const {
       isLoading,
       isMulti,
@@ -937,6 +938,10 @@ export default class Select extends Component<Props, State> {
                 role: 'group',
               }}
               label={label}
+              menuOptions={menuOptions}
+              isOptionSelected={this.isOptionSelected}
+              group={group}
+              {...group}
             >
               {item.children.map(option => render(option))}
             </Group>

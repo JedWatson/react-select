@@ -5,11 +5,13 @@ import { className } from '../utils';
 import { paddingHorizontal, paddingVertical } from '../mixins';
 import { Li, Ul, Strong } from '../primitives';
 import { spacing } from '../theme';
-import { type PropsWithStyles } from '../types';
+import type { PropsWithStyles, MenuOptions, OptionsType } from '../types';
 
 type GroupProps = {
   children: Node,
   Heading: typeof GroupHeading,
+  menuOptions: MenuOptions,
+  selectValue: OptionsType,
   innerProps: {
     'aria-expanded': boolean,
     'aria-label': string,
