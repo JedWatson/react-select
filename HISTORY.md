@@ -1,5 +1,12 @@
 # React-Select
 
+## v2.0.0-alpha.5 / 2018-02-07
+
+Ongoing rewrite. Major changes since last alpha:
+
+* Fixed an issue where animated values would show ellipsis while leaving
+* Long single values are now also correctly truncated
+
 ## v2.0.0-alpha.4 / 2018-02-06
 
 Ongoing rewrite. Major changes since last alpha:
