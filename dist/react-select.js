@@ -1014,6 +1014,12 @@ var Select$1 = function (_React$Component) {
 					isPseudoFocused: this.state.isFocused && !this.props.multi
 				});
 			}
+
+			// clear focused option
+			this.setState({
+				focusedOption: null
+			});
+
 			this.hasScrolledToOption = false;
 		}
 	}, {
@@ -1051,7 +1057,8 @@ var Select$1 = function (_React$Component) {
 			var onBlurredState = {
 				isFocused: false,
 				isOpen: false,
-				isPseudoFocused: false
+				isPseudoFocused: false,
+				focusedOption: null
 			};
 			if (this.props.onBlurResetsInput) {
 				onBlurredState.inputValue = this.handleInputValueChange('');
