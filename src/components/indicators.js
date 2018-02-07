@@ -113,7 +113,7 @@ ClearIndicator.defaultProps = {
 
 const keyframesName = 'react-select-loading-indicator';
 
-const LoadingContainer = ({ size }: { size: number }) => (
+const LoadingContainer = ({ size, ...props }: { size: number }) => (
   <Div
     css={{
       alignSelf: 'center',
@@ -123,6 +123,7 @@ const LoadingContainer = ({ size }: { size: number }) => (
       textAlign: 'center',
       verticalAlign: 'middle',
     }}
+    {...props}
   />
 );
 type DotProps = { color: string, delay: number, offset: boolean };
@@ -155,30 +156,23 @@ const LoadingAnimation = () => (
   </style>
 );
 
-type LoadingIconProps = { isFocused: boolean, size: number };
-const LoadingIcon = ({ isFocused, size = 4 }: LoadingIconProps) => {
+type LoadingIconProps = IndicatorProps & { isFocused: boolean, size: number };
+export const LoadingIndicator = (props: LoadingIconProps) => {
+  const { getStyles, isFocused, innerProps, size = 4 } = props;
   const clr = isFocused ? colors.text : colors.neutral20;
 
   return (
-    <LoadingContainer size={size}>
+    <LoadingContainer
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'loading-indicator'])}
+      size={size}
+    >
       <LoadingAnimation />
       <LoadingDot color={clr} />
       <LoadingDot color={clr} delay={160} offset />
       <LoadingDot color={clr} delay={320} offset />
       <SROnly>Loading</SROnly>
     </LoadingContainer>
-  );
-};
-
-export const LoadingIndicator = (props: IndicatorProps) => {
-  const { getStyles, innerProps } = props;
-  return (
-    <Div
-      {...innerProps}
-      css={getStyles('indicator', props)}
-      className={className(['indicator', 'loading-indicator'])}
-    >
-      <LoadingIcon isFocused={props.isFocused} />
-    </Div>
   );
 };
