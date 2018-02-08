@@ -1,10 +1,11 @@
 // @flow
-import React, { Component, type Element } from 'react';
-import NodeFinder from './NodeFinder';
+import { Component } from 'react';
 
+// TODO
+// scrollableRef should be ElementRef<typeof HTMLElement> but can't get flow to behave
 type Props = {
-  children: Element<*>,
-  enabled?: boolean,
+  children: ({ scrollableRef: HTMLElement => void }) => any,
+  enabled: boolean,
 };
 
 function cancelScrollEvent(event: SyntheticEvent<HTMLElement>) {
@@ -15,18 +16,18 @@ function cancelScrollEvent(event: SyntheticEvent<HTMLElement>) {
   return false;
 }
 
-export default class ScrollLock extends Component<Props> {
-  scrollTarget: HTMLElement;
+export class ScrollLock extends Component<Props> {
+  scrollElement: HTMLElement;
   touchStart: number;
   static defaultProps = { enabled: true };
 
   componentDidMount() {
     if (this.props.enabled) {
-      this.listenToScrollEvents(this.scrollTarget);
+      this.listenToScrollEvents(this.scrollElement);
     }
   }
   componentWillUnmount() {
-    this.stopListeningToScrollEvents(this.scrollTarget);
+    this.stopListeningToScrollEvents(this.scrollElement);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -36,16 +37,16 @@ export default class ScrollLock extends Component<Props> {
       ? this.listenToScrollEvents
       : this.stopListeningToScrollEvents;
 
-    fn(this.scrollTarget);
+    fn(this.scrollElement);
   }
 
-  getScrollTarget = (ref: HTMLElement) => {
-    this.scrollTarget = ref;
+  setScrollingElement = (ref: HTMLElement) => {
+    this.scrollElement = ref;
   };
 
   handleEventDelta = (event: SyntheticEvent<HTMLElement>, delta: number) => {
     const isDeltaPositive = delta > 0;
-    const elem = this.scrollTarget;
+    const elem = this.scrollElement;
     const { scrollTop, scrollHeight, clientHeight } = elem;
 
     let shouldCancelScroll = false;
@@ -85,7 +86,7 @@ export default class ScrollLock extends Component<Props> {
     // bail early if no scroll available
     if (el.scrollHeight <= el.clientHeight) return;
 
-    // all the if statements are to appease Flow 😢
+    // all the if statements are to appease Flow :(
     if (typeof el.addEventListener === 'function') {
       el.addEventListener('wheel', this.onWheelHandler, false);
     }
@@ -101,7 +102,7 @@ export default class ScrollLock extends Component<Props> {
     // bail early if no scroll available
     if (el.scrollHeight <= el.clientHeight) return;
 
-    // all the if statements are to appease Flow 😢
+    // all the if statements are to appease Flow :(
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('wheel', this.onWheelHandler, false);
     }
@@ -114,10 +115,6 @@ export default class ScrollLock extends Component<Props> {
   };
 
   render() {
-    return (
-      <NodeFinder innerRef={this.getScrollTarget}>
-        {this.props.children}
-      </NodeFinder>
-    );
+    return this.props.children({ scrollableRef: this.setScrollingElement });
   }
 }
