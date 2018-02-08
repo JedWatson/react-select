@@ -31,10 +31,12 @@ export const Fade = ({
   return (
     <Transition mountOnEnter unmountOnExit in={inProp} timeout={duration}>
       {state => {
-        const style = {
-          ...transition[state],
+        const innerProps = {
+          style: {
+            ...transition[state],
+          }
         };
-        return <Tag style={style} {...props} />;
+        return <Tag innerProps={innerProps} {...props} />;
       }}
     </Transition>
   );
@@ -60,17 +62,26 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  getWidth = (ref: ElementRef<any>) => {
+
+  // width must be calculated; cannot transition from `undefined` to `number`
+  getWidth = (ref: ElementRef<*>) => {
     if (ref && isNaN(this.state.width)) {
-      this.setState({ width: ref.offsetWidth });
+      // cannot use `offsetWidth` because it is rounded
+      const { width } = ref.getBoundingClientRect();
+      this.setState({ width });
     }
   };
+
+  // get base styles
   getStyle = (width: Width) => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     width,
   });
+
+  // get transition styles
   getTransition = (state: TransitionState) => this.transition[state];
+
   render() {
     const { children, in: inProp } = this.props;
     const { width } = this.state;

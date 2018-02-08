@@ -3,8 +3,7 @@ import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { colors, spacing } from '../theme';
-import { Li } from '../primitives';
-import { paddingHorizontal, paddingVertical } from '../mixins';
+import { Div } from '../primitives';
 import { type PropsWithStyles, type InnerRef } from '../types';
 
 type State = {
@@ -25,7 +24,6 @@ type InnerProps = {
 type Props = PropsWithStyles &
   State & {
     children: Node,
-    data: {},
     innerProps: InnerProps,
     label: string,
     type: 'option',
@@ -41,32 +39,21 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   cursor: 'default',
   display: 'block',
   fontSize: 'inherit',
-  ...paddingHorizontal(spacing.baseUnit * 3),
-  ...paddingVertical(spacing.baseUnit * 2),
+  padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
   width: '100%',
 });
 
 const Option = (props: Props) => {
-  /* eslint-disable no-unused-vars */
-  const {
-    children,
-    data, // invalid DOM attr, must be removed before spreading
-    getStyles,
-    isDisabled, // invalid DOM attr, must be removed before spreading
-    isFocused,
-    isSelected,
-    innerProps,
-  } = props;
-  /* eslint-enable no-unused-vars */
+  const { children, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
-    <Li
+    <Div
       className={className('option', { isFocused, isSelected })}
       css={getStyles('option', props)}
       {...innerProps}
     >
       {children}
-    </Li>
+    </Div>
   );
 };
 

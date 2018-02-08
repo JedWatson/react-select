@@ -70,7 +70,7 @@ export default class Home extends Component<*, *> {
         </ExampleWrapper>
         <h4>Grouped</h4>
         <ExampleWrapper
-          label="Single Select"
+          label="Grouped"
           urlPath="/examples/pages/Home/Grouped.js"
         >
           <Grouped />

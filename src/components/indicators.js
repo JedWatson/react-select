@@ -4,7 +4,7 @@ import React, { type ElementType } from 'react';
 import glam from 'glam';
 
 import { className } from '../utils';
-import { Div, Span, SROnly } from '../primitives';
+import { Div, Span, A11yText } from '../primitives';
 import { colors, spacing } from '../theme';
 import { type PropsWithStyles } from '../types';
 
@@ -57,6 +57,7 @@ export const DownChevron = (props: any) => (
 type IndicatorProps = PropsWithStyles & {
   children: ElementType,
   isFocused: boolean,
+  innerProps: any,
 };
 
 export const css = ({ isFocused }: IndicatorProps) => ({
@@ -74,30 +75,30 @@ export const css = ({ isFocused }: IndicatorProps) => ({
   },
 });
 
-const Indicator = (props: IndicatorProps) => {
-  const { getStyles, isFocused, ...cleanProps } = props;
-  return <Div css={getStyles('indicator', props)} {...cleanProps} />;
+export const DropdownIndicator = (props: IndicatorProps) => {
+  const { children = <DownChevron />, getStyles, innerProps } = props;
+  return (
+    <Div
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'dropdown-indicator'])}
+    >
+      {children}
+    </Div>
+  );
 };
 
-export const DropdownIndicator = ({ children, ...props }: IndicatorProps) => (
-  <Indicator
-    className={className(['indicator', 'dropdown-indicator'])}
-    {...props}
-  >
-    {children}
-  </Indicator>
-);
-DropdownIndicator.defaultProps = {
-  children: <DownChevron />,
-};
-
-export const ClearIndicator = ({ children, ...props }: IndicatorProps) => (
-  <Indicator className={className(['indicator', 'clear-indicator'])} {...props}>
-    {children}
-  </Indicator>
-);
-ClearIndicator.defaultProps = {
-  children: <CrossIcon />,
+export const ClearIndicator = (props: IndicatorProps) => {
+  const { children = <CrossIcon />, getStyles, innerProps } = props;
+  return (
+    <Div
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'clear-indicator'])}
+    >
+      {children}
+    </Div>
+  );
 };
 
 // ==============================
@@ -138,9 +139,10 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
     }}
   />
 );
+
 // TODO @jossmac Source `keyframes` solution for glam
 // - at the very least, ensure this is only rendered once to the DOM
-const LoadingAnimation = () => (
+const loadingAnimation = (
   <style type="text/css">
     {`@keyframes ${keyframesName} {
         0%, 80%, 100% { opacity: 0; }
@@ -149,27 +151,23 @@ const LoadingAnimation = () => (
   </style>
 );
 
-type LoadingIconProps = { isFocused: boolean, size: number };
-const LoadingIcon = ({ isFocused, size = 4 }: LoadingIconProps) => {
+type LoadingIconProps = IndicatorProps & { isFocused: boolean, size: number };
+export const LoadingIndicator = (props: LoadingIconProps) => {
+  const { getStyles, isFocused, innerProps, size = 4 } = props;
   const clr = isFocused ? colors.text : colors.neutral20;
 
   return (
-    <LoadingContainer size={size}>
-      <LoadingAnimation />
+    <LoadingContainer
+      {...innerProps}
+      css={getStyles('indicator', props)}
+      className={className(['indicator', 'loading-indicator'])}
+      size={size}
+    >
+      {loadingAnimation}
       <LoadingDot color={clr} />
       <LoadingDot color={clr} delay={160} offset />
       <LoadingDot color={clr} delay={320} offset />
-      <SROnly>Loading</SROnly>
+      <A11yText>Loading</A11yText>
     </LoadingContainer>
   );
 };
-
-export const LoadingIndicator = ({ isFocused, ...props }: IndicatorProps) => (
-  <Indicator
-    role="presentation"
-    className={className(['indicator', 'loading-indicator'])}
-    {...props}
-  >
-    <LoadingIcon isFocused={isFocused} />
-  </Indicator>
-);

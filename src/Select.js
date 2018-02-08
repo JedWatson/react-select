@@ -1,18 +1,22 @@
 // @flow
-// @jsx glam
+
 import React, { Component, type ElementRef, type Node } from 'react';
-import glam from 'glam';
 
 import { createFilter } from './filters';
-import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
-import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
+import { cleanValue, handleInputChange, scrollIntoView } from './utils';
+import {
+  formatGroupLabel,
+  getOptionLabel,
+  getOptionValue,
+  isOptionDisabled,
+} from './builtins';
 
 import {
   defaultComponents,
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
-import { SROnly } from './primitives';
+import { A11yText } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
@@ -20,6 +24,7 @@ import type {
   ActionTypes,
   FocusDirection,
   FocusEventHandler,
+  GroupType,
   KeyboardEventHandler,
   OptionsType,
   OptionType,
@@ -54,12 +59,14 @@ type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((Object, string) => boolean) | null,
+  /* Formats group labels in the menu as React components */
+  formatGroupLabel: typeof formatGroupLabel,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
-  getOptionLabel: OptionType => string,
+  getOptionLabel: typeof getOptionLabel,
   /* Resolves option data to a string to compare options and specify value attributes */
-  getOptionValue: OptionType => string,
+  getOptionValue: typeof getOptionValue,
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
   /* Define an id prefix for the select components e.g. {your-id}-value */
@@ -71,7 +78,7 @@ type Props = {
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
   /* Override the built-in logic to detect whether an option is disabled */
-  isOptionDisabled: (OptionType => boolean) | false,
+  isOptionDisabled: typeof isOptionDisabled | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
@@ -116,6 +123,7 @@ const defaultProps = {
   components: {},
   escapeClearsValue: false,
   filterOption: createFilter(),
+  formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
@@ -162,6 +170,7 @@ export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   blockOptionHover: boolean = false;
   components: SelectComponents;
+  commonProps: any; // TODO
   controlRef: ElRef;
   focusedOptionRef: ?HTMLElement;
   hasGroups: boolean = false;
@@ -243,7 +252,7 @@ export default class Select extends Component<Props, State> {
     const render = [];
     const focusable = [];
 
-    const toOption = option => {
+    const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
@@ -261,11 +270,14 @@ export default class Select extends Component<Props, State> {
       }
 
       const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
+      const onSelect = isDisabled ? undefined : () => this.selectOption(option);
+      const optionId = `${this.getElementId('option')}-${id}`;
 
       return {
         innerProps: {
           'aria-selected': isSelected,
-          onClick: isDisabled ? undefined : () => this.selectValue(option),
+          id: optionId,
+          onClick: onSelect,
           onMouseMove: onHover,
           onMouseOver: onHover,
           role: 'option',
@@ -274,7 +286,7 @@ export default class Select extends Component<Props, State> {
         data: option,
         isDisabled,
         isSelected,
-        key: `option-${value}`,
+        key: optionId,
         label,
         type: 'option',
         value,
@@ -287,18 +299,20 @@ export default class Select extends Component<Props, State> {
         if (!this.hasGroups) this.hasGroups = true;
 
         const { options: items } = item;
-        const children = items.map(toOption).filter(Boolean);
+        const children = items
+          .map((child, i) => toOption(child, `${itemIndex}-${i}`))
+          .filter(Boolean);
         if (children.length) {
-          const itemLabel = this.getOptionLabel(item);
+          const groupId = `${this.getElementId('group')}-${itemIndex}`;
           render.push({
             type: 'group',
-            key: `${itemIndex}-${toKey(itemLabel)}`,
-            label: itemLabel,
-            children,
+            key: groupId,
+            data: item,
+            options: children,
           });
         }
       } else {
-        const option = toOption(item);
+        const option = toOption(item, itemIndex);
         if (option) render.push(option);
       }
     });
@@ -329,6 +343,9 @@ export default class Select extends Component<Props, State> {
       return this.getOptionLabel(data);
     }
   }
+  formatGroupLabel(data: GroupType) {
+    return this.props.formatGroupLabel(data);
+  }
   getOptionLabel(data: OptionType): string {
     return this.props.getOptionLabel(data);
   }
@@ -337,6 +354,7 @@ export default class Select extends Component<Props, State> {
   }
   getStyles = (key: string, props: {}): {} => {
     const base = defaultStyles[key](props);
+    base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
@@ -437,7 +455,7 @@ export default class Select extends Component<Props, State> {
       onChange ? () => onChange(newValue, { action }) : undefined
     );
   };
-  selectValue = (newValue: OptionType) => {
+  selectOption = (newValue: OptionType) => {
     const { isMulti } = this.props;
     if (isMulti) {
       const { selectValue } = this.state;
@@ -478,7 +496,7 @@ export default class Select extends Component<Props, State> {
       });
     }
   };
-  onControlRef = (ref: ElRef) => {
+  onControlRef = (ref: ElementRef<*>) => {
     this.controlRef = ref;
   };
   onControlMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
@@ -530,12 +548,12 @@ export default class Select extends Component<Props, State> {
         ) {
           return;
         }
-        this.selectValue(focusedOption);
+        this.selectOption(focusedOption);
         return;
       case 13: // enter
         if (menuIsOpen) {
           if (!focusedOption) return;
-          this.selectValue(focusedOption);
+          this.selectOption(focusedOption);
         } else {
           this.focusOption();
         }
@@ -559,7 +577,7 @@ export default class Select extends Component<Props, State> {
           break;
         }
         if (!focusedOption) return;
-        this.selectValue(focusedOption);
+        this.selectOption(focusedOption);
         break;
       case 38: // up
         if (menuIsOpen) {
@@ -635,7 +653,7 @@ export default class Select extends Component<Props, State> {
       ...this.buildStateForInputValue(''),
     });
   };
-  onMenuRef = (ref: ?HTMLElement) => {
+  onMenuRef = (ref: ElementRef<*>) => {
     this.menuRef = ref;
   };
   onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
@@ -649,7 +667,7 @@ export default class Select extends Component<Props, State> {
   onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
     this.blockOptionHover = false;
   };
-  onFocusedOptionRef = (ref: ?HTMLElement) => {
+  onFocusedOptionRef = (ref: ElementRef<*>) => {
     this.focusedOptionRef = ref;
   };
   onOptionHover = (focusedOption: OptionType) => {
@@ -690,21 +708,19 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
     setTimeout(() => this.focus());
   };
-  getElementId = (element: 'input' | 'listbox' | 'option') => {
+  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
   getActiveDescendentId = () => {
     const { focusedOption, menuIsOpen } = this.state;
-    return menuIsOpen && focusedOption
-      ? `${this.getElementId('option')}-${this.getOptionValue(focusedOption)}`
-      : undefined;
+    return focusedOption && menuIsOpen ? focusedOption.key : undefined;
   };
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
     return (
-      <SROnly aria-atomic="true" aria-live="polite" role="status">
+      <A11yText aria-atomic="true" aria-live="polite" role="status">
         {screenReaderStatus({ count: this.countOptions() })}
-      </SROnly>
+      </A11yText>
     );
   }
   renderInput(id: string) {
@@ -758,17 +774,13 @@ export default class Select extends Component<Props, State> {
       SingleValue,
       Placeholder,
     } = this.components;
+    const { commonProps } = this;
     const { isDisabled, isMulti, placeholder } = this.props;
     const { inputValue, selectValue } = this.state;
 
     if (!this.hasValue()) {
       return inputValue ? null : (
-        <Placeholder
-          getStyles={this.getStyles}
-          key="placeholder"
-          isDisabled={isDisabled}
-          isMulti={isMulti}
-        >
+        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
           {placeholder}
         </Placeholder>
       );
@@ -776,12 +788,12 @@ export default class Select extends Component<Props, State> {
     if (isMulti) {
       return selectValue.map(opt => (
         <MultiValue
+          {...commonProps}
           components={{
             Container: MultiValueContainer,
             Label: MultiValueLabel,
             Remove: MultiValueRemove,
           }}
-          getStyles={this.getStyles}
           isDisabled={isDisabled}
           key={this.getOptionValue(opt)}
           removeProps={{
@@ -800,17 +812,14 @@ export default class Select extends Component<Props, State> {
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <SingleValue
-        data={singleValue}
-        isDisabled={isDisabled}
-        getStyles={this.getStyles}
-      >
+      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
         {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>
     );
   }
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
+    const { commonProps } = this;
     const { isClearable, isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
 
@@ -824,37 +833,58 @@ export default class Select extends Component<Props, State> {
       return null;
     }
 
+    const innerProps = {
+      onMouseDown: this.onClearIndicatorMouseDown,
+      role: 'button',
+    };
+
     return (
       <ClearIndicator
-        getStyles={this.getStyles}
+        {...commonProps}
+        innerProps={innerProps}
         isFocused={isFocused}
-        onMouseDown={this.onClearIndicatorMouseDown}
-        role="button"
       />
     );
   }
   renderLoadingIndicator() {
     const { LoadingIndicator } = this.components;
-    const { isLoading } = this.props;
+    const { commonProps } = this;
+    const { isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
 
     if (!LoadingIndicator || !isLoading) return null;
 
+    const innerProps = {
+      role: 'presentation',
+    };
+
     return (
-      <LoadingIndicator getStyles={this.getStyles} isFocused={isFocused} />
+      <LoadingIndicator
+        {...commonProps}
+        innerProps={innerProps}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      />
     );
   }
   renderDropdownIndicator() {
     const { DropdownIndicator } = this.components;
     if (!DropdownIndicator) return null;
+    const { commonProps } = this;
+    const { isDisabled } = this.props;
     const { isFocused } = this.state;
+
+    const innerProps = {
+      onMouseDown: this.onDropdownIndicatorMouseDown,
+      role: 'button',
+    };
 
     return (
       <DropdownIndicator
-        getStyles={this.getStyles}
+        {...commonProps}
+        innerProps={innerProps}
+        isDisabled={isDisabled}
         isFocused={isFocused}
-        onMouseDown={this.onDropdownIndicatorMouseDown}
-        role="button"
       />
     );
   }
@@ -868,6 +898,7 @@ export default class Select extends Component<Props, State> {
       NoOptionsMessage,
       Option,
     } = this.components;
+    const { commonProps } = this;
     const { inputValue, focusedOption, menuIsOpen, menuOptions } = this.state;
     const {
       isLoading,
@@ -880,24 +911,17 @@ export default class Select extends Component<Props, State> {
     if (!menuIsOpen) return null;
 
     // TODO: Internal Option Type here
-    const render = (option: OptionType) => {
-      const { innerProps, ...cleanProps } = option;
-
-      // isFocused must be assessed after `buildMenuOptions`
-      const isFocused = focusedOption === option.data;
-      const updatedProps = {
-        ...innerProps,
-        innerRef: isFocused ? this.onFocusedOptionRef : undefined,
-      };
+    const render = (props: OptionType) => {
+      // for performance, the menu options in state aren't changed when the
+      // focused option changes so we calculate additional props based on that
+      const isFocused = focusedOption === props.data;
+      props.innerProps.innerRef = isFocused
+        ? this.onFocusedOptionRef
+        : undefined;
 
       return (
-        <Option
-          {...cleanProps}
-          innerProps={updatedProps}
-          isFocused={isFocused}
-          getStyles={this.getStyles}
-        >
-          {this.formatOptionLabel(option.data, 'menu')}
+        <Option {...commonProps} {...props} isFocused={isFocused}>
+          {this.formatOptionLabel(props.data, 'menu')}
         </Option>
       );
     };
@@ -907,23 +931,25 @@ export default class Select extends Component<Props, State> {
     if (this.hasOptions()) {
       menuUI = menuOptions.render.map(item => {
         if (item.type === 'group') {
-          const { children, type, ...group } = item;
-
-          // TODO implement getGroupLabel method
-          const label = (group: any).label;
+          const { type, ...group } = item;
+          const headingId = `${item.key}-heading`;
 
           return (
             <Group
+              {...commonProps}
+              {...group}
+              Heading={GroupHeading}
               innerProps={{
                 'aria-expanded': true,
-                'aria-label': label,
+                'aria-labelledby': headingId,
                 role: 'group',
               }}
-              Heading={GroupHeading}
-              getStyles={this.getStyles}
-              {...group}
+              headingProps={{
+                id: headingId,
+              }}
+              label={this.formatGroupLabel(item.data)}
             >
-              {item.children.map(option => render(option))}
+              {item.options.map(option => render(option))}
             </Group>
           );
         } else if (item.type === 'option') {
@@ -932,13 +958,13 @@ export default class Select extends Component<Props, State> {
       });
     } else if (isLoading) {
       menuUI = (
-        <LoadingMessage getStyles={this.getStyles}>
+        <LoadingMessage {...commonProps}>
           {loadingMessage({ inputValue })}
         </LoadingMessage>
       );
     } else {
       menuUI = (
-        <NoOptionsMessage getStyles={this.getStyles}>
+        <NoOptionsMessage {...commonProps}>
           {noOptionsMessage({ inputValue })}
         </NoOptionsMessage>
       );
@@ -946,20 +972,22 @@ export default class Select extends Component<Props, State> {
 
     return (
       <Menu
-        getStyles={this.getStyles}
+        {...commonProps}
         innerProps={{
           onMouseDown: this.onMenuMouseDown,
+          onMouseMove: this.onMenuMouseMove,
         }}
+        isLoading={isLoading}
       >
         <MenuList
-          getStyles={this.getStyles}
+          {...commonProps}
           innerProps={{
             'aria-multiselectable': isMulti,
             id: this.getElementId('listbox'),
             innerRef: this.onMenuRef,
             role: 'listbox',
           }}
-          isMulti={isMulti}
+          isLoading={isLoading}
           maxHeight={maxMenuHeight}
         >
           {menuUI}
@@ -998,6 +1026,24 @@ export default class Select extends Component<Props, State> {
       return <input name={name} type="hidden" value={value} />;
     }
   }
+  getCommonProps() {
+    const { clearValue, getStyles, setValue, selectOption, props } = this;
+    const { isMulti, options } = props;
+    const { selectValue } = this.state;
+    const hasValue = this.hasValue();
+    const getValue = () => selectValue;
+    return {
+      clearValue,
+      getStyles,
+      getValue,
+      hasValue,
+      isMulti,
+      options,
+      selectOption,
+      setValue,
+      selectProps: props,
+    };
+  }
   render() {
     const {
       Control,
@@ -1006,38 +1052,40 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, isMulti, maxValueHeight } = this.props;
+    const { isDisabled, maxValueHeight } = this.props;
     const { isFocused } = this.state;
     const inputId = this.getElementId('input');
 
+    const commonProps = (this.commonProps = this.getCommonProps());
+
     return (
       <SelectContainer
-        getStyles={this.getStyles}
+        {...commonProps}
         innerProps={{
           onKeyDown: this.onKeyDown,
         }}
         isDisabled={isDisabled}
+        isFocused={isFocused}
       >
         {this.renderScreenReaderStatus()}
         <Control
-          getStyles={this.getStyles}
-          isDisabled={isDisabled}
-          isFocused={isFocused}
+          {...commonProps}
           innerProps={{
             onMouseDown: this.onControlMouseDown,
             innerRef: this.onControlRef,
           }}
+          isDisabled={isDisabled}
+          isFocused={isFocused}
         >
           <ValueContainer
-            isMulti={isMulti}
-            getStyles={this.getStyles}
-            hasValue={this.hasValue()}
+            {...commonProps}
+            isDisabled={isDisabled}
             maxHeight={maxValueHeight}
           >
             {this.renderPlaceholderOrValue()}
             {this.renderInput(inputId)}
           </ValueContainer>
-          <IndicatorsContainer getStyles={this.getStyles}>
+          <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderClearIndicator()}
             {this.renderLoadingIndicator()}
             {this.renderDropdownIndicator()}
