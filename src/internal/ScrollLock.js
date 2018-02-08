@@ -4,7 +4,7 @@ import NodeFinder from './NodeFinder';
 
 type Props = {
   children: Element<*>,
-  enabled?: boolean,
+  enabled: boolean,
 };
 
 function cancelScrollEvent(event: SyntheticEvent<HTMLElement>) {
