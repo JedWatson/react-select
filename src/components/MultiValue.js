@@ -5,7 +5,6 @@ import { borderRadius, colors, spacing } from '../theme';
 import { className } from '../utils';
 import { CrossIcon } from './indicators';
 import { Div } from '../primitives';
-import { paddingHorizontal } from '../mixins';
 import { type PropsWithStyles } from '../types';
 
 export type ValueProps = {
@@ -34,14 +33,15 @@ export const multiValueLabelCSS = () => ({
   padding: 3,
   paddingLeft: 6,
   textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap'
+  whiteSpace: 'nowrap',
 });
 export const multiValueRemoveCSS = () => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   color: colors.textLight,
   display: 'flex ',
-  ...paddingHorizontal(spacing.baseUnit),
+  paddingLeft: spacing.baseUnit,
+  paddingRight: spacing.baseUnit,
 
   ':hover': {
     backgroundColor: colors.dangerLight,

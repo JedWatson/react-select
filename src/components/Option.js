@@ -4,7 +4,6 @@ import React, { type Node } from 'react';
 import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
-import { paddingHorizontal, paddingVertical } from '../mixins';
 import { type PropsWithStyles, type InnerRef } from '../types';
 
 type State = {
@@ -40,8 +39,7 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   cursor: 'default',
   display: 'block',
   fontSize: 'inherit',
-  ...paddingHorizontal(spacing.baseUnit * 3),
-  ...paddingVertical(spacing.baseUnit * 2),
+  padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
   width: '100%',
 });
 

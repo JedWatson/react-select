@@ -5,7 +5,6 @@ import AutosizeInput from 'react-input-autosize';
 import { className } from '../utils';
 import { spacing } from '../theme';
 import { Div } from '../primitives';
-import { marginHorizontal } from '../mixins';
 
 import type { PropsWithStyles } from '../types';
 
@@ -14,7 +13,11 @@ type Props = PropsWithStyles & {
   isHidden: boolean,
 };
 
-export const css = () => marginHorizontal(spacing.baseUnit / 2);
+export const css = () => ({
+  margin: spacing.baseUnit / 2,
+  paddingBottom: spacing.baseUnit / 2,
+  paddingTop: spacing.baseUnit / 2,
+});
 const inputStyle = isHidden => ({
   background: 0,
   border: 0,

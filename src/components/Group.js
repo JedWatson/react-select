@@ -2,7 +2,6 @@
 import React, { type Node } from 'react';
 
 import { className } from '../utils';
-import { paddingHorizontal, paddingVertical } from '../mixins';
 import { Div } from '../primitives';
 import { spacing } from '../theme';
 import { type PropsWithStyles } from '../types';
@@ -22,7 +21,10 @@ type GroupProps = {
 };
 type Props = PropsWithStyles & GroupProps;
 
-export const groupCSS = () => paddingVertical(spacing.baseUnit * 2);
+export const groupCSS = () => ({
+  paddingBottom: spacing.baseUnit * 2,
+  paddingTop: spacing.baseUnit * 2,
+});
 
 const Group = (props: Props) => {
   const {
@@ -54,7 +56,8 @@ export const groupHeadingCSS = () => ({
   fontSize: '75%',
   fontWeight: '500',
   marginBottom: '0.25em',
-  ...paddingHorizontal(spacing.baseUnit * 3),
+  paddingLeft: spacing.baseUnit * 3,
+  paddingRight: spacing.baseUnit * 3,
   textTransform: 'uppercase',
 });
 

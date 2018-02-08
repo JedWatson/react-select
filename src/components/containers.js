@@ -3,7 +3,6 @@ import React, { Component, type Node, type ElementRef } from 'react';
 
 import { className } from '../utils';
 import { Div } from '../primitives';
-import { paddingHorizontal, paddingVertical } from '../mixins';
 import { spacing } from '../theme';
 import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 
@@ -45,14 +44,13 @@ type ValueContainerProps = PropsWithStyles & {
   children: Node,
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
-  alignItems: 'baseline',
+  alignItems: 'center',
   display: 'flex ',
   flex: 1,
   flexWrap: 'wrap',
   maxHeight: maxHeight, // max-height allows scroll when multi
   overflowY: 'auto',
-  ...paddingHorizontal(spacing.baseUnit * 2),
-  ...paddingVertical(spacing.baseUnit / 2),
+  padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   position: 'relative',
 });
 export class ValueContainer extends Component<ValueContainerProps> {

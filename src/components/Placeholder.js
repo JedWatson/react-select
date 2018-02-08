@@ -4,7 +4,6 @@ import React, { type Node } from 'react';
 import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
-import { marginHorizontal } from '../mixins';
 import { type PropsWithStyles } from '../types';
 
 type Props = PropsWithStyles & {
@@ -13,8 +12,9 @@ type Props = PropsWithStyles & {
 };
 
 export const css = () => ({
-  ...marginHorizontal(spacing.baseUnit / 2),
   color: colors.neutral60,
+  marginLeft: spacing.baseUnit / 2,
+  marginRight: spacing.baseUnit / 2,
   position: 'absolute',
 });
 
