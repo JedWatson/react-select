@@ -19,6 +19,7 @@
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
+    "react-codesandboxer": "^0.2.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
@@ -73,10 +74,8 @@
   "scripts": {
     "build": "nps build",
     "watch": "nps build.watch",
-    "cover":
-      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
-    "coveralls":
-      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
+    "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
+    "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
     "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
@@ -86,7 +85,11 @@
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged"
   },
-  "files": ["dist", "lib", "src"],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "keywords": [
     "combobox",
     "form",
@@ -98,12 +101,13 @@
     "ui"
   ],
   "jest": {
-    "modulePathIgnorePatterns": ["./node_modules"],
+    "modulePathIgnorePatterns": [
+      "./node_modules"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "testRegex":
-      "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.?(test|spec)?\\.(js?))$"
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.?(test|spec)?\\.(js?))$"
   },
   "lint-staged": {
     "*.js": "eslint"
