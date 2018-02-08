@@ -27,8 +27,8 @@ describe('New Select', function() {
       it('Should clear the default value ' + view, function() {
         cy
           .get(selector.clearValues)
-          .should('have.length', 3)
-          .click({ multiple: true })
+          .should('have.length', 1)
+          .click()
           .each(function(element) {
             expect(element).to.not.be.visible; // eslint-disable-line no-unused-expressions
           });

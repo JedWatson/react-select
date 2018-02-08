@@ -14,6 +14,7 @@ exports[`defaults 1`] = `
   isDisabled={false}
   isFocused={false}
   isMulti={false}
+  isRtl={false}
   options={Array []}
   selectOption={[Function]}
   selectProps={
@@ -27,11 +28,12 @@ exports[`defaults 1`] = `
       "getOptionLabel": [Function],
       "getOptionValue": [Function],
       "hideSelectedOptions": true,
-      "isClearable": true,
+      "isClearable": false,
       "isDisabled": false,
       "isLoading": false,
       "isMulti": false,
       "isOptionDisabled": [Function],
+      "isRtl": false,
       "loadingMessage": [Function],
       "maxMenuHeight": 300,
       "maxValueHeight": 100,
@@ -66,6 +68,7 @@ exports[`defaults 1`] = `
     isDisabled={false}
     isFocused={false}
     isMulti={false}
+    isRtl={false}
     options={Array []}
     selectOption={[Function]}
     selectProps={
@@ -79,11 +82,12 @@ exports[`defaults 1`] = `
         "getOptionLabel": [Function],
         "getOptionValue": [Function],
         "hideSelectedOptions": true,
-        "isClearable": true,
+        "isClearable": false,
         "isDisabled": false,
         "isLoading": false,
         "isMulti": false,
         "isOptionDisabled": [Function],
+        "isRtl": false,
         "loadingMessage": [Function],
         "maxMenuHeight": 300,
         "maxValueHeight": 100,
@@ -104,6 +108,7 @@ exports[`defaults 1`] = `
       hasValue={false}
       isDisabled={false}
       isMulti={false}
+      isRtl={false}
       maxHeight={100}
       options={Array []}
       selectOption={[Function]}
@@ -118,11 +123,12 @@ exports[`defaults 1`] = `
           "getOptionLabel": [Function],
           "getOptionValue": [Function],
           "hideSelectedOptions": true,
-          "isClearable": true,
+          "isClearable": false,
           "isDisabled": false,
           "isLoading": false,
           "isMulti": false,
           "isOptionDisabled": [Function],
+          "isRtl": false,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
           "maxValueHeight": 100,
@@ -143,6 +149,7 @@ exports[`defaults 1`] = `
         hasValue={false}
         isDisabled={false}
         isMulti={false}
+        isRtl={false}
         key="placeholder"
         options={Array []}
         selectOption={[Function]}
@@ -157,11 +164,12 @@ exports[`defaults 1`] = `
             "getOptionLabel": [Function],
             "getOptionValue": [Function],
             "hideSelectedOptions": true,
-            "isClearable": true,
+            "isClearable": false,
             "isDisabled": false,
             "isLoading": false,
             "isMulti": false,
             "isOptionDisabled": [Function],
+            "isRtl": false,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
             "maxValueHeight": 100,
@@ -206,6 +214,7 @@ exports[`defaults 1`] = `
       hasValue={false}
       isDisabled={false}
       isMulti={false}
+      isRtl={false}
       options={Array []}
       selectOption={[Function]}
       selectProps={
@@ -219,11 +228,12 @@ exports[`defaults 1`] = `
           "getOptionLabel": [Function],
           "getOptionValue": [Function],
           "hideSelectedOptions": true,
-          "isClearable": true,
+          "isClearable": false,
           "isDisabled": false,
           "isLoading": false,
           "isMulti": false,
           "isOptionDisabled": [Function],
+          "isRtl": false,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
           "maxValueHeight": 100,
@@ -237,6 +247,52 @@ exports[`defaults 1`] = `
       }
       setValue={[Function]}
     >
+      <IndicatorSeparator
+        clearValue={[Function]}
+        getStyles={[Function]}
+        getValue={[Function]}
+        hasValue={false}
+        innerProps={
+          Object {
+            "role": "presentation",
+          }
+        }
+        isDisabled={false}
+        isFocused={false}
+        isMulti={false}
+        isRtl={false}
+        options={Array []}
+        selectOption={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "formatGroupLabel": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "hideSelectedOptions": true,
+            "isClearable": false,
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "isRtl": false,
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "maxValueHeight": 100,
+            "noOptionsMessage": [Function],
+            "options": Array [],
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabSelectsValue": true,
+          }
+        }
+        setValue={[Function]}
+      />
       <DropdownIndicator
         clearValue={[Function]}
         getStyles={[Function]}
@@ -251,6 +307,7 @@ exports[`defaults 1`] = `
         isDisabled={false}
         isFocused={false}
         isMulti={false}
+        isRtl={false}
         options={Array []}
         selectOption={[Function]}
         selectProps={
@@ -264,11 +321,12 @@ exports[`defaults 1`] = `
             "getOptionLabel": [Function],
             "getOptionValue": [Function],
             "hideSelectedOptions": true,
-            "isClearable": true,
+            "isClearable": false,
             "isDisabled": false,
             "isLoading": false,
             "isMulti": false,
             "isOptionDisabled": [Function],
+            "isRtl": false,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
             "maxValueHeight": 100,
