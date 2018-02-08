@@ -4,7 +4,7 @@ import React, { type ElementType } from 'react';
 import glam from 'glam';
 
 import { className } from '../utils';
-import { Div, Span, SROnly } from '../primitives';
+import { Div, Span, A11yText } from '../primitives';
 import { colors, spacing } from '../theme';
 import { type PropsWithStyles } from '../types';
 
@@ -76,7 +76,7 @@ export const css = ({ isFocused }: IndicatorProps) => ({
 });
 
 export const DropdownIndicator = (props: IndicatorProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children = <DownChevron />, getStyles, innerProps } = props;
   return (
     <Div
       {...innerProps}
@@ -87,12 +87,9 @@ export const DropdownIndicator = (props: IndicatorProps) => {
     </Div>
   );
 };
-DropdownIndicator.defaultProps = {
-  children: <DownChevron />,
-};
 
 export const ClearIndicator = (props: IndicatorProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children = <CrossIcon />, getStyles, innerProps } = props;
   return (
     <Div
       {...innerProps}
@@ -102,9 +99,6 @@ export const ClearIndicator = (props: IndicatorProps) => {
       {children}
     </Div>
   );
-};
-ClearIndicator.defaultProps = {
-  children: <CrossIcon />,
 };
 
 // ==============================
@@ -145,9 +139,10 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
     }}
   />
 );
+
 // TODO @jossmac Source `keyframes` solution for glam
 // - at the very least, ensure this is only rendered once to the DOM
-const LoadingAnimation = () => (
+const loadingAnimation = (
   <style type="text/css">
     {`@keyframes ${keyframesName} {
         0%, 80%, 100% { opacity: 0; }
@@ -168,11 +163,11 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
       className={className(['indicator', 'loading-indicator'])}
       size={size}
     >
-      <LoadingAnimation />
+      {loadingAnimation}
       <LoadingDot color={clr} />
       <LoadingDot color={clr} delay={160} offset />
       <LoadingDot color={clr} delay={320} offset />
-      <SROnly>Loading</SROnly>
+      <A11yText>Loading</A11yText>
     </LoadingContainer>
   );
 };

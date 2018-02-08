@@ -20,17 +20,9 @@ const createPrimitive = (Tag: string) => ({
 export const Button = createPrimitive('button');
 export const Div = createPrimitive('div');
 export const Span = createPrimitive('span');
-export const Strong = createPrimitive('strong');
-export const Em = createPrimitive('em');
 
-export const Ul = ({ css, innerRef, ...props }: Props) => (
-  <ul ref={innerRef} css={{ margin: 0, padding: 0, ...css }} {...props} />
-);
-export const Li = ({ css, innerRef, ...props }: Props) => (
-  <li ref={innerRef} css={{ listStyle: 'none', ...css }} {...props} />
-);
-
-export const SROnly = (props: any) => (
+// Assistive text to describe visual elements. Hidden for sighted users.
+export const A11yText = (props: any) => (
   <span
     css={{
       border: 0,

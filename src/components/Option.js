@@ -3,8 +3,7 @@ import React, { type Node } from 'react';
 
 import { className } from '../utils';
 import { colors, spacing } from '../theme';
-import { Li } from '../primitives';
-import { paddingHorizontal, paddingVertical } from '../mixins';
+import { Div } from '../primitives';
 import { type PropsWithStyles, type InnerRef } from '../types';
 
 type State = {
@@ -40,8 +39,7 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   cursor: 'default',
   display: 'block',
   fontSize: 'inherit',
-  ...paddingHorizontal(spacing.baseUnit * 3),
-  ...paddingVertical(spacing.baseUnit * 2),
+  padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
   width: '100%',
 });
 
@@ -49,13 +47,13 @@ const Option = (props: Props) => {
   const { children, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
-    <Li
+    <Div
       className={className('option', { isFocused, isSelected })}
       css={getStyles('option', props)}
       {...innerProps}
     >
       {children}
-    </Li>
+    </Div>
   );
 };
 

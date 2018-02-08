@@ -3,15 +3,20 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
-import { getOptionLabel, getOptionValue, isOptionDisabled } from './builtins';
-import { cleanValue, handleInputChange, scrollIntoView, toKey } from './utils';
+import { cleanValue, handleInputChange, scrollIntoView } from './utils';
+import {
+  formatGroupLabel,
+  getOptionLabel,
+  getOptionValue,
+  isOptionDisabled,
+} from './builtins';
 
 import {
   defaultComponents,
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
-import { SROnly } from './primitives';
+import { A11yText } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
 
 import type {
@@ -19,6 +24,7 @@ import type {
   ActionTypes,
   FocusDirection,
   FocusEventHandler,
+  GroupType,
   KeyboardEventHandler,
   OptionsType,
   OptionType,
@@ -53,12 +59,14 @@ type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((Object, string) => boolean) | null,
+  /* Formats group labels in the menu as React components */
+  formatGroupLabel: typeof formatGroupLabel,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
-  getOptionLabel: OptionType => string,
+  getOptionLabel: typeof getOptionLabel,
   /* Resolves option data to a string to compare options and specify value attributes */
-  getOptionValue: OptionType => string,
+  getOptionValue: typeof getOptionValue,
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
   /* Define an id prefix for the select components e.g. {your-id}-value */
@@ -70,7 +78,7 @@ type Props = {
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
   /* Override the built-in logic to detect whether an option is disabled */
-  isOptionDisabled: (OptionType => boolean) | false,
+  isOptionDisabled: typeof isOptionDisabled | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
@@ -115,6 +123,7 @@ const defaultProps = {
   components: {},
   escapeClearsValue: false,
   filterOption: createFilter(),
+  formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
@@ -243,7 +252,7 @@ export default class Select extends Component<Props, State> {
     const render = [];
     const focusable = [];
 
-    const toOption = option => {
+    const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
@@ -262,11 +271,12 @@ export default class Select extends Component<Props, State> {
 
       const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
       const onSelect = isDisabled ? undefined : () => this.selectOption(option);
+      const optionId = `${this.getElementId('option')}-${id}`;
 
       return {
         innerProps: {
           'aria-selected': isSelected,
-          id: this.getOptionId(option),
+          id: optionId,
           onClick: onSelect,
           onMouseMove: onHover,
           onMouseOver: onHover,
@@ -276,7 +286,7 @@ export default class Select extends Component<Props, State> {
         data: option,
         isDisabled,
         isSelected,
-        key: `option-${value}`,
+        key: optionId,
         label,
         type: 'option',
         value,
@@ -289,18 +299,20 @@ export default class Select extends Component<Props, State> {
         if (!this.hasGroups) this.hasGroups = true;
 
         const { options: items } = item;
-        const children = items.map(toOption).filter(Boolean);
+        const children = items
+          .map((child, i) => toOption(child, `${itemIndex}-${i}`))
+          .filter(Boolean);
         if (children.length) {
-          const itemLabel = this.getOptionLabel(item);
+          const groupId = `${this.getElementId('group')}-${itemIndex}`;
           render.push({
             type: 'group',
-            key: `${itemIndex}-${toKey(itemLabel)}`,
-            label: itemLabel,
-            children,
+            key: groupId,
+            data: item,
+            options: children,
           });
         }
       } else {
-        const option = toOption(item);
+        const option = toOption(item, itemIndex);
         if (option) render.push(option);
       }
     });
@@ -330,6 +342,9 @@ export default class Select extends Component<Props, State> {
     } else {
       return this.getOptionLabel(data);
     }
+  }
+  formatGroupLabel(data: GroupType) {
+    return this.props.formatGroupLabel(data);
   }
   getOptionLabel(data: OptionType): string {
     return this.props.getOptionLabel(data);
@@ -693,24 +708,19 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
     setTimeout(() => this.focus());
   };
-  getElementId = (element: 'input' | 'listbox' | 'option') => {
+  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
-  };
-  getOptionId = (option: OptionType) => {
-    return `${this.getElementId('option')}-${this.getOptionValue(option)}`;
   };
   getActiveDescendentId = () => {
     const { focusedOption, menuIsOpen } = this.state;
-    return focusedOption && menuIsOpen
-      ? this.getOptionId(focusedOption)
-      : undefined;
+    return focusedOption && menuIsOpen ? focusedOption.key : undefined;
   };
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
     return (
-      <SROnly aria-atomic="true" aria-live="polite" role="status">
+      <A11yText aria-atomic="true" aria-live="polite" role="status">
         {screenReaderStatus({ count: this.countOptions() })}
-      </SROnly>
+      </A11yText>
     );
   }
   renderInput(id: string) {
@@ -921,24 +931,25 @@ export default class Select extends Component<Props, State> {
     if (this.hasOptions()) {
       menuUI = menuOptions.render.map(item => {
         if (item.type === 'group') {
-          const { children, type, ...group } = item;
-
-          // TODO implement getGroupLabel method
-          const label = (group: any).label;
+          const { type, ...group } = item;
+          const headingId = `${item.key}-heading`;
 
           return (
             <Group
               {...commonProps}
-              data={group}
+              {...group}
               Heading={GroupHeading}
               innerProps={{
                 'aria-expanded': true,
-                'aria-label': label,
+                'aria-labelledby': headingId,
                 role: 'group',
               }}
-              label={label}
+              headingProps={{
+                id: headingId,
+              }}
+              label={this.formatGroupLabel(item.data)}
             >
-              {item.children.map(option => render(option))}
+              {item.options.map(option => render(option))}
             </Group>
           );
         } else if (item.type === 'option') {
@@ -1059,7 +1070,6 @@ export default class Select extends Component<Props, State> {
         {this.renderScreenReaderStatus()}
         <Control
           {...commonProps}
-          // $FlowFixMe
           innerProps={{
             onMouseDown: this.onControlMouseDown,
             innerRef: this.onControlRef,

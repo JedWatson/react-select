@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node, type Ref } from 'react';
+import React, { type Node, type ElementRef } from 'react';
 
 import { className } from '../utils';
 import { Div } from '../primitives';
@@ -12,7 +12,7 @@ type Props = PropsWithStyles &
     children: Node,
     innerProps: {
       onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
-      innerRef: Ref<*>,
+      innerRef: ElementRef<*>,
     },
   };
 

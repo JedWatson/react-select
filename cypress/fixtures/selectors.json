@@ -1,7 +1,7 @@
 {
   "clearValues": ".react-select__clear-indicator",
   "disabledCheckbox": "#cypress-single__disabled-checkbox",
-  "groupColor": "[aria-label='Colours']",
+  "groupColor": "#cypress-single-grouped .react-select__group",
   "menuGrouped": "#react-select-3--listbox",
   "menuMulti": "#react-select-4--listbox",
   "menuOption": "[role='option']",

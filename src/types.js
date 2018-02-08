@@ -7,6 +7,11 @@ export type OptionType = {
 
 export type OptionsType = Array<OptionType>;
 
+export type GroupType = {
+  options: OptionsType,
+  [string]: any,
+};
+
 export type ValueType = OptionType | OptionsType | null | void;
 
 export type FocusEventHandler = (SyntheticFocusEvent<HTMLElement>) => void;
