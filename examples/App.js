@@ -31,13 +31,9 @@ const AppContainer = props => (
       boxSizing: 'border-box',
       marginLeft: 'auto',
       marginRight: 'auto',
-      maxWidth: appWidth + navWidth / 2,
+      maxWidth: appWidth,
       minHeight: '100vh',
       padding: `0 ${appGutter}px ${pagePadding}px`,
-
-      [smallDevice]: {
-        maxWidth: appWidth,
-      },
     }}
     {...props}
   />
@@ -47,7 +43,6 @@ const PageContent = props => (
     css={{
       paddingBottom: contentGutter,
       paddingTop: contentGutter,
-      paddingRight: navWidth / 2,
 
       [smallDevice]: {
         paddingTop: contentGutter * 2,
