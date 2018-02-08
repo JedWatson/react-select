@@ -2,8 +2,14 @@
 
 import type { OptionsType, ValueType } from './types';
 
+// ==============================
+// Class Name Prefixer
+// ==============================
+
 type State = { [key: string]: boolean };
 type List = Array<string>;
+
+export const CLASS_PREFIX = 'react-select';
 
 /**
  String representation of component state for styling with class names.
@@ -30,11 +36,19 @@ export function className(name: string | List, state?: State): string {
   return arr.map(cn => `${CLASS_PREFIX}__${cn}`).join(' ');
 }
 
+// ==============================
+// Clean Value
+// ==============================
+
 export const cleanValue = (value: ValueType): OptionsType => {
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
   return [];
 };
+
+// ==============================
+// Handle Input Change
+// ==============================
 
 export function handleInputChange(
   inputValue: string,
@@ -47,7 +61,9 @@ export function handleInputChange(
   return inputValue;
 }
 
-export const CLASS_PREFIX = 'react-select';
+// ==============================
+// Scroll Into View
+// ==============================
 
 export const scrollIntoView = (
   menuEl: HTMLElement,
@@ -73,3 +89,19 @@ export const scrollIntoView = (
 export const toKey = (str: string): string => {
   return str.replace(/\W/g, '-');
 };
+
+// ==============================
+// Is Element In the Viewport
+// ==============================
+
+export function inViewport(element: HTMLElement): boolean {
+  const { top, right, bottom, left } = element.getBoundingClientRect();
+  const docEl = document.documentElement;
+
+  return (
+    top >= 0 &&
+    left >= 0 &&
+    bottom <= (window.innerHeight || (docEl && docEl.clientHeight) || 0) &&
+    right <= (window.innerWidth || (docEl && docEl.clientWidth) || 0)
+  );
+}

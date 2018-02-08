@@ -1,7 +1,7 @@
 // @flow
-import React, { type Node } from 'react';
+import React, { Component, type ElementRef, type Node } from 'react';
 
-import { className } from '../utils';
+import { className, inViewport } from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import { type PropsWithStyles, type InnerRef } from '../types';
@@ -11,31 +11,49 @@ import { type PropsWithStyles, type InnerRef } from '../types';
 // ==============================
 
 type MenuProps = PropsWithStyles & { children: Node, innerProps: Object };
+type MenuState = { placement: 'bottom' | 'top' };
 
-export const menuCSS = () => ({
+const placementToPosition = { bottom: 'top', top: 'bottom' };
+
+export const menuCSS = ({ placement }: MenuState) => ({
   backgroundColor: colors.neutral0,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
   borderRadius: borderRadius,
   marginBottom: spacing.baseUnit * 2,
   marginTop: spacing.baseUnit * 2,
   position: 'absolute',
-  top: '100%',
   width: '100%',
   zIndex: 1,
+  [placementToPosition[placement]]: '100%',
 });
+const initialState = { placement: 'bottom' };
 
-const Menu = (props: MenuProps) => {
-  const { children, getStyles, innerProps } = props;
-  return (
-    <Div
-      className={className('menu')}
-      css={getStyles('menu', props)}
-      {...innerProps}
-    >
-      {children}
-    </Div>
-  );
-};
+export class Menu extends Component<MenuProps, MenuState> {
+  state = initialState;
+  getPlacement = (ref: ElementRef<*>) => {
+    if (!ref) return;
+
+    if (!inViewport(ref)) {
+      this.setState({ placement: 'top' });
+    }
+  };
+  render() {
+    const { children, getStyles, innerProps } = this.props;
+    const { placement } = this.state;
+    const shouldFlip = placement === 'top';
+
+    return (
+      <Div
+        className={className('menu', { shouldFlip })}
+        css={getStyles('menu', { ...this.props, ...this.state })}
+        innerRef={this.getPlacement}
+        {...innerProps}
+      >
+        {children}
+      </Div>
+    );
+  }
+}
 
 export default Menu;
 

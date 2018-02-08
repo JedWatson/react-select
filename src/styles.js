@@ -7,7 +7,12 @@ import {
 } from './components/containers';
 import { css as controlCSS } from './components/Control';
 import { groupCSS, groupHeadingCSS } from './components/Group';
-import { css as indicatorCSS } from './components/indicators';
+import {
+  clearIndicatorCSS,
+  dropdownIndicatorCSS,
+  loadingIndicatorCSS,
+  indicatorSeparatorCSS,
+} from './components/indicators';
 import { css as inputCSS } from './components/Input';
 import { css as placeholderCSS } from './components/Placeholder';
 import { css as optionCSS } from './components/Option';
@@ -27,20 +32,23 @@ import {
 type Props = { [key: string]: any };
 
 export type Styles = {
+  clearIndicator?: Props => {},
   container?: Props => {},
   control?: Props => {},
+  dropdownIndicator?: Props => {},
   group?: Props => {},
   groupHeading?: Props => {},
-  indicator?: Props => {},
   indicatorsContainer?: Props => {},
+  indicatorSeparator?: Props => {},
   input?: Props => {},
+  loadingIndicator?: Props => {},
+  loadingMessageCSS?: Props => {},
   menu?: Props => {},
   menuList?: Props => {},
-  noOptionsMessageCSS?: Props => {},
-  loadingMessageCSS?: Props => {},
   multiValue?: Props => {},
   multiValueLabel?: Props => {},
   multiValueRemove?: Props => {},
+  noOptionsMessageCSS?: Props => {},
   option?: Props => {},
   placeholder?: Props => {},
   singleValue?: Props => {},
@@ -50,20 +58,23 @@ export type StylesConfig = $Shape<Styles>;
 export type GetStyles = (string, Props) => {};
 
 export const defaultStyles: Styles = {
+  clearIndicator: clearIndicatorCSS,
   container: containerCSS,
   control: controlCSS,
+  dropdownIndicator: dropdownIndicatorCSS,
   group: groupCSS,
   groupHeading: groupHeadingCSS,
-  indicator: indicatorCSS,
   indicatorsContainer: indicatorsContainerCSS,
+  indicatorSeparator: indicatorSeparatorCSS,
   input: inputCSS,
+  loadingIndicator: loadingIndicatorCSS,
+  loadingMessage: loadingMessageCSS,
   menu: menuCSS,
   menuList: menuListCSS,
-  loadingMessage: loadingMessageCSS,
-  noOptionsMessage: noOptionsMessageCSS,
   multiValue: multiValueCSS,
   multiValueLabel: multiValueLabelCSS,
   multiValueRemove: multiValueRemoveCSS,
+  noOptionsMessage: noOptionsMessageCSS,
   option: optionCSS,
   placeholder: placeholderCSS,
   singleValue: singleValueCSS,

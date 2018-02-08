@@ -83,6 +83,8 @@ type Props = {
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
   isMulti: boolean,
+  /* Is the select direction right-to-left */
+  isRtl: boolean,
   /* Async: Text to display when loading options */
   loadingMessage: ({ inputValue: string }) => string,
   /* Maximum height of the menu before scrolling */
@@ -127,10 +129,11 @@ const defaultProps = {
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
-  isClearable: true,
+  isClearable: false,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
+  isRtl: false,
   isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
@@ -368,6 +371,9 @@ export default class Select extends Component<Props, State> {
   countOptions() {
     return this.state.menuOptions.focusable.length;
   }
+  isClearable(): boolean {
+    return this.props.isClearable || this.props.isMulti;
+  }
   isOptionDisabled(option: OptionType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
       ? this.props.isOptionDisabled(option)
@@ -517,7 +523,6 @@ export default class Select extends Component<Props, State> {
   onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
       backspaceRemovesValue,
-      isClearable,
       escapeClearsValue,
       isDisabled,
       onKeyDown,
@@ -564,7 +569,7 @@ export default class Select extends Component<Props, State> {
             menuIsOpen: false,
             ...this.buildStateForInputValue(),
           });
-        } else if (isClearable && escapeClearsValue) {
+        } else if (this.isClearable() && escapeClearsValue) {
           this.clearValue();
         }
         break;
@@ -820,11 +825,11 @@ export default class Select extends Component<Props, State> {
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
     const { commonProps } = this;
-    const { isClearable, isDisabled, isLoading } = this.props;
+    const { isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
 
     if (
-      !isClearable ||
+      !this.isClearable() ||
       !ClearIndicator ||
       isDisabled ||
       !this.hasValue() ||
@@ -860,6 +865,24 @@ export default class Select extends Component<Props, State> {
 
     return (
       <LoadingIndicator
+        {...commonProps}
+        innerProps={innerProps}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      />
+    );
+  }
+  renderIndicatorSeparator() {
+    const { IndicatorSeparator } = this.components;
+    if (!IndicatorSeparator) return null;
+    const { commonProps } = this;
+    const { isDisabled } = this.props;
+    const { isFocused } = this.state;
+
+    const innerProps = { role: 'presentation' };
+
+    return (
+      <IndicatorSeparator
         {...commonProps}
         innerProps={innerProps}
         isDisabled={isDisabled}
@@ -1028,7 +1051,7 @@ export default class Select extends Component<Props, State> {
   }
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { isMulti, options } = props;
+    const { isMulti, isRtl, options } = props;
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
@@ -1038,6 +1061,7 @@ export default class Select extends Component<Props, State> {
       getValue,
       hasValue,
       isMulti,
+      isRtl,
       options,
       selectOption,
       setValue,
@@ -1088,6 +1112,7 @@ export default class Select extends Component<Props, State> {
           <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderClearIndicator()}
             {this.renderLoadingIndicator()}
+            {this.renderIndicatorSeparator()}
             {this.renderDropdownIndicator()}
           </IndicatorsContainer>
         </Control>

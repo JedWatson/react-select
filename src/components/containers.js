@@ -10,22 +10,23 @@ import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 // Root Container
 // ==============================
 
-type ContainerState = { isDisabled: boolean };
+type ContainerState = { isDisabled: boolean, isRtl: boolean };
 type ContainerProps = PropsWithStyles &
   ContainerState & {
     children: Node,
     innerProps: { onKeyDown: KeyboardEventHandler },
   };
-export const containerCSS = ({ isDisabled }: ContainerState) => ({
-  pointerEvents: isDisabled ? 'none' : 'initial', // cancel mouse events when disabled
+export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
+  direction: isRtl ? 'rtl' : null,
+  pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { children, getStyles, isDisabled, innerProps } = props;
+  const { children, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
     <Div
       css={getStyles('container', props)}
-      className={className('container', { isDisabled })}
+      className={className('container', { isDisabled, isRtl })}
       {...innerProps}
     >
       {children}
@@ -92,15 +93,19 @@ export class ValueContainer extends Component<ValueContainerProps> {
 // ==============================
 // Indicator Container
 // ==============================
-type IndicatorsContainerProps = PropsWithStyles & {
-  children: Node,
-};
+
+type IndicatorsState = { isRtl: boolean };
+type IndicatorsProps = PropsWithStyles & IndicatorsState & { children: Node };
+
 export const indicatorsContainerCSS = () => ({
+  alignItems: 'center',
+  alignSelf: 'stretch',
   display: 'flex ',
   flexShrink: 0,
 });
-export const IndicatorsContainer = (props: IndicatorsContainerProps) => {
+export const IndicatorsContainer = (props: IndicatorsProps) => {
   const { children, getStyles } = props;
+
   return (
     <Div
       className={className('indicators')}
