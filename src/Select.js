@@ -3,6 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
+import { ScrollLock } from './internal';
 import { cleanValue, handleInputChange, scrollIntoView } from './utils';
 import {
   formatGroupLabel,
@@ -18,7 +19,6 @@ import {
 } from './components/index';
 import { A11yText } from './primitives';
 import { defaultStyles, type StylesConfig } from './styles';
-import { ScrollLock } from './components/internal';
 
 import type {
   ActionMeta,
@@ -985,29 +985,19 @@ export default class Select extends Component<Props, State> {
         isLoading={isLoading}
       >
         <ScrollLock enabled={captureMenuScroll}>
-          {({ scrollableRef }) => {
-            // resolve refs for both Select and ScrollLock
-            const innerRef = ref => {
-              this.onMenuRef(ref);
-              scrollableRef(ref);
-            };
-
-            return (
-              <MenuList
-                {...commonProps}
-                innerProps={{
-                  'aria-multiselectable': isMulti,
-                  id: this.getElementId('listbox'),
-                  innerRef: innerRef,
-                  role: 'listbox',
-                }}
-                isLoading={isLoading}
-                maxHeight={maxMenuHeight}
-              >
-                {menuUI}
-              </MenuList>
-            );
-          }}
+          <MenuList
+            {...commonProps}
+            innerProps={{
+              'aria-multiselectable': isMulti,
+              id: this.getElementId('listbox'),
+              innerRef: this.onMenuRef,
+              role: 'listbox',
+            }}
+            isLoading={isLoading}
+            maxHeight={maxMenuHeight}
+          >
+            {menuUI}
+          </MenuList>
         </ScrollLock>
       </Menu>
     );
