@@ -20,6 +20,7 @@ exports[`defaults 1`] = `
   selectProps={
     Object {
       "backspaceRemovesValue": true,
+      "captureMenuScroll": true,
       "closeMenuOnSelect": true,
       "components": Object {},
       "escapeClearsValue": false,
@@ -74,6 +75,7 @@ exports[`defaults 1`] = `
     selectProps={
       Object {
         "backspaceRemovesValue": true,
+        "captureMenuScroll": true,
         "closeMenuOnSelect": true,
         "components": Object {},
         "escapeClearsValue": false,
@@ -115,6 +117,7 @@ exports[`defaults 1`] = `
       selectProps={
         Object {
           "backspaceRemovesValue": true,
+          "captureMenuScroll": true,
           "closeMenuOnSelect": true,
           "components": Object {},
           "escapeClearsValue": false,
@@ -156,6 +159,7 @@ exports[`defaults 1`] = `
         selectProps={
           Object {
             "backspaceRemovesValue": true,
+            "captureMenuScroll": true,
             "closeMenuOnSelect": true,
             "components": Object {},
             "escapeClearsValue": false,
@@ -220,6 +224,7 @@ exports[`defaults 1`] = `
       selectProps={
         Object {
           "backspaceRemovesValue": true,
+          "captureMenuScroll": true,
           "closeMenuOnSelect": true,
           "components": Object {},
           "escapeClearsValue": false,
@@ -313,6 +318,7 @@ exports[`defaults 1`] = `
         selectProps={
           Object {
             "backspaceRemovesValue": true,
+            "captureMenuScroll": true,
             "closeMenuOnSelect": true,
             "components": Object {},
             "escapeClearsValue": false,

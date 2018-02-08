@@ -3,6 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
+import { ScrollLock } from './internal';
 import { cleanValue, handleInputChange, scrollIntoView } from './utils';
 import {
   formatGroupLabel,
@@ -49,6 +50,8 @@ type Props = {
   autoFocus?: boolean,
   /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
+  /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
+  captureMenuScroll: boolean,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /* Custom components to use */
@@ -121,6 +124,7 @@ type Props = {
 
 const defaultProps = {
   backspaceRemovesValue: true,
+  captureMenuScroll: true,
   closeMenuOnSelect: true,
   components: {},
   escapeClearsValue: false,
@@ -924,6 +928,7 @@ export default class Select extends Component<Props, State> {
     const { commonProps } = this;
     const { inputValue, focusedOption, menuIsOpen, menuOptions } = this.state;
     const {
+      captureMenuScroll,
       isLoading,
       isMulti,
       maxMenuHeight,
@@ -1002,19 +1007,21 @@ export default class Select extends Component<Props, State> {
         }}
         isLoading={isLoading}
       >
-        <MenuList
-          {...commonProps}
-          innerProps={{
-            'aria-multiselectable': isMulti,
-            id: this.getElementId('listbox'),
-            innerRef: this.onMenuRef,
-            role: 'listbox',
-          }}
-          isLoading={isLoading}
-          maxHeight={maxMenuHeight}
-        >
-          {menuUI}
-        </MenuList>
+        <ScrollLock enabled={captureMenuScroll}>
+          <MenuList
+            {...commonProps}
+            innerProps={{
+              'aria-multiselectable': isMulti,
+              id: this.getElementId('listbox'),
+              innerRef: this.onMenuRef,
+              role: 'listbox',
+            }}
+            isLoading={isLoading}
+            maxHeight={maxMenuHeight}
+          >
+            {menuUI}
+          </MenuList>
+        </ScrollLock>
       </Menu>
     );
   }
