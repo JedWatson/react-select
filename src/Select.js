@@ -256,8 +256,6 @@ export default class Select extends Component<Props, State> {
     inputValue: string = ''
   ): MenuOptions {
     const { hideSelectedOptions, isMulti } = this.props;
-    const render = [];
-    const focusable = [];
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
@@ -270,10 +268,6 @@ export default class Select extends Component<Props, State> {
         !this.filterOption({ label, value, data: option }, inputValue)
       ) {
         return;
-      }
-
-      if (!isDisabled) {
-        focusable.push(option);
       }
 
       const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
@@ -300,18 +294,22 @@ export default class Select extends Component<Props, State> {
       };
     };
 
-    options.forEach((item, itemIndex) => {
+    return options.reduce((acc, item, itemIndex) => {
       if (item.options) {
         // TODO needs a tidier implementation
         if (!this.hasGroups) this.hasGroups = true;
 
         const { options: items } = item;
         const children = items
-          .map((child, i) => toOption(child, `${itemIndex}-${i}`))
+          .map((child, i) => {
+            const option = toOption(child, `${itemIndex}-${i}`);
+            if (option && !option.isDisabled) acc.focusable.push(child);
+            return option;
+          })
           .filter(Boolean);
         if (children.length) {
           const groupId = `${this.getElementId('group')}-${itemIndex}`;
-          render.push({
+          acc.render.push({
             type: 'group',
             key: groupId,
             data: item,
@@ -320,10 +318,13 @@ export default class Select extends Component<Props, State> {
         }
       } else {
         const option = toOption(item, itemIndex);
-        if (option) render.push(option);
+        if (option) {
+          acc.render.push(option);
+          if (!option.isDisabled) acc.focusable.push(item);
+        }
       }
-    });
-    return { render, focusable };
+      return acc;
+    }, { render: [], focusable: [] });
   }
   filterOption(option: {}, inputValue: string) {
     return this.props.filterOption
