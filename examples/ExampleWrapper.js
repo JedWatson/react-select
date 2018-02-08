@@ -36,14 +36,14 @@ export default class ExampleWrapper extends Component {
           <Link href={sourceUrl + this.props.urlPath}>Source</Link>
           {' - '}
           <CodeSandboxer
-            skipDeploy
-            afterDeploy={console.log}
+            // skipDeploy
+            // afterDeploy={console.log}
             example={fetch(rawUrl + this.props.urlPath)
               .then(a => a.text())
               .then(a =>
                 replaceImports(a, [
-                  ['../../src/*', 'react-select/lib/'],
-                  ['../../src', 'react-select'],
+                  ['../../../src/*', 'react-select/lib/'],
+                  ['../../../src', 'react-select'],
                   ['../../data', './data'],
                   ['../../components', './components'],
                 ])
