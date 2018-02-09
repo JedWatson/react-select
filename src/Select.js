@@ -150,6 +150,7 @@ const defaultProps = {
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   maxValueHeight: 100,
+  menuIsOpen: false,
   noOptionsMessage: () => 'No options',
   options: [],
   placeholder: 'Select...',
@@ -157,6 +158,7 @@ const defaultProps = {
     `${count} result${count !== 1 ? 's' : ''} available.`,
   styles: {},
   tabSelectsValue: true,
+  value: '',
 };
 
 type MenuOptions = {
@@ -195,10 +197,10 @@ export default class Select extends Component<Props, State> {
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
   state = {
+    focusedOption: null,
     inputIsHidden: false,
     isFocused: false,
     menuOptions: { render: [], focusable: [] },
-    focusedOption: null,
     selectValue: [],
   };
   constructor(props: Props) {

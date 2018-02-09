@@ -38,12 +38,14 @@ exports[`defaults 1`] = `
       "loadingMessage": [Function],
       "maxMenuHeight": 300,
       "maxValueHeight": 100,
+      "menuIsOpen": false,
       "noOptionsMessage": [Function],
       "options": Array [],
       "placeholder": "Select...",
       "screenReaderStatus": [Function],
       "styles": Object {},
       "tabSelectsValue": true,
+      "value": "",
     }
   }
   setValue={[Function]}
@@ -93,12 +95,14 @@ exports[`defaults 1`] = `
         "loadingMessage": [Function],
         "maxMenuHeight": 300,
         "maxValueHeight": 100,
+        "menuIsOpen": false,
         "noOptionsMessage": [Function],
         "options": Array [],
         "placeholder": "Select...",
         "screenReaderStatus": [Function],
         "styles": Object {},
         "tabSelectsValue": true,
+        "value": "",
       }
     }
     setValue={[Function]}
@@ -135,12 +139,14 @@ exports[`defaults 1`] = `
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
           "maxValueHeight": 100,
+          "menuIsOpen": false,
           "noOptionsMessage": [Function],
           "options": Array [],
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
           "tabSelectsValue": true,
+          "value": "",
         }
       }
       setValue={[Function]}
@@ -177,12 +183,14 @@ exports[`defaults 1`] = `
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
             "maxValueHeight": 100,
+            "menuIsOpen": false,
             "noOptionsMessage": [Function],
             "options": Array [],
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
+            "value": "",
           }
         }
         setValue={[Function]}
@@ -208,7 +216,6 @@ exports[`defaults 1`] = `
         spellCheck="false"
         tabIndex="0"
         type="text"
-        value=""
       />
     </ValueContainer>
     <IndicatorsContainer
@@ -242,12 +249,14 @@ exports[`defaults 1`] = `
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
           "maxValueHeight": 100,
+          "menuIsOpen": false,
           "noOptionsMessage": [Function],
           "options": Array [],
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
           "tabSelectsValue": true,
+          "value": "",
         }
       }
       setValue={[Function]}
@@ -289,12 +298,14 @@ exports[`defaults 1`] = `
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
             "maxValueHeight": 100,
+            "menuIsOpen": false,
             "noOptionsMessage": [Function],
             "options": Array [],
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
+            "value": "",
           }
         }
         setValue={[Function]}
@@ -337,12 +348,14 @@ exports[`defaults 1`] = `
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
             "maxValueHeight": 100,
+            "menuIsOpen": false,
             "noOptionsMessage": [Function],
             "options": Array [],
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
+            "value": "",
           }
         }
         setValue={[Function]}
