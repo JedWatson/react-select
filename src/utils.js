@@ -4,6 +4,12 @@ import type { MenuPlacement, OptionsType, ValueType } from './types';
 import { spacing } from './theme';
 
 // ==============================
+// NO OP
+// ==============================
+
+export const noop = () => {};
+
+// ==============================
 // Class Name Prefixer
 // ==============================
 

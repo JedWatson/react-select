@@ -3,8 +3,8 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
-import { ScrollLock } from './internal';
-import { cleanValue, scrollIntoView } from './utils';
+import { DummyInput, ScrollLock } from './internal';
+import { cleanValue, noop, scrollIntoView } from './utils';
 import {
   formatGroupLabel,
   getOptionLabel,
@@ -91,6 +91,8 @@ type Props = {
   isMulti: boolean,
   /* Is the select direction right-to-left */
   isRtl: boolean,
+  /* Whether to enable search functionality */
+  isSearchable: boolean,
   /* Async: Text to display when loading options */
   loadingMessage: ({ inputValue: string }) => string,
   /* Maximum height of the menu before scrolling */
@@ -150,6 +152,7 @@ const defaultProps = {
   isLoading: false,
   isMulti: false,
   isRtl: false,
+  isSearchable: true,
   isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
@@ -752,12 +755,31 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderInput(id: string) {
-    const { isDisabled, isLoading, inputValue, menuIsOpen } = this.props;
+    const {
+      isDisabled,
+      isLoading,
+      isSearchable,
+      inputValue,
+      menuIsOpen,
+    } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
 
-    // maintain baseline alignment when the input is removed for disabled state
-    if (isDisabled) return <div style={{ height: this.inputHeight }} />;
+    if (!isSearchable) {
+      // use a dummy input to maintain focus/blur functionality
+      return (
+        <DummyInput
+          onBlur={this.onInputBlur}
+          onChange={noop}
+          onFocus={this.onInputFocus}
+          innerRef={this.onInputRef}
+          value=""
+        />
+      );
+    } else if (isDisabled) {
+      // maintain baseline alignment when the input is removed for disabled state
+      return <div style={{ height: this.inputHeight }} />;
+    }
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
