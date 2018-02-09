@@ -3,16 +3,25 @@
 import React, { Component } from 'react';
 
 import Select from './Select';
+import { type OptionType } from './types';
 
-export default class StateManager extends Component<*, *> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      inputValue: this.props.inputValue || '',
-      menuIsOpen: this.props.menuIsOpen || false,
-      value: this.props.value || null,
-    };
-  }
+type Props = {
+  inputValue?: string,
+  menuIsOpen?: boolean,
+  value?: OptionType,
+};
+type State = {
+  inputValue: string,
+  menuIsOpen: boolean,
+  value: OptionType | null,
+};
+
+export default class StateManager extends Component<Props, State> {
+  state = {
+    inputValue: this.props.inputValue || '',
+    menuIsOpen: this.props.menuIsOpen || false,
+    value: this.props.value || null,
+  };
   getSelectProp(key: string) {
     return this.props[key] !== undefined ? this.props[key] : this.state[key];
   }
@@ -52,9 +61,9 @@ export default class StateManager extends Component<*, *> {
         menuIsOpen={menuIsOpen}
         onChange={this.onChange}
         onInputChange={this.onInputChange}
-        value={value}
         onMenuClose={this.onMenuClose}
         onMenuOpen={this.onMenuOpen}
+        value={value}
       />
     );
   }
