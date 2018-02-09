@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import Select from './Select';
+import Select from './StateManager';
 import { handleInputChange } from './utils';
 import type { OptionsType } from './types';
 
@@ -73,6 +73,7 @@ export default class Async extends Component<Props, State> {
   }
   handleInputChange = (newValue: string) => {
     const { cacheOptions, onInputChange } = this.props;
+    // TODO
     const inputValue = handleInputChange(newValue, onInputChange);
     if (!inputValue) {
       delete this.lastRequest;
