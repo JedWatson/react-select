@@ -2,12 +2,9 @@
 
 import React, { Component } from 'react';
 import { Code, Link, H1, Hr, Note } from '../components';
-import { withValue } from 'react-value';
 
 import Select from '../../src';
 import { colourOptions, groupedOptions } from '../data';
-
-const SelectWithValue = withValue(Select);
 
 const changes = [
   { icon: '🎨', text: 'CSS-in-JS with a complete styling API' },
@@ -109,7 +106,7 @@ export default class Home extends Component<*, State> {
         <h2 css={{ marginTop: '2em' }}>Basic Usage</h2>
         <h4>Single Select</h4>
         <div>
-          <SelectWithValue
+          <Select
             autoFocus
             defaultValue={colourOptions[0]}
             isClearable={this.state.isClearable}
@@ -144,7 +141,7 @@ export default class Home extends Component<*, State> {
         </Note>
         <h4>Grouped</h4>
         <div>
-          <SelectWithValue
+          <Select
             defaultValue={colourOptions[1]}
             formatGroupLabel={formatGroupLabel}
             options={groupedOptions}
@@ -153,7 +150,7 @@ export default class Home extends Component<*, State> {
         <Hr />
         <h4>Multi Select</h4>
         <div>
-          <SelectWithValue
+          <Select
             defaultValue={[colourOptions[2], colourOptions[3]]}
             isMulti
             name="colors"

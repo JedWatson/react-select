@@ -1,5 +1,5 @@
 // @flow
-import Select from './Select';
+import Select from './StateManager';
 
 export default Select;
 export { createFilter } from './filters';
