@@ -66,8 +66,8 @@ class App extends React.Component {
     console.log(`Selected: ${selectedOption.label}`);
   }
   render() {
-  	const { selectedOption } = this.state;
-  	const value = selectedOption && selectedOption.value;
+    const { selectedOption } = this.state;
+    const value = selectedOption && selectedOption.value;
 
     return (
       <Select
