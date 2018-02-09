@@ -88,12 +88,7 @@
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-core/register",
     "precommit": "lint-staged && yarn run test"
   },
-  "files": [
-    "dist",
-    "less",
-    "lib",
-    "scss"
-  ],
+  "files": ["dist", "less", "lib", "scss"],
   "keywords": [
     "combobox",
     "form",
