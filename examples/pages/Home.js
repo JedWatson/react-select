@@ -115,12 +115,6 @@ export default class Home extends Component<*, State> {
             isRtl={this.state.isRtl}
             name="color"
             options={colourOptions}
-            onFocus={() => {
-              console.log('Select Focused');
-            }}
-            onBlur={() => {
-              console.log('Select Blurred');
-            }}
           />
         </div>
         <Note Tag="label">
