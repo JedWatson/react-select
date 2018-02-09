@@ -77,7 +77,7 @@ type Props = {
   /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
   /* Is the select value clearable */
-  isClearable: boolean,
+  isClearable?: boolean,
   /* Is the select disabled */
   isDisabled: boolean,
   /* Is the select in a state of loading (async) */
@@ -141,7 +141,6 @@ const defaultProps = {
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
-  isClearable: false,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
@@ -389,7 +388,13 @@ export default class Select extends Component<Props, State> {
     return this.state.menuOptions.focusable.length;
   }
   isClearable(): boolean {
-    return this.props.isClearable || this.props.isMulti;
+    const { isClearable, isMulti } = this.props;
+
+    // single select, by default, IS NOT clearable
+    // multi select, by default, IS clearable
+    if (isClearable === undefined) return isMulti;
+
+    return isClearable;
   }
   isOptionDisabled(option: OptionType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
