@@ -1,6 +1,7 @@
 // @flow
 
-import type { OptionsType, ValueType } from './types';
+import type { MenuPlacement, OptionsType, ValueType } from './types';
+import { spacing } from './theme';
 
 // ==============================
 // Class Name Prefixer
@@ -91,17 +92,35 @@ export const toKey = (str: string): string => {
 };
 
 // ==============================
-// Is Element In the Viewport
+// Get Menu Placement
 // ==============================
 
-export function inViewport(element: HTMLElement): boolean {
-  const { top, right, bottom, left } = element.getBoundingClientRect();
-  const docEl = document.documentElement;
+type Placement = MenuPlacement | false;
 
-  return (
-    top >= 0 &&
-    left >= 0 &&
-    bottom <= (window.innerHeight || (docEl && docEl.clientHeight) || 0) &&
-    right <= (window.innerWidth || (docEl && docEl.clientWidth) || 0)
-  );
+export function getMenuPlacement(element: HTMLElement): Placement {
+  // not enough info to calc properly
+  if (!element || !element.offsetParent) return false;
+
+  const { top: containerTop } = element.offsetParent.getBoundingClientRect();
+  const { height, top } = element.getBoundingClientRect();
+
+  const docEl = document.documentElement;
+  const windowHeight = window.innerHeight || (docEl && docEl.clientHeight) || 0;
+  const menuHeight = height + spacing.menuGutter;
+
+  const spaceBelow = windowHeight - top;
+  const spaceAbove = containerTop - spacing.menuGutter;
+
+  // the menu will fit above, or at least has more space than below
+  if (menuHeight >= spaceBelow && spaceAbove > spaceBelow) {
+    return 'top';
+  }
+
+  // the menu will fit below, or at least has more space than above
+  if (menuHeight >= spaceAbove && spaceBelow > spaceAbove) {
+    return 'bottom';
+  }
+
+  // no edge conflict found
+  return false;
 }

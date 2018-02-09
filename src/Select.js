@@ -27,6 +27,7 @@ import type {
   FocusEventHandler,
   GroupType,
   KeyboardEventHandler,
+  MenuPlacement,
   OptionsType,
   OptionType,
   ValueType,
@@ -98,6 +99,10 @@ type Props = {
   maxValueHeight: number,
   /* Whether the menu is open */
   menuIsOpen: boolean,
+  /* Default placement of the menu in relation to the control */
+  menuPlacement: MenuPlacement,
+  /* Whether to employ edge detection for the menu, and flip when applicable */
+  menuShouldFlip: boolean,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
@@ -150,6 +155,8 @@ const defaultProps = {
   maxMenuHeight: 300,
   maxValueHeight: 100,
   menuIsOpen: false,
+  menuPlacement: 'bottom',
+  menuShouldFlip: true,
   noOptionsMessage: () => 'No options',
   options: [],
   placeholder: 'Select...',
@@ -944,6 +951,9 @@ export default class Select extends Component<Props, State> {
       inputValue,
       isLoading,
       isMulti,
+      menuShouldFlip,
+      menuPlacement,
+      maxMenuHeight,
       loadingMessage,
       maxMenuHeight,
       menuIsOpen,
@@ -1020,6 +1030,8 @@ export default class Select extends Component<Props, State> {
           onMouseMove: this.onMenuMouseMove,
         }}
         isLoading={isLoading}
+        menuPlacement={menuPlacement}
+        menuShouldFlip={menuShouldFlip}
       >
         <ScrollLock enabled={captureMenuScroll}>
           <MenuList
