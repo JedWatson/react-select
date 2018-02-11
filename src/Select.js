@@ -973,12 +973,11 @@ export default class Select extends Component<Props, State> {
       inputValue,
       isLoading,
       isMulti,
-      menuShouldFlip,
-      menuPlacement,
-      maxMenuHeight,
       loadingMessage,
       maxMenuHeight,
       menuIsOpen,
+      menuPlacement,
+      menuShouldFlip,
       noOptionsMessage,
     } = this.props;
 
