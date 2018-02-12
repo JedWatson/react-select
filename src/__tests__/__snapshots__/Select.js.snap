@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['defaults 1'] = `
+exports[`defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   getStyles={[Function]}
@@ -43,6 +43,7 @@ exports['defaults 1'] = `
       "menuShouldFlip": true,
       "noOptionsMessage": [Function],
       "options": Array [],
+      "pageSize": 5,
       "placeholder": "Select...",
       "screenReaderStatus": [Function],
       "styles": Object {},
@@ -102,6 +103,7 @@ exports['defaults 1'] = `
         "menuShouldFlip": true,
         "noOptionsMessage": [Function],
         "options": Array [],
+        "pageSize": 5,
         "placeholder": "Select...",
         "screenReaderStatus": [Function],
         "styles": Object {},
@@ -148,6 +150,7 @@ exports['defaults 1'] = `
           "menuShouldFlip": true,
           "noOptionsMessage": [Function],
           "options": Array [],
+          "pageSize": 5,
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
@@ -194,6 +197,7 @@ exports['defaults 1'] = `
             "menuShouldFlip": true,
             "noOptionsMessage": [Function],
             "options": Array [],
+            "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
@@ -262,6 +266,7 @@ exports['defaults 1'] = `
           "menuShouldFlip": true,
           "noOptionsMessage": [Function],
           "options": Array [],
+          "pageSize": 5,
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
@@ -313,6 +318,7 @@ exports['defaults 1'] = `
             "menuShouldFlip": true,
             "noOptionsMessage": [Function],
             "options": Array [],
+            "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
@@ -365,6 +371,7 @@ exports['defaults 1'] = `
             "menuShouldFlip": true,
             "noOptionsMessage": [Function],
             "options": Array [],
+            "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},

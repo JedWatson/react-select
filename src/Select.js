@@ -125,6 +125,8 @@ type Props = {
   onMenuClose: () => void,
   /* Array of options that populate the select menu */
   options: OptionsType,
+  /* Number of options to jump in menu when page{up|down} keys are used */
+  pageSize: number,
   /* Placeholder text for the select value */
   placeholder: string,
   /* Status to relay to screen readers */
@@ -162,6 +164,7 @@ const defaultProps = {
   menuShouldFlip: true,
   noOptionsMessage: () => 'No options',
   options: [],
+  pageSize: 5,
   placeholder: 'Select...',
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available.`,
@@ -186,9 +189,6 @@ type State = {
 type ElRef = ElementRef<*>;
 
 let instanceId = 1;
-
-// TODO: turn this into a prop or measure it when there's a menu ref
-const PAGE_SIZE = 5;
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -458,6 +458,7 @@ export default class Select extends Component<Props, State> {
     });
   }
   focusOption(direction: FocusDirection = 'first') {
+    const { pageSize } = this.props;
     const { focusedOption, menuOptions } = this.state;
     const options = menuOptions.focusable;
     if (!options.length) return;
@@ -468,10 +469,10 @@ export default class Select extends Component<Props, State> {
     } else if (direction === 'down') {
       nextFocus = (focusedIndex + 1) % options.length;
     } else if (direction === 'pageup') {
-      nextFocus = focusedIndex - PAGE_SIZE;
+      nextFocus = focusedIndex - pageSize;
       if (nextFocus < 0) nextFocus = 0;
     } else if (direction === 'pagedown') {
-      nextFocus = focusedIndex + PAGE_SIZE;
+      nextFocus = focusedIndex + pageSize;
       if (nextFocus > options.length - 1) nextFocus = options.length - 1;
     } else if (direction === 'last') {
       nextFocus = options.length - 1;
