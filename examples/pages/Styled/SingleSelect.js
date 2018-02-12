@@ -1,10 +1,7 @@
 import React from 'react';
-import { withValue } from 'react-value';
 import { colourOptions } from '../../data';
 import Select from '../../../src';
 import chroma from 'chroma-js';
-
-const SelectWithValue = withValue(Select);
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
@@ -38,21 +35,17 @@ const colourStyles = {
       cursor: isDisabled ? 'not-allowed' : 'default',
     };
   },
-};
-
-const colourStylesSingle = {
-  ...colourStyles,
   input: styles => ({ ...styles, ...dot() }),
   placeholder: styles => ({ ...styles, ...dot() }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 
 export default () => (
-  <SelectWithValue
+  <Select
     autoFocus
     defaultValue={colourOptions[2]}
     label="Single select"
     options={colourOptions}
-    styles={colourStylesSingle}
+    styles={colourStyles}
   />
 );

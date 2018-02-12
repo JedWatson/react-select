@@ -1,15 +1,13 @@
 import React from 'react';
-import { withValue } from 'react-value';
 
 import Select from '../../../src';
 import * as Animated from '../../../src/animated';
 
 import { colourOptions } from '../../data';
 
-const SelectWithValue = withValue(Select);
 export default () => (
   <div id="cypress-multi-animated">
-    <SelectWithValue
+    <Select
       autoFocus
       closeMenuOnSelect={false}
       components={Animated}

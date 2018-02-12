@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { withValue } from 'react-value';
 import Select from '../../../src';
 import { colourOptions } from '../../data';
 import { Note } from '../../components';
 
-const SelectWithValue = withValue(Select);
 const Checkbox = props => <input type="checkbox" {...props} />;
 
 type State = {
@@ -17,7 +15,7 @@ type State = {
 
 export default class SingleSelect extends Component<*, State> {
   state = {
-    isClearable: false,
+    isClearable: true,
     isDisabled: false,
     isLoading: false,
     isRtl: false,
@@ -43,7 +41,7 @@ export default class SingleSelect extends Component<*, State> {
     } = this.state;
     return (
       <div>
-        <SelectWithValue
+        <Select
           autoFocus
           defaultValue={colourOptions[0]}
           isDisabled={isDisabled}

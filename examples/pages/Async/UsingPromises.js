@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { withValue } from 'react-value';
 
 import AsyncSelect from '../../../src/Async';
 import { colourOptions } from '../../data';
 
-const SelectWithValue = withValue(AsyncSelect);
 type State = {
   inputValue: string,
 };
@@ -30,11 +28,7 @@ export default class WithCallbacks extends Component<*, State> {
   };
   render() {
     return (
-      <SelectWithValue
-        cacheOptions
-        defaultOptions
-        loadOptions={promiseOptions}
-      />
+      <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
     );
   }
 }

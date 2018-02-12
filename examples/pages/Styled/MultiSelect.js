@@ -1,10 +1,7 @@
 import React from 'react';
-import { withValue } from 'react-value';
 import { colourOptions } from '../../data';
 import Select from '../../../src';
 import chroma from 'chroma-js';
-
-const SelectWithValue = withValue(Select);
 
 const colourStyles = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
@@ -23,10 +20,6 @@ const colourStyles = {
       cursor: isDisabled ? 'not-allowed' : 'default',
     };
   },
-};
-
-const colourStylesMulti = {
-  ...colourStyles,
   multiValue: (styles, { data }) => {
     const color = chroma(data.color);
     return {
@@ -49,11 +42,11 @@ const colourStylesMulti = {
 };
 
 export default () => (
-  <SelectWithValue
+  <Select
     closeMenuOnSelect={false}
     defaultValue={[colourOptions[0], colourOptions[1]]}
     isMulti
     options={colourOptions}
-    styles={colourStylesMulti}
+    styles={colourStyles}
   />
 );

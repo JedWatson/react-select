@@ -1,10 +1,6 @@
 import React from 'react';
-import { withValue } from 'react-value';
 import Select from '../../../src';
 import { colourOptions, groupedOptions } from '../../data';
-
-const SelectWithValue = withValue(Select);
-
 
 const groupStyles = {
   display: 'flex',
@@ -31,7 +27,10 @@ const formatGroupLabel = data => (
   </div>
 );
 
-
 export default () => (
-  <SelectWithValue defaultValue={colourOptions[1]} options={groupedOptions} formatGroupLabel={formatGroupLabel} />
+  <Select
+    defaultValue={colourOptions[1]}
+    options={groupedOptions}
+    formatGroupLabel={formatGroupLabel}
+  />
 );

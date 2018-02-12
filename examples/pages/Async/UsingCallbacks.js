@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { withValue } from 'react-value';
 
 import AsyncSelect from '../../../src/Async';
 import { colourOptions } from '../../data';
 
-const SelectWithValue = withValue(AsyncSelect);
 type State = {
   inputValue: string,
 };
@@ -32,7 +30,7 @@ export default class WithCallbacks extends Component<*, State> {
       <div>
         <h4>Using Callbacks</h4>
         <pre>inputValue: "{this.state.inputValue}"</pre>
-        <SelectWithValue
+        <AsyncSelect
           autoFocus
           cacheOptions
           loadOptions={loadOptions}
