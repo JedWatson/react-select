@@ -34,13 +34,23 @@ export default class SingleSelect extends Component<*, State> {
   toggleSearchable = () =>
     this.setState(state => ({ isSearchable: !state.isSearchable }));
   render() {
+    const {
+      isClearable,
+      isSearchable,
+      isDisabled,
+      isLoading,
+      isRtl,
+    } = this.state;
     return (
       <div>
         <SelectWithValue
           autoFocus
           defaultValue={colourOptions[0]}
-          isDisabled={this.state.isDisabled}
-          isLoading={this.state.isLoading}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={isClearable}
+          isRtl={isRtl}
+          isSearchable={isSearchable}
           name="color"
           options={colourOptions}
           onFocus={() => {
