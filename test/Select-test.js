@@ -70,6 +70,7 @@ describe('Select', () => {
 
 	var pressEnterToAccept = () => {
 		TestUtils.Simulate.keyDown(searchInputNode, { keyCode: 13, key: 'Enter' });
+		TestUtils.Simulate.keyUp(searchInputNode, { keyCode: 13, key: 'Enter' });
 	};
 
 	var pressTabToAccept = () => {
@@ -4396,6 +4397,7 @@ describe('Select', () => {
 				return expect(wrapper,
 					'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />,
 					'with event', 'keyDown', KEY_ENTER, 'on', <div className="Select-control" />,
+					'with event', 'keyUp', KEY_ENTER, 'on', <div className="Select-control" />,
 					'queried for', <input role="combobox" />)
 					.then(input => {
 
@@ -4412,6 +4414,7 @@ describe('Select', () => {
 
 				return expect(wrapper,
 						'with event', 'keyDown', KEY_ENTER, 'on', <div className="Select-control" />,
+						'with event', 'keyUp', KEY_ENTER, 'on', <div className="Select-control" />,
 						'queried for', <input role="combobox" />)
 						.then(input => {
 							expect(instance.state.focusedOption, 'to equal', { value: 'one', label: 'label one' });

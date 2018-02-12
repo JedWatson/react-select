@@ -85,6 +85,7 @@ class Select extends React.Component {
 			'handleInputFocus',
 			'handleInputValueChange',
 			'handleKeyDown',
+			'handleKeyUp',
 			'handleMenuScroll',
 			'handleMouseDown',
 			'handleMouseDownOnArrow',
@@ -486,12 +487,6 @@ class Select extends React.Component {
 				break;
 			case 13: // enter
 				event.preventDefault();
-				event.stopPropagation();
-				if (this.state.isOpen) {
-					this.selectFocusedOption();
-				} else {
-					this.focusNextOption();
-				}
 				break;
 			case 27: // escape
 				event.preventDefault();
@@ -554,6 +549,30 @@ class Select extends React.Component {
 		}
 	}
 
+	handleKeyUp (event) {
+		if (this.props.disabled) return;
+
+		if (typeof this.props.onInputKeyUp === 'function') {
+			this.props.onInputKeyUp(event);
+			if (event.defaultPrevented) {
+				return;
+			}
+		}	
+
+		switch (event.keyCode) {
+			case 13:
+				// enter - Setting value onKeyUp in order to overcome the issues due to longpress (issue #2364)
+				event.preventDefault();
+				event.stopPropagation();
+				if (this.state.isOpen) {
+					this.selectFocusedOption();
+				} else {
+					this.focusNextOption();
+				}
+				break;
+		}
+	}
+	
 	handleValueClick (option, event) {
 		if (!this.props.onValueClick) return;
 		this.props.onValueClick(option, event);
@@ -1167,6 +1186,7 @@ class Select extends React.Component {
 				<div ref={ref => this.control = ref}
 					className="Select-control"
 					onKeyDown={this.handleKeyDown}
+					onKeyUp={this.handleKeyUp}
 					onMouseDown={this.handleMouseDown}
 					onTouchEnd={this.handleTouchEnd}
 					onTouchMove={this.handleTouchMove}
@@ -1237,6 +1257,7 @@ Select.propTypes = {
 	onFocus: PropTypes.func,              // onFocus handler: function (event) {}
 	onInputChange: PropTypes.func,        // onInputChange handler: function (inputValue) {}
 	onInputKeyDown: PropTypes.func,       // input keyDown handler: function (event) {}
+	onInputKeyUp: PropTypes.func,		  // input keyUp handler: function (event) {}
 	onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
 	onOpen: PropTypes.func,               // fires when the menu is opened
 	onSelectResetsInput: PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
