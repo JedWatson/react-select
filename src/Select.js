@@ -136,7 +136,7 @@ type Props = {
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
-  value?: ValueType,
+  value: ValueType,
 };
 
 const defaultProps = {
@@ -170,7 +170,6 @@ const defaultProps = {
     `${count} result${count !== 1 ? 's' : ''} available.`,
   styles: {},
   tabSelectsValue: true,
-  value: '',
 };
 
 type MenuOptions = {

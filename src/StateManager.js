@@ -3,26 +3,34 @@
 import React, { Component } from 'react';
 
 import Select from './Select';
-import { type OptionType } from './types';
+import { type ValueType } from './types';
 
 type Props = {
+  defaultInputValue: string,
+  defaultMenuIsOpen: boolean,
+  defaultValue: ValueType,
   inputValue?: string,
   menuIsOpen?: boolean,
-  value?: OptionType,
+  value?: ValueType,
 };
 type State = {
   inputValue: string,
   menuIsOpen: boolean,
-  value: OptionType | null,
+  value: ValueType,
 };
 
 export default class StateManager extends Component<Props, State> {
-  state = {
-    inputValue: this.props.inputValue || '',
-    menuIsOpen: this.props.menuIsOpen || false,
-    value: this.props.value || null,
+  static defaultProps = {
+    defaultInputValue: '',
+    defaultMenuIsOpen: false,
+    defaultValue: null,
   };
-  getSelectProp(key: string) {
+  state = {
+    inputValue: this.props.inputValue !== undefined ? this.props.inputValue : this.props.defaultInputValue,
+    menuIsOpen: this.props.menuIsOpen !== undefined ? this.props.menuIsOpen : this.props.defaultMenuIsOpen,
+    value: this.props.value !== undefined ? this.props.value : this.props.defaultValue,
+  };
+  getProp(key: string) {
     return this.props[key] !== undefined ? this.props[key] : this.state[key];
   }
   callProp(name: string, ...args: any) {
@@ -51,19 +59,16 @@ export default class StateManager extends Component<Props, State> {
     this.setState({ menuIsOpen: false });
   };
   render() {
-    const inputValue = this.getSelectProp('inputValue');
-    const menuIsOpen = this.getSelectProp('menuIsOpen');
-    const value = this.getSelectProp('value');
     return (
       <Select
         {...this.props}
-        inputValue={inputValue}
-        menuIsOpen={menuIsOpen}
+        inputValue={this.getProp('inputValue')}
+        menuIsOpen={this.getProp('menuIsOpen')}
         onChange={this.onChange}
         onInputChange={this.onInputChange}
         onMenuClose={this.onMenuClose}
         onMenuOpen={this.onMenuOpen}
-        value={value}
+        value={this.getProp('value')}
       />
     );
   }
