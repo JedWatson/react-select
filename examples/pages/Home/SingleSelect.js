@@ -5,14 +5,34 @@ import { colourOptions } from '../../data';
 import { Note } from '../../components';
 
 const SelectWithValue = withValue(Select);
+const Checkbox = props => <input type="checkbox" {...props} />;
 
-export default class SingleSelect extends Component {
-  state = { isDisabled: false, isLoading: false };
+type State = {
+  isClearable: boolean,
+  isDisabled: boolean,
+  isLoading: boolean,
+  isRtl: boolean,
+  isSearchable: boolean,
+};
+
+export default class SingleSelect extends Component<*, State> {
+  state = {
+    isClearable: false,
+    isDisabled: false,
+    isLoading: false,
+    isRtl: false,
+    isSearchable: true,
+  };
+
+  toggleClearable = () =>
+    this.setState(state => ({ isClearable: !state.isClearable }));
   toggleDisabled = () =>
     this.setState(state => ({ isDisabled: !state.isDisabled }));
   toggleLoading = () =>
     this.setState(state => ({ isLoading: !state.isLoading }));
-
+  toggleRtl = () => this.setState(state => ({ isRtl: !state.isRtl }));
+  toggleSearchable = () =>
+    this.setState(state => ({ isSearchable: !state.isSearchable }));
   render() {
     return (
       <div>
@@ -31,12 +51,24 @@ export default class SingleSelect extends Component {
           }}
         />
         <Note Tag="label">
-          <input type="checkbox" onChange={this.toggleDisabled} />
+          <Checkbox checked={isClearable} onChange={this.toggleClearable} />
+          Clearable
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <Checkbox checked={isSearchable} onChange={this.toggleSearchable} />
+          Searchable
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <Checkbox checked={isDisabled} onChange={this.toggleDisabled} />
           Disabled
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <input type="checkbox" onChange={this.toggleLoading} />
+          <Checkbox checked={isLoading} onChange={this.toggleLoading} />
           Loading
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <Checkbox type="checkbox" checked={isRtl} onChange={this.toggleRtl} />
+          RTL
         </Note>
       </div>
     );

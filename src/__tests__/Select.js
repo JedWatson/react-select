@@ -33,7 +33,7 @@ test('formatOptionLabel', () => {
   );
   const value = tree.find(SingleValue).at(0);
   expect(value.props().children).toBe('2 two value');
-  tree.setState({ menuIsOpen: true });
+  tree.setProps({ menuIsOpen: true });
   const menu = tree.find(Option);
   expect(menu).toHaveLength(3);
   expect(menu.at(0).props().children).toBe('1 one menu');
