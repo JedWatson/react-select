@@ -4,7 +4,7 @@ import React, { Component, type ElementRef, type Node } from 'react';
 import ScrollCaptor from 'react-scroll-captor';
 
 import { createFilter } from './filters';
-import { DummyInput } from './internal';
+import { DummyInput } from './internal/index';
 import { cleanValue, noop, scrollIntoView } from './utils';
 import {
   formatGroupLabel,
