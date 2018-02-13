@@ -48,7 +48,6 @@ exports[`defaults 1`] = `
       "screenReaderStatus": [Function],
       "styles": Object {},
       "tabSelectsValue": true,
-      "value": "",
     }
   }
   setValue={[Function]}
@@ -108,7 +107,6 @@ exports[`defaults 1`] = `
         "screenReaderStatus": [Function],
         "styles": Object {},
         "tabSelectsValue": true,
-        "value": "",
       }
     }
     setValue={[Function]}
@@ -155,7 +153,6 @@ exports[`defaults 1`] = `
           "screenReaderStatus": [Function],
           "styles": Object {},
           "tabSelectsValue": true,
-          "value": "",
         }
       }
       setValue={[Function]}
@@ -202,7 +199,6 @@ exports[`defaults 1`] = `
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
-            "value": "",
           }
         }
         setValue={[Function]}
@@ -271,7 +267,6 @@ exports[`defaults 1`] = `
           "screenReaderStatus": [Function],
           "styles": Object {},
           "tabSelectsValue": true,
-          "value": "",
         }
       }
       setValue={[Function]}
@@ -323,7 +318,6 @@ exports[`defaults 1`] = `
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
-            "value": "",
           }
         }
         setValue={[Function]}
@@ -376,7 +370,6 @@ exports[`defaults 1`] = `
             "screenReaderStatus": [Function],
             "styles": Object {},
             "tabSelectsValue": true,
-            "value": "",
           }
         }
         setValue={[Function]}
