@@ -1,8 +1,8 @@
 // @flow
 
-import SelectStateful from './StateManager';
+import Select from './StateManager';
 
-export default SelectStateful;
-export { default as SelectStateless } from './Select';
+export default Select;
+export { default as Base } from './Select';
 export { createFilter } from './filters';
 export { components } from './components/index';
