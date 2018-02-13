@@ -7,7 +7,8 @@ import { CrossIcon } from './indicators';
 import { Div } from '../primitives';
 import { type PropsWithStyles } from '../types';
 
-export type ValueProps = {
+type LabelProps = { cropWithEllipsis: boolean };
+export type ValueProps = LabelProps & {
   children: Node,
   components: any,
   innerProps: any,
@@ -26,13 +27,13 @@ export const multiValueCSS = () => ({
   margin: spacing.baseUnit / 2,
   minWidth: 0, // resolves flex/text-overflow bug
 });
-export const multiValueLabelCSS = () => ({
+export const multiValueLabelCSS = ({ cropWithEllipsis }: LabelProps) => ({
   color: colors.text,
   fontSize: '85%',
   overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
-  textOverflow: 'ellipsis',
+  textOverflow: cropWithEllipsis ? 'ellipsis' : null,
   whiteSpace: 'nowrap',
 });
 export const multiValueRemoveCSS = () => ({
@@ -84,6 +85,9 @@ const MultiValue = (props: Props) => {
       </Remove>
     </Container>
   );
+};
+MultiValue.defaultProps = {
+  cropWithEllipsis: true,
 };
 
 export default MultiValue;
