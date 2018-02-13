@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CodeSandboxer, { replaceImports } from 'react-codesandboxer';
-import { Link } from './components';
+import { Action, Actions, ExampleHeading } from './components';
 const user = 'JedWatson';
 const branch = 'v2';
 
@@ -10,8 +10,20 @@ const rawPKGJSON = rawUrl + '/package.json';
 
 const rawDataUrl = rawUrl + '/examples/data.js';
 const rawComponentsUrl = rawUrl + '/examples/components.js';
+const promise = urlPath =>
+  fetch(rawUrl + urlPath)
+    .then(a => a.text())
+    .then(a =>
+      replaceImports(a, [
+        ['../../../src/*', 'react-select/lib/'],
+        ['../../../src', 'react-select'],
+        ['../../data', './data'],
+        ['../../components', './components'],
+      ])
+    );
 
 export default class ExampleWrapper extends Component {
+  static defaultProps = { isEditable: true };
   render() {
     const configPromise = Promise.all([
       fetch(rawDataUrl).then(a => a.text()),
@@ -30,30 +42,30 @@ export default class ExampleWrapper extends Component {
 
     return (
       <div>
-        <h4>
-          {this.props.label}
-          {' - '}
-          <Link href={sourceUrl + this.props.urlPath}>Source</Link>
-          {' - '}
-          <CodeSandboxer
-            // skipDeploy
-            // afterDeploy={console.log}
-            example={fetch(rawUrl + this.props.urlPath)
-              .then(a => a.text())
-              .then(a =>
-                replaceImports(a, [
-                  ['../../../src/*', 'react-select/lib/'],
-                  ['../../../src', 'react-select'],
-                  ['../../data', './data'],
-                  ['../../components', './components'],
-                ])
-              )}
-            pkgJSON={fetch(rawPKGJSON).then(a => a.json())}
-            config={configPromise}
-          >
-            <button type="submit">Open in CodeSandbox</button>
-          </CodeSandboxer>
-        </h4>
+        <ExampleHeading>
+          <h4>{this.props.label}</h4>
+          <Actions>
+            <Action
+              icon="source"
+              href={sourceUrl + this.props.urlPath}
+              tag="a"
+              target="_blank"
+            >
+              View Source
+            </Action>
+            {this.props.isEditable ? (
+              <CodeSandboxer
+                config={configPromise}
+                example={promise(this.props.urlPath)}
+                pkgJSON={fetch(rawPKGJSON).then(a => a.json())}
+              >
+                <Action icon="new-window" type="submit">
+                  Open in CodeSandbox
+                </Action>
+              </CodeSandboxer>
+            ) : null}
+          </Actions>
+        </ExampleHeading>
         {this.props.children}
       </div>
     );

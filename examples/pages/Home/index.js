@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Code, Link, H1, Hr } from '../../components';
+import { Code, Link, H1 } from '../../components';
 
 import ExampleWrapper from '../../ExampleWrapper';
 import SingleSelect from './SingleSelect';
@@ -61,21 +61,18 @@ export default class Home extends Component<*, *> {
           </Link>
         </p>
 
-        <h2 css={{ marginTop: '2em' }}>Basic Usage</h2>
         <ExampleWrapper
           label="Single Select"
           urlPath="/examples/pages/Home/SingleSelect.js"
         >
           <SingleSelect />
         </ExampleWrapper>
-        <h4>Grouped</h4>
         <ExampleWrapper
           label="Grouped"
           urlPath="/examples/pages/Home/Grouped.js"
         >
           <Grouped />
         </ExampleWrapper>
-        <Hr />
         <ExampleWrapper
           label="Multi Select"
           urlPath="/examples/pages/Home/MultiSelect.js"
