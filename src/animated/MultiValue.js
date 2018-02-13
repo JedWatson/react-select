@@ -13,7 +13,7 @@ type Props = {
 const MultiValue = ({ in: inProp, onExited, ...props }: Props) => (
   <Collapse in={inProp} onExited={onExited}>
     {/* $FlowFixMe */}
-    <components.MultiValue {...props} />
+    <components.MultiValue cropWithEllipsis={inProp} {...props} />
   </Collapse>
 );
 
