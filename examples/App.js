@@ -21,7 +21,7 @@ const navWidth = 180;
 const appWidth = 640;
 const appGutter = 20;
 const contentGutter = 30;
-const pagePadding = 260;
+const pagePadding = 280;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
