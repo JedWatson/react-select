@@ -6,10 +6,11 @@ import chrono from 'chrono-node';
 
 import { Div, Span } from '../../src/primitives';
 import { components as SelectComponents } from '../../src';
+import ExampleWrapper from '../ExampleWrapper';
 
 import Select from '../../src';
 
-import { Link, Note, H1 } from '../components';
+import { Note, H1 } from '../components';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);
@@ -205,20 +206,15 @@ export default class App extends Component<*, *> {
     return (
       <div>
         <H1>Experimental</H1>
-        <p>
-          Wild experiments with react-select v2{' '}
-          <Link
-            href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Experimental.js"
-            target="_blank"
-          >
-            Source
-          </Link>
-        </p>
+        <p>Wild experiments with react-select v2.</p>
 
-        <h2>Date Picker</h2>
-        <div>
+        <ExampleWrapper
+          isEditable={false}
+          label="DatePicker"
+          urlPath="/examples/pages/Experimental.js"
+        >
           <DatePicker autoFocus value={value} onChange={this.handleChange} />
-        </div>
+        </ExampleWrapper>
         <pre>Value: {displayValue}</pre>
         <Note>
           This example uses a combination of custom components and functions to
