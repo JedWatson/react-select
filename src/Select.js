@@ -1,9 +1,10 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
+import ScrollCaptor from 'react-scroll-captor';
 
 import { createFilter } from './filters';
-import { DummyInput, ScrollLock } from './internal';
+import { DummyInput } from './internal';
 import { cleanValue, noop, scrollIntoView } from './utils';
 import {
   formatGroupLabel,
@@ -1054,7 +1055,7 @@ export default class Select extends Component<Props, State> {
         menuPlacement={menuPlacement}
         menuShouldFlip={menuShouldFlip}
       >
-        <ScrollLock enabled={captureMenuScroll}>
+        <ScrollCaptor isEnabled={captureMenuScroll}>
           <MenuList
             {...commonProps}
             innerProps={{
@@ -1068,7 +1069,7 @@ export default class Select extends Component<Props, State> {
           >
             {menuUI}
           </MenuList>
-        </ScrollLock>
+        </ScrollCaptor>
       </Menu>
     );
   }
