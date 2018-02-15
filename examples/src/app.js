@@ -25,8 +25,8 @@ ReactDOM.render(
 		<GithubUsers label="GitHub users (Async with fetch.js)" />
 		<NumericSelect label="Numeric Values" />
 		<BooleanSelect label="Boolean Values" />
-		<CustomRender label="Custom Render Methods"/>
-		<CustomComponents label="Custom Placeholder, Option, Value, and Arrow Components" />
+		<CustomRender label="Custom Render Methods" />
+		<CustomComponents label="Custom Placeholder, Outer, Option, Value, and Arrow Components" />
 		<Creatable
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
