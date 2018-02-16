@@ -876,7 +876,7 @@ class Select extends React.Component {
 			'aria-haspopup': '' + isOpen,
 			'aria-label': this.props['aria-label'],
 			'aria-labelledby': this.props['aria-labelledby'],
-			'aria-owns': ariaOwns,
+			'aria-owns': ariaOwns || undefined,
 			className: className,
 			onBlur: this.handleInputBlur,
 			onChange: this.handleInputChange,
