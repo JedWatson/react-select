@@ -1,9 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Code, H1 } from '../../components';
+import { Code, H1, Note } from '../../components';
 import ExampleWrapper from '../../ExampleWrapper';
-import Creatable from './Creatable';
+import CreatableAdvanced from './CreatableAdvanced';
+import CreatableMulti from './CreatableMulti';
+import CreatableSingle from './CreatableSingle';
 
 export default class App extends Component<*> {
   render() {
@@ -17,10 +19,33 @@ export default class App extends Component<*> {
 
         <ExampleWrapper
           label="Creatable Example"
-          urlPath="/examples/pages/Creatable/Creatable.js"
+          urlPath="/examples/pages/Creatable/CreatableSingle.js"
         >
-          <Creatable />
+          <CreatableSingle />
         </ExampleWrapper>
+
+        <ExampleWrapper
+          label="Creatable Multiselect Example"
+          urlPath="/examples/pages/Creatable/CreatableMulti.js"
+        >
+          <CreatableMulti />
+        </ExampleWrapper>
+
+        <ExampleWrapper
+          label="Advanced Example"
+          urlPath="/examples/pages/Creatable/CreatableAdvanced.js"
+        >
+          <CreatableAdvanced />
+        </ExampleWrapper>
+        <Note>
+          This example uses the <Code>onCreateOption</Code> prop to handle new
+          options.
+        </Note>
+        <Note>
+          To simulate waiting for a back-end service to create a new option, the
+          input is disabled for a second before the new option is added to the
+          list and the value is updated.
+        </Note>
       </div>
     );
   }

@@ -3,27 +3,20 @@ import React, { Component } from 'react';
 import CreatableSelect from '../../../src/Creatable';
 import { colourOptions } from '../../data';
 
-type State = {
-  inputValue: string,
-};
-
 export default class WithCallbacks extends Component<*, State> {
-  state = { inputValue: '' };
   handleChange = (newValue: any, actionMeta: any) => {
-    console.log('Value changed:', newValue);
-    console.log('Action meta:', actionMeta);
-  };
-  handleCreate = (newOption: any) => {
-    console.log('Option created:', newOption);
+    console.group('Value Changed');
+    console.log(newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
   };
   render() {
     return (
       <div>
         <CreatableSelect
-          autoFocus
-          options={colourOptions}
+          isMulti
           onChange={this.handleChange}
-          onCreateOption={this.handleCreate}
+          options={colourOptions}
         />
       </div>
     );

@@ -24,16 +24,12 @@ const compareOption = (inputValue, option) => {
 
 const builtins = {
   formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
-  isValidNewOption: (inputValue, selectValue, selectOptions) => {
-    if (
+  isValidNewOption: (inputValue, selectValue, selectOptions) =>
+    !(
       !inputValue ||
       selectValue.some(option => compareOption(inputValue, option)) ||
       selectOptions.some(option => compareOption(inputValue, option))
-    ) {
-      return false;
-    }
-    return true;
-  },
+    ),
   getNewOptionData: (inputValue, optionLabel) => ({
     label: optionLabel,
     value: inputValue,
@@ -100,6 +96,7 @@ class Creatable extends Component<Props, State> {
     }
     const { newOption } = this.state;
     const valueArray = Array.isArray(newValue) ? newValue : [newValue];
+
     if (valueArray[valueArray.length - 1] === newOption) {
       if (onCreateOption) onCreateOption(inputValue);
       else {
