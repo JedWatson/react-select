@@ -1,5 +1,22 @@
 # React-Select
 
+## v2.0.0-alpha.6 / 2018-02-14
+
+Ongoing rewrite. Major changes since last alpha:
+
+* `menuIsOpen`, `inputValue` and `value` are now controllable props that default to internal state
+* Fixed missing loading indicator
+* Added "open in code sandbox" to all examples
+* Switched menu rendering from li to div tags for better screen reader usability
+* Removed unused primitives and simplified indicator components
+* Improved accessibility of groups and options, cleaned up Group implementation
+* Fixed some input alignment issues
+* Added right-to-left support with `isRtl` prop
+* Support blocking page scroll at menu boundaries with `captureMenuScroll` prop
+* Added automatic menu flipping at window boundaries with `menuPlacement` and `menuShouldFlip` props
+* Added `isSearchable` prop to support simple (not searchable) select inputs
+* Added `pageSize` prop
+
 ## v2.0.0-alpha.5 / 2018-02-07
 
 Ongoing rewrite. Major changes since last alpha:
