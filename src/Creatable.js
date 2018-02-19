@@ -49,28 +49,34 @@ type State = {
 
 class Creatable extends Component<Props, State> {
   static defaultProps = defaultProps;
-  state = {
-    newOption: undefined,
-    options: [],
-  };
   constructor(props: Props) {
     super(props);
+    const options = props.options || [];
+    this.state = {
+      newOption: undefined,
+      options: options,
+    };
   }
-  componentDidMount() {}
   componentWillReceiveProps(nextProps: Props) {
     const {
-      getNewOptionData,
+      allowCreateWhileLoading,
       formatCreateLabel,
-      isValidNewOption,
+      getNewOptionData,
       inputValue: oldInputValue,
+      isLoading,
+      isValidNewOption,
     } = this.props;
-    const { inputValue, value, options } = nextProps;
+    const { inputValue, value } = nextProps;
+    const options = nextProps.options || [];
     this.setState({
       newOption: undefined,
       options: options,
     });
     if (nextProps.inputValue !== oldInputValue) {
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
+      if (
+        (allowCreateWhileLoading || !isLoading) &&
+        isValidNewOption(inputValue, cleanValue(value), options)
+      ) {
         const newOption = getNewOptionData(
           inputValue,
           formatCreateLabel(inputValue)

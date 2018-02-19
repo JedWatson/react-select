@@ -61,7 +61,7 @@ export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
       display: 'inline-block',
       fontSize: 12,
       fontStyle: 'italic',
-      marginTop: '0.5em',
+      marginTop: '1em',
     }}
     {...props}
   />
