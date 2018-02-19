@@ -2,7 +2,7 @@
 
 import React, { Component, type ComponentType } from 'react';
 
-import { type ValueType } from './types';
+import type { ActionMeta, ValueType } from './types';
 
 type Props = {
   defaultInputValue: string,
@@ -47,8 +47,8 @@ const withState = (WrappedComponent: ComponentType<*>) =>
         return this.props[name](...args);
       }
     }
-    onChange = (value: any) => {
-      this.callProp('onChange', value);
+    onChange = (value: any, actionMeta: ActionMeta) => {
+      this.callProp('onChange', value, actionMeta);
       this.setState({ value });
     };
     onInputChange = (inputValue: any) => {
