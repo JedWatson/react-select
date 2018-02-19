@@ -27,7 +27,9 @@ export default class ExampleWrapper extends Component {
   render() {
     const configPromise = Promise.all([
       fetch(rawDataUrl).then(a => a.text()),
-      fetch(rawComponentsUrl).then(a => a.text()),
+      fetch(rawComponentsUrl).then(a => a.text()).then(a => replaceImports(a, [
+		  ['../src/*', 'react-select/lib/'],
+	  ])),
     ]).then(([data, components]) => ({
       providedDeps: { glam: '^5.0.1' },
       providedFiles: {
