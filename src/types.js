@@ -47,7 +47,8 @@ export type ActionTypes =
   | 'remove-value'
   | 'pop-value'
   | 'set-value'
-  | 'clear';
+  | 'clear'
+  | 'create-option';
 
 export type ActionMeta = {
   action: ActionTypes,
