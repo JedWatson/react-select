@@ -40,7 +40,7 @@ type FormatOptionLabelMeta = {
   selectValue: ValueType,
 };
 
-type Props = {
+export type Props = {
   /* HTML ID(s) of element(s) that should be used to describe this input (for assistive tech) */
   'aria-describedby'?: string,
   /* Aria label (for assistive tech) */
