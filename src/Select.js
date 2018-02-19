@@ -925,8 +925,8 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderIndicatorSeparator() {
-    const { IndicatorSeparator } = this.components;
-    if (!IndicatorSeparator) return null;
+    const { DropdownIndicator, IndicatorSeparator } = this.components;
+    if (!DropdownIndicator || !IndicatorSeparator) return null;
     const { commonProps } = this;
     const { isDisabled } = this.props;
     const { isFocused } = this.state;
