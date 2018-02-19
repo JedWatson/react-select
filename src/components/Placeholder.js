@@ -12,7 +12,7 @@ type Props = PropsWithStyles & {
 };
 
 export const css = () => ({
-  color: colors.neutral60,
+  color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   position: 'absolute',
