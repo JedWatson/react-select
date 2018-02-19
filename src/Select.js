@@ -258,7 +258,14 @@ export default class Select extends Component<Props, State> {
       delete this.inputIsHiddenAfterUpdate;
     }
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
+    const { isDisabled } = this.props;
+    const { isFocused } = this.state;
+    // ensure focus is restored correctly when the control becomes enabled
+    if (isFocused && !isDisabled && prevProps.isDisabled) {
+      this.focus();
+    }
+    // scroll the focused option into view if necessary
     if (
       this.menuRef &&
       this.focusedOptionRef &&
