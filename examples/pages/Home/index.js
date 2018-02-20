@@ -7,6 +7,8 @@ import ExampleWrapper from '../../ExampleWrapper';
 import SingleSelect from './SingleSelect';
 import MultiSelect from './MultiSelect';
 import Grouped from './Grouped';
+import carouselPropTypes from './props';
+import PrettyProp, { TypeDefinition } from '../../PrettyProp';
 
 const changes = [
   { icon: '🎨', text: 'CSS-in-JS with a complete styling API' },
@@ -79,6 +81,45 @@ export default class Home extends Component<*, *> {
         >
           <MultiSelect />
         </ExampleWrapper>
+
+        <h2>Props</h2>
+        <p>
+          To understand some of the prop types below, we'll surface internal
+          opaque types:
+        </p>
+        <TypeDefinition>{`type OptionType = { [string]: any }
+type OptionsType = Array<OptionType>
+
+type GroupType = {
+  [string]: any, // group label
+  options: OptionsType,
+}
+
+type ValueType = OptionType | OptionsType | null | void
+
+type CommonProps = {
+  clearValue: () => void,
+  getStyles: (string, any) => {},
+  getValue: () => ValueType,
+  hasValue: boolean,
+  isMulti: boolean,
+  options: OptionsType,
+  selectOption: OptionType => void,
+  selectProps: any,
+  setValue: (ValueType, ActionTypes) => void,
+}
+
+// passed as the second argument to \`onChange\`
+type ActionTypes =
+  | 'clear'
+  | 'create-option'
+  | 'deselect-option'
+  | 'pop-value'
+  | 'remove-value'
+  | 'select-option'
+  | 'set-value'
+`}</TypeDefinition>
+        {carouselPropTypes.map(p => <PrettyProp key={p.name} {...p} />)}
       </div>
     );
   }
