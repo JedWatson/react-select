@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import CreatableSelect from '../../../src/Creatable';
 import { colourOptions } from '../../data';
 
-export default class WithCallbacks extends Component<*, State> {
+export default class CreatableMulti extends Component<*, State> {
   handleChange = (newValue: any, actionMeta: any) => {
     console.group('Value Changed');
     console.log(newValue);
@@ -12,13 +12,11 @@ export default class WithCallbacks extends Component<*, State> {
   };
   render() {
     return (
-      <div>
-        <CreatableSelect
-          isMulti
-          onChange={this.handleChange}
-          options={colourOptions}
-        />
-      </div>
+      <CreatableSelect
+        isMulti
+        onChange={this.handleChange}
+        options={colourOptions}
+      />
     );
   }
 }

@@ -11,7 +11,7 @@ const createOption = (label: string) => ({
   value: label,
 });
 
-export default class WithCallbacks extends Component<*, State> {
+export default class MultiTextInput extends Component<*, State> {
   state = {
     inputValue: '',
     value: [],
@@ -45,20 +45,18 @@ export default class WithCallbacks extends Component<*, State> {
   render() {
     const { inputValue, value } = this.state;
     return (
-      <div>
-        <CreatableSelect
-          components={components}
-          inputValue={inputValue}
-          isClearable
-          isMulti
-          menuIsOpen={false}
-          onChange={this.handleChange}
-          onInputChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder="Type something and press enter..."
-          value={value}
-        />
-      </div>
+      <CreatableSelect
+        components={components}
+        inputValue={inputValue}
+        isClearable
+        isMulti
+        menuIsOpen={false}
+        onChange={this.handleChange}
+        onInputChange={this.handleInputChange}
+        onKeyDown={this.handleKeyDown}
+        placeholder="Type something and press enter..."
+        value={value}
+      />
     );
   }
 }
