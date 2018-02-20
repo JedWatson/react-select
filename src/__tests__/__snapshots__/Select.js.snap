@@ -68,6 +68,9 @@ exports[`defaults 1`] = `
       Object {
         "innerRef": [Function],
         "onMouseDown": [Function],
+        "onTouchEnd": [Function],
+        "onTouchMove": [Function],
+        "onTouchStart": [Function],
       }
     }
     isDisabled={false}

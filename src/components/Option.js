@@ -41,6 +41,11 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   fontSize: 'inherit',
   padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
   width: '100%',
+
+  // provide some affordance on touch devices
+  ':active': {
+    backgroundColor: isSelected ? colors.primary : colors.primaryLight,
+  },
 });
 
 const Option = (props: Props) => {
