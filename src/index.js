@@ -1,9 +1,10 @@
 // @flow
 
-import Select from './StateManager';
+import SelectBase from './Select';
+import withState from './stateManager';
 
-export default Select;
-export { default as Base } from './Select';
+export default withState(SelectBase);
+export { SelectBase };
 export { createFilter } from './filters';
 export { components } from './components/index';
 export { mergeStyles } from './styles';

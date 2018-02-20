@@ -40,7 +40,7 @@ type FormatOptionLabelMeta = {
   selectValue: ValueType,
 };
 
-type Props = {
+export type Props = {
   /* HTML ID(s) of element(s) that should be used to describe this input (for assistive tech) */
   'aria-describedby'?: string,
   /* Aria label (for assistive tech) */
@@ -258,7 +258,14 @@ export default class Select extends Component<Props, State> {
       delete this.inputIsHiddenAfterUpdate;
     }
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props) {
+    const { isDisabled } = this.props;
+    const { isFocused } = this.state;
+    // ensure focus is restored correctly when the control becomes enabled
+    if (isFocused && !isDisabled && prevProps.isDisabled) {
+      this.focus();
+    }
+    // scroll the focused option into view if necessary
     if (
       this.menuRef &&
       this.focusedOptionRef &&
@@ -918,8 +925,8 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderIndicatorSeparator() {
-    const { IndicatorSeparator } = this.components;
-    if (!IndicatorSeparator) return null;
+    const { DropdownIndicator, IndicatorSeparator } = this.components;
+    if (!DropdownIndicator || !IndicatorSeparator) return null;
     const { commonProps } = this;
     const { isDisabled } = this.props;
     const { isFocused } = this.state;

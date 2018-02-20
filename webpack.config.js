@@ -18,6 +18,8 @@ module.exports = {
     port: 8000,
     historyApiFallback: true,
   },
+  // devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {

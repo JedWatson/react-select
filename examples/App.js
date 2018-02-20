@@ -9,6 +9,7 @@ import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import {
   Animated,
   Async,
+  Creatable,
   Experimental,
   Home,
   NoMatch,
@@ -144,6 +145,7 @@ const links = [
   { label: 'Home', value: '/' },
   { label: 'Animation', value: '/animated' },
   { label: 'Async Options', value: '/async' },
+  { label: 'Creatable Options', value: '/creatable' },
   { label: 'Custom Styles', value: '/styled' },
   { label: 'Experimental', value: '/experimental' },
 ];
@@ -174,6 +176,7 @@ export default class App extends Component<*> {
                   <Route exact path="/" component={Home} />
                   <Route exact path="/animated" component={Animated} />
                   <Route exact path="/async" component={Async} />
+                  <Route exact path="/creatable" component={Creatable} />
                   <Route exact path="/styled" component={Styled} />
                   <Route exact path="/experimental" component={Experimental} />
                   <Route exact path="/tests" component={Tests} />
