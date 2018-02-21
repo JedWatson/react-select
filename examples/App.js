@@ -19,7 +19,7 @@ import {
 
 const borderColor = 'hsl(0, 0%, 88%)';
 const navWidth = 180;
-const appWidth = 640;
+const appWidth = 840;
 const appGutter = 20;
 const contentGutter = 30;
 const pagePadding = 280;
