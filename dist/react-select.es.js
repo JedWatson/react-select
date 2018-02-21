@@ -711,7 +711,7 @@ var Select$1 = function (_React$Component) {
 		});
 
 		_this.state = {
-			inputValue: '',
+			inputValue: props.initialInputValue,
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -1931,6 +1931,7 @@ Select$1.propTypes = {
 	id: PropTypes.string, // html id to set on the input element for accessibility or tests
 	ignoreAccents: PropTypes.bool, // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool, // whether to perform case-insensitive filtering
+	initialInputValue: PropTypes.string, // initial input value
 	inputProps: PropTypes.object, // custom attributes for the Input
 	inputRenderer: PropTypes.func, // returns a custom input component
 	instanceId: PropTypes.string, // set the components instanceId
@@ -2001,6 +2002,7 @@ Select$1.defaultProps = {
 	filterOptions: filterOptions,
 	ignoreAccents: true,
 	ignoreCase: true,
+	initialInputValue: '',
 	inputProps: {},
 	isLoading: false,
 	joinValues: false,

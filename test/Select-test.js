@@ -4505,6 +4505,10 @@ describe('Select', () => {
 			});
 		});
 	});
+	describe('initialInputValue', () => {
+		var instance = createControl({initialInputValue: 'foo-bar' });
+		expect(instance.state.inputValue, 'to equal', 'foo-bar');
+	});
 	describe('spacebar functionality', () => {
 		describe('if not searchable', () => {
 			beforeEach(() => {
