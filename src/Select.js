@@ -1154,6 +1154,7 @@ class Select extends React.Component {
 		}
 		return valueArray.map((item, index) => (
 			<input
+				autoComplete={useAutoComplete ? this.props.autoComplete : 'off'}
 				disabled={this.props.disabled}
 				key={`hidden.${index}`}
 				onChange={this.handleHiddenInputChange}
