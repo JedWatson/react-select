@@ -278,6 +278,7 @@
   margin-top: -1px;
   max-height: 200px;
   position: absolute;
+  left: 0;
   top: 100%;
   width: 100%;
   z-index: 1;

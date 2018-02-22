@@ -1,5 +1,12 @@
 # React-Select
 
+## v1.2.1 / 2018-01-13
+
+* Fixed blocking the Del key when deleteRemoves is false, thanks [Nachtigall, Jens (init)](https://github.com/jnachtigall) - [see PR](https://github.com/JedWatson/react-select/pull/2291)
+* Fixed inline-block rendering for arrowRenderer without autosize, thanks [Harry Kao](https://github.com/harrykao) - [see PR](https://github.com/JedWatson/react-select/pull/2276)
+* Fixed dropdown menu positioning issues in IE 11, thanks [jharris4](https://github.com/jharris4) - [see PR](https://github.com/JedWatson/react-select/pull/2273)
+* Added missing rule to the `scss` stylesheet, thanks [Jordan Whitfield](https://github.com/mantissa7) - [see PR](https://github.com/JedWatson/react-select/pull/2280)
+
 ## v1.2.0 / 2018-01-08
 
 * Source cleanup, thanks to [Yuri S](https://github.com/yuri-sakharov) and
