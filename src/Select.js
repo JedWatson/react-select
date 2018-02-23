@@ -233,7 +233,7 @@ export default class Select extends Component<Props, State> {
   }
   componentDidMount() {
     if (this.props.autoFocus) {
-      this.focus();
+      this.focusInput();
     }
   }
   componentWillReceiveProps(nextProps: Props) {
@@ -276,7 +276,7 @@ export default class Select extends Component<Props, State> {
     const { isFocused } = this.state;
     // ensure focus is restored correctly when the control becomes enabled
     if (isFocused && !isDisabled && prevProps.isDisabled) {
-      this.focus();
+      this.focusInput();
     }
     // scroll the focused option into view if necessary
     if (
@@ -288,164 +288,33 @@ export default class Select extends Component<Props, State> {
     }
     this.scrollToFocusedOptionOnUpdate = false;
   }
-  getNextFocusedOption(options: OptionsType) {
-    const { focusedOption: lastFocusedOption } = this.state;
-    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-      ? lastFocusedOption
-      : options[0];
-  }
-  buildMenuOptions(
-    options: OptionsType,
-    selectValue: OptionsType,
-    inputValue: string = ''
-  ): MenuOptions {
-    const { hideSelectedOptions, isMulti } = this.props;
 
-    const toOption = (option, id) => {
-      const isDisabled = this.isOptionDisabled(option);
-      const isSelected = this.isOptionSelected(option, selectValue);
-      const label = this.getOptionLabel(option);
-      const value = this.getOptionValue(option);
+  // ==============================
+  // Element Refs
+  // ==============================
 
-      if (
-        (isMulti && hideSelectedOptions && isSelected) ||
-        !this.filterOption({ label, value, data: option }, inputValue)
-      ) {
-        return;
-      }
+  onInputRef = (ref: ElRef) => {
+    this.input = ref;
 
-      const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
-      const onSelect = isDisabled ? undefined : () => this.selectOption(option);
-      const optionId = `${this.getElementId('option')}-${id}`;
-
-      return {
-        innerProps: {
-          'aria-selected': isSelected,
-          id: optionId,
-          onClick: onSelect,
-          onMouseMove: onHover,
-          onMouseOver: onHover,
-          role: 'option',
-          tabIndex: -1,
-        },
-        data: option,
-        isDisabled,
-        isSelected,
-        key: optionId,
-        label,
-        type: 'option',
-        value,
-      };
-    };
-
-    return options.reduce(
-      (acc, item, itemIndex) => {
-        if (item.options) {
-          // TODO needs a tidier implementation
-          if (!this.hasGroups) this.hasGroups = true;
-
-          const { options: items } = item;
-          const children = items
-            .map((child, i) => {
-              const option = toOption(child, `${itemIndex}-${i}`);
-              if (option && !option.isDisabled) acc.focusable.push(child);
-              return option;
-            })
-            .filter(Boolean);
-          if (children.length) {
-            const groupId = `${this.getElementId('group')}-${itemIndex}`;
-            acc.render.push({
-              type: 'group',
-              key: groupId,
-              data: item,
-              options: children,
-            });
-          }
-        } else {
-          const option = toOption(item, itemIndex);
-          if (option) {
-            acc.render.push(option);
-            if (!option.isDisabled) acc.focusable.push(item);
-          }
-        }
-        return acc;
-      },
-      { render: [], focusable: [] }
-    );
-  }
-  filterOption(option: {}, inputValue: string) {
-    return this.props.filterOption
-      ? this.props.filterOption(option, inputValue)
-      : true;
-  }
-  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
-    if (typeof this.props.formatOptionLabel === 'function') {
-      const { inputValue } = this.props;
-      const { selectValue } = this.state;
-      return this.props.formatOptionLabel(data, {
-        context,
-        inputValue,
-        selectValue,
-      });
-    } else {
-      return this.getOptionLabel(data);
+    // cache the input height to use when the select is disabled
+    if (ref) {
+      this.inputHeight = ref.clientHeight;
     }
-  }
-  formatGroupLabel(data: GroupType) {
-    return this.props.formatGroupLabel(data);
-  }
-  getOptionLabel(data: OptionType): string {
-    return this.props.getOptionLabel(data);
-  }
-  getOptionValue(data: OptionType): string {
-    return this.props.getOptionValue(data);
-  }
-  getStyles = (key: string, props: {}): {} => {
-    const base = defaultStyles[key](props);
-    base.boxSizing = 'border-box';
-    const custom = this.props.styles[key];
-    return custom ? custom(base, props) : base;
   };
-  hasValue() {
-    const { selectValue } = this.state;
-    return selectValue.length > 0;
-  }
-  hasOptions() {
-    return !!this.state.menuOptions.render.length;
-  }
-  countOptions() {
-    return this.state.menuOptions.focusable.length;
-  }
-  isClearable(): boolean {
-    const { isClearable, isMulti } = this.props;
+  onControlRef = (ref: ElementRef<*>) => {
+    this.controlRef = ref;
+  };
+  onMenuRef = (ref: ElementRef<*>) => {
+    this.menuRef = ref;
+  };
+  onFocusedOptionRef = (ref: ElementRef<*>) => {
+    this.focusedOptionRef = ref;
+  };
 
-    // single select, by default, IS NOT clearable
-    // multi select, by default, IS clearable
-    if (isClearable === undefined) return isMulti;
+  // ==============================
+  // Consumer Handlers
+  // ==============================
 
-    return isClearable;
-  }
-  isOptionDisabled(option: OptionType): boolean {
-    return typeof this.props.isOptionDisabled === 'function'
-      ? this.props.isOptionDisabled(option)
-      : false;
-  }
-  isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
-    if (selectValue.indexOf(option) > -1) return true;
-    if (typeof this.props.isOptionSelected === 'function') {
-      return this.props.isOptionSelected(option, selectValue);
-    }
-    const candidate = this.getOptionValue(option);
-    return selectValue.some(i => this.getOptionValue(i) === candidate);
-  }
-  focus() {
-    if (!this.input) return;
-    this.input.focus();
-  }
-  blurInput() {
-    if (!this.input) return;
-    this.input.blur();
-  }
   onMenuOpen() {
     this.props.onMenuOpen();
   }
@@ -455,6 +324,24 @@ export default class Select extends Component<Props, State> {
   onInputChange(newValue: string) {
     this.props.onInputChange(newValue);
   }
+
+  // ==============================
+  // Methods
+  // ==============================
+
+  focusInput() {
+    if (!this.input) return;
+    this.input.focus();
+  }
+  blurInput() {
+    if (!this.input) return;
+    this.input.blur();
+  }
+
+  // aliased for consumers
+  focus = this.focusInput;
+  blur = this.blurInput;
+
   openMenu(focusOption: 'first' | 'last' = 'first') {
     const { menuOptions, selectValue } = this.state;
     const { isMulti } = this.props;
@@ -540,7 +427,7 @@ export default class Select extends Component<Props, State> {
     onChange(selectValue.filter(i => i !== removedValue), {
       action: 'remove-value',
     });
-    this.focus();
+    this.focusInput();
   };
   clearValue = () => {
     const { isMulti, onChange } = this.props;
@@ -553,13 +440,134 @@ export default class Select extends Component<Props, State> {
       action: 'pop-value',
     });
   };
-  onControlRef = (ref: ElementRef<*>) => {
-    this.controlRef = ref;
+
+  // ==============================
+  // Getters
+  // ==============================
+
+  getCommonProps() {
+    const { clearValue, getStyles, setValue, selectOption, props } = this;
+    const { isMulti, isRtl, options } = props;
+    const { selectValue } = this.state;
+    const hasValue = this.hasValue();
+    const getValue = () => selectValue;
+    return {
+      clearValue,
+      getStyles,
+      getValue,
+      hasValue,
+      isMulti,
+      isRtl,
+      options,
+      selectOption,
+      setValue,
+      selectProps: props,
+    };
+  }
+  getNextFocusedOption(options: OptionsType) {
+    const { focusedOption: lastFocusedOption } = this.state;
+    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
+      ? lastFocusedOption
+      : options[0];
+  }
+  getOptionLabel(data: OptionType): string {
+    return this.props.getOptionLabel(data);
+  }
+  getOptionValue(data: OptionType): string {
+    return this.props.getOptionValue(data);
+  }
+  getStyles = (key: string, props: {}): {} => {
+    const base = defaultStyles[key](props);
+    base.boxSizing = 'border-box';
+    const custom = this.props.styles[key];
+    return custom ? custom(base, props) : base;
+  };
+  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+    return `${this.instancePrefix}-${element}`;
+  };
+  getActiveDescendentId = () => {
+    const { menuIsOpen } = this.props;
+    const { focusedOption } = this.state;
+    return focusedOption && menuIsOpen ? focusedOption.key : undefined;
+  };
+
+  // ==============================
+  // Helpers
+  // ==============================
+
+  hasValue() {
+    const { selectValue } = this.state;
+    return selectValue.length > 0;
+  }
+  hasOptions() {
+    return !!this.state.menuOptions.render.length;
+  }
+  countOptions() {
+    return this.state.menuOptions.focusable.length;
+  }
+  isClearable(): boolean {
+    const { isClearable, isMulti } = this.props;
+
+    // single select, by default, IS NOT clearable
+    // multi select, by default, IS clearable
+    if (isClearable === undefined) return isMulti;
+
+    return isClearable;
+  }
+  isOptionDisabled(option: OptionType): boolean {
+    return typeof this.props.isOptionDisabled === 'function'
+      ? this.props.isOptionDisabled(option)
+      : false;
+  }
+  isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
+    if (selectValue.indexOf(option) > -1) return true;
+    if (typeof this.props.isOptionSelected === 'function') {
+      return this.props.isOptionSelected(option, selectValue);
+    }
+    const candidate = this.getOptionValue(option);
+    return selectValue.some(i => this.getOptionValue(i) === candidate);
+  }
+  filterOption(option: {}, inputValue: string) {
+    return this.props.filterOption
+      ? this.props.filterOption(option, inputValue)
+      : true;
+  }
+  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+    if (typeof this.props.formatOptionLabel === 'function') {
+      const { inputValue } = this.props;
+      const { selectValue } = this.state;
+      return this.props.formatOptionLabel(data, {
+        context,
+        inputValue,
+        selectValue,
+      });
+    } else {
+      return this.getOptionLabel(data);
+    }
+  }
+  formatGroupLabel(data: GroupType) {
+    return this.props.formatGroupLabel(data);
+  }
+
+  // ==============================
+  // Mouse Handlers
+  // ==============================
+
+  onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
+    if (event.button !== 0) {
+      return;
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    this.focusInput();
+  };
+  onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
+    this.blockOptionHover = false;
   };
   onControlMouseDown = (event: MouseOrTouchEvent) => {
     if (!this.state.isFocused) {
       this.openAfterFocus = true;
-      this.focus();
+      this.focusInput();
     } else if (!this.state.menuIsOpen) {
       this.openMenu('first');
     } else {
@@ -569,21 +577,40 @@ export default class Select extends Component<Props, State> {
       event.preventDefault();
     }
   };
-  onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
-    if (this.userIsDragging) return;
-
-    this.onControlMouseDown(event);
+  onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+    // ignore mouse events that weren't triggered by the primary button
+    if (event && event.type === 'mousedown' && event.button !== 0) {
+      return;
+    }
+    if (this.props.isDisabled) return;
+    const { isMulti, menuIsOpen } = this.props;
+    if (!this.focused) {
+      this.focusInput();
+    }
+    if (menuIsOpen) {
+      this.inputIsHiddenAfterUpdate = !isMulti;
+      this.onMenuClose();
+    } else {
+      this.openMenu();
+    }
+    event.preventDefault();
+    event.stopPropagation();
   };
-  onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
-    if (this.userIsDragging) return;
-
-    this.onClearIndicatorMouseDown(event);
+  onClearIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+    // ignore mouse events that weren't triggered by the primary button
+    if (event && event.type === 'mousedown' && event.button !== 0) {
+      return;
+    }
+    this.clearValue();
+    event.stopPropagation();
+    this.openAfterFocus = false;
+    setTimeout(() => this.focusInput());
   };
-  onDropdownIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
-    if (this.userIsDragging) return;
 
-    this.onDropdownIndicatorMouseDown(event);
-  };
+  // ==============================
+  // Touch Handlers
+  // ==============================
+
   startListeningToTouch() {
     if (document && document.addEventListener) {
       document.addEventListener('touchstart', this.onTouchStart, false);
@@ -617,6 +644,66 @@ export default class Select extends Component<Props, State> {
       this.blurInput();
     }
   };
+  onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onControlMouseDown(event);
+  };
+  onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onClearIndicatorMouseDown(event);
+  };
+  onDropdownIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onDropdownIndicatorMouseDown(event);
+  };
+
+  // ==============================
+  // Focus Handlers
+  // ==============================
+
+  handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    const inputValue = event.currentTarget.value;
+    this.inputIsHiddenAfterUpdate = false;
+    this.onInputChange(inputValue);
+    this.onMenuOpen();
+  };
+  onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+    this.inputIsHiddenAfterUpdate = false;
+    this.setState({
+      isFocused: true,
+    });
+    if (this.openAfterFocus) {
+      this.openMenu('first');
+    }
+    this.openAfterFocus = false;
+  };
+  onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+    this.onInputChange('');
+    this.onMenuClose();
+    this.setState({
+      isFocused: false,
+    });
+  };
+  onOptionHover = (focusedOption: OptionType) => {
+    if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
+      return;
+    }
+    this.setState({ focusedOption });
+  };
+
+  // ==============================
+  // Keyboard Handlers
+  // ==============================
+
   onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
       backspaceRemovesValue,
@@ -721,104 +808,95 @@ export default class Select extends Component<Props, State> {
     }
     event.preventDefault();
   };
-  // TODO: Review whether this is necessary
-  onInputRef = (input: ElRef) => {
-    this.input = input;
 
-    // cache the input height to use when the select is disabled
-    if (input) {
-      this.inputHeight = input.clientHeight;
-    }
-  };
-  handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    const inputValue = event.currentTarget.value;
-    this.inputIsHiddenAfterUpdate = false;
-    this.onInputChange(inputValue);
-    this.onMenuOpen();
-  };
-  onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    if (this.props.onFocus) {
-      this.props.onFocus(event);
-    }
-    this.inputIsHiddenAfterUpdate = false;
-    this.setState({
-      isFocused: true,
-    });
-    if (this.openAfterFocus) {
-      this.openMenu('first');
-    }
-    this.openAfterFocus = false;
-  };
-  onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
-    this.onInputChange('');
-    this.onMenuClose();
-    this.setState({
-      isFocused: false,
-    });
-  };
-  onMenuRef = (ref: ElementRef<*>) => {
-    this.menuRef = ref;
-  };
-  onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
-    if (event.button !== 0) {
-      return;
-    }
-    event.stopPropagation();
-    event.preventDefault();
-    this.focus();
-  };
-  onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
-    this.blockOptionHover = false;
-  };
-  onFocusedOptionRef = (ref: ElementRef<*>) => {
-    this.focusedOptionRef = ref;
-  };
-  onOptionHover = (focusedOption: OptionType) => {
-    if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
-      return;
-    }
-    this.setState({ focusedOption });
-  };
-  onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {
-    // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
-      return;
-    }
-    if (this.props.isDisabled) return;
-    const { isMulti, menuIsOpen } = this.props;
-    if (!this.focused) {
-      this.focus();
-    }
-    if (menuIsOpen) {
-      this.inputIsHiddenAfterUpdate = !isMulti;
-      this.onMenuClose();
-    } else {
-      this.openMenu();
-    }
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  onClearIndicatorMouseDown = (event: MouseOrTouchEvent) => {
-    // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
-      return;
-    }
-    this.clearValue();
-    event.stopPropagation();
-    this.openAfterFocus = false;
-    setTimeout(() => this.focus());
-  };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
-    return `${this.instancePrefix}-${element}`;
-  };
-  getActiveDescendentId = () => {
-    const { menuIsOpen } = this.props;
-    const { focusedOption } = this.state;
-    return focusedOption && menuIsOpen ? focusedOption.key : undefined;
-  };
+  // ==============================
+  // Misc.
+  // ==============================
+
+  buildMenuOptions(
+    options: OptionsType,
+    selectValue: OptionsType,
+    inputValue: string = ''
+  ): MenuOptions {
+    const { hideSelectedOptions, isMulti } = this.props;
+
+    const toOption = (option, id) => {
+      const isDisabled = this.isOptionDisabled(option);
+      const isSelected = this.isOptionSelected(option, selectValue);
+      const label = this.getOptionLabel(option);
+      const value = this.getOptionValue(option);
+
+      if (
+        (isMulti && hideSelectedOptions && isSelected) ||
+        !this.filterOption({ label, value, data: option }, inputValue)
+      ) {
+        return;
+      }
+
+      const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
+      const onSelect = isDisabled ? undefined : () => this.selectOption(option);
+      const optionId = `${this.getElementId('option')}-${id}`;
+
+      return {
+        innerProps: {
+          'aria-selected': isSelected,
+          id: optionId,
+          onClick: onSelect,
+          onMouseMove: onHover,
+          onMouseOver: onHover,
+          role: 'option',
+          tabIndex: -1,
+        },
+        data: option,
+        isDisabled,
+        isSelected,
+        key: optionId,
+        label,
+        type: 'option',
+        value,
+      };
+    };
+
+    return options.reduce(
+      (acc, item, itemIndex) => {
+        if (item.options) {
+          // TODO needs a tidier implementation
+          if (!this.hasGroups) this.hasGroups = true;
+
+          const { options: items } = item;
+          const children = items
+            .map((child, i) => {
+              const option = toOption(child, `${itemIndex}-${i}`);
+              if (option && !option.isDisabled) acc.focusable.push(child);
+              return option;
+            })
+            .filter(Boolean);
+          if (children.length) {
+            const groupId = `${this.getElementId('group')}-${itemIndex}`;
+            acc.render.push({
+              type: 'group',
+              key: groupId,
+              data: item,
+              options: children,
+            });
+          }
+        } else {
+          const option = toOption(item, itemIndex);
+          if (option) {
+            acc.render.push(option);
+            if (!option.isDisabled) acc.focusable.push(item);
+          }
+        }
+        return acc;
+      },
+      { render: [], focusable: [] }
+    );
+  }
+
+  // ==============================
+  // Renderers
+  // ==============================
+
   renderScreenReaderStatus() {
     const { screenReaderStatus } = this.props;
     return (
@@ -1181,25 +1259,7 @@ export default class Select extends Component<Props, State> {
       return <input name={name} type="hidden" value={value} />;
     }
   }
-  getCommonProps() {
-    const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { isMulti, isRtl, options } = props;
-    const { selectValue } = this.state;
-    const hasValue = this.hasValue();
-    const getValue = () => selectValue;
-    return {
-      clearValue,
-      getStyles,
-      getValue,
-      hasValue,
-      isMulti,
-      isRtl,
-      options,
-      selectOption,
-      setValue,
-      selectProps: props,
-    };
-  }
+
   render() {
     const {
       Control,
