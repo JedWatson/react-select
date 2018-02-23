@@ -15,6 +15,7 @@
     "classnames": "^2.2.5",
     "glam": "^5.0.1",
     "prop-types": "^15.6.0",
+    "raf": "^3.4.0",
     "react-input-autosize": "^2.2.1",
     "react-scroll-captor": "^1.0.1",
     "react-transition-group": "^2.2.1"
@@ -81,6 +82,7 @@
     "lint": "eslint .",
     "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
+    "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",

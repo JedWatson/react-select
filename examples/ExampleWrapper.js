@@ -43,7 +43,7 @@ export default class ExampleWrapper extends Component {
     }));
 
     return (
-      <div>
+      <div style={{ maxWidth: 380 }}>
         <ExampleHeading>
           <h4>{this.props.label}</h4>
           <Actions>
@@ -68,7 +68,7 @@ export default class ExampleWrapper extends Component {
             ) : null}
           </Actions>
         </ExampleHeading>
-        <div style={{ maxWidth: 380 }}>{this.props.children}</div>
+        {this.props.children}
       </div>
     );
   }
