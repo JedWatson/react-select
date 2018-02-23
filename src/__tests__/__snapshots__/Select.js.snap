@@ -70,8 +70,6 @@ exports[`defaults 1`] = `
         "innerRef": [Function],
         "onMouseDown": [Function],
         "onTouchEnd": [Function],
-        "onTouchMove": [Function],
-        "onTouchStart": [Function],
       }
     }
     isDisabled={false}
@@ -339,6 +337,7 @@ exports[`defaults 1`] = `
         innerProps={
           Object {
             "onMouseDown": [Function],
+            "onTouchEnd": [Function],
             "role": "button",
           }
         }

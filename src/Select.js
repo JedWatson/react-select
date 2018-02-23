@@ -200,7 +200,6 @@ export default class Select extends Component<Props, State> {
   blockOptionHover: boolean = false;
   components: SelectComponents;
   commonProps: any; // TODO
-  controlIsDragging: ?boolean;
   controlRef: ElRef;
   focusedOptionRef: ?HTMLElement;
   hasGroups: boolean = false;
@@ -211,6 +210,7 @@ export default class Select extends Component<Props, State> {
   menuRef: ?ElRef;
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
+  userIsDragging: ?boolean;
   state = {
     focusedOption: null,
     inputIsHidden: false,
@@ -569,24 +569,45 @@ export default class Select extends Component<Props, State> {
       event.preventDefault();
     }
   };
-  onControlTouchStart = () => {
-    this.controlIsDragging = false;
-  };
-  onControlTouchMove = () => {
-    this.controlIsDragging = true;
-  };
   onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
-    if (this.controlIsDragging) return; // Bail if the user is scrolling
+    if (this.userIsDragging) return;
 
     this.onControlMouseDown(event);
   };
   onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
-    if (this.controlIsDragging) return; // Bail if the user is scrolling
+    if (this.userIsDragging) return;
 
     this.onClearIndicatorMouseDown(event);
   };
-  onTouchStart = (event: TouchEvent) => {
-    // close the menu if the user presses outside
+  onDropdownIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onDropdownIndicatorMouseDown(event);
+  };
+  startListeningToTouch() {
+    if (document && document.addEventListener) {
+      document.addEventListener('touchstart', this.onTouchStart, false);
+      document.addEventListener('touchmove', this.onTouchMove, false);
+      document.addEventListener('touchend', this.onTouchEnd, false);
+    }
+  }
+  stopListeningToTouch() {
+    if (document && document.removeEventListener) {
+      document.removeEventListener('touchstart', this.onTouchStart);
+      document.removeEventListener('touchmove', this.onTouchMove);
+      document.removeEventListener('touchend', this.onTouchEnd);
+    }
+  }
+  onTouchStart = () => {
+    this.userIsDragging = false;
+  };
+  onTouchMove = () => {
+    this.userIsDragging = true;
+  };
+  onTouchEnd = (event: TouchEvent) => {
+    if (this.userIsDragging) return;
+
+    // close the menu if the user taps outside
     if (
       this.controlRef &&
       !this.controlRef.contains(event.target) &&
@@ -596,16 +617,6 @@ export default class Select extends Component<Props, State> {
       this.blurInput();
     }
   };
-  startListeningToTouch() {
-    if (document && document.addEventListener) {
-      document.addEventListener('touchstart', this.onTouchStart, false);
-    }
-  }
-  stopListeningToTouch() {
-    if (document && document.removeEventListener) {
-      document.removeEventListener('touchstart', this.onTouchStart, false);
-    }
-  }
   onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
       backspaceRemovesValue,
@@ -771,7 +782,7 @@ export default class Select extends Component<Props, State> {
     }
     this.setState({ focusedOption });
   };
-  onDropdownIndicatorMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
+  onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {
     // ignore mouse events that weren't triggered by the primary button
     if (event && event.type === 'mousedown' && event.button !== 0) {
       return;
@@ -949,8 +960,6 @@ export default class Select extends Component<Props, State> {
     const innerProps = {
       onMouseDown: this.onClearIndicatorMouseDown,
       onTouchEnd: this.onClearIndicatorTouchEnd,
-      onTouchMove: this.onControlTouchMove,
-      onTouchStart: this.onControlTouchStart,
       role: 'button',
     };
 
@@ -985,11 +994,13 @@ export default class Select extends Component<Props, State> {
   }
   renderIndicatorSeparator() {
     const { DropdownIndicator, IndicatorSeparator } = this.components;
+
+    // separator doesn't make sense without the dropdown indicator
     if (!DropdownIndicator || !IndicatorSeparator) return null;
+
     const { commonProps } = this;
     const { isDisabled } = this.props;
     const { isFocused } = this.state;
-
     const innerProps = { role: 'presentation' };
 
     return (
@@ -1010,6 +1021,7 @@ export default class Select extends Component<Props, State> {
 
     const innerProps = {
       onMouseDown: this.onDropdownIndicatorMouseDown,
+      onTouchEnd: this.onDropdownIndicatorTouchEnd,
       role: 'button',
     };
 
@@ -1218,8 +1230,6 @@ export default class Select extends Component<Props, State> {
             innerRef: this.onControlRef,
             onMouseDown: this.onControlMouseDown,
             onTouchEnd: this.onControlTouchEnd,
-            onTouchMove: this.onControlTouchMove,
-            onTouchStart: this.onControlTouchStart,
           }}
           isDisabled={isDisabled}
           isFocused={isFocused}
