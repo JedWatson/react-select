@@ -117,9 +117,8 @@ export type Props = {
   /* Whether the menu is open */
   menuIsOpen: boolean,
   /*
-    Default placement of the menu in relation to the control. Where 'auto'
-    will attempt to scroll the menu into view when possible, and flip to 'top'
-    otherwise.
+    Default placement of the menu in relation to the control. 'auto' will flip
+    when there isn't enough space below the control.
   */
   menuPlacement: MenuPlacement,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
@@ -148,7 +147,7 @@ export type Props = {
   placeholder: string,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
-  /* Whether the menu should be scrolled into view, when enough space available */
+  /* Whether the menu should be scrolled into view when it opens */
   scrollMenuIntoView: boolean,
   /* Style modifier methods */
   styles: StylesConfig,

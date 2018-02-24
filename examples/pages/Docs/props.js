@@ -226,16 +226,10 @@ const props = [
   },
   {
     defaultValue: "'bottom'",
-    description: 'Default placement of the menu in relation to the control',
-    name: 'menuPlacement',
-    type: "'bottom' | 'top'",
-  },
-  {
-    defaultValue: 'true',
     description:
-      'Whether to employ edge detection for the menu, and flip when applicable',
-    name: 'menuShouldFlip',
-    type: 'Boolean',
+      "Default placement of the menu in relation to the control. 'auto' will flip when there isn't enough space below the control.",
+    name: 'menuPlacement',
+    type: "'auto' | 'bottom' | 'top'",
   },
   {
     defaultValue: null,
@@ -326,6 +320,12 @@ const props = [
     name: 'screenReaderStatus',
     type: 'Function',
     typeDefinition: '({ count: number }) => string',
+  },
+  {
+    defaultValue: 'true on desktop, false on mobile',
+    description: 'Whether the menu should be scrolled into view when it opens',
+    name: 'scrollMenuIntoView',
+    type: 'Boolean',
   },
   {
     defaultValue: null,
