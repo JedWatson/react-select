@@ -4,7 +4,15 @@ import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
 import { DummyInput, ScrollCaptor } from './internal/index';
-import { cleanValue, isTouchCapable, noop, scrollIntoView } from './utils';
+
+import {
+  cleanValue,
+  isTouchCapable,
+  isMobileDevice,
+  noop,
+  scrollIntoView,
+} from './utils';
+
 import {
   formatGroupLabel,
   getOptionLabel,
@@ -100,16 +108,20 @@ export type Props = {
   isSearchable: boolean,
   /* Async: Text to display when loading options */
   loadingMessage: ({ inputValue: string }) => string,
+  /* Minimum height of the menu before flipping */
+  minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
   /* Whether the menu is open */
   menuIsOpen: boolean,
-  /* Default placement of the menu in relation to the control */
+  /*
+    Default placement of the menu in relation to the control. Where 'auto'
+    will attempt to scroll the menu into view when possible, and flip to 'top'
+    otherwise.
+  */
   menuPlacement: MenuPlacement,
-  /* Whether to employ edge detection for the menu, and flip when applicable */
-  menuShouldFlip: boolean,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
@@ -136,6 +148,8 @@ export type Props = {
   placeholder: string,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
+  /* Whether the menu should be scrolled into view, when enough space available */
+  scrollMenuIntoView: boolean,
   /* Style modifier methods */
   styles: StylesConfig,
   /* Select the currently focused option when the user presses tab */
@@ -165,13 +179,14 @@ const defaultProps = {
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   maxValueHeight: 100,
+  minMenuHeight: 140,
   menuIsOpen: false,
   menuPlacement: 'bottom',
-  menuShouldFlip: true,
   noOptionsMessage: () => 'No options',
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
+  scrollMenuIntoView: !isMobileDevice(),
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available.`,
   styles: {},
@@ -1130,11 +1145,12 @@ export default class Select extends Component<Props, State> {
       isLoading,
       isMulti,
       loadingMessage,
+      minMenuHeight,
       maxMenuHeight,
       menuIsOpen,
       menuPlacement,
-      menuShouldFlip,
       noOptionsMessage,
+      scrollMenuIntoView,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1207,8 +1223,10 @@ export default class Select extends Component<Props, State> {
           onMouseMove: this.onMenuMouseMove,
         }}
         isLoading={isLoading}
+        minMenuHeight={minMenuHeight}
+        maxMenuHeight={maxMenuHeight}
         menuPlacement={menuPlacement}
-        menuShouldFlip={menuShouldFlip}
+        scrollMenuIntoView={scrollMenuIntoView}
       >
         <ScrollCaptor isEnabled={captureMenuScroll}>
           <MenuList

@@ -18,7 +18,7 @@ const defaultOptions = [
   createOption('Three'),
 ];
 
-export default class WithCallbacks extends Component<*, State> {
+export default class CreatableAdvanced extends Component<*, State> {
   state = {
     isLoading: false,
     options: defaultOptions,
@@ -50,17 +50,15 @@ export default class WithCallbacks extends Component<*, State> {
   render() {
     const { isLoading, options, value } = this.state;
     return (
-      <div>
-        <CreatableSelect
-          isClearable
-          isDisabled={isLoading}
-          isLoading={isLoading}
-          onChange={this.handleChange}
-          onCreateOption={this.handleCreate}
-          options={options}
-          value={value}
-        />
-      </div>
+      <CreatableSelect
+        isClearable
+        isDisabled={isLoading}
+        isLoading={isLoading}
+        onChange={this.handleChange}
+        onCreateOption={this.handleCreate}
+        options={options}
+        value={value}
+      />
     );
   }
 }

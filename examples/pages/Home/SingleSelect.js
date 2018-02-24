@@ -51,12 +51,6 @@ export default class SingleSelect extends Component<*, State> {
           isSearchable={isSearchable}
           name="color"
           options={colourOptions}
-          onFocus={() => {
-            console.log('Select Focused');
-          }}
-          onBlur={() => {
-            console.log('Select Blurred');
-          }}
         />
         <Note Tag="label">
           <Checkbox

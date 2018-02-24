@@ -19,7 +19,7 @@ const promiseOptions = inputValue =>
     }, 1000);
   });
 
-export default class WithCallbacks extends Component<*, State> {
+export default class WithPromises extends Component<*, State> {
   state = { inputValue: '' };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');

@@ -27,9 +27,9 @@ export default class ExampleWrapper extends Component {
   render() {
     const configPromise = Promise.all([
       fetch(rawDataUrl).then(a => a.text()),
-      fetch(rawComponentsUrl).then(a => a.text()).then(a => replaceImports(a, [
-		  ['../src/*', 'react-select/lib/'],
-	  ])),
+      fetch(rawComponentsUrl)
+        .then(a => a.text())
+        .then(a => replaceImports(a, [['../src/*', 'react-select/lib/']])),
     ]).then(([data, components]) => ({
       providedDeps: { glam: '^5.0.1' },
       providedFiles: {
@@ -43,7 +43,7 @@ export default class ExampleWrapper extends Component {
     }));
 
     return (
-      <div>
+      <div style={{ maxWidth: 380 }}>
         <ExampleHeading>
           <h4>{this.props.label}</h4>
           <Actions>
@@ -62,7 +62,7 @@ export default class ExampleWrapper extends Component {
                 pkgJSON={fetch(rawPKGJSON).then(a => a.json())}
               >
                 <Action icon="new-window" type="submit">
-                  Open in CodeSandbox
+                  Edit in CodeSandbox
                 </Action>
               </CodeSandboxer>
             ) : null}
