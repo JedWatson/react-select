@@ -23,13 +23,13 @@ export default class StyledApp extends Component<*, State> {
 
         <ExampleWrapper
           label="Single Select"
-          urlPath="/examples/pages/Styled/SingleSelect.js"
+          urlPath="/docs/pages/Styled/SingleSelect.js"
         >
           <SingleSelect />
         </ExampleWrapper>
         <ExampleWrapper
           label="Multi Select"
-          urlPath="/examples/pages/Styled/MultiSelect.js"
+          urlPath="/docs/pages/Styled/MultiSelect.js"
         >
           <MultiSelect />
         </ExampleWrapper>

@@ -18,7 +18,7 @@ export default class App extends Component<*> {
         <p>Remove the values below to see them in action.</p>
         <ExampleWrapper
           label="Animation"
-          urlPath="/examples/pages/Animated/Example.js"
+          urlPath="/docs/pages/Animated/Example.js"
         >
           <Example />
         </ExampleWrapper>

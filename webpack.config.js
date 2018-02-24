@@ -5,12 +5,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  context: path.resolve(__dirname, 'examples'),
+  context: path.resolve(__dirname, 'docs'),
   entry: {
     index: './index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'examples/dist'),
+    path: path.resolve(__dirname, 'docs/dist'),
     filename: '[name].js',
     publicPath: '/',
   },
@@ -46,7 +46,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: false,
-      template: path.resolve(__dirname, 'examples/index.html'),
+      template: path.resolve(__dirname, 'docs/index.html'),
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
   ],

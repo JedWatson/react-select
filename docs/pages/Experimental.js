@@ -211,7 +211,7 @@ export default class App extends Component<*, *> {
         <ExampleWrapper
           isEditable={false}
           label="DatePicker"
-          urlPath="/examples/pages/Experimental.js"
+          urlPath="/docs/pages/Experimental.js"
         >
           <DatePicker autoFocus value={value} onChange={this.handleChange} />
         </ExampleWrapper>

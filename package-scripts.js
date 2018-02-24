@@ -23,13 +23,13 @@ module.exports = {
         dist: "flow-copy-source -i '**/__tests__/**' src dist",
         lib: "flow-copy-source -i '**/__tests__/**' src lib",
       },
-      examples: series(rimraf('examples/dist'), 'webpack --progress -p'),
+      docs: series(rimraf('docs/dist'), 'webpack --progress -p'),
     },
     publish: {
       default: series(
-        'nps build.examples',
-        'gh-pages -d examples/dist',
-        rimraf('examples/dist')
+        'nps build.docs',
+        'gh-pages -d docs/dist',
+        rimraf('docs/dist')
       ),
     },
   },

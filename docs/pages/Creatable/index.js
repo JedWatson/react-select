@@ -20,21 +20,21 @@ export default class App extends Component<*> {
 
         <ExampleWrapper
           label="Creatable Example"
-          urlPath="/examples/pages/Creatable/CreatableSingle.js"
+          urlPath="/docs/pages/Creatable/CreatableSingle.js"
         >
           <CreatableSingle />
         </ExampleWrapper>
 
         <ExampleWrapper
           label="Creatable Multiselect Example"
-          urlPath="/examples/pages/Creatable/CreatableMulti.js"
+          urlPath="/docs/pages/Creatable/CreatableMulti.js"
         >
           <CreatableMulti />
         </ExampleWrapper>
 
         <ExampleWrapper
           label="Advanced Example"
-          urlPath="/examples/pages/Creatable/CreatableAdvanced.js"
+          urlPath="/docs/pages/Creatable/CreatableAdvanced.js"
         >
           <CreatableAdvanced />
         </ExampleWrapper>
@@ -50,7 +50,7 @@ export default class App extends Component<*> {
 
         <ExampleWrapper
           label="Multi-select text input"
-          urlPath="/examples/pages/Creatable/MultiTextInput.js"
+          urlPath="/docs/pages/Creatable/MultiTextInput.js"
         >
           <MultiTextInput />
         </ExampleWrapper>

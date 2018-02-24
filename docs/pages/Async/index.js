@@ -47,7 +47,7 @@ export default class App extends Component<*, State> {
 
         <ExampleWrapper
           label="Using Callbacks"
-          urlPath="/examples/pages/Async/UsingCallbacks.js"
+          urlPath="/docs/pages/Async/UsingCallbacks.js"
         >
           <UsingCallbacks />
         </ExampleWrapper>
@@ -62,7 +62,7 @@ export default class App extends Component<*, State> {
         <div>
           <ExampleWrapper
             label="Using Promises"
-            urlPath="/examples/pages/Async/UsingPromises.js"
+            urlPath="/docs/pages/Async/UsingPromises.js"
           >
             <UsingPromises />
           </ExampleWrapper>

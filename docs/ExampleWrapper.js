@@ -8,8 +8,8 @@ const sourceUrl = `https://github.com/${user}/react-select/tree/${branch}`;
 const rawUrl = `https://raw.githubusercontent.com/${user}/react-select/${branch}`;
 const rawPKGJSON = rawUrl + '/package.json';
 
-const rawDataUrl = rawUrl + '/examples/data.js';
-const rawComponentsUrl = rawUrl + '/examples/components.js';
+const rawDataUrl = rawUrl + '/docs/data.js';
+const rawComponentsUrl = rawUrl + '/docs/components.js';
 const promise = urlPath =>
   fetch(rawUrl + urlPath)
     .then(a => a.text())

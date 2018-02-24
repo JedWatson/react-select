@@ -48,7 +48,7 @@ export default class Home extends Component<*, *> {
           </Link>{' '}
           &middot;{' '}
           <Link
-            href="https://github.com/JedWatson/react-select/blob/v2/examples/pages/Home.js"
+            href="https://github.com/JedWatson/react-select/blob/v2/docs/pages/Home.js"
             target="_blank"
           >
             Examples Source
@@ -67,19 +67,19 @@ export default class Home extends Component<*, *> {
         </p>
         <ExampleWrapper
           label="Single Select"
-          urlPath="/examples/pages/Home/SingleSelect.js"
+          urlPath="/docs/pages/Home/SingleSelect.js"
         >
           <SingleSelect />
         </ExampleWrapper>
         <ExampleWrapper
           label="Grouped"
-          urlPath="/examples/pages/Home/Grouped.js"
+          urlPath="/docs/pages/Home/Grouped.js"
         >
           <Grouped />
         </ExampleWrapper>
         <ExampleWrapper
           label="Multi Select"
-          urlPath="/examples/pages/Home/MultiSelect.js"
+          urlPath="/docs/pages/Home/MultiSelect.js"
         >
           <MultiSelect />
         </ExampleWrapper>
