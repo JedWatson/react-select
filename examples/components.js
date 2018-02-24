@@ -32,6 +32,7 @@ const linkCSS = {
 };
 export const Link = (props: {}) => (
   <a
+    target="_blank"
     css={{
       ...linkCSS,
       ':visited': linkCSS,

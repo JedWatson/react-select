@@ -43,7 +43,7 @@ export default class ExampleWrapper extends Component {
     }));
 
     return (
-      <div style={{ maxWidth: 380 }}>
+      <div style={{ maxWidth: 400 }}>
         <ExampleHeading>
           <h4>{this.props.label}</h4>
           <Actions>

@@ -35,7 +35,7 @@ const AppContainer = props => (
       marginRight: 'auto',
       maxWidth: appWidth,
       minHeight: '100vh',
-      padding: `0 ${appGutter}px ${pagePadding}px`,
+      padding: `0 ${appGutter}px`,
     }}
     {...props}
   />
@@ -52,6 +52,15 @@ const PageContent = props => (
     }}
     {...props}
   />
+);
+const Copyright = props => (
+  <div
+    css={{ padding: `${pagePadding}px 0 0`, color: '#999', fontSize: '0.9em' }}
+    {...props}
+  />
+);
+const CopyrightLink = props => (
+  <a css={{ color: '#666' }} target="_blank" {...props} />
 );
 const AppContent = props => (
   <div
@@ -185,6 +194,20 @@ export default class App extends Component<*> {
                   <Route exact path="/tests" component={Tests} />
                   <Route component={NoMatch} />
                 </Switch>
+                <Copyright>
+                  <p>Copyright &copy; Jed Watson, 2018. MIT Licensed.</p>
+                  <p>
+                    Thanks to{' '}
+                    <CopyrightLink href="https://www.thinkmill.com.au">
+                      Thinkmill
+                    </CopyrightLink>{' '}
+                    and{' '}
+                    <CopyrightLink href="https://www.atlassian.com/">
+                      Atlassian
+                    </CopyrightLink>{' '}
+                    for supporting this project.
+                  </p>
+                </Copyright>
               </PageContent>
             </AppContent>
           </AppContainer>
