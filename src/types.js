@@ -54,7 +54,7 @@ export type ActionMeta = {
   action: ActionTypes,
 };
 
-export type MenuPlacement = 'bottom' | 'top';
+export type MenuPlacement = 'auto' | 'bottom' | 'top';
 
 export type FocusDirection =
   | 'up'

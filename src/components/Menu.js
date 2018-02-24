@@ -1,7 +1,14 @@
 // @flow
 import React, { Component, type ElementRef, type Node } from 'react';
 
-import { className, getMenuPlacement } from '../utils';
+import {
+  animatedScrollTo,
+  className,
+  getScrollParent,
+  getScrollTop,
+  normalizedHeight,
+  normalizedScrollTo,
+} from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import type { InnerRef, MenuPlacement, PropsWithStyles } from '../types';
@@ -10,47 +17,212 @@ import type { InnerRef, MenuPlacement, PropsWithStyles } from '../types';
 // Menu
 // ==============================
 
+// Get Menu Placement
+// ------------------------------
+
+type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
+type PlacementArgs = {
+  maxHeight: number,
+  menuEl: HTMLElement,
+  minHeight: number,
+  placement: 'bottom' | 'top' | 'auto',
+  shouldScroll: boolean,
+};
+
+export function getMenuPlacement({
+  maxHeight,
+  menuEl,
+  minHeight,
+  placement,
+  shouldScroll,
+}: PlacementArgs): MenuState {
+  const scrollParent = getScrollParent(menuEl);
+  const optimisticState = { placement: 'bottom', maxHeight };
+
+  // something went wrong, return optimistic state
+  if (!menuEl || !menuEl.offsetParent) return optimisticState;
+
+  // can't trust `scrollParent.scrollHeight` --> it increases when the menu is rendered
+  const { height: scrollHeight } = scrollParent.getBoundingClientRect();
+  const {
+    bottom: menuBottom,
+    height: menuHeight,
+    top: menuTop,
+  } = menuEl.getBoundingClientRect();
+
+  // $FlowFixMe function returns above if there's no offsetParent
+  const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
+  const viewHeight = normalizedHeight(scrollParent);
+  const scrollTop = getScrollTop(scrollParent);
+
+  const viewSpaceAbove = containerTop - spacing.menuGutter;
+  const viewSpaceBelow = viewHeight - menuTop;
+  const scrollSpaceAbove = viewSpaceAbove + scrollTop;
+  const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
+
+  const scrollDown = menuBottom - viewHeight + scrollTop + spacing.menuGutter;
+  const scrollUp = scrollTop + menuTop - spacing.menuGutter;
+  const scrollDuration = 160;
+
+  switch (placement) {
+    case 'auto':
+    case 'bottom':
+      // 1: the menu will fit, do nothing
+      if (viewSpaceBelow >= menuHeight) {
+        return { placement: 'bottom', maxHeight };
+      }
+
+      // 2: the menu will fit, if scrolled
+      if (scrollSpaceBelow >= menuHeight) {
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollDown, scrollDuration);
+        }
+
+        return { placement: 'bottom', maxHeight };
+      }
+
+      // 3: the menu will fit, if constrained
+      if (scrollSpaceBelow >= minHeight) {
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollDown, scrollDuration);
+        }
+
+        // we want to provide as much of the menu as possible to the user,
+        // so give them whatever is available below rather than the minHeight.
+        const constrainedHeight = scrollSpaceBelow - spacing.menuGutter;
+
+        return {
+          placement: 'bottom',
+          maxHeight: constrainedHeight,
+        };
+      }
+
+      // 4. Forked beviour when there isn't enough space below
+
+      // AUTO: flip the menu, render above
+      if (placement === 'auto') {
+        return { placement: 'top', maxHeight };
+      }
+
+      // BOTTOM: allow browser to increase scrollable area and immediately set scroll
+      if (placement === 'bottom') {
+        normalizedScrollTo(scrollParent, scrollDown);
+        return { placement: 'bottom', maxHeight };
+      }
+      break;
+    case 'top':
+      // 1: the menu will fit, do nothing
+      if (viewSpaceAbove >= menuHeight) {
+        return { placement: 'top', maxHeight };
+      }
+
+      // 2: the menu will fit, if scrolled
+      if (scrollSpaceAbove >= menuHeight) {
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
+        }
+
+        return { placement: 'top', maxHeight };
+      }
+
+      // 3: the menu will fit, if constrained
+      if (scrollSpaceAbove >= minHeight) {
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
+        }
+
+        // we want to provide as much of the menu as possible to the user,
+        // so give them whatever is available below rather than the minHeight.
+        const constrainedHeight = scrollSpaceAbove - spacing.menuGutter;
+
+        return {
+          placement: 'top',
+          maxHeight: constrainedHeight,
+        };
+      }
+
+      // 4. not enough space, the browser WILL NOT increase scrollable area when
+      // absolutely positioned element rendered above the viewport (only below).
+      // Flip the menu, render below
+      return { placement: 'bottom', maxHeight };
+    default:
+      throw new Error(`Invalid placement provided "${placement}".`);
+  }
+
+  // fulfil contract with flow: implicit return value of undefined
+  return optimisticState;
+}
+
+// Menu Component
+// ------------------------------
+
 type MenuProps = PropsWithStyles & {
   children: Node,
-  menuPlacement: MenuPlacement,
-  menuShouldFlip: boolean,
   innerProps: Object,
+  maxMenuHeight: number,
+  menuPlacement: MenuPlacement,
+  minMenuHeight: number,
+  scrollMenuIntoView: boolean,
 };
-type MenuState = { placement: MenuPlacement };
 
-const placementToCSSProp = { bottom: 'top', top: 'bottom' };
-export const menuCSS = ({ placement }: MenuState) => ({
+function alignToControl(placement) {
+  const placementToCSSProp = { bottom: 'top', top: 'bottom' };
+  return placement ? placementToCSSProp[placement] : 'bottom';
+}
+const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
+
+export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
+  [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
   borderRadius: borderRadius,
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
+  maxHeight: maxHeight,
   position: 'absolute',
   width: '100%',
   zIndex: 1,
-  [placementToCSSProp[placement]]: '100%',
 });
 
 export class Menu extends Component<MenuProps, MenuState> {
-  state = { placement: this.props.menuPlacement };
+  state = {
+    maxHeight: this.props.maxMenuHeight,
+    placement: null,
+  };
   getPlacement = (ref: ElementRef<*>) => {
+    const {
+      minMenuHeight,
+      maxMenuHeight,
+      menuPlacement,
+      scrollMenuIntoView,
+    } = this.props;
+
     if (!ref) return;
 
-    const placement = getMenuPlacement(ref);
+    const state = getMenuPlacement({
+      maxHeight: maxMenuHeight,
+      menuEl: ref,
+      minHeight: minMenuHeight,
+      placement: menuPlacement,
+      shouldScroll: scrollMenuIntoView,
+    });
 
-    if (!placement) return;
+    this.setState(state);
+  };
+  getState = () => {
+    const { menuPlacement } = this.props;
+    const placement = this.state.placement || coercePlacement(menuPlacement);
 
-    this.setState({ placement });
+    return { ...this.props, placement, maxHeight: this.state.maxHeight };
   };
   render() {
-    const { children, getStyles, menuShouldFlip, innerProps } = this.props;
-    const innerRef = menuShouldFlip ? this.getPlacement : null;
+    const { children, getStyles, innerProps } = this.props;
 
     return (
       <Div
         className={className('menu')}
-        css={getStyles('menu', { ...this.props, ...this.state })}
-        innerRef={innerRef}
+        css={getStyles('menu', this.getState())}
+        innerRef={this.getPlacement}
         {...innerProps}
       >
         {children}
@@ -80,8 +252,8 @@ type MenuListProps = {
   },
 };
 type Props = PropsWithStyles & MenuListProps & MenuListState;
-export const menuListCSS = ({ maxHeight }: MenuListState) => ({
-  maxHeight,
+export const menuListCSS = () => ({
+  maxHeight: 'inherit', // pixel max-height applied to wrapping Menu component
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
