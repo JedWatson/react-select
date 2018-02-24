@@ -81,8 +81,6 @@ describe('New Select', function() {
           .get(selector.toggleMenuSingle)
           .click({ force: true })
           .get(selector.singleSelectSingleInput)
-          .should('not.have.attr', 'aria-expanded', 'false')
-          .get(selector.menuSingle)
           .should('not.be.visible');
       });
       it('Should display group in the menu ' + view, function() {

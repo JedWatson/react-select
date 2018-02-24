@@ -53,23 +53,44 @@ export default class SingleSelect extends Component<*, State> {
           options={colourOptions}
         />
         <Note Tag="label">
-          <Checkbox checked={isClearable} onChange={this.toggleClearable} />
+          <Checkbox
+            checked={isClearable}
+            onChange={this.toggleClearable}
+            id="cypress-single__clearable-checkbox"
+          />
           Clearable
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <Checkbox checked={isSearchable} onChange={this.toggleSearchable} />
+          <Checkbox
+            checked={isSearchable}
+            onChange={this.toggleSearchable}
+            id="cypress-single__searchable-checkbox"
+          />
           Searchable
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <Checkbox checked={isDisabled} onChange={this.toggleDisabled} />
+          <Checkbox
+            checked={isDisabled}
+            onChange={this.toggleDisabled}
+            id="cypress-single__disabled-checkbox"
+          />
           Disabled
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <Checkbox checked={isLoading} onChange={this.toggleLoading} />
+          <Checkbox
+            checked={isLoading}
+            onChange={this.toggleLoading}
+            id="cypress-single__loading-checkbox"
+          />
           Loading
         </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <Checkbox type="checkbox" checked={isRtl} onChange={this.toggleRtl} />
+          <Checkbox
+            type="checkbox"
+            checked={isRtl}
+            onChange={this.toggleRtl}
+            id="cypress-single__rtl-checkbox"
+          />
           RTL
         </Note>
       </div>

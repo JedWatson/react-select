@@ -189,10 +189,12 @@ export const Actions = (props: any) => (
       justifyContent: 'space-between',
       opacity: 0,
       transition: 'opacity 200ms, visibility 200ms',
+      transitionDelay: '200ms',
       visibility: 'hidden',
 
       '*:hover > &': {
         opacity: 1,
+        transitionDelay: 0,
         visibility: 'visible',
       },
     }}

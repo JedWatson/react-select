@@ -143,7 +143,7 @@ export function getScrollParent(element: Element): Element {
 */
 function easeOutCubic(t: number, b: number, c: number, d: number): number {
   return c * ((t = t / d - 1) * t * t + 1) + b;
-};
+}
 
 export function animatedScrollTo(
   element: Element,
@@ -219,5 +219,7 @@ export function isTouchCapable() {
 // ==============================
 
 export function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
 }
