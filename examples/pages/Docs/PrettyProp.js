@@ -35,28 +35,23 @@ type Props = {
   typeDefinition?: any,
 };
 
-export const TypeDefinition = ({ children }: { children: Node }) => {
-  const responsiveStyles =
-    window.innerWidth > 769 ? { paddingLeft: '2em' } : {};
-  return (
-    <SyntaxHighlighter
-      language="typescript"
-      style={coy}
-      customStyle={{
-        ...responsiveStyles,
-        backgroundColor: 'transparent',
-        borderRadius: 0,
-        fontSize: 12,
-        marginTop: '2em',
-        maxWidth: '100%',
-        overflowX: 'auto',
-        WebkitOverflowScrolling: 'touch',
-      }}
-    >
-      {children}
-    </SyntaxHighlighter>
-  );
-};
+export const TypeDefinition = ({ children }: { children: Node }) => (
+  <SyntaxHighlighter
+    language="typescript"
+    style={coy}
+    customStyle={{
+      backgroundColor: 'transparent',
+      borderRadius: 0,
+      fontSize: 12,
+      marginTop: '1em',
+      maxWidth: '100%',
+      overflowX: 'auto',
+      WebkitOverflowScrolling: 'touch',
+    }}
+  >
+    {children}
+  </SyntaxHighlighter>
+);
 
 const Heading = props => (
   <h3

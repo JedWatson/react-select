@@ -10,6 +10,7 @@ import {
   Animated,
   Async,
   Creatable,
+  Docs,
   Experimental,
   Home,
   NoMatch,
@@ -143,6 +144,7 @@ const NavItem = ({ selected, ...props }) => (
 );
 const links = [
   { label: 'Home', value: '/' },
+  { label: 'API Docs', value: '/docs' },
   { label: 'Animation', value: '/animated' },
   { label: 'Async Options', value: '/async' },
   { label: 'Creatable Options', value: '/creatable' },
@@ -174,6 +176,7 @@ export default class App extends Component<*> {
               <PageContent>
                 <Switch>
                   <Route exact path="/" component={Home} />
+                  <Route exact path="/docs" component={Docs} />
                   <Route exact path="/animated" component={Animated} />
                   <Route exact path="/async" component={Async} />
                   <Route exact path="/creatable" component={Creatable} />

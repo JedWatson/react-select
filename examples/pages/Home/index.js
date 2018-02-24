@@ -1,14 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Code, Link, H1 } from '../../components';
+import { Code, Link, H1, H2 } from '../../components';
 
 import ExampleWrapper from '../../ExampleWrapper';
 import SingleSelect from './SingleSelect';
 import MultiSelect from './MultiSelect';
 import Grouped from './Grouped';
-import carouselPropTypes from './props';
-import PrettyProp, { TypeDefinition } from '../../PrettyProp';
 
 const changes = [
   { icon: '🎨', text: 'CSS-in-JS with a complete styling API' },
@@ -27,7 +25,7 @@ const List = ({ items }) => (
     {items.map(({ icon, text }, j) => (
       <li key={j} style={{ alignItems: 'center', display: 'flex ' }}>
         <span style={{ fontSize: 24, marginRight: '0.5em' }}>{icon}</span>
-        <span style={{ fontSize: 14 }}>{text}</span>
+        <span style={{ fontSize: 16 }}>{text}</span>
       </li>
     ))}
   </ul>
@@ -41,12 +39,6 @@ export default class Home extends Component<*, *> {
           React Select v2{' '}
           <small style={{ color: '#999', fontWeight: 500 }}>(alpha)</small>
         </H1>
-        <h4>Areas of improvement on v1:</h4>
-        <List items={changes} />
-        <h4>Try it out:</h4>
-        <p>
-          <Code>yarn add react-select@next</Code>
-        </p>
         <p style={{ color: '#999' }}>
           <Link
             href="https://github.com/JedWatson/react-select/tree/v2"
@@ -62,7 +54,17 @@ export default class Home extends Component<*, *> {
             Examples Source
           </Link>
         </p>
-
+        <h4>Areas of improvement on v1:</h4>
+        <List items={changes} />
+        <h4>Try it out:</h4>
+        <p>
+          <Code>yarn add react-select@next</Code>
+        </p>
+        <H2>Examples</H2>
+        <p>
+          Check out the pages to the left for more in-depth examples and
+          variations.
+        </p>
         <ExampleWrapper
           label="Single Select"
           urlPath="/examples/pages/Home/SingleSelect.js"
@@ -81,45 +83,6 @@ export default class Home extends Component<*, *> {
         >
           <MultiSelect />
         </ExampleWrapper>
-
-        <h2>Props</h2>
-        <p>
-          To understand some of the prop types below, we'll surface internal
-          opaque types:
-        </p>
-        <TypeDefinition>{`type OptionType = { [string]: any }
-type OptionsType = Array<OptionType>
-
-type GroupType = {
-  [string]: any, // group label
-  options: OptionsType,
-}
-
-type ValueType = OptionType | OptionsType | null | void
-
-type CommonProps = {
-  clearValue: () => void,
-  getStyles: (string, any) => {},
-  getValue: () => ValueType,
-  hasValue: boolean,
-  isMulti: boolean,
-  options: OptionsType,
-  selectOption: OptionType => void,
-  selectProps: any,
-  setValue: (ValueType, ActionTypes) => void,
-}
-
-// passed as the second argument to \`onChange\`
-type ActionTypes =
-  | 'clear'
-  | 'create-option'
-  | 'deselect-option'
-  | 'pop-value'
-  | 'remove-value'
-  | 'select-option'
-  | 'set-value'
-`}</TypeDefinition>
-        {carouselPropTypes.map(p => <PrettyProp key={p.name} {...p} />)}
       </div>
     );
   }
