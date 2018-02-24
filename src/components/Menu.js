@@ -7,7 +7,7 @@ import {
   getScrollParent,
   getScrollTop,
   normalizedHeight,
-  normalizedScrollTo,
+  scrollTo,
 } from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
@@ -106,7 +106,7 @@ export function getMenuPlacement({
 
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
       if (placement === 'bottom') {
-        normalizedScrollTo(scrollParent, scrollDown);
+        scrollTo(scrollParent, scrollDown);
         return { placement: 'bottom', maxHeight };
       }
       break;

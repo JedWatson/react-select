@@ -97,15 +97,13 @@ export function getScrollTop(el: Element): number {
   return el.scrollTop;
 }
 
-export function normalizedScrollTo(el: Element, top: number): void {
+export function scrollTo(el: Element, top: number): void {
   // with a scroll distance, we perform scroll on the element
   if (isDocumentElement(el)) {
     window.scrollTo(0, top);
     return;
   }
-
-  // if statement to appease flow
-  if (top) el.scrollTop = top;
+  el.scrollTop = top;
 }
 
 // Get Scroll Parent
@@ -158,7 +156,7 @@ export function animatedScrollTo(
   function animateScroll() {
     currentTime += increment;
     const val = easeOutCubic(currentTime, start, change, duration);
-    normalizedScrollTo(element, val);
+    scrollTo(element, val);
     if (currentTime < duration) {
       raf(animateScroll);
     }
@@ -178,7 +176,7 @@ export function scrollIntoView(
   const overScroll = focusedEl.offsetHeight / 3;
 
   if (focusedRect.bottom + overScroll > menuRect.bottom) {
-    normalizedScrollTo(
+    scrollTo(
       menuEl,
       Math.min(
         focusedEl.offsetTop +
@@ -189,7 +187,7 @@ export function scrollIntoView(
       )
     );
   } else if (focusedRect.top - overScroll < menuRect.top) {
-    normalizedScrollTo(menuEl, Math.max(focusedEl.offsetTop - overScroll, 0));
+    scrollTo(menuEl, Math.max(focusedEl.offsetTop - overScroll, 0));
   }
 }
 
