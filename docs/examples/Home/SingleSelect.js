@@ -42,7 +42,6 @@ export default class SingleSelect extends Component<*, State> {
     return (
       <div>
         <Select
-          autoFocus
           defaultValue={colourOptions[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}

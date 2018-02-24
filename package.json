@@ -55,6 +55,7 @@
     "nps": "^5.7.1",
     "nps-utils": "^1.3.0",
     "nyc": "^11.1.0",
+    "raf-schd": "^2.1.0",
     "react": "^16.2.0",
     "react-codesandboxer": "^0.2.1",
     "react-dom": "^16.2.0",

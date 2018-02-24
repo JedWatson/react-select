@@ -8,29 +8,6 @@ import SingleSelect from './SingleSelect';
 import MultiSelect from './MultiSelect';
 import Grouped from './Grouped';
 
-const changes = [
-  { icon: '🎨', text: 'CSS-in-JS with a complete styling API' },
-  {
-    icon: '🏗',
-    text: 'Replace any of the built-in rendering components',
-  },
-  {
-    icon: '🤖',
-    text: 'Simpler and more extensible; fewer props',
-  },
-  { icon: '⚡️', text: 'Attention to detail and performance' },
-];
-const List = ({ items }) => (
-  <ul style={{ listStyle: 'none', padding: 0 }}>
-    {items.map(({ icon, text }, j) => (
-      <li key={j} style={{ alignItems: 'center', display: 'flex ' }}>
-        <span style={{ fontSize: 24, marginRight: '0.5em' }}>{icon}</span>
-        <span style={{ fontSize: 16 }}>{text}</span>
-      </li>
-    ))}
-  </ul>
-);
-
 export default class Home extends Component<*, *> {
   render() {
     return (
@@ -71,10 +48,7 @@ export default class Home extends Component<*, *> {
         >
           <SingleSelect />
         </ExampleWrapper>
-        <ExampleWrapper
-          label="Grouped"
-          urlPath="/docs/pages/Home/Grouped.js"
-        >
+        <ExampleWrapper label="Grouped" urlPath="/docs/pages/Home/Grouped.js">
           <Grouped />
         </ExampleWrapper>
         <ExampleWrapper

@@ -5,9 +5,6 @@ import glam from 'glam';
 import React from 'react';
 import { colors } from '../src/theme';
 
-const fontFamilyFixed =
-  'SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
-
 export const Example = (props: {}) => (
   <div css={{ paddingRight: '100px' }} {...props} />
 );
@@ -15,10 +12,11 @@ export const Example = (props: {}) => (
 export const Code = (props: {}) => (
   <code
     css={{
-      backgroundColor: '#eee',
-      fontFamily: fontFamilyFixed,
+      backgroundColor: 'rgba(38, 132, 255, 0.06)',
+      // boxShadow: 'inset 0 0 0 1px rgba(38, 132, 255, 0.06)',
+      color: '#0747A6',
       fontSize: '85%',
-      padding: '2px 4px',
+      padding: '1px 5px 2px',
       borderRadius: 4,
     }}
     {...props}
