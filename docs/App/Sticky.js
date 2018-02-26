@@ -59,7 +59,6 @@ export default class Sticky extends Component<Props, State> {
     // get dimensions once, we're not interested in resize events
     const { height, width } = ref.firstElementChild.getBoundingClientRect();
     if (typeof this.state.height !== 'number') {
-      console.warn({ height, width });
       this.setState({ height, width });
     }
   };

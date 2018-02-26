@@ -156,7 +156,6 @@ function Header({ children, location, history }) {
               isSearchable={false}
               options={changes}
               onChange={opt => {
-                console.log(opt);
                 history.push(opt.path);
               }}
               placeholder="🎉 What's new in V2"
