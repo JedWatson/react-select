@@ -5,22 +5,28 @@ import glam from 'glam';
 import React from 'react';
 import { colors } from '../src/theme';
 
+import SyntaxHighlighter, {
+  registerLanguage,
+} from 'react-syntax-highlighter/prism-light';
+import jsx from 'react-syntax-highlighter/languages/prism/jsx';
+import { tomorrow } from 'react-syntax-highlighter/styles/prism';
+
+const customTomorrow = {
+  ...tomorrow,
+  'code[class*="language-"]': {
+    ...tomorrow['code[class*="language-"]'],
+    fontFamily: null, // inherit from css
+  },
+  'pre[class*="language-"]': {
+    ...tomorrow['pre[class*="language-"]'],
+    fontFamily: null, // inherit from css
+  },
+};
+
+registerLanguage('jsx', jsx);
+
 export const Example = (props: {}) => (
   <div css={{ paddingRight: '100px' }} {...props} />
-);
-
-export const Code = (props: {}) => (
-  <code
-    css={{
-      backgroundColor: 'rgba(38, 132, 255, 0.06)',
-      // boxShadow: 'inset 0 0 0 1px rgba(38, 132, 255, 0.06)',
-      color: '#0747A6',
-      fontSize: '85%',
-      padding: '1px 5px 2px',
-      borderRadius: 4,
-    }}
-    {...props}
-  />
 );
 
 const linkCSS = {
@@ -200,3 +206,39 @@ export const Actions = (props: any) => (
     {...props}
   />
 );
+
+// ==============================
+// Code
+// ==============================
+
+export const Code = (props: {}) => (
+  <code
+    css={{
+      backgroundColor: 'rgba(38, 132, 255, 0.08)',
+      // color: '#0747A6',
+      fontSize: '85%',
+      padding: '1px 5px 2px',
+      borderRadius: 4,
+    }}
+    {...props}
+  />
+);
+
+export const CodeBlock = ({ children, ...props }: { children: string }) => {
+  return (
+    <SyntaxHighlighter
+      language="jsx"
+      style={customTomorrow}
+      customStyle={{
+        borderRadius: 4,
+        fontSize: 13,
+        marginTop: '2em',
+        overflowX: 'auto',
+        WebkitOverflowScrolling: 'touch',
+      }}
+      {...props}
+    >
+      {children}
+    </SyntaxHighlighter>
+  );
+};

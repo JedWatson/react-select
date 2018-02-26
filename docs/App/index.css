@@ -16,6 +16,11 @@ body {
 code {
   font-family: Roboto Mono, Monaco, monospace;
 }
+h6 {
+  color: #777;
+  margin-bottom: 0.25em;
+  text-transform: uppercase;
+}
 
 /* Header - Github Corner */
 

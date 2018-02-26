@@ -4,6 +4,4 @@ export { default as Creatable } from './Creatable';
 export { default as Docs } from './Docs';
 export { default as Experimental } from './Experimental';
 export { default as Home } from './Home';
-export { default as NoMatch } from './NoMatch';
 export { default as Styled } from './Styled';
-export { default as Tests } from './Tests';

@@ -5,7 +5,6 @@ import glam from 'glam';
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-const borderColor = 'hsl(0, 0%, 88%)';
 const navWidth = 180;
 const appWidth = 800;
 const appGutter = 20;
@@ -54,41 +53,43 @@ export const AppContent = (props: any) => (
     {...props}
   />
 );
-export const Nav = (props: any) => (
+
+// ==============================
+// Navigation
+// ==============================
+
+export const PrimaryNav = (props: any) => (
   <div
     css={{
-      position: 'fixed',
-      zIndex: 2,
-
-      [smallDevice]: {
-        backgroundColor: 'rgba(255, 255, 255, 0.96)',
-        boxShadow: 'inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
-        display: 'flex ',
-        fontSize: 13,
-        fontWeight: 'bold',
-        marginLeft: -appGutter,
-        marginRight: -appGutter,
-        overflowX: 'auto',
-        top: 0,
-        width: '100%',
-        WebkitOverflowScrolling: 'touch',
-      },
-
-      [largeDevice]: {
-        display: 'block',
-        float: 'left',
-        paddingTop: contentGutter,
-        width: navWidth,
-      },
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      boxShadow: 'inset 0 -px 0 rgba(255, 255, 255, 0.1)',
+      color: 'white',
+      fontSize: 13,
+      fontWeight: 'bold',
+      overflowX: 'auto',
+      top: 0,
+      width: '100%',
+      WebkitOverflowScrolling: 'touch',
     }}
-    {...props}
-  />
+  >
+    <div
+      css={{
+        boxSizing: 'border-box',
+        display: 'flex ',
+        maxWidth: 800,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+      {...props}
+    />
+  </div>
 );
-type NavItemProps = { selected: boolean };
-export const NavItem = ({ selected, ...props }: NavItemProps) => (
+type PrimaryNavItemProps = { selected: boolean };
+export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
   <Link
     css={{
-      color: selected ? 'hsl(0, 0%, 0%)' : 'hsl(0, 0%, 40%)',
+      // boxShadow: selected ? 'inset 0 -3px 0 white' : null,
+      color: selected ? 'white' : 'rgba(255, 255, 255, 0.6)',
       display: 'inline-block',
       padding: `15px ${appGutter}px`,
       position: 'relative',
@@ -96,31 +97,20 @@ export const NavItem = ({ selected, ...props }: NavItemProps) => (
       whiteSpace: 'nowrap',
 
       ':hover, :active': {
-        color: selected ? 'hsl(0, 0%, 10%)' : '#2684FF',
+        color: selected ? 'white' : 'rgba(255, 255, 255, 0.8)',
       },
 
       [smallDevice]: {
-        boxShadow: selected ? 'inset 0 -1px 0 black' : null,
-      },
-
-      [largeDevice]: {
-        backgroundColor: selected ? 'white' : 'transparent',
-        borderColor: selected ? borderColor : 'transparent',
-        borderStyle: 'solid',
-        borderWidth: '1px 0',
-        display: 'block',
-        padding: '10px 20px 10px 0',
-        right: -1,
-
-        ':before': {
-          content: ' ',
-          // background: 'linear-gradient(90deg, fade(#e9e9e9, 0%) 94%, #e9e9e9)',
-        },
+        padding: `10px ${appGutter}px`,
       },
     }}
     {...props}
   />
 );
+
+// ==============================
+// Scroll Restoration
+// ==============================
 
 // Return scroll to top on route change
 class ScrollToTop extends Component<*> {

@@ -16,6 +16,13 @@ export default class Home extends Component<*, *> {
           React Select v2{' '}
           <small style={{ color: '#999', fontWeight: 500 }}>(alpha)</small>
         </H1>
+<<<<<<< 2dc4ed91a83d7c1d4f3626d626c3d93f5fcfba46
+=======
+        <h4>Try it out:</h4>
+        <p>
+          <Code>yarn add react-select@next</Code>
+        </p>
+>>>>>>> start populating docs
         <p style={{ color: '#999' }}>
           <Link
             href="https://github.com/JedWatson/react-select/tree/v2"

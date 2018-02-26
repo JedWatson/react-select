@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react';
 
-import Select from '../../src';
-import { H1, Hr, Note } from '../components';
-import { colourOptions, groupedOptions } from '../data';
+import Select from '../src';
+import { H1, Hr, Note } from './components';
+import { colourOptions, groupedOptions } from './data';
 
 type State = { isDisabled: boolean, isLoading: boolean };
 
