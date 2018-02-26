@@ -28,9 +28,10 @@ const NavSection = () => {
 
 const PageNav = ({ location, match }: RouterProps) => {
   const links = routes[match.path];
+  const isSmallDevice = window.innerWidth <= 769;
 
   return (
-    <Sticky>
+    <Sticky preserveHeight={isSmallDevice}>
       <Nav>
         {links.map(l => {
           const selected = location.pathname === l.path;
@@ -77,7 +78,7 @@ type NavItemProps = { selected: boolean };
 const NavItem = ({ selected, ...props }: NavItemProps) => (
   <Link
     css={{
-      color: selected ? 'hsl(0, 0%, 0%)' : 'hsl(0, 0%, 40%)',
+      color: selected ? '#091e42' : '#7A869A',
       display: 'inline-block',
       padding: `15px ${appGutter}px`,
       position: 'relative',

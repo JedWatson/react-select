@@ -4,6 +4,7 @@ body {
   -moz-font-feature-settings: 'liga' on;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  color: #253858;
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Helvetica Neue',
     Helvetica, sans-serif;
   font-style: normal;
@@ -15,6 +16,21 @@ body {
 }
 code {
   font-family: Roboto Mono, Monaco, monospace;
+}
+p > code {
+  white-space: nowrap;
+}
+p,
+ul,
+ol {
+  line-height: 1.5;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: #091e42;
 }
 h6 {
   color: #777;

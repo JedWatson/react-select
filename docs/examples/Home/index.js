@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Code, Link, H1, H2 } from '../../components';
+import { Code, H1, H2 } from '../../components';
 
 import ExampleWrapper from '../../ExampleWrapper';
 import SingleSelect from './SingleSelect';
@@ -12,28 +12,23 @@ export default class Home extends Component<*, *> {
   render() {
     return (
       <div>
-        <H1>
-          React Select v2{' '}
-          <small style={{ color: '#999', fontWeight: 500 }}>(alpha)</small>
-        </H1>
-        <h4>Try it out:</h4>
+        <H1>Intro</H1>
         <p>
-          <Code>yarn add react-select@next</Code>
+          The project has grown way beyond the original use-case to become one
+          of the most popular react components: with nearly a million downloads
+          per month, statistically over one in seven people installing{' '}
+          <Code>react-dom</Code> also install <Code>react-select</Code> 😆
         </p>
-        <p style={{ color: '#999' }}>
-          <Link
-            href="https://github.com/JedWatson/react-select/tree/v2"
-            target="_blank"
-          >
-            GitHub Project
-          </Link>{' '}
-          &middot;{' '}
-          <Link
-            href="https://github.com/JedWatson/react-select/blob/v2/docs/pages/Home.js"
-            target="_blank"
-          >
-            Examples Source
-          </Link>
+        <p>
+          Over the years the API has also grown organically to accommodate a
+          huge amount of flexibility and customisation.
+        </p>
+        <p>
+          For the last half-year, with several team members from Thinkmill I've
+          been working with Atlassian to develop their new UI library Atlaskit.
+          We've had the opportunity to do a lot of deep thinking on component
+          architecture, and are now turning our attention to Select components,
+          which will use <Code>react-select</Code> as their base.
         </p>
         <h4>Try it out:</h4>
         <p>

@@ -9,7 +9,6 @@ const navWidth = 180;
 const appWidth = 800;
 const appGutter = 20;
 const contentGutter = 30;
-const pagePadding = 140;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
@@ -29,7 +28,7 @@ export const AppContainer = (props: any) => (
 export const PageContent = (props: any) => (
   <div
     css={{
-      paddingBottom: contentGutter,
+      paddingBottom: contentGutter * 2,
       paddingTop: contentGutter,
 
       [smallDevice]: {
@@ -61,8 +60,8 @@ export const AppContent = (props: any) => (
 export const PrimaryNav = (props: any) => (
   <div
     css={{
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      boxShadow: 'inset 0 -px 0 rgba(255, 255, 255, 0.1)',
+      backgroundColor: 'rgba(0, 0, 0, 0.07)',
+      boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
       color: 'white',
       fontSize: 13,
       fontWeight: 'bold',

@@ -7,6 +7,7 @@ import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
 import Header from './Header';
+import Footer from './Footer';
 // import Tests from '../Tests';
 // import NoMatch from '../NoMatch';
 
@@ -74,6 +75,7 @@ export default class App extends Component<*> {
               {/* <Route component={NoMatch} /> */}
             </AppContainer>
           </ScrollRestoration>
+          <Footer />
         </div>
       </BrowserRouter>
     );
