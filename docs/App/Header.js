@@ -21,11 +21,11 @@ const changes = [
     text: 'Replacable component architecture',
   },
   {
-    path: 'extensibility',
+    path: '/api',
     icon: '🤖',
-    text: 'Simpler and more extensible; fewer props',
+    text: 'Simpler and more extensible',
   },
-  { path: 'perf', icon: '⚡️', text: 'Attention to detail and performance' },
+  { path: '/examples/animated', icon: '🚀', text: 'Animation built in' },
 ];
 
 function getLabel({ icon, text }) {
@@ -173,6 +173,10 @@ function Header({ children, location, history }) {
                 option: css => ({
                   ...css,
                   padding: '4px 12px',
+                }),
+                placeholder: css => ({
+                  ...css,
+                  color: 'black',
                 }),
               }}
             />
