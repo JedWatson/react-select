@@ -6,6 +6,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Select from '../../src';
+import { GitHubButton } from './GitHubButton';
+
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
@@ -96,7 +98,7 @@ function Header({ children, location, history }) {
             v2
           </small>
         </div>
-        <GithubButton />
+        <StarButton />
       </Container>
       {children}
     </Gradient>
@@ -140,7 +142,7 @@ function Header({ children, location, history }) {
               A flexible and beautiful Select Input control for ReactJS with
               multiselect, autocomplete, async and creatable support.
             </p>
-            <GithubButton />
+            <StarButton />
           </div>
           <div
             css={{
@@ -188,16 +190,23 @@ function Header({ children, location, history }) {
   );
 }
 
-const GithubButton = () => (
-  <a
-    className="github-button"
-    href="https://github.com/jedwatson/react-select"
-    data-size="large"
-    data-show-count="true"
-    aria-label="Star jedwatson/react-select on GitHub"
+const StarButton = () => (
+  <span
+    style={{
+      display: 'inline-block',
+      minHeight: 32,
+    }}
   >
-    Star
-  </a>
+    <GitHubButton
+      className="github-button"
+      href="https://github.com/jedwatson/react-select"
+      data-size="large"
+      data-show-count="true"
+      aria-label="Star jedwatson/react-select on GitHub"
+    >
+      Star
+    </GitHubButton>
+  </span>
 );
 
 export default withRouter(Header);
