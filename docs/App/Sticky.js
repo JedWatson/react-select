@@ -66,7 +66,9 @@ export default class Sticky extends Component<Props, State> {
     const { preserveHeight } = this.props;
     const { height, isFixed, width } = this.state;
     const outerStyle = isFixed && preserveHeight ? { height } : null;
-    const innerStyle = isFixed ? { position: 'fixed', top: 0, width } : null;
+    const innerStyle = isFixed
+      ? { position: 'fixed', top: 0, width, zIndex: 1 }
+      : null;
 
     return (
       <div ref={this.getOuterEl} style={outerStyle}>

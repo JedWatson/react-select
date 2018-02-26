@@ -28,7 +28,7 @@ export const AppContainer = (props: any) => (
 export const PageContent = (props: any) => (
   <div
     css={{
-      paddingBottom: contentGutter * 2,
+      paddingBottom: contentGutter * 4,
       paddingTop: contentGutter,
 
       [smallDevice]: {

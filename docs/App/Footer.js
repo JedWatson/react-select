@@ -14,6 +14,8 @@ const Wrapper = props => (
       borderTop: '1px solid #f3f3f3',
       color: '#666',
       fontSize: '0.85em',
+      position: 'relative',
+      zIndex: 1,
     }}
     {...props}
   />
