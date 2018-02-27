@@ -333,6 +333,7 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuOpen();
   }
   onMenuClose() {
+    this.onInputChange('');
     this.props.onMenuClose();
   }
   onInputChange(newValue: string) {
@@ -404,9 +405,6 @@ export default class Select extends Component<Props, State> {
   }
   setValue = (newValue: ValueType, action: ActionTypes = 'set-value') => {
     const { closeMenuOnSelect, isMulti, onChange } = this.props;
-    // We update the state first because we should clear inputValue when an
-    // option is selected; the onChange event fires when that's reconciled
-    // otherwise the new menu items will be filtered with the old inputValue
     this.onInputChange('');
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
