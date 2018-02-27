@@ -50,9 +50,19 @@ export type ActionTypes =
   | 'clear'
   | 'create-option';
 
-export type ActionMeta = {
+export type ActionMeta = {|
   action: ActionTypes,
-};
+|};
+
+export type InputActionTypes =
+  | 'set-value'
+  | 'input-change'
+  | 'input-blur'
+  | 'menu-close';
+
+export type InputActionMeta = {|
+  action: InputActionTypes,
+|};
 
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
 

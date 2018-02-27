@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import withState from './stateManager';
-import type { OptionsType } from './types';
+import type { OptionsType, InputActionMeta } from './types';
 
 type Props = SelectProps & {
   defaultOptions: OptionsType | boolean,
@@ -73,10 +73,10 @@ export default class Async extends Component<Props, State> {
       loader.then(callback, () => callback());
     }
   }
-  handleInputChange = (newValue: string) => {
+  handleInputChange = (newValue: string, actionMeta: InputActionMeta) => {
     const { cacheOptions, onInputChange } = this.props;
     // TODO
-    const inputValue = handleInputChange(newValue, onInputChange);
+    const inputValue = handleInputChange(newValue, actionMeta, onInputChange);
     if (!inputValue) {
       delete this.lastRequest;
       this.setState({
