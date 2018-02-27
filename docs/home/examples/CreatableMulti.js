@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import CreatableSelect from '../../../src/Creatable';
 import { colourOptions } from '../../data';
+import ExampleWrapper from '../../ExampleWrapper';
 
 export default class CreatableMulti extends Component<*, State> {
   handleChange = (newValue: any, actionMeta: any) => {
@@ -12,11 +13,16 @@ export default class CreatableMulti extends Component<*, State> {
   };
   render() {
     return (
-      <CreatableSelect
-        isMulti
-        onChange={this.handleChange}
-        options={colourOptions}
-      />
+      <ExampleWrapper
+        label="Creatable Multiselect Example"
+        urlPath="/docs/pages/Creatable/CreatableMulti.js"
+      >
+        <CreatableSelect
+          isMulti
+          onChange={this.handleChange}
+          options={colourOptions}
+        />
+      </ExampleWrapper>
     );
   }
 }

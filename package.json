@@ -59,6 +59,7 @@
     "react": "^16.2.0",
     "react-codesandboxer": "^0.2.1",
     "react-dom": "^16.2.0",
+    "react-markings": "^1.1.7",
     "react-router-dom": "^4.2.2",
     "react-syntax-highlighter": "^7.0.1",
     "rollup": "^0.53.3",
@@ -90,7 +91,11 @@
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged"
   },
-  "files": ["dist", "lib", "src"],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "keywords": [
     "combobox",
     "form",
@@ -102,7 +107,9 @@
     "ui"
   ],
   "jest": {
-    "modulePathIgnorePatterns": ["./node_modules"],
+    "modulePathIgnorePatterns": [
+      "./node_modules"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest"
     },

@@ -29,8 +29,8 @@ const promise = urlPath =>
 
 export default class ExampleWrapper extends Component {
   static defaultProps = { isEditable: true };
-  render() {
-    const configPromise = Promise.all([
+  configPromise = () =>
+    Promise.all([
       fetch(rawDataUrl).then(a => a.text()),
       fetch(rawComponentsUrl)
         .then(a => a.text())
@@ -46,9 +46,9 @@ export default class ExampleWrapper extends Component {
         },
       },
     }));
-
+  render() {
     return (
-      <div style={{ maxWidth: 400 }}>
+      <div>
         <ExampleHeading>
           <h4>{this.props.label}</h4>
           <Actions>
@@ -62,7 +62,7 @@ export default class ExampleWrapper extends Component {
             </Action>
             {this.props.isEditable ? (
               <CodeSandboxer
-                config={configPromise}
+                config={this.configPromise}
                 example={promise(this.props.urlPath)}
                 pkgJSON={fetch(rawPKGJSON).then(a => a.json())}
               >
@@ -85,9 +85,8 @@ const ExampleHeading = (props: any) => (
       alignItems: 'center',
       display: 'flex ',
       justifyContent: 'space-between',
-      marginTop: '1em',
-      paddingBottom: '1.25em',
-      paddingTop: '1em',
+      paddingBottom: '1em',
+      paddingTop: '1.25em',
 
       '& > h4': {
         margin: 0,

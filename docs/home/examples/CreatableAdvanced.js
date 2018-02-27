@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import CreatableSelect from '../../../src/Creatable';
+import ExampleWrapper from '../../ExampleWrapper';
 
 type State = {
   options: [{ [string]: string }],
@@ -50,15 +51,20 @@ export default class CreatableAdvanced extends Component<*, State> {
   render() {
     const { isLoading, options, value } = this.state;
     return (
-      <CreatableSelect
-        isClearable
-        isDisabled={isLoading}
-        isLoading={isLoading}
-        onChange={this.handleChange}
-        onCreateOption={this.handleCreate}
-        options={options}
-        value={value}
-      />
+      <ExampleWrapper
+        label="Advanced Example"
+        urlPath="/docs/pages/Creatable/CreatableAdvanced.js"
+      >
+        <CreatableSelect
+          isClearable
+          isDisabled={isLoading}
+          isLoading={isLoading}
+          onChange={this.handleChange}
+          onCreateOption={this.handleCreate}
+          options={options}
+          value={value}
+        />
+      </ExampleWrapper>
     );
   }
 }

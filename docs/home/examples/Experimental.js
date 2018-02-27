@@ -4,13 +4,11 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import chrono from 'chrono-node';
 
-import { Div, Span } from '../../src/primitives';
-import { components as SelectComponents } from '../../src';
-import ExampleWrapper from '../ExampleWrapper';
-
-import Select from '../../src';
-
-import { Note, H1 } from '../styled-components';
+import Select from '../../../src';
+import { Div, Span } from '../../../src/primitives';
+import { components as SelectComponents } from '../../../src';
+import ExampleWrapper from '../../ExampleWrapper';
+import { Note, H1 } from '../../styled-components';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);
@@ -213,7 +211,7 @@ export default class App extends Component<*, *> {
           label="DatePicker"
           urlPath="/docs/pages/Experimental.js"
         >
-          <DatePicker autoFocus value={value} onChange={this.handleChange} />
+          <DatePicker value={value} onChange={this.handleChange} />
         </ExampleWrapper>
         <pre>Value: {displayValue}</pre>
         <Note>

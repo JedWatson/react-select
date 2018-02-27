@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import AsyncSelect from '../../../src/Async';
 import { colourOptions } from '../../data';
+import ExampleWrapper from '../../ExampleWrapper';
 
 type State = {
   inputValue: string,
@@ -27,16 +28,15 @@ export default class WithCallbacks extends Component<*, State> {
   };
   render() {
     return (
-      <div>
+      <ExampleWrapper label="Callbacks" urlPath="/docs/home/AsyncCallbacks.js">
+        <pre>inputValue: "{this.state.inputValue}"</pre>
         <AsyncSelect
-          autoFocus
           cacheOptions
           loadOptions={loadOptions}
           defaultOptions
           onInputChange={this.handleInputChange}
         />
-        <pre>inputValue: "{this.state.inputValue}"</pre>
-      </div>
+      </ExampleWrapper>
     );
   }
 }

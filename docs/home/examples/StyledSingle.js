@@ -1,7 +1,9 @@
 import React from 'react';
+import chroma from 'chroma-js';
+
 import { colourOptions } from '../../data';
 import Select from '../../../src';
-import chroma from 'chroma-js';
+import ExampleWrapper from '../../ExampleWrapper';
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
@@ -41,11 +43,12 @@ const colourStyles = {
 };
 
 export default () => (
-  <Select
-    autoFocus
-    defaultValue={colourOptions[2]}
-    label="Single select"
-    options={colourOptions}
-    styles={colourStyles}
-  />
+  <ExampleWrapper label="Single" urlPath="/docs/pages/StyledSingle.js">
+    <Select
+      defaultValue={colourOptions[2]}
+      label="Single select"
+      options={colourOptions}
+      styles={colourStyles}
+    />
+  </ExampleWrapper>
 );

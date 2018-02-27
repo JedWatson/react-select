@@ -10,11 +10,10 @@ const largeDevice = '@media (min-width: 770px)';
 const Wrapper = props => (
   <div
     css={{
-      backgroundColor: '#fafafa',
-      borderTop: '1px solid #f3f3f3',
-      color: '#666',
+      backgroundColor: '#FAFBFC',
+      borderTop: '1px solid #EBECF0',
+      color: '#7A869A',
       fontSize: '0.85em',
-      position: 'relative',
       zIndex: 1,
     }}
     {...props}
@@ -45,7 +44,12 @@ const A = props => (
   <a
     {...props}
     css={{
-      color: '#333',
+      color: '#505F79',
+      textDecoration: 'none',
+
+      ':hover': {
+        textDecoration: 'underline',
+      },
     }}
     target="_blank"
   />

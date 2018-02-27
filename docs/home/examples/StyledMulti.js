@@ -1,7 +1,9 @@
 import React from 'react';
+import chroma from 'chroma-js';
+
 import { colourOptions } from '../../data';
 import Select from '../../../src';
-import chroma from 'chroma-js';
+import ExampleWrapper from '../../ExampleWrapper';
 
 const colourStyles = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
@@ -42,11 +44,13 @@ const colourStyles = {
 };
 
 export default () => (
-  <Select
-    closeMenuOnSelect={false}
-    defaultValue={[colourOptions[0], colourOptions[1]]}
-    isMulti
-    options={colourOptions}
-    styles={colourStyles}
-  />
+  <ExampleWrapper label="Multi Select" urlPath="/docs/pages/StyledMulti.js">
+    <Select
+      closeMenuOnSelect={false}
+      defaultValue={[colourOptions[0], colourOptions[1]]}
+      isMulti
+      options={colourOptions}
+      styles={colourStyles}
+    />
+  </ExampleWrapper>
 );

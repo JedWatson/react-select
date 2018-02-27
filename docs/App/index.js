@@ -4,7 +4,7 @@
 import './index.css';
 import glam from 'glam';
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -39,7 +39,7 @@ export default class App extends Component<*> {
         <div>
           <Switch>
             <Route exact path="/tests" component={Tests} />
-            <Redirect from="/" to="/home" />
+            {/* <Redirect from="/" to="/home" /> */}
           </Switch>
           <Header>
             <Route

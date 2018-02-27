@@ -3,9 +3,10 @@
 
 import glam from 'glam';
 import React from 'react';
-import { Link, Route, Switch } from 'react-router-dom';
+// import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
-import type { RouterProps } from '../types';
+// import type { RouterProps } from '../types';
 import routes from './routes';
 import Sticky from './Sticky';
 
@@ -27,21 +28,24 @@ const NavSection = () => {
   );
 };
 
-const PageNav = ({ location, match }: RouterProps) => {
-  const links = routes[match.path];
+// const PageNav = ({ location, match }: RouterProps) => {
+const PageNav = () => {
+  // const links = routes[match.path].links;
   const isSmallDevice = window.innerWidth <= 769;
 
   return (
     <Sticky preserveHeight={isSmallDevice}>
       <Nav>
-        {links.map(l => {
+        TODO: needs middleware for <code>react-markings</code> to parse and
+        abstract headings to create nav.
+        {/* {links.map(l => {
           const selected = location.pathname === l.path;
           return (
             <NavItem key={l.path} selected={selected} to={l.path}>
               {l.label}
             </NavItem>
           );
-        })}
+        })} */}
       </Nav>
     </Sticky>
   );
@@ -74,39 +78,35 @@ const Nav = (props: any) => (
     {...props}
   />
 );
-type NavItemProps = { selected: boolean };
-const NavItem = ({ selected, ...props }: NavItemProps) => (
-  <Link
-    css={{
-      color: selected ? '#091e42' : '#7A869A',
-      display: 'inline-block',
-      padding: `15px ${appGutter}px`,
-      position: 'relative',
-      textDecoration: 'none',
-      whiteSpace: 'nowrap',
-
-      ':hover, :active': {
-        color: selected ? 'hsl(0, 0%, 10%)' : '#2684FF',
-      },
-
-      [smallDevice]: {
-        boxShadow: selected ? 'inset 0 -1px 0 black' : null,
-        padding: `10px ${appGutter}px`,
-      },
-
-      [largeDevice]: {
-        backgroundColor: selected ? 'white' : 'transparent',
-        display: 'block',
-        fontWeight: selected ? 800 : 'inherit',
-        padding: '10px 20px 10px 0',
-        right: -1,
-
-        ':before': {
-          content: ' ',
-          // background: 'linear-gradient(90deg, fade(#e9e9e9, 0%) 94%, #e9e9e9)',
-        },
-      },
-    }}
-    {...props}
-  />
-);
+// type NavItemProps = { selected: boolean };
+// const NavItem = ({ selected, ...props }: NavItemProps) => (
+//   <Link
+//     css={{
+//       color: selected ? '#091e42' : '#7A869A',
+//       display: 'inline-block',
+//       padding: `15px ${appGutter}px`,
+//       position: 'relative',
+//       textDecoration: 'none',
+//       whiteSpace: 'nowrap',
+//
+//       ':hover, :active': {
+//         color: selected ? 'hsl(0, 0%, 10%)' : '#2684FF',
+//       },
+//
+//       [smallDevice]: {
+//         boxShadow: selected ? 'inset 0 -1px 0 black' : null,
+//         padding: `10px ${appGutter}px`,
+//       },
+//
+//       [largeDevice]: {
+//         backgroundColor: selected ? 'white' : 'transparent',
+//         display: 'block',
+//         fontWeight: selected ? 800 : 'inherit',
+//         padding: '10px 20px 10px 0',
+//         paddingLeft: selected ? 10 : 0,
+//         transition: 'padding-left 150ms ease-out',
+//       },
+//     }}
+//     {...props}
+//   />
+// );

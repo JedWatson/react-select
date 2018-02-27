@@ -17,21 +17,14 @@ const Section = () => {
 };
 
 const Content = ({ location, match }: RouterProps) => {
-  const pages = routes[match.path];
+  const page = routes[match.path];
 
   return (
     <Route
       path={match.path}
       render={() => (
         <Switch>
-          {pages.map(e => (
-            <Route
-              exact
-              key={location.key}
-              path={e.path}
-              component={e.Component}
-            />
-          ))}
+          <Route exact key={location.key} path={match.path} component={page} />
         </Switch>
       )}
     />

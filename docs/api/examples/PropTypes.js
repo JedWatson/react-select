@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
+import PrettyProp from '../../PrettyProp';
 
-const props = [
+const selectProps = [
   {
     defaultValue: null,
     description:
@@ -381,4 +382,4 @@ type StyleFn = (StyleObj, State) => StyleObj
   },
 ];
 
-export default props;
+export default () => selectProps.map(p => <PrettyProp key={p.name} {...p} />);

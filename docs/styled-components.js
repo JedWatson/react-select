@@ -68,15 +68,18 @@ export const Code = (props: {}) => (
   />
 );
 
-export const CodeBlock = ({ children, ...props }: { children: string }) => {
+type PreProps = { children: string, language: string };
+
+export const CodeBlock = ({ children, language, ...props }: PreProps) => {
   return (
     <SyntaxHighlighter
-      language="jsx"
+      language={language}
       style={customTomorrow}
       customStyle={{
         borderRadius: 4,
         fontSize: 13,
-        marginTop: '2em',
+        marginBottom: '1em',
+        marginTop: '1em',
         overflowX: 'auto',
         WebkitOverflowScrolling: 'touch',
       }}
@@ -86,3 +89,4 @@ export const CodeBlock = ({ children, ...props }: { children: string }) => {
     </SyntaxHighlighter>
   );
 };
+CodeBlock.defaultProps = { language: 'jsx' };
