@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Code, CodeBlock, H1 } from '../components';
+import { Code, CodeBlock, H1 } from '../styled-components';
 
 const propFn = k => {
   const style = { display: 'inline-block', marginBottom: 6, marginRight: 4 };
@@ -24,7 +24,7 @@ const commonProps = [
   'selectProps',
 ];
 
-export default function APIComponents() {
+export default function ComponentsIntro() {
   return (
     <div>
       <H1>Components</H1>

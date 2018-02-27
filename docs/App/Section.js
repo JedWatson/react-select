@@ -6,11 +6,12 @@ import type { RouterProps } from '../types';
 import routes from './routes';
 
 const Section = () => {
+  const routeKeys = Object.keys(routes);
   return (
     <Switch>
-      <Route path="/api" render={p => <Content {...p} />} />
-      <Route path="/examples" render={p => <Content {...p} />} />
-      <Route path="/guides" render={p => <Content {...p} />} />
+      {routeKeys.map(r => (
+        <Route key={r} path={r} render={p => <Content {...p} />} />
+      ))}
     </Switch>
   );
 };

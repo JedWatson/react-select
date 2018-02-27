@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Code, H1, Note } from '../../components';
+import { Code, H1, Note } from '../../styled-components';
 import ExampleWrapper from '../../ExampleWrapper';
 import CreatableAdvanced from './CreatableAdvanced';
 import CreatableMulti from './CreatableMulti';

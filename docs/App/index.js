@@ -23,9 +23,13 @@ import Section from './Section';
 import PageNav from './PageNav';
 
 const sections = [
-  { label: 'Examples', path: '/examples' },
-  { label: 'Guides', path: '/guides' },
+  { label: 'Home', path: '/home' },
   { label: 'API', path: '/api' },
+  { label: 'Styles', path: '/styles' },
+  { label: 'Components', path: '/components' },
+  { label: 'Async', path: '/async' },
+  { label: 'Creatable', path: '/creatable' },
+  { label: 'Advanced', path: '/advanced' },
 ];
 
 export default class App extends Component<*> {
@@ -35,7 +39,7 @@ export default class App extends Component<*> {
         <div>
           <Switch>
             <Route exact path="/tests" component={Tests} />
-            <Redirect from="/" to="/examples" />
+            <Redirect from="/" to="/home" />
           </Switch>
           <Header>
             <Route

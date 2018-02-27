@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { H1 } from '../../components';
+import { H1 } from '../../styled-components';
 import ExampleWrapper from '../../ExampleWrapper';
 import Example from './Example';
 

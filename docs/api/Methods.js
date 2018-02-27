@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { Code, H1 } from '../components';
+import { Code, H1 } from '../styled-components';
 
 export default class APIMethods extends Component<*> {
   render() {

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { H1, H2 } from '../../components';
+import { H1, H2 } from '../../styled-components';
 import selectProps from './props';
 import PrettyProp, { TypeDefinition } from '../../PrettyProp';
 

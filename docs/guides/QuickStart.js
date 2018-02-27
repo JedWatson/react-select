@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Code, CodeBlock, H1 } from '../components';
+import { Code, CodeBlock, H1 } from '../styled-components';
 
 export default function QuickStart() {
   return (

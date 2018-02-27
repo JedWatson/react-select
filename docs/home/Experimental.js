@@ -10,7 +10,7 @@ import ExampleWrapper from '../ExampleWrapper';
 
 import Select from '../../src';
 
-import { Note, H1 } from '../components';
+import { Note, H1 } from '../styled-components';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);

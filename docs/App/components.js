@@ -61,7 +61,6 @@ export const PrimaryNav = (props: any) => (
   <div
     css={{
       backgroundColor: 'rgba(0, 0, 0, 0.07)',
-      boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
       color: 'white',
       fontSize: 13,
       fontWeight: 'bold',
@@ -69,6 +68,10 @@ export const PrimaryNav = (props: any) => (
       top: 0,
       width: '100%',
       WebkitOverflowScrolling: 'touch',
+
+      [largeDevice]: {
+        boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
+      },
     }}
   >
     <div

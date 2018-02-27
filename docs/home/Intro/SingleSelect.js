@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from '../../../src';
 import { colourOptions } from '../../data';
-import { Note } from '../../components';
+import { Note } from '../../styled-components';
 
 const Checkbox = props => <input type="checkbox" {...props} />;
 

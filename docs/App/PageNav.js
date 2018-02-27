@@ -17,11 +17,12 @@ const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
 const NavSection = () => {
+  const routeKeys = Object.keys(routes);
   return (
     <Switch>
-      <Route path="/api" render={p => <PageNav {...p} />} />
-      <Route path="/examples" render={p => <PageNav {...p} />} />
-      <Route path="/guides" render={p => <PageNav {...p} />} />
+      {routeKeys.map(r => (
+        <Route key={r} path={r} render={p => <PageNav {...p} />} />
+      ))}
     </Switch>
   );
 };
@@ -59,7 +60,6 @@ const Nav = (props: any) => (
         marginLeft: -appGutter,
         marginRight: -appGutter,
         overflowX: 'auto',
-        // width: '100%',
         WebkitOverflowScrolling: 'touch',
       },
 

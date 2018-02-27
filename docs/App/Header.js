@@ -13,12 +13,12 @@ const largeDevice = '@media (min-width: 770px)';
 
 const changes = [
   {
-    path: '/guides/styles',
+    path: '/styles',
     icon: '🎨',
     text: 'CSS-in-JS styling API',
   },
   {
-    path: '/guides/components',
+    path: '/components',
     icon: '🏗',
     text: 'Replacable component architecture',
   },
@@ -27,7 +27,7 @@ const changes = [
     icon: '🤖',
     text: 'Simpler and more extensible',
   },
-  { path: '/examples/animated', icon: '🚀', text: 'Animation built in' },
+  { path: '/home/animated', icon: '🚀', text: 'Animation built in' },
 ];
 
 function getLabel({ icon, text }) {
@@ -63,7 +63,7 @@ const Container = ({ css, ...props }) => (
 );
 
 function Header({ children, location, history }) {
-  const isHome = location.pathname === '/' || location.pathname === '/examples';
+  const isHome = location.pathname === '/' || location.pathname === '/home';
   return !isHome ? (
     <Gradient>
       <Container
@@ -131,7 +131,7 @@ function Header({ children, location, history }) {
           </small>
         </h1>
         <div css={{ [largeDevice]: { display: 'flex ' } }}>
-          <div css={{ flex: 1, paddingRight: 30 }}>
+          <div css={{ flex: 1, [largeDevice]: { paddingRight: 30 } }}>
             <p
               style={{
                 fontSize: '1.25em',
@@ -179,6 +179,7 @@ function Header({ children, location, history }) {
                 placeholder: css => ({
                   ...css,
                   color: 'black',
+                  position: 'static', // FF layout fix; this select never receives a value
                 }),
               }}
             />
@@ -190,23 +191,26 @@ function Header({ children, location, history }) {
   );
 }
 
-const StarButton = () => (
-  <span
-    style={{
-      display: 'inline-block',
-      minHeight: 32,
-    }}
-  >
-    <GitHubButton
-      className="github-button"
-      href="https://github.com/jedwatson/react-select"
-      data-size="large"
-      data-show-count="true"
-      aria-label="Star jedwatson/react-select on GitHub"
+// TEMP remove for production, this throws
+const StarButton = () =>
+  false ? (
+    <span
+      style={{
+        display: 'inline-block',
+        display: 'inline-block',
+        minHeight: 32,
+      }}
     >
-      Star
-    </GitHubButton>
-  </span>
-);
+      <GitHubButton
+        className="github-button"
+        href="https://github.com/jedwatson/react-select"
+        data-size="large"
+        data-show-count="true"
+        aria-label="Star jedwatson/react-select on GitHub"
+      >
+        Star
+      </GitHubButton>
+    </span>
+  ) : null;
 
 export default withRouter(Header);

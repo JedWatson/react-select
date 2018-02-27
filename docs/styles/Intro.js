@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Code, CodeBlock, H1 } from '../components';
+import { Code, CodeBlock, H1 } from '../styled-components';
 
 const keyFn = k => {
   const style = { display: 'inline-block', marginBottom: 6, marginRight: 4 };

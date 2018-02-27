@@ -3,26 +3,31 @@ import {
   Async,
   Creatable,
   Experimental,
-  Home,
+  Intro,
   Styled,
-} from '../examples';
-import { Components, Styles, QuickStart } from '../guides';
+} from '../home';
+import { QuickStart } from '../guides';
 import { Methods, PropTypes } from '../api';
+import { StylesIntro } from '../styles';
+import { ComponentsIntro } from '../components';
+import { AsyncIntro } from '../async';
+import { CreatableIntro } from '../creatable';
+import { AdvancedIntro } from '../advanced';
 
 export default {
-  '/examples': [
-    { label: 'Intro', path: '/examples', Component: Home },
-    { label: 'Animation', path: '/examples/animated', Component: Animated },
-    { label: 'Async Options', path: '/examples/async', Component: Async },
+  '/home': [
+    { label: 'Intro', path: '/home', Component: Intro },
+    { label: 'Animation', path: '/home/animated', Component: Animated },
+    { label: 'Async Options', path: '/home/async', Component: Async },
     {
       label: 'Creatable Options',
-      path: '/examples/creatable',
+      path: '/home/creatable',
       Component: Creatable,
     },
-    { label: 'Custom Styles', path: '/examples/styled', Component: Styled },
+    { label: 'Custom Styles', path: '/home/styled', Component: Styled },
     {
       label: 'Experimental',
-      path: '/examples/experimental',
+      path: '/home/experimental',
       Component: Experimental,
     },
   ],
@@ -36,7 +41,16 @@ export default {
       path: '/guides',
       Component: QuickStart,
     },
-    { label: 'Components', path: '/guides/components', Component: Components },
-    { label: 'Styles', path: '/guides/styles', Component: Styles },
+  ],
+  '/styles': [{ label: 'Intro', path: '/styles', Component: StylesIntro }],
+  '/components': [
+    { label: 'Intro', path: '/components', Component: ComponentsIntro },
+  ],
+  '/async': [{ label: 'Intro', path: '/async', Component: AsyncIntro }],
+  '/creatable': [
+    { label: 'Intro', path: '/creatable', Component: CreatableIntro },
+  ],
+  '/advanced': [
+    { label: 'Intro', path: '/advanced', Component: AdvancedIntro },
   ],
 };

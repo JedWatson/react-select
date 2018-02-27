@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 
 import Select from '../src';
-import { H1, Hr, Note } from './components';
+import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions } from './data';
 
 type State = { isDisabled: boolean, isLoading: boolean };
@@ -48,7 +48,6 @@ export default class Tests extends Component<*, State> {
         <div id="cypress-single-grouped">
           <Select defaultValue={colourOptions[1]} options={groupedOptions} />
         </div>
-        <Hr />
         <h2>Multi Select</h2>
         <div id="cypress-multi">
           <Select

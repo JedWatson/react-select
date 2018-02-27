@@ -3,7 +3,7 @@
 
 import React, { Component } from 'react';
 
-import { Code, H1 } from '../../components';
+import { Code, H1 } from '../../styled-components';
 import ExampleWrapper from '../../ExampleWrapper';
 import SingleSelect from './SingleSelect';
 import MultiSelect from './MultiSelect';
