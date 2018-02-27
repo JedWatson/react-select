@@ -895,7 +895,7 @@ export default class Select extends Component<Props, State> {
             });
           }
         } else {
-          const option = toOption(item, itemIndex);
+          const option = toOption(item, `${itemIndex}`);
           if (option) {
             acc.render.push(option);
             if (!option.isDisabled) acc.focusable.push(item);
