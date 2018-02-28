@@ -36,7 +36,7 @@ describe('New Select', function() {
       it('Should expand the menu when click on the arrow ' + view, function() {
         cy
           .get(selector.toggleMenus)
-          .should('have.length', 3)
+          .should('have.length', 4)
           .get(selector.singleSelectSingleInput)
           .should('have.attr', 'aria-expanded', 'false')
           .get(selector.toggleMenuSingle)
