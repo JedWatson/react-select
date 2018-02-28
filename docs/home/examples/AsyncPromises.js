@@ -1,0 +1,40 @@
+import React, { Component } from 'react';
+
+import AsyncSelect from '../../../src/Async';
+import { colourOptions } from '../../data';
+import ExampleWrapper from '../../ExampleWrapper';
+
+type State = {
+  inputValue: string,
+};
+
+const filterColors = (inputValue: string) =>
+  colourOptions.filter(i =>
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+const promiseOptions = inputValue =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(filterColors(inputValue));
+    }, 1000);
+  });
+
+export default class WithPromises extends Component<*, State> {
+  state = { inputValue: '' };
+  handleInputChange = (newValue: string) => {
+    const inputValue = newValue.replace(/\W/g, '');
+    this.setState({ inputValue });
+    return inputValue;
+  };
+  render() {
+    return (
+      <ExampleWrapper
+        label="Promises"
+        urlPath="/docs/home/examples/AsyncPromises.js"
+      >
+        <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
+      </ExampleWrapper>
+    );
+  }
+}

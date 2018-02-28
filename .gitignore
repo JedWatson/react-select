@@ -1,7 +1,7 @@
 # Build
 lib
 dist
-examples/dist
+docs/dist
 
 # Logs
 logs
