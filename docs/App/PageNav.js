@@ -40,7 +40,7 @@ class PageNav extends Component<RouterProps, NavState> {
     this.setState({ links: store.getPageHeadings(match.path) });
   }
   render() {
-    const { location } = this.props;
+    // const { location } = this.props;
     const { links } = this.state;
     const isSmallDevice = window.innerWidth <= 769;
 
@@ -48,12 +48,12 @@ class PageNav extends Component<RouterProps, NavState> {
       <Sticky preserveHeight={isSmallDevice}>
         <Nav>
           {links.map(l => {
-            const selected = location.hash === l.path;
+            // const selected = location.hash === l.path;
 
             return l.level > 1 ? (
               <NavItem
                 key={l.path}
-                selected={selected}
+                // selected={selected}
                 level={l.level}
                 to={l.path}
               >

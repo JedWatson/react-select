@@ -47,7 +47,7 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
       backgroundColor: '#2684FF',
       color: 'white',
       position: 'relative',
-      transition: 'margin-top 220ms cubic-bezier(0.2, 0, 0, 1)',
+      // transition: 'margin-top 220ms cubic-bezier(0.2, 0, 0, 1)',
       ...css,
     }}
     ref={innerRef}
@@ -102,7 +102,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     return (
       <Gradient
         innerRef={this.getWrapper}
-        style={{ marginTop: this.getOffset() }}
+        // style={{ marginTop: this.getOffset() }}
       >
         <Container>
           <h1

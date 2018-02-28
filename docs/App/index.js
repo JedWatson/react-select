@@ -4,7 +4,7 @@
 import './index.css';
 import glam from 'glam';
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -27,9 +27,9 @@ const sections = [
   { label: 'API', path: '/api' },
   { label: 'Styles', path: '/styles' },
   { label: 'Components', path: '/components' },
-  { label: 'Async', path: '/async' },
-  { label: 'Creatable', path: '/creatable' },
-  { label: 'Advanced', path: '/advanced' },
+  // { label: 'Async', path: '/async' },
+  // { label: 'Creatable', path: '/creatable' },
+  // { label: 'Advanced', path: '/advanced' },
 ];
 
 export default class App extends Component<*> {
@@ -39,7 +39,7 @@ export default class App extends Component<*> {
         <div>
           <Switch>
             <Route exact path="/tests" component={Tests} />
-            {/* <Redirect from="/" to="/home" /> */}
+            <Redirect from="/" to="/home" />
           </Switch>
           <Header>
             <Route
