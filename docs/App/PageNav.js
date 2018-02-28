@@ -8,6 +8,7 @@ import { HashLink } from 'react-router-hash-link';
 
 import type { RouterProps } from '../types';
 import routes from './routes';
+import ScrollSpy from './ScrollSpy';
 import Sticky from './Sticky';
 import store from '../markdown/store';
 
@@ -29,39 +30,43 @@ const NavSection = () => {
   );
 };
 
-type NavState = { links: Array<Object> };
+type NavState = { links: Array<Object>, activeId: string | null };
 
 class PageNav extends Component<RouterProps, NavState> {
-  state = { links: [] };
+  state = { activeId: null, links: [] };
   componentDidMount() {
     const { match } = this.props;
 
     // eslint-disable-next-line
     this.setState({ links: store.getPageHeadings(match.path) });
   }
+  getSelected = ids => {
+    this.setState({ activeId: ids[0] });
+  };
   render() {
-    // const { location } = this.props;
-    const { links } = this.state;
+    const { activeId, links } = this.state;
     const isSmallDevice = window.innerWidth <= 769;
 
     return links && links.length ? (
       <Sticky preserveHeight={isSmallDevice}>
-        <Nav>
-          {links.map(l => {
-            // const selected = location.hash === l.path;
+        <ScrollSpy onChange={this.getSelected}>
+          <Nav>
+            {links.map(l => {
+              const selected = l.path.slice(1) === activeId;
 
-            return l.level > 1 ? (
-              <NavItem
-                key={l.path}
-                // selected={selected}
-                level={l.level}
-                to={l.path}
-              >
-                {l.label}
-              </NavItem>
-            ) : null;
-          })}
-        </Nav>
+              return l.level > 1 ? (
+                <NavItem
+                  key={l.path}
+                  selected={selected}
+                  level={l.level}
+                  to={l.path}
+                >
+                  {l.label}
+                </NavItem>
+              ) : null;
+            })}
+          </Nav>
+        </ScrollSpy>
       </Sticky>
     ) : null;
   }
