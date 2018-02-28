@@ -18,6 +18,7 @@ const menuRenderer = ({
 	selectValue,
 	valueArray,
 	valueKey,
+  	labelKey,
 }) => {
 	let Option = optionComponent;
 
@@ -49,7 +50,13 @@ const menuRenderer = ({
 				removeValue={removeValue}
 				selectValue={selectValue}
 			>
-				{optionRenderer(option, i, inputValue)}
+				{optionRenderer({
+					option,
+					inputValue,
+					labelKey,
+					valueKey,
+					index: i,
+				})}
 			</Option>
 		);
 	});

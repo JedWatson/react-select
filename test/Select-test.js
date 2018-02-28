@@ -3580,9 +3580,9 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				optionRenderer = (option) => {
+				optionRenderer = ({ option, labelKey, valueKey }) => {
 					return (
-						<span id={'TESTOPTION_' + option.value}>{option.label.toUpperCase()}</span>
+						<span id={'TESTOPTION_' + option[valueKey]}>{option[labelKey].toUpperCase()}</span>
 					);
 				};
 
@@ -3655,7 +3655,7 @@ describe('Select', () => {
 			beforeEach(() => {
 				window.location.href = startUrl;
 
-				optionRenderer = (option) => {
+				optionRenderer = ({ option }) => {
 					return (
 						<span>{option.label} {option.link} </span>
 					);
@@ -3958,9 +3958,9 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				valueRenderer = (option) => {
+				valueRenderer = ({ option, labelKey, valueKey }) => {
 					return (
-						<span id={'TESTOPTION_' + option.value}>{option.label.toUpperCase()}</span>
+						<span id={'TESTOPTION_' + option[valueKey]}>{option[labelKey].toUpperCase()}</span>
 					);
 				};
 
@@ -3989,9 +3989,9 @@ describe('Select', () => {
 
 			beforeEach(() => {
 
-				valueRenderer = (option) => {
+				valueRenderer = ({ option, labelKey, valueKey }) => {
 					return (
-						<span id={'TESTOPTION_' + option.value} className="custom-render">{option.label.toUpperCase()}</span>
+						<span id={'TESTOPTION_' + option[valueKey]} className="custom-render">{option[labelKey].toUpperCase()}</span>
 					);
 				};
 

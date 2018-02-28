@@ -21,16 +21,16 @@ var DisabledUpsellOptions = createClass({
 	renderLink: function() {
 		return <a style={{ marginLeft: 5 }} href="/upgrade" target="_blank">Upgrade here!</a>;
 	},
-	renderOption: function(option) {
+	renderOption: function({ option, labelKey }) {
 		return (
 			<Highlighter
 			  searchWords={[this._inputValue]}
-			  textToHighlight={option.label}
+			  textToHighlight={option[labelKey]}
 			/>
 		);
 	},
-	renderValue: function(option) {
-		return <strong style={{ color: option.color }}>{option.label}</strong>;
+	renderValue: function({ option, labelKey }) {
+		return <strong style={{ color: option.color }}>{option[labelKey]}</strong>;
 	},
 	render: function() {
 		var options = [

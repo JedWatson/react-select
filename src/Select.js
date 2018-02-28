@@ -568,7 +568,7 @@ class Select extends React.Component {
 	}
 
 	getOptionLabel (op) {
-		return op[this.props.labelKey];
+		return op.option[this.props.labelKey];
 	}
 
 	/**
@@ -815,6 +815,8 @@ class Select extends React.Component {
 			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
+		const { labelKey, valueKey } = this.props;
+
 		if (this.props.multi) {
 			return valueArray.map((value, i) => {
 				return (
@@ -827,8 +829,10 @@ class Select extends React.Component {
 						onRemove={this.removeValue}
 						placeholder={this.props.placeholder}
 						value={value}
+						valueKey
+						labelKey
 					>
-						{renderLabel(value, i)}
+						{renderLabel({option: value, index: i, labelKey, valueKey})}
 						<span className="Select-aria-only">&nbsp;</span>
 					</ValueComponent>
 				);
@@ -844,7 +848,7 @@ class Select extends React.Component {
 					placeholder={this.props.placeholder}
 					value={valueArray[0]}
 				>
-					{renderLabel(valueArray[0])}
+					{renderLabel({option: valueArray[0], labelKey, valueKey})}
 				</ValueComponent>
 			);
 		}
