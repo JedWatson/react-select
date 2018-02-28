@@ -9,7 +9,10 @@ import { colourOptions } from '../../data';
 
 export default function AnimatedMulti() {
   return (
-    <ExampleWrapper label="Animation" urlPath="/docs/pages/Animated/Example.js">
+    <ExampleWrapper
+      label="Animation"
+      urlPath="/docs/home/examples/AnimatedMulti.js"
+    >
       <div id="cypress-multi-animated">
         <Select
           closeMenuOnSelect={false}

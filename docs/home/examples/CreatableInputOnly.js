@@ -48,7 +48,7 @@ export default class CreatableInputOnly extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Multi-select text input"
-        urlPath="/docs/pages/Creatable/MultiTextInput.js"
+        urlPath="/docs/home/examples/CreatableInputOnly.js"
       >
         <CreatableSelect
           components={components}

@@ -28,7 +28,10 @@ export default class WithCallbacks extends Component<*, State> {
   };
   render() {
     return (
-      <ExampleWrapper label="Callbacks" urlPath="/docs/home/AsyncCallbacks.js">
+      <ExampleWrapper
+        label="Callbacks"
+        urlPath="/docs/home/examples/AsyncCallbacks.js"
+      >
         <pre>inputValue: "{this.state.inputValue}"</pre>
         <AsyncSelect
           cacheOptions

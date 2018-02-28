@@ -43,7 +43,7 @@ const colourStyles = {
 };
 
 export default () => (
-  <ExampleWrapper label="Single" urlPath="/docs/pages/StyledSingle.js">
+  <ExampleWrapper label="Single" urlPath="/docs/home/examples/StyledSingle.js">
     <Select
       defaultValue={colourOptions[2]}
       label="Single select"

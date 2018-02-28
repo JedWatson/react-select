@@ -30,7 +30,7 @@ const formatGroupLabel = data => (
 );
 
 export default () => (
-  <ExampleWrapper label="Grouped" urlPath="/docs/home/BasicGrouped.js">
+  <ExampleWrapper label="Grouped" urlPath="/docs/home/examples/BasicGrouped.js">
     <Select
       defaultValue={colourOptions[1]}
       options={groupedOptions}

@@ -1,11 +1,7 @@
 // @flow
 
 import React from 'react';
-import md from 'react-markings';
-import { CodeBlock } from '../styled-components';
-
-import ContentBlock from '../ContentBlock';
-// import Experimental from './Experimental';
+import md from '../markdown/renderer';
 
 import {
   AnimatedMulti,
@@ -23,86 +19,85 @@ import {
 } from './examples';
 
 export default function Home() {
-  return (
-    <ContentBlock>{md`
-    # Welcome
+  return md`
+  # Welcome
 
-    TODO needs content!
+  TODO needs content!
 
-    ## Quick Start
+  ## Quick Start
 
+  Start by installing \`react-select\`
 
-    Start by installing \`react-select\`
+  ~~~bash
+  yarn add react-select
+  ~~~
 
-    ${<CodeBlock children="yarn add react-select" language="bash" />}
+  Import the default export and render in your component:
 
-    Import the default export and render in your component:
+  ~~~jsx
+  import React, { Component } from 'react'
+  import Select from 'react-select'
 
-    ${(
-      <CodeBlock
-        children={`import React, { Component } from 'react'
-import Select from 'react-select'
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
+  const MyComponent = () => (
+    <Select options={options} />
+  )
+  ~~~
 
-const MyComponent = () => (
-  <Select options={options} />
-)`}
-      />
-    )}
+  ${<BasicSingle />}
 
-    ${<BasicSingle />}
+  ${<BasicGrouped />}
 
-    ${<BasicGrouped />}
+  ${<BasicMulti />}
 
-    ${<BasicMulti />}
+  ## Animated Components
 
-    ## Animated Components
+  React-Select comes with Animated variants that wrap the built-in
+  components.
 
-    React-Select comes with Animated variants that wrap the built-in
-    components.
+  Remove the values below to see them in action.
 
-    Remove the values below to see them in action.
+  ${<AnimatedMulti />}
 
-    ${<AnimatedMulti />}
+  ## Custom Styles
 
-    ## Custom Styles
+  Style individual components with custom css using the \`styles\` prop.
 
-    Style individual components with custom css using the \`styles\` prop.
+  ${<StyledSingle />}
 
-    ${<StyledSingle />}
+  ${<StyledMulti />}
 
-    ${<StyledMulti />}
+  ## Creatable
 
-    ## Creatable
+  ${<CreatableSingle />}
 
-    ${<CreatableSingle />}
+  ${<CreatableMulti />}
 
-    ${<CreatableMulti />}
+  ${<CreatableAdvanced />}
 
-    ${<CreatableAdvanced />}
+  > This example uses the \`onCreateOption\` prop to handle new options.
 
-    > This example uses the \`onCreateOption\` prop to handle new options.
+  > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
 
-    > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
+  ${<CreatableInputOnly />}
 
-    ${<CreatableInputOnly />}
+  > This example applies several customisations to produce a text input that has no menu but allows multiple values to be entered.
 
-    > This example applies several customisations to produce a text input that has no menu but allows multiple values to be entered.
+  ## Async
 
-    ## Async
+  Use the Async component to load options from a remote source as the user types.
 
-    Use the Async component to load options from a remote source as the user types.
+  ~~~jsx
+  import { Async } from 'react-select'
+  ~~~
 
-    ${<CodeBlock children="import { Async } from 'react-select'" />}
+  ${<AsyncCallbacks />}
 
-    ${<AsyncCallbacks />}
-
-    ${<AsyncPromises />}
-  `}</ContentBlock>
-  );
+  ${<AsyncPromises />}
+`;
 }

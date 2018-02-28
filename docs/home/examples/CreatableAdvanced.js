@@ -53,7 +53,7 @@ export default class CreatableAdvanced extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Advanced Example"
-        urlPath="/docs/pages/Creatable/CreatableAdvanced.js"
+        urlPath="/docs/home/examples/CreatableAdvanced.js"
       >
         <CreatableSelect
           isClearable

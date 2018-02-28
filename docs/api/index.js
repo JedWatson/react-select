@@ -1,36 +1,56 @@
 // @flow
 
 import React from 'react';
-import md from 'react-markings';
 
-import ContentBlock from '../ContentBlock';
-// import Experimental from './Experimental';
-
-import { InternalTypes, PropTypes } from './examples';
+import md from '../markdown/renderer';
+import { PropTypes } from './examples';
 
 export default function Api() {
-  return (
-    <ContentBlock>{md`
-      # API
+  return md`
+    # API
 
-      ## Methods
+    ## Methods
 
-      ### \`focus()\`
+    ### \`focus()\`
 
-      Focused the internal control input.
+    Focused the internal control input.
 
-      ## Prop Types
+    ## Prop Types
 
-      ### Internal Types
+    ### Internal Types
 
-      You'll see these in the public props below:
+    You'll see these in the public props below:
 
-      ${<InternalTypes />}
+    ~~~js
+    type OptionType = { [string]: any }
+    type OptionsType = Array<OptionType>
 
-      ### Public Props
+    type GroupType = {
+      [string]: any, // group label
+      options: OptionsType,
+    }
 
-      ${<PropTypes />}
+    type ValueType = OptionType | OptionsType | null | void
 
-    `}</ContentBlock>
-  );
+    type CommonProps = {
+      clearValue: () => void,
+      getStyles: (string, any) => {},
+      getValue: () => ValueType,
+      hasValue: boolean,
+      isMulti: boolean,
+      options: OptionsType,
+      selectOption: OptionType => void,
+      selectProps: any,
+      setValue: (ValueType, ActionTypes) => void,
+    }
+
+    // passed as the second argument to \`onChange\`
+    type ActionTypes = | 'clear' | 'create-option' | 'deselect-option' | 'pop-value' | 'remove-value' | 'select-option' | 'set-value'
+    ~~~
+
+    ### Public Props
+
+    ${<PropTypes />}
+
+  `;
 }

@@ -44,7 +44,10 @@ const colourStyles = {
 };
 
 export default () => (
-  <ExampleWrapper label="Multi Select" urlPath="/docs/pages/StyledMulti.js">
+  <ExampleWrapper
+    label="Multi Select"
+    urlPath="/docs/home/examples/StyledMulti.js"
+  >
     <Select
       closeMenuOnSelect={false}
       defaultValue={[colourOptions[0], colourOptions[1]]}

@@ -43,7 +43,10 @@ export default class SingleSelect extends Component<*, State> {
     } = this.state;
     return (
       <Fragment>
-        <ExampleWrapper label="Single" urlPath="/docs/home/BasicSingle.js">
+        <ExampleWrapper
+          label="Single"
+          urlPath="/docs/home/examples/BasicSingle.js"
+        >
           <Select
             defaultValue={colourOptions[0]}
             isDisabled={isDisabled}
