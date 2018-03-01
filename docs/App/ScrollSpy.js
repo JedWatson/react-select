@@ -13,21 +13,27 @@ import NodeResolver from 'react-node-resolver';
 type Props = {
   children: ReactElement<*>, // Component | Element
   onChange: (Array<any>) => void,
+  query: '[data-hash]',
 };
 type State = {
-  elements: Array<Element>,
+  elements: Array<HTMLElement>,
 };
 
+function getStyle(el, prop, numeric = true) {
+  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
+  return numeric ? parseFloat(val) : val;
+}
 function isInView(el) {
-  var rect = el.getBoundingClientRect();
+  let rect = el.getBoundingClientRect();
 
-  const topThird = rect.top >= 0 && rect.bottom <= window.innerHeight;
+  const topOffset = getStyle(el, 'padding-top') * -1;
 
-  if (topThird) return true;
+  if (rect.top >= topOffset && rect.bottom <= window.innerHeight) {
+    return true;
+  }
 
   return false;
 }
-// const unique = (item, pos, self) => self.indexOf(item) == pos;
 
 export default class ScrollSpy extends Component<Props, State> {
   nav: Element;
@@ -36,39 +42,44 @@ export default class ScrollSpy extends Component<Props, State> {
   static defaultProps = { preserveHeight: false };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, false);
+    this.buildNodeList();
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
   handleScroll = rafSchedule((event: Event) => {
+    event.preventDefault();
     const { onChange } = this.props;
     const { elements } = this.state;
     if (!elements.length) return;
 
     const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
 
-    // console.log('idsInView', idsInView);
-
     if (idsInView.length) {
       onChange(idsInView);
     }
   });
-  getNav = (ref: ElementRef<*>) => {
-    if (!ref || this.state.elements.length) return;
-
+  getElements = (ref: ElementRef<*>) => {
+    if (!ref) return;
     this.nav = ref;
+  };
+  buildNodeList = () => {
+    if (!this.nav) return;
 
-    // get the elements once
-    const anchorList = this.nav.querySelectorAll('a');
-    const elements = Array.from(anchorList).map(i =>
-      document.querySelector(i.getAttribute('href'))
+    const anchorList = this.nav.querySelectorAll('[data-hash]');
+    const els = Array.from(anchorList).map(i =>
+      document.querySelector(`#${i.dataset.hash}`)
     );
+
+    const elements = ((els: any): Array<HTMLElement>); // suck it flow...
 
     this.setState({ elements });
   };
   render() {
     return (
-      <NodeResolver innerRef={this.getNav}>{this.props.children}</NodeResolver>
+      <NodeResolver innerRef={this.getElements}>
+        {this.props.children}
+      </NodeResolver>
     );
   }
 }

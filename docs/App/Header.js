@@ -2,13 +2,12 @@
 // @jsx glam
 
 import glam from 'glam';
-import React, { Component, type ElementRef } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import NodeResolver from 'react-node-resolver';
 
 import Select from '../../src';
 import type { RouterProps } from '../types';
-import { GitHubButton } from './GitHubButton';
+import GitHubButton from './GitHubButton';
 
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
@@ -29,7 +28,11 @@ const changes = [
     icon: '🤖',
     label: 'Simpler and more extensible',
   },
-  { value: '#animated-components', icon: '🚀', label: 'Animation built in' },
+  {
+    value: '/home#animated-components',
+    icon: '🚀',
+    label: 'Animation built in',
+  },
 ];
 
 function getLabel({ icon, label }) {
@@ -47,7 +50,7 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
       backgroundColor: '#2684FF',
       color: 'white',
       position: 'relative',
-      // transition: 'margin-top 220ms cubic-bezier(0.2, 0, 0, 1)',
+      zIndex: 2,
       ...css,
     }}
     ref={innerRef}
@@ -58,39 +61,46 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
     {...props}
   />
 );
-const Container = ({ css, ...props }) => (
+const Container = ({ isCompact, ...props }) => (
   <div
     css={{
       boxSizing: 'border-box',
       maxWidth: 800,
       marginLeft: 'auto',
       marginRight: 'auto',
-      padding: 20,
-      ...css,
+      padding: isCompact ? '10px 20px' : 20,
+      transition: 'padding 200ms',
     }}
     {...props}
   />
 );
-type Height = number | 'auto';
+
 type HeaderProps = RouterProps & { children: any };
-type HeaderState = { height: Height };
+type HeaderState = { stars: number };
+
+const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<HeaderProps, HeaderState> {
   nav: HTMLElement;
   wrapper: HTMLElement;
-  getWrapper = (ref: ElementRef<*>) => {
-    if (!ref) return;
-    this.wrapper = ref;
-  };
-  getNav = (ref: ElementRef<*>) => {
-    if (!ref) return;
-    this.nav = ref;
-  };
-  getOffset = () => {
-    if (!this.wrapper || !this.nav) return 0;
-    const offset = (this.wrapper.offsetHeight - this.nav.offsetHeight) * -1;
-
-    return this.isHome() ? 0 : offset;
+  state = { stars: 0 };
+  componentDidMount() {
+    this.getStarCount();
+  }
+  getStarCount = () => {
+    // $FlowFixMe: escape global `CLIENT_ID` & `CLIENT_SECRET`
+    const fetchUrl = `${apiUrl}?client_id=${
+      process.env.CLIENT_ID
+    }&client_secret=${process.env.CLIENT_SECRET}`;
+    fetch(fetchUrl)
+      .then(res => res.json())
+      .then(data => {
+        const stars = data.stargazers_count;
+        this.setState({ stars });
+      })
+      .catch(err => {
+        console.error('Error retrieving data', err);
+      });
   };
   isHome = (props = this.props) => {
     const valid = ['/', '/home'];
@@ -98,24 +108,22 @@ class Header extends Component<HeaderProps, HeaderState> {
   };
   render() {
     const { children, history } = this.props;
+    const { stars } = this.state;
 
     return (
-      <Gradient
-        innerRef={this.getWrapper}
-        // style={{ marginTop: this.getOffset() }}
-      >
-        <Container>
+      <Gradient>
+        <Container isCompact={!this.isHome()}>
           <h1
             css={{
-              fontSize: '2.4em',
+              fontSize: this.isHome() ? '2.4em' : '1.8em',
               fontWeight: 'bold',
-              marginBottom: '0.4em',
-              marginTop: 0,
+              margin: 0,
               textShadow: '1px 1px 0 rgba(0, 82, 204, 0.33)',
+              transition: 'font-size 200ms',
               color: 'inherit',
 
               [largeDevice]: {
-                fontSize: '3.6em',
+                fontSize: this.isHome() ? '3.6em' : '2.4em',
               },
             }}
           >
@@ -131,20 +139,23 @@ class Header extends Component<HeaderProps, HeaderState> {
               v2
             </small>
           </h1>
-          <Columns
-            onChange={opt => {
-              history.push(opt.value);
-            }}
-          />
+          {this.isHome() ? (
+            <Columns
+              stars={stars}
+              onChange={opt => {
+                history.push(opt.value);
+              }}
+            />
+          ) : null}
         </Container>
-        <NodeResolver innerRef={this.getNav}>{children}</NodeResolver>
+        {children}
       </Gradient>
     );
   }
 }
 
-const Columns = ({ onChange }) => (
-  <div css={{ [largeDevice]: { display: 'flex ' } }}>
+const Columns = ({ onChange, stars }) => (
+  <div css={{ [largeDevice]: { display: 'flex ' }, marginTop: 16 }}>
     <div css={{ flex: 1, [largeDevice]: { paddingRight: 30 } }}>
       <p
         style={{
@@ -156,7 +167,10 @@ const Columns = ({ onChange }) => (
         A flexible and beautiful Select Input control for ReactJS with
         multiselect, autocomplete, async and creatable support.
       </p>
-      <StarButton />
+      <GitHubButton
+        count={stars}
+        repo="https://github.com/jedwatson/react-select"
+      />
     </div>
     <div
       css={{
@@ -198,26 +212,6 @@ const Columns = ({ onChange }) => (
       />
     </div>
   </div>
-);
-
-const StarButton = () => (
-  <span
-    style={{
-      display: 'inline-block',
-      display: 'inline-block',
-      minHeight: 32,
-    }}
-  >
-    <GitHubButton
-      className="github-button"
-      href="https://github.com/jedwatson/react-select"
-      data-size="large"
-      data-show-count="true"
-      aria-label="Star jedwatson/react-select on GitHub"
-    >
-      Star
-    </GitHubButton>
-  </span>
 );
 
 export default withRouter(Header);

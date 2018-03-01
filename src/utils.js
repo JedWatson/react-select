@@ -146,7 +146,8 @@ function easeOutCubic(t: number, b: number, c: number, d: number): number {
 export function animatedScrollTo(
   element: Element,
   to: number,
-  duration: number = 200
+  duration: number = 200,
+  callback: Element => void = noop
 ) {
   const start = getScrollTop(element);
   const change = to - start;
@@ -159,6 +160,8 @@ export function animatedScrollTo(
     scrollTo(element, val);
     if (currentTime < duration) {
       raf(animateScroll);
+    } else {
+      callback(element);
     }
   }
   animateScroll();

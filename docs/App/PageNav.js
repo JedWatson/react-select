@@ -2,11 +2,11 @@
 // @jsx glam
 
 import glam from 'glam';
-import React, { Component } from 'react';
+import React, { Component, type Element } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
 
 import type { RouterProps } from '../types';
+import { animatedScrollTo } from '../../src/utils';
 import routes from './routes';
 import ScrollSpy from './ScrollSpy';
 import Sticky from './Sticky';
@@ -33,6 +33,7 @@ const NavSection = () => {
 type NavState = { links: Array<Object>, activeId: string | null };
 
 class PageNav extends Component<RouterProps, NavState> {
+  scrollSpy: Element<*>;
   state = { activeId: null, links: [] };
   componentDidMount() {
     const { match } = this.props;
@@ -40,26 +41,58 @@ class PageNav extends Component<RouterProps, NavState> {
     // eslint-disable-next-line
     this.setState({ links: store.getPageHeadings(match.path) });
   }
+  componentDidUpdate({ location }: RouterProps) {
+    // this makes everything work, need those fresh nodes
+    if (location.hash !== this.props.location.hash) {
+      if (this.scrollSpy.buildNodeList) {
+        this.scrollSpy.buildNodeList();
+      }
+    }
+  }
   getSelected = ids => {
-    this.setState({ activeId: ids[0] });
+    const activeId = ids[0];
+    if (activeId !== this.state.activeId) {
+      console.log('getSelected', activeId);
+      this.setState({ activeId });
+    }
   };
+  getScrollSpy = ref => {
+    if (!ref) return;
+    this.scrollSpy = ref;
+  };
+  handleItemClick = ({ event, hash }) => {
+    event.preventDefault();
+    const path = `#${hash}`;
+    const el = document.querySelector(path);
+    const { history } = this.props;
+
+    if (el && el.offsetTop) {
+      history.replace(path);
+      animatedScrollTo(window, el.offsetTop);
+    }
+  };
+  refreshNodeList = () => {};
   render() {
     const { activeId, links } = this.state;
     const isSmallDevice = window.innerWidth <= 769;
 
     return links && links.length ? (
       <Sticky preserveHeight={isSmallDevice}>
-        <ScrollSpy onChange={this.getSelected}>
+        <ScrollSpy ref={this.getScrollSpy} onChange={this.getSelected}>
           <Nav>
             {links.map(l => {
-              const selected = l.path.slice(1) === activeId;
+              const hash = l.path.slice(1);
+              const selected = hash === activeId;
 
               return l.level > 1 ? (
                 <NavItem
-                  key={l.path}
+                  data-hash={hash}
+                  key={hash}
                   selected={selected}
                   level={l.level}
-                  to={l.path}
+                  onClick={event => {
+                    this.handleItemClick({ event, hash });
+                  }}
                 >
                   {l.label}
                 </NavItem>
@@ -100,13 +133,13 @@ const Nav = (props: any) => (
   />
 );
 type NavItemProps = { level: 2 | 3, selected: boolean };
-const scrollFn = el =>
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
 const NavItem = ({ level, selected, ...props }: NavItemProps) => (
-  <HashLink
-    scroll={scrollFn}
+  <div
+    role="button"
     css={{
       color: selected ? '#091e42' : '#7A869A',
+      cursor: 'pointer',
       display: 'inline-block',
       padding: `15px ${appGutter}px`,
       position: 'relative',
