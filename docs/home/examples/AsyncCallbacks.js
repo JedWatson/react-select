@@ -30,7 +30,7 @@ export default class WithCallbacks extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Callbacks"
-        urlPath="/docs/home/examples/AsyncCallbacks.js"
+        urlPath="docs/home/examples/AsyncCallbacks.js"
       >
         <pre>inputValue: "{this.state.inputValue}"</pre>
         <AsyncSelect

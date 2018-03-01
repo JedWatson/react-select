@@ -15,7 +15,7 @@ export default class CreatableMulti extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Creatable Multiselect Example"
-        urlPath="/docs/home/examples/CreatableMulti.js"
+        urlPath="docs/home/examples/CreatableMulti.js"
       >
         <CreatableSelect
           isMulti

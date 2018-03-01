@@ -45,7 +45,7 @@ export default class SingleSelect extends Component<*, State> {
       <Fragment>
         <ExampleWrapper
           label="Single"
-          urlPath="/docs/home/examples/BasicSingle.js"
+          urlPath="docs/home/examples/BasicSingle.js"
         >
           <Select
             defaultValue={colourOptions[0]}

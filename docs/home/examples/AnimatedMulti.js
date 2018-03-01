@@ -11,7 +11,7 @@ export default function AnimatedMulti() {
   return (
     <ExampleWrapper
       label="Animation"
-      urlPath="/docs/home/examples/AnimatedMulti.js"
+      urlPath="docs/home/examples/AnimatedMulti.js"
     >
       <div id="cypress-multi-animated">
         <Select
