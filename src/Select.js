@@ -158,7 +158,7 @@ class Select extends React.Component {
 			const optionBottom = optionTop + focusedOptionNode.offsetHeight;
 
 			if (scrollTop > optionTop || scrollBottom < optionBottom) {
-				menuNode.scrollTop = focusedOptionNode.offsetTop;
+				menuNode.scrollTop = focusedOptionNode.offsetTop - focusedOptionNode.offsetHeight;
 			}
 
 			// We still set hasScrolledToOption to true even if we didn't
