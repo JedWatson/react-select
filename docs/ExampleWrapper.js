@@ -3,42 +3,49 @@
 import glam from 'glam';
 import React, { Component } from 'react';
 import CodeSandboxer from 'react-codesandboxer';
+
 import pkg from '../package.json';
 import { colors } from '../src/theme';
 import Svg from './Svg';
 
-const user = 'JedWatson';
-const branch = 'v2';
+const gitInfo = {
+  account: 'JedWatson',
+  repository: 'react-select',
+  branch: 'v2',
+  host: 'github',
+};
 
-const sourceUrl = `https://github.com/${user}/react-select/tree/${branch}`;
+const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
+  gitInfo.branch
+}`;
 
 export default class ExampleWrapper extends Component {
+  state = { isHovered: false };
   static defaultProps = { isEditable: true };
+  handleEnter = () => this.setState({ isHovered: true });
+  handleLeave = () => this.setState({ isHovered: false });
 
   render() {
+    const { isHovered } = this.state;
+
     return (
-      <div>
+      <div onMouseEnter={this.handleEnter} onMouseLeave={this.handleLeave}>
         <ExampleHeading>
           <h4>{this.props.label}</h4>
-          <Actions>
+          <Actions show={isHovered}>
             <Action
-              icon="source"
               href={`${sourceUrl}/${this.props.urlPath}`}
               tag="a"
               target="_blank"
+              title="View Source"
             >
-              View Source
+              <SourceIcon />
             </Action>
             {this.props.isEditable ? (
               <CodeSandboxer
                 examplePath={this.props.urlPath}
                 pkgJSON={pkg}
-                gitInfo={{
-                  account: 'JedWatson',
-                  repository: 'react-select',
-                  branch: 'v2',
-                  host: 'github',
-                }}
+                gitInfo={gitInfo}
                 importReplacements={[
                   ['src/*', 'react-select/lib/'],
                   ['src', 'react-select'],
@@ -47,10 +54,9 @@ export default class ExampleWrapper extends Component {
                   [pkg.name]: pkg.version,
                 }}
               >
-                {/* isLoading can now be implemented */}
-                {() => (
-                  <Action icon="new-window" type="submit">
-                    Edit in CodeSandbox
+                {({ isLoading }) => (
+                  <Action title="Edit in CodeSandbox">
+                    {isLoading ? <Spinner /> : <NewWindowIcon />}
                   </Action>
                 )}
               </CodeSandboxer>
@@ -95,25 +101,12 @@ const NewWindowIcon = (props: any) => (
   </Svg>
 );
 
-const icons = {
-  source: SourceIcon,
-  'new-window': NewWindowIcon,
-};
 type ActionProps = {
   children: string,
   css?: Object,
-  icon: $Keys<typeof icons>,
   tag: 'a' | 'button',
 };
-const Action = ({
-  children,
-  css,
-  icon,
-  tag: Tag = 'button',
-  ...props
-}: ActionProps) => {
-  const Icon = icons[icon];
-
+const Action = ({ css, tag: Tag = 'button', ...props }: ActionProps) => {
   return (
     <Tag
       css={{
@@ -148,30 +141,76 @@ const Action = ({
 
         ...css,
       }}
-      title={children}
       {...props}
-    >
-      <Icon />
-    </Tag>
+    />
   );
 };
-const Actions = (props: any) => (
+const Actions = ({ show, ...props }) => (
   <div
     css={{
       alignItems: 'center',
       display: 'flex ',
       justifyContent: 'space-between',
-      opacity: 0,
-      transition: 'opacity 200ms, visibility 200ms',
-      transitionDelay: '200ms',
-      visibility: 'hidden',
-
-      '*:hover > &': {
-        opacity: 1,
-        transitionDelay: 0,
-        visibility: 'visible',
-      },
+      opacity: show ? 1 : 0,
+      transition: 'opacity 260ms, visibility 260ms',
+      transitionDelay: '260ms',
+      visibility: show ? 'visible' : 'hidden',
     }}
     {...props}
   />
 );
+
+// ==============================
+// Spinner
+// ==============================
+
+const Spinner = () => {
+  const offset = 187;
+  const duration = '1.4s';
+  const size = 16;
+
+  return (
+    <div css={{ height: size, width: size }}>
+      <style>{`
+      @keyframes rotator {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(270deg); }
+      }
+
+      @keyframes dash {
+       0% { stroke-dashoffset: ${offset}; }
+       50% {
+         stroke-dashoffset: ${offset / 4};
+         transform:rotate(135deg);
+       }
+       100% {
+         stroke-dashoffset: ${offset};
+         transform:rotate(450deg);
+       }
+      }`}</style>
+      <svg
+        css={{ animation: `rotator ${duration} linear infinite` }}
+        width={size}
+        height={size}
+        viewBox="0 0 66 66"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          css={{
+            strokeDasharray: offset,
+            strokeDashoffset: 0,
+            transformOrigin: 'center',
+            animation: `dash ${duration} ease-in-out infinite`,
+          }}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="7"
+          strokeLinecap="round"
+          cx="33"
+          cy="33"
+          r="30"
+        />
+      </svg>
+    </div>
+  );
+};
