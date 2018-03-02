@@ -46,7 +46,7 @@ const colourStyles = {
 export default () => (
   <ExampleWrapper
     label="Multi Select"
-    urlPath="/docs/home/examples/StyledMulti.js"
+    urlPath="docs/home/examples/StyledMulti.js"
   >
     <Select
       closeMenuOnSelect={false}

@@ -31,7 +31,7 @@ export default class WithPromises extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Promises"
-        urlPath="/docs/home/examples/AsyncPromises.js"
+        urlPath="docs/home/examples/AsyncPromises.js"
       >
         <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
       </ExampleWrapper>

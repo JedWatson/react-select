@@ -15,7 +15,7 @@ export default class CreatableSingle extends Component<*, State> {
     return (
       <ExampleWrapper
         label="Creatable Example"
-        urlPath="/docs/home/examples/CreatableSingle.js"
+        urlPath="docs/home/examples/CreatableSingle.js"
       >
         <CreatableSelect
           isClearable

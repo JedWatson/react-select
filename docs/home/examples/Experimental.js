@@ -209,7 +209,7 @@ export default class App extends Component<*, *> {
         <ExampleWrapper
           isEditable={false}
           label="DatePicker"
-          urlPath="/docs/home/examples/Experimental.js"
+          urlPath="docs/home/examples/Experimental.js"
         >
           <DatePicker value={value} onChange={this.handleChange} />
         </ExampleWrapper>

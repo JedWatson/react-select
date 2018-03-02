@@ -2,8 +2,8 @@
 
 import glam from 'glam';
 import React, { Component } from 'react';
-import CodeSandboxer, { replaceImports } from 'react-codesandboxer';
-
+import CodeSandboxer from 'react-codesandboxer';
+import pkg from '../package.json';
 import { colors } from '../src/theme';
 import Svg from './Svg';
 
@@ -11,42 +11,10 @@ const user = 'JedWatson';
 const branch = 'v2';
 
 const sourceUrl = `https://github.com/${user}/react-select/tree/${branch}`;
-const rawUrl = `https://raw.githubusercontent.com/${user}/react-select/${branch}`;
-const rawPKGJSON = rawUrl + '/package.json';
-
-const rawDataUrl = rawUrl + '/docs/data.js';
-const rawComponentsUrl = rawUrl + '/docs/styled-components.js';
-const promise = urlPath =>
-  fetch(rawUrl + urlPath)
-    .then(a => a.text())
-    .then(a =>
-      replaceImports(a, [
-        ['../../../src/*', 'react-select/lib/'],
-        ['../../../src', 'react-select'],
-        ['../../data', './data'],
-        ['../../styled-components', './styled-components'],
-      ])
-    );
 
 export default class ExampleWrapper extends Component {
   static defaultProps = { isEditable: true };
-  configPromise = () =>
-    Promise.all([
-      fetch(rawDataUrl).then(a => a.text()),
-      fetch(rawComponentsUrl)
-        .then(a => a.text())
-        .then(a => replaceImports(a, [['../src/*', 'react-select/lib/']])),
-    ]).then(([data, components]) => ({
-      providedDeps: { glam: '^5.0.1' },
-      providedFiles: {
-        'data.js': {
-          content: data,
-        },
-        'styled-components.js': {
-          content: components,
-        },
-      },
-    }));
+
   render() {
     return (
       <div>
@@ -55,7 +23,7 @@ export default class ExampleWrapper extends Component {
           <Actions>
             <Action
               icon="source"
-              href={sourceUrl + this.props.urlPath}
+              href={`${sourceUrl}/${this.props.urlPath}`}
               tag="a"
               target="_blank"
             >
@@ -63,13 +31,28 @@ export default class ExampleWrapper extends Component {
             </Action>
             {this.props.isEditable ? (
               <CodeSandboxer
-                config={this.configPromise}
-                example={promise(this.props.urlPath)}
-                pkgJSON={fetch(rawPKGJSON).then(a => a.json())}
+                examplePath={this.props.urlPath}
+                pkgJSON={pkg}
+                gitInfo={{
+                  account: 'JedWatson',
+                  repository: 'react-select',
+                  branch: 'v2',
+                  host: 'github',
+                }}
+                importReplacements={[
+                  ['src/*', 'react-select/lib/'],
+                  ['src', 'react-select'],
+                ]}
+                dependencies={{
+                  [pkg.name]: pkg.version,
+                }}
               >
-                <Action icon="new-window" type="submit">
-                  Edit in CodeSandbox
-                </Action>
+                {/* isLoading can now be implemented */}
+                {() => (
+                  <Action icon="new-window" type="submit">
+                    Edit in CodeSandbox
+                  </Action>
+                )}
               </CodeSandboxer>
             ) : null}
           </Actions>
