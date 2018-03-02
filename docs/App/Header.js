@@ -14,6 +14,11 @@ const largeDevice = '@media (min-width: 770px)';
 
 const changes = [
   {
+    value: '/api',
+    icon: '🤖',
+    label: 'Simpler and more extensible',
+  },
+  {
     value: '/styles',
     icon: '🎨',
     label: 'CSS-in-JS styling API',
@@ -23,16 +28,11 @@ const changes = [
     icon: '🏗',
     label: 'Replacable component architecture',
   },
-  {
-    value: '/api',
-    icon: '🤖',
-    label: 'Simpler and more extensible',
-  },
-  {
-    value: '/home#animated-components',
-    icon: '🚀',
-    label: 'Animation built in',
-  },
+  // {
+  //   value: '/home#animated-components',
+  //   icon: '🚀',
+  //   label: 'Animation built in',
+  // },
 ];
 
 function getLabel({ icon, label }) {
@@ -51,6 +51,10 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
       color: 'white',
       position: 'relative',
       zIndex: 2,
+
+      [largeDevice]: {
+        boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
+      },
       ...css,
     }}
     ref={innerRef}
@@ -61,31 +65,42 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
     {...props}
   />
 );
-const Container = ({ isCompact, ...props }) => (
+const Container = props => (
   <div
     css={{
       boxSizing: 'border-box',
       maxWidth: 800,
       marginLeft: 'auto',
       marginRight: 'auto',
-      padding: isCompact ? '10px 20px' : 20,
-      transition: 'padding 200ms',
+      padding: 20,
+
+      [largeDevice]: {
+        paddingBottom: 40,
+        paddingTop: 40,
+      },
     }}
     {...props}
   />
 );
 
 type HeaderProps = RouterProps & { children: any };
-type HeaderState = { stars: number };
+type HeaderState = { contentHeight: 'auto' | number, stars: number };
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<HeaderProps, HeaderState> {
   nav: HTMLElement;
-  wrapper: HTMLElement;
-  state = { stars: 0 };
+  content: HTMLElement;
+  state = { contentHeight: 'auto', stars: 0 };
   componentDidMount() {
     this.getStarCount();
+  }
+  componentWillReceiveProps({ location }: HeaderProps) {
+    const valid = ['/', '/home'];
+    const shouldCollapse = !valid.includes(this.props.location.pathname);
+    if (location.pathname !== this.props.location.pathname && shouldCollapse) {
+      this.toggleCollapse();
+    }
   }
   getStarCount = () => {
     // $FlowFixMe: escape global `CLIENT_ID` & `CLIENT_SECRET`
@@ -106,56 +121,88 @@ class Header extends Component<HeaderProps, HeaderState> {
     const valid = ['/', '/home'];
     return valid.includes(props.location.pathname);
   };
+  toggleCollapse = () => {
+    const contentHeight = this.content.scrollHeight;
+    this.setState({ contentHeight });
+  };
+  getContent = ref => {
+    if (!ref) return;
+    this.content = ref;
+  };
   render() {
     const { children, history } = this.props;
-    const { stars } = this.state;
+    const { contentHeight, stars } = this.state;
 
     return (
       <Gradient>
-        <Container isCompact={!this.isHome()}>
-          <h1
-            css={{
-              fontSize: this.isHome() ? '2.4em' : '1.8em',
-              fontWeight: 'bold',
-              margin: 0,
-              textShadow: '1px 1px 0 rgba(0, 82, 204, 0.33)',
-              transition: 'font-size 200ms',
-              color: 'inherit',
-
-              [largeDevice]: {
-                fontSize: this.isHome() ? '3.6em' : '2.4em',
-              },
-            }}
-          >
-            React Select
-            <small
+        {children}
+        <Collapse
+          isCollapsed={!this.isHome()}
+          height={contentHeight}
+          innerRef={this.getContent}
+        >
+          <Container>
+            <h1
               css={{
-                color: '#B2D4FF',
-                fontSize: '0.5em',
-                position: 'relative',
-                marginLeft: '0.25em',
+                fontSize: '2.4em',
+                fontWeight: 'bold',
+                lineHeight: 1,
+                margin: 0,
+                marginTop: '-0.2em',
+                textShadow: '1px 1px 0 rgba(0, 82, 204, 0.33)',
+                color: 'inherit',
+
+                [largeDevice]: {
+                  fontSize: '3.6em',
+                },
               }}
             >
-              v2
-            </small>
-          </h1>
-          {this.isHome() ? (
-            <Columns
+              React Select
+              <small
+                css={{
+                  color: '#B2D4FF',
+                  fontSize: '0.5em',
+                  position: 'relative',
+                  marginLeft: '0.25em',
+                }}
+              >
+                v2
+              </small>
+            </h1>
+            <Content
               stars={stars}
               onChange={opt => {
                 history.push(opt.value);
               }}
             />
-          ) : null}
-        </Container>
-        {children}
+          </Container>
+        </Collapse>
       </Gradient>
     );
   }
 }
 
-const Columns = ({ onChange, stars }) => (
-  <div css={{ [largeDevice]: { display: 'flex ' }, marginTop: 16 }}>
+const Collapse = ({ height, isCollapsed, innerRef, ...props }) => {
+  return (
+    <div
+      ref={innerRef}
+      css={{
+        height: isCollapsed ? 0 : height,
+        overflow: isCollapsed ? 'hidden' : null,
+        transition: 'height 260ms cubic-bezier(0.2, 0, 0, 1)',
+      }}
+      {...props}
+    />
+  );
+};
+const Content = ({ onChange, stars }) => (
+  <div
+    css={{
+      marginTop: 16,
+
+      [largeDevice]: { display: 'flex ' },
+    }}
+  >
     <div css={{ flex: 1, [largeDevice]: { paddingRight: 30 } }}>
       <p
         style={{

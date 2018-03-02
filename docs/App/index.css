@@ -11,7 +11,6 @@ body {
   font-weight: 400;
   margin: 0;
   padding: 0;
-  letter-spacing: 0.01em;
   text-rendering: optimizeLegibility;
 }
 code {

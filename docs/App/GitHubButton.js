@@ -13,18 +13,19 @@ const StarButton = ({ count, repo }: Props) => (
       css={{
         alignItems: 'center',
         display: 'flex ',
-        borderRadius: 3,
+        borderRadius: 2,
         color: '#253858',
         backgroundColor: 'white',
-        boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.2)',
+        boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2)',
         cursor: 'pointer',
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 'bold',
-        padding: '5px 8px',
+        padding: '5px 10px',
         position: 'relative',
         textDecoration: 'none',
 
         ':hover': {
+          boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.2)',
           color: '#091e42',
         },
         ':active': {
@@ -58,7 +59,7 @@ const StarButton = ({ count, repo }: Props) => (
     <a
       css={{
         backgroundColor: 'white',
-        borderRadius: 3,
+        borderRadius: 2,
         color: '#253858',
         cursor: 'pointer',
         display: 'inline-block',
@@ -67,7 +68,7 @@ const StarButton = ({ count, repo }: Props) => (
         letterSpacing: '-0.01em',
         marginLeft: 6,
         opacity: count > 0 ? 1 : 0,
-        padding: '5px 8px',
+        padding: '5px 7px',
         position: 'relative',
         textDecoration: 'none',
         transition: 'opacity 200ms',
