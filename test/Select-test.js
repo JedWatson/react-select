@@ -723,10 +723,10 @@ describe('Select', () => {
 
 			it('selects the initial value', () => {
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
 						<div><span className="Select-value-label">Two</span></div>
 						<div><span className="Select-value-label">One</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('selects the initial hidden value', () => {
@@ -750,10 +750,10 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
 						<div><span className="Select-value-label">Three</span></div>
 						<div><span className="Select-value-label">Four</span></div>
-					</span>);
+					</div>);
 			});
 			it('supports updating the values as a string', () => {
 				wrapper.setPropsForChild({
@@ -761,10 +761,10 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
 						<div><span className="Select-value-label">Three</span></div>
 						<div><span className="Select-value-label">Four</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('supports updating the hidden values via props', () => {
@@ -785,9 +785,9 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">One</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('supports updating the hidden fields to a single value', () => {
@@ -809,9 +809,9 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
 						<div><span className="Select-value-label">Zero</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('supports updating the hidden fields to a single of 0', () => {
@@ -1068,10 +1068,10 @@ describe('Select', () => {
 			it('selects the initial value', () => {
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Yes</span></div>
                         <div><span className="Select-value-label">No</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('calls onChange with the correct value when true option is deselected', () => {
@@ -1088,9 +1088,9 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">No</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('supports updating the value to a single value', () => {
@@ -1100,9 +1100,9 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Yes</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('supports updating the value to single value of false', () => {
@@ -1113,9 +1113,9 @@ describe('Select', () => {
 				});
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">No</span></div>
-					</span>);
+					</div>);
 			});
 
 			it('calls onChange with the correct values when multiple options are selected', () => {
@@ -1815,10 +1815,10 @@ describe('Select', () => {
 
 				setValueProp([options[3], options[2]]);
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Four</span></div>
                         <div><span className="Select-value-label">Three</span></div>
-					</span>);
+					</div>);
 			});
 		});
 
@@ -1839,10 +1839,10 @@ describe('Select', () => {
 
 				setValueProp(['four', 'three']);
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">Four</span></div>
                         <div><span className="Select-value-label">Three</span></div>
-					</span>);
+					</div>);
 			});
 		});
 
@@ -1879,10 +1879,10 @@ describe('Select', () => {
 			pressBackspace();
 			expect(onChange, 'was not called');
 			expect(instance, 'to contain',
-				<span className="Select-multi-value-wrapper">
+				<div className="Select-multi-value-wrapper">
                     <div><span className="Select-value-label">Four</span></div>
                     <div><span className="Select-value-label">Three</span></div>
-                </span>);
+                </div>);
 		});
 
 		it('removes the last selected option with delete', () => {
@@ -1905,10 +1905,10 @@ describe('Select', () => {
 			pressDelete();
 			expect(onChange, 'was not called');
 			expect(instance, 'to contain',
-				<span className="Select-multi-value-wrapper">
+				<div className="Select-multi-value-wrapper">
                     <div><span className="Select-value-label">Four</span></div>
                     <div><span className="Select-value-label">Three</span></div>
-                </span>);
+                </div>);
 		});
 
 		it('removes an item when clicking on the X', () => {
@@ -1956,10 +1956,10 @@ describe('Select', () => {
 			pressBackspace();
 			expect(onChange, 'was not called');
 			expect(instance, 'to contain',
-				<span className="Select-multi-value-wrapper">
+				<div className="Select-multi-value-wrapper">
                     <div><span className="Select-value-label">Four</span></div>
                     <div><span className="Select-value-label">Two</span></div>
-                </span>);
+                </div>);
 		});
 
 		describe('with late options', () => {
@@ -1985,10 +1985,10 @@ describe('Select', () => {
 
 
 				expect(instance, 'to contain',
-					<span className="Select-multi-value-wrapper">
+					<div className="Select-multi-value-wrapper">
                         <div><span className="Select-value-label">new label for One</span></div>
                         <div><span className="Select-value-label">new label for Two</span></div>
-					</span>);
+					</div>);
 			});
 		});
 
@@ -2069,10 +2069,10 @@ describe('Select', () => {
 				'with event', 'mouseDown', 'on', <div className="Select-option">Two</div>,
 				'with event', 'mouseDown', 'on', <div className="Select-option">One</div>,
 				'to contain',
-				<span className="Select-multi-value-wrapper">
+				<div className="Select-multi-value-wrapper">
 					<div><span className="Select-value-label">Two</span></div>
 					<div><span className="Select-value-label">One</span></div>
-				</span>);
+				</div>);
 		});
 
 		it('calls onChange when each option is selected', () => {
