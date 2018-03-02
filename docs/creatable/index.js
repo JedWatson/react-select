@@ -1,16 +1,11 @@
 // @flow
 
-import React from 'react';
-import md from 'react-markings';
-
-import ContentBlock from '../ContentBlock';
+import md from '../markdown/renderer';
 
 export default function Creatable() {
-  return (
-    <ContentBlock>{md`
-      # Creatable
+  return md`
+    # Creatable
 
-      Content coming soon...
-    `}</ContentBlock>
-  );
+    Content coming soon...
+  `;
 }

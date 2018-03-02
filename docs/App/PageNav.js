@@ -52,7 +52,6 @@ class PageNav extends Component<RouterProps, NavState> {
   getSelected = ids => {
     const activeId = ids[0];
     if (activeId !== this.state.activeId) {
-      console.log('getSelected', activeId);
       this.setState({ activeId });
     }
   };

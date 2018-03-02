@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import AsyncSelect from '../../../src/Async';
 import { colourOptions } from '../../data';
-import ExampleWrapper from '../../ExampleWrapper';
 
 type State = {
   inputValue: string,
@@ -29,12 +28,7 @@ export default class WithPromises extends Component<*, State> {
   };
   render() {
     return (
-      <ExampleWrapper
-        label="Promises"
-        urlPath="docs/home/examples/AsyncPromises.js"
-      >
-        <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
-      </ExampleWrapper>
+      <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
     );
   }
 }
