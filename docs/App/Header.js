@@ -228,35 +228,37 @@ const Content = ({ onChange, stars }) => (
         },
       }}
     >
-      <Select
-        getOptionLabel={getLabel}
-        isSearchable={false}
-        options={changes}
-        onChange={onChange}
-        placeholder="🎉 What's new in V2"
-        value={[]}
-        styles={{
-          control: (css, { isFocused }) => ({
-            ...css,
-            backgroundClip: 'padding-box',
-            borderColor: 'rgba(0,0,0,0.1)',
-            boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : null,
+      <div className="animate-dropin">
+        <Select
+          getOptionLabel={getLabel}
+          isSearchable={false}
+          options={changes}
+          onChange={onChange}
+          placeholder="🎉 What's new in V2"
+          value={[]}
+          styles={{
+            control: (css, { isFocused }) => ({
+              ...css,
+              backgroundClip: 'padding-box',
+              borderColor: 'rgba(0,0,0,0.1)',
+              boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : null,
 
-            ':hover': {
-              borderColor: 'rgba(0,0,0,0.2)',
-            },
-          }),
-          option: css => ({
-            ...css,
-            padding: '4px 12px',
-          }),
-          placeholder: css => ({
-            ...css,
-            color: 'black',
-            position: 'static', // FF layout fix; this select never receives a value
-          }),
-        }}
-      />
+              ':hover': {
+                borderColor: 'rgba(0,0,0,0.2)',
+              },
+            }),
+            option: css => ({
+              ...css,
+              padding: '4px 12px',
+            }),
+            placeholder: css => ({
+              ...css,
+              color: 'black',
+              position: 'static', // FF layout fix; this select never receives a value
+            }),
+          }}
+        />
+      </div>
     </div>
   </div>
 );

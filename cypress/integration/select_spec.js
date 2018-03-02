@@ -4,7 +4,7 @@ const viewport = ['macbook-15'];
 
 describe('New Select', function() {
   before(function() {
-    cy.visit('http://localhost:8000/tests');
+    cy.visit('http://localhost:8000/cypress-tests');
     cy.title().should('equal', 'React-Select');
     cy.get('h1').should('contain', 'Test Page for Cypress');
   });

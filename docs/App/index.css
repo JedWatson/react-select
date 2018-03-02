@@ -36,31 +36,33 @@ h6 {
   margin-bottom: 0.25em;
   text-transform: uppercase;
 }
-
-/* Header - Github Corner */
-
-.github-corner:hover .octo-arm {
-  animation: octocat-wave 560ms ease-in-out;
-}
-@keyframes octocat-wave {
-  0%,
-  100% {
-    transform: rotate(0);
+@keyframes dropIn {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
-  20%,
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -1666px, 0);
+  }
   60% {
-    transform: rotate(-25deg);
+    opacity: 1;
+    transform: translate3d(0, 26px, 0);
   }
-  40%,
-  80% {
-    transform: rotate(10deg);
+  75% {
+    transform: translate3d(0, -10px, 0);
+  }
+  90% {
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }
-@media (max-width: 500px) {
-  .github-corner:hover .octo-arm {
-    animation: none;
-  }
-  .github-corner .octo-arm {
-    animation: octocat-wave 560ms ease-in-out;
-  }
+
+.animate-dropin {
+  animation: dropIn 0.66s;
 }
