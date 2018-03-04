@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import CreatableSelect from '../../../src/Creatable';
 import { colourOptions } from '../../data';
-import ExampleWrapper from '../../ExampleWrapper';
 
 export default class CreatableSingle extends Component<*, State> {
   handleChange = (newValue: any, actionMeta: any) => {
@@ -13,16 +12,11 @@ export default class CreatableSingle extends Component<*, State> {
   };
   render() {
     return (
-      <ExampleWrapper
-        label="Creatable Example"
-        urlPath="docs/home/examples/CreatableSingle.js"
-      >
-        <CreatableSelect
-          isClearable
-          onChange={this.handleChange}
-          options={colourOptions}
-        />
-      </ExampleWrapper>
+      <CreatableSelect
+        isClearable
+        onChange={this.handleChange}
+        options={colourOptions}
+      />
     );
   }
 }

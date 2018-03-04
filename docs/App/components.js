@@ -60,18 +60,12 @@ export const AppContent = (props: any) => (
 export const PrimaryNav = (props: any) => (
   <div
     css={{
-      backgroundColor: 'rgba(0, 0, 0, 0.07)',
-      color: 'white',
-      fontSize: 13,
-      fontWeight: 'bold',
+      backgroundColor: 'rgba(0, 0, 0, 0.11)',
+      fontWeight: 500,
       overflowX: 'auto',
       top: 0,
       width: '100%',
       WebkitOverflowScrolling: 'touch',
-
-      [largeDevice]: {
-        boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
-      },
     }}
   >
     <div
@@ -90,19 +84,20 @@ type PrimaryNavItemProps = { selected: boolean };
 export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
   <Link
     css={{
-      // boxShadow: selected ? 'inset 0 -3px 0 white' : null,
-      color: selected ? 'white' : 'rgba(255, 255, 255, 0.6)',
+      color: selected ? 'white' : '#DEEBFF',
       display: 'inline-block',
-      padding: `15px ${appGutter}px`,
+      opacity: selected ? 1 : 0.8,
+      padding: `20px ${appGutter}px`,
       position: 'relative',
       textDecoration: 'none',
       whiteSpace: 'nowrap',
 
       ':hover, :active': {
-        color: selected ? 'white' : 'rgba(255, 255, 255, 0.8)',
+        opacity: 1,
       },
 
       [smallDevice]: {
+        fontSize: 13,
         padding: `10px ${appGutter}px`,
       },
     }}

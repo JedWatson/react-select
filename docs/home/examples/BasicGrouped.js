@@ -2,7 +2,6 @@ import React from 'react';
 
 import Select from '../../../src';
 import { colourOptions, groupedOptions } from '../../data';
-import ExampleWrapper from '../../ExampleWrapper';
 
 const groupStyles = {
   display: 'flex',
@@ -30,11 +29,9 @@ const formatGroupLabel = data => (
 );
 
 export default () => (
-  <ExampleWrapper label="Grouped" urlPath="docs/home/examples/BasicGrouped.js">
-    <Select
-      defaultValue={colourOptions[1]}
-      options={groupedOptions}
-      formatGroupLabel={formatGroupLabel}
-    />
-  </ExampleWrapper>
+  <Select
+    defaultValue={colourOptions[1]}
+    options={groupedOptions}
+    formatGroupLabel={formatGroupLabel}
+  />
 );

@@ -1,16 +1,11 @@
 // @flow
 
-import React from 'react';
-import md from 'react-markings';
-
-import ContentBlock from '../ContentBlock';
+import md from '../markdown/renderer';
 
 export default function Advanced() {
-  return (
-    <ContentBlock>{md`
-      # Advanced
+  return md`
+    # Advanced
 
-      Content coming soon...
-    `}</ContentBlock>
-  );
+    Content coming soon...
+  `;
 }

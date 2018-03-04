@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import CreatableSelect from '../../../src/Creatable';
-import ExampleWrapper from '../../ExampleWrapper';
 
 const components = {
   DropdownIndicator: null,
@@ -46,23 +45,18 @@ export default class CreatableInputOnly extends Component<*, State> {
   render() {
     const { inputValue, value } = this.state;
     return (
-      <ExampleWrapper
-        label="Multi-select text input"
-        urlPath="docs/home/examples/CreatableInputOnly.js"
-      >
-        <CreatableSelect
-          components={components}
-          inputValue={inputValue}
-          isClearable
-          isMulti
-          menuIsOpen={false}
-          onChange={this.handleChange}
-          onInputChange={this.handleInputChange}
-          onKeyDown={this.handleKeyDown}
-          placeholder="Type something and press enter..."
-          value={value}
-        />
-      </ExampleWrapper>
+      <CreatableSelect
+        components={components}
+        inputValue={inputValue}
+        isClearable
+        isMulti
+        menuIsOpen={false}
+        onChange={this.handleChange}
+        onInputChange={this.handleInputChange}
+        onKeyDown={this.handleKeyDown}
+        placeholder="Type something and press enter..."
+        value={value}
+      />
     );
   }
 }

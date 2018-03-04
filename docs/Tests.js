@@ -16,7 +16,7 @@ export default class Tests extends Component<*, State> {
     this.setState(state => ({ isLoading: !state.isLoading }));
   render() {
     return (
-      <div>
+      <div style={{ margin: 'auto', maxWidth: 440, padding: 20 }}>
         <H1>Test Page for Cypress</H1>
         <h2>Single Select</h2>
         <div id="cypress-single">

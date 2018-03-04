@@ -119,7 +119,7 @@ const Heading = props => {
   }
   const css = {
     marginTop: 0,
-    '&:not(:first-child)': { paddingTop: '2em' },
+    '&:not(:first-child)': { marginTop: 30, paddingTop: 30 },
   };
 
   return linkify ? (

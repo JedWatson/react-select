@@ -4,7 +4,7 @@
 import './index.css';
 import glam from 'glam';
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -20,6 +20,7 @@ import {
 } from './components';
 import Section from './Section';
 import PageNav from './PageNav';
+import Tests from '../Tests';
 
 const sections = [
   { label: 'Home', path: '/home' },
@@ -35,47 +36,52 @@ export default class App extends Component<*> {
   render() {
     return (
       <BrowserRouter>
-        <div>
-          <Header>
-            <Route
-              render={({ location }) => (
-                <PrimaryNav>
-                  {sections.map(l => {
-                    const selected = location.pathname.includes(l.path);
+        <Switch>
+          <Route exact path="/cypress-tests" component={Tests} />
+          <Route>
+            <div>
+              <Header>
+                <Route
+                  render={({ location }) => (
+                    <PrimaryNav>
+                      {sections.map(l => {
+                        const selected = location.pathname.includes(l.path);
 
-                    return (
-                      <PrimaryNavItem
-                        key={l.path}
-                        selected={selected}
-                        to={l.path}
-                      >
-                        {l.label}
-                      </PrimaryNavItem>
-                    );
-                  })}
-                </PrimaryNav>
-              )}
-            />
-          </Header>
+                        return (
+                          <PrimaryNavItem
+                            key={l.path}
+                            selected={selected}
+                            to={l.path}
+                          >
+                            {l.label}
+                          </PrimaryNavItem>
+                        );
+                      })}
+                    </PrimaryNav>
+                  )}
+                />
+              </Header>
 
-          <ScrollRestoration>
-            <AppContainer>
-              <Route
-                render={props => (
-                  <Fragment>
-                    <PageNav {...props} />
-                    <AppContent>
-                      <PageContent>
-                        <Section {...props} />
-                      </PageContent>
-                    </AppContent>
-                  </Fragment>
-                )}
-              />
-            </AppContainer>
-          </ScrollRestoration>
-          <Footer />
-        </div>
+              <ScrollRestoration>
+                <AppContainer>
+                  <Route
+                    render={props => (
+                      <Fragment>
+                        <PageNav {...props} />
+                        <AppContent>
+                          <PageContent>
+                            <Section {...props} />
+                          </PageContent>
+                        </AppContent>
+                      </Fragment>
+                    )}
+                  />
+                </AppContainer>
+              </ScrollRestoration>
+              <Footer />
+            </div>
+          </Route>
+        </Switch>
       </BrowserRouter>
     );
   }

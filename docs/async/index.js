@@ -1,16 +1,11 @@
 // @flow
 
-import React from 'react';
-import md from 'react-markings';
-
-import ContentBlock from '../ContentBlock';
+import md from '../markdown/renderer';
 
 export default function Async() {
-  return (
-    <ContentBlock>{md`
-      # Async
+  return md`
+    # Async
 
-      Content coming soon...
-    `}</ContentBlock>
-  );
+    Content coming soon...
+  `;
 }

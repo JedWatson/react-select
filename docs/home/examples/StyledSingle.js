@@ -3,7 +3,6 @@ import chroma from 'chroma-js';
 
 import { colourOptions } from '../../data';
 import Select from '../../../src';
-import ExampleWrapper from '../../ExampleWrapper';
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
@@ -43,12 +42,10 @@ const colourStyles = {
 };
 
 export default () => (
-  <ExampleWrapper label="Single" urlPath="docs/home/examples/StyledSingle.js">
-    <Select
-      defaultValue={colourOptions[2]}
-      label="Single select"
-      options={colourOptions}
-      styles={colourStyles}
-    />
-  </ExampleWrapper>
+  <Select
+    defaultValue={colourOptions[2]}
+    label="Single select"
+    options={colourOptions}
+    styles={colourStyles}
+  />
 );

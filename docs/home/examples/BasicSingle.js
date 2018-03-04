@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 
 import Select from '../../../src';
 import { colourOptions } from '../../data';
-import ExampleWrapper from '../../ExampleWrapper';
 import { Note } from '../../styled-components';
 
 const Checkbox = props => <input type="checkbox" {...props} />;
@@ -43,21 +42,16 @@ export default class SingleSelect extends Component<*, State> {
     } = this.state;
     return (
       <Fragment>
-        <ExampleWrapper
-          label="Single"
-          urlPath="docs/home/examples/BasicSingle.js"
-        >
-          <Select
-            defaultValue={colourOptions[0]}
-            isDisabled={isDisabled}
-            isLoading={isLoading}
-            isClearable={isClearable}
-            isRtl={isRtl}
-            isSearchable={isSearchable}
-            name="color"
-            options={colourOptions}
-          />
-        </ExampleWrapper>
+        <Select
+          defaultValue={colourOptions[0]}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={isClearable}
+          isRtl={isRtl}
+          isSearchable={isSearchable}
+          name="color"
+          options={colourOptions}
+        />
         <Note Tag="label">
           <Checkbox
             checked={isClearable}

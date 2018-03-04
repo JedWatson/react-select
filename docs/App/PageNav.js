@@ -41,18 +41,18 @@ class PageNav extends Component<RouterProps, NavState> {
     // eslint-disable-next-line
     this.setState({ links: store.getPageHeadings(match.path) });
   }
-  componentDidUpdate({ location }: RouterProps) {
+  componentDidUpdate({ history, location }: RouterProps) {
+    const { hash } = this.props.location; // old hash
+    const shouldRefresh = location.hash !== hash && history.action !== 'POP';
+
     // this makes everything work, need those fresh nodes
-    if (location.hash !== this.props.location.hash) {
-      if (this.scrollSpy.buildNodeList) {
-        this.scrollSpy.buildNodeList();
-      }
+    if (shouldRefresh && this.scrollSpy.buildNodeList) {
+      this.scrollSpy.buildNodeList();
     }
   }
   getSelected = ids => {
     const activeId = ids[0];
     if (activeId !== this.state.activeId) {
-      console.log('getSelected', activeId);
       this.setState({ activeId });
     }
   };
@@ -71,7 +71,6 @@ class PageNav extends Component<RouterProps, NavState> {
       animatedScrollTo(window, el.offsetTop);
     }
   };
-  refreshNodeList = () => {};
   render() {
     const { activeId, links } = this.state;
     const isSmallDevice = window.innerWidth <= 769;

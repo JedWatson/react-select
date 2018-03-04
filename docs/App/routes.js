@@ -5,7 +5,6 @@ import Components from '../components';
 import Async from '../async';
 import Creatable from '../creatable';
 import Advanced from '../advanced';
-import Tests from '../Tests';
 
 export default {
   '/home': Home,
@@ -15,7 +14,4 @@ export default {
   '/async': Async,
   '/creatable': Creatable,
   '/advanced': Advanced,
-
-  // cypress
-  '/tests': Tests,
 };

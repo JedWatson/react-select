@@ -7,8 +7,6 @@ import chrono from 'chrono-node';
 import Select from '../../../src';
 import { Div, Span } from '../../../src/primitives';
 import { components as SelectComponents } from '../../../src';
-import ExampleWrapper from '../../ExampleWrapper';
-import { Note, H1 } from '../../styled-components';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);
@@ -191,7 +189,7 @@ class DatePicker extends Component<*, *> {
   }
 }
 
-export default class App extends Component<*, *> {
+export default class Experimental extends Component<*, *> {
   state = {
     value: defaultOptions[0],
   };
@@ -203,25 +201,8 @@ export default class App extends Component<*, *> {
     const displayValue = value && value.value ? value.value.toString() : 'null';
     return (
       <div>
-        <H1>Experimental</H1>
-        <p>Wild experiments with react-select v2.</p>
-
-        <ExampleWrapper
-          isEditable={false}
-          label="DatePicker"
-          urlPath="docs/home/examples/Experimental.js"
-        >
-          <DatePicker value={value} onChange={this.handleChange} />
-        </ExampleWrapper>
         <pre>Value: {displayValue}</pre>
-        <Note>
-          This example uses a combination of custom components and functions to
-          make react-select behave like a date picker.
-        </Note>
-        <Note>
-          Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks
-          from now" into the field to get date suggestions.
-        </Note>
+        <DatePicker value={value} onChange={this.handleChange} />
       </div>
     );
   }

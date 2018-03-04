@@ -2,6 +2,7 @@
 
 import React from 'react';
 import md from '../markdown/renderer';
+import ExampleWrapper from '../ExampleWrapper';
 
 import {
   AnimatedMulti,
@@ -10,6 +11,7 @@ import {
   BasicSingle,
   BasicGrouped,
   BasicMulti,
+  Experimental,
   StyledMulti,
   StyledSingle,
   CreatableAdvanced,
@@ -49,11 +51,26 @@ export default function Home() {
   )
   ~~~
 
-  ${<BasicSingle />}
+  ${(
+    <ExampleWrapper label="Single" urlPath="docs/home/examples/BasicSingle.js">
+      <BasicSingle />
+    </ExampleWrapper>
+  )}
 
-  ${<BasicGrouped />}
+  ${(
+    <ExampleWrapper
+      label="Grouped"
+      urlPath="docs/home/examples/BasicGrouped.js"
+    >
+      <BasicGrouped />
+    </ExampleWrapper>
+  )}
 
-  ${<BasicMulti />}
+  ${(
+    <ExampleWrapper label="Multi" urlPath="docs/home/examples/BasicMulti.js">
+      <BasicMulti />
+    </ExampleWrapper>
+  )}
 
   ## Animated Components
 
@@ -62,29 +79,75 @@ export default function Home() {
 
   Remove the values below to see them in action.
 
-  ${<AnimatedMulti />}
+  ${(
+    <ExampleWrapper
+      label="Animation"
+      urlPath="docs/home/examples/AnimatedMulti.js"
+    >
+      <AnimatedMulti />
+    </ExampleWrapper>
+  )}
 
   ## Custom Styles
 
   Style individual components with custom css using the \`styles\` prop.
 
-  ${<StyledSingle />}
+  ${(
+    <ExampleWrapper label="Single" urlPath="docs/home/examples/StyledSingle.js">
+      <StyledSingle />
+    </ExampleWrapper>
+  )}
 
-  ${<StyledMulti />}
+  ${(
+    <ExampleWrapper
+      label="Multi Select"
+      urlPath="docs/home/examples/StyledMulti.js"
+    >
+      <StyledMulti />
+    </ExampleWrapper>
+  )}
 
   ## Creatable
 
-  ${<CreatableSingle />}
+  ${(
+    <ExampleWrapper
+      label="Creatable Example"
+      urlPath="docs/home/examples/CreatableSingle.js"
+    >
+      <CreatableSingle />
+    </ExampleWrapper>
+  )}
 
-  ${<CreatableMulti />}
+  ${(
+    <ExampleWrapper
+      label="Creatable Multiselect Example"
+      urlPath="docs/home/examples/CreatableMulti.js"
+    >
+      <CreatableMulti />
+    </ExampleWrapper>
+  )}
 
-  ${<CreatableAdvanced />}
+  ${(
+    <ExampleWrapper
+      label="Advanced Example"
+      urlPath="docs/home/examples/CreatableAdvanced.js"
+    >
+      <CreatableAdvanced />
+    </ExampleWrapper>
+  )}
 
   > This example uses the \`onCreateOption\` prop to handle new options.
 
   > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
 
-  ${<CreatableInputOnly />}
+  ${(
+    <ExampleWrapper
+      label="Multi-select text input"
+      urlPath="docs/home/examples/CreatableInputOnly.js"
+    >
+      <CreatableInputOnly />
+    </ExampleWrapper>
+  )}
 
   > This example applies several customisations to produce a text input that has no menu but allows multiple values to be entered.
 
@@ -96,8 +159,39 @@ export default function Home() {
   import { Async } from 'react-select'
   ~~~
 
-  ${<AsyncCallbacks />}
+  ${(
+    <ExampleWrapper
+      label="Callbacks"
+      urlPath="docs/home/examples/AsyncCallbacks.js"
+    >
+      <AsyncCallbacks />
+    </ExampleWrapper>
+  )}
 
-  ${<AsyncPromises />}
+  ${(
+    <ExampleWrapper
+      label="Promises"
+      urlPath="docs/home/examples/AsyncPromises.js"
+    >
+      <AsyncPromises />
+    </ExampleWrapper>
+  )}
+  ## Experimental
+
+  Wild experiments with react-select v2
+
+  ${(
+    <ExampleWrapper
+      isEditable={false}
+      label="Date Picker"
+      urlPath="docs/home/examples/Datepicker.js"
+    >
+      <Experimental />
+    </ExampleWrapper>
+  )}
+
+  > This example uses a combination of custom components and functions to make react-select behave like a date picker.
+
+  > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
 `;
 }
