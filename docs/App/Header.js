@@ -84,15 +84,21 @@ const Container = props => (
 );
 
 type HeaderProps = RouterProps & { children: any };
-type HeaderState = { contentHeight: 'auto' | number, stars: number };
+type HeaderState = {
+  contentHeight: 'auto' | number,
+  isTransitioning: boolean,
+  stars: number,
+};
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<HeaderProps, HeaderState> {
-  nav: HTMLElement;
   content: HTMLElement;
-  state = { contentHeight: 'auto', stars: 0 };
+  state = { contentHeight: 'auto', isTransitioning: false, stars: 0 };
   componentDidMount() {
+    if (this.content) {
+      this.content.addEventListener('transitionend', this.transitionEnd);
+    }
     this.getStarCount();
   }
   componentWillReceiveProps({ location }: HeaderProps) {
@@ -102,6 +108,14 @@ class Header extends Component<HeaderProps, HeaderState> {
       this.toggleCollapse();
     }
   }
+  componentWillUnmount() {
+    if (this.content) {
+      this.content.removeEventListener('transitionend', this.transitionEnd);
+    }
+  }
+  transitionEnd = () => {
+    this.setState({ isTransitioning: false });
+  };
   getStarCount = () => {
     // $FlowFixMe: escape global `CLIENT_ID` & `CLIENT_SECRET`
     const fetchUrl = `${apiUrl}?client_id=${
@@ -122,22 +136,26 @@ class Header extends Component<HeaderProps, HeaderState> {
     return valid.includes(props.location.pathname);
   };
   toggleCollapse = () => {
-    const contentHeight = this.content.scrollHeight;
-    this.setState({ contentHeight });
+    this.setState({
+      contentHeight: this.content.scrollHeight,
+      isTransitioning: true,
+    });
   };
   getContent = ref => {
     if (!ref) return;
     this.content = ref;
+    this.setState({ contentHeight: ref.scrollHeight });
   };
   render() {
     const { children, history } = this.props;
-    const { contentHeight, stars } = this.state;
+    const { contentHeight, isTransitioning, stars } = this.state;
 
     return (
       <Gradient>
         {children}
         <Collapse
           isCollapsed={!this.isHome()}
+          isTransitioning={isTransitioning}
           height={contentHeight}
           innerRef={this.getContent}
         >
@@ -181,15 +199,22 @@ class Header extends Component<HeaderProps, HeaderState> {
     );
   }
 }
-
-const Collapse = ({ height, isCollapsed, innerRef, ...props }) => {
+const Collapse = ({
+  height,
+  isCollapsed,
+  isTransitioning,
+  innerRef,
+  ...props
+}) => {
+  const duration = isCollapsed ? 260 : 340;
   return (
     <div
       ref={innerRef}
       css={{
         height: isCollapsed ? 0 : height,
-        overflow: isCollapsed ? 'hidden' : null,
-        transition: 'height 260ms cubic-bezier(0.2, 0, 0, 1)',
+        overflow: isCollapsed || isTransitioning ? 'hidden' : null,
+        transition: `height ${duration}ms cubic-bezier(0.2, 0, 0, 1)`,
+        transform: 'translateZ(0)',
       }}
       {...props}
     />
