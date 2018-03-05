@@ -25,8 +25,7 @@ export default class Sticky extends Component<Props, State> {
   state = { height: 'auto', isFixed: false, width: 'auto' };
   static defaultProps = { preserveHeight: false };
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll, false);
-    // this.handleScroll();
+    window.addEventListener('scroll', this.handleScroll);
   }
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -67,8 +66,14 @@ export default class Sticky extends Component<Props, State> {
     const { height, isFixed, width } = this.state;
     const outerStyle = isFixed && preserveHeight ? { height } : null;
     const innerStyle = isFixed
-      ? { position: 'fixed', top: 0, width, zIndex: 1 }
-      : null;
+      ? {
+          position: 'fixed',
+          top: 0,
+          width,
+          zIndex: 1,
+          transform: 'translateZ(0)',
+        }
+      : { transform: 'translateZ(0)' };
 
     return (
       <div ref={this.getOuterEl} style={outerStyle}>
