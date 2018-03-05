@@ -23,16 +23,18 @@ function getStyle(el, prop, numeric = true) {
   const val = window.getComputedStyle(el, null).getPropertyValue(prop);
   return numeric ? parseFloat(val) : val;
 }
-function isInView(el) {
-  let rect = el.getBoundingClientRect();
+function isInView(el, elements) {
+  const { top } = el.getBoundingClientRect();
+  const offset = getStyle(el, 'padding-top') * -1;
+  const nextIndex = elements.indexOf(el) + 1;
+  // $FlowFixMe parentElement def exists
+  const wrapperHeight = el.parentElement.offsetHeight;
+  const scrollBottom = window.pageYOffset + window.innerHeight;
+  const bottom = elements[nextIndex]
+    ? elements[nextIndex].getBoundingClientRect().top
+    : wrapperHeight;
 
-  const topOffset = getStyle(el, 'padding-top') * -1;
-
-  if (rect.top >= topOffset && rect.bottom <= window.innerHeight) {
-    return true;
-  }
-
-  return false;
+  return top >= offset && bottom <= scrollBottom;
 }
 
 export default class ScrollSpy extends Component<Props, State> {
@@ -53,7 +55,9 @@ export default class ScrollSpy extends Component<Props, State> {
     const { elements } = this.state;
     if (!elements.length) return;
 
-    const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
+    const idsInView = elements
+      .filter(el => isInView(el, elements))
+      .map(i => i.getAttribute('id'));
 
     if (idsInView.length) {
       onChange(idsInView);
