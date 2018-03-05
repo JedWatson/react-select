@@ -152,7 +152,6 @@ class Header extends Component<HeaderProps, HeaderState> {
 
     return (
       <Gradient>
-        {children}
         <Collapse
           isCollapsed={!this.isHome()}
           isTransitioning={isTransitioning}
@@ -195,6 +194,7 @@ class Header extends Component<HeaderProps, HeaderState> {
             />
           </Container>
         </Collapse>
+        {children}
       </Gradient>
     );
   }

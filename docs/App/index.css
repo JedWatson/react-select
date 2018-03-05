@@ -36,33 +36,18 @@ h6 {
   margin-bottom: 0.25em;
   text-transform: uppercase;
 }
-@keyframes dropIn {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
-  0% {
+@keyframes upAndSettle {
+  0%,
+  40% {
     opacity: 0;
-    transform: translate3d(0, -1666px, 0);
+    transform: translate3d(0, 44px, 0);
   }
-  60% {
+  100% {
     opacity: 1;
-    transform: translate3d(0, 26px, 0);
-  }
-  75% {
-    transform: translate3d(0, -10px, 0);
-  }
-  90% {
-    transform: translate3d(0, 6px, 0);
-  }
-  to {
     transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-dropin {
-  animation: dropIn 0.66s;
+  animation: upAndSettle 0.77s cubic-bezier(0.4, 0.1, 0.25, 1.4);
 }
