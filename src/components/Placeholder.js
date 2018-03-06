@@ -6,7 +6,7 @@ import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
 import { type PropsWithStyles } from '../types';
 
-type Props = PropsWithStyles & {
+export type PlaceholderProps = PropsWithStyles & {
   children: Node,
   innerProps: { [string]: any },
 };
@@ -18,7 +18,7 @@ export const css = () => ({
   position: 'absolute',
 });
 
-const Placeholder = (props: Props) => {
+const Placeholder = (props: PlaceholderProps) => {
   const { children, getStyles, innerProps } = props;
   return (
     <Div

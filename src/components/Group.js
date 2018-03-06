@@ -6,7 +6,7 @@ import { Div } from '../primitives';
 import { spacing } from '../theme';
 import { type PropsWithStyles } from '../types';
 
-type GroupProps = {
+type ComponentProps = {
   children: Node,
   Heading: typeof GroupHeading,
   headingProps: {
@@ -19,15 +19,14 @@ type GroupProps = {
   },
   label: Node,
 };
-type Props = PropsWithStyles & GroupProps;
+export type GroupProps = PropsWithStyles & ComponentProps;
 
 export const groupCSS = () => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
 
-
-const Group = (props: Props) => {
+const Group = (props: GroupProps) => {
   const {
     children,
     getStyles,

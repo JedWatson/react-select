@@ -8,7 +8,7 @@ import { Div } from '../primitives';
 
 import type { PropsWithStyles } from '../types';
 
-type Props = PropsWithStyles & {
+export type InputProps = PropsWithStyles & {
   innerRef: (ElementRef<*>) => void,
   isHidden: boolean,
 };
@@ -27,7 +27,7 @@ const inputStyle = isHidden => ({
   padding: 0,
 });
 
-const Input = ({ getStyles, innerRef, isHidden, ...props }: Props) => (
+const Input = ({ getStyles, innerRef, isHidden, ...props }: InputProps) => (
   <Div css={getStyles('input', props)}>
     <AutosizeInput
       className={className('input')}

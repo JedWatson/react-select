@@ -156,7 +156,7 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-type MenuProps = PropsWithStyles & {
+export type MenuProps = PropsWithStyles & {
   children: Node,
   innerProps: Object,
   maxMenuHeight: number,
@@ -242,7 +242,7 @@ type MenuListState = {
   maxHeight: number,
 };
 
-type MenuListProps = {
+export type MenuListProps = {
   children: Node,
   innerProps: {
     'aria-multiselectable': boolean,
@@ -251,7 +251,7 @@ type MenuListProps = {
     role: 'listbox',
   },
 };
-type Props = PropsWithStyles & MenuListProps & MenuListState;
+export type MenuListComponentProps = PropsWithStyles & MenuListProps & MenuListState;
 export const menuListCSS = () => ({
   maxHeight: 'inherit', // pixel max-height applied to wrapping Menu component
   overflowY: 'auto',
@@ -260,7 +260,7 @@ export const menuListCSS = () => ({
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
 });
-export const MenuList = (props: Props) => {
+export const MenuList = (props: MenuListComponentProps) => {
   const { children, getStyles, isMulti, innerProps } = props;
   return (
     <Div
@@ -285,7 +285,7 @@ const noticeCSS = () => ({
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
-type NoticeProps = PropsWithStyles & {
+export type NoticeProps = PropsWithStyles & {
   children: Node,
   innerProps: { [string]: any },
 };
