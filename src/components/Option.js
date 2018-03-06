@@ -21,7 +21,7 @@ type InnerProps = {
   role: 'option',
   tabIndex: number,
 };
-type Props = PropsWithStyles &
+export type OptionProps = PropsWithStyles &
   State & {
     children: Node,
     innerProps: InnerProps,
@@ -50,7 +50,7 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   },
 });
 
-const Option = (props: Props) => {
+const Option = (props: OptionProps) => {
   const { children, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
