@@ -58,15 +58,16 @@ class Creatable extends Component<Props, State> {
     };
   }
   componentWillReceiveProps(nextProps: Props) {
+    const { inputValue: oldInputValue } = this.props;
     const {
       allowCreateWhileLoading,
       formatCreateLabel,
       getNewOptionData,
-      inputValue: oldInputValue,
+      inputValue,
       isLoading,
       isValidNewOption,
-    } = this.props;
-    const { inputValue, value } = nextProps;
+      value,
+    } = nextProps;
     const options = nextProps.options || [];
     this.setState({
       newOption: undefined,
