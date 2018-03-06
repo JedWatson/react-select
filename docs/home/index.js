@@ -7,6 +7,7 @@ import ExampleWrapper from '../ExampleWrapper';
 import {
   AnimatedMulti,
   AsyncCallbacks,
+  AsyncCreatable,
   AsyncPromises,
   BasicSingle,
   BasicGrouped,
@@ -139,6 +140,17 @@ export default function Home() {
   > This example uses the \`onCreateOption\` prop to handle new options.
 
   > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
+
+  ${(
+    <ExampleWrapper
+      label="Async Creatable Example"
+      urlPath="docs/home/examples/AsyncCreatable.js"
+    >
+      <AsyncCreatable />
+    </ExampleWrapper>
+  )}
+
+  > This example uses the combined async + creatable variant, imported from \`react-select/lib/AsyncCreatable\`
 
   ${(
     <ExampleWrapper
