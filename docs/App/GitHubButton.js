@@ -88,9 +88,10 @@ const StarButton = ({ count, repo }: Props) => (
       href={`${repo}/stargazers`}
       target="_blank"
     >
-      <span>{count.toLocaleString()}</span>
+      <span>{count && count.toLocaleString()}</span>
     </a>
   </div>
 );
+
 
 export default StarButton;
