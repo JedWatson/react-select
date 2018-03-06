@@ -18,7 +18,7 @@ type State = {
   value: ValueType,
 };
 
-const withState = (WrappedComponent: ComponentType<*>) =>
+const manageState = (WrappedComponent: ComponentType<*>) =>
   class StateManager extends Component<Props, State> {
     static defaultProps = {
       defaultInputValue: '',
@@ -83,4 +83,4 @@ const withState = (WrappedComponent: ComponentType<*>) =>
     }
   };
 
-export default withState;
+export default manageState;

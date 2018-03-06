@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
-import withState from './stateManager';
+import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
 type Props = SelectProps & {
@@ -26,7 +26,7 @@ type State = {
   passEmptyOptions: boolean,
 };
 
-const SelectWithState = withState(Select);
+const SelectmanageState = manageState(Select);
 
 export default class Async extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -138,7 +138,7 @@ export default class Async extends Component<Props, State> {
       ? []
       : inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
     return (
-      <SelectWithState
+      <SelectmanageState
         {...props}
         options={options}
         filterOption={null}

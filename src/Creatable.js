@@ -4,7 +4,7 @@ import React, { Component, type Node } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
-import withState from './stateManager';
+import manageState from './stateManager';
 
 type Props = SelectProps & {
   allowCreateWhileLoading: boolean,
@@ -127,4 +127,4 @@ class Creatable extends Component<Props, State> {
 }
 
 // TODO: do this in package entrypoint
-export default withState(Creatable);
+export default manageState(Creatable);
