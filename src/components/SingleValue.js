@@ -12,7 +12,7 @@ type ValueProps = {
   data: any,
   innerProps: any,
 };
-type Props = PropsWithStyles & ValueProps & State;
+export type SingleValueProps = PropsWithStyles & ValueProps & State;
 
 export const css = ({ isDisabled }: State) => ({
   color: isDisabled ? colors.neutral40 : colors.text,
@@ -25,7 +25,7 @@ export const css = ({ isDisabled }: State) => ({
   whiteSpace: 'nowrap',
 });
 
-const SingleValue = (props: Props) => {
+const SingleValue = (props: SingleValueProps) => {
   const { children, getStyles, isDisabled, innerProps } = props;
   return (
     <Div

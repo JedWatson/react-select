@@ -11,7 +11,7 @@ import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 // ==============================
 
 type ContainerState = { isDisabled: boolean, isRtl: boolean };
-type ContainerProps = PropsWithStyles &
+export type ContainerProps = PropsWithStyles &
   ContainerState & {
     children: Node,
     innerProps: { onKeyDown: KeyboardEventHandler },
@@ -38,7 +38,7 @@ export const SelectContainer = (props: ContainerProps) => {
 // Value Container
 // ==============================
 
-type ValueContainerProps = PropsWithStyles & {
+export type ValueContainerProps = PropsWithStyles & {
   isMulti: boolean,
   hasValue: boolean,
   maxHeight: number,
@@ -96,7 +96,8 @@ export class ValueContainer extends Component<ValueContainerProps> {
 // ==============================
 
 type IndicatorsState = { isRtl: boolean };
-type IndicatorsProps = PropsWithStyles & IndicatorsState & { children: Node };
+
+export type IndicatorContainerProps = PropsWithStyles & IndicatorsState & { children: Node };
 
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
@@ -104,7 +105,7 @@ export const indicatorsContainerCSS = () => ({
   display: 'flex ',
   flexShrink: 0,
 });
-export const IndicatorsContainer = (props: IndicatorsProps) => {
+export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   const { children, getStyles } = props;
 
   return (

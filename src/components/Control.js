@@ -7,7 +7,7 @@ import { borderRadius, colors, spacing } from '../theme';
 import type { PropsWithStyles } from '../types';
 
 type State = { isDisabled: boolean, isFocused: boolean };
-type Props = PropsWithStyles &
+export type ControlProps = PropsWithStyles &
   State & {
     children: Node,
     innerProps: {
@@ -42,7 +42,7 @@ export const css = ({ isDisabled, isFocused }: State) => ({
   },
 });
 
-const Control = (props: Props) => {
+const Control = (props: ControlProps) => {
   const { children, getStyles, isDisabled, isFocused, innerProps } = props;
   return (
     <Div
