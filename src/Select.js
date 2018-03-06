@@ -1199,6 +1199,7 @@ Select.propTypes = {
 	'aria-labelledby': PropTypes.string,  // html id of an element that should be used as the label (for assistive tech)
 	arrowRenderer: PropTypes.func,        // create the drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
+	autoComplete: PropTypes.bool,		  // automatically select the focused value when using the up and down keys
 	autoFocus: PropTypes.bool,            // autofocus the component on mount
 	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
 	autosize: PropTypes.bool,             // whether to enable autosizing or not
@@ -1274,6 +1275,7 @@ Select.propTypes = {
 
 Select.defaultProps = {
 	arrowRenderer: defaultArrowRenderer,
+	autoComplete: false,
 	autosize: true,
 	backspaceRemoves: true,
 	backspaceToRemoveMessage: 'Press backspace to remove {label}',

@@ -60,7 +60,7 @@ var AutoCompleteStates = createClass({
 					ref={(ref) => { this.select = ref; }}
 					onBlurResetsInput={false}
 					onSelectResetsInput={false}
-					autoComplete={true}
+					autoComplete
 					autoFocus
 					options={options}
 					simpleValue
@@ -73,9 +73,9 @@ var AutoCompleteStates = createClass({
 					searchable={this.state.searchable}
 				/>
 				<div
-	                aria-label={`${this.state.selectValue}`}
-	                aria-live="polite">
-                </div>
+					aria-label={`${this.state.selectValue}`}
+					aria-live="polite"
+				 />
 				<button style={{ marginTop: '15px' }} type="button" onClick={this.focusStateSelect}>Focus Select</button>
 				<button style={{ marginTop: '15px' }} type="button" onClick={this.clearValue}>Clear Value</button>
 
