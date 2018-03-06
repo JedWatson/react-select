@@ -610,10 +610,11 @@ class Select extends React.Component {
 		}
 	}
 
-	selectValue (value) {
+	selectValue (value, keepOpen) {
 		// NOTE: we actually add/set the value in a callback to make sure the
 		// input value is empty to avoid styling issues in Chrome
-		if (this.props.closeOnSelect) {
+		const closeOnSelect = keepOpen ? false: this.props.closeOnSelect;
+		if (closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
 		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
@@ -621,7 +622,7 @@ class Select extends React.Component {
 			this.setState({
 				focusedIndex: null,
 				inputValue: this.handleInputValueChange(updatedValue),
-				isOpen: !this.props.closeOnSelect,
+				isOpen: !closeOnSelect,
 			}, () => {
 				const valueArray = this.getValueArray(this.props.value);
 				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
@@ -633,7 +634,7 @@ class Select extends React.Component {
 		} else {
 			this.setState({
 				inputValue: this.handleInputValueChange(updatedValue),
-				isOpen: !this.props.closeOnSelect,
+				isOpen: !closeOnSelect,
 				isPseudoFocused: this.state.isFocused,
 			}, () => {
 				this.setValue(value);
@@ -785,6 +786,10 @@ class Select extends React.Component {
 		this.setState({
 			focusedIndex: options[focusedIndex].index,
 			focusedOption: options[focusedIndex].option
+		}, () => {
+			if (this.props.autoComplete && (dir === 'previous' || dir === 'next')){
+				this.selectFocusedOption(true);
+			}			
 		});
 	}
 
@@ -792,9 +797,9 @@ class Select extends React.Component {
 		return this._focusedOption;
 	}
 
-	selectFocusedOption () {
+	selectFocusedOption (keepOpen) {
 		if (this._focusedOption) {
-			return this.selectValue(this._focusedOption);
+			return this.selectValue(this._focusedOption, keepOpen);
 		}
 	}
 
