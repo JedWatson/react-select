@@ -15,6 +15,7 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import AutoCompleteStates from './components/AutoCompleteStates';
 
 ReactDOM.render(
 	<div>
@@ -31,6 +32,7 @@ ReactDOM.render(
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
 		/>
+		<AutoCompleteStates label="AutoCompleteStates" />
 	</div>,
 	document.getElementById('example')
 );
