@@ -8,6 +8,59 @@ export default function Components() {
     The main feature of this library is providing consumers with the
     building blocks necessary to create _their_ component.
 
+    The following components are customisable and switchable:
+
+    ### ClearIndicator
+    Indicator for clearing values in the control.
+
+
+    Props
+
+    \`children:\` \`React Element\`
+
+    \`innerProps:\` \`any\`
+
+    \`isFocused:\` \`boolean\`
+
+    \`isRtl:\` \`boolean\`
+
+    ### Control
+
+    Props
+
+    \`children:\` \`Node\`
+
+    \`getStyles:\` \`(string, any) => object\`
+
+    \`isDisabled\` \`boolean\`
+
+    \`isFocused\` \`boolean\`
+
+    \`innerProps\` \`object\`
+
+    ### Dropdown Indicator
+
+
+    ### Group
+    ### GroupHeading
+    ### IndicatorsContainer
+    ### IndicatorsSeparator
+    ### Input
+    ### LoadingIndicator
+    ### Menu
+    ### MenuList
+    ### LoadingMessage
+    ### NoOptionsMessage
+    ### MultiValue
+    ### MultiValueContainer
+    ### MultiValueLabel
+    ### MultiValueRemove
+    ### Option
+    ### Placeholder
+    ### SelectContainer
+    ### SingleValue
+    ### ValueContainer
+
     ## Replacing Components
 
     React-Select allows you to augment layout and functionality by replacing
@@ -51,5 +104,6 @@ export default function Components() {
       }
     }
     ~~~
+
   `;
 }
