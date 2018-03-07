@@ -28,9 +28,9 @@ const sections = [
   { label: 'API', path: '/api' },
   { label: 'Styles', path: '/styles' },
   { label: 'Components', path: '/components' },
-  // { label: 'Async', path: '/async' },
-  // { label: 'Creatable', path: '/creatable' },
-  // { label: 'Advanced', path: '/advanced' },
+  { label: 'Async', path: '/async' },
+  { label: 'Creatable', path: '/creatable' },
+  { label: 'Advanced', path: '/advanced' },
 ];
 
 export default class App extends Component<*> {
