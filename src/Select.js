@@ -613,7 +613,7 @@ class Select extends React.Component {
 	selectValue (value, keepOpen) {
 		// NOTE: we actually add/set the value in a callback to make sure the
 		// input value is empty to avoid styling issues in Chrome
-		const closeOnSelect = keepOpen ? false: this.props.closeOnSelect;
+		const closeOnSelect = keepOpen === true ? false : this.props.closeOnSelect;
 		if (closeOnSelect) {
 			this.hasScrolledToOption = false;
 		}
@@ -1199,7 +1199,7 @@ Select.propTypes = {
 	'aria-labelledby': PropTypes.string,  // html id of an element that should be used as the label (for assistive tech)
 	arrowRenderer: PropTypes.func,        // create the drop-down caret element
 	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
-	autoComplete: PropTypes.bool,		  // automatically select the focused value when using the up and down keys
+	autoComplete: PropTypes.bool,         // automatically select the focused value when using the up and down keys
 	autoFocus: PropTypes.bool,            // autofocus the component on mount
 	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
 	autosize: PropTypes.bool,             // whether to enable autosizing or not
@@ -1217,7 +1217,7 @@ Select.propTypes = {
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-	id: PropTypes.string, 				        // html id to set on the input element for accessibility or tests
+	id: PropTypes.string,                 // html id to set on the input element for accessibility or tests
 	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 	inputProps: PropTypes.object,         // custom attributes for the Input
@@ -1258,7 +1258,7 @@ Select.propTypes = {
 	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
-	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
+	rtl: PropTypes.bool,                  // set to true in order to use react-select in right-to-left direction
 	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false

@@ -4495,6 +4495,33 @@ describe('Select', () => {
 			warn.restore();
 		});
 	});
+	describe('with autocomplete', () => {
+		it('should update the input value', () => {
+			wrapper = createControl({
+				autoComplete: true,
+				options: defaultOptions,
+			});
+			return expect(wrapper,
+					'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />,
+					'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />)
+					.then(input => {
+						expect(onChange, 'was called');
+					});
+		});
+	});
+	describe('without autocomplete', () => {
+		it('should not update the input value', () => {
+			wrapper = createControl({
+				options: defaultOptions,
+			});
+			return expect(wrapper,
+					'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />,
+					'with event', 'keyDown', ARROW_DOWN, 'on', <div className="Select-control" />)
+					.then(input => {
+						expect(onChange, 'was not called');
+					});
+		});
+	});	
 	describe('rtl', () => {
 		describe('className', () => {
 			it('assigns the className Select--rtl to the outer-most element', () => {
