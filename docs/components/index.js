@@ -7,7 +7,7 @@ export default function Components() {
   return (
     <Fragment>
       <Helmet>
-        <title>Components - React Images</title>
+        <title>Components - React Select</title>
         <meta
           name="description"
           content="The main feature of this library is providing consumers with the building blocks necessary to create their component."
