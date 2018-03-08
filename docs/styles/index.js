@@ -7,7 +7,7 @@ export default function Styles() {
   return (
     <Fragment>
       <Helmet>
-        <title>Styles - React Images</title>
+        <title>Styles - React Select</title>
         <meta
           name="description"
           content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects using glam"
