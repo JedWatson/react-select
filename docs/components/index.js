@@ -1,5 +1,6 @@
 // @flow
 import md from '../markdown/renderer';
+import ComponentPropTypes from './proptypes';
 
 export default function Components() {
   return md`
@@ -16,35 +17,36 @@ export default function Components() {
 
     Props
 
-    \`children:\` \`React Element\`
+    ${ComponentPropTypes.ClearIndicator}
 
-    \`innerProps:\` \`any\`
-
-    \`isFocused:\` \`boolean\`
-
-    \`isRtl:\` \`boolean\`
 
     ### Control
 
     Props
 
-    \`children:\` \`Node\`
-
-    \`getStyles:\` \`(string, any) => object\`
-
-    \`isDisabled\` \`boolean\`
-
-    \`isFocused\` \`boolean\`
-
-    \`innerProps\` \`object\`
+    ${ComponentPropTypes.Control}
 
     ### Dropdown Indicator
 
+    ${ComponentPropTypes.DropdownIndicator}
+
 
     ### Group
+
+    ${ComponentPropTypes.Group}
+
     ### GroupHeading
+
+    ${ComponentPropTypes.GroupHeading}
+
     ### IndicatorsContainer
+
+    ${ComponentPropTypes.IndicatorsContainer}
+    
     ### IndicatorsSeparator
+
+    ${ComponentPropTypes.IndicatorSeparator}
+
     ### Input
     ### LoadingIndicator
     ### Menu

@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import React, { type Node, type ComponentType } from 'react';
 
 import { className } from '../utils';
 import { Div } from '../primitives';
@@ -8,7 +8,7 @@ import { type PropsWithStyles } from '../types';
 
 type ComponentProps = {
   children: Node,
-  Heading: typeof GroupHeading,
+  Heading: ComponentType<any>,
   headingProps: {
     'aria-labelledby': string,
   },
