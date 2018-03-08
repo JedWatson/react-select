@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 
 import md from '../markdown/renderer';
+import ComponentPropTypes from './proptypes';
 
 export default function Components() {
   return (
@@ -25,6 +26,7 @@ export default function Components() {
         Indicator for clearing values in the control.
 
 
+<<<<<<< HEAD
         Props
 
         \`children:\` \`React Element\`
@@ -32,11 +34,16 @@ export default function Components() {
         \`innerProps:\` \`any\`
 
         \`isFocused:\` \`boolean\`
+=======
+    ${ComponentPropTypes.ClearIndicator}
+
+>>>>>>> f6104eb... added proptypes file to render prop definition to prettyprop, started adding prop docs to components/index doc file
 
         \`isRtl:\` \`boolean\`
 
         ### Control
 
+<<<<<<< HEAD
         Props
 
         \`children:\` \`Node\`
@@ -51,6 +58,46 @@ export default function Components() {
 
         ### Dropdown Indicator
 
+=======
+    ${ComponentPropTypes.Control}
+
+    ### Dropdown Indicator
+
+    ${ComponentPropTypes.DropdownIndicator}
+
+
+    ### Group
+
+    ${ComponentPropTypes.Group}
+
+    ### GroupHeading
+
+    ${ComponentPropTypes.GroupHeading}
+
+    ### IndicatorsContainer
+
+    ${ComponentPropTypes.IndicatorsContainer}
+    
+    ### IndicatorsSeparator
+
+    ${ComponentPropTypes.IndicatorSeparator}
+
+    ### Input
+    ### LoadingIndicator
+    ### Menu
+    ### MenuList
+    ### LoadingMessage
+    ### NoOptionsMessage
+    ### MultiValue
+    ### MultiValueContainer
+    ### MultiValueLabel
+    ### MultiValueRemove
+    ### Option
+    ### Placeholder
+    ### SelectContainer
+    ### SingleValue
+    ### ValueContainer
+>>>>>>> f6104eb... added proptypes file to render prop definition to prettyprop, started adding prop docs to components/index doc file
 
         ### Group
         ### GroupHeading
