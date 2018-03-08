@@ -1,24 +1,16 @@
 // @flow
 
 import React from 'react';
-import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-
+import md from '../../markdown/renderer';
 import {
   AnimatedMulti,
-  AsyncCallbacks,
-  AsyncCreatable,
-  AsyncPromises,
   BasicSingle,
   BasicGrouped,
   BasicMulti,
   Experimental,
   StyledMulti,
   StyledSingle,
-  CreatableAdvanced,
-  CreatableInputOnly,
-  CreatableMulti,
-  CreatableSingle,
 } from '../../examples';
 
 export default function Home() {
@@ -108,86 +100,6 @@ export default function Home() {
     </ExampleWrapper>
   )}
 
-  ## Creatable
-
-  ${(
-    <ExampleWrapper
-      label="Creatable Example"
-      urlPath="docs/home/examples/CreatableSingle.js"
-    >
-      <CreatableSingle />
-    </ExampleWrapper>
-  )}
-
-  ${(
-    <ExampleWrapper
-      label="Creatable Multiselect Example"
-      urlPath="docs/home/examples/CreatableMulti.js"
-    >
-      <CreatableMulti />
-    </ExampleWrapper>
-  )}
-
-  ${(
-    <ExampleWrapper
-      label="Advanced Example"
-      urlPath="docs/home/examples/CreatableAdvanced.js"
-    >
-      <CreatableAdvanced />
-    </ExampleWrapper>
-  )}
-
-  > This example uses the \`onCreateOption\` prop to handle new options.
-
-  > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
-
-  ${(
-    <ExampleWrapper
-      label="Async Creatable Example"
-      urlPath="docs/home/examples/AsyncCreatable.js"
-    >
-      <AsyncCreatable />
-    </ExampleWrapper>
-  )}
-
-  > This example uses the combined async + creatable variant, imported from \`react-select/lib/AsyncCreatable\`
-
-  ${(
-    <ExampleWrapper
-      label="Multi-select text input"
-      urlPath="docs/home/examples/CreatableInputOnly.js"
-    >
-      <CreatableInputOnly />
-    </ExampleWrapper>
-  )}
-
-  > This example applies several customisations to produce a text input that has no menu but allows multiple values to be entered.
-
-  ## Async
-
-  Use the Async component to load options from a remote source as the user types.
-
-  ~~~jsx
-  import { Async } from 'react-select'
-  ~~~
-
-  ${(
-    <ExampleWrapper
-      label="Callbacks"
-      urlPath="docs/home/examples/AsyncCallbacks.js"
-    >
-      <AsyncCallbacks />
-    </ExampleWrapper>
-  )}
-
-  ${(
-    <ExampleWrapper
-      label="Promises"
-      urlPath="docs/home/examples/AsyncPromises.js"
-    >
-      <AsyncPromises />
-    </ExampleWrapper>
-  )}
   ## Experimental
 
   Wild experiments with react-select v2
