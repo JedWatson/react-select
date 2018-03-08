@@ -8,7 +8,7 @@ export default function Api() {
   return (
     <Fragment>
       <Helmet>
-        <title>API - React Images</title>
+        <title>API - React Select</title>
         <meta
           name="description"
           content="The react-select property API documentation."
