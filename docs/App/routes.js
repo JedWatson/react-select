@@ -1,10 +1,10 @@
-import Home from '../home';
-import Api from '../api';
-import Styles from '../styles';
-import Components from '../components';
-import Async from '../async';
-import Creatable from '../creatable';
-import Advanced from '../advanced';
+import Home from '../pages/home';
+import Api from '../pages/api';
+import Styles from '../pages/styles';
+import Components from '../pages/components';
+import Async from '../pages/async';
+import Creatable from '../pages/creatable';
+import Advanced from '../pages/advanced';
 
 export default {
   '/home': Home,
