@@ -83,7 +83,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom ClearIndicator Example"
-        urlPath="docs/examples/CustomClearIndicator.js">
+        urlPath="docs/examples/CustomClearIndicator.js"
+        >
         <CustomClearIndicator/>
       </ExampleWrapper>
     }
@@ -97,7 +98,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Control Example"
-        urlPath="docs/examples/CustomControl.js">
+        urlPath="docs/examples/CustomControl.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -110,7 +112,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Dropdown Indicator Example"
-        urlPath="docs/examples/CustomDropdownIndicator.js">
+        urlPath="docs/examples/CustomDropdownIndicator.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -124,7 +127,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Group Example"
-        urlPath="docs/examples/CustomGroup.js">
+        urlPath="docs/examples/CustomGroup.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -136,7 +140,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom GroupHeading Example"
-        urlPath="docs/examples/CustomGroupHeading.js">
+        urlPath="docs/examples/CustomGroupHeading.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -153,7 +158,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom IndicatorsContainer Example"
-        urlPath="docs/examples/CustomIndicatorsContainer.js">
+        urlPath="docs/examples/CustomIndicatorsContainer.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -166,7 +172,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom IndicatorSeparator Example"
-        urlPath="docs/examples/CustomIndicatorSeparator.js">
+        urlPath="docs/examples/CustomIndicatorSeparator.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -183,7 +190,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Input Example"
-        urlPath="docs/examples/CustomInput.js">
+        urlPath="docs/examples/CustomInput.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -196,7 +204,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom LoadingIndicator Example"
-        urlPath="docs/examples/CustomLoadingIndicator.js">
+        urlPath="docs/examples/CustomLoadingIndicator.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -210,7 +219,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Menu Example"
-        urlPath="docs/examples/CustomMenu.js">
+        urlPath="docs/examples/CustomMenu.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -222,7 +232,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom MenuList Example"
-        urlPath="docs/examples/CustomMenuList.js">
+        urlPath="docs/examples/CustomMenuList.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -235,7 +246,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom LoadingMessage Example"
-        urlPath="docs/examples/CustomLoadingMessage.js">
+        urlPath="docs/examples/CustomLoadingMessage.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -247,7 +259,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom NoOptionsMessage Example"
-        urlPath="docs/examples/CustomNoOptionsMessage.js">
+        urlPath="docs/examples/CustomNoOptionsMessage.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -261,7 +274,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom MultiValue Example"
-        urlPath="docs/examples/CustomMultiValue.js">
+        urlPath="docs/examples/CustomMultiValue.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -273,7 +287,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom MultiValueContainer Example"
-        urlPath="docs/examples/CustomMultiValueContainer.js">
+        urlPath="docs/examples/CustomMultiValueContainer.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -286,7 +301,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom MultiValueLabel Example"
-        urlPath="docs/examples/CustomMultiValueLabel.js">
+        urlPath="docs/examples/CustomMultiValueLabel.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -299,7 +315,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom MultiValueRemove Example"
-        urlPath="docs/examples/CustomMultiValueRemove.js">
+        urlPath="docs/examples/CustomMultiValueRemove.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -311,7 +328,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Option Example"
-        urlPath="docs/examples/CustomOption.js">
+        urlPath="docs/examples/CustomOption.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -325,7 +343,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom Placeholder Example"
-        urlPath="docs/examples/CustomPlaceholder.js">
+        urlPath="docs/examples/CustomPlaceholder.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -337,7 +356,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom SelectContainer Example"
-        urlPath="docs/examples/CustomSelectContainer.js">
+        urlPath="docs/examples/CustomSelectContainer.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -349,7 +369,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom SingleValue Example"
-        urlPath="docs/examples/CustomSingleValue.js">
+        urlPath="docs/examples/CustomSingleValue.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
@@ -361,7 +382,8 @@ export default function Components() {
     ${
       <ExampleWrapper
         label="Custom ValueContainer Example"
-        urlPath="docs/examples/CustomValueContainer.js">
+        urlPath="docs/examples/CustomValueContainer.js"
+        >
         <ComingSoon/>
       </ExampleWrapper>
     }
