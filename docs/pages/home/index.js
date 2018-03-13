@@ -45,7 +45,11 @@ export default function Home() {
   ~~~
 
   ${(
-    <ExampleWrapper label="Single" urlPath="docs/examples/BasicSingle.js">
+    <ExampleWrapper
+      label="Single"
+      urlPath="docs/examples/BasicSingle.js"
+      raw={require('!!raw-loader!../../examples/BasicSingle.js')}
+    >
       <BasicSingle />
     </ExampleWrapper>
   )}
@@ -54,13 +58,18 @@ export default function Home() {
     <ExampleWrapper
       label="Grouped"
       urlPath="docs/examples/BasicGrouped.js"
+      raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
     >
       <BasicGrouped />
     </ExampleWrapper>
   )}
 
   ${(
-    <ExampleWrapper label="Multi" urlPath="docs/examples/BasicMulti.js">
+    <ExampleWrapper
+      label="Multi"
+      urlPath="docs/examples/BasicMulti.js"
+      raw={require('!!raw-loader!../../examples/BasicMulti.js')}
+    >
       <BasicMulti />
     </ExampleWrapper>
   )}
@@ -75,7 +84,9 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Animation"
-      urlPath="docs/home/examples/AnimatedMulti.js"
+      urlPath="docs/examples/AnimatedMulti.js"
+      raw={require('!!raw-loader!../../examples/AnimatedMulti.js')}
+
     >
       <AnimatedMulti />
     </ExampleWrapper>
@@ -86,7 +97,11 @@ export default function Home() {
   Style individual components with custom css using the \`styles\` prop.
 
   ${(
-    <ExampleWrapper label="Single" urlPath="docs/examples/StyledSingle.js">
+    <ExampleWrapper
+      label="Single"
+      urlPath="docs/examples/StyledSingle.js"
+      raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+    >
       <StyledSingle />
     </ExampleWrapper>
   )}
@@ -95,6 +110,7 @@ export default function Home() {
     <ExampleWrapper
       label="Multi Select"
       urlPath="docs/examples/StyledMulti.js"
+      raw={require('!!raw-loader!../../examples/StyledMulti.js')}
     >
       <StyledMulti />
     </ExampleWrapper>
@@ -108,7 +124,8 @@ export default function Home() {
     <ExampleWrapper
       isEditable={false}
       label="Date Picker"
-      urlPath="docs/examples/Datepicker.js"
+      urlPath="docs/examples/Experimental.js"
+      raw={require('!!raw-loader!../../examples/Experimental.js')}
     >
       <Experimental />
     </ExampleWrapper>
