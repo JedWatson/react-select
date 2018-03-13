@@ -2,6 +2,10 @@ import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 
 import md from '../../markdown/renderer';
+import ExampleWrapper from '../../ExampleWrapper';
+import {
+  CustomClearIndicator
+} from '../../examples';
 
 export default function Components() {
   return (
@@ -88,7 +92,15 @@ export default function Components() {
     * When the select has no value
     * When the select is loading
 
-        \`children:\` \`Node\`
+    ${
+      <ExampleWrapper
+        label="CustomClearIndicator"
+        urlPath="docs/examples/CustomClearIndicator.js">
+        <CustomClearIndicator/>
+      </ExampleWrapper>
+    }
+
+    ### Control
 
 
     The highest level wrapper around the components. It is responsible for the
@@ -110,9 +122,6 @@ export default function Components() {
     Component that renders the data of a group.
 
     ### IndicatorsContainer
-
-    \`\`
-
 
     Wraps the indicators. This is one of the two components directly under the
     control. The indicators that \`react-select\` will check to render by are:

@@ -45,7 +45,7 @@ export default function Home() {
   ~~~
 
   ${(
-    <ExampleWrapper label="Single" urlPath="docs/home/examples/BasicSingle.js">
+    <ExampleWrapper label="Single" urlPath="docs/examples/BasicSingle.js">
       <BasicSingle />
     </ExampleWrapper>
   )}
@@ -53,14 +53,14 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Grouped"
-      urlPath="docs/home/examples/BasicGrouped.js"
+      urlPath="docs/examples/BasicGrouped.js"
     >
       <BasicGrouped />
     </ExampleWrapper>
   )}
 
   ${(
-    <ExampleWrapper label="Multi" urlPath="docs/home/examples/BasicMulti.js">
+    <ExampleWrapper label="Multi" urlPath="docs/examples/BasicMulti.js">
       <BasicMulti />
     </ExampleWrapper>
   )}
@@ -86,7 +86,7 @@ export default function Home() {
   Style individual components with custom css using the \`styles\` prop.
 
   ${(
-    <ExampleWrapper label="Single" urlPath="docs/home/examples/StyledSingle.js">
+    <ExampleWrapper label="Single" urlPath="docs/examples/StyledSingle.js">
       <StyledSingle />
     </ExampleWrapper>
   )}
@@ -94,7 +94,7 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Multi Select"
-      urlPath="docs/home/examples/StyledMulti.js"
+      urlPath="docs/examples/StyledMulti.js"
     >
       <StyledMulti />
     </ExampleWrapper>
@@ -108,7 +108,7 @@ export default function Home() {
     <ExampleWrapper
       isEditable={false}
       label="Date Picker"
-      urlPath="docs/home/examples/Datepicker.js"
+      urlPath="docs/examples/Datepicker.js"
     >
       <Experimental />
     </ExampleWrapper>
