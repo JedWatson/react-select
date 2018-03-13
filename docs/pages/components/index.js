@@ -1,5 +1,10 @@
 // @flow
+import React from 'react';
 import md from '../../markdown/renderer';
+import ExampleWrapper from '../../ExampleWrapper';
+import {
+  CustomClearIndicator
+} from '../../examples';
 
 export default function Components() {
   return md`
@@ -73,6 +78,14 @@ export default function Components() {
     * When the select has no value
     * When the select is loading
 
+    ${
+      <ExampleWrapper
+        label="CustomClearIndicator"
+        urlPath="docs/examples/CustomClearIndicator.js">
+        <CustomClearIndicator/>
+      </ExampleWrapper>
+    }
+
     ### Control
 
 
@@ -96,9 +109,6 @@ export default function Components() {
 
     ### IndicatorsContainer
 
-    \`\`
-
-
     Wraps the indicators. This is one of the two components directly under the
     control. The indicators that \`react-select\` will check to render by are:
 
@@ -108,7 +118,7 @@ export default function Components() {
 
     ### IndicatorSeparator
 
-    Component directly to the the inner side 
+    Component directly to the the inner side
 
     ### Input
     ### LoadingIndicator
