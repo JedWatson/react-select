@@ -158,7 +158,7 @@ export type Props = {
   value: ValueType,
 };
 
-const defaultProps = {
+export const defaultProps = {
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),

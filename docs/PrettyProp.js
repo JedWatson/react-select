@@ -126,14 +126,15 @@ const Default = props => (
   />
 );
 
-const PrettyProp = ({
-  defaultValue,
-  description,
-  isRequired,
-  name,
-  type,
-  typeDefinition,
-}: Props) => {
+const PrettyProp = (props: Props) => {
+  const {
+    defaultValue,
+    description,
+    isRequired,
+    name,
+    type,
+    typeDefinition,
+  } = props;
   const simple = typeof description === 'string';
   const descriptionNode = simple ? <p>{description}</p> : description;
 
