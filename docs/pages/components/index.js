@@ -102,9 +102,9 @@ export default function Components() {
 
     ### Control
 
-
-    The highest level wrapper around the components. It is responsible for the
-    positioning of the \`ValueContainer\` and \`IndicatorsContainer\`.
+    The second highest level wrapper around the components. It is responsible for the
+    positioning of the \`ValueContainer\` and \`IndicatorsContainer\`. It is followed
+    by the Menu.
 
     ### Dropdown Indicator
 
@@ -132,26 +132,81 @@ export default function Components() {
 
     ### IndicatorSeparator
 
-    Component directly to the the inner side
+    Component directly to the the inner side of the Dropdown Indicator. By default
+    it is a line to act as a visual separator.
 
     ### Input
+
+    Input to render when an input is required. If the select is not searchable,
+    a dummy input is rendered instead. If the select is disabled, a div of the
+    correct size and shape is rendered.
+
+    All provided inputs are given aria attributes to ensure the input is accessible
+    by default.
+
     ### LoadingIndicator
+
+    Loading indicator to be displayed in the Indicators Container when \`isLoading]\`
+    is true. By default it is three dots.
+
     ### Menu
+
+    The wrapper for the dropdown menu in the select. It is responsible for wrapping
+    the menu items. If you want to modify the options themselves, you should use
+    the \`Option\` component.
+
     ### MenuList
+
+    Inner wrapper for the menu. It directly wraps around the returned options.
+
     ### LoadingMessage
+
+    Message to display in the menu when there are no options and \`isLoading\` is
+    true. By default it is 'Loading...'
+
     ### NoOptionsMessage
+
+    Message to be displayed in the menu if there are no options passed in.
+
     ### MultiValue
-    ### MultiValueContainer
+
+    Component used to display a selected option in the input when \`isMult\` is
+    true. Takes responsibility for rendering the \`MultiValueContainer\`,
+    \`MultiValueLabel\`, and \`MultiValueRemove\`.
+
+    #### MultiValueContainer
+
+    Wraps the Label and Remove in a Multi Value
+
     ### MultiValueLabel
+
+    Receives the value of the option and is responsible for rendering it to the
+    input.
+
     ### MultiValueRemove
+
+    Receives an onClick to remove the selected item. By default it is a cross.
+
     ### Option
+
+    Component responsible for displaying an option in the menu.
+
     ### Placeholder
+
+    Component to be displayed in the input when nothing is selected. By default
+    it is the text 'Select...'
+
     ### SelectContainer
+
+    The wrapper around the entire select component.
+
     ### SingleValue
-    ### ValueContainer`}
-  </Fragment>
-  );
+
+    The component that displays the selected value in the input for a single select.
+
+    ### ValueContainer
+
+    Container responsible for loading the placeholder value and the input.
+    `}
+  </Fragment>);
 }
-
-
-    //
