@@ -1,6 +1,6 @@
 const selector = require('../fixtures/selectors.json');
 
-const viewport = ['macbook-15'];
+const viewport = ['macbook-15', 'iphone-6'];
 
 describe('New Select', function() {
   before(function() {
@@ -93,6 +93,34 @@ describe('New Select', function() {
           .should('be.visible')
           .and('have.attr', 'aria-expanded', 'true');
       });
+      it('Should not display the options menu when touched and dragged ' + view, function() {
+          cy
+            .get(selector.toggleMenuSingle)
+            .click()
+            .click()
+            .get(selector.menuSingle)
+            .should('not.be.visible')
+            // to be sure it says focus and the menu is closed
+            .get(selector.singleSelectSingleInput)
+            .trigger('mousedown')
+            .get(selector.menuSingle)
+            .should('not.be.visible');
+      });
+      it('Should not display menu when clearing using backspace - assuming autofocus' + view, function() {
+        cy
+            .get(selector.singleSelectGroupedInput)
+            .click({ force: true })
+            .get(selector.toggleMenuGrouped)
+            .click()
+            .get(selector.singleSelectGroupedInput)
+            // to be sure it says focus and the menu is closed
+            .type('{backspace}', { force: true })
+            .type('{backspace}', { force: true })
+            .get(selector.placeHolderGrouped)
+            .should('contain', 'Select...')
+            .get(selector.menuGrouped)
+            .should('not.be.visible');
+      });
     });
   });
 
@@ -111,8 +139,8 @@ describe('New Select', function() {
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
               expect($defaultValue).to.have.length(2);
-              expect($defaultValue.eq(0)).to.contain('Blue');
-              expect($defaultValue.eq(1)).to.contain('Green');
+              expect($defaultValue.eq(0)).to.contain('Purple');
+              expect($defaultValue.eq(1)).to.contain('Red');
             });
 
           cy
@@ -121,12 +149,28 @@ describe('New Select', function() {
             .get(selector.multiSelectDefaultValues)
             .then(function($defaultValue) {
               expect($defaultValue).to.have.length(1);
-              expect($defaultValue.eq(0)).to.contain('Green');
+              expect($defaultValue.eq(0)).to.contain('Red');
             })
             .get(selector.menuMulti)
             .should('not.be.visible');
         }
       );
+      it(
+        'Should be able to remove values on keyboard actions ' + view, function() {
+          cy
+            .get(selector.multiSelectInput)
+            .click()
+            .type('{backspace}', { force: true })
+            .get(selector.multiSelectDefaultValues)
+            .then(function($defaultValue) {
+              expect($defaultValue).to.have.length(1);
+              expect($defaultValue.eq(0)).to.contain('Purple');
+            })
+            .get(selector.multiSelectInput)
+            .type('{backspace}', { force: true })
+            .get(selector.placeHolderMulti)
+            .should('contain', 'Select...');
+        });
       it(
         'Should select different options using - click and enter ' + view,
         function() {
