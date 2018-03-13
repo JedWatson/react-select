@@ -5,6 +5,7 @@ import ExampleWrapper from '../../ExampleWrapper';
 import md from '../../markdown/renderer';
 import {
   AsyncCallbacks,
+  AsyncMulti,
   AsyncPromises,
 } from '../../examples';
 
@@ -21,7 +22,7 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Callbacks"
-        urlPath="docs/home/examples/AsyncCallbacks.js"
+        urlPath="docs/examples/AsyncCallbacks.js"
       >
         <AsyncCallbacks />
       </ExampleWrapper>
@@ -30,9 +31,18 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Promises"
-        urlPath="docs/home/examples/AsyncPromises.js"
+        urlPath="docs/examples/AsyncPromises.js"
       >
         <AsyncPromises />
+      </ExampleWrapper>
+    )}
+
+    ${(
+      <ExampleWrapper
+        label="Async MultiSelect"
+        urlPath="docs/examples/AsyncMulti.js"
+      >
+        <AsyncMulti/>
       </ExampleWrapper>
     )}
   `;
