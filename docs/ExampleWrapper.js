@@ -2,8 +2,8 @@
 
 import glam from 'glam';
 import React, { Component } from 'react';
-import CodeSandboxer from 'react-codesandboxer';
-
+import CodeSandboxer, { replaceImports } from 'react-codesandboxer';
+import { CodeBlock } from './markdown/renderer';
 import pkg from '../package.json';
 import { colors } from '../src/theme';
 import Svg from './Svg';
@@ -15,15 +15,97 @@ const gitInfo = {
   host: 'github',
 };
 
+const importReplacements = [
+  ['src/*', 'react-select/lib/'],
+  ['src', 'react-select'],
+];
+
 const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
   gitInfo.branch
 }`;
 
 export default class ExampleWrapper extends Component {
-  state = { isHovered: false };
+  state = { isHovered: false, showCode: false, };
   static defaultProps = { isEditable: true };
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
+  renderCodeSample = () => {
+    let { raw } = this.props;
+    let { showCode } = this.state;
+
+    if (!showCode || !raw) {
+      return null;
+    } else {
+      return (
+        <CodeBlock
+          codeinfo={['jsx']}
+          /*
+            CodeSandboxer currently does not export its tools to resolve absolute
+            paths, so we replace on relative paths. This will cause incorrect
+            displays if our examples are not from docs/examples/file.js
+          */
+          literal={replaceImports(raw, [
+            ['../../src/*', 'react-select/lib/'],
+            ['../../src', 'react-select'],
+          ])}
+        />
+      );
+    }
+  }
+
+  renderSourceViewOption = () => {
+    let { raw } = this.props;
+    let { showCode } = this.state;
+
+    if (!raw) {
+      return (
+        <Action
+          href={`${sourceUrl}/${this.props.urlPath}`}
+          tag="a"
+          target="_blank"
+          title="View Source"
+        >
+          <SourceIcon />
+        </Action>
+      );
+    } else {
+      return (
+        <Action
+          onClick={() => this.setState({ showCode: !showCode })}
+          title="View Source"
+        >
+          <SourceIcon />
+        </Action>
+      );
+    }
+  }
+
+  renderCSBButton = () => {
+    let { isEditable, raw, urlPath } = this.props;
+
+    if (isEditable) {
+      return (
+        <CodeSandboxer
+          example={raw}
+          examplePath={urlPath}
+          pkgJSON={pkg}
+          gitInfo={gitInfo}
+          importReplacements={importReplacements}
+          dependencies={{
+            [pkg.name]: pkg.version,
+          }}
+        >
+          {({ isLoading }) => (
+            <Action title="Edit in CodeSandbox">
+              {isLoading ? <Spinner /> : <NewWindowIcon />}
+            </Action>
+          )}
+        </CodeSandboxer>
+      );
+    } else {
+      return null;
+    }
+  }
 
   render() {
     const { isHovered } = this.state;
@@ -33,36 +115,11 @@ export default class ExampleWrapper extends Component {
         <ExampleHeading>
           <h4>{this.props.label}</h4>
           <Actions show={isHovered}>
-            <Action
-              href={`${sourceUrl}/${this.props.urlPath}`}
-              tag="a"
-              target="_blank"
-              title="View Source"
-            >
-              <SourceIcon />
-            </Action>
-            {this.props.isEditable ? (
-              <CodeSandboxer
-                examplePath={this.props.urlPath}
-                pkgJSON={pkg}
-                gitInfo={gitInfo}
-                importReplacements={[
-                  ['src/*', 'react-select/lib/'],
-                  ['src', 'react-select'],
-                ]}
-                dependencies={{
-                  [pkg.name]: pkg.version,
-                }}
-              >
-                {({ isLoading }) => (
-                  <Action title="Edit in CodeSandbox">
-                    {isLoading ? <Spinner /> : <NewWindowIcon />}
-                  </Action>
-                )}
-              </CodeSandboxer>
-            ) : null}
+            {this.renderSourceViewOption()}
+            {this.renderCSBButton()}
           </Actions>
         </ExampleHeading>
+        {this.renderCodeSample()}
         {this.props.children}
       </div>
     );
