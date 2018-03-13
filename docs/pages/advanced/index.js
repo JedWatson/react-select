@@ -2,7 +2,7 @@
 import React from 'react';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { OnSelectResetsInput, BasicGrouped } from '../../examples';
+import { OnSelectResetsInput, BasicGrouped, CreateFilter } from '../../examples';
 
 export default function Advanced() {
   return md`
@@ -19,6 +19,12 @@ export default function Advanced() {
 
     Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
+    ${(
+      <ExampleWrapper label="Custom filterOptions with createFilter">
+        <CreateFilter/>
+      </ExampleWrapper>
+    )}
+
     ### filterOptions
     If you really would like to rewrite the filtration logic from the ground up, simply declare a new filterOptions function to be passed in as a prop to react-select.
     For details on the shape of the filterOptions prop, please see the proptypes in the api docs here[/api#proptypes].
@@ -33,26 +39,26 @@ export default function Advanced() {
     )}
 
     ${(
-      <ExampleWrapper label="custom formatGroupLabel fn">
+      <ExampleWrapper label="custom formatGroupLabel function example">
         <BasicGrouped/>
       </ExampleWrapper>
     )}
 
     ${(
-      <ExampleWrapper label="custom getOptionLabel fn">
-
+      <ExampleWrapper label="custom getOptionLabel function example">
+        <div>Coming Soon!</div>
       </ExampleWrapper>
     )}
 
     ${(
-      <ExampleWrapper label="custom getOptionValue fn">
-
+      <ExampleWrapper label="custom getOptionValue function example">
+        <div>Coming Soon!</div>
       </ExampleWrapper>
     )}
 
     ${(
-      <ExampleWrapper label="custom isOptionDisabled fn">
-
+      <ExampleWrapper label="custom isOptionDisabled function example">
+        <div>Coming Soon!</div>
       </ExampleWrapper>
     )}
 
