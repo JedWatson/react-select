@@ -23,6 +23,7 @@ export default function Async() {
       <ExampleWrapper
         label="Callbacks"
         urlPath="docs/examples/AsyncCallbacks.js"
+        raw={require('!!raw-loader!../../examples/AsyncCallbacks.js')}
       >
         <AsyncCallbacks />
       </ExampleWrapper>
@@ -32,6 +33,7 @@ export default function Async() {
       <ExampleWrapper
         label="Promises"
         urlPath="docs/examples/AsyncPromises.js"
+        raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
       >
         <AsyncPromises />
       </ExampleWrapper>
@@ -41,6 +43,7 @@ export default function Async() {
       <ExampleWrapper
         label="Async MultiSelect"
         urlPath="docs/examples/AsyncMulti.js"
+        raw={require('!!raw-loader!../../examples/AsyncMulti.js')}
       >
         <AsyncMulti/>
       </ExampleWrapper>

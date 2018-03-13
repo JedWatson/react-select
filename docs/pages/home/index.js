@@ -4,10 +4,13 @@ import React from 'react';
 import ExampleWrapper from '../../ExampleWrapper';
 import md from '../../markdown/renderer';
 import {
+  AsyncCallbacks,
+  AsyncPromises,
   AnimatedMulti,
   BasicSingle,
   BasicGrouped,
   BasicMulti,
+  CreatableSingle,
   Experimental,
   StyledMulti,
   StyledSingle,
@@ -115,6 +118,51 @@ export default function Home() {
       <StyledMulti />
     </ExampleWrapper>
   )}
+
+  # Async
+  Use the Async component to load options from a remote source as the user types.
+
+  ~~~jsx
+  import Async from 'react-select/lib/Async';
+  ~~~
+
+  ${(
+    <ExampleWrapper
+      label="Callbacks"
+      urlPath="docs/examples/AsyncCallbacks.js"
+      raw={require('!!raw-loader!../../examples/AsyncCallbacks.js')}
+    >
+      <AsyncCallbacks />
+    </ExampleWrapper>
+  )}
+
+  ${(
+    <ExampleWrapper
+      label="Promises"
+      urlPath="docs/examples/AsyncPromises.js"
+      raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+    >
+      <AsyncPromises />
+    </ExampleWrapper>
+  )}
+
+
+  # Creatable
+
+  ~~~jsx
+  import Creatable from 'react-select/lib/Creatable';
+  ~~~
+
+  ${(
+    <ExampleWrapper
+      label="Creatable Example"
+      urlPath="docs/home/examples/CreatableSingle.js"
+      raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
+    >
+      <CreatableSingle />
+    </ExampleWrapper>
+  )}
+
 
   ## Experimental
 

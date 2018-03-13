@@ -180,7 +180,7 @@ export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }) => {
     </SyntaxHighlighter>
   );
 };
-CodeBlock.defaultProps = { language: 'jsx' };
+CodeBlock.defaultProps = { codeinfo: [], language: 'jsx' };
 
 const Blockquote = ({ nodeKey, ...props }) => (
   <blockquote

@@ -24,6 +24,7 @@ export default function Creatable() {
       <ExampleWrapper
         label="Creatable Example"
         urlPath="docs/home/examples/CreatableSingle.js"
+        raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
       >
         <CreatableSingle />
       </ExampleWrapper>
@@ -33,6 +34,7 @@ export default function Creatable() {
       <ExampleWrapper
         label="Creatable Multiselect Example"
         urlPath="docs/home/examples/CreatableMulti.js"
+        raw={require('!!raw-loader!../../examples/CreatableMulti.js')}
       >
         <CreatableMulti />
       </ExampleWrapper>
@@ -42,6 +44,7 @@ export default function Creatable() {
       <ExampleWrapper
         label="Advanced Example"
         urlPath="docs/home/examples/CreatableAdvanced.js"
+        raw={require('!!raw-loader!../../examples/CreatableAdvanced.js')}
       >
         <CreatableAdvanced />
       </ExampleWrapper>
@@ -55,6 +58,7 @@ export default function Creatable() {
       <ExampleWrapper
         label="Async Creatable Example"
         urlPath="docs/home/examples/AsyncCreatable.js"
+        raw={require('!!raw-loader!../../examples/AsyncCreatable.js')}
       >
         <AsyncCreatable />
       </ExampleWrapper>
@@ -66,6 +70,7 @@ export default function Creatable() {
       <ExampleWrapper
         label="Multi-select text input"
         urlPath="docs/home/examples/CreatableInputOnly.js"
+        raw={require('!!raw-loader!../../examples/CreatableInputOnly.js')}
       >
         <CreatableInputOnly />
       </ExampleWrapper>

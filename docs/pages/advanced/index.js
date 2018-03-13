@@ -20,7 +20,11 @@ export default function Advanced() {
     Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
     ${(
-      <ExampleWrapper label="Custom filterOptions with createFilter">
+      <ExampleWrapper
+        label="Custom filterOptions with createFilter"
+        urlPath="docs/examples/CreateFilter.js"
+        raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+      >
         <CreateFilter/>
       </ExampleWrapper>
     )}
@@ -39,7 +43,11 @@ export default function Advanced() {
     )}
 
     ${(
-      <ExampleWrapper label="custom formatGroupLabel function example">
+      <ExampleWrapper
+        label="custom formatGroupLabel function example"
+        urlPath="docs/examples/BasicGrouped.js"
+        raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
+      >
         <BasicGrouped/>
       </ExampleWrapper>
     )}
@@ -85,6 +93,8 @@ export default function Advanced() {
     ${
       <ExampleWrapper
         label="onSelectResetsInput = false; closeMenuOnSelect = false"
+        urlPath="docs/examples/OnSelectResetsInput.js"
+        raw={require('!!raw-loader!../../examples/OnSelectResetsInput.js')}
       >
         <OnSelectResetsInput/>
       </ExampleWrapper>
