@@ -12,7 +12,10 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
+    "@atlaskit/docs": "^2.5.3",
     "classnames": "^2.2.5",
+    "extract-react-types": "^0.8.0",
+    "extract-react-types-loader": "^0.1.0",
     "glam": "^5.0.1",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
