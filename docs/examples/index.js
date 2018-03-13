@@ -7,6 +7,7 @@ export { default as BasicMulti } from './BasicMulti';
 export { default as BasicSingle } from './BasicSingle';
 export { default as CreatableAdvanced } from './CreatableAdvanced';
 export { default as CreatableInputOnly } from './CreatableInputOnly';
+export { default as CreateFilter } from './CreateFilter';
 export { default as CreatableMulti } from './CreatableMulti';
 export { default as CreatableSingle } from './CreatableSingle';
 export { default as CustomClearIndicator } from './CustomClearIndicator';
