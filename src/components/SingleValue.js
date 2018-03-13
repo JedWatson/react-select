@@ -6,10 +6,16 @@ import { colors, spacing } from '../theme';
 import { className } from '../utils';
 import { type PropsWithStyles } from '../types';
 
-type State = { isDisabled: boolean };
+type State = {
+  /** Whether this is disabled */
+  isDisabled: boolean
+};
 type ValueProps = {
+  /** The children to be rendered. */
   children: string,
+  /* I do not know what this does - Ben */
   data: any,
+    /** Props passed to the wrapping element for the group. */
   innerProps: any,
 };
 export type SingleValueProps = PropsWithStyles & ValueProps & State;

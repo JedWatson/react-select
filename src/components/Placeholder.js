@@ -7,7 +7,9 @@ import { Div } from '../primitives';
 import { type PropsWithStyles } from '../types';
 
 export type PlaceholderProps = PropsWithStyles & {
+  /** The children to be rendered. */
   children: Node,
+  /** props passed to the wrapping element for the group. */
   innerProps: { [string]: any },
 };
 

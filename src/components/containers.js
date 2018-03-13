@@ -10,10 +10,18 @@ import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 // Root Container
 // ==============================
 
-type ContainerState = { isDisabled: boolean, isRtl: boolean };
+type ContainerState = {
+  /** Whether the select is disabled. */
+  isDisabled: boolean,
+  /** Whether the text in the select is indented from right to left. */
+  isRtl: boolean
+};
+
 export type ContainerProps = PropsWithStyles &
   ContainerState & {
+    /** The children to be rendered. */
     children: Node,
+    /** Inner props to be passed down to the container. */
     innerProps: { onKeyDown: KeyboardEventHandler },
   };
 export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
@@ -39,9 +47,13 @@ export const SelectContainer = (props: ContainerProps) => {
 // ==============================
 
 export type ValueContainerProps = PropsWithStyles & {
+  /** Set when the value container should hold multiple values. This is important for styling. */
   isMulti: boolean,
+  /** Whether the value container currently holds a value. */
   hasValue: boolean,
+  /** Whether there should be a maximum height to the container */
   maxHeight: number,
+  /** The children to be rendered. */
   children: Node,
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
@@ -95,9 +107,15 @@ export class ValueContainer extends Component<ValueContainerProps> {
 // Indicator Container
 // ==============================
 
-type IndicatorsState = { isRtl: boolean };
+type IndicatorsState = {
+  /** Whether the text should be rendered right to left. */
+  isRtl: boolean
+};
 
-export type IndicatorContainerProps = PropsWithStyles & IndicatorsState & { children: Node };
+export type IndicatorContainerProps = PropsWithStyles & IndicatorsState & {
+  /** The children to be rendered. */
+  children: Node
+};
 
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
