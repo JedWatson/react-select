@@ -2,7 +2,6 @@
 import React from 'react';
 import md from '../../markdown/renderer';
 import { Props } from '@atlaskit/docs';
-import { CustomComponents } from '../../PropTypes';
 
 export default function Api() {
   return md`
@@ -50,9 +49,25 @@ export default function Api() {
     Even when commonProps are not listed in the prop types below, a custom component
     will still have access to them.
 
-    ## Public Props
+    ## Base Props
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/SelectPropTypes')} />}
+    These base props are those available to be passed to all select variants.
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Select')} />}
+
+    ## Async props
+
+    These props are included with in both the Async and AsyncCreatable select. For
+    more on using async selects, see the [async select documentation](/async)
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Async')} />}
+
+    ## Creatable props
+
+    These props are included with in both the Creatable and AsyncCreatable select. For
+    more on using creatable selects, see the [creatable select documentation](/creatable)
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Creatable')} />}
 
     ## Replacing Components
 
@@ -91,7 +106,8 @@ export default function Api() {
     ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Group')} />}
 
     ### GroupHeading
-    ${CustomComponents.GroupHeading}
+
+    Group Heading can be any component.
 
     ### IndicatorsContainer
 
