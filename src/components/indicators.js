@@ -109,6 +109,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
 // ==============================
 
 type SeparatorState = { isDisabled: boolean };
+
 export const indicatorSeparatorCSS = ({ isDisabled }: SeparatorState) => ({
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -116,6 +117,7 @@ export const indicatorSeparatorCSS = ({ isDisabled }: SeparatorState) => ({
   marginTop: spacing.baseUnit * 2,
   width: 1,
 });
+
 export const IndicatorSeparator = (props: IndicatorProps) => {
   const { getStyles, innerProps } = props;
   return (

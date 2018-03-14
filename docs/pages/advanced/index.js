@@ -2,20 +2,18 @@
 import React from 'react';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { OnSelectResetsInput, BasicGrouped, CreateFilter } from '../../examples';
+import { OnSelectResetsInput, BasicGrouped, CreateFilter, CustomFilterOptions, CustomGetOptionLabel, CustomIsOptionDisabled } from '../../examples';
 
 export default function Advanced() {
   return md`
     # Advanced
-
-    ## Custom Data Structure
 
     ## Custom Filter logic
     While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
 
     ### createFilter function
     React-Select exports a createFilter function that returns a filterOptions method. By using this, users can pick and choose bits of the filtration logic to customise,
-    without having to rewrite the logic wholesale. For a more indepth look at the createFilter function, please see the api docs here [/api#createFilter];
+    without having to rewrite the logic wholesale.
 
     Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
@@ -31,16 +29,20 @@ export default function Advanced() {
 
     ### filterOptions
     If you really would like to rewrite the filtration logic from the ground up, simply declare a new filterOptions function to be passed in as a prop to react-select.
-    For details on the shape of the filterOptions prop, please see the proptypes in the api docs here[/api#proptypes].
-
-    ## Replacing builtins
-    For a list of builtins that we expose, please see the API docs
+    For details on the shape of the filterOptions prop, please see the proptypes in the api docs [here](/api#prop-types).
 
     ${(
-      <a href="/api#builtins">
-        here
-      </a>
+      <ExampleWrapper
+        label="Custom filterOptions with createFilter"
+        urlPath="docs/examples/CreateFilter.js"
+        raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+      >
+        <CustomFilterOptions/>
+      </ExampleWrapper>
     )}
+
+    ## Replacing builtins
+    For a list of builtins that we expose, please see the API docs [here](/api#prop-types).
 
     ${(
       <ExampleWrapper
@@ -53,8 +55,12 @@ export default function Advanced() {
     )}
 
     ${(
-      <ExampleWrapper label="custom getOptionLabel function example">
-        <div>Coming Soon!</div>
+      <ExampleWrapper
+        label="custom getOptionLabel function example"
+        urlPath="docs/examples/CustomSingleValue.js"
+        raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+      >
+        <CustomGetOptionLabel/>
       </ExampleWrapper>
     )}
 
@@ -66,7 +72,7 @@ export default function Advanced() {
 
     ${(
       <ExampleWrapper label="custom isOptionDisabled function example">
-        <div>Coming Soon!</div>
+        <CustomIsOptionDisabled/>
       </ExampleWrapper>
     )}
 

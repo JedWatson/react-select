@@ -4,10 +4,29 @@ import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
-  CustomClearIndicator
+  CustomClearIndicator,
+  CustomDropdownIndicator,
+  CustomLoadingIndicator,
+  CustomLoadingMessage,
+  CustomIndicatorsContainer,
+  CustomIndicatorSeparator,
+  CustomNoOptionsMessage,
+  CustomMultiValueContainer,
+  CustomMultiValueRemove,
+  CustomMultiValueLabel,
+  CustomControl,
+  CustomGroup,
+  CustomInput,
+  CustomOption,
+  CustomMenu,
+  CustomMenuList,
+  CustomPlaceholder,
+  CustomSelectContainer,
+  CustomSingleValue,
+  CustomGroupHeading,
+  CustomValueContainer,
 } from '../../examples';
 
-const ComingSoon = () => (<div>Example Coming Soon!</div>);
 
 export default function Components() {
   return (
@@ -90,6 +109,8 @@ export default function Components() {
         * When the select has no value
         * When the select is loading
 
+        See [api docs](/api#clearindicator) for more details
+
         ${
           <ExampleWrapper
             label="Custom ClearIndicator Example"
@@ -106,12 +127,15 @@ export default function Components() {
         positioning of the \`ValueContainer\` and \`IndicatorsContainer\`. It is followed
         by the Menu.
 
+        See [api docs](/api#control) for more details
+
         ${
           <ExampleWrapper
             label="Custom Control Example"
             urlPath="docs/examples/CustomControl.js"
+            raw={require('!!raw-loader!../../examples/CustomControl.js')}
           >
-            <ComingSoon/>
+            <CustomControl/>
           </ExampleWrapper>
         }
 
@@ -120,12 +144,15 @@ export default function Components() {
         The indicator for opening the select, designed to indicate to users that
         this is a select. By default it is a chevron pointed down.
 
+        See [api docs](/api#dropdownindicator) for more details
+
         ${
           <ExampleWrapper
             label="Custom Dropdown Indicator Example"
             urlPath="docs/examples/CustomDropdownIndicator.js"
+            raw={require('!!raw-loader!../../examples/CustomDropdownIndicator.js')}
           >
-            <ComingSoon/>
+            <CustomDropdownIndicator/>
           </ExampleWrapper>
         }
 
@@ -135,12 +162,15 @@ export default function Components() {
         component is responsible both for mapping its options, as well as rendering
         its data into the GroupHeading.
 
+        See [api docs](/api#group) for more details
+
         ${
           <ExampleWrapper
             label="Custom Group Example"
             urlPath="docs/examples/CustomGroup.js"
+            raw={require('!!raw-loader!../../examples/CustomGroup.js')}
           >
-            <ComingSoon/>
+            <CustomGroup/>
           </ExampleWrapper>
         }
 
@@ -148,12 +178,15 @@ export default function Components() {
 
         Component that renders the data of a group.
 
+        See [api docs](/api#groupheading) for more details
+
         ${
           <ExampleWrapper
             label="Custom GroupHeading Example"
             urlPath="docs/examples/CustomGroupHeading.js"
+            raw={require('!!raw-loader!../../examples/CustomGroupHeading.js')}
           >
-            <ComingSoon/>
+            <CustomGroupHeading/>
           </ExampleWrapper>
         }
 
@@ -166,12 +199,15 @@ export default function Components() {
         * Loading Indicator
         * Dropdown Indicator
 
+        See [api docs](/api#indicatorscontainer) for more details
+
         ${
           <ExampleWrapper
             label="Custom IndicatorsContainer Example"
             urlPath="docs/examples/CustomIndicatorsContainer.js"
+            raw={require('!!raw-loader!../../examples/CustomIndicatorsContainer.js')}
           >
-            <ComingSoon/>
+            <CustomIndicatorsContainer />
           </ExampleWrapper>
         }
 
@@ -180,12 +216,15 @@ export default function Components() {
         Component directly to the the inner side of the Dropdown Indicator. By default
         it is a line to act as a visual separator.
 
+        See [api docs](/api#customindicatorseparator) for more details
+
         ${
           <ExampleWrapper
             label="Custom IndicatorSeparator Example"
             urlPath="docs/examples/CustomIndicatorSeparator.js"
+            raw={require('!!raw-loader!../../examples/CustomIndicatorSeparator.js')}
           >
-            <ComingSoon/>
+            <CustomIndicatorSeparator />
           </ExampleWrapper>
         }
 
@@ -198,12 +237,15 @@ export default function Components() {
         All provided inputs are given aria attributes to ensure the input is accessible
         by default.
 
+        See [api docs](/api#input) for more details
+
         ${
           <ExampleWrapper
             label="Custom Input Example"
             urlPath="docs/examples/CustomInput.js"
+            raw={require('!!raw-loader!../../examples/CustomInput.js')}
           >
-            <ComingSoon/>
+            <CustomInput/>
           </ExampleWrapper>
         }
 
@@ -212,12 +254,15 @@ export default function Components() {
         Loading indicator to be displayed in the Indicators Container when \`isLoading]\`
         is true. By default it is three dots.
 
+        See [api docs](/api#loadingindicator) for more details
+
         ${
           <ExampleWrapper
             label="Custom LoadingIndicator Example"
             urlPath="docs/examples/CustomLoadingIndicator.js"
+            raw={require('!!raw-loader!../../examples/CustomLoadingIndicator.js')}
           >
-            <ComingSoon/>
+            <CustomLoadingIndicator/>
           </ExampleWrapper>
         }
 
@@ -227,12 +272,15 @@ export default function Components() {
         the menu items. If you want to modify the options themselves, you should use
         the \`Option\` component.
 
+        See [api docs](/api#menu) for more details
+
         ${
           <ExampleWrapper
             label="Custom Menu Example"
             urlPath="docs/examples/CustomMenu.js"
+            raw={require('!!raw-loader!../../examples/CustomMenu.js')}
           >
-            <ComingSoon/>
+            <CustomMenu/>
           </ExampleWrapper>
         }
 
@@ -240,12 +288,15 @@ export default function Components() {
 
         Inner wrapper for the menu. It directly wraps around the returned options.
 
+        See [api docs](/api#menulist) for more details
+
         ${
           <ExampleWrapper
             label="Custom MenuList Example"
             urlPath="docs/examples/CustomMenuList.js"
+            raw={require('!!raw-loader!../../examples/CustomMenuList.js')}
           >
-            <ComingSoon/>
+            <CustomMenuList/>
           </ExampleWrapper>
         }
 
@@ -254,12 +305,15 @@ export default function Components() {
         Message to display in the menu when there are no options and \`isLoading\` is
         true. By default it is 'Loading...'
 
+        See [api docs](/api#loadingmessage) for more details
+
         ${
           <ExampleWrapper
             label="Custom LoadingMessage Example"
             urlPath="docs/examples/CustomLoadingMessage.js"
+            raw={require('!!raw-loader!../../examples/CustomLoadingMessage.js')}
           >
-            <ComingSoon/>
+            <CustomLoadingMessage/>
           </ExampleWrapper>
         }
 
@@ -267,12 +321,15 @@ export default function Components() {
 
         Message to be displayed in the menu if there are no options passed in.
 
+        See [api docs](/api#nooptionsmessage) for more details
+
         ${
           <ExampleWrapper
             label="Custom NoOptionsMessage Example"
             urlPath="docs/examples/CustomNoOptionsMessage.js"
+            raw={require('!!raw-loader!../../examples/CustomNoOptionsMessage.js')}
           >
-            <ComingSoon/>
+            <CustomNoOptionsMessage/>
           </ExampleWrapper>
         }
 
@@ -282,25 +339,19 @@ export default function Components() {
         true. Takes responsibility for rendering the \`MultiValueContainer\`,
         \`MultiValueLabel\`, and \`MultiValueRemove\`.
 
-        ${
-          <ExampleWrapper
-            label="Custom MultiValue Example"
-            urlPath="docs/examples/CustomMultiValue.js"
-          >
-            <ComingSoon/>
-          </ExampleWrapper>
-        }
-
         #### MultiValueContainer
 
         Wraps the Label and Remove in a Multi Value
+
+        See [api docs](/api#multivaluecontainer) for more details
 
         ${
           <ExampleWrapper
             label="Custom MultiValueContainer Example"
             urlPath="docs/examples/CustomMultiValueContainer.js"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueContainer.js')}
           >
-            <ComingSoon/>
+            <CustomMultiValueContainer/>
           </ExampleWrapper>
         }
 
@@ -309,12 +360,15 @@ export default function Components() {
         Receives the value of the option and is responsible for rendering it to the
         input.
 
+        See [api docs](/api#multivaluelabel) for more details
+
         ${
           <ExampleWrapper
             label="Custom MultiValueLabel Example"
             urlPath="docs/examples/CustomMultiValueLabel.js"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueLabel.js')}
           >
-            <ComingSoon/>
+            <CustomMultiValueLabel/>
           </ExampleWrapper>
         }
 
@@ -323,12 +377,15 @@ export default function Components() {
 
         Receives an onClick to remove the selected item. By default it is a cross.
 
+        See [api docs](/api#multivalueremove) for more details
+
         ${
           <ExampleWrapper
             label="Custom MultiValueRemove Example"
             urlPath="docs/examples/CustomMultiValueRemove.js"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueRemove.js')}
           >
-            <ComingSoon/>
+            <CustomMultiValueRemove/>
           </ExampleWrapper>
         }
 
@@ -336,12 +393,15 @@ export default function Components() {
 
         Component responsible for displaying an option in the menu.
 
+        See [api docs](/api#option) for more details
+
         ${
           <ExampleWrapper
             label="Custom Option Example"
             urlPath="docs/examples/CustomOption.js"
+            raw={require('!!raw-loader!../../examples/CustomOption.js')}
           >
-            <ComingSoon/>
+            <CustomOption/>
           </ExampleWrapper>
         }
 
@@ -351,12 +411,15 @@ export default function Components() {
         Component to be displayed in the input when nothing is selected. By default
         it is the text 'Select...'
 
+        See [api docs](/api#placeholder) for more details
+
         ${
           <ExampleWrapper
             label="Custom Placeholder Example"
             urlPath="docs/examples/CustomPlaceholder.js"
+            raw={require('!!raw-loader!../../examples/CustomPlaceholder.js')}
           >
-            <ComingSoon/>
+            <CustomPlaceholder/>
           </ExampleWrapper>
         }
 
@@ -364,12 +427,15 @@ export default function Components() {
 
         The wrapper around the entire select component.
 
+        See [api docs](/api#selectcontainer) for more details
+
         ${
           <ExampleWrapper
             label="Custom SelectContainer Example"
             urlPath="docs/examples/CustomSelectContainer.js"
+            raw={require('!!raw-loader!../../examples/CustomSelectContainer.js')}
           >
-            <ComingSoon/>
+            <CustomSelectContainer/>
           </ExampleWrapper>
         }
 
@@ -377,12 +443,15 @@ export default function Components() {
 
         The component that displays the selected value in the input for a single select.
 
+        See [api docs](/api#singlevalue) for more details
+
         ${
           <ExampleWrapper
             label="Custom SingleValue Example"
             urlPath="docs/examples/CustomSingleValue.js"
+            raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
           >
-            <ComingSoon/>
+            <CustomSingleValue/>
           </ExampleWrapper>
         }
 
@@ -390,12 +459,15 @@ export default function Components() {
 
         Container responsible for loading the placeholder value and the input.
 
+        See [api docs](/api#valuecontainer) for more details
+
         ${
           <ExampleWrapper
             label="Custom ValueContainer Example"
             urlPath="docs/examples/CustomValueContainer.js"
+            raw={require('!!raw-loader!../../examples/CustomValueContainer.js')}
           >
-            <ComingSoon/>
+            <CustomValueContainer/>
           </ExampleWrapper>
         }
       `}

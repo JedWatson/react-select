@@ -22,6 +22,9 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^2.5.4",
+    "@atlaskit/icon": "^10.12.2",
+    "@atlaskit/spinner": "^4.2.1",
+    "@atlaskit/tooltip": "^8.4.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
