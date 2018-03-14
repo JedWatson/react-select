@@ -22,15 +22,26 @@ export type KeyboardEventHandler = (
 
 export type InnerRef = Ref<*>;
 export type PropsWithInnerRef = {
+  /** The inner reference. */
   innerRef: Ref<*>,
 };
 
 export type PropsWithStyles = {
+  /**
+    Get the styles of a particular part of the select. Pass in the name of the
+    property as the first argument, and the current props as the second argument.
+    See the `styles` object for the properties available.
+  */
   getStyles: (string, any) => {},
 };
 
 export type CommonProps = {
   clearValue: () => void,
+  /**
+    Get the styles of a particular part of the select. Pass in the name of the
+    property as the first argument, and the current props as the second argument.
+    See the `styles` object for the properties available.
+  */
   getStyles: (string, any) => {},
   getValue: () => ValueType,
   hasValue: boolean,

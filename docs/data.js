@@ -12,10 +12,10 @@ export const colourOptions = [
 ];
 
 export const flavourOptions = [
-  { value: 'vanilla', label: 'Vanilla' },
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'salted-caramel', label: 'Salted Caramel' },
+  { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
+  { value: 'chocolate', label: 'Chocolate', rating: 'good' },
+  { value: 'strawberry', label: 'Strawberry', rating: 'wild' },
+  { value: 'salted-caramel', label: 'Salted Caramel', rating: 'crazy' },
 ];
 
 // let bigOptions = [];

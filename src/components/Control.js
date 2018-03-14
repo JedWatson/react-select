@@ -6,10 +6,18 @@ import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import type { PropsWithStyles } from '../types';
 
-type State = { isDisabled: boolean, isFocused: boolean };
-type Props = PropsWithStyles &
+type State = {
+  /** Whether the select is disabled. */
+  isDisabled: boolean,
+  /** Whether the select is focused. */
+  isFocused: boolean
+};
+
+export type ControlProps = PropsWithStyles &
   State & {
+    /** Children to render. */
     children: Node,
+    /** The mouse down event and the innerRef to pass down to the controller element. */
     innerProps: {
       onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
       innerRef: ElementRef<*>,
@@ -42,7 +50,7 @@ export const css = ({ isDisabled, isFocused }: State) => ({
   },
 });
 
-const Control = (props: Props) => {
+const Control = (props: ControlProps) => {
   const { children, getStyles, isDisabled, isFocused, innerProps } = props;
   return (
     <Div

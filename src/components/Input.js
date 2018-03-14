@@ -8,8 +8,10 @@ import { Div } from '../primitives';
 
 import type { PropsWithStyles } from '../types';
 
-type Props = PropsWithStyles & {
+export type InputProps = PropsWithStyles & {
+  /** Reference to the internal element */
   innerRef: (ElementRef<*>) => void,
+  /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean,
 };
 
@@ -27,7 +29,7 @@ const inputStyle = isHidden => ({
   padding: 0,
 });
 
-const Input = ({ getStyles, innerRef, isHidden, ...props }: Props) => (
+const Input = ({ getStyles, innerRef, isHidden, ...props }: InputProps) => (
   <Div css={getStyles('input', props)}>
     <AutosizeInput
       className={className('input')}

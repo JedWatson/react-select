@@ -7,8 +7,11 @@ import { Div } from '../primitives';
 import { type PropsWithStyles, type InnerRef } from '../types';
 
 type State = {
+  /** Wether the option is disabled. */
   isDisabled: boolean,
+  /** Wether the option is focused. */
   isFocused: boolean,
+  /** Whether the option is selected. */
   isSelected: boolean,
 };
 type InnerProps = {
@@ -21,11 +24,15 @@ type InnerProps = {
   role: 'option',
   tabIndex: number,
 };
-type Props = PropsWithStyles &
+export type OptionProps = PropsWithStyles &
   State & {
+    /** The children to be rendered. */
     children: Node,
+    /** props passed to the wrapping element for the group. */
     innerProps: InnerProps,
+    /* I do not know what this is. - Ben */
     label: string,
+    /* I do not know what this is. - Ben */
     type: 'option',
   };
 
@@ -50,7 +57,7 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
   },
 });
 
-const Option = (props: Props) => {
+const Option = (props: OptionProps) => {
   const { children, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
