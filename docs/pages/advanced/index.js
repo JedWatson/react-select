@@ -2,7 +2,15 @@
 import React from 'react';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { OnSelectResetsInput, BasicGrouped, CreateFilter, CustomFilterOptions, CustomGetOptionLabel, CustomIsOptionDisabled } from '../../examples';
+import {
+  OnSelectResetsInput,
+  BasicGrouped,
+  CreateFilter,
+  CustomFilterOptions,
+  CustomGetOptionLabel,
+  CustomIsOptionDisabled,
+  Experimental,
+} from '../../examples';
 
 export default function Advanced() {
   return md`
@@ -23,7 +31,7 @@ export default function Advanced() {
         urlPath="docs/examples/CreateFilter.js"
         raw={require('!!raw-loader!../../examples/CreateFilter.js')}
       >
-        <CreateFilter/>
+        <CreateFilter />
       </ExampleWrapper>
     )}
 
@@ -37,7 +45,7 @@ export default function Advanced() {
         urlPath="docs/examples/CreateFilter.js"
         raw={require('!!raw-loader!../../examples/CreateFilter.js')}
       >
-        <CustomFilterOptions/>
+        <CustomFilterOptions />
       </ExampleWrapper>
     )}
 
@@ -50,7 +58,7 @@ export default function Advanced() {
         urlPath="docs/examples/BasicGrouped.js"
         raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
       >
-        <BasicGrouped/>
+        <BasicGrouped />
       </ExampleWrapper>
     )}
 
@@ -60,7 +68,7 @@ export default function Advanced() {
         urlPath="docs/examples/CustomSingleValue.js"
         raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
       >
-        <CustomGetOptionLabel/>
+        <CustomGetOptionLabel />
       </ExampleWrapper>
     )}
 
@@ -72,7 +80,7 @@ export default function Advanced() {
 
     ${(
       <ExampleWrapper label="custom isOptionDisabled function example">
-        <CustomIsOptionDisabled/>
+        <CustomIsOptionDisabled />
       </ExampleWrapper>
     )}
 
@@ -96,15 +104,35 @@ export default function Advanced() {
 
     Below is an example of replicating the behaviour supported by the (deprecated) onSelectResetsInput and (deprecated) closeMenuOnSelect props in react-select v1
 
-    ${
+    ${(
       <ExampleWrapper
         label="onSelectResetsInput = false; closeMenuOnSelect = false"
         urlPath="docs/examples/OnSelectResetsInput.js"
         raw={require('!!raw-loader!../../examples/OnSelectResetsInput.js')}
       >
-        <OnSelectResetsInput/>
+        <OnSelectResetsInput />
       </ExampleWrapper>
-    }
+    )}
+
+
+    ## Experimental
+
+    Wild experiments with react-select v2
+
+    ${(
+      <ExampleWrapper
+        isEditable={false}
+        label="Date Picker"
+        urlPath="docs/examples/Experimental.js"
+        raw={require('!!raw-loader!../../examples/Experimental.js')}
+      >
+        <Experimental />
+      </ExampleWrapper>
+    )}
+
+    > This example uses a combination of custom components and functions to make react-select behave like a date picker.
+
+    > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
 
   `;
 }
