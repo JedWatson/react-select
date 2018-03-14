@@ -112,7 +112,9 @@ const Heading = props => {
   const Tag = `h${level}`;
   const label = getLabel(children);
   const slug = slugify(label);
-  const linkify = [2, 3].includes(level);
+  const linkify = [1, 2].includes(level);
+
+  console.log(props);
 
   if (linkify) {
     store.add(nodeKey, { key: nodeKey, label, level, path: `#${slug}` });

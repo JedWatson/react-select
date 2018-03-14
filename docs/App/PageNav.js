@@ -83,7 +83,7 @@ class PageNav extends Component<RouterProps, NavState> {
               const hash = l.path.slice(1);
               const selected = hash === activeId;
 
-              return l.level > 1 ? (
+              return l.level > 0 ? (
                 <NavItem
                   data-hash={hash}
                   key={hash}

@@ -20,10 +20,6 @@ export default function Home() {
   return md`
   # Welcome
 
-  TODO needs content!
-
-  ## Quick Start
-
   Start by installing \`react-select\`
 
   ~~~bash
@@ -89,7 +85,6 @@ export default function Home() {
       label="Animation"
       urlPath="docs/examples/AnimatedMulti.js"
       raw={require('!!raw-loader!../../examples/AnimatedMulti.js')}
-
     >
       <AnimatedMulti />
     </ExampleWrapper>
