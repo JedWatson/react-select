@@ -8,7 +8,7 @@ Ongoing rewrite. Major changes since last handleInputChange
 * Added Async Creatable Select
 * Added touch support
 * Converted StateManager to a higher order component
-* Added and overhauled documentation site. Thanks to [[Joss Mackison](https://github.com/jossmac), [Ben Conolly](https://github.com/noviny) and [Charles Lee](https://github.com/gwyneplaine)]
+* Added and overhauled documentation site.
 * Added additional cypress test cases for touch, mouse and keyboard interactions.
 
 ## v2.0.0-alpha.6 / 2018-02-14
