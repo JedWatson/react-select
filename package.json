@@ -21,7 +21,7 @@
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^2.5.4",
+    "@atlaskit/docs": "^2.5.5",
     "@atlaskit/icon": "^10.12.2",
     "@atlaskit/spinner": "^4.2.1",
     "@atlaskit/tooltip": "^8.4.1",
@@ -48,7 +48,7 @@
     "enzyme-to-json": "^3.3.0",
     "eslint": "^4.6.1",
     "eslint-plugin-react": "^7.3.0",
-    "extract-react-types": "^0.8.0",
+    "extract-react-types": "^0.8.1",
     "extract-react-types-loader": "^0.1.0",
     "flow-bin": "^0.63.1",
     "flow-copy-source": "^1.3.0",

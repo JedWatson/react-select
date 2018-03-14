@@ -6,13 +6,20 @@ import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
 
-export type Props = SelectProps & {
+export type CreatableProps = {
+  /* Set whether options may be created while laoding is still occurring. */
   allowCreateWhileLoading: boolean,
+  /* Function to return the label to display in the menu as an item that creates the new item. */
   formatCreateLabel: string => Node,
+  /* Validation method that returns whether a new option will be allowed to be created. */
   isValidNewOption: (string, ValueType, OptionsType) => boolean,
+  /* Function that returns the data object used to display and track the new option. */
   getNewOptionData: (string, Node) => OptionType,
+  /* Function called when the new create option is selected from the menu. */
   onCreateOption?: string => void,
-};
+}
+
+export type Props = SelectProps & CreatableProps;
 
 const compareOption = (inputValue, option) => {
   const candidate = inputValue.toLowerCase();
@@ -41,7 +48,7 @@ const builtins = {
   }),
 };
 
-const defaultProps = {
+export const defaultProps = {
   allowCreateWhileLoading: false,
   ...builtins,
 };
