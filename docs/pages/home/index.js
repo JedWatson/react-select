@@ -11,6 +11,7 @@ import {
   BasicGrouped,
   BasicMulti,
   CreatableSingle,
+  Experimental,
   StyledMulti,
   StyledSingle,
 } from '../../examples';
@@ -19,17 +20,14 @@ export default function Home() {
   return md`
   # Welcome
 
-  React Select v2 is nearly ready, and we'd love your feedback.
+  TODO needs content!
 
-  View the [source code](https://github.com/JedWatson/react-select/tree/v2) and
-  [Pull Request on github](https://github.com/JedWatson/react-select/pull/2289).
-
-  ## Getting Started
+  ## Quick Start
 
   Start by installing \`react-select\`
 
   ~~~bash
-  yarn add react-select@next
+  yarn add react-select
   ~~~
 
   Import the default export and render in your component:
@@ -91,6 +89,7 @@ export default function Home() {
       label="Animation"
       urlPath="docs/examples/AnimatedMulti.js"
       raw={require('!!raw-loader!../../examples/AnimatedMulti.js')}
+
     >
       <AnimatedMulti />
     </ExampleWrapper>
@@ -163,5 +162,25 @@ export default function Home() {
       <CreatableSingle />
     </ExampleWrapper>
   )}
+
+
+  ## Experimental
+
+  Wild experiments with react-select v2
+
+  ${(
+    <ExampleWrapper
+      isEditable={false}
+      label="Date Picker"
+      urlPath="docs/examples/Experimental.js"
+      raw={require('!!raw-loader!../../examples/Experimental.js')}
+    >
+      <Experimental />
+    </ExampleWrapper>
+  )}
+
+  > This example uses a combination of custom components and functions to make react-select behave like a date picker.
+
+  > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
 `;
 }
