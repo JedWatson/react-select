@@ -1,5 +1,16 @@
 # React-Select
 
+## New Release
+Ongoing rewrite. Major changes since last handleInputChange
+* Added a utility package to easily deploy examples to CodeSandbox, courtesy of [Ben Conolly](https://github.com/noviny)
+* Added Creatable Select
+* Added Async Select
+* Added Async Creatable Select
+* Added touch support
+* Converted StateManager to a higher order component
+* Added and overhauled documentation site. Thanks to [[Joss Mackison](https://github.com/jossmac), [Ben Conolly](https://github.com/noviny) and [Charles Lee](https://github.com/gwyneplaine)]
+* Added additional cypress test cases for touch, mouse and keyboard interactions.
+
 ## v2.0.0-alpha.6 / 2018-02-14
 
 Ongoing rewrite. Major changes since last alpha:
