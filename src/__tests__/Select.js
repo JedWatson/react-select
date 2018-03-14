@@ -7,7 +7,7 @@ import cases from 'jest-in-case';
 import Select from '../Select';
 import { components } from '../components';
 
-const { MultiValue, SingleValue } = components;
+const { Menu, MultiValue, NoOptionsMessage, Option, SingleValue } = components;
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -67,4 +67,58 @@ cases('should assign the given name', ({ expectedName, props }) => {
       },
       expectedName: 'form-field-multi-select'
     },
+  });
+
+cases('should show and hide menu based on menuIsOpen prop', ({ props }) => {
+  let selectWrapper = shallow(<Select {...props} />);
+  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+
+  selectWrapper.setProps({ menuIsOpen: false });
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+}, {
+    'for single select': {
+      props: {
+        value: opts[2],
+        menuIsOpen: true
+      }
+    },
+    'for multi select': {
+      props: {
+        value: opts[2],
+        menuIsOpen: true
+      }
+    }
+  });
+
+cases('filterOption - should filter as passed function', ({ props }) => {
+  let selectWrapper = shallow(<Select {...props} />);
+  selectWrapper.setProps({ inputValue: 'o' });
+  expect(selectWrapper.find(Option).length).toBe(2);
+  expect(selectWrapper.find(NoOptionsMessage).exists()).toBeFalsy();
+
+  selectWrapper.setProps({ inputValue: 'on' });
+  expect(selectWrapper.find(Option).length).toBe(1);
+  expect(selectWrapper.find(NoOptionsMessage).exists()).toBeFalsy();
+
+  selectWrapper.setProps({ inputValue: 'not' });
+  expect(selectWrapper.find(Option).exists()).toBeFalsy();
+  expect(selectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
+}, {
+    'for single select': {
+      props: {
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        options: opts,
+        value: opts[2],
+        menuIsOpen: true
+      },
+    },
+    'for multi select': {
+      props: {
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        options: opts,
+        value: opts[2],
+        menuIsOpen: true,
+        isMulti: true,
+      },
+    }
   });
