@@ -116,7 +116,7 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.?(test|spec)?\\.(js?))$",
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
     "setupFiles": ["./enzymeAdapter.setup.js"]
   },
   "lint-staged": {
