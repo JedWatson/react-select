@@ -12,7 +12,7 @@ import {
   Experimental,
 } from '../../examples';
 
-export default function Advanced() {
+export default function Advanced () {
   return md`
     # Advanced
 
@@ -79,7 +79,10 @@ export default function Advanced() {
     )}
 
     ${(
-      <ExampleWrapper label="custom isOptionDisabled function example">
+      <ExampleWrapper
+        label="custom isOptionDisabled function example"
+        raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
+        >
         <CustomIsOptionDisabled />
       </ExampleWrapper>
     )}
