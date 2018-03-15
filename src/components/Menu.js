@@ -343,36 +343,43 @@ LoadingMessage.defaultProps = {
 // ==============================
 
 export type MenuPortalProps = {
+  appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
+  controlElement: HTMLElement,
   menuPlacement: MenuPlacement,
-  target: HTMLElement,
 };
 export const MenuPortal = ({
+  appendTo,
   children,
+  controlElement,
   menuPlacement,
-  target,
 }: MenuPortalProps) => {
-  // bail early if required elements/props aren't present
-  if (!document.body || !target) return null;
+  const viewHeight = window && window.innerHeight;
+
+  // bail early if required elements aren't present
+  if (!appendTo || !controlElement || !viewHeight) return null;
 
   const placement = coercePlacement(menuPlacement);
-  const rect = getBoundingClientObj(target);
-  const scrollParent = getScrollParent(target);
+  const rect = getBoundingClientObj(controlElement);
+  const scrollParent = getScrollParent(controlElement);
+
   const offset = rect[placement] + scrollParent.scrollTop;
+  const bottom = placement === 'top' ? viewHeight - offset : null;
+  const top = placement === 'bottom' ? offset : null;
 
   return createPortal(
     <Div
       css={{
-        position: 'absolute',
-        top: placement === 'bottom' ? offset : null,
-        bottom: placement === 'top' ? `calc(100% - ${offset}px)` : null,
+        bottom: bottom,
         left: rect.left,
+        position: 'absolute',
+        top: top,
         width: rect.width,
       }}
     >
       {children}
     </Div>,
     // $FlowFixMe this is accounted for above
-    document.body
+    appendTo
   );
 };

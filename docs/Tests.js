@@ -70,7 +70,7 @@ export default class Tests extends Component<*, State> {
           <Select
             defaultValue={colourOptions[0]}
             options={colourOptions}
-            menuShouldPortal
+            menuPortalTarget={document.body}
             menuPlacement={this.state.portalPlacement}
           />
           <pre style={{ marginBottom: 0 }}>{'div { overflow: hidden; }'}</pre>

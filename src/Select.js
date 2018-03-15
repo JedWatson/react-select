@@ -115,8 +115,6 @@ export type Props = {
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
-  /* Whether the menu should use a portal component */
-  menuShouldPortal: boolean,
   /* Whether the menu is open */
   menuIsOpen: boolean,
   /*
@@ -124,6 +122,8 @@ export type Props = {
     when there isn't enough space below the control.
   */
   menuPlacement: MenuPlacement,
+  /* Whether the menu should use a portal, and where it should attach */
+  menuPortalTarget?: HTMLElement,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
@@ -1150,7 +1150,7 @@ export default class Select extends Component<Props, State> {
       maxMenuHeight,
       menuIsOpen,
       menuPlacement,
-      menuShouldPortal,
+      menuPortalTarget,
       noOptionsMessage,
       scrollMenuIntoView,
     } = this.props;
@@ -1248,8 +1248,12 @@ export default class Select extends Component<Props, State> {
       </Menu>
     );
 
-    return menuShouldPortal ? (
-      <MenuPortal menuPlacement={menuPlacement} target={this.controlRef}>
+    return menuPortalTarget ? (
+      <MenuPortal
+        appendTo={menuPortalTarget}
+        menuPlacement={menuPlacement}
+        controlElement={this.controlRef}
+      >
         {menuElement}
       </MenuPortal>
     ) : (
