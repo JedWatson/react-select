@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, type ElementRef, type Node } from 'react';
+import { createPortal } from 'react-dom';
 
 import {
   animatedScrollTo,
@@ -261,7 +262,9 @@ export type MenuListProps = {
     role: 'listbox',
   },
 };
-export type MenuListComponentProps = PropsWithStyles & MenuListProps & MenuListState;
+export type MenuListComponentProps = PropsWithStyles &
+  MenuListProps &
+  MenuListState;
 export const menuListCSS = () => ({
   maxHeight: 'inherit', // pixel max-height applied to wrapping Menu component
   overflowY: 'auto',
@@ -332,4 +335,56 @@ export const LoadingMessage = (props: NoticeProps) => {
 };
 LoadingMessage.defaultProps = {
   children: 'Loading...',
+};
+
+// ==============================
+// Menu Portal
+// ==============================
+
+// cannot get keys using array notation with DOMRect
+function getBoundingClientObj(element) {
+  const {
+    top,
+    right,
+    bottom,
+    left,
+    width,
+    height,
+  } = element.getBoundingClientRect();
+  return { top, right, bottom, left, width, height };
+}
+
+export type MenuPortalProps = {
+  children: Node, // ideally Menu<MenuProps>
+  menuPlacement: MenuPlacement,
+  relativeTo: HTMLElement,
+};
+export const MenuPortal = ({
+  children,
+  menuPlacement,
+  relativeTo,
+}: MenuPortalProps) => {
+  // bail early if required elements/props aren't present
+  if (!document.body || !relativeTo) return null;
+
+  const placement = coercePlacement(menuPlacement);
+  const rect = getBoundingClientObj(relativeTo);
+  const scrollParent = getScrollParent(relativeTo);
+  const offset = rect[placement] + scrollParent.scrollTop;
+
+  return createPortal(
+    <Div
+      css={{
+        position: 'absolute',
+        top: placement === 'bottom' ? offset : null,
+        bottom: placement === 'top' ? `calc(100% - ${offset}px)` : null,
+        left: rect.left,
+        width: rect.width,
+      }}
+    >
+      {children}
+    </Div>,
+    // $FlowFixMe this is accounted for above
+    document.body
+  );
 };

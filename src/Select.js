@@ -115,6 +115,8 @@ export type Props = {
   maxMenuHeight: number,
   /* Maximum height of the value container before scrolling */
   maxValueHeight: number,
+  /* Whether the menu should use a portal component */
+  menuShouldPortal: boolean,
   /* Whether the menu is open */
   menuIsOpen: boolean,
   /*
@@ -1131,6 +1133,7 @@ export default class Select extends Component<Props, State> {
       GroupHeading,
       Menu,
       MenuList,
+      MenuPortal,
       LoadingMessage,
       NoOptionsMessage,
       Option,
@@ -1147,6 +1150,7 @@ export default class Select extends Component<Props, State> {
       maxMenuHeight,
       menuIsOpen,
       menuPlacement,
+      menuShouldPortal,
       noOptionsMessage,
       scrollMenuIntoView,
     } = this.props;
@@ -1213,7 +1217,7 @@ export default class Select extends Component<Props, State> {
       );
     }
 
-    return (
+    const menuElement = (
       <Menu
         {...commonProps}
         innerProps={{
@@ -1242,6 +1246,14 @@ export default class Select extends Component<Props, State> {
           </MenuList>
         </ScrollCaptor>
       </Menu>
+    );
+
+    return menuShouldPortal ? (
+      <MenuPortal menuPlacement={menuPlacement} relativeTo={this.controlRef}>
+        {menuElement}
+      </MenuPortal>
+    ) : (
+      menuElement
     );
   }
   renderFormField() {
