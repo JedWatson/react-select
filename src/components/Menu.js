@@ -345,19 +345,19 @@ LoadingMessage.defaultProps = {
 export type MenuPortalProps = {
   children: Node, // ideally Menu<MenuProps>
   menuPlacement: MenuPlacement,
-  relativeTo: HTMLElement,
+  target: HTMLElement,
 };
 export const MenuPortal = ({
   children,
   menuPlacement,
-  relativeTo,
+  target,
 }: MenuPortalProps) => {
   // bail early if required elements/props aren't present
-  if (!document.body || !relativeTo) return null;
+  if (!document.body || !target) return null;
 
   const placement = coercePlacement(menuPlacement);
-  const rect = getBoundingClientObj(relativeTo);
-  const scrollParent = getScrollParent(relativeTo);
+  const rect = getBoundingClientObj(target);
+  const scrollParent = getScrollParent(target);
   const offset = rect[placement] + scrollParent.scrollTop;
 
   return createPortal(

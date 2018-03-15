@@ -1249,7 +1249,7 @@ export default class Select extends Component<Props, State> {
     );
 
     return menuShouldPortal ? (
-      <MenuPortal menuPlacement={menuPlacement} relativeTo={this.controlRef}>
+      <MenuPortal menuPlacement={menuPlacement} target={this.controlRef}>
         {menuElement}
       </MenuPortal>
     ) : (
