@@ -175,7 +175,6 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
       expectedSelectedOption: { label: '2', value: 'two' },
     },
     'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
-      only: true,
       props: {
         menuIsOpen: true,
         options: OPTIONS_NUMBER_VALUE,
@@ -222,7 +221,6 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
       expectedSelectedOption: [{ label: '2', value: 'two' }],
     },
     'multi select > option with number value > option is clicked > should call onChange() prop with selected option': {
-      only: true,
       props: {
         isMulti: true,
         menuIsOpen: true,
