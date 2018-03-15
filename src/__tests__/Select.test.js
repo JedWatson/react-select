@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
-import { OPTIONS } from './constants';
+import { OPTIONS, OPTIONS_NUMBER_VALUE, OPTIONS_BOOLEAN_VALUE } from './constants';
 import Select from '../Select';
 import { components } from '../components';
 
@@ -159,7 +159,7 @@ cases('value prop', ({ props, expectedValue }) => {
     }
   });
 
-cases('selecting an option', ({ props, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
+cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
   let spy = jest.fn();
   let multiSelectWrapper = mount(<Select {...props} onChange={spy} />);
 
@@ -170,40 +170,42 @@ cases('selecting an option', ({ props, event, expectedSelectedOption, optionsSel
   expect(spy).toHaveBeenCalledWith(expectedSelectedOption, { action: 'select-option' });
 }, {
     'single select > option is clicked > should call onChange() prop with selected option': {
-      props: {
-        menuIsOpen: true,
-        options: OPTIONS
-      },
       event: ['click'],
       optionsSelected: { label: '2', value: 'two' },
       expectedSelectedOption: { label: '2', value: 'two' },
     },
-    'single select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
+    'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      only: true,
       props: {
         menuIsOpen: true,
-        options: OPTIONS
+        options: OPTIONS_NUMBER_VALUE,
       },
+      event: ['click'],
+      optionsSelected: { label: '2', value: 2 },
+      expectedSelectedOption: { label: '2', value: 2 },
+    },
+    'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        menuIsOpen: true,
+        options: OPTIONS_BOOLEAN_VALUE,
+      },
+      event: ['click'],
+      optionsSelected: { label: 'true', value: true },
+      expectedSelectedOption: { label: 'true', value: true },
+    },
+    'single select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
       event: ['keyDown', { keyCode: 9, key: 'Tab' }],
-      menuIsOpen: true,
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
       expectedSelectedOption: { label: '1', value: 'one' },
     },
     'single select > enter key is pressed while focusing option > should call onChange() prop with selected option': {
-      props: {
-        menuIsOpen: true,
-        options: OPTIONS
-      },
       event: ['keyDown', { keyCode: 13, key: 'Enter' }],
       optionsSelected: { label: '3', value: 'three' },
       focusedOption: { label: '3', value: 'three' },
       expectedSelectedOption: { label: '3', value: 'three' },
     },
     'single select > space key is pressed while focusing option > should call onChange() prop with selected option': {
-      props: {
-        menuIsOpen: true,
-        options: OPTIONS
-      },
       event: ['keyDown', { keyCode: 32, Key: 'Spacebar' }],
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
@@ -218,6 +220,27 @@ cases('selecting an option', ({ props, event, expectedSelectedOption, optionsSel
       event: ['click'],
       optionsSelected: { label: '2', value: 'two' },
       expectedSelectedOption: [{ label: '2', value: 'two' }],
+    },
+    'multi select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      only: true,
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS_NUMBER_VALUE,
+      },
+      event: ['click'],
+      optionsSelected: { label: '2', value: 2 },
+      expectedSelectedOption: [{ label: '2', value: 2 }],
+    },
+    'multi select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS_BOOLEAN_VALUE,
+      },
+      event: ['click'],
+      optionsSelected: { label: 'true', value: true },
+      expectedSelectedOption: [{ label: 'true', value: true }],
     },
     'multi select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
       props: {
