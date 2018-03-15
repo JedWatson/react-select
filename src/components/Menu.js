@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import {
   animatedScrollTo,
   className,
+  getBoundingClientObj,
   getScrollParent,
   getScrollTop,
   normalizedHeight,
@@ -340,19 +341,6 @@ LoadingMessage.defaultProps = {
 // ==============================
 // Menu Portal
 // ==============================
-
-// cannot get keys using array notation with DOMRect
-function getBoundingClientObj(element) {
-  const {
-    top,
-    right,
-    bottom,
-    left,
-    width,
-    height,
-  } = element.getBoundingClientRect();
-  return { top, right, bottom, left, width, height };
-}
 
 export type MenuPortalProps = {
   children: Node, // ideally Menu<MenuProps>
