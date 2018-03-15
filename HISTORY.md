@@ -1,15 +1,21 @@
 # React-Select
 
-## New Release
-Ongoing rewrite. Major changes since last handleInputChange
-* Added a utility package to easily deploy examples to CodeSandbox, courtesy of [Ben Conolly](https://github.com/noviny)
-* Added Creatable Select
-* Added Async Select
-* Added Async Creatable Select
-* Added touch support
-* Converted StateManager to a higher order component
-* Added and overhauled documentation site.
-* Added additional cypress test cases for touch, mouse and keyboard interactions.
+## v2.0.0-alpha.7 / 2018-02-14
+
+Ongoing rewrite. Major changes since last alpha:
+
+* Significantly improved touch and mobile support
+* New positioning behaviour for the Menu
+* Added `scrollMenuIntoView` prop, which does exactly what you'd expect
+* Added action meta to the `onInputChange` event handler arguments
+* `Creatable` Component Added
+* `AsyncCreatable` Component Added
+* Fixed an issue with the layout that would trigger a Firefox repaint bug
+* Improved behaviour when the `isDisabled` prop value is changed
+* The `IndicatorSeparator` isn't rendered when there is no `DropdownIndicator`
+* Converted `StateManager` to a higher order component
+* New website, docs, and more tests! (still WIP)
+* Examples can now be launched in CodeSandbox, thanks to [Ben Conolly](https://github.com/noviny)
 
 ## v2.0.0-alpha.6 / 2018-02-14
 
