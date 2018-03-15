@@ -1,6 +1,5 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
@@ -9,15 +8,13 @@ import { components } from '../components';
 
 const { Menu, MultiValue, NoOptionsMessage, Option, SingleValue } = components;
 
-Enzyme.configure({ adapter: new Adapter() });
-
 const opts = [
   { label: '1', value: 'one' },
   { label: '2', value: 'two' },
   { label: '3', value: 'three' },
 ];
 
-test('defaults', () => {
+test('snapshot - defaults', () => {
   const tree = shallow(<Select />);
   expect(toJson(tree)).toMatchSnapshot();
 });
@@ -31,7 +28,7 @@ cases('formatOptionLabel', ({ props, valueComponent, expectedOptions }) => {
   let value = tree.find(valueComponent).at(0);
   expect(value.props().children).toBe(expectedOptions);
 }, {
-    'with single select': {
+    'for single select': {
       props: {
         formatOptionLabel: ({ label, value }, { context }) => (`${label} ${value} ${context}`),
         options: opts,
@@ -40,7 +37,7 @@ cases('formatOptionLabel', ({ props, valueComponent, expectedOptions }) => {
       valueComponent: SingleValue,
       expectedOptions: '1 one value'
     },
-    'with multi select': {
+    'for multi select': {
       props: {
         formatOptionLabel: ({ label, value }, { context }) => (`${label} ${value} ${context}`),
         isMulti: true,
@@ -57,8 +54,8 @@ cases('should assign the given name', ({ expectedName, props }) => {
   let input = tree.find('input');
   expect(input.props().name).toBe(expectedName);
 }, {
-    'with single select': { props: { name: 'form-field-single-select' }, expectedName: 'form-field-single-select' },
-    'with multi select': {
+    'for single select': { props: { name: 'form-field-single-select' }, expectedName: 'form-field-single-select' },
+    'for multi select': {
       props: {
         name: 'form-field-multi-select',
         isMulti: true,
@@ -76,13 +73,13 @@ cases('should show and hide menu based on menuIsOpen prop', ({ props }) => {
   selectWrapper.setProps({ menuIsOpen: false });
   expect(selectWrapper.find(Menu).exists()).toBeFalsy();
 }, {
-    'for single select': {
+    'with single select': {
       props: {
         value: opts[2],
         menuIsOpen: true
       }
     },
-    'for multi select': {
+    'with multi select': {
       props: {
         value: opts[2],
         menuIsOpen: true
@@ -104,7 +101,7 @@ cases('filterOption - should filter as passed function', ({ props }) => {
   expect(selectWrapper.find(Option).exists()).toBeFalsy();
   expect(selectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
 }, {
-    'for single select': {
+    'single select': {
       props: {
         filterOption: (value, search) => value.value.indexOf(search) > -1,
         options: opts,
@@ -112,7 +109,7 @@ cases('filterOption - should filter as passed function', ({ props }) => {
         menuIsOpen: true
       },
     },
-    'for multi select': {
+    'multi select': {
       props: {
         filterOption: (value, search) => value.value.indexOf(search) > -1,
         options: opts,
@@ -120,5 +117,144 @@ cases('filterOption - should filter as passed function', ({ props }) => {
         menuIsOpen: true,
         isMulti: true,
       },
+    }
+  });
+
+cases('value prop - should set it as initial value', ({ props }) => {
+  let selectWrapper = shallow(<Select {...props} />);
+  expect(selectWrapper.state('selectValue')).toEqual([{ label: '3', value: 'three' }]);
+}, {
+    'for single select': {
+      props: {
+        options: opts,
+        value: opts[2],
+      }
+    },
+    'for multi select': {
+      props: {
+        isMulti: true,
+        options: opts,
+        value: opts[2],
+      }
+    }
+  });
+
+cases('calls onChange prop with selected option on selecting an option', ({ props, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
+  let spy = jest.fn();
+  let multiSelectWrapper = mount(<Select options={opts} {...props} onChange={spy} />);
+
+  let selectOption = multiSelectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
+  multiSelectWrapper.setState({ focusedOption });
+
+  selectOption.simulate(...event);
+  expect(spy).toHaveBeenCalledWith(expectedSelectedOption, { action: 'select-option' });
+}, {
+    'single select - when clicked': {
+      props: {
+        menuIsOpen: true,
+      },
+      event: ['click'],
+      optionsSelected: { label: '2', value: 'two' },
+      expectedSelectedOption: { label: '2', value: 'two' },
+    },
+    'single select - when tab is pressed': {
+      props: {
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 9 }],
+      menuIsOpen: true,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: { label: '1', value: 'one' },
+    },
+    'single select - when enter is pressed on option': {
+      props: {
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 13 }],
+      optionsSelected: { label: '3', value: 'three' },
+      focusedOption: { label: '3', value: 'three' },
+      expectedSelectedOption: { label: '3', value: 'three' },
+    },
+    'single select - when space bar is pressed': {
+      props: {
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 32 }],
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: { label: '1', value: 'one' },
+    },
+    'multi select - when clicked': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+      },
+      event: ['click'],
+      optionsSelected: { label: '2', value: 'two' },
+      expectedSelectedOption: [{ label: '2', value: 'two' }],
+    },
+    'multi select - when tab is pressed': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 9 }],
+      menuIsOpen: true,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [{ label: '1', value: 'one' }],
+    },
+    'multi select - when enter is pressed on option': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 13 }],
+      optionsSelected: { label: '3', value: 'three' },
+      focusedOption: { label: '3', value: 'three' },
+      expectedSelectedOption: [{ label: '3', value: 'three' }],
+    },
+    'multi select - when space bar is pressed': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+      },
+      event: ['keyDown', { keyCode: 32 }],
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [{ label: '1', value: 'one' }],
+    },
+  });
+
+cases('should not call onChange prop when hitting', ({ props, event, focusedOption, optionsSelected }) => {
+  let spy = jest.fn();
+  let selectWrapper = mount(<Select {...props} onChange={spy} />);
+
+  let selectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
+  selectWrapper.setState({ focusedOption });
+
+  selectOption.simulate(...event);
+  expect(spy).not.toHaveBeenCalled();
+
+}, {
+    'escape key - single select': {
+      props: {
+        options: opts,
+        menuIsOpen: true,
+      },
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      event: ['keyDown', { keyCode: 27 }],
+    },
+    'escape key - multi select': {
+      props: {
+        options: opts,
+        isMulti: true,
+        menuIsOpen: true,
+      },
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      event: ['keyDown', { keyCode: 27 }],
     }
   });

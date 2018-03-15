@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`defaults 1`] = `
+exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   getStyles={[Function]}
