@@ -183,7 +183,7 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
       optionsSelected: { label: '2', value: 2 },
       expectedSelectedOption: { label: '2', value: 2 },
     },
-    'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
+    'single select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
         menuIsOpen: true,
         options: OPTIONS_BOOLEAN_VALUE,
@@ -230,7 +230,7 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
       optionsSelected: { label: '2', value: 2 },
       expectedSelectedOption: [{ label: '2', value: 2 }],
     },
-    'multi select > option with number value > option is clicked > should call onChange() prop with selected option': {
+    'multi select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
         isMulti: true,
         menuIsOpen: true,
