@@ -1,9 +1,11 @@
 // @flow
 import React, { Component, type ElementRef, type Node } from 'react';
+import { createPortal } from 'react-dom';
 
 import {
   animatedScrollTo,
   className,
+  getBoundingClientObj,
   getScrollParent,
   getScrollTop,
   normalizedHeight,
@@ -336,4 +338,58 @@ export const LoadingMessage = (props: NoticeProps) => {
 };
 LoadingMessage.defaultProps = {
   children: 'Loading...',
+};
+
+// ==============================
+// Menu Portal
+// ==============================
+
+export type MenuPortalProps = PropsWithStyles & {
+  appendTo: HTMLElement,
+  children: Node, // ideally Menu<MenuProps>
+  controlElement: HTMLElement,
+  menuPlacement: MenuPlacement,
+};
+
+type RectType = {
+  left: number,
+  right: number,
+  bottom: number,
+  height: number,
+  width: number,
+}
+
+export const menuPortalCSS = ({ placement, rect, offset, viewHeight }: { placement: string, rect: RectType, offset: number, viewHeight: number }) => ({
+  bottom: placement === 'top' ? viewHeight - offset : null,
+  left: rect.left,
+  position: 'absolute',
+  top: placement === 'bottom' ? offset : null,
+  width: rect.width,
+});
+
+export const MenuPortal = ({
+  appendTo,
+  children,
+  controlElement,
+  menuPlacement,
+  getStyles,
+}: MenuPortalProps) => {
+  const viewHeight = window && window.innerHeight;
+
+  // bail early if required elements aren't present
+  if (!appendTo || !controlElement || !viewHeight) return null;
+
+  const placement = coercePlacement(menuPlacement);
+  const rect = getBoundingClientObj(controlElement);
+  const offset = rect[placement] + window.pageYOffset;
+
+  return createPortal(
+    <Div
+      css={getStyles('menuPortal', { placement, rect, offset, viewHeight })}
+    >
+      {children}
+    </Div>,
+    // $FlowFixMe this is accounted for above
+    appendTo
+  );
 };

@@ -122,6 +122,8 @@ export type Props = {
     when there isn't enough space below the control.
   */
   menuPlacement: MenuPlacement,
+  /* Whether the menu should use a portal, and where it should attach */
+  menuPortalTarget?: HTMLElement,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
@@ -1131,6 +1133,7 @@ export default class Select extends Component<Props, State> {
       GroupHeading,
       Menu,
       MenuList,
+      MenuPortal,
       LoadingMessage,
       NoOptionsMessage,
       Option,
@@ -1147,6 +1150,7 @@ export default class Select extends Component<Props, State> {
       maxMenuHeight,
       menuIsOpen,
       menuPlacement,
+      menuPortalTarget,
       noOptionsMessage,
       scrollMenuIntoView,
     } = this.props;
@@ -1213,7 +1217,7 @@ export default class Select extends Component<Props, State> {
       );
     }
 
-    return (
+    const menuElement = (
       <Menu
         {...commonProps}
         innerProps={{
@@ -1242,6 +1246,19 @@ export default class Select extends Component<Props, State> {
           </MenuList>
         </ScrollCaptor>
       </Menu>
+    );
+
+    return menuPortalTarget ? (
+      <MenuPortal
+        {...commonProps}
+        appendTo={menuPortalTarget}
+        menuPlacement={menuPlacement}
+        controlElement={this.controlRef}
+      >
+        {menuElement}
+      </MenuPortal>
+    ) : (
+      menuElement
     );
   }
   renderFormField() {
