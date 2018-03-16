@@ -7,7 +7,7 @@ import { OPTIONS, OPTIONS_NUMBER_VALUE, OPTIONS_BOOLEAN_VALUE } from './constant
 import Select from '../Select';
 import { components } from '../components';
 
-const { Menu, MultiValue, NoOptionsMessage, Option, SingleValue } = components;
+const { Control, IndicatorsContainer, DropdownIndicator, Menu, MultiValue, NoOptionsMessage, Option, ValueContainer, SingleValue } = components;
 
 test('snapshot - defaults', () => {
   const tree = shallow(<Select />);
@@ -43,7 +43,6 @@ cases('formatOptionLabel', ({ props, valueComponent, expectedOptions }) => {
       expectedOptions: '0 zero value'
     }
   });
-
 cases('name prop', ({ expectedName, props }) => {
   let tree = shallow(<Select {...props} />);
   let input = tree.find('input');
@@ -149,6 +148,13 @@ cases('value prop', ({ props, expectedValue }) => {
       },
       expectedValue: [{ label: '2', value: 'two' }],
     },
+    'single select > with option values as number > should set it as initial value': {
+      props: {
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[2],
+      },
+      expectedValue: [{ label: '2', value: 2 }],
+    },
     'multi select > should set it as initial value': {
       props: {
         isMulti: true,
@@ -156,9 +162,63 @@ cases('value prop', ({ props, expectedValue }) => {
         value: OPTIONS[1],
       },
       expectedValue: [{ label: '1', value: 'one' }],
+    },
+    'multi select > with option values as number > should set it as initial value': {
+      props: {
+        isMulti: true,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[1],
+      },
+      expectedValue: [{ label: '1', value: 1 }],
     }
   });
 
+cases('update the value prop', ({ props = { options: OPTIONS, value: OPTIONS[1], name: 'test-input-name' }, updateValueTo, expectedInitialValue, expectedUpdatedValue }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toEqual(expectedInitialValue);
+
+  selectWrapper.setProps({ value: updateValueTo });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toEqual(expectedUpdatedValue);
+}, {
+    'single select > should update the value when prop is updated': {
+      updateValueTo: OPTIONS[3],
+      expectedInitialValue: 'one',
+      expectedUpdatedValue: 'three',
+    },
+    'single select > value of options is number > should update the value when prop is updated': {
+      props: {
+        name: 'test-input-name',
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[2]
+      },
+      updateValueTo: OPTIONS_NUMBER_VALUE[3],
+      expectedInitialValue: 2,
+      expectedUpdatedValue: 3,
+    },
+    'multi select > should update the value when prop is updated': {
+      props: {
+        isMulti: true,
+        options: OPTIONS,
+        value: OPTIONS[1],
+        name: 'test-input-name'
+      },
+      updateValueTo: OPTIONS[3],
+      expectedInitialValue: 'one',
+      expectedUpdatedValue: 'three',
+    },
+    'multi select > value of options is number > should update the value when prop is updated': {
+      props: {
+        delimiter: ',',
+        isMulti: true,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[2],
+        name: 'test-input-name'
+      },
+      updateValueTo: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[2]],
+      expectedInitialValue: '2',
+      expectedUpdatedValue: '3,2',
+    },
+  });
 cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
   let spy = jest.fn();
   let multiSelectWrapper = mount(<Select {...props} onChange={spy} />);
@@ -180,8 +240,8 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
         options: OPTIONS_NUMBER_VALUE,
       },
       event: ['click'],
-      optionsSelected: { label: '2', value: 2 },
-      expectedSelectedOption: { label: '2', value: 2 },
+      optionsSelected: { label: '0', value: 0 },
+      expectedSelectedOption: { label: '0', value: 0 },
     },
     'single select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
@@ -227,8 +287,8 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
         options: OPTIONS_NUMBER_VALUE,
       },
       event: ['click'],
-      optionsSelected: { label: '2', value: 2 },
-      expectedSelectedOption: [{ label: '2', value: 2 }],
+      optionsSelected: { label: '0', value: 0 },
+      expectedSelectedOption: [{ label: '0', value: 0 }],
     },
     'multi select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
@@ -636,3 +696,156 @@ cases('required prop on input element', ({ props }) => {
       }
     }
   });
+
+cases('value of hidden input control', ({ props = { options: OPTIONS }, expectedValue }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  let hiddenInput = selectWrapper.find('input[type="hidden"]');
+  expect(hiddenInput.props().value).toEqual(expectedValue);
+}, {
+    'single select > should set value of input as value prop': {
+      props: {
+        name: 'sample-text',
+        options: OPTIONS,
+        value: OPTIONS[3],
+      },
+      expectedValue: 'three'
+    },
+    'single select > options with number values > should set value of input as value prop': {
+      props: {
+        name: 'sample-text',
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[3],
+      },
+      expectedValue: 3
+    },
+    'single select > options with boolean values > should set value of input as value prop': {
+      props: {
+        name: 'sample-text',
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: OPTIONS_BOOLEAN_VALUE[1],
+      },
+      expectedValue: false
+    },
+    'multi select > should set value of input as value prop': {
+      props: {
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS,
+        value: OPTIONS[3],
+      },
+      expectedValue: 'three'
+    },
+    'multi select > with delimiter prop > should set value of input as value prop': {
+      props: {
+        delimiter: ', ',
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS,
+        value: [OPTIONS[3], OPTIONS[5]],
+      },
+      expectedValue: 'three, five',
+    },
+    'multi select > options with number values > should set value of input as value prop': {
+      props: {
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[3],
+      },
+      expectedValue: 3
+    },
+    'multi select > with delimiter prop > options with number values > should set value of input as value prop': {
+      props: {
+        delimiter: ', ',
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS_NUMBER_VALUE,
+        value: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[1]],
+      },
+      expectedValue: '3, 1',
+    },
+    'multi select > options with boolean values > should set value of input as value prop': {
+      props: {
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: OPTIONS_BOOLEAN_VALUE[1],
+      },
+      expectedValue: false
+    },
+    'multi select > with delimiter prop > options with boolean values > should set value of input as value prop': {
+      props: {
+        delimiter: ', ',
+        isMulti: true,
+        name: 'sample-text',
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: [OPTIONS_BOOLEAN_VALUE[1], OPTIONS_BOOLEAN_VALUE[0]],
+      },
+      expectedValue: 'false, true',
+    },
+  });
+cases('isOptionDisabled() prop', ({ props, expectedEnabledOption, expectedDisabledOption }) => {
+  let selectWrapper = mount(<Select {...props} />);
+
+  const enabledOptions = selectWrapper.find('Option[isDisabled=false]').filterWhere(n => !n.props().isDisabled);
+  const enabledOptionsValues = enabledOptions.map(option => option.text());
+  enabledOptionsValues.map(option => {
+    expect(expectedDisabledOption.indexOf(option)).toBe(-1);
+  });
+
+  const disabledOptions = selectWrapper.find('Option[isDisabled=false]').filterWhere(n => n.props().isDisabled);
+  const disabledOptionsValues = disabledOptions.map(option => option.text());
+  disabledOptionsValues.map(option => {
+    expect(expectedEnabledOption.indexOf(option)).toBe(-1);
+  });
+}, {
+    'single select > should add isDisabled as true prop only options that are disabled': {
+      props: {
+        menuIsOpen: true,
+        options: OPTIONS,
+        isOptionDisabled: (option) => ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
+      },
+      expectedEnabledOption: ['1', '3', '11'],
+      expectedDisabledOption: ['0', '2', '5'],
+    },
+    'multi select > should add isDisabled as true prop only options that are disabled': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
+        isOptionDisabled: (option) => ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
+      },
+      expectedEnabledOption: ['1', '3', '11'],
+      expectedDisabledOption: ['0', '2', '5'],
+    }
+  });
+cases('isDisabled prop', ({ props }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.props().isDisabled).toBeTruthy();
+
+  let controlWrapper = selectWrapper.find(Control);
+  expect(controlWrapper.props().isDisabled).toBeTruthy();
+
+  let valueWrapper = selectWrapper.find(ValueContainer);
+  expect(valueWrapper.props().isDisabled).toBeTruthy();
+
+  let indicatorsContainerWrapper = selectWrapper.find(IndicatorsContainer);
+  expect(indicatorsContainerWrapper.props().isDisabled).toBeTruthy();
+
+  let DropdownIndicatorWrapper = selectWrapper.find(DropdownIndicator);
+  expect(DropdownIndicatorWrapper.props().isDisabled).toBeTruthy();
+}, {
+    'single select > should add isDisabled prop to select components': {
+      props: {
+        isDisabled: true,
+        options: OPTIONS,
+      }
+    },
+    'multi select > should add isDisabled prop to select components': {
+      props: {
+        isDisabled: true,
+        isMulti: true,
+        options: OPTIONS,
+      }
+    },
+  });  

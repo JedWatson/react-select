@@ -13,8 +13,7 @@ test('defaults - snapshot', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
-cases(
-  'current filter text is an exact match for an existing option',
+cases('current filter text is an exact match for an existing option',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setProps({ inputValue: 'one' });
@@ -33,8 +32,7 @@ cases(
   }
 );
 
-cases(
-  'filterOptions returns invalid value',
+cases('filterOptions returns invalid value',
   ({ props = { option: OPTIONS } }) => {
     let filterOptionSpy = jest.fn().mockReturnValue(null);
     const creatableSelectWrapper = mount(
@@ -57,8 +55,7 @@ cases(
   }
 );
 
-cases(
-  'filter text does not match any existing options',
+cases('filter text does not match any existing options',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setProps({ inputValue: 'option not is list' });
@@ -77,8 +74,7 @@ cases(
   }
 );
 
-cases(
-  'isValidNewOption() prop',
+cases('isValidNewOption() prop',
   ({ props = { options: OPTIONS } }) => {
     let isValidNewOption = jest.fn(options => options === 'new Option');
     const creatableSelectWrapper = mount(
@@ -108,8 +104,7 @@ cases(
   }
 );
 
-cases(
-  'close by hitting escape with search text present',
+cases('close by hitting escape with search text present',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setState({ inputValue: 'new Option' });
@@ -136,8 +131,7 @@ test.skip('should remove the new option after closing on blur', () => {
   expect(creatableSelectWrapper.state('inputValue')).toBe('');
 });
 
-cases(
-  'getNewOptionData() prop',
+cases('getNewOptionData() prop',
   ({ props = { options: OPTIONS } }) => {
     let getNewOptionDataSpy = jest.fn(label => ({
       label: `custom text ${label}`,
@@ -162,8 +156,7 @@ cases(
   }
 );
 
-cases(
-  'formatCreateLabel() prop',
+cases('formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
     let formatCreateLabelSpy = jest.fn(label => `custom label "${label}"`);
     const creatableSelectWrapper = mount(
