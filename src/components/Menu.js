@@ -180,8 +180,10 @@ const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
-  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
   borderRadius: borderRadius,
+  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
+  display: 'flex ',
+  flexDirection: 'column',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
   maxHeight: maxHeight,
@@ -261,9 +263,11 @@ export type MenuListProps = {
     role: 'listbox',
   },
 };
-export type MenuListComponentProps = PropsWithStyles & MenuListProps & MenuListState;
+export type MenuListComponentProps = PropsWithStyles &
+  MenuListProps &
+  MenuListState;
 export const menuListCSS = () => ({
-  maxHeight: 'inherit', // pixel max-height applied to wrapping Menu component
+  flexGrow: 1,
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
