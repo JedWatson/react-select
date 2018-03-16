@@ -1250,6 +1250,7 @@ export default class Select extends Component<Props, State> {
 
     return menuPortalTarget ? (
       <MenuPortal
+        {...commonProps}
         appendTo={menuPortalTarget}
         menuPlacement={menuPlacement}
         controlElement={this.controlRef}

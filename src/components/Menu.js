@@ -342,17 +342,35 @@ LoadingMessage.defaultProps = {
 // Menu Portal
 // ==============================
 
-export type MenuPortalProps = {
+export type MenuPortalProps = PropsWithStyles & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
   menuPlacement: MenuPlacement,
 };
+
+type RectType = {
+  left: number,
+  right: number,
+  bottom: number,
+  height: number,
+  width: number,
+}
+
+export const menuPortalCSS = ({ placement, rect, offset, viewHeight }: { placement: string, rect: RectType, offset: number, viewHeight: number }) => ({
+  bottom: placement === 'top' ? viewHeight - offset : null,
+  left: rect.left,
+  position: 'absolute',
+  top: placement === 'bottom' ? offset : null,
+  width: rect.width,
+});
+
 export const MenuPortal = ({
   appendTo,
   children,
   controlElement,
   menuPlacement,
+  getStyles,
 }: MenuPortalProps) => {
   const viewHeight = window && window.innerHeight;
 
@@ -362,20 +380,11 @@ export const MenuPortal = ({
   const placement = coercePlacement(menuPlacement);
   const rect = getBoundingClientObj(controlElement);
   const scrollParent = getScrollParent(controlElement);
-
   const offset = rect[placement] + scrollParent.scrollTop;
-  const bottom = placement === 'top' ? viewHeight - offset : null;
-  const top = placement === 'bottom' ? offset : null;
 
   return createPortal(
     <Div
-      css={{
-        bottom: bottom,
-        left: rect.left,
-        position: 'absolute',
-        top: top,
-        width: rect.width,
-      }}
+      css={getStyles('menuPortal', { placement, rect, offset, viewHeight })}
     >
       {children}
     </Div>,
