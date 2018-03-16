@@ -379,8 +379,7 @@ export const MenuPortal = ({
 
   const placement = coercePlacement(menuPlacement);
   const rect = getBoundingClientObj(controlElement);
-  const scrollParent = getScrollParent(controlElement);
-  const offset = rect[placement] + scrollParent.scrollTop;
+  const offset = rect[placement] + window.pageYOffset;
 
   return createPortal(
     <Div
