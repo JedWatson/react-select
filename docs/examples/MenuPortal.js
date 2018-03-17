@@ -7,29 +7,33 @@ import { colourOptions } from '../data';
 
 export default class MenuPortal extends Component<*, { isOpen: boolean }> {
   state = { isOpen: false };
-  open = () => { this.setState({ isOpen: true }); };
-  close = () => { this.setState({ isOpen: false }); };
+  open = () => this.setState({ isOpen: true });
+  close = () => this.setState({ isOpen: false });
   render() {
-    const { close, open } = this;
     const { isOpen } = this.state;
+
     return (
       <Fragment>
-        <Button onClick={open}>Open Modal</Button>
-        {
-          isOpen ?
-          <Modal onClose={close}>
+        <Button onClick={this.open}>Open Modal</Button>
+        {isOpen ? (
+          <Modal
+            actions={[{ text: 'Close', onClick: this.close }]}
+            heading="Modal Example"
+            onClose={this.close}
+          >
+            <p style={{ marginTop: 0 }}>
+              This modal is positioned absolutely, the body section of the
+              dialog has overflow auto applied, which would typically crop the
+              menu.
+            </p>
             <Select
               defaultValue={colourOptions[0]}
-              isClearable
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
               menuPortalTarget={document.body}
-              isSearchable
-              name="color"
               options={colourOptions}
+              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
             />
           </Modal>
-          : null
-        }
+        ) : null}
       </Fragment>
     );
   }
