@@ -7,7 +7,7 @@ import { OPTIONS } from './constants';
 import Select from '../';
 import { components } from '../components';
 
-const { Control, Menu, Option } = components;
+const { Control, Menu, MultiValue, Option } = components;
 
 const BASIC_PROPS = { options: OPTIONS, name: 'test-input-name' };
 
@@ -65,6 +65,22 @@ test('multi select > remove the last selected option on backspace', () => {
 
   selectWrapper.find(Control).simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(selectWrapper.find(Control).text()).toBe('0');
+});
+
+test('multi select > clicking on X next to selection option', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} isMulti defaultValue={[ OPTIONS[2], OPTIONS[4] ]} />);
+  // there are two values in select
+  expect(selectWrapper.find(MultiValue).length).toBe(2);
+  // select has 2 and 4 as value
+  expect(selectWrapper.find(Control).text()).toBe('24');
+
+  const selectFirstValueWrapper = selectWrapper.find(MultiValue).at(0);
+  selectFirstValueWrapper.find('div.react-select__multi-value__remove').simulate('click', { button: 0 });
+  // now there is one values in select
+  expect(selectWrapper.find(MultiValue).length).toBe(1);
+  // first value 2, is removed from the select
+  expect(selectWrapper.find(Control).text()).toBe('4');
+
 });
 
 cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expectedValueAfterBackSpace }) => {
@@ -354,4 +370,97 @@ cases('selection an option > keyboard interaction', ({ props = { ...BASIC_PROPS 
   },
 });
 
+cases('accessibility - select input with defaults', ({ props = BASIC_PROPS , expectAriaHaspopup = false, expectAriaExpanded = false }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  let selectInput = selectWrapper.find('Control input');
 
+  expect(selectInput.props().role).toBe('combobox');
+  expect(selectInput.props()['aria-haspopup']).toBe(expectAriaHaspopup);
+  expect(selectInput.props()['aria-expanded']).toBe(expectAriaExpanded);
+}, {
+  'single select > with menu closed > input should have aria role combobox, and aria-haspopup, aria-expanded as false': {
+  },
+  'single select > with menu open > input should have aria role combobox, and aria-haspopup, aria-expanded as true': {
+    props: {
+      ...BASIC_PROPS,
+      menuIsOpen: true,
+    },
+    expectAriaHaspopup: true,
+    expectAriaExpanded: true,
+  },
+  'multi select > with menu closed > input should have aria role combobox, and aria-haspopup, aria-expanded as false': {
+    props: {
+      ...BASIC_PROPS,
+      isMulti: true,
+    }
+  },
+  'multi select > with menu open > input should have aria role combobox, and aria-haspopup, aria-expanded as true': {
+    props: {
+      ...BASIC_PROPS,
+      isMulti: true,
+      menuIsOpen: true,
+    },
+    expectAriaHaspopup: true,
+    expectAriaExpanded: true,
+  },
+});
+
+cases('accessibility - aria-activedescendant', ({ props = {...BASIC_PROPS, value: { label: '2', value: 'two' }, menuIsOpen: true } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  let selectInput = selectWrapper.find('Control input');
+  let activeDescendant = selectInput.props()['aria-activedescendant'];
+  expect(selectWrapper.find(`#${activeDescendant}`.text())).toBe('2');
+}, {
+  'single select': {
+    skip: true,
+  },
+  'multi select': {
+    skip: true,
+    props: {
+      ...BASIC_PROPS,
+      value: { label: '2', value: 'two' },
+    }
+  }
+});
+
+cases('passes through aria-labelledby prop', ({ props = {...BASIC_PROPS, 'aria-labelledby': 'testing' } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find('Control input').props()['aria-labelledby']).toBe('testing');
+}, {
+  'single select > should pass aria-labelledby prop down to input': { },
+  'multi select > should pass aria-labelledby prop down to input': {
+    props: {
+      ...BASIC_PROPS,
+      'aria-labelledby': 'testing',
+      isMulti: true,
+    }
+  }
+});
+
+cases('passes through aria-describedby prop', ({ props = {...BASIC_PROPS, 'aria-describedby': 'testing' } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find('Control input').props()['aria-describedby']).toBe('testing');
+}, {
+  'single select > should pass aria-labelledby prop down to input': { },
+  'multi select > should pass aria-labelledby prop down to input': {
+    props: {
+      ...BASIC_PROPS,
+      'aria-describedby': 'testing',
+      isMulti: true,
+    }
+  }
+});
+
+cases('passes through aria-label prop', ({ props = {...BASIC_PROPS, 'aria-label': 'testing' } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find('Control input').props()['aria-label']).toBe('testing');
+}, {
+  'single select > should pass aria-labelledby prop down to input': { },
+  'multi select > should pass aria-labelledby prop down to input': {
+    props: {
+      ...BASIC_PROPS,
+      'aria-label': 'testing',
+      isMulti: true,
+    }
+  }
+});
