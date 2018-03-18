@@ -1,12 +1,14 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
+import NodeResolver from 'react-node-resolver';
 
 import { createFilter } from './filters';
 import { DummyInput, ScrollCaptor } from './internal/index';
 
 import {
   cleanValue,
+  computedStyle,
   isTouchCapable,
   isMobileDevice,
   noop,
@@ -19,6 +21,7 @@ import {
   getOptionValue,
   isOptionDisabled,
 } from './builtins';
+import{ spacing } from './theme';
 
 import {
   defaultComponents,
@@ -95,6 +98,8 @@ export type Props = {
   isClearable?: boolean,
   /* Is the select disabled */
   isDisabled: boolean,
+  /* Is the select displayed inline */
+  isInline: boolean,
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
   /* Override the built-in logic to detect whether an option is disabled */
@@ -173,6 +178,7 @@ export const defaultProps = {
   getOptionValue: getOptionValue,
   hideSelectedOptions: true,
   isDisabled: false,
+  isInline: false,
   isLoading: false,
   isMulti: false,
   isRtl: false,
@@ -201,6 +207,8 @@ type MenuOptions = {
 };
 
 type State = {
+  inlineWidth?: number,
+  indicatorsWidth?: number,
   inputIsHidden: boolean,
   isFocused: boolean,
   focusedOption: OptionType | null,
@@ -211,6 +219,9 @@ type State = {
 type ElRef = ElementRef<*>;
 
 let instanceId = 1;
+
+const InlineMeasure = ({ isEnabled, ...props }) =>
+  isEnabled ? <NodeResolver {...props} /> : props.children;
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -224,12 +235,16 @@ export default class Select extends Component<Props, State> {
   inputHeight: ?number = 20;
   inputIsHiddenAfterUpdate: ?boolean;
   instancePrefix: string = '';
+  inlineMeasurementRef: ?ElRef;
+  indicatorsRef: ?ElRef;
   menuRef: ?ElRef;
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
   userIsDragging: ?boolean;
   state = {
     focusedOption: null,
+    inlineWidth: undefined,
+    indicatorsWidth: undefined,
     inputIsHidden: false,
     isFocused: false,
     menuOptions: { render: [], focusable: [] },
@@ -249,6 +264,9 @@ export default class Select extends Component<Props, State> {
     this.state.selectValue = selectValue;
   }
   componentDidMount() {
+    if (this.props.isInline) {
+      this.getInlineWidth();
+    }
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -288,7 +306,7 @@ export default class Select extends Component<Props, State> {
       this.stopListeningToTouch();
     }
   }
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { isDisabled } = this.props;
     const { isFocused } = this.state;
     // ensure focus is restored correctly when the control becomes enabled
@@ -304,6 +322,11 @@ export default class Select extends Component<Props, State> {
       scrollIntoView(this.menuRef, this.focusedOptionRef);
     }
     this.scrollToFocusedOptionOnUpdate = false;
+
+    // resize the control for inline selects
+    if (prevState.selectValue !== this.state.selectValue) {
+      this.getInlineWidth();
+    }
   }
 
   // ==============================
@@ -318,13 +341,13 @@ export default class Select extends Component<Props, State> {
       this.inputHeight = ref.clientHeight;
     }
   };
-  onControlRef = (ref: ElementRef<*>) => {
+  onControlRef = (ref: ElRef) => {
     this.controlRef = ref;
   };
-  onMenuRef = (ref: ElementRef<*>) => {
+  onMenuRef = (ref: ElRef) => {
     this.menuRef = ref;
   };
-  onFocusedOptionRef = (ref: ElementRef<*>) => {
+  onFocusedOptionRef = (ref: ElRef) => {
     this.focusedOptionRef = ref;
   };
 
@@ -479,6 +502,31 @@ export default class Select extends Component<Props, State> {
       selectProps: props,
     };
   }
+  getInlineWidth = () => {
+    const { isInline } = this.props;
+    if (!isInline || !this.inlineMeasurementRef || !this.indicatorsRef) {
+      return;
+    }
+
+    const parent = this.inlineMeasurementRef.parentElement;
+    const containerPadding = parent
+      ? computedStyle(parent, 'padding-left') +
+        computedStyle(parent, 'padding-right')
+      : 0;
+    const inlineElWidth = this.inlineMeasurementRef.offsetWidth || 0;
+    const indicatorsWidth = this.indicatorsRef.offsetWidth || 0;
+    const inlineWidth = inlineElWidth + indicatorsWidth + containerPadding + spacing.baseUnit;
+
+    if (inlineWidth !== this.state.inlineWidth) {
+      return this.setState({ inlineWidth });
+    }
+  };
+  onInlineRef = (ref: ElRef) => {
+    this.inlineMeasurementRef = ref;
+  };
+  onIndicatorsRef = (ref: ElRef) => {
+    this.indicatorsRef = ref;
+  };
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
     return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
@@ -1301,8 +1349,8 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, maxValueHeight } = this.props;
-    const { isFocused } = this.state;
+    const { isDisabled, isInline, isMulti, maxValueHeight } = this.props;
+    const { isFocused, inlineWidth } = this.state;
     const inputId = this.getElementId('input');
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1315,6 +1363,7 @@ export default class Select extends Component<Props, State> {
         }}
         isDisabled={isDisabled}
         isFocused={isFocused}
+        inlineWidth={inlineWidth}
       >
         {this.renderScreenReaderStatus()}
         <Control
@@ -1327,15 +1376,29 @@ export default class Select extends Component<Props, State> {
           isDisabled={isDisabled}
           isFocused={isFocused}
         >
-          <ValueContainer
-            {...commonProps}
-            isDisabled={isDisabled}
-            maxHeight={maxValueHeight}
+          <InlineMeasure
+            isEnabled={isInline && isMulti}
+            innerRef={this.onInlineRef}
           >
-            {this.renderPlaceholderOrValue()}
-            {this.renderInput(inputId)}
-          </ValueContainer>
-          <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
+            <ValueContainer
+              {...commonProps}
+              isDisabled={isDisabled}
+              maxHeight={maxValueHeight}
+            >
+              <InlineMeasure
+                isEnabled={isInline && !isMulti}
+                innerRef={this.onInlineRef}
+              >
+                {this.renderPlaceholderOrValue()}
+                {this.renderInput(inputId)}
+              </InlineMeasure>
+            </ValueContainer>
+          </InlineMeasure>
+          <IndicatorsContainer
+            {...commonProps}
+            innerProps={{ innerRef: this.onIndicatorsRef }}
+            isDisabled={isDisabled}
+          >
             {this.renderClearIndicator()}
             {this.renderLoadingIndicator()}
             {this.renderIndicatorSeparator()}

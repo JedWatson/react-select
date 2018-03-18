@@ -11,10 +11,12 @@ import { type PropsWithStyles, type KeyboardEventHandler } from '../types';
 // ==============================
 
 type ContainerState = {
+  /** Width of the container when `isInline` set to true. */
+  inlineWidth?: number,
   /** Whether the select is disabled. */
   isDisabled: boolean,
   /** Whether the text in the select is indented from right to left. */
-  isRtl: boolean
+  isRtl: boolean,
 };
 
 export type ContainerProps = PropsWithStyles &
@@ -26,15 +28,18 @@ export type ContainerProps = PropsWithStyles &
   };
 export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   direction: isRtl ? 'rtl' : null,
+  maxWidth: '100%',
   pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { children, getStyles, innerProps, isDisabled, isRtl } = props;
+  const { children, getStyles, inlineWidth, innerProps, isDisabled, isRtl } = props;
+  const style = inlineWidth ? { width: inlineWidth } : null;
   return (
     <Div
       css={getStyles('container', props)}
       className={className('container', { isDisabled, isRtl })}
+      style={style}
       {...innerProps}
     >
       {children}
@@ -56,10 +61,13 @@ export type ValueContainerProps = PropsWithStyles & {
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
+export const valueContainerCSS = ({
+  isMulti,
+  maxHeight,
+}: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex ',
-  flex: 1,
+  flex: isMulti ? '0 0 auto' : '1 0 auto',
   flexWrap: 'wrap',
   maxHeight: maxHeight, // max-height allows scroll when multi
   overflowY: 'auto',
@@ -109,13 +117,16 @@ export class ValueContainer extends Component<ValueContainerProps> {
 
 type IndicatorsState = {
   /** Whether the text should be rendered right to left. */
-  isRtl: boolean
+  isRtl: boolean,
 };
 
-export type IndicatorContainerProps = PropsWithStyles & IndicatorsState & {
-  /** The children to be rendered. */
-  children: Node
-};
+export type IndicatorContainerProps = PropsWithStyles &
+  IndicatorsState & {
+    /** The children to be rendered. */
+    children: Node,
+    /** Props that must be spread. */
+    innerProps: Object,
+  };
 
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
@@ -124,12 +135,13 @@ export const indicatorsContainerCSS = () => ({
   flexShrink: 0,
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
-  const { children, getStyles } = props;
+  const { children, getStyles, innerProps } = props;
 
   return (
     <Div
       className={className('indicators')}
       css={getStyles('indicatorsContainer', props)}
+      {...innerProps}
     >
       {children}
     </Div>

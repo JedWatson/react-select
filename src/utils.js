@@ -10,6 +10,19 @@ import type { InputActionMeta, OptionsType, ValueType } from './types';
 export const noop = () => {};
 
 // ==============================
+// Get Computed Style
+// ==============================
+
+export function computedStyle(
+  el: HTMLElement,
+  prop: string,
+  numeric: boolean = true
+) {
+  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
+  return numeric ? parseFloat(val) : val;
+}
+
+// ==============================
 // Class Name Prefixer
 // ==============================
 

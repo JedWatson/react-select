@@ -10,6 +10,8 @@ import {
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
   Experimental,
+  InlineMulti,
+  InlineSingle,
   MenuPortal,
 } from '../../examples';
 
@@ -112,6 +114,31 @@ export default function Advanced() {
         raw={require('!!raw-loader!../../examples/OnSelectResetsInput.js')}
       >
         <OnSelectResetsInput />
+      </ExampleWrapper>
+    )}
+
+    ## Inline
+    Allow consumers to render an "inline" select.
+
+    ${(
+      <ExampleWrapper
+        isEditable={false}
+        label="Inline Single"
+        urlPath="docs/examples/InlineSingle.js"
+        raw={require('!!raw-loader!../../examples/InlineSingle.js')}
+      >
+        <InlineSingle />
+      </ExampleWrapper>
+    )}
+
+    ${(
+      <ExampleWrapper
+        isEditable={false}
+        label="Inline Multi"
+        urlPath="docs/examples/InlineMulti.js"
+        raw={require('!!raw-loader!../../examples/InlineMulti.js')}
+      >
+        <InlineMulti />
       </ExampleWrapper>
     )}
 
