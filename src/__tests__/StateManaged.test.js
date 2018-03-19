@@ -665,3 +665,16 @@ test('renders a read only input when isSearchable is false', () => {
   let inputWrapper = selectWrapper.find('Control input');
   expect(inputWrapper.props().readOnly).toBe(true);
 });
+
+test('not hide the options from the menu if hideSelectedOptions is false', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} hideSelectedOptions={false} isMulti menuIsOpen/>);
+  let firstOption = selectWrapper.find(Option).at(0);
+  let secondoption = selectWrapper.find(Option).at(1);
+  expect(firstOption.text()).toBe('0');
+  expect(secondoption.text()).toBe('1');
+
+  firstOption.find('div.react-select__option').simulate('click', { button: 0 });
+
+  expect(firstOption.text()).toBe('0');
+  expect(secondoption.text()).toBe('1');
+});
