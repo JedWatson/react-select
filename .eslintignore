@@ -2,3 +2,4 @@ lib/*
 dist/*
 coverage/*
 node_modules/*
+flow-typed/*

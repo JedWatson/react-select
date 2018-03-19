@@ -13,7 +13,7 @@ type State = {
 type ValueProps = {
   /** The children to be rendered. */
   children: string,
-  /* I do not know what this does - Ben */
+  /* The data of the selected option rendered in the Single Value componentn */
   data: any,
     /** Props passed to the wrapping element for the group. */
   innerProps: any,

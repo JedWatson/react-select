@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 import { Props } from '@atlaskit/docs';
-import { CustomComponents } from '../../PropTypes';
 
 export default function Api() {
   return (
@@ -23,6 +22,27 @@ export default function Api() {
     ### \`focus()\`
 
     Focused the internal control input.
+
+    ## CreateFilter
+    react-select exposes a createFilter factory that configures and returns a filterOptions function  of the following type:
+    ~~~js
+      (Config) => ({ label: string, value: string, date: any }) => boolean
+    ~~~
+
+    where the Config object has the following shape:
+
+    ~~~js
+      {
+        ignoreCase: boolean, // toggles whether we filter with case sensitivity defaults to true
+        ignoreAccents: boolean, // toggles whether we filter on accents defaults to true
+        stringify: Option => string, // a function that can be passed in to resolve how to stringify each option candidate
+        trim: boolean, // toggles whether we trim search terms
+        matchFrom: 'any' | 'start' // 'any' matches the substr on any part of the stringified option, 'start' matches the substr from the start of the stringified option.
+      }
+    ~~~
+
+    see example of usage in the [advanced usage page](/advanced)
+
 
     ## Prop Types
 
@@ -60,9 +80,25 @@ export default function Api() {
     Even when commonProps are not listed in the prop types below, a custom component
     will still have access to them.
 
-    ## Public Props
+    ## Base Props
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/SelectPropTypes')} />}
+    These base props are those available to be passed to all select variants.
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Select')} />}
+
+    ## Async props
+
+    These props are included with in both the Async and AsyncCreatable select. For
+    more on using async selects, see the [async select documentation](/async)
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Async')} />}
+
+    ## Creatable props
+
+    These props are included with in both the Creatable and AsyncCreatable select. For
+    more on using creatable selects, see the [creatable select documentation](/creatable)
+
+    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Creatable')} />}
 
     ## Replacing Components
 
@@ -101,7 +137,8 @@ export default function Api() {
     ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Group')} />}
 
     ### GroupHeading
-    ${CustomComponents.GroupHeading}
+
+    Group Heading can be any component.
 
     ### IndicatorsContainer
 
