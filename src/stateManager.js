@@ -5,6 +5,7 @@ import React, { Component, type ComponentType } from 'react';
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
 
 export type Props = {
+  selectRef: ref => void,
   defaultInputValue: string,
   defaultMenuIsOpen: boolean,
   defaultValue: ValueType,
@@ -24,6 +25,7 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       defaultInputValue: '',
       defaultMenuIsOpen: false,
       defaultValue: null,
+      selectRef: () => {}
     };
     state = {
       inputValue:
@@ -67,10 +69,17 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       this.callProp('onMenuClose');
       this.setState({ menuIsOpen: false });
     };
+    onSelectRef = (ref) => {
+      if (ref && ref.instancePrefix && ref.instancePrefix.includes('react-select')) {
+        this.props.selectRef(ref);
+      }
+      return;
+    }
     render() {
       return (
         <SelectComponent
           {...this.props}
+          ref={this.onSelectRef}
           inputValue={this.getProp('inputValue')}
           menuIsOpen={this.getProp('menuIsOpen')}
           onChange={this.onChange}

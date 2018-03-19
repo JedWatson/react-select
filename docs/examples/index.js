@@ -1,3 +1,4 @@
+export { default as AccessingInternals } from './AccessingInternals';
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';

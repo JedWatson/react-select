@@ -123,6 +123,7 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       return (
         <SelectComponent
           {...props}
+          ref={props.selectRef}
           options={options}
           onChange={this.onChange}
         />
