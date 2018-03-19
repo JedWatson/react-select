@@ -19,6 +19,10 @@ export default function Async() {
     import Async from 'react-select/lib/Async';
     ~~~
 
+    ## Loading Options Asynchronously
+
+    The loadOptions prop allows users to either resolve from a callback...
+
     ${(
       <ExampleWrapper
         label="Callbacks"
@@ -28,6 +32,8 @@ export default function Async() {
         <AsyncCallbacks />
       </ExampleWrapper>
     )}
+
+    or resolve from a returned promise....
 
     ${(
       <ExampleWrapper
