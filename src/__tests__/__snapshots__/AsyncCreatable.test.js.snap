@@ -15,6 +15,7 @@ exports[`defaults - snapshot 1`] = `
     isLoading={false}
     onInputChange={[Function]}
     options={Array []}
+    selectRef={[Function]}
   >
     <Creatable
       allowCreateWhileLoading={false}
@@ -35,6 +36,7 @@ exports[`defaults - snapshot 1`] = `
       onMenuClose={[Function]}
       onMenuOpen={[Function]}
       options={Array []}
+      selectRef={[Function]}
       value={null}
     >
       <Select
@@ -81,6 +83,7 @@ exports[`defaults - snapshot 1`] = `
         placeholder="Select..."
         screenReaderStatus={[Function]}
         scrollMenuIntoView={true}
+        selectRef={[Function]}
         styles={Object {}}
         tabSelectsValue={true}
         value={null}
@@ -146,6 +149,7 @@ exports[`defaults - snapshot 1`] = `
               "placeholder": "Select...",
               "screenReaderStatus": [Function],
               "scrollMenuIntoView": true,
+              "selectRef": [Function],
               "styles": Object {},
               "tabSelectsValue": true,
               "value": null,
@@ -273,6 +277,7 @@ exports[`defaults - snapshot 1`] = `
                       "placeholder": "Select...",
                       "screenReaderStatus": [Function],
                       "scrollMenuIntoView": true,
+                      "selectRef": [Function],
                       "styles": Object {},
                       "tabSelectsValue": true,
                       "value": null,
@@ -396,6 +401,7 @@ exports[`defaults - snapshot 1`] = `
                               "placeholder": "Select...",
                               "screenReaderStatus": [Function],
                               "scrollMenuIntoView": true,
+                              "selectRef": [Function],
                               "styles": Object {},
                               "tabSelectsValue": true,
                               "value": null,
@@ -496,6 +502,7 @@ exports[`defaults - snapshot 1`] = `
                                       "placeholder": "Select...",
                                       "screenReaderStatus": [Function],
                                       "scrollMenuIntoView": true,
+                                      "selectRef": [Function],
                                       "styles": Object {},
                                       "tabSelectsValue": true,
                                       "value": null,
@@ -728,6 +735,7 @@ exports[`defaults - snapshot 1`] = `
                               "placeholder": "Select...",
                               "screenReaderStatus": [Function],
                               "scrollMenuIntoView": true,
+                              "selectRef": [Function],
                               "styles": Object {},
                               "tabSelectsValue": true,
                               "value": null,
@@ -823,6 +831,7 @@ exports[`defaults - snapshot 1`] = `
                                       "placeholder": "Select...",
                                       "screenReaderStatus": [Function],
                                       "scrollMenuIntoView": true,
+                                      "selectRef": [Function],
                                       "styles": Object {},
                                       "tabSelectsValue": true,
                                       "value": null,
@@ -917,6 +926,7 @@ exports[`defaults - snapshot 1`] = `
                                       "placeholder": "Select...",
                                       "screenReaderStatus": [Function],
                                       "scrollMenuIntoView": true,
+                                      "selectRef": [Function],
                                       "styles": Object {},
                                       "tabSelectsValue": true,
                                       "value": null,
