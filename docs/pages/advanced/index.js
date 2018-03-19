@@ -11,6 +11,7 @@ import {
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
   Experimental,
+  MenuPortal,
 } from '../../examples';
 
 export default function Advanced() {
@@ -126,6 +127,22 @@ export default function Advanced() {
         <AccessingInternals />
       </ExampleWrapper>
     )}
+
+    ## Portaling
+    React-select exposes a menuPortalTarget prop, that lets you portal the select menu to a dom node of your choosing.
+    Additionally we expose the menuPortal styles for layering purposes.
+
+    ${(
+      <ExampleWrapper
+        isEditable={false}
+        label="Example of Portaling"
+        urlPath="docs/examples/MenuPortal.js"
+        raw={require('!!raw-loader!../../examples/MenuPortal.js')}
+      >
+        <MenuPortal />
+      </ExampleWrapper>
+    )}
+
 
     ## Experimental
 

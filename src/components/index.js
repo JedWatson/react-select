@@ -20,7 +20,16 @@ import {
 import Control, { type ControlProps } from './Control';
 import Group, { type GroupProps, GroupHeading } from './Group';
 import Input, { type InputProps } from './Input';
-import Menu, { type MenuProps, MenuList, type MenuListComponentProps, type NoticeProps, NoOptionsMessage, LoadingMessage } from './Menu';
+import Menu, {
+  type MenuProps,
+  MenuList,
+  type MenuListComponentProps,
+  MenuPortal,
+  type MenuPortalProps,
+  type NoticeProps,
+  NoOptionsMessage,
+  LoadingMessage,
+} from './Menu';
 import MultiValue, {
   type MultiValueProps,
   MultiValueContainer,
@@ -31,7 +40,7 @@ import Option, { type OptionProps } from './Option';
 import Placeholder, { type PlaceholderProps } from './Placeholder';
 import SingleValue, { type SingleValueProps } from './SingleValue';
 
-type IndicatorComponentType = ComponentType<IndicatorProps>
+type IndicatorComponentType = ComponentType<IndicatorProps>;
 
 export type SelectComponents = {
   ClearIndicator: IndicatorComponentType,
@@ -45,6 +54,7 @@ export type SelectComponents = {
   LoadingIndicator: ComponentType<LoadingIconProps>,
   Menu: ComponentType<MenuProps>,
   MenuList: ComponentType<MenuListComponentProps>,
+  MenuPortal: ComponentType<MenuPortalProps>,
   LoadingMessage: ComponentType<NoticeProps>,
   NoOptionsMessage: ComponentType<NoticeProps>,
   MultiValue: ComponentType<MultiValueProps>,
@@ -72,6 +82,7 @@ export const components: SelectComponents = {
   LoadingIndicator: LoadingIndicator,
   Menu: Menu,
   MenuList: MenuList,
+  MenuPortal: MenuPortal,
   LoadingMessage: LoadingMessage,
   NoOptionsMessage: NoOptionsMessage,
   MultiValue: MultiValue,
