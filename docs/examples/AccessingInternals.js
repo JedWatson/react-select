@@ -52,7 +52,7 @@ export default class AccessingInterals extends Component {
           Creatable Select
         </h4>
         <CreatableSelect
-          selectRef={ ref => { this.creatableRef = ref; }}
+          ref={ ref => { this.creatableRef = ref; }}
           isClearable
           onChange={this.handleChange}
           options={colourOptions}
@@ -73,7 +73,7 @@ export default class AccessingInterals extends Component {
           Async Select
         </h4>
         <AsyncSelect
-          selectRef={ ref => { this.asyncRef = ref; }}
+          ref={ ref => { this.asyncRef = ref; }}
           cacheOptions
           defaultOptions
           loadOptions={promiseOptions}
@@ -92,7 +92,7 @@ export default class AccessingInterals extends Component {
         </Note>
         <h4>Select</h4>
         <Select
-          selectRef={ref => { this.selectRef = ref; }}
+          ref={ref => { this.selectRef = ref; }}
           defaultValue={colourOptions[2]}
           name="colors"
           options={colourOptions}

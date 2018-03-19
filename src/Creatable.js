@@ -17,8 +17,6 @@ export type CreatableProps = {
   getNewOptionData: (string, Node) => OptionType,
   /* Function called when the new create option is selected from the menu. */
   onCreateOption?: string => void,
-  /* Function that takes in the ref of the base Select as an argument */
-  selectRef?: ElementRef<*> => void,
 }
 
 export type Props = SelectProps & CreatableProps;
@@ -63,6 +61,7 @@ type State = {
 export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
   class Creatable extends Component<Props, State> {
     static defaultProps = defaultProps;
+    select: ElementRef<*>;
     constructor(props: Props) {
       super(props);
       const options = props.options || [];
@@ -126,13 +125,19 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       }
       onChange(newValue, actionMeta);
     };
+    focus () {
+      this.select.focus();
+    }
+    blur () {
+      this.select.blur();
+    }
     render() {
       const { ...props } = this.props;
       const { options } = this.state;
       return (
         <SelectComponent
           {...props}
-          ref={props.selectRef}
+          ref={ref => { this.select = ref; }}
           options={options}
           onChange={this.onChange}
         />

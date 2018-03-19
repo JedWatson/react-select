@@ -25,7 +25,6 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       defaultInputValue: '',
       defaultMenuIsOpen: false,
       defaultValue: null,
-      selectRef: () => {}
     };
     state = {
       inputValue:
@@ -41,6 +40,12 @@ const manageState = (SelectComponent: ComponentType<*>) =>
           ? this.props.value
           : this.props.defaultValue,
     };
+    focus () {
+      this.select.focus();
+    }
+    blur () {
+      this.select.blur();
+    }
     getProp(key: string) {
       return this.props[key] !== undefined ? this.props[key] : this.state[key];
     }
@@ -69,17 +74,11 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       this.callProp('onMenuClose');
       this.setState({ menuIsOpen: false });
     };
-    onSelectRef = (ref: ElementRef<*>) => {
-      if (ref && ref.instancePrefix && ref.instancePrefix.includes('react-select')) {
-        this.props.selectRef(ref);
-      }
-      return;
-    }
     render() {
       return (
         <SelectComponent
           {...this.props}
-          ref={this.onSelectRef}
+          ref={ref => { this.select = ref; }}
           inputValue={this.getProp('inputValue')}
           menuIsOpen={this.getProp('menuIsOpen')}
           onChange={this.onChange}
