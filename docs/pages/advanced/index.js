@@ -3,6 +3,7 @@ import React from 'react';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
+  ControlledMenu,
   OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
@@ -127,6 +128,19 @@ export default function Advanced() {
         raw={require('!!raw-loader!../../examples/MenuPortal.js')}
       >
         <MenuPortal />
+      </ExampleWrapper>
+    )}
+
+    ## Controlled Props
+
+    ${(
+      <ExampleWrapper
+        isEditable={false}
+        label="Example of controlled MenuIsOpen"
+        urlPath="docs/examples/ControlledMenu.js"
+        raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
+      >
+        <ControlledMenu />
       </ExampleWrapper>
     )}
 
