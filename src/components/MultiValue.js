@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component, type Node } from 'react';
 
 import { borderRadius, colors, spacing } from '../theme';
 import { className } from '../utils';
@@ -52,7 +52,27 @@ export const multiValueRemoveCSS = () => ({
 
 export const MultiValueContainer = Div;
 export const MultiValueLabel = Div;
-export const MultiValueRemove = Div;
+export type MultiValueRemoveProps = PropsWithStyles & {
+  children: Node,
+  innerProps: any,
+  removeProps: {
+    onClick: any => void,
+    onMouseDown: any => void,
+  }
+};
+export class MultiValueRemove extends Component <MultiValueRemoveProps> {
+  static defaultProps = {
+    children: <CrossIcon size={14}/>
+  }
+  render () {
+    const { children, ...props } = this.props;
+    return (
+      <Div {...props}>
+        {children}
+      </Div>
+    );
+  }
+}
 
 const MultiValue = (props: MultiValueProps) => {
   const {
@@ -80,9 +100,7 @@ const MultiValue = (props: MultiValueProps) => {
       <Label className={cn.label} css={css.label}>
         {children}
       </Label>
-      <Remove className={cn.remove} css={css.remove} {...removeProps}>
-        <CrossIcon size={14} />
-      </Remove>
+      <Remove className={cn.remove} css={css.remove} {...removeProps}/>
     </Container>
   );
 };

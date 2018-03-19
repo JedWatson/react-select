@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components } from '../../src';
 import { colourOptions } from '../data';
@@ -8,7 +9,9 @@ import { colourOptions } from '../data';
 const MultiValueRemove = (props) => {
   return (
     <Tooltip content={'Customise your multi-value remove component!'} truncateText>
-      <components.MultiValueRemove {...props}/>
+      <components.MultiValueRemove {...props}>
+        <EmojiIcon primaryColor="#2684FF"/>
+      </components.MultiValueRemove>
     </Tooltip>
   );
 };
