@@ -1,3 +1,4 @@
+export { default as ControlledMenu } from './ControlledMenu';
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
@@ -39,3 +40,4 @@ export { default as StyledMulti } from './StyledMulti';
 export { default as StyledSingle } from './StyledSingle';
 export { default as OnSelectResetsInput } from './OnSelectResetsInput';
 export { default as AsyncMulti } from './AsyncMulti';
+export { default as MenuPortal } from './MenuPortal';

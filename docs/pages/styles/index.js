@@ -1,7 +1,20 @@
+import React, { Fragment } from 'react';
+import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
+import ExampleWrapper from '../../ExampleWrapper';
+import { StyledSingle, StyledMulti } from '../../examples';
 
 export default function Styles() {
-  return md`
+  return (
+  <Fragment>
+    <Helmet>
+      <title>Styles - React Select</title>
+      <meta
+        name="description"
+        content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects"
+      />
+    </Helmet>
+    {md`
     # Styles
 
     React-Select offers a flexible, light-weight styling framework which is
@@ -64,12 +77,34 @@ export default function Styles() {
       }
     }
 
-    const App = () => (
-      <Select
-        styles={customStyles}
-        options={...}
-      />
-    );
-    ~~~
-  `;
+      const App = () => (
+        <Select
+          styles={customStyles}
+          options={...}
+        />
+      );
+      ~~~
+
+      ${(
+        <ExampleWrapper
+          label="Customised Styles for Single Select"
+          urlPath="docs/examples/StyledSingle.js"
+          raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+        >
+          <StyledSingle/>
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Customised styles for Multi Select"
+          urlPath="docs/examples/StyledMulti.js"
+          raw={require('!!raw-loader!../../examples/StyledMulti.js')}
+          >
+          <StyledMulti/>
+        </ExampleWrapper>
+      )}
+    `}
+    </Fragment>
+  );
 }

@@ -1,7 +1,8 @@
 // @flow
 
+import React, { Fragment } from 'react';
+import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
-import React from 'react';
 import ExampleWrapper from '../../ExampleWrapper';
 
 import {
@@ -13,69 +14,79 @@ import {
 } from '../../examples';
 
 export default function Creatable() {
-  return md`
-    # Creatable
+  return (
+    <Fragment>
+      <Helmet>
+        <title>Creatable - React Select</title>
+        <meta
+          name="description"
+          content="The react-select Creatable Component."
+        />
+      </Helmet>
+      {md`
+      # Creatable
 
-    ~~~jsx
-    import Creatable from 'react-select/lib/Creatable';
-    ~~~
+      ~~~jsx
+      import Creatable from 'react-select/lib/Creatable';
+      ~~~
 
-    For the prop definition, please see the API docs [here](/api)
+      For the prop definition, please see the API docs [here](/api)
 
-    ${(
-      <ExampleWrapper
-        label="Creatable Example"
-        urlPath="docs/home/examples/CreatableSingle.js"
-        raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
-      >
-        <CreatableSingle />
-      </ExampleWrapper>
-    )}
+      ${(
+        <ExampleWrapper
+          label="Creatable Example"
+          urlPath="docs/home/examples/CreatableSingle.js"
+          raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
+        >
+          <CreatableSingle />
+        </ExampleWrapper>
+      )}
 
-    ${(
-      <ExampleWrapper
-        label="Creatable Multiselect Example"
-        urlPath="docs/home/examples/CreatableMulti.js"
-        raw={require('!!raw-loader!../../examples/CreatableMulti.js')}
-      >
-        <CreatableMulti />
-      </ExampleWrapper>
-    )}
+      ${(
+        <ExampleWrapper
+          label="Creatable Multiselect Example"
+          urlPath="docs/home/examples/CreatableMulti.js"
+          raw={require('!!raw-loader!../../examples/CreatableMulti.js')}
+        >
+          <CreatableMulti />
+        </ExampleWrapper>
+      )}
 
-    ${(
-      <ExampleWrapper
-        label="Advanced Example"
-        urlPath="docs/home/examples/CreatableAdvanced.js"
-        raw={require('!!raw-loader!../../examples/CreatableAdvanced.js')}
-      >
-        <CreatableAdvanced />
-      </ExampleWrapper>
-    )}
+      ${(
+        <ExampleWrapper
+          label="Advanced Example"
+          urlPath="docs/home/examples/CreatableAdvanced.js"
+          raw={require('!!raw-loader!../../examples/CreatableAdvanced.js')}
+        >
+          <CreatableAdvanced />
+        </ExampleWrapper>
+      )}
 
-    > This example uses the \`onCreateOption\` prop to handle new options.
+      > This example uses the \`onCreateOption\` prop to handle new options.
 
-    > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
+      > To simulate waiting for a back-end service to create a new option, the input is disabled for a second before the new option is added to the list and the value is updated.
 
-    ${(
-      <ExampleWrapper
-        label="Async Creatable Example"
-        urlPath="docs/home/examples/AsyncCreatable.js"
-        raw={require('!!raw-loader!../../examples/AsyncCreatable.js')}
-      >
-        <AsyncCreatable />
-      </ExampleWrapper>
-    )}
+      ${(
+        <ExampleWrapper
+          label="Async Creatable Example"
+          urlPath="docs/home/examples/AsyncCreatable.js"
+          raw={require('!!raw-loader!../../examples/AsyncCreatable.js')}
+        >
+          <AsyncCreatable />
+        </ExampleWrapper>
+      )}
 
-    > This example uses the combined async + creatable variant, imported from \`react-select/lib/AsyncCreatable\`
+      > This example uses the combined async + creatable variant, imported from \`react-select/lib/AsyncCreatable\`
 
-    ${(
-      <ExampleWrapper
-        label="Multi-select text input"
-        urlPath="docs/home/examples/CreatableInputOnly.js"
-        raw={require('!!raw-loader!../../examples/CreatableInputOnly.js')}
-      >
-        <CreatableInputOnly />
-      </ExampleWrapper>
-    )}
-  `;
+      ${(
+        <ExampleWrapper
+          label="Multi-select text input"
+          urlPath="docs/home/examples/CreatableInputOnly.js"
+          raw={require('!!raw-loader!../../examples/CreatableInputOnly.js')}
+        >
+          <CreatableInputOnly />
+        </ExampleWrapper>
+      )}
+    `}
+  </Fragment>);
 }

@@ -1,9 +1,11 @@
 // @flow
 import React, { Component, type ElementRef, type Node } from 'react';
+import { createPortal } from 'react-dom';
 
 import {
   animatedScrollTo,
   className,
+  getBoundingClientObj,
   getScrollParent,
   getScrollTop,
   normalizedHeight,
@@ -180,8 +182,10 @@ const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
-  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
   borderRadius: borderRadius,
+  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
+  display: 'flex ',
+  flexDirection: 'column',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
   maxHeight: maxHeight,
@@ -246,7 +250,7 @@ export default Menu;
 type MenuListState = {
   /** Set classname for isMulti */
   isMulti: boolean,
-  /* I do not know what this is - Ben */
+  /* Set the max height of the Menu component  */
   maxHeight: number,
 };
 
@@ -261,9 +265,11 @@ export type MenuListProps = {
     role: 'listbox',
   },
 };
-export type MenuListComponentProps = PropsWithStyles & MenuListProps & MenuListState;
+export type MenuListComponentProps = PropsWithStyles &
+  MenuListProps &
+  MenuListState;
 export const menuListCSS = () => ({
-  maxHeight: 'inherit', // pixel max-height applied to wrapping Menu component
+  flexGrow: 1,
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
@@ -332,4 +338,58 @@ export const LoadingMessage = (props: NoticeProps) => {
 };
 LoadingMessage.defaultProps = {
   children: 'Loading...',
+};
+
+// ==============================
+// Menu Portal
+// ==============================
+
+export type MenuPortalProps = PropsWithStyles & {
+  appendTo: HTMLElement,
+  children: Node, // ideally Menu<MenuProps>
+  controlElement: HTMLElement,
+  menuPlacement: MenuPlacement,
+};
+
+type RectType = {
+  left: number,
+  right: number,
+  bottom: number,
+  height: number,
+  width: number,
+}
+
+export const menuPortalCSS = ({ placement, rect, offset, viewHeight }: { placement: string, rect: RectType, offset: number, viewHeight: number }) => ({
+  bottom: placement === 'top' ? viewHeight - offset : null,
+  left: rect.left,
+  position: 'absolute',
+  top: placement === 'bottom' ? offset : null,
+  width: rect.width,
+});
+
+export const MenuPortal = ({
+  appendTo,
+  children,
+  controlElement,
+  menuPlacement,
+  getStyles,
+}: MenuPortalProps) => {
+  const viewHeight = window && window.innerHeight;
+
+  // bail early if required elements aren't present
+  if (!appendTo || !controlElement || !viewHeight) return null;
+
+  const placement = coercePlacement(menuPlacement);
+  const rect = getBoundingClientObj(controlElement);
+  const offset = rect[placement] + window.pageYOffset;
+
+  return createPortal(
+    <Div
+      css={getStyles('menuPortal', { placement, rect, offset, viewHeight })}
+    >
+      {children}
+    </Div>,
+    // $FlowFixMe this is accounted for above
+    appendTo
+  );
 };

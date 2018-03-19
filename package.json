@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "2.0.0-alpha.6",
+  "version": "2.0.0-alpha.7",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",
@@ -21,8 +21,10 @@
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^2.5.5",
+    "@atlaskit/button": "^6.6.3",
+    "@atlaskit/docs": "^2.5.4",
     "@atlaskit/icon": "^10.12.2",
+    "@atlaskit/modal-dialog": "^3.5.1",
     "@atlaskit/spinner": "^4.2.1",
     "@atlaskit/tooltip": "^8.4.1",
     "babel-cli": "^6.26.0",
@@ -50,13 +52,14 @@
     "eslint-plugin-react": "^7.3.0",
     "extract-react-types": "^0.8.1",
     "extract-react-types-loader": "^0.1.0",
-    "flow-bin": "^0.63.1",
+    "flow-bin": "^0.67.1",
     "flow-copy-source": "^1.3.0",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "jest": "^22.0.5",
+    "jest-in-case": "^1.0.2",
     "lint-staged": "^6.0.0",
     "moment": "^2.20.1",
     "nps": "^5.7.1",
@@ -71,13 +74,13 @@
     "react-markings": "^1.2.0",
     "react-router-dom": "^4.2.2",
     "react-syntax-highlighter": "^7.0.1",
-    "rollup": "^0.53.3",
+    "rollup": "^0.56.5",
     "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-commonjs": "^8.2.0",
+    "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-uglify": "^3.0.0",
     "style-loader": "^0.19.1",
-    "uglify-es": "^3.0.28",
+    "uglify-es": "^3.3.9",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },
@@ -122,7 +125,8 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.?(test|spec)?\\.(js?))$"
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
+    "setupFiles": ["./enzymeAdapter.setup.js"]
   },
   "lint-staged": {
     "*.js": "eslint"

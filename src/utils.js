@@ -196,6 +196,23 @@ export function scrollIntoView(
 }
 
 // ==============================
+// Get bounding client object
+// ==============================
+
+// cannot get keys using array notation with DOMRect
+export function getBoundingClientObj(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  return {
+    bottom: rect.bottom,
+    height: rect.height,
+    left: rect.left,
+    right: rect.right,
+    top: rect.top,
+    width: rect.width,
+  };
+}
+
+// ==============================
 // String to Key (kebabify)
 // ==============================
 
