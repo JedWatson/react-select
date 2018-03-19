@@ -1,11 +1,11 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
+import React, { Component, type ComponentType, type ElementRef } from 'react';
 
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
 
 export type Props = {
-  selectRef: ref => void,
+  selectRef: ElementRef<*> => void,
   defaultInputValue: string,
   defaultMenuIsOpen: boolean,
   defaultValue: ValueType,
@@ -69,7 +69,7 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       this.callProp('onMenuClose');
       this.setState({ menuIsOpen: false });
     };
-    onSelectRef = (ref) => {
+    onSelectRef = (ref: ElementRef<*>) => {
       if (ref && ref.instancePrefix && ref.instancePrefix.includes('react-select')) {
         this.props.selectRef(ref);
       }
