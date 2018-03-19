@@ -250,7 +250,7 @@ export default Menu;
 type MenuListState = {
   /** Set classname for isMulti */
   isMulti: boolean,
-  /* I do not know what this is - Ben */
+  /* Set the max height of the Menu component  */
   maxHeight: number,
 };
 
