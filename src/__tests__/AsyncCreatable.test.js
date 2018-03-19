@@ -6,7 +6,7 @@ import AsyncCreatable from '../AsyncCreatable';
 import Select from '../Select';
 import { components } from '../components';
 import { OPTIONS } from './constants';
-const { Option } = components;
+const { Menu, Option } = components;
 
 test('defaults - snapshot', () => {
   const tree = mount(<AsyncCreatable />);
@@ -31,18 +31,19 @@ test('to show the create option in menu', () => {
   expect(asyncCreatableWrapper.find(Option).last().text()).toBe('Create "a"');
 });
 
-test('to show the create option in menu', () => {
+test('to show loading and then create option in menu', () => {
   jest.useFakeTimers();
   let loadOptionsSpy = jest.fn((inputValue, callback) => setTimeout(() => callback(OPTIONS), 200));
   let asyncCreatableWrapper = mount(<AsyncCreatable loadOptions={loadOptionsSpy}/>);
   let inputValueWrapper = asyncCreatableWrapper.find('div.react-select__input input');
   asyncCreatableWrapper.setProps({ inputValue: 'a' });
   inputValueWrapper.simulate('change', { currentTarget: { value: 'a' } });
-  jest.runOnlyPendingTimers();
-  // jest.useFakeTimers();
-  setTimeout(() => {
-    console.log(asyncCreatableWrapper.debug());
-    expect(asyncCreatableWrapper.find(Option).last().text()).toBe('Create "a"');
-  }, 500);
-  jest.runOnlyPendingTimers();
+
+  // to show a loading message while loading options
+  expect(asyncCreatableWrapper.find(Menu).text()).toBe('Loading...');
+  jest.runAllTimers();
+  asyncCreatableWrapper.update();
+
+  // show create options once options are loaded
+  expect(asyncCreatableWrapper.find(Option).last().text()).toBe('Create "a"');
 });

@@ -610,3 +610,52 @@ cases('OnMenuClose called when menu is closed',({ props = { ...BASIC_PROPS, menu
     },
   },
 });
+
+cases('menuIsOpen prop', ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  // menu is not closed
+  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+}, {
+  'single select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {},
+  'multi select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {
+    props: {
+      ...BASIC_PROPS,
+      isMulti: true,
+      menuIsOpen: true
+    },
+  },
+});
+
+cases('value prop', ({ props = { ...BASIC_PROPS, value: OPTIONS[0] } }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+
+  // select new value from option
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find(Option).at(4).find('div').simulate('click', { button: 0 });
+
+  // value stays the same as passed by props
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+}, {
+  'single select > should always show the value passed as props': {},
+  'multi select > should always show the value passed as props': {
+    props: {
+      ...BASIC_PROPS,
+      isMulti: true,
+      value: OPTIONS[0],
+    }
+  },
+});
+
+/**
+ * Unable to trigger change event on input and test
+ * as event.currentTarget.value goes as empty string
+ */
+test.skip('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
+  const props = { ...BASIC_PROPS, inputValue: OPTIONS[0].label };
+  let selectWrapper = mount(<Select {...props}/>);
+  selectWrapper.find('Control input').simulate('change', { currentTarget: { value: 'A' }, target: { value: 'A' } });
+  expect(selectWrapper.find('Control input').props().value).toBe('0');
+});
