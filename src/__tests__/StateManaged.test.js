@@ -678,3 +678,62 @@ test('not hide the options from the menu if hideSelectedOptions is false', () =>
   expect(firstOption.text()).toBe('0');
   expect(secondoption.text()).toBe('1');
 });
+
+cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  // open the menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+  eventsToSimulate.map(eventToSimulate => {
+    selectWrapper.find(Menu).simulate(...eventToSimulate);
+  });
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
+}, {
+  'jumps over the first option if it is disabled': {
+    props: {
+      ...BASIC_PROPS,
+      isOptionDisabled: (option) => ['zero'].indexOf(option.value) > -1,
+    },
+    eventsToSimulate: [ ],
+    expectedSelectedOption: OPTIONS[1].value,
+  },
+  'jumps over the disabled option': {
+    props: {
+      ...BASIC_PROPS,
+      isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+    },
+    eventsToSimulate: [
+      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+    ],
+    expectedSelectedOption: OPTIONS[3].value,
+  },
+  'skips over last option when looping round when last option is disabled': {
+    props: {
+      ...BASIC_PROPS,
+      options: OPTIONS.slice(0,3),
+      isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+    },
+    eventsToSimulate: [
+      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+    ],
+    expectedSelectedOption: OPTIONS[0].value,
+  },
+  'doesn\'t focus anything when all options are disabled': {
+    props: {
+      ...BASIC_PROPS,
+      isOptionDisabled: () => true,
+    },
+    eventsToSimulate: [ ],
+    expectedSelectedOption: '',
+  },
+});
+
+test('does not select anything when a disabled option is the only item in the list after a search', () => {
+  let isOptionDisabled = (option) => ['two', 'twelve'].indexOf(option.value) > -1;
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen isOptionDisabled={isOptionDisabled} />);
+  selectWrapper.setProps({ inputValue: '2' });
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('');
+});

@@ -221,10 +221,10 @@ cases('update the value prop', ({ props = { options: OPTIONS, value: OPTIONS[1],
   });
 cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
   let spy = jest.fn();
-  let multiSelectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
+  let selectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
 
-  let selectOption = multiSelectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
-  multiSelectWrapper.setState({ focusedOption });
+  let selectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
+  selectWrapper.setState({ focusedOption });
 
   selectOption.simulate(...event);
   expect(spy).toHaveBeenCalledWith(expectedSelectedOption, { action: 'select-option' });
@@ -848,4 +848,4 @@ cases('isDisabled prop', ({ props }) => {
         options: OPTIONS,
       }
     },
-  });  
+  });
