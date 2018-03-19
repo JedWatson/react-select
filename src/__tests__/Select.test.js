@@ -221,7 +221,7 @@ cases('update the value prop', ({ props = { options: OPTIONS, value: OPTIONS[1],
   });
 cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
   let spy = jest.fn();
-  let multiSelectWrapper = mount(<Select {...props} onChange={spy} />);
+  let multiSelectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
 
   let selectOption = multiSelectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
   multiSelectWrapper.setState({ focusedOption });
@@ -327,7 +327,7 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
       props: {
         isMulti: true,
         menuIsOpen: true,
-        options: OPTIONS
+        options: OPTIONS,
       },
       event: ['keyDown', { keyCode: 32, key: 'Spacebar' }],
       optionsSelected: { label: '1', value: 'one' },
@@ -338,7 +338,7 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
 
 cases('hitting escape on select option', ({ props, event, focusedOption, optionsSelected }) => {
   let spy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onChange={spy} />);
+  let selectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
 
   let selectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
   selectWrapper.setState({ focusedOption });
@@ -349,8 +349,8 @@ cases('hitting escape on select option', ({ props, event, focusedOption, options
 }, {
     'single select > should not call onChange prop': {
       props: {
-        options: OPTIONS,
         menuIsOpen: true,
+        options: OPTIONS,
       },
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
@@ -358,9 +358,9 @@ cases('hitting escape on select option', ({ props, event, focusedOption, options
     },
     'multi select > should not call onChange prop': {
       props: {
-        options: OPTIONS,
         isMulti: true,
         menuIsOpen: true,
+        options: OPTIONS,
       },
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
@@ -598,26 +598,26 @@ cases('focus in select options', ({ props, selectedOption, nextFocusOption, keyE
 // TODO: Cover more scenario
 cases('hitting escape with inputValue in select', ({ props }) => {
   let spy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onInputChange={spy} />);
+  let selectWrapper = mount(<Select {...props} onInputChange={spy} onMenuClose={jest.fn()}/>);
 
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
   expect(spy).toHaveBeenCalledWith('', { action: 'menu-close' });
 }, {
     'single select > should call onInputChange prop with empty string as inputValue': {
       props: {
+        inputValue: 'test',
         menuIsOpen: true,
-        value: OPTIONS[0],
         options: OPTIONS,
-        inputValue: 'test'
+        value: OPTIONS[0],
       },
     },
     'multi select > should call onInputChange prop with empty string as inputValue': {
       props: {
+        inputValue: 'test',
         isMulti: true,
         menuIsOpen: true,
-        value: OPTIONS[0],
         options: OPTIONS,
-        inputValue: 'test'
+        value: OPTIONS[0],
       },
     }
   });
@@ -625,7 +625,7 @@ cases('hitting escape with inputValue in select', ({ props }) => {
 cases('opening and closing select by clicking primary button on mouse', ({ props }) => {
   let onMenuOpenSpy = jest.fn();
   let onMenuCloseSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} />);
+  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} onInputChange={jest.fn()}/>);
   let downButtonWrapper = selectWrapper.find('div.react-select__dropdown-indicator');
 
   // opens menu if menu is closed
@@ -640,13 +640,13 @@ cases('opening and closing select by clicking primary button on mouse', ({ props
 }, {
     'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
       props: {
-        options: OPTIONS
+        options: OPTIONS,
       }
     },
     'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
       props: {
         isMulti: true,
-        options: OPTIONS
+        options: OPTIONS,
       }
     }
   });
@@ -681,7 +681,7 @@ cases('clicking on select using secondary button on mouse', ({ props }) => {
   });
 
 cases('required prop on input element', ({ props }) => {
-  let selectWrapper = mount(<Select {...props} />);
+  let selectWrapper = mount(<Select {...props} onInputChange={jest.fn()} />);
   let inputWrapper = selectWrapper.find('input');
   expect(inputWrapper.props().required).toBeUndefined();
 }, {

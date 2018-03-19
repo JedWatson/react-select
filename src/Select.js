@@ -133,13 +133,13 @@ export type Props = {
   /* Handle focus events on the control */
   onFocus?: FocusEventHandler,
   /* Handle change events on the input */
-  onInputChange?: (string, InputActionMeta) => void,
+  onInputChange: (string, InputActionMeta) => void,
   /* Handle key down events on the select */
   onKeyDown?: KeyboardEventHandler,
   /* Handle the menu opening */
   onMenuOpen: () => void,
   /* Handle the menu closing */
-  onMenuClose?: () => void,
+  onMenuClose: () => void,
   /* Array of options that populate the select menu */
   options: OptionsType,
   /* Number of options to jump in menu when page{up|down} keys are used */
@@ -335,14 +335,10 @@ export default class Select extends Component<Props, State> {
   }
   onMenuClose() {
     this.onInputChange('', { action: 'menu-close' });
-    if (this.props.onMenuClose) {
-      this.props.onMenuClose();
-    }
+    this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
-    if (this.props.onInputChange) {
-      this.props.onInputChange(newValue, actionMeta);
-    }
+    this.props.onInputChange(newValue, actionMeta);
   }
 
   // ==============================
