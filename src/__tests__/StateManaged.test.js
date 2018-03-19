@@ -659,3 +659,9 @@ test.skip('inputValue prop > should not update the inputValue when on change of 
   selectWrapper.find('Control input').simulate('change', { currentTarget: { value: 'A' }, target: { value: 'A' } });
   expect(selectWrapper.find('Control input').props().value).toBe('0');
 });
+
+test('renders a read only input when isSearchable is false', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} isSearchable={false} />);
+  let inputWrapper = selectWrapper.find('Control input');
+  expect(inputWrapper.props().readOnly).toBe(true);
+});

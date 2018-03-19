@@ -38,9 +38,3 @@ export const OPTIONS_BOOLEAN_VALUE = [
   { label: 'true', value: true },
   { label: 'false', value: false },
 ];
-
-export const OPTIONS_WITH_DISABLED = [
-  { label: '0', value: 'zero' },
-  { label: '1', value: 'one', disabled: true },
-  { label: '2', value: 'two' },
-];
