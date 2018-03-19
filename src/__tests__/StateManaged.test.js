@@ -83,6 +83,10 @@ test('multi select > clicking on X next to selection option', () => {
 
 });
 
+/**
+ * backspace is not removing the option when isClearable and backspaceRemovesValue true
+ * This is working in example on website not working on enzyme wrapper
+ */
 cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expectedValueAfterBackSpace }) => {
   let selectWrapper = mount(<Select {...props} />);
   expect(selectWrapper.find(Control).text()).toBe(props.value.label);
@@ -93,6 +97,7 @@ cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expecte
     'single select > should not remove when backspaceRemovesValue is false': {
       props: {
         ...BASIC_PROPS,
+        isClearable: true,
         backspaceRemovesValue: false,
         value: OPTIONS[3],
       },
@@ -101,6 +106,7 @@ cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expecte
     'single select > should remove when backspaceRemovesValue is true': {
       props: {
         ...BASIC_PROPS,
+        isClearable: true,
         backspaceRemovesValue: true,
         value: OPTIONS[3],
       },
@@ -110,6 +116,7 @@ cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expecte
     'multi select - should not remove when backspaceRemovesValue is false': {
       props: {
         ...BASIC_PROPS,
+        isClearable: true,
         isMulti: false,
         backspaceRemovesValue: false,
         value: OPTIONS[5],
@@ -119,6 +126,7 @@ cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expecte
     'multi select - should not remove when backspaceRemovesValue is true': {
       props: {
         ...BASIC_PROPS,
+        isClearable: true,
         isMulti: false,
         backspaceRemovesValue: true,
         value: OPTIONS[5],
@@ -405,6 +413,9 @@ cases('accessibility - select input with defaults', ({ props = BASIC_PROPS, expe
     },
   });
 
+/**
+ * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
+ */
 cases('accessibility > aria-activedescendant', ({ props = { ...BASIC_PROPS, value: { label: '2', value: 'two' }, menuIsOpen: true } }) => {
   let selectWrapper = mount(<Select {...props} />);
   let selectInput = selectWrapper.find('Control input');
@@ -465,6 +476,9 @@ cases('accessibility > passes through aria-label prop', ({ props = { ...BASIC_PR
     }
   });
 
+/**
+ * Not a case anymore, not getting this label in V2
+ */
 test.skip('accessibility > multi select > remove value label', () => {
   const props = { ...BASIC_PROPS, isMulti: true, value: [OPTIONS[0], OPTIONS[1]] };
   let selectWrapper = mount(<Select {...props} />);
@@ -494,7 +508,10 @@ cases('autoFocus',
   }
 );
 
-// https://codesandbox.io/s/71xrkj0qj <- not working code sandbox link
+/**
+ * onFocus hook is not being called when component is mounted is autoFocus true
+ * Reproducible here ->  https://codesandbox.io/s/71xrkj0qj
+ */
 cases('onFocus prop', ({ props = { ...BASIC_PROPS, autoFocus: true } }) => {
   let onFocusSpy = jest.fn();
   let selectWrapper = mount(<Select {...props} onFocus={onFocusSpy} />);

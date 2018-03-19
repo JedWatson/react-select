@@ -122,12 +122,12 @@ cases('close by hitting escape with search text present',
   }
 );
 
-test.skip('should remove the new option after closing on blur', () => {
+test('should remove the new option after closing on blur', () => {
   const creatableSelectWrapper = mount(
     <Creatable menuIsOpen options={OPTIONS} />
   );
   creatableSelectWrapper.setState({ inputValue: 'new Option' });
-  creatableSelectWrapper.simulate('blur');
+  creatableSelectWrapper.find('Control input').simulate('blur');
   expect(creatableSelectWrapper.state('inputValue')).toBe('');
 });
 

@@ -13,6 +13,11 @@ test('defaults - snapshot', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
+/**
+ * loadOptions with promise is not resolved and it renders loading options
+ * confirmed by logging in component that loadOptions is resolved and options are available
+ * but still loading options is rendered
+ */
 cases('load option prop with defaultOptions true', ({ props, expectOptionLength }) => {
   const asyncSelectWrapper = mount(<Async menuIsOpen {...props} />);
   expect(asyncSelectWrapper.find(Option).length).toBe(expectOptionLength);
@@ -28,12 +33,17 @@ cases('load option prop with defaultOptions true', ({ props, expectOptionLength 
     skip: true,
     props: {
       defaultOptions: true,
-      loadOptions: () => new Promise(resolve => {resolve([OPTIONS[0]]);}),
+      loadOptions: () => Promise.resolve([OPTIONS[0]]),
     },
     expectOptionLength: 1,
   }
 });
 
+/**
+ * loadOptions with promise is not resolved and it renders loading options
+ * confirmed by logging in component that loadOptions is resolved and options are available
+ * but still loading options is rendered
+ */
 cases('load options props with', ({ props, expectloadOptionsLength }) => {
   let asyncSelectWrapper = mount(<Async {...props} />);
   let inputValueWrapper = asyncSelectWrapper.find('div.react-select__input input');
@@ -56,6 +66,10 @@ cases('load options props with', ({ props, expectloadOptionsLength }) => {
   }
 });
 
+/**
+ * Need to update porps to trigger on change in input
+ * when updating props renders the component therefore options cache is lost thus loadOptions is called again
+ */
 test.skip('to not call loadOptions again for same value when cacheOptions is true', () => {
   let loadOptionsSpy = jest.fn();
   let asyncSelectWrapper = mount(<Async loadOptions={loadOptionsSpy} cacheOptions />);
