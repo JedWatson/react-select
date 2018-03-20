@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
+import React, { Component, type ComponentType, type ElementRef } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import manageState from './stateManager';
@@ -37,6 +37,7 @@ type State = {
 export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
   class Async extends Component<Props, State> {
     static defaultProps = defaultProps;
+    select: ElementRef<*>;
     lastRequest: {};
     mounted: boolean = false;
     optionsCache: { [string]: OptionsType } = {};
@@ -71,6 +72,12 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     }
     componentWillUnmount() {
       this.mounted = false;
+    }
+    focus () {
+      this.select.focus();
+    }
+    blur () {
+      this.select.blur();
     }
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
@@ -148,6 +155,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
         // $FlowFixMe
         <SelectComponent
           {...props}
+          ref = {ref => { this.select = ref; }}
           options={options}
           filterOption={null}
           isLoading={isLoading}
