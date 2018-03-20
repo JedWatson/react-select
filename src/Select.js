@@ -106,12 +106,17 @@ class Select extends React.Component {
 			isOpen: false,
 			isPseudoFocused: false,
 			required: false,
+			focusedOption: null,
 		};
 	}
 
 	componentWillMount () {
 		this._instancePrefix = `react-select-${(this.props.instanceId || ++instanceId)}-`;
 		const valueArray = this.getValueArray(this.props.value);
+
+		if(this.props.options){
+			this.setState({focusedOption: this.props.options[0]});
+		}
 
 		if (this.props.required) {
 			this.setState({
@@ -549,6 +554,29 @@ class Select extends React.Component {
 				if (!this.state.inputValue && this.props.deleteRemoves) {
 					event.preventDefault();
 					this.popValue();
+				}
+				break;
+			default:
+				if(event.keyCode >= 32 && event.keyCode < 127) {
+					const char = String.fromCharCode(event.keyCode);
+					const options = (this.props.options.length > 0) ? this.props.options.filter(o => o.label.slice(0,1) === char) : [];
+					this._openAfterFocus = true;
+
+					if(this.state.focusedOption && options[this.state.focusedIndex] === this.state.focusedOption && char === this.state.focusedOption.label.slice(0,1)){
+						const nextIndex = this.state.focusedIndex + 1;
+						if (!options[nextIndex]) break;
+						this._scrollToFocusedOptionOnUpdate = true;
+
+						this.setState({
+							focusedIndex: nextIndex,
+							focusedOption: options[nextIndex],
+						});
+					} else {
+						this.setState({
+							focusedIndex: 0,
+							focusedOption: options[0],
+						});
+					}
 				}
 				break;
 		}
