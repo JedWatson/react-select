@@ -97,3 +97,32 @@ test('to create new cache for each instance', () => {
 
   expect(instanceOne.optionsCache).not.toBe(instanceTwo.optionsCache);
 });
+
+test('in case of callbacks display the most recently-requested loaded options (if results are returned out of order)', () => {
+  let callbacks = [];
+  const loadOptions = (inputValue, callback) => { callbacks.push(callback); };
+  let asyncSelectWrapper = mount(<Async loadOptions={loadOptions} />);
+  let inputValueWrapper = asyncSelectWrapper.find('div.react-select__input input');
+  asyncSelectWrapper.setProps({ inputValue: 'foo' });
+  inputValueWrapper.simulate('change', { currentTarget: { value: 'foo' } });
+  asyncSelectWrapper.setProps({ inputValue: 'bar' });
+  inputValueWrapper.simulate('change', { currentTarget: { value: 'bar' } });
+  expect(asyncSelectWrapper.find(Option).exists()).toBeFalsy();
+  callbacks[1]([{ value: 'bar', label: 'bar' }]);
+  callbacks[0]([{ value: 'foo', label: 'foo' }]);
+  asyncSelectWrapper.update();
+  expect(asyncSelectWrapper.find(Option).text()).toBe('bar');
+});
+
+/**
+ * This throws a jsdom exception
+ */
+test.skip('in case of callbacks should handle an error by setting options to an empty array', () => {
+  const loadOptions = (inputValue, callback) => { callback(new Error('error')); };
+  let asyncSelectWrapper = mount(<Async loadOptions={loadOptions} options={OPTIONS} />);
+  let inputValueWrapper = asyncSelectWrapper.find('div.react-select__input input');
+  asyncSelectWrapper.setProps({ inputValue: 'foo' });
+  inputValueWrapper.simulate('change', { currentTarget: { value: 'foo' } });
+  asyncSelectWrapper.update();
+  expect(asyncSelectWrapper.find(Option).length).toBe(1);
+});

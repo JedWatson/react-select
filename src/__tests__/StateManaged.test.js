@@ -534,6 +534,36 @@ cases('onFocus prop', ({ props = { ...BASIC_PROPS, autoFocus: true } }) => {
     },
   });
 
+cases('onFocus prop is called on on focus of input', ({ props = { ...BASIC_PROPS } }) => {
+  let onFocusSpy = jest.fn();
+  let selectWrapper = mount(<Select {...props} onFocus={onFocusSpy} />);
+  selectWrapper.find('Control input').simulate('focus');
+  expect(onFocusSpy).toHaveBeenCalledTimes(1);
+}, {
+    'single select > should call onFocus handler on focus on input': {},
+    'multi select > should call onFocus handler on focus on input': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true
+      },
+    },
+  });
+
+cases('onBlur prop', ({ props = { ...BASIC_PROPS } }) => {
+  let onBlurSpy = jest.fn();
+  let selectWrapper = mount(<Select {...props} onBlur={onBlurSpy} />);
+  selectWrapper.find('Control input').simulate('blur');
+  expect(onBlurSpy).toHaveBeenCalledTimes(1);
+}, {
+    'single select > should call onBlur handler on blur on input': {},
+    'multi select > should call onBlur handler on blur on input': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true
+      },
+    },
+  });
+
 cases('placeholder', ({ props, expectPlaceholder = 'Select...' }) => {
   let selectWrapper = mount(<Select {...props} />);
   expect(selectWrapper.find('Control').text()).toBe(expectPlaceholder);
@@ -815,20 +845,20 @@ cases('isClearable is false', ({ props = BASIC_PROPS }) => {
   let selectWrapper = mount(<Select {...props} />);
   expect(selectWrapper.find(ClearIndicator).exists()).toBeFalsy();
 }, {
-  'single select > should not show the X (clear) button': {
-    props: {
-      ...BASIC_PROPS,
-      isClearable: false,
-      value: OPTIONS[0]
+    'single select > should not show the X (clear) button': {
+      props: {
+        ...BASIC_PROPS,
+        isClearable: false,
+        value: OPTIONS[0]
+      },
     },
-  },
-  'multi select > should not show X (clear) button': {
-    ...BASIC_PROPS,
-    isMulti: true,
-    isClearable: false,
-    value: [OPTIONS[0]]
-  },
-});
+    'multi select > should not show X (clear) button': {
+      ...BASIC_PROPS,
+      isMulti: true,
+      isClearable: false,
+      value: [OPTIONS[0]]
+    },
+  });
 
 test('clear list using clear button', () => {
   let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti />);
@@ -921,9 +951,46 @@ test('close menu on hitting escape even if escapeClearsValue and isClearable are
 
 test('hitting escape does not call onChange if menu is Open', () => {
   let onChangeSpy = jest.fn();
-  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable onChange={onChangeSpy}/>);
+  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable onChange={onChangeSpy} />);
   // Open Menu
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
   expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('hitting spacebar should select option if isSearchable is false', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isSearchable />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+});
+
+/**
+ * selects the option on hitting spacebar
+ * need varification
+ */
+test.skip('hitting spacebar should not select option if isSearchable is true (default)', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+});
+
+test('multi select > have default value delimiter seperated', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti delimiter={';'} value={[OPTIONS[0], OPTIONS[1]]} />);
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero;one');
+});
+
+test('multi select > with multi character delimiter', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti delimiter={'===&==='} />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
+
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero===&===one');
 });

@@ -137,6 +137,35 @@ cases('no option found on search based on filterOption prop', ({ props, searchSt
     }
   });
 
+  cases('update the no options message', ({ props, expectNoOptionsMessage, searchString }) => {
+    let selectWrapper = shallow(<Select {...props} />);
+    selectWrapper.setProps({ inputValue: searchString });
+    expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(expectNoOptionsMessage);
+  }, {
+    'single Select > should show NoOptionsMessage': {
+      props: {
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        options: OPTIONS,
+        value: OPTIONS[0],
+        menuIsOpen: true,
+        noOptionsMessage: () => 'this is custom no option message for single select',
+      },
+      expectNoOptionsMessage: 'this is custom no option message for single select',
+      searchString: 'some text not in options',
+    },
+    'multi select > should show NoOptionsMessage': {
+      props: {
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        options: OPTIONS,
+        value: OPTIONS[0],
+        menuIsOpen: true,
+        noOptionsMessage: () => 'this is custom no option message for multi select',
+      },
+      expectNoOptionsMessage: 'this is custom no option message for multi select',
+      searchString: 'some text not in options',
+    }
+  });
+
 cases('value prop', ({ props, expectedValue }) => {
   let selectWrapper = shallow(<Select {...props} />);
   expect(selectWrapper.state('selectValue')).toEqual(expectedValue);
