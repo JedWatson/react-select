@@ -5,9 +5,10 @@ import cases from 'jest-in-case';
 
 import { OPTIONS } from './constants';
 import Select from '../';
+import SelectBase from '../Select';
 import { components } from '../components';
 
-const { Control, Menu, MultiValue, Placeholder, Option } = components;
+const { Control, Input, Menu, MultiValue, Placeholder, Option } = components;
 
 const BASIC_PROPS = { options: OPTIONS, name: 'test-input-name' };
 
@@ -778,3 +779,33 @@ test('does not select anything when a disabled option is the only item in the li
   // Menu is still open
   expect(selectWrapper.find(Option).text()).toBe('opt');
 });
+
+test('passes down the className prop', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class"/>);
+  expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
+});
+
+test('render custom Input Component', () => {
+  const InputComponent = () => (<div />);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} components={{ Input: InputComponent }}/>);
+  
+  expect(selectWrapper.find(Input).exists()).toBeFalsy();
+  expect(selectWrapper.find(InputComponent).exists()).toBeTruthy();
+});
+
+test('render custom Menu Component', () => {
+  const MenuComponent = () => (<div />);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Menu: MenuComponent }}/>);
+
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  expect(selectWrapper.find(MenuComponent).exists()).toBeTruthy();
+});
+
+test('render custom Option Component', () => {
+  const OptionComponent = () => (<div />);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Option: OptionComponent }}/>);
+
+  expect(selectWrapper.find(Option).exists()).toBeFalsy();
+  expect(selectWrapper.find(OptionComponent).exists()).toBeTruthy();
+});
+
