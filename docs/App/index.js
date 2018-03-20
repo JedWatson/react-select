@@ -1,7 +1,6 @@
 // @flow
 // @jsx glam
 
-import './index.css';
 import glam from 'glam';
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
