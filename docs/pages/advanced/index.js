@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
+  AccessingInternals,
   ControlledMenu,
   OnSelectResetsInput,
   BasicGrouped,
@@ -154,6 +155,18 @@ export default function Advanced () {
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+      ## Accessing Internals
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Accessing Internals via ref"
+          urlPath="docs/examples/Experimental.js"
+          raw={require('!!raw-loader!../../examples/AccessingInternals.js')}
+        >
+          <AccessingInternals />
         </ExampleWrapper>
       )}
 

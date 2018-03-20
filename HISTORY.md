@@ -1,5 +1,14 @@
 # React-Select
 
+## v2.0.0-alpha.8 / 2018-02-20
+
+Ongoing rewrite. Major changes since last alpha:
+
+* Made `focus` and `blur` methods work consistently when composing HOCs
+* Added `menuPortalTarget` prop which portals the menu, with a `MenuPortal` component and `menuPortal` style key
+* Allow the `MultiValueRemove` component children to be changed
+* Lots of new tests, updates to documentation and examples
+
 ## v2.0.0-alpha.7 / 2018-02-14
 
 Ongoing rewrite. Major changes since last alpha:
