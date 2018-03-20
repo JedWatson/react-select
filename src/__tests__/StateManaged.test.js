@@ -557,23 +557,23 @@ cases('display placeholder once value is removed', ({ props }) => {
   selectWrapper.setProps({ value: '' });
   expect(selectWrapper.find(Placeholder).exists()).toBeTruthy();
 }, {
-  'single select > should display placeholder once the value is removed from select': {
-    props: {
-      ...BASIC_PROPS,
-      value: OPTIONS[0],
+    'single select > should display placeholder once the value is removed from select': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS[0],
+      },
     },
-  },
-  'multi select > should display placeholder once the value is removed from select': {
-    props: {
-      ...BASIC_PROPS,
-      value: OPTIONS[0],
+    'multi select > should display placeholder once the value is removed from select': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS[0],
+      },
     },
-  },
-});
+  });
 
-cases('onMenuOpen called when menu is opened',({ props = BASIC_PROPS }) => {
+cases('onMenuOpen called when menu is opened', ({ props = BASIC_PROPS }) => {
   let onMenuOpenSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy}/>);
+  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} />);
   // Menu not open by defualt
   expect(selectWrapper.find(Menu).exists()).toBeFalsy();
   expect(onMenuOpenSpy).not.toHaveBeenCalled();
@@ -582,18 +582,18 @@ cases('onMenuOpen called when menu is opened',({ props = BASIC_PROPS }) => {
   // onMenuOpenSpy
   expect(onMenuOpenSpy).toHaveBeenCalledTimes(1);
 }, {
-  'single select > should call onMenuOpen prop on opening menu': { },
-  'multi select > should call onMenuOpen prop on opening menu': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: true,
+    'single select > should call onMenuOpen prop on opening menu': {},
+    'multi select > should call onMenuOpen prop on opening menu': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+      },
     },
-  },
-});
+  });
 
-cases('OnMenuClose called when menu is closed',({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
+cases('OnMenuClose called when menu is closed', ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
   let onMenuCloseSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuClose={onMenuCloseSpy}/>);
+  let selectWrapper = mount(<Select {...props} onMenuClose={onMenuCloseSpy} />);
   // Menu is open by defualt
   expect(selectWrapper.find(Menu).exists()).toBeTruthy();
   expect(onMenuCloseSpy).not.toHaveBeenCalled();
@@ -601,15 +601,15 @@ cases('OnMenuClose called when menu is closed',({ props = { ...BASIC_PROPS, menu
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
   expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
 }, {
-  'single select > should call onMenuClose prop on closing menu': { },
-  'multi select > should call onMenuClose prop on closing menu': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: true,
-      menuIsOpen: true,
+    'single select > should call onMenuClose prop on closing menu': {},
+    'multi select > should call onMenuClose prop on closing menu': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+      },
     },
-  },
-});
+  });
 
 cases('menuIsOpen prop', ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
   let selectWrapper = mount(<Select {...props} />);
@@ -618,15 +618,15 @@ cases('menuIsOpen prop', ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
   // menu is not closed
   expect(selectWrapper.find(Menu).exists()).toBeTruthy();
 }, {
-  'single select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {},
-  'multi select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: true,
-      menuIsOpen: true
+    'single select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {},
+    'multi select > should maintain a menuIsOpen value in state if menuIsOpen is passed as prop': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true
+      },
     },
-  },
-});
+  });
 
 cases('value prop', ({ props = { ...BASIC_PROPS, value: OPTIONS[0] } }) => {
   let selectWrapper = mount(<Select {...props} />);
@@ -639,15 +639,15 @@ cases('value prop', ({ props = { ...BASIC_PROPS, value: OPTIONS[0] } }) => {
   // value stays the same as passed by props
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
 }, {
-  'single select > should always show the value passed as props': {},
-  'multi select > should always show the value passed as props': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: true,
-      value: OPTIONS[0],
-    }
-  },
-});
+    'single select > should always show the value passed as props': {},
+    'multi select > should always show the value passed as props': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        value: OPTIONS[0],
+      }
+    },
+  });
 
 /**
  * Unable to trigger change event on input and test
@@ -655,7 +655,7 @@ cases('value prop', ({ props = { ...BASIC_PROPS, value: OPTIONS[0] } }) => {
  */
 test.skip('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, inputValue: OPTIONS[0].label };
-  let selectWrapper = mount(<Select {...props}/>);
+  let selectWrapper = mount(<Select {...props} />);
   selectWrapper.find('Control input').simulate('change', { currentTarget: { value: 'A' }, target: { value: 'A' } });
   expect(selectWrapper.find('Control input').props().value).toBe('0');
 });
@@ -667,7 +667,7 @@ test('renders a read only input when isSearchable is false', () => {
 });
 
 test('not hide the options from the menu if hideSelectedOptions is false', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} hideSelectedOptions={false} isMulti menuIsOpen/>);
+  let selectWrapper = mount(<Select options={OPTIONS} hideSelectedOptions={false} isMulti menuIsOpen />);
   let firstOption = selectWrapper.find(Option).at(0);
   let secondoption = selectWrapper.find(Option).at(1);
   expect(firstOption.text()).toBe('0');
@@ -689,51 +689,92 @@ cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSi
   selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
 }, {
-  'jumps over the first option if it is disabled': {
-    props: {
-      ...BASIC_PROPS,
-      isOptionDisabled: (option) => ['zero'].indexOf(option.value) > -1,
+    'with isOptionDisabled prop > jumps over the first option if it is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: (option) => ['zero'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: OPTIONS[1].value,
     },
-    eventsToSimulate: [ ],
-    expectedSelectedOption: OPTIONS[1].value,
-  },
-  'jumps over the disabled option': {
-    props: {
-      ...BASIC_PROPS,
-      isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+    'with isDisabled option value > jumps over the first option if it is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, ...OPTIONS],
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: OPTIONS[0].value,
     },
-    eventsToSimulate: [
-      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-    ],
-    expectedSelectedOption: OPTIONS[3].value,
-  },
-  'skips over last option when looping round when last option is disabled': {
-    props: {
-      ...BASIC_PROPS,
-      options: OPTIONS.slice(0,3),
-      isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+    'with isOptionDisabled prop > jumps over the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: OPTIONS[3].value,
     },
-    eventsToSimulate: [
-      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-    ],
-    expectedSelectedOption: OPTIONS[0].value,
-  },
-  'doesn\'t focus anything when all options are disabled': {
-    props: {
-      ...BASIC_PROPS,
-      isOptionDisabled: () => true,
+    'with isDisabled option value > jumps over the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3' }],
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: 'opt3',
     },
-    eventsToSimulate: [ ],
-    expectedSelectedOption: '',
-  },
-});
+    'with isOptionDisabled prop > skips over last option when looping round when last option is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS.slice(0, 3),
+        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: OPTIONS[0].value,
+    },
+    'with isDisabled option value > skips over last option when looping round when last option is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2' }, { label: 'option 3', value: 'opt3', isDisabled: true }],
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: 'opt1',
+    },
+    'with isOptionDisabled prop > should not select anything when all options are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: () => true,
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: '',
+    },
+    'with isDisabled option value > should not select anything when all options are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3', isDisabled: true }],
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: '',
+    }
+  });
 
 test('does not select anything when a disabled option is the only item in the list after a search', () => {
-  let isOptionDisabled = (option) => ['two', 'twelve'].indexOf(option.value) > -1;
-  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen isOptionDisabled={isOptionDisabled} />);
-  selectWrapper.setProps({ inputValue: '2' });
+  let onChangeSpy = jest.fn();
+  const options = [{ label: 'opt', value: 'opt1', isDisabled: true }, ...OPTIONS];
+  let selectWrapper = mount(<Select options={options} menuIsOpen name="test-name" onChange={onChangeSpy}/>);
+  selectWrapper.setProps({ inputValue: 'opt' });
   selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('');
+
+  expect(onChangeSpy).not.toHaveBeenCalled();
+  // Menu is still open
+  expect(selectWrapper.find(Option).text()).toBe('opt');
 });
