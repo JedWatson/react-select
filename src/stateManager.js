@@ -5,7 +5,6 @@ import React, { Component, type ComponentType, type ElementRef } from 'react';
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
 
 export type Props = {
-  selectRef: ElementRef<*> => void,
   defaultInputValue: string,
   defaultMenuIsOpen: boolean,
   defaultValue: ValueType,
@@ -26,6 +25,9 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       defaultMenuIsOpen: false,
       defaultValue: null,
     };
+
+    select: ElementRef<*>;
+
     state = {
       inputValue:
         this.props.inputValue !== undefined

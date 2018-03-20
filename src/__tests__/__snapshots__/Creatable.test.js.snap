@@ -15,7 +15,6 @@ exports[`defaults - snapshot 1`] = `
   onInputChange={[Function]}
   onMenuClose={[Function]}
   onMenuOpen={[Function]}
-  selectRef={[Function]}
   value={null}
 />
 `;

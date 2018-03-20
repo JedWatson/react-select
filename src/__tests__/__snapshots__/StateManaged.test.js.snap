@@ -39,7 +39,6 @@ exports[`defaults > snapshot 1`] = `
   placeholder="Select..."
   screenReaderStatus={[Function]}
   scrollMenuIntoView={true}
-  selectRef={[Function]}
   styles={Object {}}
   tabSelectsValue={true}
   value={null}
