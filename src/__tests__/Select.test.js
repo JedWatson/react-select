@@ -112,6 +112,34 @@ cases('filterOption() prop - should filter only if function returns truthy for v
     },
   });
 
+cases('filterOption prop is null', ({ props, searchString, expectResultsLength }) => {
+  let selectWrapper = shallow(<Select {...props} />);
+  selectWrapper.setProps({ inputValue: searchString });
+  expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
+}, {
+  'single select > should show all the options': {
+    props: {
+      filterOption: null,
+      options: OPTIONS,
+      value: OPTIONS[0],
+      menuIsOpen: true
+    },
+    searchString: 'o',
+    expectResultsLength: 17,
+  },
+  'multi select > should show all the options': {
+    props: {
+      filterOption: null,
+      isMulti: true,
+      options: OPTIONS,
+      value: OPTIONS[0],
+      menuIsOpen: true
+    },
+    searchString: 'o',
+    expectResultsLength: 16,
+  },
+});
+
 cases('no option found on search based on filterOption prop', ({ props, searchString }) => {
   let selectWrapper = shallow(<Select {...props} />);
   selectWrapper.setProps({ inputValue: searchString });
@@ -137,11 +165,11 @@ cases('no option found on search based on filterOption prop', ({ props, searchSt
     }
   });
 
-  cases('update the no options message', ({ props, expectNoOptionsMessage, searchString }) => {
-    let selectWrapper = shallow(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(expectNoOptionsMessage);
-  }, {
+cases('update the no options message', ({ props, expectNoOptionsMessage, searchString }) => {
+  let selectWrapper = shallow(<Select {...props} />);
+  selectWrapper.setProps({ inputValue: searchString });
+  expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(expectNoOptionsMessage);
+}, {
     'single Select > should show NoOptionsMessage': {
       props: {
         filterOption: (value, search) => value.value.indexOf(search) > -1,
@@ -248,6 +276,7 @@ cases('update the value prop', ({ props = { options: OPTIONS, value: OPTIONS[1],
       expectedUpdatedValue: '3,2',
     },
   });
+
 cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, event, expectedSelectedOption, optionsSelected, focusedOption }) => {
   let spy = jest.fn();
   let selectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
@@ -626,7 +655,7 @@ cases('focus in select options', ({ props, selectedOption, nextFocusOption, keyE
 // TODO: Cover more scenario
 cases('hitting escape with inputValue in select', ({ props }) => {
   let spy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onInputChange={spy} onMenuClose={jest.fn()}/>);
+  let selectWrapper = mount(<Select {...props} onInputChange={spy} onMenuClose={jest.fn()} />);
 
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
   expect(spy).toHaveBeenCalledWith('', { action: 'menu-close' });
@@ -653,7 +682,7 @@ cases('hitting escape with inputValue in select', ({ props }) => {
 cases('opening and closing select by clicking primary button on mouse', ({ props }) => {
   let onMenuOpenSpy = jest.fn();
   let onMenuCloseSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} onInputChange={jest.fn()}/>);
+  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} onInputChange={jest.fn()} />);
   let downButtonWrapper = selectWrapper.find('div.react-select__dropdown-indicator');
 
   // opens menu if menu is closed
@@ -877,3 +906,14 @@ cases('isDisabled prop', ({ props }) => {
       }
     },
   });
+
+test('to not call onChange when tabSelectsValue is false', () => {
+  let spy = jest.fn();
+  let selectWrapper = mount(<Select menuIsOpen options={OPTIONS} tabSelectsValue={false} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
+
+  let selectOption = selectWrapper.find('div.react-select__option').at(0);
+  selectWrapper.setState({ focusedOption: { label: '2', value: 'two' } });
+
+  selectOption.simulate('keyDown', { keyCode: 9, key: 'Tab' });
+  expect(spy).not.toHaveBeenCalled();
+});

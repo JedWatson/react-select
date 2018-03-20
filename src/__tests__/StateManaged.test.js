@@ -994,3 +994,29 @@ test('multi select > with multi character delimiter', () => {
 
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero===&===one');
 });
+
+cases('menu should remain closed after clearing value', ({ props = BASIC_PROPS }) => {
+  let selectWrapper = mount(<Select {...props} isClearable />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  // Select value
+  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  // Menu is closed
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+
+  selectWrapper.find('div.react-select__clear-indicator').simulate('mouseDown', { button: 0 });
+
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('');
+}, {
+    'single select > should not show the Xsdfdsf (clear) button': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'multi select > should not show X (sdfdsfclear) button': {
+      ...BASIC_PROPS,
+      isMulti: true,
+    },
+  });
