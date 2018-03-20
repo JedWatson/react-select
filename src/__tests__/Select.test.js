@@ -848,4 +848,4 @@ cases('isDisabled prop', ({ props }) => {
         options: OPTIONS,
       }
     },
-  });  
+  });

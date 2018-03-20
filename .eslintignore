@@ -1,5 +1,7 @@
-lib/*
-dist/*
 coverage/*
-node_modules/*
+cypress/plugins/*
+cypress/support/*
+dist/*
 flow-typed/*
+lib/*
+node_modules/*
