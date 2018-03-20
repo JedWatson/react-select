@@ -800,6 +800,30 @@ cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSi
     }
   });
 
+cases('clicking on disabled option', ({ props = BASIC_PROPS, optionsSelected, expectedSelectedOption }) => {
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  let selectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected);
+  selectOption.simulate('click', { button: 0 });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
+}, {
+  'single select > should not select the disabled option': {
+    props: {
+      ...BASIC_PROPS,
+      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+    },
+    optionsSelected: 'option 2',
+    expectedSelectedOption: '',
+  },
+  'multi select > should not select the disabled option': {
+    props: {
+      ...BASIC_PROPS,
+      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+    },
+    optionsSelected: 'option 2',
+    expectedSelectedOption: '',
+  },
+});
+
 test('does not select anything when a disabled option is the only item in the list after a search', () => {
   let onChangeSpy = jest.fn();
   const options = [{ label: 'opt', value: 'opt1', isDisabled: true }, ...OPTIONS];
@@ -1020,3 +1044,10 @@ cases('menu should remain closed after clearing value', ({ props = BASIC_PROPS }
       isMulti: true,
     },
   });
+
+test('clicking ArrowUp on closed select should select last element', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
+  selectWrapper.find('div.react-select__control').simulate('keyDown', { keyCode: 38, key: 'ArrowUp' });
+  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('sixteen');
+});
