@@ -8,7 +8,7 @@ import Select from '../';
 import SelectBase from '../Select';
 import { components } from '../components';
 
-const { Control, Input, Menu, MultiValue, Placeholder, Option } = components;
+const { ClearIndicator, Control, Input, Menu, MultiValue, Placeholder, Option, SingleValue } = components;
 
 const BASIC_PROPS = { options: OPTIONS, name: 'test-input-name' };
 
@@ -417,11 +417,13 @@ cases('accessibility - select input with defaults', ({ props = BASIC_PROPS, expe
 /**
  * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
  */
-cases('accessibility > aria-activedescendant', ({ props = { ...BASIC_PROPS, value: { label: '2', value: 'two' }, menuIsOpen: true } }) => {
+cases('accessibility > aria-activedescendant', ({ props = { ...BASIC_PROPS } }) => {
   let selectWrapper = mount(<Select {...props} />);
-  let selectInput = selectWrapper.find('Control input');
-  let activeDescendant = selectInput.props()['aria-activedescendant'];
-  expect(selectWrapper.find(`#${activeDescendant}`.text())).toBe('2');
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+
+  expect(selectWrapper.find('Control input').props()['aria-activedescendant']).toBe('1');
 }, {
     'single select': {
       skip: true,
@@ -771,7 +773,7 @@ cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSi
 test('does not select anything when a disabled option is the only item in the list after a search', () => {
   let onChangeSpy = jest.fn();
   const options = [{ label: 'opt', value: 'opt1', isDisabled: true }, ...OPTIONS];
-  let selectWrapper = mount(<Select options={options} menuIsOpen name="test-name" onChange={onChangeSpy}/>);
+  let selectWrapper = mount(<Select options={options} menuIsOpen name="test-name" onChange={onChangeSpy} />);
   selectWrapper.setProps({ inputValue: 'opt' });
   selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
 
@@ -781,21 +783,21 @@ test('does not select anything when a disabled option is the only item in the li
 });
 
 test('passes down the className prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class"/>);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class" />);
   expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
 });
 
 test('render custom Input Component', () => {
   const InputComponent = () => (<div />);
-  let selectWrapper = mount(<Select {...BASIC_PROPS} components={{ Input: InputComponent }}/>);
-  
+  let selectWrapper = mount(<Select {...BASIC_PROPS} components={{ Input: InputComponent }} />);
+
   expect(selectWrapper.find(Input).exists()).toBeFalsy();
   expect(selectWrapper.find(InputComponent).exists()).toBeTruthy();
 });
 
 test('render custom Menu Component', () => {
   const MenuComponent = () => (<div />);
-  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Menu: MenuComponent }}/>);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Menu: MenuComponent }} />);
 
   expect(selectWrapper.find(Menu).exists()).toBeFalsy();
   expect(selectWrapper.find(MenuComponent).exists()).toBeTruthy();
@@ -803,9 +805,125 @@ test('render custom Menu Component', () => {
 
 test('render custom Option Component', () => {
   const OptionComponent = () => (<div />);
-  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Option: OptionComponent }}/>);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen components={{ Option: OptionComponent }} />);
 
   expect(selectWrapper.find(Option).exists()).toBeFalsy();
   expect(selectWrapper.find(OptionComponent).exists()).toBeTruthy();
 });
 
+cases('isClearable is false', ({ props = BASIC_PROPS }) => {
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find(ClearIndicator).exists()).toBeFalsy();
+}, {
+  'single select > should not show the X (clear) button': {
+    props: {
+      ...BASIC_PROPS,
+      isClearable: false,
+      value: OPTIONS[0]
+    },
+  },
+  'multi select > should not show X (clear) button': {
+    ...BASIC_PROPS,
+    isMulti: true,
+    isClearable: false,
+    value: [OPTIONS[0]]
+  },
+});
+
+test('clear list using clear button', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  expect(selectWrapper.find(MultiValue).length).toBe(1);
+  selectWrapper.find('div.react-select__clear-indicator').simulate('mousedown', { button: 0 });
+  expect(selectWrapper.find(MultiValue).exists()).toBeFalsy();
+  expect(selectWrapper.find(ClearIndicator).exists()).toBeFalsy();
+});
+
+test('multi select > select multiple options when isSearchable is false', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti menuIsOpen delimiter="," isSearchable={false} />);
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(selectWrapper.find(Control).text()).toBe('01');
+});
+
+test('multi select > calls onChange when option is selected and isSearchable is false', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti menuIsOpen delimiter="," isSearchable={false} onChange={onChangeSpy} />);
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(onChangeSpy).toBeCalledWith([{ label: '0', value: 'zero' }], { action: 'select-option' });
+});
+
+test('multi select > removes the selected option from the menu when isSearchable is false', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti menuIsOpen delimiter="," isSearchable={false} />);
+  expect(selectWrapper.find(Option).length).toBe(17);
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  // expect '0' to not be options
+  selectWrapper.find(Option).map(option => {
+    expect(option.text()).not.toBe('0');
+  });
+  expect(selectWrapper.find(Option).length).toBe(16);
+});
+
+test('to clear value when hitting escape if escapeClearsValue and isClearable are true', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} isClearable escapeClearsValue />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.find(SingleValue).exists()).toBeFalsy();
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} isClearable />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is true (default) and isClearable is false', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable={false} />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is false', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable={false} />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+});
+
+test('close menu on hitting escape even if escapeClearsValue and isClearable are true', () => {
+  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable />);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+
+  // re-open menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  expect(selectWrapper.find(SingleValue).text()).toBe('0');
+});
+
+test('hitting escape does not call onChange if menu is Open', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable onChange={onChangeSpy}/>);
+  // Open Menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});

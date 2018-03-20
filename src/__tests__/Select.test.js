@@ -337,15 +337,14 @@ cases('selecting an option', ({ props = { menuIsOpen: true, options: OPTIONS }, 
   });
 
 cases('hitting escape on select option', ({ props, event, focusedOption, optionsSelected }) => {
-  let spy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onChange={spy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(<Select {...props} onChange={onChangeSpy} onInputChange={jest.fn()} onMenuClose={jest.fn()} />);
 
   let selectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === optionsSelected.label);
   selectWrapper.setState({ focusedOption });
 
   selectOption.simulate(...event);
-  expect(spy).not.toHaveBeenCalled();
-
+  expect(onChangeSpy).not.toHaveBeenCalled();
 }, {
     'single select > should not call onChange prop': {
       props: {
