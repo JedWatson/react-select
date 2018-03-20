@@ -720,7 +720,8 @@ var Select$1 = function (_React$Component) {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false
+			required: false,
+			focusedOption: null
 		};
 		return _this;
 	}
@@ -730,6 +731,10 @@ var Select$1 = function (_React$Component) {
 		value: function componentWillMount() {
 			this._instancePrefix = 'react-select-' + (this.props.instanceId || ++instanceId) + '-';
 			var valueArray = this.getValueArray(this.props.value);
+
+			if (this.props.options) {
+				this.setState({ focusedOption: this.props.options[0] });
+			}
 
 			if (this.props.required) {
 				this.setState({
@@ -1201,6 +1206,31 @@ var Select$1 = function (_React$Component) {
 					if (!this.state.inputValue && this.props.deleteRemoves) {
 						event.preventDefault();
 						this.popValue();
+					}
+					break;
+				default:
+					if (event.keyCode >= 32 && event.keyCode < 127) {
+						var char = String.fromCharCode(event.keyCode);
+						var options = this.props.options.length > 0 ? this.props.options.filter(function (o) {
+							return o.label.slice(0, 1) === char;
+						}) : [];
+						this._openAfterFocus = true;
+
+						if (this.state.focusedOption && options[this.state.focusedIndex] === this.state.focusedOption && char === this.state.focusedOption.label.slice(0, 1)) {
+							var nextIndex = this.state.focusedIndex + 1;
+							if (!options[nextIndex]) break;
+							this._scrollToFocusedOptionOnUpdate = true;
+
+							this.setState({
+								focusedIndex: nextIndex,
+								focusedOption: options[nextIndex]
+							});
+						} else {
+							this.setState({
+								focusedIndex: 0,
+								focusedOption: options[0]
+							});
+						}
 					}
 					break;
 			}
