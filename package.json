@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@atlaskit/button": "^6.6.3",
-    "@atlaskit/docs": "^2.5.4",
+    "@atlaskit/docs": "^2.6.0",
     "@atlaskit/icon": "^10.12.2",
     "@atlaskit/modal-dialog": "^3.5.1",
     "@atlaskit/spinner": "^4.2.1",

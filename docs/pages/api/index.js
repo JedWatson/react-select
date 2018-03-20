@@ -84,21 +84,21 @@ export default function Api() {
 
     These base props are those available to be passed to all select variants.
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Select')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/Select')} />}
 
     ## Async props
 
     These props are included with in both the Async and AsyncCreatable select. For
     more on using async selects, see the [async select documentation](/async)
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Async')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/Async')} />}
 
     ## Creatable props
 
     These props are included with in both the Creatable and AsyncCreatable select. For
     more on using creatable selects, see the [creatable select documentation](/creatable)
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/Creatable')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/Creatable')} />}
 
     ## Replacing Components
 
@@ -122,19 +122,19 @@ export default function Api() {
 
     ### ClearIndicator
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/ClearIndicator')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/ClearIndicator')} />}
 
     ### Control
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Control')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Control')} />}
 
     ### DropdownIndicator
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/DropdownIndicator')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/DropdownIndicator')} />}
 
     ### Group
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Group')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Group')} />}
 
     ### GroupHeading
 
@@ -142,71 +142,71 @@ export default function Api() {
 
     ### IndicatorsContainer
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/IndicatorsContainer')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/IndicatorsContainer')} />}
 
     ### IndicatorsSeparator
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/IndicatorsSeparator')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/IndicatorsSeparator')} />}
 
     ### Input
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Input')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Input')} />}
 
     ### LoadingIndicator
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/LoadingIndicator')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/LoadingIndicator')} />}
 
     ### Menu
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Menu')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Menu')} />}
 
     ### MenuList
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MenuList')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MenuList')} />}
 
     ### LoadingMessage
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/LoadingMessage')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/LoadingMessage')} />}
 
     ### NoOptionsMessage
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/NoOptionsMessage')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/NoOptionsMessage')} />}
 
     ### MultiValue
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValue')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValue')} />}
 
     ### MultiValueContainer
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueContainer')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueContainer')} />}
 
     ### MultiValueLabel
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueLabel')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueLabel')} />}
 
     ### MultiValueRemove
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueRemove')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/MultiValueRemove')} />}
 
     ### Option
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Option')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Option')} />}
 
     ### Placeholder
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Placeholder')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/Placeholder')} />}
 
     ### SelectContainer
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/SelectContainer')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/SelectContainer')} />}
 
     ### SingleValue
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/SingleValue')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/SingleValue')} />}
 
     ### ValueContainer
 
-    ${<Props heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/ValueContainer')} />}
+    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/components/ValueContainer')} />}
   `}
   </Fragment>
   );
