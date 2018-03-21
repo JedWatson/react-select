@@ -7,6 +7,7 @@ import { OPTIONS } from './constants';
 import Select from '../';
 import SelectBase from '../Select';
 import { components } from '../components';
+import { A11yText } from '../primitives';
 
 const { ClearIndicator, Control, Input, Menu, MultiValue, Placeholder, Option, SingleValue } = components;
 
@@ -479,6 +480,20 @@ cases('accessibility > passes through aria-label prop', ({ props = { ...BASIC_PR
     }
   });
 
+test('accessibility > to show the number of options available in A11yText', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
+  expect(selectWrapper.find(A11yText).text()).toBe('17 results available.');
+
+  selectWrapper.setProps({ inputValue: '0' });
+  expect(selectWrapper.find(A11yText).text()).toBe('2 results available.');
+
+  selectWrapper.setProps({ inputValue: '10' });
+  expect(selectWrapper.find(A11yText).text()).toBe('1 result available.');
+
+  selectWrapper.setProps({ inputValue: '100' });
+  expect(selectWrapper.find(A11yText).text()).toBe('0 results available.');
+});
+
 /**
  * Not a case anymore, not getting this label in V2
  */
@@ -806,23 +821,23 @@ cases('clicking on disabled option', ({ props = BASIC_PROPS, optionsSelected, ex
   selectOption.simulate('click', { button: 0 });
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
 }, {
-  'single select > should not select the disabled option': {
-    props: {
-      ...BASIC_PROPS,
-      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+    'single select > should not select the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+      },
+      optionsSelected: 'option 2',
+      expectedSelectedOption: '',
     },
-    optionsSelected: 'option 2',
-    expectedSelectedOption: '',
-  },
-  'multi select > should not select the disabled option': {
-    props: {
-      ...BASIC_PROPS,
-      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+    'multi select > should not select the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
+      },
+      optionsSelected: 'option 2',
+      expectedSelectedOption: '',
     },
-    optionsSelected: 'option 2',
-    expectedSelectedOption: '',
-  },
-});
+  });
 
 test('does not select anything when a disabled option is the only item in the list after a search', () => {
   let onChangeSpy = jest.fn();
@@ -1050,4 +1065,39 @@ test('clicking ArrowUp on closed select should select last element', () => {
   selectWrapper.find('div.react-select__control').simulate('keyDown', { keyCode: 38, key: 'ArrowUp' });
   selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('sixteen');
+});
+
+test('to only render groups with at least one match when filtering', () => {
+  const options = [
+    {
+      label: 'group 1',
+      options: [{ value: 1, label: '1' }, { value: 2, label: '2' }],
+    },
+    {
+      label: 'group 2',
+      options: [{ value: 3, label: '3' }, { value: 4, label: '4' }],
+    },
+  ];
+  const selectWrapper = mount(<Select options={options} menuIsOpen />);
+  selectWrapper.setProps({ inputValue: '1' });
+
+  expect(selectWrapper.find('Group').length).toBe(1);
+  expect(selectWrapper.find('Group').find('Option').length).toBe(1);
+});
+
+test('not render any groups when there is not a single match when filtering', () => {
+  const options = [
+    {
+      label: 'group 1',
+      options: [{ value: 1, label: '1' }, { value: 2, label: '2' }],
+    },
+    {
+      label: 'group 2',
+      options: [{ value: 3, label: '3' }, { value: 4, label: '4' }],
+    },
+  ];
+  const selectWrapper = mount(<Select options={options} menuIsOpen />);
+  selectWrapper.setProps({ inputValue: '5' });
+
+  expect(selectWrapper.find('Group').length).toBe(0);
 });
