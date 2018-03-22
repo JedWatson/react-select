@@ -8,7 +8,7 @@ import Select from '../';
 import SelectBase from '../Select';
 import { components } from '../components';
 
-const { Control, Menu, MultiValue, Option, SingleValue } = components;
+const { Control, Menu, MultiValue, Option } = components;
 
 const BASIC_PROPS = { options: OPTIONS, name: 'test-input-name' };
 

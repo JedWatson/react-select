@@ -1430,8 +1430,8 @@ test('close menu on hitting escape and clear input value if menu is open even if
   expect(onMenuCloseSpy).toHaveBeenCalled();
   // once by onMenuClose and other is direct
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
-  expect(onInputChangeSpy).toHaveBeenCalledWith('', {"action": "menu-close"});
-  expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {"action": "menu-close"});
+  expect(onInputChangeSpy).toHaveBeenCalledWith('', { action : 'menu-close' });
+  expect(onInputChangeSpy).toHaveBeenLastCalledWith('', { action: 'menu-close' });
 });
 
 test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is false', () => {
@@ -1467,7 +1467,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   let selectWrapper = mount(<Select {...props} isClearable escapeClearsValue />);
 
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { "action": "clear" });
+  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { action: 'clear' });
 });
 
 
