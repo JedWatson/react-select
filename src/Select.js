@@ -30,6 +30,10 @@ const stringOrNumber = PropTypes.oneOfType([
 	PropTypes.string,
 	PropTypes.number
 ]);
+const boolOrNumber = PropTypes.oneOfType([
+	PropTypes.number,
+	PropTypes.bool
+]);
 
 let instanceId = 1;
 
@@ -815,7 +819,17 @@ class Select extends React.Component {
 			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
-		if (this.props.multi) {
+		if (this.props.multi &&
+			this.props.summaryShowSelectedNumber !== false &&
+			this.props.summaryShowSelectedNumber <= valueArray.length) {
+			let countSelected = valueArray.length;
+			let countTotal = this.props.options.length;
+			let message = this.props.summarySelectedText;
+			if (countSelected === countTotal) {
+				message = this.props.summarySelectedAllText;
+			}
+			return <div className="Select-summary">{message.replace('{countSelected}', countSelected).replace('{countTotal}', countTotal)}</div>;
+		} else if (this.props.multi) {
 			return valueArray.map((value, i) => {
 				return (
 					<ValueComponent
@@ -1257,6 +1271,9 @@ Select.propTypes = {
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
 	style: PropTypes.object,              // optional style to apply to the control
+	summarySelectedAllText: PropTypes.string,  // the message to show when all options are selected
+	summarySelectedText: PropTypes.string,  // the message to show when count of selected options is >= countSelectedNumber
+	summaryShowSelectedNumber: boolOrNumber,    // count of selected options needed to render countSelectedText
 	tabIndex: stringOrNumber,             // optional tab index of the control
 	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
@@ -1311,6 +1328,9 @@ Select.defaultProps = {
  	trimFilter: true,
 	valueComponent: Value,
 	valueKey: 'value',
+	summarySelectedText: 'Selected {countSelected} of {countTotal} options',
+	summarySelectedAllText: 'Selected all options',
+	summaryShowSelectedNumber: false
 };
 
 export default Select;

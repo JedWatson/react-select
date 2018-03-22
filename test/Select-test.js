@@ -4421,6 +4421,49 @@ describe('Select', () => {
 		});
 	});
 
+	describe('summary', () => {
+		let options = [
+			{ value: 'one', label: 'label one' },
+			{ value: 'two', label: 'label two' },
+			{ value: 'three', label: 'label three' },
+			{ value: 'four', label: 'label four' },
+			{ value: 'five', label: 'label five' }
+		];
+		let values = ['three', 'two', 'four'];
+		it('should contain summary', () => {
+			instance = createControl({
+				multi: true,
+				summaryShowSelectedNumber: 3,
+				summarySelectedText: 'test1 {countSelected} of {countTotal} test2',
+				options: options,
+				value: values
+			});
+			expect(ReactDOM.findDOMNode(instance).querySelector('.Select-summary'), 'to have text', 'test1 ' + values.length + ' of ' + options.length + ' test2');
+		});
+
+		it('should not contain summary', () => {
+			instance = createControl({
+				multi: true,
+				summaryShowSelectedNumber: 6,
+				summarySelectedText: 'test1 {countSelected} of {countTotal} test2',
+				options: options,
+				value: values
+			});
+			expect(ReactDOM.findDOMNode(instance).querySelector('.Select-summary'), 'to equal', null);
+		});
+
+		it('should contain selected all message', () => {
+			instance = createControl({
+				multi: true,
+				summaryShowSelectedNumber: 3,
+				summarySelectedAllText: 'test selected all of {countTotal}',
+				options: options,
+				value: options.map((item) => item.value)
+			});
+			expect(ReactDOM.findDOMNode(instance).querySelector('.Select-summary'), 'to have text', 'test selected all of ' + options.length);
+		});
+	});
+
 	describe('.focus()', () => {
 		beforeEach(() => {
 			instance = createControl({});

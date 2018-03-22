@@ -178,6 +178,23 @@
 	white-space: nowrap;
 }
 
+.Select--multi .Select-summary {
+  color: @select-text-color;
+  margin-left: @select-padding-horizontal;
+  // crop text
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  margin-top: 6px;
+  vertical-align: top;
+}
+
+.Select--multi.Select--rtl .Select-summary {
+  margin-left: 0;
+  margin-right: @select-padding-horizontal;
+}
+
 // the <input> element users type in
 
 .Select-input {

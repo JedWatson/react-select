@@ -29,6 +29,7 @@ var MultiSelectField = createClass({
 			stayOpen: false,
 			value: [],
 			rtl: false,
+			summary: false
 		};
 	},
 	handleSelectChange (value) {
@@ -43,6 +44,10 @@ var MultiSelectField = createClass({
 	toggleRtl (e) {
 		let rtl = e.target.checked;
 		this.setState({ rtl });
+	},
+	toggleSummary (e) {
+		let checked = e.target.checked;
+		this.setState({ summary: checked ? 3 : false });
 	},
 
 	render () {
@@ -62,6 +67,7 @@ var MultiSelectField = createClass({
 					rtl={this.state.rtl}
 					simpleValue
 					value={value}
+					summaryShowSelectedNumber={this.state.summary}
 				/>
 
 				<div className="checkbox-list">
@@ -84,6 +90,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">rtl</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="summary" checked={!!this.state.summary} onChange={this.toggleSummary} />
+						<span className="checkbox-label">Show summary (on 3rd selected option)</span>
 					</label>
 				</div>
 			</div>
