@@ -1273,7 +1273,7 @@ Select.propTypes = {
 	style: PropTypes.object,              // optional style to apply to the control
 	summarySelectedAllText: PropTypes.string,  // the message to show when all options are selected
 	summarySelectedText: PropTypes.string,  // the message to show when count of selected options is >= countSelectedNumber
-	summaryShowSelectedNumber: boolOrNumber,    // count of selected options needed to render countSelectedText
+	summaryShowSelectedNumber: boolOrNumber,    // count of selected options needed to render summarySelectedText
 	tabIndex: stringOrNumber,             // optional tab index of the control
 	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
