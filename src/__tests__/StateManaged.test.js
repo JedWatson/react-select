@@ -17,6 +17,11 @@ test('defaults > snapshot', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
+test('passes down the className prop', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class" />);
+  expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
+});
+
 cases('click on dropdown indicator', ({ props = BASIC_PROPS }) => {
   let selectWrapper = mount(<Select {...props} />);
   // Menu not open by defualt
@@ -492,152 +497,6 @@ test.skip('inputValue prop > should not update the inputValue when on change of 
   expect(selectWrapper.find('Control input').props().value).toBe('0');
 });
 
-cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
-  let selectWrapper = mount(<Select {...props} />);
-  // open the menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
-  eventsToSimulate.map(eventToSimulate => {
-    selectWrapper.find(Menu).simulate(...eventToSimulate);
-  });
-  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
-}, {
-    'with isOptionDisabled prop > jumps over the first option if it is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: (option) => ['zero'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: OPTIONS[1].value,
-    },
-    'with isDisabled option value > jumps over the first option if it is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, ...OPTIONS],
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'with isOptionDisabled function prop > jumps over the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[3].value,
-    },
-    'with isDisabled option value > jumps over the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3' }],
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: 'opt3',
-    },
-    'with isOptionDisabled prop > skips over last option when looping round when last option is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: OPTIONS.slice(0, 3),
-        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'with isDisabled option value > skips over last option when looping round when last option is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2' }, { label: 'option 3', value: 'opt3', isDisabled: true }],
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: 'opt1',
-    },
-    'with isOptionDisabled prop > should not select anything when all options are disabled': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: () => true,
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: '',
-    },
-    'with isDisabled option value > should not select anything when all options are disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3', isDisabled: true }],
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: '',
-    }
-  });
-
-test('passes down the className prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class" />);
-  expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
-});
-
-test('to clear value when hitting escape if escapeClearsValue and isClearable are true', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} isClearable escapeClearsValue />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.find(SingleValue).exists()).toBeFalsy();
-});
-
-test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} isClearable />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-});
-
-test('to not clear value when hitting escape if escapeClearsValue is true (default) and isClearable is false', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable={false} />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-});
-
-test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is false', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable={false} />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-});
-
-test('close menu on hitting escape even if escapeClearsValue and isClearable are true', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} escapeClearsValue isClearable />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
-
-  // re-open menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-  expect(selectWrapper.find(SingleValue).text()).toBe('0');
-});
-
 /**
  * selects the option on hitting spacebar
  * need varification
@@ -648,23 +507,4 @@ test.skip('hitting spacebar should not select option if isSearchable is true (de
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
   selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-});
-
-test('multi select > with multi character delimiter', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti delimiter={'===&==='} />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
-
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero===&===one');
-});
-
-test('clicking ArrowUp on closed select should select last element', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
-  selectWrapper.find('div.react-select__control').simulate('keyDown', { keyCode: 38, key: 'ArrowUp' });
-  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('sixteen');
 });

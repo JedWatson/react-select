@@ -1413,3 +1413,147 @@ test('multi select > removes the selected option from the menu options when isSe
   });
   expect(selectWrapper.find(Option).length).toBe(16);
 });
+
+test('hitting ArrowUp key on closed select should focus last element', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
+  selectWrapper.find('div.react-select__control').simulate('keyDown', { keyCode: 38, key: 'ArrowUp' });
+  expect(selectWrapper.state('focusedOption')).toEqual({ label: '16', value: 'sixteen' });
+});
+
+test('close menu on hitting escape and clear input value if menu is open even if escapeClearsValue and isClearable are true', () => {
+  let onMenuCloseSpy = jest.fn();
+  let onInputChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onMenuClose: onMenuCloseSpy, onInputChange: onInputChangeSpy, value: OPTIONS[0] };
+  let selectWrapper = mount(<Select {...props} menuIsOpen escapeClearsValue isClearable />);
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(selectWrapper.state('selectValue')).toEqual([{  label: '0', value: 'zero' }]);
+  expect(onMenuCloseSpy).toHaveBeenCalled();
+  // once by onMenuClose and other is direct
+  expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
+  expect(onInputChangeSpy).toHaveBeenCalledWith('', {"action": "menu-close"});
+  expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {"action": "menu-close"});
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is false', () => {
+  let onChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
+  let selectWrapper = mount(<Select {...props} escapeClearsValue isClearable={false} />);
+  
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is true and isClearable is false', () => {
+  let onChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
+  let selectWrapper = mount(<Select {...props} escapeClearsValue isClearable={false} />);
+
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true', () => {
+  let onChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
+  let selectWrapper = mount(<Select {...props} isClearable />);
+  
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('to clear value when hitting escape if escapeClearsValue and isClearable are true', () => {
+  let onInputChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onInputChangeSpy, value: OPTIONS[0] };
+  let selectWrapper = mount(<Select {...props} isClearable escapeClearsValue />);
+
+  selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { "action": "clear" });
+});
+
+
+cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  // open the menu
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+  eventsToSimulate.map(eventToSimulate => {
+    selectWrapper.find(Menu).simulate(...eventToSimulate);
+  });
+  expect(selectWrapper.state('focusedOption')).toEqual(expectedSelectedOption);
+}, {
+    'with isOptionDisabled function prop > jumps over the first option if it is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: (option) => ['zero'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: OPTIONS[1],
+    },
+    'with isDisabled option value > jumps over the first option if it is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, ...OPTIONS],
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: OPTIONS[0],
+    },
+    'with isOptionDisabled function prop > jumps over the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: OPTIONS[3],
+    },
+    'with isDisabled option value > jumps over the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3' }],
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: { label: 'option 3', value: 'opt3' },
+    },
+    'with isOptionDisabled function prop > skips over last option when looping round when last option is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS.slice(0, 3),
+        isOptionDisabled: (option) => ['two'].indexOf(option.value) > -1,
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: OPTIONS[0],
+    },
+    'with isDisabled option value > skips over last option when looping round when last option is disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2' }, { label: 'option 3', value: 'opt3', isDisabled: true }],
+      },
+      eventsToSimulate: [
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+      ],
+      expectedSelectedOption: { label: 'option 1', value: 'opt1' },
+    },
+    'with isOptionDisabled function prop > should not select anything when all options are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        isOptionDisabled: () => true,
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: null,
+    },
+    'with isDisabled option value > should not select anything when all options are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        options: [{ label: 'option 1', value: 'opt1', isDisabled: true }, { label: 'option 2', value: 'opt2', isDisabled: true }, { label: 'option 3', value: 'opt3', isDisabled: true }],
+      },
+      eventsToSimulate: [],
+      expectedSelectedOption: null,
+    }
+  });
