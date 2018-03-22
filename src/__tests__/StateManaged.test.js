@@ -821,23 +821,23 @@ cases('clicking on disabled option', ({ props = BASIC_PROPS, optionsSelected, ex
   selectOption.simulate('click', { button: 0 });
   expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(expectedSelectedOption);
 }, {
-    'single select > should not select the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
-      },
-      optionsSelected: 'option 2',
-      expectedSelectedOption: '',
+  'single select > should not select the disabled option': {
+    props: {
+      ...BASIC_PROPS,
+      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
     },
-    'multi select > should not select the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
-      },
-      optionsSelected: 'option 2',
-      expectedSelectedOption: '',
+    optionsSelected: 'option 2',
+    expectedSelectedOption: '',
+  },
+  'multi select > should not select the disabled option': {
+    props: {
+      ...BASIC_PROPS,
+      options: [{ label: 'option 1', value: 'opt1' }, { label: 'option 2', value: 'opt2', isDisabled: true }],
     },
-  });
+    optionsSelected: 'option 2',
+    expectedSelectedOption: '',
+  },
+});
 
 test('does not select anything when a disabled option is the only item in the list after a search', () => {
   let onChangeSpy = jest.fn();
