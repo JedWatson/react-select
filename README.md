@@ -410,6 +410,9 @@ function onInputKeyDown(event) {
 | `searchPromptText` | string or node | 'Type to search' | label to prompt for search input |
 | `simpleValue` | boolean | false | pass the value to onChange as a string |
 | `style` | object | undefined | optional styles to apply to the control |
+| `summarySelectedAllText` | string | 'Selected all options' | message to show when summary is turned on and all options are selected, {countSelected} and {countTotal} will be replaced by the corresponding values |
+| `summarySelectedText` | string | 'Selected {countSelected} of {countTotal} options' | message to show when count of selected options is greater or equal to summaryShowSelectedNumber, {countSelected} and {countTotal} will be replaced by the corresponding values |
+| `summaryShowSelectedNumber` | bool or number | false | false to disable or number to enable summary |
 | `tabIndex` | string or number | undefined | tabIndex of the control |
 | `tabSelectsValue` | boolean | true | whether to select the currently focused value when the `[tab]` key is pressed |
 | `trimFilter` | boolean | false | whether to trim whitespace from the filter value |
