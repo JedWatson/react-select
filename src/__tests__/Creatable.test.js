@@ -13,7 +13,7 @@ test('defaults - snapshot', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
-cases('current filter text is an exact match for an existing option',
+cases('filtered option is an exact match for an existing option',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setProps({ inputValue: 'one' });
@@ -32,7 +32,7 @@ cases('current filter text is an exact match for an existing option',
   }
 );
 
-cases('filterOptions returns invalid value',
+cases('filterOptions returns invalid value ( null )',
   ({ props = { option: OPTIONS } }) => {
     let filterOptionSpy = jest.fn().mockReturnValue(null);
     const creatableSelectWrapper = mount(
@@ -55,7 +55,7 @@ cases('filterOptions returns invalid value',
   }
 );
 
-cases('filter text does not match any existing options',
+cases('inputValue does not match any option after filter',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setProps({ inputValue: 'option not is list' });
