@@ -765,7 +765,7 @@ cases('hitting escape with inputValue in select', ({ props }) => {
     }
   });
 
-cases('Clicking dropdown indicator on closed select with primary button on mouse', ({ props = BASIC_PROPS }) => {
+cases('Clicking dropdown indicator on select with closed menu with primary button on mouse', ({ props = BASIC_PROPS }) => {
   let onMenuOpenSpy = jest.fn();
   props = { ...props, onMenuOpen: onMenuOpenSpy };
   let selectWrapper = mount(<Select {...props} />);
@@ -783,7 +783,7 @@ cases('Clicking dropdown indicator on closed select with primary button on mouse
     }
   });
 
-cases('Clicking dropdown indicator on closed select with primary button on mouse', ({ props = BASIC_PROPS }) => {
+cases('Clicking dropdown indicator on select with open menu with primary button on mouse', ({ props = BASIC_PROPS }) => {
   let onMenuCloseSpy = jest.fn();
   props = { ...props, onMenuClose: onMenuCloseSpy };
   let selectWrapper = mount(<Select {...props} menuIsOpen />);
@@ -1415,7 +1415,7 @@ cases('isClearable is false', ({ props = BASIC_PROPS }) => {
     },
   });
 
-test('clear select using clear button > should not call onMenuOpen', () => {
+test('clear select by clicking on clear button > should not call onMenuOpen', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let selectWrapper = mount(<Select {...props} isMulti value={[OPTIONS[0]]} />);
