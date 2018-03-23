@@ -2,7 +2,7 @@
 // @jsx glam
 
 import glam from 'glam';
-import React, { Component, type Element } from 'react';
+import React, { Component, type ElementRef } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import type { RouterProps } from '../types';
@@ -33,7 +33,7 @@ const NavSection = () => {
 type NavState = { links: Array<Object>, activeId: string | null };
 
 class PageNav extends Component<RouterProps, NavState> {
-  scrollSpy: Element<*>;
+  scrollSpy: ElementRef<typeof ScrollSpy>;
   state = { activeId: null, links: [] };
   componentDidMount() {
     const { match } = this.props;

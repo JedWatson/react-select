@@ -22,8 +22,8 @@ type State = {
 };
 
 export default class Sticky extends Component<Props, State> {
-  innerEl: Element;
-  outerEl: Element;
+  innerEl: ElementRef<'div'>;
+  outerEl: ElementRef<'div'>;
   state = {
     height: 'auto',
     isFixed: false,
