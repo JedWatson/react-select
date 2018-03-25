@@ -1,4 +1,5 @@
 [ignore]
+.*/lib/.*
 .*/node_modules/cypress/.*
 .*/node_modules/@atlaskit/tooltip/dist/cjs/components/Marshal.js.flow
 
