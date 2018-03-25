@@ -7,16 +7,16 @@ import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
 export type AsyncProps = {
-  /* Either a set of default options to use, or set an isLOading option */
+  /* The default set of options to show before the user starts searching. When
+     set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions: OptionsType | boolean,
-  /* Function that returns a promise, which is the set of options to be used once the promise resolves. */
+  /* Function that returns a promise, which is the set of options to be used
+     once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  /*
-    If cacheOptions are truthy, then the loaded data will be cached. The cache
-    will remain until `cacheOptions` changes value.
-  */
+  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
+     will remain until `cacheOptions` changes value. */
   cacheOptions: any,
-}
+};
 
 export type Props = SelectProps & AsyncProps;
 
@@ -73,10 +73,10 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     componentWillUnmount() {
       this.mounted = false;
     }
-    focus () {
+    focus() {
       this.select.focus();
     }
-    blur () {
+    blur() {
       this.select.blur();
     }
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
@@ -155,7 +155,9 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
         // $FlowFixMe
         <SelectComponent
           {...props}
-          ref = {ref => { this.select = ref; }}
+          ref={ref => {
+            this.select = ref;
+          }}
           options={options}
           filterOption={null}
           isLoading={isLoading}
