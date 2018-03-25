@@ -2333,6 +2333,17 @@ describe('Select', () => {
 			]);
 		});
 
+		it('does not change the focused item after selecting it', () => {
+			clickArrowToOpen();
+
+			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+
+			// Click the option "Two" to select it
+			expect(items[1], 'to have text', 'Two');
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(items[1].classList.contains('is-focused'), 'to be true');
+		});
+
 		it('removes a selected value if chosen again', () => {
 
 			clickArrowToOpen();
