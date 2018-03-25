@@ -8,7 +8,7 @@ import Select from '../';
 import SelectBase from '../Select';
 import { components } from '../components';
 
-const { Control, Menu, MultiValue, Option } = components;
+const { Control, Menu } = components;
 
 const BASIC_PROPS = { options: OPTIONS, name: 'test-input-name' };
 
@@ -52,71 +52,13 @@ test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown In
   expect(selectWrapper.find(Menu).exists()).toBeTruthy();
 });
 
-cases('clicking clearIndicator to clear select', ({ props = BASIC_PROPS }) => {
-  let selectWrapper = mount(<Select {...props} isClearable />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  // Select value
-  selectWrapper.simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  // Menu is closed
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-
-  selectWrapper.find('div.react-select__clear-indicator').simulate('mouseDown', { button: 0 });
-
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('');
-}, {
-    'single select > should not show the X (clear) button and menu should remain close': {
-      props: {
-        ...BASIC_PROPS,
-      },
-    },
-    'multi select > should not show X (sdfdsfclear) button and menu should remain close': {
-      ...BASIC_PROPS,
-      isMulti: true,
-    },
-  });
-
-cases('onMenuOpen called when menu is opened', ({ props = BASIC_PROPS }) => {
-  let onMenuOpenSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} />);
-  // Menu not open by defualt
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-  expect(onMenuOpenSpy).not.toHaveBeenCalled();
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  // onMenuOpenSpy
-  expect(onMenuOpenSpy).toHaveBeenCalledTimes(1);
-}, {
-    'single select > should call onMenuOpen prop on opening menu': {},
-    'multi select > should call onMenuOpen prop on opening menu': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-      },
-    },
-  });
-
-cases('onMenuClose called when menu is closed', ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
-  let onMenuCloseSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuClose={onMenuCloseSpy} />);
-  // Menu is open by defualt
+test('defaultMenuIsOpen prop > should open by menu default and clicking on Dropdown Indicator should toggle menu', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} defaultMenuIsOpen />);
   expect(selectWrapper.find(Menu).exists()).toBeTruthy();
-  expect(onMenuCloseSpy).not.toHaveBeenCalled();
-  // closing Menu
+
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
-}, {
-    'single select > should call onMenuClose prop on closing menu': {},
-    'multi select > should call onMenuClose prop on closing menu': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-        menuIsOpen: true,
-      },
-    },
-  });
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+});
 
 test('Menu is controllable by menuIsOpen prop', () => {
   let selectWrapper = mount(<Select {...BASIC_PROPS} />);
@@ -158,94 +100,46 @@ test('multi select > selecting multiple values', () => {
   expect(selectWrapper.find(Control).text()).toBe('01');
 });
 
-test('multi select > remove the last selected option on backspace', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti />);
-
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-
-  // select the first option
-  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-
-  // Re-open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  // select the first option again
-  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find(Control).text()).toBe('01');
-
-  selectWrapper.find(Control).simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(selectWrapper.find(Control).text()).toBe('0');
-});
-
-test('multi select > clicking on X next to selection option', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} isMulti defaultValue={[OPTIONS[2], OPTIONS[4]]} />);
-  // there are two values in select
-  expect(selectWrapper.find(MultiValue).length).toBe(2);
-  // select has 2 and 4 as value
-  expect(selectWrapper.find(Control).text()).toBe('24');
-
-  const selectFirstValueWrapper = selectWrapper.find(MultiValue).at(0);
-  selectFirstValueWrapper.find('div.react-select__multi-value__remove').simulate('click', { button: 0 });
-  // now there is one values in select
-  expect(selectWrapper.find(MultiValue).length).toBe(1);
-  // first value 2, is removed from the select
-  expect(selectWrapper.find(Control).text()).toBe('4');
-
-});
-
-/**
- * backspace is not removing the option when isClearable and backspaceRemovesValue true
- * This is working in example on website not working on enzyme wrapper
- */
-cases('hitting backspace with selected options', ({ props = BASIC_PROPS, expectedValueAfterBackSpace }) => {
+test('defaultInputValue prop > should update the inputValue on change of input if defaultInputValue prop is provided', () => {
+  const props = { ...BASIC_PROPS, defaultInputValue: '0' };
   let selectWrapper = mount(<Select {...props} />);
-  expect(selectWrapper.find(Control).text()).toBe(props.value.label);
-  selectWrapper.find(Control).simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(selectWrapper.find(Control).text()).toBe(expectedValueAfterBackSpace);
-}, {
-    'single select > should not remove when backspaceRemovesValue is false': {
-      props: {
-        ...BASIC_PROPS,
-        isClearable: true,
-        backspaceRemovesValue: false,
-        value: OPTIONS[3],
-      },
-      expectedValueAfterBackSpace: OPTIONS[3].label,
-    },
-    'single select > should remove when backspaceRemovesValue is true': {
-      props: {
-        ...BASIC_PROPS,
-        isClearable: true,
-        backspaceRemovesValue: true,
-        value: OPTIONS[3],
-      },
-      expectedValueAfterBackSpace: '',
-      skip: true,
-    },
-    'multi select - should not remove when backspaceRemovesValue is false': {
-      props: {
-        ...BASIC_PROPS,
-        isClearable: true,
-        isMulti: false,
-        backspaceRemovesValue: false,
-        value: OPTIONS[5],
-      },
-      expectedValueAfterBackSpace: OPTIONS[5].label,
-    },
-    'multi select - should not remove when backspaceRemovesValue is true': {
-      props: {
-        ...BASIC_PROPS,
-        isClearable: true,
-        isMulti: false,
-        backspaceRemovesValue: true,
-        value: OPTIONS[5],
-      },
-      expectedValueAfterBackSpace: '',
-      skip: true,
-    }
-  });
+  expect(selectWrapper.find('Control input').props().value).toBe('0');
+  let input = selectWrapper.find('Control input').getDOMNode();
+  // Thit is to set the event.currentTarget.value
+  // Enzyme issue : https://github.com/airbnb/enzyme/issues/218
+  input.value = 'A';
+  selectWrapper.find('Control input').simulate('change', { keyCode: 65, Key: 'A' });
+  expect(selectWrapper.find('Control input').props().value).toBe('A');
+});
 
-cases('selecting an option > mouse interaction', ({ props = { ...BASIC_PROPS }, event, selectOption, expectSelectedOption }) => {
+test('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
+  const props = { ...BASIC_PROPS, inputValue: '0' };
+  let selectWrapper = mount(<Select {...props} />);
+  let input = selectWrapper.find('Control input').getDOMNode();
+  // Thit is to set the event.currentTarget.value
+  // Enzyme issue : https://github.com/airbnb/enzyme/issues/218
+  input.value = 'A';
+  selectWrapper.find('Control input').simulate('change', { keyCode: 65, Key: 'A' });
+  expect(selectWrapper.find('Control input').props().value).toBe('0');
+});
+
+test('defaultValue prop > should update the value on selecting option', () => {
+  const props = { ...BASIC_PROPS, defaultValue: [OPTIONS[0]] };
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+  selectWrapper.find('div.react-select__option').at(1).simulate('click');
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('one');
+});
+
+test('value prop > should update the value on selecting option', () => {
+  const props = { ...BASIC_PROPS, value: [OPTIONS[0]] };
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+  selectWrapper.find('div.react-select__option').at(1).simulate('click');
+  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+});
+
+cases('Integration tests > selecting an option > mouse interaction', ({ props = { ...BASIC_PROPS }, event, selectOption, expectSelectedOption }) => {
   let selectWrapper = mount(<Select {...props} />);
   let toSelectOption = selectWrapper.find('div.react-select__option').findWhere(n => n.props().children === selectOption.label);
   toSelectOption.simulate(...event);
@@ -273,7 +167,7 @@ cases('selecting an option > mouse interaction', ({ props = { ...BASIC_PROPS }, 
     }
   });
 
-cases('selection an option > keyboard interaction', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
+cases('Integration tests > selection an option > keyboard interaction', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
   let selectWrapper = mount(<Select {...props} />);
   // open the menu
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
@@ -464,47 +358,3 @@ cases('selection an option > keyboard interaction', ({ props = { ...BASIC_PROPS 
       expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
     },
   });
-
-cases('value prop', ({ props = { ...BASIC_PROPS, value: OPTIONS[0] } }) => {
-  let selectWrapper = mount(<Select {...props} />);
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-
-  // select new value from option
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.find(Option).at(4).find('div').simulate('click', { button: 0 });
-
-  // value stays the same as passed by props
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-}, {
-    'single select > should always show the value passed as props': {},
-    'multi select > should always show the value passed as props': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-        value: OPTIONS[0],
-      }
-    },
-  });
-
-/**
- * Unable to trigger change event on input and test
- * as event.currentTarget.value goes as empty string
- */
-test.skip('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
-  const props = { ...BASIC_PROPS, inputValue: OPTIONS[0].label };
-  let selectWrapper = mount(<Select {...props} />);
-  selectWrapper.find('Control input').simulate('change', { currentTarget: { value: 'A' }, target: { value: 'A' } });
-  expect(selectWrapper.find('Control input').props().value).toBe('0');
-});
-
-/**
- * selects the option on hitting spacebar
- * need varification
- */
-test.skip('hitting spacebar should not select option if isSearchable is true (default)', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
-  // Open Menu
-  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
-  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-});

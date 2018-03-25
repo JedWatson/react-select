@@ -11,9 +11,10 @@ import { A11yText } from '../primitives';
 const {
   ClearIndicator,
   Control,
+  DropdownIndicator,
+  GroupHeading,
   IndicatorsContainer,
   Input,
-  DropdownIndicator,
   Menu,
   MultiValue,
   NoOptionsMessage,
@@ -36,9 +37,28 @@ test('snapshot - defaults', () => {
   expect(toJson(tree)).toMatchSnapshot();
 });
 
+test('instanceId prop > to have instanceId as id prefix for the select components', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />);
+  expect(selectWrapper.find(Input).props().id).toContain('custom-id');
+  selectWrapper.find('div.react-select__option').forEach(opt => {
+    expect(opt.props().id).toContain('custom-id');
+  });
+});
+
 test('hidden input field is not present if name is not passes', () => {
   let selectWrapper = mount(<Select options={OPTIONS} />);
   expect(selectWrapper.find('input[type="hidden"]').exists()).toBeFalsy();
+});
+
+test('single select > passing multiple values > should select the first value', () => {
+  const props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[4]] };
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find(Control).text()).toBe('0');
+});
+
+test('isRtl boolean props is passed down to the control component', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} value={[OPTIONS[0]]} isRtl isClearable />);
+  expect(selectWrapper.props().isRtl).toBe(true);
 });
 
 cases('formatOptionLabel', ({ props, valueComponent, expectedOptions }) => {
@@ -529,6 +549,16 @@ cases('focus on options > keyboard interaction with Menu', ({ props, selectedOpt
       selectedOption: OPTIONS[0],
       nextFocusOption: OPTIONS[5],
     },
+    'single select > PageDown key takes us to next page with custom pageSize 7': {
+      props: {
+        menuIsOpen: true,
+        pageSize: 7,
+        options: OPTIONS
+      },
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[7],
+    },
     'single select > PageDown key takes to the last option is options below is less then page size': {
       props: {
         menuIsOpen: true,
@@ -547,7 +577,17 @@ cases('focus on options > keyboard interaction with Menu', ({ props, selectedOpt
       selectedOption: OPTIONS[6],
       nextFocusOption: OPTIONS[1],
     },
-    'single select > PageUp key takes us to first option - previous options < pageSize': {
+    'single select > PageUp key takes us to previous page with custom pageSize of 7': {
+      props: {
+        menuIsOpen: true,
+        pageSize: 7,
+        options: OPTIONS
+      },
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[9],
+      nextFocusOption: OPTIONS[2],
+    },
+    'single select > PageUp key takes us to first option - (previous options < pageSize)': {
       props: {
         menuIsOpen: true,
         options: OPTIONS
@@ -624,6 +664,17 @@ cases('focus on options > keyboard interaction with Menu', ({ props, selectedOpt
       selectedOption: OPTIONS[0],
       nextFocusOption: OPTIONS[5],
     },
+    'multi select > PageDown key takes us to next page with custom pageSize of 8': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+        pageSize: 8,
+        options: OPTIONS,
+      },
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[8],
+    },
     'multi select > PageDown key takes to the last option is options below is less then page size': {
       props: {
         isMulti: true,
@@ -642,6 +693,17 @@ cases('focus on options > keyboard interaction with Menu', ({ props, selectedOpt
       },
       keyEvent: [{ keyCode: 33, key: 'PageUp' }],
       selectedOption: OPTIONS[6],
+      nextFocusOption: OPTIONS[1],
+    },
+    'multi select > PageUp key takes us to previous page with default page size of 9': {
+      props: {
+        isMulti: true,
+        menuIsOpen: true,
+        pageSize: 9,
+        options: OPTIONS
+      },
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[10],
       nextFocusOption: OPTIONS[1],
     },
     'multi select > PageUp key takes us to first option - previous options < pageSize': {
@@ -703,20 +765,31 @@ cases('hitting escape with inputValue in select', ({ props }) => {
     }
   });
 
-cases('Clicking dropdown indicator with primary button on mouse', ({ props = BASIC_PROPS }) => {
+cases('Clicking dropdown indicator on select with closed menu with primary button on mouse', ({ props = BASIC_PROPS }) => {
   let onMenuOpenSpy = jest.fn();
-  let onMenuCloseSpy = jest.fn();
-  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} onInputChange={jest.fn()} />);
-  let downButtonWrapper = selectWrapper.find('div.react-select__dropdown-indicator');
-
-  // opens menu if menu is closed
-  expect(selectWrapper.props().menuIsOpen).toBe(false);
-  downButtonWrapper.simulate('mouseDown', { button: 0 });
+  props = { ...props, onMenuOpen: onMenuOpenSpy };
+  let selectWrapper = mount(<Select {...props} />);
+  // Menu is closed
+  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
   expect(onMenuOpenSpy).toHaveBeenCalled();
+}, {
+    'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {},
+    'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+      }
+    }
+  });
 
-  // closes menu if menu is opened
-  selectWrapper.setProps({ menuIsOpen: true });
-  downButtonWrapper.simulate('mouseDown', { button: 0 });
+cases('Clicking dropdown indicator on select with open menu with primary button on mouse', ({ props = BASIC_PROPS }) => {
+  let onMenuCloseSpy = jest.fn();
+  props = { ...props, onMenuClose: onMenuCloseSpy };
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  // Menu is open
+  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  selectWrapper.find('div.react-select__dropdown-indicator').simulate('mouseDown', { button: 0 });
   expect(onMenuCloseSpy).toHaveBeenCalled();
 }, {
     'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {},
@@ -1096,6 +1169,29 @@ test('accessibility > to show the number of options available in A11yText', () =
   expect(selectWrapper.find(A11yText).text()).toBe('0 results available.');
 });
 
+test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
+  const screenReaderStatus = ({ count }) => `There are ${count} options available`;
+  let selectWrapper = mount(<Select {...BASIC_PROPS} screenReaderStatus={screenReaderStatus} inputValue={''} />);
+  expect(selectWrapper.find(A11yText).text()).toBe('There are 17 options available');
+
+  selectWrapper.setProps({ inputValue: '0' });
+  expect(selectWrapper.find(A11yText).text()).toBe('There are 2 options available');
+
+  selectWrapper.setProps({ inputValue: '10' });
+  expect(selectWrapper.find(A11yText).text()).toBe('There are 1 options available');
+
+  selectWrapper.setProps({ inputValue: '100' });
+  expect(selectWrapper.find(A11yText).text()).toBe('There are 0 options available');
+});
+
+test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {
+  let onMenuCloseSpy = jest.fn();
+  const props = { ...BASIC_PROPS, onMenuClose: onMenuCloseSpy };
+  let selectWrapper = mount(<Select {...props} menuIsOpen closeMenuOnSelect={false} />);
+  selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
+  expect(onMenuCloseSpy).not.toHaveBeenCalled();
+});
+
 /**
  * TODO: Delete after confirmation - Not a case anymore, not getting this label in V2
  */
@@ -1319,7 +1415,7 @@ cases('isClearable is false', ({ props = BASIC_PROPS }) => {
     },
   });
 
-test('clear select using clear button', () => {
+test('clear select by clicking on clear button > should not call onMenuOpen', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let selectWrapper = mount(<Select {...props} isMulti value={[OPTIONS[0]]} />);
@@ -1329,12 +1425,41 @@ test('clear select using clear button', () => {
   expect(onChangeSpy).toBeCalledWith([], { action: 'clear' });
 });
 
+test('clearing select using clear button to not call onMenuOpen or onMenuClose', () => {
+  let onMenuCloseSpy = jest.fn();
+  let onMenuOpenSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onMenuClose: onMenuCloseSpy, onMenuOpen: onMenuOpenSpy };
+  let selectWrapper = mount(<Select {...props} isMulti value={[OPTIONS[0]]} />);
+  expect(selectWrapper.find(MultiValue).length).toBe(1);
+  selectWrapper.find('div.react-select__clear-indicator').simulate('mousedown', { button: 0 });
+  expect(onMenuOpenSpy).not.toHaveBeenCalled();
+  expect(onMenuCloseSpy).not.toHaveBeenCalled();
+});
+
 test('multi select >  calls onChange when option is selected and isSearchable is false', () => {
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let selectWrapper = mount(<Select {...props} isMulti menuIsOpen delimiter="," isSearchable={false} />);
   selectWrapper.find('div.react-select__option').at(0).simulate('click', { button: 0 });
   expect(onChangeSpy).toHaveBeenCalledWith([{ label: '0', value: 'zero' }], { action: 'select-option' });
+});
+
+test('getOptionLabel() prop > to format the option label', () => {
+  const getOptionLabel = (option) => `This a custom option ${option.label} label`;
+  const selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen getOptionLabel={getOptionLabel} />);
+  expect(selectWrapper.find(Option).at(0).text()).toBe('This a custom option 0 label');
+});
+
+test('formatGroupLabel function prop > to format Group label', () => {
+  const formatGroupLabel = (group) => `This is custom ${group.label} header`;
+  const options = [
+    {
+      label: 'group 1',
+      options: [{ value: 1, label: '1' }, { value: 2, label: '2' }],
+    },
+  ];
+  const selectWrapper = mount(<Select options={options} menuIsOpen formatGroupLabel={formatGroupLabel} />);
+  expect(selectWrapper.find(GroupHeading).text()).toBe('This is custom group 1 header');
 });
 
 test('to only render groups with at least one match when filtering', () => {
@@ -1426,11 +1551,11 @@ test('close menu on hitting escape and clear input value if menu is open even if
   let props = { ...BASIC_PROPS, onMenuClose: onMenuCloseSpy, onInputChange: onInputChangeSpy, value: OPTIONS[0] };
   let selectWrapper = mount(<Select {...props} menuIsOpen escapeClearsValue isClearable />);
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(selectWrapper.state('selectValue')).toEqual([{  label: '0', value: 'zero' }]);
+  expect(selectWrapper.state('selectValue')).toEqual([{ label: '0', value: 'zero' }]);
   expect(onMenuCloseSpy).toHaveBeenCalled();
   // once by onMenuClose and other is direct
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
-  expect(onInputChangeSpy).toHaveBeenCalledWith('', { action : 'menu-close' });
+  expect(onInputChangeSpy).toHaveBeenCalledWith('', { action: 'menu-close' });
   expect(onInputChangeSpy).toHaveBeenLastCalledWith('', { action: 'menu-close' });
 });
 
@@ -1438,7 +1563,7 @@ test('to not clear value when hitting escape if escapeClearsValue is false (defa
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
   let selectWrapper = mount(<Select {...props} escapeClearsValue isClearable={false} />);
-  
+
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
@@ -1456,7 +1581,7 @@ test('to not clear value when hitting escape if escapeClearsValue is false (defa
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
   let selectWrapper = mount(<Select {...props} isClearable />);
-  
+
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
@@ -1473,7 +1598,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
 
 cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSimulate, expectedSelectedOption }) => {
   let selectWrapper = mount(<Select {...props} menuIsOpen />);
-  // open the menu
+  // Focus the first option
   selectWrapper.find('div.react-select__dropdown-indicator').simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
   eventsToSimulate.map(eventToSimulate => {
     selectWrapper.find(Menu).simulate(...eventToSimulate);
@@ -1557,3 +1682,17 @@ cases('jump over the disabled option', ({ props = { ...BASIC_PROPS }, eventsToSi
       expectedSelectedOption: null,
     }
   });
+
+/**
+* Selects the option on hitting spacebar on V2
+* Needs varification
+*/
+test.skip('hitting spacebar should not select option if isSearchable is true (default)', () => {
+  let onChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy };
+  let selectWrapper = mount(<Select {...props} menuIsOpen />);
+  // Open Menu
+  selectWrapper.setState({ focusedOption: OPTIONS[0] });
+  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
