@@ -3,6 +3,7 @@ export { default as ControlledMenu } from './ControlledMenu';
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
+export { default as AsyncPagination } from './AsyncPagination';
 export { default as AsyncPromises } from './AsyncPromises';
 export { default as BasicGrouped } from './BasicGrouped';
 export { default as BasicMulti } from './BasicMulti';
