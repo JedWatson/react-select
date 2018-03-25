@@ -583,11 +583,12 @@ export default class Select extends Component<Props, State> {
     if (!this.state.isFocused) {
       this.openAfterFocus = true;
       this.focusInput();
-    } else if (!this.state.menuIsOpen) {
+    } else if (!this.props.menuIsOpen) {
       this.openMenu('first');
     } else {
       this.onMenuClose();
     }
+    // $FlowFixMe HTMLElement type does not have tagName property
     if (event.target.tagName !== 'INPUT') {
       event.preventDefault();
     }
@@ -599,9 +600,7 @@ export default class Select extends Component<Props, State> {
     }
     if (this.props.isDisabled) return;
     const { isMulti, menuIsOpen } = this.props;
-    if (!this.focused) {
-      this.focusInput();
-    }
+    this.focusInput();
     if (menuIsOpen) {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
