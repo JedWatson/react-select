@@ -12,9 +12,10 @@ type State = {
 
 export default class controlledMenu extends Component<*, State> {
   state = {
-    menuIsOpen: true
-  }
-  toggleMenuIsOpen = () => this.setState(state => ({ menuIsOpen: !state.menuIsOpen }))
+    menuIsOpen: false,
+  };
+  toggleMenuIsOpen = () =>
+    this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
   render() {
     const { menuIsOpen } = this.state;
     return (
@@ -23,7 +24,7 @@ export default class controlledMenu extends Component<*, State> {
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
-          styles={ { menu: (base) => ({ ...base, position: 'relative' }) }}
+          styles={{ menu: base => ({ ...base, position: 'relative' }) }}
           name="color"
           options={colourOptions}
         />
