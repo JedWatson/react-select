@@ -61,6 +61,25 @@ test('isRtl boolean props is passed down to the control component', () => {
   expect(selectWrapper.props().isRtl).toBe(true);
 });
 
+test('isOptionSelected() prop > single select > mark value as isSelected if isOptionSelected returns true for the option', () => {
+  // Select all but option with label '1'
+  let isOptionSelected = jest.fn((option) => option.label !== '1');
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isOptionSelected={isOptionSelected} menuIsOpen/>);
+  // Option label 0 to be selected
+  expect(selectWrapper.find(Option).at(0).props().isSelected).toBe(true);
+  // Option label 1 to be not selected
+  expect(selectWrapper.find(Option).at(1).props().isSelected).toBe(false);
+});
+
+test('isOptionSelected() prop > multi select > to not show the selected options in Menu for multiSelect', () => {
+  // Select all but option with label '1'
+  let isOptionSelected = jest.fn((option) => option.label !== '1');
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti isOptionSelected={isOptionSelected} menuIsOpen/>);
+
+  expect(selectWrapper.find(Option).length).toBe(1);
+  expect(selectWrapper.find(Option).text()).toBe('1');
+});
+
 cases('formatOptionLabel', ({ props, valueComponent, expectedOptions }) => {
   let selectWrapper = shallow(
     <Select
