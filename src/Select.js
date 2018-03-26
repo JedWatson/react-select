@@ -507,7 +507,9 @@ export default class Select extends Component<Props, State> {
     if (!focusedOption || !menuIsOpen) return undefined;
 
     const index = menuOptions.focusable.indexOf(focusedOption);
-    return menuOptions.render[index].key;
+    const option = menuOptions.render[index];
+
+    return option && option.key;
   };
 
   // ==============================
