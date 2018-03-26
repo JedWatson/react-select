@@ -502,8 +502,14 @@ export default class Select extends Component<Props, State> {
   };
   getActiveDescendentId = () => {
     const { menuIsOpen } = this.props;
-    const { focusedOption } = this.state;
-    return focusedOption && menuIsOpen ? focusedOption.key : undefined;
+    const { menuOptions, focusedOption } = this.state;
+
+    if (!focusedOption || !menuIsOpen) return undefined;
+
+    const index = menuOptions.focusable.indexOf(focusedOption);
+    const option = menuOptions.render[index];
+
+    return option && option.key;
   };
 
   // ==============================
