@@ -142,6 +142,10 @@ export type Props = {
   onMenuOpen: () => void,
   /* Handle the menu closing */
   onMenuClose: () => void,
+  /* Fired when the user scrolls to the top of the menu */
+  onMenuScrollToTop: (SyntheticEvent<HTMLElement>) => void,
+  /* Fired when the user scrolls to the bottom of the menu */
+  onMenuScrollToBottom: (SyntheticEvent<HTMLElement>) => void,
   /* Array of options that populate the select menu */
   options: OptionsType,
   /* Number of options to jump in menu when page{up|down} keys are used */
@@ -1157,6 +1161,8 @@ export default class Select extends Component<Props, State> {
       menuPlacement,
       menuPortalTarget,
       noOptionsMessage,
+      onMenuScrollToTop,
+      onMenuScrollToBottom,
       scrollMenuIntoView,
     } = this.props;
 
@@ -1235,7 +1241,11 @@ export default class Select extends Component<Props, State> {
         menuPlacement={menuPlacement}
         scrollMenuIntoView={scrollMenuIntoView}
       >
-        <ScrollCaptor isEnabled={captureMenuScroll}>
+        <ScrollCaptor
+          isEnabled={captureMenuScroll}
+          onTopArrive={onMenuScrollToTop}
+          onBottomArrive={onMenuScrollToBottom}
+        >
           <MenuList
             {...commonProps}
             innerProps={{
