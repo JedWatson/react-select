@@ -25,6 +25,7 @@ import {
   CustomSingleValue,
   CustomGroupHeading,
   CustomValueContainer,
+  MaxValueHeight,
 } from '../../examples';
 
 
@@ -95,6 +96,20 @@ export default function Components() {
         The \`styles\` prop allows you to pass styles to a particular component, without
         replacing the entire component. If you only want to change styling, you should
         start by using the \`styles\` prop.
+
+         ### MaxValueHeight
+
+         > TODO - use cases
+
+        ${(
+          <ExampleWrapper
+            label="Max value height"
+            urlPath="docs/examples/MaxValueHeight.js"
+            raw={require('!!raw-loader!../../examples/MaxValueHeight.js')}
+          >
+            <MaxValueHeight />
+          </ExampleWrapper>
+        )}
 
         ## Replaceable components
 
