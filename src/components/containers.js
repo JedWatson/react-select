@@ -64,7 +64,6 @@ export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   maxHeight: maxHeight, // max-height allows scroll when multi
   overflowY: 'auto',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
-  position: 'relative',
   WebkitOverflowScrolling: 'touch',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
