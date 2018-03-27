@@ -242,7 +242,7 @@ export default class Select extends Component<Props, State> {
     const { options, value } = props;
     this.components = defaultComponents(props);
     this.instancePrefix =
-      'react-select-' + (this.props.instanceId || ++instanceId) + '-';
+      'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(options, selectValue);
