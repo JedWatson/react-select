@@ -99,7 +99,9 @@ export default function Components() {
 
          ### MaxValueHeight
 
-         > TODO - use cases
+         Set the max height of the Input in select, so that when options overflow select grow only to certain height and then a scroll appears.
+
+         Scroll on any of the options in select below. ( **maxValueHeight** is set to **30** )
 
         ${(
           <ExampleWrapper
