@@ -117,10 +117,8 @@ export type Props = {
   maxValueHeight: number,
   /* Whether the menu is open */
   menuIsOpen: boolean,
-  /*
-    Default placement of the menu in relation to the control. 'auto' will flip
-    when there isn't enough space below the control.
-  */
+  /* Default placement of the menu in relation to the control. 'auto' will flip
+     when there isn't enough space below the control. */
   menuPlacement: MenuPlacement,
   /* Whether the menu should use a portal, and where it should attach */
   menuPortalTarget?: HTMLElement,
@@ -753,12 +751,12 @@ export default class Select extends Component<Props, State> {
     // Block option hover events when the user has just pressed a key
     this.blockOptionHover = true;
 
-    switch (event.keyCode) {
-      case 8: // backspace
+    switch (event.key) {
+      case 'Backspace':
         if (inputValue || !backspaceRemovesValue) return;
         this.popValue();
         break;
-      case 9: // tab
+      case 'Tab':
         if (
           event.shiftKey ||
           !menuIsOpen ||
@@ -769,7 +767,7 @@ export default class Select extends Component<Props, State> {
         }
         this.selectOption(focusedOption);
         return;
-      case 13: // enter
+      case 'Enter':
         if (menuIsOpen) {
           if (!focusedOption) return;
           this.selectOption(focusedOption);
@@ -777,7 +775,7 @@ export default class Select extends Component<Props, State> {
           this.focusOption('first');
         }
         break;
-      case 27: // escape
+      case 'Escape':
         if (menuIsOpen) {
           this.inputIsHiddenAfterUpdate = false;
           this.onInputChange('', { action: 'menu-close' });
@@ -786,7 +784,7 @@ export default class Select extends Component<Props, State> {
           this.clearValue();
         }
         break;
-      case 32: // space
+      case ' ': // space
         if (inputValue) {
           return;
         }
@@ -797,33 +795,33 @@ export default class Select extends Component<Props, State> {
         if (!focusedOption) return;
         this.selectOption(focusedOption);
         break;
-      case 38: // up
+      case 'ArrowUp':
         if (menuIsOpen) {
           this.focusOption('up');
         } else {
           this.openMenu('last');
         }
         break;
-      case 40: // down
+      case 'ArrowDown':
         if (menuIsOpen) {
           this.focusOption('down');
         } else {
           this.openMenu('first');
         }
         break;
-      case 33: // page up
+      case 'PageUp':
         if (!menuIsOpen) return;
         this.focusOption('pageup');
         break;
-      case 34: // page down
+      case 'PageDown':
         if (!menuIsOpen) return;
         this.focusOption('pagedown');
         break;
-      case 36: // home key
+      case 'Home':
         if (!menuIsOpen) return;
         this.focusOption('first');
         break;
-      case 35: // end key
+      case 'End':
         if (!menuIsOpen) return;
         this.focusOption('last');
         break;
