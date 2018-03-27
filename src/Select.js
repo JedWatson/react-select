@@ -88,6 +88,8 @@ export type Props = {
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
   /* The value of the search input */
+  id?: string,
+  /* The value of the search input */
   inputValue: string,
   /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
@@ -1314,7 +1316,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, maxValueHeight } = this.props;
+    const { id, isDisabled, maxValueHeight } = this.props;
     const { isFocused } = this.state;
     const inputId = this.getElementId('input');
 
@@ -1324,6 +1326,7 @@ export default class Select extends Component<Props, State> {
       <SelectContainer
         {...commonProps}
         innerProps={{
+          id: id,
           onKeyDown: this.onKeyDown,
         }}
         isDisabled={isDisabled}
