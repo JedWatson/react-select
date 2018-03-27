@@ -91,6 +91,8 @@ export type Props = {
   id?: string,
   /* The value of the search input */
   inputValue: string,
+  /* The id of the search input */
+  inputId?: string,
   /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
   /* Is the select value clearable */
@@ -929,16 +931,19 @@ export default class Select extends Component<Props, State> {
       </A11yText>
     );
   }
-  renderInput(id: string) {
+  renderInput() {
     const {
       isDisabled,
       isLoading,
       isSearchable,
+      inputId,
       inputValue,
       menuIsOpen,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
+
+    const id = inputId || this.getElementId('input');
 
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
@@ -948,6 +953,7 @@ export default class Select extends Component<Props, State> {
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
+          id={id}
           innerRef={this.onInputRef}
           value=""
         />
@@ -1318,7 +1324,6 @@ export default class Select extends Component<Props, State> {
 
     const { id, isDisabled, maxValueHeight } = this.props;
     const { isFocused } = this.state;
-    const inputId = this.getElementId('input');
 
     const commonProps = (this.commonProps = this.getCommonProps());
 
@@ -1349,7 +1354,7 @@ export default class Select extends Component<Props, State> {
             maxHeight={maxValueHeight}
           >
             {this.renderPlaceholderOrValue()}
-            {this.renderInput(inputId)}
+            {this.renderInput()}
           </ValueContainer>
           <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderClearIndicator()}
