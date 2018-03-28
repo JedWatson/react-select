@@ -1012,6 +1012,13 @@ class Select extends React.Component {
 	}
 
 	renderMenu (options, valueArray, focusedOption) {
+		if (this.props.multi && this.props.maxItems !== null && valueArray.length >= this.props.maxItems) {
+			return (
+				<div className="Select-limit-reached">
+					{this.props.maxItemsReachedText}
+				</div>
+			);
+		}
 		if (options && options.length) {
 			return this.props.menuRenderer({
 				focusedOption,
@@ -1222,6 +1229,8 @@ Select.propTypes = {
 	labelKey: PropTypes.string,           // path of the label value in option objects
 	matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
 	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
+	maxItems: PropTypes.number,           // optional limit for multiselect
+	maxItemsReachedText: PropTypes.string,  // placeholder displayed when max items in multiselect are selected
 	menuBuffer: PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 	menuContainerStyle: PropTypes.object, // optional style to apply to the menu container
 	menuRenderer: PropTypes.func,         // renders a custom menu with options
@@ -1290,6 +1299,8 @@ Select.defaultProps = {
 	labelKey: 'label',
 	matchPos: 'any',
 	matchProp: 'any',
+	maxItems: null,
+	maxItemsReachedText:'Limit is reached',
 	menuBuffer: 0,
 	menuRenderer: defaultMenuRenderer,
 	multi: false,

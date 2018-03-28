@@ -27,6 +27,7 @@ var MultiSelectField = createClass({
 			disabled: false,
 			crazy: false,
 			stayOpen: false,
+			maxItems: false,
 			value: [],
 			rtl: false,
 		};
@@ -46,7 +47,7 @@ var MultiSelectField = createClass({
 	},
 
 	render () {
-		const { crazy, disabled, stayOpen, value } = this.state;
+		const { crazy, disabled, stayOpen, value, maxItems } = this.state;
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
 		return (
 			<div className="section">
@@ -58,10 +59,11 @@ var MultiSelectField = createClass({
 					onChange={this.handleSelectChange}
 					options={options}
 					placeholder="Select your favourite(s)"
-          removeSelected={this.state.removeSelected}
+					removeSelected={this.state.removeSelected}
 					rtl={this.state.rtl}
 					simpleValue
 					value={value}
+					maxItems={maxItems ? 3 : null}
 				/>
 
 				<div className="checkbox-list">
@@ -84,6 +86,10 @@ var MultiSelectField = createClass({
 					<label className="checkbox">
 						<input type="checkbox" className="checkbox-control" name="rtl" checked={this.state.rtl} onChange={this.toggleCheckbox} />
 						<span className="checkbox-label">rtl</span>
+					</label>
+					<label className="checkbox">
+						<input type="checkbox" className="checkbox-control" name="maxItems" checked={maxItems} onChange={this.toggleCheckbox} />
+						<span className="checkbox-label">Max items = 3</span>
 					</label>
 				</div>
 			</div>
