@@ -43,3 +43,4 @@ export { default as OnSelectResetsInput } from './OnSelectResetsInput';
 export { default as AsyncMulti } from './AsyncMulti';
 export { default as MenuPortal } from './MenuPortal';
 export { default as MaxValueHeight } from './MaxValueHeight';
+export { default as EventHooks } from './EventHooks';

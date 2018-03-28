@@ -6,6 +6,7 @@ import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
   ControlledMenu,
+  EventHooks,
   OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
@@ -182,6 +183,19 @@ export default function Advanced () {
         options={OPTIONS}
       />
       ~~~
+
+      ## Event Hooks
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Event Hooks"
+          urlPath="docs/examples/EventHooks.js"
+          raw={require('!!raw-loader!../../examples/EventHooks.js')}
+        >
+          <EventHooks />
+        </ExampleWrapper>
+      )}
 
       ## Accessing Internals
       ${(

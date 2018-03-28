@@ -19,7 +19,6 @@ import Async from 'react-select/lib/Async';
 
 Use the Async component to load options asynchronously as the user searches.
 
----
 ## Usage
 
 We can load options asynchronously by **returning the Promise** from loadOptions function prop or by **calling the callback argument with options** that is passed to loadOptions function prop.
@@ -51,8 +50,6 @@ makeCallAndloadOptions = (searchString, callback) => {
     .then(filteredOptions => callback(filteredOptions));
 }
 ~~~
-
----
 
 ${(
   <ExampleWrapper
