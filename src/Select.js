@@ -973,9 +973,6 @@ export default class Select extends Component<Props, State> {
           value=""
         />
       );
-    } else if (isDisabled) {
-      // maintain baseline alignment when the input is removed for disabled state
-      return <div style={{ height: this.inputHeight }} />;
     }
 
     // aria attributes makes the JSX "noisy", separated for clarity
@@ -1000,6 +997,8 @@ export default class Select extends Component<Props, State> {
         getStyles={this.getStyles}
         id={id}
         innerRef={this.onInputRef}
+        inputHeight={this.inputHeight}
+        isDisabled={isDisabled}
         isHidden={inputIsHidden}
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
