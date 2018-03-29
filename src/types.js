@@ -76,6 +76,7 @@ export type InputActionMeta = {|
 |};
 
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
+export type MenuPosition = 'absolute' | 'fixed';
 
 export type FocusDirection =
   | 'up'
