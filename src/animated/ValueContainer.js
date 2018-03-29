@@ -5,8 +5,8 @@ import { TransitionGroup } from 'react-transition-group';
 import { components } from '../components';
 
 // make ValueContainer a transition group
-const ValueContainer = (props: any) => (
+const AnimatedValueContainer = (props: any) => (
   <TransitionGroup component={components.ValueContainer} {...props} />
 );
 
-export default ValueContainer;
+export default AnimatedValueContainer;
