@@ -395,7 +395,7 @@ function onInputKeyDown(event) {
 | `onValueClick` | function | undefined | onClick handler for value labels: `function (value, event) {}` |
 | `openOnClick` | boolean | true | open the options menu when the control is clicked (requires searchable = true) |
 | `openOnFocus` | boolean | false | open the options menu when the control gets focus |
-| `optionClassName`: string | undefined | additional class(es) to apply to the <Option /> elements
+| `optionClassName` | string | undefined | additional class(es) to apply to the <Option /> elements |
 | `optionComponent` | function | undefined | option component to render in dropdown |
 | `optionRenderer` | function | undefined | custom function to render the options in the menu |
 | `options` | array | undefined | array of options |
