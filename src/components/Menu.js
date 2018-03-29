@@ -427,6 +427,7 @@ export const menuPortalCSS = ({
   position: position,
   top: placement === 'bottom' ? offset : null,
   width: rect.width,
+  zIndex: 1,
 });
 
 export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
