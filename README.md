@@ -11,7 +11,7 @@ A Select control built with and for [React](http://facebook.github.io/react/inde
 
 ## Demo & Examples
 
-Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+Live demo: [jedwatson.github.io/react-select](https://jedwatson.github.io/react-select/)
 
 
 ## Installation
