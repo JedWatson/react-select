@@ -42,7 +42,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
   render() {
     const { selectComponent: SelectComp, idSuffix } = this.props;
     return (
-      <div>
+      <div id={`cypress-container-${idSuffix}`}>
         <div id={`cypress-${idSuffix}`}>
           <SelectComp
             autoFocus
@@ -135,6 +135,15 @@ export default function Tests() {
       <TestSuite selectComponent={Select} idSuffix="single" />
       <h3>Animated components</h3>
       <TestSuite selectComponent={AnimatedSelect} idSuffix="animated" />
+      <h2>Multi Select</h2>
+      <div id="cypress-multi">
+        <Select
+          defaultValue={[colourOptions[2], colourOptions[3]]}
+          isMulti
+          options={colourOptions}
+        />
+      </div>
+      <div style={{ height: 400 }} />
     </div>
   );
 }
