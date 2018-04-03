@@ -9,21 +9,44 @@ import { colourOptions, groupedOptions } from './data';
 type Placement = 'bottom' | 'top';
 type State = {
   isDisabled: boolean,
+  isFixed: boolean,
   isLoading: boolean,
   portalPlacement: Placement,
+  blockScroll: boolean,
 };
 
 export default class Tests extends Component<*, State> {
-  state = { isDisabled: false, isLoading: false, portalPlacement: 'bottom' };
-  toggleDisabled = () =>
+  state = {
+    isDisabled: false,
+    isFixed: false,
+    isLoading: false,
+    portalPlacement: 'bottom',
+    blockScroll: true,
+  };
+  toggleDisabled = () => {
     this.setState(state => ({ isDisabled: !state.isDisabled }));
-  toggleLoading = () =>
+  };
+  toggleLoading = () => {
     this.setState(state => ({ isLoading: !state.isLoading }));
-  setPlacement = (portalPlacement: Placement) =>
+  };
+  toggleScroll = () => {
+    this.setState(state => ({ blockScroll: !state.blockScroll }));
+  };
+  toggleMode = () => {
+    this.setState(state => ({ isFixed: !state.isFixed }));
+  };
+  setPlacement = ({ target }: Event) => {
+    // $FlowFixMe targets have values...
+    const portalPlacement = target && target.value;
     this.setState({ portalPlacement });
+  };
+
   render() {
+    const { isFixed, portalPlacement, blockScroll } = this.state;
+    const menuPortalTarget = !isFixed ? document.body : null;
+
     return (
-      <div style={{ margin: 'auto', maxWidth: 440, padding: 20 }}>
+      <div style={{ margin: 'auto', maxWidth: 440, position: 'relative' }}>
         <H1>Test Page for Cypress</H1>
         <h2>Single Select</h2>
         <div id="cypress-single">
@@ -63,38 +86,71 @@ export default class Tests extends Component<*, State> {
           style={{
             backgroundColor: 'papayaWhip',
             borderRadius: 5,
-            overflow: 'hidden',
-            padding: 5,
+            boxSizing: 'border-box',
+            height: 200,
+            overflow: 'auto',
+            padding: 15,
+            position: 'absolute',
+            width: '100%',
           }}
         >
+          <div style={{ height: 100 }} />
+          <pre>{'overflow: hidden; position: absolute;'}</pre>
           <Select
             defaultValue={colourOptions[0]}
             options={colourOptions}
-            menuPortalTarget={document.body}
-            menuPlacement={this.state.portalPlacement}
+            menuPortalTarget={menuPortalTarget}
+            menuShouldBlockScroll={blockScroll}
+            menuShouldScrollIntoView
+            menuPlacement={portalPlacement}
+            menuPosition={isFixed ? 'fixed' : 'absolute'}
+            // menuIsOpen
           />
-          <pre style={{ marginBottom: 0 }}>{'div { overflow: hidden; }'}</pre>
           <Note Tag="label">
-            <input
+            <select
               type="radio"
-              onChange={() => this.setPlacement('bottom')}
-              value="bottom"
-              checked={this.state.portalPlacement === 'bottom'}
+              onChange={this.setPlacement}
+              value={portalPlacement}
               id="cypress-portalled__radio-bottom"
-            />
-            Bottom
+            >
+              <option value="auto">auto</option>
+              <option value="bottom">bottom</option>
+              <option value="top">top</option>
+            </select>
           </Note>
           <Note Tag="label" style={{ marginLeft: '1em' }}>
             <input
               type="radio"
-              onChange={() => this.setPlacement('top')}
-              value="top"
-              checked={this.state.portalPlacement === 'top'}
-              id="cypress-portalled__radio-top"
+              onChange={this.toggleMode}
+              value="fixed"
+              checked={isFixed}
+              id="cypress-portalled__fixed"
             />
-            Top
+            Fixed
           </Note>
+          <Note Tag="label" style={{ marginLeft: '1em' }}>
+            <input
+              type="radio"
+              onChange={this.toggleMode}
+              value="portal"
+              checked={!isFixed}
+              id="cypress-portalled__portal"
+            />
+            Portal
+          </Note>
+          <Note Tag="label" style={{ marginLeft: '1em' }}>
+            <input
+              type="checkbox"
+              onChange={this.toggleScroll}
+              value="blockScroll"
+              checked={blockScroll}
+              id="cypress-portalled__scroll"
+            />
+            Block Scroll
+          </Note>
+          <div style={{ height: 100 }} />
         </div>
+        <div style={{ height: 200 }} />
 
         <h2>Multi Select</h2>
         <div id="cypress-multi">

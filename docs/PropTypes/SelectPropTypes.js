@@ -329,7 +329,7 @@ export const BaseSelect = [
   {
     defaultValue: 'true on desktop, false on mobile',
     description: 'Whether the menu should be scrolled into view when it opens',
-    name: 'scrollMenuIntoView',
+    name: 'menuShouldScrollIntoView',
     type: 'Boolean',
   },
   {

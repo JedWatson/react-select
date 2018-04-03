@@ -45,6 +45,9 @@ exports[`defaults - snapshot 1`] = `
       maxValueHeight={100}
       menuIsOpen={false}
       menuPlacement="bottom"
+      menuPosition="absolute"
+      menuShouldBlockScroll={false}
+      menuShouldScrollIntoView={true}
       minMenuHeight={140}
       noOptionsMessage={[Function]}
       onChange={[Function]}
@@ -55,7 +58,6 @@ exports[`defaults - snapshot 1`] = `
       pageSize={5}
       placeholder="Select..."
       screenReaderStatus={[Function]}
-      scrollMenuIntoView={true}
       styles={Object {}}
       tabSelectsValue={true}
       value={null}
@@ -107,6 +109,9 @@ exports[`defaults - snapshot 1`] = `
             "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
             "minMenuHeight": 140,
             "noOptionsMessage": [Function],
             "onChange": [Function],
@@ -117,7 +122,6 @@ exports[`defaults - snapshot 1`] = `
             "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
-            "scrollMenuIntoView": true,
             "styles": Object {},
             "tabSelectsValue": true,
             "value": null,
@@ -230,6 +234,9 @@ exports[`defaults - snapshot 1`] = `
                     "maxValueHeight": 100,
                     "menuIsOpen": false,
                     "menuPlacement": "bottom",
+                    "menuPosition": "absolute",
+                    "menuShouldBlockScroll": false,
+                    "menuShouldScrollIntoView": true,
                     "minMenuHeight": 140,
                     "noOptionsMessage": [Function],
                     "onChange": [Function],
@@ -240,7 +247,6 @@ exports[`defaults - snapshot 1`] = `
                     "pageSize": 5,
                     "placeholder": "Select...",
                     "screenReaderStatus": [Function],
-                    "scrollMenuIntoView": true,
                     "styles": Object {},
                     "tabSelectsValue": true,
                     "value": null,
@@ -349,6 +355,9 @@ exports[`defaults - snapshot 1`] = `
                             "maxValueHeight": 100,
                             "menuIsOpen": false,
                             "menuPlacement": "bottom",
+                            "menuPosition": "absolute",
+                            "menuShouldBlockScroll": false,
+                            "menuShouldScrollIntoView": true,
                             "minMenuHeight": 140,
                             "noOptionsMessage": [Function],
                             "onChange": [Function],
@@ -359,7 +368,6 @@ exports[`defaults - snapshot 1`] = `
                             "pageSize": 5,
                             "placeholder": "Select...",
                             "screenReaderStatus": [Function],
-                            "scrollMenuIntoView": true,
                             "styles": Object {},
                             "tabSelectsValue": true,
                             "value": null,
@@ -443,6 +451,9 @@ exports[`defaults - snapshot 1`] = `
                                     "maxValueHeight": 100,
                                     "menuIsOpen": false,
                                     "menuPlacement": "bottom",
+                                    "menuPosition": "absolute",
+                                    "menuShouldBlockScroll": false,
+                                    "menuShouldScrollIntoView": true,
                                     "minMenuHeight": 140,
                                     "noOptionsMessage": [Function],
                                     "onChange": [Function],
@@ -453,7 +464,6 @@ exports[`defaults - snapshot 1`] = `
                                     "pageSize": 5,
                                     "placeholder": "Select...",
                                     "screenReaderStatus": [Function],
-                                    "scrollMenuIntoView": true,
                                     "styles": Object {},
                                     "tabSelectsValue": true,
                                     "value": null,
@@ -671,6 +681,9 @@ exports[`defaults - snapshot 1`] = `
                             "maxValueHeight": 100,
                             "menuIsOpen": false,
                             "menuPlacement": "bottom",
+                            "menuPosition": "absolute",
+                            "menuShouldBlockScroll": false,
+                            "menuShouldScrollIntoView": true,
                             "minMenuHeight": 140,
                             "noOptionsMessage": [Function],
                             "onChange": [Function],
@@ -681,7 +694,6 @@ exports[`defaults - snapshot 1`] = `
                             "pageSize": 5,
                             "placeholder": "Select...",
                             "screenReaderStatus": [Function],
-                            "scrollMenuIntoView": true,
                             "styles": Object {},
                             "tabSelectsValue": true,
                             "value": null,
@@ -762,6 +774,9 @@ exports[`defaults - snapshot 1`] = `
                                     "maxValueHeight": 100,
                                     "menuIsOpen": false,
                                     "menuPlacement": "bottom",
+                                    "menuPosition": "absolute",
+                                    "menuShouldBlockScroll": false,
+                                    "menuShouldScrollIntoView": true,
                                     "minMenuHeight": 140,
                                     "noOptionsMessage": [Function],
                                     "onChange": [Function],
@@ -772,7 +787,6 @@ exports[`defaults - snapshot 1`] = `
                                     "pageSize": 5,
                                     "placeholder": "Select...",
                                     "screenReaderStatus": [Function],
-                                    "scrollMenuIntoView": true,
                                     "styles": Object {},
                                     "tabSelectsValue": true,
                                     "value": null,
@@ -852,6 +866,9 @@ exports[`defaults - snapshot 1`] = `
                                     "maxValueHeight": 100,
                                     "menuIsOpen": false,
                                     "menuPlacement": "bottom",
+                                    "menuPosition": "absolute",
+                                    "menuShouldBlockScroll": false,
+                                    "menuShouldScrollIntoView": true,
                                     "minMenuHeight": 140,
                                     "noOptionsMessage": [Function],
                                     "onChange": [Function],
@@ -862,7 +879,6 @@ exports[`defaults - snapshot 1`] = `
                                     "pageSize": 5,
                                     "placeholder": "Select...",
                                     "screenReaderStatus": [Function],
-                                    "scrollMenuIntoView": true,
                                     "styles": Object {},
                                     "tabSelectsValue": true,
                                     "value": null,
