@@ -10,11 +10,18 @@ export default class CreatableSingle extends Component<*, State> {
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
   };
+  handleInputChange = (inputValue: any, actionMeta: any) => {
+    console.group('Input Changed');
+    console.log(inputValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+  }
   render() {
     return (
       <CreatableSelect
         isClearable
         onChange={this.handleChange}
+        onInputChange={this.handleInputChange}
         options={colourOptions}
       />
     );

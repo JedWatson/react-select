@@ -344,6 +344,7 @@ cases('calls onChange on selecting an option', ({ props = { ...BASIC_PROPS, menu
   selectWrapper.setState({ focusedOption });
 
   selectOption.simulate(...event);
+  selectWrapper.update();
   expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, { action: 'select-option' });
 }, {
     'single select > option is clicked > should call onChange() prop with selected option': {
@@ -384,7 +385,7 @@ cases('calls onChange on selecting an option', ({ props = { ...BASIC_PROPS, menu
       expectedSelectedOption: { label: '3', value: 'three' },
     },
     'single select > space key is pressed while focusing option > should call onChange() prop with selected option': {
-      event: ['keyDown', { keyCode: 32, Key: 'Spacebar' }],
+      event: ['keyDown', { keyCode: 32, key: ' ' }],
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
       expectedSelectedOption: { label: '1', value: 'one' },
@@ -454,7 +455,7 @@ cases('calls onChange on selecting an option', ({ props = { ...BASIC_PROPS, menu
         menuIsOpen: true,
         options: OPTIONS,
       },
-      event: ['keyDown', { keyCode: 32, key: 'Spacebar' }],
+      event: ['keyDown', { keyCode: 32, key: ' ' }],
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
       expectedSelectedOption: [{ label: '1', value: 'one' }],
@@ -1532,7 +1533,7 @@ test('hitting spacebar should select option if isSearchable is false', () => {
   let selectWrapper = mount(<Select {...props} isSearchable menuIsOpen />);
   // focus the first option
   selectWrapper.find(Menu).simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
-  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
+  selectWrapper.simulate('keyDown', { keyCode: 32, key: ' ' });
   expect(onChangeSpy).toHaveBeenCalledWith({ label: '0', value: 'zero' }, { action: 'select-option' });
 });
 
@@ -1712,6 +1713,6 @@ test.skip('hitting spacebar should not select option if isSearchable is true (de
   let selectWrapper = mount(<Select {...props} menuIsOpen />);
   // Open Menu
   selectWrapper.setState({ focusedOption: OPTIONS[0] });
-  selectWrapper.simulate('keyDown', { keyCode: 32, key: 'Spacebar' });
+  selectWrapper.simulate('keyDown', { keyCode: 32, key: ' ' });
   expect(onChangeSpy).not.toHaveBeenCalled();
 });

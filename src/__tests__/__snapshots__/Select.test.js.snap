@@ -8,6 +8,7 @@ exports[`snapshot - defaults 1`] = `
   hasValue={false}
   innerProps={
     Object {
+      "id": undefined,
       "onKeyDown": [Function],
     }
   }
@@ -223,7 +224,7 @@ exports[`snapshot - defaults 1`] = `
         autoComplete="off"
         autoCorrect="off"
         getStyles={[Function]}
-        id="react-select-2--input"
+        id="react-select-2-input"
         innerRef={[Function]}
         isHidden={false}
         onBlur={[Function]}

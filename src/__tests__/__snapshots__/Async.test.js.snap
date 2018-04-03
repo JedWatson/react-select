@@ -67,6 +67,7 @@ exports[`defaults - snapshot 1`] = `
         hasValue={false}
         innerProps={
           Object {
+            "id": undefined,
             "onKeyDown": [Function],
           }
         }
@@ -379,7 +380,6 @@ exports[`defaults - snapshot 1`] = `
                               "maxHeight": 100,
                               "overflowY": "auto",
                               "padding": "2px 8px",
-                              "position": "relative",
                             }
                           }
                         >
@@ -395,13 +395,12 @@ exports[`defaults - snapshot 1`] = `
                                 "maxHeight": 100,
                                 "overflowY": "auto",
                                 "padding": "2px 8px",
-                                "position": "relative",
                               }
                             }
                             render={[Function]}
                           >
                             <div
-                              className="react-select__value-container css-6rkci4"
+                              className="react-select__value-container css-lnfsxu"
                             >
                               <Placeholder
                                 clearValue={[Function]}
@@ -503,7 +502,7 @@ exports[`defaults - snapshot 1`] = `
                                 autoComplete="off"
                                 autoCorrect="off"
                                 getStyles={[Function]}
-                                id="react-select-2--input"
+                                id="react-select-2-input"
                                 innerRef={[Function]}
                                 isHidden={false}
                                 onBlur={[Function]}
@@ -548,7 +547,7 @@ exports[`defaults - snapshot 1`] = `
                                         autoComplete="off"
                                         autoCorrect="off"
                                         className="react-select__input"
-                                        id="react-select-2--input"
+                                        id="react-select-2-input"
                                         injectStyles={true}
                                         inputRef={[Function]}
                                         inputStyle={
@@ -587,7 +586,7 @@ exports[`defaults - snapshot 1`] = `
                                             autoCapitalize="none"
                                             autoComplete="off"
                                             autoCorrect="off"
-                                            id="react-select-2--input"
+                                            id="react-select-2-input"
                                             onBlur={[Function]}
                                             onChange={[Function]}
                                             onFocus={[Function]}
