@@ -88,7 +88,11 @@ export type Props = {
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
   /* The value of the search input */
+  id?: string,
+  /* The value of the search input */
   inputValue: string,
+  /* The id of the search input */
+  inputId?: string,
   /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
   /* Is the select value clearable */
@@ -242,7 +246,7 @@ export default class Select extends Component<Props, State> {
     const { options, value } = props;
     this.components = defaultComponents(props);
     this.instancePrefix =
-      'react-select-' + (this.props.instanceId || ++instanceId) + '-';
+      'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(options, selectValue);
@@ -927,16 +931,19 @@ export default class Select extends Component<Props, State> {
       </A11yText>
     );
   }
-  renderInput(id: string) {
+  renderInput() {
     const {
       isDisabled,
       isLoading,
       isSearchable,
+      inputId,
       inputValue,
       menuIsOpen,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
+
+    const id = inputId || this.getElementId('input');
 
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
@@ -946,6 +953,7 @@ export default class Select extends Component<Props, State> {
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
+          id={id}
           innerRef={this.onInputRef}
           value=""
         />
@@ -1313,9 +1321,8 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { isDisabled, maxValueHeight } = this.props;
+    const { id, isDisabled, maxValueHeight } = this.props;
     const { isFocused } = this.state;
-    const inputId = this.getElementId('input');
 
     const commonProps = (this.commonProps = this.getCommonProps());
 
@@ -1323,6 +1330,7 @@ export default class Select extends Component<Props, State> {
       <SelectContainer
         {...commonProps}
         innerProps={{
+          id: id,
           onKeyDown: this.onKeyDown,
         }}
         isDisabled={isDisabled}
@@ -1345,7 +1353,7 @@ export default class Select extends Component<Props, State> {
             maxHeight={maxValueHeight}
           >
             {this.renderPlaceholderOrValue()}
-            {this.renderInput(inputId)}
+            {this.renderInput()}
           </ValueContainer>
           <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderClearIndicator()}
