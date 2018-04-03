@@ -4,12 +4,12 @@
   "firstMultiValueRemove":
     "#cypress-multi .react-select__multi-value__remove:first",
   "groupColor": "#cypress-single-grouped .react-select__group",
-  "menuGrouped": "#react-select-3--listbox",
-  "menuMulti": "#react-select-5--listbox",
+  "menuGrouped": "#react-select-3-listbox",
+  "menuMulti": "#react-select-5-listbox",
   "menuOption": "[role='option']",
-  "menuSingle": "#react-select-2--listbox",
+  "menuSingle": "#react-select-2-listbox",
   "multiSelectDefaultValues": "#cypress-multi .react-select__multi-value",
-  "multiSelectInput": "#react-select-5--input",
+  "multiSelectInput": "#react-select-5-input",
   "noOptionsValue": ".react-select__menu-notice--no-options",
   "placeHolderGrouped": "#cypress-single-grouped .react-select__placeholder",
   "placeHolderMulti": "#cypress-multi .react-select__placeholder",
@@ -21,7 +21,7 @@
   "singleSelectFirstValue": "#cypress-single .react-select__single-value",
   "singleSelectGroupedInput":
     "#cypress-single-grouped .react-select__input input",
-  "singleSelectSingleInput": "#react-select-2--input",
+  "singleSelectSingleInput": "#react-select-2-input",
   "toggleMenus": ".react-select__dropdown-indicator",
   "toggleMenuGrouped":
     "#cypress-single-grouped .react-select__dropdown-indicator",
