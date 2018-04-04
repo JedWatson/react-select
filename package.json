@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@atlaskit/button": "^6.6.3",
-    "@atlaskit/docs": "^2.6.2",
     "@atlaskit/icon": "^10.12.2",
     "@atlaskit/modal-dialog": "^3.5.1",
     "@atlaskit/spinner": "^4.2.1",
+    "@atlaskit/theme": "^2.4.1",
     "@atlaskit/tooltip": "^8.4.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -60,6 +60,7 @@
     "istanbul": "^0.4.5",
     "jest": "^22.0.5",
     "jest-in-case": "^1.0.2",
+    "kind2string": "^0.3.1",
     "lint-staged": "^6.0.0",
     "moment": "^2.20.1",
     "nps": "^5.7.1",
@@ -80,6 +81,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^3.0.0",
     "style-loader": "^0.19.1",
+    "styled-components": "3.2.3",
     "uglify-es": "^3.3.9",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
@@ -91,10 +93,8 @@
   "scripts": {
     "build": "nps build",
     "watch": "nps build.watch",
-    "cover":
-      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
-    "coveralls":
-      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
+    "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
+    "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
     "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "webpack-dev-server --progress",
@@ -105,7 +105,11 @@
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged"
   },
-  "files": ["dist", "lib", "src"],
+  "files": [
+    "dist",
+    "lib",
+    "src"
+  ],
   "keywords": [
     "combobox",
     "form",
@@ -117,13 +121,16 @@
     "ui"
   ],
   "jest": {
-    "modulePathIgnorePatterns": ["./node_modules"],
+    "modulePathIgnorePatterns": [
+      "./node_modules"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "testRegex":
-      "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
-    "setupFiles": ["./enzymeAdapter.setup.js"]
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
+    "setupFiles": [
+      "./enzymeAdapter.setup.js"
+    ]
   },
   "lint-staged": {
     "*.js": "eslint"

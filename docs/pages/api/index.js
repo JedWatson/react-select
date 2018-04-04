@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
-import { Props } from '@atlaskit/docs';
+import Props, { Prop } from '../../../PrettyPropTypes/src';
 
 export default function Api() {
   return (
@@ -84,7 +84,13 @@ export default function Api() {
 
     These base props are those available to be passed to all select variants.
 
-    ${<Props shouldCollapseProps heading="" props={require('!!extract-react-types-loader!../../PropTypes/Select')} />}
+    ${<Props
+      shouldCollapseProps
+      heading=""
+      props={require('!!extract-react-types-loader!../../PropTypes/Select')}
+      overrides={{
+        components: (props) => <Prop {...props} shapeComponent={() => null} type="All Components Object" /> }}
+    />}
 
     ## Async props
 

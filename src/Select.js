@@ -69,7 +69,15 @@ export type Props = {
   captureMenuScroll: boolean,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
-  /* Custom components to use */
+  /*
+    This complex object includes all the compositional components that are used
+    in `react-select`. If you wish to overwrite a component, pass in an object
+    with the appropriate namespace.
+
+    If you only wish to restyle a component, we recommend using the `styles` prop
+    instead. For a list of the components that can be passed in, and the shape
+    that will be passed to them, see [the components docs](/api#components)
+  */
   components: SelectComponentsConfig,
   /* Delimiter used to join multiple values into a single HTML Input value */
   delimiter?: string,
