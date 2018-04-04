@@ -14,7 +14,7 @@ const largeDevice = '@media (min-width: 770px)';
 
 const changes = [
   {
-    value: '/api',
+    value: '/props',
     icon: '🤖',
     label: 'Simpler and more extensible',
   },

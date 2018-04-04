@@ -1,5 +1,5 @@
 import Home from '../pages/home';
-import Api from '../pages/api';
+import Props from '../pages/props';
 import Styles from '../pages/styles';
 import Components from '../pages/components';
 import Async from '../pages/async';
@@ -8,7 +8,7 @@ import Advanced from '../pages/advanced';
 
 export default {
   '/home': Home,
-  '/api': Api,
+  '/props': Props,
   '/styles': Styles,
   '/components': Components,
   '/async': Async,

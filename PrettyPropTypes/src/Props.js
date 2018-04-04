@@ -6,7 +6,7 @@ import convert, { getKind } from 'kind2string';
 
 import { H2 } from './Heading';
 import Prop, { type CommonProps } from './Prop';
-import allComponents, { type Components } from './Components';
+import allComponents, { type Components } from './components';
 
 const Wrapper = styled.div`
   margin-top: ${math.multiply(gridSize, 1.5)}px;
