@@ -7,6 +7,8 @@ import {
   AccessingInternals,
   ControlledMenu,
   OnSelectResetsInput,
+  OpenOnFocus,
+  OpenOnClick,
   BasicGrouped,
   CreateFilter,
   CustomFilterOptions,
@@ -168,6 +170,27 @@ export default function Advanced () {
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Example of openOnFocus"
+          urlPath="docs/examples/OpenOnFocus.js"
+          raw={require('!!raw-loader!../../examples/OpenOnFocus.js')}
+        >
+          <OpenOnFocus />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Example of openOnClick"
+          urlPath="docs/examples/OpenOnClick.js"
+          raw={require('!!raw-loader!../../examples/OpenOnClick.js')}
+        >
+          <OpenOnClick />
         </ExampleWrapper>
       )}
 
