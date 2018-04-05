@@ -47,9 +47,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
   toggleMode = () => {
     this.setState(state => ({ isFixed: !state.isFixed }));
   };
-  setPlacement = ({ target }: Event) => {
-    // $FlowFixMe targets have values...
-    const portalPlacement = target && target.value;
+
+  setPlacement = ({ currentTarget }: SyntheticEvent<*>) => {
+    const portalPlacement = currentTarget && currentTarget.value;
     this.setState({ portalPlacement });
   };
 
