@@ -6,7 +6,7 @@ import { Div } from '../primitives';
 
 export default function ScrollBlock() {
   return (
-    <Div css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}>
+    <Div css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0, zIndex: -99999999 }}>
       <ScrollLock />
     </Div>
   );

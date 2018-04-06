@@ -34,7 +34,13 @@ const AnimatedSelect = (props) => (
 );
 
 class TestSuite extends Component<SuiteProps, SuiteState> {
-  state = { isDisabled: false, isLoading: false, portalPlacement: 'bottom' };
+  state = {
+    isDisabled: false,
+    isFixed: false,
+    isLoading: false,
+    portalPlacement: 'top',
+    blockScroll: true,
+  };
   toggleDisabled = () => {
     this.setState(state => ({ isDisabled: !state.isDisabled }));
   };
@@ -63,6 +69,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           <SelectComp
             autoFocus
             defaultValue={colourOptions[0]}
+            styles={{
+              menuPortal: (base) => ({ ...base, zIndex: 999 }),
+            }}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
             options={colourOptions}
@@ -113,7 +122,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             menuShouldScrollIntoView
             menuPlacement={portalPlacement}
             menuPosition={isFixed ? 'fixed' : 'absolute'}
-            // menuIsOpen
+            menuIsOpen
           />
           <Note Tag="label">
             <select
