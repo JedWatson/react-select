@@ -12,6 +12,7 @@ import {
   animatedScrollTo,
   className,
   getBoundingClientObj,
+  type RectType,
   getScrollParent,
   getScrollTop,
   scrollTo,
@@ -69,14 +70,15 @@ export function getMenuPlacement({
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
   const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
+  const gutter = spacing.menuGutter;
 
-  const viewSpaceAbove = containerTop - spacing.menuGutter;
+  const viewSpaceAbove = containerTop - gutter;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
 
-  const scrollDown = menuBottom - viewHeight + scrollTop + spacing.menuGutter;
-  const scrollUp = scrollTop + menuTop - spacing.menuGutter;
+  const scrollDown = menuBottom - viewHeight + scrollTop + gutter;
+  const scrollUp = scrollTop + menuTop - gutter;
   const scrollDuration = 160;
 
   switch (placement) {
@@ -108,8 +110,8 @@ export function getMenuPlacement({
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
         const constrainedHeight = isFixedPosition
-          ? viewSpaceBelow - spacing.menuGutter
-          : scrollSpaceBelow - spacing.menuGutter;
+          ? viewSpaceBelow - gutter
+          : scrollSpaceBelow - gutter;
 
         return {
           placement: 'bottom',
@@ -120,7 +122,7 @@ export function getMenuPlacement({
       // 4. Forked beviour when there isn't enough space below
 
       // AUTO: flip the menu, render above
-      if (placement === 'auto') {
+      if (placement === 'auto' || isFixedPosition) {
         // may need to be constrained after flipping
         let constrainedHeight = maxHeight;
 
@@ -129,8 +131,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - spacing.menuGutter - spacing.controlHeight
-            : scrollSpaceAbove - spacing.menuGutter - spacing.controlHeight;
+            ? viewSpaceAbove - gutter - spacing.controlHeight
+            : scrollSpaceAbove - gutter - spacing.controlHeight;
         }
 
         return { placement: 'top', maxHeight: constrainedHeight };
@@ -149,7 +151,7 @@ export function getMenuPlacement({
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceAbove >= menuHeight) {
+      if (scrollSpaceAbove >= menuHeight && !isFixedPosition) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollUp, scrollDuration);
         }
@@ -158,14 +160,26 @@ export function getMenuPlacement({
       }
 
       // 3: the menu will fit, if constrained
-      if (scrollSpaceAbove >= minHeight) {
-        if (shouldScroll) {
-          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
-        }
+      if (
+        (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
+        (isFixedPosition && viewSpaceAbove >= minHeight)
+      ) {
+        let constrainedHeight = maxHeight;
 
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
-        const constrainedHeight = scrollSpaceAbove - spacing.menuGutter;
+        if (
+          (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
+          (isFixedPosition && viewSpaceAbove >= minHeight)
+        ) {
+          constrainedHeight = isFixedPosition
+            ? viewSpaceAbove - gutter
+            : scrollSpaceAbove - gutter;
+        }
+
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
+        }
 
         return {
           placement: 'top',
@@ -394,38 +408,23 @@ export type MenuPortalProps = PropsWithStyles & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
+  maxMenuHeight: number,
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
 };
 type MenuPortalState = {
   placement: 'bottom' | 'top' | null,
 };
-type RectType = {
-  left: number,
-  right: number,
-  bottom: number,
-  height: number,
-  width: number,
-};
 type PortalStyleArgs = {
-  placement: MenuPlacement,
+  offset: number,
   position: MenuPosition,
   rect: RectType,
-  offset: number,
-  viewHeight: number,
 };
 
-export const menuPortalCSS = ({
-  placement,
-  position,
-  rect,
-  offset,
-  viewHeight,
-}: PortalStyleArgs) => ({
-  bottom: placement === 'top' ? viewHeight - offset : null,
+export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
   left: rect.left,
   position: position,
-  top: placement === 'bottom' ? offset : null,
+  top: offset,
   width: rect.width,
   zIndex: 1,
 });
@@ -443,7 +442,12 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
   // callback for occassions where the menu must "flip"
   getPortalPlacement = ({ placement }: MenuState) => {
-    this.setState({ placement });
+    const initialPlacement = coercePlacement(this.props.menuPlacement);
+
+    // avoid re-renders if the placement has not changed
+    if (placement !== initialPlacement) {
+      this.setState({ placement });
+    }
   };
   render() {
     const {
@@ -454,11 +458,10 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
       menuPosition: position,
       getStyles,
     } = this.props;
-    const viewHeight = window && window.innerHeight;
     const isFixed = position === 'fixed';
 
     // bail early if required elements aren't present
-    if ((!appendTo && !isFixed) || !controlElement || !viewHeight) {
+    if ((!appendTo && !isFixed) || !controlElement) {
       return null;
     }
 
@@ -466,9 +469,9 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     const rect = getBoundingClientObj(controlElement);
     const scrollDistance = isFixed ? 0 : window.pageYOffset;
     const offset = rect[placement] + scrollDistance;
-    const state = { placement, position, rect, offset, viewHeight };
+    const state = { offset, position, rect };
 
-    // same wrapper element with fixed or portalled
+    // same wrapper element whether fixed or portalled
     const menuWrapper = (
       <Div css={getStyles('menuPortal', state)}>{children}</Div>
     );

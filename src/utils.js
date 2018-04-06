@@ -211,6 +211,13 @@ export function getBoundingClientObj(element: HTMLElement) {
     width: rect.width,
   };
 }
+export type RectType = {
+  left: number,
+  right: number,
+  bottom: number,
+  height: number,
+  width: number,
+};
 
 // ==============================
 // String to Key (kebabify)
