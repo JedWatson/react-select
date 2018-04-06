@@ -408,7 +408,6 @@ export type MenuPortalProps = PropsWithStyles & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
-  maxMenuHeight: number,
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
 };
