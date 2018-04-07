@@ -100,6 +100,19 @@ export default function Advanced () {
         </ExampleWrapper>
       )}
 
+      ## Methods
+
+      These two methods sit as callable methods on the component. They are designed
+      to be accessible to wrapping components.
+
+      ### \`focus()\`
+
+      Focused the internal control input.
+
+      ### \`blur()\`
+
+      Blur the internal control input.
+
       ## Action Meta
       React Select exposes a variety of eventListeners to you via props.
       The onchange function prop now has the following signature.

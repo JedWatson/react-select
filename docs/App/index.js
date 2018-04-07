@@ -24,7 +24,7 @@ import Tests from '../Tests';
 
 const sections = [
   { label: 'Home', path: '/home' },
-  { label: 'API', path: '/api' },
+  { label: 'Props', path: '/props' },
   { label: 'Styles', path: '/styles' },
   { label: 'Components', path: '/components' },
   { label: 'Async', path: '/async' },

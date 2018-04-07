@@ -109,7 +109,7 @@ export default function Components() {
         * When the select has no value
         * When the select is loading
 
-        See [api docs](/api#clearindicator) for more details
+        See [props docs](/props#clearindicator) for more details
 
         ${
           <ExampleWrapper
@@ -127,7 +127,7 @@ export default function Components() {
         positioning of the \`ValueContainer\` and \`IndicatorsContainer\`. It is followed
         by the Menu.
 
-        See [api docs](/api#control) for more details
+        See [props docs](/props#control) for more details
 
         ${
           <ExampleWrapper
@@ -144,7 +144,7 @@ export default function Components() {
         The indicator for opening the select, designed to indicate to users that
         this is a select. By default it is a chevron pointed down.
 
-        See [api docs](/api#dropdownindicator) for more details
+        See [props docs](/props#dropdownindicator) for more details
 
         ${
           <ExampleWrapper
@@ -162,7 +162,7 @@ export default function Components() {
         component is responsible both for mapping its options, as well as rendering
         its data into the GroupHeading.
 
-        See [api docs](/api#group) for more details
+        See [props docs](/props#group) for more details
 
         ${
           <ExampleWrapper
@@ -178,7 +178,7 @@ export default function Components() {
 
         Component that renders the data of a group.
 
-        See [api docs](/api#groupheading) for more details
+        See [props docs](/props#groupheading) for more details
 
         ${
           <ExampleWrapper
@@ -199,7 +199,7 @@ export default function Components() {
         * Loading Indicator
         * Dropdown Indicator
 
-        See [api docs](/api#indicatorscontainer) for more details
+        See [props docs](/props#indicatorscontainer) for more details
 
         ${
           <ExampleWrapper
@@ -216,7 +216,7 @@ export default function Components() {
         Component directly to the the inner side of the Dropdown Indicator. By default
         it is a line to act as a visual separator.
 
-        See [api docs](/api#customindicatorseparator) for more details
+        See [props docs](/props#customindicatorseparator) for more details
 
         ${
           <ExampleWrapper
@@ -237,7 +237,7 @@ export default function Components() {
         All provided inputs are given aria attributes to ensure the input is accessible
         by default.
 
-        See [api docs](/api#input) for more details
+        See [props docs](/props#input) for more details
 
         ${
           <ExampleWrapper
@@ -254,7 +254,7 @@ export default function Components() {
         Loading indicator to be displayed in the Indicators Container when \`isLoading]\`
         is true. By default it is three dots.
 
-        See [api docs](/api#loadingindicator) for more details
+        See [props docs](/props#loadingindicator) for more details
 
         ${
           <ExampleWrapper
@@ -272,7 +272,7 @@ export default function Components() {
         the menu items. If you want to modify the options themselves, you should use
         the \`Option\` component.
 
-        See [api docs](/api#menu) for more details
+        See [props docs](/props#menu) for more details
 
         ${
           <ExampleWrapper
@@ -288,7 +288,7 @@ export default function Components() {
 
         Inner wrapper for the menu. It directly wraps around the returned options.
 
-        See [api docs](/api#menulist) for more details
+        See [props docs](/props#menulist) for more details
 
         ${
           <ExampleWrapper
@@ -305,7 +305,7 @@ export default function Components() {
         Message to display in the menu when there are no options and \`isLoading\` is
         true. By default it is 'Loading...'
 
-        See [api docs](/api#loadingmessage) for more details
+        See [props docs](/props#loadingmessage) for more details
 
         ${
           <ExampleWrapper
@@ -321,7 +321,7 @@ export default function Components() {
 
         Message to be displayed in the menu if there are no options passed in.
 
-        See [api docs](/api#nooptionsmessage) for more details
+        See [props docs](/props#nooptionsmessage) for more details
 
         ${
           <ExampleWrapper
@@ -343,7 +343,7 @@ export default function Components() {
 
         Wraps the Label and Remove in a Multi Value
 
-        See [api docs](/api#multivaluecontainer) for more details
+        See [props docs](/props#multivaluecontainer) for more details
 
         ${
           <ExampleWrapper
@@ -360,7 +360,7 @@ export default function Components() {
         Receives the value of the option and is responsible for rendering it to the
         input.
 
-        See [api docs](/api#multivaluelabel) for more details
+        See [props docs](/props#multivaluelabel) for more details
 
         ${
           <ExampleWrapper
@@ -377,7 +377,7 @@ export default function Components() {
 
         Receives an onClick to remove the selected item. By default it is a cross.
 
-        See [api docs](/api#multivalueremove) for more details
+        See [props docs](/props#multivalueremove) for more details
 
         ${
           <ExampleWrapper
@@ -393,7 +393,7 @@ export default function Components() {
 
         Component responsible for displaying an option in the menu.
 
-        See [api docs](/api#option) for more details
+        See [props docs](/props#option) for more details
 
         ${
           <ExampleWrapper
@@ -411,7 +411,7 @@ export default function Components() {
         Component to be displayed in the input when nothing is selected. By default
         it is the text 'Select...'
 
-        See [api docs](/api#placeholder) for more details
+        See [props docs](/props#placeholder) for more details
 
         ${
           <ExampleWrapper
@@ -427,7 +427,7 @@ export default function Components() {
 
         The wrapper around the entire select component.
 
-        See [api docs](/api#selectcontainer) for more details
+        See [props docs](/props#selectcontainer) for more details
 
         ${
           <ExampleWrapper
@@ -443,7 +443,7 @@ export default function Components() {
 
         The component that displays the selected value in the input for a single select.
 
-        See [api docs](/api#singlevalue) for more details
+        See [props docs](/props#singlevalue) for more details
 
         ${
           <ExampleWrapper
@@ -459,7 +459,7 @@ export default function Components() {
 
         Container responsible for loading the placeholder value and the input.
 
-        See [api docs](/api#valuecontainer) for more details
+        See [props docs](/props#valuecontainer) for more details
 
         ${
           <ExampleWrapper
