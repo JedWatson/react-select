@@ -122,7 +122,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             menuShouldScrollIntoView
             menuPlacement={portalPlacement}
             menuPosition={isFixed ? 'fixed' : 'absolute'}
-            menuIsOpen
           />
           <Note Tag="label">
             <select
