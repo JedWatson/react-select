@@ -128,6 +128,31 @@
 		direction: rtl;
 		text-align: right;
 	}
+
+	&.is-direction-up {
+		.Select-menu-outer {
+		  top: auto;
+		  bottom: 100%;
+		  border-top-right-radius: 4px;
+		  border-top-left-radius: 4px;
+		  border-bottom-right-radius: unset;
+		  border-bottom-left-radius: unset;
+		}
+		.Select-option:first-child {
+		  border-top-right-radius: 4px;
+		  border-top-left-radius: 4px;
+		}
+		.Select-option:last-child {
+		  border-bottom-right-radius: unset;
+			border-bottom-left-radius: unset;
+		}
+		.Select.is-open > .Select-control {
+		  border-top-right-radius: unset;
+		  border-top-left-radius: unset;
+		  border-bottom-right-radius: 4px;
+		  border-bottom-left-radius: 4px;
+		}
+	}
 }
 
 // base

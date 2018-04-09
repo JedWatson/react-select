@@ -184,7 +184,12 @@ class Select extends React.Component {
 		if (this.props.scrollMenuIntoView && this.menuContainer) {
 			const menuContainerRect = this.menuContainer.getBoundingClientRect();
 			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
+				if (this.props.autoFlip && !this.isOverflow) {
+					this.isOverflow = true;
+					this.forceUpdate();
+				} else {
+					window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
+				}
 			}
 		}
 		if (prevProps.disabled !== this.props.disabled) {
@@ -1101,7 +1106,7 @@ class Select extends React.Component {
 		}
 
 		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
+			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer direction-up" style={this.props.menuContainerStyle}>
 				<div
 					className="Select-menu"
 					id={`${this._instancePrefix}-list`}
@@ -1122,6 +1127,12 @@ class Select extends React.Component {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi && this.props.removeSelected ? valueArray : null);
 		let isOpen = this.state.isOpen;
+		let isDirectionUp = this.props.directionUp || this.isOverflow;
+
+		if (this.isOverflow) {
+			this.isOverflow = false;
+		}
+
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 
@@ -1140,6 +1151,7 @@ class Select extends React.Component {
 			'is-open': isOpen,
 			'is-pseudo-focused': this.state.isPseudoFocused,
 			'is-searchable': this.props.searchable,
+			'is-direction-up': isDirectionUp,
 			'Select--multi': this.props.multi,
 			'Select--rtl': this.props.rtl,
 			'Select--single': !this.props.multi,
