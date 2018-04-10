@@ -1112,23 +1112,22 @@ cases('accessibility - select input with defaults', ({ props = BASIC_PROPS, expe
     },
   });
 
-/**
- * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
- */
 cases('accessibility > aria-activedescendant', ({ props = { ...BASIC_PROPS } }) => {
   let selectWrapper = mount(<Select {...props} menuIsOpen />);
 
   selectWrapper.find(Menu).simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
-  expect(selectWrapper.find('Control input').props()['aria-activedescendant']).toBe('1');
+  // id of options end with -<option number>
+  expect(selectWrapper.find('Control input').props()['aria-activedescendant']).toMatch(/-0$/);
+
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+  // id of options end with -<option number>
+  expect(selectWrapper.find('Control input').props()['aria-activedescendant']).toMatch(/-1$/);
 }, {
-    'single select > should update aria-activedescendant as per focused uption': {
-      skip: true,
-    },
+    'single select > should update aria-activedescendant as per focused uption': { },
     'multi select > should update aria-activedescendant as per focused uption': {
-      skip: true,
       props: {
         ...BASIC_PROPS,
-        value: { label: '2', value: 'two' },
+        isMulti: true,
       }
     }
   });
