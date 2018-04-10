@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import ScrollLock from './ScrollLock';
+import ScrollLock from './ScrollLock/index';
 import { Div } from '../primitives';
 
 export default function ScrollBlock() {

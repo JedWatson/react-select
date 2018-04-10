@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "exenv": "^1.2.2",
     "glam": "^5.0.1",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",

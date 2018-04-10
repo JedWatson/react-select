@@ -1,6 +1,5 @@
 // @flow
 import { Component } from 'react';
-import { canUseDOM } from 'exenv';
 
 import { LOCK_STYLES, STYLE_KEYS } from './constants';
 import {
@@ -9,6 +8,12 @@ import {
   preventInertiaScroll,
   preventTouchMove,
 } from './utils';
+
+const canUseDOM = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
 
 let activeScrollLocks = 0;
 
@@ -46,7 +51,8 @@ export default class ScrollLock extends Component<Props> {
 
     // apply the lock styles and padding if this is the first scroll lock
     if (accountForScrollbars && activeScrollLocks < 1) {
-      const currentPadding = parseInt(this.originalStyles.paddingRight, 10) || 0;
+      const currentPadding =
+        parseInt(this.originalStyles.paddingRight, 10) || 0;
       const clientWidth = document.body ? document.body.clientWidth : 0;
       const adjustedPadding =
         window.innerWidth - clientWidth + currentPadding || 0;
@@ -69,7 +75,7 @@ export default class ScrollLock extends Component<Props> {
       target.addEventListener(
         'touchmove',
         preventTouchMove,
-        this.listenerOptions,
+        this.listenerOptions
       );
 
       // Allow scroll on provided target
@@ -77,12 +83,12 @@ export default class ScrollLock extends Component<Props> {
         touchScrollTarget.addEventListener(
           'touchstart',
           preventInertiaScroll,
-          this.listenerOptions,
+          this.listenerOptions
         );
         touchScrollTarget.addEventListener(
           'touchmove',
           allowTouchMove,
-          this.listenerOptions,
+          this.listenerOptions
         );
       }
     }
@@ -115,19 +121,19 @@ export default class ScrollLock extends Component<Props> {
       target.removeEventListener(
         'touchmove',
         preventTouchMove,
-        this.listenerOptions,
+        this.listenerOptions
       );
 
       if (touchScrollTarget) {
         touchScrollTarget.removeEventListener(
           'touchstart',
           preventInertiaScroll,
-          this.listenerOptions,
+          this.listenerOptions
         );
         touchScrollTarget.removeEventListener(
           'touchmove',
           allowTouchMove,
-          this.listenerOptions,
+          this.listenerOptions
         );
       }
     }
