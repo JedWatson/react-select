@@ -54,6 +54,8 @@ exports[`defaults - snapshot 1`] = `
       onInputChange={[Function]}
       onMenuClose={[Function]}
       onMenuOpen={[Function]}
+      openMenuOnClick={true}
+      openMenuOnFocus={false}
       options={Array []}
       pageSize={5}
       placeholder="Select..."
@@ -118,6 +120,8 @@ exports[`defaults - snapshot 1`] = `
             "onInputChange": [Function],
             "onMenuClose": [Function],
             "onMenuOpen": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
             "options": Array [],
             "pageSize": 5,
             "placeholder": "Select...",
@@ -243,6 +247,8 @@ exports[`defaults - snapshot 1`] = `
                     "onInputChange": [Function],
                     "onMenuClose": [Function],
                     "onMenuOpen": [Function],
+                    "openMenuOnClick": true,
+                    "openMenuOnFocus": false,
                     "options": Array [],
                     "pageSize": 5,
                     "placeholder": "Select...",
@@ -364,6 +370,8 @@ exports[`defaults - snapshot 1`] = `
                             "onInputChange": [Function],
                             "onMenuClose": [Function],
                             "onMenuOpen": [Function],
+                            "openMenuOnClick": true,
+                            "openMenuOnFocus": false,
                             "options": Array [],
                             "pageSize": 5,
                             "placeholder": "Select...",
@@ -460,6 +468,8 @@ exports[`defaults - snapshot 1`] = `
                                     "onInputChange": [Function],
                                     "onMenuClose": [Function],
                                     "onMenuOpen": [Function],
+                                    "openMenuOnClick": true,
+                                    "openMenuOnFocus": false,
                                     "options": Array [],
                                     "pageSize": 5,
                                     "placeholder": "Select...",
@@ -695,6 +705,8 @@ exports[`defaults - snapshot 1`] = `
                             "onInputChange": [Function],
                             "onMenuClose": [Function],
                             "onMenuOpen": [Function],
+                            "openMenuOnClick": true,
+                            "openMenuOnFocus": false,
                             "options": Array [],
                             "pageSize": 5,
                             "placeholder": "Select...",
@@ -788,6 +800,8 @@ exports[`defaults - snapshot 1`] = `
                                     "onInputChange": [Function],
                                     "onMenuClose": [Function],
                                     "onMenuOpen": [Function],
+                                    "openMenuOnClick": true,
+                                    "openMenuOnFocus": false,
                                     "options": Array [],
                                     "pageSize": 5,
                                     "placeholder": "Select...",
@@ -880,6 +894,8 @@ exports[`defaults - snapshot 1`] = `
                                     "onInputChange": [Function],
                                     "onMenuClose": [Function],
                                     "onMenuOpen": [Function],
+                                    "openMenuOnClick": true,
+                                    "openMenuOnFocus": false,
                                     "options": Array [],
                                     "pageSize": 5,
                                     "placeholder": "Select...",
