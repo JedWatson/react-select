@@ -4,6 +4,12 @@
 
 Ongoing rewrite. Major changes since last alpha:
 
+* Fixed an issue with `dist/react-select.es.js` where `babelHelpers` weren't defined
+
+## v2.0.0-alpha.9 / 2018-04-10
+
+Ongoing rewrite. Major changes since last alpha:
+
 * Added `openMenuOnClick` and `openMenuOnFocus` props
 * Significant test coverage and documentation improvements
 * Added `onMenuScrollToTop` and `onMenuScrollToBottom` event props
