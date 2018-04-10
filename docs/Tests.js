@@ -8,12 +8,11 @@ import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions } from './data';
 
 import * as animatedComponents from '../src/animated';
-import * as defaultComponents from '../src/components';
 
 type SuiteProps = {
   selectComponent: ComponentType<any>,
   idSuffix: string,
-}
+};
 type SuiteState = {
   isDisabled: boolean,
   isFixed: boolean,
@@ -22,13 +21,12 @@ type SuiteState = {
   portalPlacement: MenuPlacement,
 };
 
-const AnimatedSelect = (props) => (
+const AnimatedSelect = props => (
   <Select
     {...props}
     components={{
-      ...defaultComponents,
       ...animatedComponents,
-      ...props.components
+      ...props.components,
     }}
   />
 );
@@ -70,7 +68,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             autoFocus
             defaultValue={colourOptions[0]}
             styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 999 }),
+              menuPortal: base => ({ ...base, zIndex: 999 }),
             }}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
@@ -84,7 +82,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             id={`cypress-${idSuffix}__disabled-checkbox`}
           />
           Disabled
-          </Note>
+        </Note>
         <Note Tag="label" style={{ marginLeft: '1em' }}>
           <input
             type="checkbox"
@@ -92,11 +90,14 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             id={`cypress-${idSuffix}__loading-checkbox`}
           />
           Loading
-          </Note>
+        </Note>
 
         <h4>Grouped</h4>
         <div id={`cypress-${idSuffix}-grouped`}>
-          <SelectComp defaultValue={colourOptions[1]} options={groupedOptions} />
+          <SelectComp
+            defaultValue={colourOptions[1]}
+            options={groupedOptions}
+          />
         </div>
 
         <h4>Portalled</h4>
@@ -174,7 +175,14 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
 
 export default function Tests() {
   return (
-    <div style={{ margin: 'auto', maxWidth: 440, padding: 20, position: 'relative' }}>
+    <div
+      style={{
+        margin: 'auto',
+        maxWidth: 440,
+        padding: 20,
+        position: 'relative',
+      }}
+    >
       <H1>Test Page for Cypress</H1>
       <h2>Single Select</h2>
       <TestSuite selectComponent={Select} idSuffix="single" />

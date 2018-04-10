@@ -15,14 +15,13 @@ export type InputProps = PropsWithStyles & {
   isHidden: boolean,
   /** Whether the input is disabled */
   isDisabled?: boolean,
-  /** The input height, used for rendering disabled inputs. */
-  inputHeight?: ?number,
 };
 
-export const css = () => ({
+export const css = ({ isDisabled }: InputProps) => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
+  visibility: isDisabled ? 'hidden' : 'visible',
 });
 const inputStyle = isHidden => ({
   background: 0,
@@ -33,18 +32,21 @@ const inputStyle = isHidden => ({
   padding: 0,
 });
 
-const Input = ({ getStyles, innerRef, isHidden, isDisabled, inputHeight, ...props }: InputProps) =>
-  isDisabled ? (
-    // maintain baseline alignment when the input is removed for disabled state
-    <div style={{ height: inputHeight }} />
-  ) : (
-    <Div css={getStyles('input', props)}>
-      <AutosizeInput
-        className={className('input')}
-        inputRef={innerRef}
-        inputStyle={inputStyle(isHidden)}
-        {...props}
-      />
-    </Div>
-  );
+const Input = ({
+  getStyles,
+  innerRef,
+  isHidden,
+  isDisabled,
+  ...props
+}: InputProps) => (
+  <Div css={getStyles('input', props)}>
+    <AutosizeInput
+      className={className('input')}
+      inputRef={innerRef}
+      inputStyle={inputStyle(isHidden)}
+      disabled={isDisabled}
+      {...props}
+    />
+  </Div>
+);
 export default Input;
