@@ -1,30 +1,30 @@
 {
   "clearValues": ".react-select__clear-indicator",
-  "disabledCheckbox": "#cypress-single__disabled-checkbox",
+  "disabledCheckbox": "#cypress-container-single #cypress-single__disabled-checkbox",
   "firstMultiValueRemove":
     "#cypress-multi .react-select__multi-value__remove:first",
-  "groupColor": "#cypress-single-grouped .react-select__group",
+  "groupColor": "#cypress-container-single #cypress-single-grouped .react-select__group",
   "menuGrouped": "#react-select-3-listbox",
-  "menuMulti": "#react-select-5-listbox",
+  "menuMulti": "#react-select-8-listbox",
   "menuOption": "[role='option']",
   "menuSingle": "#react-select-2-listbox",
   "multiSelectDefaultValues": "#cypress-multi .react-select__multi-value",
-  "multiSelectInput": "#react-select-5-input",
+  "multiSelectInput": "#react-select-8-input",
   "noOptionsValue": ".react-select__menu-notice--no-options",
-  "placeHolderGrouped": "#cypress-single-grouped .react-select__placeholder",
+  "placeHolderGrouped": "#cypress-container-single #cypress-single-grouped .react-select__placeholder",
   "placeHolderMulti": "#cypress-multi .react-select__placeholder",
-  "placeHolderSingle": "#cypress-single .react-select__placeholder",
+  "placeHolderSingle": "#cypress-container-single #cypress-single .react-select__placeholder",
   "singleGroupedInputValue":
-    "#cypress-single-grouped .react-select__single-value",
+    "#cypress-container-single #cypress-single-grouped .react-select__single-value",
   "singleInputValue": ".react-select__single-value",
-  "singleSelectDefaultValues": ".react-select__single-value",
-  "singleSelectFirstValue": "#cypress-single .react-select__single-value",
+  "singleSelectDefaultValues": "#cypress-container-single .react-select__single-value",
+  "singleSelectFirstValue": "#cypress-container-single #cypress-single .react-select__single-value",
   "singleSelectGroupedInput":
-    "#cypress-single-grouped .react-select__input input",
+    "#cypress-container-single #cypress-single-grouped .react-select__input input",
   "singleSelectSingleInput": "#react-select-2-input",
   "toggleMenus": ".react-select__dropdown-indicator",
   "toggleMenuGrouped":
-    "#cypress-single-grouped .react-select__dropdown-indicator",
+    "#cypress-container-single #cypress-single-grouped .react-select__dropdown-indicator",
   "toggleMenuMulti": "#cypress-multi .react-select__dropdown-indicator",
-  "toggleMenuSingle": "#cypress-single .react-select__dropdown-indicator"
+  "toggleMenuSingle": "#cypress-container-single #cypress-single .react-select__dropdown-indicator"
 }

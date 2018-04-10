@@ -10,11 +10,11 @@ type Props = {
   onExited: fn,
 };
 
-const MultiValue = ({ in: inProp, onExited, ...props }: Props) => (
+const AnimatedMultiValue = ({ in: inProp, onExited, ...props }: Props) => (
   <Collapse in={inProp} onExited={onExited}>
     {/* $FlowFixMe */}
     <components.MultiValue cropWithEllipsis={inProp} {...props} />
   </Collapse>
 );
 
-export default MultiValue;
+export default AnimatedMultiValue;
