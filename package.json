@@ -76,7 +76,7 @@
     "react-markings": "^1.2.0",
     "react-router-dom": "^4.2.2",
     "react-syntax-highlighter": "^7.0.1",
-    "rollup": "^0.56.5",
+    "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",

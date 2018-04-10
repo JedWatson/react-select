@@ -20,6 +20,7 @@ const external = Object.keys(globals);
 const babelOptions = prod => {
   let result = {
     babelrc: false,
+    externalHelpers: true,
     presets: [['env', { modules: false }], 'react'],
     plugins: [
       'transform-class-properties',
