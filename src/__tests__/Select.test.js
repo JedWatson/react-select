@@ -827,18 +827,18 @@ cases('clicking on select using secondary button on mouse', ({ props = BASIC_PRO
   let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} />);
   let downButtonWrapper = selectWrapper.find('div.react-select__dropdown-indicator');
 
-  // opens menu if menu is closed
+  // does not open menu if menu is closed
   expect(selectWrapper.props().menuIsOpen).toBe(false);
   downButtonWrapper.simulate('mouseDown', { button: 1 });
   expect(onMenuOpenSpy).not.toHaveBeenCalled();
 
-  // closes menu if menu is opened
+  // does not close menu if menu is opened
   selectWrapper.setProps({ menuIsOpen: true });
   downButtonWrapper.simulate('mouseDown', { button: 1 });
   expect(onMenuCloseSpy).not.toHaveBeenCalled();
 }, {
-    'single select > seconday click is ignored  >should not call onMenuOpen and onMenuClose prop': {},
-    'multi select > seconday click is ignored > should not call onMenuOpen and onMenuClose prop': {
+    'single select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {},
+    'multi select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {
       props: {
         ...BASIC_PROPS,
         isMulti: true,
