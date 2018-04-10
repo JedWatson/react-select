@@ -17,7 +17,6 @@
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react-input-autosize": "^2.2.1",
-    "react-scroll-captor": "^1.0.1",
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
