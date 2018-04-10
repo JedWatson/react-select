@@ -1,24 +1,19 @@
 # React-Select
 
 ## v2.0.0-alpha.9 / 2018-04-10
+
 Ongoing rewrite. Major changes since last alpha:
 
-* Bumped dependencies
-* Added `openMenuOnClick` prop
-* Added `openMenuOnFocus` prop
-* Significant test coverage improvement
-* Documentation tweaks
-* Added `onMenuScrollToTop` prop
-* Added `onMenuScrollToBottom` prop
+* Added `openMenuOnClick` and `openMenuOnFocus` props
+* Significant test coverage and documentation improvements
+* Added `onMenuScrollToTop` and `onMenuScrollToBottom` event props
 * `scrollMenuIntoView` prop renamed `menuShouldScrollIntoView`
 * `onKeyDown` now based on event.key not event.keyCode
-* ids no longer have double separators.
-* Fixed Firefox bug with position absolute and display flex
+* Component ids no longer have double separators
+* Fixed a Firefox bug with `position: absolute` and `display: flex`
 * Added support for fixed position menu and scroll blocking
-* Fixed issue with leaking props from transition groups
-* Fixed issue with portalled menu display on menuPlacement top
-
-
+* Fixed issue with transition group props being passed to child components
+* Fixed issue with portalled menu display when `menuPlacement="top"`
 
 ## v2.0.0-alpha.8 / 2018-02-20
 
