@@ -610,15 +610,12 @@ export default class Select extends Component<Props, State> {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (event: MouseOrTouchEvent) => {
-    console.warn('ONCONTROL MOUSE DOWN CALLED');
     if (!this.state.isFocused) {
-      console.warn('FIRST CLICK');
       if (this.props.openOnClick) {
         this.openAfterFocus = true;
       }
       this.focusInput();
     } else if (!this.props.menuIsOpen) {
-      console.warn('SECOND CLICK');
       this.openMenu('first');
     } else {
       this.onMenuClose();
@@ -720,7 +717,6 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    console.log('onInputFocus HAVE BEEN CALLED');
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
@@ -734,7 +730,6 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    console.log('onInputBlur HAVE BEEN CALLED');
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }

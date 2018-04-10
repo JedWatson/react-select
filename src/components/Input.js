@@ -33,6 +33,7 @@ const inputStyle = isHidden => ({
   padding: 0,
 });
 
+<<<<<<< HEAD
 const Input = ({ getStyles, innerRef, isHidden, isDisabled, inputHeight, ...props }: InputProps) =>
   isDisabled ? (
     // maintain baseline alignment when the input is removed for disabled state
@@ -47,4 +48,21 @@ const Input = ({ getStyles, innerRef, isHidden, isDisabled, inputHeight, ...prop
       />
     </Div>
   );
+=======
+const Input = ({ getStyles, innerRef, isHidden, ...props }: InputProps) => {
+  const onFocus = (event) => {
+    props.onFocus(event);
+  };
+  return (
+  <Div css={getStyles('input', props)}>
+    <AutosizeInput
+      className={className('input')}
+      inputRef={innerRef}
+      inputStyle={inputStyle(isHidden)}
+      onFocus={onFocus}
+      {...props}
+    />
+  </Div>);
+};
+>>>>>>> cf7d8dd... remove logs
 export default Input;
