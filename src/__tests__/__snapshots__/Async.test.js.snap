@@ -514,7 +514,6 @@ exports[`defaults - snapshot 1`] = `
                                 getStyles={[Function]}
                                 id="react-select-2-input"
                                 innerRef={[Function]}
-                                inputHeight={20}
                                 isDisabled={false}
                                 isHidden={false}
                                 onBlur={[Function]}
