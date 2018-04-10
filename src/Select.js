@@ -375,7 +375,7 @@ export default class Select extends Component<Props, State> {
   focus = this.focusInput;
   blur = this.blurInput;
 
-  openMenu(focusOption: 'first' | 'last' = 'first') {
+  openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue } = this.state;
     const { isMulti } = this.props;
 
@@ -626,7 +626,7 @@ export default class Select extends Component<Props, State> {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
     } else {
-      this.openMenu();
+      this.openMenu('first');
     }
     event.preventDefault();
     event.stopPropagation();
@@ -802,7 +802,7 @@ export default class Select extends Component<Props, State> {
           return;
         }
         if (!menuIsOpen) {
-          this.openMenu();
+          this.openMenu('first');
           break;
         }
         if (!focusedOption) return;
