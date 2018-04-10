@@ -119,7 +119,6 @@ var menuRenderer = function menuRenderer(_ref) {
 			'is-focused': isFocused,
 			'is-disabled': option.disabled
 		});
-
 		return React.createElement(
 			Option,
 			{
@@ -656,8 +655,7 @@ var shouldShowValue = function shouldShowValue(state, props) {
 	    isFocused = state.isFocused;
 	var onSelectResetsInput = props.onSelectResetsInput;
 
-
-	if (!inputValue) return true;
+	if (inputValue) return true;
 
 	if (!onSelectResetsInput) {
 		return !(!isFocused && isPseudoFocused || isFocused && !isPseudoFocused);
@@ -673,7 +671,7 @@ var shouldShowPlaceholder = function shouldShowPlaceholder(state, props, isOpen)
 	var onSelectResetsInput = props.onSelectResetsInput;
 
 
-	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
+	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused && !inputValue;
 };
 
 /**
@@ -1288,7 +1286,7 @@ var Select$1 = function (_React$Component) {
 			if (this.props.multi) {
 				this.setState({
 					focusedIndex: null,
-					inputValue: this.handleInputValueChange(updatedValue),
+					inputValue: value.value || this.handleInputValueChange(updatedValue),
 					isOpen: !this.props.closeOnSelect
 				}, function () {
 					var valueArray = _this3.getValueArray(_this3.props.value);
@@ -1565,11 +1563,11 @@ var Select$1 = function (_React$Component) {
 
 			var ariaOwns = classNames((_classNames = {}, defineProperty(_classNames, this._instancePrefix + '-list', isOpen), defineProperty(_classNames, this._instancePrefix + '-backspace-remove-message', this.props.multi && !this.props.disabled && this.state.isFocused && !this.state.inputValue), _classNames));
 
-			var value = this.state.inputValue;
-			if (value && !this.props.onSelectResetsInput && !this.state.isFocused) {
-				// it hides input value when it is not focused and was not reset on select
-				value = '';
-			}
+			var value = this.props.inputValue || this.state.inputValue;
+			// if (value && !this.props.onSelectResetsInput && !this.state.isFocused) {
+			// 	// it hides input value when it is not focused and was not reset on select
+			// 	value = '';
+			// }
 
 			var inputProps = _extends({}, this.props.inputProps, {
 				'aria-activedescendant': isOpen ? this._instancePrefix + '-option-' + focusedOptionIndex : this._instancePrefix + '-value',
