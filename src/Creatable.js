@@ -154,7 +154,7 @@ class CreatableSelect extends React.Component {
 
 	render () {
 		const {
-			ref: refProp,
+			innerRef: refProp,
 			...restProps
 		} = this.props;
 
@@ -258,6 +258,8 @@ CreatableSelect.propTypes = {
 	// See Select.propTypes.filterOptions
 	filterOptions: PropTypes.any,
 
+	innerRef: PropTypes.func,
+
 	// Searches for any matching option within the set of options.
 	// This function prevents duplicate options from being created.
 	// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
@@ -289,8 +291,6 @@ CreatableSelect.propTypes = {
 	// Creates prompt/placeholder option text.
 	// (filterText: string): string
 	promptTextCreator: PropTypes.func,
-
-	ref: PropTypes.func,
 
 	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
 	shouldKeyDownEventCreateNewOption: PropTypes.func,
