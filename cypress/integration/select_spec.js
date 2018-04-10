@@ -81,7 +81,7 @@ describe('New Select', function() {
           .get(selector.toggleMenuSingle)
           .click({ force: true })
           .get(selector.singleSelectSingleInput)
-          .should('not.be.visible');
+          .should('be.disabled');
       });
       it('Should display group in the menu ' + view, function() {
         cy

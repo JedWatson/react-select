@@ -555,7 +555,6 @@ exports[`defaults - snapshot 1`] = `
                                   getStyles={[Function]}
                                   id="react-select-2-input"
                                   innerRef={[Function]}
-                                  inputHeight={20}
                                   isDisabled={false}
                                   isHidden={false}
                                   onBlur={[Function]}
@@ -574,6 +573,7 @@ exports[`defaults - snapshot 1`] = `
                                         "margin": 2,
                                         "paddingBottom": 2,
                                         "paddingTop": 2,
+                                        "visibility": "visible",
                                       }
                                     }
                                   >
@@ -584,12 +584,13 @@ exports[`defaults - snapshot 1`] = `
                                           "margin": 2,
                                           "paddingBottom": 2,
                                           "paddingTop": 2,
+                                          "visibility": "visible",
                                         }
                                       }
                                       render={[Function]}
                                     >
                                       <div
-                                        className="css-16n6ap7"
+                                        className="css-cko0rn"
                                       >
                                         <AutosizeInput
                                           aria-autocomplete="list"
@@ -600,6 +601,7 @@ exports[`defaults - snapshot 1`] = `
                                           autoComplete="off"
                                           autoCorrect="off"
                                           className="react-select__input"
+                                          disabled={false}
                                           id="react-select-2-input"
                                           injectStyles={true}
                                           inputRef={[Function]}
@@ -639,6 +641,7 @@ exports[`defaults - snapshot 1`] = `
                                               autoCapitalize="none"
                                               autoComplete="off"
                                               autoCorrect="off"
+                                              disabled={false}
                                               id="react-select-2-input"
                                               onBlur={[Function]}
                                               onChange={[Function]}
