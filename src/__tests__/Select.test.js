@@ -821,24 +821,79 @@ cases('Clicking dropdown indicator on select with open menu with primary button 
     }
   });
 
+cases('Clicking on an unfocused select using primary mouse button, when openOnClick is false', ({ props = BASIC_PROPS }) => {
+  let onMenuOpenSpy = jest.fn();
+  let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} />);
+  let inputRef = selectWrapper.instance().input;
+  inputRef.focus = jest.fn();
+  expect(selectWrapper.props().menuIsOpen).toBe(false);
+  let control = selectWrapper.find('div.react-select__control');
+  control.simulate('mouseDown', { button: 0 });
+  expect(onMenuOpenSpy).not.toHaveBeenCalled();
+  selectWrapper.update();
+  expect(inputRef.focus).toHaveBeenCalled();
+}, {
+  'single select > should not open the menu on first click > should focus control': {
+    props: {
+      ...BASIC_PROPS,
+      openOnClick: false,
+    }
+  },
+  'multi select > should not open the menu on first click > should should focus control': {
+    props: {
+      ...BASIC_PROPS,
+      openOnClick: false,
+      isMulti: true,
+    }
+  }
+});
+
+cases('Clicking on a focused select using primary mouse button, when openOnClick is false', ({ props = BASIC_PROPS }) => {
+  let onMenuOpenSpy = jest.fn();
+  let selectWrapper = mount(<Select {...props}
+    autoFocus
+    openOnClick={false}
+    onMenuOpen={onMenuOpenSpy} />);
+  expect(selectWrapper.props().menuIsOpen).toBe(false);
+  selectWrapper.instance().onInputFocus();
+  selectWrapper.update();
+  let control = selectWrapper.find('div.react-select__control');
+  control.simulate('mouseDown', { button: 0 });
+  expect(onMenuOpenSpy).toHaveBeenCalled();
+}, {
+  'single select > should open the menu': {
+    only: true,
+    props: {
+      ...BASIC_PROPS,
+    },
+  },
+  'multi select > should open the menu': {
+    only: true,
+    props: {
+      ...BASIC_PROPS,
+      isMulti: true,
+    }
+  }
+});
+
 cases('clicking on select using secondary button on mouse', ({ props = BASIC_PROPS }) => {
   let onMenuOpenSpy = jest.fn();
   let onMenuCloseSpy = jest.fn();
   let selectWrapper = mount(<Select {...props} onMenuOpen={onMenuOpenSpy} onMenuClose={onMenuCloseSpy} />);
   let downButtonWrapper = selectWrapper.find('div.react-select__dropdown-indicator');
 
-  // opens menu if menu is closed
+  // does not open menu if menu is closed
   expect(selectWrapper.props().menuIsOpen).toBe(false);
   downButtonWrapper.simulate('mouseDown', { button: 1 });
   expect(onMenuOpenSpy).not.toHaveBeenCalled();
 
-  // closes menu if menu is opened
+  // does not close menu if menu is opened
   selectWrapper.setProps({ menuIsOpen: true });
   downButtonWrapper.simulate('mouseDown', { button: 1 });
   expect(onMenuCloseSpy).not.toHaveBeenCalled();
 }, {
-    'single select > seconday click is ignored  >should not call onMenuOpen and onMenuClose prop': {},
-    'multi select > seconday click is ignored > should not call onMenuOpen and onMenuClose prop': {
+    'single select > secondary click is ignored  > should not call onMenuOpen and onMenuClose prop': {},
+    'multi select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {
       props: {
         ...BASIC_PROPS,
         isMulti: true,
