@@ -10,8 +10,8 @@ export default class OpenOnClick extends Component {
     menuIsOpen: false,
     openOnClick: false,
   }
-  toggleProp = (event) => {
-    console.log(event);
+  toggleOpenOnClick = (event) => {
+    this.setState(state => ({ openOnClick: !state.openOnClick }));
   }
   render () {
     const { openOnClick } = this.state;
@@ -29,7 +29,7 @@ export default class OpenOnClick extends Component {
         <Note Tag="label" style={{ marginLeft: '1em' }}>
           <Checkbox
             checked={openOnClick}
-            onChange={this.toggleProp}
+            onChange={this.toggleOpenOnClick}
             id="cypress-single__openOnClick-checkbox"
           />
           Open on click
