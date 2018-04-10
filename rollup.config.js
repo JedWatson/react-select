@@ -20,7 +20,6 @@ const external = Object.keys(globals);
 const babelOptions = () => {
   let result = {
     babelrc: false,
-    externalHelpers: true,
     presets: [['env', { modules: false }], 'react'],
     plugins: [
       'transform-class-properties',
@@ -61,11 +60,6 @@ export default [
       globals: globals,
     },
     external: external,
-    plugins: [
-      babel(babelOptions()),
-      resolve(),
-      commonjs(),
-      uglify({}, minify),
-    ],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
   },
 ];
