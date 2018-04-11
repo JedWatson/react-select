@@ -443,13 +443,21 @@ function onInputKeyDown(event) {
 
 ### Methods
 
-Use the `focus()` method to give the control focus. All other methods on `<Select>` elements should be considered private.
+Use the `focus()` method to give the control focus.
 
 ```js
 // focuses the input element
 <instance>.focus();
 ```
 
+The following methods allows access to the current state of the component:
+
+* `getInputValue`
+* `numberOfVisibleOptions`
+* `isFocused`
+* `isOpen`
+
+All other methods on `<Select>` elements should be considered private.
 # Contributing
 
 See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.
