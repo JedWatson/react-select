@@ -1,8 +1,14 @@
 # React-Select
 
-## v2.0.0-alpha.9 / 2018-04-10
+## v2.0.0-alpha.11 / 2018-04-12
 
-Ongoing rewrite. Major changes since last alpha:
+Minor fix since last alpha:
+
+* Fixed a flow type issue that was causing issues for consumers
+
+## v2.0.0-alpha.10 / 2018-04-10
+
+Minor fix since last alpha:
 
 * Fixed an issue with `dist/react-select.es.js` where `babelHelpers` weren't defined
 
