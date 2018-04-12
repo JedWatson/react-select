@@ -5,15 +5,16 @@ import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
-  ControlledMenu,
-  OnSelectResetsInput,
   BasicGrouped,
+  ControlledMenu,
   CreateFilter,
   CustomFilterOptions,
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
+  EventHooks,
   Experimental,
   MenuPortal,
+  OnSelectResetsInput,
 } from '../../examples';
 
 export default function Advanced () {
@@ -168,6 +169,18 @@ export default function Advanced () {
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Example of controlled MenuIsOpen"
+          urlPath="docs/examples/EventHooks.js"
+          raw={require('!!raw-loader!../../examples/EventHooks.js')}
+        >
+          <EventHooks />
         </ExampleWrapper>
       )}
 
