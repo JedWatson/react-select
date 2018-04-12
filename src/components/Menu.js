@@ -36,7 +36,7 @@ import type {
 type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
 type PlacementArgs = {
   maxHeight: number,
-  menuEl: HTMLElement,
+  menuEl: ElementRef<*>,
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
