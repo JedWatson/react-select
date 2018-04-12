@@ -30,6 +30,7 @@ const sections = [
   { label: 'Async', path: '/async' },
   { label: 'Creatable', path: '/creatable' },
   { label: 'Advanced', path: '/advanced' },
+  { label: 'Upgrade Guide', path: '/upgrade-guide' },
 ];
 
 export default class App extends Component<*> {
