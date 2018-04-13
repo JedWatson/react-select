@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
-import Props, { Prop } from '../../../PrettyPropTypes/src';
+import Props, { Prop } from 'pretty-proptypes';
 
 export default function Api() {
   return (
