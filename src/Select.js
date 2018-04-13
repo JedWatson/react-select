@@ -6,6 +6,7 @@ import { createFilter } from './filters';
 import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
 
 import {
+  classNames,
   cleanValue,
   isTouchCapable,
   isMobileDevice,
@@ -68,6 +69,8 @@ export type Props = {
   blurInputOnSelect: boolean,
   /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
   captureMenuScroll: boolean,
+  /* className attribute applied to the outer component, and used as a base for inner component classNames */
+  className: string,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
@@ -189,6 +192,7 @@ export const defaultProps = {
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
+  className: 'react-select',
   closeMenuOnSelect: true,
   components: {},
   escapeClearsValue: false,
@@ -486,11 +490,13 @@ export default class Select extends Component<Props, State> {
 
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { isMulti, isRtl, options } = props;
+    const { className, isMulti, isRtl, options } = props;
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
+    const cx = classNames.bind(null, className);
     return {
+      cx,
       clearValue,
       getStyles,
       getValue,
@@ -1001,11 +1007,14 @@ export default class Select extends Component<Props, State> {
       role: 'combobox',
     };
 
+    const { cx } = this.commonProps;
+
     return (
       <Input
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
+        cx={cx}
         getStyles={this.getStyles}
         id={id}
         innerRef={this.onInputRef}

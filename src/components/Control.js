@@ -1,19 +1,19 @@
 // @flow
 import React, { type Node, type ElementRef } from 'react';
 
-import { className } from '../utils';
 import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
-import type { PropsWithStyles } from '../types';
+import type { CommonProps, PropsWithStyles } from '../types';
 
 type State = {
   /** Whether the select is disabled. */
   isDisabled: boolean,
   /** Whether the select is focused. */
-  isFocused: boolean
+  isFocused: boolean,
 };
 
-export type ControlProps = PropsWithStyles &
+export type ControlProps = CommonProps &
+  PropsWithStyles &
   State & {
     /** Children to render. */
     children: Node,
@@ -51,10 +51,10 @@ export const css = ({ isDisabled, isFocused }: State) => ({
 });
 
 const Control = (props: ControlProps) => {
-  const { children, getStyles, isDisabled, isFocused, innerProps } = props;
+  const { children, cx, getStyles, isDisabled, isFocused, innerProps } = props;
   return (
     <Div
-      className={className('control', { isDisabled, isFocused })}
+      className={cx('control', { isDisabled, isFocused })}
       css={getStyles('control', props)}
       {...innerProps}
     >

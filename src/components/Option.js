@@ -1,10 +1,9 @@
 // @flow
 import React, { type Node } from 'react';
 
-import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
-import { type PropsWithStyles, type InnerRef } from '../types';
+import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
   /** Wether the option is disabled. */
@@ -25,6 +24,7 @@ type InnerProps = {
   tabIndex: number,
 };
 export type OptionProps = PropsWithStyles &
+  CommonProps &
   State & {
     /** The children to be rendered. */
     children: Node,
@@ -59,11 +59,11 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
 });
 
 const Option = (props: OptionProps) => {
-  const { children, getStyles, isFocused, isSelected, innerProps } = props;
+  const { children, cx, getStyles, isFocused, isSelected, innerProps } = props;
 
   return (
     <Div
-      className={className('option', { isFocused, isSelected })}
+      className={cx('option', { isFocused, isSelected })}
       css={getStyles('option', props)}
       {...innerProps}
     >

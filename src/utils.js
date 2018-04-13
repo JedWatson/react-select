@@ -2,7 +2,13 @@
 
 import raf from 'raf';
 import { type ElementRef } from 'react';
-import type { InputActionMeta, OptionsType, ValueType } from './types';
+import type {
+  ClassNameList,
+  ClassNamesState,
+  InputActionMeta,
+  OptionsType,
+  ValueType,
+} from './types';
 
 // ==============================
 // NO OP
@@ -14,11 +20,6 @@ export const noop = () => {};
 // Class Name Prefixer
 // ==============================
 
-type State = { [key: string]: boolean };
-type List = Array<string>;
-
-export const CLASS_PREFIX = 'react-select';
-
 /**
  String representation of component state for styling with class names.
 
@@ -28,8 +29,12 @@ export const CLASS_PREFIX = 'react-select';
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
-export function className(name: string | List, state?: State): string {
-  const arr: List = Array.isArray(name) ? name : [name];
+export function classNames(
+  prefix: string,
+  name: string | ClassNameList,
+  state?: ClassNamesState
+): string {
+  const arr: ClassNameList = Array.isArray(name) ? name : [name];
 
   // loop through state object, remove falsey values and combine with name
   if (state && typeof name === 'string') {
@@ -41,7 +46,7 @@ export function className(name: string | List, state?: State): string {
   }
 
   // prefix everything and return a string
-  return arr.map(cn => `${CLASS_PREFIX}__${cn}`).join(' ');
+  return arr.map(cn => `${prefix}__${cn}`).join(' ');
 }
 
 // ==============================
