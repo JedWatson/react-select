@@ -3,6 +3,7 @@
 exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
+  cx={[Function]}
   getStyles={[Function]}
   getValue={[Function]}
   hasValue={false}
@@ -54,6 +55,7 @@ exports[`snapshot - defaults 1`] = `
       "placeholder": "Select...",
       "screenReaderStatus": [Function],
       "styles": Object {},
+      "tabIndex": "0",
       "tabSelectsValue": true,
     }
   }
@@ -68,6 +70,7 @@ exports[`snapshot - defaults 1`] = `
   </A11yText>
   <Control
     clearValue={[Function]}
+    cx={[Function]}
     getStyles={[Function]}
     getValue={[Function]}
     hasValue={false}
@@ -120,6 +123,7 @@ exports[`snapshot - defaults 1`] = `
         "placeholder": "Select...",
         "screenReaderStatus": [Function],
         "styles": Object {},
+        "tabIndex": "0",
         "tabSelectsValue": true,
       }
     }
@@ -127,6 +131,7 @@ exports[`snapshot - defaults 1`] = `
   >
     <ValueContainer
       clearValue={[Function]}
+      cx={[Function]}
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -172,6 +177,7 @@ exports[`snapshot - defaults 1`] = `
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
+          "tabIndex": "0",
           "tabSelectsValue": true,
         }
       }
@@ -179,6 +185,7 @@ exports[`snapshot - defaults 1`] = `
     >
       <Placeholder
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -224,6 +231,7 @@ exports[`snapshot - defaults 1`] = `
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }
@@ -239,6 +247,7 @@ exports[`snapshot - defaults 1`] = `
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
+        cx={[Function]}
         getStyles={[Function]}
         id="react-select-2-input"
         innerRef={[Function]}
@@ -255,6 +264,7 @@ exports[`snapshot - defaults 1`] = `
     </ValueContainer>
     <IndicatorsContainer
       clearValue={[Function]}
+      cx={[Function]}
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -299,6 +309,7 @@ exports[`snapshot - defaults 1`] = `
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
           "styles": Object {},
+          "tabIndex": "0",
           "tabSelectsValue": true,
         }
       }
@@ -306,6 +317,7 @@ exports[`snapshot - defaults 1`] = `
     >
       <IndicatorSeparator
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -356,6 +368,7 @@ exports[`snapshot - defaults 1`] = `
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }
@@ -363,6 +376,7 @@ exports[`snapshot - defaults 1`] = `
       />
       <DropdownIndicator
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -415,6 +429,7 @@ exports[`snapshot - defaults 1`] = `
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }
