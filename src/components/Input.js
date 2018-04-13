@@ -8,7 +8,7 @@ import { Div } from '../primitives';
 import type { PropsWithStyles } from '../types';
 
 export type InputProps = PropsWithStyles & {
-  cx: string => string,
+  cx: string => string | void,
   /** Reference to the internal element */
   innerRef: (ElementRef<*>) => void,
   /** Set whether the input should be visible. Does not affect input size. */

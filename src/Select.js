@@ -70,7 +70,7 @@ export type Props = {
   /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
   captureMenuScroll: boolean,
   /* className attribute applied to the outer component, and used as a base for inner component classNames */
-  className: string,
+  className?: string,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
@@ -192,7 +192,6 @@ export const defaultProps = {
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
-  className: 'react-select',
   closeMenuOnSelect: true,
   components: {},
   escapeClearsValue: false,
@@ -494,7 +493,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    const cx = classNames.bind(null, className);
+    const cx = className ? classNames.bind(null, className) : noop;
     return {
       cx,
       clearValue,
