@@ -66,13 +66,12 @@ class App extends React.Component {
     console.log(`Selected: ${selectedOption.label}`);
   }
   render() {
-    const { selectedOption } = this.state;
-    const value = selectedOption && selectedOption.value;
+  	const { selectedOption } = this.state;
 
     return (
       <Select
         name="form-field-name"
-        value={value}
+        value={selectedOption}
         onChange={this.handleChange}
         options={[
           { value: 'one', label: 'One' },
