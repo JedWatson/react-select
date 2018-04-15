@@ -29,24 +29,29 @@ export const noop = () => {};
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
+function applyPrefixToName(prefix, name) {
+  return name ? `${prefix}__${name}` : prefix;
+}
 export function classNames(
   prefix: string,
   name: string | ClassNameList,
   state?: ClassNamesState
 ): string {
-  const arr: ClassNameList = Array.isArray(name) ? name : [name];
+  const arr: ClassNameList = Array.isArray(name)
+    ? name.map(i => applyPrefixToName(prefix, i))
+    : [applyPrefixToName(prefix, name)];
 
   // loop through state object, remove falsey values and combine with name
-  if (state && typeof name === 'string') {
+  if (state && arr.length === 1) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
-        arr.push(`${name}--${key}`);
+        arr.push(`${arr[0]}--${key}`);
       }
     }
   }
 
   // prefix everything and return a string
-  return arr.map(cn => `${prefix}__${cn}`).join(' ');
+  return arr.join(' ');
 }
 
 // ==============================

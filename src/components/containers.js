@@ -33,7 +33,7 @@ export const SelectContainer = (props: ContainerProps) => {
   return (
     <Div
       css={getStyles('container', props)}
-      className={cx('container', { isDisabled, isRtl })}
+      className={cx('', { isDisabled, isRtl })}
       {...innerProps}
     >
       {children}
