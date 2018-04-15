@@ -9,15 +9,12 @@ const asyncLink = '/async';
 const stylesLink = '/styles';
 const creatableLink = '/creatable';
 
-export default function Advanced() {
+export default function UpgradeGuide() {
   return (
     <Fragment>
       <Helmet>
         <title>API - React Select</title>
-        <meta
-          name="description"
-          content="The react-select property API documentation."
-        />
+        <meta name="description" content="React-select v2 Upgrade Guide" />
       </Helmet>
       {md`
 # Upgrade guide
@@ -81,6 +78,85 @@ For more information, see
 and [uncontrolled components] (https://reactjs.org/docs/uncontrolled-components.html)
 in the React docs.
 
+### Action Meta
+
+The \`onChange\` prop is now passed a second argument, which contains meta about
+why the event was called. For example:
+
+\`\`\`js
+onChange = (newValue, actionMeta) => console.log(actionMeta);
+// possible values:
+{ action: 'select-option'
+  | 'deselect-option'
+  | 'remove-value'
+  | 'pop-value'
+  | 'set-value'
+  | 'clear'
+  | 'create-option' }
+\`\`\`
+
+The new \`onInputChange\` prop also passes actionMeta:
+
+\`\`\`js
+onInputChange = (newValue, actionMeta) => console.log(actionMeta);
+// possible values:
+{ action: 'set-value'
+  | 'input-change'
+  | 'input-blur'
+  | 'menu-close' }
+\`\`\`
+
+## New Styles API
+
+Where v1 included LESS / SCSS stylesheets and applied styles using classNames,
+v2 uses css-in-js to apply styles. This gives you complete control over how
+the control looks, but is a significant change.
+
+Each component that react-select renders has a corresponding key that you can
+specify in the \`styles\` prop. Each value you provide should be a function that
+takes the default styles, and returns your customised style object.
+
+For example, to give the control a white background:
+
+\`\`\`js
+styles={{
+  control: (base) => ({ ...base, color: 'white' })
+}}
+\`\`\`
+
+See the [Styles Documentation](${stylesLink}) for more details and examples.
+
+This means the following props have been removed, and their use-cases should now
+be handled with the new styles API:
+
+- \`menuContainerStyle\`
+- \`menuStyle\`
+- \`optionClassName\`
+- \`wrapperStyle\`
+
+### Using classNames
+
+If you provide the \`className\` prop to react-select, all inner elements will
+be given a className based on the one you have provided.
+
+For example, given \`className="react-select"\`, the DOM would roughtly look
+like this:
+
+\`\`\`html
+<div class="react-select">
+  <div class="react-select__control">
+    <div class="react-select__value-container">...</div>
+    <div class="react-select__indicators">...</div>
+  </div>
+  <div class="react-select__menu">
+    <div class="react-select__menu-list">
+      <div class="react-select__option">...</div>
+    </div>
+  </div>
+</div>
+\`\`\`
+
+
 ### Custom Components and styling
 
 Custom components have been baked into the very core of how to write
@@ -97,16 +173,16 @@ This replaces the following props:
 - \`inputProps\`
 - \`inputRenderer\`
 - \`menuBuffer\`
-- \`menuContainerStyle\`
+
 - \`menuRenderer\`
-- \`menuStyle\`
-- \`optionClassName\`
+
+
 - \`optionComponent\`
 - \`optionRenderer\`
 - \`valueComponent\`
 - \`valueKey\`
 - \`valueRenderer\`
-- \`wrapperStyle\`
+
 - \`arrowRenderer\`
 - \`clearRenderer\`
 
@@ -118,16 +194,19 @@ This replaces the following props:
 - \`aria-label\`
 - \`aria-labelledby\`
 - \`autoFocus\`
+- \`className\`
 - \`escapeClearsValue\`
-- \`instanceId\` - now also accepts numbers
+- \`instanceId\`
 - \`isLoading\`
 - \`delimiter\`
+- \`name\`
 - \`onBlur\`
 - \`onFocus\`
-- \`onInputChange\` - now has a second argument return an object with the kind of action
+- \`onInputChange\`
 - \`onMenuScrollToBottom\`
-- \`options\` // Jed, is this true? BC
+- \`options\`
 - \`pageSize\`
+- \`tabIndex\`
 - \`tabSelectsValue\`
 - \`value\`
 - \`id\`
@@ -151,7 +230,6 @@ This replaces the following props:
 
 ### Removed props
 
-- \`backspaceToRemoveMessage\`
 - \`clearAllText\`
 - \`clearValueText\`
 - \`deleteRemoves\`
@@ -180,10 +258,9 @@ fulfills the same function.
 - \`onSelectResetsInput\`
 - \`removeSelected\` has been deprecated // Jed: There should be a way to
 resolve this but I don't know what it is BC
-- \`required\`
 - \`searchPromptText\`
 - \`simpleValue\`
-- \`tabIndex\`
+- \`style\`
 - \`inputProps\` has had its functionality subsumed into our [components API](${componentLink})
 - \`inputRenderer\` has had its functionality subsumed into our [components API](${componentLink})
 - \`menuBuffer\` has had its functionality subsumed into our [components API](${componentLink})
@@ -199,15 +276,18 @@ resolve this but I don't know what it is BC
 - \`wrapperStyle\` has had its functionality subsumed into our [components API](${componentLink})
 - \`arrowRenderer\` has had its functionality subsumed into our [components API](${componentLink})
 - \`clearRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`className\`
+
+## WIP
+
+- \`backspaceToRemoveMessage\`
+- \`required\`
 
 ### Props you need to update
 
 - \`filterOption\` now fulfills the role of \`filterOptions\` previously,
 and takes advantage of \`createFilter\` helper function. See our
 [advanced guide](${advancedLink}) on how best to implement filters.
-- \`name\` Set the name of a hidden \`input\` field. If no value is passed
-to name, the hidden input will no longer be rendered.
+
 - \`onChange\` is now called with much more complicated options. See above
 for a guide on updating your onChange functions.
 - \`placeholder\` previously accepted a node, and now only accepts string
