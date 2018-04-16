@@ -97,6 +97,28 @@
   direction: rtl;
   text-align: right;
 }
+.Select.is-direction-up .Select-menu-outer {
+  top: auto;
+  bottom: 100%;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: unset;
+  border-bottom-left-radius: unset;
+}
+.Select.is-direction-up .Select-option:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.Select.is-direction-up .Select-option:last-child {
+  border-bottom-right-radius: unset;
+  border-bottom-left-radius: unset;
+}
+.Select.is-direction-up .Select.is-open > .Select-control {
+  border-top-right-radius: unset;
+  border-top-left-radius: unset;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
 .Select-control {
   background-color: #fff;
   border-color: #d9d9d9 #ccc #b3b3b3;
