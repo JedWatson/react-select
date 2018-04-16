@@ -48,7 +48,13 @@ export { default as StyledSingle } from './StyledSingle';
 
 // ADVANCED
 export { default as AccessingInternals } from './AccessingInternals';
-export { default as ControlledMenu } from './ControlledMenu';
-export { default as EventHooks } from './EventHooks';
+export { default as ControlledDefaultValues } from './ControlledDefaultValues';
+export { default as ControlledValues } from './ControlledValues';
+export { default as ControlledEventHooks } from './ControlledEventHooks';
 export { default as OnSelectResetsInput } from './OnSelectResetsInput';
 export { default as MenuPortal } from './MenuPortal';
+
+export { default as ScreenReaderStatus } from './ScreenReaderStatus';
+export { default as LoadingMsg } from './LoadingMsg';
+export { default as NoOptionsMsg } from './NoOptionsMsg';
+export { default as PlaceholderMsg } from './PlaceholderMsg';
