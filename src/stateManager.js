@@ -77,6 +77,7 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       this.setState({ menuIsOpen: false });
     };
     render() {
+      console.log('INPUTVALUE IS', this.getProp('inputValue'));
       return (
         <SelectComponent
           {...this.props}

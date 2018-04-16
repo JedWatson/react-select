@@ -27,7 +27,7 @@ const transitionStyles = {
   entered: { opacity: 1 },
 };
 
-export default class EventHooks extends Component<*, State> {
+export default class ControlledEventHooks extends Component<*, State> {
   state = {
     inputHookCalled: '',
     menuEventCalled: '',
@@ -84,48 +84,42 @@ export default class EventHooks extends Component<*, State> {
   render() {
     return (
       <Fragment>
-        <div>
-          <Note Tag="label">
-            <div style={{ marginBottom: '1em' }}>
-              Menu open and close hook
-              <FadeIn
-                in={this.state.menuEventCalled !== ''}
-                defaultStyle={defaultStyle}
-                transitionStyles={transitionStyles}
-              >
-                {this.state.menuEventCalled}
-              </FadeIn>
-            </div>
-          </Note>
-        </div>
-        <div>
-          <Note Tag="label">
-            <div style={{ marginBottom: '1em' }}>
-              InputValue hook
-              <FadeIn
-                in={this.state.inputHookCalled !== ''}
-                defaultStyle={defaultStyle}
-                transitionStyles={transitionStyles}
-              >
-                {this.state.inputHookCalled}
-              </FadeIn>
-            </div>
-          </Note>
-        </div>
-        <div>
-          <Note Tag="label">
-            <div style={{ marginBottom: '1em' }}>
-              onChange hook
-              <FadeIn
-                in={this.state.onChangeHookCalled !== ''}
-                defaultStyle={defaultStyle}
-                transitionStyles={transitionStyles}
-              >
-                {this.state.onChangeHookCalled}
-              </FadeIn>
-            </div>
-          </Note>
-        </div>
+        <Note Tag="label">
+          <div style={{ marginBottom: '1em' }}>
+            menu open and close hook
+            <FadeIn
+              in={this.state.menuEventCalled !== ''}
+              defaultStyle={defaultStyle}
+              transitionStyles={transitionStyles}
+            >
+              {this.state.menuEventCalled}
+            </FadeIn>
+          </div>
+        </Note>
+        <Note Tag="label">
+          <div style={{ marginBottom: '1em' }}>
+            inputValue hook
+            <FadeIn
+              in={this.state.inputHookCalled !== ''}
+              defaultStyle={defaultStyle}
+              transitionStyles={transitionStyles}
+            >
+              {this.state.inputHookCalled}
+            </FadeIn>
+          </div>
+        </Note>
+        <Note Tag="label">
+          <div style={{ marginBottom: '1em' }}>
+            onChange hook
+            <FadeIn
+              in={this.state.onChangeHookCalled !== ''}
+              defaultStyle={defaultStyle}
+              transitionStyles={transitionStyles}
+            >
+              {this.state.onChangeHookCalled}
+            </FadeIn>
+          </div>
+        </Note>
         <Select
           defaultInputValue={this.state.defaultInputValue}
           defaultValue={colourOptions[0]}

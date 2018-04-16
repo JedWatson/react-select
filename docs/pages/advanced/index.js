@@ -3,15 +3,17 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
+import SelectMsgTextDocs from './SelectMsgText';
 import {
   AccessingInternals,
   BasicGrouped,
-  ControlledMenu,
+  ControlledDefaultValues,
+  ControlledEventHooks,
+  ControlledValues,
   CreateFilter,
   CustomFilterOptions,
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
-  EventHooks,
   Experimental,
   MenuPortal,
   OnSelectResetsInput,
@@ -56,8 +58,8 @@ export default function Advanced () {
       ${(
         <ExampleWrapper
           label="Custom filterOptions with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          urlPath="docs/examples/CustomFilterOptions.js"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
@@ -161,28 +163,135 @@ export default function Advanced () {
 
       ## Controlled Props
 
+      React-Select exposes a variety of props that you can either specify to explicitly control behaviour, or leave for react-select to manage.
+      Each has a value, a default value and associated event props:
+
+      #### Value
+      + value: Object: The selected value
+      + onchange
+      + defaultValue
+
+      #### Input Value
+      + inputvalue - String: The input value
+      + onInputChange
+      + defaultInputValue
+
+      #### Menu Is Open
+      + menuIsOpen - Boolean: Whether or not the menuIsOpen
+      + onMenuOpen
+      + onMenuClose
+      + defaultMenuIsOpen
+
+
+      ### Controlled Default Values
+      As documented above, we expose a variety of default values for you to configure.
+      These values are:
+
+      + defaultValue
+      + defaultInputValue
+      + defaultMenuIsOpen
+
+      For example, if you decided you wanted the menu to be open on initial render, you would configure the select like so:
+
+      ~~~js
+      const MyComponent = () => (
+        <Select
+          defaultMenuIsOpen
+          options={options}
+        />
+      )
+      ~~~
+
+      Note that after initial render, any additional interactions with the menu will fallback to using the internal state.
+      For a way to explicitly take control of menu state please see the Controlled Values section below.
+
       ${(
         <ExampleWrapper
+          label={'Example'}
           isEditable={false}
-          label="Example of controlled MenuIsOpen"
-          urlPath="docs/examples/ControlledMenu.js"
-          raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
+          urlPath="docs/examples/ControlledDefaultValues.js"
+          raw={require('!!raw-loader!../../examples/ControlledDefaultValues.js')}
         >
-          <ControlledMenu />
+          <ControlledDefaultValues />
+        </ExampleWrapper>
+      )}
+
+      ### Controlled Values
+      Along with controlled default values, we also support configuration of controlled values.
+      Once these props are assigned values, the user has now opted into managing these values, and react-select no longer manages these values internally.
+
+      For example, if you decided you wanted to take control of menuIsOpen, your base configuration would look something like this.
+
+
+      ~~~jsx
+      class MyControlledSelect extends Component {
+
+        onMenuOpen = (event) => {
+          this.setState({ menuIsOpen: true });
+        }
+
+        onMenuClose = (event) => {
+          this.setState({ menuIsOpen: false });
+        }
+
+        doSomethingThenOpenTheMenu = (event) => {
+          // DO SOMETHING
+          this.onMenuOpen(event);
+        }
+
+        render() {
+          return (
+            <Fragment>
+              <Select
+                menuIsOpen={this.state.menuIsOpen}
+                options={options}
+                onMenuOpen={this.onMenuOpen}
+                onMenuClose={this.onMenuClose}
+              />
+              <button
+                onClick={this.doSomethingThenOpenTheMenu}
+              >
+                Do something then open the menu
+              </button>
+            </Fragment>
+          )
+        }
+      }
+      ~~~
+      ${(
+        <ExampleWrapper
+          label={'Example'}
+          isEditable={false}
+          urlPath="docs/examples/ControlledValues.js"
+          raw={require('!!raw-loader!../../examples/ControlledValues.js')}
+        >
+          <ControlledValues />
         </ExampleWrapper>
       )}
 
 
+      ## Event Action Meta
+      As touched on in the examples above, react-select also provides an assortment of event hooks as props.
+      These hooks are designed to allow you to easily replicate default behaviour with controlled values (see above),
+      as well as provide the opportunity to add custom behaviour to common select events (for example after an input change, or after a value selection).
+      We cover this in more detail in the 'action meta' section.
+
+      Below is an example of a controlled Select where we use a combination of controlled values and event hooks to replicate default behaviour, and provide additional useful
+      functionality.
+
       ${(
         <ExampleWrapper
+          label={'Example'}
           isEditable={false}
-          label="Example of controlled MenuIsOpen"
-          urlPath="docs/examples/EventHooks.js"
-          raw={require('!!raw-loader!../../examples/EventHooks.js')}
+          urlPath="docs/examples/ControlledEventHooks.js"
+          raw={require('!!raw-loader!../../examples/ControlledEventHooks.js')}
         >
-          <EventHooks />
+          <ControlledEventHooks />
         </ExampleWrapper>
       )}
+      
+      ## Custom Select Messages
+      ${<SelectMsgTextDocs />}
 
       ## Accessing Internals
       ${(
@@ -197,8 +306,8 @@ export default function Advanced () {
       )}
 
 
-      ## Experimental
 
+      ## Experimental
       Wild experiments with react-select v2
 
       ${(
@@ -216,6 +325,8 @@ export default function Advanced () {
 
       > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
 
-    `}
+    `
+    }
+
   </Fragment>);
 }
