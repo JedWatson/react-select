@@ -1,23 +1,24 @@
 // @flow
+
 import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 
-const componentLink = '/components';
-const advancedLink = '/advanced';
-const asyncLink = '/async';
-const stylesLink = '/styles';
-const creatableLink = '/creatable';
+import PropChanges from './props';
 
 export default function UpgradeGuide() {
   return (
     <Fragment>
       <Helmet>
-        <title>API - React Select</title>
+        <title>React Select v1.x -> 2.x Upgrade Guide</title>
         <meta name="description" content="React-select v2 Upgrade Guide" />
       </Helmet>
       {md`
 # Upgrade guide
+
+> This guide is a work in progress. Please [open an issue](https://github.com/jedwatson/react-select/issues)
+if you need something clarified, or [submit a PR](https://github.com/jedwatson/react-select/pulls)
+if you have an improvement!
 
 React-select v2 is a complete rewrite, and includes some major changes:
 
@@ -26,6 +27,9 @@ React-select v2 is a complete rewrite, and includes some major changes:
 * Several major features have been added (including option groups!)
 * The custom component API has been reinvented and is much more consistent
 * Styles are now implemented with css-in-js rather than less / scss stylesheets
+* Support for option groups has been added 🎉
+* You can use any shape of data in your options array, and control how they are
+  handled by providing custom functions
 
 With that in mind, we've tried to make the upgrade as easy as possible. How
 complex the upgrade is will depend on how much you have customised react-select.
@@ -50,7 +54,7 @@ You can use none, any, or all of these depending on your requirements.
 The props have associated events that are called when the value should change.
 Here's an example implementation of all three:
 
-\`\`\`js
+~~~js
 <Select
   value={this.state.value}
   onChange={(value) => this.setState({ value })}
@@ -60,18 +64,18 @@ Here's an example implementation of all three:
   onMenuOpen={() => this.setState({ menuIsOpen: true })}
   onMenuClose={() => this.setState({ menuIsOpen: false })}
 />
-\`\`\`
+~~~
 
 If you don't use the controlled props, react-select has props that let you
 default their value when it mounts:
 
-\`\`\`js
+~~~js
 <Select
   defaultValue={{ label: 'Default Option', value: 'default-value' }}
   defaultInputValue="Search Text"
   defaultMenuIsOpen={true}
 />
-\`\`\`
+~~~
 
 For more information, see
 [controlled components](https://reactjs.org/docs/forms.html#controlled-components)
@@ -83,7 +87,7 @@ in the React docs.
 The \`onChange\` prop is now passed a second argument, which contains meta about
 why the event was called. For example:
 
-\`\`\`js
+~~~js
 onChange = (newValue, actionMeta) => console.log(actionMeta);
 // possible values:
 { action: 'select-option'
@@ -93,18 +97,39 @@ onChange = (newValue, actionMeta) => console.log(actionMeta);
   | 'set-value'
   | 'clear'
   | 'create-option' }
-\`\`\`
+~~~
 
 The new \`onInputChange\` prop also passes actionMeta:
 
-\`\`\`js
+~~~js
 onInputChange = (newValue, actionMeta) => console.log(actionMeta);
 // possible values:
 { action: 'set-value'
   | 'input-change'
   | 'input-blur'
   | 'menu-close' }
-\`\`\`
+~~~
+
+### Options Data
+
+You can now provide option data in any shape you like, without conforming to the
+expected \`{ label, value }\` keys.
+
+This means the \`labelKey\` and \`valueKey\` props are no longer supported.
+
+Instead, you can use the following props to customise how react-select deals
+with your options:
+
+~~~
+<Select
+  filterOption={(option: {}, inputValue: string) => boolean}
+  formatOptionLabel={(option: {}, context: {} ) => Node}
+  getOptionLabel={(option: {}) => string}
+  getOptionValue={(option: {}) => string}
+  isOptionDisabled={(option: {}) => boolean}
+  isOptionSelected?={(option: {}, value: [{}]) => boolean}
+/>
+~~~
 
 ## New Styles API
 
@@ -118,13 +143,13 @@ takes the default styles, and returns your customised style object.
 
 For example, to give the control a white background:
 
-\`\`\`js
+~~~js
 styles={{
   control: (base) => ({ ...base, color: 'white' })
 }}
-\`\`\`
+~~~
 
-See the [Styles Documentation](${stylesLink}) for more details and examples.
+See the [Styles Documentation](/styles) for more details and examples.
 
 This means the following props have been removed, and their use-cases should now
 be handled with the new styles API:
@@ -142,7 +167,7 @@ be given a className based on the one you have provided.
 For example, given \`className="react-select"\`, the DOM would roughtly look
 like this:
 
-\`\`\`html
+~~~html
 <div class="react-select">
   <div class="react-select__control">
     <div class="react-select__value-container">...</div>
@@ -154,163 +179,88 @@ like this:
     </div>
   </div>
 </div>
-\`\`\`
+~~~
 
+## New Components API
 
-### Custom Components and styling
+React-select v1 had several props that would allow you to render specific parts
+of the UI, or specify your own custom components.
 
-Custom components have been baked into the very core of how to write
-selects. This takes two parts. The first is expanding the \`styles\` prop,
-which allows you to pass your styles through to our existing components,
-while having the default behaviors. Information on using the new \`styles\`
-prop can be found [here](${stylesLink}). The second is, if you want to opt
-into completely controlling a part of the select, you can pass in a react
-component on the \`components\` prop. For a full guide on how to do this,
-you can see our [components](${componentLink}) guide.
+In v2, we've doubled down on this approach and introduced a new \`components\`
+prop that lets you replace any part of react-select.
 
-This replaces the following props:
+For example, to render a custom \`Option\` component:
+
+~~~js
+components={{
+  Option: ({ children, innerProps }) => (
+    <div className="custom-option" {...innerProps}>
+      {children}
+    </div>
+  )
+}}
+~~~
+
+All components are passed a set of common props. The most important to
+understand are:
+
+* \`children\` - if the component should contain other components (for example,
+  a menu contains options) they will be passed as children. This way you don't
+  need to re-implement more than you absolutely need to.
+* \`innerProps\` - a set of props that should be spread onto the DOM element
+  your component returns. It wires up accessibility attributes and events.
+* \`getStyles\` - a function that will return an object containing the styles
+  for the component. If you have specified custom style modifiers, they will be
+  executed by this function.
+
+You don't _have_ to use these props, and are free to implement whatever - but
+they are intended to help make custom implementations easier to manage.
+
+See the [Components Documentation](/components) for more details and
+examples.
+
+This means the following props have been removed, and their use-cases should now
+be handled with the new components API:
 
 - \`inputProps\`
 - \`inputRenderer\`
-- \`menuBuffer\`
-
 - \`menuRenderer\`
-
-
 - \`optionComponent\`
 - \`optionRenderer\`
 - \`valueComponent\`
-- \`valueKey\`
 - \`valueRenderer\`
-
 - \`arrowRenderer\`
 - \`clearRenderer\`
 
-## Prop Update Guide
+## Filtering
 
-### Unchanged
+Where react-select v1 had several props for controlling how options are
+filtered, v2 simply expects you to provide a function that tests each option
+against the input value.
 
-- \`aria-describedby\`
-- \`aria-label\`
-- \`aria-labelledby\`
-- \`autoFocus\`
-- \`className\`
-- \`escapeClearsValue\`
-- \`instanceId\`
-- \`isLoading\`
-- \`delimiter\`
-- \`name\`
-- \`onBlur\`
-- \`onFocus\`
-- \`onInputChange\`
-- \`onMenuScrollToBottom\`
-- \`options\`
-- \`pageSize\`
-- \`tabIndex\`
-- \`tabSelectsValue\`
-- \`value\`
-- \`id\`
+The new export \`createFilter\` allows you to easily create a filter function
+that implements the same options previously available as props to react-select.
 
-### Renamed props
+For example:
 
-- \`multi\` prop has been renamed to \`isMulti\`
-- \`autoBlur\` has been renamed to \`blurInputOnSelect\`
-- \`backspaceRemoves\` renamed to \`backspaceRemovesValue\`
-- \`clearable\` has been renamed to \`isClearable\`
-- \`closeOnSelect\` has been renamed to \`closeMenuOnSelect\`
-- \`disabled\` has been renamed to \`isDisabled\`
-- \`onClose\` has been renamed to \`onMenuClose\`
-- \`onInputKeyDown\` has been renamed to \`onKeyDown\`
-- \`onOpen\` has been renamed to \`onMenuOpen\`
-- \`openOnClick\` has been renamed to \`openMenuOnFocus\`
-- \`openOnFocus\` has been renamed to \`openMenuOnClick\`
-- \`rtl\` has been renamed to \`isRtl\`
-- \`scrollMenuIntoView\` has been renamed to \`menuShouldScrollIntoView\`
-- \`searchable\` has been renamed to \`isSearchable\`
+~~~js
+import Select, { createFilter } from 'react-select';
 
-### Removed props
+const customFilter = createFilter({
+  ignoreCase?: boolean,
+  ignoreAccents?: boolean,
+  stringify?: Object => string,
+  trim?: boolean,
+  matchFrom?: 'any' | 'start',
+});
 
-- \`clearAllText\`
-- \`clearValueText\`
-- \`deleteRemoves\`
-- \`autoLoad\` - see our new [async select](${asyncLink})
-component for a guide on how to implement async behavior in react-select v2.
-- \`autosize\` has been deprecated. You can implement auto-sizing using
-dynamic styling. See our [guide to styling](${stylesLink}) for more information
-on how to do this.
-- \`filterOptions\` has had its functionality merged with \`filterOption\`.
-See our [advanced guide](${advancedLink}) on how best to implement filters.
-- \`ignoreAccents\`
-- \`ignoreCase\`
-- 'joinValues' has been deprecated. Whether to join values is now
-determined by whether there is a delimiter
-- \`matchPos\` has been deprecated. See our [advanced guide](${advancedLink}) on how
-best to implement filters.
-- \`matchProp\` has been deprecated. See our [advanced guide](${advancedLink}) on how
-best to implement filters.
-- \`trimFilter\` has been deprecated. See our [advanced guide](${advancedLink}) on how
-best to implement filters.
-- \`noResultsText\` has been deprecated. The new
-[noOptionsMessage](/props/#select-props/#noOptionsMessage) prop
-fulfills the same function.
-- \`onBlurResetsInput\`
-- \`onCloseResetsInput\`
-- \`onSelectResetsInput\`
-- \`removeSelected\` has been deprecated // Jed: There should be a way to
-resolve this but I don't know what it is BC
-- \`searchPromptText\`
-- \`simpleValue\`
-- \`style\`
-- \`inputProps\` has had its functionality subsumed into our [components API](${componentLink})
-- \`inputRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`menuBuffer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`menuContainerStyle\` has had its functionality subsumed into our [components API](${componentLink})
-- \`menuRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`menuStyle\` has had its functionality subsumed into our [components API](${componentLink})
-- \`optionClassName\` has had its functionality subsumed into our [components API](${componentLink})
-- \`optionComponent\` has had its functionality subsumed into our [components API](${componentLink})
-- \`optionRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`valueComponent\` has had its functionality subsumed into our [components API](${componentLink})
-- \`valueKey\` has had its functionality subsumed into our [components API](${componentLink})
-- \`valueRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`wrapperStyle\` has had its functionality subsumed into our [components API](${componentLink})
-- \`arrowRenderer\` has had its functionality subsumed into our [components API](${componentLink})
-- \`clearRenderer\` has had its functionality subsumed into our [components API](${componentLink})
+<Select filterOptions={customFilter} ... />
+~~~
 
-## WIP
+See the [Advanced Guide](/advanced) for more details and examples.
 
-- \`backspaceToRemoveMessage\`
-- \`required\`
 
-### Props you need to update
-
-- \`filterOption\` now fulfills the role of \`filterOptions\` previously,
-and takes advantage of \`createFilter\` helper function. See our
-[advanced guide](${advancedLink}) on how best to implement filters.
-
-- \`onChange\` is now called with much more complicated options. See above
-for a guide on updating your onChange functions.
-- \`placeholder\` previously accepted a node, and now only accepts string
-- \`style\` now has a different shape. See the [styles](${stylesLink}) guide
-for more information.
-
-## TODO
-
-- \`labelKey\` | string | 'label' | the option property to use for the label |
-- \`onValueClick\` | function | undefined | onClick handler for value labels: \`function (value, event) {}\` |
-- \`resetValue\` | any | null | value to set when the control is cleared |
-
-## Async Components
-
-Async components are handled by a new HoC around the new select, which
-has a new API. You can find the documentation of this [here](${asyncLink}).
-
-## Creatable Components
-
-Creatable components are handled by a new HoC around the new select,
-which has a new API. You can find the documentation of this [here](${creatableLink}).
-
-    `}
-    </Fragment>
+## Prop Update Guide`}
+    <PropChanges /></Fragment>
   );
 }
