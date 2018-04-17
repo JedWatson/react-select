@@ -5,7 +5,7 @@ import React, { Component, type ComponentType } from 'react';
 import Select from '../src';
 import type { MenuPlacement } from '../src/types';
 import { H1, Note } from './styled-components';
-import { colourOptions, groupedOptions } from './data';
+import { colourOptions, groupedOptions, optionLength } from './data';
 
 import * as animatedComponents from '../src/animated';
 
@@ -170,6 +170,14 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             Block Scroll
           </Note>
           <div style={{ height: 100 }} />
+        </div>
+        <h4>Long values</h4>
+        <div id={`cypress-${idSuffix}-grouped`}>
+          <SelectComp
+            className="react-select"
+            defaultValue={optionLength[3]}
+            options={optionLength}
+          />
         </div>
       </div>
     );
