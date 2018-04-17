@@ -28,11 +28,6 @@ const changes = [
     icon: '🏗',
     label: 'Replacable component architecture',
   },
-  // {
-  //   value: '/home#animated-components',
-  //   icon: '🚀',
-  //   label: 'Animation built in',
-  // },
 ];
 
 function getLabel({ icon, label }) {

@@ -15,7 +15,7 @@ import SyntaxHighlighter, {
   registerLanguage,
 } from 'react-syntax-highlighter/prism-light';
 import jsx from 'react-syntax-highlighter/languages/prism/jsx';
-import { coy, tomorrow } from 'react-syntax-highlighter/styles/prism';
+import { coy } from 'react-syntax-highlighter/styles/prism';
 
 const customCoy = {
   ...coy,
@@ -25,18 +25,6 @@ const customCoy = {
   },
   'pre[class*="language-"]': {
     ...coy['pre[class*="language-"]'],
-    fontFamily: null, // inherit from css
-  },
-};
-
-const customTomorrow = {
-  ...tomorrow,
-  'code[class*="language-"]': {
-    ...tomorrow['code[class*="language-"]'],
-    fontFamily: null, // inherit from css
-  },
-  'pre[class*="language-"]': {
-    ...tomorrow['pre[class*="language-"]'],
     fontFamily: null, // inherit from css
   },
 };
@@ -119,7 +107,7 @@ const Heading = props => {
   }
   const css = {
     marginTop: 0,
-    '&:not(:first-child)': { marginTop: 30, paddingTop: 30 },
+    '&:not(:first-child)': { marginTop: 30 },
   };
 
   return linkify ? (
@@ -141,12 +129,12 @@ const Heading = props => {
 };
 
 // eslint-disable-next-line no-unused-vars
-const Code = ({ children, inline, literal, nodeKey }) => (
+export const Code = ({ children, inline, literal, nodeKey }) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
       color: '#172B4D',
-      fontSize: '85%',
+      fontSize: '90%',
       fontStyle: 'normal',
       padding: '1px 5px 2px',
       borderRadius: 4,
@@ -159,13 +147,10 @@ const Code = ({ children, inline, literal, nodeKey }) => (
 export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }) => {
   const language = codeinfo[0];
 
-  // JS is light, others are dark themed
-  const style = language === 'js' ? customCoy : customTomorrow;
-
   return (
     <SyntaxHighlighter
       language={language}
-      style={style}
+      style={customCoy}
       customStyle={{
         borderRadius: 4,
         fontSize: 13,
@@ -186,9 +171,10 @@ const Blockquote = ({ nodeKey, ...props }) => (
   <blockquote
     css={{
       color: '#7A869A',
-      fontSize: '0.9em',
       fontStyle: 'italic',
       marginLeft: 0,
+      paddingLeft: 16,
+      borderLeft: '4px solid #eee',
     }}
     {...props}
   />

@@ -29,6 +29,9 @@ ul,
 ol {
   line-height: 1.5;
 }
+td p {
+  margin: 0;
+}
 h1,
 h2,
 h3,

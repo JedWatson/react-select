@@ -99,7 +99,7 @@ export type Props = {
   getOptionValue: typeof getOptionValue,
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
-  /* The value of the search input */
+  /* The id to set on the SelectContainer component. */
   id?: string,
   /* The value of the search input */
   inputValue: string,
