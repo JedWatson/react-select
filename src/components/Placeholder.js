@@ -1,12 +1,11 @@
 // @flow
 import React, { type Node } from 'react';
 
-import { className } from '../utils';
 import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
-import { type PropsWithStyles } from '../types';
+import type { CommonProps } from '../types';
 
-export type PlaceholderProps = PropsWithStyles & {
+export type PlaceholderProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** props passed to the wrapping element for the group. */
@@ -21,10 +20,10 @@ export const css = () => ({
 });
 
 const Placeholder = (props: PlaceholderProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, cx, getStyles, innerProps } = props;
   return (
     <Div
-      className={className('placeholder')}
+      className={cx('placeholder')}
       css={getStyles('placeholder', props)}
       {...innerProps}
     >

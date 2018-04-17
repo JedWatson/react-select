@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 
 import {
   animatedScrollTo,
-  className,
   getBoundingClientObj,
   type RectType,
   getScrollParent,
@@ -23,7 +22,7 @@ import type {
   InnerRef,
   MenuPlacement,
   MenuPosition,
-  PropsWithStyles,
+  CommonProps,
 } from '../types';
 
 // ==============================
@@ -36,7 +35,7 @@ import type {
 type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
 type PlacementArgs = {
   maxHeight: number,
-  menuEl: HTMLElement,
+  menuEl: ElementRef<*>,
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
@@ -202,7 +201,7 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-export type MenuProps = PropsWithStyles & {
+export type MenuProps = CommonProps & {
   /** The children to be rendered. */
   children: ReactElement<*>,
   /** Callback to update the portal after possible flip. */
@@ -286,11 +285,11 @@ export class Menu extends Component<MenuProps, MenuState> {
     return { ...this.props, placement, maxHeight: this.state.maxHeight };
   };
   render() {
-    const { children, getStyles, innerProps } = this.props;
+    const { children, cx, getStyles, innerProps } = this.props;
 
     return (
       <Div
-        className={className('menu')}
+        className={cx('menu')}
         css={getStyles('menu', this.getState())}
         innerRef={this.getPlacement}
         {...innerProps}
@@ -325,7 +324,7 @@ export type MenuListProps = {
     role: 'listbox',
   },
 };
-export type MenuListComponentProps = PropsWithStyles &
+export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
 export const menuListCSS = () => ({
@@ -337,10 +336,10 @@ export const menuListCSS = () => ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, getStyles, isMulti, innerProps } = props;
+  const { children, cx, getStyles, isMulti, innerProps } = props;
   return (
     <Div
-      className={className('menu-list', { isMulti })}
+      className={cx('menu-list', { isMulti })}
       css={getStyles('menuList', props)}
       {...innerProps}
     >
@@ -361,7 +360,7 @@ const noticeCSS = () => ({
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
-export type NoticeProps = PropsWithStyles & {
+export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** Props to be passed on to the wrapper. */
@@ -369,10 +368,10 @@ export type NoticeProps = PropsWithStyles & {
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, cx, getStyles, innerProps } = props;
   return (
     <Div
-      className={className(['menu-notice', 'menu-notice--no-options'])}
+      className={cx(['menu-notice', 'menu-notice--no-options'])}
       css={getStyles('noOptionsMessage', props)}
       {...innerProps}
     >
@@ -385,10 +384,10 @@ NoOptionsMessage.defaultProps = {
 };
 
 export const LoadingMessage = (props: NoticeProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, cx, getStyles, innerProps } = props;
   return (
     <Div
-      className={className(['menu-notice', 'menu-notice--loading'])}
+      className={cx(['menu-notice', 'menu-notice--loading'])}
       css={getStyles('loadingMessage', props)}
       {...innerProps}
     >
@@ -404,7 +403,7 @@ LoadingMessage.defaultProps = {
 // Menu Portal
 // ==============================
 
-export type MenuPortalProps = PropsWithStyles & {
+export type MenuPortalProps = CommonProps & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,

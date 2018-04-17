@@ -2,10 +2,9 @@
 import React, { Component, type Node } from 'react';
 
 import { borderRadius, colors, spacing } from '../theme';
-import { className } from '../utils';
 import { CrossIcon } from './indicators';
 import { Div } from '../primitives';
-import { type PropsWithStyles } from '../types';
+import type { CommonProps } from '../types';
 
 type LabelProps = { cropWithEllipsis: boolean };
 export type ValueProps = LabelProps & {
@@ -18,7 +17,7 @@ export type ValueProps = LabelProps & {
     onMouseDown: any => void,
   },
 };
-export type MultiValueProps = PropsWithStyles & ValueProps;
+export type MultiValueProps = CommonProps & ValueProps;
 
 export const multiValueCSS = () => ({
   backgroundColor: colors.neutral10,
@@ -52,25 +51,21 @@ export const multiValueRemoveCSS = () => ({
 
 export const MultiValueContainer = Div;
 export const MultiValueLabel = Div;
-export type MultiValueRemoveProps = PropsWithStyles & {
+export type MultiValueRemoveProps = CommonProps & {
   children: Node,
   innerProps: any,
   removeProps: {
     onClick: any => void,
     onMouseDown: any => void,
-  }
+  },
 };
-export class MultiValueRemove extends Component <MultiValueRemoveProps> {
+export class MultiValueRemove extends Component<MultiValueRemoveProps> {
   static defaultProps = {
-    children: <CrossIcon size={14}/>
-  }
-  render () {
+    children: <CrossIcon size={14} />,
+  };
+  render() {
     const { children, ...props } = this.props;
-    return (
-      <Div {...props}>
-        {children}
-      </Div>
-    );
+    return <Div {...props}>{children}</Div>;
   }
 }
 
@@ -78,15 +73,16 @@ const MultiValue = (props: MultiValueProps) => {
   const {
     children,
     components,
+    cx,
     getStyles,
     innerProps,
     isDisabled,
     removeProps,
   } = props;
   const cn = {
-    container: className('multi-value', { isDisabled }),
-    label: className('multi-value__label'),
-    remove: className('multi-value__remove'),
+    container: cx('multi-value', { isDisabled }),
+    label: cx('multi-value__label'),
+    remove: cx('multi-value__remove'),
   };
   const css = {
     container: getStyles('multiValue', props),
@@ -100,7 +96,7 @@ const MultiValue = (props: MultiValueProps) => {
       <Label className={cn.label} css={css.label}>
         {children}
       </Label>
-      <Remove className={cn.remove} css={css.remove} {...removeProps}/>
+      <Remove className={cn.remove} css={css.remove} {...removeProps} />
     </Container>
   );
 };
