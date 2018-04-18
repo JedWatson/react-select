@@ -16,6 +16,10 @@ import {
   MenuPortal,
 } from '../../examples';
 
+import AutoFocus from '../../examples/AutoFocus';
+import InHTMLForm from '../../examples/InHTMLForm';
+import ActionMeta from '../../examples/ActionMeta';
+
 export default function Advanced () {
   return (
     <Fragment>
@@ -27,6 +31,33 @@ export default function Advanced () {
         />
       </Helmet>
       {md`
+        ${
+          <ExampleWrapper
+            label="Action Meta"
+            urlPath="docs/examples/ActionMeta.js"
+          >
+            <ActionMeta />
+          </ExampleWrapper>
+        }
+        
+        ${
+          <ExampleWrapper
+            label="Demonstrate Autofocus Functionality"
+            urlPath="docs/examples/AutoFocus.js"
+          >
+            <AutoFocus />
+          </ExampleWrapper>
+        }
+
+        ${
+          <ExampleWrapper
+            label="In a HTML Form"
+            urlPath="docs/examples/InHTMLForm.js"
+          >
+            <InHTMLForm />
+          </ExampleWrapper>
+        }
+
       # Advanced
 
       ## Custom Filter logic
