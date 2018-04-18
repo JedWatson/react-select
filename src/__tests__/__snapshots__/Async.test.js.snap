@@ -400,6 +400,7 @@ exports[`defaults - snapshot 1`] = `
                               "maxHeight": 100,
                               "overflowY": "auto",
                               "padding": "2px 8px",
+                              "position": "relative",
                             }
                           }
                         >
@@ -415,12 +416,13 @@ exports[`defaults - snapshot 1`] = `
                                 "maxHeight": 100,
                                 "overflowY": "auto",
                                 "padding": "2px 8px",
+                                "position": "relative",
                               }
                             }
                             render={[Function]}
                           >
                             <div
-                              className="css-lnfsxu"
+                              className="css-14wb226"
                             >
                               <Placeholder
                                 clearValue={[Function]}
