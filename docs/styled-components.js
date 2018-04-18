@@ -3,6 +3,7 @@
 
 import glam from 'glam';
 import React from 'react';
+import { Transition } from 'react-transition-group';
 
 import SyntaxHighlighter, {
   registerLanguage,
@@ -24,6 +25,20 @@ const customTomorrow = {
 
 registerLanguage('jsx', jsx);
 
+export const FadeIn = ({ in: inProps, defaultStyle, transitionStyles, children }: any) => (
+  <Transition in={inProps} timeout={200}>
+    {(state) => (
+      <div style={{
+        ...defaultStyle,
+        ...transitionStyles[state]
+      }}>
+        {children}
+        {console.log(transitionStyles)}
+      </div>
+    )}
+  </Transition>
+);
+
 export const Hr = () => (
   <div
     css={{
@@ -35,11 +50,16 @@ export const Hr = () => (
   />
 );
 
-export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
+type NoteType = {
+  Tag?: string,
+  display?: 'inline' | 'block' | 'inline-block',
+}
+
+export const Note = ({ Tag = 'div', display = 'inline-block' , ...props }: NoteType) => (
   <Tag
     css={{
       color: 'hsl(0, 0%, 40%)',
-      display: 'inline-block',
+      display,
       fontSize: 12,
       fontStyle: 'italic',
       marginTop: '1em',

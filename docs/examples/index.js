@@ -1,12 +1,15 @@
-export { default as AccessingInternals } from './AccessingInternals';
-export { default as ControlledMenu } from './ControlledMenu';
+// CORE
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
+export { default as AsyncMulti } from './AsyncMulti';
 export { default as AsyncPromises } from './AsyncPromises';
 export { default as BasicGrouped } from './BasicGrouped';
 export { default as BasicMulti } from './BasicMulti';
 export { default as BasicSingle } from './BasicSingle';
+
+
+// COMPONENTS
 export { default as CustomControl } from './CustomControl';
 export { default as CreatableAdvanced } from './CreatableAdvanced';
 export { default as CreatableInputOnly } from './CreatableInputOnly';
@@ -36,9 +39,25 @@ export { default as CustomValueContainer } from './CustomValueContainer';
 export { default as CustomGetOptionLabel } from './CustomGetOptionLabel';
 export { default as CustomFilterOptions } from './CustomFilterOptions';
 export { default as CustomIsOptionDisabled } from './CustomIsOptionDisabled';
+
 export { default as Experimental } from './Experimental';
+
 export { default as StyledMulti } from './StyledMulti';
 export { default as StyledSingle } from './StyledSingle';
+
+
+// ADVANCED
+export { default as AccessingInternals } from './AccessingInternals';
+export { default as ControlledDefaultValues } from './ControlledDefaultValues';
+export { default as ControlledValues } from './ControlledValues';
+export { default as ControlledEventHooks } from './ControlledEventHooks';
 export { default as OnSelectResetsInput } from './OnSelectResetsInput';
-export { default as AsyncMulti } from './AsyncMulti';
 export { default as MenuPortal } from './MenuPortal';
+
+export { default as ScreenReaderStatus } from './ScreenReaderStatus';
+export { default as LoadingMsg } from './LoadingMsg';
+export { default as NoOptionsMsg } from './NoOptionsMsg';
+export { default as PlaceholderMsg } from './PlaceholderMsg';
+export { default as InteractionListeners } from './InteractionListeners';
+export { default as ControlCustomisations } from './ControlCustomisations';
+export { default as MenuCustomisations } from './MenuCustomisations';

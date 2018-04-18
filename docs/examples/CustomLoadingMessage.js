@@ -29,7 +29,7 @@ const promiseOptions = inputValue =>
     }, 1000);
   });
 
-export default class CustomLoadingIndicator extends Component<*, State> {
+export default class CustomLoadingMessage extends Component<*, State> {
   state = { inputValue: '' };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');
