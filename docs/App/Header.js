@@ -2,6 +2,7 @@
 // @jsx glam
 
 import glam from 'glam';
+import fetch from 'unfetch';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
