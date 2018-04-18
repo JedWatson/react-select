@@ -28,6 +28,8 @@ export const css = ({ isDisabled }: State) => ({
   position: 'absolute',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  top: '50%',
+  transform: 'translateY(-50%)',
 });
 
 const SingleValue = (props: SingleValueProps) => {

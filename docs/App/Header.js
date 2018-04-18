@@ -245,7 +245,6 @@ const Content = ({ onChange, stars }) => (
             placeholder: css => ({
               ...css,
               color: 'black',
-              position: 'static', // FF layout fix; this select never receives a value
             }),
           }}
         />
