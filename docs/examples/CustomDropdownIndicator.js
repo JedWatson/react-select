@@ -9,7 +9,7 @@ const DropdownIndicator = (props) => {
   return (
     <components.DropdownIndicator {...props}>
       <EmojiIcon
-        primaryColor="#2684FF"
+        primaryColor={colourOptions[2].color}
       />
     </components.DropdownIndicator>
   );

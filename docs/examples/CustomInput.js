@@ -10,7 +10,7 @@ const Input = (props) => {
     return <components.Input {...props}/>;
   }
   return (
-    <div style={{ border: '1px dotted #2684FF' }}>
+    <div style={{ border: `1px dotted ${colourOptions[2].color}` }}>
       <Tooltip content={'Custom Input'}>
         <components.Input {...props}/>
       </Tooltip>

@@ -42,7 +42,7 @@ export default class CustomLoadingIndicator extends Component<*, State> {
         cacheOptions
         defaultOptions
         loadOptions={promiseOptions}
-        styles={{ loadingMessage: (base) => ({ ...base, backgroundColor: '#2684FF', color: 'white' }) }}
+        styles={{ loadingMessage: (base) => ({ ...base, backgroundColor: colourOptions[2].color, color: 'white' }) }}
         components={{ LoadingMessage }}
       />
     );
