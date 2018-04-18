@@ -79,6 +79,7 @@
     "rollup-plugin-uglify": "^3.0.0",
     "style-loader": "^0.19.1",
     "uglify-es": "^3.3.9",
+    "unfetch": "^3.0.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },
