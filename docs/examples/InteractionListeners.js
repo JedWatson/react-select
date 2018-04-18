@@ -5,9 +5,9 @@ import { colourOptions } from '../data';
 import { Note, FadeIn } from '../styled-components';
 
 let timers = {
-  menuOpenCloseTimer: undefined,
-  inputValueChangeTimer: undefined,
-  onChangeHookCalledTimer: undefined
+  onFocusTimer: undefined,
+  onBlurTimer: undefined,
+  onKeyDownTimer: undefined,
 };
 
 type State = {
@@ -31,10 +31,10 @@ const transitionStyles = {
   entered: { opacity: 1 },
 };
 
-export default class ControlledEventHooks extends Component<*, State> {
+export default class InteractionListeners extends Component<*, State> {
   state = {
-    inputHookCalled: '',
-    menuEventCalled: '',
+    onBlurCalled: '',
+    onFocusCalled: '',
     onChangeHookCalled: '',
   };
 
@@ -49,24 +49,19 @@ export default class ControlledEventHooks extends Component<*, State> {
     }, 1500);
   }
 
-  onMenuOpen = () => {
-    this.setState({ menuEventCalled: 'onMenuOpen Called' });
-    this.revertEventState('menuEventCalled');
+  onFocus = () => {
+    this.setState({ onFocusCalled: 'onFocus Called' });
+    this.revertEventState('onFocusCalled');
   }
 
-  onMenuClose = () => {
-    this.setState({ menuEventCalled: 'onMenuClose Called' });
-    this.revertEventState('menuEventCalled');
+  onBlur = () => {
+    this.setState({ onBlurCalled: 'onBlur Called' });
+    this.revertEventState('onBlurCalled');
   }
 
-  onInputChange = (value, action) => {
-    this.setState({ inputHookCalled: `onInputChange Called with ${value} and ${JSON.stringify(action)}` });
-    this.revertEventState('inputHookCalled');
-  }
-
-  onChange = (value, action) => {
-    this.setState({ onChangeHookCalled: `onChange Called with ${JSON.stringify(value)} and ${JSON.stringify(action)}` });
-    this.revertEventState('onChangeHookCalled');
+  onKeyDown = ({ key }) => {
+    this.setState({ onKeyDownCalled: `onKeyDown Called with ${key}` });
+    this.revertEventState('onKeyDownCalled');
   }
 
   render() {
@@ -74,37 +69,37 @@ export default class ControlledEventHooks extends Component<*, State> {
       <Fragment>
         <Note Tag="label" display="block">
           <div style={{ marginBottom: '1em' }}>
-            menu open and close hook
+            onFocus hook
             <FadeIn
-              in={this.state.menuEventCalled !== ''}
+              in={this.state.onFocusCalled !== ''}
               defaultStyle={defaultStyle}
               transitionStyles={transitionStyles}
             >
-              {this.state.menuEventCalled}
+              {this.state.onFocusCalled}
             </FadeIn>
           </div>
         </Note>
         <Note Tag="label" display="block">
           <div style={{ marginBottom: '1em' }}>
-            inputValue hook
+            onBlur hook
             <FadeIn
-              in={this.state.inputHookCalled !== ''}
+              in={this.state.onBlurCalled !== ''}
               defaultStyle={defaultStyle}
               transitionStyles={transitionStyles}
             >
-              {this.state.inputHookCalled}
+              {this.state.onBlurCalled}
             </FadeIn>
           </div>
         </Note>
         <Note Tag="label" display="block">
           <div style={{ marginBottom: '1em' }}>
-            onChange hook
+            onKeyDown hook
             <FadeIn
-              in={this.state.onChangeHookCalled !== ''}
+              in={this.state.onKeyDownCalled !== ''}
               defaultStyle={defaultStyle}
               transitionStyles={transitionStyles}
             >
-              {this.state.onChangeHookCalled}
+              {this.state.onKeyDownCalled}
             </FadeIn>
           </div>
         </Note>
@@ -112,10 +107,9 @@ export default class ControlledEventHooks extends Component<*, State> {
           defaultInputValue={this.state.defaultInputValue}
           defaultValue={colourOptions[0]}
           isClearable
-          onChange={this.onChange}
-          onInputChange={this.onInputChange}
-          onMenuClose={this.onMenuClose}
-          onMenuOpen={this.onMenuOpen}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
+          onKeyDown={this.onKeyDown}
           styles={{ menu: base => ({ ...base, position: 'relative' }) }}
           name="color"
           options={colourOptions}

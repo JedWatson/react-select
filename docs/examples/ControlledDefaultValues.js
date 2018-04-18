@@ -12,7 +12,7 @@ type State = {
   menuIsOpen: boolean,
 };
 
-export default class ControlledValues extends Component<*, State> {
+export default class ControlledDefaultValues extends Component<*, State> {
   state = {
     eventCalled: '',
     defaultInputValue: 'O',

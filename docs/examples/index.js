@@ -58,3 +58,6 @@ export { default as ScreenReaderStatus } from './ScreenReaderStatus';
 export { default as LoadingMsg } from './LoadingMsg';
 export { default as NoOptionsMsg } from './NoOptionsMsg';
 export { default as PlaceholderMsg } from './PlaceholderMsg';
+export { default as InteractionListeners } from './InteractionListeners';
+export { default as ControlCustomisations } from './ControlCustomisations';
+export { default as MenuCustomisations } from './MenuCustomisations';
