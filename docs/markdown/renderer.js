@@ -3,6 +3,7 @@
 import glam from 'glam';
 import React from 'react';
 import md from 'react-markings';
+import { Link as RRLink } from 'react-router-dom';
 
 import Svg from '../Svg';
 import store from './store';
@@ -40,7 +41,7 @@ function slugify(str: string): string {
 }
 
 const Anchor = props => (
-  <a
+  <RRLink
     css={{
       color: 'inherit',
       textDecoration: 'none',
@@ -113,7 +114,7 @@ const Heading = props => {
   return linkify ? (
     <Tag id={slug} css={css}>
       <Anchor
-        href={`#${slug}`}
+        to={`#${slug}`}
         css={{
           position: 'relative',
           '&:hover > svg': { opacity: 1, transitionDelay: '300ms' },
@@ -180,10 +181,16 @@ const Blockquote = ({ nodeKey, ...props }) => (
   />
 );
 
+const Link = ({ href, ...props }) => (
+  href[0] === '/'
+    ? <RRLink to={href} {...props} />
+    : <a href={href} {...props} />
+);
+
 // ==============================
 // Exports
 // ==============================
 
 export default md.customize({
-  renderers: { Blockquote, Code, Heading, CodeBlock },
+  renderers: { Blockquote, Code, Heading, CodeBlock, Link },
 });
