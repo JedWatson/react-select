@@ -11,7 +11,7 @@ const SingleValue = ({ children, ...props }) => (
 
 type State = {};
 
-export default class CustomControl extends Component<*, State> {
+export default class CustomSingleValue extends Component<*, State> {
   state = {};
   render() {
     return (

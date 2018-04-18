@@ -7,6 +7,7 @@ import SelectMsgTextDocs from './SelectMsgText';
 import {
   AccessingInternals,
   BasicGrouped,
+  ControlCustomisations,
   ControlledDefaultValues,
   ControlledEventHooks,
   ControlledValues,
@@ -15,6 +16,8 @@ import {
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
   Experimental,
+  InteractionListeners,
+  MenuCustomisations,
   MenuPortal,
   OnSelectResetsInput,
 } from '../../examples';
@@ -289,8 +292,8 @@ export default function Advanced () {
           <ControlledEventHooks />
         </ExampleWrapper>
       )}
-      
-      ## Custom Select Messages
+
+      ## Custom Messages
       ${<SelectMsgTextDocs />}
 
       ## Accessing Internals
@@ -305,6 +308,67 @@ export default function Advanced () {
         </ExampleWrapper>
       )}
 
+      ## Interaction listeners
+      React Select exposes a multitude of additional event listeners to hook into specific internally managed events.
+
+      These are:
+      * onBlur
+      * onFocus
+      * onKeyDown
+
+      Each of these props have the following shape
+      (event) => any
+
+      ${(
+        <ExampleWrapper
+          label={'Example'}
+          isEditable={false}
+          urlPath="docs/examples/InteractionListeners.js"
+          raw={require('!!raw-loader!../../examples/InteractionListeners.js')}
+        >
+          <InteractionListeners />
+        </ExampleWrapper>
+      )}
+
+      ## Control Customisations
+      We expose a series of options to customise control behaviour, these are:
+
+      * backSpaceRemovesValue: Remove the currently focused option when the user presses backspace
+      * blurInputOnSelect: Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices)
+      * closeMenuOnSelect: Close the select menu when the user selects an option
+      * escapeClearsValue: Clear all values when the user presses escape AND the menu is closed
+      * tabSelectsValue: Select the currently focused option when the user presses tab
+
+      ${(
+        <ExampleWrapper
+          label={'Example'}
+          isEditable={false}
+          urlPath="docs/examples/ControlCustomisations.js"
+          raw={require('!!raw-loader!../../examples/ControlCustomisations.js')}
+          >
+          <ControlCustomisations />
+        </ExampleWrapper>
+      )}
+
+      ## Menu Customisations
+      We expose a series of props to customise menu behaviour, these are:
+
+      * minMenuHeight
+      * maxMenuHeight
+      * menuPlacement
+      * scrollMenuIntoView
+      * captureMenuScroll
+
+      ${(
+        <ExampleWrapper
+          label={'Example'}
+          isEditable={false}
+          urlPath="docs/examples/MenuCustomisations.js"
+          raw={require('!!raw-loader!../../examples/MenuCustomisations.js')}
+          >
+          <MenuCustomisations />
+        </ExampleWrapper>
+      )}
 
 
       ## Experimental

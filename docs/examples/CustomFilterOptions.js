@@ -18,7 +18,7 @@ const filterOptions = (candidate, input) => {
 
 const customOptions = [{ value: 'custom', label: 'Using a custom filter to always display this option on search' }, ...colourOptions];
 
-export default class SelectCreateFilter extends Component<*, State> {
+export default class CustomCreateFilter extends Component<*, State> {
   render () {
     return (
       <Select
