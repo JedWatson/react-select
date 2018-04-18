@@ -19,6 +19,7 @@ import {
 import AutoFocus from '../../examples/AutoFocus';
 import InHTMLForm from '../../examples/InHTMLForm';
 import ActionMeta from '../../examples/ActionMeta';
+import PageSize from '../../examples/PageSize';
 
 export default function Advanced () {
   return (
@@ -33,13 +34,22 @@ export default function Advanced () {
       {md`
         ${
           <ExampleWrapper
+            label="Page Size"
+            urlPath="docs/examples/PageSize.js"
+          >
+            <PageSize />
+          </ExampleWrapper>
+        }
+
+        ${
+          <ExampleWrapper
             label="Action Meta"
             urlPath="docs/examples/ActionMeta.js"
           >
             <ActionMeta />
           </ExampleWrapper>
         }
-        
+
         ${
           <ExampleWrapper
             label="Demonstrate Autofocus Functionality"
