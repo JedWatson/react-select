@@ -171,14 +171,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           </Note>
           <div style={{ height: 100 }} />
         </div>
-        <h4>Long values</h4>
-        <div id={`cypress-${idSuffix}-grouped`}>
-          <SelectComp
-            className="react-select"
-            defaultValue={optionLength[3]}
-            options={optionLength}
-          />
-        </div>
       </div>
     );
   }
@@ -209,6 +201,14 @@ export default function Tests() {
         />
       </div>
       <div style={{ height: 400 }} />
+      <h3> Long Values </h3>
+      <div id={'cypress-long-values'}>
+        <Select
+          className="react-select"
+          defaultValue={optionLength[3]}
+          options={optionLength}
+        />
+      </div>
     </div>
   );
 }
