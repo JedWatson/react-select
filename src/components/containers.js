@@ -64,6 +64,7 @@ export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   overflowY: 'auto',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
+  position: 'relative',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   shouldScrollBottom: boolean = false;

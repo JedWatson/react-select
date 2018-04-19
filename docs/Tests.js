@@ -5,7 +5,7 @@ import React, { Component, type ComponentType } from 'react';
 import Select from '../src';
 import type { MenuPlacement } from '../src/types';
 import { H1, Note } from './styled-components';
-import { colourOptions, groupedOptions } from './data';
+import { colourOptions, groupedOptions, optionLength } from './data';
 
 import * as animatedComponents from '../src/animated';
 
@@ -201,6 +201,14 @@ export default function Tests() {
         />
       </div>
       <div style={{ height: 400 }} />
+      <h3> Long Values </h3>
+      <div id={'cypress-long-values'}>
+        <Select
+          className="react-select"
+          defaultValue={optionLength[3]}
+          options={optionLength}
+        />
+      </div>
     </div>
   );
 }
