@@ -348,7 +348,7 @@ function onInputKeyDown(event) {
 | `autoFocus` | boolean | undefined | autofocus the component on mount |
 | `autoload` | boolean | true | whether to auto-load the default async options set |
 | `autosize` | boolean | true | If enabled, the input will expand as the length of its value increases |
-| `backspaceRemoves` | boolean | true | whether pressing backspace removes the last item when there is no input value |
+| `backspaceRemoves` | boolean | true | whether pressing backspace removes the last item when there is no input value (Also see related prop `deleteRemoves`) |
 | `backspaceToRemoveMessage` | string | 'Press backspace to remove {last label}' | prompt shown in input when at least one option in a multiselect is shown, set to '' to clear |
 | `className` | string | undefined | className for the outer element |
 | `clearable` | boolean | true | should it be possible to reset value |
@@ -356,7 +356,7 @@ function onInputKeyDown(event) {
 | `clearRenderer` | function | undefined | Renders a custom clear to be shown in the right-hand side of the select when clearable true: `clearRenderer()` |
 | `clearValueText` | string | 'Clear value' | title for the "clear" control |
 | `closeOnSelect` | boolean | true | whether to close the menu when a value is selected
-| `deleteRemoves` | boolean | true | whether pressing delete key removes the last item when there is no input value |
+| `deleteRemoves` | boolean | true | whether pressing delete key removes the last item when there is no input value.  (Also see related prop `backspaceRemoves`) |
 | `delimiter` | string | ',' | delimiter to use to join multiple values |
 | `disabled` | boolean | false | whether the Select is disabled or not |
 | `escapeClearsValue` | boolean | true | whether escape clears the value when the menu is closed |
