@@ -4,7 +4,7 @@ import Select, { components } from '../../src';
 import { colourOptions, groupedOptions } from '../data';
 
 const groupStyles = {
-  border: '2px dotted #2684FF',
+  border: `2px dotted ${colourOptions[2].color}`,
   borderRadius: '5px',
   background: '#f2fcff'
 };

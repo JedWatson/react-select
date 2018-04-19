@@ -5,7 +5,7 @@ import { colourOptions } from '../data';
 const controlStyles = {
   borderRadius: '1px solid black',
   padding: '5px',
-  background: '#2684FF',
+  background: colourOptions[2].color,
   color: 'white'
 };
 

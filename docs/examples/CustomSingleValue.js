@@ -18,7 +18,7 @@ export default class CustomControl extends Component<*, State> {
       <Select
         defaultValue={colourOptions[0]}
         isClearable
-        styles={{ singleValue: (base) => ({ ...base, padding: 5, borderRadius: 5, background: '#2684FF', color: 'white', display: 'flex' }) }}
+        styles={{ singleValue: (base) => ({ ...base, padding: 5, borderRadius: 5, background: colourOptions[2].color, color: 'white', display: 'flex' }) }}
         components={{ SingleValue }}
         isSearchable
         name="color"

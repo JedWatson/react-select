@@ -5,7 +5,7 @@ import { colourOptions, groupedOptions } from '../data';
 
 const menuHeaderStyle = {
   padding: '8px 12px',
-  background: '#2684FF',
+  background: colourOptions[2].color,
   color: 'white',
 };
 
