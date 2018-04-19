@@ -6,7 +6,6 @@ import PrettyProps, { Prop } from 'pretty-proptypes';
 
 const Props = props => (
   <PrettyProps
-    shouldCollapseProps
     heading=""
     components={{
       Button: ({ isCollapsed, ...rest }) => (
