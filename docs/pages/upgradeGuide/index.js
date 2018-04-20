@@ -17,8 +17,8 @@ export default function UpgradeGuide() {
 # Upgrade guide
 
 > This guide is a work in progress. Please [open an issue](https://github.com/jedwatson/react-select/issues)
-if you need something clarified, or [submit a PR](https://github.com/jedwatson/react-select/pulls)
-if you have an improvement!
+> if you need something clarified, or [submit a PR](https://github.com/jedwatson/react-select/pulls)
+> if you have an improvement!
 
 React-select v2 is a complete rewrite, and includes some major changes:
 
@@ -57,9 +57,9 @@ Here's an example implementation of all three:
 ~~~js
 <Select
   value={this.state.value}
-  onChange={(value) => this.setState({ value })}
+  onChange={value => this.setState({ value })}
   inputValue={this.state.inputValue}
-  onInputChange={(inputValue) => this.setState({ inputValue })}
+  onInputChange={inputValue => this.setState({ inputValue })}
   menuIsOpen={this.state.menuIsOpen}
   onMenuOpen={() => this.setState({ menuIsOpen: true })}
   onMenuClose={() => this.setState({ menuIsOpen: false })}
@@ -79,7 +79,7 @@ default their value when it mounts:
 
 For more information, see
 [controlled components](https://reactjs.org/docs/forms.html#controlled-components)
-and [uncontrolled components] (https://reactjs.org/docs/uncontrolled-components.html)
+and [uncontrolled components](https://reactjs.org/docs/uncontrolled-components.html)
 in the React docs.
 
 ### Action Meta
@@ -90,13 +90,15 @@ why the event was called. For example:
 ~~~js
 onChange = (newValue, actionMeta) => console.log(actionMeta);
 // possible values:
-{ action: 'select-option'
-  | 'deselect-option'
-  | 'remove-value'
-  | 'pop-value'
-  | 'set-value'
-  | 'clear'
-  | 'create-option' }
+{
+  action: 'select-option' |
+    'deselect-option' |
+    'remove-value' |
+    'pop-value' |
+    'set-value' |
+    'clear' |
+    'create-option';
+}
 ~~~
 
 The new \`onInputChange\` prop also passes actionMeta:
@@ -104,10 +106,9 @@ The new \`onInputChange\` prop also passes actionMeta:
 ~~~js
 onInputChange = (newValue, actionMeta) => console.log(actionMeta);
 // possible values:
-{ action: 'set-value'
-  | 'input-change'
-  | 'input-blur'
-  | 'menu-close' }
+{
+  action: 'set-value' | 'input-change' | 'input-blur' | 'menu-close';
+}
 ~~~
 
 ### Options Data
@@ -154,10 +155,10 @@ See the [Styles Documentation](/styles) for more details and examples.
 This means the following props have been removed, and their use-cases should now
 be handled with the new styles API:
 
-- \`menuContainerStyle\`
-- \`menuStyle\`
-- \`optionClassName\`
-- \`wrapperStyle\`
+* \`menuContainerStyle\`
+* \`menuStyle\`
+* \`optionClassName\`
+* \`wrapperStyle\`
 
 ### Using classNames
 
@@ -222,15 +223,15 @@ examples.
 This means the following props have been removed, and their use-cases should now
 be handled with the new components API:
 
-- \`inputProps\`
-- \`inputRenderer\`
-- \`menuRenderer\`
-- \`optionComponent\`
-- \`optionRenderer\`
-- \`valueComponent\`
-- \`valueRenderer\`
-- \`arrowRenderer\`
-- \`clearRenderer\`
+* \`inputProps\`
+* \`inputRenderer\`
+* \`menuRenderer\`
+* \`optionComponent\`
+* \`optionRenderer\`
+* \`valueComponent\`
+* \`valueRenderer\`
+* \`arrowRenderer\`
+* \`clearRenderer\`
 
 ## Filtering
 
@@ -259,8 +260,9 @@ const customFilter = createFilter({
 
 See the [Advanced Guide](/advanced) for more details and examples.
 
-
-## Prop Update Guide`}
-    <PropChanges /></Fragment>
+## Prop Update Guide
+      `}
+      <PropChanges />
+    </Fragment>
   );
 }

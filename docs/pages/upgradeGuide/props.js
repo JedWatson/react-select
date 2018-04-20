@@ -118,7 +118,7 @@ const Cell = ({ children }) => (
   }}>{children}</td>
 );
 
-class PropState extends Component<*> {
+class PropStatus extends Component<*> {
   renderStatus() {
     const { status, note } = this.props;
     switch (status) {
@@ -179,7 +179,7 @@ const PropChanges = () => (
     <tbody>
       {propChangeData.map(data => {
         const [prop, status, note] = data;
-        return <PropState key={prop} prop={prop} status={status} note={note} />;
+        return <PropStatus key={prop} prop={prop} status={status} note={note} />;
       })}
     </tbody>
   </Table>
