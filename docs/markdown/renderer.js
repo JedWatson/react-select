@@ -181,11 +181,12 @@ const Blockquote = ({ nodeKey, ...props }) => (
   />
 );
 
-const Link = ({ href, ...props }) => (
-  href[0] === '/'
-    ? <RRLink to={href} {...props} />
-    : <a href={href} {...props} />
-);
+const Link = ({ nodeKey, href, ...props }) =>
+  href[0] === '/' ? (
+    <RRLink to={href} {...props} />
+  ) : (
+    <a href={href} {...props} />
+  );
 
 // ==============================
 // Exports
