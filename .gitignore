@@ -37,7 +37,6 @@ bower_components
 # Other
 .DS_Store
 .env
-yarn.lock
 package-lock.json
 
 # Notes
