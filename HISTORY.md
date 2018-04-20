@@ -1,6 +1,7 @@
 # React-Select
 
-## v2.0.0-beta.1 /
+## v2.0.0-beta.1 / 2018-04-20
+
 * Added `tabIndex` prop
 * Added `classNames` prop
 * Added upgrade guide from v1 --> v2
