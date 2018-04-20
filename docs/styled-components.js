@@ -3,6 +3,7 @@
 
 import glam from 'glam';
 import React from 'react';
+import {Transition} from 'react-transition-group';
 
 import SyntaxHighlighter, {
   registerLanguage,
@@ -90,3 +91,17 @@ export const CodeBlock = ({ children, language, ...props }: PreProps) => {
   );
 };
 CodeBlock.defaultProps = { language: 'jsx' };
+
+export const FadeIn = ({ in: inProps, defaultStyle, transitionStyles, children }: any) => (
+  <Transition in={inProps} timeout={200}>
+    {(state) => (
+      <div style={{
+        ...defaultStyle,
+        ...transitionStyles[state]
+      }}>
+        {children}
+        {console.log(transitionStyles)}
+      </div>
+    )}
+  </Transition>
+);

@@ -25,6 +25,7 @@ import {
   CustomSingleValue,
   CustomGroupHeading,
   CustomValueContainer,
+  MaxValueHeight,
 } from '../../examples';
 
 
@@ -95,6 +96,22 @@ export default function Components() {
         The \`styles\` prop allows you to pass styles to a particular component, without
         replacing the entire component. If you only want to change styling, you should
         start by using the \`styles\` prop.
+
+         ### MaxValueHeight
+
+         Set the max height of the Input in select, so that when options overflow select grow only to certain height and then a scroll appears.
+
+         Scroll on any of the options in select below. ( **maxValueHeight** is set to **30** )
+
+        ${(
+          <ExampleWrapper
+            label="Max value height"
+            urlPath="docs/examples/MaxValueHeight.js"
+            raw={require('!!raw-loader!../../examples/MaxValueHeight.js')}
+          >
+            <MaxValueHeight />
+          </ExampleWrapper>
+        )}
 
         ## Replaceable components
 

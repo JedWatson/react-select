@@ -6,6 +6,7 @@ import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
   ControlledMenu,
+  EventHooks,
   OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
@@ -163,11 +164,49 @@ export default function Advanced () {
       ${(
         <ExampleWrapper
           isEditable={false}
-          label="Example of controlled MenuIsOpen"
+          label="Select with controlled props"
           urlPath="docs/examples/ControlledMenu.js"
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+      ### menuIsOpen
+
+      menuIsOpen prop can be used to handle the open/ close state of the menu.
+
+      Pass menuIsOpen as true to open to and false to close the select menu.
+
+      ~~~jsx
+      <Select
+        menuIsOpen
+        options={OPTIONS}
+      />
+      ~~~
+
+      ### inputValue
+
+      inputValue prop is used to control the text in select input (*text typed in select*). Filters are applied using this value.
+      (**default**: '')
+
+      ~~~jsx
+      <Select
+        inputValue={'test search'}
+        options={OPTIONS}
+      />
+      ~~~
+
+      ## Event Hooks
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Event Hooks"
+          urlPath="docs/examples/EventHooks.js"
+          raw={require('!!raw-loader!../../examples/EventHooks.js')}
+        >
+          <EventHooks />
         </ExampleWrapper>
       )}
 
