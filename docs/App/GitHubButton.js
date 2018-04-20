@@ -7,7 +7,7 @@ import React from 'react';
 type Props = { count: number, repo: string };
 
 const StarButton = ({ count, repo }: Props) => (
-  <div css={{ alignItems: 'center', display: 'inline-flex ' }}>
+  <div css={{ alignItems: 'center', display: 'inline-flex ', minWidth: 128 }}>
     <a
       aria-label="Star react-select on GitHub"
       css={{
@@ -20,7 +20,7 @@ const StarButton = ({ count, repo }: Props) => (
         cursor: 'pointer',
         fontSize: 13,
         fontWeight: 'bold',
-        padding: '5px 10px',
+        padding: '6px 10px',
         position: 'relative',
         textDecoration: 'none',
 
@@ -68,7 +68,7 @@ const StarButton = ({ count, repo }: Props) => (
         letterSpacing: '-0.01em',
         marginLeft: 6,
         opacity: count > 0 ? 1 : 0,
-        padding: '5px 7px',
+        padding: '6px 7px',
         position: 'relative',
         textDecoration: 'none',
         transition: 'opacity 200ms',
@@ -92,6 +92,5 @@ const StarButton = ({ count, repo }: Props) => (
     </a>
   </div>
 );
-
 
 export default StarButton;

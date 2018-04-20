@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom';
 import Select from '../../src';
 import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
+import TwitterButton from './TwitterButton';
 
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
@@ -216,10 +217,13 @@ const Content = ({ onChange, stars }) => (
         A flexible and beautiful Select Input control for ReactJS with
         multiselect, autocomplete, async and creatable support.
       </p>
-      <GitHubButton
-        count={stars}
-        repo="https://github.com/jedwatson/react-select"
-      />
+      <div css={{ flex: 1, alignItems: 'center' }}>
+        <GitHubButton
+          count={stars}
+          repo="https://github.com/jedwatson/react-select"
+        />
+        <TwitterButton />
+      </div>
     </div>
     <div
       css={{
