@@ -24,6 +24,8 @@ export default function Home() {
   View the [source code](https://github.com/JedWatson/react-select/tree/v2) and
   [Pull Request on github](https://github.com/JedWatson/react-select/pull/2289).
 
+  If you're coming from react-select v1, check out the [Upgrade Guide](/upgrade-guide).
+
   ${(
     <ExampleWrapper
       label="Single"

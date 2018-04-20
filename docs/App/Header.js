@@ -16,7 +16,7 @@ const largeDevice = '@media (min-width: 770px)';
 const changes = [
   {
     value: '/props',
-    icon: '🤖',
+    icon: '❤️',
     label: 'Simpler and more extensible',
   },
   {
@@ -26,8 +26,18 @@ const changes = [
   },
   {
     value: '/components',
-    icon: '🏗',
+    icon: '📦',
     label: 'Replacable component architecture',
+  },
+  {
+    value: '/advanced',
+    icon: '🔥',
+    label: 'Lots of advanced functionality',
+  },
+  {
+    value: '/upgrade-guide',
+    icon: '🗺',
+    label: 'Check out the Upgrade Guide',
   },
 ];
 
@@ -226,8 +236,8 @@ const Content = ({ onChange, stars }) => (
           isSearchable={false}
           options={changes}
           onChange={onChange}
+          value={null}
           placeholder="🎉 What's new in V2"
-          value={[]}
           styles={{
             control: (css, { isFocused }) => ({
               ...css,
