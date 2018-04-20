@@ -1,5 +1,13 @@
 # React-Select
 
+## v2.0.0-beta.1 /
+* Added `tabIndex` prop
+* Added `classNames` prop
+* Added upgrade guide from v1 --> v2
+* Fixed bug with overflowing long values in the control
+* Fixed ie11 bug to do with absolutely positioned children in flex parent.
+* Documentation ie11, styling and copy improvements
+
 ## v2.0.0-alpha.11 / 2018-04-12
 
 Minor fix since last alpha:
