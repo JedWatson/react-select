@@ -4408,16 +4408,6 @@ describe('Select', () => {
 
 			});
 
-			it('expands the drop down when the enter key is pressed', () => {
-
-				return expect(wrapper,
-						'with event', 'keyDown', KEY_ENTER, 'on', <div className="Select-control" />,
-						'queried for', <input role="combobox" />)
-						.then(input => {
-							expect(instance.state.focusedOption, 'to equal', { value: 'one', label: 'label one' });
-						});
-
-			});
 		});
 	});
 
