@@ -1039,48 +1039,54 @@ export default class Select extends Component<Props, State> {
       MultiValueRemove,
       SingleValue,
       Placeholder,
+      ValueSpacer,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
+    const { isDisabled, isMulti, inputValue, placeholder, options } = this.props;
     const { selectValue } = this.state;
 
     if (!this.hasValue()) {
       return inputValue ? null : (
-        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
-          {placeholder}
-        </Placeholder>
+        <ValueSpacer key="placeholder" values={{ placeholder, options }}>
+          <Placeholder {...commonProps} isDisabled={isDisabled}>
+            {placeholder}
+          </Placeholder>
+        </ValueSpacer>
       );
     }
     if (isMulti) {
       return selectValue.map(opt => (
-        <MultiValue
-          {...commonProps}
-          components={{
-            Container: MultiValueContainer,
-            Label: MultiValueLabel,
-            Remove: MultiValueRemove,
-          }}
-          isDisabled={isDisabled}
-          key={this.getOptionValue(opt)}
-          removeProps={{
-            onClick: () => this.removeValue(opt),
-            onMouseDown: e => {
-              e.preventDefault();
-              e.stopPropagation();
-            },
-          }}
-          data={opt}
-        >
-          {this.formatOptionLabel(opt, 'value')}
-        </MultiValue>
+        <ValueSpacer key={this.getOptionValue(opt)} values={{ placeholder, options }}>
+          <MultiValue
+            {...commonProps}
+            components={{
+              Container: MultiValueContainer,
+              Label: MultiValueLabel,
+              Remove: MultiValueRemove,
+            }}
+            isDisabled={isDisabled}
+            removeProps={{
+              onClick: () => this.removeValue(opt),
+              onMouseDown: e => {
+                e.preventDefault();
+                e.stopPropagation();
+              },
+            }}
+            data={opt}
+          >
+            {this.formatOptionLabel(opt, 'value')}
+          </MultiValue>
+        </ValueSpacer>
       ));
     }
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
-        {this.formatOptionLabel(singleValue, 'value')}
-      </SingleValue>
+      <ValueSpacer values={{ placeholder, options }}>
+        <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
+          {this.formatOptionLabel(singleValue, 'value')}
+        </SingleValue>
+      </ValueSpacer>
     );
   }
   renderClearIndicator() {

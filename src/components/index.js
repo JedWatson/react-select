@@ -41,6 +41,7 @@ import MultiValue, {
 import Option, { type OptionProps } from './Option';
 import Placeholder, { type PlaceholderProps } from './Placeholder';
 import SingleValue, { type SingleValueProps } from './SingleValue';
+import ValueSpacer, { type ValueSpacerProps } from './ValueSpacer';
 
 type IndicatorComponentType = ComponentType<IndicatorProps>;
 
@@ -69,6 +70,7 @@ export type SelectComponents = {
   Placeholder: ComponentType<PlaceholderProps>,
   SelectContainer: ComponentType<ContainerProps>,
   SingleValue: ComponentType<SingleValueProps>,
+  ValueSpacer: ComponentType<ValueSpacerProps>,
   ValueContainer: ComponentType<ValueContainerProps>,
 };
 
@@ -99,6 +101,7 @@ export const components: SelectComponents = {
   Placeholder: Placeholder,
   SelectContainer: SelectContainer,
   SingleValue: SingleValue,
+  ValueSpacer: ValueSpacer,
   ValueContainer: ValueContainer,
 };
 
