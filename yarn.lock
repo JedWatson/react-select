@@ -2232,6 +2232,13 @@ codesandbox@^1.1.14:
     shortid "^2.2.8"
     update-notifier "^2.2.0"
 
+codesandboxer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/codesandboxer/-/codesandboxer-0.1.1.tgz#d5908125a7254e17bad95980e58c23ed858912fb"
+  dependencies:
+    codesandbox "^1.1.14"
+    isomorphic-unfetch "^2.0.0"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -5317,6 +5324,13 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+isomorphic-unfetch@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-2.0.0.tgz#f50140a4c163d7582b5f37f1591968c4f809a645"
+  dependencies:
+    node-fetch "^1.7.1"
+    unfetch "^3.0.0"
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -6605,7 +6619,7 @@ node-fetch-npm@^2.0.2:
     json-parse-better-errors "^1.0.0"
     safe-buffer "^5.1.1"
 
-node-fetch@^1.0.1:
+node-fetch@^1.0.1, node-fetch@^1.7.1:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
   dependencies:
@@ -7678,9 +7692,9 @@ pretty-ms@^3.1.0:
     parse-ms "^1.0.0"
     plur "^2.1.2"
 
-pretty-proptypes@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/pretty-proptypes/-/pretty-proptypes-0.2.0.tgz#eae73535860f93e2efdf0e3ec0d4849e2d59cb70"
+pretty-proptypes@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/pretty-proptypes/-/pretty-proptypes-0.2.1.tgz#d76b9640ff52d8b763de7c5c8a35de28ae3f9421"
   dependencies:
     emotion "^9.1.1"
     kind2string "^0.4.1"
@@ -7928,11 +7942,11 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-codesandboxer@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/react-codesandboxer/-/react-codesandboxer-0.4.2.tgz#10b6a770242314e4436898f5fd94eb46c6c74d33"
+react-codesandboxer@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-codesandboxer/-/react-codesandboxer-2.0.1.tgz#19fa5f627833ccea0e6162a4dcc8bf3b76ec65b2"
   dependencies:
-    codesandbox "^1.1.14"
+    codesandboxer "^0.1.1"
     react-node-resolver "^1.0.1"
 
 react-deprecate@^0.1.0:
