@@ -3,6 +3,8 @@ import React, { Component, type Node, type ElementRef } from 'react';
 
 import { Div } from '../primitives';
 import { spacing } from '../theme';
+import Placeholder from './placeholder';
+import SingleValue from './SingleValue';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -131,6 +133,37 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
       className={cx('indicators')}
       css={getStyles('indicatorsContainer', props)}
     >
+      {children}
+    </Div>
+  );
+};
+
+// ==============================
+// Value Spacer
+// ==============================
+
+export type ValueSpacerProps = CommonProps & {
+  /** Set when the value container should hold multiple values. This is important for styling. */
+  values: any,
+};
+export const valueSpacerCSS = () => ({
+  display: 'flex ',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+});
+export const ValueSpacer = (props: ValueSpacerProps) => {
+  const { children, values } = props;
+  return (
+    <Div
+      css={getStyles('value-spacer', props)}
+      {...innerProps}
+    >
+      <div style={{ margin: 0, padding: 0, height: 0, visibility: 'hidden' }}>
+        {values.placeholder && <Placeholder>{values.placeholder}</Placeholder>}
+        {values.options && values.options.length && values.options.map(
+          option => <SingleValue>{option}</SingleValue>
+        )}
+      </div>
       {children}
     </Div>
   );
