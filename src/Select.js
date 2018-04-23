@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment, type ElementRef, type Node } from 'react';
+import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
 import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
@@ -1270,7 +1270,7 @@ export default class Select extends Component<Props, State> {
     }
 
     const menuElement = (
-      <Fragment>
+      <span>
         {menuShouldBlockScroll ? <ScrollBlock /> : null}
         <Menu
           {...commonProps}
@@ -1305,7 +1305,7 @@ export default class Select extends Component<Props, State> {
             </MenuList>
           </ScrollCaptor>
         </Menu>
-      </Fragment>
+      </span>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,
