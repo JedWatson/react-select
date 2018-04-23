@@ -110,7 +110,7 @@ const Nav = (props: any) => (
       [smallDevice]: {
         backgroundColor: 'rgba(255, 255, 255, 0.96)',
         boxShadow: 'inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
-        display: 'flex ',
+        display: 'flex',
         fontSize: 13,
         marginLeft: -appGutter,
         marginRight: -appGutter,

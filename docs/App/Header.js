@@ -42,7 +42,7 @@ const changes = [
 
 function getLabel({ icon, label }) {
   return (
-    <div style={{ alignItems: 'center', display: 'flex ' }}>
+    <div style={{ alignItems: 'center', display: 'flex' }}>
       <span style={{ fontSize: 18, marginRight: '0.5em' }}>{icon}</span>
       <span style={{ fontSize: 14 }}>{label}</span>
     </div>
@@ -218,7 +218,7 @@ const Content = ({ onChange, stars }) => (
     css={{
       marginTop: 16,
 
-      [largeDevice]: { display: 'flex ' },
+      [largeDevice]: { display: 'flex' },
     }}
   >
     <div css={{ flex: 1, [largeDevice]: { paddingRight: 30 } }}>
