@@ -15,6 +15,7 @@ import type {
 // ==============================
 
 export const noop = () => {};
+export const emptyString = () => '';
 
 // ==============================
 // Class Name Prefixer

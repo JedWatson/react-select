@@ -1,7 +1,5 @@
 // @flow
-// @jsx glam
 
-import glam from 'glam';
 import fetch from 'unfetch';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -51,10 +49,32 @@ function getLabel({ icon, label }) {
   );
 }
 
-const Gradient = ({ css, innerRef, style, ...props }) => (
+const headerSelectStyles = {
+  control: (base, { isFocused }) => ({
+    ...base,
+    backgroundClip: 'padding-box',
+    borderColor: 'rgba(0,0,0,0.1)',
+    boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : null,
+
+    ':hover': {
+      borderColor: 'rgba(0,0,0,0.2)',
+    },
+  }),
+  option: base => ({
+    ...base,
+    padding: '4px 12px',
+  }),
+  placeholder: base => ({
+    ...base,
+    color: 'black',
+  }),
+};
+
+const Gradient = props => (
   <div
     css={{
       backgroundColor: '#2684FF',
+      backgroundImage: 'linear-gradient(135deg, #2684FF 0%, #0747A6 100%)',
       color: 'white',
       position: 'relative',
       zIndex: 2,
@@ -62,12 +82,6 @@ const Gradient = ({ css, innerRef, style, ...props }) => (
       [largeDevice]: {
         boxShadow: '0 5px 0 rgba(0, 0, 0, 0.08)',
       },
-      ...css,
-    }}
-    ref={innerRef}
-    style={{
-      backgroundImage: 'linear-gradient(135deg, #2684FF 0%, #0747A6 100%)',
-      ...style,
     }}
     {...props}
   />
@@ -198,6 +212,7 @@ const Collapse = ({ height, isCollapsed, innerRef, ...props }) => {
     />
   );
 };
+
 const Content = ({ onChange, stars }) => (
   <div
     css={{
@@ -242,26 +257,7 @@ const Content = ({ onChange, stars }) => (
           onChange={onChange}
           value={null}
           placeholder="🎉 What's new in V2"
-          styles={{
-            control: (css, { isFocused }) => ({
-              ...css,
-              backgroundClip: 'padding-box',
-              borderColor: 'rgba(0,0,0,0.1)',
-              boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : null,
-
-              ':hover': {
-                borderColor: 'rgba(0,0,0,0.2)',
-              },
-            }),
-            option: css => ({
-              ...css,
-              padding: '4px 12px',
-            }),
-            placeholder: css => ({
-              ...css,
-              color: 'black',
-            }),
-          }}
+          styles={headerSelectStyles}
         />
       </div>
     </div>

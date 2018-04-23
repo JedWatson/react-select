@@ -1,7 +1,5 @@
 // @flow
-// @jsx glam
 
-import glam from 'glam';
 import React, { Component, type ElementRef } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
