@@ -1,6 +1,3 @@
-// @jsx glam
-
-import glam from 'glam';
 import React, { Component } from 'react';
 import CodeSandboxer from 'react-codesandboxer';
 import { replaceImports } from 'codesandboxer';
@@ -26,7 +23,7 @@ const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
 }`;
 
 export default class ExampleWrapper extends Component {
-  state = { isHovered: false, showCode: false, };
+  state = { isHovered: false, showCode: false };
   static defaultProps = { isEditable: true };
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
@@ -52,7 +49,7 @@ export default class ExampleWrapper extends Component {
         />
       );
     }
-  }
+  };
 
   renderSourceViewOption = () => {
     let { raw } = this.props;
@@ -79,7 +76,7 @@ export default class ExampleWrapper extends Component {
         </Action>
       );
     }
-  }
+  };
 
   renderCSBButton = () => {
     let { isEditable, raw, urlPath } = this.props;
@@ -106,7 +103,7 @@ export default class ExampleWrapper extends Component {
     } else {
       return null;
     }
-  }
+  };
 
   render() {
     const { isHovered } = this.state;

@@ -12,9 +12,10 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
+    "babel-plugin-emotion": "^9.1.2",
     "classnames": "^2.2.5",
     "codesandboxer": "^0.1.1",
-    "glam": "^5.0.1",
+    "emotion": "^9.1.2",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react-input-autosize": "^2.2.1",

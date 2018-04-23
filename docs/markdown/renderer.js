@@ -1,6 +1,3 @@
-// @jsx glam
-
-import glam from 'glam';
 import React from 'react';
 import md from 'react-markings';
 import { Link as RRLink } from 'react-router-dom';
@@ -39,16 +36,6 @@ registerLanguage('jsx', jsx);
 function slugify(str: string): string {
   return str.replace(/\W/g, '-').toLowerCase();
 }
-
-const Anchor = props => (
-  <RRLink
-    css={{
-      color: 'inherit',
-      textDecoration: 'none',
-    }}
-    {...props}
-  />
-);
 
 // ==============================
 // Renderers
@@ -113,16 +100,18 @@ const Heading = props => {
 
   return linkify ? (
     <Tag id={slug} css={css}>
-      <Anchor
+      <RRLink
         to={`#${slug}`}
         css={{
+          color: 'inherit',
           position: 'relative',
+          textDecoration: 'none',
           '&:hover > svg': { opacity: 1, transitionDelay: '300ms' },
         }}
       >
         <Chain />
         {children}
-      </Anchor>
+      </RRLink>
     </Tag>
   ) : (
     <Tag css={css}>{children}</Tag>

@@ -50,4 +50,5 @@ const Input = ({
     />
   </Div>
 );
+
 export default Input;
