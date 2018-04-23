@@ -128,7 +128,7 @@ const ExampleHeading = (props: any) => (
   <div
     css={{
       alignItems: 'center',
-      display: 'flex ',
+      display: 'flex',
       justifyContent: 'space-between',
       paddingBottom: '1em',
       paddingTop: '1.25em',
@@ -172,7 +172,7 @@ const Action = ({ css, tag: Tag = 'button', ...props }: ActionProps) => {
         boxSizing: 'border-box',
         color: colors.neutral40,
         cursor: 'pointer',
-        display: 'flex ',
+        display: 'flex',
         fontSize: 'inherit',
         height: 24,
         marginLeft: 2,
@@ -204,7 +204,7 @@ const Actions = ({ show, ...props }) => (
   <div
     css={{
       alignItems: 'center',
-      display: 'flex ',
+      display: 'flex',
       justifyContent: 'space-between',
       opacity: show ? 1 : 0,
       transition: 'opacity 260ms, visibility 260ms',

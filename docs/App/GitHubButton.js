@@ -5,12 +5,12 @@ import React from 'react';
 type Props = { count: number, repo: string };
 
 const StarButton = ({ count, repo }: Props) => (
-  <div css={{ alignItems: 'center', display: 'inline-flex ', minWidth: 128 }}>
+  <div css={{ alignItems: 'center', display: 'inline-flex', minWidth: 128 }}>
     <a
       aria-label="Star react-select on GitHub"
       css={{
         alignItems: 'center',
-        display: 'flex ',
+        display: 'flex',
         borderRadius: 2,
         color: '#253858',
         backgroundColor: 'white',

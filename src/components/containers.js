@@ -57,7 +57,7 @@ export type ValueContainerProps = CommonProps & {
 };
 export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
   alignItems: 'center',
-  display: 'flex ',
+  display: 'flex',
   flex: 1,
   flexWrap: 'wrap',
   maxHeight: maxHeight, // max-height allows scroll when multi
@@ -120,7 +120,7 @@ export type IndicatorContainerProps = CommonProps &
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
   alignSelf: 'stretch',
-  display: 'flex ',
+  display: 'flex',
   flexShrink: 0,
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
