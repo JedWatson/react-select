@@ -1760,7 +1760,7 @@ var Select$1 = function (_React$Component) {
 					value: value
 				});
 			}
-			return valueArray.map(function (item, index) {
+			var makeHiddenInput = function makeHiddenInput(item, index) {
 				return React__default.createElement('input', {
 					disabled: _this7.props.disabled,
 					key: 'hidden.' + index,
@@ -1769,7 +1769,8 @@ var Select$1 = function (_React$Component) {
 					type: 'hidden',
 					value: stringifyValue(item[_this7.props.valueKey])
 				});
-			});
+			};
+			return valueArray.length > 0 ? valueArray.map(makeHiddenInput) : makeHiddenInput({}, 0);
 		}
 	}, {
 		key: 'getFocusableOptionIndex',
