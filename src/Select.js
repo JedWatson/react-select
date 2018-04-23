@@ -1270,7 +1270,7 @@ export default class Select extends Component<Props, State> {
     }
 
     const menuElement = (
-      <span>
+      <div>
         {menuShouldBlockScroll ? <ScrollBlock /> : null}
         <Menu
           {...commonProps}
@@ -1305,7 +1305,7 @@ export default class Select extends Component<Props, State> {
             </MenuList>
           </ScrollCaptor>
         </Menu>
-      </span>
+      </div>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,
