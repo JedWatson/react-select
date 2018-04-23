@@ -1056,7 +1056,7 @@ class Select extends React.Component {
 				/>
 			);
 		}
-		return valueArray.map((item, index) => (
+		const makeHiddenInput = (item, index) => (
 			<input
 				disabled={this.props.disabled}
 				key={`hidden.${index}`}
@@ -1065,7 +1065,8 @@ class Select extends React.Component {
 				type="hidden"
 				value={stringifyValue(item[this.props.valueKey])}
 			/>
-		));
+		);
+		return valueArray.length > 0 ? valueArray.map(makeHiddenInput) : makeHiddenInput({}, 0);
 	}
 
 	getFocusableOptionIndex (selectedOption) {
