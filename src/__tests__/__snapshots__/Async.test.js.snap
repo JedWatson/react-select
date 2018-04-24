@@ -231,13 +231,13 @@ exports[`defaults - snapshot 1`] = `
               setValue={[Function]}
             >
               <Component
-                className="css-hkzx25 "
+                className="css-1aya2g8 "
                 innerRef={[Function]}
                 onMouseDown={[Function]}
                 onTouchEnd={[Function]}
               >
                 <div
-                  className="css-hkzx25 "
+                  className="css-1aya2g8 "
                   onMouseDown={[Function]}
                   onTouchEnd={[Function]}
                 >
@@ -307,10 +307,10 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <Component
-                      className="css-zkdjpg "
+                      className="css-nbc25y "
                     >
                       <div
-                        className="css-zkdjpg "
+                        className="css-nbc25y "
                       >
                         <Placeholder
                           clearValue={[Function]}
@@ -574,10 +574,10 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <Component
-                      className="css-1j8mhbq "
+                      className="css-1wy0on6 "
                     >
                       <div
-                        className="css-1j8mhbq "
+                        className="css-1wy0on6 "
                       >
                         <IndicatorSeparator
                           clearValue={[Function]}
