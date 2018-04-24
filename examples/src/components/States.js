@@ -43,7 +43,7 @@ var StatesField = createClass({
 		});
 	},
 	focusStateSelect () {
-		this.refs.stateSelect.focus();
+		this.select.focus();
 	},
 	toggleCheckbox (e) {
 		let newState = {};
