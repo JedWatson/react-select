@@ -455,7 +455,7 @@ function onInputKeyDown(event) {
 | `isValidNewOption` | function | Determines if the current input text represents a valid option. By default any non-empty string will be considered valid. Expected signature: `({ label: string }): boolean` |
 | `newOptionCreator` | function | Factory to create new option. Expected signature: `({ label: string, labelKey: string, valueKey: string }): Object` |
 | `onNewOptionClick` | function | new option click handler, it calls when new option has been selected. `function(option) {}` |
-| `shouldKeyDownEventCreateNewOption` | function | Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option. ENTER, TAB and comma keys create new options by default. Expected signature: `({ keyCode: number }): boolean` |
+| `shouldKeyDownEventCreateNewOption` | function | Decides if a keyDown event should result in the creation of a new option. ENTER, TAB and comma keys create new options by default. Expected signature: `(event): boolean` |
 | `promptTextCreator` | function | Factory for overriding default option creator prompt label. By default it will read 'Create option "{label}"'. Expected signature: `(label: String): String` |
 
 ### Methods

@@ -282,14 +282,14 @@ describe('Creatable', () => {
 	});
 
 	it('default :shouldKeyDownEventCreateNewOption function should accept TAB, ENTER, and comma keys', () => {
-		function test (keyCode) {
-			return Select.Creatable.shouldKeyDownEventCreateNewOption({ keyCode });
+		function test (key) {
+			return Select.Creatable.shouldKeyDownEventCreateNewOption({ key });
 		};
 
-		expect(test(9), 'to be', true);
-		expect(test(13), 'to be', true);
-		expect(test(188), 'to be', true);
-		expect(test(1), 'to be', false);
+		expect(test('Tab'), 'to be', true);
+		expect(test('Enter'), 'to be', true);
+		expect(test(','), 'to be', true);
+		expect(test('a'), 'to be', false);
 	});
 
 	it('default :onInputKeyDown should run user provided handler.', (done) => {

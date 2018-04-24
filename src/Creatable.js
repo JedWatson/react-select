@@ -129,7 +129,7 @@ class CreatableSelect extends React.Component {
 		if (
 			focusedOption &&
 			focusedOption === this._createPlaceholderOption &&
-			shouldKeyDownEventCreateNewOption({ keyCode: event.keyCode })
+			shouldKeyDownEventCreateNewOption(event)
 		) {
 			this.createNewOption();
 
@@ -220,11 +220,11 @@ const newOptionCreator = ({ label, labelKey, valueKey }) => {
 
 const promptTextCreator = label => `Create option "${label}"`;
 
-const shouldKeyDownEventCreateNewOption = ({ keyCode }) => {
-	switch (keyCode) {
-		case 9:   // TAB
-		case 13:  // ENTER
-		case 188: // COMMA
+const shouldKeyDownEventCreateNewOption = ({ key }) => {
+	switch (key) {
+		case 'Tab':
+		case 'Enter':
+		case ',':
 			return true;
 		default:
 			return false;
