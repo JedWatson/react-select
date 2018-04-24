@@ -592,6 +592,7 @@ exports[`defaults - snapshot 1`] = `
                                     css={
                                       Object {
                                         "boxSizing": "border-box",
+                                        "color": "#222",
                                         "margin": 2,
                                         "paddingBottom": 2,
                                         "paddingTop": 2,
@@ -603,6 +604,7 @@ exports[`defaults - snapshot 1`] = `
                                       css={
                                         Object {
                                           "boxSizing": "border-box",
+                                          "color": "#222",
                                           "margin": 2,
                                           "paddingBottom": 2,
                                           "paddingTop": 2,
@@ -612,7 +614,7 @@ exports[`defaults - snapshot 1`] = `
                                       render={[Function]}
                                     >
                                       <div
-                                        className="css-cko0rn"
+                                        className="css-1ip64n5"
                                       >
                                         <AutosizeInput
                                           aria-autocomplete="list"
@@ -630,6 +632,7 @@ exports[`defaults - snapshot 1`] = `
                                             Object {
                                               "background": 0,
                                               "border": 0,
+                                              "color": "inherit",
                                               "fontSize": "inherit",
                                               "opacity": 1,
                                               "outline": 0,
@@ -673,6 +676,7 @@ exports[`defaults - snapshot 1`] = `
                                                   "background": 0,
                                                   "border": 0,
                                                   "boxSizing": "content-box",
+                                                  "color": "inherit",
                                                   "fontSize": "inherit",
                                                   "opacity": 1,
                                                   "outline": 0,
