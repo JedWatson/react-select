@@ -1,16 +1,14 @@
 // @flow
-// @jsx glam
 
-import glam from 'glam';
 import React from 'react';
 
 const TwitterButton = () => (
-  <div css={{ alignItems: 'center', display: 'inline-flex ' }}>
+  <div css={{ alignItems: 'center', display: 'inline-flex' }}>
     <a
       aria-label="Follow @JedWatson on Twitter"
       css={{
         alignItems: 'center',
-        display: 'flex ',
+        display: 'flex',
         borderRadius: 2,
         color: 'white',
         border: '1px solid rgba(255, 255, 255, 0.3)',

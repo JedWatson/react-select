@@ -22,7 +22,7 @@ export type MultiValueProps = CommonProps & ValueProps;
 export const multiValueCSS = () => ({
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
-  display: 'flex ',
+  display: 'flex',
   margin: spacing.baseUnit / 2,
   minWidth: 0, // resolves flex/text-overflow bug
 });
@@ -39,7 +39,7 @@ export const multiValueRemoveCSS = () => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   color: colors.textLight,
-  display: 'flex ',
+  display: 'flex',
   paddingLeft: spacing.baseUnit,
   paddingRight: spacing.baseUnit,
 

@@ -1,8 +1,5 @@
 // @flow
-// @jsx glam
-
 import React from 'react';
-import glam from 'glam';
 
 import type { InnerRef } from './types';
 
