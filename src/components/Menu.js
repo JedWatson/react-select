@@ -231,7 +231,7 @@ export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
-  display: 'flex ',
+  display: 'flex',
   flexDirection: 'column',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,

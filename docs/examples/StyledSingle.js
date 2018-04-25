@@ -6,7 +6,7 @@ import Select from '../../src';
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
-  display: 'flex ',
+  display: 'flex',
 
   ':before': {
     backgroundColor: color,
