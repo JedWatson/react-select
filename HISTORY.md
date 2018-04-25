@@ -1,5 +1,13 @@
 # React-Select
 
+## v2.0.0-beta.2 / 2018-04-25
+
+* Switched from glam to [emotion](https://emotion.sh) for css-in-js
+* Input colour can now be changed
+* Use of React 16 Fragment removed, 2.0.0 should work with React 15
+* SSR support improved
+* Indicator icons are now exported
+
 ## v2.0.0-beta.1 / 2018-04-20
 
 * Added `tabIndex` prop
