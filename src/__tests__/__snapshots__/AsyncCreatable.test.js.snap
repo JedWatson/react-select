@@ -452,10 +452,10 @@ exports[`defaults - snapshot 1`] = `
                             value=""
                           >
                             <Component
-                              className="css-17523x3"
+                              className="css-rsyb7x"
                             >
                               <div
-                                className="css-17523x3"
+                                className="css-rsyb7x"
                               >
                                 <AutosizeInput
                                   aria-autocomplete="list"
@@ -474,6 +474,7 @@ exports[`defaults - snapshot 1`] = `
                                     Object {
                                       "background": 0,
                                       "border": 0,
+                                      "color": "inherit",
                                       "fontSize": "inherit",
                                       "opacity": 1,
                                       "outline": 0,
@@ -518,6 +519,7 @@ exports[`defaults - snapshot 1`] = `
                                           "background": 0,
                                           "border": 0,
                                           "boxSizing": "content-box",
+                                          "color": "inherit",
                                           "fontSize": "inherit",
                                           "opacity": 1,
                                           "outline": 0,
