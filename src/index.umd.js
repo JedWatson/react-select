@@ -6,9 +6,9 @@
 import SelectBase from './Select';
 import manageState from './stateManager';
 
-export { createFilter } from './filters';
-export { components } from './components/index';
-export { mergeStyles } from './styles';
+import { createFilter } from './filters';
+import { components } from './components/index';
+import { mergeStyles } from './styles';
 
 const Select = manageState(SelectBase);
 Select.SelectBase = SelectBase;

@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-plugin-emotion": "^9.1.2",
     "classnames": "^2.2.5",
+    "codesandboxer": "^0.1.1",
     "emotion": "^9.1.2",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
@@ -36,6 +37,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "bundlesize": "^0.17.0",
     "chroma-js": "^1.3.6",
     "chrono-node": "^1.3.5",
     "copy-webpack-plugin": "^4.3.1",
@@ -63,11 +65,11 @@
     "nps": "^5.7.1",
     "nps-utils": "^1.3.0",
     "nyc": "^11.1.0",
-    "pretty-proptypes": "^0.2.0",
+    "pretty-proptypes": "^0.2.1",
     "raf-schd": "^2.1.0",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
-    "react-codesandboxer": "^0.4.2",
+    "react-codesandboxer": "^2.0.1",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
     "react-markings": "^1.2.0",
@@ -89,7 +91,7 @@
     "react-dom": "^15.3.0 || ^16.0.0"
   },
   "scripts": {
-    "build": "nps build",
+    "build": "nps build && bundlesize",
     "watch": "nps build.watch",
     "cover": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha",
     "coveralls": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha && cat coverage/lcov.info | coveralls",
@@ -117,6 +119,11 @@
     "react-component",
     "select",
     "ui"
+  ],
+  "bundlesize": [
+    {
+      "path": "./dist/react-select.js"
+    }
   ],
   "jest": {
     "modulePathIgnorePatterns": [

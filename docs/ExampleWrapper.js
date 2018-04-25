@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import CodeSandboxer, { replaceImports } from 'react-codesandboxer';
+import CodeSandboxer from 'react-codesandboxer';
+import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../package.json';
 import { colors } from '../src/theme';
