@@ -1,0 +1,67 @@
+version: 2
+
+docker_defaults: &docker_defaults
+    docker:
+        - image: circleci/node:8.11.1-browsers
+    working_directory: ~/project/repo
+
+attach_workspace: &attach_workspace
+    attach_workspace:
+        at: ~/project
+
+install_steps: &install_steps
+    steps:
+        - checkout
+        - restore_cache:
+            name: Restore node_modules cache
+            keys:
+                - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+                - dependency-cache-{{ .Branch }}-
+                - dependency-cache-
+        - run:
+            name: Installing Dependencies
+            command: |
+              yarn install --silent
+        - save_cache:
+            name: Save node_modules cache
+            key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+            paths:
+                - node_modules/
+        - persist_to_workspace:
+            root: ~/project
+            paths:
+                - repo
+
+workflows:
+    version: 2
+    build_pipeline:
+        jobs:
+            - build
+            - unit_test:
+                requires:
+                    - build
+            - end_to_end:
+                requires:
+                    - build
+jobs:
+    build:
+        <<: *docker_defaults
+        <<: *install_steps
+    unit_test:
+        <<: *docker_defaults
+        steps:
+            - *attach_workspace
+            - run:
+                name: Running unit tests
+                command: |
+                  yarn lint
+                  yarn test:jest
+                  yarn coveralls
+    end_to_end:
+        <<: *docker_defaults
+        steps:
+            - *attach_workspace
+            - run:
+                name: Running E2E tests
+                command: |
+                  yarn e2e
