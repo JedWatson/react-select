@@ -1,8 +1,7 @@
 // @flow
-// @jsx glam
 
 import React, { Component, Fragment } from 'react';
-import glam from 'glam';
+
 import Select, { components } from '../../../src';
 import md from '../../markdown/renderer';
 

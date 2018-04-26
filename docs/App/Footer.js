@@ -1,7 +1,5 @@
 // @flow
-// @jsx glam
 
-import glam from 'glam';
 import React from 'react';
 
 // const smallDevice = '@media (max-width: 769px)';
@@ -31,7 +29,7 @@ const Container = props => (
 
       [largeDevice]: {
         alignItems: 'center',
-        display: 'flex ',
+        display: 'flex',
         justifyContent: 'space-between',
         paddingBottom: 20,
         paddingTop: 20,

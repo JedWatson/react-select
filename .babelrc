@@ -1,5 +1,9 @@
 {
-  "plugins": ["transform-class-properties", "transform-object-rest-spread"],
+  "plugins": [
+    "emotion",
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ],
   "presets": ["env", "react"],
   "ignore": ["node_modules"],
   "env": {

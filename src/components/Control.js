@@ -37,7 +37,7 @@ export const css = ({ isDisabled, isFocused }: State) => ({
   borderWidth: 1,
   boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : null,
   cursor: 'default',
-  display: 'flex ',
+  display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'space-between',
   minHeight: spacing.controlHeight,
