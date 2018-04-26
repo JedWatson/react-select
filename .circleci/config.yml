@@ -1,37 +1,67 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
-jobs:
-  build:
+
+docker_defaults: &docker_defaults
     docker:
-      - image: circleci/node:8.4
+        - image: circleci/node:8.11.1-browsers
+    working_directory: ~/project/repo
 
-    working_directory: ~/repo
+attach_workspace: &attach_workspace
+    attach_workspace:
+        at: ~/project
 
+install_steps: &install_steps
     steps:
-      - checkout
+        - checkout
+        - restore_cache:
+            name: Restore node_modules cache
+            keys:
+                - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+                - dependency-cache-{{ .Branch }}-
+                - dependency-cache-
+        - run:
+            name: Installing Dependencies
+            command: |
+              yarn install --silent
+        - save_cache:
+            name: Save node_modules cache
+            key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+            paths:
+                - node_modules/
+        - persist_to_workspace:
+            root: ~/project
+            paths:
+                - repo
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      # Start the examples server so that Cypress can run against them
-      - run: yarn start
-      # Install vxfb for Cypress
-      - run: yarn add xvfb
-      # Run eslint
-      - run: yarn lint
-      # Run tests
-      - run: yarn test
+workflows:
+    version: 2
+    build_pipeline:
+        jobs:
+            - build
+            - unit_test:
+                requires:
+                    - build
+            - end_to_end:
+                requires:
+                    - build
+jobs:
+    build:
+        <<: *docker_defaults
+        <<: *install_steps
+    unit_test:
+        <<: *docker_defaults
+        steps:
+            - *attach_workspace
+            - run:
+                name: Running unit tests
+                command: |
+                  yarn lint
+                  yarn test:jest
+                  yarn coveralls
+    end_to_end:
+        <<: *docker_defaults
+        steps:
+            - *attach_workspace
+            - run:
+                name: Running E2E tests
+                command: |
+                  yarn e2e
