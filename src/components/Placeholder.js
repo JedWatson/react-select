@@ -10,13 +10,17 @@ export type PlaceholderProps = CommonProps & {
   children: Node,
   /** props passed to the wrapping element for the group. */
   innerProps: { [string]: any },
-};
+} & State;
 
-export const css = () => ({
+export type State = {
+  cssPosition: 'relative' | 'absolute',
+}
+
+export const css = ({ cssPosition }: State) => ({
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
-  position: 'absolute',
+  position: cssPosition || 'absolute',
   top: '50%',
   transform: 'translateY(-50%)',
 });

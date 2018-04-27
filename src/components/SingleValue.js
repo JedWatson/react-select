@@ -8,6 +8,8 @@ import type { CommonProps } from '../types';
 type State = {
   /** Whether this is disabled */
   isDisabled: boolean,
+  /** the css position value of the component **/
+  cssPosition: 'relative' | 'absolute',
 };
 type ValueProps = {
   /** The children to be rendered. */
@@ -19,13 +21,13 @@ type ValueProps = {
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 
-export const css = ({ isDisabled }: State) => ({
+export const css = ({ isDisabled, cssPosition }: State) => ({
   color: isDisabled ? colors.neutral40 : colors.text,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   maxWidth: `calc(100% - ${spacing.baseUnit * 2}px)`,
   overflow: 'hidden',
-  position: 'absolute',
+  position: cssPosition || 'absolute',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   top: '50%',

@@ -94,7 +94,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         </Note>
 
         <h4>Grouped</h4>
-        <div id={`cypress-${idSuffix}-grouped`}>
+        this is some text beforehand
+        <div id={`cypress-${idSuffix}-grouped`} style={{ display: 'inline-block' }}>
           <SelectComp
             className="react-select"
             defaultValue={colourOptions[1]}

@@ -583,7 +583,7 @@ export default class Select extends Component<Props, State> {
       ? this.props.filterOption(option, inputValue)
       : true;
   }
-  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+  formatOptionLabel = (data: OptionType, context: FormatOptionLabelContext): Node  => {
     if (typeof this.props.formatOptionLabel === 'function') {
       const { inputValue } = this.props;
       const { selectValue } = this.state;
@@ -1047,7 +1047,15 @@ export default class Select extends Component<Props, State> {
 
     if (!this.hasValue()) {
       return inputValue ? null : (
-        <ValueSpacer key="placeholder" values={{ placeholder, options }}>
+        <ValueSpacer
+          placeholder={placeholder}
+          options={options}
+          getOptionLabel={getOptionLabel}
+          formatOptionLabel={this.formatOptionLabel}
+          components={this.components}
+          isDisabled={isDisabled}
+          {...commonProps}
+        >
           <Placeholder {...commonProps} isDisabled={isDisabled}>
             {placeholder}
           </Placeholder>
@@ -1056,33 +1064,39 @@ export default class Select extends Component<Props, State> {
     }
     if (isMulti) {
       return selectValue.map(opt => (
-        <ValueSpacer key={this.getOptionValue(opt)} values={{ placeholder, options }}>
-          <MultiValue
-            {...commonProps}
-            components={{
-              Container: MultiValueContainer,
-              Label: MultiValueLabel,
-              Remove: MultiValueRemove,
-            }}
-            isDisabled={isDisabled}
-            removeProps={{
-              onClick: () => this.removeValue(opt),
-              onMouseDown: e => {
-                e.preventDefault();
-                e.stopPropagation();
-              },
-            }}
-            data={opt}
-          >
-            {this.formatOptionLabel(opt, 'value')}
-          </MultiValue>
-        </ValueSpacer>
+        <MultiValue
+          {...commonProps}
+          components={{
+            Container: MultiValueContainer,
+            Label: MultiValueLabel,
+            Remove: MultiValueRemove,
+          }}
+          isDisabled={isDisabled}
+          removeProps={{
+            onClick: () => this.removeValue(opt),
+            onMouseDown: e => {
+              e.preventDefault();
+              e.stopPropagation();
+            },
+          }}
+          data={opt}
+        >
+          {this.formatOptionLabel(opt, 'value')}
+        </MultiValue>
       ));
     }
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <ValueSpacer values={{ placeholder, options }}>
+      <ValueSpacer
+        placeholder={placeholder}
+        options={options}
+        getOptionLabel={getOptionLabel}
+        formatOptionLabel={this.formatOptionLabel}
+        components={this.components}
+        isDisabled={isDisabled}
+        {...commonProps}
+      >
         <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
           {this.formatOptionLabel(singleValue, 'value')}
         </SingleValue>

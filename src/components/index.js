@@ -4,9 +4,11 @@ import {
   type IndicatorContainerProps,
   type ContainerProps,
   type ValueContainerProps,
+  type ValueSpacerProps,
   IndicatorsContainer,
   SelectContainer,
   ValueContainer,
+  ValueSpacer,
 } from './containers';
 import {
   type IndicatorProps,
@@ -41,7 +43,6 @@ import MultiValue, {
 import Option, { type OptionProps } from './Option';
 import Placeholder, { type PlaceholderProps } from './Placeholder';
 import SingleValue, { type SingleValueProps } from './SingleValue';
-import ValueSpacer, { type ValueSpacerProps } from './ValueSpacer';
 
 type IndicatorComponentType = ComponentType<IndicatorProps>;
 
