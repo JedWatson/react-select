@@ -19,6 +19,7 @@ exports[`defaults - snapshot 1`] = `
     <Creatable
       allowCreateWhileLoading={false}
       cacheOptions={false}
+      createOptionLabelFirst={false}
       defaultInputValue=""
       defaultMenuIsOpen={false}
       defaultOptions={false}
@@ -45,6 +46,7 @@ exports[`defaults - snapshot 1`] = `
         captureMenuScroll={false}
         closeMenuOnSelect={true}
         components={Object {}}
+        createOptionLabelFirst={false}
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultOptions={false}
@@ -117,6 +119,7 @@ exports[`defaults - snapshot 1`] = `
               "captureMenuScroll": false,
               "closeMenuOnSelect": true,
               "components": Object {},
+              "createOptionLabelFirst": false,
               "defaultInputValue": "",
               "defaultMenuIsOpen": false,
               "defaultOptions": false,
@@ -215,6 +218,7 @@ exports[`defaults - snapshot 1`] = `
                     "captureMenuScroll": false,
                     "closeMenuOnSelect": true,
                     "components": Object {},
+                    "createOptionLabelFirst": false,
                     "defaultInputValue": "",
                     "defaultMenuIsOpen": false,
                     "defaultOptions": false,
@@ -295,6 +299,7 @@ exports[`defaults - snapshot 1`] = `
                           "captureMenuScroll": false,
                           "closeMenuOnSelect": true,
                           "components": Object {},
+                          "createOptionLabelFirst": false,
                           "defaultInputValue": "",
                           "defaultMenuIsOpen": false,
                           "defaultOptions": false,
@@ -370,6 +375,7 @@ exports[`defaults - snapshot 1`] = `
                                 "captureMenuScroll": false,
                                 "closeMenuOnSelect": true,
                                 "components": Object {},
+                                "createOptionLabelFirst": false,
                                 "defaultInputValue": "",
                                 "defaultMenuIsOpen": false,
                                 "defaultOptions": false,
@@ -572,6 +578,7 @@ exports[`defaults - snapshot 1`] = `
                           "captureMenuScroll": false,
                           "closeMenuOnSelect": true,
                           "components": Object {},
+                          "createOptionLabelFirst": false,
                           "defaultInputValue": "",
                           "defaultMenuIsOpen": false,
                           "defaultOptions": false,
@@ -652,6 +659,7 @@ exports[`defaults - snapshot 1`] = `
                                 "captureMenuScroll": false,
                                 "closeMenuOnSelect": true,
                                 "components": Object {},
+                                "createOptionLabelFirst": false,
                                 "defaultInputValue": "",
                                 "defaultMenuIsOpen": false,
                                 "defaultOptions": false,
@@ -733,6 +741,7 @@ exports[`defaults - snapshot 1`] = `
                                 "captureMenuScroll": false,
                                 "closeMenuOnSelect": true,
                                 "components": Object {},
+                                "createOptionLabelFirst": false,
                                 "defaultInputValue": "",
                                 "defaultMenuIsOpen": false,
                                 "defaultOptions": false,

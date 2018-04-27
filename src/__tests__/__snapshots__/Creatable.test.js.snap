@@ -3,6 +3,7 @@
 exports[`defaults - snapshot 1`] = `
 <Creatable
   allowCreateWhileLoading={false}
+  createOptionLabelFirst={false}
   defaultInputValue=""
   defaultMenuIsOpen={false}
   defaultValue={null}
