@@ -101,7 +101,7 @@
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
-    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start > /dev/null 2>&1 'yarn test:cypress'",
+    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged"
