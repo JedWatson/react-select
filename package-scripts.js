@@ -12,16 +12,16 @@ module.exports = {
       default: series(
         rimraf('dist'),
         rimraf('lib'),
-        concurrent.nps('build.rollup', 'build.babel', 'build.flowtype')
+        concurrent.nps('build.rollup', 'build.babel'),
+        'nps build.flowtype'
       ),
       rollup: 'rollup --config',
       babel: 'babel src -d lib',
       watch: 'babel src -d lib -w',
       flowtype: {
         description: 'make flow types available to consumers',
-        default: concurrent.nps('build.flowtype.dist', 'build.flowtype.lib'),
-        dist: "flow-copy-source -i '**/__tests__/**' src dist",
-        lib: "flow-copy-source -i '**/__tests__/**' src lib",
+        default: concurrent.nps('build.flowtype.lib'),
+        lib: "echo \"// @flow\n\nexport * from '../src';\" > lib/index.js.flow",
       },
       docs: series(rimraf('docs/dist'), 'webpack --progress -p'),
     },

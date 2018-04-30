@@ -54,7 +54,6 @@
     "eslint-plugin-react": "^7.3.0",
     "extract-react-types-loader": "^0.1.2",
     "flow-bin": "^0.68.0",
-    "flow-copy-source": "^1.3.0",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^0.14.3",
