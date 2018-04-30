@@ -11,6 +11,7 @@ export type ValueProps = LabelProps & {
   children: Node,
   components: any,
   innerProps: any,
+  isFocused: boolean,
   isDisabled: boolean,
   removeProps: {
     onClick: any => void,
@@ -35,14 +36,14 @@ export const multiValueLabelCSS = ({ cropWithEllipsis }: LabelProps) => ({
   textOverflow: cropWithEllipsis ? 'ellipsis' : null,
   whiteSpace: 'nowrap',
 });
-export const multiValueRemoveCSS = () => ({
+export const multiValueRemoveCSS = ({ isFocused }: MultiValueProps ) => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
-  color: colors.textLight,
+  color: isFocused ? colors.danger : colors.textLight,
   display: 'flex',
   paddingLeft: spacing.baseUnit,
   paddingRight: spacing.baseUnit,
-
+  backgroundColor: isFocused && colors.dangerLight,
   ':hover': {
     backgroundColor: colors.dangerLight,
     color: colors.danger,
