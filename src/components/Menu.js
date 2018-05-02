@@ -318,13 +318,8 @@ type MenuListState = {
 export type MenuListProps = {
   /** The children to be rendered. */
   children: Node,
-  /** Props to be passed to the wrapper component. */
-  innerProps: {
-    'aria-multiselectable': boolean,
-    id: string,
-    innerRef: InnerRef,
-    role: 'listbox',
-  },
+  /** Inner ref to DOM Node */
+  innerRef: InnerRef,
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
