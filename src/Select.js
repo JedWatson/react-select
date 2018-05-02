@@ -1243,6 +1243,7 @@ export default class Select extends Component<Props, State> {
     const innerProps = {
       onMouseDown: this.onClearIndicatorMouseDown,
       onTouchEnd: this.onClearIndicatorTouchEnd,
+      'aria-hidden': 'true',
     };
 
     return (
@@ -1261,10 +1262,7 @@ export default class Select extends Component<Props, State> {
 
     if (!LoadingIndicator || !isLoading) return null;
 
-    const innerProps = {
-      'aria-hidden': 'true',
-    };
-
+    const innerProps = { 'aria-hidden': 'true' };
     return (
       <LoadingIndicator
         {...commonProps}
@@ -1283,12 +1281,10 @@ export default class Select extends Component<Props, State> {
     const { commonProps } = this;
     const { isDisabled } = this.props;
     const { isFocused } = this.state;
-    const innerProps = { role: 'presentation' };
 
     return (
       <IndicatorSeparator
         {...commonProps}
-        innerProps={innerProps}
         isDisabled={isDisabled}
         isFocused={isFocused}
       />
@@ -1304,7 +1300,7 @@ export default class Select extends Component<Props, State> {
     const innerProps = {
       onMouseDown: this.onDropdownIndicatorMouseDown,
       onTouchEnd: this.onDropdownIndicatorTouchEnd,
-      role: 'button',
+      'aria-hidden': 'true',
     };
 
     return (
