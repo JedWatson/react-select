@@ -10,16 +10,6 @@ type ComponentProps = {
   children: Node,
   /** Component to wrap the label, recieves headingProps. */
   Heading: ComponentType<any>,
-  /** Props passed to the heading. */
-  headingProps: {
-    'aria-labelledby': string,
-  },
-  /** props passed to the wrapping element for the group. */
-  innerProps: {
-    'aria-expanded': boolean,
-    'aria-label': string,
-    role: 'group',
-  },
   /** Label to be displayed in the heading component. */
   label: Node,
 };
@@ -37,9 +27,7 @@ const Group = (props: GroupProps) => {
     cx,
     getStyles,
     Heading,
-    headingProps,
     label,
-    innerProps,
   } = props;
   return (
     <div
@@ -50,7 +38,7 @@ const Group = (props: GroupProps) => {
       )}
       {...innerProps}
     >
-      <Heading getStyles={getStyles} cx={cx} {...headingProps}>
+      <Heading getStyles={getStyles} cx={cx}>
         {label}
       </Heading>
       <div>{children}</div>

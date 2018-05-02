@@ -1125,15 +1125,12 @@ export default class Select extends Component<Props, State> {
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
-      'aria-activedescendant': this.getActiveDescendentId(),
       'aria-autocomplete': 'list',
       'aria-busy': isLoading,
-      'aria-describedby': this.props['aria-describedby'],
       'aria-expanded': menuIsOpen,
       'aria-haspopup': menuIsOpen,
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
-      'aria-owns': menuIsOpen ? this.getElementId('listbox') : undefined,
       role: 'combobox',
     };
 
@@ -1386,11 +1383,6 @@ export default class Select extends Component<Props, State> {
               {...commonProps}
               {...group}
               Heading={GroupHeading}
-              innerProps={{
-                'aria-expanded': true,
-                'aria-labelledby': headingId,
-                role: 'group',
-              }}
               headingProps={{
                 id: headingId,
               }}
