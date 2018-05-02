@@ -1262,7 +1262,7 @@ export default class Select extends Component<Props, State> {
     if (!LoadingIndicator || !isLoading) return null;
 
     const innerProps = {
-      role: 'presentation',
+      'aria-hidden': 'true',
     };
 
     return (
