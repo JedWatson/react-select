@@ -523,10 +523,6 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { onChange } = this.props;
     const { selectValue } = this.state;
-    this.setState({
-      focusedValue: null,
-    });
-
     onChange(selectValue.filter(i => i !== removedValue), {
       action: 'remove-value',
     });
@@ -534,6 +530,9 @@ export default class Select extends Component<Props, State> {
   };
   clearValue = () => {
     const { isMulti, onChange } = this.props;
+    this.setState({
+      focusedValue: null,
+    });
     onChange(isMulti ? [] : null, { action: 'clear' });
   };
   popValue = () => {
@@ -858,6 +857,7 @@ export default class Select extends Component<Props, State> {
         if (inputValue || !backspaceRemovesValue) return;
         if (focusedValue) {
           this.removeValue(focusedValue);
+          this.focusValue('next');
           break;
         } else {
           this.popValue();
@@ -901,6 +901,12 @@ export default class Select extends Component<Props, State> {
         }
         break;
       case ' ': // space
+        if (focusedValue) {
+          if (onValueClick) {
+            onValueClick(focusedValue, { action: 'focused-value-clicked' });
+            break;
+          }
+        }
         if (inputValue) {
           return;
         }
