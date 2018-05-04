@@ -20,8 +20,8 @@ export type ValueProps = LabelProps & {
 };
 export type MultiValueProps = CommonProps & ValueProps;
 
-export const multiValueCSS = () => ({
-  backgroundColor: colors.neutral10,
+export const multiValueCSS = ({ isFocused }: MultiValueProps) => ({
+  backgroundColor: isFocused ? colors.dangerLight : colors.neutral10,
   borderRadius: borderRadius / 2,
   display: 'flex',
   margin: spacing.baseUnit / 2,
@@ -36,14 +36,12 @@ export const multiValueLabelCSS = ({ cropWithEllipsis }: LabelProps) => ({
   textOverflow: cropWithEllipsis ? 'ellipsis' : null,
   whiteSpace: 'nowrap',
 });
-export const multiValueRemoveCSS = ({ isFocused }: MultiValueProps ) => ({
+export const multiValueRemoveCSS = () => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
-  color: isFocused ? colors.danger : colors.textLight,
   display: 'flex',
   paddingLeft: spacing.baseUnit,
   paddingRight: spacing.baseUnit,
-  backgroundColor: isFocused && colors.dangerLight,
   ':hover': {
     backgroundColor: colors.dangerLight,
     color: colors.danger,
