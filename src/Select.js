@@ -867,7 +867,7 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
-    const { hideSelectedOptions, isMulti, inputValue, options } = props;
+    const { hideSelectedOptions, isMulti, inputValue = '', options } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
