@@ -270,13 +270,13 @@ export default class Select extends Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
-    const { options, value } = props;
+    const { value } = props;
     this.components = defaultComponents(props);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
-    const menuOptions = this.buildMenuOptions(options, selectValue);
+    const menuOptions = this.buildMenuOptions(props, selectValue);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -299,11 +299,7 @@ export default class Select extends Component<Props, State> {
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
-      const menuOptions = this.buildMenuOptions(
-        nextProps.options,
-        selectValue,
-        nextProps.inputValue
-      );
+      const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
       this.setState({ menuOptions, selectValue, focusedOption });
     }
@@ -870,12 +866,8 @@ export default class Select extends Component<Props, State> {
   // Menu Options
   // ==============================
 
-  buildMenuOptions(
-    options: OptionsType,
-    selectValue: OptionsType,
-    inputValue: string = ''
-  ): MenuOptions {
-    const { hideSelectedOptions, isMulti } = this.props;
+  buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
+    const { hideSelectedOptions, isMulti, inputValue, options } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
