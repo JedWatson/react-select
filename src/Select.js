@@ -167,6 +167,8 @@ export type Props = {
   onMenuScrollToTop: (SyntheticEvent<HTMLElement>) => void,
   /* Fired when the user scrolls to the bottom of the menu */
   onMenuScrollToBottom: (SyntheticEvent<HTMLElement>) => void,
+  /* Fired when the user clicks a value in the control for multi-select */
+  onValueClick?:(OptionType, ActionMeta) => void,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
   /* Allows control of whether the menu is opened when the Select is clicked */
@@ -801,6 +803,7 @@ export default class Select extends Component<Props, State> {
     this.onInputChange('', { action: 'input-blur' });
     this.onMenuClose();
     this.setState({
+      focusedValue: null,
       isFocused: false,
     });
   };
@@ -824,12 +827,12 @@ export default class Select extends Component<Props, State> {
       isClearable,
       isDisabled,
       menuIsOpen,
+      onValueClick,
       onKeyDown,
       tabSelectsValue,
       openMenuOnFocus,
     } = this.props;
     const { focusedOption, focusedValue, selectValue } = this.state;
-    console.log(event.currentTarget);
 
     if (isDisabled) return;
 
@@ -876,7 +879,9 @@ export default class Select extends Component<Props, State> {
         break;
       case 'Enter':
         if (focusedValue) {
-          this.removeValue(focusedValue);
+          if (onValueClick) {
+            onValueClick(focusedValue, { action: 'focused-value-clicked' });
+          }
           break;
         }
         if (menuIsOpen) {
