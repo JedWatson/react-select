@@ -2,7 +2,7 @@
 import React, { type ElementRef } from 'react';
 import AutosizeInput from 'react-input-autosize';
 
-import { spacing } from '../theme';
+import { colors, spacing } from '../theme';
 import { Div } from '../primitives';
 
 import type { PropsWithStyles } from '../types';
@@ -22,6 +22,7 @@ export const css = ({ isDisabled }: InputProps) => ({
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
+  color: colors.text,
 });
 const inputStyle = isHidden => ({
   background: 0,
@@ -30,6 +31,7 @@ const inputStyle = isHidden => ({
   opacity: isHidden ? 0 : 1,
   outline: 0,
   padding: 0,
+  color: 'inherit',
 });
 
 const Input = ({
@@ -50,4 +52,5 @@ const Input = ({
     />
   </Div>
 );
+
 export default Input;

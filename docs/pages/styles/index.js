@@ -6,20 +6,20 @@ import { StyledSingle, StyledMulti } from '../../examples';
 
 export default function Styles() {
   return (
-  <Fragment>
-    <Helmet>
-      <title>Styles - React Select</title>
-      <meta
-        name="description"
-        content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects"
-      />
-    </Helmet>
-    {md`
+    <Fragment>
+      <Helmet>
+        <title>Styles - React Select</title>
+        <meta
+          name="description"
+          content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects"
+        />
+      </Helmet>
+      {md`
     # Styles
 
     React-Select offers a flexible, light-weight styling framework which is
     a thin abstraction over simple javascript objects using
-    [glam](https://github.com/threepointone/glam).
+    [emotion](https://emotion.sh/).
 
     ~~~jsx
     /**
@@ -91,7 +91,7 @@ export default function Styles() {
           urlPath="docs/examples/StyledSingle.js"
           raw={require('!!raw-loader!../../examples/StyledSingle.js')}
         >
-          <StyledSingle/>
+          <StyledSingle />
         </ExampleWrapper>
       )}
 
@@ -100,8 +100,8 @@ export default function Styles() {
           label="Customised styles for Multi Select"
           urlPath="docs/examples/StyledMulti.js"
           raw={require('!!raw-loader!../../examples/StyledMulti.js')}
-          >
-          <StyledMulti/>
+        >
+          <StyledMulti />
         </ExampleWrapper>
       )}
     `}
