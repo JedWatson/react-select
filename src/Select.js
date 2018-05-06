@@ -579,7 +579,7 @@ export default class Select extends Component<Props, State> {
       ? this.props.filterOption(option, inputValue)
       : true;
   }
-  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+  formatOptionLabel = (data: OptionType, context: FormatOptionLabelContext): Node  => {
     if (typeof this.props.formatOptionLabel === 'function') {
       const { inputValue } = this.props;
       const { selectValue } = this.state;
@@ -1031,16 +1031,27 @@ export default class Select extends Component<Props, State> {
       MultiValueRemove,
       SingleValue,
       Placeholder,
+      ValueSpacer,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
+    const { isDisabled, isMulti, inputValue, placeholder, options } = this.props;
     const { selectValue } = this.state;
 
     if (!this.hasValue()) {
       return inputValue ? null : (
-        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
-          {placeholder}
-        </Placeholder>
+        <ValueSpacer
+          placeholder={placeholder}
+          options={options}
+          getOptionLabel={getOptionLabel}
+          formatOptionLabel={this.formatOptionLabel}
+          components={this.components}
+          isDisabled={isDisabled}
+          {...commonProps}
+        >
+          <Placeholder {...commonProps} isDisabled={isDisabled}>
+            {placeholder}
+          </Placeholder>
+        </ValueSpacer>
       );
     }
     if (isMulti) {
@@ -1053,7 +1064,6 @@ export default class Select extends Component<Props, State> {
             Remove: MultiValueRemove,
           }}
           isDisabled={isDisabled}
-          key={this.getOptionValue(opt)}
           removeProps={{
             onClick: () => this.removeValue(opt),
             onMouseDown: e => {
@@ -1070,9 +1080,19 @@ export default class Select extends Component<Props, State> {
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
-        {this.formatOptionLabel(singleValue, 'value')}
-      </SingleValue>
+      <ValueSpacer
+        placeholder={placeholder}
+        options={options}
+        getOptionLabel={getOptionLabel}
+        formatOptionLabel={this.formatOptionLabel}
+        components={this.components}
+        isDisabled={isDisabled}
+        {...commonProps}
+      >
+        <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
+          {this.formatOptionLabel(singleValue, 'value')}
+        </SingleValue>
+      </ValueSpacer>
     );
   }
   renderClearIndicator() {

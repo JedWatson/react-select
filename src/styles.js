@@ -4,6 +4,7 @@ import {
   containerCSS,
   indicatorsContainerCSS,
   valueContainerCSS,
+  valueSpacerCSS,
 } from './components/containers';
 import { css as controlCSS } from './components/Control';
 import { groupCSS, groupHeadingCSS } from './components/Group';
@@ -55,6 +56,7 @@ export type Styles = {
   placeholder?: Props => {},
   singleValue?: Props => {},
   valueContainer: Props => {},
+  valueSpacer?: Props => {},
 };
 export type StylesConfig = $Shape<Styles>;
 export type GetStyles = (string, Props) => {};
@@ -82,6 +84,7 @@ export const defaultStyles: Styles = {
   placeholder: placeholderCSS,
   singleValue: singleValueCSS,
   valueContainer: valueContainerCSS,
+  valueSpacer: valueSpacerCSS,
 };
 
 // Merge Utility

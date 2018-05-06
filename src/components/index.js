@@ -4,9 +4,11 @@ import {
   type IndicatorContainerProps,
   type ContainerProps,
   type ValueContainerProps,
+  type ValueSpacerProps,
   IndicatorsContainer,
   SelectContainer,
   ValueContainer,
+  ValueSpacer,
 } from './containers';
 import {
   type IndicatorProps,
@@ -69,6 +71,7 @@ export type SelectComponents = {
   Placeholder: ComponentType<PlaceholderProps>,
   SelectContainer: ComponentType<ContainerProps>,
   SingleValue: ComponentType<SingleValueProps>,
+  ValueSpacer: ComponentType<ValueSpacerProps>,
   ValueContainer: ComponentType<ValueContainerProps>,
 };
 
@@ -99,6 +102,7 @@ export const components: SelectComponents = {
   Placeholder: Placeholder,
   SelectContainer: SelectContainer,
   SingleValue: SingleValue,
+  ValueSpacer: ValueSpacer,
   ValueContainer: ValueContainer,
 };
 
