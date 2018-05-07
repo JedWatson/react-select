@@ -568,6 +568,7 @@ export default class Select extends Component<Props, State> {
       selectProps: props,
     };
   }
+
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
     return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
@@ -1124,7 +1125,7 @@ export default class Select extends Component<Props, State> {
       Placeholder,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
+    const { isDisabled, isMulti, inputValue, onValueClick, placeholder } = this.props;
     const { selectValue, focusedValue } = this.state;
 
     if (!this.hasValue()) {
@@ -1148,6 +1149,17 @@ export default class Select extends Component<Props, State> {
           isFocused={isFocused}
           isDisabled={isDisabled}
           key={this.getOptionValue(opt)}
+          onValueClick={onValueClick}
+          valueProps = {{
+            onClick: onValueClick ? () => onValueClick(opt, { action: 'focused-value-clicked' }) : undefined,
+            onMouseDown: e => {
+              if (onValueClick) {
+                e.preventDefault();
+                e.stopPropagation();
+              }
+              return;
+            }
+          }}
           removeProps={{
             onClick: () => this.removeValue(opt),
             onMouseDown: e => {
@@ -1165,7 +1177,24 @@ export default class Select extends Component<Props, State> {
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
+      <SingleValue
+        {...commonProps}
+        data={singleValue}
+        isDisabled={isDisabled}
+        valueProps={{
+          onClick:  onValueClick ? (event: SyntheticEvent<*>) => {
+            onValueClick(singleValue, { action: 'focused-value-clicked' });
+            return;
+          } : undefined,
+          onMouseDown: (event) => {
+            if (onValueClick) {
+              event.stopPropagation();
+              event.preventDefault();
+            }
+            return;
+          }
+        }}
+      >
         {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>
     );
@@ -1483,7 +1512,6 @@ export default class Select extends Component<Props, State> {
             {...commonProps}
             isDisabled={isDisabled}
             maxHeight={maxValueHeight}
-            tabIndex={1}
           >
             {this.renderPlaceholderOrValue()}
             {this.renderInput()}
