@@ -167,8 +167,6 @@ export type Props = {
   onMenuScrollToTop: (SyntheticEvent<HTMLElement>) => void,
   /* Fired when the user scrolls to the bottom of the menu */
   onMenuScrollToBottom: (SyntheticEvent<HTMLElement>) => void,
-  /* Fired when the user clicks a value in the control for multi-select */
-  onValueClick?:(OptionType, ActionMeta) => void,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
   /* Allows control of whether the menu is opened when the Select is clicked */
@@ -843,7 +841,6 @@ export default class Select extends Component<Props, State> {
       isClearable,
       isDisabled,
       menuIsOpen,
-      onValueClick,
       onKeyDown,
       tabSelectsValue,
       openMenuOnFocus,
@@ -894,12 +891,6 @@ export default class Select extends Component<Props, State> {
         this.selectOption(focusedOption);
         break;
       case 'Enter':
-        if (focusedValue) {
-          if (onValueClick) {
-            onValueClick(focusedValue, { action: 'focused-value-clicked' });
-          }
-          break;
-        }
         if (menuIsOpen) {
           if (!focusedOption) return;
           this.selectOption(focusedOption);
@@ -917,12 +908,6 @@ export default class Select extends Component<Props, State> {
         }
         break;
       case ' ': // space
-        if (focusedValue) {
-          if (onValueClick) {
-            onValueClick(focusedValue, { action: 'focused-value-clicked' });
-            break;
-          }
-        }
         if (inputValue) {
           return;
         }
@@ -1140,7 +1125,7 @@ export default class Select extends Component<Props, State> {
       Placeholder,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, onValueClick, placeholder } = this.props;
+    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
     const { selectValue, focusedValue } = this.state;
 
     if (!this.hasValue()) {
@@ -1164,17 +1149,6 @@ export default class Select extends Component<Props, State> {
           isFocused={isFocused}
           isDisabled={isDisabled}
           key={this.getOptionValue(opt)}
-          onValueClick={onValueClick}
-          valueProps = {{
-            onClick: onValueClick ? () => onValueClick(opt, { action: 'focused-value-clicked' }) : undefined,
-            onMouseDown: e => {
-              if (onValueClick) {
-                e.preventDefault();
-                e.stopPropagation();
-              }
-              return;
-            }
-          }}
           removeProps={{
             onClick: () => this.removeValue(opt),
             onMouseDown: e => {
@@ -1196,19 +1170,6 @@ export default class Select extends Component<Props, State> {
         {...commonProps}
         data={singleValue}
         isDisabled={isDisabled}
-        valueProps={{
-          onClick:  onValueClick ? (event: SyntheticEvent<*>) => {
-            onValueClick(singleValue, { action: 'focused-value-clicked' });
-            return;
-          } : undefined,
-          onMouseDown: (event) => {
-            if (onValueClick) {
-              event.stopPropagation();
-              event.preventDefault();
-            }
-            return;
-          }
-        }}
       >
         {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>

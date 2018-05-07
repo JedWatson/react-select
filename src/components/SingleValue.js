@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Div } from '../primitives';
 import { colors, spacing } from '../theme';
-import type { CommonProps, ActionMeta, OptionType } from '../types';
+import type { CommonProps } from '../types';
 
 type State = {
   /** Whether this is disabled */
@@ -16,16 +16,11 @@ type ValueProps = {
   data: any,
   /** Props passed to the wrapping element for the group. */
   innerProps: any,
-  valueProps: {
-    onClick: (OptionType, ActionMeta) => void,
-    onMouseDown: any => void,
-  }
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 
-export const css = ({ isDisabled, valueProps }: SingleValueProps) => ({
+export const css = ({ isDisabled }: SingleValueProps) => ({
   color: isDisabled ? colors.neutral40 : colors.text,
-  borderBottom: valueProps.onClick && '2px dotted',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   maxWidth: `calc(100% - ${spacing.baseUnit * 2}px)`,
@@ -35,20 +30,15 @@ export const css = ({ isDisabled, valueProps }: SingleValueProps) => ({
   whiteSpace: 'nowrap',
   top: '50%',
   transform: 'translateY(-50%)',
-  ':hover': {
-    color: valueProps.onClick && colors.primary,
-    cursor: valueProps.onClick && 'pointer',
-  }
 });
 
 const SingleValue = (props: SingleValueProps) => {
-  const { children, cx, getStyles, isDisabled, innerProps, valueProps } = props;
+  const { children, cx, getStyles, isDisabled, innerProps } = props;
   return (
     <Div
       className={cx('single-value', { isDisabled })}
       css={getStyles('singleValue', props)}
       {...innerProps}
-      {...valueProps}
     >
       {children}
     </Div>
