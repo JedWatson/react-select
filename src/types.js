@@ -63,8 +63,7 @@ export type ActionTypes =
   | 'pop-value'
   | 'set-value'
   | 'clear'
-  | 'create-option'
-  | 'focused-value-clicked';
+  | 'create-option';
 
 export type ActionMeta = {|
   action: ActionTypes,
