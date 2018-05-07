@@ -304,8 +304,9 @@ export default class Select extends Component<Props, State> {
     ) {
       const selectValue = cleanValue(nextProps.value);
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
+      const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-      this.setState({ menuOptions, selectValue, focusedOption });
+      this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
     if (this.inputIsHiddenAfterUpdate != null) {
@@ -406,6 +407,7 @@ export default class Select extends Component<Props, State> {
     this.inputIsHiddenAfterUpdate = false;
     this.onMenuOpen();
     this.setState({
+      focusedValue: null,
       focusedOption: menuOptions.focusable[openAtIndex],
     });
   }
@@ -414,6 +416,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue, focusedValue } = this.state;
     // If not isMulti return
     if (!isMulti) return;
+
     this.setState({
       focusedOption: null,
     });
@@ -530,9 +533,6 @@ export default class Select extends Component<Props, State> {
   };
   clearValue = () => {
     const { isMulti, onChange } = this.props;
-    this.setState({
-      focusedValue: null,
-    });
     onChange(isMulti ? [] : null, { action: 'clear' });
   };
   popValue = () => {
@@ -567,6 +567,22 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
     };
+  }
+
+  getNextFocusedValue(selectValue: OptionsType) {
+    const { focusedValue: lastFocusedValue, selectValue: lastSelectValue } = this.state;
+    const lastFocusedIndex = lastSelectValue.indexOf(lastFocusedValue);
+    if (lastFocusedValue) {
+      // If there is currently a focusedValue, and the focusedValue exists in the selectedValues Array
+      if (lastFocusedIndex === -1) {
+        // return it
+        return lastFocusedValue;
+      } else if (lastFocusedIndex <= (selectValue.length - 1)) {
+        // Otherwise, if the currently focusedValue was not the last value in the array return the element currently in its place.
+        return selectValue[lastFocusedIndex];
+      }
+    }
+    return null;
   }
 
   getNextFocusedOption(options: OptionsType) {
@@ -858,7 +874,6 @@ export default class Select extends Component<Props, State> {
         if (inputValue || !backspaceRemovesValue) return;
         if (focusedValue) {
           this.removeValue(focusedValue);
-          this.focusValue('next');
           break;
         } else {
           this.popValue();
