@@ -334,6 +334,7 @@ export default class Select extends Component<Props, State> {
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+      this.announceStatus('feedback', focusedOption ? `${this.getOptionLabel(focusedOption)} option focused` : '');
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
@@ -376,16 +377,14 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   onMenuOpen() {
-    this.setState({
-      instructions: 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.',
-    });
+    this.announceStatus('instructions', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
     this.props.onMenuOpen();
   }
   onMenuClose() {
     const { isSearchable } = this.props;
     console.log('onMenuClose is being called');
     this.setState({
-      instructions: `Select is focused, ${ isSearchable ? 'type to refine list' : '' } press Down to open the menu`,
+      instructions: `Select is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu`,
     });
     this.onInputChange('', { action: 'menu-close' });
     this.props.onMenuClose();
@@ -496,6 +495,7 @@ export default class Select extends Component<Props, State> {
       nextFocus = options.length - 1;
     }
     this.scrollToFocusedOptionOnUpdate = true;
+    this.announceStatus('feedback', `${this.getOptionLabel(options[nextFocus])} option focused`);
     this.setState({
       focusedOption: options[nextFocus],
       focusedValue: null,
@@ -655,6 +655,10 @@ export default class Select extends Component<Props, State> {
   // ==============================
   // Helpers
   // ==============================
+
+  announceStatus(type: string, msg: string) {
+    this.setState({ [type]: msg });
+  }
 
   hasValue() {
     const { selectValue } = this.state;
@@ -1095,11 +1099,15 @@ export default class Select extends Component<Props, State> {
   // ==============================
   // Renderers
   // ==============================
+  constructAnnouncement () {
+    const { screenReaderStatus, inputValue } = this.props;
+    const { feedback } = this.state;
+    return `${feedback} ${screenReaderStatus({ count: this.countOptions() })} ${inputValue ? `for search term ${inputValue}` : ''}`;
+  }
   renderAssertive () {
-    const { screenReaderStatus } = this.props;
     return (
       <A11yText aria-live="assertive" aria-relevant="all" aria-atomic="true">
-        &nbsp;{screenReaderStatus({ count: this.countOptions() })}
+        &nbsp;{this.constructAnnouncement()}
       </A11yText>
     );
   }
