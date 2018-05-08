@@ -238,6 +238,7 @@ export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
   maxHeight: maxHeight,
   position: 'absolute',
   width: '100%',
+  overflowY: 'scroll',
   zIndex: 1,
 });
 
