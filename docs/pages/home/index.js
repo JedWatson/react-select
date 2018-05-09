@@ -174,27 +174,5 @@ export default function Home() {
   )}
 
   You can see a full explanation of how to do this on the [creatable](/creatable) page.
-  
-  # SSR/Univeral Rendering
-  
-  Thanks to how awesome Emotion is (css in js library this framework uses) its really easy to extract the styles required
-  to rendering your Select on the server.
-  
-  ~~~bash
-  yarn add emotion-server
-  ~~~
-  
-  open the file where you extract the SSR Dom to send down to the client and wrap the response in renderStylesToString
-  
-  ~~~jsx
-  import { renderToString } from 'react-dom/server'
-  import { renderStylesToString } from 'emotion-server'
-  import App from './App'
-  
-  const html = renderStylesToString(renderToString(<App />))
-  ~~~
-  
-  for more ways you can do this (including critial CSS) see
-  [Emotion SSR](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
 `;
 }
