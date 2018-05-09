@@ -116,6 +116,7 @@ export function scrollTo(el: Element, top: number): void {
     window.scrollTo(0, top);
     return;
   }
+  
   el.scrollTop = top;
 }
 
