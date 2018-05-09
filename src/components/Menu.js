@@ -238,7 +238,6 @@ export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
   maxHeight: maxHeight,
   position: 'absolute',
   width: '100%',
-  overflowY: 'scroll',
   zIndex: 1,
 });
 
@@ -328,8 +327,9 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = () => ({
+export const menuListCSS = ({ maxHeight }: MenuListComponentProps) => ({
   flexGrow: 1,
+  flexBasis: (maxHeight - spacing.baseUnit*2),
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,

@@ -51,7 +51,6 @@ export default class SingleSelect extends Component<*, State> {
           isRtl={isRtl}
           isSearchable={isSearchable}
           name="color"
-          menuIsOpen
           options={colourOptions}
         />
         <Note Tag="label">
