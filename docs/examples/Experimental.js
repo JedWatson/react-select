@@ -105,10 +105,16 @@ const daysContainerStyles = {
 };
 
 const Group = props => {
-  const { Heading, getStyles, children, label, innerProps } = props;
+  const { Heading, getStyles, children, label, innerProps, headingProps, cx } = props;
   return (
     <Div aria-label={label} css={getStyles('group', props)} {...innerProps}>
-      <Heading getStyles={getStyles}>{label}</Heading>
+      <Heading
+        getStyles={getStyles}
+        cx={cx}
+        {...headingProps}
+      >
+        {label}
+      </Heading>
       <Div css={daysHeaderStyles}>
         {days.map((day, i) => (
           <Span key={`${i}-${day}`} css={daysHeaderItemStyles}>
