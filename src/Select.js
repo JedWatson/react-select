@@ -412,54 +412,43 @@ export default class Select extends Component<Props, State> {
   focusValue(direction: 'previous' | 'next') {
     const { isMulti } = this.props;
     const { selectValue, focusedValue } = this.state;
-    // If not isMulti return
+
+    // Only multiselects support value focusing
     if (!isMulti) return;
 
     this.setState({
       focusedOption: null,
     });
-    // If there are no currently selected values return;
+
     const focusedIndex = focusedValue ? selectValue.indexOf(focusedValue) : -1;
+    const lastIndex = selectValue.length - 1;
     let nextFocus = -1;
     if (!selectValue.length) return;
-    switch(direction) {
+
+    switch (direction) {
       case 'previous':
-      // ## Direction is previous
-      //  If the currently focused value is the first value in the array return;
-      //  Otherwise, focus the previous value in the selected values array.
-      if (focusedIndex === 0) {
-        nextFocus = 0;
+        if (focusedIndex === 0) {
+          // don't cycle from the start to the end
+          nextFocus = 0;
+        } else if (focusedIndex === -1) {
+          // if nothing is focused, focus the last value first
+          nextFocus = lastIndex;
+        } else {
+          nextFocus = focusedIndex - 1;
+        }
         break;
-      }
-
-      if (focusedIndex === -1) {
-        nextFocus = selectValue.length - 1;
-        break;
-      }
-
-      nextFocus = focusedIndex - 1;
-      break;
 
       case 'next':
-      // ## Direction is next
-      //  If there is only one value return;
-      //  If the currently focused value is the last value in the array return;
-      //  Otherwise focus the next value in the array.
-      if (focusedIndex === -1) break;
-      if (focusedIndex === selectValue.length - 1) {
-        /// focus the inpu again
-        break;
-      }
-      nextFocus = focusedIndex + 1;
-      default:
-        break;
+        if (focusedIndex > -1 && focusedIndex < lastIndex) {
+          nextFocus = focusedIndex + 1;
+        }
     }
 
     this.setState({
       inputIsHidden: nextFocus === -1 ? false : true,
       focusedValue: selectValue[nextFocus],
     });
-  };
+  }
 
   focusOption(direction: FocusDirection = 'first') {
     const { pageSize } = this.props;
@@ -568,14 +557,17 @@ export default class Select extends Component<Props, State> {
   }
 
   getNextFocusedValue(selectValue: OptionsType) {
-    const { focusedValue: lastFocusedValue, selectValue: lastSelectValue } = this.state;
+    const {
+      focusedValue: lastFocusedValue,
+      selectValue: lastSelectValue,
+    } = this.state;
     const lastFocusedIndex = lastSelectValue.indexOf(lastFocusedValue);
     if (lastFocusedValue) {
       // If there is currently a focusedValue, and the focusedValue exists in the selectedValues Array
       if (lastFocusedIndex === -1) {
         // return it
         return lastFocusedValue;
-      } else if (lastFocusedIndex <= (selectValue.length - 1)) {
+      } else if (lastFocusedIndex <= selectValue.length - 1) {
         // Otherwise, if the currently focusedValue was not the last value in the array return the element currently in its place.
         return selectValue[lastFocusedIndex];
       }
@@ -1139,38 +1131,34 @@ export default class Select extends Component<Props, State> {
       return selectValue.map(opt => {
         let isFocused = opt === focusedValue;
         return (
-        <MultiValue
-          {...commonProps}
-          components={{
-            Container: MultiValueContainer,
-            Label: MultiValueLabel,
-            Remove: MultiValueRemove,
-          }}
-          isFocused={isFocused}
-          isDisabled={isDisabled}
-          key={this.getOptionValue(opt)}
-          removeProps={{
-            onClick: () => this.removeValue(opt),
-            onMouseDown: e => {
-              e.preventDefault();
-              e.stopPropagation();
-            },
-          }}
-          data={opt}
-        >
-          {this.formatOptionLabel(opt, 'value')}
-        </MultiValue>
-      );
-    });
+          <MultiValue
+            {...commonProps}
+            components={{
+              Container: MultiValueContainer,
+              Label: MultiValueLabel,
+              Remove: MultiValueRemove,
+            }}
+            isFocused={isFocused}
+            isDisabled={isDisabled}
+            key={this.getOptionValue(opt)}
+            removeProps={{
+              onClick: () => this.removeValue(opt),
+              onMouseDown: e => {
+                e.preventDefault();
+                e.stopPropagation();
+              },
+            }}
+            data={opt}
+          >
+            {this.formatOptionLabel(opt, 'value')}
+          </MultiValue>
+        );
+      });
     }
     if (inputValue) return null;
     const singleValue = selectValue[0];
     return (
-      <SingleValue
-        {...commonProps}
-        data={singleValue}
-        isDisabled={isDisabled}
-      >
+      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
         {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>
     );
