@@ -207,7 +207,6 @@ export const defaultProps = {
   isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
-  maxValueHeight: 100,
   minMenuHeight: 140,
   menuIsOpen: false,
   menuPlacement: 'bottom',

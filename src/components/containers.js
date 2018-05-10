@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node, type ElementRef } from 'react';
+import React, { Component, type Node } from 'react';
 
 import { Div } from '../primitives';
 import { spacing } from '../theme';
@@ -46,7 +46,7 @@ export const SelectContainer = (props: ContainerProps) => {
 // ==============================
 
 export type ValueContainerProps = CommonProps & {
-  /** Set when the value container should hold multiple values. This is important for styling. */
+  /** Set when the value container should hold multiple values */
   isMulti: boolean,
   /** Whether the value container currently holds a value. */
   hasValue: boolean,
@@ -63,32 +63,11 @@ export const valueContainerCSS = () => ({
   position: 'relative',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
-  shouldScrollBottom: boolean = false;
-  node: HTMLElement;
-  componentWillUpdate() {
-    if (!this.props.isMulti) return;
-
-    // scroll only if the user was already at the bottom
-    const total = this.node.scrollTop + this.node.offsetHeight;
-    this.shouldScrollBottom = total === this.node.scrollHeight;
-  }
-  componentDidUpdate() {
-    if (!this.props.isMulti) return;
-
-    // ensure we're showing items being added by forcing scroll to the bottom
-    if (this.shouldScrollBottom && this.node) {
-      this.node.scrollTop = this.node.scrollHeight;
-    }
-  }
-  getScrollContainer = (ref: ElementRef<*>) => {
-    this.node = ref;
-  };
   render() {
     const { children, cx, isMulti, getStyles, hasValue } = this.props;
 
     return (
       <Div
-        innerRef={isMulti ? this.getScrollContainer : undefined}
         className={cx('value-container', { isMulti, hasValue })}
         css={getStyles('valueContainer', this.props)}
       >
