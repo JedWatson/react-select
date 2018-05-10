@@ -138,7 +138,6 @@ exports[`snapshot - defaults 1`] = `
       isDisabled={false}
       isMulti={false}
       isRtl={false}
-      maxHeight={100}
       options={Array []}
       selectOption={[Function]}
       selectProps={
