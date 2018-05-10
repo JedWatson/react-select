@@ -51,10 +51,10 @@ export const css = ({ isDisabled, isFocused }: State) => ({
 });
 
 const Control = (props: ControlProps) => {
-  const { children, cx, getStyles, isDisabled, isFocused, innerProps } = props;
+  const { children, cx, className, getStyles, isDisabled, isFocused, innerProps } = props;
   return (
     <Div
-      className={cx('control', { isDisabled, isFocused })}
+      className={(className ? `${className} ` : '') + cx('control', { isDisabled, isFocused })}
       css={getStyles('control', props)}
       {...innerProps}
     >
