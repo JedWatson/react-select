@@ -319,12 +319,18 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentDidUpdate(prevProps: Props) {
-    const { isDisabled } = this.props;
+    const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
-    // ensure focus is restored correctly when the control becomes enabled
-    if (isFocused && !isDisabled && prevProps.isDisabled) {
+
+    if (
+      // ensure focus is restored correctly when the control becomes enabled
+      (isFocused && !isDisabled && prevProps.isDisabled) ||
+      // ensure focus is on the Input when the menu opens
+      (isFocused && menuIsOpen && !prevProps.menuIsOpen)
+    ) {
       this.focusInput();
     }
+
     // scroll the focused option into view if necessary
     if (
       this.menuRef &&
