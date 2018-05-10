@@ -862,14 +862,14 @@ export default class Select extends Component<Props, State> {
         this.focusValue('next');
         break;
       case 'Backspace':
-        if (inputValue || !backspaceRemovesValue) return;
+        if (inputValue) return;
         if (focusedValue) {
           this.removeValue(focusedValue);
-          break;
         } else {
+          if (!backspaceRemovesValue) return;
           this.popValue();
-          break;
         }
+        break;
       case 'Tab':
         if (
           event.shiftKey ||
