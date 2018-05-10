@@ -50,18 +50,14 @@ export type ValueContainerProps = CommonProps & {
   isMulti: boolean,
   /** Whether the value container currently holds a value. */
   hasValue: boolean,
-  /** Whether there should be a maximum height to the container */
-  maxHeight: number,
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
+export const valueContainerCSS = () => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
   flexWrap: 'wrap',
-  maxHeight: maxHeight, // max-height allows scroll when multi
-  overflowY: 'hidden',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',
