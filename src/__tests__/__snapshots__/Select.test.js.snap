@@ -40,7 +40,6 @@ exports[`snapshot - defaults 1`] = `
       "isSearchable": true,
       "loadingMessage": [Function],
       "maxMenuHeight": 300,
-      "maxValueHeight": 100,
       "menuIsOpen": false,
       "menuPlacement": "bottom",
       "menuPosition": "absolute",
@@ -108,7 +107,6 @@ exports[`snapshot - defaults 1`] = `
         "isSearchable": true,
         "loadingMessage": [Function],
         "maxMenuHeight": 300,
-        "maxValueHeight": 100,
         "menuIsOpen": false,
         "menuPlacement": "bottom",
         "menuPosition": "absolute",
@@ -138,7 +136,6 @@ exports[`snapshot - defaults 1`] = `
       isDisabled={false}
       isMulti={false}
       isRtl={false}
-      maxHeight={100}
       options={Array []}
       selectOption={[Function]}
       selectProps={
@@ -162,7 +159,6 @@ exports[`snapshot - defaults 1`] = `
           "isSearchable": true,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
-          "maxValueHeight": 100,
           "menuIsOpen": false,
           "menuPlacement": "bottom",
           "menuPosition": "absolute",
@@ -216,7 +212,6 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
             "menuPosition": "absolute",
@@ -294,7 +289,6 @@ exports[`snapshot - defaults 1`] = `
           "isSearchable": true,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
-          "maxValueHeight": 100,
           "menuIsOpen": false,
           "menuPlacement": "bottom",
           "menuPosition": "absolute",
@@ -353,7 +347,6 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
             "menuPosition": "absolute",
@@ -414,7 +407,6 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
             "menuPosition": "absolute",

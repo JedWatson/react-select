@@ -42,7 +42,6 @@ exports[`defaults - snapshot 1`] = `
       isSearchable={true}
       loadingMessage={[Function]}
       maxMenuHeight={300}
-      maxValueHeight={100}
       menuIsOpen={false}
       menuPlacement="bottom"
       menuPosition="absolute"
@@ -110,7 +109,6 @@ exports[`defaults - snapshot 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
             "menuPosition": "absolute",
@@ -204,7 +202,6 @@ exports[`defaults - snapshot 1`] = `
                   "isSearchable": true,
                   "loadingMessage": [Function],
                   "maxMenuHeight": 300,
-                  "maxValueHeight": 100,
                   "menuIsOpen": false,
                   "menuPlacement": "bottom",
                   "menuPosition": "absolute",
@@ -250,7 +247,6 @@ exports[`defaults - snapshot 1`] = `
                     isDisabled={false}
                     isMulti={false}
                     isRtl={false}
-                    maxHeight={100}
                     options={Array []}
                     selectOption={[Function]}
                     selectProps={
@@ -280,7 +276,6 @@ exports[`defaults - snapshot 1`] = `
                         "isSearchable": true,
                         "loadingMessage": [Function],
                         "maxMenuHeight": 300,
-                        "maxValueHeight": 100,
                         "menuIsOpen": false,
                         "menuPlacement": "bottom",
                         "menuPosition": "absolute",
@@ -307,10 +302,10 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <Component
-                      className="css-1vrc45u "
+                      className="css-1rtrksz "
                     >
                       <div
-                        className="css-1vrc45u "
+                        className="css-1rtrksz "
                       >
                         <Placeholder
                           clearValue={[Function]}
@@ -351,7 +346,6 @@ exports[`defaults - snapshot 1`] = `
                               "isSearchable": true,
                               "loadingMessage": [Function],
                               "maxMenuHeight": 300,
-                              "maxValueHeight": 100,
                               "menuIsOpen": false,
                               "menuPlacement": "bottom",
                               "menuPosition": "absolute",
@@ -549,7 +543,6 @@ exports[`defaults - snapshot 1`] = `
                         "isSearchable": true,
                         "loadingMessage": [Function],
                         "maxMenuHeight": 300,
-                        "maxValueHeight": 100,
                         "menuIsOpen": false,
                         "menuPlacement": "bottom",
                         "menuPosition": "absolute",
@@ -625,7 +618,6 @@ exports[`defaults - snapshot 1`] = `
                               "isSearchable": true,
                               "loadingMessage": [Function],
                               "maxMenuHeight": 300,
-                              "maxValueHeight": 100,
                               "menuIsOpen": false,
                               "menuPlacement": "bottom",
                               "menuPosition": "absolute",
@@ -702,7 +694,6 @@ exports[`defaults - snapshot 1`] = `
                               "isSearchable": true,
                               "loadingMessage": [Function],
                               "maxMenuHeight": 300,
-                              "maxValueHeight": 100,
                               "menuIsOpen": false,
                               "menuPlacement": "bottom",
                               "menuPosition": "absolute",

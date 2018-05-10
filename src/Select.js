@@ -130,8 +130,6 @@ export type Props = {
   minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
   maxMenuHeight: number,
-  /* Maximum height of the value container before scrolling */
-  maxValueHeight: number,
   /* Whether the menu is open */
   menuIsOpen: boolean,
   /* Default placement of the menu in relation to the control. 'auto' will flip
@@ -209,7 +207,6 @@ export const defaultProps = {
   isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
-  maxValueHeight: 100,
   minMenuHeight: 140,
   menuIsOpen: false,
   menuPlacement: 'bottom',
@@ -1448,7 +1445,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { id, isDisabled, maxValueHeight } = this.props;
+    const { id, isDisabled } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1474,11 +1471,7 @@ export default class Select extends Component<Props, State> {
           isDisabled={isDisabled}
           isFocused={isFocused}
         >
-          <ValueContainer
-            {...commonProps}
-            isDisabled={isDisabled}
-            maxHeight={maxValueHeight}
-          >
+          <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}
             {this.renderInput()}
           </ValueContainer>
