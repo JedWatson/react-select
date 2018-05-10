@@ -250,6 +250,7 @@ let instanceId = 1;
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   blockOptionHover: boolean = false;
+  clearFocusValueOnUpdate: boolean = false;
   components: SelectComponents;
   commonProps: any; // TODO
   controlRef: ElRef;
@@ -484,6 +485,8 @@ export default class Select extends Component<Props, State> {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
     }
+    // when the select value should change, we should reset focusedValue
+    this.clearFocusValueOnUpdate = true;
     onChange(newValue, { action });
   };
   selectOption = (newValue: OptionType) => {
@@ -554,6 +557,10 @@ export default class Select extends Component<Props, State> {
   }
 
   getNextFocusedValue(nextSelectValue: OptionsType) {
+    if (this.clearFocusValueOnUpdate) {
+      this.clearFocusValueOnUpdate = false;
+      return null;
+    }
     const { focusedValue, selectValue: lastSelectValue } = this.state;
     const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
     if (lastFocusedIndex > -1) {
