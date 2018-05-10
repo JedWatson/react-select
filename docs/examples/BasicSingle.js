@@ -43,6 +43,7 @@ export default class SingleSelect extends Component<*, State> {
     return (
       <Fragment>
         <Select
+          className="Select"
           defaultValue={colourOptions[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}
