@@ -437,11 +437,11 @@ export default class Select extends Component<Props, State> {
           nextFocus = focusedIndex - 1;
         }
         break;
-
       case 'next':
         if (focusedIndex > -1 && focusedIndex < lastIndex) {
           nextFocus = focusedIndex + 1;
         }
+        break;
     }
 
     this.setState({
@@ -454,10 +454,6 @@ export default class Select extends Component<Props, State> {
     const { pageSize } = this.props;
     const { focusedOption, menuOptions } = this.state;
     const options = menuOptions.focusable;
-
-    this.setState({
-      focusedValue: null,
-    });
 
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
@@ -478,6 +474,7 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = true;
     this.setState({
       focusedOption: options[nextFocus],
+      focusedValue: null,
     });
   }
   setValue = (newValue: ValueType, action: ActionTypes = 'set-value') => {
@@ -556,20 +553,18 @@ export default class Select extends Component<Props, State> {
     };
   }
 
-  getNextFocusedValue(selectValue: OptionsType) {
-    const {
-      focusedValue: lastFocusedValue,
-      selectValue: lastSelectValue,
-    } = this.state;
-    const lastFocusedIndex = lastSelectValue.indexOf(lastFocusedValue);
-    if (lastFocusedValue) {
-      // If there is currently a focusedValue, and the focusedValue exists in the selectedValues Array
-      if (lastFocusedIndex === -1) {
-        // return it
-        return lastFocusedValue;
-      } else if (lastFocusedIndex <= selectValue.length - 1) {
-        // Otherwise, if the currently focusedValue was not the last value in the array return the element currently in its place.
-        return selectValue[lastFocusedIndex];
+  getNextFocusedValue(nextSelectValue: OptionsType) {
+    const { focusedValue, selectValue: lastSelectValue } = this.state;
+    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+    if (lastFocusedIndex > -1) {
+      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+      if (nextFocusedIndex > -1) {
+        // the focused value is still in the selectValue, return it
+        return focusedValue;
+      } else if (lastFocusedIndex < nextSelectValue.length) {
+        // the focusedValue is not present in the next selectValue array by
+        // reference, so return the new value at the same index
+        return nextSelectValue[lastFocusedIndex];
       }
     }
     return null;
