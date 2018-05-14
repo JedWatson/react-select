@@ -1,7 +1,7 @@
 // @flow
 import React, { type Node, type ElementRef } from 'react';
+import { css as emotionCSS } from 'emotion';
 
-import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import type { CommonProps, PropsWithStyles } from '../types';
 
@@ -20,7 +20,7 @@ export type ControlProps = CommonProps &
     /** The mouse down event and the innerRef to pass down to the controller element. */
     innerProps: {
       onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
-      innerRef: ElementRef<*>,
+      ref: ElementRef<*>,
     },
   };
 
@@ -51,15 +51,18 @@ export const css = ({ isDisabled, isFocused }: State) => ({
 });
 
 const Control = (props: ControlProps) => {
-  const { children, cx, getStyles, isDisabled, isFocused, innerProps } = props;
+  const { children, cx, getStyles, className, isDisabled, isFocused, innerProps } = props;
   return (
-    <Div
-      className={cx('control', { isDisabled, isFocused })}
-      css={getStyles('control', props)}
+    <div
+      className={cx(emotionCSS(getStyles('control', props)), {
+        'control': true,
+        'control-is-disabled': isDisabled,
+        'control-is-focused': isFocused
+      }, className)}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 

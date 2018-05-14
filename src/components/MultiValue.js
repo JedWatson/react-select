@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
+import { css as emotionCss } from 'emotion';
 
 import { borderRadius, colors, spacing } from '../theme';
 import { CrossIcon } from './indicators';
@@ -76,6 +77,7 @@ class MultiValue extends Component<MultiValueProps> {
   render () {
     const {
       children,
+      className,
       components,
       cx,
       getStyles,
@@ -84,27 +86,33 @@ class MultiValue extends Component<MultiValueProps> {
       removeProps,
     } = this.props;
     const cn = {
-      container: cx('multi-value', { isDisabled }),
-      label: cx('multi-value__label'),
-      remove: cx('multi-value__remove'),
-    };
-    const css = {
-      container: getStyles('multiValue', this.props),
-      label: getStyles('multiValueLabel', this.props),
-      remove: getStyles('multiValueRemove', this.props),
+      container: cx(
+        emotionCss(getStyles('multiValue', this.props)),
+        {
+          'multi-value': true,
+          'multi-value--is-disabled': isDisabled
+        }, className),
+      label: cx(
+        emotionCss(getStyles('multiValueLabel', this.props)),
+        {
+          'multi-value__label': true,
+        }, className),
+      remove: cx(
+        emotionCss(getStyles('multiValueRemove', this.props),), {
+          'multi-value__remove': true,
+        }, className),
     };
     const { Container, Label, Remove } = components;
 
     return (
       <Container
         className={cn.container}
-        css={css.container}
         {...innerProps}
         >
-        <Label className={cn.label} css={css.label}>
+        <Label className={cn.label}>
           {children}
         </Label>
-        <Remove className={cn.remove} css={css.remove} {...removeProps} />
+        <Remove className={cn.remove} {...removeProps} />
       </Container>
     );
   }
