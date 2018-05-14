@@ -135,7 +135,7 @@ exports[`defaults - snapshot 1`] = `
         setValue={[Function]}
       >
         <div
-          className="css-10nd86i "
+          className="css-10nd86i"
           onKeyDown={[Function]}
         >
           <A11yText
@@ -224,7 +224,7 @@ exports[`defaults - snapshot 1`] = `
             setValue={[Function]}
           >
             <div
-              className="css-1aya2g8 "
+              className="css-1aya2g8"
               onMouseDown={[Function]}
               onTouchEnd={[Function]}
             >
@@ -292,7 +292,7 @@ exports[`defaults - snapshot 1`] = `
                 setValue={[Function]}
               >
                 <div
-                  className="css-1rtrksz "
+                  className="css-1rtrksz"
                 >
                   <Placeholder
                     clearValue={[Function]}
@@ -359,7 +359,7 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <div
-                      className="css-1492t68 "
+                      className="css-1492t68"
                     >
                       Select...
                     </div>
@@ -398,7 +398,7 @@ exports[`defaults - snapshot 1`] = `
                         autoCapitalize="none"
                         autoComplete="off"
                         autoCorrect="off"
-                        className=" "
+                        className=""
                         disabled={false}
                         id="react-select-2-input"
                         injectStyles={true}
@@ -425,7 +425,7 @@ exports[`defaults - snapshot 1`] = `
                         value=""
                       >
                         <div
-                          className=" "
+                          className=""
                           style={
                             Object {
                               "display": "inline-block",
@@ -547,7 +547,7 @@ exports[`defaults - snapshot 1`] = `
                 setValue={[Function]}
               >
                 <div
-                  className="css-1wy0on6 "
+                  className="css-1wy0on6"
                 >
                   <IndicatorSeparator
                     clearValue={[Function]}
@@ -619,7 +619,7 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <span
-                      className="css-d8oujb "
+                      className="css-d8oujb"
                       role="presentation"
                     />
                   </IndicatorSeparator>
@@ -695,7 +695,7 @@ exports[`defaults - snapshot 1`] = `
                     setValue={[Function]}
                   >
                     <div
-                      className="css-1ep9fjw "
+                      className="css-1ep9fjw"
                       onMouseDown={[Function]}
                       onTouchEnd={[Function]}
                       role="button"
