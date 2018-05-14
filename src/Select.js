@@ -69,8 +69,10 @@ export type Props = {
   blurInputOnSelect: boolean,
   /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
   captureMenuScroll: boolean,
-  /* className attribute applied to the outer component, and used as a base for inner component classNames */
+  /* className attribute applied to the outer component */
   className?: string,
+  /* classNamePrefix attribute used as a base for inner component classNames */
+  classNamePrefix?: string | null,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
@@ -538,11 +540,21 @@ export default class Select extends Component<Props, State> {
 
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { className, isMulti, isRtl, options } = props;
+    const { className, classNamePrefix, isMulti, isRtl, options } = props;
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    const cx = classNames.bind(null, className);
+    let cxPrefix = classNamePrefix;
+    if (className && (classNamePrefix === undefined)) {
+      console.warn(`
+        Warning: the behaviour of 'className' has changed between 2.0.0-beta.2 and 2.0.0-beta.3.
+        You can now use className to specify the class name of the outer container, and classNamePrefix to enable our provided BEM class names for internal elements.
+        The className prop will have no effect on internal elements when 2.0.0 is released.
+      `);
+      cxPrefix = className;
+    }
+
+    const cx = classNames.bind(null, cxPrefix);
     return {
       cx,
       clearValue,
@@ -1450,7 +1462,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { id, isDisabled } = this.props;
+    const { className, id, isDisabled } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1458,6 +1470,7 @@ export default class Select extends Component<Props, State> {
     return (
       <SelectContainer
         {...commonProps}
+        className={className}
         innerProps={{
           id: id,
           onKeyDown: this.onKeyDown,
