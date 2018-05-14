@@ -48,7 +48,7 @@ export function classNames(
     }
   }
 
-  return arr.map(i => i).join(' ');
+  return arr.filter(i => i).map(i => String(i).trim()).join(' ');
 }
 // ==============================
 // Clean Value
