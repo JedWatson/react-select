@@ -7,6 +7,7 @@
 * Fixed various IE11 issues, see [#2583](https://github.com/JedWatson/react-select/issues/2583)
 * Added multi-value keyboard navigation using left and right arrows.
 * Simplified flow distribution, thanks [falconmick](https://github.com/falconmick)
+* Added fix to ensure focus is on the Input when the menu opens
 
 ## v2.0.0-beta.2 / 2018-04-25
 
