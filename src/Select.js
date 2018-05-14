@@ -547,9 +547,10 @@ export default class Select extends Component<Props, State> {
     let cxPrefix = classNamePrefix;
     if (className && (classNamePrefix === undefined)) {
       console.warn(`
-        Warning: className prop functionality has changed, this should be used to specify the outer container of the Select
-        Please use classNamePrefix prop to prefix our provided BEM classes with a string.`
-      );
+        Warning: the behaviour of 'className' has changed between 2.0.0-beta.2 and 2.0.0-beta.3.
+        You can now use className to specify the class name of the outer container, and classNamePrefix to enable our provided BEM class names for internal elements.
+        The className prop will have no effect on internal elements when 2.0.0 is released.
+      `);
       cxPrefix = className;
     }
 
