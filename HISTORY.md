@@ -1,6 +1,18 @@
 # React-Select
 
 ## v2.0.0-beta.3 / 2018-05-14
+
+**Note**: There is an important change in this release to the behaviour of `className`.
+
+Previously, `className` would control the class names applied to internal components
+as well as the containing element. Now, the `className` prop only controls the class
+name of the containing element, and the new prop `classNamePrefix` controls classes
+applies to internal components.
+
+Until 2.0.0 final is released, we have added backwards compatibility and a deprecation
+warning to cover this change.
+
+* Added `classNamePrefix` prop, which now controls the class names applied to internal components
 * Refactored cx internal implementation to reduce specificity of css-in-jss base styles.
 * `maxValueHeight` prop removed
 * Added `--is-disabled` className modifier to Option component, thanks [eemeli](https://github.com/eemeli)
