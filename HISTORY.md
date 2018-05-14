@@ -1,7 +1,7 @@
 # React-Select
 
 ## v2.0.0-beta.3 / 2018-05-14
-* Refactored cx internal implementation to reduce specificity of css-in-jss base styles, and to allow styledComponent based component style customisations.
+* Refactored cx internal implementation to reduce specificity of css-in-jss base styles.
 * `maxValueHeight` prop removed
 * Added `--is-disabled` className modifier to Option component, thanks [eemeli](https://github.com/eemeli)
 * Fixed various IE11 issues, see [#2583](https://github.com/JedWatson/react-select/issues/2583)
