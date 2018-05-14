@@ -2,7 +2,6 @@
 import React, { type Node } from 'react';
 
 import { colors, spacing } from '../theme';
-import { Div } from '../primitives';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -62,13 +61,13 @@ const Option = (props: OptionProps) => {
   const { children, cx, getStyles, isDisabled, isFocused, isSelected, innerProps } = props;
 
   return (
-    <Div
+    <div
       className={cx('option', { isDisabled, isFocused, isSelected })}
       css={getStyles('option', props)}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 

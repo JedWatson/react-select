@@ -16,7 +16,6 @@ import {
   getScrollTop,
   scrollTo,
 } from '../utils';
-import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
 import type {
   InnerRef,
@@ -285,14 +284,14 @@ export class Menu extends Component<MenuProps, MenuState> {
     const { children, cx, getStyles, innerProps } = this.props;
 
     return (
-      <Div
+      <div
         className={cx('menu')}
         css={getStyles('menu', this.getState())}
-        innerRef={this.getPlacement}
+        ref={this.getPlacement}
         {...innerProps}
       >
         {children}
-      </Div>
+      </div>
     );
   }
 }
@@ -335,13 +334,13 @@ export const menuListCSS = ({ maxHeight }: MenuListComponentProps) => ({
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, cx, getStyles, isMulti, innerProps } = props;
   return (
-    <Div
+    <div
       className={cx('menu-list', { isMulti })}
       css={getStyles('menuList', props)}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 
@@ -367,13 +366,13 @@ export type NoticeProps = CommonProps & {
 export const NoOptionsMessage = (props: NoticeProps) => {
   const { children, cx, getStyles, innerProps } = props;
   return (
-    <Div
+    <div
       className={cx(['menu-notice', 'menu-notice--no-options'])}
       css={getStyles('noOptionsMessage', props)}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 NoOptionsMessage.defaultProps = {
@@ -383,13 +382,13 @@ NoOptionsMessage.defaultProps = {
 export const LoadingMessage = (props: NoticeProps) => {
   const { children, cx, getStyles, innerProps } = props;
   return (
-    <Div
+    <div
       className={cx(['menu-notice', 'menu-notice--loading'])}
       css={getStyles('loadingMessage', props)}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 LoadingMessage.defaultProps = {
@@ -468,7 +467,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <Div css={getStyles('menuPortal', state)}>{children}</Div>
+      <div css={getStyles('menuPortal', state)}>{children}</div>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;
