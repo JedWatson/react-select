@@ -10,5 +10,6 @@ export default () => (
     name="colors"
     options={colourOptions}
     className="basic-multi-select"
+    classNamePrefix="select"
   />
 );

@@ -34,7 +34,7 @@ function applyPrefixToName(prefix, name) {
 }
 
 export function classNames(
-  prefix?: string,
+  prefix?: string | null,
   cssKey?: string | null,
   state?: ClassNamesState,
   className?: string,
