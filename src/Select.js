@@ -8,7 +8,6 @@ import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
 import {
   classNames,
   cleanValue,
-  emptyString,
   isTouchCapable,
   isMobileDevice,
   noop,
@@ -543,7 +542,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    const cx = className ? classNames.bind(null, className) : emptyString;
+    const cx = classNames.bind(null, className);
     return {
       cx,
       clearValue,
