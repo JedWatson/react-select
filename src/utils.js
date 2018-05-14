@@ -3,7 +3,6 @@
 import raf from 'raf';
 import { type ElementRef } from 'react';
 import type {
-  ClassNameList,
   ClassNamesState,
   InputActionMeta,
   OptionsType,
@@ -33,28 +32,24 @@ export const emptyString = () => '';
 function applyPrefixToName(prefix, name) {
   return name ? `${prefix}__${name}` : prefix;
 }
-export function classNames(
-  prefix: string,
-  name: string | ClassNameList,
-  state?: ClassNamesState
-): string {
-  const arr: ClassNameList = Array.isArray(name)
-    ? name.map(i => applyPrefixToName(prefix, i))
-    : [applyPrefixToName(prefix, name)];
 
-  // loop through state object, remove falsey values and combine with name
-  if (state && arr.length === 1) {
+export function classNames(
+  prefix?: string,
+  cssKey?: string | null,
+  state?: ClassNamesState,
+  className?: string,
+) {
+  const arr = [cssKey, className];
+  if (state && prefix) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
-        arr.push(`${arr[0]}--${key}`);
+        arr.push(`${applyPrefixToName(prefix, key)}`);
       }
     }
   }
 
-  // prefix everything and return a string
-  return arr.join(' ');
+  return arr.filter(i => i).map(i => String(i).trim()).join(' ');
 }
-
 // ==============================
 // Clean Value
 // ==============================
@@ -116,7 +111,7 @@ export function scrollTo(el: Element, top: number): void {
     window.scrollTo(0, top);
     return;
   }
-  
+
   el.scrollTop = top;
 }
 

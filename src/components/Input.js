@@ -3,18 +3,18 @@ import React, { type ElementRef } from 'react';
 import AutosizeInput from 'react-input-autosize';
 
 import { colors, spacing } from '../theme';
-import { Div } from '../primitives';
 
-import type { PropsWithStyles } from '../types';
+import type { PropsWithStyles, ClassNamesState } from '../types';
 
 export type InputProps = PropsWithStyles & {
-  cx: string => string | void,
+  cx: (?string | null, ?ClassNamesState, ?string) => string | void,
   /** Reference to the internal element */
   innerRef: (ElementRef<*>) => void,
   /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean,
   /** Whether the input is disabled */
   isDisabled?: boolean,
+  className?: string,
 };
 
 export const css = ({ isDisabled }: InputProps) => ({
@@ -35,6 +35,7 @@ const inputStyle = isHidden => ({
 });
 
 const Input = ({
+  className,
   cx,
   getStyles,
   innerRef,
@@ -42,15 +43,15 @@ const Input = ({
   isDisabled,
   ...props
 }: InputProps) => (
-  <Div css={getStyles('input', props)}>
+  <div css={getStyles('input', props)}>
     <AutosizeInput
-      className={cx('input')}
+      className={cx(null, { 'input': true }, className)}
       inputRef={innerRef}
       inputStyle={inputStyle(isHidden)}
       disabled={isDisabled}
       {...props}
     />
-  </Div>
+  </div>
 );
 
 export default Input;
