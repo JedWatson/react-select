@@ -13,7 +13,8 @@ module.exports = {
         rimraf('dist'),
         rimraf('lib'),
         concurrent.nps('build.rollup', 'build.babel'),
-        'nps build.flowtype'
+        'nps build.flowtype',
+        rimraf('lib/__tests__')
       ),
       rollup: 'rollup --config',
       babel: 'babel src -d lib',
@@ -21,7 +22,7 @@ module.exports = {
       flowtype: {
         description: 'make flow types available to consumers',
         default: concurrent.nps('build.flowtype.lib'),
-        lib: "echo \"// @flow\n\nexport * from '../src';\" > lib/index.js.flow",
+        lib: 'echo "// @flow\n\nexport * from \'../src\';" > lib/index.js.flow',
       },
       docs: series(rimraf('docs/dist'), 'webpack --progress -p'),
     },
