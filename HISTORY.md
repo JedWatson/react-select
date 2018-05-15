@@ -1,5 +1,8 @@
 # React-Select
 
+## v2.0.0-beta.4 / 2018-05-15
+* Fixed bug where transition props were being spread onto the DummyInput causing react warnings in the console. Thanks [Mike Gardner](https://github.com/MikeLimeRocket)
+
 ## v2.0.0-beta.3 / 2018-05-14
 
 **Note**: There is an important change in this release to the behaviour of `className`.
