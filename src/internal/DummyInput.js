@@ -3,28 +3,12 @@
 import React from 'react';
 import { Input } from '../primitives';
 
-export default (props: any) => {
-  const {
-    className,
-    id,
-    onBlur,
-    onChange,
-    onFocus,
-    readOnly,
-    tabIndex,
-    value
-    } = props;
-  
+// $FlowFixMe 
+export default ({ in: inProp, out, onExited, appear, enter, exit, ...props }: any) => {
+ 
   return (
     <Input
-      className={className}
-      id={id}
-      onBlur={onBlur}
-      onChange={onChange}
-      onFocus={onFocus}
-      readOnly={readOnly}
-      tabIndex={tabIndex}
-      value={value}
+      {...props}
       css={{
         // get rid of any default styles
         background: 0,
