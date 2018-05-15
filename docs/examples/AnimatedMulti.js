@@ -10,6 +10,7 @@ export default function AnimatedMulti() {
   return (
     <Select
       closeMenuOnSelect={false}
+      isSearchable={false}
       components={Animated}
       defaultValue={[colourOptions[4], colourOptions[5]]}
       isMulti
