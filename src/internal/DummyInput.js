@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 
 export default class DummyInput extends Component<any> {
   render () {
-    const { in: inProp, out, onExited, appear, enter, exit, ...props } = this.props;
+    const { in: inProp, out, onExited, appear, enter, exit, innerRef, ...props } = this.props;
     return(
       <input
+        ref={innerRef}
         {...props}
         css={{
           // get rid of any default styles
