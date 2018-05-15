@@ -379,6 +379,7 @@ function onInputKeyDown(event) {
 | `delimiter` | string | ',' | delimiter to use to join multiple values |
 | `disabled` | boolean | false | whether the Select is disabled or not |
 | `escapeClearsValue` | boolean | true | whether escape clears the value when the menu is closed |
+| `filterMaxResults` | number | undefined | limit the number of results being shown when using default filtering options. Shows first `filterMaxResults` items. |
 | `filterOption` | function | undefined | method to filter a single option `(option, filterString) => boolean` |
 | `filterOptions` | boolean or function | undefined | boolean to enable default filtering or function to filter the options array `([options], filterString, [values]) => [options]` |
 | `id` | string | undefined | html id to set on the input element for accessibility or tests

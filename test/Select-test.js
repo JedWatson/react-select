@@ -2920,6 +2920,26 @@ describe('Select', () => {
 				expect(options, 'to have length', 2);
 			});
 		});
+		
+		describe('filterMaxResults', () => {
+
+			beforeEach(() => {
+
+				instance = createControl({
+					options: longerListOptions,
+					filterMaxResults: 3,
+					searchable: true
+				});
+			});
+			it('displays only max first options', () => {
+				TestUtils.Simulate.mouseDown(ReactDOM.findDOMNode(instance).querySelector('.Select-arrow'), { button: 0 });
+				var options = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+				expect(options[0], 'to have text', 'One');
+				expect(options[1], 'to have text', 'Two');
+				expect(options[2], 'to have text', 'Three');
+				expect(options, 'to have length', 3);
+			});
+		});
 
 		describe('empty filterOptions function', () => {
 

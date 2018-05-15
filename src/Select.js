@@ -990,6 +990,7 @@ class Select extends React.Component {
 				filterValue,
 				excludeOptions,
 				{
+					filterMaxResults: this.props.filterMaxResults,
 					filterOption: this.props.filterOption,
 					ignoreAccents: this.props.ignoreAccents,
 					ignoreCase: this.props.ignoreCase,
@@ -1209,6 +1210,7 @@ Select.propTypes = {
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
+	filterMaxResults: PropTypes.number,   // limit the filtered items to max count when using default filtering function
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
 	id: PropTypes.string, 				        // html id to set on the input element for accessibility or tests

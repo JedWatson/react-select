@@ -20,7 +20,7 @@ const filterOptions = (options, filterValue, excludeOptions, props) => {
 
 	if (excludeOptions) excludeOptions = excludeOptions.map(i => i[props.valueKey]);
 
-	return options.filter(option => {
+	let results = options.filter(option => {
 		if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
 		if (props.filterOption) return props.filterOption.call(undefined, option, filterValue);
 		if (!filterValue) return true;
@@ -55,6 +55,12 @@ const filterOptions = (options, filterValue, excludeOptions, props) => {
 			(labelTest && props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0)
 		);
 	});
+	
+	if (props.filterMaxResults) {
+		results = results.slice(0, props.filterMaxResults);
+	}
+	
+	return results;
 };
 
 export default filterOptions;
