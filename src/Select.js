@@ -1074,7 +1074,7 @@ export default class Select extends Component<Props, State> {
       return (
         <DummyInput
           id={id}
-          innerRef={this.onInputRef}
+          ref={this.onInputRef}
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
