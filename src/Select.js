@@ -448,8 +448,9 @@ export default class Select extends Component<Props, State> {
     if (isMulti) {
       const { selectValue } = this.state;
       if (this.isOptionSelected(newValue, selectValue)) {
+        const candidate = this.getOptionValue(newValue);
         this.setValue(
-          selectValue.filter(i => i !== newValue),
+          selectValue.filter(i => this.getOptionValue(i) !== candidate),
           'deselect-option'
         );
       } else {
@@ -466,7 +467,8 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { onChange } = this.props;
     const { selectValue } = this.state;
-    onChange(selectValue.filter(i => i !== removedValue), {
+    const candidate = this.getOptionValue(removedValue);
+    onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
       action: 'remove-value',
     });
     this.focusInput();
