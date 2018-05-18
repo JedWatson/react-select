@@ -142,6 +142,7 @@ export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }) => {
       language={language}
       style={customCoy}
       customStyle={{
+        backgroundColor: 'none',
         borderRadius: 4,
         fontSize: 13,
         marginBottom: '1em',

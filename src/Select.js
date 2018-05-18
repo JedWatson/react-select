@@ -85,6 +85,8 @@ export type Props = {
     that will be passed to them, see [the components docs](/api#components)
   */
   components: SelectComponentsConfig,
+  /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
+  controlShouldDisplayValue: boolean,
   /* Delimiter used to join multiple values into a single HTML Input value */
   delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
@@ -194,6 +196,7 @@ export const defaultProps = {
   captureMenuScroll: !isTouchCapable(),
   closeMenuOnSelect: true,
   components: {},
+  controlShouldDisplayValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
   formatGroupLabel: formatGroupLabel,
@@ -545,7 +548,7 @@ export default class Select extends Component<Props, State> {
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
     let cxPrefix = classNamePrefix;
-    if (className && (classNamePrefix === undefined)) {
+    if (className && classNamePrefix === undefined) {
       console.warn(`
         Warning: the behaviour of 'className' has changed between 2.0.0-beta.2 and 2.0.0-beta.3.
         You can now use className to specify the class name of the outer container, and classNamePrefix to enable our provided BEM class names for internal elements.
@@ -1133,16 +1136,23 @@ export default class Select extends Component<Props, State> {
       Placeholder,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
+    const {
+      controlShouldDisplayValue,
+      isDisabled,
+      isMulti,
+      inputValue,
+      placeholder,
+    } = this.props;
     const { selectValue, focusedValue } = this.state;
 
-    if (!this.hasValue()) {
+    if (!this.hasValue() || !controlShouldDisplayValue) {
       return inputValue ? null : (
         <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
           {placeholder}
         </Placeholder>
       );
     }
+
     if (isMulti) {
       return selectValue.map(opt => {
         let isFocused = opt === focusedValue;
@@ -1171,7 +1181,11 @@ export default class Select extends Component<Props, State> {
         );
       });
     }
-    if (inputValue) return null;
+
+    if (inputValue) {
+      return null;
+    }
+
     const singleValue = selectValue[0];
     return (
       <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
@@ -1311,9 +1325,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerProps.ref = isFocused
-        ? this.onFocusedOptionRef
-        : undefined;
+      props.innerProps.ref = isFocused ? this.onFocusedOptionRef : undefined;
 
       return (
         <Option {...commonProps} {...props} isFocused={isFocused}>
