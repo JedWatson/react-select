@@ -226,7 +226,7 @@ export default function Advanced() {
 
       A popular recipe for using select when there's limited real estate.
 
-      > When \`controlShouldDisplayValue\` is disabled, it's recommended to also disable \`isClearable\` and \`backspaceRemovesValue\`.
+      > When \`controlShouldRenderValue\` is disabled, it's recommended to also disable \`isClearable\` and \`backspaceRemovesValue\`.
 
       ${(
         <ExampleWrapper
