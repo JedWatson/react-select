@@ -7,6 +7,7 @@ exports[`defaults > snapshot 1`] = `
   captureMenuScroll={false}
   closeMenuOnSelect={true}
   components={Object {}}
+  controlShouldDisplayValue={true}
   defaultInputValue=""
   defaultMenuIsOpen={false}
   defaultValue={null}

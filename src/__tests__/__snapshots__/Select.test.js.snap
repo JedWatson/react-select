@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports['snapshot - defaults 1'] = `
+exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   cx={[Function]}
@@ -26,6 +26,7 @@ exports['snapshot - defaults 1'] = `
       "captureMenuScroll": false,
       "closeMenuOnSelect": true,
       "components": Object {},
+      "controlShouldDisplayValue": true,
       "escapeClearsValue": false,
       "filterOption": [Function],
       "formatGroupLabel": [Function],
@@ -93,6 +94,7 @@ exports['snapshot - defaults 1'] = `
         "captureMenuScroll": false,
         "closeMenuOnSelect": true,
         "components": Object {},
+        "controlShouldDisplayValue": true,
         "escapeClearsValue": false,
         "filterOption": [Function],
         "formatGroupLabel": [Function],
@@ -145,6 +147,7 @@ exports['snapshot - defaults 1'] = `
           "captureMenuScroll": false,
           "closeMenuOnSelect": true,
           "components": Object {},
+          "controlShouldDisplayValue": true,
           "escapeClearsValue": false,
           "filterOption": [Function],
           "formatGroupLabel": [Function],
@@ -198,6 +201,7 @@ exports['snapshot - defaults 1'] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldDisplayValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
@@ -275,6 +279,7 @@ exports['snapshot - defaults 1'] = `
           "captureMenuScroll": false,
           "closeMenuOnSelect": true,
           "components": Object {},
+          "controlShouldDisplayValue": true,
           "escapeClearsValue": false,
           "filterOption": [Function],
           "formatGroupLabel": [Function],
@@ -333,6 +338,7 @@ exports['snapshot - defaults 1'] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldDisplayValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
@@ -393,6 +399,7 @@ exports['snapshot - defaults 1'] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldDisplayValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
