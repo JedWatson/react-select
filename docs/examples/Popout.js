@@ -41,7 +41,7 @@ export default class PopoutExample extends Component<*, State> {
           autoFocus
           backspaceRemovesValue={false}
           components={{ DropdownIndicator, IndicatorSeparator: null }}
-          controlShouldDisplayValue={false}
+          controlShouldRenderValue={false}
           hideSelectedOptions={false}
           isClearable={false}
           menuIsOpen

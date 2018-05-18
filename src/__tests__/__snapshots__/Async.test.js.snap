@@ -23,7 +23,7 @@ exports[`defaults - snapshot 1`] = `
       captureMenuScroll={false}
       closeMenuOnSelect={true}
       components={Object {}}
-      controlShouldDisplayValue={true}
+      controlShouldRenderValue={true}
       defaultInputValue=""
       defaultMenuIsOpen={false}
       defaultOptions={false}
@@ -91,7 +91,7 @@ exports[`defaults - snapshot 1`] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
-            "controlShouldDisplayValue": true,
+            "controlShouldRenderValue": true,
             "defaultInputValue": "",
             "defaultMenuIsOpen": false,
             "defaultOptions": false,
@@ -181,7 +181,7 @@ exports[`defaults - snapshot 1`] = `
                 "captureMenuScroll": false,
                 "closeMenuOnSelect": true,
                 "components": Object {},
-                "controlShouldDisplayValue": true,
+                "controlShouldRenderValue": true,
                 "defaultInputValue": "",
                 "defaultMenuIsOpen": false,
                 "defaultOptions": false,
@@ -250,7 +250,7 @@ exports[`defaults - snapshot 1`] = `
                     "captureMenuScroll": false,
                     "closeMenuOnSelect": true,
                     "components": Object {},
-                    "controlShouldDisplayValue": true,
+                    "controlShouldRenderValue": true,
                     "defaultInputValue": "",
                     "defaultMenuIsOpen": false,
                     "defaultOptions": false,
@@ -318,7 +318,7 @@ exports[`defaults - snapshot 1`] = `
                         "captureMenuScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
-                        "controlShouldDisplayValue": true,
+                        "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
                         "defaultOptions": false,
@@ -507,7 +507,7 @@ exports[`defaults - snapshot 1`] = `
                     "captureMenuScroll": false,
                     "closeMenuOnSelect": true,
                     "components": Object {},
-                    "controlShouldDisplayValue": true,
+                    "controlShouldRenderValue": true,
                     "defaultInputValue": "",
                     "defaultMenuIsOpen": false,
                     "defaultOptions": false,
@@ -580,7 +580,7 @@ exports[`defaults - snapshot 1`] = `
                         "captureMenuScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
-                        "controlShouldDisplayValue": true,
+                        "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
                         "defaultOptions": false,
@@ -657,7 +657,7 @@ exports[`defaults - snapshot 1`] = `
                         "captureMenuScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
-                        "controlShouldDisplayValue": true,
+                        "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
                         "defaultOptions": false,
