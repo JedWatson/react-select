@@ -1,5 +1,8 @@
 # React-Select
 
+## v2.0.0-beta.5 / 2018-05-18
+* Added `controlShouldRenderValue` prop, defaults to true. Setting it to false disables rendering values in the control. Thanks[Joss Mackison](http://github.com/jossmac)
+
 ## v2.0.0-beta.4 / 2018-05-15
 * Fixed bug where transition props were being spread onto the DummyInput causing react warnings in the console. Thanks [Mike Gardner](https://github.com/MikeLimeRocket)
 
