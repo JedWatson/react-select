@@ -86,7 +86,7 @@ export type Props = {
   */
   components: SelectComponentsConfig,
   /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
-  controlShouldDisplayValue: boolean,
+  controlShouldRenderValue: boolean,
   /* Delimiter used to join multiple values into a single HTML Input value */
   delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
@@ -196,7 +196,7 @@ export const defaultProps = {
   captureMenuScroll: !isTouchCapable(),
   closeMenuOnSelect: true,
   components: {},
-  controlShouldDisplayValue: true,
+  controlShouldRenderValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
   formatGroupLabel: formatGroupLabel,
@@ -1137,7 +1137,7 @@ export default class Select extends Component<Props, State> {
     } = this.components;
     const { commonProps } = this;
     const {
-      controlShouldDisplayValue,
+      controlShouldRenderValue,
       isDisabled,
       isMulti,
       inputValue,
@@ -1145,7 +1145,7 @@ export default class Select extends Component<Props, State> {
     } = this.props;
     const { selectValue, focusedValue } = this.state;
 
-    if (!this.hasValue() || !controlShouldDisplayValue) {
+    if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
         <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
           {placeholder}
