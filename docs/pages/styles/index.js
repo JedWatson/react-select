@@ -104,6 +104,32 @@ export default function Styles() {
           <StyledMulti />
         </ExampleWrapper>
       )}
+
+    ## Using classNames
+
+    If you provide the \`className\` prop to react-select, all inner elements will
+    be given a className based on the one you have provided.
+
+    For example, given \`className="react-select"\`, the DOM would roughtly look
+    like this:
+
+    ~~~html
+    <div class="react-select">
+      <div class="react-select__control">
+        <div class="react-select__value-container">...</div>
+        <div class="react-select__indicators">...</div>
+      </div>
+      <div class="react-select__menu">
+        <div class="react-select__menu-list">
+          <div class="react-select__option">...</div>
+        </div>
+      </div>
+    </div>
+    ~~~
+
+    While we encourage you to use the new Styles API, it's good to know that you
+    still have the option of adding class names to the components to style via CSS.
+
     `}
     </Fragment>
   );

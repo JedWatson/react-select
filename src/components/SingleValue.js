@@ -43,7 +43,6 @@ const SingleValue = (props: SingleValueProps) => {
         },
         className
       )}
-      css={getStyles('singleValue', props)}
       {...innerProps}
     >
       {children}
