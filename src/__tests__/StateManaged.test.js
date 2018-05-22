@@ -12,6 +12,7 @@ const { Control, Menu } = components;
 
 const BASIC_PROPS = {
   className: 'react-select',
+  classNamePrefix: 'react-select',
   options: OPTIONS,
   name: 'test-input-name',
 };

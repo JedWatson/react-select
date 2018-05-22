@@ -30,6 +30,7 @@ const {
 
 const BASIC_PROPS = {
   className: 'react-select',
+  classNamePrefix: 'react-select',
   onChange: jest.fn(),
   onInputChange: jest.fn(),
   onMenuClose: jest.fn(),
@@ -1178,6 +1179,7 @@ test('hitting tab on option should not call onChange if tabSelectsValue is false
   let selectWrapper = mount(
     <Select
       className="react-select"
+      classNamePrefix="react-select"
       menuIsOpen
       onChange={spy}
       onInputChange={jest.fn()}
@@ -1227,6 +1229,7 @@ test('multi select > to not hide the selected options from the menu if hideSelec
   let selectWrapper = mount(
     <Select
       className="react-select"
+      classNamePrefix="react-select"
       hideSelectedOptions={false}
       isMulti
       menuIsOpen

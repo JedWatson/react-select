@@ -52,7 +52,7 @@ cases(
   'load options props with no default options',
   ({ props, expectloadOptionsLength }) => {
     let asyncSelectWrapper = mount(
-      <Async className="react-select" {...props} />
+      <Async className="react-select" classNamePrefix="react-select" {...props} />
     );
     let inputValueWrapper = asyncSelectWrapper.find(
       'div.react-select__input input'
@@ -87,7 +87,7 @@ cases(
 test.skip('to not call loadOptions again for same value when cacheOptions is true', () => {
   let loadOptionsSpy = jest.fn();
   let asyncSelectWrapper = mount(
-    <Async className="react-select" loadOptions={loadOptionsSpy} cacheOptions />
+    <Async className="react-select" classNamePrefix="react-select" loadOptions={loadOptionsSpy} cacheOptions />
   );
   let inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
@@ -125,7 +125,7 @@ test('in case of callbacks display the most recently-requested loaded options (i
     callbacks.push(callback);
   };
   let asyncSelectWrapper = mount(
-    <Async className="react-select" loadOptions={loadOptions} />
+    <Async className="react-select" classNamePrefix="react-select" loadOptions={loadOptions} />
   );
   let inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
@@ -151,6 +151,7 @@ test.skip('in case of callbacks should handle an error by setting options to an 
   let asyncSelectWrapper = mount(
     <Async
       className="react-select"
+      classNamePrefix="react-select"
       loadOptions={loadOptions}
       options={OPTIONS}
     />
