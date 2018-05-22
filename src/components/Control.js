@@ -20,7 +20,7 @@ export type ControlProps = CommonProps &
     /** The mouse down event and the innerRef to pass down to the controller element. */
     innerProps: {
       onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
-      ref: ElementRef<*>,
+      innerRef: ElementRef<*>,
     },
   };
 
@@ -52,14 +52,16 @@ export const css = ({ isDisabled, isFocused }: State) => ({
 
 const Control = (props: ControlProps) => {
   const { children, cx, getStyles, className, isDisabled, isFocused, innerProps } = props;
+  const { innerRef, ...rest } = innerProps;
   return (
     <div
+      ref={innerRef}
       className={cx(emotionCSS(getStyles('control', props)), {
         'control': true,
         'control-is-disabled': isDisabled,
         'control-is-focused': isFocused
       }, className)}
-      {...innerProps}
+      {...rest}
     >
       {children}
     </div>
