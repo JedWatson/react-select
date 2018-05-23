@@ -226,11 +226,8 @@ function alignToControl(placement) {
 }
 const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = ({ placement, maxHeight }: MenuState) => ({
+export const menuCSS = ({ placement }: MenuState) => ({
   [alignToControl(placement)]: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  maxHeight: maxHeight,
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
@@ -332,8 +329,8 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = () => ({
-  flex: '0 1 100%',
+export const menuListCSS = ({ maxHeight }: MenuState) => ({
+  maxHeight,
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
