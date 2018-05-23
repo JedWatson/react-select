@@ -1,7 +1,6 @@
 // @flow
-import React, { Component, type Node, type ElementRef } from 'react';
-
-import { Div } from '../primitives';
+import React, { Component, type Node } from 'react';
+import { css as emotionCss } from 'emotion';
 import { spacing } from '../theme';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
@@ -29,15 +28,21 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { children, cx, getStyles, innerProps, isDisabled, isRtl } = props;
+  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
-    <Div
-      css={getStyles('container', props)}
-      className={cx('', { isDisabled, isRtl })}
+    <div
+      className={cx(
+        emotionCss(getStyles('container', props)),
+        {
+          '--is-disabled': isDisabled,
+          '--is-rtl': isRtl
+        },
+        className
+      )}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 
@@ -46,58 +51,38 @@ export const SelectContainer = (props: ContainerProps) => {
 // ==============================
 
 export type ValueContainerProps = CommonProps & {
-  /** Set when the value container should hold multiple values. This is important for styling. */
+  /** Set when the value container should hold multiple values */
   isMulti: boolean,
   /** Whether the value container currently holds a value. */
   hasValue: boolean,
-  /** Whether there should be a maximum height to the container */
-  maxHeight: number,
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = ({ maxHeight }: ValueContainerProps) => ({
+export const valueContainerCSS = () => ({
   alignItems: 'center',
-  display: 'flex ',
+  display: 'flex',
   flex: 1,
   flexWrap: 'wrap',
-  maxHeight: maxHeight, // max-height allows scroll when multi
-  overflowY: 'auto',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
-  shouldScrollBottom: boolean = false;
-  node: HTMLElement;
-  componentWillUpdate() {
-    if (!this.props.isMulti) return;
-
-    // scroll only if the user was already at the bottom
-    const total = this.node.scrollTop + this.node.offsetHeight;
-    this.shouldScrollBottom = total === this.node.scrollHeight;
-  }
-  componentDidUpdate() {
-    if (!this.props.isMulti) return;
-
-    // ensure we're showing items being added by forcing scroll to the bottom
-    if (this.shouldScrollBottom && this.node) {
-      this.node.scrollTop = this.node.scrollHeight;
-    }
-  }
-  getScrollContainer = (ref: ElementRef<*>) => {
-    this.node = ref;
-  };
   render() {
-    const { children, cx, isMulti, getStyles, hasValue } = this.props;
+    const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
 
     return (
-      <Div
-        innerRef={isMulti ? this.getScrollContainer : undefined}
-        className={cx('value-container', { isMulti, hasValue })}
-        css={getStyles('valueContainer', this.props)}
+      <div
+        className={cx(
+          emotionCss(getStyles('valueContainer', this.props)),
+          {
+            'value-container': true,
+            'value-container--is-multi': isMulti,
+            'value-container--has-value': hasValue,
+          }, className)}
       >
         {children}
-      </Div>
+      </div>
     );
   }
 }
@@ -120,18 +105,23 @@ export type IndicatorContainerProps = CommonProps &
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
   alignSelf: 'stretch',
-  display: 'flex ',
+  display: 'flex',
   flexShrink: 0,
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
-  const { children, cx, getStyles } = props;
+  const { children, className, cx, getStyles } = props;
 
   return (
-    <Div
-      className={cx('indicators')}
-      css={getStyles('indicatorsContainer', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('indicatorsContainer', props)),
+        {
+          'indicators': true,
+        },
+        className
+      )}
     >
       {children}
-    </Div>
+    </div>
   );
 };

@@ -1,16 +1,11 @@
 // @flow
-// @jsx glam
 
 import React, { Component, Fragment } from 'react';
-import glam from 'glam';
 
+import Select, { components } from '../../../src';
 import md from '../../markdown/renderer';
 
-const Code = ({ children }) => (
-  <code>
-    {children}
-  </code>
-);
+const Code = ({ children }) => <code>{children}</code>;
 
 const propChangeData = [
   ['aria-describedby', 'unchanged'],
@@ -22,7 +17,11 @@ const propChangeData = [
   ['autoLoad', 'removed', 'see the Async component'],
   ['autosize', 'components'],
   ['backspaceRemoves', 'renamed', 'backspaceRemovesValue'],
-  ['backspaceToRemoveMessage', 'removed', 'may be implemented in a later version'],
+  [
+    'backspaceToRemoveMessage',
+    'removed',
+    'may be implemented in a later version',
+  ],
   ['className', 'unchanged'],
   ['clearable', 'renamed', 'isClearable'],
   ['clearAllText', 'removed'],
@@ -46,7 +45,6 @@ const propChangeData = [
   ['matchPos', 'removed', md`see \`createFilter()\``],
   ['matchProp', 'removed', md`see \`createFilter()\``],
   ['menuBuffer', 'components'],
-  ['menuBuffer', 'removed'],
   ['menuContainerStyle', 'styles'],
   ['menuRenderer', 'components'],
   ['menuStyle', 'styles'],
@@ -87,38 +85,48 @@ const propChangeData = [
   ['value', 'unchanged'],
   ['valueComponent', 'components'],
   ['valueKey', 'removed'],
-  ['valueKey', 'removed'],
   ['valueRenderer', 'components'],
   ['wrapperStyle', 'styles'],
 ];
 
 const Table = ({ children }) => (
-  <table css={{
-    width: '100%',
-    borderCollapse: 'collapse',
-  }}>
+  <table
+    css={{
+      width: '100%',
+      marginTop: '30px',
+      borderCollapse: 'collapse',
+    }}
+  >
     {children}
   </table>
 );
 
 const Header = ({ children }) => (
-  <td css={{
-    fontWeight: 'bold',
-    padding: '4px 8px 4px 0',
-    borderBottom: '3px solid #eee',
-  }}>{children}</td>
+  <td
+    css={{
+      fontWeight: 'bold',
+      padding: '4px 8px 4px 0',
+      borderBottom: '3px solid #eee',
+    }}
+  >
+    {children}
+  </td>
 );
 
 const Cell = ({ children }) => (
-  <td css={{
-    fontSize: '90%',
-    padding: '4px 8px 4px 0',
-    borderBottom: '1px solid #eee',
-    verticalAlign: 'top',
-  }}>{children}</td>
+  <td
+    css={{
+      fontSize: '90%',
+      padding: '4px 8px 4px 0',
+      borderBottom: '1px solid #eee',
+      verticalAlign: 'top',
+    }}
+  >
+    {children}
+  </td>
 );
 
-class PropState extends Component<*> {
+class PropStatus extends Component<*> {
   renderStatus() {
     const { status, note } = this.props;
     switch (status) {
@@ -167,22 +175,148 @@ class PropState extends Component<*> {
   }
 }
 
-const PropChanges = () => (
-  <Table>
-    <thead>
-      <tr>
-        <Header>Prop</Header>
-        <Header>Status</Header>
-        <Header>Notes</Header>
-      </tr>
-    </thead>
-    <tbody>
-      {propChangeData.map(data => {
-        const [prop, status, note] = data;
-        return <PropState key={prop} prop={prop} status={status} note={note} />;
-      })}
-    </tbody>
-  </Table>
-);
+class InputOption extends Component<*, *> {
+  state = { isActive: false };
+  onMouseDown = () => this.setState({ isActive: true });
+  onMouseUp = () => this.setState({ isActive: false });
+  onMouseLeave = () => this.setState({ isActive: false });
+
+  render() {
+    const {
+      getStyles,
+      Icon,
+      isDisabled,
+      isFocused,
+      isSelected,
+      children,
+      innerProps,
+      ...rest
+    } = this.props;
+    const { isActive } = this.state;
+
+    // styles
+    let bg = 'transparent';
+    if (isFocused) bg = '#eee';
+    if (isActive) bg = '#B2D4FF';
+
+    const style = {
+      alignItems: 'center',
+      backgroundColor: bg,
+      color: 'inherit',
+      display: 'flex ',
+    };
+
+    // prop assignment
+    const props = {
+      ...innerProps,
+      onMouseDown: this.onMouseDown,
+      onMouseUp: this.onMouseUp,
+      onMouseLeave: this.onMouseLeave,
+      style,
+    };
+
+    return (
+      <components.Option
+        {...rest}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+        isSelected={isSelected}
+        getStyles={getStyles}
+        innerProps={props}
+      >
+        <input type="checkbox" checked={isSelected} />
+        {children}
+      </components.Option>
+    );
+  }
+}
+
+const allOptions = [
+  { value: 'removed', label: 'removed' },
+  { value: 'unchanged', label: 'unchanged' },
+  { value: 'renamed', label: 'renamed' },
+];
+
+const filterOptions = [
+  { value: 'propName', label: 'propName' },
+  { value: 'status', label: 'status' },
+];
+
+const getDisplayedStatus = status => {
+  if (status === 'components' || status === 'styles') return 'removed';
+  else return status;
+};
+
+class PropChanges extends Component<
+  *,
+  { selectedOptions: Array<string>, filterValue: string }
+> {
+  state = {
+    selectedOptions: allOptions.map(opt => opt.value),
+    filterValue: filterOptions[0].value,
+  };
+
+  render() {
+    let { selectedOptions, filterValue } = this.state;
+
+    return (
+      <Fragment>
+        {/* filter */}
+        <h4>Filter Props</h4>
+        <Select
+          defaultValue={allOptions}
+          isMulti
+          closeMenuOnSelect={false}
+          hideSelectedOptions={false}
+          onChange={options =>
+            this.setState({ selectedOptions: options.map(opt => opt.value) })}
+          options={allOptions}
+          components={{
+            Option: InputOption
+          }}
+        />
+        {/* sort */}
+        <h4>Sort Props</h4>
+        <Select
+          defaultValue={filterOptions[0]}
+          onChange={option => this.setState({ filterValue: option.value })}
+          options={filterOptions}
+        />
+        <Table>
+          <thead>
+            <tr>
+              <Header>Prop</Header>
+              <Header>Status</Header>
+              <Header>Notes</Header>
+            </tr>
+          </thead>
+          <tbody>
+            {propChangeData
+              .sort((a, b) => {
+                if (filterValue === 'propName') {
+                  return a[0].localeCompare(b[0]);
+                } else {
+                  return getDisplayedStatus(a[1]).localeCompare(
+                    getDisplayedStatus(b[1])
+                  );
+                }
+              })
+              .map(data => {
+                const [prop, status, note] = data;
+                return selectedOptions.includes(getDisplayedStatus(status)) ? (
+                  <PropStatus
+                    key={prop}
+                    prop={prop}
+                    status={status}
+                    note={note}
+                  />
+                ) : null;
+              })}
+          </tbody>
+        </Table>
+      </Fragment>
+    );
+  }
+}
 
 export default PropChanges;

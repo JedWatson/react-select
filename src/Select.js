@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment, type ElementRef, type Node } from 'react';
+import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
 import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
@@ -69,8 +69,10 @@ export type Props = {
   blurInputOnSelect: boolean,
   /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
   captureMenuScroll: boolean,
-  /* className attribute applied to the outer component, and used as a base for inner component classNames */
+  /* className attribute applied to the outer component */
   className?: string,
+  /* classNamePrefix attribute used as a base for inner component classNames */
+  classNamePrefix?: string | null,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
@@ -83,6 +85,8 @@ export type Props = {
     that will be passed to them, see [the components docs](/api#components)
   */
   components: SelectComponentsConfig,
+  /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
+  controlShouldRenderValue: boolean,
   /* Delimiter used to join multiple values into a single HTML Input value */
   delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
@@ -129,8 +133,6 @@ export type Props = {
   minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
   maxMenuHeight: number,
-  /* Maximum height of the value container before scrolling */
-  maxValueHeight: number,
   /* Whether the menu is open */
   menuIsOpen: boolean,
   /* Default placement of the menu in relation to the control. 'auto' will flip
@@ -194,6 +196,7 @@ export const defaultProps = {
   captureMenuScroll: !isTouchCapable(),
   closeMenuOnSelect: true,
   components: {},
+  controlShouldRenderValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
   formatGroupLabel: formatGroupLabel,
@@ -208,7 +211,6 @@ export const defaultProps = {
   isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
-  maxValueHeight: 100,
   minMenuHeight: 140,
   menuIsOpen: false,
   menuPlacement: 'bottom',
@@ -237,6 +239,7 @@ type State = {
   inputIsHidden: boolean,
   isFocused: boolean,
   focusedOption: OptionType | null,
+  focusedValue: OptionType | null,
   menuOptions: MenuOptions,
   selectValue: OptionsType,
 };
@@ -248,6 +251,7 @@ let instanceId = 1;
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   blockOptionHover: boolean = false;
+  clearFocusValueOnUpdate: boolean = false;
   components: SelectComponents;
   commonProps: any; // TODO
   controlRef: ElRef;
@@ -262,6 +266,7 @@ export default class Select extends Component<Props, State> {
   userIsDragging: ?boolean;
   state = {
     focusedOption: null,
+    focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
     menuOptions: { render: [], focusable: [] },
@@ -269,13 +274,13 @@ export default class Select extends Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
-    const { options, value } = props;
+    const { value } = props;
     this.components = defaultComponents(props);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
-    const menuOptions = this.buildMenuOptions(options, selectValue);
+    const menuOptions = this.buildMenuOptions(props, selectValue);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -298,13 +303,10 @@ export default class Select extends Component<Props, State> {
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
-      const menuOptions = this.buildMenuOptions(
-        nextProps.options,
-        selectValue,
-        nextProps.inputValue
-      );
+      const menuOptions = this.buildMenuOptions(nextProps, selectValue);
+      const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-      this.setState({ menuOptions, selectValue, focusedOption });
+      this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
     if (this.inputIsHiddenAfterUpdate != null) {
@@ -321,12 +323,18 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentDidUpdate(prevProps: Props) {
-    const { isDisabled } = this.props;
+    const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
-    // ensure focus is restored correctly when the control becomes enabled
-    if (isFocused && !isDisabled && prevProps.isDisabled) {
+
+    if (
+      // ensure focus is restored correctly when the control becomes enabled
+      (isFocused && !isDisabled && prevProps.isDisabled) ||
+      // ensure focus is on the Input when the menu opens
+      (isFocused && menuIsOpen && !prevProps.menuIsOpen)
+    ) {
       this.focusInput();
     }
+
     // scroll the focused option into view if necessary
     if (
       this.menuRef &&
@@ -405,13 +413,56 @@ export default class Select extends Component<Props, State> {
     this.inputIsHiddenAfterUpdate = false;
     this.onMenuOpen();
     this.setState({
+      focusedValue: null,
       focusedOption: menuOptions.focusable[openAtIndex],
     });
   }
+  focusValue(direction: 'previous' | 'next') {
+    const { isMulti } = this.props;
+    const { selectValue, focusedValue } = this.state;
+
+    // Only multiselects support value focusing
+    if (!isMulti) return;
+
+    this.setState({
+      focusedOption: null,
+    });
+
+    const focusedIndex = focusedValue ? selectValue.indexOf(focusedValue) : -1;
+    const lastIndex = selectValue.length - 1;
+    let nextFocus = -1;
+    if (!selectValue.length) return;
+
+    switch (direction) {
+      case 'previous':
+        if (focusedIndex === 0) {
+          // don't cycle from the start to the end
+          nextFocus = 0;
+        } else if (focusedIndex === -1) {
+          // if nothing is focused, focus the last value first
+          nextFocus = lastIndex;
+        } else {
+          nextFocus = focusedIndex - 1;
+        }
+        break;
+      case 'next':
+        if (focusedIndex > -1 && focusedIndex < lastIndex) {
+          nextFocus = focusedIndex + 1;
+        }
+        break;
+    }
+
+    this.setState({
+      inputIsHidden: nextFocus === -1 ? false : true,
+      focusedValue: selectValue[nextFocus],
+    });
+  }
+
   focusOption(direction: FocusDirection = 'first') {
     const { pageSize } = this.props;
     const { focusedOption, menuOptions } = this.state;
     const options = menuOptions.focusable;
+
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
     const focusedIndex = focusedOption ? options.indexOf(focusedOption) : -1;
@@ -431,6 +482,7 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = true;
     this.setState({
       focusedOption: options[nextFocus],
+      focusedValue: null,
     });
   }
   setValue = (newValue: ValueType, action: ActionTypes = 'set-value') => {
@@ -440,6 +492,8 @@ export default class Select extends Component<Props, State> {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
     }
+    // when the select value should change, we should reset focusedValue
+    this.clearFocusValueOnUpdate = true;
     onChange(newValue, { action });
   };
   selectOption = (newValue: OptionType) => {
@@ -470,6 +524,7 @@ export default class Select extends Component<Props, State> {
     const candidate = this.getOptionValue(removedValue);
     onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
       action: 'remove-value',
+      removedValue,
     });
     this.focusInput();
   };
@@ -482,6 +537,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
+      removedValue: selectValue[selectValue.length - 1],
     });
   };
 
@@ -491,11 +547,21 @@ export default class Select extends Component<Props, State> {
 
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { className, isMulti, isRtl, options } = props;
+    const { className, classNamePrefix, isMulti, isRtl, options } = props;
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    const cx = className ? classNames.bind(null, className) : noop;
+    let cxPrefix = classNamePrefix;
+    if (className && classNamePrefix === undefined) {
+      console.warn(`
+        Warning: the behaviour of 'className' has changed between 2.0.0-beta.2 and 2.0.0-beta.3.
+        You can now use className to specify the class name of the outer container, and classNamePrefix to enable our provided BEM class names for internal elements.
+        The className prop will have no effect on internal elements when 2.0.0 is released.
+      `);
+      cxPrefix = className;
+    }
+
+    const cx = classNames.bind(null, cxPrefix);
     return {
       cx,
       clearValue,
@@ -510,6 +576,28 @@ export default class Select extends Component<Props, State> {
       selectProps: props,
     };
   }
+
+  getNextFocusedValue(nextSelectValue: OptionsType) {
+    if (this.clearFocusValueOnUpdate) {
+      this.clearFocusValueOnUpdate = false;
+      return null;
+    }
+    const { focusedValue, selectValue: lastSelectValue } = this.state;
+    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+    if (lastFocusedIndex > -1) {
+      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+      if (nextFocusedIndex > -1) {
+        // the focused value is still in the selectValue, return it
+        return focusedValue;
+      } else if (lastFocusedIndex < nextSelectValue.length) {
+        // the focusedValue is not present in the next selectValue array by
+        // reference, so return the new value at the same index
+        return nextSelectValue[lastFocusedIndex];
+      }
+    }
+    return null;
+  }
+
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
     return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
@@ -744,6 +832,7 @@ export default class Select extends Component<Props, State> {
     this.onInputChange('', { action: 'input-blur' });
     this.onMenuClose();
     this.setState({
+      focusedValue: null,
       isFocused: false,
     });
   };
@@ -760,6 +849,7 @@ export default class Select extends Component<Props, State> {
 
   onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const {
+      isMulti,
       backspaceRemovesValue,
       escapeClearsValue,
       inputValue,
@@ -770,7 +860,7 @@ export default class Select extends Component<Props, State> {
       tabSelectsValue,
       openMenuOnFocus,
     } = this.props;
-    const { focusedOption, selectValue } = this.state;
+    const { focusedOption, focusedValue, selectValue } = this.state;
 
     if (isDisabled) return;
 
@@ -783,11 +873,23 @@ export default class Select extends Component<Props, State> {
 
     // Block option hover events when the user has just pressed a key
     this.blockOptionHover = true;
-
     switch (event.key) {
+      case 'ArrowLeft':
+        if (!isMulti || inputValue) return;
+        this.focusValue('previous');
+        break;
+      case 'ArrowRight':
+        if (!isMulti || inputValue) return;
+        this.focusValue('next');
+        break;
       case 'Backspace':
-        if (inputValue || !backspaceRemovesValue) return;
-        this.popValue();
+        if (inputValue) return;
+        if (focusedValue) {
+          this.removeValue(focusedValue);
+        } else {
+          if (!backspaceRemovesValue) return;
+          this.popValue();
+        }
         break;
       case 'Tab':
         if (
@@ -871,12 +973,8 @@ export default class Select extends Component<Props, State> {
   // Menu Options
   // ==============================
 
-  buildMenuOptions(
-    options: OptionsType,
-    selectValue: OptionsType,
-    inputValue: string = ''
-  ): MenuOptions {
-    const { hideSelectedOptions, isMulti } = this.props;
+  buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
+    const { hideSelectedOptions, isMulti, inputValue = '', options } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
@@ -1042,41 +1140,56 @@ export default class Select extends Component<Props, State> {
       Placeholder,
     } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isMulti, inputValue, placeholder } = this.props;
-    const { selectValue } = this.state;
+    const {
+      controlShouldRenderValue,
+      isDisabled,
+      isMulti,
+      inputValue,
+      placeholder,
+    } = this.props;
+    const { selectValue, focusedValue } = this.state;
 
-    if (!this.hasValue()) {
+    if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
         <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
           {placeholder}
         </Placeholder>
       );
     }
+
     if (isMulti) {
-      return selectValue.map(opt => (
-        <MultiValue
-          {...commonProps}
-          components={{
-            Container: MultiValueContainer,
-            Label: MultiValueLabel,
-            Remove: MultiValueRemove,
-          }}
-          isDisabled={isDisabled}
-          key={this.getOptionValue(opt)}
-          removeProps={{
-            onClick: () => this.removeValue(opt),
-            onMouseDown: e => {
-              e.preventDefault();
-              e.stopPropagation();
-            },
-          }}
-          data={opt}
-        >
-          {this.formatOptionLabel(opt, 'value')}
-        </MultiValue>
-      ));
+      return selectValue.map(opt => {
+        let isFocused = opt === focusedValue;
+        return (
+          <MultiValue
+            {...commonProps}
+            components={{
+              Container: MultiValueContainer,
+              Label: MultiValueLabel,
+              Remove: MultiValueRemove,
+            }}
+            isFocused={isFocused}
+            isDisabled={isDisabled}
+            key={this.getOptionValue(opt)}
+            removeProps={{
+              onClick: () => this.removeValue(opt),
+              onMouseDown: e => {
+                e.preventDefault();
+                e.stopPropagation();
+              },
+            }}
+            data={opt}
+          >
+            {this.formatOptionLabel(opt, 'value')}
+          </MultiValue>
+        );
+      });
     }
-    if (inputValue) return null;
+
+    if (inputValue) {
+      return null;
+    }
+
     const singleValue = selectValue[0];
     return (
       <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
@@ -1216,9 +1329,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerProps.innerRef = isFocused
-        ? this.onFocusedOptionRef
-        : undefined;
+      props.innerProps.innerRef = isFocused ? this.onFocusedOptionRef : undefined;
 
       return (
         <Option {...commonProps} {...props} isFocused={isFocused}>
@@ -1272,7 +1383,7 @@ export default class Select extends Component<Props, State> {
     }
 
     const menuElement = (
-      <Fragment>
+      <div>
         {menuShouldBlockScroll ? <ScrollBlock /> : null}
         <Menu
           {...commonProps}
@@ -1307,7 +1418,7 @@ export default class Select extends Component<Props, State> {
             </MenuList>
           </ScrollCaptor>
         </Menu>
-      </Fragment>
+      </div>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,
@@ -1367,7 +1478,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { id, isDisabled, maxValueHeight } = this.props;
+    const { className, id, isDisabled } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1375,6 +1486,7 @@ export default class Select extends Component<Props, State> {
     return (
       <SelectContainer
         {...commonProps}
+        className={className}
         innerProps={{
           id: id,
           onKeyDown: this.onKeyDown,
@@ -1393,11 +1505,7 @@ export default class Select extends Component<Props, State> {
           isDisabled={isDisabled}
           isFocused={isFocused}
         >
-          <ValueContainer
-            {...commonProps}
-            isDisabled={isDisabled}
-            maxHeight={maxValueHeight}
-          >
+          <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}
             {this.renderInput()}
           </ValueContainer>

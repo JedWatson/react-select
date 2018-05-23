@@ -37,6 +37,7 @@ export { default as CustomGetOptionLabel } from './CustomGetOptionLabel';
 export { default as CustomFilterOptions } from './CustomFilterOptions';
 export { default as CustomIsOptionDisabled } from './CustomIsOptionDisabled';
 export { default as Experimental } from './Experimental';
+export { default as Popout } from './Popout';
 export { default as StyledMulti } from './StyledMulti';
 export { default as StyledSingle } from './StyledSingle';
 export { default as OnSelectResetsInput } from './OnSelectResetsInput';

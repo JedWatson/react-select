@@ -1,5 +1,49 @@
 # React-Select
 
+## v2.0.0-beta.5 / 2018-05-18
+* Added `controlShouldRenderValue` prop, defaults to true. Setting it to false disables rendering values in the control. Thanks[Joss Mackison](http://github.com/jossmac)
+
+## v2.0.0-beta.4 / 2018-05-15
+* Fixed bug where transition props were being spread onto the DummyInput causing react warnings in the console. Thanks [Mike Gardner](https://github.com/MikeLimeRocket)
+
+## v2.0.0-beta.3 / 2018-05-14
+
+**Note**: There is an important change in this release to the behaviour of `className`.
+
+Previously, `className` would control the class names applied to internal components
+as well as the containing element. Now, the `className` prop only controls the class
+name of the containing element, and the new prop `classNamePrefix` controls classes
+applies to internal components.
+
+Until 2.0.0 final is released, we have added backwards compatibility and a deprecation
+warning to cover this change.
+
+* Added `classNamePrefix` prop, which now controls the class names applied to internal components
+* Refactored cx internal implementation to reduce specificity of css-in-jss base styles.
+* `maxValueHeight` prop removed
+* Added `--is-disabled` className modifier to Option component, thanks [eemeli](https://github.com/eemeli)
+* Fixed various IE11 issues, see [#2583](https://github.com/JedWatson/react-select/issues/2583)
+* Added multi-value keyboard navigation using left and right arrows.
+* Simplified flow distribution, thanks [falconmick](https://github.com/falconmick)
+* Added fix to ensure focus is on the Input when the menu opens
+
+## v2.0.0-beta.2 / 2018-04-25
+
+* Switched from glam to [emotion](https://emotion.sh) for css-in-js
+* Input colour can now be changed
+* Use of React 16 Fragment removed, 2.0.0 should work with React 15
+* SSR support improved
+* Indicator icons are now exported
+
+## v2.0.0-beta.1 / 2018-04-20
+
+* Added `tabIndex` prop
+* Added `classNames` prop
+* Added upgrade guide from v1 --> v2
+* Fixed bug with overflowing long values in the control
+* Fixed ie11 bug to do with absolutely positioned children in flex parent.
+* Documentation ie11, styling and copy improvements
+
 ## v2.0.0-alpha.11 / 2018-04-12
 
 Minor fix since last alpha:

@@ -30,6 +30,7 @@ const {
 
 const BASIC_PROPS = {
   className: 'react-select',
+  classNamePrefix: 'react-select',
   onChange: jest.fn(),
   onInputChange: jest.fn(),
   onMenuClose: jest.fn(),
@@ -1178,6 +1179,7 @@ test('hitting tab on option should not call onChange if tabSelectsValue is false
   let selectWrapper = mount(
     <Select
       className="react-select"
+      classNamePrefix="react-select"
       menuIsOpen
       onChange={spy}
       onInputChange={jest.fn()}
@@ -1227,6 +1229,7 @@ test('multi select > to not hide the selected options from the menu if hideSelec
   let selectWrapper = mount(
     <Select
       className="react-select"
+      classNamePrefix="react-select"
       hideSelectedOptions={false}
       isMulti
       menuIsOpen
@@ -1264,7 +1267,7 @@ test('multi select > call onChange with all values but last selected value and r
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '1', value: 'one' }],
-    { action: 'pop-value' }
+    { action: 'pop-value', removedValue: { label: '2', value: 'two' } },
   );
 });
 
@@ -1305,7 +1308,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '2', value: 'two' }],
-    { action: 'remove-value' }
+    { action: 'remove-value', removedValue: { label: '4', value: 'four' } }
   );
 });
 

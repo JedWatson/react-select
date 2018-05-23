@@ -4,10 +4,9 @@ node_js:
   - "v8"
 
 before_script:
-  - npm start & sleep 7
-  - npm install xvfb
-  
+  - yarn start & sleep 7
+  - yarn add xvfb
+
 script:
-  - npm run lint
-  - npm run test:jest
-  - npm run test:cypress
+  - yarn lint
+  - yarn test

@@ -13,10 +13,11 @@ import {
   CustomGetOptionLabel,
   CustomIsOptionDisabled,
   Experimental,
+  Popout,
   MenuPortal,
 } from '../../examples';
 
-export default function Advanced () {
+export default function Advanced() {
   return (
     <Fragment>
       <Helmet>
@@ -95,7 +96,7 @@ export default function Advanced () {
         <ExampleWrapper
           label="custom isOptionDisabled function example"
           raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
-          >
+        >
           <CustomIsOptionDisabled />
         </ExampleWrapper>
       )}
@@ -183,10 +184,49 @@ export default function Advanced () {
         </ExampleWrapper>
       )}
 
+      ## SSR / Univeral Rendering
+
+      React-Select uses Emotion for CSS, which make it easy to extract the
+      styles when doing server-side rendering. To get started, do the following:
+
+      ~~~bash
+      yarn add emotion-server
+      ~~~
+
+      Then, in the file where you render your React app to a string of HTML that
+      will be sent to the client, wrap React's \`renderToString\` result with
+      Emotion's \`renderStylesToString\` method:
+
+      ~~~jsx
+      import { renderToString } from 'react-dom/server'
+      import { renderStylesToString } from 'emotion-server'
+      import App from './App'
+
+      const html = renderStylesToString(renderToString(<App />))
+      ~~~
+
+      for more ways you can do this (including critial CSS) see the
+      [Emotion SSR Docs](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
+
 
       ## Experimental
 
-      Wild experiments with react-select v2
+      Experimental recipes of prop combinations with react-select v2.
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Popout"
+          urlPath="docs/examples/Popout.js"
+          raw={require('!!raw-loader!../../examples/Popout.js')}
+        >
+          <Popout />
+        </ExampleWrapper>
+      )}
+
+      A popular recipe for using select when there's limited real estate.
+
+      > When \`controlShouldRenderValue\` is disabled, it's recommended to also disable \`isClearable\` and \`backspaceRemovesValue\`.
 
       ${(
         <ExampleWrapper
@@ -199,10 +239,11 @@ export default function Advanced () {
         </ExampleWrapper>
       )}
 
-      > This example uses a combination of custom components and functions to make react-select behave like a date picker.
+      This example uses a combination of custom components and functions to make react-select behave like a date picker.
 
       > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
 
     `}
-  </Fragment>);
+    </Fragment>
+  );
 }

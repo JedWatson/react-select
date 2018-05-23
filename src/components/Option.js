@@ -1,8 +1,8 @@
 // @flow
 import React, { type Node } from 'react';
+import { css as emotionCss } from 'emotion';
 
 import { colors, spacing } from '../theme';
-import { Div } from '../primitives';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -59,16 +59,25 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
 });
 
 const Option = (props: OptionProps) => {
-  const { children, cx, getStyles, isFocused, isSelected, innerProps } = props;
-
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerProps } = props;
+  const { innerRef, ...rest } = innerProps;
   return (
-    <Div
-      className={cx('option', { isFocused, isSelected })}
-      css={getStyles('option', props)}
-      {...innerProps}
+    <div
+      ref={innerRef}
+      className={cx(
+        emotionCss(getStyles('option', props)),
+        {
+          'option': true,
+          'option--is-disabled': isDisabled,
+          'option--is-focused': isFocused,
+          'option--is-selected': isSelected,
+        },
+        className
+      )}
+      {...rest}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 
