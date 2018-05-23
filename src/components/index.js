@@ -1,5 +1,8 @@
 // @flow
-import type { ComponentType } from 'react';
+import {
+  type ComponentType,
+  type Element,
+} from 'react';
 import {
   type IndicatorContainerProps,
   type ContainerProps,
@@ -41,6 +44,11 @@ import MultiValue, {
 import Option, { type OptionProps } from './Option';
 import Placeholder, { type PlaceholderProps } from './Placeholder';
 import SingleValue, { type SingleValueProps } from './SingleValue';
+
+export type PlaceholderOrValue =
+  | Element<ComponentType<PlaceholderProps>>
+  | Element<ComponentType<SingleValueProps>>
+  | Array<Element<ComponentType<MultiValueProps>>>
 
 type IndicatorComponentType = ComponentType<IndicatorProps>;
 
