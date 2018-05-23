@@ -522,6 +522,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     onChange(selectValue.filter(i => i !== removedValue), {
       action: 'remove-value',
+      removedValue,
     });
     this.focusInput();
   };
@@ -534,6 +535,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
+      removedValue: selectValue[selectValue.length - 1],
     });
   };
 

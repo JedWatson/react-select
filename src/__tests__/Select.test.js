@@ -1264,7 +1264,7 @@ test('multi select > call onChange with all values but last selected value and r
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '1', value: 'one' }],
-    { action: 'pop-value' }
+    { action: 'pop-value', removedValue: { label: '2', value: 'two' } },
   );
 });
 
@@ -1305,7 +1305,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '2', value: 'two' }],
-    { action: 'remove-value' }
+    { action: 'remove-value', removedValue: { label: '4', value: 'four' } }
   );
 });
 

@@ -66,9 +66,9 @@ export type ActionTypes =
   | 'clear'
   | 'create-option';
 
-export type ActionMeta = {|
+export type ActionMeta = {
   action: ActionTypes,
-|};
+};
 
 export type InputActionTypes =
   | 'set-value'
