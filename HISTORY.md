@@ -1,5 +1,13 @@
 # React-Select
 
+## v2.0.0-beta.6 / 2018-05-23
+* Fixed bug with `css` attribute being wrongly applied to a DOM element in SingleValue. Thanks [guigs](http://github.com/guigs)
+* Added `removedValue` to the `actionMeta` of the `remove-value` action that's passed into the `onChange` prop.
+* Reverted previous change of `innerRef` in `innerProps` of custom Components to `ref`. The property is now once again named `innerRef`. This is mostly to resolve issues with styled-components not passing `ref` down to wrapped dom elements, however this is also a safer pattern to apply as it requires users providing their own custom components to explicitly associate the passed down ref with the requisite dom element.
+* selectValue now filters items based on the getOptionValue method. Thanks (inv8der)[http://github.com/inv8der]
+* Added `createOptionPosition` to creatable select to allow users to specify where the createOption element appears in the menu.
+* Added touch handling logic to detect user intent to scroll the page when interacting with the select control.  
+
 ## v2.0.0-beta.5 / 2018-05-18
 * Added `controlShouldRenderValue` prop, defaults to true. Setting it to false disables rendering values in the control. Thanks[Joss Mackison](http://github.com/jossmac)
 
