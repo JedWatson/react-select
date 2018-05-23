@@ -19,7 +19,7 @@ exports[`defaults - snapshot 1`] = `
     <Creatable
       allowCreateWhileLoading={false}
       cacheOptions={false}
-      createOptionLabelFirst={false}
+      createOptionPosition="last"
       defaultInputValue=""
       defaultMenuIsOpen={false}
       defaultOptions={false}
@@ -47,7 +47,7 @@ exports[`defaults - snapshot 1`] = `
         closeMenuOnSelect={true}
         components={Object {}}
         controlShouldRenderValue={true}
-        createOptionLabelFirst={false}
+        createOptionPosition="last"
         defaultInputValue=""
         defaultMenuIsOpen={false}
         defaultOptions={false}
@@ -120,7 +120,7 @@ exports[`defaults - snapshot 1`] = `
               "closeMenuOnSelect": true,
               "components": Object {},
               "controlShouldRenderValue": true,
-              "createOptionLabelFirst": false,
+              "createOptionPosition": "last",
               "defaultInputValue": "",
               "defaultMenuIsOpen": false,
               "defaultOptions": false,
@@ -215,7 +215,7 @@ exports[`defaults - snapshot 1`] = `
                   "closeMenuOnSelect": true,
                   "components": Object {},
                   "controlShouldRenderValue": true,
-                  "createOptionLabelFirst": false,
+                  "createOptionPosition": "last",
                   "defaultInputValue": "",
                   "defaultMenuIsOpen": false,
                   "defaultOptions": false,
@@ -289,7 +289,7 @@ exports[`defaults - snapshot 1`] = `
                       "closeMenuOnSelect": true,
                       "components": Object {},
                       "controlShouldRenderValue": true,
-                      "createOptionLabelFirst": false,
+                      "createOptionPosition": "last",
                       "defaultInputValue": "",
                       "defaultMenuIsOpen": false,
                       "defaultOptions": false,
@@ -362,7 +362,7 @@ exports[`defaults - snapshot 1`] = `
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
-                          "createOptionLabelFirst": false,
+                          "createOptionPosition": "last",
                           "defaultInputValue": "",
                           "defaultMenuIsOpen": false,
                           "defaultOptions": false,
@@ -556,7 +556,7 @@ exports[`defaults - snapshot 1`] = `
                       "closeMenuOnSelect": true,
                       "components": Object {},
                       "controlShouldRenderValue": true,
-                      "createOptionLabelFirst": false,
+                      "createOptionPosition": "last",
                       "defaultInputValue": "",
                       "defaultMenuIsOpen": false,
                       "defaultOptions": false,
@@ -634,7 +634,7 @@ exports[`defaults - snapshot 1`] = `
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
-                          "createOptionLabelFirst": false,
+                          "createOptionPosition": "last",
                           "defaultInputValue": "",
                           "defaultMenuIsOpen": false,
                           "defaultOptions": false,
@@ -716,7 +716,7 @@ exports[`defaults - snapshot 1`] = `
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
-                          "createOptionLabelFirst": false,
+                          "createOptionPosition": "last",
                           "defaultInputValue": "",
                           "defaultMenuIsOpen": false,
                           "defaultOptions": false,
