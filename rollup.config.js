@@ -43,6 +43,7 @@ export default [
     external: [...external, 'raf'],
     plugins: [babel(babelOptions())],
   },
+
   {
     input: 'src/index.umd.js',
     output: {
@@ -54,6 +55,7 @@ export default [
     external,
     plugins: [babel(babelOptions()), resolve(), commonjs()],
   },
+
   {
     input: 'src/index.umd.js',
     output: {
