@@ -107,14 +107,31 @@ export default function Styles() {
 
     ## Using classNames
 
-    If you provide the \`className\` prop to react-select, all inner elements will
+    If you provide the \`className\` prop to react-select, the SelectContainer will be given a className based on the provided value.
+    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
     be given a className based on the one you have provided.
 
-    For example, given \`className="react-select"\`, the DOM would roughtly look
+    For example, given \`classNamePrefix="react-select"\`, the DOM would roughtly look
     like this:
 
     ~~~html
-    <div class="react-select">
+    <div>
+      <div class="react-select__control">
+        <div class="react-select__value-container">...</div>
+        <div class="react-select__indicators">...</div>
+      </div>
+      <div class="react-select__menu">
+        <div class="react-select__menu-list">
+          <div class="react-select__option">...</div>
+        </div>
+      </div>
+    </div>
+    ~~~
+
+    while giving \`className='react-select-container'\` and \`classNamePrefix='react-select'\`, the DOM would roughly look like this:
+
+    ~~~html
+    <div class="react-select-container">
       <div class="react-select__control">
         <div class="react-select__value-container">...</div>
         <div class="react-select__indicators">...</div>
