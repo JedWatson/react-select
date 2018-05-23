@@ -260,6 +260,8 @@ export default class Select extends Component<Props, State> {
   input: ?ElRef;
   inputIsHiddenAfterUpdate: ?boolean;
   instancePrefix: string = '';
+  initialTouchX: number = 0;
+  initialTouchY: number = 0;
   menuRef: ?ElRef;
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
@@ -286,6 +288,8 @@ export default class Select extends Component<Props, State> {
     this.state.selectValue = selectValue;
   }
   componentDidMount() {
+    this.startListeningToTouch();
+
     if (this.props.autoFocus) {
       this.focusInput();
     }
@@ -315,12 +319,6 @@ export default class Select extends Component<Props, State> {
       });
       delete this.inputIsHiddenAfterUpdate;
     }
-    // manage touch listeners
-    if (nextProps.menuIsOpen && !this.props.menuIsOpen) {
-      this.startListeningToTouch();
-    } else if (!nextProps.menuIsOpen && this.props.menuIsOpen) {
-      this.stopListeningToTouch();
-    }
   }
   componentDidUpdate(prevProps: Props) {
     const { isDisabled, menuIsOpen } = this.props;
@@ -344,6 +342,9 @@ export default class Select extends Component<Props, State> {
       scrollIntoView(this.menuRef, this.focusedOptionRef);
     }
     this.scrollToFocusedOptionOnUpdate = false;
+  }
+  componentWillUnmount() {
+    this.stopListeningToTouch();
   }
 
   // ==============================
@@ -767,11 +768,17 @@ export default class Select extends Component<Props, State> {
       document.removeEventListener('touchend', this.onTouchEnd);
     }
   }
-  onTouchStart = () => {
+  onTouchStart = ({ touches: [touch] }: TouchEvent) => {
+    this.initialTouchX = touch.clientX;
+    this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
   };
-  onTouchMove = () => {
-    this.userIsDragging = true;
+  onTouchMove = ({ touches: [touch] }: TouchEvent) => {
+    const deltaX = Math.abs(touch.clientX - this.initialTouchX);
+    const deltaY = Math.abs(touch.clientY - this.initialTouchY);
+    const moveThreshold = 5;
+
+    this.userIsDragging = deltaX > moveThreshold || deltaY > moveThreshold;
   };
   onTouchEnd = (event: TouchEvent) => {
     if (this.userIsDragging) return;
@@ -785,6 +792,10 @@ export default class Select extends Component<Props, State> {
     ) {
       this.blurInput();
     }
+
+    // reset move vars
+    this.initialTouchX = 0;
+    this.initialTouchY = 0;
   };
   onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
     if (this.userIsDragging) return;
