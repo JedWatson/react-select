@@ -60,9 +60,10 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
 
 const Option = (props: OptionProps) => {
   const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerProps } = props;
-
+  const { innerRef, ...rest } = innerProps;
   return (
     <div
+      ref={innerRef}
       className={cx(
         emotionCss(getStyles('option', props)),
         {
@@ -73,7 +74,7 @@ const Option = (props: OptionProps) => {
         },
         className
       )}
-      {...innerProps}
+      {...rest}
     >
       {children}
     </div>

@@ -1327,7 +1327,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerProps.ref = isFocused ? this.onFocusedOptionRef : undefined;
+      props.innerProps.innerRef = isFocused ? this.onFocusedOptionRef : undefined;
 
       return (
         <Option {...commonProps} {...props} isFocused={isFocused}>
@@ -1406,7 +1406,7 @@ export default class Select extends Component<Props, State> {
               innerProps={{
                 'aria-multiselectable': isMulti,
                 id: this.getElementId('listbox'),
-                ref: this.onMenuRef,
+                innerRef: this.onMenuRef,
                 role: 'listbox',
               }}
               isLoading={isLoading}
@@ -1496,7 +1496,7 @@ export default class Select extends Component<Props, State> {
         <Control
           {...commonProps}
           innerProps={{
-            ref: this.onControlRef,
+            innerRef: this.onControlRef,
             onMouseDown: this.onControlMouseDown,
             onTouchEnd: this.onControlTouchEnd,
           }}

@@ -15,19 +15,19 @@ test('defaults - snapshot', () => {
 
 test('creates an inner Select', () => {
   const asyncCreatableWrapper = mount(
-    <AsyncCreatable className="react-select" />
+    <AsyncCreatable className="react-select" classNamePrefix="react-select"/>
   );
   expect(asyncCreatableWrapper.find(Select).exists()).toBeTruthy();
 });
 
 test('render decorated select with props passed', () => {
-  const asyncCreatableWrapper = mount(<AsyncCreatable className="foo" />);
+  const asyncCreatableWrapper = mount(<AsyncCreatable className="foo" classNamePrefix="foo" />);
   expect(asyncCreatableWrapper.find(Select).props().className).toBe('foo');
 });
 
 test('to show the create option in menu', () => {
   let asyncCreatableWrapper = mount(
-    <AsyncCreatable className="react-select" />
+    <AsyncCreatable className="react-select" classNamePrefix="react-select"/>
   );
   let inputValueWrapper = asyncCreatableWrapper.find(
     'div.react-select__input input'
@@ -48,7 +48,7 @@ test('to show loading and then create option in menu', () => {
     setTimeout(() => callback(OPTIONS), 200)
   );
   let asyncCreatableWrapper = mount(
-    <AsyncCreatable className="react-select" loadOptions={loadOptionsSpy} />
+    <AsyncCreatable className="react-select" classNamePrefix="react-select" loadOptions={loadOptionsSpy} />
   );
   let inputValueWrapper = asyncCreatableWrapper.find(
     'div.react-select__input input'

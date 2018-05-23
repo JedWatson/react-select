@@ -226,8 +226,11 @@ function alignToControl(placement) {
 }
 const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = ({ placement }: MenuState) => ({
+export const menuCSS = ({ placement, maxHeight }: MenuState) => ({
   [alignToControl(placement)]: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  maxHeight: maxHeight,
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
@@ -329,8 +332,8 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = ({ maxHeight }: MenuListComponentProps) => ({
-  maxHeight,
+export const menuListCSS = () => ({
+  flex: '0 1 100%',
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
@@ -339,6 +342,7 @@ export const menuListCSS = ({ maxHeight }: MenuListComponentProps) => ({
 });
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, className, cx, getStyles, isMulti, innerProps } = props;
+  const { innerRef, ...rest } = innerProps;
   return (
     <div
       className={cx(
@@ -349,7 +353,8 @@ export const MenuList = (props: MenuListComponentProps) => {
         },
         className
       )}
-      {...innerProps}
+      ref={innerRef}
+      {...rest}
     >
       {children}
     </div>
