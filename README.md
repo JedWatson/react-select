@@ -82,7 +82,10 @@ class App extends React.Component {
   }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log(`Selected: ${selectedOption.label}`);
+		// selectedOption can be null when the `x` (close) button is clicked
+		if (selectedOption) {
+    	console.log(`Selected: ${selectedOption.label}`);
+		}
   }
   render() {
   	const { selectedOption } = this.state;
