@@ -13,6 +13,7 @@ export { default as CreatableInputOnly } from './CreatableInputOnly';
 export { default as CreateFilter } from './CreateFilter';
 export { default as CreatableMulti } from './CreatableMulti';
 export { default as CreatableSingle } from './CreatableSingle';
+export { default as CreatableGrouped } from './CreatableGrouped';
 export { default as CustomClearIndicator } from './CustomClearIndicator';
 export { default as CustomDropdownIndicator } from './CustomDropdownIndicator';
 export { default as CustomLoadingIndicator } from './CustomLoadingIndicator';

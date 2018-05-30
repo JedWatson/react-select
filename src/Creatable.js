@@ -7,8 +7,12 @@ import React, {
   type ElementRef,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
+import type { OptionType, OptionsType, ValueType, ActionMeta, GroupType } from './types';
 import { cleanValue } from './utils';
+import {
+  getOptionLabel,
+  getOptionValue,
+} from './builtins';
 import manageState from './stateManager';
 
 export type CreatableProps = {
@@ -21,7 +25,7 @@ export type CreatableProps = {
   formatCreateLabel: string => Node,
   /* Determines whether the "create new ..." option should be displayed based on
      the current input value, select value and options array. */
-  isValidNewOption: (string, ValueType, OptionsType) => boolean,
+  isValidNewOption: (string, ValueType, OptionsType, (option: OptionType) => string, (option: OptionType) => string) => boolean,
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
   getNewOptionData: (string, Node) => OptionType,
@@ -35,26 +39,41 @@ export type CreatableProps = {
 
 export type Props = SelectProps & CreatableProps;
 
-const compareOption = (inputValue, option) => {
+const compareOption = (
+  inputValue,
+  option,
+  getLabel: (option: OptionType) => string,
+  getValue: (option: OptionType) => string,
+) => {
   const candidate = inputValue.toLowerCase();
   return (
-    option.value.toLowerCase() === candidate ||
-    option.label.toLowerCase() === candidate
+    getValue(option).toLowerCase() === candidate ||
+    getLabel(option).toLowerCase() === candidate
   );
 };
+const isOptionGroup = (option: OptionType | GroupType) => option.options;
 
 const builtins = {
+  getOptionLabel,
+  getOptionValue,
   formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
   isValidNewOption: (
     inputValue: string,
     selectValue: OptionsType,
-    selectOptions: OptionsType
-  ) =>
-    !(
-      !inputValue ||
-      selectValue.some(option => compareOption(inputValue, option)) ||
-      selectOptions.some(option => compareOption(inputValue, option))
-    ),
+    selectOptions: OptionsType | GroupType,
+    getLabel: (option: OptionType) => string,
+    getValue: (option: OptionType) => string,
+  ) => {
+    if (!inputValue) return false;
+    const valueExists = selectValue.some(option => compareOption(inputValue, option, getLabel, getValue));
+    if (valueExists) return false;
+    const optionExists = selectOptions.some(
+      firstLevelOption => !isOptionGroup(firstLevelOption)
+      ? compareOption(inputValue, firstLevelOption, getLabel, getValue)
+      : firstLevelOption.options.some(secondLevelOption => compareOption(inputValue, secondLevelOption, getLabel, getValue))
+    );
+    return !optionExists;
+  },
   getNewOptionData: (inputValue: string, optionLabel: string) => ({
     label: optionLabel,
     value: inputValue,
@@ -98,7 +117,7 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       } = nextProps;
       const options = nextProps.options || [];
       let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
+      if (isValidNewOption(inputValue, cleanValue(value), options, nextProps.getOptionLabel, nextProps.getOptionValue)) {
         newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
       } else {
         newOption = undefined;

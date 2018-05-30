@@ -11,6 +11,7 @@ import {
   CreatableInputOnly,
   CreatableMulti,
   CreatableSingle,
+  CreatableGrouped,
 } from '../../examples';
 
 export default function Creatable() {
@@ -49,6 +50,16 @@ export default function Creatable() {
           raw={require('!!raw-loader!../../examples/CreatableMulti.js')}
         >
           <CreatableMulti />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Creatable Grouped Example"
+          urlPath="docs/examples/CreatableGrouped.js"
+          raw={require('!!raw-loader!../../examples/CreatableGrouped.js')}
+        >
+          <CreatableGrouped />
         </ExampleWrapper>
       )}
 
