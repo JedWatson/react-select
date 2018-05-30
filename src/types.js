@@ -76,9 +76,9 @@ export type InputActionTypes =
   | 'input-blur'
   | 'menu-close';
 
-export type InputActionMeta = {|
+export type InputActionMeta = {
   action: InputActionTypes,
-|};
+};
 
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
 export type MenuPosition = 'absolute' | 'fixed';
