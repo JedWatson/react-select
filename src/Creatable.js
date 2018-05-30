@@ -54,8 +54,6 @@ const compareOption = (
 const isOptionGroup = (option: OptionType | GroupType) => option.options;
 
 const builtins = {
-  getOptionLabel,
-  getOptionValue,
   formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
   isValidNewOption: (
     inputValue: string,
@@ -117,7 +115,13 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       } = nextProps;
       const options = nextProps.options || [];
       let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options, nextProps.getOptionLabel, nextProps.getOptionValue)) {
+      if (isValidNewOption(
+        inputValue,
+        cleanValue(value),
+        options,
+        this.select ? this.select.props.getOptionLabel : getOptionLabel,
+        this.select ? this.select.props.getOptionValue : getOptionValue,
+      )) {
         newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
       } else {
         newOption = undefined;
