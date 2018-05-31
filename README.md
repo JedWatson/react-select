@@ -30,7 +30,7 @@ and [upgrade guide](https://deploy-preview-2289--react-select.netlify.com/upgrad
 
 ## Demo & Examples
 
-Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+Live demo: [jedwatson.github.io/react-select](https://jedwatson.github.io/react-select/)
 
 
 ## Installation
