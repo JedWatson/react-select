@@ -1228,6 +1228,7 @@ export default class Select extends Component<Props, State> {
       onMouseDown: this.onClearIndicatorMouseDown,
       onTouchEnd: this.onClearIndicatorTouchEnd,
       role: 'button',
+      'aria-label': 'clear'
     };
 
     return (
@@ -1290,6 +1291,7 @@ export default class Select extends Component<Props, State> {
       onMouseDown: this.onDropdownIndicatorMouseDown,
       onTouchEnd: this.onDropdownIndicatorTouchEnd,
       role: 'button',
+      'aria-label':'toggle dropdown'
     };
 
     return (
