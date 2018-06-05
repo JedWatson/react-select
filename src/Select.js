@@ -347,14 +347,12 @@ export default class Select extends Component<Props, State> {
   }
   getNextAnnouncement ({ value: nextValue }: Props, { value }: Props, nextFocusedOption: OptionType) {
     // If there is a new value, return;
-    if (value !== nextValue) {
-      return;
-    }
+    if (value && value !== nextValue) return;
     // If there is not a new value, check if the focusedOption has changed, if it has
     if (nextFocusedOption !== this.state.focusedOption) {
       let msg = '';
       if (nextFocusedOption) {
-        msg = `option ${getOptionLabel(nextFocusedOption)} focused`;
+        msg += `option ${getOptionLabel(nextFocusedOption)} focused`;
       }
       this.announceStatus('feedback', msg);
     }
@@ -393,14 +391,13 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   onMenuOpen() {
-    this.announceStatus('instructions', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
+    // TODO: remove this, as instructions are explicitly to do with focus / pseudo focus changes.
     this.props.onMenuOpen();
   }
   onMenuClose() {
     const { isSearchable } = this.props;
-    this.setState({
-      instructions: `Select is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu`,
-    });
+    // TODO: remove this, as instructions are explicitly to do with focus / pseudo focus changes.
+    this.announceStatus('instructions', `Select is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu`);
     this.onInputChange('', { action: 'menu-close' });
     this.props.onMenuClose();
   }
@@ -457,8 +454,11 @@ export default class Select extends Component<Props, State> {
     this.setState({
       focusedOption: null,
     });
-
-    const focusedIndex = focusedValue ? selectValue.indexOf(focusedValue) : -1;
+    let focusedIndex = selectValue.indexOf(focusedValue);
+    if (focusedValue) {
+      focusedIndex = -1;
+      this.announceStatus('instructions', 'Use left and right to toggle between focused values, press Enter to remove the currently focused value');
+    }
     const lastIndex = selectValue.length - 1;
     let nextFocus = -1;
     if (!selectValue.length) return;
@@ -495,7 +495,12 @@ export default class Select extends Component<Props, State> {
 
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
-    const focusedIndex = focusedOption ? options.indexOf(focusedOption) : -1;
+    let focusedIndex = options.indexOf(focusedOption);
+    if (!focusedOption) {
+      focusedIndex = -1;
+      this.announceStatus('instructions', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
+    }
+
     if (direction === 'up') {
       nextFocus = focusedIndex > 0 ? focusedIndex - 1 : options.length - 1;
     } else if (direction === 'down') {
@@ -870,12 +875,16 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    const { isSearchable } = this.props;
+    const { isSearchable, isMulti } = this.props;
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
+    let msg = `Select is focused ${ isSearchable ? ', type to refine list' : '' }, press Down to open the menu`;
     this.inputIsHiddenAfterUpdate = false;
-    this.announceStatus('instructions', `Select is focused ${ isSearchable ? ', type to refine list' : '' }, press Down to open the menu`,);
+    if (isMulti) {
+      msg += 'press left to focus selected values';
+    };
+    this.announceStatus('instructions', msg);
     this.setState({
       isFocused: true,
     });

@@ -333,8 +333,7 @@ export const menuListCSS = ({ maxHeight }: MenuState) => ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerProps } = props;
-  const { innerRef, ...rest } = innerProps;
+  const { children, className, cx, getStyles, isMulti, innerRef } = props;
   return (
     <div
       className={cx(
@@ -346,7 +345,6 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
-      {...rest}
     >
       {children}
     </div>

@@ -36,7 +36,6 @@ const Group = (props: GroupProps) => {
         { 'group': true },
         className,
       )}
-      {...innerProps}
     >
       <Heading getStyles={getStyles} cx={cx}>
         {label}
