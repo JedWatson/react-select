@@ -19,6 +19,7 @@ import {
   getOptionLabel,
   getOptionValue,
   isOptionDisabled,
+  isOptionFixed,
 } from './builtins';
 
 import {
@@ -119,6 +120,8 @@ export type Props = {
   isLoading: boolean,
   /* Override the built-in logic to detect whether an option is disabled */
   isOptionDisabled: typeof isOptionDisabled | false,
+  /* Override the built-in logic to detect whether an option is fixed */
+  isOptionFixed: typeof isOptionFixed | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
@@ -209,6 +212,7 @@ export const defaultProps = {
   isRtl: false,
   isSearchable: true,
   isOptionDisabled: isOptionDisabled,
+  isOptionFixed: isOptionFixed,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   minMenuHeight: 140,
@@ -520,6 +524,9 @@ export default class Select extends Component<Props, State> {
     }
   };
   removeValue = (removedValue: OptionType) => {
+    if (this.isOptionFixed(removedValue)) {
+      return;
+    }
     const { onChange } = this.props;
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
@@ -530,12 +537,28 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
+    console.log('clearValue');
     const { isMulti, onChange } = this.props;
-    onChange(isMulti ? [] : null, { action: 'clear' });
+    const { selectValue } = this.state;
+    if (isMulti) {
+      let fixed = selectValue.filter(i => {
+        return this.isOptionFixed(i);
+      });
+      onChange(fixed, {action: 'clear'});
+    } else {
+      onChange(null, {action: 'clear'});
+    }
   };
   popValue = () => {
     const { onChange } = this.props;
     const { selectValue } = this.state;
+    if (selectValue.length === 0) {
+      return;
+    }
+    const val = selectValue[selectValue.length - 1];
+    if (this.isOptionFixed(val)) {
+      return;
+    }
     onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
       removedValue: selectValue[selectValue.length - 1],
@@ -658,6 +681,11 @@ export default class Select extends Component<Props, State> {
   isOptionDisabled(option: OptionType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
       ? this.props.isOptionDisabled(option)
+      : false;
+  }
+  isOptionFixed(option: OptionType): boolean {
+    return typeof this.props.isOptionFixed === 'function'
+      ? this.props.isOptionFixed(option)
       : false;
   }
   isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
@@ -1211,15 +1239,21 @@ export default class Select extends Component<Props, State> {
   renderClearIndicator() {
     const { ClearIndicator } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isLoading } = this.props;
+    const { isDisabled, isLoading, value } = this.props;
     const { isFocused } = this.state;
-
+    let allFixed = false;
+    if (Array.isArray(value)) {
+      allFixed = value.reduce((p, i) => {
+        return p && this.isOptionFixed(i);
+      }, true);
+    }
     if (
       !this.isClearable() ||
       !ClearIndicator ||
       isDisabled ||
       !this.hasValue() ||
-      isLoading
+      isLoading ||
+      allFixed
     ) {
       return null;
     }
