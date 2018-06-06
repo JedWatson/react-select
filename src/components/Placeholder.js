@@ -1,12 +1,11 @@
 // @flow
 import React, { type Node } from 'react';
+import { css as emotionCss } from 'emotion';
 
-import { className } from '../utils';
 import { colors, spacing } from '../theme';
-import { Div } from '../primitives';
-import { type PropsWithStyles } from '../types';
+import type { CommonProps } from '../types';
 
-export type PlaceholderProps = PropsWithStyles & {
+export type PlaceholderProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** props passed to the wrapping element for the group. */
@@ -18,18 +17,25 @@ export const css = () => ({
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   position: 'absolute',
+  top: '50%',
+  transform: 'translateY(-50%)',
 });
 
 const Placeholder = (props: PlaceholderProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
-    <Div
-      className={className('placeholder')}
-      css={getStyles('placeholder', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('placeholder', props)),
+        {
+          'placeholder': true,
+        },
+        className
+      )}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 

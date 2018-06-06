@@ -108,11 +108,14 @@ cases('close by hitting escape with search text present',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setState({ inputValue: 'new Option' });
-    creatableSelectWrapper.simulate('keyDown', { keyCode: 27 });
+    creatableSelectWrapper.update();
+    creatableSelectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
+    creatableSelectWrapper.update();
     expect(creatableSelectWrapper.state('inputValue')).toBe('');
   },
   {
-    'single select > should remove the search text': {},
+    'single select > should remove the search text': {
+    },
     'multi select > should remove the search text': {
       props: {
         isMulti: true,
@@ -146,7 +149,8 @@ cases('getNewOptionData() prop',
     );
   },
   {
-    'single select > should create option as per label returned from getNewOptionData': {},
+    'single select > should create option as per label returned from getNewOptionData': {
+    },
     'multi select > should create option as per label returned from getNewOptionData': {
       props: {
         isMulti: true,

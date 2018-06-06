@@ -1,19 +1,29 @@
 // @flow
-import React, { Component, type ElementRef, type Node } from 'react';
+import React, {
+  Component,
+  type Element as ReactElement,
+  type ElementRef,
+  type Node,
+} from 'react';
+import { css as emotionCss } from 'emotion';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import {
   animatedScrollTo,
-  className,
   getBoundingClientObj,
+  type RectType,
   getScrollParent,
   getScrollTop,
-  normalizedHeight,
   scrollTo,
 } from '../utils';
-import { Div } from '../primitives';
 import { borderRadius, colors, spacing } from '../theme';
-import type { InnerRef, MenuPlacement, PropsWithStyles } from '../types';
+import type {
+  InnerRef,
+  MenuPlacement,
+  MenuPosition,
+  CommonProps,
+} from '../types';
 
 // ==============================
 // Menu
@@ -25,10 +35,11 @@ import type { InnerRef, MenuPlacement, PropsWithStyles } from '../types';
 type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
 type PlacementArgs = {
   maxHeight: number,
-  menuEl: HTMLElement,
+  menuEl: ElementRef<*>,
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
+  isFixedPosition: boolean,
 };
 
 export function getMenuPlacement({
@@ -37,14 +48,16 @@ export function getMenuPlacement({
   minHeight,
   placement,
   shouldScroll,
+  isFixedPosition,
 }: PlacementArgs): MenuState {
   const scrollParent = getScrollParent(menuEl);
-  const optimisticState = { placement: 'bottom', maxHeight };
+  const defaultState = { placement: 'bottom', maxHeight };
 
-  // something went wrong, return optimistic state
-  if (!menuEl || !menuEl.offsetParent) return optimisticState;
+  // something went wrong, return default state
+  if (!menuEl || !menuEl.offsetParent) return defaultState;
 
-  // can't trust `scrollParent.scrollHeight` --> it increases when the menu is rendered
+  // we can't trust `scrollParent.scrollHeight` --> it may increase when
+  // the menu is rendered
   const { height: scrollHeight } = scrollParent.getBoundingClientRect();
   const {
     bottom: menuBottom,
@@ -54,16 +67,17 @@ export function getMenuPlacement({
 
   // $FlowFixMe function returns above if there's no offsetParent
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = normalizedHeight(scrollParent);
+  const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
+  const gutter = spacing.menuGutter;
 
-  const viewSpaceAbove = containerTop - spacing.menuGutter;
+  const viewSpaceAbove = containerTop - gutter;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
 
-  const scrollDown = menuBottom - viewHeight + scrollTop + spacing.menuGutter;
-  const scrollUp = scrollTop + menuTop - spacing.menuGutter;
+  const scrollDown = menuBottom - viewHeight + scrollTop + gutter;
+  const scrollUp = scrollTop + menuTop - gutter;
   const scrollDuration = 160;
 
   switch (placement) {
@@ -75,7 +89,7 @@ export function getMenuPlacement({
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceBelow >= menuHeight) {
+      if (scrollSpaceBelow >= menuHeight && !isFixedPosition) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
@@ -84,14 +98,19 @@ export function getMenuPlacement({
       }
 
       // 3: the menu will fit, if constrained
-      if (scrollSpaceBelow >= minHeight) {
+      if (
+        (!isFixedPosition && scrollSpaceBelow >= minHeight) ||
+        (isFixedPosition && viewSpaceBelow >= minHeight)
+      ) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
 
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
-        const constrainedHeight = scrollSpaceBelow - spacing.menuGutter;
+        const constrainedHeight = isFixedPosition
+          ? viewSpaceBelow - gutter
+          : scrollSpaceBelow - gutter;
 
         return {
           placement: 'bottom',
@@ -102,8 +121,20 @@ export function getMenuPlacement({
       // 4. Forked beviour when there isn't enough space below
 
       // AUTO: flip the menu, render above
-      if (placement === 'auto') {
-        return { placement: 'top', maxHeight };
+      if (placement === 'auto' || isFixedPosition) {
+        // may need to be constrained after flipping
+        let constrainedHeight = maxHeight;
+
+        if (
+          (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
+          (isFixedPosition && viewSpaceAbove >= minHeight)
+        ) {
+          constrainedHeight = isFixedPosition
+            ? viewSpaceAbove - gutter - spacing.controlHeight
+            : scrollSpaceAbove - gutter - spacing.controlHeight;
+        }
+
+        return { placement: 'top', maxHeight: constrainedHeight };
       }
 
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
@@ -119,7 +150,7 @@ export function getMenuPlacement({
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceAbove >= menuHeight) {
+      if (scrollSpaceAbove >= menuHeight && !isFixedPosition) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollUp, scrollDuration);
         }
@@ -128,14 +159,26 @@ export function getMenuPlacement({
       }
 
       // 3: the menu will fit, if constrained
-      if (scrollSpaceAbove >= minHeight) {
-        if (shouldScroll) {
-          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
-        }
+      if (
+        (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
+        (isFixedPosition && viewSpaceAbove >= minHeight)
+      ) {
+        let constrainedHeight = maxHeight;
 
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
-        const constrainedHeight = scrollSpaceAbove - spacing.menuGutter;
+        if (
+          (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
+          (isFixedPosition && viewSpaceAbove >= minHeight)
+        ) {
+          constrainedHeight = isFixedPosition
+            ? viewSpaceAbove - gutter
+            : scrollSpaceAbove - gutter;
+        }
+
+        if (shouldScroll) {
+          animatedScrollTo(scrollParent, scrollUp, scrollDuration);
+        }
 
         return {
           placement: 'top',
@@ -152,25 +195,29 @@ export function getMenuPlacement({
   }
 
   // fulfil contract with flow: implicit return value of undefined
-  return optimisticState;
+  return defaultState;
 }
 
 // Menu Component
 // ------------------------------
 
-export type MenuProps = PropsWithStyles & {
+export type MenuProps = CommonProps & {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactElement<*>,
+  /** Callback to update the portal after possible flip. */
+  getPortalPlacement: MenuState => void,
   /** Props to be passed to the menu wrapper. */
   innerProps: Object,
   /** Set the maximum height of the menu. */
   maxMenuHeight: number,
   /** Set whether the menu should be at the top, at the bottom. The auto options sets it to bottom. */
   menuPlacement: MenuPlacement,
+  /* The CSS position value of the menu, when "fixed" extra layout management is required */
+  menuPosition: MenuPosition,
   /** Set the minimum height of the menu. */
   minMenuHeight: number,
   /** Set whether the page should scroll to show the menu. */
-  scrollMenuIntoView: boolean,
+  menuShouldScrollIntoView: boolean,
 };
 
 function alignToControl(placement) {
@@ -179,16 +226,13 @@ function alignToControl(placement) {
 }
 const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = ({ maxHeight, placement }: MenuState) => ({
+export const menuCSS = ({ placement }: MenuState) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
   boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
-  display: 'flex ',
-  flexDirection: 'column',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
-  maxHeight: maxHeight,
   position: 'absolute',
   width: '100%',
   zIndex: 1,
@@ -199,23 +243,35 @@ export class Menu extends Component<MenuProps, MenuState> {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
   };
+  static contextTypes = {
+    getPortalPlacement: PropTypes.func,
+  };
   getPlacement = (ref: ElementRef<*>) => {
     const {
       minMenuHeight,
       maxMenuHeight,
       menuPlacement,
-      scrollMenuIntoView,
+      menuPosition,
+      menuShouldScrollIntoView,
     } = this.props;
+    const { getPortalPlacement } = this.context;
 
     if (!ref) return;
+
+    // DO NOT scroll if position is fixed
+    const isFixedPosition = menuPosition === 'fixed';
+    const shouldScroll = menuShouldScrollIntoView && !isFixedPosition;
 
     const state = getMenuPlacement({
       maxHeight: maxMenuHeight,
       menuEl: ref,
       minHeight: minMenuHeight,
       placement: menuPlacement,
-      shouldScroll: scrollMenuIntoView,
+      shouldScroll,
+      isFixedPosition,
     });
+
+    if (getPortalPlacement) getPortalPlacement(state);
 
     this.setState(state);
   };
@@ -226,17 +282,22 @@ export class Menu extends Component<MenuProps, MenuState> {
     return { ...this.props, placement, maxHeight: this.state.maxHeight };
   };
   render() {
-    const { children, getStyles, innerProps } = this.props;
+    const { children, className, cx, getStyles, innerProps } = this.props;
 
     return (
-      <Div
-        className={className('menu')}
-        css={getStyles('menu', this.getState())}
-        innerRef={this.getPlacement}
+      <div
+        className={cx(
+          emotionCss(getStyles('menu', this.getState())),
+          {
+            'menu': true,
+          },
+          className
+        )}
+        ref={this.getPlacement}
         {...innerProps}
       >
         {children}
-      </Div>
+      </div>
     );
   }
 }
@@ -265,11 +326,11 @@ export type MenuListProps = {
     role: 'listbox',
   },
 };
-export type MenuListComponentProps = PropsWithStyles &
+export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = () => ({
-  flexGrow: 1,
+export const menuListCSS = ({ maxHeight }: MenuState) => ({
+  maxHeight,
   overflowY: 'auto',
   paddingBottom: spacing.baseUnit,
   paddingTop: spacing.baseUnit,
@@ -277,15 +338,23 @@ export const menuListCSS = () => ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, getStyles, isMulti, innerProps } = props;
+  const { children, className, cx, getStyles, isMulti, innerProps } = props;
+  const { innerRef, ...rest } = innerProps;
   return (
-    <Div
-      className={className('menu-list', { isMulti })}
-      css={getStyles('menuList', props)}
-      {...innerProps}
+    <div
+      className={cx(
+        emotionCss(getStyles('menuList', props)),
+        {
+          'menu-list': true,
+          'menu-list--is-multi': isMulti
+        },
+        className
+      )}
+      ref={innerRef}
+      {...rest}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 
@@ -301,7 +370,7 @@ const noticeCSS = () => ({
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
-export type NoticeProps = PropsWithStyles & {
+export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** Props to be passed on to the wrapper. */
@@ -309,15 +378,21 @@ export type NoticeProps = PropsWithStyles & {
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
-    <Div
-      className={className(['menu-notice', 'menu-notice--no-options'])}
-      css={getStyles('noOptionsMessage', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('noOptionsMessage', props)),
+        {
+          'menu-notice': true,
+          'menu-notice--no-options': true,
+        },
+        className
+      )}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 NoOptionsMessage.defaultProps = {
@@ -325,15 +400,21 @@ NoOptionsMessage.defaultProps = {
 };
 
 export const LoadingMessage = (props: NoticeProps) => {
-  const { children, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
-    <Div
-      className={className(['menu-notice', 'menu-notice--loading'])}
-      css={getStyles('loadingMessage', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('loadingMessage', props)),
+        {
+          'menu-notice': true,
+          'menu-notice--loading': true,
+        },
+        className
+      )}
       {...innerProps}
     >
       {children}
-    </Div>
+    </div>
   );
 };
 LoadingMessage.defaultProps = {
@@ -344,52 +425,81 @@ LoadingMessage.defaultProps = {
 // Menu Portal
 // ==============================
 
-export type MenuPortalProps = PropsWithStyles & {
+export type MenuPortalProps = CommonProps & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
   menuPlacement: MenuPlacement,
+  menuPosition: MenuPosition,
+};
+type MenuPortalState = {
+  placement: 'bottom' | 'top' | null,
+};
+type PortalStyleArgs = {
+  offset: number,
+  position: MenuPosition,
+  rect: RectType,
 };
 
-type RectType = {
-  left: number,
-  right: number,
-  bottom: number,
-  height: number,
-  width: number,
-}
-
-export const menuPortalCSS = ({ placement, rect, offset, viewHeight }: { placement: string, rect: RectType, offset: number, viewHeight: number }) => ({
-  bottom: placement === 'top' ? viewHeight - offset : null,
+export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
   left: rect.left,
-  position: 'absolute',
-  top: placement === 'bottom' ? offset : null,
+  position: position,
+  top: offset,
   width: rect.width,
+  zIndex: 1,
 });
 
-export const MenuPortal = ({
-  appendTo,
-  children,
-  controlElement,
-  menuPlacement,
-  getStyles,
-}: MenuPortalProps) => {
-  const viewHeight = window && window.innerHeight;
+export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
+  state = { placement: null };
+  static childContextTypes = {
+    getPortalPlacement: PropTypes.func,
+  };
+  getChildContext() {
+    return {
+      getPortalPlacement: this.getPortalPlacement,
+    };
+  }
 
-  // bail early if required elements aren't present
-  if (!appendTo || !controlElement || !viewHeight) return null;
+  // callback for occassions where the menu must "flip"
+  getPortalPlacement = ({ placement }: MenuState) => {
+    const initialPlacement = coercePlacement(this.props.menuPlacement);
 
-  const placement = coercePlacement(menuPlacement);
-  const rect = getBoundingClientObj(controlElement);
-  const offset = rect[placement] + window.pageYOffset;
+    // avoid re-renders if the placement has not changed
+    if (placement !== initialPlacement) {
+      this.setState({ placement });
+    }
+  };
+  render() {
+    const {
+      appendTo,
+      children,
+      controlElement,
+      menuPlacement,
+      menuPosition: position,
+      getStyles,
+    } = this.props;
+    const isFixed = position === 'fixed';
 
-  return createPortal(
-    <Div
-      css={getStyles('menuPortal', { placement, rect, offset, viewHeight })}
-    >
-      {children}
-    </Div>,
-    // $FlowFixMe this is accounted for above
-    appendTo
-  );
-};
+    // bail early if required elements aren't present
+    if ((!appendTo && !isFixed) || !controlElement) {
+      return null;
+    }
+
+    const placement = this.state.placement || coercePlacement(menuPlacement);
+    const rect = getBoundingClientObj(controlElement);
+    const scrollDistance = isFixed ? 0 : window.pageYOffset;
+    const offset = rect[placement] + scrollDistance;
+    const state = { offset, position, rect };
+
+    // same wrapper element whether fixed or portalled
+    const menuWrapper = (
+      <div
+        className={emotionCss(getStyles('menuPortal', state))}
+      >
+        {children}
+      </div>
+    );
+
+    return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;
+  }
+}

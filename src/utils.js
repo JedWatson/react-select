@@ -1,22 +1,24 @@
 // @flow
 
 import raf from 'raf';
-import type { InputActionMeta, OptionsType, ValueType } from './types';
+import { type ElementRef } from 'react';
+import type {
+  ClassNamesState,
+  InputActionMeta,
+  OptionsType,
+  ValueType,
+} from './types';
 
 // ==============================
 // NO OP
 // ==============================
 
 export const noop = () => {};
+export const emptyString = () => '';
 
 // ==============================
 // Class Name Prefixer
 // ==============================
-
-type State = { [key: string]: boolean };
-type List = Array<string>;
-
-export const CLASS_PREFIX = 'react-select';
 
 /**
  String representation of component state for styling with class names.
@@ -27,22 +29,27 @@ export const CLASS_PREFIX = 'react-select';
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
-export function className(name: string | List, state?: State): string {
-  const arr: List = Array.isArray(name) ? name : [name];
+function applyPrefixToName(prefix, name) {
+  return name ? `${prefix}__${name}` : prefix;
+}
 
-  // loop through state object, remove falsey values and combine with name
-  if (state && typeof name === 'string') {
+export function classNames(
+  prefix?: string | null,
+  cssKey?: string | null,
+  state?: ClassNamesState,
+  className?: string,
+) {
+  const arr = [cssKey, className];
+  if (state && prefix) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
-        arr.push(`${name}--${key}`);
+        arr.push(`${applyPrefixToName(prefix, key)}`);
       }
     }
   }
 
-  // prefix everything and return a string
-  return arr.map(cn => `${CLASS_PREFIX}__${cn}`).join(' ');
+  return arr.filter(i => i).map(i => String(i).trim()).join(' ');
 }
-
 // ==============================
 // Clean Value
 // ==============================
@@ -104,13 +111,14 @@ export function scrollTo(el: Element, top: number): void {
     window.scrollTo(0, top);
     return;
   }
+
   el.scrollTop = top;
 }
 
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: Element): Element {
+export function getScrollParent(element: ElementRef<*>): Element {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
@@ -211,6 +219,13 @@ export function getBoundingClientObj(element: HTMLElement) {
     width: rect.width,
   };
 }
+export type RectType = {
+  left: number,
+  right: number,
+  bottom: number,
+  height: number,
+  width: number,
+};
 
 // ==============================
 // String to Key (kebabify)
@@ -238,7 +253,11 @@ export function isTouchCapable() {
 // ==============================
 
 export function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
+  try {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  } catch (e) {
+    return false;
+  }
 }

@@ -6,9 +6,9 @@ import EditorPanelIcon from '@atlaskit/icon/glyph/editor/panel';
 import Tooltip from '@atlaskit/tooltip';
 
 const groupStyles = {
-  border: '2px dotted #2684FF',
+  border: `2px dotted ${colourOptions[2].color}`,
   color: 'white',
-  background: '#2684FF',
+  background: colourOptions[2].color,
   padding: '5px 0px',
   display: 'flex',
 };

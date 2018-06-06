@@ -1,10 +1,9 @@
 // @flow
 import React, { type Node, type ComponentType } from 'react';
+import { css as emotionCss } from 'emotion';
 
-import { className } from '../utils';
-import { Div } from '../primitives';
 import { spacing } from '../theme';
-import { type PropsWithStyles } from '../types';
+import type { CommonProps } from '../types';
 
 type ComponentProps = {
   /** The children to be rendered. */
@@ -24,7 +23,7 @@ type ComponentProps = {
   /** Label to be displayed in the heading component. */
   label: Node,
 };
-export type GroupProps = PropsWithStyles & ComponentProps;
+export type GroupProps = CommonProps & ComponentProps;
 
 export const groupCSS = () => ({
   paddingBottom: spacing.baseUnit * 2,
@@ -34,6 +33,8 @@ export const groupCSS = () => ({
 const Group = (props: GroupProps) => {
   const {
     children,
+    className,
+    cx,
     getStyles,
     Heading,
     headingProps,
@@ -41,16 +42,19 @@ const Group = (props: GroupProps) => {
     innerProps,
   } = props;
   return (
-    <Div
-      className={className('group')}
-      css={getStyles('group', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('group', props)),
+        { 'group': true },
+        className,
+      )}
       {...innerProps}
     >
-      <Heading getStyles={getStyles} {...headingProps}>
+      <Heading getStyles={getStyles} cx={cx} {...headingProps}>
         {label}
       </Heading>
-      <Div>{children}</Div>
-    </Div>
+      <div>{children}</div>
+    </div>
   );
 };
 
@@ -67,11 +71,14 @@ export const groupHeadingCSS = () => ({
 });
 
 export const GroupHeading = (props: any) => {
-  const { getStyles, ...cleanProps } = props;
+  const { className, cx, getStyles, ...cleanProps } = props;
   return (
-    <Div
-      className={className('group-heading')}
-      css={getStyles('groupHeading', props)}
+    <div
+      className={cx(
+        emotionCss(getStyles('groupHeading', props)),
+        { 'group-heading': true },
+        className
+      )}
       {...cleanProps}
     />
   );

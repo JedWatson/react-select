@@ -10,26 +10,24 @@ const name = 'Select';
 const path = 'dist/react-select';
 const globals = {
   classnames: 'classNames',
-  glam: 'glam',
+  emotion: 'emotion',
   'prop-types': 'PropTypes',
   'react-dom': 'ReactDOM',
   'react-input-autosize': 'AutosizeInput',
   react: 'React',
 };
 const external = Object.keys(globals);
-const babelOptions = prod => {
+const babelOptions = () => {
   let result = {
     babelrc: false,
     presets: [['env', { modules: false }], 'react'],
     plugins: [
+      'emotion',
       'transform-class-properties',
       'transform-object-rest-spread',
       'external-helpers',
     ],
   };
-  if (prod) {
-    result.plugins.push('transform-react-remove-prop-types');
-  }
   return result;
 };
 
@@ -41,7 +39,7 @@ export default [
       format: 'es',
     },
     external: [...external, 'raf'],
-    plugins: [babel(babelOptions(false))],
+    plugins: [babel(babelOptions())],
   },
   {
     input: 'src/index.umd.js',
@@ -52,7 +50,7 @@ export default [
       globals: globals,
     },
     external: external,
-    plugins: [babel(babelOptions(false)), resolve(), commonjs()],
+    plugins: [babel(babelOptions()), resolve(), commonjs()],
   },
   {
     input: 'src/index.umd.js',
@@ -63,11 +61,6 @@ export default [
       globals: globals,
     },
     external: external,
-    plugins: [
-      babel(babelOptions(true)),
-      resolve(),
-      commonjs(),
-      uglify({}, minify),
-    ],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
   },
 ];

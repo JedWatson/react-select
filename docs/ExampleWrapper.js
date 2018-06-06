@@ -1,8 +1,6 @@
-// @jsx glam
-
-import glam from 'glam';
 import React, { Component } from 'react';
-import CodeSandboxer, { replaceImports } from 'react-codesandboxer';
+import CodeSandboxer from 'react-codesandboxer';
+import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../package.json';
 import { colors } from '../src/theme';
@@ -25,7 +23,7 @@ const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
 }`;
 
 export default class ExampleWrapper extends Component {
-  state = { isHovered: false, showCode: false, };
+  state = { isHovered: false, showCode: false };
   static defaultProps = { isEditable: true };
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
@@ -51,7 +49,7 @@ export default class ExampleWrapper extends Component {
         />
       );
     }
-  }
+  };
 
   renderSourceViewOption = () => {
     let { raw } = this.props;
@@ -78,7 +76,7 @@ export default class ExampleWrapper extends Component {
         </Action>
       );
     }
-  }
+  };
 
   renderCSBButton = () => {
     let { isEditable, raw, urlPath } = this.props;
@@ -105,7 +103,7 @@ export default class ExampleWrapper extends Component {
     } else {
       return null;
     }
-  }
+  };
 
   render() {
     const { isHovered } = this.state;
@@ -130,7 +128,7 @@ const ExampleHeading = (props: any) => (
   <div
     css={{
       alignItems: 'center',
-      display: 'flex ',
+      display: 'flex',
       justifyContent: 'space-between',
       paddingBottom: '1em',
       paddingTop: '1.25em',
@@ -174,7 +172,7 @@ const Action = ({ css, tag: Tag = 'button', ...props }: ActionProps) => {
         boxSizing: 'border-box',
         color: colors.neutral40,
         cursor: 'pointer',
-        display: 'flex ',
+        display: 'flex',
         fontSize: 'inherit',
         height: 24,
         marginLeft: 2,
@@ -206,7 +204,7 @@ const Actions = ({ show, ...props }) => (
   <div
     css={{
       alignItems: 'center',
-      display: 'flex ',
+      display: 'flex',
       justifyContent: 'space-between',
       opacity: show ? 1 : 0,
       transition: 'opacity 260ms, visibility 260ms',

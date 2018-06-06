@@ -3,11 +3,13 @@
 exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
+  cx={[Function]}
   getStyles={[Function]}
   getValue={[Function]}
   hasValue={false}
   innerProps={
     Object {
+      "id": undefined,
       "onKeyDown": [Function],
     }
   }
@@ -24,6 +26,7 @@ exports[`snapshot - defaults 1`] = `
       "captureMenuScroll": false,
       "closeMenuOnSelect": true,
       "components": Object {},
+      "controlShouldRenderValue": true,
       "escapeClearsValue": false,
       "filterOption": [Function],
       "formatGroupLabel": [Function],
@@ -38,17 +41,21 @@ exports[`snapshot - defaults 1`] = `
       "isSearchable": true,
       "loadingMessage": [Function],
       "maxMenuHeight": 300,
-      "maxValueHeight": 100,
       "menuIsOpen": false,
       "menuPlacement": "bottom",
+      "menuPosition": "absolute",
+      "menuShouldBlockScroll": false,
+      "menuShouldScrollIntoView": true,
       "minMenuHeight": 140,
       "noOptionsMessage": [Function],
+      "openMenuOnClick": true,
+      "openMenuOnFocus": false,
       "options": Array [],
       "pageSize": 5,
       "placeholder": "Select...",
       "screenReaderStatus": [Function],
-      "scrollMenuIntoView": true,
       "styles": Object {},
+      "tabIndex": "0",
       "tabSelectsValue": true,
     }
   }
@@ -63,6 +70,7 @@ exports[`snapshot - defaults 1`] = `
   </A11yText>
   <Control
     clearValue={[Function]}
+    cx={[Function]}
     getStyles={[Function]}
     getValue={[Function]}
     hasValue={false}
@@ -86,6 +94,7 @@ exports[`snapshot - defaults 1`] = `
         "captureMenuScroll": false,
         "closeMenuOnSelect": true,
         "components": Object {},
+        "controlShouldRenderValue": true,
         "escapeClearsValue": false,
         "filterOption": [Function],
         "formatGroupLabel": [Function],
@@ -100,17 +109,21 @@ exports[`snapshot - defaults 1`] = `
         "isSearchable": true,
         "loadingMessage": [Function],
         "maxMenuHeight": 300,
-        "maxValueHeight": 100,
         "menuIsOpen": false,
         "menuPlacement": "bottom",
+        "menuPosition": "absolute",
+        "menuShouldBlockScroll": false,
+        "menuShouldScrollIntoView": true,
         "minMenuHeight": 140,
         "noOptionsMessage": [Function],
+        "openMenuOnClick": true,
+        "openMenuOnFocus": false,
         "options": Array [],
         "pageSize": 5,
         "placeholder": "Select...",
         "screenReaderStatus": [Function],
-        "scrollMenuIntoView": true,
         "styles": Object {},
+        "tabIndex": "0",
         "tabSelectsValue": true,
       }
     }
@@ -118,13 +131,13 @@ exports[`snapshot - defaults 1`] = `
   >
     <ValueContainer
       clearValue={[Function]}
+      cx={[Function]}
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
       isDisabled={false}
       isMulti={false}
       isRtl={false}
-      maxHeight={100}
       options={Array []}
       selectOption={[Function]}
       selectProps={
@@ -134,6 +147,7 @@ exports[`snapshot - defaults 1`] = `
           "captureMenuScroll": false,
           "closeMenuOnSelect": true,
           "components": Object {},
+          "controlShouldRenderValue": true,
           "escapeClearsValue": false,
           "filterOption": [Function],
           "formatGroupLabel": [Function],
@@ -148,17 +162,21 @@ exports[`snapshot - defaults 1`] = `
           "isSearchable": true,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
-          "maxValueHeight": 100,
           "menuIsOpen": false,
           "menuPlacement": "bottom",
+          "menuPosition": "absolute",
+          "menuShouldBlockScroll": false,
+          "menuShouldScrollIntoView": true,
           "minMenuHeight": 140,
           "noOptionsMessage": [Function],
+          "openMenuOnClick": true,
+          "openMenuOnFocus": false,
           "options": Array [],
           "pageSize": 5,
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
-          "scrollMenuIntoView": true,
           "styles": Object {},
+          "tabIndex": "0",
           "tabSelectsValue": true,
         }
       }
@@ -166,6 +184,7 @@ exports[`snapshot - defaults 1`] = `
     >
       <Placeholder
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -182,6 +201,7 @@ exports[`snapshot - defaults 1`] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldRenderValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
@@ -196,17 +216,21 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
             "minMenuHeight": 140,
             "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
             "options": Array [],
             "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
-            "scrollMenuIntoView": true,
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }
@@ -222,9 +246,11 @@ exports[`snapshot - defaults 1`] = `
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
+        cx={[Function]}
         getStyles={[Function]}
-        id="react-select-2--input"
+        id="react-select-2-input"
         innerRef={[Function]}
+        isDisabled={false}
         isHidden={false}
         onBlur={[Function]}
         onChange={[Function]}
@@ -237,6 +263,7 @@ exports[`snapshot - defaults 1`] = `
     </ValueContainer>
     <IndicatorsContainer
       clearValue={[Function]}
+      cx={[Function]}
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -252,6 +279,7 @@ exports[`snapshot - defaults 1`] = `
           "captureMenuScroll": false,
           "closeMenuOnSelect": true,
           "components": Object {},
+          "controlShouldRenderValue": true,
           "escapeClearsValue": false,
           "filterOption": [Function],
           "formatGroupLabel": [Function],
@@ -266,17 +294,21 @@ exports[`snapshot - defaults 1`] = `
           "isSearchable": true,
           "loadingMessage": [Function],
           "maxMenuHeight": 300,
-          "maxValueHeight": 100,
           "menuIsOpen": false,
           "menuPlacement": "bottom",
+          "menuPosition": "absolute",
+          "menuShouldBlockScroll": false,
+          "menuShouldScrollIntoView": true,
           "minMenuHeight": 140,
           "noOptionsMessage": [Function],
+          "openMenuOnClick": true,
+          "openMenuOnFocus": false,
           "options": Array [],
           "pageSize": 5,
           "placeholder": "Select...",
           "screenReaderStatus": [Function],
-          "scrollMenuIntoView": true,
           "styles": Object {},
+          "tabIndex": "0",
           "tabSelectsValue": true,
         }
       }
@@ -284,6 +316,7 @@ exports[`snapshot - defaults 1`] = `
     >
       <IndicatorSeparator
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -305,6 +338,7 @@ exports[`snapshot - defaults 1`] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldRenderValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
@@ -319,17 +353,21 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
             "minMenuHeight": 140,
             "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
             "options": Array [],
             "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
-            "scrollMenuIntoView": true,
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }
@@ -337,6 +375,7 @@ exports[`snapshot - defaults 1`] = `
       />
       <DropdownIndicator
         clearValue={[Function]}
+        cx={[Function]}
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -360,6 +399,7 @@ exports[`snapshot - defaults 1`] = `
             "captureMenuScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
+            "controlShouldRenderValue": true,
             "escapeClearsValue": false,
             "filterOption": [Function],
             "formatGroupLabel": [Function],
@@ -374,17 +414,21 @@ exports[`snapshot - defaults 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
-            "maxValueHeight": 100,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
             "minMenuHeight": 140,
             "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
             "options": Array [],
             "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
-            "scrollMenuIntoView": true,
             "styles": Object {},
+            "tabIndex": "0",
             "tabSelectsValue": true,
           }
         }

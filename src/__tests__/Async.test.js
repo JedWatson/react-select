@@ -51,7 +51,9 @@ cases(
 cases(
   'load options props with no default options',
   ({ props, expectloadOptionsLength }) => {
-    let asyncSelectWrapper = mount(<Async {...props} />);
+    let asyncSelectWrapper = mount(
+      <Async className="react-select" classNamePrefix="react-select" {...props} />
+    );
     let inputValueWrapper = asyncSelectWrapper.find(
       'div.react-select__input input'
     );
@@ -85,7 +87,7 @@ cases(
 test.skip('to not call loadOptions again for same value when cacheOptions is true', () => {
   let loadOptionsSpy = jest.fn();
   let asyncSelectWrapper = mount(
-    <Async loadOptions={loadOptionsSpy} cacheOptions />
+    <Async className="react-select" classNamePrefix="react-select" loadOptions={loadOptionsSpy} cacheOptions />
   );
   let inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
@@ -133,7 +135,7 @@ test('to call loadOptions with incremented page when pagination is true and the 
 test('to call loadOptions with page 1 when pagination is true and the user changes input to a new, non-cached, value', () => {
   const loadOptionsSpy = jest.fn((inputValue, page, callback) => callback(OPTIONS));
   const asyncSelectWrapper = mount(
-    <Async loadOptions={loadOptionsSpy} pagination menuIsOpen defaultOptions />
+    <Async className="react-select" loadOptions={loadOptionsSpy} pagination menuIsOpen defaultOptions />
   );
   const inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
@@ -153,7 +155,7 @@ test('to call loadOptions with page 1 when pagination is true and the user chang
 test('to to load all of the cached pages from cache when pagination is true', () => {
   const loadOptionsSpy = jest.fn((inputValue, page, callback) => callback(OPTIONS));
   const asyncSelectWrapper = mount(
-    <Async loadOptions={loadOptionsSpy} pagination menuIsOpen defaultOptions cacheOptions />
+    <Async className="react-select" loadOptions={loadOptionsSpy} pagination menuIsOpen defaultOptions cacheOptions />
   );
   const inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
@@ -189,7 +191,9 @@ test('in case of callbacks display the most recently-requested loaded options (i
   const loadOptions = (inputValue, callback) => {
     callbacks.push(callback);
   };
-  let asyncSelectWrapper = mount(<Async loadOptions={loadOptions} />);
+  let asyncSelectWrapper = mount(
+    <Async className="react-select" classNamePrefix="react-select" loadOptions={loadOptions} />
+  );
   let inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'
   );
@@ -212,7 +216,12 @@ test.skip('in case of callbacks should handle an error by setting options to an 
     callback(new Error('error'));
   };
   let asyncSelectWrapper = mount(
-    <Async loadOptions={loadOptions} options={OPTIONS} />
+    <Async
+      className="react-select"
+      classNamePrefix="react-select"
+      loadOptions={loadOptions}
+      options={OPTIONS}
+    />
   );
   let inputValueWrapper = asyncSelectWrapper.find(
     'div.react-select__input input'

@@ -13,7 +13,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ Placeholder }}
     placeholder={'custom placeholder component'}
-    styles={{ placeholder: (base) => ({ ...base, fontSize: '1em', color:'#2684FF', fontWeight: 400 }) }}
+    styles={{ placeholder: (base) => ({ ...base, fontSize: '1em', color:colourOptions[2].color, fontWeight: 400 }) }}
     options={colourOptions}
   />
 );

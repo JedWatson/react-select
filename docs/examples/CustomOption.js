@@ -15,7 +15,7 @@ export default () => (
   <Select
     closeMenuOnSelect={false}
     components={{ Option }}
-    styles={{ option: (base) => ({ ...base, border: '1px dotted #2684FF', height: '100%' }) }}
+    styles={{ option: (base) => ({ ...base, border: `1px dotted ${colourOptions[2].color}`, height: '100%' }) }}
     defaultValue={colourOptions[4]}
     options={colourOptions}
   />

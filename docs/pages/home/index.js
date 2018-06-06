@@ -24,6 +24,28 @@ export default function Home() {
   View the [source code](https://github.com/JedWatson/react-select/tree/v2) and
   [Pull Request on github](https://github.com/JedWatson/react-select/pull/2289).
 
+  If you're coming from react-select v1, check out the [Upgrade Guide](/upgrade-guide).
+
+  ${(
+    <ExampleWrapper
+      label="Single"
+      urlPath="docs/examples/BasicSingle.js"
+      raw={require('!!raw-loader!../../examples/BasicSingle.js')}
+    >
+      <BasicSingle />
+    </ExampleWrapper>
+  )}
+
+  ${(
+    <ExampleWrapper
+      label="Multi"
+      urlPath="docs/examples/BasicMulti.js"
+      raw={require('!!raw-loader!../../examples/BasicMulti.js')}
+    >
+      <BasicMulti />
+    </ExampleWrapper>
+  )}
+
   ## Getting Started
 
   Start by installing \`react-select\` (use the next tag to install the alpha)
@@ -51,16 +73,6 @@ export default function Home() {
 
   ${(
     <ExampleWrapper
-      label="Single"
-      urlPath="docs/examples/BasicSingle.js"
-      raw={require('!!raw-loader!../../examples/BasicSingle.js')}
-    >
-      <BasicSingle />
-    </ExampleWrapper>
-  )}
-
-  ${(
-    <ExampleWrapper
       label="Grouped"
       urlPath="docs/examples/BasicGrouped.js"
       raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
@@ -69,20 +81,14 @@ export default function Home() {
     </ExampleWrapper>
   )}
 
-  ${(
-    <ExampleWrapper
-      label="Multi"
-      urlPath="docs/examples/BasicMulti.js"
-      raw={require('!!raw-loader!../../examples/BasicMulti.js')}
-    >
-      <BasicMulti />
-    </ExampleWrapper>
-  )}
-
   ## Animated Components
 
   React-Select comes with Animated variants that wrap the built-in
   components.
+
+  ~~~jsx
+  import Animated from 'react-select/lib/animated';
+  ~~~
 
   Remove the values below to see them in action.
 
@@ -120,6 +126,8 @@ export default function Home() {
     </ExampleWrapper>
   )}
 
+  You can see a full explanation of how to do this on the [styles](/styles) page.
+
   # Async
   Use the Async component to load options from a remote source as the user types.
 
@@ -147,6 +155,7 @@ export default function Home() {
     </ExampleWrapper>
   )}
 
+  You can see a full explanation of how to do this on the [async](/async) page.
 
   # Creatable
 
@@ -163,5 +172,7 @@ export default function Home() {
       <CreatableSingle />
     </ExampleWrapper>
   )}
+
+  You can see a full explanation of how to do this on the [creatable](/creatable) page.
 `;
 }

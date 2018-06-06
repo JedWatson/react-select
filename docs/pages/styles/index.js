@@ -6,20 +6,20 @@ import { StyledSingle, StyledMulti } from '../../examples';
 
 export default function Styles() {
   return (
-  <Fragment>
-    <Helmet>
-      <title>Styles - React Select</title>
-      <meta
-        name="description"
-        content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects"
-      />
-    </Helmet>
-    {md`
+    <Fragment>
+      <Helmet>
+        <title>Styles - React Select</title>
+        <meta
+          name="description"
+          content="React-Select offers a flexible, light-weight styling framework which is a thin abstraction over simple javascript objects"
+        />
+      </Helmet>
+      {md`
     # Styles
 
     React-Select offers a flexible, light-weight styling framework which is
     a thin abstraction over simple javascript objects using
-    [glam](https://github.com/threepointone/glam).
+    [emotion](https://emotion.sh/).
 
     ~~~jsx
     /**
@@ -91,7 +91,7 @@ export default function Styles() {
           urlPath="docs/examples/StyledSingle.js"
           raw={require('!!raw-loader!../../examples/StyledSingle.js')}
         >
-          <StyledSingle/>
+          <StyledSingle />
         </ExampleWrapper>
       )}
 
@@ -100,10 +100,53 @@ export default function Styles() {
           label="Customised styles for Multi Select"
           urlPath="docs/examples/StyledMulti.js"
           raw={require('!!raw-loader!../../examples/StyledMulti.js')}
-          >
-          <StyledMulti/>
+        >
+          <StyledMulti />
         </ExampleWrapper>
       )}
+
+    ## Using classNames
+
+    If you provide the \`className\` prop to react-select, the SelectContainer will be given a className based on the provided value.
+    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
+    be given a className based on the one you have provided.
+
+    For example, given \`classNamePrefix="react-select"\`, the DOM would roughtly look
+    like this:
+
+    ~~~html
+    <div>
+      <div class="react-select__control">
+        <div class="react-select__value-container">...</div>
+        <div class="react-select__indicators">...</div>
+      </div>
+      <div class="react-select__menu">
+        <div class="react-select__menu-list">
+          <div class="react-select__option">...</div>
+        </div>
+      </div>
+    </div>
+    ~~~
+
+    while giving \`className='react-select-container'\` and \`classNamePrefix='react-select'\`, the DOM would roughly look like this:
+
+    ~~~html
+    <div class="react-select-container">
+      <div class="react-select__control">
+        <div class="react-select__value-container">...</div>
+        <div class="react-select__indicators">...</div>
+      </div>
+      <div class="react-select__menu">
+        <div class="react-select__menu-list">
+          <div class="react-select__option">...</div>
+        </div>
+      </div>
+    </div>
+    ~~~
+
+    While we encourage you to use the new Styles API, it's good to know that you
+    still have the option of adding class names to the components to style via CSS.
+
     `}
     </Fragment>
   );

@@ -1,8 +1,6 @@
-// @jsx glam
-
-import glam from 'glam';
 import React from 'react';
 import md from 'react-markings';
+import { Link as RRLink } from 'react-router-dom';
 
 import Svg from '../Svg';
 import store from './store';
@@ -15,7 +13,7 @@ import SyntaxHighlighter, {
   registerLanguage,
 } from 'react-syntax-highlighter/prism-light';
 import jsx from 'react-syntax-highlighter/languages/prism/jsx';
-import { coy, tomorrow } from 'react-syntax-highlighter/styles/prism';
+import { coy } from 'react-syntax-highlighter/styles/prism';
 
 const customCoy = {
   ...coy,
@@ -29,18 +27,6 @@ const customCoy = {
   },
 };
 
-const customTomorrow = {
-  ...tomorrow,
-  'code[class*="language-"]': {
-    ...tomorrow['code[class*="language-"]'],
-    fontFamily: null, // inherit from css
-  },
-  'pre[class*="language-"]': {
-    ...tomorrow['pre[class*="language-"]'],
-    fontFamily: null, // inherit from css
-  },
-};
-
 registerLanguage('jsx', jsx);
 
 // ==============================
@@ -50,16 +36,6 @@ registerLanguage('jsx', jsx);
 function slugify(str: string): string {
   return str.replace(/\W/g, '-').toLowerCase();
 }
-
-const Anchor = props => (
-  <a
-    css={{
-      color: 'inherit',
-      textDecoration: 'none',
-    }}
-    {...props}
-  />
-);
 
 // ==============================
 // Renderers
@@ -119,21 +95,23 @@ const Heading = props => {
   }
   const css = {
     marginTop: 0,
-    '&:not(:first-child)': { marginTop: 30, paddingTop: 30 },
+    '&:not(:first-child)': { marginTop: 30 },
   };
 
   return linkify ? (
     <Tag id={slug} css={css}>
-      <Anchor
-        href={`#${slug}`}
+      <RRLink
+        to={`#${slug}`}
         css={{
+          color: 'inherit',
           position: 'relative',
+          textDecoration: 'none',
           '&:hover > svg': { opacity: 1, transitionDelay: '300ms' },
         }}
       >
         <Chain />
         {children}
-      </Anchor>
+      </RRLink>
     </Tag>
   ) : (
     <Tag css={css}>{children}</Tag>
@@ -141,12 +119,12 @@ const Heading = props => {
 };
 
 // eslint-disable-next-line no-unused-vars
-const Code = ({ children, inline, literal, nodeKey }) => (
+export const Code = ({ children, inline, literal, nodeKey }) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
       color: '#172B4D',
-      fontSize: '85%',
+      fontSize: '90%',
       fontStyle: 'normal',
       padding: '1px 5px 2px',
       borderRadius: 4,
@@ -159,14 +137,12 @@ const Code = ({ children, inline, literal, nodeKey }) => (
 export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }) => {
   const language = codeinfo[0];
 
-  // JS is light, others are dark themed
-  const style = language === 'js' ? customCoy : customTomorrow;
-
   return (
     <SyntaxHighlighter
       language={language}
-      style={style}
+      style={customCoy}
       customStyle={{
+        backgroundColor: 'none',
         borderRadius: 4,
         fontSize: 13,
         marginBottom: '1em',
@@ -186,18 +162,26 @@ const Blockquote = ({ nodeKey, ...props }) => (
   <blockquote
     css={{
       color: '#7A869A',
-      fontSize: '0.9em',
       fontStyle: 'italic',
       marginLeft: 0,
+      paddingLeft: 16,
+      borderLeft: '4px solid #eee',
     }}
     {...props}
   />
 );
+
+const Link = ({ nodeKey, href, ...props }) =>
+  href[0] === '/' ? (
+    <RRLink to={href} {...props} />
+  ) : (
+    <a href={href} {...props} />
+  );
 
 // ==============================
 // Exports
 // ==============================
 
 export default md.customize({
-  renderers: { Blockquote, Code, Heading, CodeBlock },
+  renderers: { Blockquote, Code, Heading, CodeBlock, Link },
 });

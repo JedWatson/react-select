@@ -6,11 +6,18 @@
 import SelectBase from './Select';
 import manageState from './stateManager';
 
-export { createFilter } from './filters';
-export { components } from './components/index';
-export { mergeStyles } from './styles';
+import Async from './Async';
+import AsyncCreatable from './AsyncCreatable';
+import Creatable from './Creatable';
+
+import { createFilter } from './filters';
+import { components } from './components/index';
+import { mergeStyles } from './styles';
 
 const Select = manageState(SelectBase);
+Select.Async = Async;
+Select.AsyncCreatable = AsyncCreatable;
+Select.Creatable = Creatable;
 Select.SelectBase = SelectBase;
 Select.createFilter = createFilter;
 Select.components = components;

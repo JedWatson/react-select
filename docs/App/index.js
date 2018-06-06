@@ -1,7 +1,5 @@
 // @flow
-// @jsx glam
 
-import glam from 'glam';
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -24,12 +22,13 @@ import Tests from '../Tests';
 
 const sections = [
   { label: 'Home', path: '/home' },
-  { label: 'API', path: '/api' },
+  { label: 'Props', path: '/props' },
   { label: 'Styles', path: '/styles' },
   { label: 'Components', path: '/components' },
   { label: 'Async', path: '/async' },
   { label: 'Creatable', path: '/creatable' },
   { label: 'Advanced', path: '/advanced' },
+  { label: 'Upgrading', path: '/upgrade-guide' },
 ];
 
 export default class App extends Component<*> {

@@ -36,7 +36,7 @@ describe('New Select', function() {
       it('Should expand the menu when click on the arrow ' + view, function() {
         cy
           .get(selector.toggleMenus)
-          .should('have.length', 4)
+          .should('have.length', 8)
           .get(selector.singleSelectSingleInput)
           .should('have.attr', 'aria-expanded', 'false')
           .get(selector.toggleMenuSingle)
@@ -81,7 +81,7 @@ describe('New Select', function() {
           .get(selector.toggleMenuSingle)
           .click({ force: true })
           .get(selector.singleSelectSingleInput)
-          .should('not.be.visible');
+          .should('be.disabled');
       });
       it('Should display group in the menu ' + view, function() {
         cy
