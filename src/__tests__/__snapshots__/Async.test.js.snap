@@ -39,6 +39,7 @@ exports[`defaults - snapshot 1`] = `
       isLoading={false}
       isMulti={false}
       isOptionDisabled={[Function]}
+      isOptionFixed={[Function]}
       isRtl={false}
       isSearchable={true}
       loadingMessage={[Function]}
@@ -107,6 +108,7 @@ exports[`defaults - snapshot 1`] = `
             "isLoading": false,
             "isMulti": false,
             "isOptionDisabled": [Function],
+            "isOptionFixed": [Function],
             "isRtl": false,
             "isSearchable": true,
             "loadingMessage": [Function],
@@ -197,6 +199,7 @@ exports[`defaults - snapshot 1`] = `
                 "isLoading": false,
                 "isMulti": false,
                 "isOptionDisabled": [Function],
+                "isOptionFixed": [Function],
                 "isRtl": false,
                 "isSearchable": true,
                 "loadingMessage": [Function],
@@ -266,6 +269,7 @@ exports[`defaults - snapshot 1`] = `
                     "isLoading": false,
                     "isMulti": false,
                     "isOptionDisabled": [Function],
+                    "isOptionFixed": [Function],
                     "isRtl": false,
                     "isSearchable": true,
                     "loadingMessage": [Function],
@@ -334,6 +338,7 @@ exports[`defaults - snapshot 1`] = `
                         "isLoading": false,
                         "isMulti": false,
                         "isOptionDisabled": [Function],
+                        "isOptionFixed": [Function],
                         "isRtl": false,
                         "isSearchable": true,
                         "loadingMessage": [Function],
@@ -523,6 +528,7 @@ exports[`defaults - snapshot 1`] = `
                     "isLoading": false,
                     "isMulti": false,
                     "isOptionDisabled": [Function],
+                    "isOptionFixed": [Function],
                     "isRtl": false,
                     "isSearchable": true,
                     "loadingMessage": [Function],
@@ -596,6 +602,7 @@ exports[`defaults - snapshot 1`] = `
                         "isLoading": false,
                         "isMulti": false,
                         "isOptionDisabled": [Function],
+                        "isOptionFixed": [Function],
                         "isRtl": false,
                         "isSearchable": true,
                         "loadingMessage": [Function],
@@ -673,6 +680,7 @@ exports[`defaults - snapshot 1`] = `
                         "isLoading": false,
                         "isMulti": false,
                         "isOptionDisabled": [Function],
+                        "isOptionFixed": [Function],
                         "isRtl": false,
                         "isSearchable": true,
                         "loadingMessage": [Function],
