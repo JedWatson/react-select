@@ -625,7 +625,11 @@ class Select extends React.Component {
 			}, () => {
 				const valueArray = this.getValueArray(this.props.value);
 				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
-					this.removeValue(value);
+					if (this.props.removeSelectedOnSelect) {
+						this.removeValue(value);
+					} else {
+						if (this.props.onSelectSelected) this.props.onSelectSelected(value);
+					}	
 				} else {
 					this.addValue(value);
 				}
@@ -1265,6 +1269,8 @@ Select.propTypes = {
 	valueKey: PropTypes.string,           // path of the label value in option objects
 	valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
 	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
+	removeSelectedOnSelect: PropTypes.bool, // optional prop to disable removing selected options when they are reselected
+	onSelectSelected: PropTypes.func,     // fire event when select selected and removeSelectedOnSelect=false
 };
 
 Select.defaultProps = {
@@ -1311,6 +1317,7 @@ Select.defaultProps = {
  	trimFilter: true,
 	valueComponent: Value,
 	valueKey: 'value',
+	removeSelectedOnSelect: true,
 };
 
 export default Select;
