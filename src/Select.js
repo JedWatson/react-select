@@ -1197,7 +1197,9 @@ export default class Select extends Component<Props, State> {
     }
 
     if (isMulti) {
-      return selectValue.map(opt => {
+      const orderedSelectValue = selectValue.filter(i => this.isOptionFixed(i)).concat(selectValue.filter(i => !this.isOptionFixed(i)));
+
+      return orderedSelectValue.map(opt => {
         let isFocused = opt === focusedValue;
         return (
           <MultiValue

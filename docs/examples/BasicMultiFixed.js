@@ -5,7 +5,7 @@ import { fixedColourOptions } from '../data';
 
 export default () => (
   <Select
-    defaultValue={[fixedColourOptions[2], fixedColourOptions[3]]}
+    defaultValue={[fixedColourOptions[1], fixedColourOptions[2], fixedColourOptions[3]]}
     isMulti
     name="colors"
     options={fixedColourOptions}
