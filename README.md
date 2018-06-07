@@ -82,13 +82,13 @@ class App extends React.Component {
   }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-		// selectedOption can be null when the `x` (close) button is clicked
-		if (selectedOption) {
-    	console.log(`Selected: ${selectedOption.label}`);
-		}
+    // selectedOption can be null when the `x` (close) button is clicked
+    if (selectedOption) {
+      console.log(`Selected: ${selectedOption.label}`);
+    }
   }
   render() {
-  	const { selectedOption } = this.state;
+    const { selectedOption } = this.state;
 
     return (
       <Select
@@ -166,8 +166,8 @@ const getOptions = (input, callback) => {
 };
 
 <Async
-    name="form-field-name"
-    loadOptions={getOptions}
+  name="form-field-name"
+  loadOptions={getOptions}
 />
 ```
 
@@ -323,13 +323,13 @@ You can manipulate the input by providing a `onInputChange` callback that return
 
 ```js
 function cleanInput(inputValue) {
-    // Strip all non-number characters from the input
-    return inputValue.replace(/[^0-9]/g, "");
-}   
+  // Strip all non-number characters from the input
+  return inputValue.replace(/[^0-9]/g, "");
+}
 
 <Select
-    name="form-field-name"
-    onInputChange={cleanInput}
+  name="form-field-name"
+  onInputChange={cleanInput}
 />
 ```
 
@@ -340,20 +340,20 @@ You can extend or override this behaviour by providing a `onInputKeyDown` callba
 
 ```js
 function onInputKeyDown(event) {
-    switch (event.keyCode) {
-        case 9:   // TAB
-            // Extend default TAB behaviour by doing something here
-            break;
-        case 13: // ENTER
-            // Override default ENTER behaviour by doing stuff here and then preventing default
-            event.preventDefault();
-            break;
-    }
+  switch (event.keyCode) {
+    case 9: // TAB
+      // Extend default TAB behaviour by doing something here
+      break;
+    case 13: // ENTER
+      // Override default ENTER behaviour by doing stuff here and then preventing default
+      event.preventDefault();
+      break;
+  }
 }
 
 <Select
-    {...otherProps}
-    onInputKeyDown={onInputKeyDown}
+  {...otherProps}
+  onInputKeyDown={onInputKeyDown}
 />
 ```
 
