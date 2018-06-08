@@ -16,6 +16,7 @@
     "emotion": "^9.1.2",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
+    "react-aria-live": "^2.0.2",
     "react-input-autosize": "^2.2.1",
     "react-transition-group": "^2.2.1"
   },

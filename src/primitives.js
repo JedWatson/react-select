@@ -25,14 +25,20 @@ export const Input = createPrimitive('input');
 export const A11yText = (props: any) => (
   <span
     css={{
+      display: 'block',
+      zIndex: 9999,
       border: 0,
-      clip: 'rect(1px, 1px, 1px, 1px)',
-      height: 1,
-      overflow: 'hidden',
+      // clip: 'rect(1px, 1px, 1px, 1px)',
+      height: '100px',
+      // width: '200px',
+      position: 'relative',
+      // overflow: 'hidden',
       padding: 0,
-      position: 'absolute',
+      // top:0,
+      // left:0,
       whiteSpace: 'nowrap',
-      width: 1,
+      backgroundColor: 'red',
+      color: 'blue',
     }}
     {...props}
   />

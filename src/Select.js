@@ -4,6 +4,7 @@ import React, { Component, type ElementRef, type Node } from 'react';
 
 import { createFilter } from './filters';
 import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
+import { LiveMessage, LiveAnnouncer } from 'react-aria-live';
 
 import {
   classNames,
@@ -242,6 +243,12 @@ type State = {
   focusedValue: OptionType | null,
   menuOptions: MenuOptions,
   selectValue: OptionsType,
+  a11yState: {
+    selection?: string,
+    valueFocus?: string,
+    optionFocus?: string,
+    instructions?: string
+  },
 };
 
 type ElRef = ElementRef<*>;
@@ -334,7 +341,7 @@ export default class Select extends Component<Props, State> {
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-      this.getNextAnnouncement(nextProps, this.props, focusedOption);
+      // this.getNextAnnouncement(nextProps, this.props, focusedOption);
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
@@ -344,20 +351,6 @@ export default class Select extends Component<Props, State> {
       });
       delete this.inputIsHiddenAfterUpdate;
     }
-  }
-  getNextAnnouncement ({ value: nextValue }: Props, { value }: Props, nextFocusedOption: OptionType) {
-    // If there is a new value, return;
-    if (value && value !== nextValue) return;
-    // If there is not a new value, check if the focusedOption has changed, if it has
-    if (nextFocusedOption !== this.state.focusedOption) {
-      let msg = '';
-      if (nextFocusedOption) {
-        msg += `option ${getOptionLabel(nextFocusedOption)} focused`;
-      }
-      this.announceStatus('feedback', msg);
-    }
-    // Update announce a new message with updated feedback.
-
   }
   componentDidUpdate(prevProps: Props) {
     const { isDisabled, menuIsOpen } = this.props;
@@ -425,7 +418,6 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue } = this.state;
     const { isMulti } = this.props;
-
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
@@ -436,16 +428,20 @@ export default class Select extends Component<Props, State> {
       }
     }
 
+
     this.scrollToFocusedOptionOnUpdate = true;
     this.inputIsHiddenAfterUpdate = false;
+
     this.onMenuOpen();
     this.setState({
       focusedValue: null,
       focusedOption: menuOptions.focusable[openAtIndex],
+    }, () => {
+      this.announceStatus('instructions', 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.');
     });
   }
   focusValue(direction: 'previous' | 'next') {
-    const { isMulti } = this.props;
+    const { isMulti, isSearchable } = this.props;
     const { selectValue, focusedValue } = this.state;
 
     // Only multiselects support value focusing
@@ -454,11 +450,13 @@ export default class Select extends Component<Props, State> {
     this.setState({
       focusedOption: null,
     });
+
     let focusedIndex = selectValue.indexOf(focusedValue);
-    if (focusedValue) {
+    if (!focusedValue) {
       focusedIndex = -1;
       this.announceStatus('instructions', 'Use left and right to toggle between focused values, press Enter to remove the currently focused value');
     }
+
     const lastIndex = selectValue.length - 1;
     let nextFocus = -1;
     if (!selectValue.length) return;
@@ -480,6 +478,10 @@ export default class Select extends Component<Props, State> {
           nextFocus = focusedIndex + 1;
         }
         break;
+    }
+
+    if (nextFocus === -1) {
+      this.announceStatus('instructions', `Select is focused ${ isSearchable ? ', type to refine list' : '' }, press Down to open the menu`);
     }
 
     this.setState({
@@ -515,7 +517,6 @@ export default class Select extends Component<Props, State> {
       nextFocus = options.length - 1;
     }
     this.scrollToFocusedOptionOnUpdate = true;
-    this.announceStatus('feedback', `${this.getOptionLabel(options[nextFocus])} option focused`);
     this.setState({
       focusedOption: options[nextFocus],
       focusedValue: null,
@@ -548,14 +549,14 @@ export default class Select extends Component<Props, State> {
           'deselect-option',
           newValue
         );
-        this.announceStatus('feedback', `option ${this.getOptionLabel(newValue)}, deselected.`);
+        this.announceStatus('selection', `option ${this.getOptionLabel(newValue)}, deselected.`);
       } else {
         this.setValue([...selectValue, newValue], 'select-option', newValue);
         this.announceStatus('feedback', `option ${this.getOptionLabel(newValue)}, selected.`);
       }
     } else {
       this.setValue(newValue, 'select-option');
-      this.announceStatus('feedback', `option ${this.getOptionLabel(newValue)}, selected.`);
+      this.announceStatus('selection', `option ${this.getOptionLabel(newValue)}, selected.`);
     }
 
     if (blurInputOnSelect) {
@@ -570,7 +571,7 @@ export default class Select extends Component<Props, State> {
       action: 'remove-value',
       removedValue,
     });
-    this.announceStatus('feedback', `value ${this.getOptionLabel(removedValue)} removed`);
+    this.announceStatus('selection', `value ${this.getOptionLabel(removedValue)} removed`);
     this.focusInput();
   };
   clearValue = () => {
@@ -637,7 +638,8 @@ export default class Select extends Component<Props, State> {
       } else if (lastFocusedIndex < nextSelectValue.length) {
         // the focusedValue is not present in the next selectValue array by
         // reference, so return the new value at the same index
-        return nextSelectValue[lastFocusedIndex];
+        const nextFocusedValue = nextSelectValue[lastFocusedIndex];
+        return nextFocusedValue;
       }
     }
     return null;
@@ -645,9 +647,14 @@ export default class Select extends Component<Props, State> {
 
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
-    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-      ? lastFocusedOption
-      : options[0];
+    const nextFocusedOptionIndex = lastFocusedOption && options.indexOf(lastFocusedOption) > -1 ? options.indexOf(lastFocusedOption) : 0;
+    const nextFocusedOption = options[nextFocusedOptionIndex];
+
+    if (nextFocusedOption) {
+      this.announceStatus('optionFocus', `option ${this.props.getOptionLabel(nextFocusedOption)} now focused, ${nextFocusedOptionIndex + 1} of ${options.length}`);
+    }
+
+    return nextFocusedOption;
   }
   getOptionLabel(data: OptionType): string {
     return this.props.getOptionLabel(data);
@@ -681,7 +688,9 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   announceStatus(type: string, msg: string) {
-    this.setState({ [type]: msg });
+    this.setState(state => ({
+      a11yState: { ...state.a11yState, [type]: msg }
+    }));
   }
 
   hasValue() {
@@ -902,8 +911,7 @@ export default class Select extends Component<Props, State> {
     this.setState({
       focusedValue: null,
       isFocused: false,
-      instructions: ' ',
-      feedback: ' ',
+      a11yState: {},
     });
   };
   onOptionHover = (focusedOption: OptionType) => {
@@ -1131,19 +1139,36 @@ export default class Select extends Component<Props, State> {
     const { feedback } = this.state;
     return `${feedback} ${screenReaderStatus({ count: this.countOptions() })} ${inputValue ? `for search term ${inputValue}` : ' '}`;
   }
+  constructAriaLiveMessage () {
+    const { a11yState: xAllyState, selectValue, focusedValue, focusedOption } = this.state;
+    const { options, menuIsOpen, inputValue } = this.props;
+    return [
+      focusedValue ?`value ${this.getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(focusedValue) + 1} of ${selectValue.length}`: null,
+      (focusedOption && menuIsOpen) ? `option ${this.getOptionLabel(focusedOption)} focused, ${options.indexOf(focusedOption) + 1} of ${options.length}` : null,
+      inputValue ? `for inputValue ${inputValue}` : null,
+      xAllyState.instructions ? xAllyState.instructions : null,
+    ].join(' ');
+  }
+
   renderAssertive () {
+    const { a11yState: xAllyState, selectValue, focusedValue, focusedOption } = this.state;
+    const { options, menuIsOpen, inputValue } = this.props;
     return (
       <A11yText aria-live="assertive" aria-relevant="all" aria-atomic="true">
-        &nbsp;{this.constructAnnouncement()}
+        <span>&nbsp;{xAllyState.selection}</span>
+        {focusedValue ? <span>&nbsp;{`value ${this.getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(focusedValue) + 1} of ${selectValue.length}`}</span> : null}
+        {(focusedOption && menuIsOpen) ? <span>&nbsp;{`option ${this.getOptionLabel(focusedOption)} focused, ${options.indexOf(focusedOption) + 1} of ${options.length}`}</span> : null}
+        {inputValue ? <span>&nbsp;{`for inputValue ${inputValue}`}</span> : null}
+        {xAllyState.instructions ? <span>&nbsp;{xAllyState.instructions}</span> : null}
       </A11yText>
     );
   }
 
   renderScreenReaderStatus() {
-    const { instructions } = this.state;
+    const { a11yState } = this.state;
     return (
       <A11yText aria-live="polite" aria-relevant="all" aria-atomic="true">
-        &nbsp;{instructions}
+        &nbsp;{a11yState.instructions}
       </A11yText>
     );
   }
@@ -1566,9 +1591,19 @@ export default class Select extends Component<Props, State> {
         isDisabled={isDisabled}
         isFocused={isFocused}
       >
-
-          {isFocused ? this.renderAssertive() : null}
-          {isFocused ? this.renderScreenReaderStatus() : null}
+        <span style={{
+          position: 'fixed',
+          height: '300px',
+          zIndex: 9999,
+          top: 0,
+          left: 0,
+        }}>
+          <LiveAnnouncer>
+            <LiveMessage message={this.constructAriaLiveMessage()} aria-live="assertive" clearOnUnmount="true" aria-relevant="all" />
+          </LiveAnnouncer>
+          {/* {isFocused ? this.renderAssertive() : null} */}
+          {/* {isFocused ? this.renderScreenReaderStatus() : null} */}
+        </span>
         <Control
           {...commonProps}
           innerProps={{
