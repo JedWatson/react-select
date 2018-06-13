@@ -3570,7 +3570,7 @@ describe('Select', () => {
 			});
 
 			it('calls the renderer with props', () => {
-				expect(inputRenderer, 'was called with', { value: '', className: 'Select-input' });
+				expect(inputRenderer, 'was called with', { value: '' });
 			});
 		});
 
