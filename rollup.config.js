@@ -8,7 +8,17 @@ import { minify } from 'uglify-es';
 
 const name = 'Select';
 const path = 'dist/react-select';
-const globals = {
+
+type Globals = {|
+  classnames: string,
+  emotion: string,
+  'prop-types': string,
+  'react-dom': string,
+  'react-input-autosize': string,
+  react: string,
+|};
+
+const globals: Globals = {
   classnames: 'classNames',
   emotion: 'emotion',
   'prop-types': 'PropTypes',
@@ -16,7 +26,7 @@ const globals = {
   'react-input-autosize': 'AutosizeInput',
   react: 'React',
 };
-const external = Object.keys(globals);
+const external: Array<$Keys<Globals>> = Object.keys(globals);
 const babelOptions = () => {
   let result = {
     babelrc: false,

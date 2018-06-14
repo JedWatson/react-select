@@ -1141,7 +1141,7 @@ export default class Select extends Component<Props, State> {
       />
     );
   }
-  renderPlaceholderOrValue() {
+  renderPlaceholderOrValue(): Node | Node[] {
     const {
       MultiValue,
       MultiValueContainer,

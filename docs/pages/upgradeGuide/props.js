@@ -231,13 +231,17 @@ class InputOption extends Component<*, *> {
   }
 }
 
-const allOptions = [
+type OptionType = { value: string, label: string };
+type OptionsType = Array<OptionType>;
+type State = { selectedOptions: Array<string>, filterValue: string };
+
+const allOptions: OptionsType = [
   { value: 'removed', label: 'removed' },
   { value: 'unchanged', label: 'unchanged' },
   { value: 'renamed', label: 'renamed' },
 ];
 
-const filterOptions = [
+const filterOptions: OptionsType = [
   { value: 'propName', label: 'propName' },
   { value: 'status', label: 'status' },
 ];
@@ -249,9 +253,9 @@ const getDisplayedStatus = status => {
 
 class PropChanges extends Component<
   *,
-  { selectedOptions: Array<string>, filterValue: string }
+  State,
 > {
-  state = {
+  state: State = {
     selectedOptions: allOptions.map(opt => opt.value),
     filterValue: filterOptions[0].value,
   };
