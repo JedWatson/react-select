@@ -148,7 +148,7 @@ export type Props = {
   menuShouldScrollIntoView: boolean,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
-  /* Text to display when there are no options */
+  /* Text to display when there are no options. If set to null, the entire menu won't be rendered when no options are present */
   noOptionsMessage: ({ inputValue: string }) => string,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
@@ -1350,6 +1350,10 @@ export default class Select extends Component<Props, State> {
     };
 
     let menuUI;
+
+    if (!this.hasOptions() && noOptionsMessage === null) {
+        return null;
+    }
 
     if (this.hasOptions()) {
       menuUI = menuOptions.render.map(item => {
