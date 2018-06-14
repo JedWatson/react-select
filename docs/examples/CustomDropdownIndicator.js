@@ -6,7 +6,7 @@ import Select, { components } from '../../src';
 import { colourOptions } from '../data';
 
 const DropdownIndicator = (props) => {
-  return (
+  return components.DropdownIndicator && (
     <components.DropdownIndicator {...props}>
       <EmojiIcon
         primaryColor={colourOptions[2].color}
