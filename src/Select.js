@@ -486,7 +486,7 @@ export default class Select extends Component<Props, State> {
       focusedValue: null,
     });
   }
-  setValue = (newValue: ValueType, action: ActionTypes = 'set-value') => {
+  setValue = (newValue: ValueType, action: ActionTypes = 'set-value', option?: OptionType) => {
     const { closeMenuOnSelect, isMulti, onChange } = this.props;
     this.onInputChange('', { action: 'set-value' });
     if (closeMenuOnSelect) {
@@ -495,7 +495,7 @@ export default class Select extends Component<Props, State> {
     }
     // when the select value should change, we should reset focusedValue
     this.clearFocusValueOnUpdate = true;
-    onChange(newValue, { action });
+    onChange(newValue, { action, option });
   };
   selectOption = (newValue: OptionType) => {
     const { blurInputOnSelect, isMulti } = this.props;
@@ -506,10 +506,11 @@ export default class Select extends Component<Props, State> {
         const candidate = this.getOptionValue(newValue);
         this.setValue(
           selectValue.filter(i => this.getOptionValue(i) !== candidate),
-          'deselect-option'
+          'deselect-option',
+          newValue
         );
       } else {
-        this.setValue([...selectValue, newValue], 'select-option');
+        this.setValue([...selectValue, newValue], 'select-option', newValue);
       }
     } else {
       this.setValue(newValue, 'select-option');
