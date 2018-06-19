@@ -1,6 +1,6 @@
 // @flow
 import React, { type ElementType } from 'react';
-import { injectGlobal, css as emotionCss } from 'emotion';
+import { injectGlobal, css } from 'emotion';
 
 import { A11yText } from '../primitives';
 import { colors, spacing } from '../theme';
@@ -15,7 +15,7 @@ const Svg = ({ size, ...props }: { size: number }) => (
     height={size}
     width={size}
     viewBox="0 0 20 20"
-    className={emotionCss({
+    className={css({
       display: 'inline-block',
       fill: 'currentColor',
       lineHeight: 1,
@@ -70,7 +70,7 @@ export const DropdownIndicator = (props: IndicatorProps) => {
     <div
       {...innerProps}
       className={cx(
-        emotionCss(getStyles('dropdownIndicator', props)),
+        css(getStyles('dropdownIndicator', props)),
         {
           'indicator': true,
           'dropdown-indicator': true,
@@ -90,7 +90,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
     <div
       {...innerProps}
       className={cx(
-        emotionCss(getStyles('clearIndicator', props)),
+        css(getStyles('clearIndicator', props)),
         {
           'indicator': true,
           'clear-indicator': true,
@@ -122,7 +122,7 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
     <span
       {...innerProps}
       className={cx(
-        emotionCss(getStyles('indicatorSeparator', props)),
+        css(getStyles('indicatorSeparator', props)),
         { 'indicator-separator': true },
         className
       )}
@@ -158,7 +158,7 @@ export const loadingIndicatorCSS = ({
 type DotProps = { color: string, delay: number, offset: boolean };
 const LoadingDot = ({ color, delay, offset }: DotProps) => (
   <span
-    css={{
+    className={css({
       animationDuration: '1s',
       animationDelay: `${delay}ms`,
       animationIterationCount: 'infinite',
@@ -171,7 +171,7 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
       height: '1em',
       verticalAlign: 'top',
       width: '1em',
-    }}
+    })}
   />
 );
 
@@ -193,7 +193,7 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
     <div
       {...innerProps}
       className={cx(
-        emotionCss(getStyles('loadingIndicator', props)),
+        css(getStyles('loadingIndicator', props)),
         {
           'indicator': true,
           'loading-indicator': true,
