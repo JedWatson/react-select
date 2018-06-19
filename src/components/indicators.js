@@ -158,7 +158,7 @@ export const loadingIndicatorCSS = ({
 type DotProps = { color: string, delay: number, offset: boolean };
 const LoadingDot = ({ color, delay, offset }: DotProps) => (
   <span
-    className={css({
+    css={{
       animationDuration: '1s',
       animationDelay: `${delay}ms`,
       animationIterationCount: 'infinite',
@@ -171,7 +171,7 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
       height: '1em',
       verticalAlign: 'top',
       width: '1em',
-    })}
+    }}
   />
 );
 
