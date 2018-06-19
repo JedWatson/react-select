@@ -23,6 +23,7 @@ import {
 
 import {
   defaultComponents,
+  type PlaceholderOrValue,
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
@@ -1141,7 +1142,7 @@ export default class Select extends Component<Props, State> {
       />
     );
   }
-  renderPlaceholderOrValue() {
+  renderPlaceholderOrValue(): ?PlaceholderOrValue {
     const {
       MultiValue,
       MultiValueContainer,

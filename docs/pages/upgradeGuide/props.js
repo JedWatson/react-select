@@ -252,7 +252,7 @@ class PropChanges extends Component<
   { selectedOptions: Array<string>, filterValue: string }
 > {
   state = {
-    selectedOptions: allOptions.map(opt => opt.value),
+    selectedOptions: (allOptions.map(opt => opt.value): Array<string>),
     filterValue: filterOptions[0].value,
   };
 
