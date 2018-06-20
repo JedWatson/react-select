@@ -1170,7 +1170,7 @@ export default class Select extends Component<Props, State> {
     }
 
     if (isMulti) {
-      return selectValue.map(opt => {
+      const selectValues: Array<any> = selectValue.map(opt => {
         let isFocused = opt === focusedValue;
         return (
           <MultiValue
@@ -1196,6 +1196,7 @@ export default class Select extends Component<Props, State> {
           </MultiValue>
         );
       });
+			return selectValues;
     }
 
     if (inputValue) {
