@@ -284,6 +284,9 @@
   z-index: 1;
   -webkit-overflow-scrolling: touch;
 }
+.Select-menu-portal .Select-menu-outer {
+  margin-top: 0;
+}
 .Select-menu {
   max-height: 198px;
   overflow-y: auto;
