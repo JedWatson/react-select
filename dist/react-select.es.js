@@ -2,7 +2,7 @@ import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
+import { createPortal, findDOMNode } from 'react-dom';
 
 var arrowRenderer = function arrowRenderer(_ref) {
 	var onMouseDown = _ref.onMouseDown;
@@ -715,8 +715,19 @@ var Select$1 = function (_React$Component) {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
-			required: false
+			required: false,
+			controlX: 0,
+			controlY: 0,
+			controlHeight: 0,
+			controlWidth: 0,
+			menuHeight: 0,
+			menuWidth: 0,
+			windowHeight: 0,
+			windowWidth: 0
 		};
+
+		_this.handleClickOutside = _this.handleClickOutside.bind(_this);
+		_this.updateMenuPortalPosition = _this.updateMenuPortalPosition.bind(_this);
 		return _this;
 	}
 
@@ -731,6 +742,44 @@ var Select$1 = function (_React$Component) {
 					required: handleRequired(valueArray[0], this.props.multi)
 				});
 			}
+		}
+	}, {
+		key: 'togglePortalEvents',
+		value: function togglePortalEvents(isOpen) {
+			if (isOpen) {
+				console.log('portal events on');
+				this.updateMenuPortalPosition();
+				window.addEventListener('resize', this.updateMenuPortalPosition);
+				window.addEventListener('scroll', this.updateMenuPortalPosition);
+				document.addEventListener('wheel', this.updateMenuPortalPosition);
+			} else {
+				console.log('portal events off');
+				window.removeEventListener('resize', this.updateMenuPortalPosition);
+				window.removeEventListener('scroll', this.updateMenuPortalPosition);
+				document.removeEventListener('wheel', this.updateMenuPortalPosition);
+			}
+		}
+	}, {
+		key: 'updateMenuPortalPosition',
+		value: function updateMenuPortalPosition(e) {
+			var _window = window,
+			    windowWidth = _window.innerWidth,
+			    windowHeight = _window.innerHeight;
+
+			var _control$getBoundingC = this.control.getBoundingClientRect(),
+			    controlX = _control$getBoundingC.left,
+			    controlY = _control$getBoundingC.top,
+			    controlWidth = _control$getBoundingC.width,
+			    controlHeight = _control$getBoundingC.height;
+
+			this.setState({
+				controlX: controlX,
+				controlY: controlY,
+				controlWidth: controlWidth,
+				controlHeight: controlHeight,
+				windowWidth: windowWidth,
+				windowHeight: windowHeight
+			});
 		}
 	}, {
 		key: 'componentDidMount',
@@ -808,7 +857,23 @@ var Select$1 = function (_React$Component) {
 				this.closeMenu();
 			}
 			if (prevState.isOpen !== this.state.isOpen) {
+				this.toggleClickOutsideEvent(this.state.isOpen);
 				this.toggleTouchOutsideEvent(this.state.isOpen);
+
+				if (this.props.menuPortalTarget) {
+					this.togglePortalEvents(this.state.isOpen);
+					if (this.state.isOpen) {
+						var _menuContainer$getBou = this.menuContainer.getBoundingClientRect(),
+						    menuWidth = _menuContainer$getBou.width,
+						    menuHeight = _menuContainer$getBou.height;
+
+						this.setState({
+							menuWidth: menuWidth,
+							menuHeight: menuHeight
+						});
+					}
+				}
+
 				var handler = this.state.isOpen ? this.props.onOpen : this.props.onClose;
 				handler && handler();
 			}
@@ -817,6 +882,24 @@ var Select$1 = function (_React$Component) {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
 			this.toggleTouchOutsideEvent(false);
+		}
+	}, {
+		key: 'handleClickOutside',
+		value: function handleClickOutside(event) {
+			if (event.which !== 1 && this.wrapper && !this.wrapper.contains(event.target)) {
+				this.closeMenu();
+			}
+		}
+	}, {
+		key: 'toggleClickOutsideEvent',
+		value: function toggleClickOutsideEvent(enabled) {
+			if (enabled) {
+				console.log('outside click on');
+				document.addEventListener('mousedown', this.handleClickOutside);
+			} else {
+				console.log('outside click off');
+				document.removeEventListener('mousedown', this.handleClickOutside);
+			}
 		}
 	}, {
 		key: 'toggleTouchOutsideEvent',
@@ -1803,7 +1886,7 @@ var Select$1 = function (_React$Component) {
 				return null;
 			}
 
-			return React.createElement(
+			var menuContainer = React.createElement(
 				'div',
 				{ ref: function ref(_ref5) {
 						return _this8.menuContainer = _ref5;
@@ -1825,6 +1908,33 @@ var Select$1 = function (_React$Component) {
 					menu
 				)
 			);
+
+			if (this.props.menuPortalTarget) {
+				var _state = this.state,
+				    controlX = _state.controlX,
+				    controlY = _state.controlY,
+				    controlWidth = _state.controlWidth,
+				    controlHeight = _state.controlHeight,
+				    windowHeight = _state.windowHeight,
+				    menuHeight = _state.menuHeight;
+
+				var portalCSS = {
+					position: 'absolute',
+					left: controlX,
+					width: controlWidth,
+					top: controlY + controlHeight + menuHeight > windowHeight && controlY - menuHeight > 0 ? 1 + controlY - menuHeight : controlY + controlHeight - 1,
+					height: 0
+				};
+				return createPortal(React.createElement(
+					'div',
+					{ ref: function ref(_ref6) {
+							return _this8.menuContainerPortal = _ref6;
+						}, style: portalCSS, className: 'Select-menu-portal' },
+					menuContainer
+				), this.props.menuPortalTarget);
+			}
+
+			return menuContainer;
 		}
 	}, {
 		key: 'render',
@@ -1868,16 +1978,16 @@ var Select$1 = function (_React$Component) {
 
 			return React.createElement(
 				'div',
-				{ ref: function ref(_ref7) {
-						return _this9.wrapper = _ref7;
+				{ ref: function ref(_ref8) {
+						return _this9.wrapper = _ref8;
 					},
 					className: className,
 					style: this.props.wrapperStyle },
 				this.renderHiddenField(valueArray),
 				React.createElement(
 					'div',
-					{ ref: function ref(_ref6) {
-							return _this9.control = _ref6;
+					{ ref: function ref(_ref7) {
+							return _this9.control = _ref7;
 						},
 						className: 'Select-control',
 						onKeyDown: this.handleKeyDown,
@@ -1966,6 +2076,7 @@ Select$1.propTypes = {
 	options: PropTypes.array, // array of options
 	pageSize: PropTypes.number, // number of entries to page when using page up/down keys
 	placeholder: stringOrNode, // field placeholder, displayed when there's no value
+	menuPortalTarget: PropTypes.instanceOf(Element), // element to use for portal 
 	removeSelected: PropTypes.bool, // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool, // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any, // value to use when you clear the control
@@ -2018,6 +2129,7 @@ Select$1.defaultProps = {
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',
+	menuPortalTarget: null,
 	removeSelected: true,
 	required: false,
 	rtl: false,

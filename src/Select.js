@@ -7,7 +7,7 @@ import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+import { createPortal, findDOMNode } from 'react-dom';
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultClearRenderer from './utils/defaultClearRenderer';
@@ -106,7 +106,18 @@ class Select extends React.Component {
 			isOpen: false,
 			isPseudoFocused: false,
 			required: false,
+			controlX: 0,
+			controlY: 0,
+			controlHeight: 0,
+			controlWidth: 0,
+			menuHeight: 0,
+			menuWidth: 0,
+			windowHeight: 0,
+			windowWidth: 0
 		};
+
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+		this.updateMenuPortalPosition = this.updateMenuPortalPosition.bind(this);
 	}
 
 	componentWillMount () {
@@ -192,7 +203,20 @@ class Select extends React.Component {
 			this.closeMenu();
 		}
 		if (prevState.isOpen !== this.state.isOpen) {
+			this.toggleClickOutsideEvent(this.state.isOpen);
 			this.toggleTouchOutsideEvent(this.state.isOpen);
+
+			if (this.props.menuPortalTarget) {
+				this.togglePortalEvents(this.state.isOpen);
+				if (this.state.isOpen) {
+					const { width: menuWidth, height: menuHeight } = this.menuContainer.getBoundingClientRect();
+					this.setState({ // eslint-disable-line react/no-did-update-set-state
+						menuWidth,
+						menuHeight
+					});
+				}
+			}
+
 			const handler = this.state.isOpen ? this.props.onOpen : this.props.onClose;
 			handler && handler();
 		}
@@ -200,6 +224,47 @@ class Select extends React.Component {
 
 	componentWillUnmount () {
 		this.toggleTouchOutsideEvent(false);
+	}
+
+	togglePortalEvents(isOpen) {
+		if (isOpen) {
+			this.updateMenuPortalPosition();
+			window.addEventListener('resize', this.updateMenuPortalPosition);
+			window.addEventListener('scroll', this.updateMenuPortalPosition);
+			document.addEventListener('wheel', this.updateMenuPortalPosition);
+		} else {
+			window.removeEventListener('resize', this.updateMenuPortalPosition);
+			window.removeEventListener('scroll', this.updateMenuPortalPosition);
+			document.removeEventListener('wheel', this.updateMenuPortalPosition);
+		}
+	}
+
+	updateMenuPortalPosition(e) {
+		const { innerWidth: windowWidth, innerHeight: windowHeight } = window;
+		const { left: controlX, top: controlY, width: controlWidth, height: controlHeight } = this.control.getBoundingClientRect();
+
+		this.setState({
+			controlX,
+			controlY,
+			controlWidth,
+			controlHeight,
+			windowWidth,
+			windowHeight
+		});
+	}
+
+	handleClickOutside (event) {
+		if (event.which !== 1 && this.wrapper && !this.wrapper.contains(event.target)) {
+			this.closeMenu();
+		}
+	}
+
+	toggleClickOutsideEvent (enabled) {
+		if (enabled) {
+			document.addEventListener('mousedown', this.handleClickOutside);
+		} else {
+			document.removeEventListener('mousedown', this.handleClickOutside);
+		}
 	}
 
 	toggleTouchOutsideEvent (enabled) {
@@ -1100,7 +1165,7 @@ class Select extends React.Component {
 			return null;
 		}
 
-		return (
+		const menuContainer = (
 			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
 				<div
 					className="Select-menu"
@@ -1116,6 +1181,23 @@ class Select extends React.Component {
 				</div>
 			</div>
 		);
+
+		if (this.props.menuPortalTarget) {
+			const { controlX, controlY, controlWidth, controlHeight, windowHeight, menuHeight } = this.state;
+			const portalCSS = {
+				position: 'absolute',
+				left: controlX,
+				width: controlWidth,
+				top: controlY + controlHeight + menuHeight > windowHeight && controlY - menuHeight > 0 ? 1 + controlY - menuHeight : controlY + controlHeight - 1,
+				height: 0
+			};
+			return createPortal(
+				<div ref={ref => this.menuContainerPortal = ref} style={portalCSS} className="Select-menu-portal">{menuContainer}</div>,
+				this.props.menuPortalTarget
+			);
+		}
+
+		return menuContainer;
 	}
 
 	render () {
@@ -1224,6 +1306,7 @@ Select.propTypes = {
 	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
 	menuBuffer: PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
 	menuContainerStyle: PropTypes.object, // optional style to apply to the menu container
+	menuPortalTarget: PropTypes.instanceOf(Element),// element to use for portal 
 	menuRenderer: PropTypes.func,         // renders a custom menu with options
 	menuStyle: PropTypes.object,          // optional style to apply to the menu
 	multi: PropTypes.bool,                // multi-value input
@@ -1301,6 +1384,7 @@ Select.defaultProps = {
 	optionComponent: Option,
 	pageSize: 5,
 	placeholder: 'Select...',
+	menuPortalTarget: null,
 	removeSelected: true,
 	required: false,
 	rtl: false,
@@ -1308,7 +1392,7 @@ Select.defaultProps = {
 	searchable: true,
 	simpleValue: false,
 	tabSelectsValue: true,
- 	trimFilter: true,
+	trimFilter: true,
 	valueComponent: Value,
 	valueKey: 'value',
 };
