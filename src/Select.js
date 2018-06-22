@@ -628,21 +628,21 @@ export default class Select extends Component<Props, State> {
     if (!focusedOption || !menuIsOpen) return undefined;
     
     var groupOption;
-    if(_this7.hasGroups && menuOptions.render.length != 0){
-      menuOptions.render.map(function(item){
-        if(!groupOption){
+    if(_this7.hasGroups && menuOptions.render.length != 0) {
+      menuOptions.render.map(function(item) {
+        if(!groupOption) {
           item.options.map(function(option){
             if(option.value==focusedOption.value){
                 groupOption=option;
-                return groupOption; 
+                return groupOption;
             }
-          })
+          });
         }
       });
       
       return groupOption && groupOption.key;
       
-    }else{
+    } else {
       const index = menuOptions.focusable.indexOf(focusedOption);
       const option = menuOptions.render[index];
       
