@@ -15,6 +15,7 @@ export const instructionsAriaMessage = (event, context?: InstructionsContext = {
 
 export const valueEventAriaMessage = (event, context: ValueEventContext) => {
   const { value } = context;
+  if (!value) return;
   switch (event) {
     case 'deselect-option':
     case 'pop-value':

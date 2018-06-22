@@ -574,7 +574,7 @@ export default class Select extends Component<Props, State> {
       action: 'remove-value',
       removedValue,
     });
-    this.announceAriaLiveSelection({ event: 'remove-value', context: { value: this.getOptionLabel(removedValue) } });
+    this.announceAriaLiveSelection({ event: 'remove-value', context: { value: removedValue ? this.getOptionLabel(removedValue) : undefined } });
     this.focusInput();
   };
   clearValue = () => {
@@ -585,7 +585,7 @@ export default class Select extends Component<Props, State> {
     const { onChange } = this.props;
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
-    this.announceAriaLiveSelection({ event: 'pop-value', context: { value: this.getOptionLabel(lastSelectedValue) } });
+    this.announceAriaLiveSelection({ event: 'pop-value', context: { value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : undefined } });
     onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
       removedValue: lastSelectedValue,
