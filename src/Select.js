@@ -628,7 +628,7 @@ export default class Select extends Component<Props, State> {
     if (!focusedOption || !menuIsOpen) return undefined;
     
     var groupOption;
-    if(_this7.hasGroups && menuOptions.render.length != 0) {
+    if(this.hasGroups && menuOptions.render.length != 0) {
       menuOptions.render.map(function(item) {
         if(!groupOption) {
           item.options.map(function(option){
