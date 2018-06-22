@@ -58,8 +58,8 @@ const Control = (props: ControlProps) => {
       ref={innerRef}
       className={cx(emotionCSS(getStyles('control', props)), {
         'control': true,
-        'control-is-disabled': isDisabled,
-        'control-is-focused': isFocused
+        'control--is-disabled': isDisabled,
+        'control--is-focused': isFocused
       }, className)}
       {...rest}
     >
