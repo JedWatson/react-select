@@ -28,4 +28,4 @@ export const valueEventAriaMessage = (event, context: ValueEventContext) => {
 
 export const valueFocusAriaMessage = ({ focusedValue, getOptionLabel, selectValue }) => `value ${getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(focusedValue) + 1} of ${selectValue.length}.`;
 export const optionFocusAriaMessage = ({ focusedOption, getOptionLabel, options }) => `option ${getOptionLabel(focusedOption)} focused, ${options.indexOf(focusedOption) + 1} of ${options.length}.`;
-export const resultsAriaMessage = ({ inputValue, screenReaderMessage }) => `${screenReaderMessage} for search term ${inputValue}.`;
+export const resultsAriaMessage = ({ inputValue, screenReaderMessage }) => `${screenReaderMessage}${inputValue ? ' for search term ' + inputValue : ''}.`;

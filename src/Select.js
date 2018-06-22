@@ -1135,12 +1135,14 @@ export default class Select extends Component<Props, State> {
   constructAriaLiveMessage () {
     const { ariaLiveContext, selectValue, focusedValue, focusedOption } = this.state;
     const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
-    return [
+
+    const message = [
       focusedValue ? valueFocusAriaMessage({ focusedValue, getOptionLabel: this.getOptionLabel, selectValue }) : null,
       (focusedOption && menuIsOpen) ? optionFocusAriaMessage({ focusedOption, getOptionLabel: this.getOptionLabel, options }) : null,
-      inputValue ? resultsAriaMessage({ inputValue, screenReaderMessage: screenReaderStatus({ count: this.countOptions() }) }) : null,
+      resultsAriaMessage({ inputValue, screenReaderMessage: screenReaderStatus({ count: this.countOptions() }) }),
       ariaLiveContext
     ].join(' ');
+    return message;
   }
 
   renderInput() {

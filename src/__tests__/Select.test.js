@@ -10,7 +10,6 @@ import {
 } from './constants';
 import Select from '../Select';
 import { components } from '../components';
-import { A11yText } from '../primitives';
 
 const {
   ClearIndicator,
@@ -1420,48 +1419,6 @@ test('multi select > clicking on X next to option will call onChange with all op
   );
 });
 
-cases(
-  'accessibility - select input with defaults',
-  ({
-    props = BASIC_PROPS,
-    expectAriaHaspopup = false,
-    expectAriaExpanded = false,
-  }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    let selectInput = selectWrapper.find('Control input');
-
-    expect(selectInput.props().role).toBe('combobox');
-    expect(selectInput.props()['aria-haspopup']).toBe(expectAriaHaspopup);
-    expect(selectInput.props()['aria-expanded']).toBe(expectAriaExpanded);
-  },
-  {
-    'single select > with menu closed > input should have aria role combobox, and aria-haspopup, aria-expanded as false': {},
-    'single select > with menu open > input should have aria role combobox, and aria-haspopup, aria-expanded as true': {
-      props: {
-        ...BASIC_PROPS,
-        menuIsOpen: true,
-      },
-      expectAriaHaspopup: true,
-      expectAriaExpanded: true,
-    },
-    'multi select > with menu closed > input should have aria role combobox, and aria-haspopup, aria-expanded as false': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-      },
-    },
-    'multi select > with menu open > input should have aria role combobox, and aria-haspopup, aria-expanded as true': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-        menuIsOpen: true,
-      },
-      expectAriaHaspopup: true,
-      expectAriaExpanded: true,
-    },
-  }
-);
-
 /**
  * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
  */
@@ -1512,26 +1469,6 @@ cases(
 );
 
 cases(
-  'accessibility > passes through aria-describedby prop',
-  ({ props = { ...BASIC_PROPS, 'aria-describedby': 'testing' } }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(
-      selectWrapper.find('Control input').props()['aria-describedby']
-    ).toBe('testing');
-  },
-  {
-    'single select > should pass aria-labelledby prop down to input': {},
-    'multi select > should pass aria-labelledby prop down to input': {
-      props: {
-        ...BASIC_PROPS,
-        'aria-describedby': 'testing',
-        isMulti: true,
-      },
-    },
-  }
-);
-
-cases(
   'accessibility > passes through aria-label prop',
   ({ props = { ...BASIC_PROPS, 'aria-label': 'testing' } }) => {
     let selectWrapper = mount(<Select {...props} />);
@@ -1551,46 +1488,55 @@ cases(
   }
 );
 
-test('accessibility > to show the number of options available in A11yText', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} inputValue={''} />);
-  expect(selectWrapper.find(A11yText).text()).toBe('17 results available.');
+test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen/>);
+  const liveRegionId = '#aria-context';
+  selectWrapper.setState({ isFocused: true });
+  selectWrapper.update();
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(/17 results available/);
 
   selectWrapper.setProps({ inputValue: '0' });
-  expect(selectWrapper.find(A11yText).text()).toBe('2 results available.');
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(/2 results available/);
 
   selectWrapper.setProps({ inputValue: '10' });
-  expect(selectWrapper.find(A11yText).text()).toBe('1 result available.');
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(/1 result available/);
 
   selectWrapper.setProps({ inputValue: '100' });
-  expect(selectWrapper.find(A11yText).text()).toBe('0 results available.');
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(/0 results available/);
 });
 
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
   const screenReaderStatus = ({ count }) =>
     `There are ${count} options available`;
+
+  const liveRegionId = '#aria-context';
   let selectWrapper = mount(
     <Select
       {...BASIC_PROPS}
       inputValue={''}
       screenReaderStatus={screenReaderStatus}
+      menuIsOpen
     />
   );
-  expect(selectWrapper.find(A11yText).text()).toBe(
+  selectWrapper.setState({ isFocused: true });
+  selectWrapper.update();
+
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
     'There are 17 options available'
   );
 
   selectWrapper.setProps({ inputValue: '0' });
-  expect(selectWrapper.find(A11yText).text()).toBe(
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
     'There are 2 options available'
   );
 
   selectWrapper.setProps({ inputValue: '10' });
-  expect(selectWrapper.find(A11yText).text()).toBe(
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
     'There are 1 options available'
   );
 
   selectWrapper.setProps({ inputValue: '100' });
-  expect(selectWrapper.find(A11yText).text()).toBe(
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
     'There are 0 options available'
   );
 });
