@@ -626,11 +626,28 @@ export default class Select extends Component<Props, State> {
     const { menuOptions, focusedOption } = this.state;
 
     if (!focusedOption || !menuIsOpen) return undefined;
-
-    const index = menuOptions.focusable.indexOf(focusedOption);
-    const option = menuOptions.render[index];
-
-    return option && option.key;
+    
+    var groupOption;
+    if(_this7.hasGroups && menuOptions.render.length != 0){
+      menuOptions.render.map(function(item){
+        if(!groupOption){
+          item.options.map(function(option){
+            if(option.value==focusedOption.value){
+                groupOption=option;
+                return groupOption; 
+            }
+          })
+        }
+      });
+      
+      return groupOption && groupOption.key;
+      
+    }else{
+      const index = menuOptions.focusable.indexOf(focusedOption);
+      const option = menuOptions.render[index];
+      
+      return option && option.key;
+    }
   };
 
   // ==============================
@@ -1087,23 +1104,7 @@ export default class Select extends Component<Props, State> {
     const { inputIsHidden } = this.state;
 
     const id = inputId || this.getElementId('input');
-
-    if (!isSearchable) {
-      // use a dummy input to maintain focus/blur functionality
-      return (
-        <DummyInput
-          id={id}
-          innerRef={this.onInputRef}
-          onBlur={this.onInputBlur}
-          onChange={noop}
-          onFocus={this.onInputFocus}
-          readOnly
-          tabIndex={tabIndex}
-          value=""
-        />
-      );
-    }
-
+    
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-activedescendant': this.getActiveDescendentId(),
@@ -1117,6 +1118,23 @@ export default class Select extends Component<Props, State> {
       'aria-owns': menuIsOpen ? this.getElementId('listbox') : undefined,
       role: 'combobox',
     };
+    
+    if (!isSearchable) {
+      // use a dummy input to maintain focus/blur functionality
+      return (
+        <DummyInput
+          id={id}
+          innerRef={this.onInputRef}
+          onBlur={this.onInputBlur}
+          onChange={noop}
+          onFocus={this.onInputFocus}
+          readOnly
+          tabIndex={tabIndex}
+          value=""
+        {...ariaAttributes}
+        />
+      );
+    }
 
     const { cx } = this.commonProps;
 
