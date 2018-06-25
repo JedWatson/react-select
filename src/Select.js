@@ -24,6 +24,7 @@ import {
 
 import {
   defaultComponents,
+  type PlaceholderOrValue,
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
@@ -1169,7 +1170,7 @@ export default class Select extends Component<Props, State> {
       />
     );
   }
-  renderPlaceholderOrValue() {
+  renderPlaceholderOrValue(): ?PlaceholderOrValue {
     const {
       MultiValue,
       MultiValueContainer,
@@ -1199,7 +1200,7 @@ export default class Select extends Component<Props, State> {
     if (isMulti) {
       const orderedSelectValue = selectValue.filter(i => this.isOptionFixed(i)).concat(selectValue.filter(i => !this.isOptionFixed(i)));
 
-      return orderedSelectValue.map(opt => {
+      const selectValues: Array<any> = orderedSelectValue.map(opt => {
         let isFocused = opt === focusedValue;
         return (
           <MultiValue
@@ -1225,6 +1226,7 @@ export default class Select extends Component<Props, State> {
           </MultiValue>
         );
       });
+			return selectValues;
     }
 
     if (inputValue) {

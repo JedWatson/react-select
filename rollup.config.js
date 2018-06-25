@@ -16,6 +16,7 @@ const globals = {
   'react-input-autosize': 'AutosizeInput',
   react: 'React',
 };
+// $FlowFixMe This should be inferred by Flow and manual casting does not work inside of this config.
 const external = Object.keys(globals);
 const babelOptions = () => {
   let result = {
