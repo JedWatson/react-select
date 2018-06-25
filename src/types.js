@@ -98,6 +98,7 @@ export type OptionProps = PropsWithInnerRef & {
   isDisabled: boolean,
   isFocused: boolean,
   isSelected: boolean,
+  isFixed: boolean,
   label: string,
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,

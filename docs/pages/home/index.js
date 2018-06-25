@@ -10,6 +10,7 @@ import {
   BasicSingle,
   BasicGrouped,
   BasicMulti,
+  BasicMultiFixed,
   CreatableSingle,
   StyledMulti,
   StyledSingle,
@@ -43,6 +44,16 @@ export default function Home() {
       raw={require('!!raw-loader!../../examples/BasicMulti.js')}
     >
       <BasicMulti />
+    </ExampleWrapper>
+  )}
+  
+  ${(
+    <ExampleWrapper
+      label="Fixed Options"
+      urlPath="docs/examples/BasicMultiFixed.js"
+      raw={require('!!raw-loader!../../examples/BasicMultiFixed.js')}
+    >
+      <BasicMultiFixed />
     </ExampleWrapper>
   )}
 
