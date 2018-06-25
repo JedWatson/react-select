@@ -79,15 +79,16 @@ export default function Components() {
         import Select from 'react-select';
 
         const CustomOption = ({ innerProps, isDisabled }) =>
-        !isDisabled ? (
-        <div {...innerProps}>// your component internals</div>
-        ) : null;
+          !isDisabled ? (
+            <div {...innerProps}>{/* your component internals */}</div>
+          ) : null;
 
         class Component extends React.Component {
-        render() {
-        return <Select components={{ Option: CustomOption }} />;
+          render() {
+            return <Select components={{ Option: CustomOption }} />;
+          }
         }
-        }
+
         ~~~
 
         ## Adjusting the Styling
