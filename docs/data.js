@@ -102,7 +102,7 @@ export const optionLength = [
 export const groupedOptions = [
   {
     label: 'Colours',
-    options: colourOptions,
+    options: [ { label: 'test', options: colourOptions }, { label: 'one', value: 'one' } ],
   },
   {
     label: 'Flavours',
