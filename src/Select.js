@@ -166,9 +166,9 @@ export type Props = {
   /* Handle the menu closing */
   onMenuClose: () => void,
   /* Fired when the user scrolls to the top of the menu */
-  onMenuScrollToTop: (SyntheticEvent<HTMLElement>) => void,
+  onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
   /* Fired when the user scrolls to the bottom of the menu */
-  onMenuScrollToBottom: (SyntheticEvent<HTMLElement>) => void,
+  onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
   /* Allows control of whether the menu is opened when the Select is clicked */
