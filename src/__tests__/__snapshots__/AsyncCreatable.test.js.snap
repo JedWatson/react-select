@@ -59,7 +59,6 @@ exports[`defaults - snapshot 1`] = `
         getNewOptionData={[Function]}
         getOptionLabel={[Function]}
         getOptionValue={[Function]}
-        hideSelectedOptions={true}
         inputValue=""
         isDisabled={false}
         isLoading={false}
@@ -132,7 +131,6 @@ exports[`defaults - snapshot 1`] = `
               "getNewOptionData": [Function],
               "getOptionLabel": [Function],
               "getOptionValue": [Function],
-              "hideSelectedOptions": true,
               "inputValue": "",
               "isDisabled": false,
               "isLoading": false,
@@ -227,7 +225,6 @@ exports[`defaults - snapshot 1`] = `
                   "getNewOptionData": [Function],
                   "getOptionLabel": [Function],
                   "getOptionValue": [Function],
-                  "hideSelectedOptions": true,
                   "inputValue": "",
                   "isDisabled": false,
                   "isLoading": false,
@@ -301,7 +298,6 @@ exports[`defaults - snapshot 1`] = `
                       "getNewOptionData": [Function],
                       "getOptionLabel": [Function],
                       "getOptionValue": [Function],
-                      "hideSelectedOptions": true,
                       "inputValue": "",
                       "isDisabled": false,
                       "isLoading": false,
@@ -374,7 +370,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
@@ -568,7 +563,6 @@ exports[`defaults - snapshot 1`] = `
                       "getNewOptionData": [Function],
                       "getOptionLabel": [Function],
                       "getOptionValue": [Function],
-                      "hideSelectedOptions": true,
                       "inputValue": "",
                       "isDisabled": false,
                       "isLoading": false,
@@ -646,7 +640,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
@@ -728,7 +721,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
