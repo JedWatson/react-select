@@ -129,7 +129,7 @@ export type Props = {
   /* Whether to enable search functionality */
   isSearchable: boolean,
   /* Async: Text to display when loading options */
-  loadingMessage: ({ inputValue: string }) => string,
+  loadingMessage: ({ inputValue: string }) => (string | null),
   /* Minimum height of the menu before flipping */
   minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
@@ -150,7 +150,7 @@ export type Props = {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => string,
+  noOptionsMessage: ({ inputValue: string }) => (string | null),
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -1387,15 +1387,19 @@ export default class Select extends Component<Props, State> {
         }
       });
     } else if (isLoading) {
+      const message = loadingMessage({ inputValue });
+      if (message === null) return null;
       menuUI = (
         <LoadingMessage {...commonProps}>
-          {loadingMessage({ inputValue })}
+          {message}
         </LoadingMessage>
       );
     } else {
+      const message = noOptionsMessage({ inputValue });
+      if (message === null) return null;
       menuUI = (
         <NoOptionsMessage {...commonProps}>
-          {noOptionsMessage({ inputValue })}
+          {message}
         </NoOptionsMessage>
       );
     }
