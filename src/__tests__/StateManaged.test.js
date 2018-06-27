@@ -50,6 +50,7 @@ cases(
     'multi select > should toggle Menu': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -103,6 +104,7 @@ cases(
     'multi select > should keep Menu open by default if true is passed for menuIsOpen prop': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
       },
@@ -111,7 +113,7 @@ cases(
 );
 
 test('multi select > selecting multiple values', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti />);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti hideSelectedOptions />);
   // Open Menu
   selectWrapper
     .find('div.react-select__dropdown-indicator')
@@ -206,6 +208,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         delimiter: ', ',
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
       },
@@ -301,6 +304,7 @@ cases(
     'multi select > open select and hit enter > should select first option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [],
@@ -309,6 +313,7 @@ cases(
     'multi select > (open select -> 3 x ArrowDown -> Enter) > should select the forth option in the select': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [
@@ -321,6 +326,7 @@ cases(
     'multi select > (open select -> 2 x ArrowDown -> 2 x ArrowUp -> Enter) > should select the first option in the select': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [
@@ -334,6 +340,7 @@ cases(
     'multi select > (open select -> 1 x ArrowUp -> Enter) > should select the last option in the select': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
@@ -342,6 +349,7 @@ cases(
     'multi select > (open select -> 1 x PageDown -> Enter) > should select the first option on next page - default pageSize 5': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [['keyDown', { keyCode: 34, key: 'PageDown' }]],
@@ -350,6 +358,7 @@ cases(
     'multi select > (open select -> 1 x PageDown -> 1 x ArrowDown -> 1 x PageUp -> Enter) > should select the second option - default pageSize 5': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [
@@ -362,6 +371,7 @@ cases(
     'multi select > (open select -> End -> Enter) > should select the last option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [['keyDown', { keyCode: 35, key: 'End' }]],
@@ -370,6 +380,7 @@ cases(
     'multi select > (open select -> 3 x PageDown -> Home -> Enter) > should select the last option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [
@@ -383,6 +394,7 @@ cases(
     'multi select > cycle options > ( open select -> End -> ArrowDown -> Enter) > should select the first option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [
@@ -394,6 +406,7 @@ cases(
     'multi select > cycle options > (open select -> ArrowUp -> Enter) > should select the last option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
       eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],

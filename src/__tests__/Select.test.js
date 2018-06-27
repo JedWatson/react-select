@@ -100,6 +100,7 @@ test('isOptionSelected() prop > multi select > to not show the selected options 
   let selectWrapper = mount(
     <Select
       {...BASIC_PROPS}
+      hideSelectedOptions
       isMulti
       isOptionSelected={isOptionSelected}
       menuIsOpen
@@ -211,6 +212,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         filterOption: (value, search) => value.value.indexOf(search) > -1,
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
         value: OPTIONS[0],
@@ -244,6 +246,7 @@ cases(
         ...BASIC_PROPS,
         filterOption: null,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         value: OPTIONS[0],
       },
@@ -272,6 +275,8 @@ cases(
     'multi select > should show NoOptionsMessage': {
       props: {
         ...BASIC_PROPS,
+        isMulti: true,
+        hideSelectedOptions: true,
         filterOption: (value, search) => value.value.indexOf(search) > -1,
         menuIsOpen: true,
       },
@@ -307,6 +312,8 @@ cases(
         ...BASIC_PROPS,
         filterOption: (value, search) => value.value.indexOf(search) > -1,
         menuIsOpen: true,
+        isMulti: true,
+        hideSelectedOptions: true,
         noOptionsMessage: () =>
           'this is custom no option message for multi select',
       },
@@ -342,6 +349,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         value: OPTIONS[1],
       },
       expectedValue: [{ label: '1', value: 'one' }],
@@ -350,6 +358,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         value: OPTIONS_NUMBER_VALUE[1],
       },
       expectedValue: [{ label: '1', value: 1 }],
@@ -395,6 +404,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         value: OPTIONS[1],
       },
       updateValueTo: OPTIONS[3],
@@ -406,6 +416,7 @@ cases(
         ...BASIC_PROPS,
         delimiter: ',',
         isMulti: true,
+        hideSelectedOptions: true,
         options: OPTIONS_NUMBER_VALUE,
         value: OPTIONS_NUMBER_VALUE[2],
       },
@@ -488,6 +499,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -499,6 +511,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS_NUMBER_VALUE,
       },
@@ -510,6 +523,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS_BOOLEAN_VALUE,
       },
@@ -521,6 +535,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -534,6 +549,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -546,6 +562,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -592,6 +609,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
       },
       optionsSelected: { label: '1', value: 'one' },
@@ -620,6 +638,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         isMulti: true,
+        hideSelectedOptions: true,
       },
       expectedToFocus: { label: '0', value: 'zero' },
     },
@@ -751,6 +770,7 @@ cases(
     'multi select > ArrowDown key on first option should focus second option': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -761,6 +781,7 @@ cases(
     'multi select > ArrowDown key on last option should focus first option': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -771,6 +792,7 @@ cases(
     'multi select > ArrowUp key on first option should focus last option': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -781,6 +803,7 @@ cases(
     'multi select > ArrowUp key on last option should focus second last option': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -791,6 +814,7 @@ cases(
     'multi select > PageDown key takes us to next page with default page size of 5': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -801,6 +825,7 @@ cases(
     'multi select > PageDown key takes us to next page with custom pageSize of 8': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         pageSize: 8,
         options: OPTIONS,
@@ -812,6 +837,7 @@ cases(
     'multi select > PageDown key takes to the last option is options below is less then page size': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -822,6 +848,7 @@ cases(
     'multi select > PageUp key takes us to previous page with default page size of 5': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -832,6 +859,7 @@ cases(
     'multi select > PageUp key takes us to previous page with default page size of 9': {
       props: {
         isMulti: true,
+        hideSelectedOptions: true,
         menuIsOpen: true,
         pageSize: 9,
         options: OPTIONS,
@@ -842,6 +870,7 @@ cases(
     },
     'multi select > PageUp key takes us to first option - previous options < pageSize': {
       props: {
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -852,6 +881,7 @@ cases(
     },
     'multi select > Home key takes up to the first option': {
       props: {
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -862,6 +892,7 @@ cases(
     },
     'multi select > End key takes down to the last option': {
       props: {
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -897,6 +928,7 @@ cases(
     'multi select > should call onInputChange prop with empty string as inputValue': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         inputValue: 'test',
         isMulti: true,
         menuIsOpen: true,
@@ -924,6 +956,7 @@ cases(
     'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -948,6 +981,7 @@ cases(
     'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -985,6 +1019,7 @@ cases(
     'multi select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1038,6 +1073,7 @@ cases(
     'multi select > should set value of input as value prop': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         value: OPTIONS[3],
       },
@@ -1047,6 +1083,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         delimiter: ', ',
+        hideSelectedOptions: true,
         isMulti: true,
         value: [OPTIONS[3], OPTIONS[5]],
       },
@@ -1055,6 +1092,7 @@ cases(
     'multi select > options with number values > should set value of input as value prop': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         options: OPTIONS_NUMBER_VALUE,
         value: OPTIONS_NUMBER_VALUE[3],
@@ -1065,6 +1103,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         delimiter: ', ',
+        hideSelectedOptions: true,
         isMulti: true,
         options: OPTIONS_NUMBER_VALUE,
         value: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[1]],
@@ -1074,6 +1113,7 @@ cases(
     'multi select > options with boolean values > should set value of input as value prop': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         options: OPTIONS_BOOLEAN_VALUE,
         value: OPTIONS_BOOLEAN_VALUE[1],
@@ -1084,6 +1124,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         delimiter: ', ',
+        hideSelectedOptions: true,
         isMulti: true,
         options: OPTIONS_BOOLEAN_VALUE,
         value: [OPTIONS_BOOLEAN_VALUE[1], OPTIONS_BOOLEAN_VALUE[0]],
@@ -1128,6 +1169,7 @@ cases(
     'multi select > should add isDisabled as true prop only to options that are disabled': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
         isOptionDisabled: option =>
@@ -1167,6 +1209,7 @@ cases(
     'multi select > should add isDisabled prop to select components': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isDisabled: true,
         isMulti: true,
       },
@@ -1202,6 +1245,7 @@ test('multi select > to not show selected value in options', () => {
   let selectWrapper = mount(
     <Select
       {...BASIC_PROPS}
+      hideSelectedOptions
       isMulti
       menuIsOpen
       onInputChange={onInputChangeSpy}
@@ -1255,6 +1299,7 @@ test('multi select > call onChange with all values but last selected value and r
   let selectWrapper = mount(
     <Select
       {...BASIC_PROPS}
+      hideSelectedOptions
       isMulti
       onChange={onChangeSpy}
       value={[OPTIONS[0], OPTIONS[1], OPTIONS[2]]}
@@ -1291,6 +1336,7 @@ test('multi select > clicking on X next to option will call onChange with all op
   let selectWrapper = mount(
     <Select
       {...BASIC_PROPS}
+      hideSelectedOptions
       isMulti
       onChange={onChangeSpy}
       value={[OPTIONS[0], OPTIONS[2], OPTIONS[4]]}
@@ -1339,12 +1385,14 @@ cases(
     'multi select > with menu closed > input should have aria role combobox, and aria-haspopup, aria-expanded as false': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
     'multi select > with menu open > input should have aria role combobox, and aria-haspopup, aria-expanded as true': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         menuIsOpen: true,
       },
@@ -1377,6 +1425,8 @@ cases(
       skip: true,
       props: {
         ...BASIC_PROPS,
+        isMulti: true,
+        hideSelectedOptions: true,
         value: { label: '2', value: 'two' },
       },
     },
@@ -1397,6 +1447,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         'aria-labelledby': 'testing',
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1417,6 +1468,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         'aria-describedby': 'testing',
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1437,6 +1489,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         'aria-label': 'testing',
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1526,6 +1579,7 @@ cases(
     'multi select > should focus select on mount': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
         autoFocus: true,
       },
@@ -1556,6 +1610,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         autoFocus: true,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1575,6 +1630,7 @@ cases(
     'multi select > should call onFocus handler on focus on input': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1601,6 +1657,7 @@ cases(
     'multi select > should call onBlur handler on blur on input': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         isMulti: true,
       },
     },
@@ -1654,6 +1711,8 @@ cases(
     'multi select > should display provided placeholder': {
       props: {
         placeholder: 'multi Select...',
+        isMulti: true,
+        hideSelectedOptions: true,
       },
       expectPlaceholder: 'multi Select...',
     },
@@ -1716,6 +1775,7 @@ cases(
     'multi select > should not select the disabled option': {
       props: {
         ...BASIC_PROPS,
+        hideSelectedOptions: true,
         options: [
           { label: 'option 1', value: 'opt1' },
           { label: 'option 2', value: 'opt2', isDisabled: true },
@@ -1795,6 +1855,7 @@ cases(
     'multi select > should not show X (clear) button': {
       ...BASIC_PROPS,
       isMulti: true,
+      hideSelectedOptions: true,
       isClearable: false,
       value: [OPTIONS[0]],
     },
@@ -1834,7 +1895,7 @@ test('multi select >  calls onChange when option is selected and isSearchable is
   let onChangeSpy = jest.fn();
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let selectWrapper = mount(
-    <Select {...props} isMulti menuIsOpen delimiter="," isSearchable={false} />
+    <Select {...props} hideSelectedOptions isMulti menuIsOpen delimiter="," isSearchable={false} />
   );
   selectWrapper
     .find('div.react-select__option')
@@ -1918,6 +1979,7 @@ test('multi select > have default value delimiter seperated', () => {
     <Select
       {...BASIC_PROPS}
       delimiter={';'}
+      hideSelectedOptions
       isMulti
       value={[OPTIONS[0], OPTIONS[1]]}
     />
@@ -1932,6 +1994,7 @@ test('multi select > with multi character delimiter', () => {
     <Select
       {...BASIC_PROPS}
       delimiter={'===&==='}
+      hideSelectedOptions
       isMulti
       value={[OPTIONS[0], OPTIONS[1]]}
     />
@@ -1976,6 +2039,7 @@ test('multi select > removes the selected option from the menu options when isSe
     <Select
       {...BASIC_PROPS}
       delimiter=","
+      hideSelectedOptions
       isMulti
       isSearchable={false}
       menuIsOpen
