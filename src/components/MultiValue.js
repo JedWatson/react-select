@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 
 import { borderRadius, colors, spacing } from '../theme';
 import { CrossIcon } from './indicators';
@@ -87,18 +87,18 @@ class MultiValue extends Component<MultiValueProps> {
     } = this.props;
     const cn = {
       container: cx(
-        emotionCss(getStyles('multiValue', this.props)),
+        css(getStyles('multiValue', this.props)),
         {
           'multi-value': true,
           'multi-value--is-disabled': isDisabled
         }, className),
       label: cx(
-        emotionCss(getStyles('multiValueLabel', this.props)),
+        css(getStyles('multiValueLabel', this.props)),
         {
           'multi-value__label': true,
         }, className),
       remove: cx(
-        emotionCss(getStyles('multiValueRemove', this.props),), {
+        css(getStyles('multiValueRemove', this.props),), {
           'multi-value__remove': true,
         }, className),
     };

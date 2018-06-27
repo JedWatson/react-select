@@ -17,7 +17,7 @@ export type InputProps = PropsWithStyles & {
   className?: string,
 };
 
-export const css = ({ isDisabled }: InputProps) => ({
+export const inputCSS = ({ isDisabled }: InputProps) => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,

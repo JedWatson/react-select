@@ -5,7 +5,7 @@ import React, {
   type ElementRef,
   type Node,
 } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -287,7 +287,7 @@ export class Menu extends Component<MenuProps, MenuState> {
     return (
       <div
         className={cx(
-          emotionCss(getStyles('menu', this.getState())),
+          css(getStyles('menu', this.getState())),
           {
             'menu': true,
           },
@@ -343,7 +343,7 @@ export const MenuList = (props: MenuListComponentProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('menuList', props)),
+        css(getStyles('menuList', props)),
         {
           'menu-list': true,
           'menu-list--is-multi': isMulti
@@ -382,7 +382,7 @@ export const NoOptionsMessage = (props: NoticeProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('noOptionsMessage', props)),
+        css(getStyles('noOptionsMessage', props)),
         {
           'menu-notice': true,
           'menu-notice--no-options': true,
@@ -404,7 +404,7 @@ export const LoadingMessage = (props: NoticeProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('loadingMessage', props)),
+        css(getStyles('loadingMessage', props)),
         {
           'menu-notice': true,
           'menu-notice--loading': true,
@@ -494,7 +494,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
       <div
-        className={emotionCss(getStyles('menuPortal', state))}
+        className={css(getStyles('menuPortal', state))}
       >
         {children}
       </div>
