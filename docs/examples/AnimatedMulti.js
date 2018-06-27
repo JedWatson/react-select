@@ -3,8 +3,9 @@
 import React from 'react';
 
 import Select from '../../src';
-import { makeAnimated } from '../../src/animated';
+import makeAnimated from '../../src/animated';
 import { colourOptions } from '../data';
+
 
 export default function AnimatedMulti() {
   return (
