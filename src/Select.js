@@ -203,7 +203,7 @@ export const defaultProps = {
   formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
-  hideSelectedOptions: true,
+  hideSelectedOptions: false,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
@@ -986,7 +986,7 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
-    const { hideSelectedOptions, isMulti, inputValue = '', options } = props;
+    const { hideSelectedOptions, inputValue = '', options } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
@@ -995,7 +995,7 @@ export default class Select extends Component<Props, State> {
       const value = this.getOptionValue(option);
 
       if (
-        (isMulti && hideSelectedOptions && isSelected) ||
+        (hideSelectedOptions && isSelected) ||
         !this.filterOption({ label, value, data: option }, inputValue)
       ) {
         return;
