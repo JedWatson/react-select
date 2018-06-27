@@ -203,7 +203,6 @@ export const defaultProps = {
   formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
-  hideSelectedOptions: true,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
@@ -854,6 +853,11 @@ export default class Select extends Component<Props, State> {
     }
     this.setState({ focusedOption });
   };
+  shouldHideSelectedOptions = () => {
+    const { hideSelectedOptions, isMulti } = this.props;
+    if (hideSelectedOptions === undefined) return isMulti;
+    return hideSelectedOptions;
+  };
 
   // ==============================
   // Keyboard Handlers
@@ -986,7 +990,7 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
-    const { hideSelectedOptions, isMulti, inputValue = '', options } = props;
+    const { inputValue = '', options } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option);
@@ -995,7 +999,7 @@ export default class Select extends Component<Props, State> {
       const value = this.getOptionValue(option);
 
       if (
-        (isMulti && hideSelectedOptions && isSelected) ||
+        (this.shouldHideSelectedOptions() && isSelected) ||
         !this.filterOption({ label, value, data: option }, inputValue)
       ) {
         return;
@@ -1196,7 +1200,7 @@ export default class Select extends Component<Props, State> {
           </MultiValue>
         );
       });
-			return selectValues;
+      return selectValues;
     }
 
     if (inputValue) {
