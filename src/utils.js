@@ -32,7 +32,7 @@ export const emptyString = () => '';
 function applyPrefixToName(prefix, name) {
   if (!name) {
     return prefix;
-  } else if (name.indexOf('-') === 0) {
+  } else if (name[0] === '-') {
     return prefix + name;
   } else {
     return prefix + '__' + name;
