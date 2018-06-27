@@ -282,6 +282,35 @@ cases(
 
 cases(
   'noOptionsMessage() function prop',
+  ({ props, searchString }) => {
+    let selectWrapper = shallow(<Select {...props} />);
+    selectWrapper.setProps({ inputValue: searchString });
+    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  },
+  {
+    'single Select > should not render the menu at all when noOptionsMessage is explicitly null': {
+      props: {
+        ...BASIC_PROPS,
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        menuIsOpen: true,
+        noOptionsMessage: null,
+      },
+      searchString: 'some text not in options',
+    },
+    'multi select > should not render the menu at all when noOptionsMessage is explicitly null': {
+      props: {
+        ...BASIC_PROPS,
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        menuIsOpen: true,
+        noOptionsMessage: null,
+      },
+      searchString: 'some text not in options',
+    },
+  }
+);
+
+cases(
+  'noOptionsMessage() undefined prop',
   ({ props, expectNoOptionsMessage, searchString }) => {
     let selectWrapper = shallow(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
