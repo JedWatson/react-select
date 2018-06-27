@@ -87,7 +87,7 @@ export function handleInputChange(
 // ==============================
 
 function isDocumentElement(el: Element) {
-  return [document.documentElement, document.body, window].includes(el);
+  return [document.documentElement, document.body, window].indexOf(el) > -1;
 }
 
 // Normalized Scroll Top
