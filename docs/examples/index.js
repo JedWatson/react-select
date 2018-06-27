@@ -5,6 +5,7 @@ export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
 export { default as AsyncPromises } from './AsyncPromises';
 export { default as BasicGrouped } from './BasicGrouped';
+export { default as NestedGrouped } from './NestedGrouped';
 export { default as BasicMulti } from './BasicMulti';
 export { default as BasicSingle } from './BasicSingle';
 export { default as CustomControl } from './CustomControl';
