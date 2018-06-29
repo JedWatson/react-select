@@ -15,6 +15,7 @@ export type ValueProps = LabelProps & {
   isFocused: boolean,
   isDisabled: boolean,
   removeProps: {
+    onTouchEnd: any => void,
     onClick: any => void,
     onMouseDown: any => void,
   },
@@ -56,6 +57,7 @@ export type MultiValueRemoveProps = CommonProps & {
   children: Node,
   innerProps: any,
   removeProps: {
+    onTouchEnd: any => void,
     onClick: any => void,
     onMouseDown: any => void,
   },
