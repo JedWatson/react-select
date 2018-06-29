@@ -1204,6 +1204,7 @@ export default class Select extends Component<Props, State> {
             key={this.getOptionValue(opt)}
             removeProps={{
               onClick: () => this.removeValue(opt),
+              onTouchEnd: () => this.removeValue(opt),
               onMouseDown: e => {
                 e.preventDefault();
                 e.stopPropagation();
