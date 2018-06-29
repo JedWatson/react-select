@@ -559,13 +559,21 @@ class Select extends React.Component {
 		this.props.onValueClick(option, event);
 	}
 
-	handleMenuScroll (event) {
-		if (!this.props.onMenuScrollToBottom) return;
+	handleMenuScroll(event) {
+		const { onMenuScrollToBottom, loadOptions, inputProps } = this.props;
+
+		if (!onMenuScrollToBottom) return;
 		let { target } = event;
 		if (target.scrollHeight > target.offsetHeight && (target.scrollHeight - target.offsetHeight - target.scrollTop) <= 0) {
-			this.props.onMenuScrollToBottom();
+			this.onMenuScrollToBottom(loadOptions, inputProps.inputValue);
 		}
 	}
+
+	onMenuScrollToBottom = () => {
+		const { loadOptions, inputProps, onMenuScrollToBottom } = this.props;
+
+		onMenuScrollToBottom(loadOptions, inputProps.inputValue);
+	};
 
 	getOptionLabel (op) {
 		return op[this.props.labelKey];
