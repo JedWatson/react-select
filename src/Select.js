@@ -570,9 +570,9 @@ class Select extends React.Component {
 	}
 
 	onMenuScrollToBottom = () => {
-		const { loadOptions, inputProps } = this.props;
+		const { loadOptions, inputProps, onMenuScrollToBottom } = this.props;
 
-		this.props.onMenuScrollToBottom(loadOptions, inputProps.inputValue);
+		onMenuScrollToBottom(loadOptions, inputProps.inputValue);
 	};
 
 	getOptionLabel (op) {
