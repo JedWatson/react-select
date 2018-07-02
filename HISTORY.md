@@ -1,6 +1,7 @@
 # React-Select
 
 ## v2.0.0-beta.7 / 2018-05-23
+* Added makeAnimated function export, that takes passed in components and wraps them in higher order components that expose animated functionality. [#2724](https://github.com/JedWatson/react-select/pull/2724)
 * Fixed bug with mobile menu being blocked when `menuShouldBlockScroll` is true. [#2756](https://github.com/JedWatson/react-select/pull/2756)
 * Added functionality to not render the menu if `noOptionsMessage` or `loadingMessage` are set to null. [#2754](https://github.com/JedWatson/react-select/pull/2754)
 * Updates to flow types, thanks [mike1808](https://github.com/mike1808), [himerus](https://github.com/himerus),
