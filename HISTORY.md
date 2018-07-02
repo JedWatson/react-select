@@ -1,5 +1,17 @@
 # React-Select
 
+## v2.0.0-beta.7 / 2018-05-23
+* Fixed bug with mobile menu being blocked when `menuShouldBlockScroll` is true. [#2756](https://github.com/JedWatson/react-select/pull/2756)
+* Added functionality to not render the menu if `noOptionsMessage` or `loadingMessage` are set to null. [#2754](https://github.com/JedWatson/react-select/pull/2754)
+* Updates to flow types, thanks [mike1808](https://github.com/mike1808), [himerus](https://github.com/himerus),
+[teamable-software](https://github.com/teamable-software),
+[lunij](https://github.com/lunij)
+* Fixed [#2701](https://github.com/JedWatson/react-select/issues/2701), use of unpolyfilled array.includes in Select.js, this has now been subbed out for a IE compatible implementation.
+* [#2733](https://github.com/JedWatson/react-select/issues/2733), fixed classname bug to do with prefixing classes with modifiers.
+* [#2723](https://github.com/JedWatson/react-select/issues/2732), fixed emotion compilation bug blocking loadingDot rendering.
+* [#2749](https://github.com/JedWatson/react-select/pull/2749) fixed typo in docs. thanks [JuhQ](https://github.com/juhq)
+* [#2717](https://github.com/JedWatson/react-select/pull/2717) added selected value to onChange to accomodate multi-select, thanks [SimeonC](https://github.com/simeonc)
+
 ## v2.0.0-beta.6 / 2018-05-23
 * Fixed bug with `css` attribute being wrongly applied to a DOM element in SingleValue. Thanks [guigs](http://github.com/guigs)
 * Added `removedValue` to the `actionMeta` of the `remove-value` action that's passed into the `onChange` prop.
