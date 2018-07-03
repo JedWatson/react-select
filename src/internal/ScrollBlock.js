@@ -2,7 +2,7 @@
 
 import React, { PureComponent, type Element } from 'react';
 import NodeResolver from './NodeResolver';
-import ScrollLock from './ScrollLock';
+import ScrollLock from './ScrollLock/index';
 import { Div } from '../primitives';
 
 type Props = {

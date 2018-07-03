@@ -12,7 +12,7 @@ import {
   instructionsAriaMessage,
   type InstructionsContext,
   type ValueEventContext,
-} from './accessibility';
+} from './accessibility/index';
 
 import {
   classNames,
