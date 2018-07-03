@@ -1136,13 +1136,14 @@ export default class Select extends Component<Props, State> {
     const { ariaLiveContext, selectValue, focusedValue, focusedOption } = this.state;
     const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
 
-    const message = [
-      focusedValue ? valueFocusAriaMessage({ focusedValue, getOptionLabel: this.getOptionLabel, selectValue }) : null,
-      (focusedOption && menuIsOpen) ? optionFocusAriaMessage({ focusedOption, getOptionLabel: this.getOptionLabel, options }) : null,
-      resultsAriaMessage({ inputValue, screenReaderMessage: screenReaderStatus({ count: this.countOptions() }) }),
-      ariaLiveContext
-    ].join(' ');
-    return message;
+    // An aria live message representing the currently focused value in the select.
+    const focusedValueMsg = focusedValue ? valueFocusAriaMessage({ focusedValue, getOptionLabel: this.getOptionLabel, selectValue }) : '';
+    // An aria live message representing the currently focused option in the select.
+    const focusedOptionMsg = (focusedOption && menuIsOpen) ? optionFocusAriaMessage({ focusedOption, getOptionLabel: this.getOptionLabel, options }) : '';
+    // An aria live message representing the set of focusable results and current searchterm/inputvalue.
+    const resultsMsg = resultsAriaMessage({ inputValue, screenReaderMessage: screenReaderStatus({ count: this.countOptions() }) });
+
+    return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
   }
 
   renderInput() {
