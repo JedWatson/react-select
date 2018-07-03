@@ -60,13 +60,6 @@ exports[`snapshot - defaults 1`] = `
   }
   setValue={[Function]}
 >
-  <A11yText
-    aria-atomic="true"
-    aria-live="polite"
-    role="status"
-  >
-    0 results available.
-  </A11yText>
   <Control
     clearValue={[Function]}
     cx={[Function]}
@@ -236,9 +229,6 @@ exports[`snapshot - defaults 1`] = `
       </Placeholder>
       <Input
         aria-autocomplete="list"
-        aria-busy={false}
-        aria-expanded={false}
-        aria-haspopup={false}
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
@@ -251,7 +241,6 @@ exports[`snapshot - defaults 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
-        role="combobox"
         spellCheck="false"
         tabIndex="0"
         type="text"
@@ -315,11 +304,6 @@ exports[`snapshot - defaults 1`] = `
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
-        innerProps={
-          Object {
-            "role": "presentation",
-          }
-        }
         isDisabled={false}
         isFocused={false}
         isMulti={false}
@@ -375,9 +359,9 @@ exports[`snapshot - defaults 1`] = `
         hasValue={false}
         innerProps={
           Object {
+            "aria-hidden": "true",
             "onMouseDown": [Function],
             "onTouchEnd": [Function],
-            "role": "button",
           }
         }
         isDisabled={false}

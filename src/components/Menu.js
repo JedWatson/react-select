@@ -318,13 +318,8 @@ type MenuListState = {
 export type MenuListProps = {
   /** The children to be rendered. */
   children: Node,
-  /** Props to be passed to the wrapper component. */
-  innerProps: {
-    'aria-multiselectable': boolean,
-    id: string,
-    innerRef: InnerRef,
-    role: 'listbox',
-  },
+  /** Inner ref to DOM Node */
+  innerProps: { innerRef: InnerRef },
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -339,7 +334,7 @@ export const menuListCSS = ({ maxHeight }: MenuState) => ({
 });
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, className, cx, getStyles, isMulti, innerProps } = props;
-  const { innerRef, ...rest } = innerProps;
+  const { innerRef } = innerProps;
   return (
     <div
       className={cx(
@@ -351,7 +346,6 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
-      {...rest}
     >
       {children}
     </div>

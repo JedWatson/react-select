@@ -66,6 +66,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <div id={`cypress-${idSuffix}`}>
           <SelectComp
             autoFocus
+            id={`basic-select-${idSuffix}`}
+            instanceId={`basic-select-${idSuffix}`}
             className="react-select"
             defaultValue={colourOptions[0]}
             styles={{
@@ -96,6 +98,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <h4>Grouped</h4>
         <div id={`cypress-${idSuffix}-grouped`}>
           <SelectComp
+            id={`grouped-options-${idSuffix}`}
+            instancePrefix={`grouped-options-${idSuffix}`}
             className="react-select"
             defaultValue={colourOptions[1]}
             options={groupedOptions}
@@ -118,6 +122,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           <div style={{ height: 100 }} />
           <pre>{'overflow: hidden; position: absolute;'}</pre>
           <SelectComp
+            id={`portalled-select-${idSuffix}`}
+            instanceId={`portalled-select-${idSuffix}`}
             className="react-select"
             defaultValue={colourOptions[0]}
             options={colourOptions}
@@ -194,6 +200,8 @@ export default function Tests() {
       <h2>Multi Select</h2>
       <div id="cypress-multi">
         <Select
+          id="multi-select"
+          instanceId="multi-select"
           className="react-select"
           defaultValue={[colourOptions[2], colourOptions[3]]}
           isMulti
@@ -204,6 +212,8 @@ export default function Tests() {
       <h3> Long Values </h3>
       <div id={'cypress-long-values'}>
         <Select
+          id="long-value-select"
+          instsanceId="long-value-select"
           className="react-select"
           defaultValue={optionLength[3]}
           options={optionLength}

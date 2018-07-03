@@ -14,13 +14,11 @@ type State = {
   isSelected: boolean,
 };
 type InnerProps = {
-  'aria-selected': boolean,
   id: string,
   innerRef: InnerRef,
   key: string,
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,
-  role: 'option',
   tabIndex: number,
 };
 export type OptionProps = PropsWithStyles &

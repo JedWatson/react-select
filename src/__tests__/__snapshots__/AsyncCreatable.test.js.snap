@@ -170,20 +170,6 @@ exports[`defaults - snapshot 1`] = `
             className="css-10nd86i"
             onKeyDown={[Function]}
           >
-            <A11yText
-              aria-atomic="true"
-              aria-live="polite"
-              role="status"
-            >
-              <span
-                aria-atomic="true"
-                aria-live="polite"
-                className="css-1uvvha"
-                role="status"
-              >
-                0 results available.
-              </span>
-            </A11yText>
             <Control
               clearValue={[Function]}
               cx={[Function]}
@@ -413,9 +399,6 @@ exports[`defaults - snapshot 1`] = `
                     </Placeholder>
                     <Input
                       aria-autocomplete="list"
-                      aria-busy={false}
-                      aria-expanded={false}
-                      aria-haspopup={false}
                       autoCapitalize="none"
                       autoComplete="off"
                       autoCorrect="off"
@@ -428,7 +411,6 @@ exports[`defaults - snapshot 1`] = `
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
-                      role="combobox"
                       spellCheck="false"
                       tabIndex="0"
                       type="text"
@@ -439,9 +421,6 @@ exports[`defaults - snapshot 1`] = `
                       >
                         <AutosizeInput
                           aria-autocomplete="list"
-                          aria-busy={false}
-                          aria-expanded={false}
-                          aria-haspopup={false}
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -465,7 +444,6 @@ exports[`defaults - snapshot 1`] = `
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          role="combobox"
                           spellCheck="false"
                           tabIndex="0"
                           type="text"
@@ -481,9 +459,6 @@ exports[`defaults - snapshot 1`] = `
                           >
                             <input
                               aria-autocomplete="list"
-                              aria-busy={false}
-                              aria-expanded={false}
-                              aria-haspopup={false}
                               autoCapitalize="none"
                               autoComplete="off"
                               autoCorrect="off"
@@ -492,7 +467,6 @@ exports[`defaults - snapshot 1`] = `
                               onBlur={[Function]}
                               onChange={[Function]}
                               onFocus={[Function]}
-                              role="combobox"
                               spellCheck="false"
                               style={
                                 Object {
@@ -607,11 +581,6 @@ exports[`defaults - snapshot 1`] = `
                       getStyles={[Function]}
                       getValue={[Function]}
                       hasValue={false}
-                      innerProps={
-                        Object {
-                          "role": "presentation",
-                        }
-                      }
                       isDisabled={false}
                       isFocused={false}
                       isMulti={false}
@@ -677,7 +646,6 @@ exports[`defaults - snapshot 1`] = `
                     >
                       <span
                         className="css-d8oujb"
-                        role="presentation"
                       />
                     </IndicatorSeparator>
                     <DropdownIndicator
@@ -688,9 +656,9 @@ exports[`defaults - snapshot 1`] = `
                       hasValue={false}
                       innerProps={
                         Object {
+                          "aria-hidden": "true",
                           "onMouseDown": [Function],
                           "onTouchEnd": [Function],
-                          "role": "button",
                         }
                       }
                       isDisabled={false}
@@ -757,22 +725,20 @@ exports[`defaults - snapshot 1`] = `
                       setValue={[Function]}
                     >
                       <div
+                        aria-hidden="true"
                         className="css-1ep9fjw"
                         onMouseDown={[Function]}
                         onTouchEnd={[Function]}
-                        role="button"
                       >
                         <DownChevron>
                           <Svg
-                            focusable="false"
-                            role="presentation"
                             size={20}
                           >
                             <svg
+                              aria-hidden="true"
                               className="css-19bqh2r"
                               focusable="false"
                               height={20}
-                              role="presentation"
                               viewBox="0 0 20 20"
                               width={20}
                             >
