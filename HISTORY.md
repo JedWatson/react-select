@@ -1,6 +1,6 @@
 # React-Select
 
-## v2.0.0-beta.7 / 2018-05-23
+## v2.0.0-beta.7 / 2018-07-03
 * Removed old aria-attributes in Option, MenuList and other components in favor of an aria-live-region implementation. `screenReaderStatus` prop is still at the moment untouched, and `aria-labelledby` and `aria-label` props are still available and retain their functionality. See [#2581](https://github.com/JedWatson/react-select/pull/2581).
 * Fixed bug with MultiValueRemove interaction not working in mobile [#2762](https://github.com/JedWatson/react-select/pull/2762), thanks [chuckbergeron](https://github.com/chuckbergeron).
 * Added makeAnimated function export, that takes passed in components and wraps them in higher order components that expose animated functionality. [#2724](https://github.com/JedWatson/react-select/pull/2724)
