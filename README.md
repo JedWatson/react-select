@@ -439,6 +439,8 @@ function onInputKeyDown(event) {
 | `valueKey` | string | 'value' | the option property to use for the value |
 | `valueRenderer` | function | undefined | function which returns a custom way to render the value selected `function (option) {}` |
 | `wrapperStyle` | object | undefined | optional styles to apply to the component wrapper |
+| `removeSelectedOnSelect` | boolean | true | optional prop removeSelectedOnSelect to disable autoremoving selected values if they are reselected |
+| `onSelectSelected` | function | undefined | optional event fired when removeSelectedOnSelect=false and option is reselected |
 
 #### Async Props
 
