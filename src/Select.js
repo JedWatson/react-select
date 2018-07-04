@@ -648,6 +648,7 @@ class Select extends React.Component {
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
 		this.setValue(valueArray.concat(value));
+		if(!this.props.closeOnSelect) { return; }
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
 			this.focusOption(visibleOptions[lastValueIndex - 1]);
