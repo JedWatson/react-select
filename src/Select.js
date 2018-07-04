@@ -471,6 +471,8 @@ class Select extends React.Component {
 				if (!this.state.inputValue && this.props.backspaceRemoves) {
 					event.preventDefault();
 					this.popValue();
+				} else if (this.props.backspaceRemoves && this.state.inputValue.length === 1) {
+					this.popValue();
 				}
 				break;
 			case 9: // tab
