@@ -37,12 +37,12 @@ describe('New Select', function() {
         cy
           .get(selector.toggleMenus)
           .should('have.length', 8)
-          .get(selector.singleSelectSingleInput)
-          .should('have.attr', 'aria-expanded', 'false')
+          .get(selector.menuSingle)
+          .should('not.exist')
           .get(selector.toggleMenuSingle)
           .click()
-          .get(selector.singleSelectSingleInput)
-          .should('have.attr', 'aria-expanded', 'true')
+          .get(selector.menuSingle)
+          .should('exist')
           .get(selector.menuSingle)
           .should('be.visible')
           .get(selector.menuOption)
@@ -90,8 +90,7 @@ describe('New Select', function() {
           .get(selector.menuGrouped)
           .should('be.visible')
           .get(selector.groupColor)
-          .should('be.visible')
-          .and('have.attr', 'aria-expanded', 'true');
+          .should('be.visible');
       });
       it(
         'Should not display the options menu when touched and dragged ' + view,
@@ -184,12 +183,12 @@ describe('New Select', function() {
         'Should select different options using - click and enter ' + view,
         function() {
           cy
-            .get(selector.multiSelectInput)
-            .should('have.attr', 'aria-expanded', 'false')
+            .get(selector.menuMulti)
+            .should('not.exist')
             .get(selector.toggleMenuMulti)
             .click()
-            .get(selector.multiSelectInput)
-            .should('have.attr', 'aria-expanded', 'true')
+            .get(selector.menuMulti)
+            .should('exist')
             .get(selector.menuMulti)
             .should('be.visible')
             .get(selector.menuOption)

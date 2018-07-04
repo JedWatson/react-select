@@ -30,7 +30,13 @@ export const emptyString = () => '';
    @returns 'react-select__comp react-select__comp--some'
 */
 function applyPrefixToName(prefix, name) {
-  return name ? `${prefix}__${name}` : prefix;
+  if (!name) {
+    return prefix;
+  } else if (name[0] === '-') {
+    return prefix + name;
+  } else {
+    return prefix + '__' + name;
+  }
 }
 
 export function classNames(
@@ -81,7 +87,7 @@ export function handleInputChange(
 // ==============================
 
 function isDocumentElement(el: Element) {
-  return [document.documentElement, document.body, window].includes(el);
+  return [document.documentElement, document.body, window].indexOf(el) > -1;
 }
 
 // Normalized Scroll Top

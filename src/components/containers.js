@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 import { spacing } from '../theme';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
@@ -32,7 +32,7 @@ export const SelectContainer = (props: ContainerProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('container', props)),
+        css(getStyles('container', props)),
         {
           '--is-disabled': isDisabled,
           '--is-rtl': isRtl
@@ -74,7 +74,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
     return (
       <div
         className={cx(
-          emotionCss(getStyles('valueContainer', this.props)),
+          css(getStyles('valueContainer', this.props)),
           {
             'value-container': true,
             'value-container--is-multi': isMulti,
@@ -114,7 +114,7 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('indicatorsContainer', props)),
+        css(getStyles('indicatorsContainer', props)),
         {
           'indicators': true,
         },

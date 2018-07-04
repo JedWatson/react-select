@@ -13,9 +13,9 @@ import {
   loadingIndicatorCSS,
   indicatorSeparatorCSS,
 } from './components/indicators';
-import { css as inputCSS } from './components/Input';
-import { css as placeholderCSS } from './components/Placeholder';
-import { css as optionCSS } from './components/Option';
+import { inputCSS } from './components/Input';
+import { placeholderCSS } from './components/Placeholder';
+import { optionCSS } from './components/Option';
 import {
   menuCSS,
   menuListCSS,
