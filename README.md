@@ -389,6 +389,7 @@ function onInputKeyDown(event) {
 | `ignoreCase` | boolean | true | whether to perform case-insensitive filtering |
 | `inputProps` | object | undefined | custom attributes for the Input (in the Select-control) e.g: `{'data-foo': 'bar'}` |
 | `inputRenderer` | function | undefined | renders a custom input component |
+| `inputValue` | string | '' | initial input value for the text field |
 | `instanceId` | string | increment | instance ID used internally to set html ids on elements for accessibility, specify for universal rendering |
 | `isLoading` | boolean | false | whether the Select is loading externally or not (such as options being loaded) |
 | `joinValues` | boolean | false | join multiple values into a single hidden input using the `delimiter` |
@@ -463,13 +464,21 @@ function onInputKeyDown(event) {
 
 ### Methods
 
-Use the `focus()` method to give the control focus. All other methods on `<Select>` elements should be considered private.
+Use the `focus()` method to give the control focus.
 
 ```js
 // focuses the input element
 <instance>.focus();
 ```
 
+The following methods allows access to the current state of the component:
+
+* `getInputValue`
+* `numberOfVisibleOptions`
+* `isFocused`
+* `isOpen`
+
+All other methods on `<Select>` elements should be considered private.
 # Contributing
 
 See our [CONTRIBUTING.md](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md) for information on how to contribute.

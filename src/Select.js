@@ -101,7 +101,7 @@ class Select extends React.Component {
 		].forEach((fn) => this[fn] = this[fn].bind(this));
 
 		this.state = {
-			inputValue: '',
+			inputValue: this.props.inputValue || '',
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
@@ -143,6 +143,10 @@ class Select extends React.Component {
 
 		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
 			this.setState({ inputValue: this.handleInputValueChange('') });
+		}
+		if (this.props.inputValue !== nextProps.inputValue) {
+			const inputValue = nextProps.inputValue || '';
+			this.setState({ inputValue: inputValue });
 		}
 	}
 
@@ -421,6 +425,8 @@ class Select extends React.Component {
 		};
 		if (this.props.onBlurResetsInput) {
 			onBlurredState.inputValue = this.handleInputValueChange('');
+		} else {
+			onBlurredState.inputValue = this.state.inputValue;
 		}
 		this.setState(onBlurredState);
 	}
@@ -798,6 +804,22 @@ class Select extends React.Component {
 		if (this._focusedOption) {
 			return this.selectValue(this._focusedOption);
 		}
+	}
+
+	numberOfVisibleOptions() {
+		return (this._visibleOptions ? this._visibleOptions.length : 0);
+	}
+
+	isFocused() {
+		return this.state.isFocused;
+	}
+
+	isOpen() {
+		return this.state.isOpen;
+	}
+
+	getInputValue() {
+		return this.state.inputValue;
 	}
 
 	renderLoading () {
@@ -1217,6 +1239,7 @@ Select.propTypes = {
 	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
 	inputProps: PropTypes.object,         // custom attributes for the Input
 	inputRenderer: PropTypes.func,        // returns a custom input component
+	inputValue: PropTypes.string,         // a custom inputValue for the component
 	instanceId: PropTypes.string,         // set the components instanceId
 	isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
 	joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
@@ -1286,6 +1309,7 @@ Select.defaultProps = {
 	ignoreAccents: true,
 	ignoreCase: true,
 	inputProps: {},
+	inputValue: '',
 	isLoading: false,
 	joinValues: false,
 	labelKey: 'label',
