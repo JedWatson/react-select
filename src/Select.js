@@ -879,7 +879,6 @@ class Select extends React.Component {
 			'aria-label': this.props['aria-label'],
 			'aria-labelledby': this.props['aria-labelledby'],
 			'aria-owns': ariaOwns,
-			className: className,
 			onBlur: this.handleInputBlur,
 			onChange: this.handleInputChange,
 			onFocus: this.handleInputFocus,
@@ -923,7 +922,7 @@ class Select extends React.Component {
 
 		if (this.props.autosize) {
 			return (
-				<AutosizeInput id={this.props.id} {...inputProps} minWidth="5" />
+				<AutosizeInput id={this.props.id} {...inputProps} className={className} minWidth="5" />
 			);
 		}
 		return (
