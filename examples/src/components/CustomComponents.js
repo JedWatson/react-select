@@ -12,6 +12,55 @@ const stringOrNode = PropTypes.oneOfType([
 	PropTypes.node,
 ]);
 
+const GravatarSearchableMenuComponent = createClass({
+	propTypes: {
+		children: PropTypes.node,
+		instancePrefix: PropTypes.string,
+		menuContainerStyle: PropTypes.string,
+		menuStyle: PropTypes.string,
+		onMenuContainerRef: PropTypes.func,
+		onMenuMouseDown: PropTypes.func,
+		onMenuRef: PropTypes.func,
+		onMenuScroll: PropTypes.func
+	},
+	render () {
+		const { onMenuContainerRef, menuContainerStyle, instancePrefix, onMenuMouseDown, onMenuScroll, onMenuRef, menuStyle, children } = this.props;
+
+		const headerFooterStyle = {
+			border: 1,
+			borderColor: '#aaa',
+			color: '#aaa',
+			borderStyle: 'dashed',
+			textAlign: 'center',
+			padding: 10,
+			margin: 10
+		};
+
+		const customStyle = menuContainerStyle || {};
+		customStyle.maxHeight = 230;
+
+		return (<div
+			ref={onMenuContainerRef}
+			className="Select-menu-outer"
+			style={customStyle}>
+			<div style={headerFooterStyle}>Perhaps a header...</div>
+			<div
+				className="Select-menu"
+				id={`${instancePrefix}-list`}
+				onMouseDown={onMenuMouseDown}
+				onScroll={onMenuScroll}
+				ref={onMenuRef}
+				role="listbox"
+				style={menuStyle}
+				tabIndex={-1}
+			>
+				{children}
+			</div>
+			<div style={headerFooterStyle}>or a footer...</div>
+		</div>);
+	}
+});
+
 const GravatarOption = createClass({
 	propTypes: {
 		children: PropTypes.node,
@@ -108,7 +157,8 @@ const UsersField = createClass({
 					placeholder={placeholder}
 					value={this.state.value}
 					valueComponent={GravatarValue}
-					/>
+					outerComponent={GravatarSearchableMenuComponent}
+				/>
 				<div className="hint">
 					This example implements custom Option and Value components to render a Gravatar image for each user based on their email.
 					It also demonstrates rendering HTML elements as the placeholder.

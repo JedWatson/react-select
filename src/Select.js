@@ -13,8 +13,10 @@ import defaultArrowRenderer from './utils/defaultArrowRenderer';
 import defaultClearRenderer from './utils/defaultClearRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import defaultOuterRenderer from './utils/defaultOuterRenderer';
 
 import Option from './Option';
+import Outer from './Outer';
 import Value from './Value';
 
 const stringifyValue = value =>
@@ -95,6 +97,8 @@ class Select extends React.Component {
 			'handleTouchOutside',
 			'handleTouchStart',
 			'handleValueClick',
+			'onMenuRef',
+			'onMenuContainerRef',
 			'onOptionRef',
 			'removeValue',
 			'selectValue',
@@ -1013,6 +1017,14 @@ class Select extends React.Component {
 		}
 	}
 
+	onMenuRef (ref) {
+		this.menu = ref;
+	}
+
+	onMenuContainerRef (ref) {
+		this.menuContainer = ref;
+	}
+
 	renderMenu (options, valueArray, focusedOption) {
 		if (options && options.length) {
 			return this.props.menuRenderer({
@@ -1097,27 +1109,22 @@ class Select extends React.Component {
 	}
 
 	renderOuter (options, valueArray, focusedOption) {
-		let menu = this.renderMenu(options, valueArray, focusedOption);
+		const menu = this.renderMenu(options, valueArray, focusedOption);
 		if (!menu) {
 			return null;
 		}
 
-		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
-				<div
-					className="Select-menu"
-					id={`${this._instancePrefix}-list`}
-					onMouseDown={this.handleMouseDownOnMenu}
-					onScroll={this.handleMenuScroll}
-					ref={ref => this.menu = ref}
-					role="listbox"
-					style={this.props.menuStyle}
-					tabIndex={-1}
-				>
-					{menu}
-				</div>
-			</div>
-		);
+		return this.props.outerRenderer({
+			instancePrefix: this._instancePrefix,
+			menuComponent: menu,
+			menuContainerStyle: this.props.menuContainerStyle,
+			menuStyle: this.props.menuStyle,
+			onMenuContainerRef: this.onMenuContainerRef,
+			onMenuMouseDown: this.handleMouseDownOnMenu,
+			onMenuRef: this.onMenuRef,
+			onMenuScroll: this.handleMenuScroll,
+			outerComponent: this.props.outerComponent
+		});
 	}
 
 	render () {
@@ -1249,6 +1256,8 @@ Select.propTypes = {
 	optionComponent: PropTypes.func,      // option component to render in dropdown
 	optionRenderer: PropTypes.func,       // optionRenderer: function (option) {}
 	options: PropTypes.array,             // array of options
+	outerComponent: PropTypes.func,		  // outer component to render around child menu
+	outerRenderer: PropTypes.func,		  // renders a custom outer div
 	pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
 	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
 	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
@@ -1301,6 +1310,8 @@ Select.defaultProps = {
 	onSelectResetsInput: true,
 	openOnClick: true,
 	optionComponent: Option,
+	outerComponent: Outer,
+	outerRenderer: defaultOuterRenderer,
 	pageSize: 5,
 	placeholder: 'Select...',
 	removeSelected: true,

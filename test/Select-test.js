@@ -4244,6 +4244,40 @@ describe('Select', () => {
 		});
 	});
 
+
+	describe('custom outerRenderer option', () => {
+		it('should render the custom outer', () => {
+			const instance = createControl({
+				options: [1, 2, 3],
+				outerRenderer: () => <div className="customOuter" />
+			});
+			clickArrowToOpen();
+			expect(ReactDOM.findDOMNode(instance), 'to contain elements matching', '.customOuter');
+		});
+
+		it('should pass the expected parameters', () => {
+			let paramsReceived;
+			const instance = createControl({
+				options: [1, 2, 3],
+				outerRenderer: (params) => {
+					paramsReceived = params;
+					return <div>Custom outer</div>;
+				}
+			});
+			clickArrowToOpen();
+			const keys = Object.keys(paramsReceived);
+			expect(keys, 'to contain', 'instancePrefix');
+			expect(keys, 'to contain', 'menuComponent');
+			expect(keys, 'to contain', 'menuContainerStyle');
+			expect(keys, 'to contain', 'menuStyle');
+			expect(keys, 'to contain', 'onMenuContainerRef');
+			expect(keys, 'to contain', 'onMenuMouseDown');
+			expect(keys, 'to contain', 'onMenuRef');
+			expect(keys, 'to contain', 'onMenuScroll');
+			expect(keys, 'to contain', 'outerComponent');
+		});
+	});
+
 	describe('custom arrowRenderer option', () => {
 		it('should render the custom arrow', () => {
 			const instance = createControl({
