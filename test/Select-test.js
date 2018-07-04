@@ -4645,7 +4645,7 @@ describe('Select', () => {
 			expect(preventDefault, 'was called once');
 			expect(focusStub, 'was called once');
 			expect(setStateStub, 'was called once');
-			expect(setStateStub, 'was called with', { isOpen: !isOpen });
+			expect(setStateStub, 'was called with', { isOpen: !isOpen, focusedOption: null });
 		});
 
 		it('for tagName="INPUT", isFocused=false should call only focus', () => {
@@ -4687,7 +4687,7 @@ describe('Select', () => {
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was called once');
-			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false });
+			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false, focusedOption: null });
 		});
 
 		it('for tagName="INPUT", isFocused=true, isOpen=true should return', () => {

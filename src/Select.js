@@ -278,6 +278,7 @@ class Select extends React.Component {
 				this.setState({
 					isOpen: true,
 					isPseudoFocused: false,
+					focusedOption: null,
 				});
 			}
 
@@ -293,6 +294,7 @@ class Select extends React.Component {
 			this.focus();
 			return this.setState({
 				isOpen: !this.state.isOpen,
+				focusedOption: null,
 			});
 		}
 
