@@ -460,6 +460,7 @@ function onInputKeyDown(event) {
 | `onNewOptionClick` | function | new option click handler, it calls when new option has been selected. `function(option) {}` |
 | `shouldKeyDownEventCreateNewOption` | function | Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option. ENTER, TAB and comma keys create new options by default. Expected signature: `({ keyCode: number }): boolean` |
 | `promptTextCreator` | function | Factory for overriding default option creator prompt label. By default it will read 'Create option "{label}"'. Expected signature: `(label: String): String` |
+| `showNewOptionAtTop` | boolean | `true`: (Default) Show new option at top of list <br> `false`: Show new option at bottom of list |
 
 ### Methods
 

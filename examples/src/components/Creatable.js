@@ -11,6 +11,7 @@ var CreatableDemo = createClass({
 	},
 	getInitialState () {
 		return {
+			atTop: true,
 			multi: true,
 			multiValue: [],
 			options: [
@@ -30,7 +31,7 @@ var CreatableDemo = createClass({
 		}
 	},
 	render () {
-		const { multi, multiValue, options, value } = this.state;
+		const { atTop, multi, multiValue, options, value } = this.state;
 		return (
 			<div className="section">
 				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Creatable.js">(Source)</a></h3>
@@ -39,6 +40,7 @@ var CreatableDemo = createClass({
 					options={options}
 					onChange={this.handleOnChange}
 					value={multi ? multiValue : value}
+					showNewOptionAtTop={atTop}
 				/>
 				<div className="hint">{this.props.hint}</div>
 				<div className="checkbox-list">
@@ -59,6 +61,26 @@ var CreatableDemo = createClass({
 							onChange={() => this.setState({ multi: false })}
 						/>
 						<span className="checkbox-label">Single Value</span>
+					</label>
+				</div>
+				<div className="checkbox-list">
+					<label className="checkbox">
+						<input
+							type="radio"
+							className="checkbox-control"
+							checked={atTop}
+							onChange={() => this.setState({ atTop: true })}
+						/>
+						<span className="checkbox-label">New option at top</span>
+					</label>
+					<label className="checkbox">
+						<input
+							type="radio"
+							className="checkbox-control"
+							checked={!atTop}
+							onChange={() => this.setState({ atTop: false })}
+						/>
+						<span className="checkbox-label">New option at bottom</span>
 					</label>
 				</div>
 			</div>
