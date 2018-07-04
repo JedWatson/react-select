@@ -382,6 +382,12 @@ class Select extends React.Component {
 				isPseudoFocused: this.state.isFocused && !this.props.multi
 			});
 		}
+
+		// clear focused option
+		this.setState({
+			focusedOption: null
+		});
+
 		this.hasScrolledToOption = false;
 	}
 
@@ -418,6 +424,7 @@ class Select extends React.Component {
 			isFocused: false,
 			isOpen: false,
 			isPseudoFocused: false,
+			focusedOption: null
 		};
 		if (this.props.onBlurResetsInput) {
 			onBlurredState.inputValue = this.handleInputValueChange('');
