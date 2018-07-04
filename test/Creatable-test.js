@@ -5,6 +5,7 @@
 // Copied from Async-test verbatim; may need to be reevaluated later.
 var jsdomHelper = require('../testHelpers/jsdomHelper');
 jsdomHelper();
+var sinon = require('sinon');
 var unexpected = require('unexpected');
 var unexpectedDom = require('unexpected-dom');
 var unexpectedReact = require('unexpected-react');
@@ -113,6 +114,50 @@ describe('Creatable', () => {
 		});
 		typeSearchText('invalid');
 		expect(creatableNode.querySelector('.Select-menu-outer').textContent, 'not to equal', Select.Creatable.promptTextCreator('invalid'));
+	});
+
+	it('should always show the create new option item if :alwaysShowNewOptionItem is true (given :onNewOptionClick is specified).', () => {
+		const defaultPromptText = 'Create new option';
+
+		createControl({
+			alwaysShowNewOptionItem: true,
+			onNewOptionClick: value => console.log(value),
+			promptTextCreator: label => (label ? `Create option ${label}` : defaultPromptText)
+		});
+
+		typeSearchText('');
+
+		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', defaultPromptText);
+	});
+
+	it('shouldn\'t show the create new option item if :alwaysShowNewOptionItem is true but :onNewOptionClick is unset.', () => {
+		const defaultPromptText = 'Create new option';
+
+		createControl({
+			alwaysShowNewOptionItem: true,
+			promptTextCreator: label => (label ? `Create option ${label}` : defaultPromptText)
+		});
+
+		typeSearchText('');
+
+		expect(creatableNode, 'to contain no elements matching', '.Select-create-option-placeholder');
+	});
+
+	it('should trigger the :onNewOptionClick even if the option is blank (given :alwaysShowNewOptionItem is true)', () => {
+		const defaultPromptText = 'Create new option';
+		const onNewOptionClick = sinon.spy();
+
+		createControl({
+			alwaysShowNewOptionItem: true,
+			onNewOptionClick,
+			promptTextCreator: label => (label ? `Create option ${label}` : defaultPromptText)
+		});
+
+		typeSearchText('');
+
+		TestUtils.Simulate.mouseDown(creatableNode.querySelector('.Select-create-option-placeholder'));
+
+		expect(onNewOptionClick.called, 'to equal', true);
 	});
 
 	it('should create (and auto-select) a new option when placeholder option is clicked', () => {
