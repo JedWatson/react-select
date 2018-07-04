@@ -4344,7 +4344,7 @@ describe('Select', () => {
 			});
 		});
 
-		describe('with multiselect', () => {
+		describe.only('with multiselect', () => {
 
 			beforeEach(() => {
 
@@ -4359,6 +4359,7 @@ describe('Select', () => {
 					value: ['three', 'two'],
 					multi: true,
 					closeOnSelect: false,
+					searchable: true,
 				}, {
 					wireUpOnChangeToValue: true
 				});
@@ -4406,6 +4407,35 @@ describe('Select', () => {
 						expect(ReactDOM.findDOMNode(instance), 'queried for first', '#' + activeId, 'to have text', 'label four');
 					});
 
+			});
+
+			it('unselects previously-selected menu options that are focused on enter by default', () => {
+				wrapper.setPropsForChild({
+					removeSelected: false,
+				});
+				onChange.reset();
+				typeSearchText('three');
+				pressEnterToAccept();
+
+				// 'three' was selected and focused,
+				// therefore after `enter`, the `four` option should not be selected
+
+				expect(onChange, 'was called with', [{ label: 'label two', value: 'two' }]);
+			});
+
+			it('does not unselect previously-selected menu options that are focused on enter when `unselectOnEnter` prop is `false`', () => {
+				wrapper.setPropsForChild({
+					removeSelected: false,
+					unselectOnEnter: false,
+				});
+				onChange.reset();
+				typeSearchText('three');
+				pressEnterToAccept();
+
+				// 'three' was selected and focused, but `unselectOnEnter` prop is `false`
+				// therefore after `enter`, the `three` option should still be selected
+
+				expect(onChange, 'was called with', [{ label: 'label two', value: 'two' }, { label: 'label three', value: 'three' }]);
 			});
 
 			it('expands the drop down when the enter key is pressed', () => {

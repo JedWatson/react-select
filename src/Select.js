@@ -482,13 +482,13 @@ class Select extends React.Component {
 					break;
 				}
 				event.preventDefault();
-				this.selectFocusedOption();
+				this.selectFocusedOption(!this.props.unselectOnEnter);
 				break;
 			case 13: // enter
 				event.preventDefault();
 				event.stopPropagation();
 				if (this.state.isOpen) {
-					this.selectFocusedOption();
+					this.selectFocusedOption(!this.props.unselectOnEnter);
 				} else {
 					this.focusNextOption();
 				}
@@ -610,7 +610,7 @@ class Select extends React.Component {
 		}
 	}
 
-	selectValue (value) {
+	selectValue (value, preventUnselecting) {
 		// NOTE: we actually add/set the value in a callback to make sure the
 		// input value is empty to avoid styling issues in Chrome
 		if (this.props.closeOnSelect) {
@@ -624,7 +624,7 @@ class Select extends React.Component {
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
 				const valueArray = this.getValueArray(this.props.value);
-				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
+				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey]) && !preventUnselecting) {
 					this.removeValue(value);
 				} else {
 					this.addValue(value);
@@ -645,6 +645,7 @@ class Select extends React.Component {
 		let valueArray = this.getValueArray(this.props.value);
 		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
 		const lastValueIndex = visibleOptions.indexOf(value);
+		valueArray = valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]);
 		this.setValue(valueArray.concat(value));
 		if (visibleOptions.length - 1 === lastValueIndex) {
 			// the last option was selected; focus the second-last one
@@ -792,9 +793,9 @@ class Select extends React.Component {
 		return this._focusedOption;
 	}
 
-	selectFocusedOption () {
+	selectFocusedOption (preventUnselecting) {
 		if (this._focusedOption) {
-			return this.selectValue(this._focusedOption);
+			return this.selectValue(this._focusedOption, preventUnselecting);
 		}
 	}
 
@@ -1260,6 +1261,7 @@ Select.propTypes = {
 	tabIndex: stringOrNumber,             // optional tab index of the control
 	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
 	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
+	unselectOnEnter: PropTypes.bool,      // whether enter/tab will unselect the focused option on multi selects
 	value: PropTypes.any,                 // initial field value
 	valueComponent: PropTypes.func,       // value component to render
 	valueKey: PropTypes.string,           // path of the label value in option objects
@@ -1308,7 +1310,8 @@ Select.defaultProps = {
 	searchable: true,
 	simpleValue: false,
 	tabSelectsValue: true,
- 	trimFilter: true,
+	trimFilter: true,
+	unselectOnEnter: true,
 	valueComponent: Value,
 	valueKey: 'value',
 };
