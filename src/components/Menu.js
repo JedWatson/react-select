@@ -5,7 +5,7 @@ import React, {
   type ElementRef,
   type Node,
 } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -287,7 +287,7 @@ export class Menu extends Component<MenuProps, MenuState> {
     return (
       <div
         className={cx(
-          emotionCss(getStyles('menu', this.getState())),
+          css(getStyles('menu', this.getState())),
           {
             'menu': true,
           },
@@ -318,13 +318,8 @@ type MenuListState = {
 export type MenuListProps = {
   /** The children to be rendered. */
   children: Node,
-  /** Props to be passed to the wrapper component. */
-  innerProps: {
-    'aria-multiselectable': boolean,
-    id: string,
-    innerRef: InnerRef,
-    role: 'listbox',
-  },
+  /** Inner ref to DOM Node */
+  innerProps: { innerRef: InnerRef },
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -339,11 +334,11 @@ export const menuListCSS = ({ maxHeight }: MenuState) => ({
 });
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, className, cx, getStyles, isMulti, innerProps } = props;
-  const { innerRef, ...rest } = innerProps;
+  const { innerRef } = innerProps;
   return (
     <div
       className={cx(
-        emotionCss(getStyles('menuList', props)),
+        css(getStyles('menuList', props)),
         {
           'menu-list': true,
           'menu-list--is-multi': isMulti
@@ -351,7 +346,6 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
-      {...rest}
     >
       {children}
     </div>
@@ -382,7 +376,7 @@ export const NoOptionsMessage = (props: NoticeProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('noOptionsMessage', props)),
+        css(getStyles('noOptionsMessage', props)),
         {
           'menu-notice': true,
           'menu-notice--no-options': true,
@@ -404,7 +398,7 @@ export const LoadingMessage = (props: NoticeProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('loadingMessage', props)),
+        css(getStyles('loadingMessage', props)),
         {
           'menu-notice': true,
           'menu-notice--loading': true,
@@ -494,7 +488,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
       <div
-        className={emotionCss(getStyles('menuPortal', state))}
+        className={css(getStyles('menuPortal', state))}
       >
         {children}
       </div>
