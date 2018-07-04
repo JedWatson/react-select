@@ -63,7 +63,7 @@ describe('Creatable', () => {
 	it('should add a placeholder "create..." prompt when filter text is entered that does not match any existing options', () => {
 		createControl();
 		typeSearchText('foo');
-		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', Select.Creatable.promptTextCreator('foo'));
+		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', Select.Creatable.promptTextCreator('foo', 'Create option'));
 	});
 
 	it('should not show a "create..." prompt if current filter text is an exact match for an existing option', () => {

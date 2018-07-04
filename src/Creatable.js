@@ -68,7 +68,7 @@ class CreatableSelect extends React.Component {
 			});
 
 			if (isOptionUnique) {
-				const prompt = promptTextCreator(this.inputValue);
+				const prompt = promptTextCreator(this.inputValue, this.props.promptText);
 
 				this._createPlaceholderOption = newOptionCreator({
 					label: prompt,
@@ -218,7 +218,7 @@ const newOptionCreator = ({ label, labelKey, valueKey }) => {
 	return option;
 };
 
-const promptTextCreator = label => `Create option "${label}"`;
+const promptTextCreator = (label, promptText) => `${promptText} "${label}"`;
 
 const shouldKeyDownEventCreateNewOption = ({ keyCode }) => {
 	switch (keyCode) {
@@ -246,7 +246,8 @@ CreatableSelect.defaultProps = {
 	menuRenderer: defaultMenuRenderer,
 	newOptionCreator,
 	promptTextCreator,
-	shouldKeyDownEventCreateNewOption
+	shouldKeyDownEventCreateNewOption,
+	promptText: 'Create option'
 };
 
 CreatableSelect.propTypes = {
@@ -294,6 +295,9 @@ CreatableSelect.propTypes = {
 
 	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
 	shouldKeyDownEventCreateNewOption: PropTypes.func,
+
+	// Prompt text which shows while creating a new option, default text is set to "Create option"
+	promptText: PropTypes.string
 };
 
 export default CreatableSelect;

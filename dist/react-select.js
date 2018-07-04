@@ -2344,7 +2344,7 @@ var CreatableSelect = function (_React$Component) {
 				});
 
 				if (_isOptionUnique2) {
-					var prompt = promptTextCreator(this.inputValue);
+					var prompt = promptTextCreator(this.inputValue, this.props.promptText);
 
 					this._createPlaceholderOption = _newOptionCreator({
 						label: prompt,
@@ -2514,8 +2514,8 @@ var newOptionCreator = function newOptionCreator(_ref5) {
 	return option;
 };
 
-var promptTextCreator = function promptTextCreator(label) {
-	return 'Create option "' + label + '"';
+var promptTextCreator = function promptTextCreator(label, promptText) {
+	return promptText + ' "' + label + '"';
 };
 
 var shouldKeyDownEventCreateNewOption = function shouldKeyDownEventCreateNewOption(_ref6) {
@@ -2546,7 +2546,8 @@ CreatableSelect.defaultProps = {
 	menuRenderer: menuRenderer,
 	newOptionCreator: newOptionCreator,
 	promptTextCreator: promptTextCreator,
-	shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption
+	shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption,
+	promptText: 'Create option'
 };
 
 CreatableSelect.propTypes = {
@@ -2593,7 +2594,10 @@ CreatableSelect.propTypes = {
 	ref: PropTypes.func,
 
 	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
-	shouldKeyDownEventCreateNewOption: PropTypes.func
+	shouldKeyDownEventCreateNewOption: PropTypes.func,
+
+	// Prompt text which shows while creating a new option, default text is set to "Create option"
+	promptText: PropTypes.string
 };
 
 var AsyncCreatableSelect = function (_React$Component) {
