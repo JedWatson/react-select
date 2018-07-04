@@ -2333,6 +2333,17 @@ describe('Select', () => {
 			]);
 		});
 
+		it('does not change the focused item after selecting it', () => {
+			clickArrowToOpen();
+
+			var items = ReactDOM.findDOMNode(instance).querySelectorAll('.Select-option');
+
+			// Click the option "Two" to select it
+			expect(items[1], 'to have text', 'Two');
+			TestUtils.Simulate.mouseDown(items[1]);
+			expect(items[1].classList.contains('is-focused'), 'to be true');
+		});
+
 		it('removes a selected value if chosen again', () => {
 
 			clickArrowToOpen();
@@ -3570,7 +3581,7 @@ describe('Select', () => {
 			});
 
 			it('calls the renderer with props', () => {
-				expect(inputRenderer, 'was called with', { value: '', className: 'Select-input' });
+				expect(inputRenderer, 'was called with', { value: '' });
 			});
 		});
 
@@ -4645,7 +4656,7 @@ describe('Select', () => {
 			expect(preventDefault, 'was called once');
 			expect(focusStub, 'was called once');
 			expect(setStateStub, 'was called once');
-			expect(setStateStub, 'was called with', { isOpen: !isOpen });
+			expect(setStateStub, 'was called with', { isOpen: !isOpen, focusedOption: null });
 		});
 
 		it('for tagName="INPUT", isFocused=false should call only focus', () => {
@@ -4687,7 +4698,7 @@ describe('Select', () => {
 			expect(preventDefault, 'was not called');
 			expect(focusStub, 'was not called');
 			expect(setStateStub, 'was called once');
-			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false });
+			expect(setStateStub, 'was called with', { isOpen: true, isPseudoFocused: false, focusedOption: null });
 		});
 
 		it('for tagName="INPUT", isFocused=true, isOpen=true should return', () => {

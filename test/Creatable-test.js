@@ -66,6 +66,17 @@ describe('Creatable', () => {
 		expect(creatableNode.querySelector('.Select-create-option-placeholder'), 'to have text', Select.Creatable.promptTextCreator('foo'));
 	});
 
+	it('should add a placeholder "create..." prompt as last option when showNewOptionAtTop is false', () => {
+		createControl({
+			showNewOptionAtTop: false
+		});
+		const searchTerm = 'Th';
+		typeSearchText(searchTerm);
+		let nodes = creatableNode.querySelectorAll('.Select-option');
+		expect(nodes, 'to have length', 2); // [Three, Create "th"?]
+		expect(nodes[nodes.length-1], 'to have text', Select.Creatable.promptTextCreator(searchTerm));
+	});
+
 	it('should not show a "create..." prompt if current filter text is an exact match for an existing option', () => {
 		createControl({
 			isOptionUnique: () => false
