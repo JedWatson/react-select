@@ -133,7 +133,7 @@ class CreatableSelect extends React.Component {
 		if (
 			focusedOption &&
 			focusedOption === this._createPlaceholderOption &&
-			shouldKeyDownEventCreateNewOption({ keyCode: event.keyCode })
+			shouldKeyDownEventCreateNewOption(event)
 		) {
 			this.createNewOption();
 
