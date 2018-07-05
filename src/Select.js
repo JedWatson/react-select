@@ -1170,10 +1170,10 @@ class Select extends React.Component {
 					onTouchStart={this.handleTouchStart}
 					style={this.props.style}
 				>
-					<span className="Select-multi-value-wrapper" id={`${this._instancePrefix}-value`}>
+					<div className="Select-multi-value-wrapper" id={`${this._instancePrefix}-value`}>
 						{this.renderValue(valueArray, isOpen)}
 						{this.renderInput(valueArray, focusedOptionIndex)}
-					</span>
+					</div>
 					{removeMessage}
 					{this.renderLoading()}
 					{this.renderClear()}
