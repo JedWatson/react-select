@@ -433,7 +433,7 @@ function onInputKeyDown(event) {
 | `style` | object | undefined | optional styles to apply to the control |
 | `tabIndex` | string or number | undefined | tabIndex of the control |
 | `tabSelectsValue` | boolean | true | whether to select the currently focused value when the `[tab]` key is pressed |
-| `trimFilter` | boolean | false | whether to trim whitespace from the filter value |
+| `trimFilter` | boolean | true | whether to trim whitespace from the filter value |
 | `value` | any | undefined | initial field value |
 | `valueComponent` | function | <Value /> | function which returns a custom way to render/manage the value selected `<CustomValue />` |
 | `valueKey` | string | 'value' | the option property to use for the value |
