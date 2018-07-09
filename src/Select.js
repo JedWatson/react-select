@@ -585,7 +585,6 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    console.log('clearValue');
     const { isMulti, onChange } = this.props;
     const { selectValue } = this.state;
     if (isMulti) {
