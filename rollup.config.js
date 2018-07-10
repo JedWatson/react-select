@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-es';
+import pkg from './package.json';
 
 const name = 'Select';
 const path = 'dist/react-select';
@@ -29,32 +30,32 @@ export default [
 	{
 		input: 'src/index.js',
 		output: {
-			file: path + '.es.js',
+			file: pkg.module,
 			format: 'es',
 		},
-		external: external,
+		external,
 		plugins: [babel(babelOptions(false))],
 	},
 	{
 		input: 'src/index.umd.js',
 		output: {
-			name: name,
+			name,
 			file: path + '.js',
 			format: 'umd',
 		},
-		globals: globals,
-		external: external,
+		globals,
+		external,
 		plugins: [babel(babelOptions(false)), resolve()],
 	},
 	{
 		input: 'src/index.umd.js',
 		output: {
-			name: name,
+			name,
 			file: path + '.min.js',
 			format: 'umd',
 		},
-		globals: globals,
-		external: external,
+		globals,
+		external,
 		plugins: [babel(babelOptions(true)), resolve(), uglify({}, minify)],
 	},
 ];
