@@ -141,6 +141,25 @@ test('in case of callbacks display the most recently-requested loaded options (i
   expect(asyncSelectWrapper.find(Option).text()).toBe('bar');
 });
 
+test('changing defaultOptions after mount should be reflected in the passed in options of the internal select component', () => {
+  const defaultOptionsA = [];
+  const defaultOptionsB = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
+  let asyncSelectWrapper = mount(
+    <Async
+      className="react-select"
+      classNamePrefix="react-select"
+      loadOptions={()=>{}}
+      inputValue=""
+      defaultOptions={defaultOptionsA}
+    />
+  );
+  expect(asyncSelectWrapper.instance().select.props.options).toEqual(defaultOptionsA);
+  asyncSelectWrapper.setProps({ defaultOptions: defaultOptionsB });
+  asyncSelectWrapper.update();
+  expect(asyncSelectWrapper.instance().select.props.options).toEqual(defaultOptionsB);
+  expect();
+});
+
 /**
  * This throws a jsdom exception
  */
