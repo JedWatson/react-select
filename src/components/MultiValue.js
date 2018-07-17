@@ -11,6 +11,7 @@ type LabelProps = { cropWithEllipsis: boolean };
 export type ValueProps = LabelProps & {
   children: Node,
   components: any,
+  data: any,
   innerProps: any,
   isFocused: boolean,
   isDisabled: boolean,
@@ -65,6 +66,7 @@ export type MultiValueLabelProps = CommonProps & {
     onClick: any => void,
     onMouseDown: any => void,
   },
+  data: any
 };
 export class MultiValueLabel extends Component<MultiValueLabelProps> {
   static defaultProps = {}
@@ -82,6 +84,7 @@ export type MultiValueRemoveProps = CommonProps & {
     onClick: any => void,
     onMouseDown: any => void,
   },
+  data: any
 };
 export class MultiValueRemove extends Component<MultiValueRemoveProps> {
   static defaultProps = {
@@ -103,6 +106,7 @@ class MultiValue extends Component<MultiValueProps> {
       className,
       components,
       cx,
+      data,
       getStyles,
       innerProps,
       isDisabled,
@@ -133,10 +137,10 @@ class MultiValue extends Component<MultiValueProps> {
         className={cn.container}
         {...innerProps}
         >
-        <Label className={cn.label} {...labelProps}>
+        <Label className={cn.label} data={data} {...labelProps}>
           {children}
         </Label>
-        <Remove className={cn.remove} {...removeProps} />
+        <Remove className={cn.remove} data={data} {...removeProps} />
       </Container>
     );
   }
