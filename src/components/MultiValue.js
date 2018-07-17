@@ -14,6 +14,11 @@ export type ValueProps = LabelProps & {
   innerProps: any,
   isFocused: boolean,
   isDisabled: boolean,
+  labelProps: {
+    onTouchEnd: any => void,
+    onClick: any => void,
+    onMouseDown: any => void,
+  },
   removeProps: {
     onTouchEnd: any => void,
     onClick: any => void,
@@ -52,7 +57,23 @@ export const multiValueRemoveCSS = ({ isFocused }: MultiValueProps) => ({
 });
 
 export const MultiValueContainer = Div;
-export const MultiValueLabel = Div;
+export type MultiValueLabelProps = CommonProps & {
+  children: Node,
+  innerProps: any,
+  labelProps: {
+    onTouchEnd: any => void,
+    onClick: any => void,
+    onMouseDown: any => void,
+  },
+};
+export class MultiValueLabel extends Component<MultiValueLabelProps> {
+  static defaultProps = {}
+  render() {
+    const { children, ...props } = this.props;
+    return <Div {...props}>{children}</Div>;
+  }
+}
+
 export type MultiValueRemoveProps = CommonProps & {
   children: Node,
   innerProps: any,
@@ -85,6 +106,7 @@ class MultiValue extends Component<MultiValueProps> {
       getStyles,
       innerProps,
       isDisabled,
+      labelProps,
       removeProps,
     } = this.props;
     const cn = {
@@ -111,7 +133,7 @@ class MultiValue extends Component<MultiValueProps> {
         className={cn.container}
         {...innerProps}
         >
-        <Label className={cn.label}>
+        <Label className={cn.label} {...labelProps}>
           {children}
         </Label>
         <Remove className={cn.remove} {...removeProps} />
