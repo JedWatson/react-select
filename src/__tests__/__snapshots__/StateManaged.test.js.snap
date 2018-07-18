@@ -5,6 +5,7 @@ exports[`defaults > snapshot 1`] = `
   backspaceRemovesValue={true}
   blurInputOnSelect={true}
   captureMenuScroll={false}
+  closeMenuOnScroll={false}
   closeMenuOnSelect={true}
   components={Object {}}
   controlShouldRenderValue={true}
