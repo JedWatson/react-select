@@ -2,6 +2,9 @@
 
 import React, { Component, type ElementRef, type Node } from 'react';
 
+import memoizeOne from 'memoize-one';
+import isEqual from 'react-fast-compare';
+
 import { createFilter } from './filters';
 import { DummyInput, ScrollBlock, ScrollCaptor } from './internal/index';
 import {
@@ -313,7 +316,8 @@ export default class Select extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const { value } = props;
-    this.components = defaultComponents(props);
+    this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
+    this.cacheComponents(props.components);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
@@ -331,11 +335,9 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentWillReceiveProps(nextProps: Props) {
-    const { components, options, value, inputValue } = this.props;
+    const { options, value, inputValue } = this.props;
     // re-cache custom components
-    if (nextProps.components !== components) {
-      this.components = defaultComponents(nextProps);
-    }
+    this.cacheComponents(nextProps.components);
     // rebuild the menu options
     if (
       nextProps.value !== value ||
@@ -382,7 +384,9 @@ export default class Select extends Component<Props, State> {
   componentWillUnmount() {
     this.stopListeningToTouch();
   }
-
+  cacheComponents = (components: SelectComponents) => {
+    this.components = defaultComponents({ components });
+  }
   // ==============================
   // Consumer Handlers
   // ==============================
