@@ -1330,6 +1330,23 @@ describe('Select', () => {
 		});
 	});
 
+	describe('without value', () => {
+		beforeEach(() => {
+			options = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }];
+
+			wrapper = createControlWithWrapper({
+				value: undefined,
+				name: 'field',
+				options: options,
+				simpleValue: true
+			});
+		});
+
+		it('renders hidden field', () => {
+			expect(instance, 'to contain', <input type="hidden" name="field" />);
+		});
+	});
+
 	describe('with values as booleans', () => {
 		beforeEach(() => {
 			options = [{ value: true, label: 'Yes' }, { value: false, label: 'No' }];
