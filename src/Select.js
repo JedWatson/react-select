@@ -1582,9 +1582,7 @@ export default class Select extends Component<Props, State> {
             <ScrollBlock isEnabled={menuShouldBlockScroll}>
               <MenuList
                 {...commonProps}
-                innerProps={{
-                  innerRef: this.getMenuListRef,
-                }}
+                innerRef={this.getMenuListRef}
                 isLoading={isLoading}
                 maxHeight={maxMenuHeight}
               >
