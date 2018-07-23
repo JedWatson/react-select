@@ -12,7 +12,7 @@ const indicatorSeparatorStyle = {
   width: 1,
 };
 
-const IndicatorSeparator = ({innerProps}) => {
+const IndicatorSeparator = ({ innerProps }) => {
   return (
     <span style={indicatorSeparatorStyle} {...innerProps}/>
   );

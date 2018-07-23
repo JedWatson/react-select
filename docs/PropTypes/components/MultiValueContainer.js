@@ -1,4 +1,6 @@
 import { Component } from 'react';
-import { type Props } from '../../../src/primitives';
+import { type MultiValueGenericProps } from '../../../src/components/MultiValue';
 
-export default class MultiValueContainer extends Component<Props> {}
+export default class MultiValueContainer extends Component<
+  MultiValueGenericProps
+> {}
