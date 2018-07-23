@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { css as emotionCss } from 'emotion';
-import { colors, spacing } from '../theme';
 import type { CommonProps } from '../types';
 
 type State = {
@@ -18,7 +17,7 @@ type ValueProps = {
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 
-export const css = ({ isDisabled }: SingleValueProps) => ({
+export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps) => ({
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,

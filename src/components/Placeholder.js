@@ -2,7 +2,6 @@
 import React, { type Node } from 'react';
 import { css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import type { CommonProps } from '../types';
 
 export type PlaceholderProps = CommonProps & {
@@ -12,7 +11,7 @@ export type PlaceholderProps = CommonProps & {
   innerProps: { [string]: any },
 };
 
-export const placeholderCSS = () => ({
+export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps) => ({
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,

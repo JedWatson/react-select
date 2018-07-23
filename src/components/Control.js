@@ -2,7 +2,6 @@
 import React, { type Node, type ElementRef } from 'react';
 import { css as emotionCSS } from 'emotion';
 
-import { borderRadius, colors, spacing } from '../theme';
 import type { CommonProps, PropsWithStyles } from '../types';
 
 type State = {
@@ -24,7 +23,11 @@ export type ControlProps = CommonProps &
     },
   };
 
-export const css = ({ isDisabled, isFocused }: State) => ({
+export const css = ({
+  isDisabled,
+  isFocused,
+  theme: { colors, borderRadius, spacing },
+}: ControlProps) => ({
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
   borderColor: isDisabled

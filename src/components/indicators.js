@@ -2,8 +2,8 @@
 import React, { type ElementType } from 'react';
 import { injectGlobal, css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import { type CommonProps } from '../types';
+import type { Theme } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -53,10 +53,13 @@ export type IndicatorProps = CommonProps & {
   isRtl: boolean,
 };
 
-const baseCSS = ({ isFocused }: IndicatorProps) => ({
+const baseCSS = ({
+  isFocused,
+  theme: { spacing: { baseUnit }, colors },
+}: IndicatorProps) => ({
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: spacing.baseUnit * 2,
+  padding: baseUnit * 2,
   transition: 'color 150ms',
 
   ':hover': {
@@ -109,11 +112,14 @@ export const ClearIndicator = (props: IndicatorProps) => {
 
 type SeparatorState = { isDisabled: boolean };
 
-export const indicatorSeparatorCSS = ({ isDisabled }: SeparatorState) => ({
+export const indicatorSeparatorCSS = ({
+  isDisabled,
+  theme: { spacing: { baseUnit }, colors },
+}: (CommonProps & SeparatorState)) => ({
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
-  marginBottom: spacing.baseUnit * 2,
-  marginTop: spacing.baseUnit * 2,
+  marginBottom: baseUnit * 2,
+  marginTop: baseUnit * 2,
   width: 1,
 });
 
@@ -140,13 +146,15 @@ const keyframesName = 'react-select-loading-indicator';
 export const loadingIndicatorCSS = ({
   isFocused,
   size,
+  theme: { colors, spacing: { baseUnit } },
 }: {
   isFocused: boolean,
   size: number,
+  theme: Theme,
 }) => ({
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: spacing.baseUnit * 2,
+  padding: baseUnit * 2,
   transition: 'color 150ms',
   alignSelf: 'center',
   fontSize: size,
@@ -194,7 +202,7 @@ export type LoadingIconProps = {
   size: number,
 };
 export const LoadingIndicator = (props: LoadingIconProps) => {
-  const { className, cx, getStyles, innerProps, isFocused, isRtl } = props;
+  const { className, cx, getStyles, innerProps, isFocused, isRtl, theme: { colors } } = props;
   const color = isFocused ? colors.neutral80 : colors.neutral20;
 
   return (

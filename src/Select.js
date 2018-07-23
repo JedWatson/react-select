@@ -45,7 +45,9 @@ import {
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
+
 import { defaultStyles, type StylesConfig } from './styles';
+import { defaultTheme } from './theme';
 
 import type {
   ActionMeta,
@@ -653,6 +655,10 @@ export default class Select extends Component<Props, State> {
   // Getters
   // ==============================
 
+  getTheme() {
+    return defaultTheme;
+  }
+
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
     const { classNamePrefix, isMulti, isRtl, options } = props;
@@ -674,6 +680,7 @@ export default class Select extends Component<Props, State> {
       selectOption,
       setValue,
       selectProps: props,
+      theme: this.getTheme(),
     };
   }
 
@@ -1318,7 +1325,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx } = this.commonProps;
+    const { cx, theme } = this.commonProps;
 
     return (
       <Input
@@ -1336,6 +1343,7 @@ export default class Select extends Component<Props, State> {
         onFocus={this.onInputFocus}
         spellCheck="false"
         tabIndex={tabIndex}
+        theme={theme}
         type="text"
         value={inputValue}
         {...ariaAttributes}

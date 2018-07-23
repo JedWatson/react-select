@@ -135,6 +135,35 @@ exports[`defaults - snapshot 1`] = `
           }
         }
         setValue={[Function]}
+        theme={
+          Object {
+            "borderRadius": 4,
+            "colors": Object {
+              "danger": "#DE350B",
+              "dangerLight": "#FFBDAD",
+              "neutral0": "hsl(218, 0%, 100%)",
+              "neutral10": "hsl(218, 10%, 90%)",
+              "neutral20": "hsl(218, 15%, 80%)",
+              "neutral30": "hsl(218, 20%, 70%)",
+              "neutral40": "hsl(218, 25%, 60%)",
+              "neutral5": "hsl(218, 5%, 95%)",
+              "neutral50": "hsl(218, 30%, 50%)",
+              "neutral60": "hsl(218, 35%, 40%)",
+              "neutral70": "hsl(218, 40%, 30%)",
+              "neutral80": "hsl(218, 45%, 20%)",
+              "neutral90": "hsl(218, 50%, 10%)",
+              "primary": "#2684FF",
+              "primary25": "#DEEBFF",
+              "primary50": "#B2D4FF",
+              "primary75": "#4C9AFF",
+            },
+            "spacing": Object {
+              "baseUnit": 4,
+              "controlHeight": 38,
+              "menuGutter": 8,
+            },
+          }
+        }
       >
         <div
           className="css-10nd86i"
@@ -211,6 +240,35 @@ exports[`defaults - snapshot 1`] = `
               }
             }
             setValue={[Function]}
+            theme={
+              Object {
+                "borderRadius": 4,
+                "colors": Object {
+                  "danger": "#DE350B",
+                  "dangerLight": "#FFBDAD",
+                  "neutral0": "hsl(218, 0%, 100%)",
+                  "neutral10": "hsl(218, 10%, 90%)",
+                  "neutral20": "hsl(218, 15%, 80%)",
+                  "neutral30": "hsl(218, 20%, 70%)",
+                  "neutral40": "hsl(218, 25%, 60%)",
+                  "neutral5": "hsl(218, 5%, 95%)",
+                  "neutral50": "hsl(218, 30%, 50%)",
+                  "neutral60": "hsl(218, 35%, 40%)",
+                  "neutral70": "hsl(218, 40%, 30%)",
+                  "neutral80": "hsl(218, 45%, 20%)",
+                  "neutral90": "hsl(218, 50%, 10%)",
+                  "primary": "#2684FF",
+                  "primary25": "#DEEBFF",
+                  "primary50": "#B2D4FF",
+                  "primary75": "#4C9AFF",
+                },
+                "spacing": Object {
+                  "baseUnit": 4,
+                  "controlHeight": 38,
+                  "menuGutter": 8,
+                },
+              }
+            }
           >
             <div
               className="css-adi9xj"
@@ -280,6 +338,35 @@ exports[`defaults - snapshot 1`] = `
                   }
                 }
                 setValue={[Function]}
+                theme={
+                  Object {
+                    "borderRadius": 4,
+                    "colors": Object {
+                      "danger": "#DE350B",
+                      "dangerLight": "#FFBDAD",
+                      "neutral0": "hsl(218, 0%, 100%)",
+                      "neutral10": "hsl(218, 10%, 90%)",
+                      "neutral20": "hsl(218, 15%, 80%)",
+                      "neutral30": "hsl(218, 20%, 70%)",
+                      "neutral40": "hsl(218, 25%, 60%)",
+                      "neutral5": "hsl(218, 5%, 95%)",
+                      "neutral50": "hsl(218, 30%, 50%)",
+                      "neutral60": "hsl(218, 35%, 40%)",
+                      "neutral70": "hsl(218, 40%, 30%)",
+                      "neutral80": "hsl(218, 45%, 20%)",
+                      "neutral90": "hsl(218, 50%, 10%)",
+                      "primary": "#2684FF",
+                      "primary25": "#DEEBFF",
+                      "primary50": "#B2D4FF",
+                      "primary75": "#4C9AFF",
+                    },
+                    "spacing": Object {
+                      "baseUnit": 4,
+                      "controlHeight": 38,
+                      "menuGutter": 8,
+                    },
+                  }
+                }
               >
                 <div
                   className="css-1hwfws3"
@@ -348,6 +435,35 @@ exports[`defaults - snapshot 1`] = `
                       }
                     }
                     setValue={[Function]}
+                    theme={
+                      Object {
+                        "borderRadius": 4,
+                        "colors": Object {
+                          "danger": "#DE350B",
+                          "dangerLight": "#FFBDAD",
+                          "neutral0": "hsl(218, 0%, 100%)",
+                          "neutral10": "hsl(218, 10%, 90%)",
+                          "neutral20": "hsl(218, 15%, 80%)",
+                          "neutral30": "hsl(218, 20%, 70%)",
+                          "neutral40": "hsl(218, 25%, 60%)",
+                          "neutral5": "hsl(218, 5%, 95%)",
+                          "neutral50": "hsl(218, 30%, 50%)",
+                          "neutral60": "hsl(218, 35%, 40%)",
+                          "neutral70": "hsl(218, 40%, 30%)",
+                          "neutral80": "hsl(218, 45%, 20%)",
+                          "neutral90": "hsl(218, 50%, 10%)",
+                          "primary": "#2684FF",
+                          "primary25": "#DEEBFF",
+                          "primary50": "#B2D4FF",
+                          "primary75": "#4C9AFF",
+                        },
+                        "spacing": Object {
+                          "baseUnit": 4,
+                          "controlHeight": 38,
+                          "menuGutter": 8,
+                        },
+                      }
+                    }
                   >
                     <div
                       className="css-11zjhuz"
@@ -371,6 +487,35 @@ exports[`defaults - snapshot 1`] = `
                     onFocus={[Function]}
                     spellCheck="false"
                     tabIndex="0"
+                    theme={
+                      Object {
+                        "borderRadius": 4,
+                        "colors": Object {
+                          "danger": "#DE350B",
+                          "dangerLight": "#FFBDAD",
+                          "neutral0": "hsl(218, 0%, 100%)",
+                          "neutral10": "hsl(218, 10%, 90%)",
+                          "neutral20": "hsl(218, 15%, 80%)",
+                          "neutral30": "hsl(218, 20%, 70%)",
+                          "neutral40": "hsl(218, 25%, 60%)",
+                          "neutral5": "hsl(218, 5%, 95%)",
+                          "neutral50": "hsl(218, 30%, 50%)",
+                          "neutral60": "hsl(218, 35%, 40%)",
+                          "neutral70": "hsl(218, 40%, 30%)",
+                          "neutral80": "hsl(218, 45%, 20%)",
+                          "neutral90": "hsl(218, 50%, 10%)",
+                          "primary": "#2684FF",
+                          "primary25": "#DEEBFF",
+                          "primary50": "#B2D4FF",
+                          "primary75": "#4C9AFF",
+                        },
+                        "spacing": Object {
+                          "baseUnit": 4,
+                          "controlHeight": 38,
+                          "menuGutter": 8,
+                        },
+                      }
+                    }
                     type="text"
                     value=""
                   >
@@ -404,6 +549,35 @@ exports[`defaults - snapshot 1`] = `
                         onFocus={[Function]}
                         spellCheck="false"
                         tabIndex="0"
+                        theme={
+                          Object {
+                            "borderRadius": 4,
+                            "colors": Object {
+                              "danger": "#DE350B",
+                              "dangerLight": "#FFBDAD",
+                              "neutral0": "hsl(218, 0%, 100%)",
+                              "neutral10": "hsl(218, 10%, 90%)",
+                              "neutral20": "hsl(218, 15%, 80%)",
+                              "neutral30": "hsl(218, 20%, 70%)",
+                              "neutral40": "hsl(218, 25%, 60%)",
+                              "neutral5": "hsl(218, 5%, 95%)",
+                              "neutral50": "hsl(218, 30%, 50%)",
+                              "neutral60": "hsl(218, 35%, 40%)",
+                              "neutral70": "hsl(218, 40%, 30%)",
+                              "neutral80": "hsl(218, 45%, 20%)",
+                              "neutral90": "hsl(218, 50%, 10%)",
+                              "primary": "#2684FF",
+                              "primary25": "#DEEBFF",
+                              "primary50": "#B2D4FF",
+                              "primary75": "#4C9AFF",
+                            },
+                            "spacing": Object {
+                              "baseUnit": 4,
+                              "controlHeight": 38,
+                              "menuGutter": 8,
+                            },
+                          }
+                        }
                         type="text"
                         value=""
                       >
@@ -440,6 +614,35 @@ exports[`defaults - snapshot 1`] = `
                               }
                             }
                             tabIndex="0"
+                            theme={
+                              Object {
+                                "borderRadius": 4,
+                                "colors": Object {
+                                  "danger": "#DE350B",
+                                  "dangerLight": "#FFBDAD",
+                                  "neutral0": "hsl(218, 0%, 100%)",
+                                  "neutral10": "hsl(218, 10%, 90%)",
+                                  "neutral20": "hsl(218, 15%, 80%)",
+                                  "neutral30": "hsl(218, 20%, 70%)",
+                                  "neutral40": "hsl(218, 25%, 60%)",
+                                  "neutral5": "hsl(218, 5%, 95%)",
+                                  "neutral50": "hsl(218, 30%, 50%)",
+                                  "neutral60": "hsl(218, 35%, 40%)",
+                                  "neutral70": "hsl(218, 40%, 30%)",
+                                  "neutral80": "hsl(218, 45%, 20%)",
+                                  "neutral90": "hsl(218, 50%, 10%)",
+                                  "primary": "#2684FF",
+                                  "primary25": "#DEEBFF",
+                                  "primary50": "#B2D4FF",
+                                  "primary75": "#4C9AFF",
+                                },
+                                "spacing": Object {
+                                  "baseUnit": 4,
+                                  "controlHeight": 38,
+                                  "menuGutter": 8,
+                                },
+                              }
+                            }
                             type="text"
                             value=""
                           />
@@ -525,6 +728,35 @@ exports[`defaults - snapshot 1`] = `
                   }
                 }
                 setValue={[Function]}
+                theme={
+                  Object {
+                    "borderRadius": 4,
+                    "colors": Object {
+                      "danger": "#DE350B",
+                      "dangerLight": "#FFBDAD",
+                      "neutral0": "hsl(218, 0%, 100%)",
+                      "neutral10": "hsl(218, 10%, 90%)",
+                      "neutral20": "hsl(218, 15%, 80%)",
+                      "neutral30": "hsl(218, 20%, 70%)",
+                      "neutral40": "hsl(218, 25%, 60%)",
+                      "neutral5": "hsl(218, 5%, 95%)",
+                      "neutral50": "hsl(218, 30%, 50%)",
+                      "neutral60": "hsl(218, 35%, 40%)",
+                      "neutral70": "hsl(218, 40%, 30%)",
+                      "neutral80": "hsl(218, 45%, 20%)",
+                      "neutral90": "hsl(218, 50%, 10%)",
+                      "primary": "#2684FF",
+                      "primary25": "#DEEBFF",
+                      "primary50": "#B2D4FF",
+                      "primary75": "#4C9AFF",
+                    },
+                    "spacing": Object {
+                      "baseUnit": 4,
+                      "controlHeight": 38,
+                      "menuGutter": 8,
+                    },
+                  }
+                }
               >
                 <div
                   className="css-1wy0on6"
@@ -593,6 +825,35 @@ exports[`defaults - snapshot 1`] = `
                       }
                     }
                     setValue={[Function]}
+                    theme={
+                      Object {
+                        "borderRadius": 4,
+                        "colors": Object {
+                          "danger": "#DE350B",
+                          "dangerLight": "#FFBDAD",
+                          "neutral0": "hsl(218, 0%, 100%)",
+                          "neutral10": "hsl(218, 10%, 90%)",
+                          "neutral20": "hsl(218, 15%, 80%)",
+                          "neutral30": "hsl(218, 20%, 70%)",
+                          "neutral40": "hsl(218, 25%, 60%)",
+                          "neutral5": "hsl(218, 5%, 95%)",
+                          "neutral50": "hsl(218, 30%, 50%)",
+                          "neutral60": "hsl(218, 35%, 40%)",
+                          "neutral70": "hsl(218, 40%, 30%)",
+                          "neutral80": "hsl(218, 45%, 20%)",
+                          "neutral90": "hsl(218, 50%, 10%)",
+                          "primary": "#2684FF",
+                          "primary25": "#DEEBFF",
+                          "primary50": "#B2D4FF",
+                          "primary75": "#4C9AFF",
+                        },
+                        "spacing": Object {
+                          "baseUnit": 4,
+                          "controlHeight": 38,
+                          "menuGutter": 8,
+                        },
+                      }
+                    }
                   >
                     <span
                       className="css-1etbf2r"
@@ -669,6 +930,35 @@ exports[`defaults - snapshot 1`] = `
                       }
                     }
                     setValue={[Function]}
+                    theme={
+                      Object {
+                        "borderRadius": 4,
+                        "colors": Object {
+                          "danger": "#DE350B",
+                          "dangerLight": "#FFBDAD",
+                          "neutral0": "hsl(218, 0%, 100%)",
+                          "neutral10": "hsl(218, 10%, 90%)",
+                          "neutral20": "hsl(218, 15%, 80%)",
+                          "neutral30": "hsl(218, 20%, 70%)",
+                          "neutral40": "hsl(218, 25%, 60%)",
+                          "neutral5": "hsl(218, 5%, 95%)",
+                          "neutral50": "hsl(218, 30%, 50%)",
+                          "neutral60": "hsl(218, 35%, 40%)",
+                          "neutral70": "hsl(218, 40%, 30%)",
+                          "neutral80": "hsl(218, 45%, 20%)",
+                          "neutral90": "hsl(218, 50%, 10%)",
+                          "primary": "#2684FF",
+                          "primary25": "#DEEBFF",
+                          "primary50": "#B2D4FF",
+                          "primary75": "#4C9AFF",
+                        },
+                        "spacing": Object {
+                          "baseUnit": 4,
+                          "controlHeight": 38,
+                          "menuGutter": 8,
+                        },
+                      }
+                    }
                   >
                     <div
                       aria-hidden="true"
