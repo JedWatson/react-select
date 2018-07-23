@@ -40,3 +40,5 @@ export const defaultTheme: Theme = {
   colors,
   spacing,
 };
+
+export type ThemeConfig = Theme | ((theme: Theme) => Theme);

@@ -47,7 +47,7 @@ import {
 } from './components/index';
 
 import { defaultStyles, type StylesConfig } from './styles';
-import { defaultTheme } from './theme';
+import { defaultTheme, type ThemeConfig } from './theme';
 
 import type {
   ActionMeta,
@@ -213,6 +213,8 @@ export type Props = {
   screenReaderStatus: ({ count: number }) => string,
   /* Style modifier methods */
   styles: StylesConfig,
+  /* Theme modifier method */
+  theme?: ThemeConfig,
   /* Sets the tabIndex attribute on the input */
   tabIndex: string,
   /* Select the currently focused option when the user presses tab */
@@ -656,7 +658,22 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   getTheme() {
-    return defaultTheme;
+    // Use the default theme if there are no customizations.
+    if (!this.props.theme) {
+      return defaultTheme;
+    }
+    // If the theme prop is a function, assume the function
+    // knows how to merge the passed-in default theme with
+    // its own modifications.
+    if (typeof this.props.theme === 'function') {
+      return this.props.theme(defaultTheme);
+    }
+    // Otherwise, if a plain theme object was passed in,
+    // overlay it with the default theme.
+    return {
+      ...defaultTheme,
+      ...this.props.theme,
+    };
   }
 
   getCommonProps() {
