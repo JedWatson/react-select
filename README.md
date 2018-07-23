@@ -23,7 +23,7 @@ Improvements include:
 
 If you're interested in the background, watch Jed's [talk on React Select](https://youtu.be/Eb2wy-HNGMo) at ReactNYC in March 2018.
 
-See our [upgrade guide](https:/react-select.com/upgrade-guide) for a breakdown on how to upgrade from v1 to v2.
+See our [upgrade guide](https://react-select.com/upgrade-guide) for a breakdown on how to upgrade from v1 to v2.
 
 The old docs and examples will continue to be available at [v1.react-select.com](https://v1.react-select.com).
 
