@@ -17,8 +17,8 @@ module.exports = {
         rimraf('lib/__tests__')
       ),
       rollup: 'rollup --config',
-      babel: 'babel src -d lib',
-      watch: 'babel src -d lib -w',
+      babel: 'cross-env BABEL_ENV=cjs babel src -d lib',
+      watch: 'cross-env BABEL_ENV=cjs babel src -d lib -w',
       flowtype: {
         description: 'make flow types available to consumers',
         default: concurrent.nps('build.flowtype.lib'),

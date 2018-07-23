@@ -1,14 +1,3 @@
 {
-  "plugins": [
-    "emotion",
-    "transform-class-properties",
-    "transform-object-rest-spread"
-  ],
-  "presets": ["env", "react"],
-  "ignore": ["node_modules"],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  "presets": ["./.babelrc.js"]
 }

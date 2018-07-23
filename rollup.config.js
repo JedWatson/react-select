@@ -21,14 +21,10 @@ const globals = {
 const external = Object.keys(globals);
 const babelOptions = () => {
   let result = {
-    babelrc: false,
-    presets: [['env', { modules: false }], 'react'],
     plugins: [
-      'emotion',
-      'transform-class-properties',
-      'transform-object-rest-spread',
       'external-helpers',
     ],
+    exclude: 'node_modules/**',
   };
   return result;
 };
