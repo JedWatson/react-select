@@ -21,6 +21,7 @@ exports[`defaults - snapshot 1`] = `
       blurInputOnSelect={true}
       cacheOptions={false}
       captureMenuScroll={false}
+      closeMenuOnScroll={false}
       closeMenuOnSelect={true}
       components={Object {}}
       controlShouldRenderValue={true}
@@ -88,6 +89,7 @@ exports[`defaults - snapshot 1`] = `
             "blurInputOnSelect": true,
             "cacheOptions": false,
             "captureMenuScroll": false,
+            "closeMenuOnScroll": false,
             "closeMenuOnSelect": true,
             "components": Object {},
             "controlShouldRenderValue": true,
@@ -163,6 +165,7 @@ exports[`defaults - snapshot 1`] = `
                 "blurInputOnSelect": true,
                 "cacheOptions": false,
                 "captureMenuScroll": false,
+                "closeMenuOnScroll": false,
                 "closeMenuOnSelect": true,
                 "components": Object {},
                 "controlShouldRenderValue": true,
@@ -231,6 +234,7 @@ exports[`defaults - snapshot 1`] = `
                     "blurInputOnSelect": true,
                     "cacheOptions": false,
                     "captureMenuScroll": false,
+                    "closeMenuOnScroll": false,
                     "closeMenuOnSelect": true,
                     "components": Object {},
                     "controlShouldRenderValue": true,
@@ -298,6 +302,7 @@ exports[`defaults - snapshot 1`] = `
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
                         "captureMenuScroll": false,
+                        "closeMenuOnScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
@@ -474,6 +479,7 @@ exports[`defaults - snapshot 1`] = `
                     "blurInputOnSelect": true,
                     "cacheOptions": false,
                     "captureMenuScroll": false,
+                    "closeMenuOnScroll": false,
                     "closeMenuOnSelect": true,
                     "components": Object {},
                     "controlShouldRenderValue": true,
@@ -541,6 +547,7 @@ exports[`defaults - snapshot 1`] = `
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
                         "captureMenuScroll": false,
+                        "closeMenuOnScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
@@ -616,6 +623,7 @@ exports[`defaults - snapshot 1`] = `
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
                         "captureMenuScroll": false,
+                        "closeMenuOnScroll": false,
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
