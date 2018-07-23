@@ -23,6 +23,7 @@ export type Props = SelectProps & AsyncProps;
 export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
+  filterOption: null,
 };
 
 type State = {
@@ -167,7 +168,6 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
             this.select = ref;
           }}
           options={options}
-          filterOption={null}
           isLoading={isLoading}
           onInputChange={this.handleInputChange}
         />
