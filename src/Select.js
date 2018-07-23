@@ -805,6 +805,7 @@ class Select extends React.Component {
 	}
 
 	renderValue (valueArray, isOpen) {
+    const orderValue = this.props.orderValue;
 		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
 		let ValueComponent = this.props.valueComponent;
 		if (!valueArray.length) {
@@ -813,7 +814,7 @@ class Select extends React.Component {
 		}
 		let onClick = this.props.onValueClick ? this.handleValueClick : null;
 		if (this.props.multi) {
-			return valueArray.map((value, i) => {
+			return orderValue(valueArray).map((value, i) => {
 				return (
 					<ValueComponent
 						disabled={this.props.disabled || value.clearableValue === false}
@@ -1244,12 +1245,13 @@ Select.propTypes = {
 	optionComponent: PropTypes.func,      // option component to render in dropdown
 	optionRenderer: PropTypes.func,       // optionRenderer: function (option) {}
 	options: PropTypes.array,             // array of options
+  orderValue: PropTypes.func,           // function that gets values array and returns sorted values array
 	pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
 	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
 	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
 	required: PropTypes.bool,             // applies HTML5 required attribute when needed
 	resetValue: PropTypes.any,            // value to use when you clear the control
-	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
+  rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
 	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
 	searchable: PropTypes.bool,           // whether to enable searching feature or not
 	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
@@ -1261,7 +1263,7 @@ Select.propTypes = {
 	valueComponent: PropTypes.func,       // value component to render
 	valueKey: PropTypes.string,           // path of the label value in option objects
 	valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
-	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
+  wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
 };
 
 Select.defaultProps = {
@@ -1307,7 +1309,8 @@ Select.defaultProps = {
 	tabSelectsValue: true,
  	trimFilter: true,
 	valueComponent: Value,
-	valueKey: 'value',
+  valueKey: 'value',
+  orderValue: (value) => value,
 };
 
 export default Select;

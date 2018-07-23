@@ -15,6 +15,7 @@ import NumericSelect from './components/NumericSelect';
 import BooleanSelect from './components/BooleanSelect';
 import Virtualized from './components/Virtualized';
 import States from './components/States';
+import OrderedValues from './components/OrderedValues';
 
 ReactDOM.render(
 	<div>
@@ -30,7 +31,8 @@ ReactDOM.render(
 		<Creatable
 			hint="Enter a value that's NOT in the list, then hit return"
 			label="Custom tag creation"
-		/>
+    />
+    <OrderedValues label="Ordered Values Display" />
 	</div>,
 	document.getElementById('example')
 );
