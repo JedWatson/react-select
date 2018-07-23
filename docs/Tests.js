@@ -68,7 +68,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             autoFocus
             id={`basic-select-${idSuffix}`}
             instanceId={`basic-select-${idSuffix}`}
-            className="react-select"
+            classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             styles={{
               menuPortal: base => ({ ...base, zIndex: 999 }),
@@ -100,7 +100,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           <SelectComp
             id={`grouped-options-${idSuffix}`}
             instancePrefix={`grouped-options-${idSuffix}`}
-            className="react-select"
+            classNamePrefix="react-select"
             defaultValue={colourOptions[1]}
             options={groupedOptions}
           />
@@ -124,7 +124,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           <SelectComp
             id={`portalled-select-${idSuffix}`}
             instanceId={`portalled-select-${idSuffix}`}
-            className="react-select"
+            classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             options={colourOptions}
             menuPortalTarget={menuPortalTarget}
@@ -202,7 +202,7 @@ export default function Tests() {
         <Select
           id="multi-select"
           instanceId="multi-select"
-          className="react-select"
+          classNamePrefix="react-select"
           defaultValue={[colourOptions[2], colourOptions[3]]}
           isMulti
           options={colourOptions}
@@ -214,7 +214,7 @@ export default function Tests() {
         <Select
           id="long-value-select"
           instsanceId="long-value-select"
-          className="react-select"
+          classNamePrefix="react-select"
           defaultValue={optionLength[3]}
           options={optionLength}
         />
