@@ -3,7 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
-import isEqual from 'react-fast-compare';
+import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
 import {
