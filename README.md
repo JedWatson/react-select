@@ -8,9 +8,9 @@
 
 A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
-## V2 Alpha
+## V2 
 
-This is an experimental branch for the new v2 react-select component. Explanation and Docs to be written.
+v2.0.0 is out :tada: :tada:, for a comprehensive break down of how to upgrade from v1 to v2, please see our [upgrade guide](https:/react-select.com/upgrade-guide), otherwise feel free to peruse our new [docs](https://react-select.com), for v1 examples please see [v1.react-select.com.](https://v1.react-select.com); for v1 docs, see [here](https://github.com/JedWatson/react-select/tree/v2).
 
 ## License
 
