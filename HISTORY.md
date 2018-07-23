@@ -1,6 +1,7 @@
 # React-Select
 
-## v2.0.0
+## v2.0.0 / 2018-07-23
+
 * async select now accepts a filterOptions function as a prop [#2822](https://github.com/JedWatson/react-select/pull/2822)
 * [BREAKING] react-select now exports react-select.esm.js from dist instead of react-select.es.js [#2641](https://github.com/JedWatson/react-select/pull/2641)
 * [BREAKING] innerRef assignments in custom components must now be made from the root of the prop object, as opposed to reaching into innerProps. This is part of the work to normalize the behaviour circa custom components. [#2824](https://github.com/JedWatson/react-select/pull/2824)
@@ -13,6 +14,7 @@
 * [#2652](https://github.com/JedWatson/react-select/pull/2652), Async Select now re-evaluates defaultOptions on componentWillReceiveProps. Thanks [jesstelford](https://github.com/jesstelford)
 
 ## v2.0.0-beta.7 / 2018-07-03
+
 * Removed old aria-attributes in Option, MenuList and other components in favor of an aria-live-region implementation. `screenReaderStatus` prop is still at the moment untouched, and `aria-labelledby` and `aria-label` props are still available and retain their functionality. See [#2581](https://github.com/JedWatson/react-select/pull/2581).
 * Internal ref `input` is now `inputRef` for consistency.
 * Internal ref `menuRef` is now `menuListRef` for consistency.
@@ -32,6 +34,7 @@
 * [#2717](https://github.com/JedWatson/react-select/pull/2717) added selected value to onChange to accommodate multi-select, thanks [SimeonC](https://github.com/simeonc)
 
 ## v2.0.0-beta.6 / 2018-05-23
+
 * Fixed bug with `css` attribute being wrongly applied to a DOM element in SingleValue. Thanks [guigs](http://github.com/guigs)
 * Added `removedValue` to the `actionMeta` of the `remove-value` action that's passed into the `onChange` prop.
 * Reverted previous change of `innerRef` in `innerProps` of custom Components to `ref`. The property is now once again named `innerRef`. This is mostly to resolve issues with styled-components not passing `ref` down to wrapped dom elements, however this is also a safer pattern to apply as it requires users providing their own custom components to explicitly associate the passed down ref with the requisite dom element.
@@ -40,6 +43,7 @@
 * Added touch handling logic to detect user intent to scroll the page when interacting with the select control.  
 
 ## v2.0.0-beta.5 / 2018-05-18
+
 * Added `controlShouldRenderValue` prop, defaults to true. Setting it to false disables rendering values in the control. Thanks[Joss Mackison](http://github.com/jossmac)
 
 ## v2.0.0-beta.4 / 2018-05-15

@@ -122,6 +122,8 @@ Check the docs for more information on:
 
 Thank you to everyone who has contributed to this project. It's been a wild ride.
 
+If you like React Select, you should [follow me on twitter](https://twitter.com/jedwatson)
+
 Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://github.com/gwyneplaine), [Ben Conolly](https://github.com/Noviny), [Dave Brotherstone](https://github.com/bruderstein), [Brian Vaughn](https://github.com/bvaughn), and the Atlassian Design System team ❤️
 
 ## License
