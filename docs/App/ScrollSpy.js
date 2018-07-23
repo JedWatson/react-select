@@ -52,7 +52,6 @@ export default class ScrollSpy extends Component<Props, State> {
     if (!elements.length) return;
 
     const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
-    console.log(idsInView);
     if (idsInView.length) {
       onChange(idsInView);
     }
