@@ -23,7 +23,6 @@ export type Props = SelectProps & AsyncProps;
 export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
-  filterOption: null,
 };
 
 type State = {
@@ -164,6 +163,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
         // $FlowFixMe
         <SelectComponent
           {...props}
+          filterOption={this.props.filterOption || null}
           ref={ref => {
             this.select = ref;
           }}
