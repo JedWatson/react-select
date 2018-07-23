@@ -10,8 +10,10 @@ Please don't file GitHub issues to ask questions. Use Stack Overflow with a [#re
 Please include a test case that demonstrates the issue you're reporting!
 This is very helpful to maintainers in order to help us see the issue you're seeing.
 
-Here is a Plunker you can fork that has react-select loaded and supports JSX syntax:
+Here is a Plunker you can fork that has react-select@1.0.0 loaded and supports JSX syntax:
 https://plnkr.co/edit/dHygFMWWqVwaRAfpEmbn?p=preview
+
+To report bugs for 2.0.0-beta, use this Plunker: https://plnkr.co/edit/ZL4avXNXjwXzCpP7ffoY?p=preview
 
 You may also find the [online Babel tool](https://babeljs.io/repl/) quite helpful if you wish to use ES6/ES7 syntax not yet supported by the browser you are using.
 
