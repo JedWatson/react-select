@@ -1288,6 +1288,11 @@ export default class Select extends Component<Props, State> {
             isFocused={isFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
+            labelProps={{
+              onClick: () => undefined,
+              onTouchEnd: () => undefined,
+              onMouseDown: () => undefined
+            }}
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
