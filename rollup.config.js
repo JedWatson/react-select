@@ -7,6 +7,8 @@ import uglify from 'rollup-plugin-uglify';
 import { minify } from 'uglify-es';
 import pkg from './package.json';
 
+const uniq = arr => [...new Set(arr)];
+
 const name = 'Select';
 const path = 'dist/react-select';
 const globals = {
@@ -40,7 +42,11 @@ export default [
       file: pkg.module,
       format: 'es',
     },
-    external: [...external, 'raf'],
+    external: uniq([
+      ...external,
+      ...Object.keys(pkg.dependencies || {}),
+      ...Object.keys(pkg.peerDependencies || {}),
+    ]),
     plugins: [babel(babelOptions())],
   },
 
