@@ -1,5 +1,17 @@
 # React-Select
 
+## v1.3.0 / 2018-06-23
+* [#2777](https://github.com/JedWatson/react-select/pull/2777) pass entire event to `shouldKeyDownEventCreateNewOption`
+* Fix to [#2764](https://github.com/JedWatson/react-select/issues/2764) [#2775](https://github.com/JedWatson/react-select/pull/2775) fix html compliance
+* [#1436](https://github.com/JedWatson/react-select/pull/1436) Add option to show new creatable item as first or last option. [Stenerson](https://github.com/Stenerson)
+* Fix to [#2239](https://github.com/JedWatson/react-select/issues/2239), [#2314](https://github.com/JedWatson/react-select/pull/2314). Thanks [ytiurin](https://github.com/ytiurin)
+* Use template literals in favor of string concatenation. [#2325](https://github.com/JedWatson/react-select/pull/2325/files)
+* Add values to ValuesComponent in multi-select [#2362](https://github.com/JedWatson/react-select/pull/2362), thanks [misantronic](https://github.com/misantronic)
+* [#2376](https://github.com/JedWatson/react-select/pull/2376) Selected disabled items are now flagged with CSS class, thanks [wijnbladh](https://github.com/JedWatson/wijnbladh)
+* [#2465](https://github.com/JedWatson/react-select/pull/2465) Remain focused on option after selecting, thanks [tpbowden](https://github.com/tpbowden)
+*  [#2736](https://github.com/JedWatson/react-select/pull/2736), FocusedOption now cleared on open of the menu. thanks [jmatth](https://github.com/jmatth)
+* [#2704](https://github.com/JedWatson/react-select/pull/2704), fix to [#1620](https://github.com/JedWatson/react-select/issues/1620). Thanks [sumthief](https://github.com/sumthief)
+
 ## v1.2.1 / 2018-01-13
 
 * Fixed blocking the Del key when deleteRemoves is false, thanks [Nachtigall, Jens (init)](https://github.com/jnachtigall) - [see PR](https://github.com/JedWatson/react-select/pull/2291)

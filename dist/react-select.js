@@ -620,7 +620,7 @@ var Value = function (_React$Component) {
 		value: function render() {
 			return React__default.createElement(
 				'div',
-				{ className: classNames('Select-value', this.props.value.className),
+				{ className: classNames('Select-value', this.props.value.disabled ? 'Select-value-disabled' : '', this.props.value.className),
 					style: this.props.value.style,
 					title: this.props.value.title
 				},
@@ -826,19 +826,11 @@ var Select$1 = function (_React$Component) {
 	}, {
 		key: 'toggleTouchOutsideEvent',
 		value: function toggleTouchOutsideEvent(enabled) {
-			if (enabled) {
-				if (!document.addEventListener && document.attachEvent) {
-					document.attachEvent('ontouchstart', this.handleTouchOutside);
-				} else {
-					document.addEventListener('touchstart', this.handleTouchOutside);
-				}
-			} else {
-				if (!document.removeEventListener && document.detachEvent) {
-					document.detachEvent('ontouchstart', this.handleTouchOutside);
-				} else {
-					document.removeEventListener('touchstart', this.handleTouchOutside);
-				}
-			}
+			var eventTogglerName = enabled ? document.addEventListener ? 'addEventListener' : 'attachEvent' : document.removeEventListener ? 'removeEventListener' : 'detachEvent';
+			var pref = document.addEventListener ? '' : 'on';
+
+			document[eventTogglerName](pref + 'touchstart', this.handleTouchOutside);
+			document[eventTogglerName](pref + 'mousedown', this.handleTouchOutside);
 		}
 	}, {
 		key: 'handleTouchOutside',
@@ -908,7 +900,8 @@ var Select$1 = function (_React$Component) {
 				} else if (!this.state.isOpen) {
 					this.setState({
 						isOpen: true,
-						isPseudoFocused: false
+						isPseudoFocused: false,
+						focusedOption: null
 					});
 				}
 
@@ -923,7 +916,8 @@ var Select$1 = function (_React$Component) {
 				// This code means that if a select is searchable, onClick the options menu will not appear, only on subsequent click will it open.
 				this.focus();
 				return this.setState({
-					isOpen: !this.state.isOpen
+					isOpen: !this.state.isOpen,
+					focusedOption: null
 				});
 			}
 
@@ -1324,6 +1318,9 @@ var Select$1 = function (_React$Component) {
 			});
 			var lastValueIndex = visibleOptions.indexOf(value);
 			this.setValue(valueArray.concat(value));
+			if (!this.props.closeOnSelect) {
+				return;
+			}
 			if (visibleOptions.length - 1 === lastValueIndex) {
 				// the last option was selected; focus the second-last one
 				this.focusOption(visibleOptions[lastValueIndex - 1]);
@@ -1533,7 +1530,8 @@ var Select$1 = function (_React$Component) {
 							onClick: onClick,
 							onRemove: _this5.removeValue,
 							placeholder: _this5.props.placeholder,
-							value: value
+							value: value,
+							values: valueArray
 						},
 						renderLabel(value, i),
 						React__default.createElement(
@@ -1584,7 +1582,6 @@ var Select$1 = function (_React$Component) {
 				'aria-label': this.props['aria-label'],
 				'aria-labelledby': this.props['aria-labelledby'],
 				'aria-owns': ariaOwns,
-				className: className,
 				onBlur: this.handleInputBlur,
 				onChange: this.handleInputChange,
 				onFocus: this.handleInputFocus,
@@ -1626,7 +1623,7 @@ var Select$1 = function (_React$Component) {
 			}
 
 			if (this.props.autosize) {
-				return React__default.createElement(AutosizeInput, _extends({ id: this.props.id }, inputProps, { minWidth: '5' }));
+				return React__default.createElement(AutosizeInput, _extends({ id: this.props.id }, inputProps, { className: className, minWidth: '5' }));
 			}
 			return React__default.createElement(
 				'div',
@@ -1893,7 +1890,7 @@ var Select$1 = function (_React$Component) {
 						style: this.props.style
 					},
 					React__default.createElement(
-						'span',
+						'div',
 						{ className: 'Select-multi-value-wrapper', id: this._instancePrefix + '-value' },
 						this.renderValue(valueArray, isOpen),
 						this.renderInput(valueArray, focusedOptionIndex)
@@ -2316,7 +2313,8 @@ var CreatableSelect = function (_React$Component) {
 			var _props2 = this.props,
 			    filterOptions$$1 = _props2.filterOptions,
 			    isValidNewOption = _props2.isValidNewOption,
-			    promptTextCreator = _props2.promptTextCreator;
+			    promptTextCreator = _props2.promptTextCreator,
+			    showNewOptionAtTop = _props2.showNewOptionAtTop;
 
 			// TRICKY Check currently selected options as well.
 			// Don't display a create-prompt for a value that's selected.
@@ -2352,7 +2350,11 @@ var CreatableSelect = function (_React$Component) {
 						valueKey: this.valueKey
 					});
 
-					filteredOptions.unshift(this._createPlaceholderOption);
+					if (showNewOptionAtTop) {
+						filteredOptions.unshift(this._createPlaceholderOption);
+					} else {
+						filteredOptions.push(this._createPlaceholderOption);
+					}
 				}
 			}
 
@@ -2410,7 +2412,7 @@ var CreatableSelect = function (_React$Component) {
 
 			var focusedOption = this.select.getFocusedOption();
 
-			if (focusedOption && focusedOption === this._createPlaceholderOption && shouldKeyDownEventCreateNewOption({ keyCode: event.keyCode })) {
+			if (focusedOption && focusedOption === this._createPlaceholderOption && shouldKeyDownEventCreateNewOption(event)) {
 				this.createNewOption();
 
 				// Prevent decorated Select from doing anything additional with this keyDown event
@@ -2546,7 +2548,8 @@ CreatableSelect.defaultProps = {
 	menuRenderer: menuRenderer,
 	newOptionCreator: newOptionCreator,
 	promptTextCreator: promptTextCreator,
-	shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption
+	shouldKeyDownEventCreateNewOption: shouldKeyDownEventCreateNewOption,
+	showNewOptionAtTop: true
 };
 
 CreatableSelect.propTypes = {
@@ -2593,7 +2596,12 @@ CreatableSelect.propTypes = {
 	ref: PropTypes.func,
 
 	// Decides if a keyDown event (eg its `keyCode`) should result in the creation of a new option.
-	shouldKeyDownEventCreateNewOption: PropTypes.func
+	shouldKeyDownEventCreateNewOption: PropTypes.func,
+
+	// Where to show prompt/placeholder option text.
+	// true: new option prompt at top of list (default)
+	// false: new option prompt at bottom of list
+	showNewOptionAtTop: PropTypes.bool
 };
 
 var AsyncCreatableSelect = function (_React$Component) {
