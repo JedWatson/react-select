@@ -4,6 +4,7 @@ exports[`defaults - snapshot 1`] = `
 <Async
   cacheOptions={false}
   defaultOptions={false}
+  filterOption={null}
 >
   <StateManager
     cacheOptions={false}
