@@ -251,6 +251,7 @@ type State = {
   ariaLiveContext: string,
   inputIsHidden: boolean,
   isFocused: boolean,
+  isComposing: boolean,
   focusedOption: OptionType | null,
   focusedValue: OptionType | null,
   menuOptions: MenuOptions,
@@ -270,6 +271,7 @@ export default class Select extends Component<Props, State> {
     focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
+    isComposing: false,
     menuOptions: { render: [], focusable: [] },
     selectValue: [],
   };
@@ -328,6 +330,7 @@ export default class Select extends Component<Props, State> {
     this.state.selectValue = selectValue;
   }
   componentDidMount() {
+    this.startListeningComposition();
     this.startListeningToTouch();
 
     if (this.props.autoFocus) {
@@ -382,6 +385,7 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = false;
   }
   componentWillUnmount() {
+    this.stopListeningComposition();
     this.stopListeningToTouch();
   }
   cacheComponents = (components: SelectComponents) => {
@@ -815,6 +819,33 @@ export default class Select extends Component<Props, State> {
   };
 
   // ==============================
+  // Composition Handlers
+  // ==============================
+
+  startListeningComposition() {
+    if (document && document.addEventListener) {
+      document.addEventListener('compositionstart', this.onCompositionStart, false);
+      document.addEventListener('compositionend', this.onCompositionEnd, false);
+    }
+  }
+  stopListeningComposition() {
+    if (document && document.removeEventListener) {
+      document.removeEventListener('compositionstart', this.onCompositionStart);
+      document.removeEventListener('compositionend', this.onCompositionEnd);
+    }
+  }
+  onCompositionStart = () => {
+    this.setState({
+      isComposing: true,
+    });
+  };
+  onCompositionEnd = () => {
+    this.setState({
+      isComposing: false,
+    });
+  };
+
+  // ==============================
   // Touch Handlers
   // ==============================
 
@@ -945,7 +976,12 @@ export default class Select extends Component<Props, State> {
       tabSelectsValue,
       openMenuOnFocus,
     } = this.props;
-    const { focusedOption, focusedValue, selectValue } = this.state;
+    const {
+      isComposing,
+      focusedOption,
+      focusedValue,
+      selectValue,
+    } = this.state;
 
     if (isDisabled) return;
 
@@ -993,6 +1029,7 @@ export default class Select extends Component<Props, State> {
       case 'Enter':
         if (menuIsOpen) {
           if (!focusedOption) return;
+          if (isComposing) return;
           this.selectOption(focusedOption);
         } else {
           this.focusOption('first');
