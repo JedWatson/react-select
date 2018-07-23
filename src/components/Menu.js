@@ -319,7 +319,7 @@ export type MenuListProps = {
   /** The children to be rendered. */
   children: Node,
   /** Inner ref to DOM Node */
-  innerProps: { innerRef: InnerRef },
+  innerRef: InnerRef,
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -333,8 +333,7 @@ export const menuListCSS = ({ maxHeight }: MenuState) => ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerProps } = props;
-  const { innerRef } = innerProps;
+  const { children, className, cx, getStyles, isMulti, innerRef } = props;
   return (
     <div
       className={cx(

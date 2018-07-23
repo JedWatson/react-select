@@ -1,6 +1,6 @@
 // @flow
 import memoize from 'memoize-one';
-import isEqual from 'react-fast-compare';
+import isEqual from '../internal/react-fast-compare';
 import { type SelectComponents, defaultComponents } from '../components/index';
 import { default as AnimatedInput } from './Input';
 import { default as AnimatedMultiValue } from './MultiValue';
