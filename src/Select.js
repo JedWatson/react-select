@@ -1513,7 +1513,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerProps.innerRef = isFocused
+      props.innerRef = isFocused
         ? this.getFocusedOptionRef
         : undefined;
 
