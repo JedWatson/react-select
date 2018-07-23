@@ -24,7 +24,7 @@ var ValuesAsBooleansField = createClass({
 	render () {
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/BooleanSelect.js">(Source)</a></h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/v1.x/examples/src/components/BooleanSelect.js">(Source)</a></h3>
 				<Select
 					onChange={this.onChange}
 					options={this.state.options}

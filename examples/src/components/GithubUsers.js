@@ -65,7 +65,7 @@ const GithubUsers = createClass({
 
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/GithubUsers.js">(Source)</a></h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/v1.x/examples/src/components/GithubUsers.js">(Source)</a></h3>
 				<AsyncComponent multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoUser} valueKey="id" labelKey="login" loadOptions={this.getUsers} backspaceRemoves={this.state.backspaceRemoves} />
 				<div className="checkbox-list">
 					<label className="checkbox">
