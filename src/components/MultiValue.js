@@ -13,6 +13,7 @@ export type ValueProps = LabelProps & {
   components: any,
   innerProps: any,
   isFocused: boolean,
+  isFixed: boolean,
   isDisabled: boolean,
   removeProps: {
     onTouchEnd: any => void,
@@ -29,12 +30,13 @@ export const multiValueCSS = () => ({
   margin: spacing.baseUnit / 2,
   minWidth: 0, // resolves flex/text-overflow bug
 });
-export const multiValueLabelCSS = ({ cropWithEllipsis }: MultiValueProps) => ({
+export const multiValueLabelCSS = ({ cropWithEllipsis, data, selectProps }: MultiValueProps) => ({
   color: colors.text,
   fontSize: '85%',
   overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
+  paddingRight: selectProps.isOptionFixed(data) ? 6 : 3,
   textOverflow: cropWithEllipsis ? 'ellipsis' : null,
   whiteSpace: 'nowrap',
 });
@@ -82,10 +84,12 @@ class MultiValue extends Component<MultiValueProps> {
       className,
       components,
       cx,
+      data,
       getStyles,
       innerProps,
       isDisabled,
       removeProps,
+      selectProps
     } = this.props;
     const cn = {
       container: cx(
@@ -98,6 +102,7 @@ class MultiValue extends Component<MultiValueProps> {
         css(getStyles('multiValueLabel', this.props)),
         {
           'multi-value__label': true,
+          'multi-value__label--is-fixed': data.isFixed
         }, className),
       remove: cx(
         css(getStyles('multiValueRemove', this.props),), {
@@ -114,7 +119,7 @@ class MultiValue extends Component<MultiValueProps> {
         <Label className={cn.label}>
           {children}
         </Label>
-        <Remove className={cn.remove} {...removeProps} />
+        {!selectProps.isOptionFixed(data) && <Remove className={cn.remove} {...removeProps} />}
       </Container>
     );
   }

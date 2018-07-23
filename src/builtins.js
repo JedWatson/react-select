@@ -10,3 +10,6 @@ export const getOptionValue = (option: OptionType): string => option.value;
 
 export const isOptionDisabled = (option: OptionType): boolean =>
   !!option.isDisabled;
+
+export const isOptionFixed = (option: OptionType): boolean =>
+  !!option.isFixed;
