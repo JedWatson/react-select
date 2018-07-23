@@ -195,7 +195,7 @@ For example, to render a custom \`Option\` component:
 ~~~js
 components={{
   Option: ({ children, innerProps }) => (
-    <div className="custom-option" {...innerProps}>
+    <div className="custom-option" ref={innerRef} {...innerProps}>
       {children}
     </div>
   )
@@ -213,8 +213,12 @@ understand are:
 * \`getStyles\` - a function that will return an object containing the styles
   for the component. If you have specified custom style modifiers, they will be
   executed by this function.
+* \`innerRef\` - additional some components need to expose a ref to
+  the base Select component, to facilitate internally managed behaviour.
+  We specify this as innerRef to avoid collision with React's reserved \`ref\`
+  keyword when we spread props.
 
-You don't _have_ to use these props, and are free to implement whatever - but
+Aside from innerRef (where applicable), you don't _have_ to use these props, and are free to implement whatever - but
 they are intended to help make custom implementations easier to manage.
 
 See the [Components Documentation](/components) for more details and
