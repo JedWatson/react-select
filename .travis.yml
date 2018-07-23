@@ -1,8 +1,0 @@
-sudo: false
-language: node_js
-node_js:
-  - "v4"
-script:
-  - npm run lint
-  - npm run test
-  - npm run coveralls

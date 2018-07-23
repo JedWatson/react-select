@@ -1,0 +1,5 @@
+{
+  "baseUrl": "http://localhost:8000/cypress-tests",
+  "screenshotOnHeadlessFailure": false,
+  "videoRecording": false
+}

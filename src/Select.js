@@ -1,1313 +1,1731 @@
-/*!
-  Copyright (c) 2018 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/react-select
-*/
-import AutosizeInput from 'react-input-autosize';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { findDOMNode } from 'react-dom';
+// @flow
 
-import defaultArrowRenderer from './utils/defaultArrowRenderer';
-import defaultClearRenderer from './utils/defaultClearRenderer';
-import defaultFilterOptions from './utils/defaultFilterOptions';
-import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import React, { Component, type ElementRef, type Node } from 'react';
 
-import Option from './Option';
-import Value from './Value';
+import memoizeOne from 'memoize-one';
+import isEqual from './internal/react-fast-compare';
 
-const stringifyValue = value =>
-	typeof value === 'string'
-		? value
-		: (value !== null && JSON.stringify(value)) || '';
+import { createFilter } from './filters';
+import {
+  A11yText,
+  DummyInput,
+  ScrollBlock,
+  ScrollCaptor,
+} from './internal/index';
+import {
+  valueFocusAriaMessage,
+  optionFocusAriaMessage,
+  resultsAriaMessage,
+  valueEventAriaMessage,
+  instructionsAriaMessage,
+  type InstructionsContext,
+  type ValueEventContext,
+} from './accessibility/index';
 
-const stringOrNode = PropTypes.oneOfType([
-	PropTypes.string,
-	PropTypes.node,
-]);
-const stringOrNumber = PropTypes.oneOfType([
-	PropTypes.string,
-	PropTypes.number
-]);
+import {
+  classNames,
+  cleanValue,
+  isTouchCapable,
+  isMobileDevice,
+  noop,
+  scrollIntoView,
+  isDocumentElement,
+} from './utils';
+
+import {
+  formatGroupLabel,
+  getOptionLabel,
+  getOptionValue,
+  isOptionDisabled,
+} from './builtins';
+
+import {
+  defaultComponents,
+  type PlaceholderOrValue,
+  type SelectComponents,
+  type SelectComponentsConfig,
+} from './components/index';
+import { defaultStyles, type StylesConfig } from './styles';
+
+import type {
+  ActionMeta,
+  ActionTypes,
+  FocusDirection,
+  FocusEventHandler,
+  GroupType,
+  InputActionMeta,
+  KeyboardEventHandler,
+  MenuPlacement,
+  MenuPosition,
+  OptionsType,
+  OptionType,
+  ValueType,
+} from './types';
+
+type MouseOrTouchEvent =
+  | SyntheticMouseEvent<HTMLElement>
+  | SyntheticTouchEvent<HTMLElement>;
+type FormatOptionLabelContext = 'menu' | 'value';
+type FormatOptionLabelMeta = {
+  context: FormatOptionLabelContext,
+  inputValue: string,
+  selectValue: ValueType,
+};
+
+export type Props = {
+  /* Aria label (for assistive tech) */
+  'aria-label'?: string,
+  /* HTML ID of an element that should be used as the label (for assistive tech) */
+  'aria-labelledby'?: string,
+  /* Focus the control when it is mounted */
+  autoFocus?: boolean,
+  /* Remove the currently focused option when the user presses backspace */
+  backspaceRemovesValue: boolean,
+  /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
+  blurInputOnSelect: boolean,
+  /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
+  captureMenuScroll: boolean,
+  /* className attribute applied to the outer component */
+  className?: string,
+  /* classNamePrefix attribute used as a base for inner component classNames */
+  classNamePrefix?: string | null,
+  /* Close the select menu when the user selects an option */
+  closeMenuOnSelect: boolean,
+  /*
+     If `true`, close the select menu when the user scrolls the document/body.
+
+     If a function, takes a standard javascript `ScrollEvent` you return a boolean:
+
+     `true` => The menu closes
+
+     `false` => The menu stays open
+
+     This is useful when you have a scrollable modal and want to portal the menu out,
+     but want to avoid graphical issues.
+   */
+  closeMenuOnScroll: boolean | EventListener,
+  /*
+    This complex object includes all the compositional components that are used
+    in `react-select`. If you wish to overwrite a component, pass in an object
+    with the appropriate namespace.
+
+    If you only wish to restyle a component, we recommend using the `styles` prop
+    instead. For a list of the components that can be passed in, and the shape
+    that will be passed to them, see [the components docs](/api#components)
+  */
+  components: SelectComponentsConfig,
+  /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
+  controlShouldRenderValue: boolean,
+  /* Delimiter used to join multiple values into a single HTML Input value */
+  delimiter?: string,
+  /* Clear all values when the user presses escape AND the menu is closed */
+  escapeClearsValue: boolean,
+  /* Custom method to filter whether an option should be displayed in the menu */
+  filterOption: ((Object, string) => boolean) | null,
+  /* Formats group labels in the menu as React components */
+  formatGroupLabel: typeof formatGroupLabel,
+  /* Formats option labels in the menu and control as React components */
+  formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
+  /* Resolves option data to a string to be displayed as the label by components */
+  getOptionLabel: typeof getOptionLabel,
+  /* Resolves option data to a string to compare options and specify value attributes */
+  getOptionValue: typeof getOptionValue,
+  /* Hide the selected option from the menu */
+  hideSelectedOptions: boolean,
+  /* The id to set on the SelectContainer component. */
+  id?: string,
+  /* The value of the search input */
+  inputValue: string,
+  /* The id of the search input */
+  inputId?: string,
+  /* Define an id prefix for the select components e.g. {your-id}-value */
+  instanceId?: number | string,
+  /* Is the select value clearable */
+  isClearable?: boolean,
+  /* Is the select disabled */
+  isDisabled: boolean,
+  /* Is the select in a state of loading (async) */
+  isLoading: boolean,
+  /* Override the built-in logic to detect whether an option is disabled */
+  isOptionDisabled: (OptionType, OptionsType) => boolean | false,
+  /* Override the built-in logic to detect whether an option is selected */
+  isOptionSelected?: (OptionType, OptionsType) => boolean,
+  /* Support multiple selected options */
+  isMulti: boolean,
+  /* Is the select direction right-to-left */
+  isRtl: boolean,
+  /* Whether to enable search functionality */
+  isSearchable: boolean,
+  /* Async: Text to display when loading options */
+  loadingMessage: ({ inputValue: string }) => string | null,
+  /* Minimum height of the menu before flipping */
+  minMenuHeight: number,
+  /* Maximum height of the menu before scrolling */
+  maxMenuHeight: number,
+  /* Whether the menu is open */
+  menuIsOpen: boolean,
+  /* Default placement of the menu in relation to the control. 'auto' will flip
+     when there isn't enough space below the control. */
+  menuPlacement: MenuPlacement,
+  /* The CSS position value of the menu, when "fixed" extra layout management is required */
+  menuPosition: MenuPosition,
+  /* Whether the menu should use a portal, and where it should attach */
+  menuPortalTarget?: HTMLElement,
+  /* Whether to block scroll events when the menu is open */
+  menuShouldBlockScroll: boolean,
+  /* Whether the menu should be scrolled into view when it opens */
+  menuShouldScrollIntoView: boolean,
+  /* Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string,
+  /* Text to display when there are no options */
+  noOptionsMessage: ({ inputValue: string }) => string | null,
+  /* Handle blur events on the control */
+  onBlur?: FocusEventHandler,
+  /* Handle change events on the select */
+  onChange: (ValueType, ActionMeta) => void,
+  /* Handle focus events on the control */
+  onFocus?: FocusEventHandler,
+  /* Handle change events on the input */
+  onInputChange: (string, InputActionMeta) => void,
+  /* Handle key down events on the select */
+  onKeyDown?: KeyboardEventHandler,
+  /* Handle the menu opening */
+  onMenuOpen: () => void,
+  /* Handle the menu closing */
+  onMenuClose: () => void,
+  /* Fired when the user scrolls to the top of the menu */
+  onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
+  /* Fired when the user scrolls to the bottom of the menu */
+  onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
+  /* Allows control of whether the menu is opened when the Select is focused */
+  openMenuOnFocus: boolean,
+  /* Allows control of whether the menu is opened when the Select is clicked */
+  openMenuOnClick: boolean,
+  /* Array of options that populate the select menu */
+  options: OptionsType,
+  /* Number of options to jump in menu when page{up|down} keys are used */
+  pageSize: number,
+  /* Placeholder text for the select value */
+  placeholder: string,
+  /* Status to relay to screen readers */
+  screenReaderStatus: ({ count: number }) => string,
+  /* Style modifier methods */
+  styles: StylesConfig,
+  /* Sets the tabIndex attribute on the input */
+  tabIndex: string,
+  /* Select the currently focused option when the user presses tab */
+  tabSelectsValue: boolean,
+  /* The value of the select; reflected by the selected option */
+  value: ValueType,
+};
+
+export const defaultProps = {
+  backspaceRemovesValue: true,
+  blurInputOnSelect: isTouchCapable(),
+  captureMenuScroll: !isTouchCapable(),
+  closeMenuOnSelect: true,
+  closeMenuOnScroll: false,
+  components: {},
+  controlShouldRenderValue: true,
+  escapeClearsValue: false,
+  filterOption: createFilter(),
+  formatGroupLabel: formatGroupLabel,
+  getOptionLabel: getOptionLabel,
+  getOptionValue: getOptionValue,
+  isDisabled: false,
+  isLoading: false,
+  isMulti: false,
+  isRtl: false,
+  isSearchable: true,
+  isOptionDisabled: isOptionDisabled,
+  loadingMessage: () => 'Loading...',
+  maxMenuHeight: 300,
+  minMenuHeight: 140,
+  menuIsOpen: false,
+  menuPlacement: 'bottom',
+  menuPosition: 'absolute',
+  menuShouldBlockScroll: false,
+  menuShouldScrollIntoView: !isMobileDevice(),
+  noOptionsMessage: () => 'No options',
+  openMenuOnFocus: false,
+  openMenuOnClick: true,
+  options: [],
+  pageSize: 5,
+  placeholder: 'Select...',
+  screenReaderStatus: ({ count }: { count: number }) =>
+    `${count} result${count !== 1 ? 's' : ''} available`,
+  styles: {},
+  tabIndex: '0',
+  tabSelectsValue: true,
+};
+
+type MenuOptions = {
+  render: Array<OptionType>,
+  focusable: Array<OptionType>,
+};
+
+type State = {
+  ariaLiveSelection: string,
+  ariaLiveContext: string,
+  inputIsHidden: boolean,
+  isFocused: boolean,
+  isComposing: boolean,
+  focusedOption: OptionType | null,
+  focusedValue: OptionType | null,
+  menuOptions: MenuOptions,
+  selectValue: OptionsType,
+};
+
+type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const shouldShowValue = (state, props) => {
-	const { inputValue, isPseudoFocused, isFocused } = state;
-	const { onSelectResetsInput } = props;
-
-	if (!inputValue) return true;
-
-	if (!onSelectResetsInput){
-		return !(!isFocused && isPseudoFocused || isFocused && !isPseudoFocused);
-	}
-
-	return false;
-};
-
-const shouldShowPlaceholder = (state, props, isOpen) => {
-	const { inputValue, isPseudoFocused, isFocused } = state;
-	const { onSelectResetsInput } = props;
-
-	return !inputValue || !onSelectResetsInput && !isOpen && !isPseudoFocused && !isFocused;
-};
-
-/**
- * Retrieve a value from the given options and valueKey
- * @param {String|Number|Array} value	- the selected value(s)
- * @param {Object}		 props	- the Select component's props (or nextProps)
- */
-const expandValue = (value, props) => {
-	const valueType = typeof value;
-	if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') return value;
-	let { options, valueKey } = props;
-	if (!options) return;
-	for (let i = 0; i < options.length; i++) {
-		if (String(options[i][valueKey]) === String(value)) return options[i];
-	}
-};
-
-const handleRequired = (value, multi) => {
-	if (!value) return true;
-	return (multi ? value.length === 0 : Object.keys(value).length === 0);
-};
-
-class Select extends React.Component {
-	constructor (props) {
-		super(props);
-		[
-			'clearValue',
-			'focusOption',
-			'getOptionLabel',
-			'handleInputBlur',
-			'handleInputChange',
-			'handleInputFocus',
-			'handleInputValueChange',
-			'handleKeyDown',
-			'handleMenuScroll',
-			'handleMouseDown',
-			'handleMouseDownOnArrow',
-			'handleMouseDownOnMenu',
-			'handleTouchEnd',
-			'handleTouchEndClearValue',
-			'handleTouchMove',
-			'handleTouchOutside',
-			'handleTouchStart',
-			'handleValueClick',
-			'onOptionRef',
-			'removeValue',
-			'selectValue',
-		].forEach((fn) => this[fn] = this[fn].bind(this));
-
-		this.state = {
-			inputValue: '',
-			isFocused: false,
-			isOpen: false,
-			isPseudoFocused: false,
-			required: false,
-		};
-	}
-
-	componentWillMount () {
-		this._instancePrefix = `react-select-${(this.props.instanceId || ++instanceId)}-`;
-		const valueArray = this.getValueArray(this.props.value);
-
-		if (this.props.required) {
-			this.setState({
-				required: handleRequired(valueArray[0], this.props.multi),
-			});
-		}
-	}
-
-	componentDidMount () {
-		if (typeof this.props.autofocus !== 'undefined' && typeof console !== 'undefined') {
-			console.warn('Warning: The autofocus prop has changed to autoFocus, support will be removed after react-select@1.0');
-		}
-		if (this.props.autoFocus || this.props.autofocus) {
-			this.focus();
-		}
-	}
-
-	componentWillReceiveProps (nextProps) {
-		const valueArray = this.getValueArray(nextProps.value, nextProps);
-
-		if (nextProps.required) {
-			this.setState({
-				required: handleRequired(valueArray[0], nextProps.multi),
-			});
-		} else if (this.props.required) {
-			// Used to be required but it's not any more
-			this.setState({ required: false });
-		}
-
-		if (this.state.inputValue && this.props.value !== nextProps.value && nextProps.onSelectResetsInput) {
-			this.setState({ inputValue: this.handleInputValueChange('') });
-		}
-	}
-
-	componentDidUpdate (prevProps, prevState) {
-		// focus to the selected option
-		if (this.menu && this.focused && this.state.isOpen && !this.hasScrolledToOption) {
-			const focusedOptionNode = findDOMNode(this.focused);
-			let menuNode = findDOMNode(this.menu);
-
-			const scrollTop = menuNode.scrollTop;
-			const scrollBottom = scrollTop + menuNode.offsetHeight;
-			const optionTop = focusedOptionNode.offsetTop;
-			const optionBottom = optionTop + focusedOptionNode.offsetHeight;
-
-			if (scrollTop > optionTop || scrollBottom < optionBottom) {
-				menuNode.scrollTop = focusedOptionNode.offsetTop;
-			}
-
-			// We still set hasScrolledToOption to true even if we didn't
-			// actually need to scroll, as we've still confirmed that the
-			// option is in view.
-			this.hasScrolledToOption = true;
-		} else if (!this.state.isOpen) {
-			this.hasScrolledToOption = false;
-		}
-
-		if (this._scrollToFocusedOptionOnUpdate && this.focused && this.menu) {
-			this._scrollToFocusedOptionOnUpdate = false;
-			const focusedDOM = findDOMNode(this.focused);
-			let menuDOM = findDOMNode(this.menu);
-			const focusedRect = focusedDOM.getBoundingClientRect();
-			const menuRect = menuDOM.getBoundingClientRect();
-			if (focusedRect.bottom > menuRect.bottom) {
-				menuDOM.scrollTop = (focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight);
-			} else if (focusedRect.top < menuRect.top) {
-				menuDOM.scrollTop = focusedDOM.offsetTop;
-			}
-		}
-		if (this.props.scrollMenuIntoView && this.menuContainer) {
-			const menuContainerRect = this.menuContainer.getBoundingClientRect();
-			if (window.innerHeight < menuContainerRect.bottom + this.props.menuBuffer) {
-				window.scrollBy(0, menuContainerRect.bottom + this.props.menuBuffer - window.innerHeight);
-			}
-		}
-		if (prevProps.disabled !== this.props.disabled) {
-			this.setState({ isFocused: false }); // eslint-disable-line react/no-did-update-set-state
-			this.closeMenu();
-		}
-		if (prevState.isOpen !== this.state.isOpen) {
-			this.toggleTouchOutsideEvent(this.state.isOpen);
-			const handler = this.state.isOpen ? this.props.onOpen : this.props.onClose;
-			handler && handler();
-		}
-	}
-
-	componentWillUnmount () {
-		this.toggleTouchOutsideEvent(false);
-	}
-
-	toggleTouchOutsideEvent (enabled) {
-		var eventTogglerName = enabled ?
-			(document.addEventListener ? 'addEventListener' : 'attachEvent') :
-			(document.removeEventListener ? 'removeEventListener' : 'detachEvent');
-		var pref = document.addEventListener ? '' : 'on';
-
-		document[eventTogglerName](pref + 'touchstart', this.handleTouchOutside);
-		document[eventTogglerName](pref + 'mousedown', this.handleTouchOutside);
-	}
-
-	handleTouchOutside (event) {
-		// handle touch outside on ios to dismiss menu
-		if (this.wrapper && !this.wrapper.contains(event.target)) {
-			this.closeMenu();
-		}
-	}
-
-	focus () {
-		if (!this.input) return;
-		this.input.focus();
-	}
-
-	blurInput () {
-		if (!this.input) return;
-		this.input.blur();
-	}
-
-	handleTouchMove () {
-		// Set a flag that the view is being dragged
-		this.dragging = true;
-	}
-
-	handleTouchStart () {
-		// Set a flag that the view is not being dragged
-		this.dragging = false;
-	}
-
-	handleTouchEnd (event) {
-		// Check if the view is being dragged, In this case
-		// we don't want to fire the click event (because the user only wants to scroll)
-		if (this.dragging) return;
-
-		// Fire the mouse events
-		this.handleMouseDown(event);
-	}
-
-	handleTouchEndClearValue (event) {
-		// Check if the view is being dragged, In this case
-		// we don't want to fire the click event (because the user only wants to scroll)
-		if (this.dragging) return;
-
-		// Clear the value
-		this.clearValue(event);
-	}
-
-	handleMouseDown (event) {
-		// if the event was triggered by a mousedown and not the primary
-		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
-			return;
-		}
-
-		if (event.target.tagName === 'INPUT') {
-			if (!this.state.isFocused) {
-				this._openAfterFocus = this.props.openOnClick;
-				this.focus();
-			} else if (!this.state.isOpen) {
-				this.setState({
-					isOpen: true,
-					isPseudoFocused: false,
-					focusedOption: null,
-				});
-			}
-
-			return;
-		}
-
-		// prevent default event handlers
-		event.preventDefault();
-
-		// for the non-searchable select, toggle the menu
-		if (!this.props.searchable) {
-			// This code means that if a select is searchable, onClick the options menu will not appear, only on subsequent click will it open.
-			this.focus();
-			return this.setState({
-				isOpen: !this.state.isOpen,
-				focusedOption: null,
-			});
-		}
-
-		if (this.state.isFocused) {
-			// On iOS, we can get into a state where we think the input is focused but it isn't really,
-			// since iOS ignores programmatic calls to input.focus() that weren't triggered by a click event.
-			// Call focus() again here to be safe.
-			this.focus();
-
-			let input = this.input;
-			let toOpen = true;
-
-			if (typeof input.getInput === 'function') {
-				// Get the actual DOM input if the ref is an <AutosizeInput /> component
-				input = input.getInput();
-			}
-
-			// clears the value so that the cursor will be at the end of input when the component re-renders
-			input.value = '';
-
-			if (this._focusAfterClear) {
-				toOpen = false;
-				this._focusAfterClear = false;
-			}
-
-			// if the input is focused, ensure the menu is open
-			this.setState({
-				isOpen: toOpen,
-				isPseudoFocused: false,
-				focusedOption: null,
-			});
-		} else {
-			// otherwise, focus the input and open the menu
-			this._openAfterFocus = this.props.openOnClick;
-			this.focus();
-			this.setState({ focusedOption: null });
-		}
-	}
-
-	handleMouseDownOnArrow (event) {
-		// if the event was triggered by a mousedown and not the primary
-		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
-			return;
-		}
-
-		if (this.state.isOpen) {
-			// prevent default event handlers
-			event.stopPropagation();
-			event.preventDefault();
-			// close the menu
-			this.closeMenu();
-		} else {
-			// If the menu isn't open, let the event bubble to the main handleMouseDown
-			this.setState({
-				isOpen: true,
-			});
-		}
-	}
-
-	handleMouseDownOnMenu (event) {
-		// if the event was triggered by a mousedown and not the primary
-		// button, or if the component is disabled, ignore it.
-		if (this.props.disabled || (event.type === 'mousedown' && event.button !== 0)) {
-			return;
-		}
-
-		event.stopPropagation();
-		event.preventDefault();
-
-		this._openAfterFocus = true;
-		this.focus();
-	}
-
-	closeMenu () {
-		if(this.props.onCloseResetsInput) {
-			this.setState({
-				inputValue: this.handleInputValueChange(''),
-				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi,
-			});
-		} else {
-			this.setState({
-				isOpen: false,
-				isPseudoFocused: this.state.isFocused && !this.props.multi
-			});
-		}
-		this.hasScrolledToOption = false;
-	}
-
-	handleInputFocus (event) {
-		if (this.props.disabled) return;
-
-		let toOpen = this.state.isOpen || this._openAfterFocus || this.props.openOnFocus;
-		toOpen = this._focusAfterClear ? false : toOpen;  //if focus happens after clear values, don't open dropdown yet.
-
-		if (this.props.onFocus) {
-			this.props.onFocus(event);
-		}
-
-		this.setState({
-			isFocused: true,
-			isOpen: !!toOpen,
-		});
-
-		this._focusAfterClear = false;
-		this._openAfterFocus = false;
-	}
-
-	handleInputBlur (event) {
-		// The check for menu.contains(activeElement) is necessary to prevent IE11's scrollbar from closing the menu in certain contexts.
-		if (this.menu && (this.menu === document.activeElement || this.menu.contains(document.activeElement))) {
-			this.focus();
-			return;
-		}
-
-		if (this.props.onBlur) {
-			this.props.onBlur(event);
-		}
-		let onBlurredState = {
-			isFocused: false,
-			isOpen: false,
-			isPseudoFocused: false,
-		};
-		if (this.props.onBlurResetsInput) {
-			onBlurredState.inputValue = this.handleInputValueChange('');
-		}
-		this.setState(onBlurredState);
-	}
-
-	handleInputChange (event) {
-		let newInputValue = event.target.value;
-
-		if (this.state.inputValue !== event.target.value) {
-			newInputValue = this.handleInputValueChange(newInputValue);
-		}
-
-		this.setState({
-			inputValue: newInputValue,
-			isOpen: true,
-			isPseudoFocused: false,
-		});
-	}
-
-	setInputValue(newValue) {
-		if (this.props.onInputChange) {
-			let nextState = this.props.onInputChange(newValue);
-			if (nextState != null && typeof nextState !== 'object') {
-				newValue = '' + nextState;
-			}
-		}
-		this.setState({
-			inputValue: newValue
-		});
-	}
-
-	handleInputValueChange(newValue) {
-		if (this.props.onInputChange) {
-			let nextState = this.props.onInputChange(newValue);
-			// Note: != used deliberately here to catch undefined and null
-			if (nextState != null && typeof nextState !== 'object') {
-				newValue = '' + nextState;
-			}
-		}
-		return newValue;
-	}
-
-	handleKeyDown (event) {
-		if (this.props.disabled) return;
-
-		if (typeof this.props.onInputKeyDown === 'function') {
-			this.props.onInputKeyDown(event);
-			if (event.defaultPrevented) {
-				return;
-			}
-		}
-
-		switch (event.keyCode) {
-			case 8: // backspace
-				if (!this.state.inputValue && this.props.backspaceRemoves) {
-					event.preventDefault();
-					this.popValue();
-				}
-				break;
-			case 9: // tab
-				if (event.shiftKey || !this.state.isOpen || !this.props.tabSelectsValue) {
-					break;
-				}
-				event.preventDefault();
-				this.selectFocusedOption();
-				break;
-			case 13: // enter
-				event.preventDefault();
-				event.stopPropagation();
-				if (this.state.isOpen) {
-					this.selectFocusedOption();
-				} else {
-					this.focusNextOption();
-				}
-				break;
-			case 27: // escape
-				event.preventDefault();
-				if (this.state.isOpen) {
-					this.closeMenu();
-					event.stopPropagation();
-				} else if (this.props.clearable && this.props.escapeClearsValue) {
-					this.clearValue(event);
-					event.stopPropagation();
-				}
-				break;
-			case 32: // space
-				if (this.props.searchable) {
-					break;
-				}
-				event.preventDefault();
-				if (!this.state.isOpen) {
-					this.focusNextOption();
-					break;
-				}
-				event.stopPropagation();
-				this.selectFocusedOption();
-				break;
-			case 38: // up
-				event.preventDefault();
-				this.focusPreviousOption();
-				break;
-			case 40: // down
-				event.preventDefault();
-				this.focusNextOption();
-				break;
-			case 33: // page up
-				event.preventDefault();
-				this.focusPageUpOption();
-				break;
-			case 34: // page down
-				event.preventDefault();
-				this.focusPageDownOption();
-				break;
-			case 35: // end key
-				if (event.shiftKey) {
-					break;
-				}
-				event.preventDefault();
-				this.focusEndOption();
-				break;
-			case 36: // home key
-				if (event.shiftKey) {
-					break;
-				}
-				event.preventDefault();
-				this.focusStartOption();
-				break;
-			case 46: // delete
-				if (!this.state.inputValue && this.props.deleteRemoves) {
-					event.preventDefault();
-					this.popValue();
-				}
-				break;
-		}
-	}
-
-	handleValueClick (option, event) {
-		if (!this.props.onValueClick) return;
-		this.props.onValueClick(option, event);
-	}
-
-	handleMenuScroll (event) {
-		if (!this.props.onMenuScrollToBottom) return;
-		let { target } = event;
-		if (target.scrollHeight > target.offsetHeight && (target.scrollHeight - target.offsetHeight - target.scrollTop) <= 0) {
-			this.props.onMenuScrollToBottom();
-		}
-	}
-
-	getOptionLabel (op) {
-		return op[this.props.labelKey];
-	}
-
-	/**
-	 * Turns a value into an array from the given options
-	 * @param {String|Number|Array} value		- the value of the select input
-	 * @param {Object}		nextProps	- optionally specify the nextProps so the returned array uses the latest configuration
-	 * @returns	{Array}	the value of the select represented in an array
-	 */
-	getValueArray (value, nextProps = undefined) {
-		/** support optionally passing in the `nextProps` so `componentWillReceiveProps` updates will function as expected */
-		const props = typeof nextProps === 'object' ? nextProps : this.props;
-		if (props.multi) {
-			if (typeof value === 'string') {
-				value = value.split(props.delimiter);
-			}
-			if (!Array.isArray(value)) {
-				if (value === null || value === undefined) return [];
-				value = [value];
-			}
-			return value.map(value => expandValue(value, props)).filter(i => i);
-		}
-		const expandedValue = expandValue(value, props);
-		return expandedValue ? [expandedValue] : [];
-	}
-
-	setValue (value) {
-		if (this.props.autoBlur) {
-			this.blurInput();
-		}
-		if (this.props.required) {
-			const required = handleRequired(value, this.props.multi);
-			this.setState({ required });
-		}
-		if (this.props.simpleValue && value) {
-			value = this.props.multi ? value.map(i => i[this.props.valueKey]).join(this.props.delimiter) : value[this.props.valueKey];
-		}
-		if (this.props.onChange) {
-			this.props.onChange(value);
-		}
-	}
-
-	selectValue (value) {
-		// NOTE: we actually add/set the value in a callback to make sure the
-		// input value is empty to avoid styling issues in Chrome
-		if (this.props.closeOnSelect) {
-			this.hasScrolledToOption = false;
-		}
-		const updatedValue = this.props.onSelectResetsInput ? '' : this.state.inputValue;
-		if (this.props.multi) {
-			this.setState({
-				focusedIndex: null,
-				inputValue: this.handleInputValueChange(updatedValue),
-				isOpen: !this.props.closeOnSelect,
-			}, () => {
-				const valueArray = this.getValueArray(this.props.value);
-				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
-					this.removeValue(value);
-				} else {
-					this.addValue(value);
-				}
-			});
-		} else {
-			this.setState({
-				inputValue: this.handleInputValueChange(updatedValue),
-				isOpen: !this.props.closeOnSelect,
-				isPseudoFocused: this.state.isFocused,
-			}, () => {
-				this.setValue(value);
-			});
-		}
-	}
-
-	addValue (value) {
-		let valueArray = this.getValueArray(this.props.value);
-		const visibleOptions = this._visibleOptions.filter(val => !val.disabled);
-		const lastValueIndex = visibleOptions.indexOf(value);
-		this.setValue(valueArray.concat(value));
-		if(!this.props.closeOnSelect) { return; }
-		if (visibleOptions.length - 1 === lastValueIndex) {
-			// the last option was selected; focus the second-last one
-			this.focusOption(visibleOptions[lastValueIndex - 1]);
-		} else if (visibleOptions.length > lastValueIndex) {
-			// focus the option below the selected one
-			this.focusOption(visibleOptions[lastValueIndex + 1]);
-		}
-	}
-
-	popValue () {
-		let valueArray = this.getValueArray(this.props.value);
-		if (!valueArray.length) return;
-		if (valueArray[valueArray.length-1].clearableValue === false) return;
-		this.setValue(this.props.multi ? valueArray.slice(0, valueArray.length - 1) : null);
-	}
-
-	removeValue (value) {
-		let valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
-		this.focus();
-	}
-
-	clearValue (event) {
-		// if the event was triggered by a mousedown and not the primary
-		// button, ignore it.
-		if (event && event.type === 'mousedown' && event.button !== 0) {
-			return;
-		}
-
-		event.preventDefault();
-
-		this.setValue(this.getResetValue());
-		this.setState({
-			inputValue: this.handleInputValueChange(''),
-			isOpen: false,
-		}, this.focus);
-
-		this._focusAfterClear = true;
-	}
-
-	getResetValue () {
-		if (this.props.resetValue !== undefined) {
-			return this.props.resetValue;
-		} else if (this.props.multi) {
-			return [];
-		} else {
-			return null;
-		}
-	}
-
-	focusOption (option) {
-		this.setState({
-			focusedOption: option
-		});
-	}
-
-	focusNextOption () {
-		this.focusAdjacentOption('next');
-	}
-
-	focusPreviousOption () {
-		this.focusAdjacentOption('previous');
-	}
-
-	focusPageUpOption () {
-		this.focusAdjacentOption('page_up');
-	}
-
-	focusPageDownOption () {
-		this.focusAdjacentOption('page_down');
-	}
-
-	focusStartOption () {
-		this.focusAdjacentOption('start');
-	}
-
-	focusEndOption () {
-		this.focusAdjacentOption('end');
-	}
-
-	focusAdjacentOption (dir) {
-		const options = this._visibleOptions
-			.map((option, index) => ({ option, index }))
-			.filter(option => !option.option.disabled);
-		this._scrollToFocusedOptionOnUpdate = true;
-		if (!this.state.isOpen) {
-			const newState = {
-				focusedOption: this._focusedOption || (options.length ? options[dir === 'next' ? 0 : options.length - 1].option : null),
-				isOpen: true,
-			};
-			if (this.props.onSelectResetsInput) {
-				newState.inputValue = '';
-			}
-			this.setState(newState);
-			return;
-		}
-		if (!options.length) return;
-		let focusedIndex = -1;
-		for (let i = 0; i < options.length; i++) {
-			if (this._focusedOption === options[i].option) {
-				focusedIndex = i;
-				break;
-			}
-		}
-		if (dir === 'next' && focusedIndex !== -1 ) {
-			focusedIndex = (focusedIndex + 1) % options.length;
-		} else if (dir === 'previous') {
-			if (focusedIndex > 0) {
-				focusedIndex = focusedIndex - 1;
-			} else {
-				focusedIndex = options.length - 1;
-			}
-		} else if (dir === 'start') {
-			focusedIndex = 0;
-		} else if (dir === 'end') {
-			focusedIndex = options.length - 1;
-		} else if (dir === 'page_up') {
-			const potentialIndex = focusedIndex - this.props.pageSize;
-			if (potentialIndex < 0) {
-				focusedIndex = 0;
-			} else {
-				focusedIndex = potentialIndex;
-			}
-		} else if (dir === 'page_down') {
-			const potentialIndex = focusedIndex + this.props.pageSize;
-			if (potentialIndex > options.length - 1) {
-				focusedIndex = options.length - 1;
-			} else {
-				focusedIndex = potentialIndex;
-			}
-		}
-
-		if (focusedIndex === -1) {
-			focusedIndex = 0;
-		}
-
-		this.setState({
-			focusedIndex: options[focusedIndex].index,
-			focusedOption: options[focusedIndex].option
-		});
-	}
-
-	getFocusedOption () {
-		return this._focusedOption;
-	}
-
-	selectFocusedOption () {
-		if (this._focusedOption) {
-			return this.selectValue(this._focusedOption);
-		}
-	}
-
-	renderLoading () {
-		if (!this.props.isLoading) return;
-		return (
-			<span className="Select-loading-zone" aria-hidden="true">
-				<span className="Select-loading" />
-			</span>
-		);
-	}
-
-	renderValue (valueArray, isOpen) {
-		let renderLabel = this.props.valueRenderer || this.getOptionLabel;
-		let ValueComponent = this.props.valueComponent;
-		if (!valueArray.length) {
-			const showPlaceholder = shouldShowPlaceholder(this.state, this.props, isOpen);
-			return showPlaceholder ? <div className="Select-placeholder">{this.props.placeholder}</div> : null;
-		}
-		let onClick = this.props.onValueClick ? this.handleValueClick : null;
-		if (this.props.multi) {
-			return valueArray.map((value, i) => {
-				return (
-					<ValueComponent
-						disabled={this.props.disabled || value.clearableValue === false}
-						id={`${this._instancePrefix}-value-${i}`}
-						instancePrefix={this._instancePrefix}
-						key={`value-${i}-${value[this.props.valueKey]}`}
-						onClick={onClick}
-						onRemove={this.removeValue}
-						placeholder={this.props.placeholder}
-						value={value}
-						values={valueArray}
-					>
-						{renderLabel(value, i)}
-						<span className="Select-aria-only">&nbsp;</span>
-					</ValueComponent>
-				);
-			});
-		} else if (shouldShowValue(this.state, this.props)) {
-			if (isOpen) onClick = null;
-			return (
-				<ValueComponent
-					disabled={this.props.disabled}
-					id={`${this._instancePrefix}-value-item`}
-					instancePrefix={this._instancePrefix}
-					onClick={onClick}
-					placeholder={this.props.placeholder}
-					value={valueArray[0]}
-				>
-					{renderLabel(valueArray[0])}
-				</ValueComponent>
-			);
-		}
-	}
-
-	renderInput (valueArray, focusedOptionIndex) {
-		const className = classNames('Select-input', this.props.inputProps.className);
-		const isOpen = this.state.isOpen;
-
-		const ariaOwns = classNames({
-			[`${this._instancePrefix}-list`]: isOpen,
-			[`${this._instancePrefix}-backspace-remove-message`]: this.props.multi
-				&& !this.props.disabled
-				&& this.state.isFocused
-				&& !this.state.inputValue
-		});
-
-		let value = this.state.inputValue;
-		if (value && !this.props.onSelectResetsInput && !this.state.isFocused){
-			// it hides input value when it is not focused and was not reset on select
-			value= '';
-		}
-
-		const inputProps = {
-			...this.props.inputProps,
-			'aria-activedescendant': isOpen ? `${this._instancePrefix}-option-${focusedOptionIndex}` : `${this._instancePrefix}-value`,
-			'aria-describedby': this.props['aria-describedby'],
-			'aria-expanded': '' + isOpen,
-			'aria-haspopup': '' + isOpen,
-			'aria-label': this.props['aria-label'],
-			'aria-labelledby': this.props['aria-labelledby'],
-			'aria-owns': ariaOwns,
-			onBlur: this.handleInputBlur,
-			onChange: this.handleInputChange,
-			onFocus: this.handleInputFocus,
-			ref: ref => this.input = ref,
-			role: 'combobox',
-			required: this.state.required,
-			tabIndex: this.props.tabIndex,
-			value,
-		};
-
-		if (this.props.inputRenderer) {
-			return this.props.inputRenderer(inputProps);
-		}
-
-		if (this.props.disabled || !this.props.searchable) {
-			const { ...divProps } = this.props.inputProps;
-
-			const ariaOwns = classNames({
-				[`${this._instancePrefix}-list`]: isOpen,
-			});
-			return (
-
-				<div
-					{...divProps}
-					aria-expanded={isOpen}
-					aria-owns={ariaOwns}
-					aria-activedescendant={isOpen ? `${this._instancePrefix}-option-${focusedOptionIndex}` : `${this._instancePrefix}-value`}
-					aria-disabled={'' + this.props.disabled}
-					aria-label={this.props['aria-label']}
-					aria-labelledby={this.props['aria-labelledby']}
-					className={className}
-					onBlur={this.handleInputBlur}
-					onFocus={this.handleInputFocus}
-					ref={ref => this.input = ref}
-					role="combobox"
-					style={{ border: 0, width: 1, display:'inline-block' }}
-					tabIndex={this.props.tabIndex || 0}
-				/>
-			);
-		}
-
-		if (this.props.autosize) {
-			return (
-				<AutosizeInput id={this.props.id} {...inputProps} className={className} minWidth="5" />
-			);
-		}
-		return (
-			<div className={ className } key="input-wrap" style={{ display: 'inline-block' }}>
-				<input id={this.props.id} {...inputProps} />
-			</div>
-		);
-	}
-
-	renderClear () {
-		const valueArray = this.getValueArray(this.props.value);
-		if (!this.props.clearable
-			|| !valueArray.length
-			|| this.props.disabled
-			|| this.props.isLoading) return;
-		const ariaLabel = this.props.multi ? this.props.clearAllText : this.props.clearValueText;
-		const clear = this.props.clearRenderer();
-
-		return (
-			<span
-				aria-label={ariaLabel}
-				className="Select-clear-zone"
-				onMouseDown={this.clearValue}
-				onTouchEnd={this.handleTouchEndClearValue}
-				onTouchMove={this.handleTouchMove}
-				onTouchStart={this.handleTouchStart}
-				title={ariaLabel}
-			>
-				{clear}
-			</span>
-		);
-	}
-
-	renderArrow () {
-		if (!this.props.arrowRenderer) return;
-
-		const onMouseDown = this.handleMouseDownOnArrow;
-		const isOpen = this.state.isOpen;
-		const arrow = this.props.arrowRenderer({ onMouseDown, isOpen });
-
-		if (!arrow) {
-			return null;
-		}
-
-		return (
-			<span
-				className="Select-arrow-zone"
-				onMouseDown={onMouseDown}
-			>
-				{arrow}
-			</span>
-		);
-	}
-
-	filterOptions (excludeOptions) {
-		const filterValue = this.state.inputValue;
-		const options = this.props.options || [];
-		if (this.props.filterOptions) {
-			// Maintain backwards compatibility with boolean attribute
-			const filterOptions = typeof this.props.filterOptions === 'function'
-				? this.props.filterOptions
-				: defaultFilterOptions;
-
-			return filterOptions(
-				options,
-				filterValue,
-				excludeOptions,
-				{
-					filterOption: this.props.filterOption,
-					ignoreAccents: this.props.ignoreAccents,
-					ignoreCase: this.props.ignoreCase,
-					labelKey: this.props.labelKey,
-					matchPos: this.props.matchPos,
-					matchProp: this.props.matchProp,
-					trimFilter: this.props.trimFilter,
-					valueKey: this.props.valueKey,
-				}
-			);
-		} else {
-			return options;
-		}
-	}
-
-	onOptionRef(ref, isFocused) {
-		if (isFocused) {
-			this.focused = ref;
-		}
-	}
-
-	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
-			return this.props.menuRenderer({
-				focusedOption,
-				focusOption: this.focusOption,
-				inputValue: this.state.inputValue,
-				instancePrefix: this._instancePrefix,
-				labelKey: this.props.labelKey,
-				onFocus: this.focusOption,
-				onOptionRef: this.onOptionRef,
-				onSelect: this.selectValue,
-				optionClassName: this.props.optionClassName,
-				optionComponent: this.props.optionComponent,
-				optionRenderer: this.props.optionRenderer || this.getOptionLabel,
-				options,
-				removeValue: this.removeValue,
-				selectValue: this.selectValue,
-				valueArray,
-				valueKey: this.props.valueKey,
-			});
-		} else if (this.props.noResultsText) {
-			return (
-				<div className="Select-noresults">
-					{this.props.noResultsText}
-				</div>
-			);
-		} else {
-			return null;
-		}
-	}
-
-	renderHiddenField (valueArray) {
-		if (!this.props.name) return;
-		if (this.props.joinValues) {
-			let value = valueArray.map(i => stringifyValue(i[this.props.valueKey])).join(this.props.delimiter);
-			return (
-				<input
-					disabled={this.props.disabled}
-					name={this.props.name}
-					ref={ref => this.value = ref}
-					type="hidden"
-					value={value}
-				/>
-			);
-		}
-		return valueArray.map((item, index) => (
-			<input
-				disabled={this.props.disabled}
-				key={`hidden.${index}`}
-				name={this.props.name}
-				ref={`value${index}`}
-				type="hidden"
-				value={stringifyValue(item[this.props.valueKey])}
-			/>
-		));
-	}
-
-	getFocusableOptionIndex (selectedOption) {
-		const options = this._visibleOptions;
-		if (!options.length) return null;
-
-		const valueKey = this.props.valueKey;
-		let focusedOption = this.state.focusedOption || selectedOption;
-		if (focusedOption && !focusedOption.disabled) {
-			let focusedOptionIndex = -1;
-			options.some((option, index) => {
-				const isOptionEqual = option[valueKey] === focusedOption[valueKey];
-				if (isOptionEqual) {
-					focusedOptionIndex = index;
-				}
-				return isOptionEqual;
-			});
-			if (focusedOptionIndex !== -1) {
-				return focusedOptionIndex;
-			}
-		}
-
-		for (let i = 0; i < options.length; i++) {
-			if (!options[i].disabled) return i;
-		}
-		return null;
-	}
-
-	renderOuter (options, valueArray, focusedOption) {
-		let menu = this.renderMenu(options, valueArray, focusedOption);
-		if (!menu) {
-			return null;
-		}
-
-		return (
-			<div ref={ref => this.menuContainer = ref} className="Select-menu-outer" style={this.props.menuContainerStyle}>
-				<div
-					className="Select-menu"
-					id={`${this._instancePrefix}-list`}
-					onMouseDown={this.handleMouseDownOnMenu}
-					onScroll={this.handleMenuScroll}
-					ref={ref => this.menu = ref}
-					role="listbox"
-					style={this.props.menuStyle}
-					tabIndex={-1}
-				>
-					{menu}
-				</div>
-			</div>
-		);
-	}
-
-	render () {
-		let valueArray = this.getValueArray(this.props.value);
-		let options = this._visibleOptions = this.filterOptions(this.props.multi && this.props.removeSelected ? valueArray : null);
-		let isOpen = this.state.isOpen;
-		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
-		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
-
-		let focusedOption = null;
-		if (focusedOptionIndex !== null) {
-			focusedOption = this._focusedOption = options[focusedOptionIndex];
-		} else {
-			focusedOption = this._focusedOption = null;
-		}
-		let className = classNames('Select', this.props.className, {
-			'has-value': valueArray.length,
-			'is-clearable': this.props.clearable,
-			'is-disabled': this.props.disabled,
-			'is-focused': this.state.isFocused,
-			'is-loading': this.props.isLoading,
-			'is-open': isOpen,
-			'is-pseudo-focused': this.state.isPseudoFocused,
-			'is-searchable': this.props.searchable,
-			'Select--multi': this.props.multi,
-			'Select--rtl': this.props.rtl,
-			'Select--single': !this.props.multi,
-		});
-
-		let removeMessage = null;
-		if (this.props.multi &&
-			!this.props.disabled &&
-			valueArray.length &&
-			!this.state.inputValue &&
-			this.state.isFocused &&
-			this.props.backspaceRemoves) {
-			removeMessage = (
-				<span id={`${this._instancePrefix}-backspace-remove-message`} className="Select-aria-only" aria-live="assertive">
-					{this.props.backspaceToRemoveMessage.replace('{label}', valueArray[valueArray.length - 1][this.props.labelKey])}
-				</span>
-			);
-		}
-
-		return (
-			<div ref={ref => this.wrapper = ref}
-				 className={className}
-				 style={this.props.wrapperStyle}>
-				{this.renderHiddenField(valueArray)}
-				<div ref={ref => this.control = ref}
-					className="Select-control"
-					onKeyDown={this.handleKeyDown}
-					onMouseDown={this.handleMouseDown}
-					onTouchEnd={this.handleTouchEnd}
-					onTouchMove={this.handleTouchMove}
-					onTouchStart={this.handleTouchStart}
-					style={this.props.style}
-				>
-					<div className="Select-multi-value-wrapper" id={`${this._instancePrefix}-value`}>
-						{this.renderValue(valueArray, isOpen)}
-						{this.renderInput(valueArray, focusedOptionIndex)}
-					</div>
-					{removeMessage}
-					{this.renderLoading()}
-					{this.renderClear()}
-					{this.renderArrow()}
-				</div>
-				{isOpen ? this.renderOuter(options, valueArray, focusedOption) : null}
-			</div>
-		);
-	}
+export default class Select extends Component<Props, State> {
+  static defaultProps = defaultProps;
+  state = {
+    ariaLiveSelection: '',
+    ariaLiveContext: '',
+    focusedOption: null,
+    focusedValue: null,
+    inputIsHidden: false,
+    isFocused: false,
+    isComposing: false,
+    menuOptions: { render: [], focusable: [] },
+    selectValue: [],
+  };
+
+  // Misc. Instance Properties
+  // ------------------------------
+
+  blockOptionHover: boolean = false;
+  clearFocusValueOnUpdate: boolean = false;
+  commonProps: any; // TODO
+  components: SelectComponents;
+  hasGroups: boolean = false;
+  initialTouchX: number = 0;
+  initialTouchY: number = 0;
+  inputIsHiddenAfterUpdate: ?boolean;
+  instancePrefix: string = '';
+  openAfterFocus: boolean = false;
+  scrollToFocusedOptionOnUpdate: boolean = false;
+  userIsDragging: ?boolean;
+
+  // Refs
+  // ------------------------------
+
+  controlRef: ElRef = null;
+  getControlRef = (ref: HTMLElement) => {
+    this.controlRef = ref;
+  };
+  focusedOptionRef: ElRef = null;
+  getFocusedOptionRef = (ref: HTMLElement) => {
+    this.focusedOptionRef = ref;
+  };
+  menuListRef: ElRef = null;
+  getMenuListRef = (ref: HTMLElement) => {
+    this.menuListRef = ref;
+  };
+  inputRef: ElRef = null;
+  getInputRef = (ref: HTMLElement) => {
+    this.inputRef = ref;
+  };
+
+  // Lifecycle
+  // ------------------------------
+
+  constructor(props: Props) {
+    super(props);
+    const { value } = props;
+    this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
+    this.cacheComponents(props.components);
+    this.instancePrefix =
+      'react-select-' + (this.props.instanceId || ++instanceId);
+
+    const selectValue = cleanValue(value);
+    const menuOptions = this.buildMenuOptions(props, selectValue);
+
+    this.state.menuOptions = menuOptions;
+    this.state.selectValue = selectValue;
+  }
+  componentDidMount() {
+    this.startListeningComposition();
+    this.startListeningToTouch();
+
+    if (this.props.closeMenuOnScroll && document && document.addEventListener) {
+      // Listen to all scroll events, and filter them out inside of 'onScroll'
+      document.addEventListener('scroll', this.onScroll, true);
+    }
+
+    if (this.props.autoFocus) {
+      this.focusInput();
+    }
+  }
+  componentWillReceiveProps(nextProps: Props) {
+    const { options, value, inputValue } = this.props;
+    // re-cache custom components
+    this.cacheComponents(nextProps.components);
+    // rebuild the menu options
+    if (
+      nextProps.value !== value ||
+      nextProps.options !== options ||
+      nextProps.inputValue !== inputValue
+    ) {
+      const selectValue = cleanValue(nextProps.value);
+      const menuOptions = this.buildMenuOptions(nextProps, selectValue);
+      const focusedValue = this.getNextFocusedValue(selectValue);
+      const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+      this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
+    }
+    // some updates should toggle the state of the input visibility
+    if (this.inputIsHiddenAfterUpdate != null) {
+      this.setState({
+        inputIsHidden: this.inputIsHiddenAfterUpdate,
+      });
+      delete this.inputIsHiddenAfterUpdate;
+    }
+  }
+  componentDidUpdate(prevProps: Props) {
+    const { isDisabled, menuIsOpen } = this.props;
+    const { isFocused } = this.state;
+
+    if (
+      // ensure focus is restored correctly when the control becomes enabled
+      (isFocused && !isDisabled && prevProps.isDisabled) ||
+      // ensure focus is on the Input when the menu opens
+      (isFocused && menuIsOpen && !prevProps.menuIsOpen)
+    ) {
+      this.focusInput();
+    }
+
+    // scroll the focused option into view if necessary
+    if (
+      this.menuListRef &&
+      this.focusedOptionRef &&
+      this.scrollToFocusedOptionOnUpdate
+    ) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
+    this.scrollToFocusedOptionOnUpdate = false;
+  }
+  componentWillUnmount() {
+    this.stopListeningComposition();
+    this.stopListeningToTouch();
+    document.removeEventListener('scroll', this.onScroll, true);
+  }
+  cacheComponents = (components: SelectComponents) => {
+    this.components = defaultComponents({ components });
+  };
+  // ==============================
+  // Consumer Handlers
+  // ==============================
+
+  onMenuOpen() {
+    this.props.onMenuOpen();
+  }
+  onMenuClose() {
+    const { isSearchable, isMulti } = this.props;
+    this.announceAriaLiveContext({
+      event: 'input',
+      context: { isSearchable, isMulti },
+    });
+    this.onInputChange('', { action: 'menu-close' });
+    this.props.onMenuClose();
+  }
+  onInputChange(newValue: string, actionMeta: InputActionMeta) {
+    this.props.onInputChange(newValue, actionMeta);
+  }
+
+  // ==============================
+  // Methods
+  // ==============================
+
+  focusInput() {
+    if (!this.inputRef) return;
+    this.inputRef.focus();
+  }
+  blurInput() {
+    if (!this.inputRef) return;
+    this.inputRef.blur();
+  }
+
+  // aliased for consumers
+  focus = this.focusInput;
+  blur = this.blurInput;
+
+  openMenu(focusOption: 'first' | 'last') {
+    const { menuOptions, selectValue } = this.state;
+    const { isMulti } = this.props;
+    let openAtIndex =
+      focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
+
+    if (!isMulti) {
+      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      if (selectedIndex > -1) {
+        openAtIndex = selectedIndex;
+      }
+    }
+
+    this.scrollToFocusedOptionOnUpdate = true;
+    this.inputIsHiddenAfterUpdate = false;
+
+    this.onMenuOpen();
+    this.setState({
+      focusedValue: null,
+      focusedOption: menuOptions.focusable[openAtIndex],
+    });
+
+    this.announceAriaLiveContext({ event: 'menu' });
+  }
+  focusValue(direction: 'previous' | 'next') {
+    const { isMulti, isSearchable } = this.props;
+    const { selectValue, focusedValue } = this.state;
+
+    // Only multiselects support value focusing
+    if (!isMulti) return;
+
+    this.setState({
+      focusedOption: null,
+    });
+
+    let focusedIndex = selectValue.indexOf(focusedValue);
+    if (!focusedValue) {
+      focusedIndex = -1;
+      this.announceAriaLiveContext({ event: 'value' });
+    }
+
+    const lastIndex = selectValue.length - 1;
+    let nextFocus = -1;
+    if (!selectValue.length) return;
+
+    switch (direction) {
+      case 'previous':
+        if (focusedIndex === 0) {
+          // don't cycle from the start to the end
+          nextFocus = 0;
+        } else if (focusedIndex === -1) {
+          // if nothing is focused, focus the last value first
+          nextFocus = lastIndex;
+        } else {
+          nextFocus = focusedIndex - 1;
+        }
+        break;
+      case 'next':
+        if (focusedIndex > -1 && focusedIndex < lastIndex) {
+          nextFocus = focusedIndex + 1;
+        }
+        break;
+    }
+
+    if (nextFocus === -1) {
+      this.announceAriaLiveContext({
+        event: 'input',
+        context: { isSearchable, isMulti },
+      });
+    }
+
+    this.setState({
+      inputIsHidden: nextFocus === -1 ? false : true,
+      focusedValue: selectValue[nextFocus],
+    });
+  }
+
+  focusOption(direction: FocusDirection = 'first') {
+    const { pageSize } = this.props;
+    const { focusedOption, menuOptions } = this.state;
+    const options = menuOptions.focusable;
+
+    if (!options.length) return;
+    let nextFocus = 0; // handles 'first'
+    let focusedIndex = options.indexOf(focusedOption);
+    if (!focusedOption) {
+      focusedIndex = -1;
+      this.announceAriaLiveContext({ event: 'menu' });
+    }
+
+    if (direction === 'up') {
+      nextFocus = focusedIndex > 0 ? focusedIndex - 1 : options.length - 1;
+    } else if (direction === 'down') {
+      nextFocus = (focusedIndex + 1) % options.length;
+    } else if (direction === 'pageup') {
+      nextFocus = focusedIndex - pageSize;
+      if (nextFocus < 0) nextFocus = 0;
+    } else if (direction === 'pagedown') {
+      nextFocus = focusedIndex + pageSize;
+      if (nextFocus > options.length - 1) nextFocus = options.length - 1;
+    } else if (direction === 'last') {
+      nextFocus = options.length - 1;
+    }
+    this.scrollToFocusedOptionOnUpdate = true;
+    this.setState({
+      focusedOption: options[nextFocus],
+      focusedValue: null,
+    });
+  }
+  setValue = (
+    newValue: ValueType,
+    action: ActionTypes = 'set-value',
+    option?: OptionType
+  ) => {
+    const { closeMenuOnSelect, isMulti, onChange } = this.props;
+    this.onInputChange('', { action: 'set-value' });
+    if (closeMenuOnSelect) {
+      this.inputIsHiddenAfterUpdate = !isMulti;
+      this.onMenuClose();
+    }
+    // when the select value should change, we should reset focusedValue
+    this.clearFocusValueOnUpdate = true;
+    onChange(newValue, { action, option });
+  };
+  selectOption = (newValue: OptionType) => {
+    const { blurInputOnSelect, isMulti } = this.props;
+
+    if (isMulti) {
+      const { selectValue } = this.state;
+      if (this.isOptionSelected(newValue, selectValue)) {
+        const candidate = this.getOptionValue(newValue);
+        this.setValue(
+          selectValue.filter(i => this.getOptionValue(i) !== candidate),
+          'deselect-option',
+          newValue
+        );
+        this.announceAriaLiveSelection({
+          event: 'deselect-option',
+          context: { value: this.getOptionLabel(newValue) },
+        });
+      } else {
+        this.setValue([...selectValue, newValue], 'select-option', newValue);
+        this.announceAriaLiveSelection({
+          event: 'select-option',
+          context: { value: this.getOptionLabel(newValue) },
+        });
+      }
+    } else {
+      this.setValue(newValue, 'select-option');
+      this.announceAriaLiveSelection({
+        event: 'select-option',
+        context: { value: this.getOptionLabel(newValue) },
+      });
+    }
+
+    if (blurInputOnSelect) {
+      this.blurInput();
+    }
+  };
+  removeValue = (removedValue: OptionType) => {
+    const { onChange } = this.props;
+    const { selectValue } = this.state;
+    const candidate = this.getOptionValue(removedValue);
+    onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
+      action: 'remove-value',
+      removedValue,
+    });
+    this.announceAriaLiveSelection({
+      event: 'remove-value',
+      context: {
+        value: removedValue ? this.getOptionLabel(removedValue) : undefined,
+      },
+    });
+    this.focusInput();
+  };
+  clearValue = () => {
+    const { isMulti, onChange } = this.props;
+    onChange(isMulti ? [] : null, { action: 'clear' });
+  };
+  popValue = () => {
+    const { onChange } = this.props;
+    const { selectValue } = this.state;
+    const lastSelectedValue = selectValue[selectValue.length - 1];
+    this.announceAriaLiveSelection({
+      event: 'pop-value',
+      context: {
+        value: lastSelectedValue
+          ? this.getOptionLabel(lastSelectedValue)
+          : undefined,
+      },
+    });
+    onChange(selectValue.slice(0, selectValue.length - 1), {
+      action: 'pop-value',
+      removedValue: lastSelectedValue,
+    });
+  };
+
+  // ==============================
+  // Getters
+  // ==============================
+
+  getCommonProps() {
+    const { clearValue, getStyles, setValue, selectOption, props } = this;
+    const { classNamePrefix, isMulti, isRtl, options } = props;
+    const { selectValue } = this.state;
+    const hasValue = this.hasValue();
+    const getValue = () => selectValue;
+    let cxPrefix = classNamePrefix;
+
+    const cx = classNames.bind(null, cxPrefix);
+    return {
+      cx,
+      clearValue,
+      getStyles,
+      getValue,
+      hasValue,
+      isMulti,
+      isRtl,
+      options,
+      selectOption,
+      setValue,
+      selectProps: props,
+    };
+  }
+
+  getNextFocusedValue(nextSelectValue: OptionsType) {
+    if (this.clearFocusValueOnUpdate) {
+      this.clearFocusValueOnUpdate = false;
+      return null;
+    }
+    const { focusedValue, selectValue: lastSelectValue } = this.state;
+    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+    if (lastFocusedIndex > -1) {
+      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+      if (nextFocusedIndex > -1) {
+        // the focused value is still in the selectValue, return it
+        return focusedValue;
+      } else if (lastFocusedIndex < nextSelectValue.length) {
+        // the focusedValue is not present in the next selectValue array by
+        // reference, so return the new value at the same index
+        return nextSelectValue[lastFocusedIndex];
+      }
+    }
+    return null;
+  }
+
+  getNextFocusedOption(options: OptionsType) {
+    const { focusedOption: lastFocusedOption } = this.state;
+    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
+      ? lastFocusedOption
+      : options[0];
+  }
+  getOptionLabel = (data: OptionType): string => {
+    return this.props.getOptionLabel(data);
+  };
+  getOptionValue = (data: OptionType): string => {
+    return this.props.getOptionValue(data);
+  };
+  getStyles = (key: string, props: {}): {} => {
+    const base = defaultStyles[key](props);
+    base.boxSizing = 'border-box';
+    const custom = this.props.styles[key];
+    return custom ? custom(base, props) : base;
+  };
+  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+    return `${this.instancePrefix}-${element}`;
+  };
+  getActiveDescendentId = () => {
+    const { menuIsOpen } = this.props;
+    const { menuOptions, focusedOption } = this.state;
+
+    if (!focusedOption || !menuIsOpen) return undefined;
+
+    const index = menuOptions.focusable.indexOf(focusedOption);
+    const option = menuOptions.render[index];
+
+    return option && option.key;
+  };
+
+  // ==============================
+  // Helpers
+  // ==============================
+  announceAriaLiveSelection = ({
+    event,
+    context,
+  }: {
+    event: string,
+    context: ValueEventContext,
+  }) => {
+    this.setState({
+      ariaLiveSelection: valueEventAriaMessage(event, context),
+    });
+  };
+  announceAriaLiveContext = ({
+    event,
+    context,
+  }: {
+    event: string,
+    context?: InstructionsContext,
+  }) => {
+    this.setState({
+      ariaLiveContext: instructionsAriaMessage(event, {
+        ...context,
+        label: this.props['aria-label'],
+      }),
+    });
+  };
+
+  hasValue() {
+    const { selectValue } = this.state;
+    return selectValue.length > 0;
+  }
+  hasOptions() {
+    return !!this.state.menuOptions.render.length;
+  }
+  countOptions() {
+    return this.state.menuOptions.focusable.length;
+  }
+  isClearable(): boolean {
+    const { isClearable, isMulti } = this.props;
+
+    // single select, by default, IS NOT clearable
+    // multi select, by default, IS clearable
+    if (isClearable === undefined) return isMulti;
+
+    return isClearable;
+  }
+  isOptionDisabled(option: OptionType, selectValue: OptionsType): boolean {
+    return typeof this.props.isOptionDisabled === 'function'
+      ? this.props.isOptionDisabled(option, selectValue)
+      : false;
+  }
+  isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
+    if (selectValue.indexOf(option) > -1) return true;
+    if (typeof this.props.isOptionSelected === 'function') {
+      return this.props.isOptionSelected(option, selectValue);
+    }
+    const candidate = this.getOptionValue(option);
+    return selectValue.some(i => this.getOptionValue(i) === candidate);
+  }
+  filterOption(option: {}, inputValue: string) {
+    return this.props.filterOption
+      ? this.props.filterOption(option, inputValue)
+      : true;
+  }
+  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+    if (typeof this.props.formatOptionLabel === 'function') {
+      const { inputValue } = this.props;
+      const { selectValue } = this.state;
+      return this.props.formatOptionLabel(data, {
+        context,
+        inputValue,
+        selectValue,
+      });
+    } else {
+      return this.getOptionLabel(data);
+    }
+  }
+  formatGroupLabel(data: GroupType) {
+    return this.props.formatGroupLabel(data);
+  }
+
+  // ==============================
+  // Mouse Handlers
+  // ==============================
+
+  onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
+    if (event.button !== 0) {
+      return;
+    }
+    event.stopPropagation();
+    event.preventDefault();
+    this.focusInput();
+  };
+  onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
+    this.blockOptionHover = false;
+  };
+  onControlMouseDown = (event: MouseOrTouchEvent) => {
+    const { openMenuOnClick } = this.props;
+    if (!this.state.isFocused) {
+      if (openMenuOnClick) {
+        this.openAfterFocus = true;
+      }
+      this.focusInput();
+    } else if (!this.props.menuIsOpen) {
+      this.openMenu('first');
+    } else {
+      this.onMenuClose();
+    }
+    // $FlowFixMe HTMLElement type does not have tagName property
+    if (event.target.tagName !== 'INPUT') {
+      event.preventDefault();
+    }
+  };
+  onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+    // ignore mouse events that weren't triggered by the primary button
+    if (event && event.type === 'mousedown' && event.button !== 0) {
+      return;
+    }
+    if (this.props.isDisabled) return;
+    const { isMulti, menuIsOpen } = this.props;
+    this.focusInput();
+    if (menuIsOpen) {
+      this.inputIsHiddenAfterUpdate = !isMulti;
+      this.onMenuClose();
+    } else {
+      this.openMenu('first');
+    }
+    event.preventDefault();
+    event.stopPropagation();
+  };
+  onClearIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+    // ignore mouse events that weren't triggered by the primary button
+    if (event && event.type === 'mousedown' && event.button !== 0) {
+      return;
+    }
+    this.clearValue();
+    event.stopPropagation();
+    this.openAfterFocus = false;
+    setTimeout(() => this.focusInput());
+  };
+  onScroll = (event: Event) => {
+    if (typeof this.props.closeMenuOnScroll === 'boolean') {
+      if (event.target instanceof HTMLElement && isDocumentElement(event.target)) {
+        this.props.onMenuClose();
+      }
+    } else if (typeof this.props.closeMenuOnScroll === 'function') {
+      if (this.props.closeMenuOnScroll(event)) {
+        this.props.onMenuClose();
+      }
+    }
+  };
+
+  // ==============================
+  // Composition Handlers
+  // ==============================
+
+  startListeningComposition() {
+    if (document && document.addEventListener) {
+      document.addEventListener(
+        'compositionstart',
+        this.onCompositionStart,
+        false
+      );
+      document.addEventListener('compositionend', this.onCompositionEnd, false);
+    }
+  }
+  stopListeningComposition() {
+    if (document && document.removeEventListener) {
+      document.removeEventListener('compositionstart', this.onCompositionStart);
+      document.removeEventListener('compositionend', this.onCompositionEnd);
+    }
+  }
+  onCompositionStart = () => {
+    this.setState({
+      isComposing: true,
+    });
+  };
+  onCompositionEnd = () => {
+    this.setState({
+      isComposing: false,
+    });
+  };
+
+  // ==============================
+  // Touch Handlers
+  // ==============================
+
+  startListeningToTouch() {
+    if (document && document.addEventListener) {
+      document.addEventListener('touchstart', this.onTouchStart, false);
+      document.addEventListener('touchmove', this.onTouchMove, false);
+      document.addEventListener('touchend', this.onTouchEnd, false);
+    }
+  }
+  stopListeningToTouch() {
+    if (document && document.removeEventListener) {
+      document.removeEventListener('touchstart', this.onTouchStart);
+      document.removeEventListener('touchmove', this.onTouchMove);
+      document.removeEventListener('touchend', this.onTouchEnd);
+    }
+  }
+  onTouchStart = ({ touches: [touch] }: TouchEvent) => {
+    this.initialTouchX = touch.clientX;
+    this.initialTouchY = touch.clientY;
+    this.userIsDragging = false;
+  };
+  onTouchMove = ({ touches: [touch] }: TouchEvent) => {
+    const deltaX = Math.abs(touch.clientX - this.initialTouchX);
+    const deltaY = Math.abs(touch.clientY - this.initialTouchY);
+    const moveThreshold = 5;
+
+    this.userIsDragging = deltaX > moveThreshold || deltaY > moveThreshold;
+  };
+  onTouchEnd = (event: TouchEvent) => {
+    if (this.userIsDragging) return;
+
+    // type cast the EventTarget
+    const target = ((event.target: any): HTMLElement);
+
+    // close the menu if the user taps outside
+    if (
+      this.controlRef &&
+      !this.controlRef.contains(target) &&
+      this.menuListRef &&
+      !this.menuListRef.contains(target)
+    ) {
+      this.blurInput();
+    }
+
+    // reset move vars
+    this.initialTouchX = 0;
+    this.initialTouchY = 0;
+  };
+  onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onControlMouseDown(event);
+  };
+  onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onClearIndicatorMouseDown(event);
+  };
+  onDropdownIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+    if (this.userIsDragging) return;
+
+    this.onDropdownIndicatorMouseDown(event);
+  };
+
+  // ==============================
+  // Focus Handlers
+  // ==============================
+
+  handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    const inputValue = event.currentTarget.value;
+    this.inputIsHiddenAfterUpdate = false;
+    this.onInputChange(inputValue, { action: 'input-change' });
+    this.onMenuOpen();
+  };
+  onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    const { isSearchable, isMulti } = this.props;
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+    this.inputIsHiddenAfterUpdate = false;
+    this.announceAriaLiveContext({
+      event: 'input',
+      context: { isSearchable, isMulti },
+    });
+    this.setState({
+      isFocused: true,
+    });
+    if (this.openAfterFocus || this.props.openMenuOnFocus) {
+      this.openMenu('first');
+    }
+    this.openAfterFocus = false;
+  };
+  onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+    this.onInputChange('', { action: 'input-blur' });
+    this.onMenuClose();
+    this.setState({
+      focusedValue: null,
+      isFocused: false,
+    });
+  };
+  onOptionHover = (focusedOption: OptionType) => {
+    if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
+      return;
+    }
+    this.setState({ focusedOption });
+  };
+  shouldHideSelectedOptions = () => {
+    const { hideSelectedOptions, isMulti } = this.props;
+    if (hideSelectedOptions === undefined) return isMulti;
+    return hideSelectedOptions;
+  };
+
+  // ==============================
+  // Keyboard Handlers
+  // ==============================
+
+  onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+    const {
+      isMulti,
+      backspaceRemovesValue,
+      escapeClearsValue,
+      inputValue,
+      isClearable,
+      isDisabled,
+      menuIsOpen,
+      onKeyDown,
+      tabSelectsValue,
+      openMenuOnFocus,
+    } = this.props;
+    const {
+      isComposing,
+      focusedOption,
+      focusedValue,
+      selectValue,
+    } = this.state;
+
+    if (isDisabled) return;
+
+    if (typeof onKeyDown === 'function') {
+      onKeyDown(event);
+      if (event.defaultPrevented) {
+        return;
+      }
+    }
+
+    // Block option hover events when the user has just pressed a key
+    this.blockOptionHover = true;
+    switch (event.key) {
+      case 'ArrowLeft':
+        if (!isMulti || inputValue) return;
+        this.focusValue('previous');
+        break;
+      case 'ArrowRight':
+        if (!isMulti || inputValue) return;
+        this.focusValue('next');
+        break;
+      case 'Backspace':
+        if (inputValue) return;
+        if (focusedValue) {
+          this.removeValue(focusedValue);
+        } else {
+          if (!backspaceRemovesValue) return;
+          this.popValue();
+        }
+        break;
+      case 'Tab':
+        if (
+          event.shiftKey ||
+          !menuIsOpen ||
+          !tabSelectsValue ||
+          !focusedOption ||
+          // don't capture the event if the menu opens on focus and the focused
+          // option is already selected; it breaks the flow of navigation
+          (openMenuOnFocus && this.isOptionSelected(focusedOption, selectValue))
+        ) {
+          return;
+        }
+        this.selectOption(focusedOption);
+        break;
+      case 'Enter':
+        if (menuIsOpen) {
+          if (!focusedOption) return;
+          if (isComposing) return;
+          this.selectOption(focusedOption);
+        } else {
+          this.focusOption('first');
+        }
+        break;
+      case 'Escape':
+        if (menuIsOpen) {
+          this.inputIsHiddenAfterUpdate = false;
+          this.onInputChange('', { action: 'menu-close' });
+          this.onMenuClose();
+        } else if (isClearable && escapeClearsValue) {
+          this.clearValue();
+        }
+        break;
+      case ' ': // space
+        if (inputValue) {
+          return;
+        }
+        if (!menuIsOpen) {
+          this.openMenu('first');
+          break;
+        }
+        if (!focusedOption) return;
+        this.selectOption(focusedOption);
+        break;
+      case 'ArrowUp':
+        if (menuIsOpen) {
+          this.focusOption('up');
+        } else {
+          this.openMenu('last');
+        }
+        break;
+      case 'ArrowDown':
+        if (menuIsOpen) {
+          this.focusOption('down');
+        } else {
+          this.openMenu('first');
+        }
+        break;
+      case 'PageUp':
+        if (!menuIsOpen) return;
+        this.focusOption('pageup');
+        break;
+      case 'PageDown':
+        if (!menuIsOpen) return;
+        this.focusOption('pagedown');
+        break;
+      case 'Home':
+        if (!menuIsOpen) return;
+        this.focusOption('first');
+        break;
+      case 'End':
+        if (!menuIsOpen) return;
+        this.focusOption('last');
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+  };
+
+  // ==============================
+  // Menu Options
+  // ==============================
+
+  buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
+    const { inputValue = '', options } = props;
+
+    const toOption = (option, id) => {
+      const isDisabled = this.isOptionDisabled(option, selectValue);
+      const isSelected = this.isOptionSelected(option, selectValue);
+      const label = this.getOptionLabel(option);
+      const value = this.getOptionValue(option);
+
+      if (
+        (this.shouldHideSelectedOptions() && isSelected) ||
+        !this.filterOption({ label, value, data: option }, inputValue)
+      ) {
+        return;
+      }
+
+      const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
+      const onSelect = isDisabled ? undefined : () => this.selectOption(option);
+      const optionId = `${this.getElementId('option')}-${id}`;
+
+      return {
+        innerProps: {
+          id: optionId,
+          onClick: onSelect,
+          onMouseMove: onHover,
+          onMouseOver: onHover,
+          role: 'option',
+          tabIndex: -1,
+        },
+        data: option,
+        isDisabled,
+        isSelected,
+        key: optionId,
+        label,
+        type: 'option',
+        value,
+      };
+    };
+
+    return options.reduce(
+      (acc, item, itemIndex) => {
+        if (item.options) {
+          // TODO needs a tidier implementation
+          if (!this.hasGroups) this.hasGroups = true;
+
+          const { options: items } = item;
+          const children = items
+            .map((child, i) => {
+              const option = toOption(child, `${itemIndex}-${i}`);
+              if (option && !option.isDisabled) acc.focusable.push(child);
+              return option;
+            })
+            .filter(Boolean);
+          if (children.length) {
+            const groupId = `${this.getElementId('group')}-${itemIndex}`;
+            acc.render.push({
+              type: 'group',
+              key: groupId,
+              data: item,
+              options: children,
+            });
+          }
+        } else {
+          const option = toOption(item, `${itemIndex}`);
+          if (option) {
+            acc.render.push(option);
+            if (!option.isDisabled) acc.focusable.push(item);
+          }
+        }
+        return acc;
+      },
+      { render: [], focusable: [] }
+    );
+  }
+
+  // ==============================
+  // Renderers
+  // ==============================
+  constructAriaLiveMessage() {
+    const {
+      ariaLiveContext,
+      selectValue,
+      focusedValue,
+      focusedOption,
+    } = this.state;
+    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
+
+    // An aria live message representing the currently focused value in the select.
+    const focusedValueMsg = focusedValue
+      ? valueFocusAriaMessage({
+          focusedValue,
+          getOptionLabel: this.getOptionLabel,
+          selectValue,
+        })
+      : '';
+    // An aria live message representing the currently focused option in the select.
+    const focusedOptionMsg =
+      focusedOption && menuIsOpen
+        ? optionFocusAriaMessage({
+            focusedOption,
+            getOptionLabel: this.getOptionLabel,
+            options,
+          })
+        : '';
+    // An aria live message representing the set of focusable results and current searchterm/inputvalue.
+    const resultsMsg = resultsAriaMessage({
+      inputValue,
+      screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
+    });
+
+    return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
+  }
+
+  renderInput() {
+    const {
+      isDisabled,
+      isSearchable,
+      inputId,
+      inputValue,
+      tabIndex,
+    } = this.props;
+    const { Input } = this.components;
+    const { inputIsHidden } = this.state;
+
+    const id = inputId || this.getElementId('input');
+
+    if (!isSearchable) {
+      // use a dummy input to maintain focus/blur functionality
+      return (
+        <DummyInput
+          id={id}
+          innerRef={this.getInputRef}
+          onBlur={this.onInputBlur}
+          onChange={noop}
+          onFocus={this.onInputFocus}
+          readOnly
+          tabIndex={tabIndex}
+          value=""
+        />
+      );
+    }
+
+    // aria attributes makes the JSX "noisy", separated for clarity
+    const ariaAttributes = {
+      'aria-autocomplete': 'list',
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
+    };
+
+    const { cx } = this.commonProps;
+
+    return (
+      <Input
+        autoCapitalize="none"
+        autoComplete="off"
+        autoCorrect="off"
+        cx={cx}
+        getStyles={this.getStyles}
+        id={id}
+        innerRef={this.getInputRef}
+        isDisabled={isDisabled}
+        isHidden={inputIsHidden}
+        onBlur={this.onInputBlur}
+        onChange={this.handleInputChange}
+        onFocus={this.onInputFocus}
+        spellCheck="false"
+        tabIndex={tabIndex}
+        type="text"
+        value={inputValue}
+        {...ariaAttributes}
+      />
+    );
+  }
+  renderPlaceholderOrValue(): ?PlaceholderOrValue {
+    const {
+      MultiValue,
+      MultiValueContainer,
+      MultiValueLabel,
+      MultiValueRemove,
+      SingleValue,
+      Placeholder,
+    } = this.components;
+    const { commonProps } = this;
+    const {
+      controlShouldRenderValue,
+      isDisabled,
+      isMulti,
+      inputValue,
+      placeholder,
+    } = this.props;
+    const { selectValue, focusedValue } = this.state;
+
+    if (!this.hasValue() || !controlShouldRenderValue) {
+      return inputValue ? null : (
+        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
+          {placeholder}
+        </Placeholder>
+      );
+    }
+
+    if (isMulti) {
+      const selectValues: Array<any> = selectValue.map(opt => {
+        let isFocused = opt === focusedValue;
+        return (
+          <MultiValue
+            {...commonProps}
+            components={{
+              Container: MultiValueContainer,
+              Label: MultiValueLabel,
+              Remove: MultiValueRemove,
+            }}
+            isFocused={isFocused}
+            isDisabled={isDisabled}
+            key={this.getOptionValue(opt)}
+            removeProps={{
+              onClick: () => this.removeValue(opt),
+              onTouchEnd: () => this.removeValue(opt),
+              onMouseDown: e => {
+                e.preventDefault();
+                e.stopPropagation();
+              },
+            }}
+            data={opt}
+          >
+            {this.formatOptionLabel(opt, 'value')}
+          </MultiValue>
+        );
+      });
+      return selectValues;
+    }
+
+    if (inputValue) {
+      return null;
+    }
+
+    const singleValue = selectValue[0];
+    return (
+      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
+        {this.formatOptionLabel(singleValue, 'value')}
+      </SingleValue>
+    );
+  }
+  renderClearIndicator() {
+    const { ClearIndicator } = this.components;
+    const { commonProps } = this;
+    const { isDisabled, isLoading } = this.props;
+    const { isFocused } = this.state;
+
+    if (
+      !this.isClearable() ||
+      !ClearIndicator ||
+      isDisabled ||
+      !this.hasValue() ||
+      isLoading
+    ) {
+      return null;
+    }
+
+    const innerProps = {
+      onMouseDown: this.onClearIndicatorMouseDown,
+      onTouchEnd: this.onClearIndicatorTouchEnd,
+      'aria-hidden': 'true',
+    };
+
+    return (
+      <ClearIndicator
+        {...commonProps}
+        innerProps={innerProps}
+        isFocused={isFocused}
+      />
+    );
+  }
+  renderLoadingIndicator() {
+    const { LoadingIndicator } = this.components;
+    const { commonProps } = this;
+    const { isDisabled, isLoading } = this.props;
+    const { isFocused } = this.state;
+
+    if (!LoadingIndicator || !isLoading) return null;
+
+    const innerProps = { 'aria-hidden': 'true' };
+    return (
+      <LoadingIndicator
+        {...commonProps}
+        innerProps={innerProps}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      />
+    );
+  }
+  renderIndicatorSeparator() {
+    const { DropdownIndicator, IndicatorSeparator } = this.components;
+
+    // separator doesn't make sense without the dropdown indicator
+    if (!DropdownIndicator || !IndicatorSeparator) return null;
+
+    const { commonProps } = this;
+    const { isDisabled } = this.props;
+    const { isFocused } = this.state;
+
+    return (
+      <IndicatorSeparator
+        {...commonProps}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      />
+    );
+  }
+  renderDropdownIndicator() {
+    const { DropdownIndicator } = this.components;
+    if (!DropdownIndicator) return null;
+    const { commonProps } = this;
+    const { isDisabled } = this.props;
+    const { isFocused } = this.state;
+
+    const innerProps = {
+      onMouseDown: this.onDropdownIndicatorMouseDown,
+      onTouchEnd: this.onDropdownIndicatorTouchEnd,
+      'aria-hidden': 'true',
+    };
+
+    return (
+      <DropdownIndicator
+        {...commonProps}
+        innerProps={innerProps}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      />
+    );
+  }
+  renderMenu() {
+    const {
+      Group,
+      GroupHeading,
+      Menu,
+      MenuList,
+      MenuPortal,
+      LoadingMessage,
+      NoOptionsMessage,
+      Option,
+    } = this.components;
+    const { commonProps } = this;
+    const { focusedOption, menuOptions } = this.state;
+    const {
+      captureMenuScroll,
+      inputValue,
+      isLoading,
+      loadingMessage,
+      minMenuHeight,
+      maxMenuHeight,
+      menuIsOpen,
+      menuPlacement,
+      menuPosition,
+      menuPortalTarget,
+      menuShouldBlockScroll,
+      menuShouldScrollIntoView,
+      noOptionsMessage,
+      onMenuScrollToTop,
+      onMenuScrollToBottom,
+    } = this.props;
+
+    if (!menuIsOpen) return null;
+
+    // TODO: Internal Option Type here
+    const render = (props: OptionType) => {
+      // for performance, the menu options in state aren't changed when the
+      // focused option changes so we calculate additional props based on that
+      const isFocused = focusedOption === props.data;
+      props.innerRef = isFocused
+        ? this.getFocusedOptionRef
+        : undefined;
+
+      return (
+        <Option {...commonProps} {...props} isFocused={isFocused}>
+          {this.formatOptionLabel(props.data, 'menu')}
+        </Option>
+      );
+    };
+
+    let menuUI;
+
+    if (this.hasOptions()) {
+      menuUI = menuOptions.render.map(item => {
+        if (item.type === 'group') {
+          const { type, ...group } = item;
+          const headingId = `${item.key}-heading`;
+
+          return (
+            <Group
+              {...commonProps}
+              {...group}
+              Heading={GroupHeading}
+              headingProps={{
+                id: headingId,
+              }}
+              label={this.formatGroupLabel(item.data)}
+            >
+              {item.options.map(option => render(option))}
+            </Group>
+          );
+        } else if (item.type === 'option') {
+          return render(item);
+        }
+      });
+    } else if (isLoading) {
+      const message = loadingMessage({ inputValue });
+      if (message === null) return null;
+      menuUI = <LoadingMessage {...commonProps}>{message}</LoadingMessage>;
+    } else {
+      const message = noOptionsMessage({ inputValue });
+      if (message === null) return null;
+      menuUI = <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>;
+    }
+
+    const menuElement = (
+      <div>
+        <Menu
+          {...commonProps}
+          innerProps={{
+            onMouseDown: this.onMenuMouseDown,
+            onMouseMove: this.onMenuMouseMove,
+          }}
+          isLoading={isLoading}
+          minMenuHeight={minMenuHeight}
+          maxMenuHeight={maxMenuHeight}
+          menuPlacement={menuPlacement}
+          menuPosition={menuPosition}
+          menuShouldScrollIntoView={menuShouldScrollIntoView}
+        >
+          <ScrollCaptor
+            isEnabled={captureMenuScroll}
+            onTopArrive={onMenuScrollToTop}
+            onBottomArrive={onMenuScrollToBottom}
+          >
+            <ScrollBlock isEnabled={menuShouldBlockScroll}>
+              <MenuList
+                {...commonProps}
+                innerRef={this.getMenuListRef}
+                isLoading={isLoading}
+                maxHeight={maxMenuHeight}
+              >
+                {menuUI}
+              </MenuList>
+            </ScrollBlock>
+          </ScrollCaptor>
+        </Menu>
+      </div>
+    );
+
+    // positioning behaviour is almost identical for portalled and fixed,
+    // so we use the same component. the actual portalling logic is forked
+    // within the component based on `menuPosition`
+    return menuPortalTarget || menuPosition === 'fixed' ? (
+      <MenuPortal
+        {...commonProps}
+        appendTo={menuPortalTarget}
+        controlElement={this.controlRef}
+        menuPlacement={menuPlacement}
+        menuPosition={menuPosition}
+      >
+        {menuElement}
+      </MenuPortal>
+    ) : (
+      menuElement
+    );
+  }
+  renderFormField() {
+    const { delimiter, isDisabled, isMulti, name } = this.props;
+    const { selectValue } = this.state;
+
+    if (!name || isDisabled) return;
+
+    if (isMulti) {
+      if (delimiter) {
+        const value = selectValue
+          .map(opt => this.getOptionValue(opt))
+          .join(delimiter);
+        return <input name={name} type="hidden" value={value} />;
+      } else {
+        return (
+          <div>
+            {selectValue.map((opt, i) => (
+              <input
+                key={`i-${i}`}
+                name={name}
+                type="hidden"
+                value={this.getOptionValue(opt)}
+              />
+            ))}
+          </div>
+        );
+      }
+    } else {
+      const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
+      return <input name={name} type="hidden" value={value} />;
+    }
+  }
+
+  renderLiveRegion() {
+    if (!this.state.isFocused) return null;
+    return (
+      <A11yText aria-live="assertive">
+        <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
+        <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
+      </A11yText>
+    );
+  }
+
+  render() {
+    const {
+      Control,
+      IndicatorsContainer,
+      SelectContainer,
+      ValueContainer,
+    } = this.components;
+
+    const { className, id, isDisabled } = this.props;
+    const { isFocused } = this.state;
+
+    const commonProps = (this.commonProps = this.getCommonProps());
+
+    return (
+      <SelectContainer
+        {...commonProps}
+        className={className}
+        innerProps={{
+          id: id,
+          onKeyDown: this.onKeyDown,
+        }}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      >
+        {this.renderLiveRegion()}
+        <Control
+          {...commonProps}
+          innerRef={this.getControlRef}
+          innerProps={{
+            onMouseDown: this.onControlMouseDown,
+            onTouchEnd: this.onControlTouchEnd,
+          }}
+          isDisabled={isDisabled}
+          isFocused={isFocused}
+        >
+          <ValueContainer {...commonProps} isDisabled={isDisabled}>
+            {this.renderPlaceholderOrValue()}
+            {this.renderInput()}
+          </ValueContainer>
+          <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
+            {this.renderClearIndicator()}
+            {this.renderLoadingIndicator()}
+            {this.renderIndicatorSeparator()}
+            {this.renderDropdownIndicator()}
+          </IndicatorsContainer>
+        </Control>
+        {this.renderMenu()}
+        {this.renderFormField()}
+      </SelectContainer>
+    );
+  }
 }
-
-Select.propTypes = {
-	'aria-describedby': PropTypes.string, // html id(s) of element(s) that should be used to describe this input (for assistive tech)
-	'aria-label': PropTypes.string,       // aria label (for assistive tech)
-	'aria-labelledby': PropTypes.string,  // html id of an element that should be used as the label (for assistive tech)
-	arrowRenderer: PropTypes.func,        // create the drop-down caret element
-	autoBlur: PropTypes.bool,             // automatically blur the component when an option is selected
-	autoFocus: PropTypes.bool,            // autofocus the component on mount
-	autofocus: PropTypes.bool,            // deprecated; use autoFocus instead
-	autosize: PropTypes.bool,             // whether to enable autosizing or not
-	backspaceRemoves: PropTypes.bool,     // whether backspace removes an item if there is no text input
-	backspaceToRemoveMessage: PropTypes.string,  // message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
-	className: PropTypes.string,          // className for the outer element
-	clearAllText: stringOrNode,           // title for the "clear" control when multi: true
-	clearRenderer: PropTypes.func,        // create clearable x element
-	clearValueText: stringOrNode,         // title for the "clear" control
-	clearable: PropTypes.bool,            // should it be possible to reset value
-	closeOnSelect: PropTypes.bool,        // whether to close the menu when a value is selected
-	deleteRemoves: PropTypes.bool,        // whether delete removes an item if there is no text input
-	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
-	disabled: PropTypes.bool,             // whether the Select is disabled or not
-	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
-	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
-	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
-	id: PropTypes.string, 				        // html id to set on the input element for accessibility or tests
-	ignoreAccents: PropTypes.bool,        // whether to strip diacritics when filtering
-	ignoreCase: PropTypes.bool,           // whether to perform case-insensitive filtering
-	inputProps: PropTypes.object,         // custom attributes for the Input
-	inputRenderer: PropTypes.func,        // returns a custom input component
-	instanceId: PropTypes.string,         // set the components instanceId
-	isLoading: PropTypes.bool,            // whether the Select is loading externally or not (such as options being loaded)
-	joinValues: PropTypes.bool,           // joins multiple values into a single form field with the delimiter (legacy mode)
-	labelKey: PropTypes.string,           // path of the label value in option objects
-	matchPos: PropTypes.string,           // (any|start) match the start or entire string when filtering
-	matchProp: PropTypes.string,          // (any|label|value) which option property to filter on
-	menuBuffer: PropTypes.number,         // optional buffer (in px) between the bottom of the viewport and the bottom of the menu
-	menuContainerStyle: PropTypes.object, // optional style to apply to the menu container
-	menuRenderer: PropTypes.func,         // renders a custom menu with options
-	menuStyle: PropTypes.object,          // optional style to apply to the menu
-	multi: PropTypes.bool,                // multi-value input
-	name: PropTypes.string,               // generates a hidden <input /> tag with this field name for html forms
-	noResultsText: stringOrNode,          // placeholder displayed when there are no matching search results
-	onBlur: PropTypes.func,               // onBlur handler: function (event) {}
-	onBlurResetsInput: PropTypes.bool,    // whether input is cleared on blur
-	onChange: PropTypes.func,             // onChange handler: function (newValue) {}
-	onClose: PropTypes.func,              // fires when the menu is closed
-	onCloseResetsInput: PropTypes.bool,   // whether input is cleared when menu is closed through the arrow
-	onFocus: PropTypes.func,              // onFocus handler: function (event) {}
-	onInputChange: PropTypes.func,        // onInputChange handler: function (inputValue) {}
-	onInputKeyDown: PropTypes.func,       // input keyDown handler: function (event) {}
-	onMenuScrollToBottom: PropTypes.func, // fires when the menu is scrolled to the bottom; can be used to paginate options
-	onOpen: PropTypes.func,               // fires when the menu is opened
-	onSelectResetsInput: PropTypes.bool,  // whether input is cleared on select (works only for multiselect)
-	onValueClick: PropTypes.func,         // onClick handler for value labels: function (value, event) {}
-	openOnClick: PropTypes.bool,          // boolean to control opening the menu when the control is clicked
-	openOnFocus: PropTypes.bool,          // always open options menu on focus
-	optionClassName: PropTypes.string,    // additional class(es) to apply to the <Option /> elements
-	optionComponent: PropTypes.func,      // option component to render in dropdown
-	optionRenderer: PropTypes.func,       // optionRenderer: function (option) {}
-	options: PropTypes.array,             // array of options
-	pageSize: PropTypes.number,           // number of entries to page when using page up/down keys
-	placeholder: stringOrNode,            // field placeholder, displayed when there's no value
-	removeSelected: PropTypes.bool,       // whether the selected option is removed from the dropdown on multi selects
-	required: PropTypes.bool,             // applies HTML5 required attribute when needed
-	resetValue: PropTypes.any,            // value to use when you clear the control
-	rtl: PropTypes.bool, 									// set to true in order to use react-select in right-to-left direction
-	scrollMenuIntoView: PropTypes.bool,   // boolean to enable the viewport to shift so that the full menu fully visible when engaged
-	searchable: PropTypes.bool,           // whether to enable searching feature or not
-	simpleValue: PropTypes.bool,          // pass the value to onChange as a simple value (legacy pre 1.0 mode), defaults to false
-	style: PropTypes.object,              // optional style to apply to the control
-	tabIndex: stringOrNumber,             // optional tab index of the control
-	tabSelectsValue: PropTypes.bool,      // whether to treat tabbing out while focused to be value selection
-	trimFilter: PropTypes.bool,           // whether to trim whitespace around filter value
-	value: PropTypes.any,                 // initial field value
-	valueComponent: PropTypes.func,       // value component to render
-	valueKey: PropTypes.string,           // path of the label value in option objects
-	valueRenderer: PropTypes.func,        // valueRenderer: function (option) {}
-	wrapperStyle: PropTypes.object,       // optional style to apply to the component wrapper
-};
-
-Select.defaultProps = {
-	arrowRenderer: defaultArrowRenderer,
-	autosize: true,
-	backspaceRemoves: true,
-	backspaceToRemoveMessage: 'Press backspace to remove {label}',
-	clearable: true,
-	clearAllText: 'Clear all',
-	clearRenderer: defaultClearRenderer,
-	clearValueText: 'Clear value',
-	closeOnSelect: true,
-	deleteRemoves: true,
-	delimiter: ',',
-	disabled: false,
-	escapeClearsValue: true,
-	filterOptions: defaultFilterOptions,
-	ignoreAccents: true,
-	ignoreCase: true,
-	inputProps: {},
-	isLoading: false,
-	joinValues: false,
-	labelKey: 'label',
-	matchPos: 'any',
-	matchProp: 'any',
-	menuBuffer: 0,
-	menuRenderer: defaultMenuRenderer,
-	multi: false,
-	noResultsText: 'No results found',
-	onBlurResetsInput: true,
-	onCloseResetsInput: true,
-	onSelectResetsInput: true,
-	openOnClick: true,
-	optionComponent: Option,
-	pageSize: 5,
-	placeholder: 'Select...',
-	removeSelected: true,
-	required: false,
-	rtl: false,
-	scrollMenuIntoView: true,
-	searchable: true,
-	simpleValue: false,
-	tabSelectsValue: true,
- 	trimFilter: true,
-	valueComponent: Value,
-	valueKey: 'value',
-};
-
-export default Select;

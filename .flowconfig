@@ -1,0 +1,18 @@
+[ignore]
+./lib/.*
+./dist/.*
+.*/node_modules/cypress/.*
+.*/node_modules/@atlaskit/tooltip/dist/cjs/components/Marshal.js.flow
+
+[include]
+
+[libs]
+flow-typed
+
+[lints]
+
+[options]
+module.name_mapper='\!\!raw-loader\!.*' -> '<PROJECT_ROOT>/typings/raw-loader.js'
+module.name_mapper='\!\!extract-react-types-loader\!.*' -> '<PROJECT_ROOT>/typings/extract-react-types-loader.js'
+
+[strict]

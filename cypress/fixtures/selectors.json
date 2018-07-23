@@ -1,0 +1,30 @@
+{
+  "clearValues": ".react-select__clear-indicator",
+  "disabledCheckbox": "#cypress-container-single #cypress-single__disabled-checkbox",
+  "firstMultiValueRemove":
+    "#multi-select .react-select__multi-value__remove:first",
+  "groupColor": "#cypress-container-single #cypress-single-grouped .react-select__group",
+  "menuGrouped": "#grouped-options-single .react-select__menu",
+  "menuMulti": "#multi-select .react-select__menu",
+  "menuOption": "[role='option']",
+  "menuSingle": "#basic-select-single .react-select__menu",
+  "multiSelectDefaultValues": "#multi-select .react-select__multi-value",
+  "multiSelectInput": "#react-select-multi-select-input",
+  "noOptionsValue": ".react-select__menu-notice--no-options",
+  "placeHolderGrouped": "#grouped-options-single .react-select__placeholder",
+  "placeHolderMulti": "#multi-select .react-select__placeholder",
+  "placeHolderSingle": "#basic-select-single .react-select__placeholder",
+  "singleGroupedInputValue":
+    "#grouped-options-single .react-select__single-value",
+  "singleInputValue": ".react-select__single-value",
+  "singleSelectDefaultValues": "#cypress-container-single .react-select__single-value",
+  "singleSelectFirstValue": "#basic-select-single .react-select__single-value",
+  "singleSelectGroupedInput":
+    "#grouped-options-single .react-select__input input",
+  "singleSelectSingleInput": "#react-select-basic-select-single-input",
+  "toggleMenus": ".react-select__dropdown-indicator",
+  "toggleMenuGrouped":
+    "#grouped-options-single .react-select__dropdown-indicator",
+  "toggleMenuMulti": "#multi-select .react-select__dropdown-indicator",
+  "toggleMenuSingle": "#basic-select-single .react-select__dropdown-indicator"
+}

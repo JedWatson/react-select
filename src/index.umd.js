@@ -3,17 +3,24 @@
 // compatible with mixed imports (which exist in index.js)
 // This file does away with named imports in favor of a single export default.
 
-import Select from './Select';
+import SelectBase from './Select';
+import manageState from './stateManager';
+
 import Async from './Async';
 import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
-import Value from './Value';
-import Option from './Option';
 
+import { createFilter } from './filters';
+import { components } from './components/index';
+import { mergeStyles } from './styles';
+
+const Select = manageState(SelectBase);
 Select.Async = Async;
 Select.AsyncCreatable = AsyncCreatable;
 Select.Creatable = Creatable;
-Select.Value = Value;
-Select.Option = Option;
+Select.SelectBase = SelectBase;
+Select.createFilter = createFilter;
+Select.components = components;
+Select.mergeStyles = mergeStyles;
 
 export default Select;

@@ -1,6 +1,7 @@
-lib/*
-dist/*
 coverage/*
-examples/dist/*
+cypress/plugins/*
+cypress/support/*
+dist/*
+flow-typed/*
+lib/*
 node_modules/*
-bower_components/*
