@@ -1680,8 +1680,8 @@ export default class Select extends Component<Props, State> {
         {this.renderLiveRegion()}
         <Control
           {...commonProps}
+          innerRef={this.getControlRef}
           innerProps={{
-            innerRef: this.getControlRef,
             onMouseDown: this.onControlMouseDown,
             onTouchEnd: this.onControlTouchEnd,
           }}
