@@ -68,11 +68,11 @@ exports[`snapshot - defaults 1`] = `
     hasValue={false}
     innerProps={
       Object {
-        "innerRef": [Function],
         "onMouseDown": [Function],
         "onTouchEnd": [Function],
       }
     }
+    innerRef={[Function]}
     isDisabled={false}
     isFocused={false}
     isMulti={false}
