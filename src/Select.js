@@ -130,7 +130,7 @@ export type Props = {
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
   /* Override the built-in logic to detect whether an option is disabled */
-  isOptionDisabled: typeof isOptionDisabled | false,
+  isOptionDisabled: (OptionType, OptionsType) => boolean | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
@@ -723,9 +723,9 @@ export default class Select extends Component<Props, State> {
 
     return isClearable;
   }
-  isOptionDisabled(option: OptionType): boolean {
+  isOptionDisabled(option: OptionType, selectValue: OptionsType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
-      ? this.props.isOptionDisabled(option)
+      ? this.props.isOptionDisabled(option, selectValue)
       : false;
   }
   isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
@@ -1099,7 +1099,7 @@ export default class Select extends Component<Props, State> {
     const { inputValue = '', options } = props;
 
     const toOption = (option, id) => {
-      const isDisabled = this.isOptionDisabled(option);
+      const isDisabled = this.isOptionDisabled(option, selectValue);
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
       const value = this.getOptionValue(option);
