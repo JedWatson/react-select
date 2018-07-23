@@ -10,6 +10,8 @@ type ComponentProps = {
   children: Node,
   /** Component to wrap the label, recieves headingProps. */
   Heading: ComponentType<any>,
+  /** Props to pass to Heading. */
+  headingProps: any,
   /** Label to be displayed in the heading component. */
   label: Node,
 };
@@ -27,6 +29,7 @@ const Group = (props: GroupProps) => {
     cx,
     getStyles,
     Heading,
+    headingProps,
     label,
   } = props;
   return (
@@ -37,7 +40,7 @@ const Group = (props: GroupProps) => {
         className,
       )}
     >
-      <Heading getStyles={getStyles} cx={cx}>
+      <Heading {...headingProps} getStyles={getStyles} cx={cx}>
         {label}
       </Heading>
       <div>{children}</div>
