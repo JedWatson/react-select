@@ -50,7 +50,7 @@ var MultiSelectField = createClass({
 		const options = crazy ? WHY_WOULD_YOU : FLAVOURS;
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Multiselect.js">(Source)</a></h3>
+				<h3 className="section-heading">{this.props.label} <a href="https://github.com/JedWatson/react-select/tree/v1.x/examples/src/components/Multiselect.js">(Source)</a></h3>
 				<Select
 					closeOnSelect={!stayOpen}
 					disabled={disabled}

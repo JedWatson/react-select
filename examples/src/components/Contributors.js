@@ -54,7 +54,7 @@ const Contributors = createClass({
 	render () {
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}  <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Contributors.js">(Source)</a></h3>
+				<h3 className="section-heading">{this.props.label}  <a href="https://github.com/JedWatson/react-select/tree/v1.x/examples/src/components/Contributors.js">(Source)</a></h3>
 				<Select.Async multi={this.state.multi} value={this.state.value} onChange={this.onChange} onValueClick={this.gotoContributor} valueKey="github" labelKey="name" loadOptions={this.getContributors} />
 				<div className="checkbox-list">
 					<label className="checkbox">

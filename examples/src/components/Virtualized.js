@@ -18,7 +18,7 @@ var CitiesField = createClass({
 		var options = DATA.CITIES;
 		return (
 			<div className="section">
-				<h3 className="section-heading">Cities (Large Dataset) <a href="https://github.com/JedWatson/react-select/tree/master/examples/src/components/Virtualized.js">(Source)</a></h3>
+				<h3 className="section-heading">Cities (Large Dataset) <a href="https://github.com/JedWatson/react-select/tree/v1.x/examples/src/components/Virtualized.js">(Source)</a></h3>
 				<VirtualizedSelect ref="citySelect"
 					options={options}
 					simpleValue
