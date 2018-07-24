@@ -15,19 +15,19 @@ const TagStyle = {
     return state.data.isFixed ? { ...base, fontWeight: 'bold', color: 'white', paddingRight: 6 } : base;
   },
   multiValueRemove: (base, state) => {
-    return state.data.isFixed ? { ...base, display: 'none' } : base
+    return state.data.isFixed ? { ...base, display: 'none' } : base;
   }
 };
 
 const ClearIndicator = (props) => {
   let value = props.getValue();
   let isFixed = value && value.reduce((p, v) => p && v.isFixed, true);
-  return isFixed ? (<span></span>) : (<components.ClearIndicator {...props}/>);
+  return isFixed ? (<span/>) : (<components.ClearIndicator {...props}/>);
 };
 
 const OrderOptions = (values) => {
   return values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed));
-}
+};
 
 export default class FixedOptions extends Component<*, State> {
   state = {
