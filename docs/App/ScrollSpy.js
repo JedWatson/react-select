@@ -23,7 +23,8 @@ function getStyle(el, prop, numeric = true) {
 function isInView(el) {
   let rect = el.getBoundingClientRect();
 
-  const topOffset = getStyle(el, 'padding-top') * -1;
+  const topOffset =
+    (getStyle(el, 'padding-top') + getStyle(el, 'margin-top')) * -1;
 
   if (rect.top >= topOffset && rect.bottom <= window.innerHeight) {
     return true;
@@ -51,7 +52,6 @@ export default class ScrollSpy extends Component<Props, State> {
     if (!elements.length) return;
 
     const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
-
     if (idsInView.length) {
       onChange(idsInView);
     }
