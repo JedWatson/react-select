@@ -26,7 +26,7 @@ export default function Home() {
   For complete docs, see the [Props API](/props) and [Advanced Usage](/advanced).
 
   If you're coming from react-select v1, check out the [Upgrade Guide](/upgrade-guide).
-  
+
   To contribute, or open an issue, check out the [source code on GitHub](https://github.com/JedWatson/react-select).
 
   ${(
@@ -51,10 +51,10 @@ export default function Home() {
 
   ## Getting Started
 
-  Start by installing \`react-select\` (use the next tag to install the alpha)
+  Start by installing \`react-select\`
 
   ~~~bash
-  yarn add react-select@next
+  yarn add react-select
   ~~~
 
   Import the default export and render in your component:
