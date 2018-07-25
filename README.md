@@ -84,7 +84,7 @@ Common props you may want to specify include:
 * `placeholder` - change the text displayed when no option is selected
 * `value` - control the current value
 
-See the [props documentation](https://www.react-select.com/props) for complete documentation on the props react-selec supports.
+See the [props documentation](https://www.react-select.com/props) for complete documentation on the props react-select supports.
 
 ## Controllable Props
 
