@@ -68,7 +68,7 @@ export default function Styles() {
       control: () => ({
         // none of react-selects styles are passed to <View />
         width: 200,
-      })
+      }),
       singleValue: (base, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
