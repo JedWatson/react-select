@@ -424,6 +424,7 @@ export type MenuPortalProps = CommonProps & {
   controlElement: HTMLElement,
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
+  controlElement: HTMLElement,
 };
 type MenuPortalState = {
   placement: 'bottom' | 'top' | null,
@@ -480,7 +481,8 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     const placement = this.state.placement || coercePlacement(menuPlacement);
     const rect = getBoundingClientObj(controlElement);
-    const scrollDistance = isFixed ? 0 : window.pageYOffset;
+    const scrollParent = getScrollParent(controlElement);
+    const scrollDistance = isFixed ? 0 : getScrollTop(scrollParent);
     const offset = rect[placement] + scrollDistance;
     const state = { offset, position, rect };
 
