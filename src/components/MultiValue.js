@@ -66,6 +66,7 @@ export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export type MultiValueRemoveProps = CommonProps & {
   children: Node,
+  data: any,
   innerProps: {
     className: String,
     onTouchEnd: any => void,
