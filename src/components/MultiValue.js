@@ -54,7 +54,7 @@ export const multiValueRemoveCSS = ({ isFocused }: MultiValueProps) => ({
 export type MultiValueGenericProps = {
   children: Node,
   data: any,
-  innerProps: { className?: String },
+  innerProps: { className?: string },
   selectProps: any,
 };
 export const MultiValueGeneric = ({
@@ -68,7 +68,7 @@ export type MultiValueRemoveProps = CommonProps & {
   children: Node,
   data: any,
   innerProps: {
-    className: String,
+    className: string,
     onTouchEnd: any => void,
     onClick: any => void,
     onMouseDown: any => void,
