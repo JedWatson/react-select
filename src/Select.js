@@ -561,12 +561,16 @@ export default class Select extends Component<Props, State> {
       focusedValue: null,
     });
   }
+  onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
+    const { onChange, name } = this.props;
+    onChange(newValue, { ...actionMeta, name });
+  };
   setValue = (
     newValue: ValueType,
     action: ActionTypes = 'set-value',
     option?: OptionType
   ) => {
-    const { closeMenuOnSelect, isMulti, onChange } = this.props;
+    const { closeMenuOnSelect, isMulti } = this.props;
     this.onInputChange('', { action: 'set-value' });
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
@@ -574,7 +578,7 @@ export default class Select extends Component<Props, State> {
     }
     // when the select value should change, we should reset focusedValue
     this.clearFocusValueOnUpdate = true;
-    onChange(newValue, { action, option });
+    this.onChange(newValue, { action, option });
   };
   selectOption = (newValue: OptionType) => {
     const { blurInputOnSelect, isMulti } = this.props;
@@ -612,10 +616,9 @@ export default class Select extends Component<Props, State> {
     }
   };
   removeValue = (removedValue: OptionType) => {
-    const { onChange } = this.props;
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
+    this.onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
       action: 'remove-value',
       removedValue,
     });
@@ -628,11 +631,10 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    const { isMulti, onChange } = this.props;
-    onChange(isMulti ? [] : null, { action: 'clear' });
+    const { isMulti } = this.props;
+    this.onChange(isMulti ? [] : null, { action: 'clear' });
   };
   popValue = () => {
-    const { onChange } = this.props;
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
     this.announceAriaLiveSelection({
@@ -643,7 +645,7 @@ export default class Select extends Component<Props, State> {
           : undefined,
       },
     });
-    onChange(selectValue.slice(0, selectValue.length - 1), {
+    this.onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
       removedValue: lastSelectedValue,
     });
