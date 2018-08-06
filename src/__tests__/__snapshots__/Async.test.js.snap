@@ -9,7 +9,6 @@ exports[`defaults - snapshot 1`] = `
     cacheOptions={false}
     defaultInputValue=""
     defaultMenuIsOpen={false}
-    defaultOptions={false}
     defaultValue={null}
     filterOption={null}
     isLoading={false}
@@ -27,7 +26,6 @@ exports[`defaults - snapshot 1`] = `
       controlShouldRenderValue={true}
       defaultInputValue=""
       defaultMenuIsOpen={false}
-      defaultOptions={false}
       defaultValue={null}
       escapeClearsValue={false}
       filterOption={null}
@@ -95,7 +93,6 @@ exports[`defaults - snapshot 1`] = `
             "controlShouldRenderValue": true,
             "defaultInputValue": "",
             "defaultMenuIsOpen": false,
-            "defaultOptions": false,
             "defaultValue": null,
             "escapeClearsValue": false,
             "filterOption": null,
@@ -171,7 +168,6 @@ exports[`defaults - snapshot 1`] = `
                 "controlShouldRenderValue": true,
                 "defaultInputValue": "",
                 "defaultMenuIsOpen": false,
-                "defaultOptions": false,
                 "defaultValue": null,
                 "escapeClearsValue": false,
                 "filterOption": null,
@@ -240,7 +236,6 @@ exports[`defaults - snapshot 1`] = `
                     "controlShouldRenderValue": true,
                     "defaultInputValue": "",
                     "defaultMenuIsOpen": false,
-                    "defaultOptions": false,
                     "defaultValue": null,
                     "escapeClearsValue": false,
                     "filterOption": null,
@@ -308,7 +303,6 @@ exports[`defaults - snapshot 1`] = `
                         "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
-                        "defaultOptions": false,
                         "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
@@ -485,7 +479,6 @@ exports[`defaults - snapshot 1`] = `
                     "controlShouldRenderValue": true,
                     "defaultInputValue": "",
                     "defaultMenuIsOpen": false,
-                    "defaultOptions": false,
                     "defaultValue": null,
                     "escapeClearsValue": false,
                     "filterOption": null,
@@ -553,7 +546,6 @@ exports[`defaults - snapshot 1`] = `
                         "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
-                        "defaultOptions": false,
                         "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
@@ -629,7 +621,6 @@ exports[`defaults - snapshot 1`] = `
                         "controlShouldRenderValue": true,
                         "defaultInputValue": "",
                         "defaultMenuIsOpen": false,
-                        "defaultOptions": false,
                         "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
