@@ -72,14 +72,6 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
       }
-      if (nextProps.defaultOptions !== this.props.defaultOptions) {
-        this.setState({
-          loadedOptions: Array.isArray(nextProps.defaultOptions)
-            ? nextProps.defaultOptions
-            : [],
-        });
-      }
-
     }
     componentWillUnmount() {
       this.mounted = false;
