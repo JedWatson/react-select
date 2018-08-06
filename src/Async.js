@@ -44,12 +44,11 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     constructor(props: Props) {
       super();
       this.state = {
-        defaultOptions: Array.isArray(props.defaultOptions)
+        loadedOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
-          : undefined,
+          : [],
         inputValue: '',
         isLoading: props.defaultOptions === true ? true : false,
-        loadedOptions: [],
         passEmptyOptions: false,
       };
     }
@@ -57,12 +56,16 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       this.mounted = true;
       const { defaultOptions } = this.props;
       if (defaultOptions === true) {
-        this.loadOptions('', options => {
-          if (!this.mounted) return;
-          const isLoading = !!this.lastRequest;
-          this.setState({ defaultOptions: options || [], isLoading });
-        });
+        this.loadDefaultOptions();
       }
+    }
+    loadDefaultOptions = () => {
+      this.loadOptions('', options => {
+        if (!this.mounted) return;
+        const isLoading = !!this.lastRequest;
+        this.optionsCache[''] = options || [];
+        this.setState({ loadedOptions: options || [], isLoading });
+      });
     }
     componentWillReceiveProps(nextProps: Props) {
       // if the cacheOptions prop changes, clear the cache
@@ -71,9 +74,9 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       }
       if (nextProps.defaultOptions !== this.props.defaultOptions) {
         this.setState({
-          defaultOptions: Array.isArray(nextProps.defaultOptions)
+          loadedOptions: Array.isArray(nextProps.defaultOptions)
             ? nextProps.defaultOptions
-            : undefined,
+            : [],
         });
       }
 
@@ -96,21 +99,14 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       }
     }
     handleInputChange = (newValue: string, actionMeta: InputActionMeta) => {
-      const { cacheOptions, onInputChange } = this.props;
+      const { defaultOptions, cacheOptions, onInputChange } = this.props;
       // TODO
       const inputValue = handleInputChange(newValue, actionMeta, onInputChange);
-      if (!inputValue) {
-        delete this.lastRequest;
-        this.setState({
-          inputValue: '',
-          loadedInputValue: '',
-          loadedOptions: [],
-          isLoading: false,
-          passEmptyOptions: false,
-        });
-        return;
-      }
-      if (cacheOptions && this.optionsCache[inputValue]) {
+
+      // If we are caching options, then load from cache
+      if ((cacheOptions && this.optionsCache[inputValue]) ||
+          // If we have default values and the input is empty, load from the cache
+          (!inputValue && Array.isArray(defaultOptions))) {
         this.setState({
           inputValue,
           loadedInputValue: inputValue,
@@ -119,6 +115,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
           passEmptyOptions: false,
         });
       } else {
+        // Otherwise, make the request
         const request = (this.lastRequest = {});
         this.setState(
           {
@@ -147,18 +144,16 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       return inputValue;
     };
     render() {
-      const { loadOptions, ...props } = this.props;
+      const { defaultOptions, loadOptions, ...props } = this.props;
       const {
-        defaultOptions,
         inputValue,
         isLoading,
-        loadedInputValue,
         loadedOptions,
         passEmptyOptions,
       } = this.state;
       const options = passEmptyOptions
         ? []
-        : inputValue && loadedInputValue ? loadedOptions : defaultOptions || [];
+        : (!inputValue && Array.isArray(defaultOptions)) ? defaultOptions : loadedOptions || [];
       return (
         // $FlowFixMe
         <SelectComponent

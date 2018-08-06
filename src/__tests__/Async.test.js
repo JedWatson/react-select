@@ -141,6 +141,26 @@ test('in case of callbacks display the most recently-requested loaded options (i
   expect(asyncSelectWrapper.find(Option).text()).toBe('bar');
 });
 
+test('to update options when defaultOptions changes', () => {
+  const options = [
+    { label: 'a', value: 1 },
+    { label: 'b', value: 2 },
+  ];
+  const asyncSelectWrapper = mount(<Async defaultOptions={options} classNamePrefix="react-select" />);
+  let inputValueWrapper = asyncSelectWrapper.find(
+    'div.react-select__input input'
+  );
+  inputValueWrapper.simulate('change', { currentTarget: { value: 'bar' } });
+  expect(asyncSelectWrapper.find(Option).length).toBe(2);
+  asyncSelectWrapper.setProps({
+    defaultOptions: [
+      ...options,
+      { label: 'c', value: 3 },
+    ]
+  });
+  expect(asyncSelectWrapper.find(Option).length).toBe(3);
+});
+
 /**
  * This throws a jsdom exception
  */
