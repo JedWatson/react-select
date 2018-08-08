@@ -64,6 +64,12 @@ test('single select > passing multiple values > should select the first value', 
   expect(selectWrapper.find(Control).text()).toBe('0');
 });
 
+test('values as string should work', () => {
+  const props = { ...BASIC_PROPS, value: 'zero' };
+  let selectWrapper = mount(<Select {...props} />);
+  expect(selectWrapper.find(Control).text()).toBe('0');
+});
+
 test('isRtl boolean props is passed down to the control component', () => {
   let selectWrapper = mount(
     <Select {...BASIC_PROPS} value={[OPTIONS[0]]} isRtl isClearable />

@@ -43,7 +43,7 @@ export function classNames(
   prefix?: string | null,
   cssKey?: string | null,
   state?: ClassNamesState,
-  className?: string,
+  className?: string
 ) {
   const arr = [cssKey, className];
   if (state && prefix) {
@@ -54,7 +54,10 @@ export function classNames(
     }
   }
 
-  return arr.filter(i => i).map(i => String(i).trim()).join(' ');
+  return arr
+    .filter(i => i)
+    .map(i => String(i).trim())
+    .join(' ');
 }
 // ==============================
 // Clean Value
@@ -62,10 +65,23 @@ export function classNames(
 
 export const cleanValue = (value: ValueType): OptionsType => {
   if (Array.isArray(value)) return value.filter(Boolean);
-  if (typeof value === 'object' && value !== null) return [value];
+  if (value !== null) return [value];
   return [];
 };
 
+export const hydrateValues = (values, options) => {
+  const optionsByValue = options.reduce((acc, o) => {
+    acc[o.value] = o;
+    return acc;
+  }, {});
+  return values.map(v => {
+    if (typeof v === 'object') {
+      return v;
+    } else {
+      return { value: optionsByValue[v].value, label: optionsByValue[v].label };
+    }
+  });
+};
 // ==============================
 // Handle Input Change
 // ==============================
