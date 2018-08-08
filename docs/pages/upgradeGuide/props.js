@@ -14,7 +14,7 @@ const propChangeData = [
   ['arrowRenderer', 'components'],
   ['autoBlur', 'renamed', 'blurInputOnSelect'],
   ['autoFocus', 'unchanged'],
-  ['autoLoad', 'removed', 'see the Async component'],
+  ['autoLoad', 'removed', 'see the Async component (defaultOptions)'],
   ['autosize', 'components'],
   ['backspaceRemoves', 'renamed', 'backspaceRemovesValue'],
   [
