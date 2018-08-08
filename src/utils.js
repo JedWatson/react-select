@@ -65,7 +65,7 @@ export function classNames(
 
 export const cleanValue = (value: ValueType): OptionsType => {
   if (Array.isArray(value)) return value.filter(Boolean);
-  if (value !== null) return [value];
+  if (value !== null && value !== undefined) return [value];
   return [];
 };
 
@@ -74,13 +74,22 @@ export const hydrateValues = (values, options) => {
     acc[o.value] = o;
     return acc;
   }, {});
-  return values.map(v => {
+  const hydratedValues = [];
+  values.forEach(v => {
     if (typeof v === 'object') {
-      return v;
+      // it's already an option type
+      hydratedValues.push(v);
     } else {
-      return { value: optionsByValue[v].value, label: optionsByValue[v].label };
+      // make it into an option
+      if (optionsByValue[v]) {
+        hydratedValues.push({
+          value: optionsByValue[v].value,
+          label: optionsByValue[v].label,
+        });
+      }
     }
   });
+  return hydratedValues;
 };
 // ==============================
 // Handle Input Change
