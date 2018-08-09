@@ -57,17 +57,16 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       this.mounted = true;
       const { defaultOptions } = this.props;
       if (defaultOptions === true) {
-        this.loadOptions('', options => {
-          if (!this.mounted) return;
-          const isLoading = !!this.lastRequest;
-          this.setState({ defaultOptions: options || [], isLoading });
-        });
+        this.reloadDefaultOptions();
       }
     }
     componentWillReceiveProps(nextProps: Props) {
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
+        if (defaultOptions === true) {
+          this.reloadDefaultOptions();
+        }
       }
       if (nextProps.defaultOptions !== this.props.defaultOptions) {
         this.setState({
@@ -87,6 +86,13 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     blur() {
       this.select.blur();
     }
+    reloadDefaultOptions() {
+      this.loadOptions('', options => {
+        if (!this.mounted) return;
+        const isLoading = !!this.lastRequest;
+        this.setState({ defaultOptions: options || [], isLoading });
+      });
+    },
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
