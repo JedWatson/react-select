@@ -64,7 +64,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
-        if (defaultOptions === true) {
+        if (nextProps.defaultOptions === true) {
           this.reloadDefaultOptions();
         }
       }
@@ -92,7 +92,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
         const isLoading = !!this.lastRequest;
         this.setState({ defaultOptions: options || [], isLoading });
       });
-    },
+    }
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
