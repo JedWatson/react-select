@@ -487,7 +487,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
       <div
-        className={css(getStyles('menuPortal', state))}
+        className={css(getStyles('menuPortal', state, this.props))}
       >
         {children}
       </div>

@@ -47,7 +47,7 @@ export type CommonProps = {
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (string, any) => {},
+  getStyles: (string, any, any) => {},
   getValue: () => ValueType,
   hasValue: boolean,
   isMulti: boolean,
