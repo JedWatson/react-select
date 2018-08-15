@@ -17,7 +17,7 @@ class ScrollCaptor extends Component<CaptorProps> {
   isTop: boolean = false;
   scrollTarget: HTMLElement;
   touchStart: number;
-  listenerOptions: detectPassiveEvents.hasSupport ? { capture: false, passive: true } : false;
+  listenerOptions: any = detectPassiveEvents.hasSupport ? { capture: false, passive: true } : false;
 
   componentDidMount() {
     this.startListening(this.scrollTarget);
