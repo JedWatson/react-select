@@ -1597,6 +1597,7 @@ export default class Select extends Component<Props, State> {
           menuPlacement={menuPlacement}
           menuPosition={menuPosition}
           menuShouldScrollIntoView={menuShouldScrollIntoView}
+          closeMenu={this.props.onMenuClose}
         >
           <ScrollCaptor
             isEnabled={captureMenuScroll}
