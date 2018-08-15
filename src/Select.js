@@ -1648,18 +1648,21 @@ export default class Select extends Component<Props, State> {
           .join(delimiter);
         return <input name={name} type="hidden" value={value} />;
       } else {
-        return (
-          <div>
-            {selectValue.map((opt, i) => (
+        const input =
+          selectValue.length > 0 ? (
+            selectValue.map((opt, i) => (
               <input
                 key={`i-${i}`}
                 name={name}
                 type="hidden"
                 value={this.getOptionValue(opt)}
               />
-            ))}
-          </div>
-        );
+            ))
+          ) : (
+            <input name={name} type="hidden" />
+          );
+
+        return <div>{input}</div>;
       }
     } else {
       const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';

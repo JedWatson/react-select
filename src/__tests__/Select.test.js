@@ -58,6 +58,13 @@ test('hidden input field is not present if name is not passes', () => {
   expect(selectWrapper.find('input[type="hidden"]').exists()).toBeFalsy();
 });
 
+test('hidden input field is present if name passes', () => {
+  let selectWrapper = mount(
+    <Select name="test-input-name" options={OPTIONS} />
+  );
+  expect(selectWrapper.find('input[type="hidden"]').exists()).toBeTruthy();
+});
+
 test('single select > passing multiple values > should select the first value', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[4]] };
   let selectWrapper = mount(<Select {...props} />);
