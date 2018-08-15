@@ -11,26 +11,26 @@ A Select control built with and for [React](http://facebook.github.io/react/inde
 
 ---
 
-## v2.0.0 Beta
+## v2.0.0
 
-A major update to React-select is coming! v2 is all new with some major API improvements, a powerful
+A major update to React-select has come! React-Select v2 is a complete rewrite, all new with some major API improvements, a powerful
 new styles and components API, and support for some long-requested features like option groups.
 
 To install the new version:
 
 ```
-yarn add react-select@next
+yarn add react-select
 ```
 
-Check out the [v2 documentation](https://deploy-preview-2289--react-select.netlify.com)
-and [upgrade guide](https://deploy-preview-2289--react-select.netlify.com/upgrade-guide).
+Check out the [v2 documentation](https://react-select.com/home)
+and [upgrade guide](https://react-select.com/upgrade-guide).
 
 ---
 
 
 ## Demo & Examples
 
-Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-select/)
+Live demo: [https://v1.react-select.com/](https://v1.react-select.com/)
 
 
 ## Installation
@@ -38,7 +38,7 @@ Live demo: [jedwatson.github.io/react-select](http://jedwatson.github.io/react-s
 The easiest way to use react-select is to install it from npm and build it into your app with Webpack.
 
 ```
-yarn add react-select
+yarn add react-select@1.x
 ```
 
 You can then import react-select and its styles in your application as follows:
