@@ -250,7 +250,7 @@ exports[`defaults - snapshot 1`] = `
               setValue={[Function]}
             >
               <div
-                className="css-1aya2g8"
+                className="css-adi9xj"
                 onMouseDown={[Function]}
                 onTouchEnd={[Function]}
               >
@@ -397,7 +397,7 @@ exports[`defaults - snapshot 1`] = `
                       setValue={[Function]}
                     >
                       <div
-                        className="css-1492t68"
+                        className="css-11zjhuz"
                       >
                         Select...
                       </div>
@@ -422,7 +422,7 @@ exports[`defaults - snapshot 1`] = `
                       value=""
                     >
                       <div
-                        className="css-rsyb7x"
+                        className="css-12gayob"
                       >
                         <AutosizeInput
                           aria-autocomplete="list"
@@ -652,7 +652,7 @@ exports[`defaults - snapshot 1`] = `
                       setValue={[Function]}
                     >
                       <span
-                        className="css-d8oujb"
+                        className="css-1etbf2r"
                       />
                     </IndicatorSeparator>
                     <DropdownIndicator
@@ -734,7 +734,7 @@ exports[`defaults - snapshot 1`] = `
                     >
                       <div
                         aria-hidden="true"
-                        className="css-1ep9fjw"
+                        className="css-15lyulk"
                         onMouseDown={[Function]}
                         onTouchEnd={[Function]}
                       >

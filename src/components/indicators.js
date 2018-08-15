@@ -60,7 +60,7 @@ const baseCSS = ({ isFocused }: IndicatorProps) => ({
   transition: 'color 150ms',
 
   ':hover': {
-    color: isFocused ? colors.neutral100 : colors.neutral40,
+    color: isFocused ? colors.neutral80 : colors.neutral40,
   },
 });
 
@@ -195,7 +195,7 @@ export type LoadingIconProps = {
 };
 export const LoadingIndicator = (props: LoadingIconProps) => {
   const { className, cx, getStyles, innerProps, isFocused, isRtl } = props;
-  const color = isFocused ? colors.text : colors.neutral20;
+  const color = isFocused ? colors.neutral80 : colors.neutral20;
 
   return (
     <div

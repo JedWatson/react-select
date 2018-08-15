@@ -230,7 +230,7 @@ export const menuCSS = ({ placement }: MenuState) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
-  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
+  boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
   position: 'absolute',
