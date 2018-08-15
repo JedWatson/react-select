@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, type Element } from 'react';
+import detectPassiveEvents from 'detect-passive-events';
 import NodeResolver from './NodeResolver';
 
 export type CaptorProps = {
@@ -16,6 +17,7 @@ class ScrollCaptor extends Component<CaptorProps> {
   isTop: boolean = false;
   scrollTarget: HTMLElement;
   touchStart: number;
+  listenerOptions: any = detectPassiveEvents.hasSupport ? { capture: false, passive: true } : false;
 
   componentDidMount() {
     this.startListening(this.scrollTarget);
@@ -29,13 +31,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('wheel', this.onWheel, false);
+      el.addEventListener('wheel', this.onWheel, this.listenerOptions);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchstart', this.onTouchStart, false);
+      el.addEventListener('touchstart', this.onTouchStart, this.listenerOptions);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchmove', this.onTouchMove, false);
+      el.addEventListener('touchmove', this.onTouchMove, this.listenerOptions);
     }
   }
   stopListening(el: HTMLElement) {
@@ -44,13 +46,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('wheel', this.onWheel, false);
+      el.removeEventListener('wheel', this.onWheel, this.listenerOptions);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchstart', this.onTouchStart, false);
+      el.removeEventListener('touchstart', this.onTouchStart, this.listenerOptions);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchmove', this.onTouchMove, false);
+      el.removeEventListener('touchmove', this.onTouchMove, this.listenerOptions);
     }
   }
 
