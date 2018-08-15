@@ -14,6 +14,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "create-emotion": "^10.0.4",
+    "detect-passive-events": "^1.0.4",
     "memoize-one": "^4.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
