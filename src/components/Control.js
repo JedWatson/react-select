@@ -26,9 +26,7 @@ export type ControlProps = CommonProps &
 
 export const css = ({ isDisabled, isFocused }: State) => ({
   alignItems: 'center',
-  backgroundColor: isDisabled
-    ? colors.neutral5
-    : isFocused ? colors.neutral0 : colors.neutral2,
+  backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
   borderColor: isDisabled
     ? colors.neutral10
     : isFocused ? colors.primary : colors.neutral20,

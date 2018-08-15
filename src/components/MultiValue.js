@@ -30,7 +30,7 @@ export const multiValueCSS = () => ({
 });
 export const multiValueLabelCSS = ({ cropWithEllipsis }: MultiValueProps) => ({
   borderRadius: borderRadius / 2,
-  color: colors.text,
+  color: colors.neutral80,
   fontSize: '85%',
   overflow: 'hidden',
   padding: 3,

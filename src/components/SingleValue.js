@@ -19,7 +19,7 @@ type ValueProps = {
 export type SingleValueProps = CommonProps & ValueProps & State;
 
 export const css = ({ isDisabled }: SingleValueProps) => ({
-  color: isDisabled ? colors.neutral40 : colors.text,
+  color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   maxWidth: `calc(100% - ${spacing.baseUnit * 2}px)`,
