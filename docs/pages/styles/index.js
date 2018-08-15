@@ -53,7 +53,7 @@ export default function Styles() {
 
     ## Base and State
 
-    Spreading the base styles into your returned object let's you extend it
+    Spreading the base styles into your returned object lets you extend it
     however you like while maintaining existing styles. Alternatively, you
     can omit the base and completely take control of the component's styles.
 
