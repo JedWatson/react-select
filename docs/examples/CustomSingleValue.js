@@ -1,18 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Select, { components } from '../../src';
 import { colourOptions } from '../data';
 
 
-const SingleValue = ({ children, ...props }) => (
+const SingleValue = ({ children, ...props }) => {
+  const boxStyle = {
+    height: '10px',
+    width: '10px',
+    margin: '4px 5px 0 0',
+    background: props.data.color
+  };
+  return (
     <components.SingleValue {...props}>
+      <div style={boxStyle}/>
       {children}
     </components.SingleValue>
-);
+  );
+};
 
-type State = {};
-
-export default class CustomControl extends Component<*, State> {
-  state = {};
+export default class CustomControl extends PureComponent<*> {
   render() {
     return (
       <Select
