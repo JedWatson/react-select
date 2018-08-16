@@ -7,7 +7,7 @@ type State = {
   value: [{ [string]: string }]
 };
 
-const TagStyle = {
+const styles = {
   multiValue: (base, state) => {
     return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
   },
@@ -19,19 +19,13 @@ const TagStyle = {
   }
 };
 
-const ClearIndicator = (props) => {
-  let value = props.getValue();
-  let isFixed = value && value.reduce((p, v) => p && v.isFixed, true);
-  return isFixed ? (<span/>) : (<components.ClearIndicator {...props}/>);
-};
-
-const OrderOptions = (values) => {
+const orderOptions = (values) => {
   return values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed));
 };
 
 export default class FixedOptions extends Component<*, State> {
   state = {
-    value: OrderOptions([colourOptions[0], colourOptions[1], colourOptions[3]])
+    value: orderOptions([colourOptions[0], colourOptions[1], colourOptions[3]])
   }
 
   constructor(props) {
@@ -53,7 +47,7 @@ export default class FixedOptions extends Component<*, State> {
         break;
     }
 
-    value = OrderOptions(value);
+    value = orderOptions(value);
     this.setState({ value: value });
   }
 
@@ -62,8 +56,8 @@ export default class FixedOptions extends Component<*, State> {
       <Select
         value={this.state.value}
         isMulti
-        styles={TagStyle}
-        components={{ ClearIndicator }}
+        styles={styles}
+        isClearable={!this.state.value.reduce((p, v) => p & v.isFixed, true)}
         name="colors"
         className="basic-multi-select"
         classNamePrefix="select"
