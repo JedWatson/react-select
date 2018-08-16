@@ -57,7 +57,7 @@ export default class FixedOptions extends Component<*, State> {
         value={this.state.value}
         isMulti
         styles={styles}
-        isClearable={!this.state.value.reduce((p, v) => p & v.isFixed, true)}
+        isClearable={this.state.value.some(v => !v.isFixed)}
         name="colors"
         className="basic-multi-select"
         classNamePrefix="select"
