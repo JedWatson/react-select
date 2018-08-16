@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Select, { components } from '../../src';
+import Select from '../../src';
 import { colourOptions } from '../data';
 
 type State = {
