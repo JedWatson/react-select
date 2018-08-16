@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, type Element } from 'react';
-import detectPassiveEvents from 'detect-passive-events';
 import NodeResolver from './NodeResolver';
 
 export type CaptorProps = {
@@ -17,7 +16,6 @@ class ScrollCaptor extends Component<CaptorProps> {
   isTop: boolean = false;
   scrollTarget: HTMLElement;
   touchStart: number;
-  listenerOptions: any = detectPassiveEvents.hasSupport ? { capture: false, passive: true } : false;
 
   componentDidMount() {
     this.startListening(this.scrollTarget);
@@ -31,13 +29,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('wheel', this.onWheel, this.listenerOptions);
+      el.addEventListener('wheel', this.onWheel, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchstart', this.onTouchStart, this.listenerOptions);
+      el.addEventListener('touchstart', this.onTouchStart, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchmove', this.onTouchMove, this.listenerOptions);
+      el.addEventListener('touchmove', this.onTouchMove, false);
     }
   }
   stopListening(el: HTMLElement) {
@@ -46,13 +44,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('wheel', this.onWheel, this.listenerOptions);
+      el.removeEventListener('wheel', this.onWheel, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchstart', this.onTouchStart, this.listenerOptions);
+      el.removeEventListener('touchstart', this.onTouchStart, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchmove', this.onTouchMove, this.listenerOptions);
+      el.removeEventListener('touchmove', this.onTouchMove, false);
     }
   }
 
