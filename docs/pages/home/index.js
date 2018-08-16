@@ -11,6 +11,7 @@ import {
   BasicGrouped,
   BasicMulti,
   CreatableSingle,
+  FixedOptions,
   StyledMulti,
   StyledSingle,
 } from '../../examples';
@@ -174,5 +175,17 @@ export default function Home() {
   )}
 
   You can see a full explanation of how to do this on the [creatable](/creatable) page.
+
+  # Fixed Options
+
+  ${(
+    <ExampleWrapper
+      label="Fixed Options Example"
+      urlPath="docs/home/examples/FixedOptions.js"
+      raw={require('!!raw-loader!../../examples/FixedOptions.js')}
+    >
+      <FixedOptions />
+    </ExampleWrapper>
+  )}
 `;
 }
