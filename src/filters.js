@@ -17,6 +17,9 @@ export const createFilter = (config: ?Config) => (
   option: { label: string, value: string, data: any },
   rawInput: string
 ) => {
+  if (option.data.__isNew__) {
+    return true;
+  }
   const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {
     ignoreCase: true,
     ignoreAccents: true,
