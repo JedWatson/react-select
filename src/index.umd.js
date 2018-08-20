@@ -13,6 +13,7 @@ import Creatable from './Creatable';
 import { createFilter } from './filters';
 import { components } from './components/index';
 import { mergeStyles } from './styles';
+import { defaultTheme } from './theme';
 
 const Select = manageState(SelectBase);
 Select.Async = Async;
@@ -22,5 +23,6 @@ Select.SelectBase = SelectBase;
 Select.createFilter = createFilter;
 Select.components = components;
 Select.mergeStyles = mergeStyles;
+Select.defaultTheme = defaultTheme;
 
 export default Select;

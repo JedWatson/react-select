@@ -45,7 +45,9 @@ import {
   type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
+
 import { defaultStyles, type StylesConfig } from './styles';
+import { defaultTheme, type ThemeConfig } from './theme';
 
 import type {
   ActionMeta,
@@ -211,6 +213,8 @@ export type Props = {
   screenReaderStatus: ({ count: number }) => string,
   /* Style modifier methods */
   styles: StylesConfig,
+  /* Theme modifier method */
+  theme?: ThemeConfig,
   /* Sets the tabIndex attribute on the input */
   tabIndex: string,
   /* Select the currently focused option when the user presses tab */
@@ -653,6 +657,25 @@ export default class Select extends Component<Props, State> {
   // Getters
   // ==============================
 
+  getTheme() {
+    // Use the default theme if there are no customizations.
+    if (!this.props.theme) {
+      return defaultTheme;
+    }
+    // If the theme prop is a function, assume the function
+    // knows how to merge the passed-in default theme with
+    // its own modifications.
+    if (typeof this.props.theme === 'function') {
+      return this.props.theme(defaultTheme);
+    }
+    // Otherwise, if a plain theme object was passed in,
+    // overlay it with the default theme.
+    return {
+      ...defaultTheme,
+      ...this.props.theme,
+    };
+  }
+
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
     const { classNamePrefix, isMulti, isRtl, options } = props;
@@ -674,6 +697,7 @@ export default class Select extends Component<Props, State> {
       selectOption,
       setValue,
       selectProps: props,
+      theme: this.getTheme(),
     };
   }
 
@@ -1318,7 +1342,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx } = this.commonProps;
+    const { cx, theme } = this.commonProps;
 
     return (
       <Input
@@ -1336,6 +1360,7 @@ export default class Select extends Component<Props, State> {
         onFocus={this.onInputFocus}
         spellCheck="false"
         tabIndex={tabIndex}
+        theme={theme}
         type="text"
         value={inputValue}
         {...ariaAttributes}

@@ -1,6 +1,6 @@
 // @flow
 
-export const borderRadius = 4;
+import type { Theme } from './types';
 
 export const colors = {
   primary: '#2684FF',
@@ -24,13 +24,21 @@ export const colors = {
   neutral90: 'hsl(218, 50%, 10%)',
 };
 
-const baseUnit = 4;
+const borderRadius = 4;
+const baseUnit = 4;  /* Used to calculate consistent margin/padding on elements */
+const controlHeight = 38;  /* The minimum height of the control */
+const menuGutter = baseUnit * 2;  /* The amount of space between the control and menu */
 
 export const spacing = {
-  /* Used to calculate consistent margin/padding on elements */
   baseUnit,
-  /* The minimum height of the control */
-  controlHeight: 38,
-  /* The amount of space between the control and menu */
-  menuGutter: baseUnit * 2,
+  controlHeight,
+  menuGutter,
 };
+
+export const defaultTheme: Theme = {
+  borderRadius,
+  colors,
+  spacing,
+};
+
+export type ThemeConfig = Theme | ((theme: Theme) => Theme);

@@ -2,11 +2,10 @@
 import React, { Component, type Node } from 'react';
 import { css } from 'emotion';
 
-import { borderRadius, colors, spacing } from '../theme';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 
-export type MultiValueProps = CommonProps &{
+export type MultiValueProps = CommonProps & {
   children: Node,
   components: any,
   cropWithEllipsis: boolean,
@@ -21,14 +20,17 @@ export type MultiValueProps = CommonProps &{
   },
 };
 
-export const multiValueCSS = () => ({
+export const multiValueCSS = ({
+  theme: { spacing, borderRadius, colors },
+}: MultiValueProps) => ({
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
   display: 'flex',
   margin: spacing.baseUnit / 2,
   minWidth: 0, // resolves flex/text-overflow bug
 });
-export const multiValueLabelCSS = ({ cropWithEllipsis }: MultiValueProps) => ({
+
+export const multiValueLabelCSS = ({ theme: { borderRadius, colors }, cropWithEllipsis }: MultiValueProps) => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
@@ -38,7 +40,11 @@ export const multiValueLabelCSS = ({ cropWithEllipsis }: MultiValueProps) => ({
   textOverflow: cropWithEllipsis ? 'ellipsis' : null,
   whiteSpace: 'nowrap',
 });
-export const multiValueRemoveCSS = ({ isFocused }: MultiValueProps) => ({
+
+export const multiValueRemoveCSS = ({
+  theme: { spacing, borderRadius, colors },
+  isFocused,
+}: MultiValueProps) => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   backgroundColor: isFocused && colors.dangerLight,

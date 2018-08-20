@@ -13,3 +13,4 @@ export { createFilter } from './filters';
 export { default as makeAnimated } from './animated/index';
 export { components } from './components/index';
 export { mergeStyles } from './styles';
+export { defaultTheme } from './theme';

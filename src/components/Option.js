@@ -2,7 +2,6 @@
 import React, { type Node } from 'react';
 import { css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -36,7 +35,12 @@ export type OptionProps = PropsWithStyles &
     type: 'option',
   };
 
-export const optionCSS = ({ isDisabled, isFocused, isSelected }: State) => ({
+export const optionCSS = ({
+  isDisabled,
+  isFocused,
+  isSelected,
+  theme: { spacing, colors },
+}: OptionProps) => ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',

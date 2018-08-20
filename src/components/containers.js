@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
 import { css } from 'emotion';
-import { spacing } from '../theme';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -58,7 +57,7 @@ export type ValueContainerProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = () => ({
+export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,

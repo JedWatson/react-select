@@ -2,7 +2,6 @@
 import React, { type Node, type ComponentType } from 'react';
 import { css } from 'emotion';
 
-import { spacing } from '../theme';
 import type { CommonProps } from '../types';
 
 type ComponentProps = {
@@ -10,12 +9,14 @@ type ComponentProps = {
   children: Node,
   /** Component to wrap the label, recieves headingProps. */
   Heading: ComponentType<any>,
+  /** Props to pass to Heading. */
+  headingProps: any,
   /** Label to be displayed in the heading component. */
   label: Node,
 };
 export type GroupProps = CommonProps & ComponentProps;
 
-export const groupCSS = () => ({
+export const groupCSS = ({ theme: { spacing } }: GroupProps) => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
@@ -27,7 +28,9 @@ const Group = (props: GroupProps) => {
     cx,
     getStyles,
     Heading,
+    headingProps,
     label,
+    theme,
   } = props;
   return (
     <div
@@ -37,7 +40,7 @@ const Group = (props: GroupProps) => {
         className,
       )}
     >
-      <Heading getStyles={getStyles} cx={cx}>
+      <Heading {...headingProps} theme={theme} getStyles={getStyles} cx={cx}>
         {label}
       </Heading>
       <div>{children}</div>
@@ -45,7 +48,7 @@ const Group = (props: GroupProps) => {
   );
 };
 
-export const groupHeadingCSS = () => ({
+export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
   color: '#999',
   cursor: 'default',
   display: 'block',

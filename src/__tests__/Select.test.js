@@ -2256,3 +2256,28 @@ test.skip('hitting spacebar should not select option if isSearchable is true (de
   selectWrapper.simulate('keyDown', { keyCode: 32, key: ' ' });
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
+
+
+test('renders with custom theme', () => {
+  const primary = 'rgb(255, 164, 83)';
+  const selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      value={OPTIONS[0]}
+      menuIsOpen
+      theme={(theme) => (
+        {
+          ... theme,
+          borderRadius: 180,
+          colors: {
+            ...theme.colors,
+            primary,
+          },
+        }
+      )} />
+  );
+  const menu = selectWrapper.find(Menu);
+  expect(window.getComputedStyle(menu.getDOMNode()).getPropertyValue('border-radius')).toEqual('180px');
+  const firstOption = selectWrapper.find(Option).first();
+  expect(window.getComputedStyle(firstOption.getDOMNode()).getPropertyValue('background-color')).toEqual(primary);
+});

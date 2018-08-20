@@ -17,13 +17,13 @@ import {
   getScrollTop,
   scrollTo,
 } from '../utils';
-import { borderRadius, colors, spacing } from '../theme';
 import type {
   InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
 } from '../types';
+import type { Theme } from '../types';
 
 // ==============================
 // Menu
@@ -32,7 +32,10 @@ import type {
 // Get Menu Placement
 // ------------------------------
 
-type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
+type MenuState = {
+  placement: 'bottom' | 'top' | null,
+  maxHeight: number,
+};
 type PlacementArgs = {
   maxHeight: number,
   menuEl: ElementRef<*>,
@@ -40,6 +43,7 @@ type PlacementArgs = {
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
   isFixedPosition: boolean,
+  theme: Theme,
 };
 
 export function getMenuPlacement({
@@ -49,7 +53,9 @@ export function getMenuPlacement({
   placement,
   shouldScroll,
   isFixedPosition,
+  theme,
 }: PlacementArgs): MenuState {
+  const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl);
   const defaultState = { placement: 'bottom', maxHeight };
 
@@ -226,7 +232,9 @@ function alignToControl(placement) {
 }
 const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = ({ placement }: MenuState) => ({
+type MenuStateWithProps = MenuState & MenuProps;
+
+export const menuCSS = ({ placement, theme: { borderRadius, spacing, colors } }: MenuStateWithProps) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
@@ -253,6 +261,7 @@ export class Menu extends Component<MenuProps, MenuState> {
       menuPlacement,
       menuPosition,
       menuShouldScrollIntoView,
+      theme,
     } = this.props;
     const { getPortalPlacement } = this.context;
 
@@ -269,6 +278,7 @@ export class Menu extends Component<MenuProps, MenuState> {
       placement: menuPlacement,
       shouldScroll,
       isFixedPosition,
+      theme,
     });
 
     if (getPortalPlacement) getPortalPlacement(state);
@@ -324,11 +334,11 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = ({ maxHeight }: MenuState) => ({
+export const menuListCSS = ({ maxHeight, theme: { spacing: { baseUnit } } }: MenuListComponentProps) => ({
   maxHeight,
   overflowY: 'auto',
-  paddingBottom: spacing.baseUnit,
-  paddingTop: spacing.baseUnit,
+  paddingBottom: baseUnit,
+  paddingTop: baseUnit,
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
 });
@@ -355,9 +365,9 @@ export const MenuList = (props: MenuListComponentProps) => {
 // Menu Notices
 // ==============================
 
-const noticeCSS = () => ({
+const noticeCSS = ({ theme: { spacing: { baseUnit }, colors } }: NoticeProps) => ({
   color: colors.neutral40,
-  padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
+  padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
 });
 export const noOptionsMessageCSS = noticeCSS;
