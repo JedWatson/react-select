@@ -10,6 +10,10 @@ import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
+import {
+  getOptionLabel,
+  getOptionValue,
+} from './builtins';
 
 export type CreatableProps = {
   /* Allow options to be created while the `isLoading` prop is true. Useful to
@@ -36,10 +40,10 @@ export type CreatableProps = {
 export type Props = SelectProps & CreatableProps;
 
 const compareOption = (inputValue, option) => {
-  const candidate = inputValue.toLowerCase();
+  const candidate = inputValue.toString().toLowerCase();
   return (
-    option.value.toLowerCase() === candidate ||
-    option.label.toLowerCase() === candidate
+    getOptionValue(option).toString().toLowerCase() === candidate ||
+    getOptionLabel(option).toString().toLowerCase() === candidate
   );
 };
 
