@@ -730,6 +730,20 @@ cases(
     'single select > should focus the first option': {
       expectedToFocus: { label: '0', value: 'zero' },
     },
+    'single select > should focus the option specified via "props.focusedOption"': {
+      props: {
+        ...BASIC_PROPS,
+        focusedOption: OPTIONS[3],
+      },
+      expectedToFocus: OPTIONS[3],
+    },
+    'single select > should focus the selected option': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS[3],
+      },
+      expectedToFocus: OPTIONS[3],
+    },
     'multi select > should focus the first option': {
       props: {
         ...BASIC_PROPS,

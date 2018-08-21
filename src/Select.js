@@ -221,6 +221,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* Option that will be focused by default on menu open */
+  focusedOption?: OptionType,
 };
 
 export const defaultProps = {
@@ -458,12 +460,12 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue } = this.state;
-    const { isMulti } = this.props;
+    const { isMulti, focusedOption } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
     if (!isMulti) {
-      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      const selectedIndex = menuOptions.focusable.indexOf(focusedOption || selectValue[0]);
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
       }
