@@ -4,7 +4,7 @@ import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
 import Creatable from '../Creatable';
-import { OPTIONS } from './constants';
+import { OPTIONS, OPTIONS_CUSTOM_LABEL } from './constants';
 import { components } from '../components';
 const { Menu, NoOptionsMessage } = components;
 
@@ -101,6 +101,17 @@ cases('isValidNewOption() prop',
         options: OPTIONS,
       },
     },
+  },
+  ({ props = { options: OPTIONS_CUSTOM_LABEL }}) => {
+    const creatableSelectWrapper = mount(
+      <Creatable menuIsOpen {...props} getOptionLabel={o => o.name} getOptionValue={o => o.uuid} />
+    );
+
+    creatableSelectWrapper.setProps({ inputValue: 'Don Knuth' });
+
+    expect(creatableSelectWrapper.find(Menu).text()).toEqual(
+      expect.stringContaining('Create "Don Knuth"')
+    );
   }
 );
 

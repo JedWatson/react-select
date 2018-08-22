@@ -38,3 +38,8 @@ export const OPTIONS_BOOLEAN_VALUE = [
   { label: 'true', value: true },
   { label: 'false', value: false },
 ];
+
+export const OPTIONS_CUSTOM_LABEL = [
+  { uuid: '2345abc', name: 'Fred Brooks' },
+  { uuid: '6789def', name: 'Ada Lovelace' },
+];
