@@ -68,6 +68,7 @@ export const MultiValueGeneric = ({
   innerProps,
 }: MultiValueGenericProps) => <div {...innerProps}>{children}</div>;
 
+export const MultiValueLabelsContainer = MultiValueGeneric;
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export type MultiValueRemoveProps = CommonProps & {
