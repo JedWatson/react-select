@@ -177,6 +177,8 @@ export type Props = {
   menuShouldBlockScroll: boolean,
   /* Whether the menu should be scrolled into view when it opens */
   menuShouldScrollIntoView: boolean,
+  /* Optional buffer (in px) between the edge of the viewport and the edge of the menu */
+  menuBuffer?: number,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
@@ -250,6 +252,7 @@ export const defaultProps = {
   menuPosition: 'absolute',
   menuShouldBlockScroll: false,
   menuShouldScrollIntoView: !isMobileDevice(),
+  menuBuffer: 0,
   noOptionsMessage: () => 'No options',
   openMenuOnFocus: false,
   openMenuOnClick: true,
@@ -1550,6 +1553,7 @@ export default class Select extends Component<Props, State> {
       menuPortalTarget,
       menuShouldBlockScroll,
       menuShouldScrollIntoView,
+      menuBuffer,
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
@@ -1622,6 +1626,7 @@ export default class Select extends Component<Props, State> {
           menuPlacement={menuPlacement}
           menuPosition={menuPosition}
           menuShouldScrollIntoView={menuShouldScrollIntoView}
+          menuBuffer={menuBuffer}
         >
           <ScrollCaptor
             isEnabled={captureMenuScroll}

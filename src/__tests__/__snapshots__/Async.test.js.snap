@@ -43,6 +43,7 @@ exports[`defaults - snapshot 1`] = `
       isSearchable={true}
       loadingMessage={[Function]}
       maxMenuHeight={300}
+      menuBuffer={0}
       menuIsOpen={false}
       menuPlacement="bottom"
       menuPosition="absolute"
@@ -111,6 +112,7 @@ exports[`defaults - snapshot 1`] = `
             "isSearchable": true,
             "loadingMessage": [Function],
             "maxMenuHeight": 300,
+            "menuBuffer": 0,
             "menuIsOpen": false,
             "menuPlacement": "bottom",
             "menuPosition": "absolute",
@@ -216,6 +218,7 @@ exports[`defaults - snapshot 1`] = `
                 "isSearchable": true,
                 "loadingMessage": [Function],
                 "maxMenuHeight": 300,
+                "menuBuffer": 0,
                 "menuIsOpen": false,
                 "menuPlacement": "bottom",
                 "menuPosition": "absolute",
@@ -314,6 +317,7 @@ exports[`defaults - snapshot 1`] = `
                     "isSearchable": true,
                     "loadingMessage": [Function],
                     "maxMenuHeight": 300,
+                    "menuBuffer": 0,
                     "menuIsOpen": false,
                     "menuPlacement": "bottom",
                     "menuPosition": "absolute",
@@ -411,6 +415,7 @@ exports[`defaults - snapshot 1`] = `
                         "isSearchable": true,
                         "loadingMessage": [Function],
                         "maxMenuHeight": 300,
+                        "menuBuffer": 0,
                         "menuIsOpen": false,
                         "menuPlacement": "bottom",
                         "menuPosition": "absolute",
@@ -704,6 +709,7 @@ exports[`defaults - snapshot 1`] = `
                     "isSearchable": true,
                     "loadingMessage": [Function],
                     "maxMenuHeight": 300,
+                    "menuBuffer": 0,
                     "menuIsOpen": false,
                     "menuPlacement": "bottom",
                     "menuPosition": "absolute",
@@ -801,6 +807,7 @@ exports[`defaults - snapshot 1`] = `
                         "isSearchable": true,
                         "loadingMessage": [Function],
                         "maxMenuHeight": 300,
+                        "menuBuffer": 0,
                         "menuIsOpen": false,
                         "menuPlacement": "bottom",
                         "menuPosition": "absolute",
@@ -906,6 +913,7 @@ exports[`defaults - snapshot 1`] = `
                         "isSearchable": true,
                         "loadingMessage": [Function],
                         "maxMenuHeight": 300,
+                        "menuBuffer": 0,
                         "menuIsOpen": false,
                         "menuPlacement": "bottom",
                         "menuPosition": "absolute",
