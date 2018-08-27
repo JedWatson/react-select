@@ -70,6 +70,7 @@ exports[`defaults - snapshot 1`] = `
         isValidNewOption={[Function]}
         loadingMessage={[Function]}
         maxMenuHeight={300}
+        menuBuffer={0}
         menuIsOpen={false}
         menuPlacement="bottom"
         menuPosition="absolute"
@@ -143,6 +144,7 @@ exports[`defaults - snapshot 1`] = `
               "isValidNewOption": [Function],
               "loadingMessage": [Function],
               "maxMenuHeight": 300,
+              "menuBuffer": 0,
               "menuIsOpen": false,
               "menuPlacement": "bottom",
               "menuPosition": "absolute",
@@ -253,6 +255,7 @@ exports[`defaults - snapshot 1`] = `
                   "isValidNewOption": [Function],
                   "loadingMessage": [Function],
                   "maxMenuHeight": 300,
+                  "menuBuffer": 0,
                   "menuIsOpen": false,
                   "menuPlacement": "bottom",
                   "menuPosition": "absolute",
@@ -356,6 +359,7 @@ exports[`defaults - snapshot 1`] = `
                       "isValidNewOption": [Function],
                       "loadingMessage": [Function],
                       "maxMenuHeight": 300,
+                      "menuBuffer": 0,
                       "menuIsOpen": false,
                       "menuPlacement": "bottom",
                       "menuPosition": "absolute",
@@ -458,6 +462,7 @@ exports[`defaults - snapshot 1`] = `
                           "isValidNewOption": [Function],
                           "loadingMessage": [Function],
                           "maxMenuHeight": 300,
+                          "menuBuffer": 0,
                           "menuIsOpen": false,
                           "menuPlacement": "bottom",
                           "menuPosition": "absolute",
@@ -756,6 +761,7 @@ exports[`defaults - snapshot 1`] = `
                       "isValidNewOption": [Function],
                       "loadingMessage": [Function],
                       "maxMenuHeight": 300,
+                      "menuBuffer": 0,
                       "menuIsOpen": false,
                       "menuPlacement": "bottom",
                       "menuPosition": "absolute",
@@ -858,6 +864,7 @@ exports[`defaults - snapshot 1`] = `
                           "isValidNewOption": [Function],
                           "loadingMessage": [Function],
                           "maxMenuHeight": 300,
+                          "menuBuffer": 0,
                           "menuIsOpen": false,
                           "menuPlacement": "bottom",
                           "menuPosition": "absolute",
@@ -968,6 +975,7 @@ exports[`defaults - snapshot 1`] = `
                           "isValidNewOption": [Function],
                           "loadingMessage": [Function],
                           "maxMenuHeight": 300,
+                          "menuBuffer": 0,
                           "menuIsOpen": false,
                           "menuPlacement": "bottom",
                           "menuPosition": "absolute",

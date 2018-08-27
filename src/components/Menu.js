@@ -44,6 +44,7 @@ type PlacementArgs = {
   shouldScroll: boolean,
   isFixedPosition: boolean,
   theme: Theme,
+  buffer: number
 };
 
 export function getMenuPlacement({
@@ -54,6 +55,7 @@ export function getMenuPlacement({
   shouldScroll,
   isFixedPosition,
   theme,
+  buffer,
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl);
@@ -82,8 +84,8 @@ export function getMenuPlacement({
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
 
-  const scrollDown = menuBottom - viewHeight + scrollTop + gutter;
-  const scrollUp = scrollTop + menuTop - gutter;
+  const scrollDown = menuBottom - viewHeight + scrollTop + gutter + buffer;
+  const scrollUp = scrollTop + menuTop - gutter - buffer;
   const scrollDuration = 160;
 
   switch (placement) {
@@ -224,6 +226,8 @@ export type MenuProps = CommonProps & {
   minMenuHeight: number,
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
+  /* The buffer (in px) between the edge of the viewport and the edge of the menu */
+  menuBuffer: number,
 };
 
 function alignToControl(placement) {
@@ -262,6 +266,7 @@ export class Menu extends Component<MenuProps, MenuState> {
       menuPosition,
       menuShouldScrollIntoView,
       theme,
+      menuBuffer,
     } = this.props;
     const { getPortalPlacement } = this.context;
 
@@ -279,6 +284,7 @@ export class Menu extends Component<MenuProps, MenuState> {
       shouldScroll,
       isFixedPosition,
       theme,
+      buffer: menuBuffer,
     });
 
     if (getPortalPlacement) getPortalPlacement(state);

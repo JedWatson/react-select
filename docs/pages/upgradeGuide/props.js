@@ -44,7 +44,7 @@ const propChangeData = [
   ['labelKey', 'removed'],
   ['matchPos', 'removed', md`see \`createFilter()\``],
   ['matchProp', 'removed', md`see \`createFilter()\``],
-  ['menuBuffer', 'components'],
+  ['menuBuffer', 'unchanged'],
   ['menuContainerStyle', 'styles'],
   ['menuRenderer', 'components'],
   ['menuStyle', 'styles'],
