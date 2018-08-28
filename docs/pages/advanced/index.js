@@ -14,6 +14,7 @@ import {
   CustomIsOptionDisabled,
   Experimental,
   Popout,
+  MenuBuffer,
   MenuPortal,
 } from '../../examples';
 
@@ -98,6 +99,15 @@ export default function Advanced() {
           raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
         >
           <CustomIsOptionDisabled />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Using the style API to replace `menuBuffer`"
+          raw={require('!!raw-loader!../../examples/MenuBuffer.js')}
+        >
+          <MenuBuffer />
         </ExampleWrapper>
       )}
 
