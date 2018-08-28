@@ -1,0 +1,21 @@
+{
+  "dist/react-select.esm.js": {
+    "bundled": 152585,
+    "minified": 75336,
+    "gzipped": 20298,
+    "treeshaked": {
+      "rollup": {
+        "code": 67818,
+        "import_statements": 343
+      },
+      "webpack": {
+        "code": 69783
+      }
+    }
+  },
+  "dist/react-select.js": {
+    "bundled": 160484,
+    "minified": 68203,
+    "gzipped": 19541
+  }
+}

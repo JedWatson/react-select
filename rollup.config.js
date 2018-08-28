@@ -3,8 +3,8 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
-import { minify } from 'uglify-es';
+import { uglify } from 'rollup-plugin-uglify';
+import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 import pkg from './package.json';
 
 const name = 'Select';
@@ -35,17 +35,17 @@ const babelOptions = () => {
 
 export default [
   {
-    input: 'src/index.js',
+    input: './src/index.js',
     output: {
       file: pkg.module,
-      format: 'es',
+      format: 'esm',
     },
-    external: [...external, 'raf'],
-    plugins: [babel(babelOptions())],
+    external: (id/*: string*/) => !id.startsWith('.') && !id.startsWith('/'),
+    plugins: [babel(babelOptions()), sizeSnapshot()],
   },
 
   {
-    input: 'src/index.umd.js',
+    input: './src/index.umd.js',
     output: {
       name,
       file: path + '.js',
@@ -53,11 +53,11 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(babelOptions()), resolve(), commonjs()],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), sizeSnapshot()],
   },
 
   {
-    input: 'src/index.umd.js',
+    input: './src/index.umd.js',
     output: {
       name,
       file: path + '.min.js',
@@ -65,6 +65,6 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify()],
   },
 ];
