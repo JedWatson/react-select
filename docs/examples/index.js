@@ -43,5 +43,6 @@ export { default as StyledMulti } from './StyledMulti';
 export { default as StyledSingle } from './StyledSingle';
 export { default as OnSelectResetsInput } from './OnSelectResetsInput';
 export { default as AsyncMulti } from './AsyncMulti';
+export { default as MenuBuffer } from './MenuBuffer';
 export { default as MenuPortal } from './MenuPortal';
 export { default as Theme } from './Theme';
