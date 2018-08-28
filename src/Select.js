@@ -3,6 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
+import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
@@ -899,7 +900,10 @@ export default class Select extends Component<Props, State> {
   };
   onScroll = (event: Event) => {
     if (typeof this.props.closeMenuOnScroll === 'boolean') {
-      if (event.target instanceof HTMLElement && isDocumentElement(event.target)) {
+      if (
+        event.target instanceof HTMLElement &&
+        isDocumentElement(event.target)
+      ) {
         this.props.onMenuClose();
       }
     } else if (typeof this.props.closeMenuOnScroll === 'function') {
@@ -1562,9 +1566,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerRef = isFocused
-        ? this.getFocusedOptionRef
-        : undefined;
+      props.innerRef = isFocused ? this.getFocusedOptionRef : undefined;
 
       return (
         <Option {...commonProps} {...props} isFocused={isFocused}>
@@ -1609,38 +1611,44 @@ export default class Select extends Component<Props, State> {
     }
 
     const menuElement = (
-      <div>
-        <Menu
-          {...commonProps}
-          innerProps={{
-            onMouseDown: this.onMenuMouseDown,
-            onMouseMove: this.onMenuMouseMove,
-          }}
-          isLoading={isLoading}
-          minMenuHeight={minMenuHeight}
-          maxMenuHeight={maxMenuHeight}
-          menuPlacement={menuPlacement}
-          menuPosition={menuPosition}
-          menuShouldScrollIntoView={menuShouldScrollIntoView}
-        >
-          <ScrollCaptor
-            isEnabled={captureMenuScroll}
-            onTopArrive={onMenuScrollToTop}
-            onBottomArrive={onMenuScrollToBottom}
+      <MenuPlacer
+        {...commonProps}
+        minMenuHeight={minMenuHeight}
+        maxMenuHeight={maxMenuHeight}
+        menuPlacement={menuPlacement}
+        menuPosition={menuPosition}
+        menuShouldScrollIntoView={menuShouldScrollIntoView}
+      >
+        {({ ref, placerProps: { placement, maxHeight } }) => (
+          <Menu
+            {...commonProps}
+            innerProps={{
+              ref,
+              onMouseDown: this.onMenuMouseDown,
+              onMouseMove: this.onMenuMouseMove,
+            }}
+            isLoading={isLoading}
+            placement={placement}
           >
-            <ScrollBlock isEnabled={menuShouldBlockScroll}>
-              <MenuList
-                {...commonProps}
-                innerRef={this.getMenuListRef}
-                isLoading={isLoading}
-                maxHeight={maxMenuHeight}
-              >
-                {menuUI}
-              </MenuList>
-            </ScrollBlock>
-          </ScrollCaptor>
-        </Menu>
-      </div>
+            <ScrollCaptor
+              isEnabled={captureMenuScroll}
+              onTopArrive={onMenuScrollToTop}
+              onBottomArrive={onMenuScrollToBottom}
+            >
+              <ScrollBlock isEnabled={menuShouldBlockScroll}>
+                <MenuList
+                  {...commonProps}
+                  innerRef={this.getMenuListRef}
+                  isLoading={isLoading}
+                  maxHeight={maxHeight}
+                >
+                  {menuUI}
+                </MenuList>
+              </ScrollBlock>
+            </ScrollCaptor>
+          </Menu>
+        )}
+      </MenuPlacer>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,

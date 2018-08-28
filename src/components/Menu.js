@@ -207,9 +207,7 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-export type MenuProps = CommonProps & {
-  /** The children to be rendered. */
-  children: ReactElement<*>,
+export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
   getPortalPlacement: MenuState => void,
   /** Props to be passed to the menu wrapper. */
@@ -225,6 +223,14 @@ export type MenuProps = CommonProps & {
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
 };
+export type MenuProps = MenuAndPlacerCommon & {
+  /** The children to be rendered. */
+  children: ReactElement<*>,
+};
+export type MenuPlacerProps = MenuAndPlacerCommon & {
+  /** The children to be rendered. */
+  children: ({}) => Node,
+};
 
 function alignToControl(placement) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
@@ -234,7 +240,10 @@ const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
 type MenuStateWithProps = MenuState & MenuProps;
 
-export const menuCSS = ({ placement, theme: { borderRadius, spacing, colors } }: MenuStateWithProps) => ({
+export const menuCSS = ({
+  placement,
+  theme: { borderRadius, spacing, colors },
+}: MenuStateWithProps) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
@@ -246,7 +255,8 @@ export const menuCSS = ({ placement, theme: { borderRadius, spacing, colors } }:
   zIndex: 1,
 });
 
-export class Menu extends Component<MenuProps, MenuState> {
+// NOTE: internal only
+export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
   state = {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
@@ -285,32 +295,32 @@ export class Menu extends Component<MenuProps, MenuState> {
 
     this.setState(state);
   };
-  getState = () => {
+  getUpdatedProps = () => {
     const { menuPlacement } = this.props;
     const placement = this.state.placement || coercePlacement(menuPlacement);
 
     return { ...this.props, placement, maxHeight: this.state.maxHeight };
   };
   render() {
-    const { children, className, cx, getStyles, innerProps } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div
-        className={cx(
-          css(getStyles('menu', this.getState())),
-          {
-            'menu': true,
-          },
-          className
-        )}
-        ref={this.getPlacement}
-        {...innerProps}
-      >
-        {children}
-      </div>
-    );
+    return children({
+      ref: this.getPlacement,
+      placerProps: this.getUpdatedProps(),
+    });
   }
 }
+
+const Menu = (props: MenuProps) => {
+  const { children, className, cx, getStyles, innerProps } = props;
+  const cn = cx(css(getStyles('menu', props)), { menu: true }, className);
+
+  return (
+    <div className={cn} {...innerProps}>
+      {children}
+    </div>
+  );
+};
 
 export default Menu;
 
@@ -334,7 +344,12 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = ({ maxHeight, theme: { spacing: { baseUnit } } }: MenuListComponentProps) => ({
+export const menuListCSS = ({
+  maxHeight,
+  theme: {
+    spacing: { baseUnit },
+  },
+}: MenuListComponentProps) => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -350,7 +365,7 @@ export const MenuList = (props: MenuListComponentProps) => {
         css(getStyles('menuList', props)),
         {
           'menu-list': true,
-          'menu-list--is-multi': isMulti
+          'menu-list--is-multi': isMulti,
         },
         className
       )}
@@ -365,7 +380,12 @@ export const MenuList = (props: MenuListComponentProps) => {
 // Menu Notices
 // ==============================
 
-const noticeCSS = ({ theme: { spacing: { baseUnit }, colors } }: NoticeProps) => ({
+const noticeCSS = ({
+  theme: {
+    spacing: { baseUnit },
+    colors,
+  },
+}: NoticeProps) => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -496,11 +516,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div
-        className={css(getStyles('menuPortal', state))}
-      >
-        {children}
-      </div>
+      <div className={css(getStyles('menuPortal', state))}>{children}</div>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;
