@@ -175,7 +175,7 @@ cases(
 cases(
   'menuIsOpen prop',
   ({ props = BASIC_PROPS }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     expect(selectWrapper.find(Menu).exists()).toBeFalsy();
 
     selectWrapper.setProps({ menuIsOpen: true });
@@ -198,7 +198,7 @@ cases(
 cases(
   'filterOption() prop - should filter only if function returns truthy for value',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
   },
@@ -230,7 +230,7 @@ cases(
 cases(
   'filterOption prop is null',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
   },
@@ -262,7 +262,7 @@ cases(
 cases(
   'no option found on search based on filterOption prop',
   ({ props, searchString }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
   },
@@ -289,7 +289,7 @@ cases(
 cases(
   'noOptionsMessage() function prop',
   ({ props, expectNoOptionsMessage, searchString }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(
       expectNoOptionsMessage
