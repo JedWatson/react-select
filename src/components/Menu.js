@@ -75,15 +75,16 @@ export function getMenuPlacement({
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
   const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
-  const gutter = spacing.menuGutter;
 
-  const viewSpaceAbove = containerTop - gutter;
+  const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
+  const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
+  const viewSpaceAbove = containerTop - marginTop;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
 
-  const scrollDown = menuBottom - viewHeight + scrollTop + gutter;
-  const scrollUp = scrollTop + menuTop - gutter;
+  const scrollDown = menuBottom - viewHeight + scrollTop + marginBottom;
+  const scrollUp = scrollTop + menuTop - marginTop;
   const scrollDuration = 160;
 
   switch (placement) {
@@ -115,8 +116,8 @@ export function getMenuPlacement({
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
         const constrainedHeight = isFixedPosition
-          ? viewSpaceBelow - gutter
-          : scrollSpaceBelow - gutter;
+          ? viewSpaceBelow - marginBottom
+          : scrollSpaceBelow - marginBottom;
 
         return {
           placement: 'bottom',
@@ -136,8 +137,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - gutter - spacing.controlHeight
-            : scrollSpaceAbove - gutter - spacing.controlHeight;
+            ? viewSpaceAbove - marginBottom - spacing.controlHeight
+            : scrollSpaceAbove - marginBottom - spacing.controlHeight;
         }
 
         return { placement: 'top', maxHeight: constrainedHeight };
@@ -178,8 +179,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - gutter
-            : scrollSpaceAbove - gutter;
+            ? viewSpaceAbove - marginTop
+            : scrollSpaceAbove - marginTop;
         }
 
         if (shouldScroll) {
