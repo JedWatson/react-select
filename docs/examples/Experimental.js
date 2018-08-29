@@ -104,10 +104,11 @@ const daysContainerStyles = {
 };
 
 const Group = props => {
-  const { Heading, getStyles, children, label, innerProps, headingProps, cx } = props;
+  const { Heading, getStyles, children, label, innerProps, headingProps, cx, theme } = props;
   return (
     <div aria-label={label} css={getStyles('group', props)} {...innerProps}>
       <Heading
+        theme={theme}
         getStyles={getStyles}
         cx={cx}
         {...headingProps}
