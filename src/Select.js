@@ -36,6 +36,8 @@ import {
 import {
   formatGroupLabel,
   getOptionLabel,
+  getOptionOnMouseEnterCallback,
+  getOptionOnMouseLeaveCallback,
   getOptionValue,
   isOptionDisabled,
 } from './builtins';
@@ -133,6 +135,8 @@ export type Props = {
   getOptionLabel: typeof getOptionLabel,
   /* Resolves option data to a string to compare options and specify value attributes */
   getOptionValue: typeof getOptionValue,
+  getOptionOnMouseEnterCallback: typeof getOptionOnMouseEnterCallback,
+  getOptionOnMouseLeaveCallback: typeof getOptionOnMouseLeaveCallback,
   /* Hide the selected option from the menu */
   hideSelectedOptions: boolean,
   /* The id to set on the SelectContainer component. */
@@ -254,6 +258,8 @@ export const defaultProps = {
   noOptionsMessage: () => 'No options',
   openMenuOnFocus: false,
   openMenuOnClick: true,
+  getOptionOnMouseEnterCallback: getOptionOnMouseEnterCallback,
+  getOptionOnMouseLeaveCallback: getOptionOnMouseLeaveCallback,
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
@@ -735,6 +741,12 @@ export default class Select extends Component<Props, State> {
   getOptionValue = (data: OptionType): string => {
     return this.props.getOptionValue(data);
   };
+  getOptionOnMouseEnterCallback = (data: OptionType): (data: OptionType) => void => {
+    return this.props.getOptionOnMouseEnterCallback(data);
+  };
+  getOptionOnMouseLeaveCallback = (data: OptionType): (data: OptionType) => void => {
+    return this.props.getOptionOnMouseLeaveCallback(data);
+  };
   getStyles = (key: string, props: {}): {} => {
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
@@ -760,9 +772,9 @@ export default class Select extends Component<Props, State> {
   // Helpers
   // ==============================
   announceAriaLiveSelection = ({
-    event,
-    context,
-  }: {
+                                 event,
+                                 context,
+                               }: {
     event: string,
     context: ValueEventContext,
   }) => {
@@ -771,9 +783,9 @@ export default class Select extends Component<Props, State> {
     });
   };
   announceAriaLiveContext = ({
-    event,
-    context,
-  }: {
+                               event,
+                               context,
+                             }: {
     event: string,
     context?: InstructionsContext,
   }) => {
@@ -1205,6 +1217,8 @@ export default class Select extends Component<Props, State> {
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
       const value = this.getOptionValue(option);
+      const onMouseEnterCallback = () => this.getOptionOnMouseEnterCallback(option)(option);
+      const onMouseLeaveCallback = () => this.getOptionOnMouseLeaveCallback(option)(option);
 
       if (
         (this.shouldHideSelectedOptions() && isSelected) ||
@@ -1225,6 +1239,8 @@ export default class Select extends Component<Props, State> {
           onMouseOver: onHover,
           role: 'option',
           tabIndex: -1,
+          onMouseEnter: onMouseEnterCallback,
+          onMouseLeave: onMouseLeaveCallback,
         },
         data: option,
         isDisabled,
@@ -1287,19 +1303,19 @@ export default class Select extends Component<Props, State> {
     // An aria live message representing the currently focused value in the select.
     const focusedValueMsg = focusedValue
       ? valueFocusAriaMessage({
-          focusedValue,
-          getOptionLabel: this.getOptionLabel,
-          selectValue,
-        })
+        focusedValue,
+        getOptionLabel: this.getOptionLabel,
+        selectValue,
+      })
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
       focusedOption && menuIsOpen
         ? optionFocusAriaMessage({
-            focusedOption,
-            getOptionLabel: this.getOptionLabel,
-            options,
-          })
+          focusedOption,
+          getOptionLabel: this.getOptionLabel,
+          options,
+        })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
     const resultsMsg = resultsAriaMessage({
