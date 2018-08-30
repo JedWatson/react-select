@@ -53,6 +53,16 @@ export default function Components() {
         property. These components are given all the current props and state
         letting you achieve anything you dream up.
 
+        ## Inner Ref
+        Some components also take an innerRef prop that react-select needs in
+        order to manage internal behaviour. Please assign this to the ref
+        property of the relevant react-element. For example:
+
+        ~~~~
+        const CustomOption = ({ innerRef, innerProps }) => (
+        <div ref={innerRef} {...innerProps} />)
+        ~~~~
+
         ### Inner Props
 
         All functional properties that the component needs are provided in
@@ -336,7 +346,7 @@ export default function Components() {
 
         ### MultiValue
 
-        Component used to display a selected option in the input when \`isMult\` is
+        Component used to display a selected option in the input when \`isMulti\` is
         true. Takes responsibility for rendering the \`MultiValueContainer\`,
         \`MultiValueLabel\`, and \`MultiValueRemove\`.
 

@@ -12,6 +12,7 @@ import {
   NestedGrouped,
   BasicMulti,
   CreatableSingle,
+  FixedOptions,
   StyledMulti,
   StyledSingle,
 } from '../../examples';
@@ -20,12 +21,15 @@ export default function Home() {
   return md`
   # Welcome
 
-  React Select v2 is nearly ready, and we'd love your feedback.
+  Each of the examples below is an interactive example of react-select.
 
-  View the [source code](https://github.com/JedWatson/react-select/tree/v2) and
-  [Pull Request on github](https://github.com/JedWatson/react-select/pull/2289).
+  See the source or open the examples on codesandbox using the buttons that appear when you hover over each select below.
+
+  For complete docs, see the [Props API](/props) and [Advanced Usage](/advanced).
 
   If you're coming from react-select v1, check out the [Upgrade Guide](/upgrade-guide).
+
+  To contribute, or open an issue, check out the [source code on GitHub](https://github.com/JedWatson/react-select).
 
   ${(
     <ExampleWrapper
@@ -49,10 +53,10 @@ export default function Home() {
 
   ## Getting Started
 
-  Start by installing \`react-select\` (use the next tag to install the alpha)
+  Start by installing \`react-select\`
 
   ~~~bash
-  yarn add react-select@next
+  yarn add react-select
   ~~~
 
   Import the default export and render in your component:
@@ -185,5 +189,17 @@ export default function Home() {
   )}
 
   You can see a full explanation of how to do this on the [creatable](/creatable) page.
+
+  # Fixed Options
+
+  ${(
+    <ExampleWrapper
+      label="Fixed Options Example"
+      urlPath="docs/home/examples/FixedOptions.js"
+      raw={require('!!raw-loader!../../examples/FixedOptions.js')}
+    >
+      <FixedOptions />
+    </ExampleWrapper>
+  )}
 `;
 }

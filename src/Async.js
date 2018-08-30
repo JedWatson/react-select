@@ -69,6 +69,14 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
       }
+      if (nextProps.defaultOptions !== this.props.defaultOptions) {
+        this.setState({
+          defaultOptions: Array.isArray(nextProps.defaultOptions)
+            ? nextProps.defaultOptions
+            : undefined,
+        });
+      }
+
     }
     componentWillUnmount() {
       this.mounted = false;
@@ -155,11 +163,11 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
         // $FlowFixMe
         <SelectComponent
           {...props}
+          filterOption={this.props.filterOption || null}
           ref={ref => {
             this.select = ref;
           }}
           options={options}
-          filterOption={null}
           isLoading={isLoading}
           onInputChange={this.handleInputChange}
         />

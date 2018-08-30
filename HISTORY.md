@@ -1,6 +1,40 @@
 # React-Select
 
+## v2.0.0 / 2018-07-23
+
+* async select now accepts a filterOptions function as a prop [#2822](https://github.com/JedWatson/react-select/pull/2822)
+* [BREAKING] react-select now exports react-select.esm.js from dist instead of react-select.es.js [#2641](https://github.com/JedWatson/react-select/pull/2641)
+* [BREAKING] innerRef assignments in custom components must now be made from the root of the prop object, as opposed to reaching into innerProps. This is part of the work to normalize the behaviour circa custom components. [#2824](https://github.com/JedWatson/react-select/pull/2824)
+* className and classNamePrefix deprecation warning and backward compatibility removed. className now only affects the select container, classNamePrefix prefixes all internal components. [#2820](https://github.com/JedWatson/react-select/pull/2820)
+* Added `closeMenuOnScroll` prop, which can either be a `boolean` or a `function`, if set to `true` the select menu will close on scroll of the document/body. If a function is supplied, it must take the following shape `(event: ScrollEvent) => boolean`, the boolean value will be used to resolve whether the menu should be closed or stay open. [#2809](https://github.com/JedWatson/react-select/pull/2809), thanks [Vynlar](https://github.com/Vynlar) for this.
+* Added fix to support IME inputs. [#2767](https://github.com/JedWatson/react-select/pull/2767), thanks [shamabe](https://github.com/shamabe)
+* Removed primitives, and normalise multi-value components to be in line with existing component customisation patterns. [#2821](https://github.com/JedWatson/react-select/pull/2821)
+* Normalised isOptionDisabled to be inline with its sibling prop isOptionSelected. [#2821](https://github.com/JedWatson/react-select/pull/2695) Thanks [SimeonC](https://github.com/SimeonC)
+* [#2814](https://github.com/JedWatson/react-select/pull/2814) Added memoization to custom components within Select.js as well as in the exported makeAnimated factory method. Thanks to [Alex Reardon's](https://github.com/alexreardon) [memoize-one](https://github.com/alexreardon/memoize-one)
+* [#2652](https://github.com/JedWatson/react-select/pull/2652), Async Select now re-evaluates defaultOptions on componentWillReceiveProps. Thanks [jesstelford](https://github.com/jesstelford)
+
+## v2.0.0-beta.7 / 2018-07-03
+
+* Removed old aria-attributes in Option, MenuList and other components in favor of an aria-live-region implementation. `screenReaderStatus` prop is still at the moment untouched, and `aria-labelledby` and `aria-label` props are still available and retain their functionality. See [#2581](https://github.com/JedWatson/react-select/pull/2581).
+* Internal ref `input` is now `inputRef` for consistency.
+* Internal ref `menuRef` is now `menuListRef` for consistency.
+* Fixed bug with MultiValueRemove interaction not working in mobile [#2762](https://github.com/JedWatson/react-select/pull/2762), thanks [chuckbergeron](https://github.com/chuckbergeron).
+* Added makeAnimated function export, that takes passed in components and wraps them in higher order components that expose animated functionality. [#2724](https://github.com/JedWatson/react-select/pull/2724)
+* Added functionality to not render the menu if `noOptionsMessage` or `loadingMessage` are set to null. [#2754](https://github.com/JedWatson/react-select/pull/2754)
+* Fixed bug with mobile menu being blocked when `menuShouldBlockScroll` is true.
+[#2756](https://github.com/JedWatson/react-select/pull/2756)
+* Enabled hideSelectedOptions functionality for single-select as well. Changed logic so that if isMulti is true and hideSelectedOptions is not defined, we will hide selected options by default. Explicitly setting hideSelectedOptions will override this behaviour. https://github.com/JedWatson/react-select/pull/2753
+* Updates to flow types, thanks [mike1808](https://github.com/mike1808), [himerus](https://github.com/himerus),
+[teamable-software](https://github.com/teamable-software) and
+* Bumped internal flow-bin dependency to 0.72.0, [#2646](https://github.com/JedWatson/react-select/pull/2646) thanks [lunij](https://github.com/lunij)
+* Fixed [#2701](https://github.com/JedWatson/react-select/issues/2701), use of un-polyfilled array.includes() in Select.js, this has now been subbed out for a IE compatible implementation.
+* [#2733](https://github.com/JedWatson/react-select/issues/2733), fixed classname bug to do with prefixing classes with modifiers.
+* [#2723](https://github.com/JedWatson/react-select/issues/2732), fixed emotion compilation bug blocking loadingDot rendering.
+* [#2749](https://github.com/JedWatson/react-select/pull/2749) fixed typo in docs. thanks [JuhQ](https://github.com/juhq)
+* [#2717](https://github.com/JedWatson/react-select/pull/2717) added selected value to onChange to accommodate multi-select, thanks [SimeonC](https://github.com/simeonc)
+
 ## v2.0.0-beta.6 / 2018-05-23
+
 * Fixed bug with `css` attribute being wrongly applied to a DOM element in SingleValue. Thanks [guigs](http://github.com/guigs)
 * Added `removedValue` to the `actionMeta` of the `remove-value` action that's passed into the `onChange` prop.
 * Reverted previous change of `innerRef` in `innerProps` of custom Components to `ref`. The property is now once again named `innerRef`. This is mostly to resolve issues with styled-components not passing `ref` down to wrapped dom elements, however this is also a safer pattern to apply as it requires users providing their own custom components to explicitly associate the passed down ref with the requisite dom element.
@@ -9,6 +43,7 @@
 * Added touch handling logic to detect user intent to scroll the page when interacting with the select control.  
 
 ## v2.0.0-beta.5 / 2018-05-18
+
 * Added `controlShouldRenderValue` prop, defaults to true. Setting it to false disables rendering values in the control. Thanks[Joss Mackison](http://github.com/jossmac)
 
 ## v2.0.0-beta.4 / 2018-05-15
@@ -173,6 +208,14 @@ Ongoing rewrite. Major changes since last alpha:
 ## v2.0.0-alpha.1 / 2018-01-12
 
 Complete rewrite, docs and upgrade notes on changes from v1 to come later.
+
+## v1.2.1 / 2018-01-13
+
+* Fixed blocking the Del key when deleteRemoves is false, thanks [Nachtigall, Jens (init)](https://github.com/jnachtigall) - [see PR](https://github.com/JedWatson/react-select/pull/2291)
+* Fixed inline-block rendering for arrowRenderer without autosize, thanks [Harry Kao](https://github.com/harrykao) - [see PR](https://github.com/JedWatson/react-select/pull/2276)
+* Fixed dropdown menu positioning issues in IE 11, thanks [jharris4](https://github.com/jharris4) - [see PR](https://github.com/JedWatson/react-select/pull/2273)
+* Added missing rule to the `scss` stylesheet, thanks [Jordan Whitfield](https://github.com/mantissa7) - [see PR](https://github.com/JedWatson/react-select/pull/2280)
+>>>>>>> master
 
 ## v1.2.0 / 2018-01-08
 

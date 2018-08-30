@@ -112,6 +112,17 @@ export default function Api() {
     letting you achieve anything you dream up. For more information in replacing
     components see [the components documentation](/components)
 
+    ### Inner Ref
+    Some components are passed an innerRef property to facilitate for internally
+    managed behaviour within the base select. This should be assigned to the
+    ref property of the relevant dom element.
+    i.e.
+
+    ~~~
+    const CustomOptionComponent = ({ innerProps, innerRef }) =>
+    (<div ref={innerRef} {...innerProps} />)
+    ~~~
+
     ### Inner Props
 
     All functional properties that the component needs are provided in

@@ -1,8 +1,7 @@
 // @flow
 import React, { type Node } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -14,13 +13,10 @@ type State = {
   isSelected: boolean,
 };
 type InnerProps = {
-  'aria-selected': boolean,
   id: string,
-  innerRef: InnerRef,
   key: string,
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,
-  role: 'option',
   tabIndex: number,
 };
 export type OptionProps = PropsWithStyles &
@@ -28,6 +24,8 @@ export type OptionProps = PropsWithStyles &
   State & {
     /** The children to be rendered. */
     children: Node,
+    /** Inner ref to DOM Node */
+    innerRef: InnerRef,
     /** props passed to the wrapping element for the group. */
     innerProps: InnerProps,
     /* Text to be displayed representing the option. */
@@ -37,7 +35,12 @@ export type OptionProps = PropsWithStyles &
     type: 'option',
   };
 
-export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
+export const optionCSS = ({
+  isDisabled,
+  isFocused,
+  isSelected,
+  theme: { spacing, colors },
+}: OptionProps) => ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',
@@ -59,13 +62,12 @@ export const css = ({ isDisabled, isFocused, isSelected }: State) => ({
 });
 
 const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerProps } = props;
-  const { innerRef, ...rest } = innerProps;
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
   return (
     <div
       ref={innerRef}
       className={cx(
-        emotionCss(getStyles('option', props)),
+        css(getStyles('option', props)),
         {
           'option': true,
           'option--is-disabled': isDisabled,
@@ -74,7 +76,7 @@ const Option = (props: OptionProps) => {
         },
         className
       )}
-      {...rest}
+      {...innerProps}
     >
       {children}
     </div>

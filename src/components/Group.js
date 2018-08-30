@@ -1,8 +1,7 @@
 // @flow
 import React, { type Node, type ComponentType } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 
-import { spacing } from '../theme';
 import type { CommonProps } from '../types';
 
 type ComponentProps = {
@@ -10,22 +9,14 @@ type ComponentProps = {
   children: Node,
   /** Component to wrap the label, recieves headingProps. */
   Heading: ComponentType<any>,
-  /** Props passed to the heading. */
-  headingProps: {
-    'aria-labelledby': string,
-  },
-  /** props passed to the wrapping element for the group. */
-  innerProps: {
-    'aria-expanded': boolean,
-    'aria-label': string,
-    role: 'group',
-  },
+  /** Props to pass to Heading. */
+  headingProps: any,
   /** Label to be displayed in the heading component. */
   label: Node,
 };
 export type GroupProps = CommonProps & ComponentProps;
 
-export const groupCSS = () => ({
+export const groupCSS = ({ theme: { spacing } }: GroupProps) => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
   paddingLeft: spacing.baseUnit * 2,
@@ -40,18 +31,17 @@ const Group = (props: GroupProps) => {
     Heading,
     headingProps,
     label,
-    innerProps,
+    theme,
   } = props;
   return (
     <div
       className={cx(
-        emotionCss(getStyles('group', props)),
+        css(getStyles('group', props)),
         { 'group': true },
         className,
       )}
-      {...innerProps}
     >
-      <Heading getStyles={getStyles} cx={cx} {...headingProps}>
+      <Heading {...headingProps} theme={theme} getStyles={getStyles} cx={cx}>
         {label}
       </Heading>
       <div>{children}</div>
@@ -59,7 +49,7 @@ const Group = (props: GroupProps) => {
   );
 };
 
-export const groupHeadingCSS = () => ({
+export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
   color: '#999',
   cursor: 'default',
   display: 'block',
@@ -76,7 +66,7 @@ export const GroupHeading = (props: any) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('groupHeading', props)),
+        css(getStyles('groupHeading', props)),
         { 'group-heading': true },
         className
       )}

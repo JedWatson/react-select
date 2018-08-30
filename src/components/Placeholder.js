@@ -1,8 +1,7 @@
 // @flow
 import React, { type Node } from 'react';
-import { css as emotionCss } from 'emotion';
+import { css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import type { CommonProps } from '../types';
 
 export type PlaceholderProps = CommonProps & {
@@ -12,7 +11,7 @@ export type PlaceholderProps = CommonProps & {
   innerProps: { [string]: any },
 };
 
-export const css = () => ({
+export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps) => ({
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
@@ -26,7 +25,7 @@ const Placeholder = (props: PlaceholderProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('placeholder', props)),
+        css(getStyles('placeholder', props)),
         {
           'placeholder': true,
         },

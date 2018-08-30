@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css as emotionCss } from 'emotion';
-import { spacing } from '../theme';
+import { css } from 'emotion';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -32,7 +31,7 @@ export const SelectContainer = (props: ContainerProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('container', props)),
+        css(getStyles('container', props)),
         {
           '--is-disabled': isDisabled,
           '--is-rtl': isRtl
@@ -58,7 +57,7 @@ export type ValueContainerProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = () => ({
+export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -66,6 +65,7 @@ export const valueContainerCSS = () => ({
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',
+  overflow: 'hidden',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {
@@ -74,7 +74,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
     return (
       <div
         className={cx(
-          emotionCss(getStyles('valueContainer', this.props)),
+          css(getStyles('valueContainer', this.props)),
           {
             'value-container': true,
             'value-container--is-multi': isMulti,
@@ -114,7 +114,7 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   return (
     <div
       className={cx(
-        emotionCss(getStyles('indicatorsContainer', props)),
+        css(getStyles('indicatorsContainer', props)),
         {
           'indicators': true,
         },

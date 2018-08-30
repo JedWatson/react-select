@@ -26,6 +26,18 @@ export type PropsWithInnerRef = {
   innerRef: Ref<*>,
 };
 
+type ThemeSpacing = {
+  baseUnit: number,
+  controlHeight: number,
+  menuGutter: number,
+};
+
+export type Theme = {
+  borderRadius: number,
+  colors: { [key: string]: string },
+  spacing: ThemeSpacing,
+};
+
 export type PropsWithStyles = {
   /**
     Get the styles of a particular part of the select. Pass in the name of the
@@ -33,6 +45,7 @@ export type PropsWithStyles = {
     See the `styles` object for the properties available.
   */
   getStyles: (string, any) => {},
+  theme: Theme,
 };
 
 export type ClassNameList = Array<string>;
@@ -48,6 +61,7 @@ export type CommonProps = {
     See the `styles` object for the properties available.
   */
   getStyles: (string, any) => {},
+  theme: Theme,
   getValue: () => ValueType,
   hasValue: boolean,
   isMulti: boolean,

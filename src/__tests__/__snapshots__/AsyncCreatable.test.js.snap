@@ -44,6 +44,7 @@ exports[`defaults - snapshot 1`] = `
         blurInputOnSelect={true}
         cacheOptions={false}
         captureMenuScroll={false}
+        closeMenuOnScroll={false}
         closeMenuOnSelect={true}
         components={Object {}}
         controlShouldRenderValue={true}
@@ -59,7 +60,6 @@ exports[`defaults - snapshot 1`] = `
         getNewOptionData={[Function]}
         getOptionLabel={[Function]}
         getOptionValue={[Function]}
-        hideSelectedOptions={true}
         inputValue=""
         isDisabled={false}
         isLoading={false}
@@ -117,6 +117,7 @@ exports[`defaults - snapshot 1`] = `
               "blurInputOnSelect": true,
               "cacheOptions": false,
               "captureMenuScroll": false,
+              "closeMenuOnScroll": false,
               "closeMenuOnSelect": true,
               "components": Object {},
               "controlShouldRenderValue": true,
@@ -132,7 +133,6 @@ exports[`defaults - snapshot 1`] = `
               "getNewOptionData": [Function],
               "getOptionLabel": [Function],
               "getOptionValue": [Function],
-              "hideSelectedOptions": true,
               "inputValue": "",
               "isDisabled": false,
               "isLoading": false,
@@ -167,25 +167,40 @@ exports[`defaults - snapshot 1`] = `
             }
           }
           setValue={[Function]}
+          theme={
+            Object {
+              "borderRadius": 4,
+              "colors": Object {
+                "danger": "#DE350B",
+                "dangerLight": "#FFBDAD",
+                "neutral0": "hsl(218, 0%, 100%)",
+                "neutral10": "hsl(218, 10%, 90%)",
+                "neutral20": "hsl(218, 15%, 80%)",
+                "neutral30": "hsl(218, 20%, 70%)",
+                "neutral40": "hsl(218, 25%, 60%)",
+                "neutral5": "hsl(218, 5%, 95%)",
+                "neutral50": "hsl(218, 30%, 50%)",
+                "neutral60": "hsl(218, 35%, 40%)",
+                "neutral70": "hsl(218, 40%, 30%)",
+                "neutral80": "hsl(218, 45%, 20%)",
+                "neutral90": "hsl(218, 50%, 10%)",
+                "primary": "#2684FF",
+                "primary25": "#DEEBFF",
+                "primary50": "#B2D4FF",
+                "primary75": "#4C9AFF",
+              },
+              "spacing": Object {
+                "baseUnit": 4,
+                "controlHeight": 38,
+                "menuGutter": 8,
+              },
+            }
+          }
         >
           <div
             className="css-10nd86i"
             onKeyDown={[Function]}
           >
-            <A11yText
-              aria-atomic="true"
-              aria-live="polite"
-              role="status"
-            >
-              <span
-                aria-atomic="true"
-                aria-live="polite"
-                className="css-1uvvha"
-                role="status"
-              >
-                0 results available.
-              </span>
-            </A11yText>
             <Control
               clearValue={[Function]}
               cx={[Function]}
@@ -194,11 +209,11 @@ exports[`defaults - snapshot 1`] = `
               hasValue={false}
               innerProps={
                 Object {
-                  "innerRef": [Function],
                   "onMouseDown": [Function],
                   "onTouchEnd": [Function],
                 }
               }
+              innerRef={[Function]}
               isDisabled={false}
               isFocused={false}
               isMulti={false}
@@ -212,6 +227,7 @@ exports[`defaults - snapshot 1`] = `
                   "blurInputOnSelect": true,
                   "cacheOptions": false,
                   "captureMenuScroll": false,
+                  "closeMenuOnScroll": false,
                   "closeMenuOnSelect": true,
                   "components": Object {},
                   "controlShouldRenderValue": true,
@@ -227,7 +243,6 @@ exports[`defaults - snapshot 1`] = `
                   "getNewOptionData": [Function],
                   "getOptionLabel": [Function],
                   "getOptionValue": [Function],
-                  "hideSelectedOptions": true,
                   "inputValue": "",
                   "isDisabled": false,
                   "isLoading": false,
@@ -262,9 +277,38 @@ exports[`defaults - snapshot 1`] = `
                 }
               }
               setValue={[Function]}
+              theme={
+                Object {
+                  "borderRadius": 4,
+                  "colors": Object {
+                    "danger": "#DE350B",
+                    "dangerLight": "#FFBDAD",
+                    "neutral0": "hsl(218, 0%, 100%)",
+                    "neutral10": "hsl(218, 10%, 90%)",
+                    "neutral20": "hsl(218, 15%, 80%)",
+                    "neutral30": "hsl(218, 20%, 70%)",
+                    "neutral40": "hsl(218, 25%, 60%)",
+                    "neutral5": "hsl(218, 5%, 95%)",
+                    "neutral50": "hsl(218, 30%, 50%)",
+                    "neutral60": "hsl(218, 35%, 40%)",
+                    "neutral70": "hsl(218, 40%, 30%)",
+                    "neutral80": "hsl(218, 45%, 20%)",
+                    "neutral90": "hsl(218, 50%, 10%)",
+                    "primary": "#2684FF",
+                    "primary25": "#DEEBFF",
+                    "primary50": "#B2D4FF",
+                    "primary75": "#4C9AFF",
+                  },
+                  "spacing": Object {
+                    "baseUnit": 4,
+                    "controlHeight": 38,
+                    "menuGutter": 8,
+                  },
+                }
+              }
             >
               <div
-                className="css-1aya2g8"
+                className="css-adi9xj"
                 onMouseDown={[Function]}
                 onTouchEnd={[Function]}
               >
@@ -286,6 +330,7 @@ exports[`defaults - snapshot 1`] = `
                       "blurInputOnSelect": true,
                       "cacheOptions": false,
                       "captureMenuScroll": false,
+                      "closeMenuOnScroll": false,
                       "closeMenuOnSelect": true,
                       "components": Object {},
                       "controlShouldRenderValue": true,
@@ -301,7 +346,6 @@ exports[`defaults - snapshot 1`] = `
                       "getNewOptionData": [Function],
                       "getOptionLabel": [Function],
                       "getOptionValue": [Function],
-                      "hideSelectedOptions": true,
                       "inputValue": "",
                       "isDisabled": false,
                       "isLoading": false,
@@ -336,9 +380,38 @@ exports[`defaults - snapshot 1`] = `
                     }
                   }
                   setValue={[Function]}
+                  theme={
+                    Object {
+                      "borderRadius": 4,
+                      "colors": Object {
+                        "danger": "#DE350B",
+                        "dangerLight": "#FFBDAD",
+                        "neutral0": "hsl(218, 0%, 100%)",
+                        "neutral10": "hsl(218, 10%, 90%)",
+                        "neutral20": "hsl(218, 15%, 80%)",
+                        "neutral30": "hsl(218, 20%, 70%)",
+                        "neutral40": "hsl(218, 25%, 60%)",
+                        "neutral5": "hsl(218, 5%, 95%)",
+                        "neutral50": "hsl(218, 30%, 50%)",
+                        "neutral60": "hsl(218, 35%, 40%)",
+                        "neutral70": "hsl(218, 40%, 30%)",
+                        "neutral80": "hsl(218, 45%, 20%)",
+                        "neutral90": "hsl(218, 50%, 10%)",
+                        "primary": "#2684FF",
+                        "primary25": "#DEEBFF",
+                        "primary50": "#B2D4FF",
+                        "primary75": "#4C9AFF",
+                      },
+                      "spacing": Object {
+                        "baseUnit": 4,
+                        "controlHeight": 38,
+                        "menuGutter": 8,
+                      },
+                    }
+                  }
                 >
                   <div
-                    className="css-1rtrksz"
+                    className="css-1hwfws3"
                   >
                     <Placeholder
                       clearValue={[Function]}
@@ -359,6 +432,7 @@ exports[`defaults - snapshot 1`] = `
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
                           "captureMenuScroll": false,
+                          "closeMenuOnScroll": false,
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
@@ -374,7 +448,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
@@ -409,18 +482,44 @@ exports[`defaults - snapshot 1`] = `
                         }
                       }
                       setValue={[Function]}
+                      theme={
+                        Object {
+                          "borderRadius": 4,
+                          "colors": Object {
+                            "danger": "#DE350B",
+                            "dangerLight": "#FFBDAD",
+                            "neutral0": "hsl(218, 0%, 100%)",
+                            "neutral10": "hsl(218, 10%, 90%)",
+                            "neutral20": "hsl(218, 15%, 80%)",
+                            "neutral30": "hsl(218, 20%, 70%)",
+                            "neutral40": "hsl(218, 25%, 60%)",
+                            "neutral5": "hsl(218, 5%, 95%)",
+                            "neutral50": "hsl(218, 30%, 50%)",
+                            "neutral60": "hsl(218, 35%, 40%)",
+                            "neutral70": "hsl(218, 40%, 30%)",
+                            "neutral80": "hsl(218, 45%, 20%)",
+                            "neutral90": "hsl(218, 50%, 10%)",
+                            "primary": "#2684FF",
+                            "primary25": "#DEEBFF",
+                            "primary50": "#B2D4FF",
+                            "primary75": "#4C9AFF",
+                          },
+                          "spacing": Object {
+                            "baseUnit": 4,
+                            "controlHeight": 38,
+                            "menuGutter": 8,
+                          },
+                        }
+                      }
                     >
                       <div
-                        className="css-1492t68"
+                        className="css-11zjhuz"
                       >
                         Select...
                       </div>
                     </Placeholder>
                     <Input
                       aria-autocomplete="list"
-                      aria-busy={false}
-                      aria-expanded={false}
-                      aria-haspopup={false}
                       autoCapitalize="none"
                       autoComplete="off"
                       autoCorrect="off"
@@ -433,20 +532,45 @@ exports[`defaults - snapshot 1`] = `
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
-                      role="combobox"
                       spellCheck="false"
                       tabIndex="0"
+                      theme={
+                        Object {
+                          "borderRadius": 4,
+                          "colors": Object {
+                            "danger": "#DE350B",
+                            "dangerLight": "#FFBDAD",
+                            "neutral0": "hsl(218, 0%, 100%)",
+                            "neutral10": "hsl(218, 10%, 90%)",
+                            "neutral20": "hsl(218, 15%, 80%)",
+                            "neutral30": "hsl(218, 20%, 70%)",
+                            "neutral40": "hsl(218, 25%, 60%)",
+                            "neutral5": "hsl(218, 5%, 95%)",
+                            "neutral50": "hsl(218, 30%, 50%)",
+                            "neutral60": "hsl(218, 35%, 40%)",
+                            "neutral70": "hsl(218, 40%, 30%)",
+                            "neutral80": "hsl(218, 45%, 20%)",
+                            "neutral90": "hsl(218, 50%, 10%)",
+                            "primary": "#2684FF",
+                            "primary25": "#DEEBFF",
+                            "primary50": "#B2D4FF",
+                            "primary75": "#4C9AFF",
+                          },
+                          "spacing": Object {
+                            "baseUnit": 4,
+                            "controlHeight": 38,
+                            "menuGutter": 8,
+                          },
+                        }
+                      }
                       type="text"
                       value=""
                     >
                       <div
-                        className="css-rsyb7x"
+                        className="css-12gayob"
                       >
                         <AutosizeInput
                           aria-autocomplete="list"
-                          aria-busy={false}
-                          aria-expanded={false}
-                          aria-haspopup={false}
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -470,9 +594,37 @@ exports[`defaults - snapshot 1`] = `
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
-                          role="combobox"
                           spellCheck="false"
                           tabIndex="0"
+                          theme={
+                            Object {
+                              "borderRadius": 4,
+                              "colors": Object {
+                                "danger": "#DE350B",
+                                "dangerLight": "#FFBDAD",
+                                "neutral0": "hsl(218, 0%, 100%)",
+                                "neutral10": "hsl(218, 10%, 90%)",
+                                "neutral20": "hsl(218, 15%, 80%)",
+                                "neutral30": "hsl(218, 20%, 70%)",
+                                "neutral40": "hsl(218, 25%, 60%)",
+                                "neutral5": "hsl(218, 5%, 95%)",
+                                "neutral50": "hsl(218, 30%, 50%)",
+                                "neutral60": "hsl(218, 35%, 40%)",
+                                "neutral70": "hsl(218, 40%, 30%)",
+                                "neutral80": "hsl(218, 45%, 20%)",
+                                "neutral90": "hsl(218, 50%, 10%)",
+                                "primary": "#2684FF",
+                                "primary25": "#DEEBFF",
+                                "primary50": "#B2D4FF",
+                                "primary75": "#4C9AFF",
+                              },
+                              "spacing": Object {
+                                "baseUnit": 4,
+                                "controlHeight": 38,
+                                "menuGutter": 8,
+                              },
+                            }
+                          }
                           type="text"
                           value=""
                         >
@@ -486,9 +638,6 @@ exports[`defaults - snapshot 1`] = `
                           >
                             <input
                               aria-autocomplete="list"
-                              aria-busy={false}
-                              aria-expanded={false}
-                              aria-haspopup={false}
                               autoCapitalize="none"
                               autoComplete="off"
                               autoCorrect="off"
@@ -497,7 +646,6 @@ exports[`defaults - snapshot 1`] = `
                               onBlur={[Function]}
                               onChange={[Function]}
                               onFocus={[Function]}
-                              role="combobox"
                               spellCheck="false"
                               style={
                                 Object {
@@ -513,6 +661,35 @@ exports[`defaults - snapshot 1`] = `
                                 }
                               }
                               tabIndex="0"
+                              theme={
+                                Object {
+                                  "borderRadius": 4,
+                                  "colors": Object {
+                                    "danger": "#DE350B",
+                                    "dangerLight": "#FFBDAD",
+                                    "neutral0": "hsl(218, 0%, 100%)",
+                                    "neutral10": "hsl(218, 10%, 90%)",
+                                    "neutral20": "hsl(218, 15%, 80%)",
+                                    "neutral30": "hsl(218, 20%, 70%)",
+                                    "neutral40": "hsl(218, 25%, 60%)",
+                                    "neutral5": "hsl(218, 5%, 95%)",
+                                    "neutral50": "hsl(218, 30%, 50%)",
+                                    "neutral60": "hsl(218, 35%, 40%)",
+                                    "neutral70": "hsl(218, 40%, 30%)",
+                                    "neutral80": "hsl(218, 45%, 20%)",
+                                    "neutral90": "hsl(218, 50%, 10%)",
+                                    "primary": "#2684FF",
+                                    "primary25": "#DEEBFF",
+                                    "primary50": "#B2D4FF",
+                                    "primary75": "#4C9AFF",
+                                  },
+                                  "spacing": Object {
+                                    "baseUnit": 4,
+                                    "controlHeight": 38,
+                                    "menuGutter": 8,
+                                  },
+                                }
+                              }
                               type="text"
                               value=""
                             />
@@ -553,6 +730,7 @@ exports[`defaults - snapshot 1`] = `
                       "blurInputOnSelect": true,
                       "cacheOptions": false,
                       "captureMenuScroll": false,
+                      "closeMenuOnScroll": false,
                       "closeMenuOnSelect": true,
                       "components": Object {},
                       "controlShouldRenderValue": true,
@@ -568,7 +746,6 @@ exports[`defaults - snapshot 1`] = `
                       "getNewOptionData": [Function],
                       "getOptionLabel": [Function],
                       "getOptionValue": [Function],
-                      "hideSelectedOptions": true,
                       "inputValue": "",
                       "isDisabled": false,
                       "isLoading": false,
@@ -603,6 +780,35 @@ exports[`defaults - snapshot 1`] = `
                     }
                   }
                   setValue={[Function]}
+                  theme={
+                    Object {
+                      "borderRadius": 4,
+                      "colors": Object {
+                        "danger": "#DE350B",
+                        "dangerLight": "#FFBDAD",
+                        "neutral0": "hsl(218, 0%, 100%)",
+                        "neutral10": "hsl(218, 10%, 90%)",
+                        "neutral20": "hsl(218, 15%, 80%)",
+                        "neutral30": "hsl(218, 20%, 70%)",
+                        "neutral40": "hsl(218, 25%, 60%)",
+                        "neutral5": "hsl(218, 5%, 95%)",
+                        "neutral50": "hsl(218, 30%, 50%)",
+                        "neutral60": "hsl(218, 35%, 40%)",
+                        "neutral70": "hsl(218, 40%, 30%)",
+                        "neutral80": "hsl(218, 45%, 20%)",
+                        "neutral90": "hsl(218, 50%, 10%)",
+                        "primary": "#2684FF",
+                        "primary25": "#DEEBFF",
+                        "primary50": "#B2D4FF",
+                        "primary75": "#4C9AFF",
+                      },
+                      "spacing": Object {
+                        "baseUnit": 4,
+                        "controlHeight": 38,
+                        "menuGutter": 8,
+                      },
+                    }
+                  }
                 >
                   <div
                     className="css-1wy0on6"
@@ -613,11 +819,6 @@ exports[`defaults - snapshot 1`] = `
                       getStyles={[Function]}
                       getValue={[Function]}
                       hasValue={false}
-                      innerProps={
-                        Object {
-                          "role": "presentation",
-                        }
-                      }
                       isDisabled={false}
                       isFocused={false}
                       isMulti={false}
@@ -631,6 +832,7 @@ exports[`defaults - snapshot 1`] = `
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
                           "captureMenuScroll": false,
+                          "closeMenuOnScroll": false,
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
@@ -646,7 +848,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
@@ -681,10 +882,38 @@ exports[`defaults - snapshot 1`] = `
                         }
                       }
                       setValue={[Function]}
+                      theme={
+                        Object {
+                          "borderRadius": 4,
+                          "colors": Object {
+                            "danger": "#DE350B",
+                            "dangerLight": "#FFBDAD",
+                            "neutral0": "hsl(218, 0%, 100%)",
+                            "neutral10": "hsl(218, 10%, 90%)",
+                            "neutral20": "hsl(218, 15%, 80%)",
+                            "neutral30": "hsl(218, 20%, 70%)",
+                            "neutral40": "hsl(218, 25%, 60%)",
+                            "neutral5": "hsl(218, 5%, 95%)",
+                            "neutral50": "hsl(218, 30%, 50%)",
+                            "neutral60": "hsl(218, 35%, 40%)",
+                            "neutral70": "hsl(218, 40%, 30%)",
+                            "neutral80": "hsl(218, 45%, 20%)",
+                            "neutral90": "hsl(218, 50%, 10%)",
+                            "primary": "#2684FF",
+                            "primary25": "#DEEBFF",
+                            "primary50": "#B2D4FF",
+                            "primary75": "#4C9AFF",
+                          },
+                          "spacing": Object {
+                            "baseUnit": 4,
+                            "controlHeight": 38,
+                            "menuGutter": 8,
+                          },
+                        }
+                      }
                     >
                       <span
-                        className="css-d8oujb"
-                        role="presentation"
+                        className="css-1etbf2r"
                       />
                     </IndicatorSeparator>
                     <DropdownIndicator
@@ -695,9 +924,9 @@ exports[`defaults - snapshot 1`] = `
                       hasValue={false}
                       innerProps={
                         Object {
+                          "aria-hidden": "true",
                           "onMouseDown": [Function],
                           "onTouchEnd": [Function],
-                          "role": "button",
                         }
                       }
                       isDisabled={false}
@@ -713,6 +942,7 @@ exports[`defaults - snapshot 1`] = `
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
                           "captureMenuScroll": false,
+                          "closeMenuOnScroll": false,
                           "closeMenuOnSelect": true,
                           "components": Object {},
                           "controlShouldRenderValue": true,
@@ -728,7 +958,6 @@ exports[`defaults - snapshot 1`] = `
                           "getNewOptionData": [Function],
                           "getOptionLabel": [Function],
                           "getOptionValue": [Function],
-                          "hideSelectedOptions": true,
                           "inputValue": "",
                           "isDisabled": false,
                           "isLoading": false,
@@ -763,24 +992,51 @@ exports[`defaults - snapshot 1`] = `
                         }
                       }
                       setValue={[Function]}
+                      theme={
+                        Object {
+                          "borderRadius": 4,
+                          "colors": Object {
+                            "danger": "#DE350B",
+                            "dangerLight": "#FFBDAD",
+                            "neutral0": "hsl(218, 0%, 100%)",
+                            "neutral10": "hsl(218, 10%, 90%)",
+                            "neutral20": "hsl(218, 15%, 80%)",
+                            "neutral30": "hsl(218, 20%, 70%)",
+                            "neutral40": "hsl(218, 25%, 60%)",
+                            "neutral5": "hsl(218, 5%, 95%)",
+                            "neutral50": "hsl(218, 30%, 50%)",
+                            "neutral60": "hsl(218, 35%, 40%)",
+                            "neutral70": "hsl(218, 40%, 30%)",
+                            "neutral80": "hsl(218, 45%, 20%)",
+                            "neutral90": "hsl(218, 50%, 10%)",
+                            "primary": "#2684FF",
+                            "primary25": "#DEEBFF",
+                            "primary50": "#B2D4FF",
+                            "primary75": "#4C9AFF",
+                          },
+                          "spacing": Object {
+                            "baseUnit": 4,
+                            "controlHeight": 38,
+                            "menuGutter": 8,
+                          },
+                        }
+                      }
                     >
                       <div
-                        className="css-1ep9fjw"
+                        aria-hidden="true"
+                        className="css-15lyulk"
                         onMouseDown={[Function]}
                         onTouchEnd={[Function]}
-                        role="button"
                       >
                         <DownChevron>
                           <Svg
-                            focusable="false"
-                            role="presentation"
                             size={20}
                           >
                             <svg
+                              aria-hidden="true"
                               className="css-19bqh2r"
                               focusable="false"
                               height={20}
-                              role="presentation"
                               viewBox="0 0 20 20"
                               width={20}
                             >

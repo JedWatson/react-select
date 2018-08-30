@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { StyledSingle, StyledMulti } from '../../examples';
+import { StyledSingle, StyledMulti, Theme } from '../../examples';
 
 export default function Styles() {
   return (
@@ -53,7 +53,7 @@ export default function Styles() {
 
     ## Base and State
 
-    Spreading the base styles into your returned object let's you extend it
+    Spreading the base styles into your returned object lets you extend it
     however you like while maintaining existing styles. Alternatively, you
     can omit the base and completely take control of the component's styles.
 
@@ -68,7 +68,7 @@ export default function Styles() {
       control: () => ({
         // none of react-selects styles are passed to <View />
         width: 200,
-      })
+      }),
       singleValue: (base, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
@@ -146,6 +146,22 @@ export default function Styles() {
 
     While we encourage you to use the new Styles API, it's good to know that you
     still have the option of adding class names to the components to style via CSS.
+
+    ## Overriding the theme
+
+    The default styles are derived from a theme object, which you can mutate like \`styles\`.
+
+    The \`theme\` object is available for the \`styles\` functions as well.
+
+    ${(
+      <ExampleWrapper
+        label="Customised theme"
+        urlPath="docs/examples/Theme.js"
+        raw={require('!!raw-loader!../../examples/Theme.js')}
+      >
+        <Theme />
+      </ExampleWrapper>
+    )}
 
     `}
     </Fragment>

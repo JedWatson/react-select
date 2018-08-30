@@ -14,6 +14,7 @@ import {
   CustomIsOptionDisabled,
   Experimental,
   Popout,
+  MenuBuffer,
   MenuPortal,
 } from '../../examples';
 
@@ -101,6 +102,15 @@ export default function Advanced() {
         </ExampleWrapper>
       )}
 
+      ${(
+        <ExampleWrapper
+          label="Using the style API to replace `menuBuffer`"
+          raw={require('!!raw-loader!../../examples/MenuBuffer.js')}
+        >
+          <MenuBuffer />
+        </ExampleWrapper>
+      )}
+
       ## Methods
 
       These two methods sit as callable methods on the component. They are designed
@@ -119,7 +129,7 @@ export default function Advanced() {
       The onchange function prop now has the following signature.
       (value: ValueType, action: ActionType) => undefined;
 
-      The action argument is a string twith the following possible values
+      The action argument is a string with the following possible values
 
       'select-option'
       'deselect-option'
@@ -184,7 +194,7 @@ export default function Advanced() {
         </ExampleWrapper>
       )}
 
-      ## SSR / Univeral Rendering
+      ## SSR / Universal Rendering
 
       React-Select uses Emotion for CSS, which make it easy to extract the
       styles when doing server-side rendering. To get started, do the following:
@@ -205,7 +215,7 @@ export default function Advanced() {
       const html = renderStylesToString(renderToString(<App />))
       ~~~
 
-      for more ways you can do this (including critial CSS) see the
+      for more ways you can do this (including critical CSS) see the
       [Emotion SSR Docs](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
 
 

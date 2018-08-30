@@ -66,7 +66,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <div id={`cypress-${idSuffix}`}>
           <SelectComp
             autoFocus
-            className="react-select"
+            id={`basic-select-${idSuffix}`}
+            instanceId={`basic-select-${idSuffix}`}
+            classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             styles={{
               menuPortal: base => ({ ...base, zIndex: 999 }),
@@ -96,7 +98,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <h4>Grouped</h4>
         <div id={`cypress-${idSuffix}-grouped`}>
           <SelectComp
-            className="react-select"
+            id={`grouped-options-${idSuffix}`}
+            instancePrefix={`grouped-options-${idSuffix}`}
+            classNamePrefix="react-select"
             defaultValue={colourOptions[1]}
             options={groupedOptions}
           />
@@ -118,7 +122,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           <div style={{ height: 100 }} />
           <pre>{'overflow: hidden; position: absolute;'}</pre>
           <SelectComp
-            className="react-select"
+            id={`portalled-select-${idSuffix}`}
+            instanceId={`portalled-select-${idSuffix}`}
+            classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             options={colourOptions}
             menuPortalTarget={menuPortalTarget}
@@ -194,7 +200,9 @@ export default function Tests() {
       <h2>Multi Select</h2>
       <div id="cypress-multi">
         <Select
-          className="react-select"
+          id="multi-select"
+          instanceId="multi-select"
+          classNamePrefix="react-select"
           defaultValue={[colourOptions[2], colourOptions[3]]}
           isMulti
           options={colourOptions}
@@ -204,7 +212,9 @@ export default function Tests() {
       <h3> Long Values </h3>
       <div id={'cypress-long-values'}>
         <Select
-          className="react-select"
+          id="long-value-select"
+          instsanceId="long-value-select"
+          classNamePrefix="react-select"
           defaultValue={optionLength[3]}
           options={optionLength}
         />
