@@ -37,8 +37,16 @@ export type Props = SelectProps & CreatableProps;
 
 const compareOption = (inputValue, option) => {
   const candidate = inputValue.toLowerCase();
+  
+  if (typeof option.value === 'string') {
+    return (
+      option.value.toLowerCase() === candidate ||
+      option.label.toLowerCase() === candidate
+    );
+  }
+  
   return (
-    option.value.toLowerCase() === candidate ||
+    option.value === candidate ||
     option.label.toLowerCase() === candidate
   );
 };
