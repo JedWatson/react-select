@@ -42,6 +42,7 @@ const propChangeData = [
   ['isLoading', 'unchanged'],
   ['joinValues', 'removed', md`now inferred from \`delimiter\``],
   ['labelKey', 'removed'],
+  ['loadOptions', 'unchanged'],
   ['matchPos', 'removed', md`see \`createFilter()\``],
   ['matchProp', 'removed', md`see \`createFilter()\``],
   ['menuBuffer', 'styles'],
