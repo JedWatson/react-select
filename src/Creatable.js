@@ -36,10 +36,12 @@ export type CreatableProps = {
 export type Props = SelectProps & CreatableProps;
 
 const compareOption = (inputValue, option) => {
-  const candidate = inputValue.toLowerCase();
+  const sanitize = (value) => (value === undefined || value === null) ?
+    value : value.toString().toLowerCase();
+  const candidate = sanitize(inputValue);
   return (
-    option.value.toLowerCase() === candidate ||
-    option.label.toLowerCase() === candidate
+    sanitize(option.value) === candidate ||
+    sanitize(option.label) === candidate
   );
 };
 
