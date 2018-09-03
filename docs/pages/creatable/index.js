@@ -30,7 +30,7 @@ export default function Creatable() {
       import Creatable from 'react-select/lib/Creatable';
       ~~~
 
-      For the prop definition, please see the API docs [here](/api)
+      For the prop definition, please see the API docs [here](/props)
 
       ${(
         <ExampleWrapper
