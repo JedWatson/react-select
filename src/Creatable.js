@@ -35,31 +35,10 @@ export type CreatableProps = {
 
 export type Props = SelectProps & CreatableProps;
 
-const compareOption = (inputValue, option) => {
-  const candidate = inputValue.toLowerCase();
-  return (
-    option.value.toLowerCase() === candidate ||
-    option.label.toLowerCase() === candidate
-  );
-};
-
 const builtins = {
-  formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
-  isValidNewOption: (
-    inputValue: string,
-    selectValue: OptionsType,
-    selectOptions: OptionsType
-  ) =>
-    !(
-      !inputValue ||
-      selectValue.some(option => compareOption(inputValue, option)) ||
-      selectOptions.some(option => compareOption(inputValue, option))
-    ),
-  getNewOptionData: (inputValue: string, optionLabel: string) => ({
-    label: optionLabel,
-    value: inputValue,
-    __isNew__: true,
-  }),
+  formatCreateLabel: (inputValue: string) => { 
+	  return `Create "${inputValue}"`;
+	  }
 };
 
 export const defaultProps = {
@@ -98,8 +77,10 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       } = nextProps;
       const options = nextProps.options || [];
       let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
-        newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
+      if (this.isValidNewOption(inputValue, cleanValue(value), options)) {
+    	  
+        newOption = this.getNewOptionData(inputValue, formatCreateLabel(inputValue));
+        
       } else {
         newOption = undefined;
       }
@@ -129,7 +110,7 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       if (valueArray[valueArray.length - 1] === newOption) {
         if (onCreateOption) onCreateOption(inputValue);
         else {
-          const newOptionData = getNewOptionData(inputValue, inputValue);
+          const newOptionData = this.getNewOptionData(inputValue, inputValue);
           const newActionMeta = { action: 'create-option' };
           if (isMulti) {
             onChange([...cleanValue(value), newOptionData], newActionMeta);
@@ -141,6 +122,51 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
       }
       onChange(newValue, actionMeta);
     };
+    
+    isValidNewOption (inputValue: string, selectValue: OptionsType, selectOptions: OptionsType) {
+    	if (typeof this.props.isValidNewOption === 'function') {
+    	      return this.props.isValidNewOption(inputValue, selectValue, selectOptions);
+    	    } else {
+    	return !(
+    	      !inputValue ||
+    	      selectValue.some(option => this.compareOption(inputValue, option)) ||
+    	      selectOptions.some(option => this.compareOption(inputValue, option))
+    	    )
+    	    }
+    }
+	 
+ compareOption(inputValue, option){
+	 if (typeof this.props.compareOption === 'function') {
+      return this.props.compareOption(inputValue, option);
+    } else { 
+	  const candidate = inputValue.toLowerCase();
+	  return (
+		  this.select.getOptionValue(option).toLowerCase() === candidate ||
+		  this.select.getOptionLabel(option).toLowerCase() === candidate
+	  );
+    }
+	};
+		
+	getNewOptionData(inputValue: string, optionLabel: string){
+	 if (typeof this.props.getNewOptionData === 'function') {
+	      return this.props.getNewOptionData(inputValue, optionLabel);
+	    } else {
+	    	// Mimic existing array
+	    	// TODO : Ask user to give it's own field name ?
+	    	if(Array.isArray(this.props.options) && this.props.options.length !== 0) {
+	    		const optionFieldName = Object.keys(this.props.options[0]);
+	    		let newOption = {__isNew__: true};
+	    		newOption[optionFieldName[0]] = inputValue;
+	    		newOption[optionFieldName[1]] = optionLabel;
+	    		return newOption;
+	    	}
+		return {
+	    label: optionLabel,
+	    value: inputValue,
+	    __isNew__: true};
+	    }
+	};
+    
     focus() {
       this.select.focus();
     }
