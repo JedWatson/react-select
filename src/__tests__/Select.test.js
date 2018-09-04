@@ -727,15 +727,31 @@ cases(
     expect(selectWrapper.state('focusedOption')).toEqual(expectedToFocus);
   },
   {
-    'single select > should focus the first option': {
+    'single select > should focus the first option if autoFocusFirstOption prop is true': {
       expectedToFocus: { label: '0', value: 'zero' },
     },
-    'multi select > should focus the first option': {
+    'multi select > should focus the first option if autoFocusFirstOption prop is true': {
       props: {
         ...BASIC_PROPS,
         isMulti: true,
       },
       expectedToFocus: { label: '0', value: 'zero' },
+    },
+  },
+  {
+    'single select > should not focus any option if autoFocusFirstOption prop is false': {
+      props: {
+        ...BASIC_PROPS,
+        autoFocusFirstOption: false,
+      },
+      expectedToFocus: null,
+    },
+    'multi select > should not focus any option if autoFocusFirstOption prop is false': {
+      props: {
+        ...BASIC_PROPS,
+        expectedToFocus: false,
+      },
+      expectedToFocus: null,
     },
   }
 );

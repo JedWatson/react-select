@@ -82,6 +82,8 @@ export type Props = {
   'aria-labelledby'?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
+  /* Focus first option when the menu opens */
+  autoFocusFirstOption?: boolean,
   /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
@@ -225,6 +227,7 @@ export type Props = {
 };
 
 export const defaultProps = {
+  autoFocusFirstOption: true,
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
@@ -725,9 +728,12 @@ export default class Select extends Component<Props, State> {
 
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
+    const { autoFocusFirstOption } = this.props;
     return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
       ? lastFocusedOption
-      : options[0];
+      : autoFocusFirstOption
+        ? options[0]
+        : null;
   }
   getOptionLabel = (data: OptionType): string => {
     return this.props.getOptionLabel(data);
