@@ -11,6 +11,7 @@ import {
   CreateFilter,
   CustomFilterOptions,
   CustomGetOptionLabel,
+  CustomGetOptionValue,
   CustomIsOptionDisabled,
   Experimental,
   Popout,
@@ -88,8 +89,12 @@ export default function Advanced() {
       )}
 
       ${(
-        <ExampleWrapper label="custom getOptionValue function example">
-          <div>Coming Soon!</div>
+        <ExampleWrapper
+          label="custom getOptionValue function example"
+          urlPath="docs/examples/CustomGetOptionValue.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.js')}
+        >
+          <CustomGetOptionValue />
         </ExampleWrapper>
       )}
 
