@@ -66,7 +66,7 @@ export default function Advanced() {
       )}
 
       ## Replacing builtins
-      For a list of builtins that we expose, please see the API docs [here](/api#prop-types).
+      For a list of builtins that we expose, please see the API docs [here](/props#prop-types).
 
       ${(
         <ExampleWrapper
