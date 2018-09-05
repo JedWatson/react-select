@@ -7,6 +7,7 @@ import {
   OPTIONS,
   OPTIONS_NUMBER_VALUE,
   OPTIONS_BOOLEAN_VALUE,
+  OPTIONS_WITH_ON_MOUSE_ENTER_CALLBACK
 } from './constants';
 import Select from '../Select';
 import { components } from '../components';
@@ -1919,6 +1920,48 @@ test('getOptionLabel() prop > to format the option label', () => {
       .at(0)
       .text()
   ).toBe('This a custom option 0 label');
+});
+
+test('getOptionOnMouseEnterCallback() prop > get value from callback', () => {
+  const getOptionOnMouseEnterCallback = option => option.onMouseEnter;
+  const basicProps = { ...BASIC_PROPS };
+  basicProps.options = [
+    {
+      label: '0',
+      value: 'zero',
+      onMouseEnter: (data) => data.label
+    }
+  ];
+  const selectWrapper = mount(
+    <Select {...basicProps} menuIsOpen getOptionOnMouseEnterCallback={getOptionOnMouseEnterCallback} />
+  );
+  expect(
+    selectWrapper
+      .find(Option)
+      .at(0)
+      .text()
+  ).toBe('0');
+});
+
+test('getOptionOnMouseEnterCallback() simulate onMouseEnter event', () => {
+  const getOptionOnMouseEnterCallback = option => option.onMouseEnter;
+  const basicProps = { ...BASIC_PROPS };
+  let onChangeSpy = jest.fn();
+  basicProps.options = [
+    {
+      label: '0',
+      value: 'zero',
+      onMouseEnter: onChangeSpy
+    }
+  ];
+  const selectWrapper = mount(
+    <Select {...basicProps} menuIsOpen getOptionOnMouseEnterCallback={getOptionOnMouseEnterCallback} />
+  );
+  selectWrapper
+    .find(Option)
+    .at(0)
+    .simulate('mouseEnter');
+  expect(onChangeSpy).toHaveBeenCalled();
 });
 
 test('formatGroupLabel function prop > to format Group label', () => {
