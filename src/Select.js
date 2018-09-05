@@ -1622,8 +1622,8 @@ export default class Select extends Component<Props, State> {
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}
+            innerRef={ref}
             innerProps={{
-              ref,
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
             }}
