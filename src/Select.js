@@ -1039,6 +1039,10 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if(this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+      this.inputRef.focus();
+      return;
+    }
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
