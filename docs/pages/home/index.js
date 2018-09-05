@@ -15,6 +15,7 @@ import {
   StyledMulti,
   StyledSingle,
 } from '../../examples';
+import BasicHovered from '../../examples/BasicHovered';
 
 export default function Home() {
   return md`
@@ -188,6 +189,48 @@ export default function Home() {
       raw={require('!!raw-loader!../../examples/FixedOptions.js')}
     >
       <FixedOptions />
+    </ExampleWrapper>
+  )}
+  
+  ## Hover option events
+  
+  ~~~jsx
+  import React, { Component } from 'react'
+  import Select from 'react-select'
+
+  const options = [
+    { 
+      value: 'chocolate',
+      label: 'Chocolate',
+      onMouseEnter: (data) => {console.log('Enter chocolate')}
+      onMouseLeave: (data) => {console.log('Leave chocolate')}
+    },
+    { 
+      value: 'strawberry',
+      label: 'Strawberry',
+      onMouseEnter: (data) => {console.log('Enter strawberry')},
+      onMouseLeave: (data) => {console.log('Leave strawberry')}
+    },
+    { 
+      value: 'vanilla', 
+      label: 'Vanilla',
+      onMouseEnter: (data) => {console.log('Enter vanilla')},
+      onMouseLeave: (data) => {console.log('Leave vanilla')}
+    }
+  ]
+
+  const MyComponent = () => (
+    <Select options={options} />
+  )
+  ~~~
+
+  ${(
+    <ExampleWrapper
+      label="Hovered"
+      urlPath="docs/examples/BasicHovered.js"
+      raw={require('!!raw-loader!../../examples/BasicHovered.js')}
+    >
+      <BasicHovered />
     </ExampleWrapper>
   )}
 `;
