@@ -7,7 +7,6 @@ import {
   OPTIONS,
   OPTIONS_NUMBER_VALUE,
   OPTIONS_BOOLEAN_VALUE,
-  OPTIONS_WITH_ON_MOUSE_ENTER_CALLBACK
 } from './constants';
 import Select from '../Select';
 import { components } from '../components';
