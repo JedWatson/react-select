@@ -225,6 +225,8 @@ export type MenuAndPlacerCommon = CommonProps & {
   menuShouldScrollIntoView: boolean,
 };
 export type MenuProps = MenuAndPlacerCommon & {
+  /** Reference to the internal element, consumed by the MenuPlacer component */
+  innerRef: ElementRef<*>,
   /** The children to be rendered. */
   children: ReactElement<*>,
 };
@@ -313,11 +315,11 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 }
 
 const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerRef, innerProps } = props;
   const cn = cx(css(getStyles('menu', props)), { menu: true }, className);
 
   return (
-    <div className={cn} {...innerProps}>
+    <div className={cn} {...innerProps} ref={innerRef}>
       {children}
     </div>
   );
