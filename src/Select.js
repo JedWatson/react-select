@@ -830,6 +830,7 @@ export default class Select extends Component<Props, State> {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (event: MouseOrTouchEvent) => {
+    if (this.props.isDisabled) return;
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
