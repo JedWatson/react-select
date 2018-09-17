@@ -33,6 +33,8 @@ export type OptionProps = PropsWithStyles &
     /* Type is used by the menu to determine whether this is an option or a group.
     In the case of option this is always `option`. */
     type: 'option',
+    /* The data of the option rendered in the Option component */
+    data: any
   };
 
 export const optionCSS = ({
