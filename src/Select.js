@@ -26,6 +26,7 @@ import {
 import {
   classNames,
   cleanValue,
+  hydrateValues,
   isTouchCapable,
   isMobileDevice,
   noop,
@@ -350,7 +351,7 @@ export default class Select extends Component<Props, State> {
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
-    const selectValue = cleanValue(value);
+    const selectValue = hydrateValues(cleanValue(value), props.options);
     const menuOptions = this.buildMenuOptions(props, selectValue);
 
     this.state.menuOptions = menuOptions;
@@ -379,7 +380,10 @@ export default class Select extends Component<Props, State> {
       nextProps.options !== options ||
       nextProps.inputValue !== inputValue
     ) {
-      const selectValue = cleanValue(nextProps.value);
+      const selectValue = hydrateValues(
+        cleanValue(nextProps.value),
+        nextProps.options
+      );
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
