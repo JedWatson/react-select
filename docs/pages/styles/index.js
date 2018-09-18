@@ -108,27 +108,12 @@ export default function Styles() {
     ## Using classNames
 
     If you provide the \`className\` prop to react-select, the SelectContainer will be given a className based on the provided value.
-    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
-    be given a className based on the one you have provided.
 
-    For example, given \`classNamePrefix="react-select"\`, the DOM would roughtly look
-    like this:
+    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will be given a className
+    with the provided prefix.
 
-    ~~~html
-    <div>
-      <div class="react-select__control">
-        <div class="react-select__value-container">...</div>
-        <div class="react-select__indicators">...</div>
-      </div>
-      <div class="react-select__menu">
-        <div class="react-select__menu-list">
-          <div class="react-select__option">...</div>
-        </div>
-      </div>
-    </div>
-    ~~~
-
-    while giving \`className='react-select-container'\` and \`classNamePrefix='react-select'\`, the DOM would roughly look like this:
+    For example, given \`className='react-select-container'\` and \`classNamePrefix="react-select"\`,
+    the DOM structure is similar to this:
 
     ~~~html
     <div class="react-select-container">
@@ -144,8 +129,9 @@ export default function Styles() {
     </div>
     ~~~
 
-    While we encourage you to use the new Styles API, it's good to know that you
-    still have the option of adding class names to the components to style via CSS.
+    While we encourage you to use the new Styles API, you still have the option of styling via CSS classes.
+    This ensures compatibility with [styled components](https://www.styled-components.com/),
+    [CSS modules](https://github.com/css-modules/css-modules) and other libraries.
 
     ## Overriding the theme
 
