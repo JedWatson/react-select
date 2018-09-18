@@ -94,11 +94,13 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
         inputValue,
         isLoading,
         isValidNewOption,
+        getOptionValue,
         value,
       } = nextProps;
       const options = nextProps.options || [];
       let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
+      const cleanedValue = cleanValue(value, options, getOptionValue);
+      if (isValidNewOption(inputValue, cleanedValue, options)) {
         newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
       } else {
         newOption = undefined;
@@ -119,6 +121,8 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
         onChange,
         onCreateOption,
         value,
+        options,
+        getOptionValue,
       } = this.props;
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
@@ -132,7 +136,7 @@ export const makeCreatableSelect = (SelectComponent: ComponentType<*>) =>
           const newOptionData = getNewOptionData(inputValue, inputValue);
           const newActionMeta = { action: 'create-option' };
           if (isMulti) {
-            onChange([...cleanValue(value), newOptionData], newActionMeta);
+            onChange([...cleanValue(value, options, getOptionValue), newOptionData], newActionMeta);
           } else {
             onChange(newOptionData, newActionMeta);
           }

@@ -344,13 +344,13 @@ export default class Select extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { value } = props;
+    const { value, options } = props;
     this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
     this.cacheComponents(props.components);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
-    const selectValue = cleanValue(value);
+    const selectValue = cleanValue(value, options, props.getOptionValue);
     const menuOptions = this.buildMenuOptions(props, selectValue);
 
     this.state.menuOptions = menuOptions;
@@ -379,7 +379,7 @@ export default class Select extends Component<Props, State> {
       nextProps.options !== options ||
       nextProps.inputValue !== inputValue
     ) {
-      const selectValue = cleanValue(nextProps.value);
+      const selectValue = cleanValue(nextProps.value, nextProps.options, nextProps.getOptionValue);
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
