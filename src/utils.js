@@ -5,6 +5,7 @@ import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
   InputActionMeta,
+  OptionType,
   OptionsType,
   ValueType,
 } from './types';
@@ -60,7 +61,15 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = (value: ValueType): OptionsType => {
+export const cleanValue = (
+  value: ValueType,
+  options: OptionsType,
+  getOptionValue: (option: OptionType) => string
+): OptionsType => {
+  if (value && typeof value === 'string') {
+    return options.filter(option => getOptionValue(option));
+  }
+
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
   return [];
