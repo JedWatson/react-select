@@ -61,8 +61,12 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = (value: ValueType, options: OptionsType, getOptionValue: (option: OptionType) => string): OptionsType => {
-  if (typeof value === 'string') {
+export const cleanValue = (
+  value: ValueType,
+  options: OptionsType,
+  getOptionValue: (option: OptionType) => string
+): OptionsType => {
+  if (value && typeof value === 'string') {
     return options.filter(option => getOptionValue(option));
   }
 

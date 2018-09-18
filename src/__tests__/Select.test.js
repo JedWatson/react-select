@@ -1976,6 +1976,23 @@ test('not render any groups when there is not a single match when filtering', ()
   expect(selectWrapper.find('Group').length).toBe(0);
 });
 
+test('Show the correct option label when value is given as string', () => {
+  const options = [{
+    label: 'First option label',
+    value: 'firstValue'
+  }, {
+    label: 'First value text',
+    value: 'secondValue'
+  }];
+
+  const selectWrapper = mount(
+    <Select options={options} value="firstValue" />
+  );
+
+  let value = selectWrapper.find(SingleValue).at(0);
+  expect(value.props().children).toBe('First option label');
+});
+
 test('multi select > have default value delimiter seperated', () => {
   let selectWrapper = mount(
     <Select
