@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
-import Async from '../Async';
+import Async from '../Async2';
 import { OPTIONS } from './constants';
 import { components } from '../components';
 const { Option } = components;

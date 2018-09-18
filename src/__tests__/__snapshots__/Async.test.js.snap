@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`defaults - snapshot 1`] = `
-<Async
-  cacheOptions={false}
-  defaultOptions={false}
-  filterOption={null}
+<StateManager
+  defaultInputValue=""
+  defaultMenuIsOpen={false}
+  defaultValue={null}
 >
-  <StateManager
+  <Async
     cacheOptions={false}
-    defaultInputValue=""
-    defaultMenuIsOpen={false}
     defaultOptions={false}
-    defaultValue={null}
-    filterOption={null}
-    isLoading={false}
+    inputValue=""
+    menuIsOpen={false}
+    onChange={[Function]}
     onInputChange={[Function]}
-    options={Array []}
+    onMenuClose={[Function]}
+    onMenuOpen={[Function]}
+    value={null}
   >
     <Select
       backspaceRemovesValue={true}
@@ -964,6 +964,6 @@ exports[`defaults - snapshot 1`] = `
         </div>
       </SelectContainer>
     </Select>
-  </StateManager>
-</Async>
+  </Async>
+</StateManager>
 `;
