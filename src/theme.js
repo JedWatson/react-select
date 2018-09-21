@@ -11,17 +11,17 @@ export const colors = {
   danger: '#DE350B',
   dangerLight: '#FFBDAD',
 
-  neutral0: 'hsl(218, 0%, 100%)',
-  neutral5: 'hsl(218, 5%, 95%)',
-  neutral10: 'hsl(218, 10%, 90%)',
-  neutral20: 'hsl(218, 15%, 80%)',
-  neutral30: 'hsl(218, 20%, 70%)',
-  neutral40: 'hsl(218, 25%, 60%)',
-  neutral50: 'hsl(218, 30%, 50%)',
-  neutral60: 'hsl(218, 35%, 40%)',
-  neutral70: 'hsl(218, 40%, 30%)',
-  neutral80: 'hsl(218, 45%, 20%)',
-  neutral90: 'hsl(218, 50%, 10%)',
+  neutral0: 'hsl(0, 0%, 100%)',
+  neutral5: 'hsl(0, 0%, 95%)',
+  neutral10: 'hsl(0, 0%, 90%)',
+  neutral20: 'hsl(0, 0%, 80%)',
+  neutral30: 'hsl(0, 0%, 70%)',
+  neutral40: 'hsl(0, 0%, 60%)',
+  neutral50: 'hsl(0, 0%, 50%)',
+  neutral60: 'hsl(0, 0%, 40%)',
+  neutral70: 'hsl(0, 0%, 30%)',
+  neutral80: 'hsl(0, 0%, 20%)',
+  neutral90: 'hsl(0, 0%, 10%)',
 };
 
 const borderRadius = 4;
