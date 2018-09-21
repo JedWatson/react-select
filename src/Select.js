@@ -868,7 +868,10 @@ export default class Select extends Component<Props, State> {
     } else if (!this.props.menuIsOpen) {
       this.openMenu('first');
     } else {
-      this.onMenuClose();
+      // $FlowFixMe HTMLElement type does not have tagName property
+      if (event.target.tagName !== 'INPUT') {
+        this.onMenuClose();
+      }
     }
     // $FlowFixMe HTMLElement type does not have tagName property
     if (event.target.tagName !== 'INPUT') {
