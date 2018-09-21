@@ -1,8 +1,7 @@
 # React-Select
 
 ## v2.1.0 / 2018-09-21
-* [#2839] consolidated styling primitives into a single theme object. Added support for a theme prop to be passed into
-<Select />. Thanks []
+* [#2839] Added support for theming via theme prop. Thanks [akx](https://github.com/akx)
 * [#2874] Fixed flow-types of MultiValue components. Thanks [mike1808](https://github.com/mike1808)
 * [#2903] Fix missing form input when there isn't a selected value. Thanks [alvinsj](https://github.com/alvinsj)
 * [#2934] Reduced theme colors to a sane value set to make the exported theme more easy to consume and configure. Thanks [jossmac](https://github.com/jossmac)
