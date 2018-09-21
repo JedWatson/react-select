@@ -1,5 +1,14 @@
 # React-Select
 
+## v2.1.0 / 2018-09-21
+* [#2839] consolidated styling primitives into a single theme object. Added support for a theme prop to be passed into
+<Select />. Thanks []
+* [#2874] Fixed flow-types of MultiValue components. Thanks [mike1808](https://github.com/mike1808)
+* [#2903] Fix missing form input when there isn't a selected value. Thanks [alvinsj](https://github.com/alvinsj)
+* [#2934] Reduced theme colors to a sane value set to make the exported theme more easy to consume and configure. Thanks [jossmac](https://github.com/jossmac)
+* [#2876] Added overflow hidden to valueContainer to stop overflowing text in the control. Thanks [mike1808](https://github.com/mike1808)
+* [#2975] Separated menu placement logic from menu primitive. Thanks [jossmac](https://github.com/jossmac).
+
 ## v2.0.0 / 2018-07-23
 
 * async select now accepts a filterOptions function as a prop [#2822](https://github.com/JedWatson/react-select/pull/2822)
