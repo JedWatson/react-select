@@ -1613,19 +1613,23 @@ export default class Select extends Component<Props, State> {
       if (message === null) return null;
       menuUI = <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>;
     }
+    const menuPlacementProps = {
+      minMenuHeight,
+      maxMenuHeight,
+      menuPlacement,
+      menuPosition,
+      menuShouldScrollIntoView,
+    };
 
     const menuElement = (
       <MenuPlacer
         {...commonProps}
-        minMenuHeight={minMenuHeight}
-        maxMenuHeight={maxMenuHeight}
-        menuPlacement={menuPlacement}
-        menuPosition={menuPosition}
-        menuShouldScrollIntoView={menuShouldScrollIntoView}
+        {...menuPlacementProps}
       >
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}
+            {...menuPlacementProps}
             innerRef={ref}
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
