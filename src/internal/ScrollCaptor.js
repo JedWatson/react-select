@@ -25,7 +25,8 @@ class ScrollCaptor extends Component<CaptorProps> {
   }
   startListening(el: HTMLElement) {
     // bail early if no scroll available
-    if (el.scrollHeight <= el.clientHeight) return;
+    // Always listen for scroll
+    //if (el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
@@ -40,7 +41,8 @@ class ScrollCaptor extends Component<CaptorProps> {
   }
   stopListening(el: HTMLElement) {
     // bail early if no scroll available
-    if (el.scrollHeight <= el.clientHeight) return;
+    // Always listen for scroll
+    //if (el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
