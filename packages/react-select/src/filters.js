@@ -5,7 +5,7 @@ type Config = {
   ignoreAccents?: boolean,
   stringify?: Object => string,
   trim?: boolean,
-  matchFrom?: 'any' | 'start',
+  matchFrom?: 'any' | 'start' | 'start-word',
 };
 
 import { stripDiacritics } from './diacritics';
@@ -35,7 +35,17 @@ export const createFilter = (config: ?Config) => (
     input = stripDiacritics(input);
     candidate = stripDiacritics(candidate);
   }
-  return matchFrom === 'start'
-    ? candidate.substr(0, input.length) === input
-    : candidate.indexOf(input) > -1;
+  if (matchFrom === 'start') {
+    return candidate.substr(0, input.length) === input;
+  } else if (matchFrom === 'start-word') {
+    const matchIndex = candidate.indexOf(input);
+    // Accept a match at the start of the string or one preceded by space:
+    return (
+      matchIndex === 0 ||
+      (matchIndex > 0 && /\s/.test(candidate.charAt(matchIndex - 1)))
+    );
+  } else {
+    // matchFrom === 'any'
+    return candidate.indexOf(input) > -1;
+  }
 };
