@@ -4,6 +4,7 @@
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "module": "dist/react-select.esm.js",
+  "sideEffects": false,
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {
