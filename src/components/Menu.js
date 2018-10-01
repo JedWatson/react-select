@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import {
   animatedScrollTo,
   getBoundingClientObj,
-  type RectType,
   getScrollParent,
   getScrollTop,
   scrollTo,
@@ -462,18 +461,42 @@ type MenuPortalState = {
   placement: 'bottom' | 'top' | null,
 };
 type PortalStyleArgs = {
-  offset: number,
   position: MenuPosition,
-  rect: RectType,
+  appendTo: HTMLElement,
+  controlElement: HTMLElement,
+  placement: 'top' | 'bottom',
+  isFixed: boolean
 };
 
-export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
-  left: rect.left,
-  position: position,
-  top: offset,
-  width: rect.width,
-  zIndex: 1,
-});
+export const menuPortalCSS = ({ position, appendTo, controlElement, placement, isFixed }: PortalStyleArgs) => {
+  let containerLeft = 0, containerTop = 0;
+
+  if (appendTo) {
+    const { left, top } = getBoundingClientObj(appendTo);
+    const { offsetLeft, offsetTop } = appendTo;
+    containerLeft = left - offsetLeft;
+    containerTop = top - offsetTop;
+  }
+
+  const rect = getBoundingClientObj(controlElement);
+
+  const r = {
+    left: rect.left - containerLeft,
+    position,
+    top: rect.top - containerTop + (placement === 'bottom' ? rect.height : 0),
+    width: rect.width,
+    zIndex: 1,
+  };
+
+  if (isFixed) {
+    return {
+      ...r,
+      top: rect[placement]
+    };
+  }
+
+  return r;
+};
 
 export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
   state = { placement: null };
@@ -512,10 +535,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     }
 
     const placement = this.state.placement || coercePlacement(menuPlacement);
-    const rect = getBoundingClientObj(controlElement);
-    const scrollDistance = isFixed ? 0 : window.pageYOffset;
-    const offset = rect[placement] + scrollDistance;
-    const state = { offset, position, rect };
+    const state = { position, appendTo, controlElement, placement, isFixed };
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
