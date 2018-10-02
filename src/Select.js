@@ -1339,6 +1339,7 @@ export default class Select extends Component<Props, State> {
           readOnly
           tabIndex={tabIndex}
           value=""
+          {...ariaAttributes}
         />
       );
     }
