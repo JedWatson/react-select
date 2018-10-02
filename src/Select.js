@@ -1327,6 +1327,13 @@ export default class Select extends Component<Props, State> {
 
     const id = inputId || this.getElementId('input');
 
+    // aria attributes makes the JSX "noisy", separated for clarity
+    const ariaAttributes = {
+      'aria-autocomplete': 'list',
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
+    };
+
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
       return (
@@ -1343,13 +1350,6 @@ export default class Select extends Component<Props, State> {
         />
       );
     }
-
-    // aria attributes makes the JSX "noisy", separated for clarity
-    const ariaAttributes = {
-      'aria-autocomplete': 'list',
-      'aria-label': this.props['aria-label'],
-      'aria-labelledby': this.props['aria-labelledby'],
-    };
 
     const { cx, theme } = this.commonProps;
 
