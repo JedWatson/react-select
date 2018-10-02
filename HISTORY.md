@@ -1,6 +1,7 @@
 # React-Select
 
-## v2.1.0 / 2018-09-21
+## v2.1.0 / 2018-10-03
+
 * [#2839] Added support for theming via theme prop. Thanks [akx](https://github.com/akx)
 * [#2874] Fixed flow-types of MultiValue components. Thanks [mike1808](https://github.com/mike1808)
 * [#2903] Fix missing form input when there isn't a selected value. Thanks [alvinsj](https://github.com/alvinsj)
