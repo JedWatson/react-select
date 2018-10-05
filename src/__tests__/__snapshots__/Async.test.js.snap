@@ -378,6 +378,7 @@ exports[`defaults - snapshot 1`] = `
                     getValue={[Function]}
                     hasValue={false}
                     isDisabled={false}
+                    isFocused={false}
                     isMulti={false}
                     isRtl={false}
                     key="placeholder"
