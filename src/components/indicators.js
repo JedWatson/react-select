@@ -1,5 +1,5 @@
 // @flow
-import React, { type ElementType } from 'react';
+import React, { type Node } from 'react';
 import { injectGlobal, css } from 'emotion';
 
 import { type CommonProps } from '../types';
@@ -44,7 +44,7 @@ export const DownChevron = (props: any) => (
 
 export type IndicatorProps = CommonProps & {
   /** The children to be rendered inside the indicator. */
-  children: ElementType,
+  children: Node,
   /** Props that will be passed on to the children. */
   innerProps: any,
   /** The focused state of the select. */
@@ -69,7 +69,7 @@ const baseCSS = ({
 
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
-  const { children = <DownChevron />, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
       {...innerProps}
@@ -86,10 +86,14 @@ export const DropdownIndicator = (props: IndicatorProps) => {
     </div>
   );
 };
+DropdownIndicator.defaultProps = {
+  children: <DownChevron />,
+};
+
 
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
-  const { children = <CrossIcon />, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
       {...innerProps}
@@ -104,6 +108,10 @@ export const ClearIndicator = (props: IndicatorProps) => {
       {children}
     </div>
   );
+};
+
+ClearIndicator.defaultProps = {
+  children: <CrossIcon />
 };
 
 // ==============================
