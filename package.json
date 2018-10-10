@@ -1,9 +1,9 @@
 {
-  "name": "react-select",
+  "name": "react-select2",
   "version": "2.1.0",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
-  "module": "dist/react-select.esm.js",
+  "module": "dist/react-select2.esm.js",
   "sideEffects": false,
   "author": "Jed Watson",
   "license": "MIT",
@@ -123,7 +123,7 @@
   ],
   "bundlesize": [
     {
-      "path": "./dist/react-select.js"
+      "path": "./dist/react-select2.js"
     }
   ],
   "jest": {
