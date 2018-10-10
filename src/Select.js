@@ -1114,7 +1114,7 @@ export default class Select extends Component<Props, State> {
         if (focusedValue) {
           this.removeValue(focusedValue);
         } else {
-          if (!backspaceRemovesValue) return;
+          if (!backspaceRemovesValue || !isMulti) return;
           this.popValue();
         }
         break;
