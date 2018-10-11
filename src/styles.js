@@ -56,7 +56,7 @@ export type Styles = {
   singleValue?: Props => {},
   valueContainer: Props => {},
 };
-export type StylesConfig = $Shape<Styles>;
+export type StylesConfig = $Shape<Styles> | null;
 export type GetStyles = (string, Props) => {};
 
 export const defaultStyles: Styles = {

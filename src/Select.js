@@ -740,9 +740,14 @@ export default class Select extends Component<Props, State> {
     return this.props.getOptionValue(data);
   };
   getStyles = (key: string, props: {}): {} => {
+    const { styles } = this.props;
+    if (styles === null) {
+      return {};
+    }
+
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
-    const custom = this.props.styles[key];
+    const custom = styles[key];
     return custom ? custom(base, props) : base;
   };
   getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
