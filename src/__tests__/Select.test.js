@@ -2281,3 +2281,28 @@ test('renders with custom theme', () => {
   const firstOption = selectWrapper.find(Option).first();
   expect(window.getComputedStyle(firstOption.getDOMNode()).getPropertyValue('background-color')).toEqual(primary);
 });
+
+test.only('renders without inline styles if style is null', () => {
+  const primary = 'rgb(255, 164, 83)';
+  const selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      value={OPTIONS[0]}
+      menuIsOpen
+      theme={(theme) => (
+        {
+          ... theme,
+          borderRadius: 180,
+          colors: {
+            ...theme.colors,
+            primary,
+          },
+        }
+      )}
+      styles={null} />
+  );
+  const menu = selectWrapper.find(Menu);
+  expect(window.getComputedStyle(menu.getDOMNode()).getPropertyValue('border-radius')).toEqual('');
+  const firstOption = selectWrapper.find(Option).first();
+  expect(window.getComputedStyle(firstOption.getDOMNode()).getPropertyValue('background-color')).toEqual('');
+});
