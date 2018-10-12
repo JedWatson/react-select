@@ -1754,8 +1754,8 @@ export default class Select extends Component<Props, State> {
             onTouchEnd: this.onControlTouchEnd,
           }}
           isDisabled={isDisabled}
-          menuIsOpen={menuIsOpen}
           isFocused={isFocused}
+          menuIsOpen={menuIsOpen}
         >
           <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}
