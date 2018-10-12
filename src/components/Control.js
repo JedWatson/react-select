@@ -9,6 +9,8 @@ type State = {
   isDisabled: boolean,
   /** Whether the select is focused. */
   isFocused: boolean,
+  /** Whether the select is expanded. */
+  menuIsOpen: boolean,
 };
 
 export type ControlProps = CommonProps &
@@ -52,14 +54,15 @@ export const css = ({
 });
 
 const Control = (props: ControlProps) => {
-  const { children, cx, getStyles, className, isDisabled, isFocused, innerRef, innerProps } = props;
+  const { children, cx, getStyles, className, isDisabled, isFocused, menuIsOpen, innerRef, innerProps } = props;
   return (
     <div
       ref={innerRef}
       className={cx(emotionCSS(getStyles('control', props)), {
         'control': true,
         'control--is-disabled': isDisabled,
-        'control--is-focused': isFocused
+        'control--is-focused': isFocused,
+        'control--menu-is-open': menuIsOpen
       }, className)}
       {...innerProps}
     >
