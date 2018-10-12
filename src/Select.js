@@ -1729,7 +1729,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { className, id, isDisabled } = this.props;
+    const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1754,6 +1754,7 @@ export default class Select extends Component<Props, State> {
             onTouchEnd: this.onControlTouchEnd,
           }}
           isDisabled={isDisabled}
+          menuIsOpen={menuIsOpen}
           isFocused={isFocused}
         >
           <ValueContainer {...commonProps} isDisabled={isDisabled}>

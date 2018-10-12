@@ -184,6 +184,7 @@ exports[`defaults - snapshot 1`] = `
             innerRef={[Function]}
             isDisabled={false}
             isFocused={false}
+            menuIsOpen={false}
             isMulti={false}
             isRtl={false}
             options={Array []}
