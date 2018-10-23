@@ -61,11 +61,11 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
 });
 
 export const GroupHeading = (props: any) => {
-  const { className, cx, getStyles, ...cleanProps } = props;
+  const { className, cx, getStyles, theme, ...cleanProps } = props;
   return (
     <div
       className={cx(
-        css(getStyles('groupHeading', props)),
+        css(getStyles('groupHeading', { theme, ...cleanProps })),
         { 'group-heading': true },
         className
       )}
