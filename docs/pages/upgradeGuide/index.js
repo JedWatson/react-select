@@ -264,6 +264,32 @@ const customFilter = createFilter({
 
 See the [Advanced Guide](/advanced) for more details and examples.
 
+## Storing strings with non multi select
+
+React-select v1 allowed to use strings for the \`value\` prop, but with v2 it
+uses arrays or objects in all the cases. If you still want to use strings you
+can easily do so by filtering the value out off all your options:
+
+~~~js
+const options = [
+  {name: 'John', id: 1},
+  {name: 'Doe', id: 2},
+]
+return (
+  <ReactSelect
+    options={options}
+    value={options.filter(({id}) => id === this.state.id)}
+    getOptionLabel={({name}) => name}
+    getOptionValue={({id}) => id}
+    onChange={({value}) => this.setState({id: value})}
+  />
+)
+~~~
+
+Note that if you use the default react-select options schema (an array with
+objects having \`label\` and \`value\` keys) you don't need to define
+\`getOptionValue\` nor \`getOptionLabel\`.
+
 ## Prop Update Guide
       `}
       <PropChanges />
