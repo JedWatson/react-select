@@ -1109,6 +1109,7 @@ export default class Select extends Component<Props, State> {
         if (!isMulti || inputValue) return;
         this.focusValue('next');
         break;
+      case 'Delete':
       case 'Backspace':
         if (inputValue) return;
         if (focusedValue) {
