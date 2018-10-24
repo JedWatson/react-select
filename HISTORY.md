@@ -1,5 +1,20 @@
 # React-Select
 
+## v2.1.1 / 2018-10-24
+
+### Bug fixes
+
+* [#3132] Strip theme props from default Input and GroupHeading components, as they were polluting the DOM.
+* [#3131] Add support for the 'Delete' key in the internal onKeyDown method. Same functionality as 'Backspace'.
+* [#3100] Update flow-types and normalised default prop declarations in indicators. Thanks [iseredov](https://github.com/iseredov)
+
+### Updates
+
+* [#3083] Added sideEffects property to package.json to support tree-shaking in webpack 4.x. Thanks [SimenB](https://github.com/SimenB).
+* [#3078] Update jest dependency to 23.6.0. Thanks [papandreou](https://github.com/papandreou)
+* [#3065] Update babel-plugin-emotion to 9.2.10. Thanks [mtzhang](https://github.com/mtzhang)
+* [#3108] Update docs to include instructions for replicating the simple-value use case within react-select v2. Thanks [elboletaire](https://github.com/elboletaire)
+
 ## v2.1.0 / 2018-10-03
 
 * [#2839] Added support for theming via theme prop. Thanks [akx](https://github.com/akx)
