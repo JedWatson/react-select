@@ -264,11 +264,12 @@ const customFilter = createFilter({
 
 See the [Advanced Guide](/advanced) for more details and examples.
 
-## Storing strings with non multi select
+## Simple Value
 
-React-select v1 allowed to use strings for the \`value\` prop, but with v2 it
-uses arrays or objects in all the cases. If you still want to use strings you
-can easily do so by filtering the value out off all your options:
+React-select v1 allowed you to use strings for the \`value\` prop, but with v2 we've deprecated this behaviour
+in favor of a value prop that is always either an array of Options objects or an Options object. 
+If you still want to manage your selected values as a simple string you
+can easily do so by applying a simple filter on your dataset as below.
 
 ~~~js
 const options = [
