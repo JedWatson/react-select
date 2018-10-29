@@ -64,6 +64,30 @@ export default function Async() {
         <AsyncMulti/>
       </ExampleWrapper>
     )}
+
+    ## defaultOptions
+
+    The defaultOptions prop determines "when" your remote request is initially fired. There are two valid values for this property. Providing an option array to this prop will populate the initial set of options used when opening the select, at which point the remote load only occurs when filtering the options (typing in the control). Providing the prop by itself (or with 'true') tells the control to immediately fire the remote request, described by your loadOptions, to get those initial values for the Select.
+
+    ${(
+      <ExampleWrapper
+        label="Async with defaultOptions provided"
+        urlPath="docs/examples/DefaultOptions.js"
+        raw={require('!!raw-loader!../../examples/DefaultOptions.js')}
+      >
+        <AsyncMulti/>
+      </ExampleWrapper>
+    )}
+
+    ${(
+      <ExampleWrapper
+        label="Async with defaultOptions as true"
+        urlPath="docs/examples/AsyncPromises.js"
+        raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+      >
+        <AsyncPromises />
+      </ExampleWrapper>
+    )}
   `}
 </Fragment>);
 };
