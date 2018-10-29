@@ -127,7 +127,13 @@ export type Props = {
   delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
-  /* Custom method to filter whether an option should be displayed in the menu */
+  /* 
+    Custom method to filter whether an option should be displayed in the menu 
+
+    A custom filter method takes two parameters, the `option`, and the `inputValue`, and will
+    display all options for which your method returns `true`. For an example, please see
+    the [Custom Filter logic](/advanced#custom-filter-logic) example.
+  */
   filterOption: ((Object, string) => boolean) | null,
   /* Formats group labels in the menu as React components */
   formatGroupLabel: typeof formatGroupLabel,
