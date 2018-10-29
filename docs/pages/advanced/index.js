@@ -55,11 +55,13 @@ export default function Advanced() {
       If you really would like to rewrite the filtration logic from the ground up, simply declare a new filterOption function to be passed in as a prop to react-select.
       For details on the shape of the filterOption prop, please see the proptypes in the api docs [here](/props).
 
+      Below is a simple example of how you can write your own custom filter functions to filter the options displayed in react-select. It takes your `inputValue` and does a case-insensitive test only against the beginning of the option label.
+
       ${(
         <ExampleWrapper
-          label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          label="Custom filterOption with a custom filter"
+          urlPath="docs/examples/CustomOptionFilter.js"
+          raw={require('!!raw-loader!../../examples/CustomOptionFilter.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
