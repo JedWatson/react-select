@@ -127,8 +127,8 @@ export type Props = {
   delimiter?: string,
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
-  /* 
-    Custom method to filter whether an option should be displayed in the menu 
+  /*
+    Custom method to filter whether an option should be displayed in the menu
 
     A custom filter method takes two parameters, the `option`, and the `inputValue`, and will
     display all options for which your method returns `true`. For an example, please see
