@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import Select, { createFilter } from '../../src';
+import Select from '../../src';
 import { colourOptions } from '../data';
-import { Note } from '../styled-components';
 
 export default class SelectCreateFilter extends Component<*, State> {
   customOptionFilter = (option, inputValue) => () => {
