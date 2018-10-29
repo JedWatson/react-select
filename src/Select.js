@@ -136,14 +136,14 @@ export type Props = {
   /* 
     Resolves option data to a string to be displayed as the label by components 
 
-    Takes the `option` as a parameter, and uses what your return. See the example in
+    Takes the `option` as a parameter, and uses what you return. See the example in
     the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
   getOptionLabel: typeof getOptionLabel,
   /* 
     Resolves option data to a string to compare options and specify value attributes 
 
-    Takes the `option` as a parameter, and uses what your return. See the example in
+    Takes the `option` as a parameter, and uses what you return. See the example in
     the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
   getOptionValue: typeof getOptionValue,
