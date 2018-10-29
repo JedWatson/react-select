@@ -81,8 +81,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionLabel function example"
-          urlPath="docs/examples/CustomSingleValue.js"
-          raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+          urlPath="docs/examples/CustomGetOptionValueAndLabel.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValueAndLabel.js')}
         >
           <CustomGetOptionLabel />
         </ExampleWrapper>
@@ -91,8 +91,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionValue function example"
-          urlPath="docs/examples/CustomGetOptionValue.js"
-          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.js')}
+          urlPath="docs/examples/CustomGetOptionValueAndLabel.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValueAndLabel.js')}
         >
           <CustomGetOptionValue />
         </ExampleWrapper>
