@@ -4,13 +4,13 @@ import { css as emotionCss } from 'emotion';
 import type { CommonProps } from '../types';
 
 type State = {
-  /** Whether this is disabled */
+  /** Whether this is disabled. */
   isDisabled: boolean,
 };
 type ValueProps = {
   /** The children to be rendered. */
   children: string,
-  /* The data of the selected option rendered in the Single Value componentn */
+  /* The data of the selected option rendered in the Single Value component. */
   data: any,
   /** Props passed to the wrapping element for the group. */
   innerProps: any,
