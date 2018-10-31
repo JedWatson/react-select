@@ -7,18 +7,19 @@ type State = {
   inputValue: string,
 };
 
-const filterColors = (inputValue: string) => 
+const filterColors = (inputValue: string) =>
   colourOptions.filter(i =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-const loadOptions = (inputValue, callback) => {
-  setTimeout(() => {
-    callback(filterColors(inputValue));
-  }, 1000);
-};
+const promiseOptions = inputValue =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(filterColors(inputValue));
+    }, 1000);
+  });
 
-export default class WithCallbacks extends Component<*, State> {
+export default class WithPromises extends Component<*, State> {
   state = { inputValue: '' };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');
@@ -27,15 +28,7 @@ export default class WithCallbacks extends Component<*, State> {
   };
   render() {
     return (
-      <div>
-        <pre>inputValue: "{this.state.inputValue}"</pre>
-        <AsyncSelect
-          cacheOptions
-          loadOptions={loadOptions}
-          defaultOptions
-          onInputChange={this.handleInputChange}
-        />
-      </div>
+      <AsyncSelect cacheOptions defaultOptions={colourOptions} loadOptions={promiseOptions} />
     );
   }
 }
