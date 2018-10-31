@@ -129,7 +129,11 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((Object, string) => boolean) | null,
-  /* Formats group labels in the menu as React components */
+  /*
+    Formats group labels in the menu as React components
+
+    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   formatGroupLabel: typeof formatGroupLabel,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
@@ -153,7 +157,11 @@ export type Props = {
   isDisabled: boolean,
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
-  /* Override the built-in logic to detect whether an option is disabled */
+  /*
+    Override the built-in logic to detect whether an option is disabled
+
+    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   isOptionDisabled: (OptionType, OptionsType) => boolean | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
@@ -176,7 +184,11 @@ export type Props = {
   menuPlacement: MenuPlacement,
   /* The CSS position value of the menu, when "fixed" extra layout management is required */
   menuPosition: MenuPosition,
-  /* Whether the menu should use a portal, and where it should attach */
+  /*
+    Whether the menu should use a portal, and where it should attach
+
+    An example can be found in the [Portaling](/advanced#portaling) documentation
+  */
   menuPortalTarget?: HTMLElement,
   /* Whether to block scroll events when the menu is open */
   menuShouldBlockScroll: boolean,
@@ -216,7 +228,11 @@ export type Props = {
   placeholder: string,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
-  /* Style modifier methods */
+  /*
+    Style modifier methods
+
+    A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   styles: StylesConfig,
   /* Theme modifier method */
   theme?: ThemeConfig,
