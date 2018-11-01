@@ -13,6 +13,7 @@ const filterColors = (inputValue: string) => {
         i.label.toLowerCase().includes(inputValue.toLowerCase())
       );
   }
+  return colourOptions;
 };
 
 const promiseOptions = inputValue =>
