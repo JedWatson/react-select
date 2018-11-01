@@ -7,10 +7,13 @@ type State = {
   inputValue: string,
 };
 
-const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
+const filterColors = (inputValue: string) => {
+  if (inputValue) {
+    return colourOptions.filter(i =>
+        i.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+  }
+}
 
 const promiseOptions = inputValue =>
   new Promise(resolve => {
