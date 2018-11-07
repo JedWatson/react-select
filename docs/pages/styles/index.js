@@ -79,6 +79,10 @@ export default function Styles() {
         borderBottom: '1px dotted pink',
         color: state.isSelected ? 'red' : 'blue',
         padding: 20,
+
+        '&:hover': {
+          borderBottom: '1px solid pink',
+        },
       }),
       control: () => ({
         // none of react-select's styles are passed to <Control />
