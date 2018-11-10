@@ -37,7 +37,6 @@ import {
   formatGroupLabel,
   getOptionLabel,
   getOptionValue,
-  isOptionDisabled,
 } from './builtins';
 
 import {
@@ -262,7 +261,6 @@ export const defaultProps = {
   isMulti: false,
   isRtl: false,
   isSearchable: true,
-  isOptionDisabled: isOptionDisabled,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   minMenuHeight: 140,
@@ -824,10 +822,10 @@ export default class Select extends Component<Props, State> {
 
     return isClearable;
   }
-  isOptionDisabled(option: OptionType, selectValue: OptionsType): boolean {
+  isOptionDisabledInternal(option: OptionType, selectValue: OptionsType): boolean {
     return typeof this.props.isOptionDisabled === 'function'
       ? this.props.isOptionDisabled(option, selectValue)
-      : false;
+      : option.disabled;
   }
   isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
     if (selectValue.indexOf(option) > -1) return true;
@@ -1222,7 +1220,7 @@ export default class Select extends Component<Props, State> {
     const { inputValue = '', options } = props;
 
     const toOption = (option, id) => {
-      const isDisabled = this.isOptionDisabled(option, selectValue);
+      const isDisabled = this.isOptionDisabledInternal(option, selectValue);
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
       const value = this.getOptionValue(option);
