@@ -118,7 +118,7 @@ export type Props = {
 
     If you only wish to restyle a component, we recommend using the `styles` prop
     instead. For a list of the components that can be passed in, and the shape
-    that will be passed to them, see [the components docs](/api#components)
+    that will be passed to them, see [the components docs](/components)
   */
   components: SelectComponentsConfig,
   /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
