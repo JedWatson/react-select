@@ -1137,7 +1137,7 @@ export default class Select extends Component<Props, State> {
           if (!backspaceRemovesValue) return;
           if (isMulti) {
             this.popValue();
-          } else {
+          } else if (isClearable) {
             this.clearValue();
           }
         }
