@@ -3,10 +3,14 @@ import React, { Component } from 'react';
 import AsyncCreatableSelect from '../../src/AsyncCreatable';
 import { colourOptions } from '../data';
 
-const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
+const filterColors = (inputValue: string) => {
+  if (inputValue) {
+    return colourOptions.filter(i =>
+        i.label.toLowerCase().includes(inputValue.toLowerCase())
+      );
+  }
+  return colourOptions;
+};
 
 const promiseOptions = inputValue =>
   new Promise(resolve => {
