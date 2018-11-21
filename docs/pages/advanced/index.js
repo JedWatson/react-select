@@ -9,7 +9,7 @@ import {
   OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
-  CustomFilterOptions,
+  CustomOptionFilter,
   CustomGetOptionLabel,
   CustomGetOptionValue,
   CustomIsOptionDisabled,
@@ -63,7 +63,7 @@ export default function Advanced() {
           urlPath="docs/examples/CustomOptionFilter.js"
           raw={require('!!raw-loader!../../examples/CustomOptionFilter.js')}
         >
-          <CustomFilterOptions />
+          <CustomOptionFilter />
         </ExampleWrapper>
       )}
 
