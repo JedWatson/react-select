@@ -1400,6 +1400,56 @@ test('should not call onChange on hitting backspace when backspaceRemovesValue i
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
+test('should not call onChange on hitting backspace even when backspaceRemovesValue is true if isClearable is false', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable={false}
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true and isMulti is false', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti={false}
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).toHaveBeenCalledWith(null, { action: 'clear' });
+});
+
+test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value' });
+});
+
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
   let onChangeSpy = jest.fn();
   let selectWrapper = mount(

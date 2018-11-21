@@ -133,6 +133,17 @@ describe('New Select', function() {
             .get(selector.noOptionsValue)
             .should('contain', 'No options');
         });
+
+        it('Should not clear the value when backspace is pressed ' + view, function() {
+          cy
+            .get(selector.singleBasicSelect)
+            .click()
+            .find('input')
+            .type('{backspace}', { force: true })
+            .get(selector.singleBasicSelect)
+            .find(selector.placeholder)
+            .should('not.be.visible');
+        });
       });
     });
 
