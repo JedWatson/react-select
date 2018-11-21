@@ -105,6 +105,8 @@ export type FocusDirection =
   | 'first'
   | 'last';
 
+export type OnMenuScroll = (?SyntheticEvent<HTMLElement>) => void;
+
 export type OptionProps = PropsWithInnerRef & {
   data: any,
   id: number,

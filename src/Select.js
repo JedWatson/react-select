@@ -60,6 +60,7 @@ import type {
   KeyboardEventHandler,
   MenuPlacement,
   MenuPosition,
+  OnMenuScroll,
   OptionsType,
   OptionType,
   ValueType,
@@ -213,9 +214,9 @@ export type Props = {
   /* Handle the menu closing */
   onMenuClose: () => void,
   /* Fired when the user scrolls to the top of the menu */
-  onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
+  onMenuScrollToTop?: OnMenuScroll,
   /* Fired when the user scrolls to the bottom of the menu */
-  onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
+  onMenuScrollToBottom?: OnMenuScroll,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
   /* Allows control of whether the menu is opened when the Select is clicked */
@@ -410,7 +411,12 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentDidUpdate(prevProps: Props) {
-    const { isDisabled, menuIsOpen } = this.props;
+    const {
+      isDisabled,
+      menuIsOpen,
+      onMenuScrollToTop,
+      onMenuScrollToBottom,
+    } = this.props;
     const { isFocused } = this.state;
 
     if (
@@ -428,7 +434,12 @@ export default class Select extends Component<Props, State> {
       this.focusedOptionRef &&
       this.scrollToFocusedOptionOnUpdate
     ) {
-      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+      scrollIntoView(
+        this.menuListRef,
+        this.focusedOptionRef,
+        onMenuScrollToTop,
+        onMenuScrollToBottom,
+      );
     }
     this.scrollToFocusedOptionOnUpdate = false;
   }

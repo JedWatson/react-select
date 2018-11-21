@@ -5,6 +5,7 @@ import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
   InputActionMeta,
+  OnMenuScroll,
   OptionsType,
   ValueType,
 } from './types';
@@ -187,25 +188,51 @@ export function animatedScrollTo(
 
 export function scrollIntoView(
   menuEl: HTMLElement,
-  focusedEl: HTMLElement
+  focusedEl: HTMLElement,
+  onMenuScrollToTop?: OnMenuScroll,
+  onMenuScrollToBottom?: OnMenuScroll,
 ): void {
   const menuRect = menuEl.getBoundingClientRect();
   const focusedRect = focusedEl.getBoundingClientRect();
   const overScroll = focusedEl.offsetHeight / 3;
 
+  const {
+    scrollTop: prevScrollTop,
+    scrollHeight,
+    clientHeight,
+  } = menuEl;
+
   if (focusedRect.bottom + overScroll > menuRect.bottom) {
-    scrollTo(
-      menuEl,
-      Math.min(
-        focusedEl.offsetTop +
-          focusedEl.clientHeight -
-          menuEl.offsetHeight +
-          overScroll,
-        menuEl.scrollHeight
-      )
-    );
+    const availableScrollHeight = scrollHeight - clientHeight;
+
+    const newScrollTopRaw = focusedEl.offsetTop +
+      focusedEl.clientHeight -
+      menuEl.offsetHeight +
+      overScroll;
+
+    let newScrollTop;
+    let isScrolledToBottom;
+    if (newScrollTopRaw < availableScrollHeight) {
+      newScrollTop = newScrollTopRaw;
+      isScrolledToBottom = false;
+    } else {
+      newScrollTop = availableScrollHeight;
+      isScrolledToBottom = true;
+    }
+
+    scrollTo(menuEl, newScrollTop);
+
+    if (onMenuScrollToBottom && isScrolledToBottom && prevScrollTop < newScrollTop) {
+      onMenuScrollToBottom(null);
+    }
   } else if (focusedRect.top - overScroll < menuRect.top) {
-    scrollTo(menuEl, Math.max(focusedEl.offsetTop - overScroll, 0));
+    const newScrollTop = Math.max(focusedEl.offsetTop - overScroll, 0);
+
+    scrollTo(menuEl, newScrollTop);
+
+    if (onMenuScrollToTop && prevScrollTop > 0 && newScrollTop === 0) {
+      onMenuScrollToTop(null);
+    }
   }
 }
 
