@@ -1409,11 +1409,16 @@ export default class Select extends Component<Props, State> {
       inputValue,
       placeholder,
     } = this.props;
-    const { selectValue, focusedValue } = this.state;
+    const { selectValue, focusedValue, isFocused } = this.state;
 
     if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
-        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
+        <Placeholder 
+          {...commonProps} 
+          key="placeholder"
+          isDisabled={isDisabled}
+          isFocused={isFocused}
+        >
           {placeholder}
         </Placeholder>
       );
