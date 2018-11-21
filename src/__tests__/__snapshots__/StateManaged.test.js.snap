@@ -20,6 +20,7 @@ exports[`defaults > snapshot 1`] = `
   inputValue=""
   isDisabled={false}
   isLoading={false}
+  isMenuDynamic={false}
   isMulti={false}
   isOptionDisabled={[Function]}
   isRtl={false}

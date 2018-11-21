@@ -5,6 +5,7 @@ import NodeResolver from './NodeResolver';
 
 export type CaptorProps = {
   children: Element<*>,
+  isMenuDynamic: boolean;
   onBottomArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
@@ -24,8 +25,10 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.stopListening(this.scrollTarget);
   }
   startListening(el: HTMLElement) {
+    const { isMenuDynamic } = this.props;
+
     // bail early if no scroll available
-    if (el.scrollHeight <= el.clientHeight) return;
+    if (!isMenuDynamic && el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
@@ -39,8 +42,10 @@ class ScrollCaptor extends Component<CaptorProps> {
     }
   }
   stopListening(el: HTMLElement) {
+    const { isMenuDynamic } = this.props;
+
     // bail early if no scroll available
-    if (el.scrollHeight <= el.clientHeight) return;
+    if (!isMenuDynamic && el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {

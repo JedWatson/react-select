@@ -157,6 +157,8 @@ export type Props = {
   isDisabled: boolean,
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
+  /* Is options list in menu can change while menu is open */
+  isMenuDynamic: boolean,
   /*
     Override the built-in logic to detect whether an option is disabled
 
@@ -259,6 +261,7 @@ export const defaultProps = {
   getOptionValue: getOptionValue,
   isDisabled: false,
   isLoading: false,
+  isMenuDynamic: false,
   isMulti: false,
   isRtl: false,
   isSearchable: true,
@@ -1575,6 +1578,7 @@ export default class Select extends Component<Props, State> {
       captureMenuScroll,
       inputValue,
       isLoading,
+      isMenuDynamic,
       loadingMessage,
       minMenuHeight,
       maxMenuHeight,
@@ -1666,6 +1670,7 @@ export default class Select extends Component<Props, State> {
           >
             <ScrollCaptor
               isEnabled={captureMenuScroll}
+              isMenuDynamic={isMenuDynamic}
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
