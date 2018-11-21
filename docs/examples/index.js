@@ -35,6 +35,7 @@ export { default as CustomSingleValue } from './CustomSingleValue';
 export { default as CustomValueContainer } from './CustomValueContainer';
 export { default as CustomGetOptionLabel } from './CustomGetOptionLabel';
 export { default as CustomGetOptionValue } from './CustomGetOptionValue';
+export { default as CustomOptionFilter } from './CustomOptionFilter';
 export { default as CustomFilterOptions } from './CustomFilterOptions';
 export { default as CustomIsOptionDisabled } from './CustomIsOptionDisabled';
 export { default as Experimental } from './Experimental';
