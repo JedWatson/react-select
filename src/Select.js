@@ -1357,6 +1357,7 @@ export default class Select extends Component<Props, State> {
           onChange={noop}
           onFocus={this.onInputFocus}
           readOnly
+          disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
         />
