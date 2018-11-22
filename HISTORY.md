@@ -1,5 +1,21 @@
 # React-Select
 
+## v2.1.2 /
+
+### Bug fixes
+
+* [#3161] Initialize state with `inputValue` when `defaultOptions` is true in AsyncSelect, resolves [#3160](https://github.com/JedWatson/react-select/issues/3160), thanks [@cutterbl](https://github.com/cutterbl)
+* [#3096] Placeholder component now also receives the isFocused state value as a prop. Thanks [@Nelrohd](https://github.com/Nelrohd)
+* [#3060] Fix bug where trying to set the cursor somewhere in an input value would close the menu. Thanks [@stijndeschuymer](https://github.com/stijndeschuymer)
+* [#3163] Fixed bug where isDisabled wasn't being reflected onto the DummyInput, which meant that disabled non searchable selects were still focusable. Thanks [@gm0t](https://github.com/gm0t)
+* [#3216] Fixes bug where clearing with backspace in a single select would result in an empty array, as opposed to the expected empty object. Thanks [@IanVS](https://github.com/IanVS)
+* [#3013] Fixes bug where the menu would close on trying to scroll using the scroll bar in IE11. Thanks [@rakid](https://github.com/rakid)
+
+### Misc
+
+* A big shoutout to everyone who helped contribute to the docs. In no particular order [@acrawford13](https://github.com/JedWatson/react-select/commits?author=acrawford13), [@kirillku](https://github.com/kirillku), [@ajaymathur](https://github.com/ajaymathur), [@mgalgs](https://github.com/mgalgs), [@cutterbl](https://github.com/cutterbl), [@JonathanWbn](https://github.com/JonathanWbn), [@mwood23](https://github.com/mwood23), [@stevemao](https://github.com/stevemao), [@jossmac](https://github.com/jossmac), and anyone else I've missed.
+* Thanks to [@IanVS](https://github.com/IanVS) for cleaning up our cypress tests.
+
 ## v2.1.1 / 2018-10-24
 
 ### Bug fixes
