@@ -1,6 +1,6 @@
 # React-Select
 
-## v2.1.2 /
+## v2.1.2 / 2018-11-22
 
 ### Bug fixes
 
