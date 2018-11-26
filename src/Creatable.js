@@ -35,8 +35,8 @@ export type CreatableProps = {
 
 export type Props = SelectProps & CreatableProps;
 
-const compareOption = (inputValue, option) => {
-  const candidate = inputValue.toLowerCase();
+const compareOption = (inputValue = '', option) => {
+  const candidate = String(inputValue).toLowerCase();
   return (
     String(option.value).toLowerCase() === candidate ||
     String(option.label).toLowerCase() === candidate
