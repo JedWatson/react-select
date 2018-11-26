@@ -16,6 +16,7 @@ class ScrollCaptor extends Component<CaptorProps> {
   isTop: boolean = false;
   scrollTarget: HTMLElement;
   touchStart: number;
+  previousScrollTop: number = 0;
 
   componentDidMount() {
     this.startListening(this.scrollTarget);
@@ -29,7 +30,7 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('wheel', this.onWheel, false);
+      el.addEventListener('scroll', this.onScroll, false);
     }
     if (typeof el.addEventListener === 'function') {
       el.addEventListener('touchstart', this.onTouchStart, false);
@@ -44,7 +45,7 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('wheel', this.onWheel, false);
+      el.removeEventListener('scroll', this.onScroll, false);
     }
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('touchstart', this.onTouchStart, false);
@@ -106,8 +107,10 @@ class ScrollCaptor extends Component<CaptorProps> {
     }
   };
 
-  onWheel = (event: SyntheticWheelEvent<HTMLElement>) => {
-    this.handleEventDelta(event, event.deltaY);
+  onScroll = (event: SyntheticEvent<HTMLElement>) => {
+    const deltaY = event.currentTarget.scrollTop - this.previousScrollTop;
+    this.previousScrollTop = event.currentTarget.scrollTop;
+    this.handleEventDelta(event, deltaY);
   };
   onTouchStart = (event: SyntheticTouchEvent<HTMLElement>) => {
     // set touch start so we can calculate touchmove delta
