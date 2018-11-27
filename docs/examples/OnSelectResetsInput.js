@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
+import Select from 'react-select2';
 import { colourOptions } from '../data';
 
 export default class OnSelectResetsInput extends Component {

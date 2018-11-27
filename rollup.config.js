@@ -8,7 +8,7 @@ import { minify } from 'uglify-es';
 import pkg from './package.json';
 
 const name = 'Select';
-const path = 'dist/react-select';
+const path = 'dist/react-select2';
 const globals = {
   classnames: 'classNames',
   emotion: 'emotion',
