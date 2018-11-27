@@ -42,7 +42,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'react-select': path.resolve(__dirname, 'src/index'),
+      'react-select2': path.resolve(__dirname, 'src/index'),
     },
   },
   plugins: [

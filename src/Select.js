@@ -226,6 +226,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* The total time of animation of menu opening/close in ms*/
+  animationDuration: number,
 };
 
 export const defaultProps = {
@@ -266,6 +268,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: '0',
   tabSelectsValue: true,
+  animationDuration: 500,
 };
 
 type MenuOptions = {
@@ -283,6 +286,7 @@ type State = {
   focusedValue: OptionType | null,
   menuOptions: MenuOptions,
   selectValue: OptionsType,
+  menuClassOpen: boolean,
 };
 
 type ElRef = ElementRef<*>;
@@ -301,6 +305,7 @@ export default class Select extends Component<Props, State> {
     isComposing: false,
     menuOptions: { render: [], focusable: [] },
     selectValue: [],
+    menuClassOpen: false,
   };
 
   // Misc. Instance Properties
@@ -433,12 +438,16 @@ export default class Select extends Component<Props, State> {
   }
   onMenuClose() {
     const { isSearchable, isMulti } = this.props;
-    this.announceAriaLiveContext({
-      event: 'input',
-      context: { isSearchable, isMulti },
-    });
-    this.onInputChange('', { action: 'menu-close' });
-    this.props.onMenuClose();
+    this.setState({ menuClassOpen: false });
+    setTimeout(()=>{
+      this.announceAriaLiveContext({
+        event: 'input',
+        context: { isSearchable, isMulti },
+      });
+      this.onInputChange('', { action: 'menu-close' });
+      this.props.onMenuClose();
+    }, this.props.animationDuration);
+
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
     this.props.onInputChange(newValue, actionMeta);
@@ -481,6 +490,7 @@ export default class Select extends Component<Props, State> {
     this.setState({
       focusedValue: null,
       focusedOption: menuOptions.focusable[openAtIndex],
+      menuClassOpen: true,
     });
 
     this.announceAriaLiveContext({ event: 'menu' });
@@ -1628,6 +1638,7 @@ export default class Select extends Component<Props, State> {
       >
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
+            className={this.state.menuClassOpen ? 'menu-style menu-open' : 'menu-style menu-closed'}
             {...commonProps}
             {...menuPlacementProps}
             innerRef={ref}
