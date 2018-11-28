@@ -1432,7 +1432,7 @@ test('should call onChange with `null` on hitting backspace when backspaceRemove
   selectWrapper
     .find(Control)
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(onChangeSpy).toHaveBeenCalledWith(null, { action: 'clear' });
+  expect(onChangeSpy).toHaveBeenCalledWith(null, { action: 'clear', name: 'test-input-name' });
 });
 
 test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
@@ -1449,7 +1449,7 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
   selectWrapper
     .find(Control)
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value' });
+  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value', name: 'test-input-name', removedValue: undefined });
 });
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
@@ -1733,6 +1733,22 @@ test('onInputChange() function prop to be called on blur', () => {
   selectWrapper.find('Control input').simulate('blur');
   // Once by blur and other time by menu-close
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
+});
+
+test('onInputChange() function prop to not be called on blur with onBlurResetsInput', () => {
+    let onInputChangeSpy = jest.fn();
+    let selectWrapper = mount(
+        <Select
+            {...BASIC_PROPS}
+            onBlurResetsInput={false}
+            onBlur={jest.fn()}
+            onInputChange={onInputChangeSpy}
+            onMenuClose={jest.fn()}
+        />
+    );
+    selectWrapper.find('Control input').simulate('blur');
+    // onInputChangeSpy should not be called on blur with onBlurResetsInput={false}
+    expect(onInputChangeSpy).toHaveBeenCalledTimes(0);
 });
 
 test('onMenuClose() function prop to be called on blur', () => {
