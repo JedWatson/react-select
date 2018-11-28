@@ -57,9 +57,9 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          label="Custom filterOption from ground up"
+          urlPath="docs/examples/CustomFilterOptions.js"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
