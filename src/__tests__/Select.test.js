@@ -724,22 +724,18 @@ cases(
 
     // this will get updated on input click, though click on input is not bubbling up to control component
     selectWrapper.setState({ isFocused: true });
+    selectWrapper.setProps({ menuIsOpen: true });
     let controlComponent = selectWrapper.find('div.react-select__control');
     controlComponent.simulate('mouseDown', { target: { tagName: 'div' } });
     expect(selectWrapper.state('focusedOption')).toEqual(expectedToFocus);
   },
   {
     'single select > should focus the first option': {
-      props: {
-        ...BASIC_PROPS,
-        menuIsOpen: true,
-      },
       expectedToFocus: { label: '0', value: 'zero' },
     },
     'multi select > should focus the first option': {
       props: {
         ...BASIC_PROPS,
-        menuIsOpen: true,
         isMulti: true,
       },
       expectedToFocus: { label: '0', value: 'zero' },
@@ -2112,7 +2108,7 @@ test('multi select > removes the selected option from the menu options when isSe
 });
 
 test('hitting ArrowUp key on closed select should focus last element', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen />);
   selectWrapper
     .find('div.react-select__control')
     .simulate('keyDown', { keyCode: 38, key: 'ArrowUp' });
