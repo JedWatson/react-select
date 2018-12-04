@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import React, { Component, type Node } from 'react';
 import { css } from 'emotion';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
@@ -63,26 +63,32 @@ export const optionCSS = ({
   },
 });
 
-const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
-  return (
-    <div
-      ref={innerRef}
-      className={cx(
-        css(getStyles('option', props)),
-        {
-          'option': true,
-          'option--is-disabled': isDisabled,
-          'option--is-focused': isFocused,
-          'option--is-selected': isSelected,
-        },
-        className
-      )}
-      {...innerProps}
-    >
-      {children}
-    </div>
-  );
-};
+class Option extends Component<OptionProps> {
+  shouldComponentUpdate(nextProps: OptionProps) {
+    return !Object.is(nextProps, this.props);
+  };
+
+  render() {
+    const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = this.props;
+    return (
+      <div
+        ref={innerRef}
+        className={cx(
+          css(getStyles('option', this.props)),
+          {
+            'option': true,
+            'option--is-disabled': isDisabled,
+            'option--is-focused': isFocused,
+            'option--is-selected': isSelected,
+          },
+          className
+        )}
+        {...innerProps}
+      >
+        {children}
+      </div>
+    );
+  }
+}
 
 export default Option;
