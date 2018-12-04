@@ -48,7 +48,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
           ? props.defaultOptions
           : undefined,
         inputValue: props.inputValue,
-        isLoading: props.defaultOptions === true ? true : false,
+        isLoading: props.defaultOptions === true,
         loadedOptions: [],
         passEmptyOptions: false,
       };
