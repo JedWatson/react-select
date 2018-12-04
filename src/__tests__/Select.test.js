@@ -583,7 +583,7 @@ cases(
     focusedOption,
   }) => {
     let onChangeSpy = jest.fn();
-    props = { ...props, onChange: onChangeSpy, menuIsOpen: true, hideSelectedOptions: false, isMulti: true, menuIsOpen: true };
+    props = { ...props, onChange: onChangeSpy, menuIsOpen: true, hideSelectedOptions: false, isMulti: true };
     let selectWrapper = mount(<Select {...props} />);
 
     let selectOption = selectWrapper
@@ -730,11 +730,16 @@ cases(
   },
   {
     'single select > should focus the first option': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+      },
       expectedToFocus: { label: '0', value: 'zero' },
     },
     'multi select > should focus the first option': {
       props: {
         ...BASIC_PROPS,
+        menuIsOpen: true,
         isMulti: true,
       },
       expectedToFocus: { label: '0', value: 'zero' },
