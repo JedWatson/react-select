@@ -1428,8 +1428,8 @@ export default class Select extends Component<Props, State> {
 
     if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
-        <Placeholder 
-          {...commonProps} 
+        <Placeholder
+          {...commonProps}
           key="placeholder"
           isDisabled={isDisabled}
           isFocused={isFocused}
@@ -1441,7 +1441,7 @@ export default class Select extends Component<Props, State> {
 
     if (isMulti) {
       const selectValues: Array<any> = selectValue.map(opt => {
-        let isFocused = opt === focusedValue;
+        let isFocusedOption = opt === focusedValue;
         return (
           <MultiValue
             {...commonProps}
@@ -1450,7 +1450,7 @@ export default class Select extends Component<Props, State> {
               Label: MultiValueLabel,
               Remove: MultiValueRemove,
             }}
-            isFocused={isFocused}
+            isFocused={isFocusedOption}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
             removeProps={{
