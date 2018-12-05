@@ -4,6 +4,7 @@ export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
 export { default as AsyncPromises } from './AsyncPromises';
+export { default as AsyncDebounce } from './AsyncDebounce';
 export { default as BasicGrouped } from './BasicGrouped';
 export { default as BasicMulti } from './BasicMulti';
 export { default as BasicSingle } from './BasicSingle';

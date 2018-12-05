@@ -8,6 +8,7 @@ import {
   AsyncCallbacks,
   AsyncMulti,
   AsyncPromises,
+  AsyncDebounce
 } from '../../examples';
 
 
@@ -57,6 +58,16 @@ export default function Async() {
 
     ${(
       <ExampleWrapper
+        label="Debounced"
+        urlPath="docs/examples/AsyncDebounce.js"
+        raw={require('!!raw-loader!../../examples/AsyncDebounce.js')}
+      >
+        <AsyncDebounce />
+      </ExampleWrapper>
+    )}
+
+    ${(
+      <ExampleWrapper
         label="Async MultiSelect"
         urlPath="docs/examples/AsyncMulti.js"
         raw={require('!!raw-loader!../../examples/AsyncMulti.js')}
@@ -90,4 +101,4 @@ export default function Async() {
     )}
   `}
 </Fragment>);
-};
+}

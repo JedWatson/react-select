@@ -2,7 +2,7 @@
 
 import React, { Component, type ComponentType, type ElementRef } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import { handleInputChange } from './utils';
+import { handleInputChange, debounce } from './utils';
 import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
@@ -16,6 +16,8 @@ export type AsyncProps = {
   /* If cacheOptions is truthy, then the loaded data will be cached. The cache
      will remain until `cacheOptions` changes value. */
   cacheOptions: any,
+  /* Debounce interval in milliseconds on input change. */
+  debounceInterval: number,
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -41,8 +43,10 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     lastRequest: {};
     mounted: boolean = false;
     optionsCache: { [string]: OptionsType } = {};
+    loadOptions: (inputValue: string, callback: (?Array<*>) => void) => void;
     constructor(props: Props) {
       super();
+      this.loadOptions = props.debounceInterval ? debounce(this.handleLoadOptions, props.debounceInterval) : this.handleLoadOptions;
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
@@ -77,7 +81,6 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
             : undefined,
         });
       }
-
     }
     componentWillUnmount() {
       this.mounted = false;
@@ -88,7 +91,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
     blur() {
       this.select.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    handleLoadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
       const loader = loadOptions(inputValue, callback);
