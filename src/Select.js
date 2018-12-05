@@ -987,12 +987,14 @@ export default class Select extends Component<Props, State> {
       document.removeEventListener('touchend', this.onTouchEnd);
     }
   }
-  onTouchStart = ({ touches: [touch] }: TouchEvent) => {
+  onTouchStart = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
   };
-  onTouchMove = ({ touches: [touch] }: TouchEvent) => {
+  onTouchMove = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
     const deltaX = Math.abs(touch.clientX - this.initialTouchX);
     const deltaY = Math.abs(touch.clientY - this.initialTouchY);
     const moveThreshold = 5;
