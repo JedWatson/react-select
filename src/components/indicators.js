@@ -1,22 +1,20 @@
 // @flow
 import React, { type Node } from 'react';
-import { injectGlobal, css } from 'emotion';
 
-import { type CommonProps } from '../types';
-import type { Theme } from '../types';
+import type { CommonProps, Theme } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
 // ==============================
 
-const Svg = ({ size, ...props }: { size: number }) => (
+const Svg = ({ size, emotion, ...props }: { size: number }) => (
   <svg
     height={size}
     width={size}
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
-    className={css({
+    className={emotion.css({
       display: 'inline-block',
       fill: 'currentColor',
       lineHeight: 1,
@@ -26,6 +24,7 @@ const Svg = ({ size, ...props }: { size: number }) => (
     {...props}
   />
 );
+
 
 export const CrossIcon = (props: any) => (
   <Svg size={20} {...props}>
@@ -69,12 +68,12 @@ const baseCSS = ({
 
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps, emotion } = props;
   return (
     <div
       {...innerProps}
       className={cx(
-        css(getStyles('dropdownIndicator', props)),
+        emotion.css(getStyles('dropdownIndicator', props)),
         {
           'indicator': true,
           'dropdown-indicator': true,
@@ -82,36 +81,28 @@ export const DropdownIndicator = (props: IndicatorProps) => {
         className,
       )}
     >
-      {children}
+      {children || <DownChevron emotion={emotion} />}
     </div>
   );
 };
-DropdownIndicator.defaultProps = {
-  children: <DownChevron />,
-};
-
 
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps, emotion } = props;
   return (
     <div
       {...innerProps}
       className={cx(
-        css(getStyles('clearIndicator', props)),
+        emotion.css(getStyles('clearIndicator', props)),
         {
           'indicator': true,
           'clear-indicator': true,
         },
         className)}
     >
-      {children}
+      {children || <CrossIcon emotion={emotion} />}
     </div>
   );
-};
-
-ClearIndicator.defaultProps = {
-  children: <CrossIcon />
 };
 
 // ==============================
@@ -132,12 +123,12 @@ export const indicatorSeparatorCSS = ({
 });
 
 export const IndicatorSeparator = (props: IndicatorProps) => {
-  const { className, cx, getStyles, innerProps } = props;
+  const { className, cx, getStyles, innerProps, emotion } = props;
   return (
     <span
       {...innerProps}
       className={cx(
-        css(getStyles('indicatorSeparator', props)),
+        emotion.css(getStyles('indicatorSeparator', props)),
         { 'indicator-separator': true },
         className
       )}
@@ -150,6 +141,7 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
 // ==============================
 
 const keyframesName = 'react-select-loading-indicator';
+let keyframesInjected = false;
 
 export const loadingIndicatorCSS = ({
   isFocused,
@@ -192,12 +184,6 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
   />
 );
 
-// eslint-disable-next-line no-unused-expressions
-injectGlobal`@keyframes ${keyframesName} {
-  0%, 80%, 100% { opacity: 0; }
-  40% { opacity: 1; }
-};`;
-
 export type LoadingIconProps = {
   /** Props that will be passed on to the children. */
   innerProps: any,
@@ -210,14 +196,23 @@ export type LoadingIconProps = {
   size: number,
 };
 export const LoadingIndicator = (props: LoadingIconProps) => {
-  const { className, cx, getStyles, innerProps, isFocused, isRtl, theme: { colors } } = props;
+  const { className, cx, getStyles, innerProps, isFocused, isRtl, emotion, theme: { colors } } = props;
   const color = isFocused ? colors.neutral80 : colors.neutral20;
+
+  if(!keyframesInjected) {
+    // eslint-disable-next-line no-unused-expressions
+    emotion.injectGlobal`@keyframes ${keyframesName} {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    };`;
+    keyframesInjected = true;
+  }
 
   return (
     <div
       {...innerProps}
       className={cx(
-        css(getStyles('loadingIndicator', props)),
+        emotion.css(getStyles('loadingIndicator', props)),
         {
           'indicator': true,
           'loading-indicator': true,

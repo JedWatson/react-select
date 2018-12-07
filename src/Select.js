@@ -3,6 +3,8 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
+import memoize from '@emotion/memoize';
+import createEmotion from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -242,6 +244,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* A CSP Nonce which will be used in injected style sheets */
+  nonce?: string
 };
 
 export const defaultProps = {
@@ -304,6 +308,8 @@ type State = {
 type ElRef = ElementRef<*>;
 
 let instanceId = 1;
+
+const getEmotion = memoize(nonce => createEmotion(nonce ? { nonce } : {}));
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -368,6 +374,8 @@ export default class Select extends Component<Props, State> {
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
+
+    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -721,6 +729,7 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
+      emotion: this.emotion
     };
   }
 
@@ -1427,8 +1436,8 @@ export default class Select extends Component<Props, State> {
 
     if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
-        <Placeholder 
-          {...commonProps} 
+        <Placeholder
+          {...commonProps}
           key="placeholder"
           isDisabled={isDisabled}
           isFocused={isFocused}

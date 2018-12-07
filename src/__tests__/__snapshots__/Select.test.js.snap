@@ -4,6 +4,58 @@ exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   cx={[Function]}
+  emotion={
+    Object {
+      "cache": Object {
+        "compat": true,
+        "insert": [Function],
+        "inserted": Object {},
+        "key": "css",
+        "nonce": undefined,
+        "registered": Object {},
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head>
+            <style
+              data-emotion=""
+            >
+              
+            </style>
+          </head>,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      },
+      "css": [Function],
+      "cx": [Function],
+      "flush": [Function],
+      "getRegisteredStyles": [Function],
+      "hydrate": [Function],
+      "injectGlobal": [Function],
+      "keyframes": [Function],
+      "merge": [Function],
+      "sheet": StyleSheet {
+        "before": null,
+        "container": <head>
+          <style
+            data-emotion=""
+          >
+            
+          </style>
+        </head>,
+        "ctr": 0,
+        "isSpeedy": false,
+        "key": "css",
+        "nonce": undefined,
+        "speedy": [Function],
+        "tags": Array [],
+      },
+    }
+  }
   getStyles={[Function]}
   getValue={[Function]}
   hasValue={false}
@@ -93,6 +145,58 @@ exports[`snapshot - defaults 1`] = `
   <Control
     clearValue={[Function]}
     cx={[Function]}
+    emotion={
+      Object {
+        "cache": Object {
+          "compat": true,
+          "insert": [Function],
+          "inserted": Object {},
+          "key": "css",
+          "nonce": undefined,
+          "registered": Object {},
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head>
+              <style
+                data-emotion=""
+              >
+                
+              </style>
+            </head>,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        },
+        "css": [Function],
+        "cx": [Function],
+        "flush": [Function],
+        "getRegisteredStyles": [Function],
+        "hydrate": [Function],
+        "injectGlobal": [Function],
+        "keyframes": [Function],
+        "merge": [Function],
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head>
+            <style
+              data-emotion=""
+            >
+              
+            </style>
+          </head>,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      }
+    }
     getStyles={[Function]}
     getValue={[Function]}
     hasValue={false}
@@ -183,6 +287,58 @@ exports[`snapshot - defaults 1`] = `
     <ValueContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head>
+                <style
+                  data-emotion=""
+                >
+                  
+                </style>
+              </head>,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head>
+              <style
+                data-emotion=""
+              >
+                
+              </style>
+            </head>,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -265,6 +421,58 @@ exports[`snapshot - defaults 1`] = `
       <Placeholder
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head>
+                  <style
+                    data-emotion=""
+                  >
+                    
+                  </style>
+                </head>,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head>
+                <style
+                  data-emotion=""
+                >
+                  
+                </style>
+              </head>,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -399,6 +607,58 @@ exports[`snapshot - defaults 1`] = `
     <IndicatorsContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head>
+                <style
+                  data-emotion=""
+                >
+                  
+                </style>
+              </head>,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head>
+              <style
+                data-emotion=""
+              >
+                
+              </style>
+            </head>,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -481,6 +741,58 @@ exports[`snapshot - defaults 1`] = `
       <IndicatorSeparator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head>
+                  <style
+                    data-emotion=""
+                  >
+                    
+                  </style>
+                </head>,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head>
+                <style
+                  data-emotion=""
+                >
+                  
+                </style>
+              </head>,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -564,6 +876,58 @@ exports[`snapshot - defaults 1`] = `
       <DropdownIndicator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head>
+                  <style
+                    data-emotion=""
+                  >
+                    
+                  </style>
+                </head>,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head>
+                <style
+                  data-emotion=""
+                >
+                  
+                </style>
+              </head>,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -650,9 +1014,7 @@ exports[`snapshot - defaults 1`] = `
             },
           }
         }
-      >
-        <DownChevron />
-      </DropdownIndicator>
+      />
     </IndicatorsContainer>
   </Control>
 </SelectContainer>

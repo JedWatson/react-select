@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { css as emotionCss } from 'emotion';
 import type { CommonProps } from '../types';
 
 type State = {
@@ -31,11 +30,11 @@ export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps
 });
 
 const SingleValue = (props: SingleValueProps) => {
-  const { children, className, cx, getStyles, isDisabled, innerProps } = props;
+  const { children, className, cx, getStyles, isDisabled, innerProps, emotion } = props;
   return (
     <div
       className={cx(
-        emotionCss(getStyles('singleValue', props)),
+        emotion.css(getStyles('singleValue', props)),
         {
           'single-value': true,
           'single-value--is-disabled': isDisabled
