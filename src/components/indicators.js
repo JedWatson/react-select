@@ -164,10 +164,10 @@ export const loadingIndicatorCSS = ({
   verticalAlign: 'middle',
 });
 
-type DotProps = { color: string, delay: number, offset: boolean };
-const LoadingDot = ({ color, delay, offset }: DotProps) => (
+type DotProps = { color: string, delay: number, offset: boolean, emotion: any };
+const LoadingDot = ({ color, delay, offset, emotion }: DotProps) => (
   <span
-    css={{
+    className={emotion.css({
       animationDuration: '1s',
       animationDelay: `${delay}ms`,
       animationIterationCount: 'infinite',
@@ -180,7 +180,7 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
       height: '1em',
       verticalAlign: 'top',
       width: '1em',
-    }}
+    })}
   />
 );
 
@@ -220,9 +220,9 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
         className
       )}
     >
-      <LoadingDot color={color} delay={0} offset={isRtl} />
-      <LoadingDot color={color} delay={160} offset />
-      <LoadingDot color={color} delay={320} offset={!isRtl} />
+      <LoadingDot emotion={emotion} color={color} delay={0} offset={isRtl} />
+      <LoadingDot emotion={emotion} color={color} delay={160} offset />
+      <LoadingDot emotion={emotion} color={color} delay={320} offset={!isRtl} />
     </div>
   );
 };

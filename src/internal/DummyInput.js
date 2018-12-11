@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 
 export default class DummyInput extends Component<any> {
   render () {
-    const { in: inProp, out, onExited, appear, enter, exit, innerRef, ...props } = this.props;
+    const { in: inProp, out, onExited, appear, enter, exit, innerRef, emotion, ...props } = this.props;
     return(
       <input
         ref={innerRef}
         {...props}
-        css={{
+        className={emotion.css({
           // get rid of any default styles
           background: 0,
           border: 0,
@@ -28,7 +28,7 @@ export default class DummyInput extends Component<any> {
           opacity: 0,
           position: 'relative',
           transform: 'scale(0)',
-        }}
+        })}
       />
     );
   }

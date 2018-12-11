@@ -1379,6 +1379,7 @@ export default class Select extends Component<Props, State> {
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
+          emotion={this.emotion}
         />
       );
     }
@@ -1411,6 +1412,7 @@ export default class Select extends Component<Props, State> {
         theme={theme}
         type="text"
         value={inputValue}
+        emotion={this.emotion}
         {...ariaAttributes}
       />
     );
@@ -1688,7 +1690,7 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
-              <ScrollBlock isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
@@ -1759,7 +1761,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
+      <A11yText emotion={this.emotion} aria-live="assertive">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
