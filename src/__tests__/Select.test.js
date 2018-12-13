@@ -1508,6 +1508,26 @@ cases(
 );
 
 cases(
+  'accessibility > passes through aria-describedby prop',
+  ({ props = { ...BASIC_PROPS, 'aria-describedby': 'testing' } }) => {
+    let selectWrapper = mount(<Select {...props} />);
+    expect(selectWrapper.find('Control input').props()['aria-describedby']).toBe(
+      'testing'
+    );
+  },
+  {
+    'single select > should pass aria-describedby prop down to input': {},
+    'multi select > should pass aria-describedby prop down to input': {
+      props: {
+        ...BASIC_PROPS,
+        'aria-describedby': 'testing',
+        isMulti: true,
+      },
+    },
+  }
+);
+
+cases(
   'accessibility > passes through aria-labelledby prop',
   ({ props = { ...BASIC_PROPS, 'aria-labelledby': 'testing' } }) => {
     let selectWrapper = mount(<Select {...props} />);
