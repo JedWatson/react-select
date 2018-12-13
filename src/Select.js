@@ -484,7 +484,7 @@ export default class Select extends Component<Props, State> {
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
     if (!isMulti) {
-      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      const selectedIndex = menuOptions.focusable.findIndex((e) => this.isOptionSelected(e, selectValue));
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
       }
