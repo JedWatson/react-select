@@ -29,13 +29,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('wheel', this.onWheel);
+      el.addEventListener('wheel', this.onWheel, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchstart', this.onTouchStart);
+      el.addEventListener('touchstart', this.onTouchStart, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchmove', this.onTouchMove);
+      el.addEventListener('touchmove', this.onTouchMove, false);
     }
   }
   stopListening(el: HTMLElement) {
@@ -44,13 +44,13 @@ class ScrollCaptor extends Component<CaptorProps> {
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('wheel', this.onWheel);
+      el.removeEventListener('wheel', this.onWheel, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchstart', this.onTouchStart);
+      el.removeEventListener('touchstart', this.onTouchStart, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchmove', this.onTouchMove);
+      el.removeEventListener('touchmove', this.onTouchMove, false);
     }
   }
 
