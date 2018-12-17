@@ -11,9 +11,11 @@ import {
   CreateFilter,
   CustomFilterOptions,
   CustomGetOptionLabel,
+  CustomGetOptionValue,
   CustomIsOptionDisabled,
   Experimental,
   Popout,
+  MenuBuffer,
   MenuPortal,
 } from '../../examples';
 
@@ -34,14 +36,14 @@ export default function Advanced() {
       While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
 
       ### createFilter function
-      React-Select exports a createFilter function that returns a filterOptions method. By using this, users can pick and choose bits of the filtration logic to customise,
+      React-Select exports a createFilter function that returns a filterOption method. By using this, users can pick and choose bits of the filtration logic to customise,
       without having to rewrite the logic wholesale.
 
       Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
       ${(
         <ExampleWrapper
-          label="Custom filterOptions with createFilter"
+          label="Custom filterOption with createFilter"
           urlPath="docs/examples/CreateFilter.js"
           raw={require('!!raw-loader!../../examples/CreateFilter.js')}
         >
@@ -49,13 +51,13 @@ export default function Advanced() {
         </ExampleWrapper>
       )}
 
-      ### filterOptions
-      If you really would like to rewrite the filtration logic from the ground up, simply declare a new filterOptions function to be passed in as a prop to react-select.
-      For details on the shape of the filterOptions prop, please see the proptypes in the api docs [here](/api#prop-types).
+      ### filterOption
+      If you really would like to rewrite the filtration logic from the ground up, simply declare a new filterOption function to be passed in as a prop to react-select.
+      For details on the shape of the filterOption prop, please see the proptypes in the api docs [here](/props).
 
       ${(
         <ExampleWrapper
-          label="Custom filterOptions with createFilter"
+          label="Custom filterOption with createFilter"
           urlPath="docs/examples/CreateFilter.js"
           raw={require('!!raw-loader!../../examples/CreateFilter.js')}
         >
@@ -64,7 +66,7 @@ export default function Advanced() {
       )}
 
       ## Replacing builtins
-      For a list of builtins that we expose, please see the API docs [here](/api#prop-types).
+      For a list of builtins that we expose, please see the API docs [here](/props#prop-types).
 
       ${(
         <ExampleWrapper
@@ -87,8 +89,12 @@ export default function Advanced() {
       )}
 
       ${(
-        <ExampleWrapper label="custom getOptionValue function example">
-          <div>Coming Soon!</div>
+        <ExampleWrapper
+          label="custom getOptionValue function example"
+          urlPath="docs/examples/CustomGetOptionValue.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.js')}
+        >
+          <CustomGetOptionValue />
         </ExampleWrapper>
       )}
 
@@ -98,6 +104,15 @@ export default function Advanced() {
           raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
         >
           <CustomIsOptionDisabled />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Using the style API to replace `menuBuffer`"
+          raw={require('!!raw-loader!../../examples/MenuBuffer.js')}
+        >
+          <MenuBuffer />
         </ExampleWrapper>
       )}
 

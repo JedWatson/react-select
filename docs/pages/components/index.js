@@ -346,7 +346,7 @@ export default function Components() {
 
         ### MultiValue
 
-        Component used to display a selected option in the input when \`isMult\` is
+        Component used to display a selected option in the input when \`isMulti\` is
         true. Takes responsibility for rendering the \`MultiValueContainer\`,
         \`MultiValueLabel\`, and \`MultiValueRemove\`.
 

@@ -1,9 +1,9 @@
 // @flow
-import React, { type ElementType } from 'react';
+import React, { type Node } from 'react';
 import { injectGlobal, css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import { type CommonProps } from '../types';
+import type { Theme } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -44,7 +44,7 @@ export const DownChevron = (props: any) => (
 
 export type IndicatorProps = CommonProps & {
   /** The children to be rendered inside the indicator. */
-  children: ElementType,
+  children: Node,
   /** Props that will be passed on to the children. */
   innerProps: any,
   /** The focused state of the select. */
@@ -53,20 +53,23 @@ export type IndicatorProps = CommonProps & {
   isRtl: boolean,
 };
 
-const baseCSS = ({ isFocused }: IndicatorProps) => ({
+const baseCSS = ({
+  isFocused,
+  theme: { spacing: { baseUnit }, colors },
+}: IndicatorProps) => ({
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: spacing.baseUnit * 2,
+  padding: baseUnit * 2,
   transition: 'color 150ms',
 
   ':hover': {
-    color: isFocused ? colors.neutral100 : colors.neutral40,
+    color: isFocused ? colors.neutral80 : colors.neutral40,
   },
 });
 
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
-  const { children = <DownChevron />, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
       {...innerProps}
@@ -83,10 +86,14 @@ export const DropdownIndicator = (props: IndicatorProps) => {
     </div>
   );
 };
+DropdownIndicator.defaultProps = {
+  children: <DownChevron />,
+};
+
 
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
-  const { children = <CrossIcon />, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
       {...innerProps}
@@ -103,17 +110,24 @@ export const ClearIndicator = (props: IndicatorProps) => {
   );
 };
 
+ClearIndicator.defaultProps = {
+  children: <CrossIcon />
+};
+
 // ==============================
 // Separator
 // ==============================
 
 type SeparatorState = { isDisabled: boolean };
 
-export const indicatorSeparatorCSS = ({ isDisabled }: SeparatorState) => ({
+export const indicatorSeparatorCSS = ({
+  isDisabled,
+  theme: { spacing: { baseUnit }, colors },
+}: (CommonProps & SeparatorState)) => ({
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
-  marginBottom: spacing.baseUnit * 2,
-  marginTop: spacing.baseUnit * 2,
+  marginBottom: baseUnit * 2,
+  marginTop: baseUnit * 2,
   width: 1,
 });
 
@@ -140,13 +154,15 @@ const keyframesName = 'react-select-loading-indicator';
 export const loadingIndicatorCSS = ({
   isFocused,
   size,
+  theme: { colors, spacing: { baseUnit } },
 }: {
   isFocused: boolean,
   size: number,
+  theme: Theme,
 }) => ({
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: spacing.baseUnit * 2,
+  padding: baseUnit * 2,
   transition: 'color 150ms',
   alignSelf: 'center',
   fontSize: size,
@@ -194,8 +210,8 @@ export type LoadingIconProps = {
   size: number,
 };
 export const LoadingIndicator = (props: LoadingIconProps) => {
-  const { className, cx, getStyles, innerProps, isFocused, isRtl } = props;
-  const color = isFocused ? colors.text : colors.neutral20;
+  const { className, cx, getStyles, innerProps, isFocused, isRtl, theme: { colors } } = props;
+  const color = isFocused ? colors.neutral80 : colors.neutral20;
 
   return (
     <div

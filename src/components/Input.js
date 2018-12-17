@@ -2,8 +2,6 @@
 import React, { type ElementRef } from 'react';
 import AutosizeInput from 'react-input-autosize';
 
-import { colors, spacing } from '../theme';
-
 import type { PropsWithStyles, ClassNamesState } from '../types';
 
 export type InputProps = PropsWithStyles & {
@@ -17,12 +15,12 @@ export type InputProps = PropsWithStyles & {
   className?: string,
 };
 
-export const inputCSS = ({ isDisabled }: InputProps) => ({
+export const inputCSS = ({ isDisabled, theme: { spacing, colors } }: InputProps) => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
-  color: colors.text,
+  color: colors.neutral80,
 });
 const inputStyle = isHidden => ({
   background: 0,
@@ -41,9 +39,10 @@ const Input = ({
   innerRef,
   isHidden,
   isDisabled,
+  theme,
   ...props
 }: InputProps) => (
-  <div css={getStyles('input', props)}>
+  <div css={getStyles('input', { theme, ...props })}>
     <AutosizeInput
       className={cx(null, { 'input': true }, className)}
       inputRef={innerRef}

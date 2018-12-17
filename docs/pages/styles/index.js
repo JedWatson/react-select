@@ -2,7 +2,9 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { StyledSingle, StyledMulti } from '../../examples';
+import { StyledSingle, StyledMulti, Theme } from '../../examples';
+import { ColorSample } from '../../styled-components';
+import { defaultTheme } from '../../../src/theme';
 
 export default function Styles() {
   return (
@@ -23,13 +25,12 @@ export default function Styles() {
 
     ~~~jsx
     /**
-     * @param {Object} base -- the component's default style
+     * @param {Object} provided -- the component's default styles
      * @param {Object} state -- the component's current state e.g. \`isFocused\`
      * @returns {Object}
      */
-    function styleFn(base, state) {
-      // optionally spread base styles
-      return { ...base, color: state.isFocused ? 'blue' : 'red' };
+    function styleFn(provided, state) {
+      return { ...provided, color: state.isFocused ? 'blue' : 'red' };
     }
     ~~~
 
@@ -45,35 +46,52 @@ export default function Styles() {
 
     ###### Style Keys
 
-    \`clearIndicator\` \`container\` \`control\` \`dropdownIndicator\` \`group\`
-    \`groupHeading\` \`indicatorsContainer\` \`indicatorSeparator\` \`input\`
-    \`loadingIndicator\` \`loadingMessage\` \`menu\` \`menuList\` \`multiValue\`
-    \`multiValueLabel\` \`multiValueRemove\` \`noOptionsMessage\` \`option\`
-    \`placeholder\` \`singleValue\` \`valueContainer\`
+    - \`clearIndicator\`
+    - \`container\`
+    - \`control\`
+    - \`dropdownIndicator\`
+    - \`group\`
+    - \`groupHeading\`
+    - \`indicatorsContainer\`
+    - \`indicatorSeparator\`
+    - \`input\`
+    - \`loadingIndicator\`
+    - \`loadingMessage\`
+    - \`menu\`
+    - \`menuList\`
+    - \`menuPortal\`
+    - \`multiValue\`
+    - \`multiValueLabel\`
+    - \`multiValueRemove\`
+    - \`noOptionsMessage\`
+    - \`option\`
+    - \`placeholder\`
+    - \`singleValue\`
+    - \`valueContainer\`
 
-    ## Base and State
+    ## Provided Styles and State
 
-    Spreading the base styles into your returned object let's you extend it
+    Spreading the provided styles into your returned object lets you extend it
     however you like while maintaining existing styles. Alternatively, you
-    can omit the base and completely take control of the component's styles.
+    can omit the provided styles and completely take control of the component's styles.
 
     ~~~jsx
     const customStyles = {
-      option: (base, state) => ({
-        ...base,
+      option: (provided, state) => ({
+        ...provided,
         borderBottom: '1px dotted pink',
-        color: state.isFullscreen ? 'red' : 'blue',
+        color: state.isSelected ? 'red' : 'blue',
         padding: 20,
       }),
       control: () => ({
-        // none of react-selects styles are passed to <View />
+        // none of react-select's styles are passed to <Control />
         width: 200,
       }),
-      singleValue: (base, state) => {
+      singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
 
-        return { ...base, opacity, transition };
+        return { ...provided, opacity, transition };
       }
     }
 
@@ -108,27 +126,12 @@ export default function Styles() {
     ## Using classNames
 
     If you provide the \`className\` prop to react-select, the SelectContainer will be given a className based on the provided value.
-    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
-    be given a className based on the one you have provided.
 
-    For example, given \`classNamePrefix="react-select"\`, the DOM would roughtly look
-    like this:
+    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will be given a className
+    with the provided prefix.
 
-    ~~~html
-    <div>
-      <div class="react-select__control">
-        <div class="react-select__value-container">...</div>
-        <div class="react-select__indicators">...</div>
-      </div>
-      <div class="react-select__menu">
-        <div class="react-select__menu-list">
-          <div class="react-select__option">...</div>
-        </div>
-      </div>
-    </div>
-    ~~~
-
-    while giving \`className='react-select-container'\` and \`classNamePrefix='react-select'\`, the DOM would roughly look like this:
+    For example, given \`className='react-select-container'\` and \`classNamePrefix="react-select"\`,
+    the DOM structure is similar to this:
 
     ~~~html
     <div class="react-select-container">
@@ -144,8 +147,39 @@ export default function Styles() {
     </div>
     ~~~
 
-    While we encourage you to use the new Styles API, it's good to know that you
-    still have the option of adding class names to the components to style via CSS.
+    While we encourage you to use the new Styles API, you still have the option of styling via CSS classes.
+    This ensures compatibility with [styled components](https://www.styled-components.com/),
+    [CSS modules](https://github.com/css-modules/css-modules) and other libraries.
+
+    ## Overriding the theme
+
+    The default styles are derived from a theme object, which you can mutate like \`styles\`.
+
+    The \`theme\` object is available for the \`styles\` functions as well.
+
+    ${(
+      <ExampleWrapper
+        label="Customised theme"
+        urlPath="docs/examples/Theme.js"
+        raw={require('!!raw-loader!../../examples/Theme.js')}
+      >
+        <Theme />
+      </ExampleWrapper>
+    )}
+
+    ###### Theme colors
+
+    ${(
+      <div css={{ marginTop: '1em' }}>
+        {Object.keys(defaultTheme.colors).map(key => (
+          <ColorSample
+            key={key}
+            name={key}
+            color={defaultTheme.colors[key]}
+          />
+        ))}
+      </div>
+    )}
 
     `}
     </Fragment>

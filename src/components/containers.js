@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
 import { css } from 'emotion';
-import { spacing } from '../theme';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -58,7 +57,7 @@ export type ValueContainerProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = () => ({
+export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -66,6 +65,7 @@ export const valueContainerCSS = () => ({
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',
+  overflow: 'hidden',
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {

@@ -11,7 +11,7 @@ type Config = {
 import { stripDiacritics } from './diacritics';
 
 const trimString = str => str.replace(/^\s+|\s+$/g, '');
-const defaulStringify = option => `${option.label} ${option.value}`;
+const defaultStringify = option => `${option.label} ${option.value}`;
 
 export const createFilter = (config: ?Config) => (
   option: { label: string, value: string, data: any },
@@ -20,7 +20,7 @@ export const createFilter = (config: ?Config) => (
   const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {
     ignoreCase: true,
     ignoreAccents: true,
-    stringify: defaulStringify,
+    stringify: defaultStringify,
     trim: true,
     matchFrom: 'any',
     ...config,

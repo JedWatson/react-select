@@ -60,7 +60,7 @@ export default class PopoutExample extends Component<*, State> {
 // styled components
 
 const Menu = props => {
-  const shadow = colors.neutral10a;
+  const shadow = 'hsla(218, 50%, 10%, 0.1)';
   return (
     <div
       css={{

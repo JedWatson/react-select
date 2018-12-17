@@ -2,7 +2,6 @@
 import React, { type Node } from 'react';
 import { css } from 'emotion';
 
-import { colors, spacing } from '../theme';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -34,9 +33,16 @@ export type OptionProps = PropsWithStyles &
     /* Type is used by the menu to determine whether this is an option or a group.
     In the case of option this is always `option`. */
     type: 'option',
+    /* The data of the selected option. */
+    data: any,
   };
 
-export const optionCSS = ({ isDisabled, isFocused, isSelected }: State) => ({
+export const optionCSS = ({
+  isDisabled,
+  isFocused,
+  isSelected,
+  theme: { spacing, colors },
+}: OptionProps) => ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',

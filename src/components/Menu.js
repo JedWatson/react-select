@@ -17,13 +17,13 @@ import {
   getScrollTop,
   scrollTo,
 } from '../utils';
-import { borderRadius, colors, spacing } from '../theme';
 import type {
   InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
 } from '../types';
+import type { Theme } from '../types';
 
 // ==============================
 // Menu
@@ -32,7 +32,10 @@ import type {
 // Get Menu Placement
 // ------------------------------
 
-type MenuState = { placement: 'bottom' | 'top' | null, maxHeight: number };
+type MenuState = {
+  placement: 'bottom' | 'top' | null,
+  maxHeight: number,
+};
 type PlacementArgs = {
   maxHeight: number,
   menuEl: ElementRef<*>,
@@ -40,6 +43,7 @@ type PlacementArgs = {
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
   isFixedPosition: boolean,
+  theme: Theme,
 };
 
 export function getMenuPlacement({
@@ -49,7 +53,9 @@ export function getMenuPlacement({
   placement,
   shouldScroll,
   isFixedPosition,
+  theme,
 }: PlacementArgs): MenuState {
+  const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl);
   const defaultState = { placement: 'bottom', maxHeight };
 
@@ -69,15 +75,16 @@ export function getMenuPlacement({
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
   const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
-  const gutter = spacing.menuGutter;
 
-  const viewSpaceAbove = containerTop - gutter;
+  const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
+  const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
+  const viewSpaceAbove = containerTop - marginTop;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
 
-  const scrollDown = menuBottom - viewHeight + scrollTop + gutter;
-  const scrollUp = scrollTop + menuTop - gutter;
+  const scrollDown = menuBottom - viewHeight + scrollTop + marginBottom;
+  const scrollUp = scrollTop + menuTop - marginTop;
   const scrollDuration = 160;
 
   switch (placement) {
@@ -109,8 +116,8 @@ export function getMenuPlacement({
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
         const constrainedHeight = isFixedPosition
-          ? viewSpaceBelow - gutter
-          : scrollSpaceBelow - gutter;
+          ? viewSpaceBelow - marginBottom
+          : scrollSpaceBelow - marginBottom;
 
         return {
           placement: 'bottom',
@@ -130,8 +137,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - gutter - spacing.controlHeight
-            : scrollSpaceAbove - gutter - spacing.controlHeight;
+            ? viewSpaceAbove - marginBottom - spacing.controlHeight
+            : scrollSpaceAbove - marginBottom - spacing.controlHeight;
         }
 
         return { placement: 'top', maxHeight: constrainedHeight };
@@ -172,8 +179,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - gutter
-            : scrollSpaceAbove - gutter;
+            ? viewSpaceAbove - marginTop
+            : scrollSpaceAbove - marginTop;
         }
 
         if (shouldScroll) {
@@ -201,9 +208,7 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-export type MenuProps = CommonProps & {
-  /** The children to be rendered. */
-  children: ReactElement<*>,
+export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
   getPortalPlacement: MenuState => void,
   /** Props to be passed to the menu wrapper. */
@@ -219,6 +224,16 @@ export type MenuProps = CommonProps & {
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
 };
+export type MenuProps = MenuAndPlacerCommon & {
+  /** Reference to the internal element, consumed by the MenuPlacer component */
+  innerRef: ElementRef<*>,
+  /** The children to be rendered. */
+  children: ReactElement<*>,
+};
+export type MenuPlacerProps = MenuAndPlacerCommon & {
+  /** The children to be rendered. */
+  children: ({}) => Node,
+};
 
 function alignToControl(placement) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
@@ -226,11 +241,16 @@ function alignToControl(placement) {
 }
 const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = ({ placement }: MenuState) => ({
+type MenuStateWithProps = MenuState & MenuProps;
+
+export const menuCSS = ({
+  placement,
+  theme: { borderRadius, spacing, colors },
+}: MenuStateWithProps) => ({
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,
-  boxShadow: `0 0 0 1px ${colors.neutral10a}, 0 4px 11px ${colors.neutral10a}`,
+  boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
   marginBottom: spacing.menuGutter,
   marginTop: spacing.menuGutter,
   position: 'absolute',
@@ -238,7 +258,8 @@ export const menuCSS = ({ placement }: MenuState) => ({
   zIndex: 1,
 });
 
-export class Menu extends Component<MenuProps, MenuState> {
+// NOTE: internal only
+export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
   state = {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
@@ -253,6 +274,7 @@ export class Menu extends Component<MenuProps, MenuState> {
       menuPlacement,
       menuPosition,
       menuShouldScrollIntoView,
+      theme,
     } = this.props;
     const { getPortalPlacement } = this.context;
 
@@ -269,38 +291,39 @@ export class Menu extends Component<MenuProps, MenuState> {
       placement: menuPlacement,
       shouldScroll,
       isFixedPosition,
+      theme,
     });
 
     if (getPortalPlacement) getPortalPlacement(state);
 
     this.setState(state);
   };
-  getState = () => {
+  getUpdatedProps = () => {
     const { menuPlacement } = this.props;
     const placement = this.state.placement || coercePlacement(menuPlacement);
 
     return { ...this.props, placement, maxHeight: this.state.maxHeight };
   };
   render() {
-    const { children, className, cx, getStyles, innerProps } = this.props;
+    const { children } = this.props;
 
-    return (
-      <div
-        className={cx(
-          css(getStyles('menu', this.getState())),
-          {
-            'menu': true,
-          },
-          className
-        )}
-        ref={this.getPlacement}
-        {...innerProps}
-      >
-        {children}
-      </div>
-    );
+    return children({
+      ref: this.getPlacement,
+      placerProps: this.getUpdatedProps(),
+    });
   }
 }
+
+const Menu = (props: MenuProps) => {
+  const { children, className, cx, getStyles, innerRef, innerProps } = props;
+  const cn = cx(css(getStyles('menu', props)), { menu: true }, className);
+
+  return (
+    <div className={cn} {...innerProps} ref={innerRef}>
+      {children}
+    </div>
+  );
+};
 
 export default Menu;
 
@@ -324,11 +347,16 @@ export type MenuListProps = {
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;
-export const menuListCSS = ({ maxHeight }: MenuState) => ({
+export const menuListCSS = ({
+  maxHeight,
+  theme: {
+    spacing: { baseUnit },
+  },
+}: MenuListComponentProps) => ({
   maxHeight,
   overflowY: 'auto',
-  paddingBottom: spacing.baseUnit,
-  paddingTop: spacing.baseUnit,
+  paddingBottom: baseUnit,
+  paddingTop: baseUnit,
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
 });
@@ -340,7 +368,7 @@ export const MenuList = (props: MenuListComponentProps) => {
         css(getStyles('menuList', props)),
         {
           'menu-list': true,
-          'menu-list--is-multi': isMulti
+          'menu-list--is-multi': isMulti,
         },
         className
       )}
@@ -355,9 +383,14 @@ export const MenuList = (props: MenuListComponentProps) => {
 // Menu Notices
 // ==============================
 
-const noticeCSS = () => ({
+const noticeCSS = ({
+  theme: {
+    spacing: { baseUnit },
+    colors,
+  },
+}: NoticeProps) => ({
   color: colors.neutral40,
-  padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
+  padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
 });
 export const noOptionsMessageCSS = noticeCSS;
@@ -486,11 +519,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div
-        className={css(getStyles('menuPortal', state))}
-      >
-        {children}
-      </div>
+      <div className={css(getStyles('menuPortal', state))}>{children}</div>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;

@@ -60,6 +60,35 @@ exports[`snapshot - defaults 1`] = `
     }
   }
   setValue={[Function]}
+  theme={
+    Object {
+      "borderRadius": 4,
+      "colors": Object {
+        "danger": "#DE350B",
+        "dangerLight": "#FFBDAD",
+        "neutral0": "hsl(0, 0%, 100%)",
+        "neutral10": "hsl(0, 0%, 90%)",
+        "neutral20": "hsl(0, 0%, 80%)",
+        "neutral30": "hsl(0, 0%, 70%)",
+        "neutral40": "hsl(0, 0%, 60%)",
+        "neutral5": "hsl(0, 0%, 95%)",
+        "neutral50": "hsl(0, 0%, 50%)",
+        "neutral60": "hsl(0, 0%, 40%)",
+        "neutral70": "hsl(0, 0%, 30%)",
+        "neutral80": "hsl(0, 0%, 20%)",
+        "neutral90": "hsl(0, 0%, 10%)",
+        "primary": "#2684FF",
+        "primary25": "#DEEBFF",
+        "primary50": "#B2D4FF",
+        "primary75": "#4C9AFF",
+      },
+      "spacing": Object {
+        "baseUnit": 4,
+        "controlHeight": 38,
+        "menuGutter": 8,
+      },
+    }
+  }
 >
   <Control
     clearValue={[Function]}
@@ -121,6 +150,35 @@ exports[`snapshot - defaults 1`] = `
       }
     }
     setValue={[Function]}
+    theme={
+      Object {
+        "borderRadius": 4,
+        "colors": Object {
+          "danger": "#DE350B",
+          "dangerLight": "#FFBDAD",
+          "neutral0": "hsl(0, 0%, 100%)",
+          "neutral10": "hsl(0, 0%, 90%)",
+          "neutral20": "hsl(0, 0%, 80%)",
+          "neutral30": "hsl(0, 0%, 70%)",
+          "neutral40": "hsl(0, 0%, 60%)",
+          "neutral5": "hsl(0, 0%, 95%)",
+          "neutral50": "hsl(0, 0%, 50%)",
+          "neutral60": "hsl(0, 0%, 40%)",
+          "neutral70": "hsl(0, 0%, 30%)",
+          "neutral80": "hsl(0, 0%, 20%)",
+          "neutral90": "hsl(0, 0%, 10%)",
+          "primary": "#2684FF",
+          "primary25": "#DEEBFF",
+          "primary50": "#B2D4FF",
+          "primary75": "#4C9AFF",
+        },
+        "spacing": Object {
+          "baseUnit": 4,
+          "controlHeight": 38,
+          "menuGutter": 8,
+        },
+      }
+    }
   >
     <ValueContainer
       clearValue={[Function]}
@@ -174,6 +232,35 @@ exports[`snapshot - defaults 1`] = `
         }
       }
       setValue={[Function]}
+      theme={
+        Object {
+          "borderRadius": 4,
+          "colors": Object {
+            "danger": "#DE350B",
+            "dangerLight": "#FFBDAD",
+            "neutral0": "hsl(0, 0%, 100%)",
+            "neutral10": "hsl(0, 0%, 90%)",
+            "neutral20": "hsl(0, 0%, 80%)",
+            "neutral30": "hsl(0, 0%, 70%)",
+            "neutral40": "hsl(0, 0%, 60%)",
+            "neutral5": "hsl(0, 0%, 95%)",
+            "neutral50": "hsl(0, 0%, 50%)",
+            "neutral60": "hsl(0, 0%, 40%)",
+            "neutral70": "hsl(0, 0%, 30%)",
+            "neutral80": "hsl(0, 0%, 20%)",
+            "neutral90": "hsl(0, 0%, 10%)",
+            "primary": "#2684FF",
+            "primary25": "#DEEBFF",
+            "primary50": "#B2D4FF",
+            "primary75": "#4C9AFF",
+          },
+          "spacing": Object {
+            "baseUnit": 4,
+            "controlHeight": 38,
+            "menuGutter": 8,
+          },
+        }
+      }
     >
       <Placeholder
         clearValue={[Function]}
@@ -182,6 +269,7 @@ exports[`snapshot - defaults 1`] = `
         getValue={[Function]}
         hasValue={false}
         isDisabled={false}
+        isFocused={false}
         isMulti={false}
         isRtl={false}
         key="placeholder"
@@ -228,6 +316,35 @@ exports[`snapshot - defaults 1`] = `
           }
         }
         setValue={[Function]}
+        theme={
+          Object {
+            "borderRadius": 4,
+            "colors": Object {
+              "danger": "#DE350B",
+              "dangerLight": "#FFBDAD",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
+              "primary": "#2684FF",
+              "primary25": "#DEEBFF",
+              "primary50": "#B2D4FF",
+              "primary75": "#4C9AFF",
+            },
+            "spacing": Object {
+              "baseUnit": 4,
+              "controlHeight": 38,
+              "menuGutter": 8,
+            },
+          }
+        }
       >
         Select...
       </Placeholder>
@@ -247,6 +364,35 @@ exports[`snapshot - defaults 1`] = `
         onFocus={[Function]}
         spellCheck="false"
         tabIndex="0"
+        theme={
+          Object {
+            "borderRadius": 4,
+            "colors": Object {
+              "danger": "#DE350B",
+              "dangerLight": "#FFBDAD",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
+              "primary": "#2684FF",
+              "primary25": "#DEEBFF",
+              "primary50": "#B2D4FF",
+              "primary75": "#4C9AFF",
+            },
+            "spacing": Object {
+              "baseUnit": 4,
+              "controlHeight": 38,
+              "menuGutter": 8,
+            },
+          }
+        }
         type="text"
       />
     </ValueContainer>
@@ -302,6 +448,35 @@ exports[`snapshot - defaults 1`] = `
         }
       }
       setValue={[Function]}
+      theme={
+        Object {
+          "borderRadius": 4,
+          "colors": Object {
+            "danger": "#DE350B",
+            "dangerLight": "#FFBDAD",
+            "neutral0": "hsl(0, 0%, 100%)",
+            "neutral10": "hsl(0, 0%, 90%)",
+            "neutral20": "hsl(0, 0%, 80%)",
+            "neutral30": "hsl(0, 0%, 70%)",
+            "neutral40": "hsl(0, 0%, 60%)",
+            "neutral5": "hsl(0, 0%, 95%)",
+            "neutral50": "hsl(0, 0%, 50%)",
+            "neutral60": "hsl(0, 0%, 40%)",
+            "neutral70": "hsl(0, 0%, 30%)",
+            "neutral80": "hsl(0, 0%, 20%)",
+            "neutral90": "hsl(0, 0%, 10%)",
+            "primary": "#2684FF",
+            "primary25": "#DEEBFF",
+            "primary50": "#B2D4FF",
+            "primary75": "#4C9AFF",
+          },
+          "spacing": Object {
+            "baseUnit": 4,
+            "controlHeight": 38,
+            "menuGutter": 8,
+          },
+        }
+      }
     >
       <IndicatorSeparator
         clearValue={[Function]}
@@ -356,6 +531,35 @@ exports[`snapshot - defaults 1`] = `
           }
         }
         setValue={[Function]}
+        theme={
+          Object {
+            "borderRadius": 4,
+            "colors": Object {
+              "danger": "#DE350B",
+              "dangerLight": "#FFBDAD",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
+              "primary": "#2684FF",
+              "primary25": "#DEEBFF",
+              "primary50": "#B2D4FF",
+              "primary75": "#4C9AFF",
+            },
+            "spacing": Object {
+              "baseUnit": 4,
+              "controlHeight": 38,
+              "menuGutter": 8,
+            },
+          }
+        }
       />
       <DropdownIndicator
         clearValue={[Function]}
@@ -417,7 +621,38 @@ exports[`snapshot - defaults 1`] = `
           }
         }
         setValue={[Function]}
-      />
+        theme={
+          Object {
+            "borderRadius": 4,
+            "colors": Object {
+              "danger": "#DE350B",
+              "dangerLight": "#FFBDAD",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
+              "primary": "#2684FF",
+              "primary25": "#DEEBFF",
+              "primary50": "#B2D4FF",
+              "primary75": "#4C9AFF",
+            },
+            "spacing": Object {
+              "baseUnit": 4,
+              "controlHeight": 38,
+              "menuGutter": 8,
+            },
+          }
+        }
+      >
+        <DownChevron />
+      </DropdownIndicator>
     </IndicatorsContainer>
   </Control>
 </SelectContainer>

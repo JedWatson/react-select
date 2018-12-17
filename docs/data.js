@@ -1,8 +1,8 @@
 export const colourOptions = [
-  { value: 'ocean', label: 'Ocean', color: '#00B8D9' },
+  { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
   { value: 'blue', label: 'Blue', color: '#0052CC', disabled: true },
   { value: 'purple', label: 'Purple', color: '#5243AA' },
-  { value: 'red', label: 'Red', color: '#FF5630' },
+  { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
   { value: 'orange', label: 'Orange', color: '#FF8B00' },
   { value: 'yellow', label: 'Yellow', color: '#FFC400' },
   { value: 'green', label: 'Green', color: '#36B37E' },
@@ -92,6 +92,13 @@ export const optionLength = [
     label:
       "It is now an easy matter to spell out the ethic of a truth: 'Do all that you can to persevere in that which exceeds your perseverance. Persevere in the interruption. Seize in your being that which has seized and broken you.",
   },
+];
+
+export const dogOptions = [
+  { id: 1, label: 'Chihuahua' },
+  { id: 2, label: 'Bulldog' },
+  { id: 3, label: 'Dachshund' },
+  { id: 4, label: 'Akita' },
 ];
 
 // let bigOptions = [];
