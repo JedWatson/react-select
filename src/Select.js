@@ -1158,6 +1158,8 @@ export default class Select extends Component<Props, State> {
         }
         break;
       case 'Tab':
+        if (isComposing) return;
+
         if (
           event.shiftKey ||
           !menuIsOpen ||

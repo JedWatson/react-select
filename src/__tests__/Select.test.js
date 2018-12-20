@@ -1449,7 +1449,7 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
   selectWrapper
     .find(Control)
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value', name: 'test-input-name' });
+  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value', name: 'test-input-name', removedValue: undefined });
 });
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
