@@ -58,6 +58,7 @@ export default function Api() {
       selectOption: OptionType => void,
       selectProps: any,
       setValue: (ValueType, ActionTypes) => void,
+      emotion: any,
     }
 
     // passed as the second argument to \`onChange\`
