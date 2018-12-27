@@ -4,7 +4,7 @@ import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
 import memoize from '@emotion/memoize';
-import createEmotion from 'create-emotion';
+import createEmotion, { type Emotion } from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -332,6 +332,7 @@ export default class Select extends Component<Props, State> {
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
+  emotion: Emotion;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -375,7 +376,9 @@ export default class Select extends Component<Props, State> {
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
 
-    this.emotion = getEmotion(props.nonce);
+    if (props.nonce) {
+      this.emotion = getEmotion(props.nonce);
+    }
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;

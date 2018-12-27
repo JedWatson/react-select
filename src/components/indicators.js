@@ -1,5 +1,6 @@
 // @flow
 import React, { type Node } from 'react';
+import { type Emotion } from 'create-emotion';
 
 import type { CommonProps, Theme } from '../types';
 
@@ -7,7 +8,7 @@ import type { CommonProps, Theme } from '../types';
 // Dropdown & Clear Icons
 // ==============================
 
-const Svg = ({ size, emotion, ...props }: { size: number }) => (
+const Svg = ({ size, emotion, ...props }: { size: number, emotion: Emotion }) => (
   <svg
     height={size}
     width={size}
