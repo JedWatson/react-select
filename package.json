@@ -12,7 +12,6 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "@emotion/memoize": "^0.7.1",
     "classnames": "^2.2.5",
     "create-emotion": "^10.0.4",
     "memoize-one": "^4.0.0",
