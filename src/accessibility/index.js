@@ -5,7 +5,7 @@ export const instructionsAriaMessage = (event, context?: InstructionsContext = {
   const { isSearchable, isMulti, label } = context;
   switch (event) {
     case 'menu':
-      return 'Use Up and Down to choose options, press Backspace to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.';
+      return 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.';
     case 'input':
       return `${label ? label : 'Select'} is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu, ${ isMulti ? ' press left to focus selected values' : '' }`;
     case 'value':
