@@ -3,7 +3,6 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
-import memoize from '@emotion/memoize';
 import createEmotion, { type Emotion } from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
@@ -309,7 +308,7 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const getEmotion = memoize(nonce => createEmotion(nonce ? { nonce } : {}));
+const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -376,9 +375,7 @@ export default class Select extends Component<Props, State> {
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
 
-    if (props.nonce) {
-      this.emotion = getEmotion(props.nonce);
-    }
+    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
