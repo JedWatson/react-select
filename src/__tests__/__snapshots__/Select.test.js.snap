@@ -562,6 +562,46 @@ exports[`snapshot - defaults 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "blurInputOnSelect": true,
+            "captureMenuScroll": false,
+            "closeMenuOnScroll": false,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "controlShouldRenderValue": true,
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "formatGroupLabel": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "isRtl": false,
+            "isSearchable": true,
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "menuIsOpen": false,
+            "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
+            "minMenuHeight": 140,
+            "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
+            "options": Array [],
+            "pageSize": 5,
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabIndex": "0",
+            "tabSelectsValue": true,
+          }
+        }
         spellCheck="false"
         tabIndex="0"
         theme={
