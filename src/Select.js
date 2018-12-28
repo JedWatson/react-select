@@ -1403,7 +1403,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx, theme } = this.commonProps;
+    const { cx, theme, selectProps } = this.commonProps;
 
     return (
       <Input
@@ -1419,6 +1419,7 @@ export default class Select extends Component<Props, State> {
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
         onFocus={this.onInputFocus}
+        selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
         theme={theme}
