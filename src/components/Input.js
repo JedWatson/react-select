@@ -42,6 +42,7 @@ const Input = ({
   isDisabled,
   theme,
   emotion,
+  selectProps,
   ...props
 }: InputProps) => (
   <div className={emotion.css(getStyles('input', { theme, ...props }))}>

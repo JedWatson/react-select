@@ -31,6 +31,7 @@ const Group = (props: GroupProps) => {
     label,
     theme,
     emotion,
+    selectProps,
   } = props;
   return (
     <div
@@ -40,7 +41,14 @@ const Group = (props: GroupProps) => {
         className,
       )}
     >
-      <Heading {...headingProps} emotion={emotion} theme={theme} getStyles={getStyles} cx={cx}>
+      <Heading
+        {...headingProps}
+        selectProps={selectProps}
+        emotion={emotion}
+        theme={theme}
+        getStyles={getStyles}
+        cx={cx}
+      >
         {label}
       </Heading>
       <div>{children}</div>
@@ -61,7 +69,7 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
 });
 
 export const GroupHeading = (props: any) => {
-  const { className, cx, getStyles, theme, emotion, ...cleanProps } = props;
+  const { className, cx, getStyles, theme, emotion, selectProps, ...cleanProps } = props;
   return (
     <div
       className={cx(
