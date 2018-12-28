@@ -1,5 +1,17 @@
 # React-Select
 
+## v2.2.0 / 2018-12-28
+
+### Bug Fixes
+* [#3296](https://github.com/JedWatson/react-select/pull/3296) Fix for tab interactions when in composition mode with an IME. Thanks [yshr446](https://github.com/yshr446) for the PR.
+* [#3302](https://github.com/JedWatson/react-select/pull/3302) Fix to breaking android and mobile safari touch bug [#2755](https://github.com/JedWatson/react-select/issues/2755), by adding more conscientious checks to the onTouchStart and onTouchMove listeners. Thanks [xakep139](https://github.com/xakep139) for the PR.
+* [#3303](https://github.com/JedWatson/react-select/pull/3303) Input and GroupHeading components now get passed the selectProps prop, thanks [maxmarchuk](https://github.com/maxmarchuk) for the PR.
+* [#3260](https://github.com/JedWatson/react-select/pull/3260) As a result of the CSP nonce support feature, the emotion instance is now cached and passed down to all internal components, meaning that users looking to heavily customise their Select components can do so without externally importing emotion, and nonce instances are respected per select instance. Please see [this segment](https://react-select.com/styles#cx-and-custom-components) in the docs for a more detailed explanation.
+* [#3299](https://github.com/JedWatson/react-select/pull/3299) fix to assistive text on menu open.
+
+### Feature
+* [#3260](https://github.com/JedWatson/react-select/pull/3260) Add CSP nonce support to Select, thanks [Avaq](https://github.com/Avaq) and [Andarist](https://github.com/Andarist) for the heavy lifting.
+
 ## v2.1.2 / 2018-11-22
 
 ### Bug fixes
