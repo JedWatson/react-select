@@ -23,7 +23,7 @@ export default function Advanced() {
   return (
     <Fragment>
       <Helmet>
-        <title>API - React Select</title>
+        <title>Advanced - React Select</title>
         <meta
           name="description"
           content="The react-select property API documentation."
