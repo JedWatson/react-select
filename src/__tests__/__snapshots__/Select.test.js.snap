@@ -187,6 +187,7 @@ exports[`snapshot - defaults 1`] = `
     isFocused={false}
     isMulti={false}
     isRtl={false}
+    menuIsOpen={false}
     options={Array []}
     selectOption={[Function]}
     selectProps={
