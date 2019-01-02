@@ -13,7 +13,6 @@ export default () => (
       borderRadius: 0,
       colors: {
       ...theme.colors,
-        text: 'orangered',
         primary25: 'hotpink',
         primary: 'black',
       },

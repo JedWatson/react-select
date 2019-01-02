@@ -4,6 +4,46 @@ exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   cx={[Function]}
+  emotion={
+    Object {
+      "cache": Object {
+        "compat": true,
+        "insert": [Function],
+        "inserted": Object {},
+        "key": "css",
+        "nonce": undefined,
+        "registered": Object {},
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head />,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      },
+      "css": [Function],
+      "cx": [Function],
+      "flush": [Function],
+      "getRegisteredStyles": [Function],
+      "hydrate": [Function],
+      "injectGlobal": [Function],
+      "keyframes": [Function],
+      "merge": [Function],
+      "sheet": StyleSheet {
+        "before": null,
+        "container": <head />,
+        "ctr": 0,
+        "isSpeedy": false,
+        "key": "css",
+        "nonce": undefined,
+        "speedy": [Function],
+        "tags": Array [],
+      },
+    }
+  }
   getStyles={[Function]}
   getValue={[Function]}
   hasValue={false}
@@ -93,6 +133,46 @@ exports[`snapshot - defaults 1`] = `
   <Control
     clearValue={[Function]}
     cx={[Function]}
+    emotion={
+      Object {
+        "cache": Object {
+          "compat": true,
+          "insert": [Function],
+          "inserted": Object {},
+          "key": "css",
+          "nonce": undefined,
+          "registered": Object {},
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        },
+        "css": [Function],
+        "cx": [Function],
+        "flush": [Function],
+        "getRegisteredStyles": [Function],
+        "hydrate": [Function],
+        "injectGlobal": [Function],
+        "keyframes": [Function],
+        "merge": [Function],
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head />,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      }
+    }
     getStyles={[Function]}
     getValue={[Function]}
     hasValue={false}
@@ -184,6 +264,46 @@ exports[`snapshot - defaults 1`] = `
     <ValueContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -266,10 +386,51 @@ exports[`snapshot - defaults 1`] = `
       <Placeholder
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
         isDisabled={false}
+        isFocused={false}
         isMulti={false}
         isRtl={false}
         key="placeholder"
@@ -354,6 +515,46 @@ exports[`snapshot - defaults 1`] = `
         autoComplete="off"
         autoCorrect="off"
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         id="react-select-2-input"
         innerRef={[Function]}
@@ -362,6 +563,46 @@ exports[`snapshot - defaults 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "blurInputOnSelect": true,
+            "captureMenuScroll": false,
+            "closeMenuOnScroll": false,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "controlShouldRenderValue": true,
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "formatGroupLabel": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "isRtl": false,
+            "isSearchable": true,
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "menuIsOpen": false,
+            "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
+            "minMenuHeight": 140,
+            "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
+            "options": Array [],
+            "pageSize": 5,
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabIndex": "0",
+            "tabSelectsValue": true,
+          }
+        }
         spellCheck="false"
         tabIndex="0"
         theme={
@@ -399,6 +640,46 @@ exports[`snapshot - defaults 1`] = `
     <IndicatorsContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -481,6 +762,46 @@ exports[`snapshot - defaults 1`] = `
       <IndicatorSeparator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -564,6 +885,46 @@ exports[`snapshot - defaults 1`] = `
       <DropdownIndicator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}

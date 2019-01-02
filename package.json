@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "module": "dist/react-select.esm.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "emotion": "^9.1.2",
+    "create-emotion": "^10.0.4",
     "memoize-one": "^4.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
@@ -30,7 +30,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^7.1.2",
-    "babel-plugin-emotion": "^9.1.2",
+    "babel-plugin-emotion": "9.2.10",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

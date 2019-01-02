@@ -7,6 +7,7 @@ import ScrollLock from './ScrollLock/index';
 type Props = {
   children: Element<*>,
   isEnabled: boolean,
+  emotion: any,
 };
 type State = {
   touchScrollTarget: HTMLElement | null,
@@ -34,7 +35,7 @@ export default class ScrollBlock extends PureComponent<Props, State> {
   };
 
   render() {
-    const { children, isEnabled } = this.props;
+    const { children, isEnabled, emotion } = this.props;
     const { touchScrollTarget } = this.state;
 
     // bail early if not enabled
@@ -58,7 +59,7 @@ export default class ScrollBlock extends PureComponent<Props, State> {
       <div>
         <div
           onClick={this.blurSelectInput}
-          css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
+          className={emotion.css({ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 })}
         />
         <NodeResolver innerRef={this.getScrollTarget}>{children}</NodeResolver>
         {touchScrollTarget ? (

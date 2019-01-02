@@ -264,6 +264,33 @@ const customFilter = createFilter({
 
 See the [Advanced Guide](/advanced) for more details and examples.
 
+## Simple Value
+
+React-select v1 allowed you to use strings for the \`value\` prop, but with v2 we've deprecated this behaviour
+in favor of a value prop that is always either an array of Options objects or an Options object. 
+If you still want to manage your selected values as a simple string you
+can easily do so by applying a simple filter on your dataset as below.
+
+~~~js
+const options = [
+  {name: 'John', id: 1},
+  {name: 'Doe', id: 2},
+]
+return (
+  <ReactSelect
+    options={options}
+    value={options.filter(({id}) => id === this.state.id)}
+    getOptionLabel={({name}) => name}
+    getOptionValue={({id}) => id}
+    onChange={({value}) => this.setState({id: value})}
+  />
+)
+~~~
+
+Note that if you use the default react-select options schema (an array with
+objects having \`label\` and \`value\` keys) you don't need to define
+\`getOptionValue\` nor \`getOptionLabel\`.
+
 ## Prop Update Guide
       `}
       <PropChanges />

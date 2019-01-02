@@ -1,5 +1,48 @@
 # React-Select
 
+## v2.2.0 / 2018-12-28
+
+### Bug Fixes
+* [#3296](https://github.com/JedWatson/react-select/pull/3296) Fix for tab interactions when in composition mode with an IME. Thanks [yshr446](https://github.com/yshr446) for the PR.
+* [#3302](https://github.com/JedWatson/react-select/pull/3302) Fix to breaking android and mobile safari touch bug [#2755](https://github.com/JedWatson/react-select/issues/2755), by adding more conscientious checks to the onTouchStart and onTouchMove listeners. Thanks [xakep139](https://github.com/xakep139) for the PR.
+* [#3303](https://github.com/JedWatson/react-select/pull/3303) Input and GroupHeading components now get passed the selectProps prop, thanks [maxmarchuk](https://github.com/maxmarchuk) for the PR.
+* [#3260](https://github.com/JedWatson/react-select/pull/3260) As a result of the CSP nonce support feature, the emotion instance is now cached and passed down to all internal components, meaning that users looking to heavily customise their Select components can do so without externally importing emotion, and nonce instances are respected per select instance. Please see [this segment](https://react-select.com/styles#cx-and-custom-components) in the docs for a more detailed explanation.
+* [#3299](https://github.com/JedWatson/react-select/pull/3299) fix to assistive text on menu open.
+
+### Feature
+* [#3260](https://github.com/JedWatson/react-select/pull/3260) Add CSP nonce support to Select, thanks [Avaq](https://github.com/Avaq) and [Andarist](https://github.com/Andarist) for the heavy lifting.
+
+## v2.1.2 / 2018-11-22
+
+### Bug fixes
+
+* [#3161] Initialize state with `inputValue` when `defaultOptions` is true in AsyncSelect, resolves [#3160](https://github.com/JedWatson/react-select/issues/3160), thanks [@cutterbl](https://github.com/cutterbl)
+* [#3096] Placeholder component now also receives the isFocused state value as a prop. Thanks [@Nelrohd](https://github.com/Nelrohd)
+* [#3060] Fix bug where trying to set the cursor somewhere in an input value would close the menu. Thanks [@stijndeschuymer](https://github.com/stijndeschuymer)
+* [#3163] Fixed bug where isDisabled wasn't being reflected onto the DummyInput, which meant that disabled non searchable selects were still focusable. Thanks [@gm0t](https://github.com/gm0t)
+* [#3216] Fixes bug where clearing with backspace in a single select would result in an empty array, as opposed to the expected empty object. Thanks [@IanVS](https://github.com/IanVS)
+* [#3013] Fixes bug where the menu would close on trying to scroll using the scroll bar in IE11. Thanks [@rakid](https://github.com/rakid)
+
+### Misc
+
+* A big shoutout to everyone who helped contribute to the docs. In no particular order [@acrawford13](https://github.com/JedWatson/react-select/commits?author=acrawford13), [@kirillku](https://github.com/kirillku), [@ajaymathur](https://github.com/ajaymathur), [@mgalgs](https://github.com/mgalgs), [@cutterbl](https://github.com/cutterbl), [@JonathanWbn](https://github.com/JonathanWbn), [@mwood23](https://github.com/mwood23), [@stevemao](https://github.com/stevemao), [@jossmac](https://github.com/jossmac), and anyone else I've missed.
+* Thanks to [@IanVS](https://github.com/IanVS) for cleaning up our cypress tests.
+
+## v2.1.1 / 2018-10-24
+
+### Bug fixes
+
+* [#3132] Strip theme props from default Input and GroupHeading components, as they were polluting the DOM.
+* [#3131] Add support for the 'Delete' key in the internal onKeyDown method. Same functionality as 'Backspace'.
+* [#3100] Update flow-types and normalised default prop declarations in indicators. Thanks [iseredov](https://github.com/iseredov)
+
+### Updates
+
+* [#3083] Added sideEffects property to package.json to support tree-shaking in webpack 4.x. Thanks [SimenB](https://github.com/SimenB).
+* [#3078] Update jest dependency to 23.6.0. Thanks [papandreou](https://github.com/papandreou)
+* [#3065] Update babel-plugin-emotion to 9.2.10. Thanks [mtzhang](https://github.com/mtzhang)
+* [#3108] Update docs to include instructions for replicating the simple-value use case within react-select v2. Thanks [elboletaire](https://github.com/elboletaire)
+
 ## v2.1.0 / 2018-10-03
 
 * [#2839] Added support for theming via theme prop. Thanks [akx](https://github.com/akx)
