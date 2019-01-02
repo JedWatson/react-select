@@ -3,6 +3,7 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
+import createEmotion, { type Emotion } from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -244,6 +245,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* A CSP Nonce which will be used in injected style sheets */
+  nonce?: string
 };
 
 export const defaultProps = {
@@ -307,6 +310,8 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
+const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
+
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
@@ -328,6 +333,7 @@ export default class Select extends Component<Props, State> {
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
+  emotion: Emotion;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -370,6 +376,8 @@ export default class Select extends Component<Props, State> {
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
+
+    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -723,6 +731,7 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
+      emotion: this.emotion
     };
   }
 
@@ -989,12 +998,22 @@ export default class Select extends Component<Props, State> {
       document.removeEventListener('touchend', this.onTouchEnd);
     }
   }
-  onTouchStart = ({ touches: [touch] }: TouchEvent) => {
+  onTouchStart = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
+    if (!touch) {
+      return;
+    }
+    
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
   };
-  onTouchMove = ({ touches: [touch] }: TouchEvent) => {
+  onTouchMove = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
+    if (!touch) {
+      return;
+    }
+
     const deltaX = Math.abs(touch.clientX - this.initialTouchX);
     const deltaY = Math.abs(touch.clientY - this.initialTouchY);
     const moveThreshold = 5;
@@ -1151,6 +1170,8 @@ export default class Select extends Component<Props, State> {
         }
         break;
       case 'Tab':
+        if (isComposing) return;
+
         if (
           event.shiftKey ||
           !menuIsOpen ||
@@ -1372,6 +1393,7 @@ export default class Select extends Component<Props, State> {
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
+          emotion={this.emotion}
         />
       );
     }
@@ -1384,7 +1406,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx, theme } = this.commonProps;
+    const { cx, theme, selectProps } = this.commonProps;
 
     return (
       <Input
@@ -1400,11 +1422,13 @@ export default class Select extends Component<Props, State> {
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
         onFocus={this.onInputFocus}
+        selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
         theme={theme}
         type="text"
         value={inputValue}
+        emotion={this.emotion}
         {...ariaAttributes}
       />
     );
@@ -1682,7 +1706,7 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
-              <ScrollBlock isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
@@ -1753,7 +1777,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
+      <A11yText emotion={this.emotion} aria-live="assertive">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
@@ -1768,7 +1792,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { className, id, isDisabled } = this.props;
+    const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1794,6 +1818,7 @@ export default class Select extends Component<Props, State> {
           }}
           isDisabled={isDisabled}
           isFocused={isFocused}
+          menuIsOpen={menuIsOpen}
         >
           <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}
