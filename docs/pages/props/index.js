@@ -68,6 +68,18 @@ export default function Api() {
     Even when commonProps are not listed in the prop types below, a custom component
     will still have access to them.
 
+    ## StateManager Props
+
+    The statemanager is a utility class that wraps around the base Select and each Select variant to
+    expose inputValue and value as controllable props. For more detailed information on these props and their usage
+    please see the [controlled props](/advanced#controlled-props) section of the advanced page.
+
+    ${(
+      <Props
+        props={require('!!extract-react-types-loader!../../PropTypes/stateManager')}
+      />
+    )}
+
     ## Select Props
 
     These base props are those available to be passed to all select variants.
