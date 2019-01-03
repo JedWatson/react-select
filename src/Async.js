@@ -148,7 +148,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
       return inputValue;
     };
     render() {
-      const { loadOptions, ...props } = this.props;
+      const { loadOptions, isLoading: isLoadingProp, ...props } = this.props;
       const {
         defaultOptions,
         inputValue,
@@ -169,7 +169,7 @@ export const makeAsyncSelect = (SelectComponent: ComponentType<*>) =>
             this.select = ref;
           }}
           options={options}
-          isLoading={isLoading}
+          isLoading={(isLoadingProp === undefined) ? isLoading : isLoadingProp}
           onInputChange={this.handleInputChange}
         />
       );
