@@ -71,9 +71,18 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   // width must be calculated; cannot transition from `undefined` to `number`
   getWidth = (ref: ElementRef<*>) => {
     if (ref && isNaN(this.state.width)) {
+      /*
+        Here we're invoking requestAnimationFrame with a callback invoking our
+        call to getBoundingClientRect and setState in order to resolve an edge case
+        around portalling. Certain portalling solutions briefly remove children from the DOM
+        before appending them to the target node. This is to avoid us trying to call getBoundingClientrect
+        while the Select component is in this state. 
+      */
       // cannot use `offsetWidth` because it is rounded
-      const { width } = ref.getBoundingClientRect();
-      this.setState({ width });
+      window.requestAnimationFrame(() => {
+        const { width } = ref.getBoundingClientRect();
+        this.setState({ width });
+      });
     }
   };
 
