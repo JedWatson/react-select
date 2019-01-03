@@ -62,11 +62,17 @@ type CollapseState = { width: Width };
 // finally removing from DOM
 export class Collapse extends Component<CollapseProps, CollapseState> {
   duration = collapseDuration;
+  rafID: number | null;
   state = { width: 'auto' };
   transition = {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
+  componentWillUnmount () {
+    if (this.rafID) {
+      window.cancelAnimationFrame(this.rafID);
+    }
+  }
 
   // width must be calculated; cannot transition from `undefined` to `number`
   getWidth = (ref: ElementRef<*>) => {
@@ -76,10 +82,10 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         call to getBoundingClientRect and setState in order to resolve an edge case
         around portalling. Certain portalling solutions briefly remove children from the DOM
         before appending them to the target node. This is to avoid us trying to call getBoundingClientrect
-        while the Select component is in this state. 
+        while the Select component is in this state.
       */
       // cannot use `offsetWidth` because it is rounded
-      window.requestAnimationFrame(() => {
+      this.rafID = window.requestAnimationFrame(() => {
         const { width } = ref.getBoundingClientRect();
         this.setState({ width });
       });
