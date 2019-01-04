@@ -1,7 +1,6 @@
 // @flow
-
 import React, { PureComponent, type Element } from 'react';
-import { css } from 'emotion';
+import { ClassNames } from '@emotion/core';
 import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 
@@ -57,10 +56,14 @@ export default class ScrollBlock extends PureComponent<Props, State> {
      */
     return (
       <div>
-        <div
-          onClick={this.blurSelectInput}
-          className={css({ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 })}
-        />
+        <ClassNames>
+          {({ css }) => (
+              <div
+                onClick={this.blurSelectInput}
+                className={css({ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 })}
+              />
+          )}
+        </ClassNames>
         <NodeResolver innerRef={this.getScrollTarget}>{children}</NodeResolver>
         {touchScrollTarget ? (
           <ScrollLock touchScrollTarget={touchScrollTarget} />

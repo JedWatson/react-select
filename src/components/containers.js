@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css } from 'emotion';
+import { ClassNames } from '@emotion/core';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -30,19 +30,23 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
 export const SelectContainer = (props: ContainerProps) => {
   const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
-    <div
-      className={cx(
-        css(getStyles('container', props)),
-        {
-          '--is-disabled': isDisabled,
-          '--is-rtl': isRtl
-        },
-        className
+    <ClassNames>
+      {({ css }) => (
+        <div
+          className={cx(
+            css(getStyles('container', props)),
+            {
+              '--is-disabled': isDisabled,
+              '--is-rtl': isRtl
+            },
+            className
+          )}
+          {...innerProps}
+        >
+          {children}
+        </div>
       )}
-      {...innerProps}
-    >
-      {children}
-    </div>
+    </ClassNames>
   );
 };
 
@@ -73,17 +77,21 @@ export class ValueContainer extends Component<ValueContainerProps> {
     const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
 
     return (
-      <div
-        className={cx(
-          css(getStyles('valueContainer', this.props)),
-          {
-            'value-container': true,
-            'value-container--is-multi': isMulti,
-            'value-container--has-value': hasValue,
-          }, className)}
-      >
-        {children}
-      </div>
+      <ClassNames>
+        {({ css }) => (
+          <div
+            className={cx(
+              css(getStyles('valueContainer', this.props)),
+              {
+                'value-container': true,
+                'value-container--is-multi': isMulti,
+                'value-container--has-value': hasValue,
+              }, className)}
+          >
+            {children}
+          </div>
+        )}
+      </ClassNames>
     );
   }
 }
@@ -113,16 +121,20 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   const { children, className, cx, getStyles } = props;
 
   return (
-    <div
-      className={cx(
-        css(getStyles('indicatorsContainer', props)),
-        {
-          'indicators': true,
-        },
-        className
+    <ClassNames>
+      {({ css }) => (
+        <div
+          className={cx(
+            css(getStyles('indicatorsContainer', props)),
+            {
+              'indicators': true,
+            },
+            className
+          )}
+        >
+          {children}
+        </div>
       )}
-    >
-      {children}
-    </div>
+    </ClassNames>
   );
 };
