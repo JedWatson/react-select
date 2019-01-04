@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css } from 'emotion';
+import { ClassNames } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 
@@ -108,58 +108,51 @@ class MultiValue extends Component<MultiValueProps> {
 
     const { Container, Label, Remove } = components;
 
-    const containerInnerProps = {
-      className: cx(
-        css(getStyles('multiValue', this.props)),
-        {
-          'multi-value': true,
-          'multi-value--is-disabled': isDisabled,
-        },
-        className
-      ),
-      ...innerProps,
-    };
-
-    const labelInnerProps = {
-      className: cx(
-        css(getStyles('multiValueLabel', this.props)),
-        {
-          'multi-value__label': true,
-        },
-        className
-      ),
-    };
-
-    const removeInnerProps = {
-      className: cx(
-        css(getStyles('multiValueRemove', this.props)),
-        {
-          'multi-value__remove': true,
-        },
-        className
-      ),
-      ...removeProps,
-    };
-
     return (
-      <Container
-        data={data}
-        innerProps={containerInnerProps}
-        selectProps={selectProps}
-      >
-        <Label
-          data={data}
-          innerProps={labelInnerProps}
-          selectProps={selectProps}
-        >
-          {children}
-        </Label>
-        <Remove
-          data={data}
-          innerProps={removeInnerProps}
-          selectProps={selectProps}
-        />
-      </Container>
+      <ClassNames>
+        {({ css }) => (
+          <Container
+            data={data}
+            innerProps={{
+              ...innerProps,
+              className: cx(css(getStyles('multiValue', this.props)),
+              {
+                'multi-value': true,
+                'multi-value--is-disabled': isDisabled,
+              }, className)
+            }}
+            selectProps={selectProps}
+          >
+            <Label
+              data={data}
+              innerProps={{
+                className: cx(css(getStyles('multiValueLabel', this.props)),
+                {
+                  'multi-value__label': true,
+                },
+                className),
+              }}
+              selectProps={selectProps}
+            >
+              {children}
+            </Label>
+            <Remove
+              data={data}
+              innerProps={{
+                className: cx(
+                  css(getStyles('multiValueRemove', this.props)),
+                  {
+                    'multi-value__remove': true,
+                  },
+                  className
+                ),
+                ...removeProps
+              }}
+              selectProps={selectProps}
+            />
+          </Container>
+        )}
+      </ClassNames>
     );
   }
 }
