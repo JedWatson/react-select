@@ -240,12 +240,12 @@ export default function Tests() {
       <div id={'cypress-long-values'}>
         <Select
           id="long-value-select"
-          instsanceId="long-value-select"
+          instanceId="long-value-select"
           classNamePrefix="react-select"
           defaultValue={optionLength[3]}
           options={optionLength}
         />
       </div>
-    </div>
+    // </div>
   );
 }

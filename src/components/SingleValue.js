@@ -2,6 +2,7 @@
 import React from 'react';
 import { css as emotionCSS } from 'emotion';
 import type { CommonProps } from '../types';
+import { ClassNames } from '@emotion/core';
 
 type State = {
   /** Whether this is disabled. */
@@ -34,19 +35,23 @@ export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps
 const SingleValue = (props: SingleValueProps) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
   return (
-    <div
-      className={cx(
-        emotionCSS(getStyles('singleValue', props)),
-        {
-          'single-value': true,
-          'single-value--is-disabled': isDisabled
-        },
-        className
-      )}
-      {...innerProps}
-    >
-      {children}
-    </div>
+    <ClassNames>
+       {({ css }) => (
+         <div
+           classNames={cx(
+             css(getStyles('singleValue', props)),
+             {
+               'single-value': true,
+               'single-value--is-disabled': isDisabled
+             },
+             className
+           )}
+           {...innerProps}
+         >
+           {children}
+         </div>
+       )}
+    </ClassNames>
   );
 };
 
