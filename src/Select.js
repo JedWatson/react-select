@@ -487,7 +487,7 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue } = this.state;
-    const { isMulti } = this.props;
+    const { isMulti, disableAutoFocus } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
@@ -504,7 +504,7 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
     this.setState({
       focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
+      focusedOption: disableAutoFocus ? null : menuOptions.focusable[openAtIndex],
     });
 
     this.announceAriaLiveContext({ event: 'menu' });
