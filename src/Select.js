@@ -931,7 +931,7 @@ export default class Select extends Component<Props, State> {
     event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
-      this.focusInput()
+      this.focusInput();
     } else {
       setTimeout(() => this.focusInput());
     }
