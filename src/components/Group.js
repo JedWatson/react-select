@@ -1,6 +1,7 @@
 // @flow
-import React, { type Node, type ComponentType } from 'react';
-import { ClassNames } from '@emotion/core';
+/** @jsx jsx */
+import { type Node, type ComponentType } from 'react';
+import { jsx } from '@emotion/core';
 
 import type { CommonProps } from '../types';
 
@@ -34,28 +35,25 @@ const Group = (props: GroupProps) => {
     selectProps,
   } = props;
   return (
-    <ClassNames>
-      {({css}) => (
-        <div
-          className={cx(
-            css(getStyles('group', props)),
-            { 'group': true },
-            className,
-          )}
-        >
-          <Heading
-            {...headingProps}
-            selectProps={selectProps}
-            theme={theme}
-            getStyles={getStyles}
-            cx={cx}
-          >
-            {label}
-          </Heading>
-          <div>{children}</div>
-        </div>
+    <div
+      css={getStyles('group', props)}
+      className={cx(
+        null,
+        { 'group': true },
+        className,
       )}
-    </ClassNames>
+    >
+      <Heading
+        {...headingProps}
+        selectProps={selectProps}
+        theme={theme}
+        getStyles={getStyles}
+        cx={cx}
+      >
+        {label}
+      </Heading>
+      <div>{children}</div>
+    </div>
   );
 };
 
@@ -75,18 +73,15 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
 export const GroupHeading = (props: any) => {
   const { className, cx, getStyles, theme, selectProps, ...cleanProps } = props;
   return (
-    <ClassNames>
-      {({ css }) => (
-        <div
-          className={cx(
-            css(getStyles('groupHeading', { theme, ...cleanProps })),
-            { 'group-heading': true },
-            className
-          )}
-          {...cleanProps}
-        />
+    <div
+      css={getStyles('groupHeading', { theme, ...cleanProps })}
+      className={cx(
+        null,
+        { 'group-heading': true },
+        className
       )}
-    </ClassNames>
+      {...cleanProps}
+    />
   );
 };
 
