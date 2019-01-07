@@ -340,6 +340,7 @@ export default class Select extends Component<Props, State> {
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
   userIsDragging: ?boolean;
+  emotion: getEmotion();
 
   // Refs
   // ------------------------------
