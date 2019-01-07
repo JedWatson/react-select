@@ -1,6 +1,7 @@
 // @flow
-import React, { Component, type Node } from 'react';
-import { ClassNames } from '@emotion/core';
+/** @jsx jsx */
+import { Component, type Node } from 'react';
+import { jsx, ClassNames } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 

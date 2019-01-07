@@ -239,7 +239,6 @@ export default function Tests() {
       <h3> Long Values </h3>
       <div id={'cypress-long-values'}>
         <Select
-          menuIsOpen
           id="long-value-select"
           instanceId="long-value-select"
           classNamePrefix="react-select"

@@ -1,6 +1,7 @@
 // @flow
-import React, { Component, type Node } from 'react';
-import { ClassNames } from '@emotion/core';
+/** @jsx jsx */
+import { Component, type Node } from 'react';
+import { jsx } from '@emotion/core';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -30,23 +31,20 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
 export const SelectContainer = (props: ContainerProps) => {
   const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
-    <ClassNames>
-      {({ css }) => (
-        <div
-          className={cx(
-            css(getStyles('container', props)),
-            {
-              '--is-disabled': isDisabled,
-              '--is-rtl': isRtl
-            },
-            className
-          )}
-          {...innerProps}
-        >
-          {children}
-        </div>
+    <div
+      css={getStyles('container', props)}
+      className={cx(
+        null,
+        {
+          '--is-disabled': isDisabled,
+          '--is-rtl': isRtl
+        },
+        className
       )}
-    </ClassNames>
+      {...innerProps}
+    >
+      {children}
+    </div>
   );
 };
 
@@ -77,22 +75,18 @@ export class ValueContainer extends Component<ValueContainerProps> {
     const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
 
     return (
-      <ClassNames>
-        {({ css }) => (
-          <div
-            className={cx(
-              css(getStyles('valueContainer', this.props)),
-              {
-                'value-container': true,
-                'value-container--is-multi': isMulti,
-                'value-container--has-value': hasValue,
-              }, className)}
-          >
-            {children}
-          </div>
-        )}
-      </ClassNames>
-    );
+      <div
+        css={getStyles('valueContainer', this.props)}
+        className={cx(
+          null,
+          {
+            'value-container': true,
+            'value-container--is-multi': isMulti,
+            'value-container--has-value': hasValue,
+          }, className)}
+      >
+        {children}
+      </div>);
   }
 }
 
@@ -121,20 +115,17 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   const { children, className, cx, getStyles } = props;
 
   return (
-    <ClassNames>
-      {({ css }) => (
-        <div
-          className={cx(
-            css(getStyles('indicatorsContainer', props)),
-            {
-              'indicators': true,
-            },
-            className
-          )}
-        >
-          {children}
-        </div>
+    <div
+      css={getStyles('indicatorsContainer', props)}
+      className={cx(
+        null,
+        {
+          'indicators': true,
+        },
+        className
       )}
-    </ClassNames>
+    >
+      {children}
+    </div>
   );
 };
