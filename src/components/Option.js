@@ -1,6 +1,5 @@
 // @flow
 import React, { type Node } from 'react';
-import { css } from 'emotion';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
@@ -33,6 +32,8 @@ export type OptionProps = PropsWithStyles &
     /* Type is used by the menu to determine whether this is an option or a group.
     In the case of option this is always `option`. */
     type: 'option',
+    /* The data of the selected option. */
+    data: any,
   };
 
 export const optionCSS = ({
@@ -62,12 +63,12 @@ export const optionCSS = ({
 });
 
 const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, emotion } = props;
   return (
     <div
       ref={innerRef}
       className={cx(
-        css(getStyles('option', props)),
+        emotion.css(getStyles('option', props)),
         {
           'option': true,
           'option--is-disabled': isDisabled,

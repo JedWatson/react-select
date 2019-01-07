@@ -81,7 +81,7 @@ cases(
 );
 
 /**
- * Need to update porps to trigger on change in input
+ * Need to update props to trigger on change in input
  * when updating props renders the component therefore options cache is lost thus loadOptions is called again
  */
 test.skip('to not call loadOptions again for same value when cacheOptions is true', () => {

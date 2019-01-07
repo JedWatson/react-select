@@ -4,6 +4,46 @@ exports[`snapshot - defaults 1`] = `
 <SelectContainer
   clearValue={[Function]}
   cx={[Function]}
+  emotion={
+    Object {
+      "cache": Object {
+        "compat": true,
+        "insert": [Function],
+        "inserted": Object {},
+        "key": "css",
+        "nonce": undefined,
+        "registered": Object {},
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head />,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      },
+      "css": [Function],
+      "cx": [Function],
+      "flush": [Function],
+      "getRegisteredStyles": [Function],
+      "hydrate": [Function],
+      "injectGlobal": [Function],
+      "keyframes": [Function],
+      "merge": [Function],
+      "sheet": StyleSheet {
+        "before": null,
+        "container": <head />,
+        "ctr": 0,
+        "isSpeedy": false,
+        "key": "css",
+        "nonce": undefined,
+        "speedy": [Function],
+        "tags": Array [],
+      },
+    }
+  }
   getStyles={[Function]}
   getValue={[Function]}
   hasValue={false}
@@ -66,17 +106,17 @@ exports[`snapshot - defaults 1`] = `
       "colors": Object {
         "danger": "#DE350B",
         "dangerLight": "#FFBDAD",
-        "neutral0": "hsl(218, 0%, 100%)",
-        "neutral10": "hsl(218, 10%, 90%)",
-        "neutral20": "hsl(218, 15%, 80%)",
-        "neutral30": "hsl(218, 20%, 70%)",
-        "neutral40": "hsl(218, 25%, 60%)",
-        "neutral5": "hsl(218, 5%, 95%)",
-        "neutral50": "hsl(218, 30%, 50%)",
-        "neutral60": "hsl(218, 35%, 40%)",
-        "neutral70": "hsl(218, 40%, 30%)",
-        "neutral80": "hsl(218, 45%, 20%)",
-        "neutral90": "hsl(218, 50%, 10%)",
+        "neutral0": "hsl(0, 0%, 100%)",
+        "neutral10": "hsl(0, 0%, 90%)",
+        "neutral20": "hsl(0, 0%, 80%)",
+        "neutral30": "hsl(0, 0%, 70%)",
+        "neutral40": "hsl(0, 0%, 60%)",
+        "neutral5": "hsl(0, 0%, 95%)",
+        "neutral50": "hsl(0, 0%, 50%)",
+        "neutral60": "hsl(0, 0%, 40%)",
+        "neutral70": "hsl(0, 0%, 30%)",
+        "neutral80": "hsl(0, 0%, 20%)",
+        "neutral90": "hsl(0, 0%, 10%)",
         "primary": "#2684FF",
         "primary25": "#DEEBFF",
         "primary50": "#B2D4FF",
@@ -93,6 +133,46 @@ exports[`snapshot - defaults 1`] = `
   <Control
     clearValue={[Function]}
     cx={[Function]}
+    emotion={
+      Object {
+        "cache": Object {
+          "compat": true,
+          "insert": [Function],
+          "inserted": Object {},
+          "key": "css",
+          "nonce": undefined,
+          "registered": Object {},
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        },
+        "css": [Function],
+        "cx": [Function],
+        "flush": [Function],
+        "getRegisteredStyles": [Function],
+        "hydrate": [Function],
+        "injectGlobal": [Function],
+        "keyframes": [Function],
+        "merge": [Function],
+        "sheet": StyleSheet {
+          "before": null,
+          "container": <head />,
+          "ctr": 0,
+          "isSpeedy": false,
+          "key": "css",
+          "nonce": undefined,
+          "speedy": [Function],
+          "tags": Array [],
+        },
+      }
+    }
     getStyles={[Function]}
     getValue={[Function]}
     hasValue={false}
@@ -107,6 +187,7 @@ exports[`snapshot - defaults 1`] = `
     isFocused={false}
     isMulti={false}
     isRtl={false}
+    menuIsOpen={false}
     options={Array []}
     selectOption={[Function]}
     selectProps={
@@ -156,17 +237,17 @@ exports[`snapshot - defaults 1`] = `
         "colors": Object {
           "danger": "#DE350B",
           "dangerLight": "#FFBDAD",
-          "neutral0": "hsl(218, 0%, 100%)",
-          "neutral10": "hsl(218, 10%, 90%)",
-          "neutral20": "hsl(218, 15%, 80%)",
-          "neutral30": "hsl(218, 20%, 70%)",
-          "neutral40": "hsl(218, 25%, 60%)",
-          "neutral5": "hsl(218, 5%, 95%)",
-          "neutral50": "hsl(218, 30%, 50%)",
-          "neutral60": "hsl(218, 35%, 40%)",
-          "neutral70": "hsl(218, 40%, 30%)",
-          "neutral80": "hsl(218, 45%, 20%)",
-          "neutral90": "hsl(218, 50%, 10%)",
+          "neutral0": "hsl(0, 0%, 100%)",
+          "neutral10": "hsl(0, 0%, 90%)",
+          "neutral20": "hsl(0, 0%, 80%)",
+          "neutral30": "hsl(0, 0%, 70%)",
+          "neutral40": "hsl(0, 0%, 60%)",
+          "neutral5": "hsl(0, 0%, 95%)",
+          "neutral50": "hsl(0, 0%, 50%)",
+          "neutral60": "hsl(0, 0%, 40%)",
+          "neutral70": "hsl(0, 0%, 30%)",
+          "neutral80": "hsl(0, 0%, 20%)",
+          "neutral90": "hsl(0, 0%, 10%)",
           "primary": "#2684FF",
           "primary25": "#DEEBFF",
           "primary50": "#B2D4FF",
@@ -183,6 +264,46 @@ exports[`snapshot - defaults 1`] = `
     <ValueContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -238,17 +359,17 @@ exports[`snapshot - defaults 1`] = `
           "colors": Object {
             "danger": "#DE350B",
             "dangerLight": "#FFBDAD",
-            "neutral0": "hsl(218, 0%, 100%)",
-            "neutral10": "hsl(218, 10%, 90%)",
-            "neutral20": "hsl(218, 15%, 80%)",
-            "neutral30": "hsl(218, 20%, 70%)",
-            "neutral40": "hsl(218, 25%, 60%)",
-            "neutral5": "hsl(218, 5%, 95%)",
-            "neutral50": "hsl(218, 30%, 50%)",
-            "neutral60": "hsl(218, 35%, 40%)",
-            "neutral70": "hsl(218, 40%, 30%)",
-            "neutral80": "hsl(218, 45%, 20%)",
-            "neutral90": "hsl(218, 50%, 10%)",
+            "neutral0": "hsl(0, 0%, 100%)",
+            "neutral10": "hsl(0, 0%, 90%)",
+            "neutral20": "hsl(0, 0%, 80%)",
+            "neutral30": "hsl(0, 0%, 70%)",
+            "neutral40": "hsl(0, 0%, 60%)",
+            "neutral5": "hsl(0, 0%, 95%)",
+            "neutral50": "hsl(0, 0%, 50%)",
+            "neutral60": "hsl(0, 0%, 40%)",
+            "neutral70": "hsl(0, 0%, 30%)",
+            "neutral80": "hsl(0, 0%, 20%)",
+            "neutral90": "hsl(0, 0%, 10%)",
             "primary": "#2684FF",
             "primary25": "#DEEBFF",
             "primary50": "#B2D4FF",
@@ -265,10 +386,51 @@ exports[`snapshot - defaults 1`] = `
       <Placeholder
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
         isDisabled={false}
+        isFocused={false}
         isMulti={false}
         isRtl={false}
         key="placeholder"
@@ -321,17 +483,17 @@ exports[`snapshot - defaults 1`] = `
             "colors": Object {
               "danger": "#DE350B",
               "dangerLight": "#FFBDAD",
-              "neutral0": "hsl(218, 0%, 100%)",
-              "neutral10": "hsl(218, 10%, 90%)",
-              "neutral20": "hsl(218, 15%, 80%)",
-              "neutral30": "hsl(218, 20%, 70%)",
-              "neutral40": "hsl(218, 25%, 60%)",
-              "neutral5": "hsl(218, 5%, 95%)",
-              "neutral50": "hsl(218, 30%, 50%)",
-              "neutral60": "hsl(218, 35%, 40%)",
-              "neutral70": "hsl(218, 40%, 30%)",
-              "neutral80": "hsl(218, 45%, 20%)",
-              "neutral90": "hsl(218, 50%, 10%)",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
               "primary": "#2684FF",
               "primary25": "#DEEBFF",
               "primary50": "#B2D4FF",
@@ -353,6 +515,46 @@ exports[`snapshot - defaults 1`] = `
         autoComplete="off"
         autoCorrect="off"
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         id="react-select-2-input"
         innerRef={[Function]}
@@ -361,6 +563,46 @@ exports[`snapshot - defaults 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        selectProps={
+          Object {
+            "backspaceRemovesValue": true,
+            "blurInputOnSelect": true,
+            "captureMenuScroll": false,
+            "closeMenuOnScroll": false,
+            "closeMenuOnSelect": true,
+            "components": Object {},
+            "controlShouldRenderValue": true,
+            "escapeClearsValue": false,
+            "filterOption": [Function],
+            "formatGroupLabel": [Function],
+            "getOptionLabel": [Function],
+            "getOptionValue": [Function],
+            "isDisabled": false,
+            "isLoading": false,
+            "isMulti": false,
+            "isOptionDisabled": [Function],
+            "isRtl": false,
+            "isSearchable": true,
+            "loadingMessage": [Function],
+            "maxMenuHeight": 300,
+            "menuIsOpen": false,
+            "menuPlacement": "bottom",
+            "menuPosition": "absolute",
+            "menuShouldBlockScroll": false,
+            "menuShouldScrollIntoView": true,
+            "minMenuHeight": 140,
+            "noOptionsMessage": [Function],
+            "openMenuOnClick": true,
+            "openMenuOnFocus": false,
+            "options": Array [],
+            "pageSize": 5,
+            "placeholder": "Select...",
+            "screenReaderStatus": [Function],
+            "styles": Object {},
+            "tabIndex": "0",
+            "tabSelectsValue": true,
+          }
+        }
         spellCheck="false"
         tabIndex="0"
         theme={
@@ -369,17 +611,17 @@ exports[`snapshot - defaults 1`] = `
             "colors": Object {
               "danger": "#DE350B",
               "dangerLight": "#FFBDAD",
-              "neutral0": "hsl(218, 0%, 100%)",
-              "neutral10": "hsl(218, 10%, 90%)",
-              "neutral20": "hsl(218, 15%, 80%)",
-              "neutral30": "hsl(218, 20%, 70%)",
-              "neutral40": "hsl(218, 25%, 60%)",
-              "neutral5": "hsl(218, 5%, 95%)",
-              "neutral50": "hsl(218, 30%, 50%)",
-              "neutral60": "hsl(218, 35%, 40%)",
-              "neutral70": "hsl(218, 40%, 30%)",
-              "neutral80": "hsl(218, 45%, 20%)",
-              "neutral90": "hsl(218, 50%, 10%)",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
               "primary": "#2684FF",
               "primary25": "#DEEBFF",
               "primary50": "#B2D4FF",
@@ -398,6 +640,46 @@ exports[`snapshot - defaults 1`] = `
     <IndicatorsContainer
       clearValue={[Function]}
       cx={[Function]}
+      emotion={
+        Object {
+          "cache": Object {
+            "compat": true,
+            "insert": [Function],
+            "inserted": Object {},
+            "key": "css",
+            "nonce": undefined,
+            "registered": Object {},
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          },
+          "css": [Function],
+          "cx": [Function],
+          "flush": [Function],
+          "getRegisteredStyles": [Function],
+          "hydrate": [Function],
+          "injectGlobal": [Function],
+          "keyframes": [Function],
+          "merge": [Function],
+          "sheet": StyleSheet {
+            "before": null,
+            "container": <head />,
+            "ctr": 0,
+            "isSpeedy": false,
+            "key": "css",
+            "nonce": undefined,
+            "speedy": [Function],
+            "tags": Array [],
+          },
+        }
+      }
       getStyles={[Function]}
       getValue={[Function]}
       hasValue={false}
@@ -453,17 +735,17 @@ exports[`snapshot - defaults 1`] = `
           "colors": Object {
             "danger": "#DE350B",
             "dangerLight": "#FFBDAD",
-            "neutral0": "hsl(218, 0%, 100%)",
-            "neutral10": "hsl(218, 10%, 90%)",
-            "neutral20": "hsl(218, 15%, 80%)",
-            "neutral30": "hsl(218, 20%, 70%)",
-            "neutral40": "hsl(218, 25%, 60%)",
-            "neutral5": "hsl(218, 5%, 95%)",
-            "neutral50": "hsl(218, 30%, 50%)",
-            "neutral60": "hsl(218, 35%, 40%)",
-            "neutral70": "hsl(218, 40%, 30%)",
-            "neutral80": "hsl(218, 45%, 20%)",
-            "neutral90": "hsl(218, 50%, 10%)",
+            "neutral0": "hsl(0, 0%, 100%)",
+            "neutral10": "hsl(0, 0%, 90%)",
+            "neutral20": "hsl(0, 0%, 80%)",
+            "neutral30": "hsl(0, 0%, 70%)",
+            "neutral40": "hsl(0, 0%, 60%)",
+            "neutral5": "hsl(0, 0%, 95%)",
+            "neutral50": "hsl(0, 0%, 50%)",
+            "neutral60": "hsl(0, 0%, 40%)",
+            "neutral70": "hsl(0, 0%, 30%)",
+            "neutral80": "hsl(0, 0%, 20%)",
+            "neutral90": "hsl(0, 0%, 10%)",
             "primary": "#2684FF",
             "primary25": "#DEEBFF",
             "primary50": "#B2D4FF",
@@ -480,6 +762,46 @@ exports[`snapshot - defaults 1`] = `
       <IndicatorSeparator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -536,17 +858,17 @@ exports[`snapshot - defaults 1`] = `
             "colors": Object {
               "danger": "#DE350B",
               "dangerLight": "#FFBDAD",
-              "neutral0": "hsl(218, 0%, 100%)",
-              "neutral10": "hsl(218, 10%, 90%)",
-              "neutral20": "hsl(218, 15%, 80%)",
-              "neutral30": "hsl(218, 20%, 70%)",
-              "neutral40": "hsl(218, 25%, 60%)",
-              "neutral5": "hsl(218, 5%, 95%)",
-              "neutral50": "hsl(218, 30%, 50%)",
-              "neutral60": "hsl(218, 35%, 40%)",
-              "neutral70": "hsl(218, 40%, 30%)",
-              "neutral80": "hsl(218, 45%, 20%)",
-              "neutral90": "hsl(218, 50%, 10%)",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
               "primary": "#2684FF",
               "primary25": "#DEEBFF",
               "primary50": "#B2D4FF",
@@ -563,6 +885,46 @@ exports[`snapshot - defaults 1`] = `
       <DropdownIndicator
         clearValue={[Function]}
         cx={[Function]}
+        emotion={
+          Object {
+            "cache": Object {
+              "compat": true,
+              "insert": [Function],
+              "inserted": Object {},
+              "key": "css",
+              "nonce": undefined,
+              "registered": Object {},
+              "sheet": StyleSheet {
+                "before": null,
+                "container": <head />,
+                "ctr": 0,
+                "isSpeedy": false,
+                "key": "css",
+                "nonce": undefined,
+                "speedy": [Function],
+                "tags": Array [],
+              },
+            },
+            "css": [Function],
+            "cx": [Function],
+            "flush": [Function],
+            "getRegisteredStyles": [Function],
+            "hydrate": [Function],
+            "injectGlobal": [Function],
+            "keyframes": [Function],
+            "merge": [Function],
+            "sheet": StyleSheet {
+              "before": null,
+              "container": <head />,
+              "ctr": 0,
+              "isSpeedy": false,
+              "key": "css",
+              "nonce": undefined,
+              "speedy": [Function],
+              "tags": Array [],
+            },
+          }
+        }
         getStyles={[Function]}
         getValue={[Function]}
         hasValue={false}
@@ -626,17 +988,17 @@ exports[`snapshot - defaults 1`] = `
             "colors": Object {
               "danger": "#DE350B",
               "dangerLight": "#FFBDAD",
-              "neutral0": "hsl(218, 0%, 100%)",
-              "neutral10": "hsl(218, 10%, 90%)",
-              "neutral20": "hsl(218, 15%, 80%)",
-              "neutral30": "hsl(218, 20%, 70%)",
-              "neutral40": "hsl(218, 25%, 60%)",
-              "neutral5": "hsl(218, 5%, 95%)",
-              "neutral50": "hsl(218, 30%, 50%)",
-              "neutral60": "hsl(218, 35%, 40%)",
-              "neutral70": "hsl(218, 40%, 30%)",
-              "neutral80": "hsl(218, 45%, 20%)",
-              "neutral90": "hsl(218, 50%, 10%)",
+              "neutral0": "hsl(0, 0%, 100%)",
+              "neutral10": "hsl(0, 0%, 90%)",
+              "neutral20": "hsl(0, 0%, 80%)",
+              "neutral30": "hsl(0, 0%, 70%)",
+              "neutral40": "hsl(0, 0%, 60%)",
+              "neutral5": "hsl(0, 0%, 95%)",
+              "neutral50": "hsl(0, 0%, 50%)",
+              "neutral60": "hsl(0, 0%, 40%)",
+              "neutral70": "hsl(0, 0%, 30%)",
+              "neutral80": "hsl(0, 0%, 20%)",
+              "neutral90": "hsl(0, 0%, 10%)",
               "primary": "#2684FF",
               "primary25": "#DEEBFF",
               "primary50": "#B2D4FF",

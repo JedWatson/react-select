@@ -94,6 +94,13 @@ export const optionLength = [
   },
 ];
 
+export const dogOptions = [
+  { id: 1, label: 'Chihuahua' },
+  { id: 2, label: 'Bulldog' },
+  { id: 3, label: 'Dachshund' },
+  { id: 4, label: 'Akita' },
+];
+
 // let bigOptions = [];
 // for (let i = 0; i < 10000; i++) {
 // 	bigOptions = bigOptions.concat(colourOptions);

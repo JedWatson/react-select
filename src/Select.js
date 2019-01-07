@@ -3,6 +3,8 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
+import createEmotion, { type Emotion } from 'create-emotion';
+import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
@@ -87,23 +89,27 @@ export type Props = {
   blurInputOnSelect: boolean,
   /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
   captureMenuScroll: boolean,
-  /* className attribute applied to the outer component */
+  /* Sets a className attribute on the outer component */
   className?: string,
-  /* classNamePrefix attribute used as a base for inner component classNames */
+  /*
+    If provided, all inner components will be given a prefixed className attribute.
+
+    This is useful when styling via CSS classes instead of the Styles API approach.
+  */
   classNamePrefix?: string | null,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
-     If `true`, close the select menu when the user scrolls the document/body.
+    If `true`, close the select menu when the user scrolls the document/body.
 
-     If a function, takes a standard javascript `ScrollEvent` you return a boolean:
+    If a function, takes a standard javascript `ScrollEvent` you return a boolean:
 
-     `true` => The menu closes
+    `true` => The menu closes
 
-     `false` => The menu stays open
+    `false` => The menu stays open
 
-     This is useful when you have a scrollable modal and want to portal the menu out,
-     but want to avoid graphical issues.
+    This is useful when you have a scrollable modal and want to portal the menu out,
+    but want to avoid graphical issues.
    */
   closeMenuOnScroll: boolean | EventListener,
   /*
@@ -113,7 +119,7 @@ export type Props = {
 
     If you only wish to restyle a component, we recommend using the `styles` prop
     instead. For a list of the components that can be passed in, and the shape
-    that will be passed to them, see [the components docs](/api#components)
+    that will be passed to them, see [the components docs](/components)
   */
   components: SelectComponentsConfig,
   /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
@@ -124,7 +130,11 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption: ((Object, string) => boolean) | null,
-  /* Formats group labels in the menu as React components */
+  /*
+    Formats group labels in the menu as React components
+
+    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   formatGroupLabel: typeof formatGroupLabel,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
@@ -148,7 +158,11 @@ export type Props = {
   isDisabled: boolean,
   /* Is the select in a state of loading (async) */
   isLoading: boolean,
-  /* Override the built-in logic to detect whether an option is disabled */
+  /*
+    Override the built-in logic to detect whether an option is disabled
+
+    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   isOptionDisabled: (OptionType, OptionsType) => boolean | false,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
@@ -171,7 +185,11 @@ export type Props = {
   menuPlacement: MenuPlacement,
   /* The CSS position value of the menu, when "fixed" extra layout management is required */
   menuPosition: MenuPosition,
-  /* Whether the menu should use a portal, and where it should attach */
+  /*
+    Whether the menu should use a portal, and where it should attach
+
+    An example can be found in the [Portaling](/advanced#portaling) documentation
+  */
   menuPortalTarget?: HTMLElement,
   /* Whether to block scroll events when the menu is open */
   menuShouldBlockScroll: boolean,
@@ -211,7 +229,11 @@ export type Props = {
   placeholder: string,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
-  /* Style modifier methods */
+  /*
+    Style modifier methods
+
+    A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
+  */
   styles: StylesConfig,
   /* Theme modifier method */
   theme?: ThemeConfig,
@@ -223,6 +245,8 @@ export type Props = {
   value: ValueType,
   /* Option that will be focused by default on menu open */
   focusedOption?: OptionType,
+  /* A CSP Nonce which will be used in injected style sheets */
+  nonce?: string
 };
 
 export const defaultProps = {
@@ -286,6 +310,8 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
+const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
+
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
@@ -307,6 +333,7 @@ export default class Select extends Component<Props, State> {
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
+  emotion: Emotion;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -349,6 +376,8 @@ export default class Select extends Component<Props, State> {
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
+
+    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -567,12 +596,16 @@ export default class Select extends Component<Props, State> {
       focusedValue: null,
     });
   }
+  onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
+    const { onChange, name } = this.props;
+    onChange(newValue, { ...actionMeta, name });
+  };
   setValue = (
     newValue: ValueType,
     action: ActionTypes = 'set-value',
     option?: OptionType
   ) => {
-    const { closeMenuOnSelect, isMulti, onChange } = this.props;
+    const { closeMenuOnSelect, isMulti } = this.props;
     this.onInputChange('', { action: 'set-value' });
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
@@ -580,7 +613,7 @@ export default class Select extends Component<Props, State> {
     }
     // when the select value should change, we should reset focusedValue
     this.clearFocusValueOnUpdate = true;
-    onChange(newValue, { action, option });
+    this.onChange(newValue, { action, option });
   };
   selectOption = (newValue: OptionType) => {
     const { blurInputOnSelect, isMulti } = this.props;
@@ -618,10 +651,9 @@ export default class Select extends Component<Props, State> {
     }
   };
   removeValue = (removedValue: OptionType) => {
-    const { onChange } = this.props;
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
+    this.onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
       action: 'remove-value',
       removedValue,
     });
@@ -634,11 +666,10 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    const { isMulti, onChange } = this.props;
-    onChange(isMulti ? [] : null, { action: 'clear' });
+    const { isMulti } = this.props;
+    this.onChange(isMulti ? [] : null, { action: 'clear' });
   };
   popValue = () => {
-    const { onChange } = this.props;
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
     this.announceAriaLiveSelection({
@@ -649,7 +680,7 @@ export default class Select extends Component<Props, State> {
           : undefined,
       },
     });
-    onChange(selectValue.slice(0, selectValue.length - 1), {
+    this.onChange(selectValue.slice(0, selectValue.length - 1), {
       action: 'pop-value',
       removedValue: lastSelectedValue,
     });
@@ -700,6 +731,7 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
+      emotion: this.emotion
     };
   }
 
@@ -865,7 +897,10 @@ export default class Select extends Component<Props, State> {
     } else if (!this.props.menuIsOpen) {
       this.openMenu('first');
     } else {
-      this.onMenuClose();
+      // $FlowFixMe HTMLElement type does not have tagName property
+      if (event.target.tagName !== 'INPUT') {
+        this.onMenuClose();
+      }
     }
     // $FlowFixMe HTMLElement type does not have tagName property
     if (event.target.tagName !== 'INPUT') {
@@ -901,7 +936,10 @@ export default class Select extends Component<Props, State> {
   };
   onScroll = (event: Event) => {
     if (typeof this.props.closeMenuOnScroll === 'boolean') {
-      if (event.target instanceof HTMLElement && isDocumentElement(event.target)) {
+      if (
+        event.target instanceof HTMLElement &&
+        isDocumentElement(event.target)
+      ) {
         this.props.onMenuClose();
       }
     } else if (typeof this.props.closeMenuOnScroll === 'function') {
@@ -960,12 +998,22 @@ export default class Select extends Component<Props, State> {
       document.removeEventListener('touchend', this.onTouchEnd);
     }
   }
-  onTouchStart = ({ touches: [touch] }: TouchEvent) => {
+  onTouchStart = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
+    if (!touch) {
+      return;
+    }
+    
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
   };
-  onTouchMove = ({ touches: [touch] }: TouchEvent) => {
+  onTouchMove = ({ touches }: TouchEvent) => {
+    const touch = touches.item(0);
+    if (!touch) {
+      return;
+    }
+
     const deltaX = Math.abs(touch.clientX - this.initialTouchX);
     const deltaY = Math.abs(touch.clientY - this.initialTouchY);
     const moveThreshold = 5;
@@ -1037,6 +1085,10 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+    if(this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+      this.inputRef.focus();
+      return;
+    }
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
@@ -1103,16 +1155,23 @@ export default class Select extends Component<Props, State> {
         if (!isMulti || inputValue) return;
         this.focusValue('next');
         break;
+      case 'Delete':
       case 'Backspace':
         if (inputValue) return;
         if (focusedValue) {
           this.removeValue(focusedValue);
         } else {
           if (!backspaceRemovesValue) return;
-          this.popValue();
+          if (isMulti) {
+            this.popValue();
+          } else if (isClearable) {
+            this.clearValue();
+          }
         }
         break;
       case 'Tab':
+        if (isComposing) return;
+
         if (
           event.shiftKey ||
           !menuIsOpen ||
@@ -1331,8 +1390,10 @@ export default class Select extends Component<Props, State> {
           onChange={noop}
           onFocus={this.onInputFocus}
           readOnly
+          disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
+          emotion={this.emotion}
         />
       );
     }
@@ -1344,7 +1405,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx, theme } = this.commonProps;
+    const { cx, theme, selectProps } = this.commonProps;
 
     return (
       <Input
@@ -1360,11 +1421,13 @@ export default class Select extends Component<Props, State> {
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
         onFocus={this.onInputFocus}
+        selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
         theme={theme}
         type="text"
         value={inputValue}
+        emotion={this.emotion}
         {...ariaAttributes}
       />
     );
@@ -1386,11 +1449,16 @@ export default class Select extends Component<Props, State> {
       inputValue,
       placeholder,
     } = this.props;
-    const { selectValue, focusedValue } = this.state;
+    const { selectValue, focusedValue, isFocused } = this.state;
 
     if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
-        <Placeholder {...commonProps} key="placeholder" isDisabled={isDisabled}>
+        <Placeholder
+          {...commonProps}
+          key="placeholder"
+          isDisabled={isDisabled}
+          isFocused={isFocused}
+        >
           {placeholder}
         </Placeholder>
       );
@@ -1564,9 +1632,7 @@ export default class Select extends Component<Props, State> {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
-      props.innerRef = isFocused
-        ? this.getFocusedOptionRef
-        : undefined;
+      props.innerRef = isFocused ? this.getFocusedOptionRef : undefined;
 
       return (
         <Option {...commonProps} {...props} isFocused={isFocused}>
@@ -1609,40 +1675,50 @@ export default class Select extends Component<Props, State> {
       if (message === null) return null;
       menuUI = <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>;
     }
+    const menuPlacementProps = {
+      minMenuHeight,
+      maxMenuHeight,
+      menuPlacement,
+      menuPosition,
+      menuShouldScrollIntoView,
+    };
 
     const menuElement = (
-      <div>
-        <Menu
-          {...commonProps}
-          innerProps={{
-            onMouseDown: this.onMenuMouseDown,
-            onMouseMove: this.onMenuMouseMove,
-          }}
-          isLoading={isLoading}
-          minMenuHeight={minMenuHeight}
-          maxMenuHeight={maxMenuHeight}
-          menuPlacement={menuPlacement}
-          menuPosition={menuPosition}
-          menuShouldScrollIntoView={menuShouldScrollIntoView}
-        >
-          <ScrollCaptor
-            isEnabled={captureMenuScroll}
-            onTopArrive={onMenuScrollToTop}
-            onBottomArrive={onMenuScrollToBottom}
+      <MenuPlacer
+        {...commonProps}
+        {...menuPlacementProps}
+      >
+        {({ ref, placerProps: { placement, maxHeight } }) => (
+          <Menu
+            {...commonProps}
+            {...menuPlacementProps}
+            innerRef={ref}
+            innerProps={{
+              onMouseDown: this.onMenuMouseDown,
+              onMouseMove: this.onMenuMouseMove,
+            }}
+            isLoading={isLoading}
+            placement={placement}
           >
-            <ScrollBlock isEnabled={menuShouldBlockScroll}>
-              <MenuList
-                {...commonProps}
-                innerRef={this.getMenuListRef}
-                isLoading={isLoading}
-                maxHeight={maxMenuHeight}
-              >
-                {menuUI}
-              </MenuList>
-            </ScrollBlock>
-          </ScrollCaptor>
-        </Menu>
-      </div>
+            <ScrollCaptor
+              isEnabled={captureMenuScroll}
+              onTopArrive={onMenuScrollToTop}
+              onBottomArrive={onMenuScrollToBottom}
+            >
+              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
+                <MenuList
+                  {...commonProps}
+                  innerRef={this.getMenuListRef}
+                  isLoading={isLoading}
+                  maxHeight={maxHeight}
+                >
+                  {menuUI}
+                </MenuList>
+              </ScrollBlock>
+            </ScrollCaptor>
+          </Menu>
+        )}
+      </MenuPlacer>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,
@@ -1700,7 +1776,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
+      <A11yText emotion={this.emotion} aria-live="assertive">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
@@ -1715,7 +1791,7 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { className, id, isDisabled } = this.props;
+    const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
     const commonProps = (this.commonProps = this.getCommonProps());
@@ -1741,6 +1817,7 @@ export default class Select extends Component<Props, State> {
           }}
           isDisabled={isDisabled}
           isFocused={isFocused}
+          menuIsOpen={menuIsOpen}
         >
           <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}

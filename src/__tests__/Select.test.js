@@ -175,7 +175,7 @@ cases(
 cases(
   'menuIsOpen prop',
   ({ props = BASIC_PROPS }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     expect(selectWrapper.find(Menu).exists()).toBeFalsy();
 
     selectWrapper.setProps({ menuIsOpen: true });
@@ -198,7 +198,7 @@ cases(
 cases(
   'filterOption() prop - should filter only if function returns truthy for value',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
   },
@@ -230,7 +230,7 @@ cases(
 cases(
   'filterOption prop is null',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
   },
@@ -262,7 +262,7 @@ cases(
 cases(
   'no option found on search based on filterOption prop',
   ({ props, searchString }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
   },
@@ -289,7 +289,7 @@ cases(
 cases(
   'noOptionsMessage() function prop',
   ({ props, expectNoOptionsMessage, searchString }) => {
-    let selectWrapper = shallow(<Select {...props} />);
+    let selectWrapper = mount(<Select {...props} />);
     selectWrapper.setProps({ inputValue: searchString });
     expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(
       expectNoOptionsMessage
@@ -445,7 +445,8 @@ cases(
     selectWrapper.update();
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
       action: 'select-option',
-      option: expectedActionMetaOption
+      option: expectedActionMetaOption,
+      name: BASIC_PROPS.name
     });
   },
   {
@@ -594,7 +595,8 @@ cases(
     selectWrapper.update();
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
       action: 'deselect-option',
-      option: expectedMetaOption
+      option: expectedMetaOption,
+      name: BASIC_PROPS.name
     });
   },
   {
@@ -1395,7 +1397,7 @@ test('multi select > call onChange with all values but last selected value and r
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '1', value: 'one' }],
-    { action: 'pop-value', removedValue: { label: '2', value: 'two' } },
+    { action: 'pop-value', removedValue: { label: '2', value: 'two' }, name: BASIC_PROPS.name },
   );
 });
 
@@ -1412,6 +1414,56 @@ test('should not call onChange on hitting backspace when backspaceRemovesValue i
     .find(Control)
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('should not call onChange on hitting backspace even when backspaceRemovesValue is true if isClearable is false', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable={false}
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
+});
+
+test('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true and isMulti is false', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti={false}
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).toHaveBeenCalledWith(null, { action: 'clear', name: 'test-input-name' });
+});
+
+test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
+  let onChangeSpy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti
+      onChange={onChangeSpy}
+    />
+  );
+  selectWrapper
+    .find(Control)
+    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  expect(onChangeSpy).toHaveBeenCalledWith([], { action: 'pop-value', name: 'test-input-name', removedValue: undefined });
 });
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
@@ -1436,7 +1488,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '2', value: 'two' }],
-    { action: 'remove-value', removedValue: { label: '4', value: 'four' } }
+    { action: 'remove-value', removedValue: { label: '4', value: 'four' }, name: BASIC_PROPS.name }
   );
 });
 
@@ -1885,7 +1937,7 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
   selectWrapper
     .find('div.react-select__clear-indicator')
     .simulate('mousedown', { button: 0 });
-  expect(onChangeSpy).toBeCalledWith([], { action: 'clear' });
+  expect(onChangeSpy).toBeCalledWith([], { action: 'clear', name: BASIC_PROPS.name });
 });
 
 test('clearing select using clear button to not call onMenuOpen or onMenuClose', () => {
@@ -1918,7 +1970,8 @@ test('multi select >  calls onChange when option is selected and isSearchable is
   const selectedOption = { label: '0', value: 'zero' };
   expect(onChangeSpy).toHaveBeenCalledWith([selectedOption], {
     action: 'select-option',
-    option: selectedOption
+    option: selectedOption,
+    name: BASIC_PROPS.name
   });
 });
 
@@ -2029,7 +2082,7 @@ test('hitting spacebar should select option if isSearchable is false', () => {
   selectWrapper.simulate('keyDown', { keyCode: 32, key: ' ' });
   expect(onChangeSpy).toHaveBeenCalledWith(
     { label: '0', value: 'zero' },
-    { action: 'select-option' }
+    { action: 'select-option', name: BASIC_PROPS.name }
   );
 });
 
@@ -2142,7 +2195,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   );
 
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { action: 'clear' });
+  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { action: 'clear', name: BASIC_PROPS.name });
 });
 
 cases(

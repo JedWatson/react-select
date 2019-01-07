@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 
-import AsyncCreatableSelect from '../../src/AsyncCreatable';
+import AsyncSelect from '../../src/Async';
 import { colourOptions } from '../data';
+
+type State = {
+  inputValue: string,
+};
 
 const filterColors = (inputValue: string) => {
   if (inputValue) {
@@ -20,13 +24,15 @@ const promiseOptions = inputValue =>
   });
 
 export default class WithPromises extends Component<*, State> {
+  state = { inputValue: '' };
+  handleInputChange = (newValue: string) => {
+    const inputValue = newValue.replace(/\W/g, '');
+    this.setState({ inputValue });
+    return inputValue;
+  };
   render() {
     return (
-      <AsyncCreatableSelect
-        cacheOptions
-        defaultOptions
-        loadOptions={promiseOptions}
-      />
+      <AsyncSelect cacheOptions defaultOptions={colourOptions} loadOptions={promiseOptions} />
     );
   }
 }

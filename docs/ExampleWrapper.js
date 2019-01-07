@@ -183,7 +183,6 @@ const Action = ({ css, tag: Tag = 'button', ...props }: ActionProps) => {
 
         ':hover': {
           backgroundColor: colors.neutral5,
-          color: colors.text,
           outline: 0,
         },
         ':active': {

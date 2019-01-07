@@ -1,16 +1,15 @@
 // @flow
 import React from 'react';
-import { css as emotionCss } from 'emotion';
 import type { CommonProps } from '../types';
 
 type State = {
-  /** Whether this is disabled */
+  /** Whether this is disabled. */
   isDisabled: boolean,
 };
 type ValueProps = {
   /** The children to be rendered. */
   children: string,
-  /* The data of the selected option rendered in the Single Value componentn */
+  /* The data of the selected option rendered in the Single Value component. */
   data: any,
   /** Props passed to the wrapping element for the group. */
   innerProps: any,
@@ -31,11 +30,11 @@ export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps
 });
 
 const SingleValue = (props: SingleValueProps) => {
-  const { children, className, cx, getStyles, isDisabled, innerProps } = props;
+  const { children, className, cx, getStyles, isDisabled, innerProps, emotion } = props;
   return (
     <div
       className={cx(
-        emotionCss(getStyles('singleValue', props)),
+        emotion.css(getStyles('singleValue', props)),
         {
           'single-value': true,
           'single-value--is-disabled': isDisabled
