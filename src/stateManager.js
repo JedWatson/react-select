@@ -12,19 +12,23 @@ export type Props = {
   menuIsOpen?: boolean,
   value?: ValueType,
 };
+
+
 type State = {
   inputValue: string,
   menuIsOpen: boolean,
   value: ValueType,
 };
 
+export const defaultProps = {
+  defaultInputValue: '',
+  defaultMenuIsOpen: false,
+  defaultValue: null,
+};
+
 const manageState = (SelectComponent: ComponentType<*>) =>
   class StateManager extends Component<Props, State> {
-    static defaultProps = {
-      defaultInputValue: '',
-      defaultMenuIsOpen: false,
-      defaultValue: null,
-    };
+    static defaultProps = defaultProps
 
     select: ElementRef<*>;
 

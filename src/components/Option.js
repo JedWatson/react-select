@@ -1,6 +1,5 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css } from 'emotion';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
@@ -69,12 +68,13 @@ class Option extends Component<OptionProps> {
   };
 
   render() {
-    const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = this.props;
+    const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, emotion } = this.props;
+
     return (
       <div
         ref={innerRef}
         className={cx(
-          css(getStyles('option', this.props)),
+          emotion.css(getStyles('option', this.props)),
           {
             'option': true,
             'option--is-disabled': isDisabled,
@@ -85,7 +85,7 @@ class Option extends Component<OptionProps> {
         )}
         {...innerProps}
       >
-        {children}
+      {children}
       </div>
     );
   }

@@ -4,7 +4,7 @@ import React from 'react';
 // Assistive text to describe visual elements. Hidden for sighted users.
 const A11yText = (props: any) => (
   <span
-    css={{
+    className={props.emotion.css({
       zIndex: 9999,
       border: 0,
       clip: 'rect(1px, 1px, 1px, 1px)',
@@ -16,7 +16,7 @@ const A11yText = (props: any) => (
       whiteSpace: 'nowrap',
       backgroundColor: 'red',
       color: 'blue',
-    }}
+    })}
     {...props}
   />
 );

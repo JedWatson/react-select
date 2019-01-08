@@ -69,6 +69,7 @@ export type CommonProps = {
   selectOption: OptionType => void,
   selectProps: any,
   setValue: (ValueType, ActionTypes) => void,
+  emotion: any,
 };
 
 export type ActionTypes =
