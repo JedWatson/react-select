@@ -244,7 +244,7 @@ export type Props = {
   /* The value of the select; reflected by the selected option */
   value: ValueType,
   /* A CSP Nonce which will be used in injected style sheets */
-  nonce?: string
+  nonce?: string,
 };
 
 export const defaultProps = {
@@ -308,7 +308,9 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
+const getEmotion: (?string) => Emotion = memoizeOne(nonce =>
+  createEmotion(nonce ? { nonce } : {})
+);
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -651,10 +653,13 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    this.onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
-      action: 'remove-value',
-      removedValue,
-    });
+    this.onChange(
+      selectValue.filter(i => this.getOptionValue(i) !== candidate),
+      {
+        action: 'remove-value',
+        removedValue,
+      }
+    );
     this.announceAriaLiveSelection({
       event: 'remove-value',
       context: {
@@ -729,7 +734,7 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
-      emotion: this.emotion
+      emotion: this.emotion,
     };
   }
 
@@ -893,7 +898,9 @@ export default class Select extends Component<Props, State> {
       }
       this.focusInput();
     } else if (!this.props.menuIsOpen) {
-      this.openMenu('first');
+      if (openMenuOnClick) {
+        this.openMenu('first');
+      }
     } else {
       // $FlowFixMe HTMLElement type does not have tagName property
       if (event.target.tagName !== 'INPUT') {
@@ -1001,7 +1008,7 @@ export default class Select extends Component<Props, State> {
     if (!touch) {
       return;
     }
-    
+
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
@@ -1083,7 +1090,7 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    if(this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+    if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef.focus();
       return;
     }
@@ -1682,10 +1689,7 @@ export default class Select extends Component<Props, State> {
     };
 
     const menuElement = (
-      <MenuPlacer
-        {...commonProps}
-        {...menuPlacementProps}
-      >
+      <MenuPlacer {...commonProps} {...menuPlacementProps}>
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}
@@ -1703,7 +1707,10 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
-              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock
+                emotion={this.emotion}
+                isEnabled={menuShouldBlockScroll}
+              >
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
