@@ -2,8 +2,6 @@
 
 import React, { Component, type ElementRef, type Node } from 'react';
 import memoizeOne from 'memoize-one';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -1798,50 +1796,47 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { className, id, isDisabled, nonce, menuIsOpen } = this.props;
+    const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
-
     const commonProps = (this.commonProps = this.getCommonProps());
 
     return (
-      <CacheProvider value={createCache({ nonce })}>
-        <SelectContainer
+      <SelectContainer
+        {...commonProps}
+        className={className}
+        innerProps={{
+          id: id,
+          onKeyDown: this.onKeyDown,
+        }}
+        isDisabled={isDisabled}
+        isFocused={isFocused}
+      >
+        {this.renderLiveRegion()}
+        <Control
           {...commonProps}
-          className={className}
+          innerRef={this.getControlRef}
           innerProps={{
-            id: id,
-            onKeyDown: this.onKeyDown,
+            onMouseDown: this.onControlMouseDown,
+            onTouchEnd: this.onControlTouchEnd,
           }}
           isDisabled={isDisabled}
           isFocused={isFocused}
+          menuIsOpen={menuIsOpen}
         >
-          {this.renderLiveRegion()}
-          <Control
-            {...commonProps}
-            innerRef={this.getControlRef}
-            innerProps={{
-              onMouseDown: this.onControlMouseDown,
-              onTouchEnd: this.onControlTouchEnd,
-            }}
-            isDisabled={isDisabled}
-            isFocused={isFocused}
-            menuIsOpen={menuIsOpen}
-          >
-            <ValueContainer {...commonProps} isDisabled={isDisabled}>
-              {this.renderPlaceholderOrValue()}
-              {this.renderInput()}
-            </ValueContainer>
-            <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
-              {this.renderClearIndicator()}
-              {this.renderLoadingIndicator()}
-              {this.renderIndicatorSeparator()}
-              {this.renderDropdownIndicator()}
-            </IndicatorsContainer>
-          </Control>
-          {this.renderMenu()}
-          {this.renderFormField()}
-        </SelectContainer>
-      </CacheProvider>
+          <ValueContainer {...commonProps} isDisabled={isDisabled}>
+            {this.renderPlaceholderOrValue()}
+            {this.renderInput()}
+          </ValueContainer>
+          <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
+            {this.renderClearIndicator()}
+            {this.renderLoadingIndicator()}
+            {this.renderIndicatorSeparator()}
+            {this.renderDropdownIndicator()}
+          </IndicatorsContainer>
+        </Control>
+        {this.renderMenu()}
+        {this.renderFormField()}
+      </SelectContainer>
     );
   }
 }
