@@ -48,12 +48,12 @@ const builtins = {
     inputValue: string,
     selectValue: OptionsType,
     selectOptions: OptionsType
-  ) =>
-    !(
-      !inputValue ||
-      selectValue.some(option => compareOption(inputValue, option)) ||
-      selectOptions.some(option => compareOption(inputValue, option))
-    ),
+  ) =>{
+    const inputValueLower = inputValue.toLowerCase();
+    const nonGroupSelectOptions = selectOptions.filter(o => o.options == null);
+
+    return inputValue && !nonGroupSelectOptions.some(o => o.value.toLowerCase() === inputValueLower || o.label.toLowerCase() === inputValueLower);
+  },
   getNewOptionData: (inputValue: string, optionLabel: string) => ({
     label: optionLabel,
     value: inputValue,
