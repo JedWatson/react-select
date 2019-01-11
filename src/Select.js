@@ -3,7 +3,6 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
-import createEmotion, { type Emotion } from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -243,8 +242,6 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
-  /* A CSP Nonce which will be used in injected style sheets */
-  nonce?: string
 };
 
 export const defaultProps = {
@@ -308,8 +305,6 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
-
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
@@ -331,7 +326,6 @@ export default class Select extends Component<Props, State> {
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
-  emotion: Emotion;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -374,8 +368,6 @@ export default class Select extends Component<Props, State> {
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
-
-    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -729,7 +721,6 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
-      emotion: this.emotion
     };
   }
 
@@ -1001,7 +992,7 @@ export default class Select extends Component<Props, State> {
     if (!touch) {
       return;
     }
-    
+
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
@@ -1391,7 +1382,6 @@ export default class Select extends Component<Props, State> {
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
-          emotion={this.emotion}
         />
       );
     }
@@ -1425,7 +1415,6 @@ export default class Select extends Component<Props, State> {
         theme={theme}
         type="text"
         value={inputValue}
-        emotion={this.emotion}
         {...ariaAttributes}
       />
     );
@@ -1703,7 +1692,7 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
-              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock isEnabled={menuShouldBlockScroll}>
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
@@ -1774,7 +1763,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText emotion={this.emotion} aria-live="assertive">
+      <A11yText aria-live="assertive">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
