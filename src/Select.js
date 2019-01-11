@@ -1001,7 +1001,7 @@ export default class Select extends Component<Props, State> {
     if (!touch) {
       return;
     }
-    
+
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
@@ -1464,7 +1464,8 @@ export default class Select extends Component<Props, State> {
 
     if (isMulti) {
       const selectValues: Array<any> = selectValue.map(opt => {
-        let isFocused = opt === focusedValue;
+        let isOptionFocused = opt === focusedValue;
+
         return (
           <MultiValue
             {...commonProps}
@@ -1473,7 +1474,7 @@ export default class Select extends Component<Props, State> {
               Label: MultiValueLabel,
               Remove: MultiValueRemove,
             }}
-            isFocused={isFocused}
+            isFocused={isOptionFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
             removeProps={{
