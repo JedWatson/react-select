@@ -6,7 +6,7 @@ import { colourOptions } from '../data';
 const LoadingMessage = (props) => {
   return (
     <Tooltip content={'Custom Loading Message'}>
-      <div {...props} style={props.getStyles('loadingMessage', props)}>
+      <div {...props.innerProps} style={props.getStyles('loadingMessage', props)}>
           {props.children}
       </div>
     </Tooltip>
