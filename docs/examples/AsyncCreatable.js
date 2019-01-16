@@ -4,12 +4,9 @@ import AsyncCreatableSelect from '../../src/AsyncCreatable';
 import { colourOptions } from '../data';
 
 const filterColors = (inputValue: string) => {
-  if (inputValue) {
-    return colourOptions.filter(i =>
-        i.label.toLowerCase().includes(inputValue.toLowerCase())
-      );
-  }
-  return colourOptions;
+  return colourOptions.filter(i =>
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
 };
 
 const promiseOptions = inputValue =>

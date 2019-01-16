@@ -43,6 +43,17 @@ cases(
   }
 );
 
+test('load options prop with defaultOptions true and inputValue prop', () => {
+  const loadOptionsSpy = jest.fn((value) => value);
+  const searchString = 'hello world';
+  mount(<Async
+      loadOptions={loadOptionsSpy}
+      defaultOptions
+      inputValue={searchString}
+    />);
+  expect(loadOptionsSpy).toHaveReturnedWith(searchString);
+});
+
 /**
  * loadOptions with promise is not resolved and it renders loading options
  * confirmed by logging in component that loadOptions is resolved and options are available
