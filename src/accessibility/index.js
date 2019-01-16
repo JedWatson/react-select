@@ -9,7 +9,7 @@ export const instructionsAriaMessage = (event, context?: InstructionsContext = {
     case 'input':
       return `${label ? label : 'Select'} is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu, ${ isMulti ? ' press left to focus selected values' : '' }`;
     case 'value':
-      return 'Use left and right to toggle between focused values, press Enter to remove the currently focused value';
+      return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
   }
 };
 

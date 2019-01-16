@@ -61,6 +61,13 @@ exports[`snapshot - defaults 1`] = `
   selectOption={[Function]}
   selectProps={
     Object {
+      "accessibility": Object {
+        "instructionsAriaMessage": [Function],
+        "optionFocusAriaMessage": [Function],
+        "resultsAriaMessage": [Function],
+        "valueEventAriaMessage": [Function],
+        "valueFocusAriaMessage": [Function],
+      },
       "backspaceRemovesValue": true,
       "blurInputOnSelect": true,
       "captureMenuScroll": false,
@@ -192,6 +199,13 @@ exports[`snapshot - defaults 1`] = `
     selectOption={[Function]}
     selectProps={
       Object {
+        "accessibility": Object {
+          "instructionsAriaMessage": [Function],
+          "optionFocusAriaMessage": [Function],
+          "resultsAriaMessage": [Function],
+          "valueEventAriaMessage": [Function],
+          "valueFocusAriaMessage": [Function],
+        },
         "backspaceRemovesValue": true,
         "blurInputOnSelect": true,
         "captureMenuScroll": false,
@@ -314,6 +328,13 @@ exports[`snapshot - defaults 1`] = `
       selectOption={[Function]}
       selectProps={
         Object {
+          "accessibility": Object {
+            "instructionsAriaMessage": [Function],
+            "optionFocusAriaMessage": [Function],
+            "resultsAriaMessage": [Function],
+            "valueEventAriaMessage": [Function],
+            "valueFocusAriaMessage": [Function],
+          },
           "backspaceRemovesValue": true,
           "blurInputOnSelect": true,
           "captureMenuScroll": false,
@@ -438,6 +459,13 @@ exports[`snapshot - defaults 1`] = `
         selectOption={[Function]}
         selectProps={
           Object {
+            "accessibility": Object {
+              "instructionsAriaMessage": [Function],
+              "optionFocusAriaMessage": [Function],
+              "resultsAriaMessage": [Function],
+              "valueEventAriaMessage": [Function],
+              "valueFocusAriaMessage": [Function],
+            },
             "backspaceRemovesValue": true,
             "blurInputOnSelect": true,
             "captureMenuScroll": false,
@@ -565,6 +593,13 @@ exports[`snapshot - defaults 1`] = `
         onFocus={[Function]}
         selectProps={
           Object {
+            "accessibility": Object {
+              "instructionsAriaMessage": [Function],
+              "optionFocusAriaMessage": [Function],
+              "resultsAriaMessage": [Function],
+              "valueEventAriaMessage": [Function],
+              "valueFocusAriaMessage": [Function],
+            },
             "backspaceRemovesValue": true,
             "blurInputOnSelect": true,
             "captureMenuScroll": false,
@@ -690,6 +725,13 @@ exports[`snapshot - defaults 1`] = `
       selectOption={[Function]}
       selectProps={
         Object {
+          "accessibility": Object {
+            "instructionsAriaMessage": [Function],
+            "optionFocusAriaMessage": [Function],
+            "resultsAriaMessage": [Function],
+            "valueEventAriaMessage": [Function],
+            "valueFocusAriaMessage": [Function],
+          },
           "backspaceRemovesValue": true,
           "blurInputOnSelect": true,
           "captureMenuScroll": false,
@@ -813,6 +855,13 @@ exports[`snapshot - defaults 1`] = `
         selectOption={[Function]}
         selectProps={
           Object {
+            "accessibility": Object {
+              "instructionsAriaMessage": [Function],
+              "optionFocusAriaMessage": [Function],
+              "resultsAriaMessage": [Function],
+              "valueEventAriaMessage": [Function],
+              "valueFocusAriaMessage": [Function],
+            },
             "backspaceRemovesValue": true,
             "blurInputOnSelect": true,
             "captureMenuScroll": false,
@@ -943,6 +992,13 @@ exports[`snapshot - defaults 1`] = `
         selectOption={[Function]}
         selectProps={
           Object {
+            "accessibility": Object {
+              "instructionsAriaMessage": [Function],
+              "optionFocusAriaMessage": [Function],
+              "resultsAriaMessage": [Function],
+              "valueEventAriaMessage": [Function],
+              "valueFocusAriaMessage": [Function],
+            },
             "backspaceRemovesValue": true,
             "blurInputOnSelect": true,
             "captureMenuScroll": false,

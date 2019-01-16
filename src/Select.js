@@ -75,6 +75,21 @@ type FormatOptionLabelMeta = {
   inputValue: string,
   selectValue: ValueType,
 };
+export type Accessibility = {
+  valueFocusAriaMessage: (args: {
+    focusedValue?: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    selectValue: OptionsType | Array<OptionType>
+  }) => string,
+  optionFocusAriaMessage: (args: {
+    focusedOption: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    options: OptionsType
+  }) => string,
+  resultsAriaMessage: (args: { inputValue: string, screenReaderMessage: string }) => string,
+  valueEventAriaMessage: (event: any, context: ValueEventContext) => string,
+  instructionsAriaMessage: (event: any, context?: InstructionsContext) => string
+};
 
 export type Props = {
   /* Aria label (for assistive tech) */
@@ -244,7 +259,9 @@ export type Props = {
   /* The value of the select; reflected by the selected option */
   value: ValueType,
   /* A CSP Nonce which will be used in injected style sheets */
-  nonce?: string
+  nonce?: string,
+  /* Custom ARIA message functions */
+  accessibility?: Accessibility
 };
 
 export const defaultProps = {
@@ -285,6 +302,13 @@ export const defaultProps = {
   styles: {},
   tabIndex: '0',
   tabSelectsValue: true,
+  accessibility: {
+    valueFocusAriaMessage,
+    optionFocusAriaMessage,
+    resultsAriaMessage,
+    valueEventAriaMessage,
+    instructionsAriaMessage
+  },
 };
 
 type MenuOptions = {
@@ -798,7 +822,7 @@ export default class Select extends Component<Props, State> {
     context: ValueEventContext,
   }) => {
     this.setState({
-      ariaLiveSelection: valueEventAriaMessage(event, context),
+      ariaLiveSelection: this.props.accessibility ? this.props.accessibility.valueEventAriaMessage(event, context) : '',
     });
   };
   announceAriaLiveContext = ({
@@ -809,10 +833,10 @@ export default class Select extends Component<Props, State> {
     context?: InstructionsContext,
   }) => {
     this.setState({
-      ariaLiveContext: instructionsAriaMessage(event, {
+      ariaLiveContext: this.props.accessibility ? this.props.accessibility.instructionsAriaMessage(event, {
         ...context,
         label: this.props['aria-label'],
-      }),
+      }) : '',
     });
   };
 
@@ -1337,11 +1361,11 @@ export default class Select extends Component<Props, State> {
       focusedValue,
       focusedOption,
     } = this.state;
-    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
+    const { options, menuIsOpen, inputValue, screenReaderStatus, accessibility } = this.props;
 
     // An aria live message representing the currently focused value in the select.
-    const focusedValueMsg = focusedValue
-      ? valueFocusAriaMessage({
+    const focusedValueMsg = focusedValue && accessibility
+      ? accessibility.valueFocusAriaMessage({
           focusedValue,
           getOptionLabel: this.getOptionLabel,
           selectValue,
@@ -1349,18 +1373,18 @@ export default class Select extends Component<Props, State> {
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
-      focusedOption && menuIsOpen
-        ? optionFocusAriaMessage({
+      focusedOption && menuIsOpen && accessibility
+        ? accessibility.optionFocusAriaMessage({
             focusedOption,
             getOptionLabel: this.getOptionLabel,
             options,
           })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
-    const resultsMsg = resultsAriaMessage({
+    const resultsMsg = accessibility ? accessibility.resultsAriaMessage({
       inputValue,
       screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
-    });
+    }) : '';
 
     return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
   }
@@ -1390,7 +1414,7 @@ export default class Select extends Component<Props, State> {
           readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
-          value=""
+          value=''
           emotion={this.emotion}
         />
       );

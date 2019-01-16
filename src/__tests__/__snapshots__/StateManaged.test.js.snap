@@ -2,6 +2,15 @@
 
 exports[`defaults > snapshot 1`] = `
 <Select
+  accessibility={
+    Object {
+      "instructionsAriaMessage": [Function],
+      "optionFocusAriaMessage": [Function],
+      "resultsAriaMessage": [Function],
+      "valueEventAriaMessage": [Function],
+      "valueFocusAriaMessage": [Function],
+    }
+  }
   backspaceRemovesValue={true}
   blurInputOnSelect={true}
   captureMenuScroll={false}
