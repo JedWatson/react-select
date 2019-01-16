@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
+import { css } from 'emotion';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -26,11 +27,11 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl, emotion } = props;
+  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
     <div
       className={cx(
-        emotion.css(getStyles('container', props)),
+        css(getStyles('container', props)),
         {
           '--is-disabled': isDisabled,
           '--is-rtl': isRtl
@@ -68,12 +69,12 @@ export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) =
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {
-    const { children, className, cx, isMulti, getStyles, hasValue, emotion } = this.props;
+    const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
 
     return (
       <div
         className={cx(
-          emotion.css(getStyles('valueContainer', this.props)),
+          css(getStyles('valueContainer', this.props)),
           {
             'value-container': true,
             'value-container--is-multi': isMulti,
@@ -108,12 +109,12 @@ export const indicatorsContainerCSS = () => ({
   flexShrink: 0,
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
-  const { children, className, cx, getStyles, emotion } = props;
+  const { children, className, cx, getStyles } = props;
 
   return (
     <div
       className={cx(
-        emotion.css(getStyles('indicatorsContainer', props)),
+        css(getStyles('indicatorsContainer', props)),
         {
           'indicators': true,
         },

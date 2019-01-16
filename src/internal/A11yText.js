@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
+import { css } from 'emotion';
 
 // Assistive text to describe visual elements. Hidden for sighted users.
 const A11yText = (props: any) => (
   <span
-    className={props.emotion.css({
+    className={css({
       zIndex: 9999,
       border: 0,
       clip: 'rect(1px, 1px, 1px, 1px)',

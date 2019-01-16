@@ -1,6 +1,6 @@
 // @flow
 import React, { type Node } from 'react';
-
+import { css } from 'emotion';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
@@ -63,12 +63,12 @@ export const optionCSS = ({
 });
 
 const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, emotion } = props;
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
   return (
     <div
       ref={innerRef}
       className={cx(
-        emotion.css(getStyles('option', props)),
+        css(getStyles('option', props)),
         {
           'option': true,
           'option--is-disabled': isDisabled,
