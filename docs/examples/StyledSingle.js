@@ -11,7 +11,7 @@ const dot = (color = '#ccc') => ({
   ':before': {
     backgroundColor: color,
     borderRadius: 10,
-    content: ' ',
+    content: '" "',
     display: 'block',
     marginRight: 8,
     height: 10,
