@@ -1,5 +1,16 @@
 # React-Select
 
+## v2.3.0 / 2019-01-18
+
+### Bug fixes
+* [#3315](https://github.com/JedWatson/react-select/pull/3315) add RAF call to Collapse component getRef() such that getBoundingClientRect() is invoked consistently.
+* [#3275](https://github.com/JedWatson/react-select/pull/3275/files) wrap String invocation around inputValue to avoid calling toLowerCase on invalid elements. thanks [tavareshenrique](https://github.com/tavareshenrique)
+* [#3357](https://github.com/JedWatson/react-select/pull/3357), fix loadOptions call in Async select to always pass in a string for the inputValue.
+* [#3346](https://github.com/JedWatson/react-select/pull/3346) Revert work done in CSP nonce PR [#3260](https://github.com/JedWatson/react-select/pull/3260) to unblock react-select usage in an SSR setting. Users who need nonce support still, please pin your version of react-select at 2.2.0. Nonce support will be re-added in 3.0.0 along with an upgrade to emotion 10; which includes nonce support without having to provide a custom emotion instance.
+
+### Features
+* [#3115](https://github.com/JedWatson/react-select/pull/3115) menu-is-open modifier added to control class when the menu is open. [@s20lee](https://github.com/s20lee)
+
 ## v2.2.0 / 2018-12-28
 
 ### Bug Fixes
