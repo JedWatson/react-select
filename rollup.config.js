@@ -3,7 +3,7 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
+import { uglify } from 'rollup-plugin-uglify';
 import { minify } from 'uglify-es';
 import pkg from './package.json';
 
@@ -19,19 +19,6 @@ const globals = {
 };
 // $FlowFixMe This should be inferred by Flow and manual casting does not work inside of this config.
 const external = Object.keys(globals);
-const babelOptions = () => {
-  let result = {
-    babelrc: false,
-    presets: [['env', { modules: false }], 'react'],
-    plugins: [
-      'emotion',
-      'transform-class-properties',
-      'transform-object-rest-spread',
-      'external-helpers',
-    ],
-  };
-  return result;
-};
 
 export default [
   {
@@ -41,7 +28,7 @@ export default [
       format: 'es',
     },
     external: [...external, 'raf'],
-    plugins: [babel(babelOptions())],
+    plugins: [babel()],
   },
 
   {
@@ -53,7 +40,7 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(babelOptions()), resolve(), commonjs()],
+    plugins: [babel(), resolve(), commonjs()],
   },
 
   {
@@ -65,6 +52,6 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
+    plugins: [babel(), resolve(), commonjs(), uglify({}, minify)],
   },
 ];
