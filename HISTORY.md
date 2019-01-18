@@ -1,7 +1,7 @@
 # React-Select
 
 ## v2.3.0 / 2019-01-18
-
+ 
 ### Bug fixes
 * [#3315](https://github.com/JedWatson/react-select/pull/3315) add RAF call to Collapse component getRef() such that getBoundingClientRect() is invoked consistently.
 * [#3275](https://github.com/JedWatson/react-select/pull/3275/files) wrap String invocation around inputValue to avoid calling toLowerCase on invalid elements. thanks [tavareshenrique](https://github.com/tavareshenrique)
