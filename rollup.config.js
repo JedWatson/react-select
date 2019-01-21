@@ -20,6 +20,22 @@ const globals = {
 // $FlowFixMe This should be inferred by Flow and manual casting does not work inside of this config.
 const external = Object.keys(globals);
 
+const babelOptions = () => {
+  let result = {
+    babelrc: false,
+    presets: [
+      '@babel/preset-env',
+      '@babel/preset-react',
+      '@babel/preset-flow'
+    ],
+    plugins: [
+      'emotion',
+      '@babel/plugin-proposal-class-properties'
+    ]
+  };
+  return result;
+};
+
 export default [
   {
     input: 'src/index.js',
@@ -28,7 +44,7 @@ export default [
       format: 'es',
     },
     external: [...external, 'raf'],
-    plugins: [babel()],
+    plugins: [babel(babelOptions())],
   },
 
   {
@@ -40,7 +56,7 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(), resolve(), commonjs()],
+    plugins: [babel(babelOptions()), resolve(), commonjs()],
   },
 
   {
@@ -52,6 +68,6 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(), resolve(), commonjs(), uglify({}, minify)],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
   },
 ];
