@@ -79,9 +79,8 @@
     "rollup-plugin-babel": "^4.0.1",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "rollup-plugin-uglify": "^6.0.1",
+    "rollup-plugin-terser": "^4.0.2",
     "style-loader": "^0.19.1",
-    "uglify-es": "^3.3.9",
     "unfetch": "^3.0.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
