@@ -1464,7 +1464,7 @@ export default class Select extends Component<Props, State> {
 
     if (isMulti) {
       const selectValues: Array<any> = selectValue.map(opt => {
-        let isOptionFocused = opt === focusedValue;
+        const isOptionFocused = opt === focusedValue;
 
         return (
           <MultiValue
