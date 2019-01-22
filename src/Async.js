@@ -7,11 +7,12 @@ import React, {
   type ElementRef,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import { handleInputChange } from './utils';
 import manageState from './stateManager';
-import type { OptionsType, InputActionMeta } from './types';
+import type { OptionsType, InputActionMeta, OptionType } from './types';
 
 export type AsyncProps = {
+  /** inputValue */
+  inputValue: string,
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions: OptionsType | boolean,
@@ -22,7 +23,7 @@ export type AsyncProps = {
      will remain until `cacheOptions` changes value. */
   cacheOptions: any,
   onInputChange: (string, InputActionMeta) => void,
-  inputValue?: string,
+  filterOption: (({ label: string, value: string, data: OptionType }, string) => boolean) | null,
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -35,7 +36,6 @@ export const defaultProps = {
 
 type State = {
   defaultOptions?: OptionsType,
-  inputValue: string,
   isLoading: boolean,
   loadedInputValue?: string,
   loadedOptions: OptionsType,
@@ -52,13 +52,11 @@ export const makeAsyncSelect = <C: {}>(
     mounted: boolean = false;
     optionsCache: { [string]: OptionsType } = {};
     constructor(props: C & AsyncProps) {
-      super();
+      super(props);
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
           : undefined,
-        inputValue:
-          typeof props.inputValue !== 'undefined' ? props.inputValue : '',
         isLoading: props.defaultOptions === true ? true : false,
         loadedOptions: [],
         passEmptyOptions: false,
@@ -66,8 +64,7 @@ export const makeAsyncSelect = <C: {}>(
     }
     componentDidMount() {
       this.mounted = true;
-      const { defaultOptions } = this.props;
-      const { inputValue } = this.state;
+      const { defaultOptions, inputValue } = this.props;
       if (defaultOptions === true) {
         this.loadOptions(inputValue, options => {
           if (!this.mounted) return;
@@ -88,9 +85,17 @@ export const makeAsyncSelect = <C: {}>(
             : undefined,
         });
       }
+
+      if (nextProps.inputValue !== this.props.inputValue) {
+        this.handleInputChange(nextProps.inputValue);
+      }
+
     }
     componentWillUnmount() {
       this.mounted = false;
+    }
+    getAsyncSelectRef = (ref: ElementRef<*>) => {
+      this.select = ref;
     }
     focus() {
       this.select.focus();
@@ -98,22 +103,12 @@ export const makeAsyncSelect = <C: {}>(
     blur() {
       this.select.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
-      const { loadOptions } = this.props;
-      if (!loadOptions) return callback();
-      const loader = loadOptions(inputValue, callback);
-      if (loader && typeof loader.then === 'function') {
-        loader.then(callback, () => callback());
-      }
-    }
-    handleInputChange = (newValue: string, actionMeta: InputActionMeta) => {
-      const { cacheOptions, onInputChange } = this.props;
-      // TODO
-      const inputValue = handleInputChange(newValue, actionMeta, onInputChange);
+
+    handleInputChange = (inputValue: string) => {
+      const { cacheOptions } = this.props;
       if (!inputValue) {
         delete this.lastRequest;
         this.setState({
-          inputValue: '',
           loadedInputValue: '',
           loadedOptions: [],
           isLoading: false,
@@ -123,7 +118,6 @@ export const makeAsyncSelect = <C: {}>(
       }
       if (cacheOptions && this.optionsCache[inputValue]) {
         this.setState({
-          inputValue,
           loadedInputValue: inputValue,
           loadedOptions: this.optionsCache[inputValue],
           isLoading: false,
@@ -131,37 +125,41 @@ export const makeAsyncSelect = <C: {}>(
         });
       } else {
         const request = (this.lastRequest = {});
-        this.setState(
-          {
-            inputValue,
-            isLoading: true,
-            passEmptyOptions: !this.state.loadedInputValue,
-          },
-          () => {
-            this.loadOptions(inputValue, options => {
-              if (!this.mounted) return;
-              if (options) {
-                this.optionsCache[inputValue] = options;
-              }
-              if (request !== this.lastRequest) return;
-              delete this.lastRequest;
-              this.setState({
-                isLoading: false,
-                loadedInputValue: inputValue,
-                loadedOptions: options || [],
-                passEmptyOptions: false,
-              });
+        this.setState({
+          isLoading: true,
+          passEmptyOptions: !this.state.loadedInputValue,
+        }, () => {
+          this.loadOptions(inputValue, options => {
+            if (!this.mounted) return;
+            if (options) {
+              this.optionsCache[inputValue] = options;
+            }
+            if (request !== this.lastRequest) return;
+            delete this.lastRequest;
+            this.setState({
+              isLoading: false,
+              loadedInputValue: inputValue,
+              loadedOptions: options || [],
+              passEmptyOptions: false,
             });
-          }
-        );
+          });
+        });
       }
-      return inputValue;
     };
+
+    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+      const { loadOptions } = this.props;
+      if (!loadOptions) return callback();
+      const loader = loadOptions(inputValue, callback);
+      if (loader && typeof loader.then === 'function') {
+        loader.then(callback, () => callback());
+      }
+    }
+
     render() {
-      const { loadOptions, ...props } = this.props;
+      const { loadOptions, inputValue, filterOption, ...props } = this.props;
       const {
         defaultOptions,
-        inputValue,
         isLoading,
         loadedInputValue,
         loadedOptions,
@@ -170,22 +168,20 @@ export const makeAsyncSelect = <C: {}>(
       const options = passEmptyOptions
         ? []
         : inputValue && loadedInputValue
-        ? loadedOptions
-        : defaultOptions || [];
+          ? loadedOptions
+          : defaultOptions || [];
       return (
         <SelectComponent
           {...props}
-          ref={ref => {
-            this.select = ref;
-          }}
-          options={options}
+          filterOption={filterOption || null}
+          inputValue={inputValue}
           isLoading={isLoading}
-          onInputChange={this.handleInputChange}
+          options={options}
+          ref={this.getAsyncSelectRef}
         />
       );
     }
   };
 
-const SelectState = manageState<ElementConfig<typeof Select>>(Select);
-
-export default makeAsyncSelect<ElementConfig<typeof SelectState>>(SelectState);
+const AsyncSelect = makeAsyncSelect<ElementConfig<typeof Select>>(Select);
+export default manageState<ElementConfig<typeof AsyncSelect>>(AsyncSelect);
