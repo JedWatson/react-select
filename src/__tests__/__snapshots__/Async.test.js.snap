@@ -9,6 +9,7 @@ exports[`defaults - snapshot 1`] = `
   <Async
     cacheOptions={false}
     defaultOptions={false}
+    filterOption={null}
     inputValue=""
     menuIsOpen={false}
     onChange={[Function]}
