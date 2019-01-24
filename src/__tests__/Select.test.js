@@ -742,6 +742,17 @@ cases(
   }
 );
 
+test('clicking when focused does not open select when openMenuOnClick=false', () => {
+  let spy = jest.fn();
+  let selectWrapper = mount(<Select {...BASIC_PROPS} openMenuOnClick={false} onMenuOpen={spy} />);
+
+  // this will get updated on input click, though click on input is not bubbling up to control component
+  selectWrapper.setState({ isFocused: true });
+  let controlComponent = selectWrapper.find('div.react-select__control');
+  controlComponent.simulate('mouseDown', { target: { tagName: 'div' } });
+  expect(spy).not.toHaveBeenCalled();
+});
+
 cases(
   'focus on options > keyboard interaction with Menu',
   ({ props, selectedOption, nextFocusOption, keyEvent = [] }) => {
