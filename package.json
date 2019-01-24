@@ -94,7 +94,7 @@
     "watch": "nps build.watch",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "deploy": "cross-env FORCE_EXTRACT_REACT_TYPES=true NODE_ENV=production nps publish",
+    "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
