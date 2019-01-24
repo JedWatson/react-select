@@ -886,13 +886,11 @@ export default class Select extends Component<Props, State> {
     } else if (!this.props.menuIsOpen) {
       this.openMenu('first');
     } else {
-      // $FlowFixMe HTMLElement type does not have tagName property
-      if (event.target.tagName !== 'INPUT') {
+      if (event.currentTarget.tagName !== 'INPUT') {
         this.onMenuClose();
       }
     }
-    // $FlowFixMe HTMLElement type does not have tagName property
-    if (event.target.tagName !== 'INPUT') {
+    if (event.currentTarget.tagName !== 'INPUT') {
       event.preventDefault();
     }
   };
@@ -1012,15 +1010,12 @@ export default class Select extends Component<Props, State> {
   onTouchEnd = (event: TouchEvent) => {
     if (this.userIsDragging) return;
 
-    // type cast the EventTarget
-    const target = ((event.target: any): HTMLElement);
-
     // close the menu if the user taps outside
     if (
       this.controlRef &&
-      !this.controlRef.contains(target) &&
+      !this.controlRef.contains(event.currentTarget) &&
       this.menuListRef &&
-      !this.menuListRef.contains(target)
+      !this.menuListRef.contains(event.currentTarget)
     ) {
       this.blurInput();
     }
