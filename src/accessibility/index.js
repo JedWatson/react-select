@@ -1,19 +1,37 @@
-export type InstructionsContext = { isSearchable?: boolean, isMulti?: boolean, label?: string };
+// @flow
+
+import { type OptionType, type OptionsType } from '../types';
+
+export type InstructionsContext = {
+  isSearchable?: boolean,
+  isMulti?: boolean,
+  label?: string,
+};
 export type ValueEventContext = { value: string };
 
-export const instructionsAriaMessage = (event, context?: InstructionsContext = {}) => {
+export const instructionsAriaMessage = (
+  event: string,
+  context?: InstructionsContext = {}
+) => {
   const { isSearchable, isMulti, label } = context;
   switch (event) {
     case 'menu':
       return 'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.';
     case 'input':
-      return `${label ? label : 'Select'} is focused ${ isSearchable ? ',type to refine list' : '' }, press Down to open the menu, ${ isMulti ? ' press left to focus selected values' : '' }`;
+      return `${label ? label : 'Select'} is focused ${
+        isSearchable ? ',type to refine list' : ''
+      }, press Down to open the menu, ${
+        isMulti ? ' press left to focus selected values' : ''
+      }`;
     case 'value':
       return 'Use left and right to toggle between focused values, press Enter to remove the currently focused value';
   }
 };
 
-export const valueEventAriaMessage = (event, context: ValueEventContext) => {
+export const valueEventAriaMessage = (
+  event: string,
+  context: ValueEventContext
+) => {
   const { value } = context;
   if (!value) return;
   switch (event) {
@@ -26,6 +44,39 @@ export const valueEventAriaMessage = (event, context: ValueEventContext) => {
   }
 };
 
-export const valueFocusAriaMessage = ({ focusedValue, getOptionLabel, selectValue }) => `value ${getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(focusedValue) + 1} of ${selectValue.length}.`;
-export const optionFocusAriaMessage = ({ focusedOption, getOptionLabel, options }) => `option ${getOptionLabel(focusedOption)} focused, ${options.indexOf(focusedOption) + 1} of ${options.length}.`;
-export const resultsAriaMessage = ({ inputValue, screenReaderMessage }) => `${screenReaderMessage}${inputValue ? ' for search term ' + inputValue : ''}.`;
+export const valueFocusAriaMessage = ({
+  focusedValue,
+  getOptionLabel,
+  selectValue,
+}: {
+  focusedValue: OptionType,
+  getOptionLabel: (option: OptionType) => string,
+  selectValue: OptionsType,
+}) =>
+  `value ${getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(
+    focusedValue
+  ) + 1} of ${selectValue.length}.`;
+
+export const optionFocusAriaMessage = ({
+  focusedOption,
+  getOptionLabel,
+  options,
+}: {
+  focusedOption: OptionType,
+  getOptionLabel: (option: OptionType) => string,
+  options: OptionsType,
+}) =>
+  `option ${getOptionLabel(focusedOption)} focused, ${options.indexOf(
+    focusedOption
+  ) + 1} of ${options.length}.`;
+
+export const resultsAriaMessage = ({
+  inputValue,
+  screenReaderMessage,
+}: {
+  inputValue: string,
+  screenReaderMessage: string,
+}) =>
+  `${screenReaderMessage}${
+    inputValue ? ' for search term ' + inputValue : ''
+  }.`;

@@ -128,7 +128,9 @@ export type Props = {
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
-  filterOption: ((Object, string) => boolean) | null,
+  filterOption:
+    | (({ label: string, value: string, data: OptionType }, string) => boolean)
+    | null,
   /*
     Formats group labels in the menu as React components
 
@@ -142,7 +144,7 @@ export type Props = {
   /* Resolves option data to a string to compare options and specify value attributes */
   getOptionValue: typeof getOptionValue,
   /* Hide the selected option from the menu */
-  hideSelectedOptions: boolean,
+  hideSelectedOptions?: boolean,
   /* The id to set on the SelectContainer component. */
   id?: string,
   /* The value of the search input */
@@ -643,14 +645,17 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    this.onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
-      action: 'remove-value',
-      removedValue,
-    });
+    this.onChange(
+      selectValue.filter(i => this.getOptionValue(i) !== candidate),
+      {
+        action: 'remove-value',
+        removedValue,
+      }
+    );
     this.announceAriaLiveSelection({
       event: 'remove-value',
       context: {
-        value: removedValue ? this.getOptionLabel(removedValue) : undefined,
+        value: removedValue ? this.getOptionLabel(removedValue) : '',
       },
     });
     this.focusInput();
@@ -665,9 +670,7 @@ export default class Select extends Component<Props, State> {
     this.announceAriaLiveSelection({
       event: 'pop-value',
       context: {
-        value: lastSelectedValue
-          ? this.getOptionLabel(lastSelectedValue)
-          : undefined,
+        value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : '',
       },
     });
     this.onChange(selectValue.slice(0, selectValue.length - 1), {
@@ -705,9 +708,8 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    let cxPrefix = classNamePrefix;
 
-    const cx = classNames.bind(null, cxPrefix);
+    const cx = classNames.bind(null, classNamePrefix);
     return {
       cx,
       clearValue,
@@ -839,7 +841,10 @@ export default class Select extends Component<Props, State> {
     const candidate = this.getOptionValue(option);
     return selectValue.some(i => this.getOptionValue(i) === candidate);
   }
-  filterOption(option: {}, inputValue: string) {
+  filterOption(
+    option: { label: string, value: string, data: OptionType },
+    inputValue: string
+  ) {
     return this.props.filterOption
       ? this.props.filterOption(option, inputValue)
       : true;
@@ -1069,7 +1074,7 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    if(this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+    if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef.focus();
       return;
     }
@@ -1666,10 +1671,7 @@ export default class Select extends Component<Props, State> {
     };
 
     const menuElement = (
-      <MenuPlacer
-        {...commonProps}
-        {...menuPlacementProps}
-      >
+      <MenuPlacer {...commonProps} {...menuPlacementProps}>
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}

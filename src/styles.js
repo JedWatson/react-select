@@ -32,29 +32,32 @@ import {
 
 type Props = { [key: string]: any };
 
+// TODO: flow for state
+type StyleFn = (props: Props, state: { [key: string]: any }) => {};
+
 export type Styles = {
-  clearIndicator?: Props => {},
-  container?: Props => {},
-  control?: Props => {},
-  dropdownIndicator?: Props => {},
-  group?: Props => {},
-  groupHeading?: Props => {},
-  indicatorsContainer?: Props => {},
-  indicatorSeparator?: Props => {},
-  input?: Props => {},
-  loadingIndicator?: Props => {},
-  loadingMessageCSS?: Props => {},
-  menu?: Props => {},
-  menuList?: Props => {},
-  menuPortal?: Props => {},
-  multiValue?: Props => {},
-  multiValueLabel?: Props => {},
-  multiValueRemove?: Props => {},
-  noOptionsMessageCSS?: Props => {},
-  option?: Props => {},
-  placeholder?: Props => {},
-  singleValue?: Props => {},
-  valueContainer: Props => {},
+  clearIndicator?: StyleFn,
+  container?: StyleFn,
+  control?: StyleFn,
+  dropdownIndicator?: StyleFn,
+  group?: StyleFn,
+  groupHeading?: StyleFn,
+  indicatorsContainer?: StyleFn,
+  indicatorSeparator?: StyleFn,
+  input?: StyleFn,
+  loadingIndicator?: StyleFn,
+  loadingMessageCSS?: StyleFn,
+  menu?: StyleFn,
+  menuList?: StyleFn,
+  menuPortal?: StyleFn,
+  multiValue?: StyleFn,
+  multiValueLabel?: StyleFn,
+  multiValueRemove?: StyleFn,
+  noOptionsMessageCSS?: StyleFn,
+  option?: StyleFn,
+  placeholder?: StyleFn,
+  singleValue?: StyleFn,
+  valueContainer: StyleFn,
 };
 export type StylesConfig = $Shape<Styles>;
 export type GetStyles = (string, Props) => {};

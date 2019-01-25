@@ -71,7 +71,6 @@ export function getMenuPlacement({
     top: menuTop,
   } = menuEl.getBoundingClientRect();
 
-  // $FlowFixMe function returns above if there's no offsetParent
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
   const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
@@ -211,7 +210,7 @@ export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
   getPortalPlacement: MenuState => void,
   /** Props to be passed to the menu wrapper. */
-  innerProps: Object,
+  innerProps: {},
   /** Set the maximum height of the menu. */
   maxMenuHeight: number,
   /** Set whether the menu should be at the top, at the bottom. The auto options sets it to bottom. */
@@ -399,7 +398,7 @@ export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** Props to be passed on to the wrapper. */
-  innerProps: { [string]: any },
+  innerProps: {},
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
