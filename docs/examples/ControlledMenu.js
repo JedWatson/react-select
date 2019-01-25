@@ -14,13 +14,19 @@ export default class controlledMenu extends Component<*, State> {
   state = {
     menuIsOpen: false,
   };
-  toggleMenuIsOpen = () =>
+  select: ElementRef<*>;
+  toggleMenuIsOpen = () => {
     this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
+    if (this.select) {
+      return !this.state.menuIsOpen ? this.select.focus() : this.select.blur();;
+    }
+  }
   render() {
     const { menuIsOpen } = this.state;
     return (
       <Fragment>
         <Select
+          ref={(ref) => { this.select = ref; }}
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
