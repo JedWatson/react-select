@@ -81,9 +81,15 @@ const manageState = (SelectComponent: ComponentType<*>) =>
       this.setState({ menuIsOpen: false });
     };
     render() {
+      const {
+        defaultInputValue,
+        defaultMenuIsOpen,
+        defaultValue,
+        ...props
+      } = this.props;
       return (
         <SelectComponent
-          {...this.props}
+          {...props}
           ref={ref => {
             this.select = ref;
           }}

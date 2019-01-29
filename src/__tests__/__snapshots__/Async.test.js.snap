@@ -25,10 +25,7 @@ exports[`defaults - snapshot 1`] = `
       closeMenuOnSelect={true}
       components={Object {}}
       controlShouldRenderValue={true}
-      defaultInputValue=""
-      defaultMenuIsOpen={false}
       defaultOptions={false}
-      defaultValue={null}
       escapeClearsValue={false}
       filterOption={null}
       formatGroupLabel={[Function]}
@@ -93,10 +90,7 @@ exports[`defaults - snapshot 1`] = `
             "closeMenuOnSelect": true,
             "components": Object {},
             "controlShouldRenderValue": true,
-            "defaultInputValue": "",
-            "defaultMenuIsOpen": false,
             "defaultOptions": false,
-            "defaultValue": null,
             "escapeClearsValue": false,
             "filterOption": null,
             "formatGroupLabel": [Function],
@@ -199,10 +193,7 @@ exports[`defaults - snapshot 1`] = `
                 "closeMenuOnSelect": true,
                 "components": Object {},
                 "controlShouldRenderValue": true,
-                "defaultInputValue": "",
-                "defaultMenuIsOpen": false,
                 "defaultOptions": false,
-                "defaultValue": null,
                 "escapeClearsValue": false,
                 "filterOption": null,
                 "formatGroupLabel": [Function],
@@ -297,10 +288,7 @@ exports[`defaults - snapshot 1`] = `
                     "closeMenuOnSelect": true,
                     "components": Object {},
                     "controlShouldRenderValue": true,
-                    "defaultInputValue": "",
-                    "defaultMenuIsOpen": false,
                     "defaultOptions": false,
-                    "defaultValue": null,
                     "escapeClearsValue": false,
                     "filterOption": null,
                     "formatGroupLabel": [Function],
@@ -395,10 +383,7 @@ exports[`defaults - snapshot 1`] = `
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
-                        "defaultInputValue": "",
-                        "defaultMenuIsOpen": false,
                         "defaultOptions": false,
-                        "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
                         "formatGroupLabel": [Function],
@@ -497,10 +482,7 @@ exports[`defaults - snapshot 1`] = `
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
-                        "defaultInputValue": "",
-                        "defaultMenuIsOpen": false,
                         "defaultOptions": false,
-                        "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
                         "formatGroupLabel": [Function],
@@ -681,10 +663,7 @@ exports[`defaults - snapshot 1`] = `
                     "closeMenuOnSelect": true,
                     "components": Object {},
                     "controlShouldRenderValue": true,
-                    "defaultInputValue": "",
-                    "defaultMenuIsOpen": false,
                     "defaultOptions": false,
-                    "defaultValue": null,
                     "escapeClearsValue": false,
                     "filterOption": null,
                     "formatGroupLabel": [Function],
@@ -778,10 +757,7 @@ exports[`defaults - snapshot 1`] = `
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
-                        "defaultInputValue": "",
-                        "defaultMenuIsOpen": false,
                         "defaultOptions": false,
-                        "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
                         "formatGroupLabel": [Function],
@@ -883,10 +859,7 @@ exports[`defaults - snapshot 1`] = `
                         "closeMenuOnSelect": true,
                         "components": Object {},
                         "controlShouldRenderValue": true,
-                        "defaultInputValue": "",
-                        "defaultMenuIsOpen": false,
                         "defaultOptions": false,
-                        "defaultValue": null,
                         "escapeClearsValue": false,
                         "filterOption": null,
                         "formatGroupLabel": [Function],
