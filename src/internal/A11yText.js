@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
+import React, { type ElementConfig } from 'react';
 import { css } from 'emotion';
 
 // Assistive text to describe visual elements. Hidden for sighted users.
-const A11yText = (props: any) => (
+const A11yText = (props: ElementConfig<'span'>) => (
   <span
     className={css({
       zIndex: 9999,

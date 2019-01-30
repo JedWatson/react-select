@@ -1,8 +1,5 @@
 // @flow
-import {
-  type ComponentType,
-  type Element,
-} from 'react';
+import { type ComponentType, type Element } from 'react';
 import {
   type IndicatorContainerProps,
   type ContainerProps,
@@ -48,7 +45,7 @@ import SingleValue, { type SingleValueProps } from './SingleValue';
 export type PlaceholderOrValue =
   | Element<ComponentType<PlaceholderProps>>
   | Element<ComponentType<SingleValueProps>>
-  | Array<Element<ComponentType<MultiValueProps>>>
+  | Array<Element<ComponentType<MultiValueProps>>>;
 
 type IndicatorComponentType = ComponentType<IndicatorProps>;
 
@@ -82,7 +79,7 @@ export type SelectComponents = {
 
 export type SelectComponentsConfig = $Shape<SelectComponents>;
 
-export const components: SelectComponents = {
+export const components = {
   ClearIndicator: ClearIndicator,
   Control: Control,
   DropdownIndicator: DropdownIndicator,

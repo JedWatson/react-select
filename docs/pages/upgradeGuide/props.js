@@ -269,8 +269,11 @@ class PropChanges extends Component<
           isMulti
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
-          onChange={options =>
-            this.setState({ selectedOptions: options.map(opt => opt.value) })}
+          onChange={options => {
+            if (Array.isArray(options)) {
+              this.setState({ selectedOptions: options.map(opt => opt.value) });
+            }
+          }}
           options={allOptions}
           components={{
             Option: InputOption
@@ -280,7 +283,11 @@ class PropChanges extends Component<
         <h4>Sort Props</h4>
         <Select
           defaultValue={filterOptions[0]}
-          onChange={option => this.setState({ filterValue: option.value })}
+          onChange={option => {
+            if (!Array.isArray(option)) {
+              this.setState({ filterValue: option? option.value : '' });
+            }
+          }}
           options={filterOptions}
         />
         <Table>

@@ -4,6 +4,7 @@ exports[`defaults - snapshot 1`] = `
 <Async
   cacheOptions={false}
   defaultOptions={false}
+  filterOption={null}
 >
   <StateManager
     cacheOptions={false}
@@ -20,10 +21,7 @@ exports[`defaults - snapshot 1`] = `
       allowCreateWhileLoading={false}
       cacheOptions={false}
       createOptionPosition="last"
-      defaultInputValue=""
-      defaultMenuIsOpen={false}
       defaultOptions={false}
-      defaultValue={null}
       filterOption={null}
       formatCreateLabel={[Function]}
       getNewOptionData={[Function]}
@@ -49,10 +47,7 @@ exports[`defaults - snapshot 1`] = `
         components={Object {}}
         controlShouldRenderValue={true}
         createOptionPosition="last"
-        defaultInputValue=""
-        defaultMenuIsOpen={false}
         defaultOptions={false}
-        defaultValue={null}
         escapeClearsValue={false}
         filterOption={null}
         formatCreateLabel={[Function]}
@@ -122,10 +117,7 @@ exports[`defaults - snapshot 1`] = `
               "components": Object {},
               "controlShouldRenderValue": true,
               "createOptionPosition": "last",
-              "defaultInputValue": "",
-              "defaultMenuIsOpen": false,
               "defaultOptions": false,
-              "defaultValue": null,
               "escapeClearsValue": false,
               "filterOption": null,
               "formatCreateLabel": [Function],
@@ -233,10 +225,7 @@ exports[`defaults - snapshot 1`] = `
                   "components": Object {},
                   "controlShouldRenderValue": true,
                   "createOptionPosition": "last",
-                  "defaultInputValue": "",
-                  "defaultMenuIsOpen": false,
                   "defaultOptions": false,
-                  "defaultValue": null,
                   "escapeClearsValue": false,
                   "filterOption": null,
                   "formatCreateLabel": [Function],
@@ -336,10 +325,7 @@ exports[`defaults - snapshot 1`] = `
                       "components": Object {},
                       "controlShouldRenderValue": true,
                       "createOptionPosition": "last",
-                      "defaultInputValue": "",
-                      "defaultMenuIsOpen": false,
                       "defaultOptions": false,
-                      "defaultValue": null,
                       "escapeClearsValue": false,
                       "filterOption": null,
                       "formatCreateLabel": [Function],
@@ -439,10 +425,7 @@ exports[`defaults - snapshot 1`] = `
                           "components": Object {},
                           "controlShouldRenderValue": true,
                           "createOptionPosition": "last",
-                          "defaultInputValue": "",
-                          "defaultMenuIsOpen": false,
                           "defaultOptions": false,
-                          "defaultValue": null,
                           "escapeClearsValue": false,
                           "filterOption": null,
                           "formatCreateLabel": [Function],
@@ -546,10 +529,7 @@ exports[`defaults - snapshot 1`] = `
                           "components": Object {},
                           "controlShouldRenderValue": true,
                           "createOptionPosition": "last",
-                          "defaultInputValue": "",
-                          "defaultMenuIsOpen": false,
                           "defaultOptions": false,
-                          "defaultValue": null,
                           "escapeClearsValue": false,
                           "filterOption": null,
                           "formatCreateLabel": [Function],
@@ -735,10 +715,7 @@ exports[`defaults - snapshot 1`] = `
                       "components": Object {},
                       "controlShouldRenderValue": true,
                       "createOptionPosition": "last",
-                      "defaultInputValue": "",
-                      "defaultMenuIsOpen": false,
                       "defaultOptions": false,
-                      "defaultValue": null,
                       "escapeClearsValue": false,
                       "filterOption": null,
                       "formatCreateLabel": [Function],
@@ -837,10 +814,7 @@ exports[`defaults - snapshot 1`] = `
                           "components": Object {},
                           "controlShouldRenderValue": true,
                           "createOptionPosition": "last",
-                          "defaultInputValue": "",
-                          "defaultMenuIsOpen": false,
                           "defaultOptions": false,
-                          "defaultValue": null,
                           "escapeClearsValue": false,
                           "filterOption": null,
                           "formatCreateLabel": [Function],
@@ -947,10 +921,7 @@ exports[`defaults - snapshot 1`] = `
                           "components": Object {},
                           "controlShouldRenderValue": true,
                           "createOptionPosition": "last",
-                          "defaultInputValue": "",
-                          "defaultMenuIsOpen": false,
                           "defaultOptions": false,
-                          "defaultValue": null,
                           "escapeClearsValue": false,
                           "filterOption": null,
                           "formatCreateLabel": [Function],

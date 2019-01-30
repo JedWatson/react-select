@@ -8,7 +8,7 @@ import { default as AnimatedPlaceholder } from './Placeholder';
 import { default as AnimatedSingleValue } from './SingleValue';
 import { default as AnimatedValueContainer } from './ValueContainer';
 
-const makeAnimated = (externalComponents?: SelectComponents) => {
+const makeAnimated = (externalComponents?: SelectComponents= {}): SelectComponents => {
   const components = defaultComponents({ components: externalComponents });
   const { Input, MultiValue, Placeholder, SingleValue, ValueContainer, ...rest } = components;
   return {
