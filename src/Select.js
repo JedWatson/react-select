@@ -63,6 +63,7 @@ import type {
   OptionsType,
   OptionType,
   ValueType,
+  ClassNamesState,
 } from './types';
 
 type MouseOrTouchEvent =
@@ -244,6 +245,9 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+
+  /* External cx-function. */
+  cxx?: (?string | null, ClassNamesState | void, string | void) => string | void,
 };
 
 export const defaultProps = {
@@ -704,12 +708,12 @@ export default class Select extends Component<Props, State> {
 
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { classNamePrefix, isMulti, isRtl, options } = props;
+    const { classNamePrefix, isMulti, isRtl, options, cxx } = props;
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
 
-    const cx = classNames.bind(null, classNamePrefix);
+    const cx = cxx || classNames.bind(null, classNamePrefix);
     return {
       cx,
       clearValue,
