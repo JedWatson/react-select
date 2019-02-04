@@ -3,7 +3,6 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 
 import memoizeOne from 'memoize-one';
-import createEmotion, { type Emotion } from 'create-emotion';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
@@ -129,7 +128,9 @@ export type Props = {
   /* Clear all values when the user presses escape AND the menu is closed */
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
-  filterOption: ((Object, string) => boolean) | null,
+  filterOption:
+    | (({ label: string, value: string, data: OptionType }, string) => boolean)
+    | null,
   /*
     Formats group labels in the menu as React components
 
@@ -143,7 +144,7 @@ export type Props = {
   /* Resolves option data to a string to compare options and specify value attributes */
   getOptionValue: typeof getOptionValue,
   /* Hide the selected option from the menu */
-  hideSelectedOptions: boolean,
+  hideSelectedOptions?: boolean,
   /* The id to set on the SelectContainer component. */
   id?: string,
   /* The value of the search input */
@@ -243,8 +244,6 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
-  /* A CSP Nonce which will be used in injected style sheets */
-  nonce?: string
 };
 
 export const defaultProps = {
@@ -308,8 +307,6 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-const getEmotion: ?string => Emotion = memoizeOne((nonce) => createEmotion(nonce ? { nonce } : {}));
-
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
@@ -331,7 +328,6 @@ export default class Select extends Component<Props, State> {
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
-  emotion: Emotion;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -374,8 +370,6 @@ export default class Select extends Component<Props, State> {
 
     const selectValue = cleanValue(value);
     const menuOptions = this.buildMenuOptions(props, selectValue);
-
-    this.emotion = getEmotion(props.nonce);
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -651,14 +645,17 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    this.onChange(selectValue.filter(i => this.getOptionValue(i) !== candidate), {
-      action: 'remove-value',
-      removedValue,
-    });
+    this.onChange(
+      selectValue.filter(i => this.getOptionValue(i) !== candidate),
+      {
+        action: 'remove-value',
+        removedValue,
+      }
+    );
     this.announceAriaLiveSelection({
       event: 'remove-value',
       context: {
-        value: removedValue ? this.getOptionLabel(removedValue) : undefined,
+        value: removedValue ? this.getOptionLabel(removedValue) : '',
       },
     });
     this.focusInput();
@@ -673,9 +670,7 @@ export default class Select extends Component<Props, State> {
     this.announceAriaLiveSelection({
       event: 'pop-value',
       context: {
-        value: lastSelectedValue
-          ? this.getOptionLabel(lastSelectedValue)
-          : undefined,
+        value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : '',
       },
     });
     this.onChange(selectValue.slice(0, selectValue.length - 1), {
@@ -713,9 +708,8 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
-    let cxPrefix = classNamePrefix;
 
-    const cx = classNames.bind(null, cxPrefix);
+    const cx = classNames.bind(null, classNamePrefix);
     return {
       cx,
       clearValue,
@@ -729,7 +723,6 @@ export default class Select extends Component<Props, State> {
       setValue,
       selectProps: props,
       theme: this.getTheme(),
-      emotion: this.emotion
     };
   }
 
@@ -848,7 +841,10 @@ export default class Select extends Component<Props, State> {
     const candidate = this.getOptionValue(option);
     return selectValue.some(i => this.getOptionValue(i) === candidate);
   }
-  filterOption(option: {}, inputValue: string) {
+  filterOption(
+    option: { label: string, value: string, data: OptionType },
+    inputValue: string
+  ) {
     return this.props.filterOption
       ? this.props.filterOption(option, inputValue)
       : true;
@@ -895,13 +891,11 @@ export default class Select extends Component<Props, State> {
     } else if (!this.props.menuIsOpen) {
       this.openMenu('first');
     } else {
-      // $FlowFixMe HTMLElement type does not have tagName property
-      if (event.target.tagName !== 'INPUT') {
+      if (event.currentTarget.tagName !== 'INPUT') {
         this.onMenuClose();
       }
     }
-    // $FlowFixMe HTMLElement type does not have tagName property
-    if (event.target.tagName !== 'INPUT') {
+    if (event.currentTarget.tagName !== 'INPUT') {
       event.preventDefault();
     }
   };
@@ -1001,7 +995,7 @@ export default class Select extends Component<Props, State> {
     if (!touch) {
       return;
     }
-    
+
     this.initialTouchX = touch.clientX;
     this.initialTouchY = touch.clientY;
     this.userIsDragging = false;
@@ -1021,15 +1015,12 @@ export default class Select extends Component<Props, State> {
   onTouchEnd = (event: TouchEvent) => {
     if (this.userIsDragging) return;
 
-    // type cast the EventTarget
-    const target = ((event.target: any): HTMLElement);
-
     // close the menu if the user taps outside
     if (
       this.controlRef &&
-      !this.controlRef.contains(target) &&
+      !this.controlRef.contains(event.currentTarget) &&
       this.menuListRef &&
-      !this.menuListRef.contains(target)
+      !this.menuListRef.contains(event.currentTarget)
     ) {
       this.blurInput();
     }
@@ -1083,7 +1074,7 @@ export default class Select extends Component<Props, State> {
     this.openAfterFocus = false;
   };
   onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    if(this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+    if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef.focus();
       return;
     }
@@ -1391,7 +1382,6 @@ export default class Select extends Component<Props, State> {
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
-          emotion={this.emotion}
         />
       );
     }
@@ -1425,7 +1415,6 @@ export default class Select extends Component<Props, State> {
         theme={theme}
         type="text"
         value={inputValue}
-        emotion={this.emotion}
         {...ariaAttributes}
       />
     );
@@ -1682,10 +1671,7 @@ export default class Select extends Component<Props, State> {
     };
 
     const menuElement = (
-      <MenuPlacer
-        {...commonProps}
-        {...menuPlacementProps}
-      >
+      <MenuPlacer {...commonProps} {...menuPlacementProps}>
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}
@@ -1703,7 +1689,7 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
             >
-              <ScrollBlock emotion={this.emotion} isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock isEnabled={menuShouldBlockScroll}>
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
@@ -1774,7 +1760,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText emotion={this.emotion} aria-live="assertive">
+      <A11yText aria-live="assertive">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>

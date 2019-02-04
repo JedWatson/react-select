@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type ElementConfig } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 const navWidth = 180;
@@ -78,7 +78,7 @@ export const PrimaryNav = (props: any) => (
     />
   </div>
 );
-type PrimaryNavItemProps = { selected: boolean };
+type PrimaryNavItemProps = ElementConfig<typeof Link> & { selected: boolean };
 export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
   <Link
     css={{

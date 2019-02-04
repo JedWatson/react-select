@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 
 // const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
@@ -53,7 +53,7 @@ const A = props => (
   />
 );
 
-export default function Footer() {
+export default function Footer(): Node {
   return (
     <Wrapper>
       <Container>

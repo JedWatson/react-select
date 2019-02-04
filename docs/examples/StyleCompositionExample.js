@@ -1,14 +1,15 @@
 import React from 'react';
+import { css } from 'emotion';
 import Select from '../../src';
 import { colourOptions } from '../data';
 
 const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps, emotion } = props;
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
   return (
     <div
       ref={innerRef}
       className={cx(
-        emotion.css(getStyles('option', props)),
+        css(getStyles('option', props)),
         {
           'option': true,
           'option--is-disabled': isDisabled,

@@ -24,7 +24,7 @@ module.exports = {
         default: concurrent.nps('build.flowtype.lib'),
         lib: 'echo "// @flow\n\nexport * from \'../src\';" > lib/index.js.flow',
       },
-      docs: series(rimraf('docs/dist'), 'webpack --progress -p'),
+      docs: series(rimraf('docs/dist'), 'cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p'),
     },
     publish: {
       default: series(

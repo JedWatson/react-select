@@ -3,8 +3,7 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
-import { minify } from 'uglify-es';
+import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
 const name = 'Select';
@@ -19,16 +18,19 @@ const globals = {
 };
 // $FlowFixMe This should be inferred by Flow and manual casting does not work inside of this config.
 const external = Object.keys(globals);
+
 const babelOptions = () => {
   let result = {
     babelrc: false,
-    presets: [['env', { modules: false }], 'react'],
+    presets: [
+      '@babel/preset-env',
+      '@babel/preset-react',
+      '@babel/preset-flow'
+    ],
     plugins: [
       'emotion',
-      'transform-class-properties',
-      'transform-object-rest-spread',
-      'external-helpers',
-    ],
+      '@babel/plugin-proposal-class-properties'
+    ]
   };
   return result;
 };
@@ -38,7 +40,7 @@ export default [
     input: 'src/index.js',
     output: {
       file: pkg.module,
-      format: 'es',
+      format: 'esm',
     },
     external: [...external, 'raf'],
     plugins: [babel(babelOptions())],
@@ -65,6 +67,6 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(babelOptions()), resolve(), commonjs(), uglify({}, minify)],
+    plugins: [babel(babelOptions()), resolve(), commonjs(), terser()],
   },
 ];

@@ -2,7 +2,7 @@
 
 import type { GroupType, OptionType } from './types';
 
-export const formatGroupLabel = (group: GroupType): Node => group.label;
+export const formatGroupLabel = (group: GroupType): string => group.label;
 
 export const getOptionLabel = (option: OptionType): string => option.label;
 

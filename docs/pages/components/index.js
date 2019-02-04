@@ -350,7 +350,7 @@ export default function Components() {
         true. Takes responsibility for rendering the \`MultiValueContainer\`,
         \`MultiValueLabel\`, and \`MultiValueRemove\`.
 
-        #### MultiValueContainer
+        ### MultiValueContainer
 
         Wraps the Label and Remove in a Multi Value
 

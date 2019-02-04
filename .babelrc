@@ -1,14 +1,9 @@
 {
-  "plugins": [
-    "emotion",
-    "transform-class-properties",
-    "transform-object-rest-spread"
+  "plugins": ["emotion", "@babel/plugin-proposal-class-properties"],
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-flow"
   ],
-  "presets": ["env", "react"],
-  "ignore": ["node_modules"],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  "ignore": ["node_modules"]
 }
