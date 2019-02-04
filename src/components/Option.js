@@ -21,27 +21,27 @@ type InnerProps = {
 export type OptionProps = PropsWithStyles &
   CommonProps &
   State & {
-  /** The children to be rendered. */
-  children: Node,
-  /** Inner ref to DOM Node */
-  innerRef: InnerRef,
-  /** props passed to the wrapping element for the group. */
-  innerProps: InnerProps,
-  /* Text to be displayed representing the option. */
-  label: string,
-  /* Type is used by the menu to determine whether this is an option or a group.
-  In the case of option this is always `option`. */
-  type: 'option',
-  /* The data of the selected option. */
-  data: any,
-};
+    /** The children to be rendered. */
+    children: Node,
+    /** Inner ref to DOM Node */
+    innerRef: InnerRef,
+    /** props passed to the wrapping element for the group. */
+    innerProps: InnerProps,
+    /* Text to be displayed representing the option. */
+    label: string,
+    /* Type is used by the menu to determine whether this is an option or a group.
+    In the case of option this is always `option`. */
+    type: 'option',
+    /* The data of the selected option. */
+    data: any,
+  };
 
 export const optionCSS = ({
-                            isDisabled,
-                            isFocused,
-                            isSelected,
-                            theme: { spacing, colors },
-                          }: OptionProps) => ({
+  isDisabled,
+  isFocused,
+  isSelected,
+  theme: { spacing, colors },
+}: OptionProps) => ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',
