@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node } from 'react';
+import React, { type Node } from 'react';
 import { css } from 'emotion';
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
@@ -21,27 +21,27 @@ type InnerProps = {
 export type OptionProps = PropsWithStyles &
   CommonProps &
   State & {
-    /** The children to be rendered. */
-    children: Node,
-    /** Inner ref to DOM Node */
-    innerRef: InnerRef,
-    /** props passed to the wrapping element for the group. */
-    innerProps: InnerProps,
-    /* Text to be displayed representing the option. */
-    label: string,
-    /* Type is used by the menu to determine whether this is an option or a group.
-    In the case of option this is always `option`. */
-    type: 'option',
-    /* The data of the selected option. */
-    data: any,
-  };
+  /** The children to be rendered. */
+  children: Node,
+  /** Inner ref to DOM Node */
+  innerRef: InnerRef,
+  /** props passed to the wrapping element for the group. */
+  innerProps: InnerProps,
+  /* Text to be displayed representing the option. */
+  label: string,
+  /* Type is used by the menu to determine whether this is an option or a group.
+  In the case of option this is always `option`. */
+  type: 'option',
+  /* The data of the selected option. */
+  data: any,
+};
 
 export const optionCSS = ({
-  isDisabled,
-  isFocused,
-  isSelected,
-  theme: { spacing, colors },
-}: OptionProps) => ({
+                            isDisabled,
+                            isFocused,
+                            isSelected,
+                            theme: { spacing, colors },
+                          }: OptionProps) => ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',
@@ -62,33 +62,26 @@ export const optionCSS = ({
   },
 });
 
-class Option extends Component<OptionProps> {
-  shouldComponentUpdate(nextProps: OptionProps) {
-    return !Object.is(nextProps, this.props);
-  };
-
-  render() {
-    const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = this.props;
-
-    return (
-      <div
-        ref={innerRef}
-        className={cx(
-          css(getStyles('option', this.props)),
-          {
-            'option': true,
-            'option--is-disabled': isDisabled,
-            'option--is-focused': isFocused,
-            'option--is-selected': isSelected,
-          },
-          className
-        )}
-        {...innerProps}
-      >
+const Option = (props: OptionProps) => {
+  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+  return (
+    <div
+      ref={innerRef}
+      className={cx(
+        css(getStyles('option', props)),
+        {
+          'option': true,
+          'option--is-disabled': isDisabled,
+          'option--is-focused': isFocused,
+          'option--is-selected': isSelected,
+        },
+        className
+      )}
+      {...innerProps}
+    >
       {children}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Option;

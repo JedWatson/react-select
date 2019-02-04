@@ -3,6 +3,9 @@
 ./dist/.*
 .*/node_modules/cypress/.*
 .*/node_modules/@atlaskit/tooltip/dist/cjs/components/Marshal.js.flow
+.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/FocusLock/index.js.flow
+.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/Gateway.js.flow
+.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/withRenderTarget.js.flow
 
 [include]
 
@@ -10,6 +13,8 @@
 flow-typed
 
 [lints]
+unclear-type=warn
+untyped-type-import=error
 
 [options]
 module.name_mapper='\!\!raw-loader\!.*' -> '<PROJECT_ROOT>/typings/raw-loader.js'
