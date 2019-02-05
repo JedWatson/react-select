@@ -370,7 +370,6 @@ export const MenuList = (props: MenuListComponentProps) => {
         },
         className
       )}
-      role="listbox"
       ref={innerRef}
     >
       {children}
