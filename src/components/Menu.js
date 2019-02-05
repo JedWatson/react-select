@@ -19,9 +19,9 @@ import {
 } from '../utils';
 import type {
   InnerRef,
-  MenuPlacement,
-  MenuPosition,
-  CommonProps,
+    MenuPlacement,
+    MenuPosition,
+    CommonProps,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -230,7 +230,7 @@ export type MenuProps = MenuAndPlacerCommon & {
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({}) => Node,
+  children: ({ }) => Node,
 };
 
 function alignToControl(placement) {
@@ -370,6 +370,7 @@ export const MenuList = (props: MenuListComponentProps) => {
         },
         className
       )}
+      role="listbox"
       ref={innerRef}
     >
       {children}
