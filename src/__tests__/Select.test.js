@@ -7,6 +7,7 @@ import {
   OPTIONS,
   OPTIONS_NUMBER_VALUE,
   OPTIONS_BOOLEAN_VALUE,
+  OPTIONS_DISABLED
 } from './constants';
 import Select from '../Select';
 import { components } from '../components';
@@ -720,7 +721,7 @@ cases(
 cases(
   'click to open select',
   ({ props = BASIC_PROPS, expectedToFocus }) => {
-    let selectWrapper = mount(<Select {...props} onMenuOpen={() => {}} />);
+    let selectWrapper = mount(<Select {...props} onMenuOpen={() => { }} />);
 
     // this will get updated on input click, though click on input is not bubbling up to control component
     selectWrapper.setState({ isFocused: true });
@@ -800,6 +801,15 @@ cases(
       keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
       selectedOption: OPTIONS[OPTIONS.length - 1],
       nextFocusOption: OPTIONS[OPTIONS.length - 2],
+    },
+    'single select > disabled options should be focusable': {
+      props: {
+        menuIsOpen: true,
+        options: OPTIONS_DISABLED,
+      },
+      keyEvent: [{ keyCode: 40, key: 'ArrowDown' }],
+      selectedOption: OPTIONS_DISABLED[0],
+      nextFocusOption: OPTIONS_DISABLED[1],
     },
     'single select > PageDown key takes us to next page with default page size of 5': {
       props: {
@@ -1589,7 +1599,7 @@ cases(
 );
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen/>);
+  let selectWrapper = mount(<Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />);
   const liveRegionId = '#aria-context';
   selectWrapper.setState({ isFocused: true });
   selectWrapper.update();
@@ -1603,6 +1613,33 @@ test('accessibility > to show the number of options available in A11yText when t
 
   selectWrapper.setProps({ inputValue: '100' });
   expect(selectWrapper.find(liveRegionId).text()).toMatch(/0 results available/);
+});
+
+test('accessibility > interacting with disabled options shows correct A11yText', () => {
+  let selectWrapper = mount(<Select {...BASIC_PROPS} options={OPTIONS_DISABLED} inputValue={''} autoFocus menuIsOpen />);
+  const liveRegionId = '#aria-context';
+  const liveRegionEventId = '#aria-selection-event';
+  selectWrapper.setState({ isFocused: true });
+  selectWrapper.update();
+
+  // navigate to disabled option
+  selectWrapper
+  .find(Menu)
+  .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' })
+  .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
+    'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
+  );
+
+  // attempt to select disabled option
+  selectWrapper
+  .find(Menu)
+  .simulate('keyDown', { keyCode: 13, key: 'Enter' });
+
+  expect(selectWrapper.find(liveRegionEventId).text()).toMatch(
+    'option 1 is disabled. Select another option.'
+  );
 });
 
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
@@ -1854,6 +1891,42 @@ cases(
       .find('div.react-select__option')
       .findWhere(n => n.props().children === optionsSelected);
     selectOption.simulate('click', { button: 0 });
+    expect(onChangeSpy).not.toHaveBeenCalled();
+  },
+  {
+    'single select > should not select the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [
+          { label: 'option 1', value: 'opt1' },
+          { label: 'option 2', value: 'opt2', isDisabled: true },
+        ],
+      },
+      optionsSelected: 'option 2',
+    },
+    'multi select > should not select the disabled option': {
+      props: {
+        ...BASIC_PROPS,
+        options: [
+          { label: 'option 1', value: 'opt1' },
+          { label: 'option 2', value: 'opt2', isDisabled: true },
+        ],
+      },
+      optionsSelected: 'option 2',
+    },
+  }
+);
+
+cases(
+  'pressing enter on disabled option',
+  ({ props = BASIC_PROPS, optionsSelected }) => {
+    let onChangeSpy = jest.fn();
+    props = { ...props, onChange: onChangeSpy };
+    let selectWrapper = mount(<Select {...props} menuIsOpen />);
+    let selectOption = selectWrapper
+      .find('div.react-select__option')
+      .findWhere(n => n.props().children === optionsSelected);
+    selectOption.simulate('keyDown', { keyCode: 13, key: 'Enter' });
     expect(onChangeSpy).not.toHaveBeenCalled();
   },
   {
@@ -2225,118 +2298,6 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   expect(onInputChangeSpy).toHaveBeenCalledWith(null, { action: 'clear', name: BASIC_PROPS.name });
 });
 
-cases(
-  'jump over the disabled option',
-  ({
-    props = { ...BASIC_PROPS },
-    eventsToSimulate,
-    expectedSelectedOption,
-  }) => {
-    let selectWrapper = mount(<Select {...props} menuIsOpen />);
-    // Focus the first option
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
-    eventsToSimulate.map(eventToSimulate => {
-      selectWrapper.find(Menu).simulate(...eventToSimulate);
-    });
-    expect(selectWrapper.state('focusedOption')).toEqual(
-      expectedSelectedOption
-    );
-  },
-  {
-    'with isOptionDisabled function prop > jumps over the first option if it is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: option => ['zero'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: OPTIONS[1],
-    },
-    'with isDisabled option value > jumps over the first option if it is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [
-          { label: 'option 1', value: 'opt1', isDisabled: true },
-          ...OPTIONS,
-        ],
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: OPTIONS[0],
-    },
-    'with isOptionDisabled function prop > jumps over the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: option => ['two'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[3],
-    },
-    'with isDisabled option value > jumps over the disabled option': {
-      props: {
-        ...BASIC_PROPS,
-        options: [
-          { label: 'option 1', value: 'opt1' },
-          { label: 'option 2', value: 'opt2', isDisabled: true },
-          { label: 'option 3', value: 'opt3' },
-        ],
-      },
-      eventsToSimulate: [['keyDown', { keyCode: 40, key: 'ArrowDown' }]],
-      expectedSelectedOption: { label: 'option 3', value: 'opt3' },
-    },
-    'with isOptionDisabled function prop > skips over last option when looping round when last option is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: OPTIONS.slice(0, 3),
-        isOptionDisabled: option => ['two'].indexOf(option.value) > -1,
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[0],
-    },
-    'with isDisabled option value > skips over last option when looping round when last option is disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [
-          { label: 'option 1', value: 'opt1' },
-          { label: 'option 2', value: 'opt2' },
-          { label: 'option 3', value: 'opt3', isDisabled: true },
-        ],
-      },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: { label: 'option 1', value: 'opt1' },
-    },
-    'with isOptionDisabled function prop > should not select anything when all options are disabled': {
-      props: {
-        ...BASIC_PROPS,
-        isOptionDisabled: () => true,
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: null,
-    },
-    'with isDisabled option value > should not select anything when all options are disabled': {
-      props: {
-        ...BASIC_PROPS,
-        options: [
-          { label: 'option 1', value: 'opt1', isDisabled: true },
-          { label: 'option 2', value: 'opt2', isDisabled: true },
-          { label: 'option 3', value: 'opt3', isDisabled: true },
-        ],
-      },
-      eventsToSimulate: [],
-      expectedSelectedOption: null,
-    },
-  }
-);
-
 /**
  * Selects the option on hitting spacebar on V2
  * Needs varification
@@ -2361,7 +2322,7 @@ test('renders with custom theme', () => {
       menuIsOpen
       theme={(theme) => (
         {
-          ... theme,
+          ...theme,
           borderRadius: 180,
           colors: {
             ...theme.colors,
