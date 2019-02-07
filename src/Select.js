@@ -1181,6 +1181,7 @@ export default class Select extends Component<Props, State> {
           this.selectOption(focusedOption);
         } else {
           this.focusOption('first');
+          return;
         }
         break;
       case 'Escape':

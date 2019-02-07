@@ -1070,6 +1070,36 @@ cases(
   }
 );
 
+cases('Clicking Enter on a focused select', ({ props = BASIC_PROPS, expectedValue }) => {
+  let wrapper = mount(<Select { ...props } autoFocus/>);
+  let event = {
+    key: 'Enter',
+    defaultPrevented: false,
+    preventDefault: function () {
+      this.defaultPrevented = true;
+    }
+  };
+  const selectWrapper = wrapper.find(Select);
+  selectWrapper.instance().setState({ focusedOption: OPTIONS[0] });
+  selectWrapper.instance().onKeyDown(event);
+  console.log(event.defaultPrevented);
+  expect(event.defaultPrevented).toBe(expectedValue);
+}, {
+  'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault': {
+    props: {
+      ...BASIC_PROPS,
+      menuIsOpen: true,
+    },
+    expectedValue: true,
+  },
+  'while !menuIsOpen > should not invoke event.preventDefault': {
+    props: {
+      ...BASIC_PROPS,
+    },
+    expectedValue: false,
+  }
+});
+
 cases(
   'clicking on select using secondary button on mouse',
   ({ props = BASIC_PROPS }) => {
