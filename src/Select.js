@@ -662,8 +662,9 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
+    const newValue = selectValue.filter(i => this.getOptionValue(i) !== candidate);
     this.onChange(
-      selectValue.filter(i => this.getOptionValue(i) !== candidate),
+      newValue.length ? newValue : null,
       {
         action: 'remove-value',
         removedValue,
@@ -684,13 +685,14 @@ export default class Select extends Component<Props, State> {
   popValue = () => {
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
+    const newValue = selectValue.slice(0, selectValue.length - 1);
     this.announceAriaLiveSelection({
       event: 'pop-value',
       context: {
         value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : '',
       },
     });
-    this.onChange(selectValue.slice(0, selectValue.length - 1), {
+    this.onChange(newValue.length ? newValue : null, {
       action: 'pop-value',
       removedValue: lastSelectedValue,
     });
