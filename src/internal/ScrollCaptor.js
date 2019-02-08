@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, type Element } from 'react';
+
 import NodeResolver from './NodeResolver';
 
 export type CaptorProps = {
@@ -25,6 +26,7 @@ class ScrollCaptor extends Component<CaptorProps> {
   }
   startListening(el: HTMLElement) {
     // bail early if no scroll available
+    if (!el) return;
     if (el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
