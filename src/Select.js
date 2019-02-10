@@ -889,7 +889,9 @@ export default class Select extends Component<Props, State> {
       }
       this.focusInput();
     } else if (!this.props.menuIsOpen) {
-      this.openMenu('first');
+      if (openMenuOnClick) {
+        this.openMenu('first');
+      }
     } else {
       if (event.currentTarget.tagName !== 'INPUT') {
         this.onMenuClose();
