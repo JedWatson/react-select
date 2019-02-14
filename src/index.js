@@ -7,9 +7,9 @@ import manageState from './stateManager';
 export default manageState<ElementConfig<typeof SelectBase>>(SelectBase);
 
 export { SelectBase };
-export { default as Async } from './Async';
+export { default as Async, makeAsyncSelect } from './Async';
 export { default as AsyncCreatable } from './AsyncCreatable';
-export { default as Creatable } from './Creatable';
+export { default as Creatable, makeCreatableSelect } from './Creatable';
 export { createFilter } from './filters';
 export { default as makeAnimated } from './animated/index';
 export { components } from './components/index';
