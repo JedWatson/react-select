@@ -1,7 +1,23 @@
 # React-Select
 
+## v2.4.0 / ???????
+### Bug fixes
+* [#3427](https://github.com/JedWatson/react-select/pull/3427) remove focusOption() invocation on ENTER press if the menu is not open.
+* [#3402](https://github.com/JedWatson/react-select/pull/3402) fix menu scroll being reset on focus of a select with an open menu in ie11. See [#3342](https://github.com/JedWatson/react-select/issues/3342) for details. Thanks [timothypage](https://github.com/timothypage)
+* [#3420](https://github.com/JedWatson/react-select/pull/3420) fixed select menu being opened on click, when openMenuOnClick is false. Thanks [caleb](https://github.com/caleb) and [rscotten](https://github.com/rscotten)
+* [#3419](https://github.com/JedWatson/react-select/pull/3419) fixed bug with ScrollCaptor operating on an undefined scrollTarget. Thanks [iulian-radu-at](https://github.com/iulian-radu-at)
+* [#3411](https://github.com/JedWatson/react-select/pull/3411) fix bug where Enter key press on select with a closed menu wouldn't propagate up. Resolves [#2217](https://github.com/JedWatson/react-select/issues/2217).
+* [#3407](https://github.com/JedWatson/react-select/pull/3407) remove unnecessary aria-roles from menu and options. This is now all handled by our aria-live implementation. Resolves [#3355](https://github.com/JedWatson/react-select/issues/3355). Thanks [sarahbethfederman](https://github.com/sarahbethfederman).
+* [#3393](https://github.com/JedWatson/react-select/pull/3393), fix aria live announcement text for removing a selected option. Thanks [msharkeyiii](https://github.com/msharkeyiii).
+* [#3350](https://github.com/JedWatson/react-select/pull/3350) Updated to 0.91 of flow. Updated types to pass stricter type checking, in later versions of flow. Thanks [DragonWW](https://github.com/DragorWW)
+
+
+### Updates
+* [#3370](https://github.com/JedWatson/react-select/pull/3370) Updated memoize-one dependency to 5.0.0. Thanks [adam187](https://github.com/adam187)
+* [#3366](https://github.com/JedWatson/react-select/pull/3366/files) Update build tooling, to leverage babel 7. Thanks [DragonWW](https://github.com/DragorWW)
+
 ## v2.3.0 / 2019-01-18
- 
+
 ### Bug fixes
 * [#3315](https://github.com/JedWatson/react-select/pull/3315) add RAF call to Collapse component getRef() such that getBoundingClientRect() is invoked consistently.
 * [#3275](https://github.com/JedWatson/react-select/pull/3275/files) wrap String invocation around inputValue to avoid calling toLowerCase on invalid elements. thanks [tavareshenrique](https://github.com/tavareshenrique)
