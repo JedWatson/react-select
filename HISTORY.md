@@ -1,6 +1,6 @@
 # React-Select
 
-## v2.4.0 / ???????
+## v2.4.0 / 2019-02-15
 ### Bug fixes
 * [#3427](https://github.com/JedWatson/react-select/pull/3427) remove focusOption() invocation on ENTER press if the menu is not open.
 * [#3402](https://github.com/JedWatson/react-select/pull/3402) fix menu scroll being reset on focus of a select with an open menu in ie11. See [#3342](https://github.com/JedWatson/react-select/issues/3342) for details. Thanks [timothypage](https://github.com/timothypage)
