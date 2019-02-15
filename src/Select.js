@@ -52,17 +52,17 @@ import { defaultTheme, type ThemeConfig } from './theme';
 
 import type {
   ActionMeta,
-  ActionTypes,
-  FocusDirection,
-  FocusEventHandler,
-  GroupType,
-  InputActionMeta,
-  KeyboardEventHandler,
-  MenuPlacement,
-  MenuPosition,
-  OptionsType,
-  OptionType,
-  ValueType,
+    ActionTypes,
+    FocusDirection,
+    FocusEventHandler,
+    GroupType,
+    InputActionMeta,
+    KeyboardEventHandler,
+    MenuPlacement,
+    MenuPosition,
+    OptionsType,
+    OptionType,
+    ValueType,
 } from './types';
 
 type MouseOrTouchEvent =
@@ -129,8 +129,8 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption:
-    | (({ label: string, value: string, data: OptionType }, string) => boolean)
-    | null,
+  | (({ label: string, value: string, data: OptionType }, string) => boolean)
+  | null,
   /*
     Formats group labels in the menu as React components
 
@@ -480,7 +480,7 @@ export default class Select extends Component<Props, State> {
   blur = this.blurInput;
 
   openMenu(focusOption: 'first' | 'last') {
-    const { menuOptions, selectValue } = this.state;
+    const { menuOptions, selectValue, isFocused } = this.state;
     const { isMulti } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
@@ -492,7 +492,8 @@ export default class Select extends Component<Props, State> {
       }
     }
 
-    this.scrollToFocusedOptionOnUpdate = true;
+    // only scroll if the menu isn't already open
+    this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
     this.inputIsHiddenAfterUpdate = false;
 
     this.onMenuOpen();
@@ -889,7 +890,9 @@ export default class Select extends Component<Props, State> {
       }
       this.focusInput();
     } else if (!this.props.menuIsOpen) {
-      this.openMenu('first');
+      if (openMenuOnClick) {
+        this.openMenu('first');
+      }
     } else {
       if (event.currentTarget.tagName !== 'INPUT') {
         this.onMenuClose();
@@ -1179,10 +1182,9 @@ export default class Select extends Component<Props, State> {
           if (!focusedOption) return;
           if (isComposing) return;
           this.selectOption(focusedOption);
-        } else {
-          this.focusOption('first');
+          break;
         }
-        break;
+        return;
       case 'Escape':
         if (menuIsOpen) {
           this.inputIsHiddenAfterUpdate = false;
@@ -1269,7 +1271,6 @@ export default class Select extends Component<Props, State> {
           onClick: onSelect,
           onMouseMove: onHover,
           onMouseOver: onHover,
-          role: 'option',
           tabIndex: -1,
         },
         data: option,
@@ -1333,19 +1334,19 @@ export default class Select extends Component<Props, State> {
     // An aria live message representing the currently focused value in the select.
     const focusedValueMsg = focusedValue
       ? valueFocusAriaMessage({
-          focusedValue,
-          getOptionLabel: this.getOptionLabel,
-          selectValue,
-        })
+        focusedValue,
+        getOptionLabel: this.getOptionLabel,
+        selectValue,
+      })
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
       focusedOption && menuIsOpen
         ? optionFocusAriaMessage({
-            focusedOption,
-            getOptionLabel: this.getOptionLabel,
-            options,
-          })
+          focusedOption,
+          getOptionLabel: this.getOptionLabel,
+          options,
+        })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
     const resultsMsg = resultsAriaMessage({
@@ -1719,8 +1720,8 @@ export default class Select extends Component<Props, State> {
         {menuElement}
       </MenuPortal>
     ) : (
-      menuElement
-    );
+        menuElement
+      );
   }
   renderFormField() {
     const { delimiter, isDisabled, isMulti, name } = this.props;
@@ -1746,8 +1747,8 @@ export default class Select extends Component<Props, State> {
               />
             ))
           ) : (
-            <input name={name} type="hidden" />
-          );
+              <input name={name} type="hidden" />
+            );
 
         return <div>{input}</div>;
       }
