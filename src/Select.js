@@ -1019,11 +1019,13 @@ export default class Select extends Component<Props, State> {
     if (this.userIsDragging) return;
 
     // close the menu if the user taps outside
+    // we're checking on event.target here instead of event.currentTarget, because we want to assert information
+    // on events on child elements, not the document (which we've attached this handler to).
     if (
       this.controlRef &&
-      !this.controlRef.contains(event.currentTarget) &&
+      !this.controlRef.contains(event.target) &&
       this.menuListRef &&
-      !this.menuListRef.contains(event.currentTarget)
+      !this.menuListRef.contains(event.target)
     ) {
       this.blurInput();
     }
@@ -1034,7 +1036,6 @@ export default class Select extends Component<Props, State> {
   };
   onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
     if (this.userIsDragging) return;
-
     this.onControlMouseDown(event);
   };
   onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
