@@ -1,4 +1,7 @@
 # React-Select
+## v2.4.1 / 2019-02-18
+### Bug fixes
+* [#3432](https://github.com/JedWatson/react-select/pull/3432) Fix bug with select menu's not working on mobile.
 
 ## v2.4.0 / 2019-02-15
 ### Bug fixes
