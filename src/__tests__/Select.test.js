@@ -1837,19 +1837,28 @@ cases(
     'single select > should display default placeholder "Select..."': {},
     'single select > should display provided string placeholder': {
       props: {
+        ...BASIC_PROPS,
         placeholder: 'single Select...',
       },
       expectPlaceholder: 'single Select...',
     },
     'single select > should display provided node placeholder': {
       props: {
+        ...BASIC_PROPS,
         placeholder: <span>single Select...</span>,
       },
       expectPlaceholder: 'single Select...',
     },
-    'multi select > should display default placeholder "Select..."': {},
+    'multi select > should display default placeholder "Select..."': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true
+      }
+    },
     'multi select > should display provided placeholder': {
       props: {
+        ...BASIC_PROPS,
+        isMulti: true,
         placeholder: 'multi Select...',
       },
       expectPlaceholder: 'multi Select...',
