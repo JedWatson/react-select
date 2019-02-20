@@ -1835,9 +1835,15 @@ cases(
   },
   {
     'single select > should display default placeholder "Select..."': {},
-    'single select > should display provided placeholder': {
+    'single select > should display provided string placeholder': {
       props: {
         placeholder: 'single Select...',
+      },
+      expectPlaceholder: 'single Select...',
+    },
+    'single select > should display provided node placeholder': {
+      props: {
+        placeholder: <span>single Select...</span>,
       },
       expectPlaceholder: 'single Select...',
     },

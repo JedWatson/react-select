@@ -226,8 +226,8 @@ export type Props = {
   options: OptionsType,
   /* Number of options to jump in menu when page{up|down} keys are used */
   pageSize: number,
-  /* Placeholder text for the select value */
-  placeholder: string,
+  /* Placeholder for the select value */
+  placeholder: Node,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
   /*
