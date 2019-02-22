@@ -162,6 +162,7 @@ export default function Home() {
   You can see a full explanation of how to do this on the [async](/async) page.
 
   # Creatable
+  The Creatable component enables users to create new options along with choosing existing options.
 
   ~~~jsx
   import Creatable from 'react-select/lib/Creatable';
