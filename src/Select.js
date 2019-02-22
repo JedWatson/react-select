@@ -898,7 +898,7 @@ export default class Select extends Component<Props, State> {
         this.onMenuClose();
       }
     }
-    if (event.currentTarget.tagName !== 'INPUT' && !event.currentTarget.getAttribute('draggable')) {
+    if (event.currentTarget.tagName !== 'INPUT') {
       event.preventDefault();
     }
   };
