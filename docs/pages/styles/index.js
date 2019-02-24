@@ -82,15 +82,15 @@ export default function Styles() {
         borderBottom: '1px dotted pink',
         color: state.isSelected ? 'red' : 'blue',
         padding: 20,
+       //if you want to add hover style add the below code 
+       "&:hover":{
+           //your css here
+       },
       }),
       control: () => ({
         // none of react-select's styles are passed to <Control />
         width: 200,
       }),
-      //if you want to add hover style add the below code 
-      "&:hover":{
-           //your css here
-      },
       singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
