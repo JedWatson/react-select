@@ -213,8 +213,10 @@ class Select extends React.Component {
 	}
 
 	handleTouchOutside (event) {
+		if (event.target && event.target.className.includes("Select-option"))
+			return;
 		// handle touch outside on ios to dismiss menu
-		if (this.wrapper && !this.wrapper.contains(event.target)) {
+		if (!this.wrapper && !this.wrapper.contains(event.target)) {
 			this.closeMenu();
 		}
 	}
