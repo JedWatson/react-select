@@ -209,7 +209,7 @@ class Select extends React.Component {
 		var pref = document.addEventListener ? '' : 'on';
 
 		document[eventTogglerName](pref + 'touchstart', this.handleTouchOutside);
-		document[eventTogglerName](pref + 'mousedown', this.handleTouchOutside);
+		document[eventTogglerName](pref + 'mousedown', this.handleMouseClickOutside);
 	}
 
 	handleMouseClickOutside (event) {
