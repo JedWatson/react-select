@@ -212,11 +212,15 @@ class Select extends React.Component {
 		document[eventTogglerName](pref + 'mousedown', this.handleTouchOutside);
 	}
 
-	handleTouchOutside (event) {
-		if (event.target && event.target.className.includes("Select-option"))
+	handleMouseClickOutside (event) {
+		if (!this.props.closeOnSelect && event.target && event.target.className.includes('Select-option')) {
 			return;
-		// handle touch outside on ios to dismiss menu
-		if (!this.wrapper && !this.wrapper.contains(event.target)) {
+		}
+		this.handleTouchOutside(event);
+	}
+
+	handleTouchOutside (event) {
+		if (this.wrapper && !this.wrapper.contains(event.target)) {
 			this.closeMenu();
 		}
 	}
