@@ -323,6 +323,7 @@ export default class Select extends Component<Props, State> {
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
   userIsDragging: ?boolean;
+  menuCloseTimeout = null;
 
   // Refs
   // ------------------------------
@@ -424,6 +425,9 @@ export default class Select extends Component<Props, State> {
   componentWillUnmount() {
     this.stopListeningComposition();
     this.stopListeningToTouch();
+    if (this.menuCloseTimeout) {
+      clearTimeout(this.menuCloseTimeout);
+    }
     document.removeEventListener('scroll', this.onScroll, true);
   }
   cacheComponents = (components: SelectComponents) => {
@@ -440,7 +444,7 @@ export default class Select extends Component<Props, State> {
   onMenuClose() {
     const { isSearchable, isMulti } = this.props;
     this.setState({ menuClassOpen: false });
-    setTimeout(()=>{
+    this.menuCloseTimeout = setTimeout(()=>{
       this.announceAriaLiveContext({
         event: 'input',
         context: { isSearchable, isMulti },
