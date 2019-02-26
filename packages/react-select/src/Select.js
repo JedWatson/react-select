@@ -729,8 +729,8 @@ export default class Select extends Component<Props, State> {
 
   getCommonProps() {
     const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { classNamePrefix, isMulti, isRtl, options } = props;
-    const { selectValue } = this.state;
+    const { classNamePrefix, isMulti, isRtl, isDisabled, options } = props;
+    const { selectValue, isFocused } = this.state;
     const hasValue = this.hasValue();
     const getValue = () => selectValue;
 
@@ -742,6 +742,8 @@ export default class Select extends Component<Props, State> {
       getValue,
       hasValue,
       isMulti,
+      isFocused,
+      isDisabled,
       isRtl,
       options,
       selectOption,
@@ -1459,21 +1461,15 @@ export default class Select extends Component<Props, State> {
     const { commonProps } = this;
     const {
       controlShouldRenderValue,
-      isDisabled,
       isMulti,
       inputValue,
       placeholder,
     } = this.props;
-    const { selectValue, focusedValue, isFocused } = this.state;
+    const { selectValue, focusedValue } = this.state;
 
     if (!this.hasValue() || !controlShouldRenderValue) {
       return inputValue ? null : (
-        <Placeholder
-          {...commonProps}
-          key="placeholder"
-          isDisabled={isDisabled}
-          isFocused={isFocused}
-        >
+        <Placeholder {...commonProps} key="placeholder">
           {placeholder}
         </Placeholder>
       );
@@ -1492,7 +1488,6 @@ export default class Select extends Component<Props, State> {
               Remove: MultiValueRemove,
             }}
             isFocused={isOptionFocused}
-            isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
             removeProps={{
               onClick: () => this.removeValue(opt),
@@ -1517,7 +1512,7 @@ export default class Select extends Component<Props, State> {
 
     const singleValue = selectValue[0];
     return (
-      <SingleValue {...commonProps} data={singleValue} isDisabled={isDisabled}>
+      <SingleValue {...commonProps} data={singleValue}>
         {this.formatOptionLabel(singleValue, 'value')}
       </SingleValue>
     );
@@ -1526,7 +1521,6 @@ export default class Select extends Component<Props, State> {
     const { ClearIndicator } = this.components;
     const { commonProps } = this;
     const { isDisabled, isLoading } = this.props;
-    const { isFocused } = this.state;
 
     if (
       !this.isClearable() ||
@@ -1545,29 +1539,19 @@ export default class Select extends Component<Props, State> {
     };
 
     return (
-      <ClearIndicator
-        {...commonProps}
-        innerProps={innerProps}
-        isFocused={isFocused}
-      />
+      <ClearIndicator {...commonProps} innerProps={innerProps} />
     );
   }
   renderLoadingIndicator() {
     const { LoadingIndicator } = this.components;
     const { commonProps } = this;
-    const { isDisabled, isLoading } = this.props;
-    const { isFocused } = this.state;
+    const { isLoading } = this.props;
 
     if (!LoadingIndicator || !isLoading) return null;
 
     const innerProps = { 'aria-hidden': 'true' };
     return (
-      <LoadingIndicator
-        {...commonProps}
-        innerProps={innerProps}
-        isDisabled={isDisabled}
-        isFocused={isFocused}
-      />
+      <LoadingIndicator {...commonProps} innerProps={innerProps} />
     );
   }
   renderIndicatorSeparator() {
@@ -1577,23 +1561,15 @@ export default class Select extends Component<Props, State> {
     if (!DropdownIndicator || !IndicatorSeparator) return null;
 
     const { commonProps } = this;
-    const { isDisabled } = this.props;
-    const { isFocused } = this.state;
 
     return (
-      <IndicatorSeparator
-        {...commonProps}
-        isDisabled={isDisabled}
-        isFocused={isFocused}
-      />
+      <IndicatorSeparator {...commonProps} />
     );
   }
   renderDropdownIndicator() {
     const { DropdownIndicator } = this.components;
     if (!DropdownIndicator) return null;
     const { commonProps } = this;
-    const { isDisabled } = this.props;
-    const { isFocused } = this.state;
 
     const innerProps = {
       onMouseDown: this.onDropdownIndicatorMouseDown,
@@ -1602,12 +1578,7 @@ export default class Select extends Component<Props, State> {
     };
 
     return (
-      <DropdownIndicator
-        {...commonProps}
-        innerProps={innerProps}
-        isDisabled={isDisabled}
-        isFocused={isFocused}
-      />
+      <DropdownIndicator {...commonProps} innerProps={innerProps} />
     );
   }
   renderMenu() {
@@ -1804,8 +1775,8 @@ export default class Select extends Component<Props, State> {
       ValueContainer,
     } = this.components;
 
-    const { className, id, isDisabled, menuIsOpen } = this.props;
-    const { isFocused } = this.state;
+    const { className, id, menuIsOpen } = this.props;
+
     const commonProps = (this.commonProps = this.getCommonProps());
 
     return (
@@ -1816,8 +1787,6 @@ export default class Select extends Component<Props, State> {
           id: id,
           onKeyDown: this.onKeyDown,
         }}
-        isDisabled={isDisabled}
-        isFocused={isFocused}
       >
         {this.renderLiveRegion()}
         <Control
@@ -1827,15 +1796,13 @@ export default class Select extends Component<Props, State> {
             onMouseDown: this.onControlMouseDown,
             onTouchEnd: this.onControlTouchEnd,
           }}
-          isDisabled={isDisabled}
-          isFocused={isFocused}
           menuIsOpen={menuIsOpen}
         >
-          <ValueContainer {...commonProps} isDisabled={isDisabled}>
+          <ValueContainer {...commonProps}>
             {this.renderPlaceholderOrValue()}
             {this.renderInput()}
           </ValueContainer>
-          <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
+          <IndicatorsContainer {...commonProps}>
             {this.renderClearIndicator()}
             {this.renderLoadingIndicator()}
             {this.renderIndicatorSeparator()}
