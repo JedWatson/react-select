@@ -435,7 +435,8 @@ export default class Select extends Component<Props, State> {
 
   onMenuOpen() {
     this.props.onMenuOpen();
-  }
+  };
+
   onMenuClose() {
     const { isSearchable, isMulti } = this.props;
     this.setState({ menuClassOpen: false });
