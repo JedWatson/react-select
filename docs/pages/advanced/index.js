@@ -6,6 +6,7 @@ import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
   ControlledMenu,
+  ControlledInputValue,
   OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
@@ -175,6 +176,7 @@ export default function Advanced() {
       )}
 
       ## Controlled Props
+      Explicitly manage the state of React-select via various controlled props.
 
       ${(
         <ExampleWrapper
@@ -183,6 +185,16 @@ export default function Advanced() {
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Example of controlled inputValue"
+          urlPath="docs/examples/ControlledInputValue.js"
+          raw={require('!!raw-loader!../../examples/ControlledInputValue.js')}
+        >
+          <ControlledInputValue />
         </ExampleWrapper>
       )}
 

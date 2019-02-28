@@ -883,7 +883,10 @@ export default class Select extends Component<Props, State> {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (event: MouseOrTouchEvent) => {
-    const { openMenuOnClick } = this.props;
+    const {
+      openMenuOnClick,
+      inputValue
+    } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
         this.openAfterFocus = true;
@@ -898,8 +901,11 @@ export default class Select extends Component<Props, State> {
         this.onMenuClose();
       }
     }
+
     if (event.currentTarget.tagName !== 'INPUT') {
-      event.preventDefault();
+      if (!inputValue) {
+        event.preventDefault();
+      }
     }
   };
   onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {

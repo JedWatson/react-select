@@ -1,5 +1,6 @@
 export { default as AccessingInternals } from './AccessingInternals';
 export { default as ControlledMenu } from './ControlledMenu';
+export { default as ControlledInputValue } from './ControlledInputValue';
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
 export { default as AsyncCreatable } from './AsyncCreatable';
