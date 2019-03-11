@@ -1,4 +1,13 @@
 # React-Select
+## v2.4.2 / 2019-03-11
+### Bug fixes
+* [#3446](https://github.com/JedWatson/react-select/pull/3446) Fix bug with select input value not being selectable. Thanks [kangweichan](https://github.com/kangweichan).
+* [#3445](https://github.com/JedWatson/react-select/pull/3446) Fix accessibility bug. Disabled options are now focusable and announced by screen-readers but not selectable. Thanks [sarahbethfederman](https://github.com/sarahbethfederman).
+
+## Updates
+* Fixed typo in style docs. Thanks [thiagodebastos](https://github.com/thiagodebastos).
+* [#3460](https://github.com/JedWatson/react-select/pull/3460) Added description for actionTypes to docs. Thanks [mikekellyio](https://github.com/mikekellyio)
+
 ## v2.4.1 / 2019-02-18
 ### Bug fixes
 * [#3432](https://github.com/JedWatson/react-select/pull/3432) Fix bug with select menu's not working on mobile.
