@@ -588,6 +588,7 @@ export default class Select extends Component<Props, State> {
       focusedOption: options[nextFocus],
       focusedValue: null,
     });
+    this.announceAriaLiveContext({ event: 'menu', context: { isDisabled: isOptionDisabled(options[nextFocus]) } });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
     const { onChange, name } = this.props;
@@ -610,9 +611,9 @@ export default class Select extends Component<Props, State> {
   };
   selectOption = (newValue: OptionType) => {
     const { blurInputOnSelect, isMulti } = this.props;
+    const { selectValue } = this.state;
 
     if (isMulti) {
-      const { selectValue } = this.state;
       if (this.isOptionSelected(newValue, selectValue)) {
         const candidate = this.getOptionValue(newValue);
         this.setValue(
@@ -625,18 +626,34 @@ export default class Select extends Component<Props, State> {
           context: { value: this.getOptionLabel(newValue) },
         });
       } else {
-        this.setValue([...selectValue, newValue], 'select-option', newValue);
+        if (!this.isOptionDisabled(newValue, selectValue)) {
+          this.setValue([...selectValue, newValue], 'select-option', newValue);
+          this.announceAriaLiveSelection({
+            event: 'select-option',
+            context: { value: this.getOptionLabel(newValue) },
+          });
+        } else {
+          // announce that option is disabled
+          this.announceAriaLiveSelection({
+            event: 'select-option',
+            context: { value: this.getOptionLabel(newValue), isDisabled: true },
+          });
+        }
+      }
+    } else {
+      if (!this.isOptionDisabled(newValue, selectValue)) {
+        this.setValue(newValue, 'select-option');
         this.announceAriaLiveSelection({
           event: 'select-option',
           context: { value: this.getOptionLabel(newValue) },
         });
+      } else {
+        // announce that option is disabled
+        this.announceAriaLiveSelection({
+          event: 'select-option',
+          context: { value: this.getOptionLabel(newValue), isDisabled: true },
+        });
       }
-    } else {
-      this.setValue(newValue, 'select-option');
-      this.announceAriaLiveSelection({
-        event: 'select-option',
-        context: { value: this.getOptionLabel(newValue) },
-      });
     }
 
     if (blurInputOnSelect) {
@@ -894,11 +911,13 @@ export default class Select extends Component<Props, State> {
         this.openMenu('first');
       }
     } else {
-      if (event.currentTarget.tagName !== 'INPUT') {
+      //$FlowFixMe
+      if (event.target.tagName !== 'INPUT') {
         this.onMenuClose();
       }
     }
-    if (event.currentTarget.tagName !== 'INPUT') {
+    //$FlowFixMe
+    if (event.target.tagName !== 'INPUT') {
       event.preventDefault();
     }
   };
@@ -1294,7 +1313,7 @@ export default class Select extends Component<Props, State> {
           const children = items
             .map((child, i) => {
               const option = toOption(child, `${itemIndex}-${i}`);
-              if (option && !option.isDisabled) acc.focusable.push(child);
+              if (option) acc.focusable.push(child);
               return option;
             })
             .filter(Boolean);
@@ -1311,7 +1330,7 @@ export default class Select extends Component<Props, State> {
           const option = toOption(item, `${itemIndex}`);
           if (option) {
             acc.render.push(option);
-            if (!option.isDisabled) acc.focusable.push(item);
+            acc.focusable.push(item);
           }
         }
         return acc;

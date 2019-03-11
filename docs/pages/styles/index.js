@@ -126,7 +126,7 @@ export default function Styles() {
     ## cx and custom Components
 
     In the event that you need to rewrite a particular component, you'll also have to compose together the styling functionality.
-    Thankfully all the requisite parts are supplid to you via props as below:
+    Thankfully all the requisite parts are supplied to you via props as below:
 
     ### cx
     cx is an internal utility function that manages the composition of emotion style declarations, className/classNamePrefixes and
@@ -161,7 +161,7 @@ export default function Styles() {
     In the end configuring your custom component with the correct styling functionality should look like this
     ~~~
     import { css } from 'emotion';
-    
+
     const CustomOption = ({ cx, children, getStyles, innerRef, ...props }) => (
       <div
         ref={innerRef}
