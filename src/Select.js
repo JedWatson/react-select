@@ -1139,6 +1139,7 @@ export default class Select extends Component<Props, State> {
       onKeyDown,
       tabSelectsValue,
       openMenuOnFocus,
+      name
     } = this.props;
     const {
       isComposing,
@@ -1150,7 +1151,7 @@ export default class Select extends Component<Props, State> {
     if (isDisabled) return;
 
     if (typeof onKeyDown === 'function') {
-      onKeyDown(event);
+      onKeyDown(event, name);
       if (event.defaultPrevented) {
         return;
       }
