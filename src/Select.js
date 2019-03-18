@@ -450,12 +450,12 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuOpen();
   }
   onMenuClose() {
-    const { isSearchable, isMulti } = this.props;
+    const { isSearchable, isMulti, name } = this.props;
     this.announceAriaLiveContext({
       event: 'input',
       context: { isSearchable, isMulti },
     });
-    this.onInputChange('', { action: 'menu-close' });
+    this.onInputChange('', { action: 'menu-close', name: name });
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
@@ -599,8 +599,8 @@ export default class Select extends Component<Props, State> {
     action: ActionTypes = 'set-value',
     option?: OptionType
   ) => {
-    const { closeMenuOnSelect, isMulti } = this.props;
-    this.onInputChange('', { action: 'set-value' });
+    const { closeMenuOnSelect, isMulti, name } = this.props;
+    this.onInputChange('', { action: 'set-value', name: name });
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
@@ -1075,7 +1075,7 @@ export default class Select extends Component<Props, State> {
   handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
     this.inputIsHiddenAfterUpdate = false;
-    this.onInputChange(inputValue, { action: 'input-change' });
+    this.onInputChange(inputValue, { action: 'input-change', name: this.props.name });
     this.onMenuOpen();
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
@@ -1104,7 +1104,7 @@ export default class Select extends Component<Props, State> {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
-    this.onInputChange('', { action: 'input-blur' });
+    this.onInputChange('', { action: 'input-blur', name: this.props.name });
     this.onMenuClose();
     this.setState({
       focusedValue: null,
@@ -1209,7 +1209,7 @@ export default class Select extends Component<Props, State> {
       case 'Escape':
         if (menuIsOpen) {
           this.inputIsHiddenAfterUpdate = false;
-          this.onInputChange('', { action: 'menu-close' });
+          this.onInputChange('', { action: 'menu-close', name: name });
           this.onMenuClose();
         } else if (isClearable && escapeClearsValue) {
           this.clearValue();
