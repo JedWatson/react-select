@@ -2,7 +2,7 @@
 
 exports[`defaults > snapshot 1`] = `
 <Select
-  autoFocusFirstOption={true}
+  autoFocusOption={true}
   backspaceRemovesValue={true}
   blurInputOnSelect={true}
   captureMenuScroll={false}

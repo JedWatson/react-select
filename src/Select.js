@@ -83,7 +83,7 @@ export type Props = {
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
   /* Focus first focusable option on menu open and when user is typing */
-  autoFocusFirstOption: boolean,
+  autoFocusOption: boolean,
   /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
@@ -278,7 +278,7 @@ export const defaultProps = {
   noOptionsMessage: () => 'No options',
   openMenuOnFocus: false,
   openMenuOnClick: true,
-  autoFocusFirstOption: true,
+  autoFocusOption: true,
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
@@ -403,7 +403,7 @@ export default class Select extends Component<Props, State> {
       const selectValue = cleanValue(nextProps.value);
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
       const { focusedOption, focusedValue } =
-        nextProps.autoFocusFirstOption === false && this.state.focusedOption === null
+        nextProps.autoFocusOption === false && this.state.focusedOption === null
         ? { focusedValue: null, focusedOption: null }
         : {
           focusedValue: this.getNextFocusedValue(selectValue),
@@ -490,7 +490,7 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue, isFocused } = this.state;
-    const { isMulti, autoFocusFirstOption } = this.props;
+    const { isMulti, autoFocusOption } = this.props;
 
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
@@ -509,7 +509,7 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
     this.setState({
       focusedValue: null,
-      focusedOption: autoFocusFirstOption ? menuOptions.focusable[openAtIndex] : null,
+      focusedOption: autoFocusOption ? menuOptions.focusable[openAtIndex] : null,
     });
 
     this.announceAriaLiveContext({ event: 'menu' });
