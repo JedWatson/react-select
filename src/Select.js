@@ -402,13 +402,13 @@ export default class Select extends Component<Props, State> {
     ) {
       const selectValue = cleanValue(nextProps.value);
       const menuOptions = this.buildMenuOptions(nextProps, selectValue);
-      let focusedValue = this.getNextFocusedValue(selectValue);
-      let focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-
-      if (nextProps.autoFocusFirstOption === false  && this.state.focusedOption === null) {
-        focusedValue = null;
-        focusedOption = null;
-      }
+      const { focusedOption, focusedValue } =
+        nextProps.autoFocusFirstOption === false && this.state.focusedOption === null
+        ? { focusedValue: null, focusedOption: null }
+        : {
+          focusedValue: this.getNextFocusedValue(selectValue),
+          focusedOption: this.getNextFocusedOption(menuOptions.focusable)
+        };
 
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
