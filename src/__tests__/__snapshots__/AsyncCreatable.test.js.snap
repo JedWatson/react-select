@@ -38,6 +38,7 @@ exports[`defaults - snapshot 1`] = `
     >
       <Select
         allowCreateWhileLoading={false}
+        autoFocusFirstOption={true}
         backspaceRemovesValue={true}
         blurInputOnSelect={true}
         cacheOptions={false}
@@ -108,6 +109,7 @@ exports[`defaults - snapshot 1`] = `
           selectProps={
             Object {
               "allowCreateWhileLoading": false,
+              "autoFocusFirstOption": true,
               "backspaceRemovesValue": true,
               "blurInputOnSelect": true,
               "cacheOptions": false,
@@ -216,6 +218,7 @@ exports[`defaults - snapshot 1`] = `
               selectProps={
                 Object {
                   "allowCreateWhileLoading": false,
+                  "autoFocusFirstOption": true,
                   "backspaceRemovesValue": true,
                   "blurInputOnSelect": true,
                   "cacheOptions": false,
@@ -316,6 +319,7 @@ exports[`defaults - snapshot 1`] = `
                   selectProps={
                     Object {
                       "allowCreateWhileLoading": false,
+                      "autoFocusFirstOption": true,
                       "backspaceRemovesValue": true,
                       "blurInputOnSelect": true,
                       "cacheOptions": false,
@@ -416,6 +420,7 @@ exports[`defaults - snapshot 1`] = `
                       selectProps={
                         Object {
                           "allowCreateWhileLoading": false,
+                          "autoFocusFirstOption": true,
                           "backspaceRemovesValue": true,
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
@@ -520,6 +525,7 @@ exports[`defaults - snapshot 1`] = `
                       selectProps={
                         Object {
                           "allowCreateWhileLoading": false,
+                          "autoFocusFirstOption": true,
                           "backspaceRemovesValue": true,
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
@@ -706,6 +712,7 @@ exports[`defaults - snapshot 1`] = `
                   selectProps={
                     Object {
                       "allowCreateWhileLoading": false,
+                      "autoFocusFirstOption": true,
                       "backspaceRemovesValue": true,
                       "blurInputOnSelect": true,
                       "cacheOptions": false,
@@ -805,6 +812,7 @@ exports[`defaults - snapshot 1`] = `
                       selectProps={
                         Object {
                           "allowCreateWhileLoading": false,
+                          "autoFocusFirstOption": true,
                           "backspaceRemovesValue": true,
                           "blurInputOnSelect": true,
                           "cacheOptions": false,
@@ -912,6 +920,7 @@ exports[`defaults - snapshot 1`] = `
                       selectProps={
                         Object {
                           "allowCreateWhileLoading": false,
+                          "autoFocusFirstOption": true,
                           "backspaceRemovesValue": true,
                           "blurInputOnSelect": true,
                           "cacheOptions": false,

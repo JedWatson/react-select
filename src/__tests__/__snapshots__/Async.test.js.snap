@@ -18,6 +18,7 @@ exports[`defaults - snapshot 1`] = `
     options={Array []}
   >
     <Select
+      autoFocusFirstOption={true}
       backspaceRemovesValue={true}
       blurInputOnSelect={true}
       cacheOptions={false}
@@ -83,6 +84,7 @@ exports[`defaults - snapshot 1`] = `
         selectOption={[Function]}
         selectProps={
           Object {
+            "autoFocusFirstOption": true,
             "backspaceRemovesValue": true,
             "blurInputOnSelect": true,
             "cacheOptions": false,
@@ -186,6 +188,7 @@ exports[`defaults - snapshot 1`] = `
             selectOption={[Function]}
             selectProps={
               Object {
+                "autoFocusFirstOption": true,
                 "backspaceRemovesValue": true,
                 "blurInputOnSelect": true,
                 "cacheOptions": false,
@@ -281,6 +284,7 @@ exports[`defaults - snapshot 1`] = `
                 selectOption={[Function]}
                 selectProps={
                   Object {
+                    "autoFocusFirstOption": true,
                     "backspaceRemovesValue": true,
                     "blurInputOnSelect": true,
                     "cacheOptions": false,
@@ -376,6 +380,7 @@ exports[`defaults - snapshot 1`] = `
                     selectOption={[Function]}
                     selectProps={
                       Object {
+                        "autoFocusFirstOption": true,
                         "backspaceRemovesValue": true,
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
@@ -475,6 +480,7 @@ exports[`defaults - snapshot 1`] = `
                     onFocus={[Function]}
                     selectProps={
                       Object {
+                        "autoFocusFirstOption": true,
                         "backspaceRemovesValue": true,
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
@@ -656,6 +662,7 @@ exports[`defaults - snapshot 1`] = `
                 selectOption={[Function]}
                 selectProps={
                   Object {
+                    "autoFocusFirstOption": true,
                     "backspaceRemovesValue": true,
                     "blurInputOnSelect": true,
                     "cacheOptions": false,
@@ -750,6 +757,7 @@ exports[`defaults - snapshot 1`] = `
                     selectOption={[Function]}
                     selectProps={
                       Object {
+                        "autoFocusFirstOption": true,
                         "backspaceRemovesValue": true,
                         "blurInputOnSelect": true,
                         "cacheOptions": false,
@@ -852,6 +860,7 @@ exports[`defaults - snapshot 1`] = `
                     selectOption={[Function]}
                     selectProps={
                       Object {
+                        "autoFocusFirstOption": true,
                         "backspaceRemovesValue": true,
                         "blurInputOnSelect": true,
                         "cacheOptions": false,

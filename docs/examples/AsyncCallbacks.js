@@ -35,7 +35,7 @@ export default class WithCallbacks extends Component<*, State> {
           loadOptions={loadOptions}
           defaultOptions
           onInputChange={this.handleInputChange}
-        />
+          />
       </div>
     );
   }
