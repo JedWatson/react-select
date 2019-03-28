@@ -727,7 +727,7 @@ cases(
     selectWrapper.setState({ isFocused: true });
     selectWrapper.setProps({ menuIsOpen: true });
     let controlComponent = selectWrapper.find('div.react-select__control');
-    controlComponent.simulate('mouseDown', { target: { tagName: 'div', getAttribute: () => null } });
+    controlComponent.simulate('mouseDown', { target: { tagName: 'div' } });
     expect(selectWrapper.state('focusedOption')).toEqual(expectedToFocus);
   },
   {
