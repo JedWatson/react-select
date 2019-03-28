@@ -122,12 +122,9 @@ test.skip('to not call loadOptions again for same value when cacheOptions is tru
 
 test('to create new cache for each instance', () => {
   const asyncSelectWrapper = mount(<Async cacheOptions />);
-  const instanceOne = asyncSelectWrapper.instance();
-
   const asyncSelectTwoWrapper = mount(<Async cacheOptions />);
-  const instanceTwo = asyncSelectTwoWrapper.instance();
 
-  expect(instanceOne.optionsCache).not.toBe(instanceTwo.optionsCache);
+  expect(asyncSelectWrapper.state('optionsCache')).not.toBe(asyncSelectTwoWrapper.state('optionsCache'));
 });
 
 test('in case of callbacks display the most recently-requested loaded options (if results are returned out of order)', () => {
