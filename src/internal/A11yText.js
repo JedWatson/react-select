@@ -6,6 +6,7 @@ import { css } from 'emotion';
 const A11yText = (props: ElementConfig<'span'>) => (
   <span
     className={css({
+      label: 'a11yText',
       zIndex: 9999,
       border: 0,
       clip: 'rect(1px, 1px, 1px, 1px)',

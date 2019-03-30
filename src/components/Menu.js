@@ -245,6 +245,7 @@ export const menuCSS = ({
   placement,
   theme: { borderRadius, spacing, colors },
 }: MenuStateWithProps) => ({
+  label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
   borderRadius: borderRadius,

@@ -11,6 +11,7 @@ export type PlaceholderProps = CommonProps & {
 };
 
 export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps) => ({
+  label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,

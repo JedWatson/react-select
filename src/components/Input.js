@@ -24,6 +24,7 @@ export const inputCSS = ({ isDisabled, theme: { spacing, colors } }: InputProps)
   color: colors.neutral80,
 });
 const inputStyle = isHidden => ({
+  label: 'input',
   background: 0,
   border: 0,
   fontSize: 'inherit',
