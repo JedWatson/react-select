@@ -15,14 +15,17 @@ import { components } from './components/index';
 import { mergeStyles } from './styles';
 import { defaultTheme } from './theme';
 
-const Select = manageState(SelectBase);
-Select.Async = Async;
-Select.AsyncCreatable = AsyncCreatable;
-Select.Creatable = Creatable;
-Select.SelectBase = SelectBase;
-Select.createFilter = createFilter;
-Select.components = components;
-Select.mergeStyles = mergeStyles;
-Select.defaultTheme = defaultTheme;
+const SelectState =  manageState(SelectBase);
 
-export default Select;
+export default {
+  Async: Async,
+  AsyncCreatable: AsyncCreatable,
+  Creatable: Creatable,
+  SelectBase: SelectBase,
+  Select: SelectState,
+  createFilter: createFilter,
+  components: components,
+  mergeStyles: mergeStyles,
+  defaultTheme: defaultTheme
+};
+
