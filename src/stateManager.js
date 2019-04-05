@@ -93,9 +93,16 @@ const manageState = <C: {}>(
       // TODO: for backwards compatibility, we allow the prop to return a new
       // value, but now inputValue is a controllable prop we probably shouldn't
       const newValue = this.callProp('onInputChange', value, actionMeta);
-      this.setState({
+/**      this.setState({
         inputValue: newValue !== undefined ? newValue : value,
-      });
+      });******/
+      const isSearchable = this.getProp('isSearchable') !== undefined && this.getProp('isSearchable');
+      const actions = isSearchable ? ['set-value', 'input-change'] : ['set-value', 'input-change', 'input-blur', 'menu-close'];
+      if (actions.includes(actionMeta.action)) {
+          this.setState({
+              inputValue: newValue !== undefined ? newValue : value
+          });
+      }
     };
     onMenuOpen = () => {
       this.callProp('onMenuOpen');

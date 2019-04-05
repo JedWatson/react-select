@@ -600,7 +600,10 @@ export default class Select extends Component<Props, State> {
     option?: OptionType
   ) => {
     const { closeMenuOnSelect, isMulti } = this.props;
-    this.onInputChange('', { action: 'set-value' });
+    ///this.onInputChange('', { action: 'set-value' });
+    var newLabel = newValue ? newValue.label : '';
+    this.onInputChange(newLabel, { action: 'set-value' });
+
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();
