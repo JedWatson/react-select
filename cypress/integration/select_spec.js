@@ -2,6 +2,10 @@ const selector = require('../fixtures/selectors.json');
 
 const viewport = ['macbook-15', 'iphone-6'];
 
+Cypress.Screenshot.defaults({
+  screenshotOnRunFailure: false
+});
+
 describe('New Select', function() {
   before(function() {
     cy.visit('http://localhost:8000/cypress-tests');

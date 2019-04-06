@@ -24,7 +24,7 @@
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
-    "cypress": "^1.4.1",
+    "cypress": "^3.3.2",
     "enzyme": "^3.8.0",
     "enzyme-to-json": "^3.3.0",
     "jest-in-case": "^1.0.2",
