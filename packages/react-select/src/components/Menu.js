@@ -148,7 +148,12 @@ export function getMenuPlacement({
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
       if (placement === 'bottom') {
         scrollTo(scrollParent, scrollDown);
-        return { placement: 'bottom', maxHeight };
+        // We might also need to constrain the height
+        let constrainedHeight = maxHeight;
+        if (maxHeight > scrollHeight && !isFixedPosition) {
+            constrainedHeight = scrollHeight - marginTop - marginBottom;
+        };
+        return { placement: 'bottom', maxHeight: constrainedHeight };
       }
       break;
     case 'top':
