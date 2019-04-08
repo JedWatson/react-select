@@ -2,6 +2,7 @@
 /** @jsx emotionJSX */
 import { jsx as emotionJSX } from '@emotion/core';
 
+import * as React from 'react';
 import SyntaxHighlighter, {
   registerLanguage,
 } from 'react-syntax-highlighter/prism-light';
@@ -49,13 +50,19 @@ export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
 export const H1 = (props: any) => <h1 css={{ marginTop: 0 }} {...props} />;
 export const H2 = (props: any) => <h2 css={{ marginTop: '2em' }} {...props} />;
 
-export const ColorSample = ({ name, color }: { color: string, name: string }) => (
+export const ColorSample = ({
+  name,
+  color,
+}: {
+  color: string,
+  name: string,
+}) => (
   <div
     css={{
       display: 'inline-flex',
       marginBottom: '0.5em',
       alignItems: 'center',
-      minWidth: '10em'
+      minWidth: '10em',
     }}
   >
     <span
@@ -66,12 +73,40 @@ export const ColorSample = ({ name, color }: { color: string, name: string }) =>
         borderRadius: 3,
         width: '1em',
         height: '1em',
-        backgroundColor: color
+        backgroundColor: color,
       }}
     />
     <Code>{name}</Code>
   </div>
 );
+
+type ScrollContainerProps = {
+  children: React.Node,
+  height?: number | string,
+  width?: number | string,
+};
+
+export const ScrollContainer = ({
+  children,
+  height,
+  width,
+}: ScrollContainerProps) => {
+  return (
+    <div
+      data-cy="scroll-container"
+      css={{
+        overflow: 'scroll',
+        height: height || 'auto',
+        width: width || '100%',
+        border: '1px solid hsl(0, 0%, 40%)',
+        position: 'relative',
+        boxSizing: 'border-box',
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 // ==============================
 // Code
