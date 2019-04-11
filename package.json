@@ -1,16 +1,9 @@
 {
-  "name": "react-select",
-  "version": "2.4.2",
-  "description": "A Select control built with and for ReactJS",
-  "main": "lib/index.js",
-  "module": "dist/react-select.esm.js",
-  "sideEffects": false,
-  "author": "Jed Watson",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JedWatson/react-select.git"
-  },
+  "bundlesize": [
+    {
+      "path": "./dist/react-select.js"
+    }
+  ],
   "dependencies": {
     "classnames": "^2.2.5",
     "emotion": "^9.1.2",
@@ -20,6 +13,7 @@
     "react-input-autosize": "^2.2.1",
     "react-transition-group": "^2.2.1"
   },
+  "description": "A fork of react-select library",
   "devDependencies": {
     "@atlaskit/button": "^7.0.2",
     "@atlaskit/icon": "^11.0.1",
@@ -85,30 +79,19 @@
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },
-  "peerDependencies": {
-    "react": "^15.3.0 || ^16.0.0",
-    "react-dom": "^15.3.0 || ^16.0.0"
-  },
-  "scripts": {
-    "build": "nps build && bundlesize",
-    "watch": "nps build.watch",
-    "coveralls": "cat coverage/lcov.info | coveralls",
-    "lint": "eslint .",
-    "deploy": "cross-env NODE_ENV=production nps publish",
-    "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
-    "fresh": "rm -rf node_modules && yarn install",
-    "test": "npm run test:jest && npm run test:cypress",
-    "test:jest": "jest --coverage",
-    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
-    "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
-    "test:cypress-watch": "node ./node_modules/.bin/cypress open",
-    "precommit": "flow check && lint-staged"
-  },
   "files": [
-    "dist",
-    "lib",
-    "src"
+    "dist"
   ],
+  "homepage": "https://github.com/OutSystems/react-select",
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "./node_modules"
+    ],
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
+    "setupFiles": [
+      "./enzymeAdapter.setup.js"
+    ]
+  },
   "keywords": [
     "combobox",
     "form",
@@ -119,21 +102,36 @@
     "select",
     "ui"
   ],
-  "bundlesize": [
-    {
-      "path": "./dist/react-select.js"
-    }
-  ],
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "./node_modules"
-    ],
-    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
-    "setupFiles": [
-      "./enzymeAdapter.setup.js"
-    ]
-  },
+  "license": "MIT",
   "lint-staged": {
     "*.js": "eslint"
-  }
+  },
+  "main": "lib/index.js",
+  "module": "dist/react-select.esm.js",
+  "name": "@outsystems/react-select",
+  "peerDependencies": {
+    "react": "^15.3.0 || ^16.0.0",
+    "react-dom": "^15.3.0 || ^16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OutSystems/react-select"
+  },
+  "scripts": {
+    "build": "nps build && bundlesize",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "deploy": "cross-env NODE_ENV=production nps publish",
+    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
+    "fresh": "rm -rf node_modules && yarn install",
+    "lint": "eslint .",
+    "precommit": "flow check && lint-staged",
+    "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
+    "test": "npm run test:jest && npm run test:cypress",
+    "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
+    "test:cypress-watch": "node ./node_modules/.bin/cypress open",
+    "test:jest": "jest --coverage",
+    "watch": "nps build.watch"
+  },
+  "sideEffects": false,
+  "version": "2.4.3"
 }
