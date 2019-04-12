@@ -1,0 +1,61 @@
+{
+  "_from": "@types/outsystems-react-select",
+  "_id": "@types/outsystems-react-select@2.0.15",
+  "_inBundle": false,
+  "_integrity": "sha512-NERaqdlth/L6DRe/Q76XgQM2kuddmcKvEwCDb/QUoL71SfujJBAMUxO3Z3s4MmL6UwMPpjhAN5My0Gx8hM2R7A==",
+  "_location": "/@types/outsystems-react-select",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@types/outsystems-react-select",
+    "name": "@types/outsystems-react-select",
+    "escapedName": "@types%2foutsystems-react-select",
+    "scope": "@types",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "http://srvnpmjs:8080/@types%2foutsystems-react-select/-/outsystems-react-select-2.0.15.tgz",
+  "_shasum": "a8f3e38fe71f25941f67da74629611ce099f2821",
+  "_spec": "@types/outsystems-react-select",
+  "_where": "C:\\temp\\tests2",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Claas Ahlrichs",
+      "url": "https://github.com/claasahl"
+    },
+    {
+      "name": "Jon Freedman",
+      "url": "https://github.com/jonfreedman"
+    }
+  ],
+  "dependencies": {
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@types/react-transition-group": "*"
+  },
+  "deprecated": false,
+  "description": "TypeScript definitions for react-select",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/outsystems-react-select",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+    "directory": "types/react-select"
+  },
+  "scripts": {},
+  "typeScriptVersion": "2.9",
+  "types": "index",
+  "version": "2.0.15"
+}
