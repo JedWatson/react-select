@@ -77,11 +77,11 @@
     "style-loader": "^0.19.1",
     "unfetch": "^3.0.0",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.9.7"
+    "webpack-dev-server": "^2.9.7",
+	"@types/react": "*",
+    "@types/react-dom": "*",
+    "@types/react-transition-group": "*"	
   },
-  "files": [
-    "dist"
-  ],
   "homepage": "https://github.com/OutSystems/react-select",
   "jest": {
     "modulePathIgnorePatterns": [
@@ -133,5 +133,6 @@
     "watch": "nps build.watch"
   },
   "sideEffects": false,
-  "version": "2.4.3"
+  "typings": "types/index.d.ts",
+  "version": "2.4.6"
 }
