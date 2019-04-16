@@ -22,7 +22,7 @@ export type AsyncProps = {
      will remain until `cacheOptions` changes value. */
   cacheOptions: any,
   onInputChange: (string, InputActionMeta) => void,
-  inputValue: string,
+  inputValue?: string,
 };
 
 export type Props = SelectProps & AsyncProps;
