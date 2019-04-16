@@ -1474,7 +1474,8 @@ export default class Select extends Component<Props, State> {
 
     if (isMulti) {
       const selectValues: Array<any> = selectValue.map(opt => {
-        let isFocused = opt === focusedValue;
+        const isOptionFocused = opt === focusedValue;
+
         return (
           <MultiValue
             {...commonProps}
@@ -1483,7 +1484,7 @@ export default class Select extends Component<Props, State> {
               Label: MultiValueLabel,
               Remove: MultiValueRemove,
             }}
-            isFocused={isFocused}
+            isFocused={isOptionFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
             removeProps={{
