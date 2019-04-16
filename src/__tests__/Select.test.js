@@ -1341,6 +1341,28 @@ cases(
   }
 );
 
+test('hitting Enter on option should not call onChange if the event comes from IME', () => {
+  let spy = jest.fn();
+  let selectWrapper = mount(
+    <Select
+      className="react-select"
+      classNamePrefix="react-select"
+      menuIsOpen
+      onChange={spy}
+      onInputChange={jest.fn()}
+      onMenuClose={jest.fn()}
+      options={OPTIONS}
+      tabSelectsValue={false}
+    />
+  );
+
+  let selectOption = selectWrapper.find('div.react-select__option').at(0);
+  selectWrapper.setState({ focusedOption: { label: '2', value: 'two' } });
+
+  selectOption.simulate('keyDown', { keyCode: 229, key: 'Enter' });
+  expect(spy).not.toHaveBeenCalled();
+});
+
 test('hitting tab on option should not call onChange if tabSelectsValue is false', () => {
   let spy = jest.fn();
   let selectWrapper = mount(
