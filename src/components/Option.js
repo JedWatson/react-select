@@ -42,6 +42,7 @@ export const optionCSS = ({
   isSelected,
   theme: { spacing, colors },
 }: OptionProps) => ({
+  label: 'option',
   backgroundColor: isSelected
     ? colors.primary
     : isFocused ? colors.primary25 : 'transparent',

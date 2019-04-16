@@ -22,6 +22,7 @@ export type ContainerProps = CommonProps &
     innerProps: { onKeyDown: KeyboardEventHandler },
   };
 export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
+  label: 'container',
   direction: isRtl ? 'rtl' : null,
   pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
   position: 'relative',

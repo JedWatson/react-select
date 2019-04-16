@@ -161,7 +161,7 @@ exports[`defaults - snapshot 1`] = `
         }
       >
         <div
-          className="css-10nd86i"
+          className="css-1pcexqc-container"
           onKeyDown={[Function]}
         >
           <Control
@@ -264,7 +264,7 @@ exports[`defaults - snapshot 1`] = `
             }
           >
             <div
-              className="css-vj8t7z"
+              className="css-bg1rzq-control"
               onMouseDown={[Function]}
               onTouchEnd={[Function]}
             >
@@ -454,7 +454,7 @@ exports[`defaults - snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-1492t68"
+                      className="css-151xaom-placeholder"
                     >
                       Select...
                     </div>
@@ -574,6 +574,7 @@ exports[`defaults - snapshot 1`] = `
                             "border": 0,
                             "color": "inherit",
                             "fontSize": "inherit",
+                            "label": "input",
                             "opacity": 1,
                             "outline": 0,
                             "padding": 0,
@@ -614,6 +615,7 @@ exports[`defaults - snapshot 1`] = `
                                 "boxSizing": "content-box",
                                 "color": "inherit",
                                 "fontSize": "inherit",
+                                "label": "input",
                                 "opacity": 1,
                                 "outline": 0,
                                 "padding": 0,
@@ -828,7 +830,7 @@ exports[`defaults - snapshot 1`] = `
                     }
                   >
                     <span
-                      className="css-d8oujb"
+                      className="css-bgvzuu-indicatorSeparator"
                     />
                   </IndicatorSeparator>
                   <DropdownIndicator
@@ -931,7 +933,7 @@ exports[`defaults - snapshot 1`] = `
                   >
                     <div
                       aria-hidden="true"
-                      className="css-1ep9fjw"
+                      className="css-16pqwjk-indicatorContainer"
                       onMouseDown={[Function]}
                       onTouchEnd={[Function]}
                     >

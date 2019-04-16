@@ -18,6 +18,7 @@ type ValueProps = {
 export type SingleValueProps = CommonProps & ValueProps & State;
 
 export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps) => ({
+  label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,

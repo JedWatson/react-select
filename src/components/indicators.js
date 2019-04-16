@@ -57,6 +57,7 @@ const baseCSS = ({
   isFocused,
   theme: { spacing: { baseUnit }, colors },
 }: IndicatorProps) => ({
+  label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
   padding: baseUnit * 2,
@@ -116,6 +117,7 @@ export const indicatorSeparatorCSS = ({
   isDisabled,
   theme: { spacing: { baseUnit }, colors },
 }: (CommonProps & SeparatorState)) => ({
+  label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
   marginBottom: baseUnit * 2,
@@ -153,6 +155,7 @@ export const loadingIndicatorCSS = ({
   size: number,
   theme: Theme,
 }) => ({
+  label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
   padding: baseUnit * 2,
