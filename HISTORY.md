@@ -1,4 +1,12 @@
 # React-Select
+## v2.4.3 / 2019-03-17
+### Bugfixes
+* [#3492](https://github.com/JedWatson/react-select/pull/3492) Add labels to fields to make inspection. [@destructobeam](https://github.com/destructobeam)
+* [#3442](https://github.com/JedWatson/react-select/pull/3442) Ignore keydown events on `Enter` in IME. [@sat0yu](https://github.com/sat0yu).
+* [#3343](https://github.com/JedWatson/react-select/pull/3343) fix lint issues. [@JoshMcCullough](https://github.com/JoshMcCullough).
+* [#3498](https://github.com/JedWatson/react-select/pull/3498) Fix async type. [@mufasa71](https://github.com/mufasa71)
+* [#3436](https://github.com/JedWatson/react-select/pull/3436) Allow Node as placeholder [@eemeli](https://github.com/eemeli).
+
 ## v2.4.2 / 2019-03-11
 ### Bug fixes
 * [#3446](https://github.com/JedWatson/react-select/pull/3446) Fix bug with select input value not being selectable. Thanks [kangweichan](https://github.com/kangweichan).
