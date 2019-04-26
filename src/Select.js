@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
-
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
@@ -306,6 +305,7 @@ type State = {
 type ElRef = ElementRef<*>;
 
 let instanceId = 1;
+
 
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
@@ -1804,7 +1804,6 @@ export default class Select extends Component<Props, State> {
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
-
     const commonProps = (this.commonProps = this.getCommonProps());
 
     return (

@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core'; // eslint-disable-line no-unused-vars
+import { Component } from 'react';
 import CodeSandboxer from 'react-codesandboxer';
 import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';

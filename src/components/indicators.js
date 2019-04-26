@@ -1,6 +1,7 @@
 // @flow
-import React, { type Node } from 'react';
-import { css, injectGlobal } from 'emotion';
+/** @jsx jsx */
+import { type Node } from 'react';
+import { jsx, keyframes } from '@emotion/core';
 
 import type { CommonProps, Theme } from '../types';
 
@@ -15,13 +16,13 @@ const Svg = ({ size, ...props }: { size: number }) => (
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
-    className={css({
+    css={{
       display: 'inline-block',
       fill: 'currentColor',
       lineHeight: 1,
       stroke: 'currentColor',
       strokeWidth: 0,
-    })}
+    }}
     {...props}
   />
 );
@@ -74,8 +75,9 @@ export const DropdownIndicator = (props: IndicatorProps) => {
   return (
     <div
       {...innerProps}
+      css={getStyles('dropdownIndicator', props)}
       className={cx(
-        css(getStyles('dropdownIndicator', props)),
+        null,
         {
           'indicator': true,
           'dropdown-indicator': true,
@@ -94,8 +96,9 @@ export const ClearIndicator = (props: IndicatorProps) => {
   return (
     <div
       {...innerProps}
+      css={getStyles('clearIndicator', props)}
       className={cx(
-        css(getStyles('clearIndicator', props)),
+        null,
         {
           'indicator': true,
           'clear-indicator': true,
@@ -130,8 +133,9 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
   return (
     <span
       {...innerProps}
+      css={getStyles('indicatorSeparator', props)}
       className={cx(
-        css(getStyles('indicatorSeparator', props)),
+        null,
         { 'indicator-separator': true },
         className
       )}
@@ -143,8 +147,10 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
 // Loading
 // ==============================
 
-const keyframesName = 'react-select-loading-indicator';
-let keyframesInjected = false;
+const loadingDotAnimations = keyframes`
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+`;
 
 export const loadingIndicatorCSS = ({
   isFocused,
@@ -171,20 +177,16 @@ export const loadingIndicatorCSS = ({
 type DotProps = { color: string, delay: number, offset: boolean };
 const LoadingDot = ({ color, delay, offset }: DotProps) => (
   <span
-    className={css({
-      animationDuration: '1s',
-      animationDelay: `${delay}ms`,
-      animationIterationCount: 'infinite',
-      animationName: keyframesName,
-      animationTimingFunction: 'ease-in-out',
+    css={{
+      animation: `${loadingDotAnimations} 1s ease-in-out ${delay}ms infinite;`,
       backgroundColor: color,
-      borderRadius: '1em',
-      display: 'inline-block',
-      marginLeft: offset ? '1em' : null,
-      height: '1em',
-      verticalAlign: 'top',
-      width: '1em',
-    })}
+      borderRadius: '1em;',
+      display: 'inline-block;',
+      marginLeft: offset ? '1em;' : null,
+      height: '1em;',
+      verticalAlign: 'top;',
+      width: '1em;',
+    }}
   />
 );
 
@@ -203,20 +205,12 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
   const { className, cx, getStyles, innerProps, isFocused, isRtl, theme: { colors } } = props;
   const color = isFocused ? colors.neutral80 : colors.neutral20;
 
-  if(!keyframesInjected) {
-    // eslint-disable-next-line no-unused-expressions
-    injectGlobal`@keyframes ${keyframesName} {
-      0%, 80%, 100% { opacity: 0; }
-      40% { opacity: 1; }
-    };`;
-    keyframesInjected = true;
-  }
-
   return (
     <div
       {...innerProps}
+      css={getStyles('loadingIndicator', props)}
       className={cx(
-        css(getStyles('loadingIndicator', props)),
+        null,
         {
           'indicator': true,
           'loading-indicator': true,

@@ -161,7 +161,7 @@ exports[`defaults - snapshot 1`] = `
         }
       >
         <div
-          className="css-1pcexqc-container"
+          className="css-1pcexqc-container "
           onKeyDown={[Function]}
         >
           <Control
@@ -264,7 +264,7 @@ exports[`defaults - snapshot 1`] = `
             }
           >
             <div
-              className="css-bg1rzq-control"
+              className="css-bg1rzq-control "
               onMouseDown={[Function]}
               onTouchEnd={[Function]}
             >
@@ -359,7 +359,7 @@ exports[`defaults - snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-1hwfws3"
+                  className="css-1hwfws3 "
                 >
                   <Placeholder
                     clearValue={[Function]}
@@ -454,7 +454,7 @@ exports[`defaults - snapshot 1`] = `
                     }
                   >
                     <div
-                      className="css-151xaom-placeholder"
+                      className="css-151xaom-placeholder "
                     >
                       Select...
                     </div>
@@ -736,7 +736,7 @@ exports[`defaults - snapshot 1`] = `
                 }
               >
                 <div
-                  className="css-1wy0on6"
+                  className="css-1wy0on6 "
                 >
                   <IndicatorSeparator
                     clearValue={[Function]}
@@ -830,7 +830,7 @@ exports[`defaults - snapshot 1`] = `
                     }
                   >
                     <span
-                      className="css-bgvzuu-indicatorSeparator"
+                      className="css-bgvzuu-indicatorSeparator "
                     />
                   </IndicatorSeparator>
                   <DropdownIndicator
@@ -933,7 +933,7 @@ exports[`defaults - snapshot 1`] = `
                   >
                     <div
                       aria-hidden="true"
-                      className="css-16pqwjk-indicatorContainer"
+                      className="css-16pqwjk-indicatorContainer "
                       onMouseDown={[Function]}
                       onTouchEnd={[Function]}
                     >

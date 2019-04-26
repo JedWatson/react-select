@@ -1,6 +1,7 @@
 // @flow
-import React, { Component, type Node } from 'react';
-import { css } from 'emotion';
+/** @jsx jsx */
+import { Component, type Node } from 'react';
+import { jsx } from '@emotion/core';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
 // ==============================
@@ -31,8 +32,9 @@ export const SelectContainer = (props: ContainerProps) => {
   const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
   return (
     <div
+      css={getStyles('container', props)}
       className={cx(
-        css(getStyles('container', props)),
+        null,
         {
           '--is-disabled': isDisabled,
           '--is-rtl': isRtl
@@ -74,8 +76,9 @@ export class ValueContainer extends Component<ValueContainerProps> {
 
     return (
       <div
+        css={getStyles('valueContainer', this.props)}
         className={cx(
-          css(getStyles('valueContainer', this.props)),
+          null,
           {
             'value-container': true,
             'value-container--is-multi': isMulti,
@@ -83,8 +86,7 @@ export class ValueContainer extends Component<ValueContainerProps> {
           }, className)}
       >
         {children}
-      </div>
-    );
+      </div>);
   }
 }
 
@@ -114,8 +116,9 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
 
   return (
     <div
+      css={getStyles('indicatorsContainer', props)}
       className={cx(
-        css(getStyles('indicatorsContainer', props)),
+        null,
         {
           'indicators': true,
         },

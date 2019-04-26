@@ -1,7 +1,7 @@
 // @flow
-
-import React, { Component } from 'react';
-import { css } from 'emotion';
+/** @jsx jsx */
+import { Component } from 'react';
+import { jsx } from '@emotion/core';
 
 export default class DummyInput extends Component<any> {
   render () {
@@ -10,7 +10,7 @@ export default class DummyInput extends Component<any> {
       <input
         ref={innerRef}
         {...props}
-        className={css({
+        css={{
           label: 'dummyInput',
           // get rid of any default styles
           background: 0,
@@ -18,7 +18,6 @@ export default class DummyInput extends Component<any> {
           fontSize: 'inherit',
           outline: 0,
           padding: 0,
-
           // important! without `width` browsers won't allow focus
           width: 1,
 
@@ -30,7 +29,7 @@ export default class DummyInput extends Component<any> {
           opacity: 0,
           position: 'relative',
           transform: 'scale(0)',
-        })}
+        }}
       />
     );
   }
