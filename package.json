@@ -2,7 +2,7 @@
   "name": "react-select",
   "version": "2.4.4",
   "description": "A Select control built with and for ReactJS",
-  "main": "lib/index.js",
+  "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
   "sideEffects": false,
   "author": "Jed Watson",
@@ -12,6 +12,7 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.4",
     "@emotion/cache": "^10.0.0",
     "@emotion/core": "^10.0.5",
     "classnames": "^2.2.5",
@@ -65,8 +66,7 @@
     "jest-in-case": "^1.0.2",
     "lint-staged": "^7.0.5",
     "moment": "^2.20.1",
-    "nps": "^5.7.1",
-    "nps-utils": "^1.3.0",
+    "preconstruct": "^0.0.63",
     "pretty-proptypes": "^0.5.0",
     "raf-schd": "^2.1.0",
     "raw-loader": "^0.5.1",
@@ -92,12 +92,12 @@
     "react-dom": "^15.3.0 || ^16.0.0"
   },
   "scripts": {
-    "build": "nps build && bundlesize",
-    "watch": "nps build.watch",
+    "build": "preconstruct build",
+    "watch": "preconstruct watch",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "deploy": "cross-env NODE_ENV=production nps publish",
     "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
+    "build:website": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
@@ -108,7 +108,6 @@
   },
   "files": [
     "dist",
-    "lib",
     "src"
   ],
   "keywords": [
@@ -121,11 +120,6 @@
     "select",
     "ui"
   ],
-  "bundlesize": [
-    {
-      "path": "./dist/react-select.js"
-    }
-  ],
   "jest": {
     "modulePathIgnorePatterns": [
       "./node_modules"
@@ -137,5 +131,9 @@
   },
   "lint-staged": {
     "*.js": "eslint"
+  },
+  "browser": {
+    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
+    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
   }
 }
