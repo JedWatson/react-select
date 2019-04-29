@@ -31,6 +31,9 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
+            options: {
+              root: path.join(__dirname, '..'),
+            },
           },
         ],
       },
@@ -50,7 +53,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: false,
-      template: path.resolve(__dirname, 'docs/index.html'),
+      template: path.resolve(__dirname, 'index.html'),
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
   ],

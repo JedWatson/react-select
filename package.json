@@ -64,7 +64,7 @@
     "jest-in-case": "^1.0.2",
     "lint-staged": "^7.0.5",
     "moment": "^2.20.1",
-    "preconstruct": "^0.0.63",
+    "preconstruct": "^0.0.64",
     "pretty-proptypes": "^0.5.0",
     "raf-schd": "^2.1.0",
     "raw-loader": "^0.5.1",
@@ -89,8 +89,8 @@
     "watch": "preconstruct watch",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
-    "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
-    "build:website": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p",
+    "start": "cd docs && yarn start",
+    "build:website": "cd docs && yarn build:website",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
@@ -126,9 +126,14 @@
   "lint-staged": {
     "*.js": "eslint"
   },
-  "workspaces": ["packages/*", "docs"],
+  "workspaces": [
+    "packages/*",
+    "docs"
+  ],
   "preconstruct": {
-    "packages": ["packages/*"]
+    "packages": [
+      "packages/*"
+    ]
   },
   "browser": {
     "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",

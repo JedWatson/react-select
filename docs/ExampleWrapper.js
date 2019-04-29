@@ -5,8 +5,10 @@ import CodeSandboxer from 'react-codesandboxer';
 import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../package.json';
-import { colors } from '../src/theme';
+import { defaultTheme } from 'react-select';
 import Svg from './Svg';
+
+const { colors } = defaultTheme;
 
 const gitInfo = {
   account: 'JedWatson',
