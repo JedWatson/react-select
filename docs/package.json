@@ -1,14 +1,9 @@
 {
-  "name": "@react-select/monorepo",
+  "name": "@react-select/docs",
   "private": true,
-  "version": "2.4.4",
-  "description": "A Select control built with and for ReactJS",
+  "version": "2.4.3",
   "author": "Jed Watson",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JedWatson/react-select.git"
-  },
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@emotion/cache": "^10.0.0",
@@ -19,15 +14,13 @@
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react-input-autosize": "^2.2.1",
-    "react-transition-group": "^2.2.1"
-  },
-  "devDependencies": {
+    "react-transition-group": "^2.2.1",
+    "react-select": "^2.4.3",
     "@atlaskit/button": "^7.0.2",
     "@atlaskit/icon": "^11.0.1",
     "@atlaskit/modal-dialog": "^4.0.3",
     "@atlaskit/spinner": "^5.0.0",
     "@atlaskit/tooltip": "^9.1.4",
-    "@babel/cli": "^7.0.0",
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/polyfill": "^7.0.0",
@@ -80,58 +73,8 @@
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   },
-  "peerDependencies": {
-    "react": "^15.3.0 || ^16.0.0",
-    "react-dom": "^15.3.0 || ^16.0.0"
-  },
   "scripts": {
-    "build": "preconstruct build",
-    "watch": "preconstruct watch",
-    "coveralls": "cat coverage/lcov.info | coveralls",
-    "lint": "eslint .",
     "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
-    "build:website": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p",
-    "fresh": "rm -rf node_modules && yarn install",
-    "test": "npm run test:jest && npm run test:cypress",
-    "test:jest": "jest --coverage",
-    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
-    "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
-    "test:cypress-watch": "node ./node_modules/.bin/cypress open",
-    "precommit": "flow check && lint-staged",
-    "postinstall": "preconstruct dev"
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "keywords": [
-    "combobox",
-    "form",
-    "input",
-    "multiselect",
-    "react",
-    "react-component",
-    "select",
-    "ui"
-  ],
-  "jest": {
-    "modulePathIgnorePatterns": [
-      "./node_modules"
-    ],
-    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
-    "setupFiles": [
-      "./enzymeAdapter.setup.js"
-    ]
-  },
-  "lint-staged": {
-    "*.js": "eslint"
-  },
-  "workspaces": ["packages/*", "docs"],
-  "preconstruct": {
-    "packages": ["packages/*"]
-  },
-  "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+    "build:website": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p"
   }
 }
