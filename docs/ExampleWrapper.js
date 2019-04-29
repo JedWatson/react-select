@@ -44,10 +44,7 @@ export default class ExampleWrapper extends Component {
             paths, so we replace on relative paths. This will cause incorrect
             displays if our examples are not from docs/examples/file.js
           */
-          literal={replaceImports(raw, [
-            ['../../src/*', 'react-select/lib/'],
-            ['../../src', 'react-select'],
-          ])}
+          literal={replaceImports(raw, [['../../src/*', 'react-select/lib/']])}
         />
       );
     }

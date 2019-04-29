@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Select, { createFilter } from '../../src';
+import Select, { createFilter } from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
@@ -10,7 +10,7 @@ type State = {
   ignoreAccents: boolean,
   trim: boolean,
   matchFrom: boolean,
-}
+};
 
 export default class SelectCreateFilter extends Component<*, State> {
   state: State = {
@@ -18,17 +18,12 @@ export default class SelectCreateFilter extends Component<*, State> {
     ignoreAccents: false,
     trim: false,
     matchFromStart: false,
-  }
-  toggleOption = (key) => () => {
+  };
+  toggleOption = key => () => {
     this.setState(state => ({ [key]: !state[key] }));
-  }
-  render () {
-    const {
-      ignoreCase,
-      ignoreAccents,
-      trim,
-      matchFromStart,
-    } = this.state;
+  };
+  render() {
+    const { ignoreCase, ignoreAccents, trim, matchFromStart } = this.state;
 
     const filterConfig = {
       ignoreCase,

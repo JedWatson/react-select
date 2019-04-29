@@ -1,5 +1,5 @@
 import React from 'react';
-import Select, { components } from '../../src';
+import Select, { components } from 'react-select';
 import Tooltip from '@atlaskit/tooltip';
 import { colourOptions } from '../data';
 
@@ -17,8 +17,13 @@ export default () => (
   <Select
     closeMenuOnSelect={false}
     components={{ SelectContainer }}
-
-    styles={{ container: (base) => ({ ...base, backgroundColor:colourOptions[2].color, padding: 5 }) }}
+    styles={{
+      container: base => ({
+        ...base,
+        backgroundColor: colourOptions[2].color,
+        padding: 5,
+      }),
+    }}
     options={colourOptions}
   />
 );
