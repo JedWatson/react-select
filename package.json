@@ -10,6 +10,7 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
+    "@atlaskit/build-releases": "^3.0.3",
     "@babel/runtime": "^7.4.4",
     "@emotion/cache": "^10.0.0",
     "@emotion/core": "^10.0.5",
@@ -131,6 +132,12 @@
     "packages/*",
     "docs"
   ],
+  "bolt": {
+    "workspaces": [
+      "packages/*",
+      "docs"
+    ]
+  },
   "preconstruct": {
     "packages": [
       "packages/*"
