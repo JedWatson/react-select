@@ -2,12 +2,12 @@
 
 import React, { Component, type ComponentType } from 'react';
 
-import Select from '../src';
-import type { MenuPlacement } from '../src/types';
+import Select from 'react-select';
+import type { MenuPlacement } from 'react-select/src/types';
 import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions, optionLength } from './data';
 
-import * as animatedComponents from '../src/animated';
+import * as animatedComponents from 'react-select/src/animated';
 
 type SuiteProps = {
   selectComponent: ComponentType<any>,
@@ -55,7 +55,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
   };
   toggleEscapeClearsValue = () => {
     this.setState(state => ({ escapeClearsValue: !state.escapeClearsValue }));
-  }
+  };
 
   setPlacement = ({ currentTarget }: SyntheticEvent<*>) => {
     const portalPlacement = currentTarget && currentTarget.value;
