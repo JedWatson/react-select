@@ -5,7 +5,7 @@ import { jsx } from '@emotion/core';
 import { Route, Switch } from 'react-router-dom';
 
 import type { RouterProps } from '../types';
-import { animatedScrollTo } from '../../src/utils';
+import { animatedScrollTo } from 'react-select/src/utils';
 import routes from './routes';
 import ScrollSpy from './ScrollSpy';
 import Sticky from './Sticky';
