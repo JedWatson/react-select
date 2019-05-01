@@ -147,6 +147,8 @@ export type Props = {
   inputId?: string,
   /* Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string,
+  /* Is the search input is in menu when open */
+  isInputInMenu?: boolean,
   /* Is the select value clearable */
   isClearable?: boolean,
   /* Is the select disabled */
@@ -243,6 +245,7 @@ export const defaultProps = {
   formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
+  isInputInMenu: false,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
@@ -1336,6 +1339,8 @@ export default class Select extends Component<Props, State> {
       inputId,
       inputValue,
       tabIndex,
+      menuIsOpen,
+      isInputInMenu,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
@@ -1367,6 +1372,10 @@ export default class Select extends Component<Props, State> {
 
     const { cx, theme } = this.commonProps;
 
+    if (menuIsOpen && isSearchable && isInputInMenu) {
+      return null;
+    }
+    
     return (
       <Input
         autoCapitalize="none"
@@ -1378,6 +1387,7 @@ export default class Select extends Component<Props, State> {
         innerRef={this.getInputRef}
         isDisabled={isDisabled}
         isHidden={inputIsHidden}
+        menuIsOpen={menuIsOpen}
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
         onFocus={this.onInputFocus}
@@ -1386,6 +1396,7 @@ export default class Select extends Component<Props, State> {
         theme={theme}
         type="text"
         value={inputValue}
+        isInputInMenu={isInputInMenu}
         {...ariaAttributes}
       />
     );
@@ -1557,9 +1568,10 @@ export default class Select extends Component<Props, State> {
       LoadingMessage,
       NoOptionsMessage,
       Option,
+      Input,
     } = this.components;
     const { commonProps } = this;
-    const { focusedOption, menuOptions } = this.state;
+    const { focusedOption, menuOptions, inputIsHidden } = this.state;
     const {
       captureMenuScroll,
       inputValue,
@@ -1576,6 +1588,11 @@ export default class Select extends Component<Props, State> {
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      isDisabled,
+      isSearchable,
+      inputId,
+      tabIndex,
+      isInputInMenu,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1635,6 +1652,41 @@ export default class Select extends Component<Props, State> {
       menuPosition,
       menuShouldScrollIntoView,
     };
+    
+    let innerInputUI = null;
+    const id = inputId || this.getElementId('input');
+    const ariaAttributes = {
+      'aria-autocomplete': 'list',
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
+    };
+    
+    if (isSearchable && isInputInMenu) {
+      innerInputUI = (
+        <Input
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          cx={commonProps.cx}
+          getStyles={this.getStyles}
+          id={id}
+          innerRef={this.getInputRef}
+          isDisabled={isDisabled}
+          isHidden={inputIsHidden}
+          menuIsOpen={menuIsOpen}
+          onBlur={this.onInputBlur}
+          onChange={this.handleInputChange}
+          onFocus={this.onInputFocus}
+          spellCheck="false"
+          tabIndex={tabIndex}
+          theme={commonProps.theme}
+          type="text"
+          value={inputValue}
+          isInputInMenu={isInputInMenu}
+          {...ariaAttributes}
+        />
+      );
+    }
 
     const menuElement = (
       <MenuPlacer
@@ -1660,6 +1712,7 @@ export default class Select extends Component<Props, State> {
               onBottomArrive={onMenuScrollToBottom}
             >
               <ScrollBlock isEnabled={menuShouldBlockScroll}>
+                {innerInputUI}
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}

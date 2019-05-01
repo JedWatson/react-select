@@ -39,6 +39,8 @@ const Input = ({
   innerRef,
   isHidden,
   isDisabled,
+  menuIsOpen,
+  isInputInMenu,
   ...props
 }: InputProps) => (
   <div css={getStyles('input', props)}>

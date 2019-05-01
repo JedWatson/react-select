@@ -104,7 +104,6 @@
     "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
-    "precommit": "flow check && lint-staged",
     "prepare": "npm run build"
   },
   "files": [
