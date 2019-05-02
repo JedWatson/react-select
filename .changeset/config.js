@@ -1,3 +1,5 @@
+'use strict';
+require('dotenv').config();
 /*
 Hey, welcome to the changeset config! This file has been generated
 for you with the default configs we use, and some comments around
@@ -51,13 +53,37 @@ function makeQuery(commitSha) {
 const fetch = require('node-fetch');
 
 async function fetchGHData(commitSha) {
-  let date = await fetch(
+  if (!process.env.GITHUB_TOKEN) {
+    throw new Error(
+      'Please create a GitHub personal access token at https://github.com/settings/tokens/new and add it to a .env file in the root of the repository'
+    );
+  }
+  let data = await fetch(
     `https://api.github.com/graphql?access_token=${process.env.GITHUB_TOKEN}`,
     {
       method: 'POST',
-      body: makeQuery(commitSha),
+      body: JSON.stringify({ query: makeQuery(commitSha) }),
     }
   ).then(x => x.json());
+
+  // this is for the case where
+  if (!data.data || !data.data.search || !data.data.search.edges) {
+    throw new Error(
+      'An error occurred when fetching data from GitHub\n' +
+        JSON.stringify(data)
+    );
+  }
+  if (
+    !data.data.search.edges[0] ||
+    !data.data.search.edges[0].node ||
+    !data.data.search.edges[0].node.number ||
+    !data.data.search.edges[0].node.author ||
+    !data.data.search.edges[0].node.author.login
+  ) {
+    return null;
+  }
+  let { node } = data.data.search.edges[0];
+  return { username: node.author.login, number: node.number };
 }
 
 const getReleaseLine = async (changeset, versionType) => {
@@ -65,9 +91,13 @@ const getReleaseLine = async (changeset, versionType) => {
     .split('\n')
     .map(l => `  ${l}`.trimRight())
     .join('\n');
-  let data = await fetchGHData(changest.commit);
-  console.log(data);
-  console.log(JSON.stringify(data, null, 2));
+  let data = await fetchGHData(changeset.commit);
+  if (data !== null) {
+    let { number, username } = data;
+    return `- [${versionType}] ${
+      changeset.commit
+    } [#${number}](https://github.com/JedWatson/react-select/pulls/${number}) Thanks [@${username}](https://github.com/${username}):\n\n${indentedSummary}`;
+  }
   return `- [${versionType}] ${changeset.commit}:\n\n${indentedSummary}`;
 };
 
