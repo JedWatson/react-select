@@ -66,13 +66,15 @@ async function fetchGHData(commitSha) {
     }
   ).then(x => x.json());
 
-  // this is for the case where
+  // this is mainly for the case where there's an authentication problem
   if (!data.data || !data.data.search || !data.data.search.edges) {
     throw new Error(
       'An error occurred when fetching data from GitHub\n' +
         JSON.stringify(data)
     );
   }
+  // this is mainly for the case when the request worked but nothing could be found
+  // this will generally happen when something is committed directly to master
   if (
     !data.data.search.edges[0] ||
     !data.data.search.edges[0].node ||
