@@ -30,8 +30,10 @@ const changesetOptions = {
 function makeQuery(commitShas) {
   return `
     query {
-      ${commitShas.map((commitSha, i) => {
-        return `a${i}: search(
+      ${commitShas
+        .map(
+          (commitSha, i) =>
+            `a${i}: search(
           type: ISSUE
           query: "sha:${commitSha}+repo:JedWatson/react-select"
           first: 1
@@ -46,8 +48,9 @@ function makeQuery(commitShas) {
               }
             }
           }
-        }}`;
-      })}
+        }`
+        )
+        .join('\n')}}
   `;
 }
 
@@ -69,20 +72,24 @@ const GHDataLoader = new DataLoader(async commitShas => {
   ).then(x => x.json());
 
   // this is mainly for the case where there's an authentication problem
-  if (!data.data || !data.data.search || !data.data.search.edges) {
+  if (!data.data) {
     throw new Error(
       'An error occurred when fetching data from GitHub\n' +
         JSON.stringify(data)
     );
   }
-  return data.data.search.edges.map(edge => {
+  return Object.values(data.data).map(({ edges }) => {
     if (
-      edge.node &&
-      typeof edge.node.number === 'number' &&
-      edge.node.author &&
-      typeof node.author.login === 'string'
+      edges[0] &&
+      edges[0].node &&
+      typeof edges[0].node.number === 'number' &&
+      edges[0].node.author &&
+      typeof edges[0].node.author.login === 'string'
     ) {
-      return { username: edge.node.author.login, number: edge.node.number };
+      return {
+        username: edges[0].node.author.login,
+        number: edges[0].node.number,
+      };
     }
     return null;
   });
