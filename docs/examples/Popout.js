@@ -4,8 +4,10 @@ import { jsx } from '@emotion/core';
 import Button from '@atlaskit/button';
 
 import Select from 'react-select';
-import { colors } from 'react-select/src/theme';
+import { defaultTheme } from 'react-select';
 import { stateOptions } from '../data';
+
+const { colors } = defaultTheme;
 
 const selectStyles = {
   control: provided => ({ ...provided, minWidth: 240, margin: 8 }),
