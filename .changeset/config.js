@@ -25,12 +25,49 @@ const changesetOptions = {
   A summary message you wrote, indented
 */
 
+function makeQuery(commitSha) {
+  return `
+    query {
+      search(
+        type: ISSUE
+        query: "sha:${commitSha}+repo:JedWatson/react-select"
+        first: 1
+      ) {
+        edges {
+          node {
+            ... on PullRequest {
+              number
+              author {
+                login
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+}
+
+const fetch = require('node-fetch');
+
+async function fetchGHData(commitSha) {
+  let date = await fetch(
+    `https://api.github.com/graphql?access_token=${process.env.GITHUB_TOKEN}`,
+    {
+      method: 'POST',
+      body: makeQuery(commitSha),
+    }
+  ).then(x => x.json());
+}
+
 const getReleaseLine = async (changeset, versionType) => {
   const indentedSummary = changeset.summary
     .split('\n')
     .map(l => `  ${l}`.trimRight())
     .join('\n');
-
+  let data = await fetchGHData(changest.commit);
+  console.log(data);
+  console.log(JSON.stringify(data, null, 2));
   return `- [${versionType}] ${changeset.commit}:\n\n${indentedSummary}`;
 };
 
