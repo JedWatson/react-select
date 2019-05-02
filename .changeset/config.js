@@ -95,8 +95,6 @@ const GHDataLoader = new DataLoader(async commitShas => {
   });
 });
 
-async function fetchGHData(commitShas) {}
-
 const getReleaseLine = async (changeset, versionType) => {
   const indentedSummary = changeset.summary
     .split('\n')
