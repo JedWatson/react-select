@@ -102,7 +102,10 @@
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged",
-    "postinstall": "preconstruct dev"
+    "postinstall": "preconstruct dev",
+    "changeset": "build-releases changeset",
+    "version-packages": "build-releases version",
+    "publish-packages": "build-releases publish"
   },
   "files": [
     "dist",
