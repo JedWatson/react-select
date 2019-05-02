@@ -27,32 +27,34 @@ const changesetOptions = {
   A summary message you wrote, indented
 */
 
-function makeQuery(commitSha) {
+function makeQuery(commitShas) {
   return `
     query {
-      search(
-        type: ISSUE
-        query: "sha:${commitSha}+repo:JedWatson/react-select"
-        first: 1
-      ) {
-        edges {
-          node {
-            ... on PullRequest {
-              number
-              author {
-                login
+      ${commitShas.map((commitSha, i) => {
+        return `a${i}: search(
+          type: ISSUE
+          query: "sha:${commitSha}+repo:JedWatson/react-select"
+          first: 1
+        ) {
+          edges {
+            node {
+              ... on PullRequest {
+                number
+                author {
+                  login
+                }
               }
             }
           }
-        }
-      }
-    }
+        }}`;
+      })}
   `;
 }
 
 const fetch = require('node-fetch');
+const DataLoader = require('dataloader');
 
-async function fetchGHData(commitSha) {
+const GHDataLoader = new DataLoader(async commitShas => {
   if (!process.env.GITHUB_TOKEN) {
     throw new Error(
       'Please create a GitHub personal access token at https://github.com/settings/tokens/new and add it to a .env file in the root of the repository'
@@ -62,7 +64,7 @@ async function fetchGHData(commitSha) {
     `https://api.github.com/graphql?access_token=${process.env.GITHUB_TOKEN}`,
     {
       method: 'POST',
-      body: JSON.stringify({ query: makeQuery(commitSha) }),
+      body: JSON.stringify({ query: makeQuery(commitShas) }),
     }
   ).then(x => x.json());
 
@@ -73,27 +75,27 @@ async function fetchGHData(commitSha) {
         JSON.stringify(data)
     );
   }
-  // this is mainly for the case when the request worked but nothing could be found
-  // this will generally happen when something is committed directly to master
-  if (
-    !data.data.search.edges[0] ||
-    !data.data.search.edges[0].node ||
-    !data.data.search.edges[0].node.number ||
-    !data.data.search.edges[0].node.author ||
-    !data.data.search.edges[0].node.author.login
-  ) {
+  return data.data.search.edges.map(edge => {
+    if (
+      edge.node &&
+      typeof edge.node.number === 'number' &&
+      edge.node.author &&
+      typeof node.author.login === 'string'
+    ) {
+      return { username: edge.node.author.login, number: edge.node.number };
+    }
     return null;
-  }
-  let { node } = data.data.search.edges[0];
-  return { username: node.author.login, number: node.number };
-}
+  });
+});
+
+async function fetchGHData(commitShas) {}
 
 const getReleaseLine = async (changeset, versionType) => {
   const indentedSummary = changeset.summary
     .split('\n')
     .map(l => `  ${l}`.trimRight())
     .join('\n');
-  let data = await fetchGHData(changeset.commit);
+  let data = await GHDataLoader.load(changeset.commit);
   if (data !== null) {
     let { number, username } = data;
     return `- [${versionType}] ${

@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@react-select/docs", "type": "minor" },
+    { "name": "react-select", "type": "minor" }
+  ],
+  "dependents": []
+}
