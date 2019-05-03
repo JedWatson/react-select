@@ -95,6 +95,10 @@ const GHDataLoader = new DataLoader(async commitShas => {
   });
 });
 
+function getLinkedCommit(commitSha) {
+  return `[${commitSha}](https://github.com/JedWatson/react-select/commit/${commitSha})`;
+}
+
 const getReleaseLine = async (changeset, versionType) => {
   const indentedSummary = changeset.summary
     .split('\n')
@@ -103,11 +107,13 @@ const getReleaseLine = async (changeset, versionType) => {
   let data = await GHDataLoader.load(changeset.commit);
   if (data !== null) {
     let { number, username } = data;
-    return `- [${versionType}] ${
+    return `- [${versionType}] ${getLinkedCommit(
       changeset.commit
-    } [#${number}](https://github.com/JedWatson/react-select/pulls/${number}) Thanks [@${username}](https://github.com/${username}):\n\n${indentedSummary}`;
+    )} [#${number}](https://github.com/JedWatson/react-select/pulls/${number}) Thanks [@${username}](https://github.com/${username}):\n\n${indentedSummary}`;
   }
-  return `- [${versionType}] ${changeset.commit}:\n\n${indentedSummary}`;
+  return `- [${versionType}] ${getLinkedCommit(
+    changeset.commit
+  )}:\n\n${indentedSummary}`;
 };
 
 // This function takes information about what dependencies we are updating in the package.
@@ -123,7 +129,8 @@ const getDependencyReleaseLine = async (changesets, dependenciesUpdated) => {
   if (dependenciesUpdated.length === 0) return '';
 
   const changesetLinks = changesets.map(
-    changeset => `- Updated dependencies [${changeset.commit}]:`
+    changeset =>
+      `- Updated dependencies [${getLinkedCommit(changeset.commit)}]:`
   );
 
   const updatedDepenenciesList = dependenciesUpdated.map(
