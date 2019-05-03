@@ -25,7 +25,7 @@ export type AsyncProps = {
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  onInputChange: (string, InputActionMeta) => void,
+  onInputChange?: (string, InputActionMeta) => void,
   inputValue?: string,
 };
 
