@@ -31,6 +31,9 @@ bower_components
 # Publish directory
 .publish
 
+# VSCode config
+.vscode
+
 # Editor artefacts
 .idea
 
