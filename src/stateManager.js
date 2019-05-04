@@ -7,10 +7,8 @@ import React, {
   type Config,
 } from 'react';
 
-import { type Props, defaultProps as SelectDefaultProps } from './Select';
+import { type Props as SelectProps, defaultProps as SelectDefaultProps } from './Select';
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
-
-export type SelectProps = Config<Props, typeof SelectDefaultProps>;
 
 type State = {
   inputValue: string,
@@ -28,11 +26,12 @@ type StateProps = {
   value: ValueType,
 };
 
-type OwnProps = {
+export type Props = Config<{
+  ...SelectProps,
   defaultInputValue: string,
   defaultMenuIsOpen: boolean,
   defaultValue: ValueType,
-};
+}, typeof SelectDefaultProps>;
 
 export const defaultProps = {
   defaultInputValue: '',
@@ -43,10 +42,10 @@ export const defaultProps = {
 const manageState = <C: {}>(
   SelectComponent: AbstractComponent<C>
 ): AbstractComponent<
-  Config<SelectProps & C, StateProps> & Config<OwnProps, typeof defaultProps>
+  Config<Props & C, StateProps & typeof defaultProps>
 > =>
   class StateManager extends Component<
-    Config<SelectProps, StateProps> & C & OwnProps,
+    Config<Props, StateProps> & C,
     State
   > {
     select: ElementRef<*>;
