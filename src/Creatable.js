@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  type Config,
   type Node,
   type AbstractComponent,
   type ElementRef,
@@ -81,7 +82,7 @@ type State = {
 
 export const makeCreatableSelect = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<CreatableProps & C> =>
+): AbstractComponent<Config<CreatableProps, typeof defaultProps> & C> =>
   class Creatable extends Component<CreatableProps & C, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;

@@ -7,38 +7,31 @@ import React, {
   type Config,
 } from 'react';
 
+import { type Props, defaultProps as SelectDefaultProps } from './Select';
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
 
-export type DefaultProps = {|
-  defaultInputValue: string,
-  defaultMenuIsOpen: boolean,
-  defaultValue: ValueType,
-|};
-export type Props = {
-  ...DefaultProps,
-  inputValue?: string,
-  menuIsOpen?: boolean,
-  value?: ValueType,
-  onChange?: (ValueType, ActionMeta) => void,
-};
-
-type StateProps<P> = $Diff<
-  P,
-  {
-    inputValue: any,
-    value: any,
-    menuIsOpen: any,
-    onChange: any,
-    onInputChange: any,
-    onMenuClose: any,
-    onMenuOpen: any,
-  }
->;
+export type SelectProps = Config<Props, typeof SelectDefaultProps>;
 
 type State = {
   inputValue: string,
   menuIsOpen: boolean,
   value: ValueType,
+};
+
+type StateProps = {
+  onMenuOpen: () => void,
+  onMenuClose: () => void,
+  onInputChange: (string, InputActionMeta) => void,
+  onChange: (ValueType, ActionMeta) => void,
+  inputValue: string,
+  menuIsOpen: boolean,
+  value: ValueType,
+};
+
+type OwnProps = {
+  defaultInputValue: string,
+  defaultMenuIsOpen: boolean,
+  defaultValue: ValueType,
 };
 
 export const defaultProps = {
@@ -49,11 +42,15 @@ export const defaultProps = {
 
 const manageState = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<StateProps<C> & Config<Props, DefaultProps>> =>
-  class StateManager extends Component<StateProps<C> & Props, State> {
-    static defaultProps: DefaultProps = defaultProps;
-
+): AbstractComponent<
+  Config<SelectProps & C, StateProps> & Config<OwnProps, typeof defaultProps>
+> =>
+  class StateManager extends Component<
+    Config<SelectProps, StateProps> & C & OwnProps,
+    State
+  > {
     select: ElementRef<*>;
+    static defaultProps = defaultProps;
 
     state = {
       inputValue:
@@ -75,34 +72,31 @@ const manageState = <C: {}>(
     blur() {
       this.select.blur();
     }
-    // FIXME: untyped flow code, return any
-    getProp(key: string) {
-      return this.props[key] !== undefined ? this.props[key] : this.state[key];
-    }
-    // FIXME: untyped flow code, return any
-    callProp(name: string, ...args: any) {
-      if (typeof this.props[name] === 'function') {
-        return this.props[name](...args);
+    onChange = (value: ValueType, actionMeta: ActionMeta) => {
+      if (this.props.onChange) {
+        this.props.onChange(value, actionMeta);
       }
-    }
-    onChange = (value: any, actionMeta: ActionMeta) => {
-      this.callProp('onChange', value, actionMeta);
       this.setState({ value });
     };
-    onInputChange = (value: any, actionMeta: InputActionMeta) => {
-      // TODO: for backwards compatibility, we allow the prop to return a new
-      // value, but now inputValue is a controllable prop we probably shouldn't
-      const newValue = this.callProp('onInputChange', value, actionMeta);
+    onInputChange = (value: string, actionMeta: InputActionMeta) => {
+      let newValue;
+      if (this.props.onInputChange) {
+        newValue = this.props.onInputChange(value, actionMeta);
+      }
       this.setState({
         inputValue: newValue !== undefined ? newValue : value,
       });
     };
     onMenuOpen = () => {
-      this.callProp('onMenuOpen');
+      if (this.props.onMenuOpen) {
+        this.props.onMenuOpen();
+      }
       this.setState({ menuIsOpen: true });
     };
     onMenuClose = () => {
-      this.callProp('onMenuClose');
+      if (this.props.onMenuClose) {
+        this.props.onMenuClose();
+      }
       this.setState({ menuIsOpen: false });
     };
     render() {
@@ -110,21 +104,25 @@ const manageState = <C: {}>(
         defaultInputValue,
         defaultMenuIsOpen,
         defaultValue,
+        inputValue,
+        menuIsOpen,
+        value,
         ...props
       } = this.props;
+
       return (
         <SelectComponent
           {...props}
           ref={ref => {
             this.select = ref;
           }}
-          inputValue={this.getProp('inputValue')}
-          menuIsOpen={this.getProp('menuIsOpen')}
+          inputValue={inputValue || this.state.inputValue}
+          menuIsOpen={menuIsOpen || this.state.menuIsOpen}
           onChange={this.onChange}
           onInputChange={this.onInputChange}
           onMenuClose={this.onMenuClose}
           onMenuOpen={this.onMenuOpen}
-          value={this.getProp('value')}
+          value={value || this.state.value}
         />
       );
     }

@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  type Config,
   type ElementConfig,
   type AbstractComponent,
   type ElementRef,
@@ -20,8 +21,8 @@ export type AsyncProps = {
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
   /* If cacheOptions is truthy, then the loaded data will be cached. The cache
      will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
-  onInputChange: (string, InputActionMeta) => void,
+  cacheOptions: boolean,
+  onInputChange?: (string, InputActionMeta) => void,
   inputValue?: string,
 };
 
@@ -44,8 +45,8 @@ type State = {
 
 export const makeAsyncSelect = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & AsyncProps> =>
-  class Async extends Component<C & AsyncProps, State> {
+): AbstractComponent<Config<AsyncProps, typeof defaultProps> & C> =>
+  class Async extends Component<AsyncProps & C, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
     lastRequest: {};

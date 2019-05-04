@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 
 import AsyncCreatableSelect from '../../src/AsyncCreatable';
@@ -16,14 +17,16 @@ const promiseOptions = inputValue =>
     }, 1000);
   });
 
-export default class WithPromises extends Component<*, State> {
+export default class WithPromises extends Component<*, {}> {
   render() {
     return (
-      <AsyncCreatableSelect
-        cacheOptions
-        defaultOptions
-        loadOptions={promiseOptions}
-      />
+      <>
+        <AsyncCreatableSelect
+          cacheOptions
+          defaultOptions
+          loadOptions={promiseOptions}
+        />
+      </>
     );
   }
 }

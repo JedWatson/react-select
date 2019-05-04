@@ -9,6 +9,7 @@ import Select from './Select';
 const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
   Select
 );
+
 const SelectCreatableState = manageState<ElementConfig<typeof SelectCreatable>>(
   SelectCreatable
 );
