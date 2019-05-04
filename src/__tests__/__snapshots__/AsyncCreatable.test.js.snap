@@ -14,7 +14,6 @@ exports[`defaults - snapshot 1`] = `
     defaultValue={null}
     filterOption={null}
     isLoading={false}
-    onInputChange={[Function]}
     options={Array []}
   >
     <Creatable

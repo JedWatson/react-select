@@ -9,17 +9,23 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = inputValue => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
   });
+};
 
 export default class WithPromises extends Component {
   render() {
     return (
-      <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />
+      <AsyncSelect
+        defaultInputValue="n"
+        cacheOptions
+        defaultOptions
+        loadOptions={promiseOptions}
+      />
     );
   }
 }

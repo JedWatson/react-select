@@ -122,10 +122,10 @@ test.skip('to not call loadOptions again for same value when cacheOptions is tru
 
 test('to create new cache for each instance', () => {
   const asyncSelectWrapper = mount(<Async cacheOptions />);
-  const instanceOne = asyncSelectWrapper.instance();
+  const instanceOne = asyncSelectWrapper.find('Async').instance();
 
   const asyncSelectTwoWrapper = mount(<Async cacheOptions />);
-  const instanceTwo = asyncSelectTwoWrapper.instance();
+  const instanceTwo = asyncSelectTwoWrapper.find('Async').instance();
 
   expect(instanceOne.optionsCache).not.toBe(instanceTwo.optionsCache);
 });
