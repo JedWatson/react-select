@@ -122,7 +122,7 @@ const manageState = <C: {}>(
           onInputChange={this.onInputChange}
           onMenuClose={this.onMenuClose}
           onMenuOpen={this.onMenuOpen}
-          value={value || this.state.value}
+          value={value !== undefined ? value : this.state.value}
         />
       );
     }
