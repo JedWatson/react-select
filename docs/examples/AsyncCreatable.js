@@ -20,13 +20,11 @@ const promiseOptions = inputValue =>
 export default class WithPromises extends Component<*, {}> {
   render() {
     return (
-      <>
-        <AsyncCreatableSelect
-          cacheOptions
-          defaultOptions
-          loadOptions={promiseOptions}
-        />
-      </>
+      <AsyncCreatableSelect
+        cacheOptions
+        defaultOptions
+        loadOptions={promiseOptions}
+      />
     );
   }
 }
