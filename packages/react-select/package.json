@@ -53,8 +53,6 @@
     "entrypoints": [
       ".",
       "base",
-      "components",
-      "filter",
       "animated",
       "async",
       "creatable",
