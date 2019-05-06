@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import AsyncSelect from '../../src/Async';
+import { Async as AsyncSelect } from 'react-select';
 import { colourOptions } from '../data';
 
 const filterColors = (inputValue: string) => {
   return colourOptions.filter(i =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 

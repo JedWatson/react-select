@@ -8,12 +8,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 require('dotenv').config();
 
 module.exports = {
-  context: path.resolve(__dirname, 'docs'),
+  context: __dirname,
   entry: {
     index: './index.js',
   },
   output: {
-    path: path.resolve(__dirname, 'docs/dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
     publicPath: '/',
   },
@@ -31,6 +31,9 @@ module.exports = {
         use: [
           {
             loader: 'babel-loader',
+            options: {
+              root: path.join(__dirname, '..'),
+            },
           },
         ],
       },
@@ -39,11 +42,6 @@ module.exports = {
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
     ],
-  },
-  resolve: {
-    alias: {
-      'react-select': path.resolve(__dirname, 'src/index'),
-    },
   },
   plugins: [
     // new webpack.DefinePlugin({
@@ -55,7 +53,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: false,
-      template: path.resolve(__dirname, 'docs/index.html'),
+      template: path.resolve(__dirname, 'index.html'),
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
   ],

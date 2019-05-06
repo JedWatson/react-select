@@ -5,8 +5,10 @@ import CodeSandboxer from 'react-codesandboxer';
 import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../package.json';
-import { colors } from '../src/theme';
+import { defaultTheme } from 'react-select';
 import Svg from './Svg';
+
+const { colors } = defaultTheme;
 
 const gitInfo = {
   account: 'JedWatson',
@@ -44,10 +46,7 @@ export default class ExampleWrapper extends Component {
             paths, so we replace on relative paths. This will cause incorrect
             displays if our examples are not from docs/examples/file.js
           */
-          literal={replaceImports(raw, [
-            ['../../src/*', 'react-select/lib/'],
-            ['../../src', 'react-select'],
-          ])}
+          literal={replaceImports(raw, [['../../src/*', 'react-select/lib/']])}
         />
       );
     }
