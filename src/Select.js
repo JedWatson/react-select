@@ -194,6 +194,8 @@ export type Props = {
   menuPortalTarget?: HTMLElement,
   /* Whether to block scroll events when the menu is open */
   menuShouldBlockScroll: boolean,
+  /* Custom element used when scrolling into view */
+  menuScrollIntoViewElement?: HTMLElement,
   /* Whether the menu should be scrolled into view when it opens */
   menuShouldScrollIntoView: boolean,
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
@@ -1633,6 +1635,7 @@ export default class Select extends Component<Props, State> {
       menuPosition,
       menuPortalTarget,
       menuShouldBlockScroll,
+      menuScrollIntoViewElement,
       menuShouldScrollIntoView,
       noOptionsMessage,
       onMenuScrollToTop,
@@ -1694,6 +1697,7 @@ export default class Select extends Component<Props, State> {
       maxMenuHeight,
       menuPlacement,
       menuPosition,
+      menuScrollIntoViewElement,
       menuShouldScrollIntoView,
     };
 

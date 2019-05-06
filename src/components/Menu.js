@@ -41,6 +41,7 @@ type PlacementArgs = {
   menuEl: ElementRef<*>,
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
+  scrollElement?: HTMLElement,
   shouldScroll: boolean,
   isFixedPosition: boolean,
   theme: Theme,
@@ -51,12 +52,13 @@ export function getMenuPlacement({
   menuEl,
   minHeight,
   placement,
+  scrollElement,
   shouldScroll,
   isFixedPosition,
   theme,
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
-  const scrollParent = getScrollParent(menuEl);
+  const scrollParent = scrollElement || getScrollParent(menuEl);
   const defaultState = { placement: 'bottom', maxHeight };
 
   // something went wrong, return default state
@@ -219,6 +221,8 @@ export type MenuAndPlacerCommon = CommonProps & {
   menuPosition: MenuPosition,
   /** Set the minimum height of the menu. */
   minMenuHeight: number,
+  /* Set custom element used when scrolling into view. */
+  menuScrollIntoViewElement?: HTMLElement,
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
 };
@@ -272,6 +276,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       maxMenuHeight,
       menuPlacement,
       menuPosition,
+      menuScrollIntoViewElement,
       menuShouldScrollIntoView,
       theme,
     } = this.props;
@@ -284,6 +289,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
     const shouldScroll = menuShouldScrollIntoView && !isFixedPosition;
 
     const state = getMenuPlacement({
+      scrollElement: menuScrollIntoViewElement,
       maxHeight: maxMenuHeight,
       menuEl: ref,
       minHeight: minMenuHeight,
