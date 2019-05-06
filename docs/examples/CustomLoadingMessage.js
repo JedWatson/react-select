@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import { Async as AsyncSelect } from 'react-select';
+import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
 
 const LoadingMessage = props => {
