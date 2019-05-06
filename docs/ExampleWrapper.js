@@ -16,11 +16,6 @@ const gitInfo = {
   host: 'github',
 };
 
-const importReplacements = [
-  ['src/*', 'react-select/lib/'],
-  ['src', 'react-select'],
-];
-
 const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
   gitInfo.branch
 }`;
@@ -78,7 +73,6 @@ export default class ExampleWrapper extends Component {
           examplePath={urlPath}
           pkgJSON={pkg}
           gitInfo={gitInfo}
-          importReplacements={importReplacements}
           dependencies={{
             [pkg.name]: pkg.version,
           }}
