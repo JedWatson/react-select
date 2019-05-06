@@ -19,6 +19,11 @@ const colourStyles = {
           ? chroma.contrast(color, 'white') > 2 ? 'white' : 'black'
           : data.color,
       cursor: isDisabled ? 'not-allowed' : 'default',
+
+      ':active': {
+        ...styles[':active'],
+        backgroundColor: !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+      },
     };
   },
   multiValue: (styles, { data }) => {

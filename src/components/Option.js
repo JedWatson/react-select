@@ -59,7 +59,7 @@ export const optionCSS = ({
 
   // provide some affordance on touch devices
   ':active': {
-    backgroundColor: isSelected ? colors.primary : colors.primary50,
+    backgroundColor: !isDisabled && (isSelected ? colors.primary : colors.primary50),
   },
 });
 
