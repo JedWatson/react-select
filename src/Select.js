@@ -76,7 +76,7 @@ type FormatOptionLabelMeta = {
 };
 export type Accessibility = {
   valueFocusAriaMessage: (args: {
-    focusedValue?: OptionType,
+    focusedValue: OptionType,
     getOptionLabel: (data: OptionType) => string,
     selectValue: OptionsType | Array<OptionType>
   }) => string,

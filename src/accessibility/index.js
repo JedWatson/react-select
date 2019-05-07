@@ -10,8 +10,10 @@ export type InstructionsContext = {
 };
 export type ValueEventContext = { value: string, isDisabled?: boolean };
 
+export type InstructionEventType = 'menu' | 'input' | 'value';
+
 export const instructionsAriaMessage = (
-  event: string,
+  event: InstructionEventType,
   context?: InstructionsContext = {}
 ) => {
   const { isSearchable, isMulti, label, isDisabled } = context;
@@ -26,15 +28,19 @@ export const instructionsAriaMessage = (
         }`;
     case 'value':
       return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
+    default:
+      return '';
   }
 };
 
+export type ValueEventType = 'deselect-option' | 'pop-value' | 'remove-value' | 'select-option';
+
 export const valueEventAriaMessage = (
-  event: string,
+  event: ValueEventType,
   context: ValueEventContext
 ) => {
   const { value, isDisabled } = context;
-  if (!value) return;
+  if (!value) return '';
   switch (event) {
     case 'deselect-option':
     case 'pop-value':
@@ -42,6 +48,8 @@ export const valueEventAriaMessage = (
       return `option ${value}, deselected.`;
     case 'select-option':
       return isDisabled ? `option ${value} is disabled. Select another option.` : `option ${value}, selected.`;
+    default:
+      return '';
   }
 };
 
