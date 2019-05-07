@@ -1835,6 +1835,22 @@ test('onInputChange() function prop to be called on blur', () => {
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
 });
 
+test('onInputChange() function prop to not be called on blur with onBlurResetsInput', () => {
+    let onInputChangeSpy = jest.fn();
+    let selectWrapper = mount(
+        <Select
+            {...BASIC_PROPS}
+            onBlurResetsInput={false}
+            onBlur={jest.fn()}
+            onInputChange={onInputChangeSpy}
+            onMenuClose={jest.fn()}
+        />
+    );
+    selectWrapper.find('Control input').simulate('blur');
+    // onInputChangeSpy should not be called on blur with onBlurResetsInput={false}
+    expect(onInputChangeSpy).toHaveBeenCalledTimes(0);
+});
+
 test('onMenuClose() function prop to be called on blur', () => {
   let onMenuCloseSpy = jest.fn();
   let selectWrapper = mount(

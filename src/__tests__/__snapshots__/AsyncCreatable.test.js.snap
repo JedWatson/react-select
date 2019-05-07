@@ -72,6 +72,7 @@ exports[`defaults - snapshot 1`] = `
         menuShouldScrollIntoView={true}
         minMenuHeight={140}
         noOptionsMessage={[Function]}
+        onBlurResetsInput={true}
         onChange={[Function]}
         onInputChange={[Function]}
         onMenuClose={[Function]}
@@ -142,6 +143,7 @@ exports[`defaults - snapshot 1`] = `
               "menuShouldScrollIntoView": true,
               "minMenuHeight": 140,
               "noOptionsMessage": [Function],
+              "onBlurResetsInput": true,
               "onChange": [Function],
               "onInputChange": [Function],
               "onMenuClose": [Function],
@@ -250,6 +252,7 @@ exports[`defaults - snapshot 1`] = `
                   "menuShouldScrollIntoView": true,
                   "minMenuHeight": 140,
                   "noOptionsMessage": [Function],
+                  "onBlurResetsInput": true,
                   "onChange": [Function],
                   "onInputChange": [Function],
                   "onMenuClose": [Function],
@@ -350,6 +353,7 @@ exports[`defaults - snapshot 1`] = `
                       "menuShouldScrollIntoView": true,
                       "minMenuHeight": 140,
                       "noOptionsMessage": [Function],
+                      "onBlurResetsInput": true,
                       "onChange": [Function],
                       "onInputChange": [Function],
                       "onMenuClose": [Function],
@@ -450,6 +454,7 @@ exports[`defaults - snapshot 1`] = `
                           "menuShouldScrollIntoView": true,
                           "minMenuHeight": 140,
                           "noOptionsMessage": [Function],
+                          "onBlurResetsInput": true,
                           "onChange": [Function],
                           "onInputChange": [Function],
                           "onMenuClose": [Function],
@@ -742,6 +747,7 @@ exports[`defaults - snapshot 1`] = `
                       "menuShouldScrollIntoView": true,
                       "minMenuHeight": 140,
                       "noOptionsMessage": [Function],
+                      "onBlurResetsInput": true,
                       "onChange": [Function],
                       "onInputChange": [Function],
                       "onMenuClose": [Function],
@@ -841,6 +847,7 @@ exports[`defaults - snapshot 1`] = `
                           "menuShouldScrollIntoView": true,
                           "minMenuHeight": 140,
                           "noOptionsMessage": [Function],
+                          "onBlurResetsInput": true,
                           "onChange": [Function],
                           "onInputChange": [Function],
                           "onMenuClose": [Function],
@@ -948,6 +955,7 @@ exports[`defaults - snapshot 1`] = `
                           "menuShouldScrollIntoView": true,
                           "minMenuHeight": 140,
                           "noOptionsMessage": [Function],
+                          "onBlurResetsInput": true,
                           "onChange": [Function],
                           "onInputChange": [Function],
                           "onMenuClose": [Function],
