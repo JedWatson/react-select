@@ -137,6 +137,8 @@ export type Props = {
     An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
   formatGroupLabel: typeof formatGroupLabel,
+  /* Focuses option when input is cleared or when no value is selected */
+  focusedOption: Object,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
@@ -459,6 +461,9 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
+    if (newValue === undefined && this.props.hasOwnProperty('focusedOption')) {
+      this.setState({ focusedOption: this.props.focusedOption });
+    }
     this.props.onInputChange(newValue, actionMeta);
   }
 
