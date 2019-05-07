@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Creatable as CreatableSelect } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 type State = {
   options: [{ [string]: string }],
