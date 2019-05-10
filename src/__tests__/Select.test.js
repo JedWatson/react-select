@@ -1103,7 +1103,6 @@ cases('Clicking Enter on a focused select', ({ props = BASIC_PROPS, expectedValu
   const selectWrapper = wrapper.find(Select);
   selectWrapper.instance().setState({ focusedOption: OPTIONS[0] });
   selectWrapper.instance().onKeyDown(event);
-  console.log(event.defaultPrevented);
   expect(event.defaultPrevented).toBe(expectedValue);
 }, {
   'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault': {
