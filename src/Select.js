@@ -21,6 +21,8 @@ import {
   instructionsAriaMessage,
   type InstructionsContext,
   type ValueEventContext,
+  type ValueEventType,
+  type InstructionEventType,
 } from './accessibility/index';
 
 import {
@@ -74,11 +76,27 @@ type FormatOptionLabelMeta = {
   inputValue: string,
   selectValue: ValueType,
 };
-export type Accessibility = {
+export type AccessibilityProp = {
+  valueFocusAriaMessage?: (args: {
+    focusedValue: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    selectValue: OptionsType
+  }) => string,
+  optionFocusAriaMessage?: (args: {
+    focusedOption: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    options: OptionsType
+  }) => string,
+  resultsAriaMessage?: (args: { inputValue: string, screenReaderMessage: string }) => string,
+  valueEventAriaMessage?: (event: ValueEventType, context: ValueEventContext) => string,
+  instructionsAriaMessage?: (event: InstructionEventType, context?: InstructionsContext) => string
+};
+
+export type AccessibilityConfig = {
   valueFocusAriaMessage: (args: {
     focusedValue: OptionType,
     getOptionLabel: (data: OptionType) => string,
-    selectValue: OptionsType | Array<OptionType>
+    selectValue: OptionsType
   }) => string,
   optionFocusAriaMessage: (args: {
     focusedOption: OptionType,
@@ -86,9 +104,9 @@ export type Accessibility = {
     options: OptionsType
   }) => string,
   resultsAriaMessage: (args: { inputValue: string, screenReaderMessage: string }) => string,
-  valueEventAriaMessage: (event: any, context: ValueEventContext) => string,
-  instructionsAriaMessage: (event: any, context?: InstructionsContext) => string
-};
+  valueEventAriaMessage: (event: ValueEventType, context: ValueEventContext) => string,
+  instructionsAriaMessage: (event: InstructionEventType, context?: InstructionsContext) => string
+}
 
 export type Props = {
   /* Aria label (for assistive tech) */
@@ -260,7 +278,7 @@ export type Props = {
   /* The value of the select; reflected by the selected option */
   value: ValueType,
   /* Custom ARIA message functions */
-  accessibility?: Accessibility
+  accessibility?: AccessibilityProp
 };
 
 export const defaultProps = {
@@ -347,7 +365,7 @@ export default class Select extends Component<Props, State> {
 
   // Misc. Instance Properties
   // ------------------------------
-
+  accessibility: AccessibilityConfig;
   blockOptionHover: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
@@ -388,6 +406,7 @@ export default class Select extends Component<Props, State> {
     super(props);
     const { value } = props;
     this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
+    this.accessibility = this.getAccessibilityConfig(props.accessibility);
     this.cacheComponents(props.components);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
@@ -415,6 +434,7 @@ export default class Select extends Component<Props, State> {
     const { options, value, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
+    this.accessibility = this.getAccessibilityConfig(nextProps.accessibility);
     // rebuild the menu options
     if (
       nextProps.value !== value ||
@@ -825,29 +845,39 @@ export default class Select extends Component<Props, State> {
   // ==============================
   // Helpers
   // ==============================
+  getAccessibilityConfig (accessibilityObj?: AccessibilityProp): AccessibilityConfig {
+    return {
+      valueFocusAriaMessage,
+      optionFocusAriaMessage,
+      resultsAriaMessage,
+      valueEventAriaMessage,
+      instructionsAriaMessage,
+      ...accessibilityObj,
+    };
+  };
   announceAriaLiveSelection = ({
     event,
     context,
   }: {
-    event: string,
+    event: ValueEventType,
     context: ValueEventContext,
   }) => {
     this.setState({
-      ariaLiveSelection: this.props.accessibility ? this.props.accessibility.valueEventAriaMessage(event, context) : '',
+      ariaLiveSelection: this.accessibility.valueEventAriaMessage(event, context),
     });
   };
   announceAriaLiveContext = ({
     event,
     context,
   }: {
-    event: string,
+    event: InstructionEventType,
     context?: InstructionsContext,
   }) => {
     this.setState({
-      ariaLiveContext: this.props.accessibility ? this.props.accessibility.instructionsAriaMessage(event, {
+      ariaLiveContext: this.accessibility.instructionsAriaMessage(event, {
         ...context,
         label: this.props['aria-label'],
-      }) : '',
+      }),
     });
   };
 
@@ -1378,11 +1408,11 @@ export default class Select extends Component<Props, State> {
       focusedValue,
       focusedOption,
     } = this.state;
-    const { options, menuIsOpen, inputValue, screenReaderStatus, accessibility } = this.props;
+    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
 
     // An aria live message representing the currently focused value in the select.
-    const focusedValueMsg = focusedValue && accessibility
-      ? accessibility.valueFocusAriaMessage({
+    const focusedValueMsg = focusedValue && this.accessibility
+      ? this.accessibility.valueFocusAriaMessage({
           focusedValue,
           getOptionLabel: this.getOptionLabel,
           selectValue,
@@ -1390,18 +1420,17 @@ export default class Select extends Component<Props, State> {
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
-      focusedOption && menuIsOpen && accessibility
-        ? accessibility.optionFocusAriaMessage({
+      focusedOption && menuIsOpen ? this.accessibility.optionFocusAriaMessage({
             focusedOption,
             getOptionLabel: this.getOptionLabel,
             options,
           })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
-    const resultsMsg = accessibility ? accessibility.resultsAriaMessage({
+    const resultsMsg = this.accessibility.resultsAriaMessage({
       inputValue,
       screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
-    }) : '';
+    });
 
     return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
   }
@@ -1811,10 +1840,14 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
-        <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
-        <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
-      </A11yText>
+      <span>
+        <A11yText aria-live="assertive">
+          <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
+        </A11yText>
+        <A11yText aria-live="polite">
+          <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
+        </A11yText>
+      </span>
     );
   }
 
