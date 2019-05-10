@@ -37,7 +37,12 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "base",
+    "animated",
+    "async",
+    "creatable",
+    "async-creatable"
   ],
   "keywords": [
     "combobox",
