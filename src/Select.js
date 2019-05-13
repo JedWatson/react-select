@@ -946,7 +946,11 @@ export default class Select extends Component<Props, State> {
     this.clearValue();
     event.stopPropagation();
     this.openAfterFocus = false;
-    setTimeout(() => this.focusInput());
+    if(event.type === 'touchend') {
+      this.focusInput();
+    } else {
+      setTimeout(function() { return this.focusInput(); });
+    }
   };
   onScroll = (event: Event) => {
     if (typeof this.props.closeMenuOnScroll === 'boolean') {
