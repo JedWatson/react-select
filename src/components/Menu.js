@@ -43,6 +43,9 @@ type PlacementArgs = {
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
   isFixedPosition: boolean,
+  isSearchable: boolean,
+  isInputInMenu: boolean,
+  inputId: string,
   theme: Theme,
 };
 
@@ -53,6 +56,9 @@ export function getMenuPlacement({
   placement,
   shouldScroll,
   isFixedPosition,
+  isSearchable,
+  isInputInMenu,
+  inputId,
   theme,
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
@@ -70,6 +76,10 @@ export function getMenuPlacement({
     height: menuHeight,
     top: menuTop,
   } = menuEl.getBoundingClientRect();
+  
+  const inputEl = document.getElementById(inputId);
+  const { height: inputHeight } = inputEl.getBoundingClientRect();
+  const shiftValue = isSearchable && isInputInMenu ? inputHeight + 10 : 10; //10 - we want some offset from the bottom
 
   // $FlowFixMe function returns above if there's no offsetParent
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
@@ -91,18 +101,18 @@ export function getMenuPlacement({
     case 'auto':
     case 'bottom':
       // 1: the menu will fit, do nothing
-      if (viewSpaceBelow >= menuHeight) {
+      if (viewSpaceBelow >= menuHeight + shiftValue) {
         return { placement: 'bottom', maxHeight };
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceBelow >= menuHeight && !isFixedPosition) {
-        if (shouldScroll) {
-          animatedScrollTo(scrollParent, scrollDown, scrollDuration);
-        }
-
-        return { placement: 'bottom', maxHeight };
-      }
+      // if (scrollSpaceBelow >= menuHeight && !isFixedPosition) {
+      //   if (shouldScroll) {
+      //     animatedScrollTo(scrollParent, scrollDown, scrollDuration);
+      //   }
+      //
+      //   return { placement: 'bottom', maxHeight };
+      // }
 
       // 3: the menu will fit, if constrained
       if (
@@ -116,8 +126,8 @@ export function getMenuPlacement({
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
         const constrainedHeight = isFixedPosition
-          ? viewSpaceBelow - marginBottom
-          : scrollSpaceBelow - marginBottom;
+          ? viewSpaceBelow - marginBottom - shiftValue
+          : scrollSpaceBelow - marginBottom - shiftValue;
 
         return {
           placement: 'bottom',
@@ -292,6 +302,9 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       shouldScroll,
       isFixedPosition,
       theme,
+      isSearchable: this.props.isSearchable,
+      isInputInMenu: this.props.isInputInMenu,
+      inputId: this.props.inputId,
     });
 
     if (getPortalPlacement) getPortalPlacement(state);

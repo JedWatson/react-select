@@ -1692,6 +1692,9 @@ export default class Select extends Component<Props, State> {
       <MenuPlacer
         {...commonProps}
         {...menuPlacementProps}
+        isSearchable={isSearchable}
+        isInputInMenu={isInputInMenu}
+        inputId={id}
       >
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
