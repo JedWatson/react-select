@@ -296,7 +296,6 @@ type State = {
   ariaLiveContext: string,
   inputIsHidden: boolean,
   isFocused: boolean,
-  isComposing: boolean,
   focusedOption: OptionType | null,
   focusedValue: OptionType | null,
   menuOptions: MenuOptions,
@@ -316,7 +315,6 @@ export default class Select extends Component<Props, State> {
     focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
-    isComposing: false,
     menuOptions: { render: [], focusable: [] },
     selectValue: [],
   };
@@ -325,6 +323,7 @@ export default class Select extends Component<Props, State> {
   // ------------------------------
 
   blockOptionHover: boolean = false;
+  isComposing: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   components: SelectComponents;
@@ -984,14 +983,10 @@ export default class Select extends Component<Props, State> {
     }
   }
   onCompositionStart = () => {
-    this.setState({
-      isComposing: true,
-    });
+    this.isComposing = true;
   };
   onCompositionEnd = () => {
-    this.setState({
-      isComposing: false,
-    });
+    this.isComposing = false;
   };
 
   // ==============================
@@ -1141,7 +1136,6 @@ export default class Select extends Component<Props, State> {
       openMenuOnFocus,
     } = this.props;
     const {
-      isComposing,
       focusedOption,
       focusedValue,
       selectValue,
@@ -1182,7 +1176,7 @@ export default class Select extends Component<Props, State> {
         }
         break;
       case 'Tab':
-        if (isComposing) return;
+        if (this.isComposing) return;
 
         if (
           event.shiftKey ||
@@ -1205,7 +1199,7 @@ export default class Select extends Component<Props, State> {
         }
         if (menuIsOpen) {
           if (!focusedOption) return;
-          if (isComposing) return;
+          if (this.isComposing) return;
           this.selectOption(focusedOption);
           break;
         }
