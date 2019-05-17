@@ -91,6 +91,7 @@
   },
   "scripts": {
     "build": "nps build && bundlesize",
+    "prepare": "npm run build",
     "watch": "nps build.watch",
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
