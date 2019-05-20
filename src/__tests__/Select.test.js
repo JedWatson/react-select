@@ -721,7 +721,7 @@ cases(
 cases(
   'click to open select',
   ({ props = BASIC_PROPS, expectedToFocus }) => {
-    let selectWrapper = mount(<Select {...props} onMenuOpen={() => { }} />);
+    let selectWrapper = mount(<Select {...props} onMenuOpen={() => { }} menuIsOpen />);
 
     // this will get updated on input click, though click on input is not bubbling up to control component
     selectWrapper.setState({ isFocused: true });
