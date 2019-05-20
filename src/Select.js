@@ -552,7 +552,7 @@ export default class Select extends Component<Props, State> {
     }
 
     this.setState({
-      inputIsHidden: nextFocus === -1 ? false : true,
+      inputIsHidden: nextFocus !== -1,
       focusedValue: selectValue[nextFocus],
     });
   }
