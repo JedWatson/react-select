@@ -725,7 +725,7 @@ cases(
 
     // this will get updated on input click, though click on input is not bubbling up to control component
     selectWrapper.setState({ isFocused: true });
-    electWrapper.setProps({ menuIsOpen: true });
+    selectWrapper.setProps({ menuIsOpen: true });
     let controlComponent = selectWrapper.find('div.react-select__control');
     controlComponent.simulate('mouseDown', { target: { tagName: 'div' } });
     expect(selectWrapper.state('focusedOption')).toEqual(expectedToFocus);
