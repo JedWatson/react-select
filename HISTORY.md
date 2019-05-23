@@ -1,4 +1,15 @@
 # React-Select
+## v3.0.0 / ????
+### Breaking
+* Upgrade emotion dependency from 9.x to 10.x [#3321](https://github.com/JedWatson/react-select/pull/3321)
+* Normalize Values [#]
+* Separate entrypoints for Async, Creatable and AsyncCreaetable [#3541](https://github.com/JedWatson/react-select/pull/3541)
+* UMD builds deprecated
+* required react peerdependecy of 16.8
+
+### Updates
+* react-select is now a monorepo leveraging yarn workspaces [#3530](https://github.com/JedWatson/react-select/pull/3530)
+
 ## v2.4.3 / 2019-03-17
 ### Bugfixes
 * [#3492](https://github.com/JedWatson/react-select/pull/3492) Add labels to fields to make inspection. [@destructobeam](https://github.com/destructobeam)
