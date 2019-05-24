@@ -27,7 +27,6 @@ const Svg = ({ size, ...props }: { size: number }) => (
   />
 );
 
-
 export const CrossIcon = (props: any) => (
   <Svg size={20} {...props}>
     <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" />
@@ -56,7 +55,10 @@ export type IndicatorProps = CommonProps & {
 
 const baseCSS = ({
   isFocused,
-  theme: { spacing: { baseUnit }, colors },
+  theme: {
+    spacing: { baseUnit },
+    colors,
+  },
 }: IndicatorProps) => ({
   label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
@@ -77,12 +79,11 @@ export const DropdownIndicator = (props: IndicatorProps) => {
       {...innerProps}
       css={getStyles('dropdownIndicator', props)}
       className={cx(
-        null,
         {
-          'indicator': true,
+          indicator: true,
           'dropdown-indicator': true,
         },
-        className,
+        className
       )}
     >
       {children || <DownChevron />}
@@ -98,12 +99,12 @@ export const ClearIndicator = (props: IndicatorProps) => {
       {...innerProps}
       css={getStyles('clearIndicator', props)}
       className={cx(
-        null,
         {
-          'indicator': true,
+          indicator: true,
           'clear-indicator': true,
         },
-        className)}
+        className
+      )}
     >
       {children || <CrossIcon />}
     </div>
@@ -118,8 +119,11 @@ type SeparatorState = { isDisabled: boolean };
 
 export const indicatorSeparatorCSS = ({
   isDisabled,
-  theme: { spacing: { baseUnit }, colors },
-}: (CommonProps & SeparatorState)) => ({
+  theme: {
+    spacing: { baseUnit },
+    colors,
+  },
+}: CommonProps & SeparatorState) => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -134,11 +138,7 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
     <span
       {...innerProps}
       css={getStyles('indicatorSeparator', props)}
-      className={cx(
-        null,
-        { 'indicator-separator': true },
-        className
-      )}
+      className={cx({ 'indicator-separator': true }, className)}
     />
   );
 };
@@ -155,7 +155,10 @@ const loadingDotAnimations = keyframes`
 export const loadingIndicatorCSS = ({
   isFocused,
   size,
-  theme: { colors, spacing: { baseUnit } },
+  theme: {
+    colors,
+    spacing: { baseUnit },
+  },
 }: {
   isFocused: boolean,
   size: number,
@@ -198,11 +201,19 @@ export type LoadingIconProps = {
   /** Whether the text is right to left */
   isRtl: boolean,
 } & CommonProps & {
-  /** Set size of the container. */
-  size: number,
-};
+    /** Set size of the container. */
+    size: number,
+  };
 export const LoadingIndicator = (props: LoadingIconProps) => {
-  const { className, cx, getStyles, innerProps, isFocused, isRtl, theme: { colors } } = props;
+  const {
+    className,
+    cx,
+    getStyles,
+    innerProps,
+    isFocused,
+    isRtl,
+    theme: { colors },
+  } = props;
   const color = isFocused ? colors.neutral80 : colors.neutral20;
 
   return (
@@ -210,9 +221,8 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
       {...innerProps}
       css={getStyles('loadingIndicator', props)}
       className={cx(
-        null,
         {
-          'indicator': true,
+          indicator: true,
           'loading-indicator': true,
         },
         className

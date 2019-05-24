@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import type { CommonProps } from '../types';
-import { jsx, } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
 type State = {
   /** Whether this is disabled. */
@@ -17,7 +17,10 @@ type ValueProps = {
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 
-export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps) => ({
+export const css = ({
+  isDisabled,
+  theme: { spacing, colors },
+}: SingleValueProps) => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
@@ -37,7 +40,6 @@ const SingleValue = (props: SingleValueProps) => {
     <div
       css={getStyles('singleValue', props)}
       className={cx(
-        null,
         {
           'single-value': true,
           'single-value--is-disabled': isDisabled,

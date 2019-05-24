@@ -47,10 +47,14 @@ export const optionCSS = ({
   label: 'option',
   backgroundColor: isSelected
     ? colors.primary
-    : isFocused ? colors.primary25 : 'transparent',
+    : isFocused
+    ? colors.primary25
+    : 'transparent',
   color: isDisabled
     ? colors.neutral20
-    : isSelected ? colors.neutral0 : 'inherit',
+    : isSelected
+    ? colors.neutral0
+    : 'inherit',
   cursor: 'default',
   display: 'block',
   fontSize: 'inherit',
@@ -61,25 +65,35 @@ export const optionCSS = ({
 
   // provide some affordance on touch devices
   ':active': {
-    backgroundColor: !isDisabled && (isSelected ? colors.primary : colors.primary50),
+    backgroundColor:
+      !isDisabled && (isSelected ? colors.primary : colors.primary50),
   },
 });
 
 const Option = (props: OptionProps) => {
-  const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+  const {
+    children,
+    className,
+    cx,
+    getStyles,
+    isDisabled,
+    isFocused,
+    isSelected,
+    innerRef,
+    innerProps,
+  } = props;
   return (
     <div
       css={getStyles('option', props)}
       className={cx(
-        null,
         {
-          'option': true,
+          option: true,
           'option--is-disabled': isDisabled,
           'option--is-focused': isFocused,
           'option--is-selected': isSelected,
-          },
-          className
-          )}
+        },
+        className
+      )}
       ref={innerRef}
       {...innerProps}
     >

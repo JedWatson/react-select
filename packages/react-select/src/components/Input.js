@@ -7,7 +7,7 @@ import AutosizeInput from 'react-input-autosize';
 import type { PropsWithStyles, ClassNamesState } from '../types';
 
 export type InputProps = PropsWithStyles & {
-  cx: (?string | null, ?ClassNamesState, ?string) => string | void,
+  cx: (?ClassNamesState, ?string) => string | void,
   /** Reference to the internal element */
   innerRef: (ElementRef<*>) => void,
   /** Set whether the input should be visible. Does not affect input size. */
@@ -17,7 +17,10 @@ export type InputProps = PropsWithStyles & {
   className?: string,
 };
 
-export const inputCSS = ({ isDisabled, theme: { spacing, colors } }: InputProps) => ({
+export const inputCSS = ({
+  isDisabled,
+  theme: { spacing, colors },
+}: InputProps) => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
@@ -47,13 +50,13 @@ const Input = ({
   ...props
 }: InputProps) => (
   <div css={getStyles('input', { theme, ...props })}>
-      <AutosizeInput
-        className={cx(null, { 'input': true }, className)}
-        inputRef={innerRef}
-        inputStyle={inputStyle(isHidden)}
-        disabled={isDisabled}
-        {...props}
-      />
+    <AutosizeInput
+      className={cx({ input: true }, className)}
+      inputRef={innerRef}
+      inputStyle={inputStyle(isHidden)}
+      disabled={isDisabled}
+      {...props}
+    />
   </div>
 );
 
