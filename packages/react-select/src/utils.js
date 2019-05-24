@@ -54,8 +54,8 @@ export function classNames(
   }
 
   return arr
-    .map(i => String(i).trim())
     .filter(i => i)
+    .map(i => String(i).trim())
     .join(' ');
 }
 // ==============================
