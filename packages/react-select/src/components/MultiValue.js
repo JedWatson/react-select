@@ -31,7 +31,10 @@ export const multiValueCSS = ({
   minWidth: 0, // resolves flex/text-overflow bug
 });
 
-export const multiValueLabelCSS = ({ theme: { borderRadius, colors }, cropWithEllipsis }: MultiValueProps) => ({
+export const multiValueLabelCSS = ({
+  theme: { borderRadius, colors },
+  cropWithEllipsis,
+}: MultiValueProps) => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
@@ -111,27 +114,36 @@ class MultiValue extends Component<MultiValueProps> {
 
     return (
       <ClassNames>
-        {({ css }) => (
+        {({ css, cx: emotionCx }) => (
           <Container
             data={data}
             innerProps={{
               ...innerProps,
-              className: cx(css(getStyles('multiValue', this.props)),
-              {
-                'multi-value': true,
-                'multi-value--is-disabled': isDisabled,
-              }, className)
+              className: emotionCx(
+                css(getStyles('multiValue', this.props)),
+                cx(
+                  {
+                    'multi-value': true,
+                    'multi-value--is-disabled': isDisabled,
+                  },
+                  className
+                )
+              ),
             }}
             selectProps={selectProps}
           >
             <Label
               data={data}
               innerProps={{
-                className: cx(css(getStyles('multiValueLabel', this.props)),
-                {
-                  'multi-value__label': true,
-                },
-                className),
+                className: emotionCx(
+                  css(getStyles('multiValueLabel', this.props)),
+                  cx(
+                    {
+                      'multi-value__label': true,
+                    },
+                    className
+                  )
+                ),
               }}
               selectProps={selectProps}
             >
@@ -140,14 +152,16 @@ class MultiValue extends Component<MultiValueProps> {
             <Remove
               data={data}
               innerProps={{
-                className: cx(
+                className: emotionCx(
                   css(getStyles('multiValueRemove', this.props)),
-                  {
-                    'multi-value__remove': true,
-                  },
-                  className
+                  cx(
+                    {
+                      'multi-value__remove': true,
+                    },
+                    className
+                  )
                 ),
-                ...removeProps
+                ...removeProps,
               }}
               selectProps={selectProps}
             />

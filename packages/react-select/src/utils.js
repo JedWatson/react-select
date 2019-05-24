@@ -41,11 +41,10 @@ function applyPrefixToName(prefix, name) {
 
 export function classNames(
   prefix?: string | null,
-  cssKey?: string | null,
   state?: ClassNamesState,
-  className?: string,
+  className?: string
 ) {
-  const arr = [cssKey, className];
+  const arr = [className];
   if (state && prefix) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
@@ -54,7 +53,10 @@ export function classNames(
     }
   }
 
-  return arr.filter(i => i).map(i => String(i).trim()).join(' ');
+  return arr
+    .map(i => String(i).trim())
+    .filter(i => i)
+    .join(' ');
 }
 // ==============================
 // Clean Value

@@ -36,7 +36,9 @@ export const css = ({
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
   borderColor: isDisabled
     ? colors.neutral10
-    : isFocused ? colors.primary : colors.neutral20,
+    : isFocused
+    ? colors.primary
+    : colors.neutral20,
   borderRadius: borderRadius,
   borderStyle: 'solid',
   borderWidth: 1,
@@ -56,18 +58,27 @@ export const css = ({
 });
 
 const Control = (props: ControlProps) => {
-  const { children, cx, getStyles, className, isDisabled, isFocused, innerRef, innerProps, menuIsOpen } = props;
+  const {
+    children,
+    cx,
+    getStyles,
+    className,
+    isDisabled,
+    isFocused,
+    innerRef,
+    innerProps,
+    menuIsOpen,
+  } = props;
   return (
     <div
       ref={innerRef}
       css={getStyles('control', props)}
       className={cx(
-        null,
         {
-          'control': true,
+          control: true,
           'control--is-disabled': isDisabled,
           'control--is-focused': isFocused,
-          'control--menu-is-open': menuIsOpen
+          'control--menu-is-open': menuIsOpen,
         },
         className
       )}

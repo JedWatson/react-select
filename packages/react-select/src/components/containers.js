@@ -29,15 +29,22 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   position: 'relative',
 });
 export const SelectContainer = (props: ContainerProps) => {
-  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
+  const {
+    children,
+    className,
+    cx,
+    getStyles,
+    innerProps,
+    isDisabled,
+    isRtl,
+  } = props;
   return (
     <div
       css={getStyles('container', props)}
       className={cx(
-        null,
         {
           '--is-disabled': isDisabled,
-          '--is-rtl': isRtl
+          '--is-rtl': isRtl,
         },
         className
       )}
@@ -60,7 +67,9 @@ export type ValueContainerProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
 };
-export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) => ({
+export const valueContainerCSS = ({
+  theme: { spacing },
+}: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -72,21 +81,30 @@ export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) =
 });
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {
-    const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
+    const {
+      children,
+      className,
+      cx,
+      isMulti,
+      getStyles,
+      hasValue,
+    } = this.props;
 
     return (
       <div
         css={getStyles('valueContainer', this.props)}
         className={cx(
-          null,
           {
             'value-container': true,
             'value-container--is-multi': isMulti,
             'value-container--has-value': hasValue,
-          }, className)}
+          },
+          className
+        )}
       >
         {children}
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -118,9 +136,8 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
     <div
       css={getStyles('indicatorsContainer', props)}
       className={cx(
-        null,
         {
-          'indicators': true,
+          indicators: true,
         },
         className
       )}

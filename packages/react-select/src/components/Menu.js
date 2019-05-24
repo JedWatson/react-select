@@ -20,9 +20,9 @@ import {
 } from '../utils';
 import type {
   InnerRef,
-    MenuPlacement,
-    MenuPosition,
-    CommonProps,
+  MenuPlacement,
+  MenuPosition,
+  CommonProps,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -231,7 +231,7 @@ export type MenuProps = MenuAndPlacerCommon & {
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({ }) => Node,
+  children: ({}) => Node,
 };
 
 function alignToControl(placement) {
@@ -320,7 +320,8 @@ const Menu = (props: MenuProps) => {
   return (
     <div
       css={getStyles('menu', props)}
-      className={cx(null, { menu: true }, className)} {...innerProps}
+      className={cx({ menu: true }, className)}
+      {...innerProps}
       ref={innerRef}
     >
       {children}
@@ -369,7 +370,6 @@ export const MenuList = (props: MenuListComponentProps) => {
     <div
       css={getStyles('menuList', props)}
       className={cx(
-        null,
         {
           'menu-list': true,
           'menu-list--is-multi': isMulti,
@@ -413,7 +413,6 @@ export const NoOptionsMessage = (props: NoticeProps) => {
     <div
       css={getStyles('noOptionsMessage', props)}
       className={cx(
-        null,
         {
           'menu-notice': true,
           'menu-notice--no-options': true,
@@ -436,7 +435,6 @@ export const LoadingMessage = (props: NoticeProps) => {
     <div
       css={getStyles('loadingMessage', props)}
       className={cx(
-        null,
         {
           'menu-notice': true,
           'menu-notice--loading': true,

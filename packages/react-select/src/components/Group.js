@@ -37,11 +37,7 @@ const Group = (props: GroupProps) => {
   return (
     <div
       css={getStyles('group', props)}
-      className={cx(
-        null,
-        { 'group': true },
-        className,
-      )}
+      className={cx({ group: true }, className)}
     >
       <Heading
         {...headingProps}
@@ -75,11 +71,7 @@ export const GroupHeading = (props: any) => {
   return (
     <div
       css={getStyles('groupHeading', { theme, ...cleanProps })}
-      className={cx(
-        null,
-        { 'group-heading': true },
-        className
-      )}
+      className={cx({ 'group-heading': true }, className)}
       {...cleanProps}
     />
   );

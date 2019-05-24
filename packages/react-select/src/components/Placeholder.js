@@ -11,7 +11,9 @@ export type PlaceholderProps = CommonProps & {
   innerProps: { [string]: any },
 };
 
-export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps) => ({
+export const placeholderCSS = ({
+  theme: { spacing, colors },
+}: PlaceholderProps) => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
@@ -27,9 +29,8 @@ const Placeholder = (props: PlaceholderProps) => {
     <div
       css={getStyles('placeholder', props)}
       className={cx(
-        null,
         {
-          'placeholder': true,
+          placeholder: true,
         },
         className
       )}
