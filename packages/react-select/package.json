@@ -57,7 +57,6 @@
   "preconstruct": {
     "entrypoints": [
       ".",
-      "base",
       "animated",
       "async",
       "creatable",
