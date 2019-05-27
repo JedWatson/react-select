@@ -1,5 +1,10 @@
 # react-select
 
+## 3.0.3
+- [patch] [](https://github.com/JedWatson/react-select/commit/):
+
+  - Remove base entrypoint to fix rollup dependency resolution issue
+
 ## 3.0.2
 - [patch] [](https://github.com/JedWatson/react-select/commit/):
 
