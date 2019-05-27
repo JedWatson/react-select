@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Select from '../../src';
+import Select from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
@@ -18,15 +18,17 @@ export default class controlledMenu extends Component<*, State> {
   toggleMenuIsOpen = () => {
     this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
     if (this.select) {
-      return !this.state.menuIsOpen ? this.select.focus() : this.select.blur();;
+      return !this.state.menuIsOpen ? this.select.focus() : this.select.blur();
     }
-  }
+  };
   render() {
     const { menuIsOpen } = this.state;
     return (
       <Fragment>
         <Select
-          ref={(ref) => { this.select = ref; }}
+          ref={ref => {
+            this.select = ref;
+          }}
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
