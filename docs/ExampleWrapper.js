@@ -3,7 +3,7 @@ import { jsx } from '@emotion/core'; // eslint-disable-line no-unused-vars
 import { Component } from 'react';
 import CodeSandboxer from 'react-codesandboxer';
 import { CodeBlock } from './markdown/renderer';
-import pkg from '../package.json';
+import pkg from '../packages/react-select/package.json';
 import { defaultTheme } from 'react-select';
 import Svg from './Svg';
 
@@ -12,7 +12,11 @@ const { colors } = defaultTheme;
 const gitInfo = {
   account: 'JedWatson',
   repository: 'react-select',
+<<<<<<< HEAD
   branch: 'master',
+=======
+  branch: 'v3.0.0',
+>>>>>>> 74d9d96... fix example wrapper to display src and link to codesandbox appropriately
   host: 'github',
 };
 
@@ -26,13 +30,14 @@ export default class ExampleWrapper extends Component {
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
   renderCodeSample = () => {
+    console.log(raw);
     let { raw } = this.props;
     let { showCode } = this.state;
 
     if (!showCode || !raw) {
       return null;
     } else {
-      return <CodeBlock codeinfo={['jsx']} />;
+      return <CodeBlock literal={raw.default} codeinfo={['jsx']} />;
     }
   };
 
@@ -69,7 +74,7 @@ export default class ExampleWrapper extends Component {
     if (isEditable) {
       return (
         <CodeSandboxer
-          example={raw}
+          example={raw.default}
           examplePath={urlPath}
           pkgJSON={pkg}
           gitInfo={gitInfo}
