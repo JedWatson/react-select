@@ -12,11 +12,7 @@ const { colors } = defaultTheme;
 const gitInfo = {
   account: 'JedWatson',
   repository: 'react-select',
-<<<<<<< HEAD
   branch: 'master',
-=======
-  branch: 'v3.0.0',
->>>>>>> 74d9d96... fix example wrapper to display src and link to codesandbox appropriately
   host: 'github',
 };
 
