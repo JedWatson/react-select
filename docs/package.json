@@ -50,6 +50,6 @@
   },
   "scripts": {
     "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
-    "build:website": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p"
+    "build:docs": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p"
   }
 }
