@@ -1,4 +1,9 @@
 # React-Select
+## v2.4.4 / 2019-05-27
+### BugFixes
+* [#3540] Fixed active styles previously being applied to disabled options. Thanks [@risenforces](https://github.com/risenforces)
+* [#3563] Fixed IME composition bugs in non Chrome browsers. Thanks [@jwilander](https://github.com/jwilander)
+
 ## v2.4.3 / 2019-03-17
 ### Bugfixes
 * [#3492](https://github.com/JedWatson/react-select/pull/3492) Add labels to fields to make inspection. [@destructobeam](https://github.com/destructobeam)
