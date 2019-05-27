@@ -27,7 +27,7 @@ export default function Creatable() {
       # Creatable
 
       ~~~jsx
-      import Creatable from 'react-select/lib/Creatable';
+      import Creatable from 'react-select/creatable';
       ~~~
 
       For the prop definition, please see the API docs [here](/props)
@@ -76,7 +76,7 @@ export default function Creatable() {
         </ExampleWrapper>
       )}
 
-      > This example uses the combined async + creatable variant, imported from \`react-select/lib/AsyncCreatable\`
+      > This example uses the combined async + creatable variant, imported from \`react-select/async-creatable\`
 
       ${(
         <ExampleWrapper
