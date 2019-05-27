@@ -176,16 +176,6 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               React Select
-              <small
-                css={{
-                  color: '#B2D4FF',
-                  fontSize: '0.5em',
-                  position: 'relative',
-                  marginLeft: '0.25em',
-                }}
-              >
-                v2
-              </small>
             </h1>
             <Content
               stars={stars}
@@ -261,7 +251,7 @@ const Content = ({ onChange, stars }) => (
             }
           }}
           value={null}
-          placeholder="🎉 What's new in V2"
+          placeholder="🎉 Feature Highlights"
           styles={headerSelectStyles}
         />
       </div>
