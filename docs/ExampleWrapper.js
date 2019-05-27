@@ -12,7 +12,7 @@ const { colors } = defaultTheme;
 const gitInfo = {
   account: 'JedWatson',
   repository: 'react-select',
-  branch: 'v2',
+  branch: 'master',
   host: 'github',
 };
 
