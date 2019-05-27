@@ -94,7 +94,7 @@
     "coveralls": "cat coverage/lcov.info | coveralls",
     "lint": "eslint .",
     "start": "cd docs && yarn start",
-    "build:website": "cd docs && yarn build:website",
+    "build:docs": "cd docs && yarn build:docs",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
