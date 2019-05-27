@@ -2,17 +2,17 @@
 
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import Select, { components } from '../../src';
+import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
-const Input = (props) => {
+const Input = props => {
   if (props.isHidden) {
-    return <components.Input {...props}/>;
+    return <components.Input {...props} />;
   }
   return (
     <div style={{ border: `1px dotted ${colourOptions[2].color}` }}>
       <Tooltip content={'Custom Input'}>
-        <components.Input {...props}/>
+        <components.Input {...props} />
       </Tooltip>
     </div>
   );

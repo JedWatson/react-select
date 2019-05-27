@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 
 type Props = { count: number, repo: string };
 

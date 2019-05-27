@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select, { components } from '../../src';
+import Select, { components } from 'react-select';
 import { colourOptions, groupedOptions } from '../data';
 
 const menuHeaderStyle = {
@@ -9,12 +9,10 @@ const menuHeaderStyle = {
   color: 'white',
 };
 
-const MenuList = (props) => {
+const MenuList = props => {
   return (
     <components.MenuList {...props}>
-      <div style={menuHeaderStyle}>
-        Custom Menu List
-      </div>
+      <div style={menuHeaderStyle}>Custom Menu List</div>
       {props.children}
     </components.MenuList>
   );

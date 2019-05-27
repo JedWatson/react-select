@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Spinner from '@atlaskit/spinner';
 import Tooltip from '@atlaskit/tooltip';
-import AsyncSelect from '../../src/Async';
+import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
 
-const LoadingIndicator = (props) => {
+const LoadingIndicator = props => {
   return (
     <Tooltip content={'Custom Loader'}>
-      <Spinner {...props} delay={0}/>
+      <Spinner {...props} delay={0} />
     </Tooltip>
   );
 };
