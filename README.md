@@ -9,6 +9,8 @@ The Select control for [React](https://reactjs.com). Initially built for use in 
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
+See our [upgrade guide](https://github.com/JedWatson/react-select/issues/3585) for a breakdown on how to upgrade from v2 to v3.
+
 React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
 
 Features include:
