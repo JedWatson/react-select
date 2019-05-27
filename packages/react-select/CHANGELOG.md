@@ -1,5 +1,10 @@
 # react-select
 
+## 3.0.1
+- [patch] [](https://github.com/JedWatson/react-select/commit/):
+
+  - Add README.md file for npm
+
 ## 3.0.0
 - [major] [9ad152b](https://github.com/JedWatson/react-select/commit/9ad152b) [#3574](https://github.com/JedWatson/react-select/pulls/3574) Thanks [@gwyneplaine](https://github.com/gwyneplaine):
   - Upgrade emotion dependency from 9.x to 10.x [#3321](https://github.com/JedWatson/react-select/pull/3321)
