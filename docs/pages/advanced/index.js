@@ -225,7 +225,7 @@ export default function Advanced() {
 
       ## Experimental
 
-      Experimental recipes of prop combinations with react-select v2.
+      Experimental recipes of prop combinations with react-select.
 
       ${(
         <ExampleWrapper
