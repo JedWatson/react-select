@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "react-select", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@react-select/docs",
+      "type": "patch",
+      "dependencies": ["react-select"]
+    }
+  ]
+}

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import Select, { components } from '../../src';
+import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
-
 const ValueContainer = ({ children, ...props }) => (
-  <components.ValueContainer {...props}>
-    {children}
-  </components.ValueContainer>
+  <components.ValueContainer {...props}>{children}</components.ValueContainer>
 );
 
 type State = {};
@@ -19,8 +16,13 @@ export default class CustomControl extends Component<*, State> {
         defaultValue={colourOptions[0]}
         isClearable
         styles={{
-          singleValue: (base) => ({ ...base, color: 'white' }),
-          valueContainer: (base) => ({ ...base, background: colourOptions[2].color, color: 'white', width: '100%' }),
+          singleValue: base => ({ ...base, color: 'white' }),
+          valueContainer: base => ({
+            ...base,
+            background: colourOptions[2].color,
+            color: 'white',
+            width: '100%',
+          }),
         }}
         components={{ ValueContainer }}
         isSearchable
