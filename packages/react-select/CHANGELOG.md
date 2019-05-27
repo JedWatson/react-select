@@ -1,13 +1,12 @@
-# React-Select
+# react-select
 
-## v3.0.0 / ????
-### Breaking
-* Upgrade emotion dependency from 9.x to 10.x [#3321](https://github.com/JedWatson/react-select/pull/3321)
-* Normalize Values [#]
-* Separate entrypoints for Async, Creatable and makeAnimated [#3541](https://github.com/JedWatson/react-select/pull/3541)
-* Animated components exports now removed, these can be retrieved from a call to makeAnimated();
-* UMD builds deprecated
-* required react peer-dependecy of 16.8
+## 3.0.0
+- [major] [9ad152b](https://github.com/JedWatson/react-select/commit/9ad152b) [#3574](https://github.com/JedWatson/react-select/pulls/3574) Thanks [@gwyneplaine](https://github.com/gwyneplaine):
+  - Upgrade emotion dependency from 9.x to 10.x [#3321](https://github.com/JedWatson/react-select/pull/3321)
+  - Normalize Values [#3416](https://github.com/JedWatson/react-select/pull/3416)
+  - Separate entrypoints for Async, Creatable and makeAnimated [#3541](https://github.com/JedWatson/react-select/pull/3541)
+  - UMD builds deprecated
+  - required react peer-dependecy of 16.8
 
 ## v2.4.4 / 2019-05-27
 ### BugFixes
