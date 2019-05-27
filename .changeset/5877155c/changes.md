@@ -1,5 +1,0 @@
-- Upgrade emotion dependency from 9.x to 10.x [#3321](https://github.com/JedWatson/react-select/pull/3321)
-- Normalize Values [#3416](https://github.com/JedWatson/react-select/pull/3416)
-- Separate entrypoints for Async, Creatable and makeAnimated [#3541](https://github.com/JedWatson/react-select/pull/3541)
-- UMD builds deprecated
-- required react peer-dependecy of 16.8
