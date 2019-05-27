@@ -106,7 +106,7 @@
   "lint-staged": {
     "*.js": "eslint"
   },
-  "main": "./dist/react-select.js",
+  "main": "lib/index.js",
   "module": "dist/react-select.esm.js",
   "name": "@outsystems/react-select",
   "peerDependencies": {
