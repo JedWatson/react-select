@@ -1,5 +1,10 @@
 # react-select
 
+## 3.0.2
+- [patch] [](https://github.com/JedWatson/react-select/commit/):
+
+  - fix erroneous build
+
 ## 3.0.1
 - [patch] [](https://github.com/JedWatson/react-select/commit/):
 
