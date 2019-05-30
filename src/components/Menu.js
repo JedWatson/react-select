@@ -79,7 +79,7 @@ export function getMenuPlacement({
   
   const inputEl = document.getElementById(inputId);
   const { height: inputHeight } = inputEl.getBoundingClientRect();
-  const shiftValue = isSearchable && isInputInMenu ? inputHeight + 10 : 10; //10 - we want some offset from the bottom
+  const shiftValue = isSearchable && isInputInMenu ? inputHeight + 40 : 40; //10 - we want some offset from the bottom
 
   // $FlowFixMe function returns above if there's no offsetParent
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
