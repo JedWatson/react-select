@@ -176,7 +176,7 @@ test.skip('in case of callbacks should handle an error by setting options to an 
   expect(asyncSelectWrapper.find(Option).length).toBe(1);
 });
 
-test('should call loadOptions just once during quick fire input with debounceInterval set', async () => {
+test('should call loadOptions just once during quick fire input with debounceInterval set', () => {
   let loadOptionsSpy = jest.fn();
   let asyncSelectWrapper = mount(
     <Async
