@@ -1,1 +1,1 @@
-- Add base entrypoint back with a workaround for the rollup bug
+- Add base entrypoint back
