@@ -4,23 +4,19 @@
   "singleClearable": "#cypress-single-clearable",
   "singleClearableSelect": "#clearable-select-single",
   "singleGroupedSelect": "#grouped-options-single",
-
   "checkboxDisable": ".disable-checkbox",
   "checkboxEscapeClearsValue": ".escape-clears-value-checkbox",
-
   "groupHeading": ".react-select__group-heading",
   "indicatorClear": ".react-select__clear-indicator",
   "indicatorDropdown": ".react-select__dropdown-indicator",
   "menu": ".react-select__menu",
-  "menuOption": "[role='option']",
+  "menuOption": ".react-select__option",
   "noOptionsValue": ".react-select__menu-notice--no-options",
   "placeholder": ".react-select__placeholder",
   "singleValue": ".react-select__single-value",
-
   "menuSingle": "#basic-select-single .react-select__menu",
   "singleSelectSingleInput": "#react-select-basic-select-single-input",
   "toggleMenuSingle": "#basic-select-single .react-select__dropdown-indicator",
-
   "firstMultiValueRemove": "#multi-select .react-select__multi-value__remove:first",
   "menuMulti": "#multi-select .react-select__menu",
   "multiSelectDefaultValues": "#multi-select .react-select__multi-value",

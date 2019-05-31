@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { Component } from 'react';
+import { jsx } from '@emotion/core';
 import Button from '@atlaskit/button';
 
-import Select from '../../src';
-import { colors } from '../../src/theme';
+import Select from 'react-select';
+import { defaultTheme } from 'react-select';
 import { stateOptions } from '../data';
+
+const { colors } = defaultTheme;
 
 const selectStyles = {
   control: provided => ({ ...provided, minWidth: 240, margin: 8 }),

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import CreatableSelect from '../../src/Creatable';
+import CreatableSelect from 'react-select/creatable';
 import { colourOptions } from '../data';
 
 export default class CreatableSingle extends Component<*, State> {
@@ -15,7 +15,7 @@ export default class CreatableSingle extends Component<*, State> {
     console.log(inputValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
-  }
+  };
   render() {
     return (
       <CreatableSelect
