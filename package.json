@@ -10,8 +10,9 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "@atlaskit/build-releases": "^3.0.3",
     "@babel/runtime": "^7.4.4",
+    "@changesets/cli": "^1.1.5",
+    "@changesets/get-github-info": "^0.1.2",
     "@emotion/core": "^10.0.5",
     "classnames": "^2.2.5",
     "dataloader": "^1.4.0",
@@ -103,9 +104,9 @@
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged",
     "postinstall": "preconstruct dev",
-    "changeset": "build-releases changeset",
-    "version-packages": "build-releases version",
-    "publish-packages": "build-releases publish"
+    "changeset": "changeset",
+    "version-packages": "changeset bump",
+    "publish-packages": "changeset release"
   },
   "files": [
     "dist",
