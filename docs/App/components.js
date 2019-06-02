@@ -1,7 +1,8 @@
 // @flow
-
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { Component, type ElementConfig } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { jsx } from '@emotion/core';
 
 const navWidth = 180;
 const appWidth = 800;
@@ -78,7 +79,7 @@ export const PrimaryNav = (props: any) => (
     />
   </div>
 );
-type PrimaryNavItemProps = { selected: boolean };
+type PrimaryNavItemProps = ElementConfig<typeof Link> & { selected: boolean };
 export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
   <Link
     css={{

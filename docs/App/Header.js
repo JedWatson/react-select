@@ -1,10 +1,11 @@
 // @flow
-
+/** @jsx jsx */
 import fetch from 'unfetch';
-import React, { Component } from 'react';
+import { Component, type Node } from 'react';
+import { jsx } from '@emotion/core';
 import { withRouter } from 'react-router-dom';
 
-import Select from '../../src';
+import Select from 'react-select';
 import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
@@ -50,7 +51,7 @@ function getLabel({ icon, label }) {
 }
 
 const headerSelectStyles = {
-  control: (base, { isFocused }) => ({
+  control: ({ isFocused, ...base }) => ({
     ...base,
     backgroundClip: 'padding-box',
     borderColor: 'rgba(0,0,0,0.1)',
@@ -104,7 +105,7 @@ const Container = props => (
   />
 );
 
-type HeaderProps = RouterProps & { children: any };
+type HeaderProps = RouterProps & { children: Node };
 type HeaderState = { contentHeight: 'auto' | number, stars: number };
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
@@ -175,16 +176,6 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               React Select
-              <small
-                css={{
-                  color: '#B2D4FF',
-                  fontSize: '0.5em',
-                  position: 'relative',
-                  marginLeft: '0.25em',
-                }}
-              >
-                v2
-              </small>
             </h1>
             <Content
               stars={stars}
@@ -251,12 +242,16 @@ const Content = ({ onChange, stars }) => (
     >
       <div className="animate-dropin">
         <Select
-          getOptionLabel={getLabel}
+          formatOptionLabel={getLabel}
           isSearchable={false}
           options={changes}
-          onChange={onChange}
+          onChange={option => {
+            if (option && !Array.isArray(option)) {
+              onChange(option);
+            }
+          }}
           value={null}
-          placeholder="🎉 What's new in V2"
+          placeholder="🎉 Feature Highlights"
           styles={headerSelectStyles}
         />
       </div>

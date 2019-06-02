@@ -162,10 +162,10 @@ be handled with the new styles API:
 
 ### Using classNames
 
-If you provide the \`className\` prop to react-select, all inner elements will
+If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
 be given a className based on the one you have provided.
 
-For example, given \`className="react-select"\`, the DOM would roughtly look
+For example, given \`classNamePrefix="react-select"\`, the DOM would roughly look
 like this:
 
 ~~~html

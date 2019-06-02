@@ -1,6 +1,6 @@
 // @flow
-
-import React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 
 type Props = { count: number, repo: string };
 
@@ -74,7 +74,7 @@ const StarButton = ({ count, repo }: Props) => (
         '&:before': {
           border: '4px solid transparent',
           borderRightColor: 'white',
-          content: ' ',
+          content: '" "',
           height: 0,
           left: -8,
           top: '50%',
