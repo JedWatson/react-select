@@ -10,19 +10,17 @@ type NonceProviderProps = {
 };
 
 export default class NonceProvider extends Component<NonceProviderProps> {
-  constructor (props: NonceProviderProps) {
+  constructor(props: NonceProviderProps) {
     super(props);
     this.createEmotionCache = memoizeOne(this.createEmotionCache);
   }
   createEmotionCache = (nonce: string) => {
     return createCache({ nonce });
-  }
-  render () {
+  };
+  render() {
     const emotionCache = this.createEmotionCache(this.props.nonce);
     return (
-      <CacheProvider value={emotionCache}>
-        {this.props.children}
-      </CacheProvider>
+      <CacheProvider value={emotionCache}>{this.props.children}</CacheProvider>
     );
   }
 }
