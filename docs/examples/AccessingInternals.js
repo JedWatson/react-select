@@ -1,8 +1,9 @@
 import React, { Component, type ElementRef, Fragment } from 'react';
 
-import Select from '../../src';
-import AsyncSelect from '../../src/Async';
-import CreatableSelect from '../../src/Creatable';
+import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
+import CreatableSelect from 'react-select/creatable';
+
 import { Note } from '../styled-components';
 import { colourOptions } from '../data';
 
@@ -26,34 +27,34 @@ export default class AccessingInterals extends Component {
   focus = () => {
     console.log(this.selectRef);
     this.selectRef.focus();
-  }
+  };
   focusCreatable = () => {
     console.log(this.creatableRef);
     this.creatableRef.focus();
-  }
+  };
   focusAsync = () => {
     console.log(this.asyncRef);
     this.asyncRef.focus();
-  }
+  };
   blurAsync = () => {
     this.asyncRef.blur();
-  }
+  };
   blurCreatable = () => {
     this.creatableRef.blur();
-  }
+  };
   blur = () => this.selectRef.blur();
-  onSelectRef =  (ref) => {
+  onSelectRef = ref => {
     console.log(ref);
     this.selectRef = ref;
-  }
-  render () {
+  };
+  render() {
     return (
       <Fragment>
-        <h4>
-          Creatable Select
-        </h4>
+        <h4>Creatable Select</h4>
         <CreatableSelect
-          ref={ ref => { this.creatableRef = ref; }}
+          ref={ref => {
+            this.creatableRef = ref;
+          }}
           isClearable
           onChange={this.handleChange}
           options={colourOptions}
@@ -62,19 +63,23 @@ export default class AccessingInterals extends Component {
           <button
             onClick={this.focusCreatable}
             id="cypress-single__clearable-checkbox"
-          >Focus</button>
+          >
+            Focus
+          </button>
         </Note>
         <Note Tag="label">
           <button
             onClick={this.blurCreatable}
             id="cypress-single__clearable-checkbox"
-          >Blur</button>
+          >
+            Blur
+          </button>
         </Note>
-        <h4>
-          Async Select
-        </h4>
+        <h4>Async Select</h4>
         <AsyncSelect
-          ref={ ref => { this.asyncRef = ref; }}
+          ref={ref => {
+            this.asyncRef = ref;
+          }}
           cacheOptions
           defaultOptions
           loadOptions={promiseOptions}
@@ -83,32 +88,36 @@ export default class AccessingInterals extends Component {
           <button
             onClick={this.focusAsync}
             id="cypress-single__clearable-checkbox"
-          >Focus</button>
+          >
+            Focus
+          </button>
         </Note>
         <Note Tag="label">
           <button
             onClick={this.blurAsync}
             id="cypress-single__clearable-checkbox"
-          >Blur</button>
+          >
+            Blur
+          </button>
         </Note>
         <h4>Select</h4>
         <Select
-          ref={ref => { this.selectRef = ref; }}
+          ref={ref => {
+            this.selectRef = ref;
+          }}
           defaultValue={colourOptions[2]}
           name="colors"
           options={colourOptions}
         />
         <Note Tag="label">
-          <button
-            onClick={this.focus}
-            id="cypress-single__clearable-checkbox"
-          >Focus</button>
+          <button onClick={this.focus} id="cypress-single__clearable-checkbox">
+            Focus
+          </button>
         </Note>
         <Note Tag="label">
-          <button
-            onClick={this.blur}
-            id="cypress-single__clearable-checkbox"
-          >Blur</button>
+          <button onClick={this.blur} id="cypress-single__clearable-checkbox">
+            Blur
+          </button>
         </Note>
       </Fragment>
     );

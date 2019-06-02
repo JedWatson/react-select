@@ -1,7 +1,7 @@
 [ignore]
-./lib/.*
-./dist/.*
 .*/node_modules/cypress/.*
+
+[untyped]
 .*/node_modules/@atlaskit/tooltip/dist/cjs/components/Marshal.js.flow
 .*/node_modules/@atlaskit/layer-manager/dist/cjs/components/FocusLock/index.js.flow
 .*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/Gateway.js.flow
