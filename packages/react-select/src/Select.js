@@ -368,7 +368,7 @@ export default class Select extends Component<Props, State> {
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
-    const menuOptions = this.buildMenuOptions(props, selectValue);
+    const menuOptions = props.menuIsOpen ? this.buildMenuOptions(props, selectValue) : { render: [], focusable: [] };
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -387,17 +387,18 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentWillReceiveProps(nextProps: Props) {
-    const { options, value, inputValue } = this.props;
+    const { options, value, menuIsOpen, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
     // rebuild the menu options
     if (
       nextProps.value !== value ||
       nextProps.options !== options ||
+      nextProps.menuIsOpen !== menuIsOpen ||
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
-      const menuOptions = this.buildMenuOptions(nextProps, selectValue);
+      const menuOptions = nextProps.menuIsOpen ? this.buildMenuOptions(nextProps, selectValue) : { render: [], focusable: [] };
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
