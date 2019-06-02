@@ -106,7 +106,7 @@
     "postinstall": "preconstruct dev",
     "changeset": "changeset",
     "version-packages": "changeset bump",
-    "publish-packages": "changeset release"
+    "release": "yarn build && changeset release"
   },
   "files": [
     "dist",
