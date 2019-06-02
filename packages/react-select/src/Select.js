@@ -1789,7 +1789,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
+      <A11yText aria-live="polite">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
