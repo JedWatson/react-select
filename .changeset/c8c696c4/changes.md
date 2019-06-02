@@ -1,3 +1,0 @@
-- Performance improvement: menu items are built when the menu opens, not in the constructor
-- Fix for iOS focus management when clearing the select value
-- Change aria-live assertive to polite
