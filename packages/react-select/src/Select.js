@@ -51,17 +51,17 @@ import { defaultTheme, type ThemeConfig } from './theme';
 
 import type {
   ActionMeta,
-    ActionTypes,
-    FocusDirection,
-    FocusEventHandler,
-    GroupType,
-    InputActionMeta,
-    KeyboardEventHandler,
-    MenuPlacement,
-    MenuPosition,
-    OptionsType,
-    OptionType,
-    ValueType,
+  ActionTypes,
+  FocusDirection,
+  FocusEventHandler,
+  GroupType,
+  InputActionMeta,
+  KeyboardEventHandler,
+  MenuPlacement,
+  MenuPosition,
+  OptionsType,
+  OptionType,
+  ValueType,
 } from './types';
 
 type MouseOrTouchEvent =
@@ -128,8 +128,8 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption:
-  | (({ label: string, value: string, data: OptionType }, string) => boolean)
-  | null,
+    | (({ label: string, value: string, data: OptionType }, string) => boolean)
+    | null,
   /*
     Formats group labels in the menu as React components
 
@@ -305,7 +305,6 @@ type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 
-
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
@@ -368,7 +367,9 @@ export default class Select extends Component<Props, State> {
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
-    const menuOptions = this.buildMenuOptions(props, selectValue);
+    const menuOptions = props.menuIsOpen
+      ? this.buildMenuOptions(props, selectValue)
+      : { render: [], focusable: [] };
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -387,17 +388,20 @@ export default class Select extends Component<Props, State> {
     }
   }
   componentWillReceiveProps(nextProps: Props) {
-    const { options, value, inputValue } = this.props;
+    const { options, value, menuIsOpen, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
     // rebuild the menu options
     if (
       nextProps.value !== value ||
       nextProps.options !== options ||
+      nextProps.menuIsOpen !== menuIsOpen ||
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
-      const menuOptions = this.buildMenuOptions(nextProps, selectValue);
+      const menuOptions = nextProps.menuIsOpen
+        ? this.buildMenuOptions(nextProps, selectValue)
+        : { render: [], focusable: [] };
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
@@ -550,7 +554,7 @@ export default class Select extends Component<Props, State> {
     }
 
     this.setState({
-      inputIsHidden: nextFocus === -1 ? false : true,
+      inputIsHidden: nextFocus !== -1,
       focusedValue: selectValue[nextFocus],
     });
   }
@@ -586,7 +590,10 @@ export default class Select extends Component<Props, State> {
       focusedOption: options[nextFocus],
       focusedValue: null,
     });
-    this.announceAriaLiveContext({ event: 'menu', context: { isDisabled: isOptionDisabled(options[nextFocus]) } });
+    this.announceAriaLiveContext({
+      event: 'menu',
+      context: { isDisabled: isOptionDisabled(options[nextFocus]) },
+    });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
     const { onChange, name } = this.props;
@@ -661,14 +668,13 @@ export default class Select extends Component<Props, State> {
   removeValue = (removedValue: OptionType) => {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    const newValue = selectValue.filter(i => this.getOptionValue(i) !== candidate);
-    this.onChange(
-      newValue.length ? newValue : null,
-      {
-        action: 'remove-value',
-        removedValue,
-      }
+    const newValue = selectValue.filter(
+      i => this.getOptionValue(i) !== candidate
     );
+    this.onChange(newValue.length ? newValue : null, {
+      action: 'remove-value',
+      removedValue,
+    });
     this.announceAriaLiveSelection({
       event: 'remove-value',
       context: {
@@ -946,7 +952,11 @@ export default class Select extends Component<Props, State> {
     this.clearValue();
     event.stopPropagation();
     this.openAfterFocus = false;
-    setTimeout(() => this.focusInput());
+    if (event.type === 'touchend') {
+      this.focusInput();
+    } else {
+      setTimeout(() => this.focusInput());
+    }
   };
   onScroll = (event: Event) => {
     if (typeof this.props.closeMenuOnScroll === 'boolean') {
@@ -1136,11 +1146,7 @@ export default class Select extends Component<Props, State> {
       tabSelectsValue,
       openMenuOnFocus,
     } = this.props;
-    const {
-      focusedOption,
-      focusedValue,
-      selectValue,
-    } = this.state;
+    const { focusedOption, focusedValue, selectValue } = this.state;
 
     if (isDisabled) return;
 
@@ -1354,19 +1360,19 @@ export default class Select extends Component<Props, State> {
     // An aria live message representing the currently focused value in the select.
     const focusedValueMsg = focusedValue
       ? valueFocusAriaMessage({
-        focusedValue,
-        getOptionLabel: this.getOptionLabel,
-        selectValue,
-      })
+          focusedValue,
+          getOptionLabel: this.getOptionLabel,
+          selectValue,
+        })
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
       focusedOption && menuIsOpen
         ? optionFocusAriaMessage({
-          focusedOption,
-          getOptionLabel: this.getOptionLabel,
-          options,
-        })
+            focusedOption,
+            getOptionLabel: this.getOptionLabel,
+            options,
+          })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
     const resultsMsg = resultsAriaMessage({
@@ -1741,8 +1747,8 @@ export default class Select extends Component<Props, State> {
         {menuElement}
       </MenuPortal>
     ) : (
-        menuElement
-      );
+      menuElement
+    );
   }
   renderFormField() {
     const { delimiter, isDisabled, isMulti, name } = this.props;
@@ -1768,8 +1774,8 @@ export default class Select extends Component<Props, State> {
               />
             ))
           ) : (
-              <input name={name} type="hidden" />
-            );
+            <input name={name} type="hidden" />
+          );
 
         return <div>{input}</div>;
       }
@@ -1782,7 +1788,7 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     if (!this.state.isFocused) return null;
     return (
-      <A11yText aria-live="assertive">
+      <A11yText aria-live="polite">
         <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
         <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
       </A11yText>
