@@ -485,11 +485,12 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue, isFocused } = this.state;
     const { isMulti } = this.props;
+    const focusableValues = menuOptions.focusable.map(option => this.getOptionValue(option));
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
     if (!isMulti) {
-      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      const selectedIndex = focusableValues.indexOf(this.getOptionValue(selectValue[0]));
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
       }
