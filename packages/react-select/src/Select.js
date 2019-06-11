@@ -1053,7 +1053,7 @@ export default class Select extends Component<Props, State> {
       this.menuListRef &&
       !this.menuListRef.contains(event.target)
     ) {
-      this.blurInput();
+      this.onMenuClose();
     }
 
     // reset move vars
