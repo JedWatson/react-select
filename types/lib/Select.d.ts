@@ -203,6 +203,9 @@ export interface Props<OptionType = { label: string; value: string }> extends Se
   /* The value of the select; reflected by the selected option */
   value?: ValueType<OptionType>;
 
+  /* The first focusable option. May be useful if there are some options that should not be focused by default when filtering results */
+  firstFocusableOption?: integer;
+
   defaultInputValue?: string;
   defaultMenuIsOpen?: boolean;
   defaultValue?: ValueType<OptionType>;

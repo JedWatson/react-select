@@ -41,3 +41,6 @@ package-lock.json
 
 # Notes
 .NOTES.md
+
+
+!types/lib

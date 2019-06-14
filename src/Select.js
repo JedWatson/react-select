@@ -481,9 +481,12 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue, isFocused } = this.state;
-    const { isMulti } = this.props;
+    const { isMulti, firstFocusableOption } = this.props;
+
+    let firstFocusableIndex = firstFocusableOption ? firstFocusableOption : 0;
+
     let openAtIndex =
-      focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
+      focusOption === 'first' ? firstFocusableIndex : menuOptions.focusable.length - 1;
 
     if (!isMulti) {
       const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
@@ -773,9 +776,10 @@ export default class Select extends Component<Props, State> {
 
   getNextFocusedOption(options: OptionsType) {
     const { focusedOption: lastFocusedOption } = this.state;
+    let firstFocusableIndex = this.props.firstFocusableOption ? this.props.firstFocusableOption : 0;
     return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
       ? lastFocusedOption
-      : options[0];
+      : options[firstFocusableIndex];
   }
   getOptionLabel = (data: OptionType): string => {
     return this.props.getOptionLabel(data);
