@@ -11,7 +11,7 @@ const AnimatedMultiValue = (
 ): AbstractComponent<MultiValueProps> => {
   return ({ in: inProp, onExited, ...props }) => (
     <Collapse in={inProp} onExited={onExited}>
-      <WrappedComponent cropWithEllipsis={inProp} {...props} />
+      <WrappedComponent cropWithEllipsis={inProp} in={inProp} onExited={onExited} {...props} />
     </Collapse>
   );
 };

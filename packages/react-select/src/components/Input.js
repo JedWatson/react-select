@@ -15,6 +15,12 @@ export type InputProps = PropsWithStyles & {
   /** Whether the input is disabled */
   isDisabled?: boolean,
   className?: string,
+  in?: boolean,
+  onExited?: Function,
+  appear?: boolean,
+  enter?: boolean,
+  exit?: boolean,
+  selectProps?: Object
 };
 
 export const inputCSS = ({
@@ -48,16 +54,18 @@ const Input = ({
   theme,
   selectProps,
   ...props
-}: InputProps) => (
-  <div css={getStyles('input', { theme, ...props })}>
-    <AutosizeInput
-      className={cx({ input: true }, className)}
-      inputRef={innerRef}
-      inputStyle={inputStyle(isHidden)}
-      disabled={isDisabled}
-      {...props}
-    />
-  </div>
-);
+}: InputProps) => {
+  return (
+    <div css={getStyles('input', { theme, ...props })}>
+      <AutosizeInput
+        className={cx({ input: true }, className)}
+        inputRef={innerRef}
+        inputStyle={inputStyle(isHidden)}
+        disabled={isDisabled}
+        {...props}
+      />
+    </div>
+  );
+};
 
 export default Input;

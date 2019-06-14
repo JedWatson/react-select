@@ -18,6 +18,8 @@ export type MultiValueProps = CommonProps & {
     onClick: any => void,
     onMouseDown: any => void,
   },
+  in: boolean,
+  onExited: Function
 };
 
 export const multiValueCSS = ({

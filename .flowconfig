@@ -6,6 +6,9 @@
 .*/node_modules/@atlaskit/layer-manager/dist/cjs/components/FocusLock/index.js.flow
 .*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/Gateway.js.flow
 .*/node_modules/@atlaskit/layer-manager/dist/cjs/components/withRenderTarget.js.flow
+.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/GatewayDest.js.flow
+.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/GatewayProvider.js.flow
+.*/node_modules/raf-schd/lib/index.js.flow
 
 [include]
 

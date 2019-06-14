@@ -9,6 +9,8 @@ export type PlaceholderProps = CommonProps & {
   children: Node,
   /** props passed to the wrapping element for the group. */
   innerProps: { [string]: any },
+  in: boolean,
+  onExited: Function
 };
 
 export const placeholderCSS = ({

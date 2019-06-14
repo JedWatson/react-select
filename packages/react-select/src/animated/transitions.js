@@ -18,6 +18,8 @@ export type BaseTransition = {
 type FadeProps = BaseTransition & {
   component: ComponentType<any>,
   duration: number,
+  in: boolean,
+  onExited: Function
 };
 export const Fade = ({
   component: Tag,

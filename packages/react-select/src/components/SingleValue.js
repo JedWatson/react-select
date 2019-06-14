@@ -6,6 +6,9 @@ import { jsx } from '@emotion/core';
 type State = {
   /** Whether this is disabled. */
   isDisabled: boolean,
+  in: boolean,
+  onExited: Function,
+  duration: number
 };
 type ValueProps = {
   /** The children to be rendered. */
