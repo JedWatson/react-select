@@ -37,7 +37,6 @@
     "bundlesize": "^0.17.0",
     "chroma-js": "^1.3.6",
     "chrono-node": "^1.3.5",
-    "classnames": "^2.2.5",
     "codesandboxer": "^0.1.1",
     "concurrently": "^3.5.1",
     "copy-webpack-plugin": "^5.0.3",
