@@ -35,6 +35,7 @@ const inputStyle = isHidden => ({
 const Input = ({
   className,
   cx,
+  selectProps,
   getStyles,
   innerRef,
   isHidden,

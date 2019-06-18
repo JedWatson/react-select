@@ -1370,7 +1370,7 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    const { cx, theme } = this.commonProps;
+    const { cx, theme, selectProps } = this.commonProps;
 
     if (menuIsOpen && isSearchable && isInputInMenu) {
       return null;
@@ -1382,6 +1382,7 @@ export default class Select extends Component<Props, State> {
         autoComplete="off"
         autoCorrect="off"
         cx={cx}
+        selectProps={selectProps}
         getStyles={this.getStyles}
         id={id}
         innerRef={this.getInputRef}
@@ -1668,6 +1669,7 @@ export default class Select extends Component<Props, State> {
           autoComplete="off"
           autoCorrect="off"
           cx={commonProps.cx}
+          selectProps={commonProps.selectProps}
           getStyles={this.getStyles}
           id={id}
           innerRef={this.getInputRef}
