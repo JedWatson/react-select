@@ -79,7 +79,7 @@ export function getMenuPlacement({
   
   const inputEl = document.getElementById(inputId);
   const { height: inputHeight } = inputEl.getBoundingClientRect();
-  const shiftValue = isSearchable && isInputInMenu ? inputHeight + 40 : 40; //10 - we want some offset from the bottom
+  const shiftValue = isSearchable && isInputInMenu ? inputHeight + 80 : 30;
 
   // $FlowFixMe function returns above if there's no offsetParent
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
@@ -140,15 +140,15 @@ export function getMenuPlacement({
       // AUTO: flip the menu, render above
       if (placement === 'auto' || isFixedPosition) {
         // may need to be constrained after flipping
-        let constrainedHeight = maxHeight;
+        let constrainedHeight = maxHeight - shiftValue;
 
         if (
           (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - marginBottom - spacing.controlHeight
-            : scrollSpaceAbove - marginBottom - spacing.controlHeight;
+            ? viewSpaceAbove - marginBottom - spacing.controlHeight - shiftValue
+            : scrollSpaceAbove - marginBottom - spacing.controlHeight - shiftValue;
         }
 
         return { placement: 'top', maxHeight: constrainedHeight };
