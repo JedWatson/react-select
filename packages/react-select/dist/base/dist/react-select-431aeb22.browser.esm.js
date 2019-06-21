@@ -13,8 +13,8 @@ import React, { Component, PureComponent } from 'react';
 import memoizeOne from 'memoize-one';
 import { jsx } from '@emotion/core';
 import { findDOMNode } from 'react-dom';
-import { i as isTouchCapable, d as isMobileDevice, e as isDocumentElement, f as cleanValue, h as scrollIntoView, j as classNames, n as noop } from '../../chunk-e8ae4b0f.esm.js';
-import { c as clearIndicatorCSS, a as containerCSS, b as css, d as dropdownIndicatorCSS, g as groupCSS, e as groupHeadingCSS, i as indicatorsContainerCSS, f as indicatorSeparatorCSS, h as inputCSS, l as loadingIndicatorCSS, j as loadingMessageCSS, m as menuCSS, k as menuListCSS, n as menuPortalCSS, o as multiValueCSS, p as multiValueLabelCSS, q as multiValueRemoveCSS, r as noOptionsMessageCSS, s as optionCSS, t as placeholderCSS, u as css$1, v as valueContainerCSS, w as defaultComponents, x as exportedEqual, M as MenuPlacer } from '../../chunk-f0851c13.esm.js';
+import { i as isTouchCapable, d as isMobileDevice, e as isDocumentElement, f as cleanValue, h as scrollIntoView, j as classNames, n as noop } from '../../chunk-e8ae4b0f.browser.esm.js';
+import { c as clearIndicatorCSS, a as containerCSS, b as css, d as dropdownIndicatorCSS, g as groupCSS, e as groupHeadingCSS, i as indicatorsContainerCSS, f as indicatorSeparatorCSS, h as inputCSS, l as loadingIndicatorCSS, j as loadingMessageCSS, m as menuCSS, k as menuListCSS, n as menuPortalCSS, o as multiValueCSS, p as multiValueLabelCSS, q as multiValueRemoveCSS, r as noOptionsMessageCSS, s as optionCSS, t as placeholderCSS, u as css$1, v as valueContainerCSS, w as defaultComponents, x as exportedEqual, M as MenuPlacer } from '../../chunk-f0851c13.browser.esm.js';
 import _css from '@emotion/css';
 
 var diacritics = [{
@@ -451,7 +451,7 @@ function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints;
 }
 
-var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+var canUseDOM = !!(window.document && window.document.createElement);
 var activeScrollLocks = 0;
 
 var ScrollLock =
@@ -1046,7 +1046,7 @@ var defaultProps = {
   placeholder: 'Select...',
   screenReaderStatus: function screenReaderStatus(_ref) {
     var count = _ref.count;
-    return "".concat(count, " result").concat(count !== 1 ? 's' : '', " available");
+    return "".concat(count, " resultado").concat(count !== 1 ? 's disponibles' : 'resultado disponible');
   },
   styles: {},
   tabIndex: '0',

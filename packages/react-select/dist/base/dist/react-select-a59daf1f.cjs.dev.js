@@ -1080,7 +1080,7 @@ var defaultProps = {
   placeholder: 'Select...',
   screenReaderStatus: function screenReaderStatus(_ref) {
     var count = _ref.count;
-    return "".concat(count, " result").concat(count !== 1 ? 's' : '', " available");
+    return "".concat(count, " resultado").concat(count !== 1 ? 's disponibles' : 'resultado disponible');
   },
   styles: {},
   tabIndex: '0',

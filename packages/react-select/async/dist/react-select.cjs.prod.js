@@ -21,7 +21,7 @@ var __chunk_1 = require("../../dist/chunk-c9662232.cjs.prod.js");
 
 require("../../dist/chunk-1c9d6d4d.cjs.prod.js");
 
-var reactSelect = require("../../dist/base/dist/react-select-10cd012e.cjs.prod.js");
+var reactSelect = require("../../dist/base/dist/react-select-6872b6ea.cjs.prod.js");
 
 require("@emotion/css"), require("@babel/runtime/helpers/taggedTemplateLiteral"), 
 require("react-input-autosize");

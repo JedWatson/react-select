@@ -18,7 +18,7 @@ import '@babel/runtime/helpers/esm/typeof';
 import 'raf';
 import { k as handleInputChange } from '../../dist/chunk-e8ae4b0f.esm.js';
 import '../../dist/chunk-f0851c13.esm.js';
-import { S as Select } from '../../dist/base/dist/react-select-ebb7b056.esm.js';
+import { S as Select } from '../../dist/base/dist/react-select-72ff9ee2.esm.js';
 import '@emotion/css';
 import '@babel/runtime/helpers/esm/taggedTemplateLiteral';
 import 'react-input-autosize';

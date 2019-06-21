@@ -50,7 +50,7 @@ require('./chunk-c9662232.cjs.dev.js');
 
 var __chunk_2 = require('./chunk-50137db3.cjs.dev.js');
 
-var reactSelect = require('./base/dist/react-select-572092a1.cjs.dev.js');
+var reactSelect = require('./base/dist/react-select-a59daf1f.cjs.dev.js');
 
 require('@emotion/css');
 

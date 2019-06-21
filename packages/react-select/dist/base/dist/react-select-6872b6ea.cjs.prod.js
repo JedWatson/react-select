@@ -665,7 +665,7 @@ var colors = {
   placeholder: "Select...",
   screenReaderStatus: function(_ref) {
     var count = _ref.count;
-    return "".concat(count, " result").concat(1 !== count ? "s" : "", " available");
+    return "".concat(count, " resultado").concat(1 !== count ? "s disponibles" : "resultado disponible");
   },
   styles: {},
   tabIndex: "0",
