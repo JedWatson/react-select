@@ -3,6 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "description": "A Select control built with and for ReactJS",
+  "main": "dist/react-select.cjs.js",
+  "module": "dist/react-select.esm.js",
   "author": "Jed Watson",
   "license": "MIT",
   "repository": {
