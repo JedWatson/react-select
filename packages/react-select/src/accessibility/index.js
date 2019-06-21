@@ -17,15 +17,15 @@ export const instructionsAriaMessage = (
   const { isSearchable, isMulti, label, isDisabled } = context;
   switch (event) {
     case 'menu':
-      return `Use Up and Down to choose options${isDisabled ? '' : ', press Enter to select the currently focused option'}, press Escape to exit the menu, press Tab to select the option and exit the menu.`;
+      return `Utiliza flecha arriba y flecha abajo para seleccionar una opción${isDisabled ? '' : ', presiona enter para seleccionar la opción en foco'}, presiona Escape para salir del menú, presiona Tab para seleccionar la opción y salir del menú.`;
     case 'input':
-      return `${label ? label : 'Select'} is focused ${
-        isSearchable ? ',type to refine list' : ''
-        }, press Down to open the menu, ${
-        isMulti ? ' press left to focus selected values' : ''
+      return `${label ? label : 'Select'} está seleccionado ${
+        isSearchable ? ', escribe para mejorar la lista' : ''
+        }, presiona flecha abajo para abrir el menú, ${
+        isMulti ? ' presiona flecha a la izquierda para dar foco a las opciones seleccionadas' : ''
         }`;
     case 'value':
-      return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
+      return 'Utiliza flecha izquierda y flecha derecha para alternar entre opciones en foco, presiona tecla regresar para remover la opción que se encuentra actualmente en foco';
   }
 };
 
@@ -41,7 +41,7 @@ export const valueEventAriaMessage = (
     case 'remove-value':
       return `option ${value}, deselected.`;
     case 'select-option':
-      return isDisabled ? `option ${value} is disabled. Select another option.` : `option ${value}, selected.`;
+      return isDisabled ? `Opción ${value} está deshabilitada. Selecciona otra opción.` : `Opción ${value}, seleccionada.`;
   }
 };
 
