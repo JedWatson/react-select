@@ -39,7 +39,7 @@ export const valueEventAriaMessage = (
     case 'deselect-option':
     case 'pop-value':
     case 'remove-value':
-      return `option ${value}, deselected.`;
+      return `Opción ${value}, deseleccionada.`;
     case 'select-option':
       return isDisabled ? `Opción ${value} está deshabilitada. Selecciona otra opción.` : `Opción ${value}, seleccionada.`;
   }
@@ -54,9 +54,9 @@ export const valueFocusAriaMessage = ({
   getOptionLabel: (option: OptionType) => string,
   selectValue: OptionsType,
 }) =>
-  `value ${getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(
+  `Opción ${getOptionLabel(focusedValue)} ahora en foco, ${selectValue.indexOf(
     focusedValue
-  ) + 1} of ${selectValue.length}.`;
+  ) + 1} de ${selectValue.length}.`;
 
 export const optionFocusAriaMessage = ({
   focusedOption,
@@ -67,9 +67,9 @@ export const optionFocusAriaMessage = ({
   getOptionLabel: (option: OptionType) => string,
   options: OptionsType,
 }) =>
-  `option ${getOptionLabel(focusedOption)} focused${focusedOption.isDisabled ? ' disabled' : ''}, ${options.indexOf(
+  `Opción ${getOptionLabel(focusedOption)} ahora en foco${focusedOption.isDisabled ? ' deshabilitada' : ''}, ${options.indexOf(
     focusedOption
-  ) + 1} of ${options.length}.`;
+  ) + 1} de ${options.length}.`;
 
 export const resultsAriaMessage = ({
   inputValue,
@@ -79,5 +79,5 @@ export const resultsAriaMessage = ({
   screenReaderMessage: string,
 }) =>
   `${screenReaderMessage}${
-  inputValue ? ' for search term ' + inputValue : ''
+  inputValue ? ' para térmito de búsqueda ' + inputValue : ''
   }.`;
