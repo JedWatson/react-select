@@ -1,5 +1,5 @@
 {
-  "name": "@react-select/monorepo",
+  "name": "react-select",
   "private": true,
   "version": "1.0.0",
   "description": "A Select control built with and for ReactJS",
