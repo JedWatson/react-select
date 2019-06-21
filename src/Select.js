@@ -257,7 +257,6 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
-  /* A CSP Nonce which will be used in injected style sheets */
   /* Custom ARIA message functions */
   accessibility?: Accessibility
 };
