@@ -1,0 +1,3 @@
+// @flow
+export * from "../../src/animated/index.js";
+export { default } from "../../src/animated/index.js";
