@@ -6,6 +6,7 @@
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
   "author": "Jed Watson",
+  "main": "packages/react-select/dist/react-select.cjs.js",
   "license": "MIT",
   "repository": {
     "type": "git",
