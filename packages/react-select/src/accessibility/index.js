@@ -79,5 +79,5 @@ export const resultsAriaMessage = ({
   screenReaderMessage: string,
 }) =>
   `${screenReaderMessage}${
-  inputValue ? ' para térmito de búsqueda ' + inputValue : ''
+  inputValue ? ' para término de búsqueda ' + inputValue : ''
   }.`;
