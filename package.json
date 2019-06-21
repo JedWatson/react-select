@@ -3,10 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "description": "A Select control built with and for ReactJS",
-  "main": "dist/react-select.cjs.js",
+  "main": "packages/react-select/dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
   "author": "Jed Watson",
-  "main": "packages/react-select/dist/react-select.cjs.js",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -102,7 +101,6 @@
     "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
-    "postinstall": "preconstruct dev && bolt-check",
     "changeset": "changeset",
     "version-packages": "changeset bump",
     "release": "yarn build && changeset release"
