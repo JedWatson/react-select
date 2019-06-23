@@ -1480,7 +1480,7 @@ export default class Select extends Component<Props, State> {
     }
 
     if (isMulti) {
-      const selectValues: Array<any> = selectValue.map(opt => {
+      const selectValues: Array<any> = selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
 
         return (
@@ -1494,6 +1494,7 @@ export default class Select extends Component<Props, State> {
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
+            index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
