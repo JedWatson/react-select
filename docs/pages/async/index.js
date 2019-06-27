@@ -8,6 +8,7 @@ import {
   AsyncCallbacks,
   AsyncMulti,
   AsyncPromises,
+  AsyncRefresh
 } from '../../examples';
 
 
@@ -88,6 +89,21 @@ export default function Async() {
         <AsyncPromises />
       </ExampleWrapper>
     )}
+
+    ## refreshToken
+
+    When refreshToken prop is changed the input will automatically reseting and loading options again.
+
+    ${(
+      <ExampleWrapper
+        label="Refreshing Async externally"
+        urlPath="docs/examples/AsyncRefresh.js"
+        raw={require('!!raw-loader!../../examples/AsyncRefresh.js')}
+      >
+        <AsyncRefresh />
+      </ExampleWrapper>
+    )}
+
   `}
 </Fragment>);
 };
