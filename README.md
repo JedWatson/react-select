@@ -83,6 +83,7 @@ Common props you may want to specify include:
 - `onChange` - subscribe to change events
 - `options` - specify the options the user can select from
 - `placeholder` - change the text displayed when no option is selected
+- `noOptionsMessage` - ({ inputValue: string }) => string | null - Text to display when there are no options
 - `value` - control the current value
 
 See the [props documentation](https://www.react-select.com/props) for complete documentation on the props react-select supports.
