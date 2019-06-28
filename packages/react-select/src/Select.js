@@ -484,12 +484,12 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue, isFocused } = this.state;
-    const { isMulti } = this.props;
+    const { isMulti, options } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
     if (!isMulti) {
-      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      const selectedIndex = options.indexOf(selectValue[0]);
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
       }
@@ -502,7 +502,7 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
     this.setState({
       focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
+      focusedOption: options[openAtIndex],
     });
 
     this.announceAriaLiveContext({ event: 'menu' });
@@ -773,9 +773,9 @@ export default class Select extends Component<Props, State> {
   }
 
   getNextFocusedOption(options: OptionsType) {
-    const { focusedOption: lastFocusedOption } = this.state;
-    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-      ? lastFocusedOption
+    const { selectValue: lastFocusedOption } = this.state;
+    return lastFocusedOption && options.indexOf(lastFocusedOption[0]) > -1
+      ? lastFocusedOption[0]
       : options[0];
   }
   getOptionLabel = (data: OptionType): string => {
