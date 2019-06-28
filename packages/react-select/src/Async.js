@@ -100,19 +100,21 @@ export const makeAsyncSelect = <C: {}>(
         });
       }
       // Loading only if default options true. otherwise we don't want to show options.
-      if (nextProps.defaultOptions === true && typeof nextProps.refreshToken !== 'undefined') {
+      if (typeof nextProps.refreshToken !== 'undefined') {
         // Refreshing options when refresh token is changed
         if (nextProps.refreshToken !== this.props.refreshToken) {
           if (nextProps.onChange) {
             nextProps.onChange(null,{ action:'clear' });
           }
-          this.setState({ value:null },()=>{
-              this.loadOptions(inputValue, options => {
-              const isLoading = !!this.lastRequest;
-              this.optionsCache = {};
-              this.setState({ defaultOptions: options || [], isLoading });
+          if(nextProps.defaultOptions === true){
+            this.setState({ value:null },()=>{
+                this.loadOptions(inputValue, options => {
+                const isLoading = !!this.lastRequest;
+                this.optionsCache = {};
+                this.setState({ defaultOptions: options || [], isLoading });
+              });
             });
-          });
+          }
         }
       }
     }
