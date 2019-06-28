@@ -19,10 +19,11 @@ const loadOptions = (inputValue, callback) => {
   }, 1000);
 };
 
-export default class WithCallbacks extends Component<*, State> {
+export default class WithCallbacks extends Component<State> {
   state = { inputValue: '' };
   handleInputChange = (newValue: string) => {
-    const inputValue = newValue.replace(/\W/g, '');
+    //const inputValue = newValue.replace(/\W/g, '');
+    const inputValue = newValue;
     this.setState({ inputValue });
     return inputValue;
   };
