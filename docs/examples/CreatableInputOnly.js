@@ -35,10 +35,13 @@ export default class CreatableInputOnly extends Component<*, State> {
         console.group('Value Added');
         console.log(value);
         console.groupEnd();
-        this.setState({
-          inputValue: '',
-          value: [...value, createOption(inputValue)],
-        });
+        const found = value.some(el => el.value === inputValue);
+        if(!found) {
+          this.setState({
+            inputValue: '',
+            value: [...value, createOption(inputValue)],
+          });
+        }
         event.preventDefault();
     }
   };
