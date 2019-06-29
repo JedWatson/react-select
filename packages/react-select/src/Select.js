@@ -672,7 +672,7 @@ export default class Select extends Component<Props, State> {
     const newValue = selectValue.filter(
       i => this.getOptionValue(i) !== candidate
     );
-    this.onChange(newValue.length ? newValue : null, {
+    this.onChange(newValue.length ? newValue : [], {
       action: 'remove-value',
       removedValue,
     });
