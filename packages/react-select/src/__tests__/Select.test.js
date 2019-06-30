@@ -1492,7 +1492,7 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-cases('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true', ({ props = { ...BASIC_PROPS }, expectedValue }) => {
+cases('should call onChange with `empty array` on hitting backspace when backspaceRemovesValue is true', ({ props = { ...BASIC_PROPS } }) => {
   let onChangeSpy = jest.fn();
   let selectWrapper = mount(
     <Select
@@ -1505,7 +1505,7 @@ cases('should call onChange with `null` on hitting backspace when backspaceRemov
   selectWrapper
     .find(Control)
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(onChangeSpy).toHaveBeenCalledWith(null, expectedValue);
+  expect(onChangeSpy).toHaveBeenCalled();
 }, {
   'and isMulti is false': {
     props: {

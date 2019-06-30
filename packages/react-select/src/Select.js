@@ -698,7 +698,7 @@ export default class Select extends Component<Props, State> {
         value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : '',
       },
     });
-    this.onChange(newValue.length ? newValue : null, {
+    this.onChange(newValue.length ? newValue : [], {
       action: 'pop-value',
       removedValue: lastSelectedValue,
     });
