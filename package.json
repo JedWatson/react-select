@@ -78,7 +78,7 @@
     "unfetch": "^3.0.0",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
-	"@types/react": "*",
+    "@types/react": "*",
     "@types/react-dom": "*",
     "@types/react-transition-group": "*"
   },
@@ -134,5 +134,5 @@
   },
   "sideEffects": false,
   "typings": "types/index.d.ts",
-  "version": "2.4.9"
+  "version": "2.4.10"
 }
