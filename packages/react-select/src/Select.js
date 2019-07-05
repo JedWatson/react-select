@@ -79,6 +79,8 @@ export type Props = {
   'aria-label'?: string,
   /* HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string,
+  /* Set the key for the browser autocomplete/autofill feature. */
+  autoComplete?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
   /* Remove the currently focused option when the user presses backspace */
@@ -246,6 +248,7 @@ export type Props = {
 };
 
 export const defaultProps = {
+  autoComplete: "off",
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
@@ -1386,6 +1389,7 @@ export default class Select extends Component<Props, State> {
 
   renderInput() {
     const {
+      autoComplete,
       isDisabled,
       isSearchable,
       inputId,
@@ -1426,7 +1430,7 @@ export default class Select extends Component<Props, State> {
     return (
       <Input
         autoCapitalize="none"
-        autoComplete="off"
+        autoComplete={autoComplete}
         autoCorrect="off"
         cx={cx}
         getStyles={this.getStyles}

@@ -79,6 +79,14 @@ test('isRtl boolean props is passed down to the control component', () => {
   expect(selectWrapper.props().isRtl).toBe(true);
 });
 
+test('autoComplete string prop is passed down to the control component', () => {
+  let selectWrapper = mount(
+    <Select {...BASIC_PROPS} value={[OPTIONS[0]]} autoComplete="new-password" />
+  );
+  expect(selectWrapper.props().autoComplete).toBe('new-password');
+  expect(selectWrapper.find(Input).props().autoComplete).toBe('new-password');
+});
+
 test('isOptionSelected() prop > single select > mark value as isSelected if isOptionSelected returns true for the option', () => {
   // Select all but option with label '1'
   let isOptionSelected = jest.fn(option => option.label !== '1');
