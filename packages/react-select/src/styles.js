@@ -53,7 +53,7 @@ export type Styles = {
   multiValue?: StyleFn,
   multiValueLabel?: StyleFn,
   multiValueRemove?: StyleFn,
-  noOptionsMessageCSS?: StyleFn,
+  noOptionsMessage?: StyleFn,
   option?: StyleFn,
   placeholder?: StyleFn,
   singleValue?: StyleFn,
