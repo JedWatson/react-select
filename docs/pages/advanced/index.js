@@ -57,9 +57,9 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          label="Custom filterOption function"
+          urlPath="docs/examples/CustomFilterOptions.js"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
@@ -225,7 +225,7 @@ export default function Advanced() {
 
       ## Experimental
 
-      Experimental recipes of prop combinations with react-select v2.
+      Experimental recipes of prop combinations with react-select.
 
       ${(
         <ExampleWrapper
