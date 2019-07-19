@@ -46,7 +46,7 @@ export type Styles = {
   indicatorSeparator?: StyleFn,
   input?: StyleFn,
   loadingIndicator?: StyleFn,
-  loadingMessageCSS?: StyleFn,
+  loadingMessage?: StyleFn,
   menu?: StyleFn,
   menuList?: StyleFn,
   menuPortal?: StyleFn,
