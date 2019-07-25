@@ -1312,7 +1312,7 @@ export default class Select extends Component<Props, State> {
 
     return options.reduce(
       (acc, item, itemIndex) => {
-        if (item.options) {
+        if (item.options && item.label) {
           // TODO needs a tidier implementation
           if (!this.hasGroups) this.hasGroups = true;
 

@@ -9,6 +9,7 @@ export type OptionsType = Array<OptionType>;
 
 export type GroupType = {
   options: OptionsType,
+  label: string,
   [string]: any,
 };
 
