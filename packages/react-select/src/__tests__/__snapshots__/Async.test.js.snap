@@ -164,6 +164,7 @@ exports[`defaults - snapshot 1`] = `
       defaultOptions={false}
       escapeClearsValue={false}
       filterOption={null}
+      focusDefaultOption={true}
       formatGroupLabel={[Function]}
       getOptionLabel={[Function]}
       getOptionValue={[Function]}
@@ -229,6 +230,7 @@ exports[`defaults - snapshot 1`] = `
             "defaultOptions": false,
             "escapeClearsValue": false,
             "filterOption": null,
+            "focusDefaultOption": true,
             "formatGroupLabel": [Function],
             "getOptionLabel": [Function],
             "getOptionValue": [Function],
@@ -332,6 +334,7 @@ exports[`defaults - snapshot 1`] = `
                 "defaultOptions": false,
                 "escapeClearsValue": false,
                 "filterOption": null,
+                "focusDefaultOption": true,
                 "formatGroupLabel": [Function],
                 "getOptionLabel": [Function],
                 "getOptionValue": [Function],
@@ -427,6 +430,7 @@ exports[`defaults - snapshot 1`] = `
                     "defaultOptions": false,
                     "escapeClearsValue": false,
                     "filterOption": null,
+                    "focusDefaultOption": true,
                     "formatGroupLabel": [Function],
                     "getOptionLabel": [Function],
                     "getOptionValue": [Function],
@@ -522,6 +526,7 @@ exports[`defaults - snapshot 1`] = `
                         "defaultOptions": false,
                         "escapeClearsValue": false,
                         "filterOption": null,
+                        "focusDefaultOption": true,
                         "formatGroupLabel": [Function],
                         "getOptionLabel": [Function],
                         "getOptionValue": [Function],
@@ -621,6 +626,7 @@ exports[`defaults - snapshot 1`] = `
                         "defaultOptions": false,
                         "escapeClearsValue": false,
                         "filterOption": null,
+                        "focusDefaultOption": true,
                         "formatGroupLabel": [Function],
                         "getOptionLabel": [Function],
                         "getOptionValue": [Function],
@@ -804,6 +810,7 @@ exports[`defaults - snapshot 1`] = `
                     "defaultOptions": false,
                     "escapeClearsValue": false,
                     "filterOption": null,
+                    "focusDefaultOption": true,
                     "formatGroupLabel": [Function],
                     "getOptionLabel": [Function],
                     "getOptionValue": [Function],
@@ -898,6 +905,7 @@ exports[`defaults - snapshot 1`] = `
                         "defaultOptions": false,
                         "escapeClearsValue": false,
                         "filterOption": null,
+                        "focusDefaultOption": true,
                         "formatGroupLabel": [Function],
                         "getOptionLabel": [Function],
                         "getOptionValue": [Function],
@@ -1000,6 +1008,7 @@ exports[`defaults - snapshot 1`] = `
                         "defaultOptions": false,
                         "escapeClearsValue": false,
                         "filterOption": null,
+                        "focusDefaultOption": true,
                         "formatGroupLabel": [Function],
                         "getOptionLabel": [Function],
                         "getOptionValue": [Function],

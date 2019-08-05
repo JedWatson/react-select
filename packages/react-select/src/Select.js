@@ -138,6 +138,8 @@ export type Props = {
   formatGroupLabel: typeof formatGroupLabel,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
+  /* Applies focus to the first option in the menu when opened */
+  focusDefaultOption: boolean,
   /* Resolves option data to a string to be displayed as the label by components */
   getOptionLabel: typeof getOptionLabel,
   /* Resolves option data to a string to compare options and specify value attributes */
@@ -256,6 +258,7 @@ export const defaultProps = {
   escapeClearsValue: false,
   filterOption: createFilter(),
   formatGroupLabel: formatGroupLabel,
+  focusDefaultOption: true,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
   isDisabled: false,
@@ -402,9 +405,23 @@ export default class Select extends Component<Props, State> {
       const menuOptions = nextProps.menuIsOpen
         ? this.buildMenuOptions(nextProps, selectValue)
         : { render: [], focusable: [] };
-      const focusedValue = this.getNextFocusedValue(selectValue);
-      const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-      this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
+
+      this.setState((state) => {
+        let focusedValue = null;
+        let focusedOption = null;
+
+        if (nextProps.focusDefaultOption) {
+          focusedValue = this.getNextFocusedValue(selectValue);
+          focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+        }
+
+        return {
+          menuOptions,
+          selectValue,
+          focusedOption,
+          focusedValue,
+        }
+      });
     }
     // some updates should toggle the state of the input visibility
     if (this.inputIsHiddenAfterUpdate != null) {
@@ -484,7 +501,7 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { menuOptions, selectValue, isFocused } = this.state;
-    const { isMulti } = this.props;
+    const { isMulti, focusDefaultOption } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
@@ -502,7 +519,7 @@ export default class Select extends Component<Props, State> {
     this.onMenuOpen();
     this.setState({
       focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
+      focusedOption: focusDefaultOption ? menuOptions.focusable[openAtIndex] : null,
     });
 
     this.announceAriaLiveContext({ event: 'menu' });

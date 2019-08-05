@@ -11,6 +11,7 @@ exports[`defaults > snapshot 1`] = `
   controlShouldRenderValue={true}
   escapeClearsValue={false}
   filterOption={[Function]}
+  focusDefaultOption={true}
   formatGroupLabel={[Function]}
   getOptionLabel={[Function]}
   getOptionValue={[Function]}
