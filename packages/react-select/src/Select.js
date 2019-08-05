@@ -406,21 +406,19 @@ export default class Select extends Component<Props, State> {
         ? this.buildMenuOptions(nextProps, selectValue)
         : { render: [], focusable: [] };
 
-      this.setState((state) => {
-        let focusedValue = null;
-        let focusedOption = null;
+      let focusedValue = null;
+      let focusedOption = null;
 
-        if (nextProps.focusDefaultOption) {
-          focusedValue = this.getNextFocusedValue(selectValue);
-          focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-        }
+      if (nextProps.focusDefaultOption) {
+        focusedValue = this.getNextFocusedValue(selectValue);
+        focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+      }
 
-        return {
+      this.setState({
           menuOptions,
           selectValue,
           focusedOption,
           focusedValue,
-        }
       });
     }
     // some updates should toggle the state of the input visibility
