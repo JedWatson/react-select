@@ -177,18 +177,18 @@ export const loadingIndicatorCSS = ({
   verticalAlign: 'middle',
 });
 
-type DotProps = { color: string, delay: number, offset: boolean };
-const LoadingDot = ({ color, delay, offset }: DotProps) => (
+type DotProps = { delay: number, offset: boolean };
+const LoadingDot = ({ delay, offset }: DotProps) => (
   <span
     css={{
       animation: `${loadingDotAnimations} 1s ease-in-out ${delay}ms infinite;`,
-      backgroundColor: color,
-      borderRadius: '1em;',
-      display: 'inline-block;',
-      marginLeft: offset ? '1em;' : null,
-      height: '1em;',
-      verticalAlign: 'top;',
-      width: '1em;',
+      backgroundColor: 'currentColor',
+      borderRadius: '1em',
+      display: 'inline-block',
+      marginLeft: offset ? '1em' : null,
+      height: '1em',
+      verticalAlign: 'top',
+      width: '1em',
     }}
   />
 );
@@ -205,16 +205,7 @@ export type LoadingIconProps = {
     size: number,
   };
 export const LoadingIndicator = (props: LoadingIconProps) => {
-  const {
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    isFocused,
-    isRtl,
-    theme: { colors },
-  } = props;
-  const color = isFocused ? colors.neutral80 : colors.neutral20;
+  const { className, cx, getStyles, innerProps, isRtl } = props;
 
   return (
     <div
@@ -228,9 +219,9 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
         className
       )}
     >
-      <LoadingDot color={color} delay={0} offset={isRtl} />
-      <LoadingDot color={color} delay={160} offset />
-      <LoadingDot color={color} delay={320} offset={!isRtl} />
+      <LoadingDot delay={0} offset={isRtl} />
+      <LoadingDot delay={160} offset />
+      <LoadingDot delay={320} offset={!isRtl} />
     </div>
   );
 };
