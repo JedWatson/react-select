@@ -1387,6 +1387,7 @@ export default class Select extends Component<Props, State> {
   renderInput() {
     const {
       isDisabled,
+      isMulti,
       isSearchable,
       inputId,
       inputValue,
@@ -1407,6 +1408,7 @@ export default class Select extends Component<Props, State> {
           onChange={noop}
           onFocus={this.onInputFocus}
           readOnly
+          isMulti={isMulti}
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""

@@ -5,7 +5,7 @@ import { jsx } from '@emotion/core';
 
 export default class DummyInput extends Component<any> {
   render () {
-    const { in: inProp, out, onExited, appear, enter, exit, innerRef, emotion, ...props } = this.props;
+    const { in: inProp, out, onExited, appear, enter, exit, innerRef, isMulti, emotion, ...props } = this.props;
     return(
       <input
         ref={innerRef}
@@ -20,6 +20,7 @@ export default class DummyInput extends Component<any> {
           padding: 0,
           // important! without `width` browsers won't allow focus
           width: 1,
+          marginRight: -1,
 
           // remove cursor on desktop
           color: 'transparent',
