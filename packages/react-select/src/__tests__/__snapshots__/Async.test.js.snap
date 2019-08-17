@@ -149,6 +149,7 @@ exports[`defaults - snapshot 1`] = `
     defaultValue={null}
     filterOption={null}
     isLoading={false}
+    onChange={[Function]}
     onInputChange={[Function]}
     options={Array []}
   >

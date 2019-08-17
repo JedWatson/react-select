@@ -9,7 +9,7 @@ import React, {
 import Select, { type Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import manageState from './stateManager';
-import type { OptionsType, InputActionMeta } from './types';
+import type { ValueType, ActionMeta , OptionsType, InputActionMeta } from './types';
 
 export type AsyncProps = {
   /* The default set of options to show before the user starts searching. When
@@ -23,6 +23,13 @@ export type AsyncProps = {
   cacheOptions: any,
   onInputChange: (string, InputActionMeta) => void,
   inputValue?: string,
+  /* If refreshToken is set and defaultOptions is truthy, All options will
+     refreshing when refreshToken is changed. */
+  refreshToken?: string | number,
+  /* Storing value as state is helpful to change value when refreshToken
+      is changed */
+  value ? : ValueType,
+  onChange ? : (ValueType,ActionMeta) => void
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -40,6 +47,7 @@ type State = {
   loadedInputValue?: string,
   loadedOptions: OptionsType,
   passEmptyOptions: boolean,
+  value ? : ValueType,
 };
 
 export const makeAsyncSelect = <C: {}>(
@@ -62,6 +70,7 @@ export const makeAsyncSelect = <C: {}>(
         isLoading: props.defaultOptions === true,
         loadedOptions: [],
         passEmptyOptions: false,
+        value: props.value
       };
     }
     componentDidMount() {
@@ -77,6 +86,8 @@ export const makeAsyncSelect = <C: {}>(
       }
     }
     componentWillReceiveProps(nextProps: C & AsyncProps) {
+      const { inputValue } = this.state;
+
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
@@ -87,6 +98,24 @@ export const makeAsyncSelect = <C: {}>(
             ? nextProps.defaultOptions
             : undefined,
         });
+      }
+      // Loading only if default options true. otherwise we don't want to show options.
+      if (typeof nextProps.refreshToken !== 'undefined') {
+        // Refreshing options when refresh token is changed
+        if (nextProps.refreshToken !== this.props.refreshToken) {
+          if (nextProps.onChange) {
+            nextProps.onChange(null,{ action:'clear' });
+          }
+          if(nextProps.defaultOptions === true){
+            this.setState({ value:null },()=>{
+                this.loadOptions(inputValue, options => {
+                const isLoading = !!this.lastRequest;
+                this.optionsCache = {};
+                this.setState({ defaultOptions: options || [], isLoading });
+              });
+            });
+          }
+        }
       }
     }
     componentWillUnmount() {
@@ -104,6 +133,13 @@ export const makeAsyncSelect = <C: {}>(
       const loader = loadOptions(inputValue, callback);
       if (loader && typeof loader.then === 'function') {
         loader.then(callback, () => callback());
+      }
+    }
+    handleChange = (value:ValueType,e:ActionMeta)=>{
+      const { onChange } = this.props;
+      this.setState({ value });
+      if(typeof onChange !=='undefined'){
+        onChange(value,e);
       }
     }
     handleInputChange = (newValue: string, actionMeta: InputActionMeta) => {
@@ -166,6 +202,7 @@ export const makeAsyncSelect = <C: {}>(
         loadedInputValue,
         loadedOptions,
         passEmptyOptions,
+        value
       } = this.state;
       const options = passEmptyOptions
         ? []
@@ -181,6 +218,8 @@ export const makeAsyncSelect = <C: {}>(
           options={options}
           isLoading={isLoading}
           onInputChange={this.handleInputChange}
+          value={value}
+          onChange={this.handleChange}
         />
       );
     }
