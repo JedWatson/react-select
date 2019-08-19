@@ -48,11 +48,11 @@ export const optionCSS = ({
   backgroundColor: isSelected
     ? colors.primary
     : isFocused
-    ? colors.primary25
+    ? colors.neutral10
     : 'transparent',
   color: isDisabled
     ? colors.neutral20
-    : isSelected
+    : isSelected || isFocused
     ? colors.neutral0
     : 'inherit',
   cursor: 'default',
