@@ -129,6 +129,7 @@ export const makeCreatableSelect = <C: {}>(
         onChange,
         onCreateOption,
         value,
+        name,
       } = this.props;
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
@@ -140,7 +141,7 @@ export const makeCreatableSelect = <C: {}>(
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = { action: 'create-option' };
+          const newActionMeta = { action: 'create-option', name };
           if (isMulti) {
             onChange([...cleanValue(value), newOptionData], newActionMeta);
           } else {
