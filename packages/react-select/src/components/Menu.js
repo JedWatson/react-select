@@ -7,7 +7,7 @@ import {
   type Node,
 } from 'react';
 import { jsx } from '@emotion/core';
-import { createPortal } from 'react-dom';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import {
@@ -526,6 +526,6 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
       <div css={getStyles('menuPortal', state)}>{children}</div>
     );
 
-    return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;
+    return appendTo ? ReactDOM.createPortal(menuWrapper, appendTo) : menuWrapper;
   }
 }
