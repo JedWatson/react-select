@@ -1,5 +1,4 @@
 import React from 'react';
-import { css } from 'emotion';
 import Select from '../../src';
 import { colourOptions } from '../data';
 
@@ -8,15 +7,15 @@ const Option = (props: OptionProps) => {
   return (
     <div
       ref={innerRef}
-      className={cx(
-        css(getStyles('option', props)),
+      className={className}
+      style={Object.assign(
+          getStyles('option', props),
         {
           'option': true,
           'option--is-disabled': isDisabled,
           'option--is-focused': isFocused,
           'option--is-selected': isSelected,
-        },
-        className
+        }
       )}
       {...innerProps}
     >

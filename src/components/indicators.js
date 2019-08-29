@@ -1,6 +1,5 @@
 // @flow
 import React, { type Node } from 'react';
-import { css, injectGlobal } from 'emotion';
 
 import type { CommonProps, Theme } from '../types';
 
@@ -14,14 +13,14 @@ const Svg = ({ size, ...props }: { size: number }) => (
     width={size}
     viewBox="0 0 20 20"
     aria-hidden="true"
-    focusable="false"
-    className={css({
+    focusable="false"    
+    style={{
       display: 'inline-block',
       fill: 'currentColor',
       lineHeight: 1,
       stroke: 'currentColor',
       strokeWidth: 0,
-    })}
+    }}
     {...props}
   />
 );
@@ -73,14 +72,12 @@ export const DropdownIndicator = (props: IndicatorProps) => {
   return (
     <div
       {...innerProps}
-      className={cx(
-        css(getStyles('dropdownIndicator', props)),
+      className={className}
+      style={Object.assign(getStyles('dropdownIndicator', props),
         {
           'indicator': true,
-          'dropdown-indicator': true,
-        },
-        className,
-      )}
+          'dropdownIndicator': true,
+        })}
     >
       {children || <DownChevron />}
     </div>
@@ -93,13 +90,12 @@ export const ClearIndicator = (props: IndicatorProps) => {
   return (
     <div
       {...innerProps}
-      className={cx(
-        css(getStyles('clearIndicator', props)),
+      className={className}
+      style={Object.assign(getStyles('clearIndicator', props),
         {
           'indicator': true,
           'clear-indicator': true,
-        },
-        className)}
+        })}
     >
       {children || <CrossIcon />}
     </div>
@@ -128,11 +124,9 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
   return (
     <span
       {...innerProps}
-      className={cx(
-        css(getStyles('indicatorSeparator', props)),
-        { 'indicator-separator': true },
-        className
-      )}
+      className={className}
+      style={Object.assign(getStyles('indicatorSeparator', props),
+        { 'indicatorSeparator': true })}
     />
   );
 };
@@ -168,7 +162,7 @@ export const loadingIndicatorCSS = ({
 type DotProps = { color: string, delay: number, offset: boolean };
 const LoadingDot = ({ color, delay, offset }: DotProps) => (
   <span
-    className={css({
+    style={{
       animationDuration: '1s',
       animationDelay: `${delay}ms`,
       animationIterationCount: 'infinite',
@@ -181,7 +175,7 @@ const LoadingDot = ({ color, delay, offset }: DotProps) => (
       height: '1em',
       verticalAlign: 'top',
       width: '1em',
-    })}
+    }}
   />
 );
 
@@ -202,24 +196,18 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
 
   if(!keyframesInjected) {
     // eslint-disable-next-line no-unused-expressions
-    injectGlobal`@keyframes ${keyframesName} {
-      0%, 80%, 100% { opacity: 0; }
-      40% { opacity: 1; }
-    };`;
     keyframesInjected = true;
   }
 
   return (
     <div
       {...innerProps}
-      className={cx(
-        css(getStyles('loadingIndicator', props)),
+      className={className}
+      style={Object.assign(getStyles('loadingIndicator', props),
         {
           'indicator': true,
           'loading-indicator': true,
-        },
-        className
-      )}
+        })}
     >
       <LoadingDot color={color} delay={0} offset={isRtl} />
       <LoadingDot color={color} delay={160} offset />
