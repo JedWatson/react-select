@@ -69,7 +69,7 @@ const baseCSS = ({
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'indicator': true,
     'dropdown-indicator': true,
   }, className);
@@ -88,7 +88,7 @@ export const DropdownIndicator = (props: IndicatorProps) => {
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'indicator': true,
     'clear-indicator': true,
   }, className);
@@ -123,7 +123,7 @@ export const indicatorSeparatorCSS = ({
 
 export const IndicatorSeparator = (props: IndicatorProps) => {
   const { className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'indicator-separator': true
   }, className);
 
@@ -204,7 +204,7 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
     keyframesInjected = true;
   }
 
-  let classNames = cx({
+  let classNames = cx("", {
     'indicator': true,
     'loading-indicator': true,
   }, className);

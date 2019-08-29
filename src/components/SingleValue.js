@@ -31,7 +31,7 @@ export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps
 
 const SingleValue = (props: SingleValueProps) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'single-value': true,
     'single-value--is-disabled': isDisabled
   }, className);

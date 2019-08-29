@@ -20,7 +20,7 @@ export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps)
 
 const Placeholder = (props: PlaceholderProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'placeholder': true
   }, className);
   

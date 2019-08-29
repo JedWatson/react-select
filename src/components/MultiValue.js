@@ -107,7 +107,7 @@ class MultiValue extends Component<MultiValueProps> {
     const { Container, Label, Remove } = components;
 
     const containerInnerProps = {
-      className: cx({
+      className: cx("", {
         'multi-value': true,
         'multi-value--is-disabled': isDisabled,
       }, className),
@@ -116,14 +116,14 @@ class MultiValue extends Component<MultiValueProps> {
     };
 
     const labelInnerProps = {
-      className: cx({
+      className: cx("", {
         'multi-value__label': true,
       }, className),
       style: getStyles('multiValueLabel', this.props)
     };
 
     const removeInnerProps = {
-      className: cx({
+      className: cx("", {
         'multi-value__remove': true,
       }, className),
       style: getStyles('multiValueRemove', this.props),

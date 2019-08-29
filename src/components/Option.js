@@ -63,7 +63,7 @@ export const optionCSS = ({
 
 const Option = (props: OptionProps) => {
   const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
       'option': true,
       'option--is-disabled': isDisabled,
       'option--is-focused': isFocused,

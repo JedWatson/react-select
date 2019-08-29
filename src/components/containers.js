@@ -27,7 +27,7 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
 });
 export const SelectContainer = (props: ContainerProps) => {
   const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     '--is-disabled': isDisabled,
     '--is-rtl': isRtl
   }, className);
@@ -68,7 +68,7 @@ export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) =
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {
     const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
-    let classNames = cx({
+    let classNames = cx("", {
       'value-container': true,
       'value-container--is-multi': isMulti,
       'value-container--has-value': hasValue,
@@ -108,7 +108,7 @@ export const indicatorsContainerCSS = () => ({
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   const { children, className, cx, getStyles } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'indicators': true
   }, className);
 

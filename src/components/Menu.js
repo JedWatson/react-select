@@ -313,7 +313,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 
 const Menu = (props: MenuProps) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
-  const classNames = cx({ menu: true }, className);
+  const classNames = cx("", { menu: true }, className);
   const st = getStyles('menu', props);
   
   return (
@@ -360,7 +360,7 @@ export const menuListCSS = ({
 });
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, className, cx, getStyles, isMulti, innerRef } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'menu-list': true,
     'menu-list--is-multi': isMulti,
   }, className);
@@ -402,7 +402,7 @@ export type NoticeProps = CommonProps & {
 
 export const NoOptionsMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'menu-notice': true,
     'menu-notice--no-options': true,
   }, className);
@@ -423,7 +423,7 @@ NoOptionsMessage.defaultProps = {
 
 export const LoadingMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'menu-notice': true,
     'menu-notice--loading': true,
   }, className);

@@ -53,7 +53,7 @@ export const css = ({
 
 const Control = (props: ControlProps) => {
   const { children, cx, getStyles, className, isDisabled, isFocused, innerRef, innerProps, menuIsOpen } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'control': true,
     'control--is-disabled': isDisabled,
     'control--is-focused': isFocused,

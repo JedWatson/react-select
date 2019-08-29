@@ -32,7 +32,7 @@ const Group = (props: GroupProps) => {
     selectProps,
   } = props;
 
-  let classNames = cx({
+  let classNames = cx("", {
     'group': true
   }, className);
   
@@ -69,7 +69,7 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
 
 export const GroupHeading = (props: any) => {
   const { className, cx, getStyles, theme, selectProps, ...cleanProps } = props;
-  let classNames = cx({
+  let classNames = cx("", {
     'group-heading': true
   }, className);
 
