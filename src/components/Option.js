@@ -63,18 +63,18 @@ export const optionCSS = ({
 
 const Option = (props: OptionProps) => {
   const { children, className, cx, getStyles, isDisabled, isFocused, isSelected, innerRef, innerProps } = props;
+  let classNames = cx({
+      'option': true,
+      'option--is-disabled': isDisabled,
+      'option--is-focused': isFocused,
+      'option--is-selected': isSelected,
+    }, className);
+
   return (
     <div
       ref={innerRef}
-      className={className}
-      style={Object.assign(
-        getStyles('option', props),
-        {
-          'option': true,
-          'optionIsDisabled': isDisabled,
-          'optionIsFocused': isFocused,
-          'optionIsSelected': isSelected,
-        })}
+      className={classNames}
+      style={getStyles('option', props)}
       {...innerProps}
     >
       {children}

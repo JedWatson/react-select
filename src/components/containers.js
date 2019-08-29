@@ -27,21 +27,20 @@ export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
 });
 export const SelectContainer = (props: ContainerProps) => {
   const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } = props;
-  return (
-    <div
-      className={className}
-      style={Object.assign(
-        getStyles('container', props),
-        {
-          '--is-disabled': isDisabled,
-          '--is-rtl': isRtl
-        }
-      )}
-      {...innerProps}
-    >
-      {children}
-    </div>
-  );
+  let classNames = cx({
+    '--is-disabled': isDisabled,
+    '--is-rtl': isRtl
+  }, className);
+
+return (
+  <div
+    className={classNames}
+    style={getStyles('container', props)}
+    {...innerProps}
+  >
+    {children}
+  </div>
+);
 };
 
 // ==============================
@@ -69,17 +68,16 @@ export const valueContainerCSS = ({ theme: { spacing } }: ValueContainerProps) =
 export class ValueContainer extends Component<ValueContainerProps> {
   render() {
     const { children, className, cx, isMulti, getStyles, hasValue } = this.props;
+    let classNames = cx({
+      'value-container': true,
+      'value-container--is-multi': isMulti,
+      'value-container--has-value': hasValue,
+    }, className);
 
     return (
       <div
-        className={className}
-        style={Object.assign(
-          getStyles('valueContainer', this.props),
-          {
-            'valueContainer': true,
-            'valueContainerIsMulti': isMulti,
-            'valueContainerHasValue': hasValue,
-          })}
+        className={classNames}
+        style={getStyles('valueContainer', this.props)}
       >
         {children}
       </div>
@@ -110,15 +108,14 @@ export const indicatorsContainerCSS = () => ({
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   const { children, className, cx, getStyles } = props;
+  let classNames = cx({
+    'indicators': true
+  }, className);
 
   return (
     <div
-      className={className}
-      style={Object.assign(
-        getStyles('indicatorsContainer', props),
-        {
-          'indicators': true,
-        })}
+      className={classNames}
+      style={getStyles('indicatorsContainer', props)}
     >
       {children}
     </div>

@@ -31,11 +31,15 @@ const Group = (props: GroupProps) => {
     theme,
     selectProps,
   } = props;
+
+  let classNames = cx({
+    'group': true
+  }, className);
+  
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('group', props),
-        { 'group': true })}
+      className={classNames}
+      style={getStyles('group', props)}
     >
       <Heading
         {...headingProps}
@@ -65,11 +69,14 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
 
 export const GroupHeading = (props: any) => {
   const { className, cx, getStyles, theme, selectProps, ...cleanProps } = props;
+  let classNames = cx({
+    'group-heading': true
+  }, className);
+
   return (
     <div
-    className={className}
-    style={Object.assign(getStyles('groupHeading', { theme, ...cleanProps }),
-        { 'group-heading': true })}
+    className={classNames}
+    style={getStyles('groupHeading', { theme, ...cleanProps })}
       {...cleanProps}
     />
   );

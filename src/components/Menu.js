@@ -313,10 +313,11 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 
 const Menu = (props: MenuProps) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
-  const st = Object.assign(getStyles('menu', props), { menu: true });
-
+  const classNames = cx({ menu: true }, className);
+  const st = getStyles('menu', props);
+  
   return (
-    <div className={className} style={st} {...innerProps} ref={innerRef}>
+    <div className={classNames} style={st} {...innerProps} ref={innerRef}>
       {children}
     </div>
   );
@@ -359,14 +360,15 @@ export const menuListCSS = ({
 });
 export const MenuList = (props: MenuListComponentProps) => {
   const { children, className, cx, getStyles, isMulti, innerRef } = props;
+  let classNames = cx({
+    'menu-list': true,
+    'menu-list--is-multi': isMulti,
+  }, className);
+
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('menuList', props),
-        {
-          'menuList': true,
-          'menuListIsMulti': isMulti,
-        })}
+      className={classNames}
+      style={getStyles('menuList', props)}
       ref={innerRef}
     >
       {children}
@@ -400,14 +402,15 @@ export type NoticeProps = CommonProps & {
 
 export const NoOptionsMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'menu-notice': true,
+    'menu-notice--no-options': true,
+  }, className);
+
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('noOptionsMessage', props),
-        {
-          'menu-notice': true,
-          'menu-notice--no-options': true,
-        })}
+      className={classNames}
+      style={getStyles('noOptionsMessage', props)}
       {...innerProps}
     >
       {children}
@@ -420,14 +423,15 @@ NoOptionsMessage.defaultProps = {
 
 export const LoadingMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'menu-notice': true,
+    'menu-notice--loading': true,
+  }, className);
+
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('loadingMessage', props),
-        {
-          'menu-notice': true,
-          'menu-notice--loading': true,
-        })}
+      className={classNames}
+      style={getStyles('loadingMessage', props)}
       {...innerProps}
     >
       {children}

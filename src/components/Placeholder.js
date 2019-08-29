@@ -20,13 +20,14 @@ export const placeholderCSS = ({ theme: { spacing, colors } }: PlaceholderProps)
 
 const Placeholder = (props: PlaceholderProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'placeholder': true
+  }, className);
+  
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('placeholder', props),
-        {
-          'placeholder': true,
-        })}
+      className={classNames}
+      style={getStyles('placeholder', props)}
       {...innerProps}
     >
       {children}

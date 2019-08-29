@@ -69,15 +69,16 @@ const baseCSS = ({
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'indicator': true,
+    'dropdown-indicator': true,
+  }, className);
+
   return (
     <div
       {...innerProps}
-      className={className}
-      style={Object.assign(getStyles('dropdownIndicator', props),
-        {
-          'indicator': true,
-          'dropdownIndicator': true,
-        })}
+      className={classNames}
+      style={getStyles('dropdownIndicator', props)}
     >
       {children || <DownChevron />}
     </div>
@@ -87,15 +88,16 @@ export const DropdownIndicator = (props: IndicatorProps) => {
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'indicator': true,
+    'clear-indicator': true,
+  }, className);
+
   return (
     <div
       {...innerProps}
-      className={className}
-      style={Object.assign(getStyles('clearIndicator', props),
-        {
-          'indicator': true,
-          'clear-indicator': true,
-        })}
+      className={classNames}
+      style={getStyles('clearIndicator', props)}
     >
       {children || <CrossIcon />}
     </div>
@@ -121,12 +123,15 @@ export const indicatorSeparatorCSS = ({
 
 export const IndicatorSeparator = (props: IndicatorProps) => {
   const { className, cx, getStyles, innerProps } = props;
+  let classNames = cx({
+    'indicator-separator': true
+  }, className);
+
   return (
     <span
       {...innerProps}
-      className={className}
-      style={Object.assign(getStyles('indicatorSeparator', props),
-        { 'indicatorSeparator': true })}
+      className={classNames}
+      style={getStyles('indicatorSeparator', props)}
     />
   );
 };
@@ -199,15 +204,16 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
     keyframesInjected = true;
   }
 
+  let classNames = cx({
+    'indicator': true,
+    'loading-indicator': true,
+  }, className);
+
   return (
     <div
       {...innerProps}
-      className={className}
-      style={Object.assign(getStyles('loadingIndicator', props),
-        {
-          'indicator': true,
-          'loading-indicator': true,
-        })}
+      className={classNames}
+      style={getStyles('loadingIndicator', props)}
     >
       <LoadingDot color={color} delay={0} offset={isRtl} />
       <LoadingDot color={color} delay={160} offset />

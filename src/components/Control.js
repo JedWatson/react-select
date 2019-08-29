@@ -53,17 +53,18 @@ export const css = ({
 
 const Control = (props: ControlProps) => {
   const { children, cx, getStyles, className, isDisabled, isFocused, innerRef, innerProps, menuIsOpen } = props;
+  let classNames = cx({
+    'control': true,
+    'control--is-disabled': isDisabled,
+    'control--is-focused': isFocused,
+    'control--menu-is-open': menuIsOpen
+  }, className);
+
   return (
     <div
       ref={innerRef}
-      className={`control ${className}`}
-      style={Object.assign(getStyles('control', props), 
-      {
-        'control': true,
-        'controlIsDisabled': isDisabled,
-        'controlIsFocused': isFocused,
-        'controlMenuIsOpen': menuIsOpen
-      })}
+      className={classNames}
+      style={getStyles('control', props)}
       {...innerProps}
     >
       {children}

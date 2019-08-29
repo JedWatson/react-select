@@ -31,14 +31,15 @@ export const css = ({ isDisabled, theme: { spacing, colors } }: SingleValueProps
 
 const SingleValue = (props: SingleValueProps) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
+  let classNames = cx({
+    'single-value': true,
+    'single-value--is-disabled': isDisabled
+  }, className);
+
   return (
     <div
-      className={className}
-      style={Object.assign(getStyles('singleValue', props),
-        {
-          'singleValue': true,
-          'singleValueIsDisabled': isDisabled
-        })}
+      className={classNames}
+      style={getStyles('singleValue', props)}
       {...innerProps}
     >
       {children}
