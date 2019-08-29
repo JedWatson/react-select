@@ -456,12 +456,12 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuOpen();
   }
   onMenuClose() {
-    const { isSearchable, isMulti, clearInputOnSelect } = this.props;
+    const { isSearchable, isMulti } = this.props;
     this.announceAriaLiveContext({
       event: 'input',
       context: { isSearchable, isMulti },
     });
-    if (clearInputOnSelect) this.onInputChange('', { action: 'menu-close' });
+    this.onInputChange('', { action: 'menu-close' });
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
