@@ -95,6 +95,8 @@ export type Props = {
     This is useful when styling via CSS classes instead of the Styles API approach.
   */
   classNamePrefix?: string | null,
+  /* Reset input value when the user selects an option */
+  clearInputOnSelect: boolean,
   /* Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean,
   /*
@@ -278,6 +280,7 @@ export const defaultProps = {
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
+  clearInputOnSelect: true,
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
   styles: {},
@@ -453,12 +456,12 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuOpen();
   }
   onMenuClose() {
-    const { isSearchable, isMulti } = this.props;
+    const { isSearchable, isMulti, clearInputOnSelect } = this.props;
     this.announceAriaLiveContext({
       event: 'input',
       context: { isSearchable, isMulti },
     });
-    this.onInputChange('', { action: 'menu-close' });
+    if (clearInputOnSelect) this.onInputChange('', { action: 'menu-close' });
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
@@ -605,8 +608,8 @@ export default class Select extends Component<Props, State> {
     action: ActionTypes = 'set-value',
     option?: OptionType
   ) => {
-    const { closeMenuOnSelect, isMulti } = this.props;
-    this.onInputChange('', { action: 'set-value' });
+    const { closeMenuOnSelect, isMulti, clearInputOnSelect } = this.props;
+    if (clearInputOnSelect) this.onInputChange('', { action: 'set-value' });
     if (closeMenuOnSelect) {
       this.inputIsHiddenAfterUpdate = !isMulti;
       this.onMenuClose();

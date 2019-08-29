@@ -1706,6 +1706,19 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
   );
 });
 
+test('clearInputOnSelect prop > when passed as false it should not call onInputChange on selecting option', () => {
+  let onInputChangeSpy = jest.fn();
+  const props = { ...BASIC_PROPS, onInputChange: onInputChangeSpy };
+  let selectWrapper = mount(
+    <Select {...props} menuIsOpen clearInputOnSelect={false} />
+  );
+  selectWrapper
+    .find('div.react-select__option')
+    .at(0)
+    .simulate('click', { button: 0 });
+  expect(onInputChangeSpy).not.toHaveBeenCalledTimes(1); // calls only on menu close
+});
+
 test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {
   let onMenuCloseSpy = jest.fn();
   const props = { ...BASIC_PROPS, onMenuClose: onMenuCloseSpy };
