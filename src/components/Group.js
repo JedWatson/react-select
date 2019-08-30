@@ -39,7 +39,6 @@ const Group = (props: GroupProps) => {
   return (
     <div
       className={classNames}
-      style={getStyles('group', props)}
     >
       <Heading
         {...headingProps}
@@ -76,7 +75,6 @@ export const GroupHeading = (props: any) => {
   return (
     <div
     className={classNames}
-    style={getStyles('groupHeading', { theme, ...cleanProps })}
       {...cleanProps}
     />
   );

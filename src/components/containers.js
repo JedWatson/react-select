@@ -35,7 +35,6 @@ export const SelectContainer = (props: ContainerProps) => {
 return (
   <div
     className={classNames}
-    style={getStyles('container', props)}
     {...innerProps}
   >
     {children}
@@ -77,7 +76,6 @@ export class ValueContainer extends Component<ValueContainerProps> {
     return (
       <div
         className={classNames}
-        style={getStyles('valueContainer', this.props)}
       >
         {children}
       </div>
@@ -115,7 +113,6 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
   return (
     <div
       className={classNames}
-      style={getStyles('indicatorsContainer', props)}
     >
       {children}
     </div>

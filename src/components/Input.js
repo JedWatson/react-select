@@ -43,7 +43,7 @@ const Input = ({
   selectProps,
   ...props
 }: InputProps) => (
-  <div style={getStyles('input', { theme, ...props })}>
+  <div>
     <AutosizeInput
       className={cx(null, { 'input': true }, className)}
       inputRef={innerRef}

@@ -39,7 +39,6 @@ const SingleValue = (props: SingleValueProps) => {
   return (
     <div
       className={classNames}
-      style={getStyles('singleValue', props)}
       {...innerProps}
     >
       {children}
