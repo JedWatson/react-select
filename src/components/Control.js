@@ -64,6 +64,7 @@ const Control = (props: ControlProps) => {
     <div
       ref={innerRef}
       className={classNames}
+      style={getStyles('control', props)}
       {...innerProps}
     >
       {children}

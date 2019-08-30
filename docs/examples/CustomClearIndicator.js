@@ -9,7 +9,7 @@ const CustomClearText = () => 'clear all';
 const ClearIndicator = (props) => {
   const { children = <CustomClearText/>, getStyles, innerProps: { ref, ...restInnerProps } } = props;
   return (
-    <div {...restInnerProps} ref={ref}>
+    <div {...restInnerProps} ref={ref} style={getStyles('clearIndicator', props)}>
       <div style={{ padding: '0px 5px' }}>
         {children}
       </div>

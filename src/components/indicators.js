@@ -78,6 +78,7 @@ export const DropdownIndicator = (props: IndicatorProps) => {
     <div
       {...innerProps}
       className={classNames}
+      style={getStyles('dropdownIndicator', props)}
     >
       {children || <DownChevron />}
     </div>
@@ -96,6 +97,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
     <div
       {...innerProps}
       className={classNames}
+      style={getStyles('clearIndicator', props)}
     >
       {children || <CrossIcon />}
     </div>
@@ -129,6 +131,7 @@ export const IndicatorSeparator = (props: IndicatorProps) => {
     <span
       {...innerProps}
       className={classNames}
+      style={getStyles('indicatorSeparator', props)}
     />
   );
 };
@@ -210,6 +213,7 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
     <div
       {...innerProps}
       className={classNames}
+      style={getStyles('loadingIndicator', props)}
     >
       <LoadingDot color={color} delay={0} offset={isRtl} />
       <LoadingDot color={color} delay={160} offset />

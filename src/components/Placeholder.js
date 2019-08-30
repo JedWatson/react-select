@@ -27,6 +27,7 @@ const Placeholder = (props: PlaceholderProps) => {
   return (
     <div
       className={classNames}
+      style={getStyles('placeholder', props)}
       {...innerProps}
     >
       {children}

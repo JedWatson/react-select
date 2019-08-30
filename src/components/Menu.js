@@ -368,6 +368,7 @@ export const MenuList = (props: MenuListComponentProps) => {
   return (
     <div
       className={classNames}
+      style={getStyles('menuList', props)}
       ref={innerRef}
     >
       {children}
@@ -409,6 +410,7 @@ export const NoOptionsMessage = (props: NoticeProps) => {
   return (
     <div
       className={classNames}
+      style={getStyles('noOptionsMessage', props)}
       {...innerProps}
     >
       {children}
@@ -429,6 +431,7 @@ export const LoadingMessage = (props: NoticeProps) => {
   return (
     <div
       className={classNames}
+      style={getStyles('loadingMessage', props)}
       {...innerProps}
     >
       {children}
@@ -511,7 +514,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div>{children}</div>
+      <div style={getStyles('menuPortal', state)}>{children}</div>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;

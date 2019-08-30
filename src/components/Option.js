@@ -74,6 +74,7 @@ const Option = (props: OptionProps) => {
     <div
       ref={innerRef}
       className={classNames}
+      style={getStyles('option', props)}
       {...innerProps}
     >
       {children}
