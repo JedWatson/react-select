@@ -359,7 +359,7 @@ export const menuListCSS = ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerRef } = props;
+  const { children, className, cx, getStyles, isMulti, innerRef, maxHeight } = props;
   let classNames = cx("", {
     'menu-list': true,
     'menu-list--is-multi': isMulti,
@@ -368,7 +368,9 @@ export const MenuList = (props: MenuListComponentProps) => {
   return (
     <div
       className={classNames}
-      style={getStyles('menuList', props)}
+      style={Object.assign(getStyles('menuList', props), {
+        "max-height": maxHeight
+      })}
       ref={innerRef}
     >
       {children}

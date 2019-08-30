@@ -790,8 +790,8 @@ export default class Select extends Component<Props, State> {
     return this.props.getOptionValue(data);
   };
   getStyles = (key: string, props: {}): {} => {
-    const base = defaultStyles[key](props);
-    base.boxSizing = 'border-box';
+    const base = {}; //defaultStyles[key](props);
+    // base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
