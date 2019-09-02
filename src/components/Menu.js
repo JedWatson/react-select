@@ -369,7 +369,7 @@ export const MenuList = (props: MenuListComponentProps) => {
     <div
       className={classNames}
       style={Object.assign(getStyles('menuList', props), {
-        "max-height": maxHeight
+        maxHeight: maxHeight
       })}
       ref={innerRef}
     >
