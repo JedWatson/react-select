@@ -5,7 +5,6 @@ import React, {
   type ElementRef,
   type Node,
 } from 'react';
-import { css } from 'emotion';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -314,10 +313,11 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 
 const Menu = (props: MenuProps) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
-  const cn = cx(css(getStyles('menu', props)), { menu: true }, className);
-
+  const classNames = cx("", { menu: true }, className);
+  const st = getStyles('menu', props);
+  
   return (
-    <div className={cn} {...innerProps} ref={innerRef}>
+    <div className={classNames} style={st} {...innerProps} ref={innerRef}>
       {children}
     </div>
   );
@@ -359,17 +359,18 @@ export const menuListCSS = ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerRef } = props;
+  const { children, className, cx, getStyles, isMulti, innerRef, maxHeight } = props;
+  let classNames = cx("", {
+    'menu-list': true,
+    'menu-list--is-multi': isMulti,
+  }, className);
+
   return (
     <div
-      className={cx(
-        css(getStyles('menuList', props)),
-        {
-          'menu-list': true,
-          'menu-list--is-multi': isMulti,
-        },
-        className
-      )}
+      className={classNames}
+      style={Object.assign(getStyles('menuList', props), {
+        "max-height": maxHeight
+      })}
       ref={innerRef}
     >
       {children}
@@ -403,16 +404,15 @@ export type NoticeProps = CommonProps & {
 
 export const NoOptionsMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx("", {
+    'menu-notice': true,
+    'menu-notice--no-options': true,
+  }, className);
+
   return (
     <div
-      className={cx(
-        css(getStyles('noOptionsMessage', props)),
-        {
-          'menu-notice': true,
-          'menu-notice--no-options': true,
-        },
-        className
-      )}
+      className={classNames}
+      style={getStyles('noOptionsMessage', props)}
       {...innerProps}
     >
       {children}
@@ -425,16 +425,15 @@ NoOptionsMessage.defaultProps = {
 
 export const LoadingMessage = (props: NoticeProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
+  let classNames = cx("", {
+    'menu-notice': true,
+    'menu-notice--loading': true,
+  }, className);
+
   return (
     <div
-      className={cx(
-        css(getStyles('loadingMessage', props)),
-        {
-          'menu-notice': true,
-          'menu-notice--loading': true,
-        },
-        className
-      )}
+      className={classNames}
+      style={getStyles('loadingMessage', props)}
       {...innerProps}
     >
       {children}
@@ -517,7 +516,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div className={css(getStyles('menuPortal', state))}>{children}</div>
+      <div style={getStyles('menuPortal', state)}>{children}</div>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;

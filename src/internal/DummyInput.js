@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { css } from 'emotion';
 
 export default class DummyInput extends Component<any> {
   render () {
@@ -10,7 +9,7 @@ export default class DummyInput extends Component<any> {
       <input
         ref={innerRef}
         {...props}
-        className={css({
+        style={{
           // get rid of any default styles
           background: 0,
           border: 0,
@@ -29,7 +28,7 @@ export default class DummyInput extends Component<any> {
           opacity: 0,
           position: 'relative',
           transform: 'scale(0)',
-        })}
+        }}
       />
     );
   }

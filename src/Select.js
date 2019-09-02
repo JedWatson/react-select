@@ -244,6 +244,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+
+  allowScreenReaders?: boolean
 };
 
 export const defaultProps = {
@@ -788,8 +790,8 @@ export default class Select extends Component<Props, State> {
     return this.props.getOptionValue(data);
   };
   getStyles = (key: string, props: {}): {} => {
-    const base = defaultStyles[key](props);
-    base.boxSizing = 'border-box';
+    const base = {}; //defaultStyles[key](props);
+    // base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
@@ -818,9 +820,11 @@ export default class Select extends Component<Props, State> {
     event: string,
     context: ValueEventContext,
   }) => {
-    this.setState({
-      ariaLiveSelection: valueEventAriaMessage(event, context),
-    });
+    if (this.props.allowScreenReaders) {  
+      this.setState({
+        ariaLiveSelection: valueEventAriaMessage(event, context),
+      });
+    }
   };
   announceAriaLiveContext = ({
     event,
@@ -829,12 +833,14 @@ export default class Select extends Component<Props, State> {
     event: string,
     context?: InstructionsContext,
   }) => {
-    this.setState({
-      ariaLiveContext: instructionsAriaMessage(event, {
-        ...context,
-        label: this.props['aria-label'],
-      }),
-    });
+    if (this.props.allowScreenReaders) {
+      this.setState({
+        ariaLiveContext: instructionsAriaMessage(event, {
+          ...context,
+          label: this.props['aria-label'],
+        }),
+      });
+    }
   };
 
   hasValue() {
@@ -1824,7 +1830,7 @@ export default class Select extends Component<Props, State> {
         isDisabled={isDisabled}
         isFocused={isFocused}
       >
-        {this.renderLiveRegion()}
+        {this.props.allowScreenReaders && this.renderLiveRegion()}
         <Control
           {...commonProps}
           innerRef={this.getControlRef}

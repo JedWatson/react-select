@@ -6,7 +6,6 @@
   ],
   "dependencies": {
     "classnames": "^2.2.5",
-    "emotion": "^9.1.2",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
@@ -134,5 +133,5 @@
   },
   "sideEffects": false,
   "typings": "types/index.d.ts",
-  "version": "2.4.11"
+  "version": "2.4.13"
 }

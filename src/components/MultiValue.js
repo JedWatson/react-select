@@ -1,6 +1,5 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { css } from 'emotion';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 
@@ -108,35 +107,26 @@ class MultiValue extends Component<MultiValueProps> {
     const { Container, Label, Remove } = components;
 
     const containerInnerProps = {
-      className: cx(
-        css(getStyles('multiValue', this.props)),
-        {
-          'multi-value': true,
-          'multi-value--is-disabled': isDisabled,
-        },
-        className
-      ),
+      className: cx("", {
+        'multi-value': true,
+        'multi-value--is-disabled': isDisabled,
+      }, className),
+      style: getStyles('multiValue', this.props),
       ...innerProps,
     };
 
     const labelInnerProps = {
-      className: cx(
-        css(getStyles('multiValueLabel', this.props)),
-        {
-          'multi-value__label': true,
-        },
-        className
-      ),
+      className: cx("", {
+        'multi-value__label': true,
+      }, className),
+      style: getStyles('multiValueLabel', this.props)
     };
 
     const removeInnerProps = {
-      className: cx(
-        css(getStyles('multiValueRemove', this.props)),
-        {
-          'multi-value__remove': true,
-        },
-        className
-      ),
+      className: cx("", {
+        'multi-value__remove': true,
+      }, className),
+      style: getStyles('multiValueRemove', this.props),
       ...removeProps,
     };
 
