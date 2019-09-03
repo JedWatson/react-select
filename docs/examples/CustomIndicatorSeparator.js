@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Select from 'react-select';
+import Select from '../../src';
 import { colourOptions } from '../data';
 
 const indicatorSeparatorStyle = {
@@ -13,7 +13,9 @@ const indicatorSeparatorStyle = {
 };
 
 const IndicatorSeparator = ({ innerProps }) => {
-  return <span style={indicatorSeparatorStyle} {...innerProps} />;
+  return (
+    <span style={indicatorSeparatorStyle} {...innerProps}/>
+  );
 };
 
 export default () => (

@@ -584,7 +584,7 @@ cases(
     focusedOption,
   }) => {
     let onChangeSpy = jest.fn();
-    props = { ...props, onChange: onChangeSpy, menuIsOpen: true, hideSelectedOptions: false, isMulti: true, menuIsOpen: true };
+    props = { ...props, onChange: onChangeSpy, menuIsOpen: true, hideSelectedOptions: false, isMulti: true };
     let selectWrapper = mount(<Select {...props} />);
 
     let selectOption = selectWrapper

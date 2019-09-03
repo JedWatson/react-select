@@ -26,7 +26,7 @@ export default function Async() {
     Use the Async component to load options from a remote source as the user types.
 
     ~~~jsx
-    import Async from 'react-select/async';
+    import Async from 'react-select/lib/Async';
     ~~~
 
     ## Loading Asynchronously

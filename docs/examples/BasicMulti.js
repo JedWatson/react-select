@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select from 'react-select';
+import Select from '../../src';
 import { colourOptions } from '../data';
 
 export default () => (

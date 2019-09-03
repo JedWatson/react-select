@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Select from 'react-select';
+import Select from '../../src';
 import { dogOptions } from '../data';
 
 export default function CustomGetOptionValue() {
@@ -12,7 +12,7 @@ export default function CustomGetOptionValue() {
         isSearchable
         name="dog"
         options={dogOptions}
-        getOptionValue={option => option['id']}
+        getOptionValue={(option) => (option['id'])}
       />
     </Fragment>
   );

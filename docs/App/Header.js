@@ -1,11 +1,10 @@
 // @flow
-/** @jsx jsx */
+
 import fetch from 'unfetch';
-import { Component, type Node } from 'react';
-import { jsx } from '@emotion/core';
+import React, { Component, type Node } from 'react';
 import { withRouter } from 'react-router-dom';
 
-import Select from 'react-select';
+import Select from '../../src';
 import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
@@ -176,6 +175,16 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               React Select
+              <small
+                css={{
+                  color: '#B2D4FF',
+                  fontSize: '0.5em',
+                  position: 'relative',
+                  marginLeft: '0.25em',
+                }}
+              >
+                v2
+              </small>
             </h1>
             <Content
               stars={stars}
@@ -251,7 +260,7 @@ const Content = ({ onChange, stars }) => (
             }
           }}
           value={null}
-          placeholder="🎉 Feature Highlights"
+          placeholder="🎉 What's new in V2"
           styles={headerSelectStyles}
         />
       </div>

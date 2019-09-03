@@ -367,9 +367,13 @@ export default class Select extends Component<Props, State> {
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
+<<<<<<< HEAD:src/Select.js
+    const menuOptions = props.menuIsOpen ? this.buildMenuOptions(props, selectValue) : { render: [], focusable: [] };
+=======
     const menuOptions = props.menuIsOpen
       ? this.buildMenuOptions(props, selectValue)
       : { render: [], focusable: [] };
+>>>>>>> c22a4b20aef2161ebaa3a0373de7e0e179e73693:packages/react-select/src/Select.js
 
     this.state.menuOptions = menuOptions;
     this.state.selectValue = selectValue;
@@ -399,9 +403,13 @@ export default class Select extends Component<Props, State> {
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
+<<<<<<< HEAD:src/Select.js
+      const menuOptions = nextProps.menuIsOpen ? this.buildMenuOptions(nextProps, selectValue) : { render: [], focusable: [] };
+=======
       const menuOptions = nextProps.menuIsOpen
         ? this.buildMenuOptions(nextProps, selectValue)
         : { render: [], focusable: [] };
+>>>>>>> c22a4b20aef2161ebaa3a0373de7e0e179e73693:packages/react-select/src/Select.js
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
@@ -418,12 +426,11 @@ export default class Select extends Component<Props, State> {
     const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
-    if (
-      // ensure focus is restored correctly when the control becomes enabled
-      (isFocused && !isDisabled && prevProps.isDisabled) ||
-      // ensure focus is on the Input when the menu opens
-      (isFocused && menuIsOpen && !prevProps.menuIsOpen)
-    ) {
+    // ensure focus is restored correctly when the control becomes enabled
+    const ensureFocus_isDisabled = isFocused && !isDisabled && prevProps.isDisabled;
+    // ensure focus is on the Input when the menu opens
+    const ensureFocus_menuIsOpen = isFocused && menuIsOpen && !prevProps.menuIsOpen;
+    if (ensureFocus_isDisabled || ensureFocus_menuIsOpen) {
       this.focusInput();
     }
 
@@ -1481,8 +1488,12 @@ export default class Select extends Component<Props, State> {
 
     if (isMulti) {
       const selectValues: Array<any> = selectValue.map(opt => {
+<<<<<<< HEAD:src/Select.js
+        let isFocusedOption = opt === focusedValue;
+=======
         const isOptionFocused = opt === focusedValue;
 
+>>>>>>> c22a4b20aef2161ebaa3a0373de7e0e179e73693:packages/react-select/src/Select.js
         return (
           <MultiValue
             {...commonProps}
@@ -1491,7 +1502,11 @@ export default class Select extends Component<Props, State> {
               Label: MultiValueLabel,
               Remove: MultiValueRemove,
             }}
+<<<<<<< HEAD:src/Select.js
+            isFocused={isFocusedOption}
+=======
             isFocused={isOptionFocused}
+>>>>>>> c22a4b20aef2161ebaa3a0373de7e0e179e73693:packages/react-select/src/Select.js
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
             removeProps={{
