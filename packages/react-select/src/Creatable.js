@@ -58,7 +58,7 @@ const builtins = {
   ) =>
     !(
       !inputValue ||
-      (!selectValue || selectValue.some(option => compareOption(inputValue, option))) ||
+      selectValue.some(option => compareOption(inputValue, option)) ||
       selectOptions.some(option => compareOption(inputValue, option))
     ),
   getNewOptionData: (inputValue: string, optionLabel: Node) => ({

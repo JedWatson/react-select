@@ -14,6 +14,7 @@ module.exports = {
         argsIgnorePattern: '^event$',
         ignoreRestSiblings: true,
         vars: 'all',
+        varsIgnorePattern: 'jsx|emotionJSX'
       },
     ],
     curly: [2, 'multi-line'],

@@ -45,6 +45,31 @@ export default function Components() {
         building blocks necessary to create _their_ component.
 
         The following components are customisable and switchable:
+          * ClearIndicator
+          * Control
+          * DropdownIndicator
+          * DownChevron
+          * CrossIcon
+          * Group
+          * GroupHeading
+          * IndicatorsContainer
+          * IndicatorSeparator
+          * Input
+          * LoadingIndicator
+          * Menu
+          * MenuList
+          * MenuPortal
+          * LoadingMessage
+          * NoOptionsMessage
+          * MultiValue
+          * MultiValueContainer
+          * MultiValueLabel
+          * MultiValueRemove
+          * Option
+          * Placeholder
+          * SelectContainer
+          * SingleValue
+          * ValueContainer
 
         ## Replacing Components
 
