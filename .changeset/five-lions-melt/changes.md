@@ -1,0 +1,1 @@
+Leverage currentColor for loading indicator dots -- makes styling easier, and more consistent, for consumers
