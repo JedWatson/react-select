@@ -13,6 +13,9 @@ var install=Task("Install")
     .Does(() =>
 {
     Information("Starting Install");
+    NpmInstallSettings settings = new NpmInstallSettings();
+    Uri repo = new Uri("https://pkgs.dev.azure.com/OutSystemsRD/_packaging/ArtifactRepository/npm/registry/");
+    settings.Registry = repo;
     NpmInstall();      
     Information("Ending Install");
 });
