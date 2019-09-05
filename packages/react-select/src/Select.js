@@ -1296,6 +1296,7 @@ export default class Select extends Component<Props, State> {
         innerProps: {
           id: optionId,
           onClick: onSelect,
+          onTouchEnd: () => {!_this3.userIsDragging && onSelect()},
           onMouseMove: onHover,
           onMouseOver: onHover,
           tabIndex: -1,
