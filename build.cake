@@ -30,6 +30,14 @@ var package = Task("Package")
         MoveFileToDirectory(@"./artifacts/package.json", @""); 
         Information("Ending Pack");
     });
+
+var publish = Task("Publish")
+    .Does(()=>
+    {
+        Information("Starting publish");
+        NpmPublish("./artifacts/*");
+        Information("Ending publis");
+    });
 Task("Default")
     .IsDependentOn("Package");
 
