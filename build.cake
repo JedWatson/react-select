@@ -31,13 +31,6 @@ var package = Task("Package")
         Information("Ending Pack");
     });
 
-var publish = Task("Publish")
-    .Does(()=>
-    {
-        Information("Starting publish");
-        NpmPublish("./artifacts/*");
-        Information("Ending publis");
-    });
 Task("Default")
     .IsDependentOn("Package");
 
