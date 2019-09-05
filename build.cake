@@ -1,6 +1,11 @@
 #tool "nuget:?package=Microsoft.TestPlatform&version=15.7.0"
 #addin "Cake.Npm"
 
+////////////////////////////////////////////////////////////////
+// Use always this structure. If you don't need to run some   //
+// task, comment the code inside it.                          //
+////////////////////////////////////////////////////////////////
+
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release"); //Here you can configure if you want do debug or release
 
