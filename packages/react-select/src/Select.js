@@ -217,6 +217,8 @@ export type Props = {
   onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
   /* Fired when the user scrolls to the bottom of the menu */
   onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
+  /** Offsets the point at which onMenuScrollToBottom is fired */
+  onMenuScrollToBottomOffset?: number,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
   /* Allows control of whether the menu is opened when the Select is clicked */
@@ -273,6 +275,7 @@ export const defaultProps = {
   menuShouldBlockScroll: false,
   menuShouldScrollIntoView: !isMobileDevice(),
   noOptionsMessage: () => 'No options',
+  onMenuScrollToBottomOffset: 0,
   openMenuOnFocus: false,
   openMenuOnClick: true,
   options: [],
@@ -1639,6 +1642,7 @@ export default class Select extends Component<Props, State> {
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      onMenuScrollToBottomOffset,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1717,6 +1721,7 @@ export default class Select extends Component<Props, State> {
               isEnabled={captureMenuScroll}
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
+              scrollOffset={onMenuScrollToBottomOffset}
             >
               <ScrollBlock isEnabled={menuShouldBlockScroll}>
                 <MenuList

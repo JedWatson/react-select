@@ -10,6 +10,7 @@ export type CaptorProps = {
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
+  scrollOffset?: number,
 };
 
 class ScrollCaptor extends Component<CaptorProps> {
@@ -66,6 +67,7 @@ class ScrollCaptor extends Component<CaptorProps> {
       onBottomLeave,
       onTopArrive,
       onTopLeave,
+      scrollOffset = 0,
     } = this.props;
     const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
     const target = this.scrollTarget;
@@ -84,7 +86,11 @@ class ScrollCaptor extends Component<CaptorProps> {
     }
 
     // bottom limit
-    if (isDeltaPositive && delta > availableScroll) {
+    if (
+      isDeltaPositive &&
+      delta >
+        availableScroll - (availableScroll > scrollOffset ? scrollOffset : 0)
+    ) {
       if (onBottomArrive && !this.isBottom) {
         onBottomArrive(event);
       }
