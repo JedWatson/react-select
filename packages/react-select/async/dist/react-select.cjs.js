@@ -1,7 +1,7 @@
 'use strict';
 
-let unregister = require('/projects/react-select/node_modules/@preconstruct/hook/index.js').___internalHook('/projects/react-select');
-
-module.exports = require('/projects/react-select/packages/react-select/src/Async.js');
-
-unregister();
+if (process.env.NODE_ENV === "production") {
+  module.exports = require("./react-select.cjs.prod.js");
+} else {
+  module.exports = require("./react-select.cjs.dev.js");
+}

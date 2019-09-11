@@ -1,1 +1,3 @@
-/projects/react-select/packages/react-select/src/Select.js
+// @flow
+export * from "../../src/Select.js";
+export { default } from "../../src/Select.js";
