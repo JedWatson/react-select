@@ -25,7 +25,7 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.stopListening(this.scrollTarget);
   }
   startListening(el: HTMLElement) {
-    // bail early if no scroll available
+    // bail early if no element is available to attach to
     if (!el) return;
 
     // all the if statements are to appease Flow 😢
