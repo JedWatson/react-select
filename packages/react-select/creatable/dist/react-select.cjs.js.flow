@@ -1,3 +1,1 @@
-// @flow
-export * from "../../src/Creatable.js";
-export { default } from "../../src/Creatable.js";
+/projects/react-select/packages/react-select/src/Creatable.js

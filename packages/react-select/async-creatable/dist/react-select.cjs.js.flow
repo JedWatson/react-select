@@ -1,3 +1,1 @@
-// @flow
-export * from "../../src/AsyncCreatable.js";
-export { default } from "../../src/AsyncCreatable.js";
+/projects/react-select/packages/react-select/src/AsyncCreatable.js

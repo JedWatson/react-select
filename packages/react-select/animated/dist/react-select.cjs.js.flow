@@ -1,3 +1,1 @@
-// @flow
-export * from "../../src/animated/index.js";
-export { default } from "../../src/animated/index.js";
+/projects/react-select/packages/react-select/src/animated/index.js
