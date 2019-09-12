@@ -9,8 +9,8 @@
     "type": "git",
     "url": "https://github.com/JedWatson/react-select.git"
   },
-  "main": "packages/react-select/dist/react-select.cjs.js",
-  "module": "packages/react-select/dist/react-select.esm.js",
+  "main": "dist/react-select.cjs.js",
+  "module": "dist/react-select.esm.js",
   "dependencies": {
     "@atlaskit/button": "^7.0.2",
     "@atlaskit/icon": "^11.0.1",
