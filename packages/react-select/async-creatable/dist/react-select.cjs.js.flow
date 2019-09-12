@@ -1,3 +1,0 @@
-// @flow
-export * from "../../src/AsyncCreatable.js";
-export { default } from "../../src/AsyncCreatable.js";

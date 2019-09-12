@@ -1,3 +1,0 @@
-// @flow
-export * from "../../src/Async.js";
-export { default } from "../../src/Async.js";

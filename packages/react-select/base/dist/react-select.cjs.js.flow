@@ -1,3 +1,0 @@
-// @flow
-export * from "../../src/Select.js";
-export { default } from "../../src/Select.js";

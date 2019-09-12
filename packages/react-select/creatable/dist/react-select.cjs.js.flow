@@ -1,3 +1,0 @@
-// @flow
-export * from "../../src/Creatable.js";
-export { default } from "../../src/Creatable.js";
