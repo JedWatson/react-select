@@ -7,10 +7,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JedWatson/react-select.git"
+    "url": "https://github.com/jackspiva/react-select.git"
   },
-  "main": "dist/react-select.cjs.js",
-  "module": "dist/react-select.esm.js",
   "dependencies": {
     "@atlaskit/button": "^7.0.2",
     "@atlaskit/icon": "^11.0.1",
