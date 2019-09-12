@@ -217,7 +217,7 @@ export type Props = {
   onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
   /* Fired when the user scrolls to the bottom of the menu */
   onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
-  /** Offsets the point at which onMenuScrollToBottom is fired */
+  /** Offsets the point at which onMenuScrollToBottom is fired (px) */
   onMenuScrollToBottomOffset?: number,
   /* Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean,
