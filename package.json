@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jackspiva/react-select.git"
+    "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
     "@atlaskit/button": "^7.0.2",
