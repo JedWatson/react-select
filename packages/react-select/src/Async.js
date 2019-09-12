@@ -76,17 +76,21 @@ export const makeAsyncSelect = <C: {}>(
         });
       }
     }
-    UNSAFE_componentWillReceiveProps(nextProps: C & AsyncProps) {
-      // if the cacheOptions prop changes, clear the cache
-      if (nextProps.cacheOptions !== this.props.cacheOptions) {
-        this.optionsCache = {};
-      }
-      if (nextProps.defaultOptions !== this.props.defaultOptions) {
-        this.setState({
-          defaultOptions: Array.isArray(nextProps.defaultOptions)
-            ? nextProps.defaultOptions
+    static getDerivedStateFromProps(props: C & AsyncProps, state: State) {
+      if (props.defaultOptions !== state.defaultOptions) {
+        return {
+          defaultOptions: Array.isArray(props.defaultOptions)
+            ? props.defaultOptions
             : undefined,
-        });
+        };
+      }
+
+      return null;
+    }
+    componentDidUpdate(prevProps: C & AsyncProps) {
+      // if the cacheOptions prop changes, clear the cache
+      if (prevProps.cacheOptions !== this.props.cacheOptions) {
+        this.optionsCache = {};
       }
     }
     componentWillUnmount() {
