@@ -93,7 +93,7 @@ export const makeCreatableSelect = <C: {}>(
         options: options,
       };
     }
-    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
+    static getDerivedStateFromProps(nextProps: CreatableProps & C, nextState) {
       const {
         allowCreateWhileLoading,
         createOptionPosition,
@@ -105,21 +105,21 @@ export const makeCreatableSelect = <C: {}>(
         value,
       } = nextProps;
       const options = nextProps.options || [];
-      let { newOption } = this.state;
+      let { newOption } = nextState;
       if (isValidNewOption(inputValue, cleanValue(value), options)) {
         newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
       } else {
         newOption = undefined;
       }
-      this.setState({
+      return {
         newOption: newOption,
         options:
           (allowCreateWhileLoading || !isLoading) && newOption
             ? createOptionPosition === 'first'
-              ? [newOption, ...options]
-              : [...options, newOption]
+            ? [newOption, ...options]
+            : [...options, newOption]
             : options,
-      });
+      };
     }
     onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
       const {
