@@ -83,6 +83,7 @@ export const makeAsyncSelect = <C: {}>(
       const state = {
         cacheOptions: nextProps.cacheOptions,
         optionsCache: nextState.optionsCache,
+        defaultOptions: undefined,
       };
 
       if (nextState.defaultOptions !== nextProps.defaultOptions) {
