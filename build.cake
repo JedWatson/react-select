@@ -34,8 +34,6 @@ var package = Task("Package")
         Information("Starting Pack");
         CreateDirectory("./artifacts");
         MoveFileToDirectory(@"./package.json", @"./artifacts/");
-        NpmPack(settings => settings.FromPath("./artifacts")); 
-        MoveFileToDirectory(@"./artifacts/package.json", @""); 
         Information("Ending Pack");
     });
 Task("Default")
