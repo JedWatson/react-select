@@ -18,6 +18,15 @@ var install=Task("Install")
     Information("Ending Install");
 });
 
+var build=Task("Build")
+    .Does(() =>
+{
+    Information("Starting Build");
+    var conf = ParseJsonFromFile("package.json");
+    if(conf["scripts"]["build"]!=null)
+        NpmRunScript("build");      
+    Information("Ending Build");
+});
 var tests = Task("Tests")
 	.Does(()=>
 	{	
@@ -34,6 +43,8 @@ var package = Task("Package")
         Information("Starting Pack");
         CreateDirectory("./artifacts");
         MoveFileToDirectory(@"./package.json", @"./artifacts/");
+        NpmPack(settings => settings.FromPath("./artifacts")); 
+        MoveFileToDirectory(@"./artifacts/package.json", @""); 
         Information("Ending Pack");
     });
 Task("Default")
