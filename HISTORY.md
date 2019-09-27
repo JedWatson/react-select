@@ -1,4 +1,6 @@
 # React-Select
+## v1.4.0 / 2019-09-27
+* support duplicate for multiselect by passing `duplicate` prop to Select component
 
 ## v1.3.0 / 2018-06-23
 * [#2777](https://github.com/JedWatson/react-select/pull/2777) pass entire event to `shouldKeyDownEventCreateNewOption`

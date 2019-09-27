@@ -412,6 +412,34 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
 var Option = function (_React$Component) {
 	inherits(Option, _React$Component);
 
@@ -1290,13 +1318,18 @@ var Select$1 = function (_React$Component) {
 					inputValue: this.handleInputValueChange(updatedValue),
 					isOpen: !this.props.closeOnSelect
 				}, function () {
-					var valueArray = _this3.getValueArray(_this3.props.value);
-					if (valueArray.some(function (i) {
-						return i[_this3.props.valueKey] === value[_this3.props.valueKey];
-					})) {
-						_this3.removeValue(value);
-					} else {
+					console.log('duplicate', _this3.props.duplicate);
+					if (_this3.props.duplicate) {
 						_this3.addValue(value);
+					} else {
+						var valueArray = _this3.getValueArray(_this3.props.value);
+						if (valueArray.some(function (i) {
+							return i[_this3.props.valueKey] === value[_this3.props.valueKey];
+						})) {
+							_this3.removeValue(value);
+						} else {
+							_this3.addValue(value);
+						}
 					}
 				});
 			} else {
@@ -1343,9 +1376,25 @@ var Select$1 = function (_React$Component) {
 			var _this4 = this;
 
 			var valueArray = this.getValueArray(this.props.value);
-			this.setValue(valueArray.filter(function (i) {
-				return i[_this4.props.valueKey] !== value[_this4.props.valueKey];
-			}));
+
+			console.log('removeValue', this.props.duplicate);
+			if (this.props.duplicate) {
+				valueArray = [].concat(toConsumableArray(valueArray));
+				valueArray.reverse();
+				var index = valueArray.findIndex(function (i) {
+					return i[_this4.props.valueKey] === value[_this4.props.valueKey];
+				});
+				if (index > -1) {
+					valueArray.splice(index, 1);
+				}
+				valueArray.reverse();
+				this.setValue(valueArray);
+			} else {
+				this.setValue(valueArray.filter(function (i) {
+					return i[_this4.props.valueKey] !== value[_this4.props.valueKey];
+				}));
+			}
+
 			this.focus();
 		}
 	}, {
@@ -1927,6 +1976,7 @@ Select$1.propTypes = {
 	deleteRemoves: PropTypes.bool, // whether delete removes an item if there is no text input
 	delimiter: PropTypes.string, // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool, // whether the Select is disabled or not
+	duplicate: PropTypes.bool, // whether the Select allows the same option to be selected multiple times
 	escapeClearsValue: PropTypes.bool, // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func, // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any, // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -1999,6 +2049,7 @@ Select$1.defaultProps = {
 	deleteRemoves: true,
 	delimiter: ',',
 	disabled: false,
+	duplicate: false,
 	escapeClearsValue: true,
 	filterOptions: filterOptions,
 	ignoreAccents: true,
