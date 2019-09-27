@@ -1,5 +1,8 @@
 # React-Select
 ## v1.4.0 / 2019-09-27
+* remove debugging console.log
+
+## v1.4.0 / 2019-09-27
 * support duplicate for multiselect by passing `duplicate` prop to Select component
 
 ## v1.3.0 / 2018-06-23

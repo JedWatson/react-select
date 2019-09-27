@@ -1,6 +1,6 @@
 {
   "name": "react-select-plus-duplicate",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "jsnext:main": "dist/react-select.es.js",

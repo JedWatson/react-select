@@ -1313,7 +1313,6 @@ var Select$1 = function (_React$Component) {
 					inputValue: this.handleInputValueChange(updatedValue),
 					isOpen: !this.props.closeOnSelect
 				}, function () {
-					console.log('duplicate', _this3.props.duplicate);
 					if (_this3.props.duplicate) {
 						_this3.addValue(value);
 					} else {
@@ -1372,7 +1371,6 @@ var Select$1 = function (_React$Component) {
 
 			var valueArray = this.getValueArray(this.props.value);
 
-			console.log('removeValue', this.props.duplicate);
 			if (this.props.duplicate) {
 				valueArray = [].concat(toConsumableArray(valueArray));
 				valueArray.reverse();

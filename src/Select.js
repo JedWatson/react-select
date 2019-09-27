@@ -619,7 +619,6 @@ class Select extends React.Component {
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
-				console.log('duplicate', this.props.duplicate);
 				if (this.props.duplicate) {
 					this.addValue(value);
 				} else {
@@ -667,7 +666,6 @@ class Select extends React.Component {
 	removeValue (value) {
 		let valueArray = this.getValueArray(this.props.value);
 
-		console.log('removeValue', this.props.duplicate);
 		if (this.props.duplicate) {
 			valueArray = [...valueArray];
 			valueArray.reverse();
