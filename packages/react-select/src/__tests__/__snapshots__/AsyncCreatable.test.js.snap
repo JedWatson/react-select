@@ -1,12 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`defaults - snapshot 1`] = `
-.emotion-8 {
+.emotion-9 {
   position: relative;
   box-sizing: border-box;
 }
 
-.emotion-7 {
+.emotion-0 {
+  z-index: 9999;
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.emotion-8 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -36,11 +49,11 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   border-color: hsl(0,0%,70%);
 }
 
-.emotion-2 {
+.emotion-3 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -62,7 +75,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-0 {
+.emotion-1 {
   color: hsl(0,0%,50%);
   margin-left: 2px;
   margin-right: 2px;
@@ -74,7 +87,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-1 {
+.emotion-2 {
   margin: 2px;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -83,7 +96,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -101,7 +114,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-3 {
+.emotion-4 {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
@@ -112,7 +125,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-5 {
+.emotion-6 {
   color: hsl(0,0%,80%);
   display: -webkit-box;
   display: -webkit-flex;
@@ -124,11 +137,11 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-5:hover {
+.emotion-6:hover {
   color: hsl(0,0%,60%);
 }
 
-.emotion-4 {
+.emotion-5 {
   display: inline-block;
   fill: currentColor;
   line-height: 1;
@@ -325,9 +338,21 @@ exports[`defaults - snapshot 1`] = `
           }
         >
           <div
-            className=" emotion-8"
+            className=" emotion-9"
             onKeyDown={[Function]}
           >
+            <A11yText
+              aria-atomic="true"
+              aria-live="polite"
+              aria-relevant="additions text"
+            >
+              <span
+                aria-atomic="true"
+                aria-live="polite"
+                aria-relevant="additions text"
+                className="emotion-0"
+              />
+            </A11yText>
             <Control
               clearValue={[Function]}
               cx={[Function]}
@@ -433,7 +458,7 @@ exports[`defaults - snapshot 1`] = `
               }
             >
               <div
-                className=" emotion-7"
+                className=" emotion-8"
                 onMouseDown={[Function]}
                 onTouchEnd={[Function]}
               >
@@ -533,7 +558,7 @@ exports[`defaults - snapshot 1`] = `
                   }
                 >
                   <div
-                    className=" emotion-2"
+                    className=" emotion-3"
                   >
                     <Placeholder
                       clearValue={[Function]}
@@ -633,7 +658,7 @@ exports[`defaults - snapshot 1`] = `
                       }
                     >
                       <div
-                        className=" emotion-0"
+                        className=" emotion-1"
                       >
                         Select...
                       </div>
@@ -740,7 +765,7 @@ exports[`defaults - snapshot 1`] = `
                       value=""
                     >
                       <div
-                        className="emotion-1"
+                        className="emotion-2"
                       >
                         <AutosizeInput
                           aria-autocomplete="list"
@@ -925,7 +950,7 @@ exports[`defaults - snapshot 1`] = `
                   }
                 >
                   <div
-                    className=" emotion-6"
+                    className=" emotion-7"
                   >
                     <IndicatorSeparator
                       clearValue={[Function]}
@@ -1024,7 +1049,7 @@ exports[`defaults - snapshot 1`] = `
                       }
                     >
                       <span
-                        className=" emotion-3"
+                        className=" emotion-4"
                       />
                     </IndicatorSeparator>
                     <DropdownIndicator
@@ -1132,7 +1157,7 @@ exports[`defaults - snapshot 1`] = `
                     >
                       <div
                         aria-hidden="true"
-                        className=" emotion-5"
+                        className=" emotion-6"
                         onMouseDown={[Function]}
                         onTouchEnd={[Function]}
                       >
@@ -1142,7 +1167,7 @@ exports[`defaults - snapshot 1`] = `
                           >
                             <svg
                               aria-hidden="true"
-                              className="emotion-4"
+                              className="emotion-5"
                               focusable="false"
                               height={20}
                               viewBox="0 0 20 20"

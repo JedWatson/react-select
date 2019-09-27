@@ -90,6 +90,11 @@ exports[`snapshot - defaults 1`] = `
     }
   }
 >
+  <A11yText
+    aria-atomic="true"
+    aria-live="polite"
+    aria-relevant="additions text"
+  />
   <Control
     clearValue={[Function]}
     cx={[Function]}
