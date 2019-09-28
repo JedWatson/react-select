@@ -220,7 +220,7 @@ export default function Advanced() {
       ~~~
 
       for more ways you can do this (including critical CSS) see the
-      [Emotion SSR Docs](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
+      [Emotion SSR Docs](https://emotion.sh/docs/ssr)
 
 
       ## Experimental
