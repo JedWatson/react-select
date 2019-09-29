@@ -100,7 +100,7 @@
     "test:cypress": "cypress run --spec ./cypress/integration/select_spec.js",
     "test:cypress-watch": "node ./node_modules/.bin/cypress open",
     "precommit": "flow check && lint-staged",
-    "postinstall": "preconstruct dev && bolt-check",
+    "postinstall": "preconstruct dev",
     "changeset": "changeset",
     "version-packages": "changeset bump",
     "release": "yarn build && changeset release"

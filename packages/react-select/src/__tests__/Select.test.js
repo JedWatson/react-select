@@ -1,16 +1,24 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import {
+  render,
+  fireEvent,
+  waitForElement,
+  prettyDOM,
+} from '@testing-library/react';
 import cases from 'jest-in-case';
 
 import {
   OPTIONS,
   OPTIONS_NUMBER_VALUE,
   OPTIONS_BOOLEAN_VALUE,
-  OPTIONS_DISABLED
+  OPTIONS_DISABLED,
 } from './constants';
 import Select from '../Select';
 import { components } from '../components';
+
+import { matchers } from 'jest-emotion';
+
+expect.extend(matchers);
 
 const {
   ClearIndicator,
@@ -25,7 +33,6 @@ const {
   Option,
   Placeholder,
   ValueContainer,
-  SingleValue,
 } = components;
 
 const BASIC_PROPS = {
@@ -40,71 +47,68 @@ const BASIC_PROPS = {
 };
 
 test('snapshot - defaults', () => {
-  const tree = shallow(<Select />);
-  expect(toJson(tree)).toMatchSnapshot();
+  const { container } = render(<Select />);
+  expect(container).toMatchSnapshot();
 });
 
 test('instanceId prop > to have instanceId as id prefix for the select components', () => {
-  let selectWrapper = mount(
+  let { container } = render(
     <Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
   );
-  expect(selectWrapper.find(Input).props().id).toContain('custom-id');
-  selectWrapper.find('div.react-select__option').forEach(opt => {
-    expect(opt.props().id).toContain('custom-id');
+  expect(container.querySelector('input').id).toContain('custom-id');
+  container.querySelectorAll('div.react-select__option').forEach(opt => {
+    expect(opt.id).toContain('custom-id');
   });
 });
 
 test('hidden input field is not present if name is not passes', () => {
-  let selectWrapper = mount(<Select options={OPTIONS} />);
-  expect(selectWrapper.find('input[type="hidden"]').exists()).toBeFalsy();
+  let { container } = render(<Select options={OPTIONS} />);
+  expect(container.querySelector('input[type="hidden"]')).toBeNull();
 });
 
 test('hidden input field is present if name passes', () => {
-  let selectWrapper = mount(
+  let { container } = render(
     <Select name="test-input-name" options={OPTIONS} />
   );
-  expect(selectWrapper.find('input[type="hidden"]').exists()).toBeTruthy();
+  expect(container.querySelector('input[type="hidden"]')).toBeTruthy();
 });
 
 test('single select > passing multiple values > should select the first value', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[4]] };
-  let selectWrapper = mount(<Select {...props} />);
-  expect(selectWrapper.find(Control).text()).toBe('0');
+  let { container } = render(<Select {...props} />);
+
+  expect(container.querySelector('.react-select__control').textContent).toBe(
+    '0'
+  );
 });
 
-test('isRtl boolean props is passed down to the control component', () => {
-  let selectWrapper = mount(
+test('isRtl boolean prop sets direction: rtl on container', () => {
+  let { container } = render(
     <Select {...BASIC_PROPS} value={[OPTIONS[0]]} isRtl isClearable />
   );
-  expect(selectWrapper.props().isRtl).toBe(true);
+  expect(container.firstChild).toHaveStyleRule('direction', 'rtl');
 });
 
 test('isOptionSelected() prop > single select > mark value as isSelected if isOptionSelected returns true for the option', () => {
   // Select all but option with label '1'
   let isOptionSelected = jest.fn(option => option.label !== '1');
-  let selectWrapper = mount(
+  let { container } = render(
     <Select {...BASIC_PROPS} isOptionSelected={isOptionSelected} menuIsOpen />
   );
+  let options = container.querySelectorAll('.react-select__option');
+
   // Option label 0 to be selected
-  expect(
-    selectWrapper
-      .find(Option)
-      .at(0)
-      .props().isSelected
-  ).toBe(true);
+  expect(options[0].classList).toContain('react-select__option--is-selected');
   // Option label 1 to be not selected
-  expect(
-    selectWrapper
-      .find(Option)
-      .at(1)
-      .props().isSelected
-  ).toBe(false);
+  expect(options[1].classList).not.toContain(
+    'react-select__option--is-selected'
+  );
 });
 
 test('isOptionSelected() prop > multi select > to not show the selected options in Menu for multiSelect', () => {
   // Select all but option with label '1'
   let isOptionSelected = jest.fn(option => option.label !== '1');
-  let selectWrapper = mount(
+  let { container } = render(
     <Select
       {...BASIC_PROPS}
       isMulti
@@ -113,16 +117,18 @@ test('isOptionSelected() prop > multi select > to not show the selected options 
     />
   );
 
-  expect(selectWrapper.find(Option).length).toBe(1);
-  expect(selectWrapper.find(Option).text()).toBe('1');
+  expect(container.querySelectorAll('.react-select__option')).toHaveLength(1);
+  expect(container.querySelector('.react-select__option').textContent).toBe(
+    '1'
+  );
 });
 
 cases(
   'formatOptionLabel',
-  ({ props, valueComponent, expectedOptions }) => {
-    let selectWrapper = shallow(<Select {...props} />);
-    let value = selectWrapper.find(valueComponent).at(0);
-    expect(value.props().children).toBe(expectedOptions);
+  ({ props, valueComponentSelector, expectedOptions }) => {
+    let { container } = render(<Select {...props} />);
+    let value = container.querySelector(valueComponentSelector);
+    expect(value.textContent).toBe(expectedOptions);
   },
   {
     'single select > should format label of options according to text returned by formatOptionLabel': {
@@ -132,7 +138,7 @@ cases(
           `${label} ${value} ${context}`,
         value: OPTIONS[0],
       },
-      valueComponent: SingleValue,
+      valueComponentSelector: '.react-select__single-value',
       expectedOptions: '0 zero value',
     },
     'multi select > should format label of options according to text returned by formatOptionLabel': {
@@ -143,7 +149,7 @@ cases(
         isMulti: true,
         value: OPTIONS[0],
       },
-      valueComponent: MultiValue,
+      valueComponentSelector: '.react-select__multi-value',
       expectedOptions: '0 zero value',
     },
   }
@@ -152,9 +158,10 @@ cases(
 cases(
   'name prop',
   ({ expectedName, props }) => {
-    let selectWrapper = shallow(<Select {...props} />);
-    let input = selectWrapper.find('input');
-    expect(input.props().name).toBe(expectedName);
+    let { container } = render(<Select {...props} />);
+    let input = container.querySelector('input[type=hidden]');
+
+    expect(input.name).toBe(expectedName);
   },
   {
     'single select > should assign the given name': {
@@ -176,14 +183,14 @@ cases(
 cases(
   'menuIsOpen prop',
   ({ props = BASIC_PROPS }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+    let { container, rerender } = render(<Select {...props} />);
+    expect(container.querySelector('.react-select__menu')).toBeFalsy();
 
-    selectWrapper.setProps({ menuIsOpen: true });
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+    rerender(<Select {...props} menuIsOpen />);
+    expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-    selectWrapper.setProps({ menuIsOpen: false });
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+    rerender(<Select {...props} />);
+    expect(container.querySelector('.react-select__menu')).toBeFalsy();
   },
   {
     'single select > should show menu if menuIsOpen is true and hide menu if menuIsOpen prop is false': {},
@@ -199,9 +206,11 @@ cases(
 cases(
   'filterOption() prop - should filter only if function returns truthy for value',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
+    let { container, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue={searchString} />);
+    expect(container.querySelectorAll('.react-select__option')).toHaveLength(
+      expectResultsLength
+    );
   },
   {
     'single select > should filter all options as per searchString': {
@@ -231,9 +240,11 @@ cases(
 cases(
   'filterOption prop is null',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
+    let { container, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue={searchString} />);
+    expect(container.querySelectorAll('.react-select__option')).toHaveLength(
+      expectResultsLength
+    );
   },
   {
     'single select > should show all the options': {
@@ -263,9 +274,11 @@ cases(
 cases(
   'no option found on search based on filterOption prop',
   ({ props, searchString }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
+    let { getByText, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue={searchString} />);
+    expect(getByText('No options').className).toContain(
+      'menu-notice--no-options'
+    );
   },
   {
     'single Select > should show NoOptionsMessage': {
@@ -290,10 +303,10 @@ cases(
 cases(
   'noOptionsMessage() function prop',
   ({ props, expectNoOptionsMessage, searchString }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(NoOptionsMessage).props().children).toBe(
-      expectNoOptionsMessage
+    let { getByText, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue={searchString} />);
+    expect(getByText(expectNoOptionsMessage).className).toContain(
+      'menu-notice--no-options'
     );
   },
   {
@@ -447,7 +460,7 @@ cases(
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
       action: 'select-option',
       option: expectedActionMetaOption,
-      name: BASIC_PROPS.name
+      name: BASIC_PROPS.name,
     });
   },
   {
@@ -584,7 +597,14 @@ cases(
     focusedOption,
   }) => {
     let onChangeSpy = jest.fn();
-    props = { ...props, onChange: onChangeSpy, menuIsOpen: true, hideSelectedOptions: false, isMulti: true, menuIsOpen: true };
+    props = {
+      ...props,
+      onChange: onChangeSpy,
+      menuIsOpen: true,
+      hideSelectedOptions: false,
+      isMulti: true,
+      menuIsOpen: true,
+    };
     let selectWrapper = mount(<Select {...props} />);
 
     let selectOption = selectWrapper
@@ -597,7 +617,7 @@ cases(
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
       action: 'deselect-option',
       option: expectedMetaOption,
-      name: BASIC_PROPS.name
+      name: BASIC_PROPS.name,
     });
   },
   {
@@ -605,40 +625,40 @@ cases(
       props: {
         ...BASIC_PROPS,
         options: OPTIONS,
-        value: [{ label: '2', value: 'two' }]
+        value: [{ label: '2', value: 'two' }],
       },
       event: ['click'],
       optionsSelected: { label: '2', value: 'two' },
       expectedSelectedOption: [],
-      expectedMetaOption: { label: '2', value: 'two' }
+      expectedMetaOption: { label: '2', value: 'two' },
     },
     'option with number value > option is clicked > should call onChange() prop with selected option': {
       props: {
         ...BASIC_PROPS,
         options: OPTIONS_NUMBER_VALUE,
-        value: [{ label: '0', value: 0 }]
+        value: [{ label: '0', value: 0 }],
       },
       event: ['click'],
       optionsSelected: { label: '0', value: 0 },
       expectedSelectedOption: [],
-      expectedMetaOption: { label: '0', value: 0 }
+      expectedMetaOption: { label: '0', value: 0 },
     },
     'option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
         ...BASIC_PROPS,
         options: OPTIONS_BOOLEAN_VALUE,
-        value: [{ label: 'true', value: true }]
+        value: [{ label: 'true', value: true }],
       },
       event: ['click'],
       optionsSelected: { label: 'true', value: true },
       expectedSelectedOption: [],
-      expectedMetaOption: { label: 'true', value: true }
+      expectedMetaOption: { label: 'true', value: true },
     },
     'tab key is pressed while focusing option > should call onChange() prop with selected option': {
       props: {
         ...BASIC_PROPS,
         options: OPTIONS,
-        value: [{ label: '1', value: 'one' }]
+        value: [{ label: '1', value: 'one' }],
       },
       event: ['keyDown', { keyCode: 9, key: 'Tab' }],
       menuIsOpen: true,
@@ -651,7 +671,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         options: OPTIONS,
-        value: { label: '3', value: 'three' }
+        value: { label: '3', value: 'three' },
       },
       event: ['keyDown', { keyCode: 13, key: 'Enter' }],
       optionsSelected: { label: '3', value: 'three' },
@@ -663,7 +683,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         options: OPTIONS,
-        value: [{ label: '1', value: 'one' }]
+        value: [{ label: '1', value: 'one' }],
       },
       event: ['keyDown', { keyCode: 32, key: ' ' }],
       optionsSelected: { label: '1', value: 'one' },
@@ -721,7 +741,7 @@ cases(
 cases(
   'click to open select',
   ({ props = BASIC_PROPS, expectedToFocus }) => {
-    let selectWrapper = mount(<Select {...props} onMenuOpen={() => { }} />);
+    let selectWrapper = mount(<Select {...props} onMenuOpen={() => {}} />);
 
     // this will get updated on input click, though click on input is not bubbling up to control component
     selectWrapper.setState({ isFocused: true });
@@ -746,7 +766,9 @@ cases(
 
 test('clicking when focused does not open select when openMenuOnClick=false', () => {
   let spy = jest.fn();
-  let selectWrapper = mount(<Select {...BASIC_PROPS} openMenuOnClick={false} onMenuOpen={spy} />);
+  let selectWrapper = mount(
+    <Select {...BASIC_PROPS} openMenuOnClick={false} onMenuOpen={spy} />
+  );
 
   // this will get updated on input click, though click on input is not bubbling up to control component
   selectWrapper.setState({ isFocused: true });
@@ -1092,35 +1114,39 @@ cases(
   }
 );
 
-cases('Clicking Enter on a focused select', ({ props = BASIC_PROPS, expectedValue }) => {
-  let wrapper = mount(<Select { ...props } autoFocus/>);
-  let event = {
-    key: 'Enter',
-    defaultPrevented: false,
-    preventDefault: function () {
-      this.defaultPrevented = true;
-    }
-  };
-  const selectWrapper = wrapper.find(Select);
-  selectWrapper.instance().setState({ focusedOption: OPTIONS[0] });
-  selectWrapper.instance().onKeyDown(event);
-  console.log(event.defaultPrevented);
-  expect(event.defaultPrevented).toBe(expectedValue);
-}, {
-  'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault': {
-    props: {
-      ...BASIC_PROPS,
-      menuIsOpen: true,
-    },
-    expectedValue: true,
+cases(
+  'Clicking Enter on a focused select',
+  ({ props = BASIC_PROPS, expectedValue }) => {
+    let wrapper = mount(<Select {...props} autoFocus />);
+    let event = {
+      key: 'Enter',
+      defaultPrevented: false,
+      preventDefault: function() {
+        this.defaultPrevented = true;
+      },
+    };
+    const selectWrapper = wrapper.find(Select);
+    selectWrapper.instance().setState({ focusedOption: OPTIONS[0] });
+    selectWrapper.instance().onKeyDown(event);
+    console.log(event.defaultPrevented);
+    expect(event.defaultPrevented).toBe(expectedValue);
   },
-  'while !menuIsOpen > should not invoke event.preventDefault': {
-    props: {
-      ...BASIC_PROPS,
+  {
+    'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+      },
+      expectedValue: true,
     },
-    expectedValue: false,
+    'while !menuIsOpen > should not invoke event.preventDefault': {
+      props: {
+        ...BASIC_PROPS,
+      },
+      expectedValue: false,
+    },
   }
-});
+);
 
 cases(
   'clicking on select using secondary button on mouse',
@@ -1457,7 +1483,11 @@ test('multi select > call onChange with all values but last selected value and r
     .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '1', value: 'one' }],
-    { action: 'pop-value', removedValue: { label: '2', value: 'two' }, name: BASIC_PROPS.name },
+    {
+      action: 'pop-value',
+      removedValue: { label: '2', value: 'two' },
+      name: BASIC_PROPS.name,
+    }
   );
 });
 
@@ -1492,44 +1522,47 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-cases('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true', ({ props = { ...BASIC_PROPS }, expectedValue }) => {
-  let onChangeSpy = jest.fn();
-  let selectWrapper = mount(
-    <Select
-      {...props}
-      backspaceRemovesValue
-      isClearable
-      onChange={onChangeSpy}
-    />
-  );
-  selectWrapper
-    .find(Control)
-    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
-  expect(onChangeSpy).toHaveBeenCalledWith(null, expectedValue);
-}, {
-  'and isMulti is false': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: false,
-    },
-    expectedValue: {
-      action: 'clear',
-      name: 'test-input-name',
-    }
+cases(
+  'should call onChange with `null` on hitting backspace when backspaceRemovesValue is true',
+  ({ props = { ...BASIC_PROPS }, expectedValue }) => {
+    let onChangeSpy = jest.fn();
+    let selectWrapper = mount(
+      <Select
+        {...props}
+        backspaceRemovesValue
+        isClearable
+        onChange={onChangeSpy}
+      />
+    );
+    selectWrapper
+      .find(Control)
+      .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+    expect(onChangeSpy).toHaveBeenCalledWith(null, expectedValue);
   },
-  'and isMulti is true': {
-    props: {
-      ...BASIC_PROPS,
-      isMulti: true,
+  {
+    'and isMulti is false': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: false,
+      },
+      expectedValue: {
+        action: 'clear',
+        name: 'test-input-name',
+      },
     },
-    expectedValue: {
-      action: 'pop-value',
-      name: 'test-input-name',
-      removedValue: undefined
-    }
-  },
-});
-
+    'and isMulti is true': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+      },
+      expectedValue: {
+        action: 'pop-value',
+        name: 'test-input-name',
+        removedValue: undefined,
+      },
+    },
+  }
+);
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
   let onChangeSpy = jest.fn();
@@ -1553,7 +1586,11 @@ test('multi select > clicking on X next to option will call onChange with all op
 
   expect(onChangeSpy).toHaveBeenCalledWith(
     [{ label: '0', value: 'zero' }, { label: '2', value: 'two' }],
-    { action: 'remove-value', removedValue: { label: '4', value: 'four' }, name: BASIC_PROPS.name }
+    {
+      action: 'remove-value',
+      removedValue: { label: '4', value: 'four' },
+      name: BASIC_PROPS.name,
+    }
   );
 });
 
@@ -1627,24 +1664,40 @@ cases(
 );
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />);
+  let selectWrapper = mount(
+    <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
+  );
   const liveRegionId = '#aria-context';
   selectWrapper.setState({ isFocused: true });
   selectWrapper.update();
-  expect(selectWrapper.find(liveRegionId).text()).toMatch(/17 results available/);
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
+    /17 results available/
+  );
 
   selectWrapper.setProps({ inputValue: '0' });
-  expect(selectWrapper.find(liveRegionId).text()).toMatch(/2 results available/);
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
+    /2 results available/
+  );
 
   selectWrapper.setProps({ inputValue: '10' });
   expect(selectWrapper.find(liveRegionId).text()).toMatch(/1 result available/);
 
   selectWrapper.setProps({ inputValue: '100' });
-  expect(selectWrapper.find(liveRegionId).text()).toMatch(/0 results available/);
+  expect(selectWrapper.find(liveRegionId).text()).toMatch(
+    /0 results available/
+  );
 });
 
 test('accessibility > interacting with disabled options shows correct A11yText', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} options={OPTIONS_DISABLED} inputValue={''} autoFocus menuIsOpen />);
+  let selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      options={OPTIONS_DISABLED}
+      inputValue={''}
+      autoFocus
+      menuIsOpen
+    />
+  );
   const liveRegionId = '#aria-context';
   const liveRegionEventId = '#aria-selection-event';
   selectWrapper.setState({ isFocused: true });
@@ -1652,18 +1705,16 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 
   // navigate to disabled option
   selectWrapper
-  .find(Menu)
-  .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' })
-  .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
+    .find(Menu)
+    .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' })
+    .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
 
   expect(selectWrapper.find(liveRegionId).text()).toMatch(
     'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 
   // attempt to select disabled option
-  selectWrapper
-  .find(Menu)
-  .simulate('keyDown', { keyCode: 13, key: 'Enter' });
+  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
 
   expect(selectWrapper.find(liveRegionEventId).text()).toMatch(
     'option 1 is disabled. Select another option.'
@@ -1880,8 +1931,8 @@ cases(
     'multi select > should display default placeholder "Select..."': {
       props: {
         ...BASIC_PROPS,
-        isMulti: true
-      }
+        isMulti: true,
+      },
     },
     'multi select > should display provided placeholder': {
       props: {
@@ -2080,7 +2131,10 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
   selectWrapper
     .find('div.react-select__clear-indicator')
     .simulate('mousedown', { button: 0 });
-  expect(onChangeSpy).toBeCalledWith([], { action: 'clear', name: BASIC_PROPS.name });
+  expect(onChangeSpy).toBeCalledWith([], {
+    action: 'clear',
+    name: BASIC_PROPS.name,
+  });
 });
 
 test('clearing select using clear button to not call onMenuOpen or onMenuClose', () => {
@@ -2114,7 +2168,7 @@ test('multi select >  calls onChange when option is selected and isSearchable is
   expect(onChangeSpy).toHaveBeenCalledWith([selectedOption], {
     action: 'select-option',
     option: selectedOption,
-    name: BASIC_PROPS.name
+    name: BASIC_PROPS.name,
   });
 });
 
@@ -2338,7 +2392,10 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   );
 
   selectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-  expect(onInputChangeSpy).toHaveBeenCalledWith(null, { action: 'clear', name: BASIC_PROPS.name });
+  expect(onInputChangeSpy).toHaveBeenCalledWith(null, {
+    action: 'clear',
+    name: BASIC_PROPS.name,
+  });
 });
 
 /**
@@ -2355,7 +2412,6 @@ test.skip('hitting spacebar should not select option if isSearchable is true (de
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-
 test('renders with custom theme', () => {
   const primary = 'rgb(255, 164, 83)';
   const selectWrapper = mount(
@@ -2363,19 +2419,24 @@ test('renders with custom theme', () => {
       {...BASIC_PROPS}
       value={OPTIONS[0]}
       menuIsOpen
-      theme={(theme) => (
-        {
-          ...theme,
-          borderRadius: 180,
-          colors: {
-            ...theme.colors,
-            primary,
-          },
-        }
-      )} />
+      theme={theme => ({
+        ...theme,
+        borderRadius: 180,
+        colors: {
+          ...theme.colors,
+          primary,
+        },
+      })}
+    />
   );
   const menu = selectWrapper.find(Menu);
-  expect(window.getComputedStyle(menu.getDOMNode()).getPropertyValue('border-radius')).toEqual('180px');
+  expect(
+    window.getComputedStyle(menu.getDOMNode()).getPropertyValue('border-radius')
+  ).toEqual('180px');
   const firstOption = selectWrapper.find(Option).first();
-  expect(window.getComputedStyle(firstOption.getDOMNode()).getPropertyValue('background-color')).toEqual(primary);
+  expect(
+    window
+      .getComputedStyle(firstOption.getDOMNode())
+      .getPropertyValue('background-color')
+  ).toEqual(primary);
 });
