@@ -619,11 +619,15 @@ class Select extends React.Component {
 				inputValue: this.handleInputValueChange(updatedValue),
 				isOpen: !this.props.closeOnSelect,
 			}, () => {
-				const valueArray = this.getValueArray(this.props.value);
-				if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
-					this.removeValue(value);
-				} else {
+				if (this.props.duplicate) {
 					this.addValue(value);
+				} else {
+					const valueArray = this.getValueArray(this.props.value);
+					if (valueArray.some(i => i[this.props.valueKey] === value[this.props.valueKey])) {
+						this.removeValue(value);
+					} else {
+						this.addValue(value);
+					}
 				}
 			});
 		} else {
@@ -661,7 +665,20 @@ class Select extends React.Component {
 
 	removeValue (value) {
 		let valueArray = this.getValueArray(this.props.value);
-		this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
+
+		if (this.props.duplicate) {
+			valueArray = [...valueArray];
+			valueArray.reverse();
+			const index = valueArray.findIndex((i) => (i[this.props.valueKey] === value[this.props.valueKey]));
+			if (index > -1) {
+				valueArray.splice(index, 1);
+			}
+			valueArray.reverse();
+			this.setValue(valueArray);
+		} else {
+			this.setValue(valueArray.filter(i => i[this.props.valueKey] !== value[this.props.valueKey]));
+		}
+
 		this.focus();
 	}
 
@@ -1205,6 +1222,7 @@ Select.propTypes = {
 	deleteRemoves: PropTypes.bool,        // whether delete removes an item if there is no text input
 	delimiter: PropTypes.string,          // delimiter to use to join multiple values for the hidden field value
 	disabled: PropTypes.bool,             // whether the Select is disabled or not
+	duplicate: PropTypes.bool, 						// whether the Select allows the same option to be selected multiple times
 	escapeClearsValue: PropTypes.bool,    // whether escape clears the value when the menu is closed
 	filterOption: PropTypes.func,         // method to filter a single option (option, filterString)
 	filterOptions: PropTypes.any,         // boolean to enable default filtering or function to filter the options array ([options], filterString, [values])
@@ -1277,6 +1295,7 @@ Select.defaultProps = {
 	deleteRemoves: true,
 	delimiter: ',',
 	disabled: false,
+	duplicate: false,
 	escapeClearsValue: true,
 	filterOptions: defaultFilterOptions,
 	ignoreAccents: true,
