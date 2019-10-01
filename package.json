@@ -47,7 +47,6 @@
     "cypress": "^1.4.1",
     "dataloader": "^1.4.0",
     "dotenv": "^7.0.0",
-    "emotion": "^9.1.2",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.0",
