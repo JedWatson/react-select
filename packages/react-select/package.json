@@ -20,7 +20,7 @@
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
-    "react-input-autosize": "^2.2.1",
+    "react-input-autosize": "^2.2.2",
     "react-transition-group": "^2.2.1"
   },
   "devDependencies": {
