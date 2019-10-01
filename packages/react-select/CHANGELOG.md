@@ -1,5 +1,12 @@
 # react-select
 
+## 3.0.6
+
+### Patch Changes
+
+- [3e0a7a7](https://github.com/JedWatson/react-select/commit/3e0a7a7) - \* remove emotion 9 dep from mono repo (this wasn't being used anywhere)
+  - update dep on react-input-autosize to 2.2.2 (adds UNSAFE prefix to deprecated lifecycles) (resolves #3773)
+
 ## 3.0.5
 
 ### Patch Changes
