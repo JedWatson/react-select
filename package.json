@@ -23,8 +23,8 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.4.4",
-    "@changesets/cli": "^1.1.5",
-    "@changesets/get-github-info": "^0.1.2",
+    "@changesets/cli": "^2.0.3",
+    "@changesets/get-github-info": "^0.2.1",
     "@emotion/cache": "^10.0.9",
     "@emotion/core": "^10.0.9",
     "@emotion/css": "^10.0.9",
@@ -101,8 +101,8 @@
     "precommit": "flow check && lint-staged",
     "postinstall": "preconstruct dev && bolt-check",
     "changeset": "changeset",
-    "version-packages": "changeset bump",
-    "release": "yarn build && changeset release"
+    "version-packages": "changeset version",
+    "release": "yarn build && changeset publish"
   },
   "files": [
     "dist",
