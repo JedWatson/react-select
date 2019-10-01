@@ -1,4 +1,5 @@
 import React from 'react';
+import { mount, shallow } from 'enzyme';
 import {
   render,
   fireEvent,
@@ -385,13 +386,14 @@ cases(
     expectedInitialValue,
     expectedUpdatedValue,
   }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(selectWrapper.find('input[type="hidden"]').props().value).toEqual(
+    let { container, rerender } = render(<Select {...props} />);
+    expect(container.querySelector('input[type="hidden"]').value).toEqual(
       expectedInitialValue
     );
 
-    selectWrapper.setProps({ value: updateValueTo });
-    expect(selectWrapper.find('input[type="hidden"]').props().value).toEqual(
+    rerender(<Select {...props} value={updateValueTo} />);
+
+    expect(container.querySelector('input[type="hidden"]').value).toEqual(
       expectedUpdatedValue
     );
   },
@@ -448,15 +450,14 @@ cases(
   }) => {
     let onChangeSpy = jest.fn();
     props = { ...props, onChange: onChangeSpy };
-    let selectWrapper = mount(<Select {...props} />);
+    let { rerender, container, findByText } = render(<Select {...props} />);
 
-    let selectOption = selectWrapper
-      .find('div.react-select__option')
+    let selectOption = container
+      .querySelector('div.react-select__option')
       .findWhere(n => n.props().children === optionsSelected.label);
     selectWrapper.setState({ focusedOption });
-
+fireEvent[]
     selectOption.simulate(...event);
-    selectWrapper.update();
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
       action: 'select-option',
       option: expectedActionMetaOption,
