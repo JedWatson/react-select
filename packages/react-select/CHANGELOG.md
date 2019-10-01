@@ -1,5 +1,11 @@
 # react-select
 
+## 3.0.7
+
+### Patch Changes
+
+- [df864f2](https://github.com/JedWatson/react-select/commit/df864f2) - Include updated yarn.lock
+
 ## 3.0.6
 
 ### Patch Changes
