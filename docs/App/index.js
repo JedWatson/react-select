@@ -19,6 +19,7 @@ import {
 import Section from './Section';
 import PageNav from './PageNav';
 import Tests from '../Tests';
+import TestsMenu from '../TestsMenu';
 
 const sections = [
   { label: 'Home', path: '/home' },
@@ -37,6 +38,7 @@ export default class App extends Component<*> {
       <BrowserRouter>
         <Switch>
           <Route exact path="/cypress-tests" component={Tests} />
+          <Route exact path="/cypress-menu-tests" component={TestsMenu} />
           <Route>
             <div>
               <Header>

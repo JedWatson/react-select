@@ -65,15 +65,17 @@ export function getMenuPlacement({
 
   // we can't trust `scrollParent.scrollHeight` --> it may increase when
   // the menu is rendered
-  const { height: scrollHeight } = scrollParent.getBoundingClientRect();
+  const { height: scrollHeight, top: scrollParentTop } = scrollParent.getBoundingClientRect();
   const {
     bottom: menuBottom,
     height: menuHeight,
-    top: menuTop,
+    top: menuClientTop,
   } = menuEl.getBoundingClientRect();
+  // If not fixed position, need to possibly adjust based on scroll parent
+  const menuTop = isFixedPosition ? menuClientTop : menuClientTop - scrollParentTop;
 
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = window.innerHeight;
+  const viewHeight = isFixedPosition ? window.innerHeight : scrollHeight;
   const scrollTop = getScrollTop(scrollParent);
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
@@ -146,7 +148,12 @@ export function getMenuPlacement({
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
       if (placement === 'bottom') {
         scrollTo(scrollParent, scrollDown);
-        return { placement: 'bottom', maxHeight };
+        // We might also need to constrain the height
+        let constrainedHeight = maxHeight;
+        if (maxHeight > scrollHeight && !isFixedPosition) {
+            constrainedHeight = scrollHeight - marginTop - marginBottom;
+        };
+        return { placement: 'bottom', maxHeight: constrainedHeight };
       }
       break;
     case 'top':
