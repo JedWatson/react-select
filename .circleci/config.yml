@@ -56,9 +56,10 @@ jobs:
             - run:
                 name: Running unit tests
                 command: |
-                  yarn lint
-                  yarn test:jest
-                  yarn coveralls
+                    yarn lint
+                    flow check
+                    yarn test:jest
+                    yarn coveralls
     end_to_end:
         <<: *docker_defaults
         steps:
