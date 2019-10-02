@@ -21,9 +21,13 @@ export type AsyncProps = {
   /* If cacheOptions is truthy, then the loaded data will be cached. The cache
      will remain until `cacheOptions` changes value. */
   cacheOptions: any,
+  /* Same behaviour as for Select */
   onInputChange: (string, InputActionMeta) => void,
+  /* Same behaviour as for Select */
   inputValue?: string,
-  isLoading: boolean
+  /* Will cause the select to be displayed in the loading state, even if the
+     Async select is not currently waiting for loadOptions to resolve */
+  isLoading: boolean,
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -32,7 +36,7 @@ export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
   filterOption: null,
-  isLoading: false
+  isLoading: false,
 };
 
 type State = {
