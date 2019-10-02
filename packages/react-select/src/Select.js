@@ -198,7 +198,7 @@ export type Props = {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => string | null,
+  noOptionsMessage: ({ inputValue: string }) => Node | null,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */

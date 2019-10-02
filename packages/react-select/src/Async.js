@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  type Config,
   type ElementConfig,
   type AbstractComponent,
   type ElementRef,
@@ -11,17 +12,20 @@ import { handleInputChange } from './utils';
 import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
-export type AsyncProps = {
+type DefaultAsyncProps = {|
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions: OptionsType | boolean,
+  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
+    will remain until `cacheOptions` changes value. */
+  cacheOptions: any,
+|};
+export type AsyncProps = {
+  ...DefaultAsyncProps,
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
-     will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
-  onInputChange: (string, InputActionMeta) => void,
+  onInputChange?: (string, InputActionMeta) => void,
   inputValue?: string,
   isLoading: boolean
 };
@@ -46,7 +50,7 @@ type State = {
 
 export const makeAsyncSelect = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & AsyncProps> =>
+): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
   class Async extends Component<C & AsyncProps, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
