@@ -140,6 +140,7 @@ exports[`defaults - snapshot 1`] = `
   cacheOptions={false}
   defaultOptions={false}
   filterOption={null}
+  isLoading={false}
 >
   <StateManager
     cacheOptions={false}
