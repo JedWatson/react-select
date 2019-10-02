@@ -97,7 +97,7 @@ const Heading = props => {
   }
   const css = {
     marginTop: 0,
-    '&:not(:first-child)': { marginTop: 30 },
+    '&:not(:first-of-type)': { marginTop: 30 },
   };
 
   return linkify ? (

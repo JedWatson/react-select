@@ -117,7 +117,7 @@ class Header extends Component<HeaderProps, HeaderState> {
   componentDidMount() {
     this.getStarCount();
   }
-  componentWillReceiveProps({ location }: HeaderProps) {
+  UNSAFE_componentWillReceiveProps({ location }: HeaderProps) {
     const valid = ['/', '/home'];
     const shouldCollapse = !valid.includes(this.props.location.pathname);
     if (location.pathname !== this.props.location.pathname && shouldCollapse) {

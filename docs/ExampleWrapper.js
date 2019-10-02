@@ -16,9 +16,7 @@ const gitInfo = {
   host: 'github',
 };
 
-const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
-  gitInfo.branch
-}`;
+const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${gitInfo.branch}`;
 
 export default class ExampleWrapper extends Component {
   state = { isHovered: false, showCode: false };
@@ -26,7 +24,6 @@ export default class ExampleWrapper extends Component {
   handleEnter = () => this.setState({ isHovered: true });
   handleLeave = () => this.setState({ isHovered: false });
   renderCodeSample = () => {
-    console.log(raw);
     let { raw } = this.props;
     let { showCode } = this.state;
 
