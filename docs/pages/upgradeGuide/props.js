@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 
-import Select, { components } from '../../../src';
+import Select, { components } from 'react-select';
 import md from '../../markdown/renderer';
 
 const Code = ({ children }) => <code>{children}</code>;
@@ -32,19 +32,55 @@ const propChangeData = [
   ['delimiter', 'unchanged'],
   ['disabled', 'renamed', 'isDisabled'],
   ['escapeClearsValue', 'unchanged'],
-  ['filterOptions', 'removed', md`use \`filterOption\` instead`],
+  [
+    'filterOptions',
+    'removed',
+    md`
+use \`filterOption\` instead
+    `,
+  ],
   ['id', 'unchanged'],
-  ['ignoreAccents', 'removed', md`see \`createFilter()\``],
-  ['ignoreCase', 'removed', md`see \`createFilter()\``],
+  [
+    'ignoreAccents',
+    'removed',
+    md`
+see \`createFilter()\`
+    `,
+  ],
+  [
+    'ignoreCase',
+    'removed',
+    md`
+see \`createFilter()\`
+    `,
+  ],
   ['inputProps', 'components'],
   ['inputRenderer', 'components'],
   ['instanceId', 'unchanged'],
   ['isLoading', 'unchanged'],
-  ['joinValues', 'removed', md`now inferred from \`delimiter\``],
+  [
+    'joinValues',
+    'removed',
+    md`
+now inferred from \`delimiter\`
+    `,
+  ],
   ['labelKey', 'removed'],
   ['loadOptions', 'unchanged'],
-  ['matchPos', 'removed', md`see \`createFilter()\``],
-  ['matchProp', 'removed', md`see \`createFilter()\``],
+  [
+    'matchPos',
+    'removed',
+    md`
+see \`createFilter()\`
+    `,
+  ],
+  [
+    'matchProp',
+    'removed',
+    md`
+see \`createFilter()\`
+    `,
+  ],
   ['menuBuffer', 'styles'],
   ['menuContainerStyle', 'styles'],
   ['menuRenderer', 'components'],
@@ -73,7 +109,13 @@ const propChangeData = [
   ['placeholder', 'changed', 'now only accepts a string'],
   ['removeSelected', 'renamed', 'hideSelectedOptions'],
   ['required', 'removed', 'may be implemented in a later version'],
-  ['resetValue', 'removed', md`control the \`value\` prop`],
+  [
+    'resetValue',
+    'removed',
+    md`
+control the \`value\` prop
+    `,
+  ],
   ['rtl', 'renamed', 'isRtl'],
   ['scrollMenuIntoView', 'renamed', 'menuShouldScrollIntoView'],
   ['searchable', 'renamed', 'isSearchable'],
@@ -82,7 +124,13 @@ const propChangeData = [
   ['style', 'styles'],
   ['tabIndex', 'unchanged'],
   ['tabSelectsValue', 'unchanged'],
-  ['trimFilter', 'removed', md`see \`createFilter()\``],
+  [
+    'trimFilter',
+    'removed',
+    md`
+see \`createFilter()\`
+    `,
+  ],
   ['value', 'unchanged'],
   ['valueComponent', 'components'],
   ['valueKey', 'removed'],
@@ -269,18 +317,25 @@ class PropChanges extends Component<
           isMulti
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
-          onChange={options =>
-            this.setState({ selectedOptions: options.map(opt => opt.value) })}
+          onChange={options => {
+            if (Array.isArray(options)) {
+              this.setState({ selectedOptions: options.map(opt => opt.value) });
+            }
+          }}
           options={allOptions}
           components={{
-            Option: InputOption
+            Option: InputOption,
           }}
         />
         {/* sort */}
         <h4>Sort Props</h4>
         <Select
           defaultValue={filterOptions[0]}
-          onChange={option => this.setState({ filterValue: option.value })}
+          onChange={option => {
+            if (!Array.isArray(option)) {
+              this.setState({ filterValue: option ? option.value : '' });
+            }
+          }}
           options={filterOptions}
         />
         <Table>

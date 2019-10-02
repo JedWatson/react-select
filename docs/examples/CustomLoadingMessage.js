@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import AsyncSelect from '../../src/Async';
+import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
 
-const LoadingMessage = (props) => {
+const LoadingMessage = props => {
   return (
     <Tooltip content={'Custom Loading Message'}>
-      <div {...props} style={props.getStyles('loadingMessage', props)}>
-          {props.children}
+      <div
+        {...props.innerProps}
+        style={props.getStyles('loadingMessage', props)}
+      >
+        {props.children}
       </div>
     </Tooltip>
   );
@@ -42,7 +45,13 @@ export default class CustomLoadingIndicator extends Component<*, State> {
         cacheOptions
         defaultOptions
         loadOptions={promiseOptions}
-        styles={{ loadingMessage: (base) => ({ ...base, backgroundColor: colourOptions[2].color, color: 'white' }) }}
+        styles={{
+          loadingMessage: base => ({
+            ...base,
+            backgroundColor: colourOptions[2].color,
+            color: 'white',
+          }),
+        }}
         components={{ LoadingMessage }}
       />
     );

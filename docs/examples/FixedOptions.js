@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Select from '../../src';
+import Select from 'react-select';
 import { colourOptions } from '../data';
 
 type State = {
-  value: [{ [string]: string }]
+  value: [{ [string]: string }],
 };
 
 const styles = {
@@ -12,21 +12,23 @@ const styles = {
     return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
   },
   multiValueLabel: (base, state) => {
-    return state.data.isFixed ? { ...base, fontWeight: 'bold', color: 'white', paddingRight: 6 } : base;
+    return state.data.isFixed
+      ? { ...base, fontWeight: 'bold', color: 'white', paddingRight: 6 }
+      : base;
   },
   multiValueRemove: (base, state) => {
     return state.data.isFixed ? { ...base, display: 'none' } : base;
-  }
+  },
 };
 
-const orderOptions = (values) => {
-  return values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed));
+const orderOptions = values => {
+  return values.filter(v => v.isFixed).concat(values.filter(v => !v.isFixed));
 };
 
 export default class FixedOptions extends Component<*, State> {
   state = {
-    value: orderOptions([colourOptions[0], colourOptions[1], colourOptions[3]])
-  }
+    value: orderOptions([colourOptions[0], colourOptions[1], colourOptions[3]]),
+  };
 
   constructor(props) {
     super(props);
@@ -34,7 +36,7 @@ export default class FixedOptions extends Component<*, State> {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange (value, { action, removedValue }) {
+  onChange(value, { action, removedValue }) {
     switch (action) {
       case 'remove-value':
       case 'pop-value':
@@ -43,7 +45,7 @@ export default class FixedOptions extends Component<*, State> {
         }
         break;
       case 'clear':
-        value = colourOptions.filter((v) => v.isFixed);
+        value = colourOptions.filter(v => v.isFixed);
         break;
     }
 
@@ -51,7 +53,7 @@ export default class FixedOptions extends Component<*, State> {
     this.setState({ value: value });
   }
 
-  render () {
+  render() {
     return (
       <Select
         value={this.state.value}
