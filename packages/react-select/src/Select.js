@@ -198,7 +198,7 @@ export type Props = {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => string | null,
+  noOptionsMessage: ({ inputValue: string }) => Node | null,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -387,7 +387,7 @@ export default class Select extends Component<Props, State> {
       this.focusInput();
     }
   }
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { options, value, menuIsOpen, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
@@ -919,12 +919,12 @@ export default class Select extends Component<Props, State> {
       }
     } else {
       //$FlowFixMe
-      if (event.target.tagName !== 'INPUT') {
+      if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
         this.onMenuClose();
       }
     }
     //$FlowFixMe
-    if (event.target.tagName !== 'INPUT') {
+    if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
       event.preventDefault();
     }
   };
@@ -1480,7 +1480,7 @@ export default class Select extends Component<Props, State> {
     }
 
     if (isMulti) {
-      const selectValues: Array<any> = selectValue.map(opt => {
+      const selectValues: Array<any> = selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
 
         return (
@@ -1494,6 +1494,7 @@ export default class Select extends Component<Props, State> {
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
+            index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
