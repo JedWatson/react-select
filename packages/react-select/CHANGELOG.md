@@ -1,5 +1,25 @@
 # react-select
 
+## 3.0.7
+
+### Patch Changes
+
+- [df864f2](https://github.com/JedWatson/react-select/commit/df864f2) - Include updated yarn.lock
+
+## 3.0.6
+
+### Patch Changes
+
+- [3e0a7a7](https://github.com/JedWatson/react-select/commit/3e0a7a7) - \* remove emotion 9 dep from mono repo (this wasn't being used anywhere)
+  - update dep on react-input-autosize to 2.2.2 (adds UNSAFE prefix to deprecated lifecycles) (resolves #3773)
+
+## 3.0.5
+
+### Patch Changes
+
+- [270cc01](https://github.com/JedWatson/react-select/commit/270cc01) [#3719](https://github.com/JedWatson/react-select/pulls/3719) Thanks [@jossmac](https://github.com/jossmac)! - Leverage currentColor for loading indicator dots -- makes styling easier, and more consistent, for consumers
+- [bab8af1](https://github.com/JedWatson/react-select/commit/bab8af1) - Update lifecycle methods with UNSAFE prefix
+
 ## 3.0.4
 
 ### Patch Changes

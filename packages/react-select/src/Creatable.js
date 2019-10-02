@@ -93,7 +93,7 @@ export const makeCreatableSelect = <C: {}>(
         options: options,
       };
     }
-    componentWillReceiveProps(nextProps: CreatableProps & C) {
+    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
       const {
         allowCreateWhileLoading,
         createOptionPosition,
