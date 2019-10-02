@@ -2,9 +2,14 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { StyledSingle, StyledMulti, Theme, StyleCompositionExample } from '../../examples';
+import {
+  StyledSingle,
+  StyledMulti,
+  Theme,
+  StyleCompositionExample,
+} from '../../examples';
 import { ColorSample } from '../../styled-components';
-import { defaultTheme } from '../../../src/theme';
+import { defaultTheme } from 'react-select';
 
 export default function Styles() {
   return (
@@ -180,15 +185,15 @@ export default function Styles() {
     )
     ~~~
 
-    ${
+    ${(
       <ExampleWrapper
         label="Style composition for custom components"
         urlPath="docs/examples/StyleCompositionExample.js"
         raw={require('!!raw-loader!../../examples/StyleCompositionExample.js')}
       >
-        <StyleCompositionExample/>
+        <StyleCompositionExample />
       </ExampleWrapper>
-    }
+    )}
 
     ## Using classNames
 
@@ -239,11 +244,7 @@ export default function Styles() {
     ${(
       <div css={{ marginTop: '1em' }}>
         {Object.keys(defaultTheme.colors).map(key => (
-          <ColorSample
-            key={key}
-            name={key}
-            color={defaultTheme.colors[key]}
-          />
+          <ColorSample key={key} name={key} color={defaultTheme.colors[key]} />
         ))}
       </div>
     )}
