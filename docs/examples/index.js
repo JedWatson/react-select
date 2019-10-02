@@ -48,3 +48,4 @@ export { default as MenuBuffer } from './MenuBuffer';
 export { default as MenuPortal } from './MenuPortal';
 export { default as Theme } from './Theme';
 export { default as StyleCompositionExample } from './StyleCompositionExample';
+export { default as NoDefaultMenuOptionFocus } from './NoDefaultMenuOptionFocus';
