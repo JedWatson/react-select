@@ -19,7 +19,7 @@
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
     "react-input-autosize": "^2.2.2",
-    "react-transition-group": "^2.2.1"
+    "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
     "cypress": "^1.4.1",
