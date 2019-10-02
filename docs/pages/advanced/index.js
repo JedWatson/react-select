@@ -17,6 +17,7 @@ import {
   Popout,
   MenuBuffer,
   MenuPortal,
+  MultiSelectSort,
 } from '../../examples';
 
 export default function Advanced() {
@@ -31,6 +32,19 @@ export default function Advanced() {
       </Helmet>
       {md`
       # Advanced
+
+      ## Sortable MultiSelect
+      Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
+
+      ${(
+        <ExampleWrapper
+          label="Sortable MultiSelect example"
+          urlPath="docs/examples/MultiSelectSort.js"
+          raw={require('!!raw-loader!../../examples/MultiSelectSort.js')}
+        >
+          <MultiSelectSort />
+        </ExampleWrapper>
+      )}
 
       ## Custom Filter logic
       While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
