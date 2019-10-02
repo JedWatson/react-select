@@ -12,15 +12,13 @@ export type PlaceholderProps = CommonProps & {
 };
 
 export const placeholderCSS = ({
+  isMulti,
   theme: { spacing, colors },
 }: PlaceholderProps) => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
-  marginRight: spacing.baseUnit / 2,
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
+  order: isMulti ? 1 : 2,
 });
 
 const Placeholder = (props: PlaceholderProps) => {

@@ -52,9 +52,9 @@ exports[`defaults - snapshot 1`] = `
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   padding: 2px 8px;
   -webkit-overflow-scrolling: touch;
   position: relative;
@@ -65,17 +65,15 @@ exports[`defaults - snapshot 1`] = `
 .emotion-0 {
   color: hsl(0,0%,50%);
   margin-left: 2px;
-  margin-right: 2px;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
   box-sizing: border-box;
 }
 
 .emotion-1 {
   margin: 2px;
+  margin-right: -4px;
   padding-bottom: 2px;
   padding-top: 2px;
   visibility: visible;

@@ -18,20 +18,18 @@ type ValueProps = {
 export type SingleValueProps = CommonProps & ValueProps & State;
 
 export const css = ({
+  isMulti,
   isDisabled,
-  theme: { spacing, colors },
+  theme: { colors },
 }: SingleValueProps) => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
-  marginLeft: spacing.baseUnit / 2,
-  marginRight: spacing.baseUnit / 2,
-  maxWidth: `calc(100% - ${spacing.baseUnit * 2}px)`,
+  minWidth: 0,
+  marginLeft: 2,
+  order: isMulti ? null : 1,
   overflow: 'hidden',
-  position: 'absolute',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  top: '50%',
-  transform: 'translateY(-50%)',
 });
 
 const SingleValue = (props: SingleValueProps) => {

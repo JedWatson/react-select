@@ -67,13 +67,15 @@ export type ValueContainerProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
 };
+
 export const valueContainerCSS = ({
+  isMulti: isMulti,
   theme: { spacing },
 }: ValueContainerProps) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
-  flexWrap: 'wrap',
+  flexWrap: `${isMulti ? 'wrap' : 'nowrap'}`,
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',

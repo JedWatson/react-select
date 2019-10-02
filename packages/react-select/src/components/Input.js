@@ -14,14 +14,18 @@ export type InputProps = PropsWithStyles & {
   isHidden: boolean,
   /** Whether the input is disabled */
   isDisabled?: boolean,
+  /** Whether the select supports single or multiple values */
+  isMulti: boolean,
   className?: string,
 };
 
 export const inputCSS = ({
+  isMulti,
   isDisabled,
   theme: { spacing, colors },
 }: InputProps) => ({
   margin: spacing.baseUnit / 2,
+  marginRight: isMulti ? null : -spacing.baseUnit,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
