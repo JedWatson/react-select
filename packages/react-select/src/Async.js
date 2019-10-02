@@ -23,6 +23,7 @@ export type AsyncProps = {
   cacheOptions: any,
   onInputChange: (string, InputActionMeta) => void,
   inputValue?: string,
+  isLoading: boolean
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -31,6 +32,7 @@ export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
   filterOption: null,
+  isLoading: false
 };
 
 type State = {
@@ -76,7 +78,7 @@ export const makeAsyncSelect = <C: {}>(
         });
       }
     }
-    componentWillReceiveProps(nextProps: C & AsyncProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: C & AsyncProps) {
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
@@ -158,7 +160,7 @@ export const makeAsyncSelect = <C: {}>(
       return inputValue;
     };
     render() {
-      const { loadOptions, ...props } = this.props;
+      const { loadOptions, isLoading: isLoadingProp, ...props } = this.props;
       const {
         defaultOptions,
         inputValue,
@@ -179,7 +181,7 @@ export const makeAsyncSelect = <C: {}>(
             this.select = ref;
           }}
           options={options}
-          isLoading={isLoading}
+          isLoading={isLoading || isLoadingProp}
           onInputChange={this.handleInputChange}
         />
       );

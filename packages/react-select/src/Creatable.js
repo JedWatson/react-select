@@ -32,6 +32,8 @@ export type CreatableProps = {|
   onCreateOption?: string => void,
   /* Sets the position of the createOption element in your options list. Defaults to 'last' */
   createOptionPosition: 'first' | 'last',
+  /* Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string,
   options?: OptionsType,
   inputValue: string,
   value: ValueType,
@@ -93,7 +95,7 @@ export const makeCreatableSelect = <C: {}>(
         options: options,
       };
     }
-    componentWillReceiveProps(nextProps: CreatableProps & C) {
+    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
       const {
         allowCreateWhileLoading,
         createOptionPosition,
@@ -129,6 +131,7 @@ export const makeCreatableSelect = <C: {}>(
         onChange,
         onCreateOption,
         value,
+        name,
       } = this.props;
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
@@ -140,7 +143,7 @@ export const makeCreatableSelect = <C: {}>(
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = { action: 'create-option' };
+          const newActionMeta = { action: 'create-option', name };
           if (isMulti) {
             onChange([...cleanValue(value), newOptionData], newActionMeta);
           } else {
@@ -158,11 +161,10 @@ export const makeCreatableSelect = <C: {}>(
       this.select.blur();
     }
     render() {
-      const { ...props } = this.props;
       const { options } = this.state;
       return (
         <SelectComponent
-          {...props}
+          {...this.props}
           ref={ref => {
             this.select = ref;
           }}

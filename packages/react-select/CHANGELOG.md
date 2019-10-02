@@ -1,5 +1,35 @@
 # react-select
 
+## 3.0.8
+
+### Patch Changes
+
+- [a575a3c4](https://github.com/JedWatson/react-select/commit/a575a3c41798696620c77e8098c1150b4adda6cb) [#3727](https://github.com/JedWatson/react-select/pull/3727) Thanks [@tonytangau](https://github.com/tonytangau)! - Adding an `index` prop to `MultiValue` components
+- [916f0d2c](https://github.com/JedWatson/react-select/commit/916f0d2c651189bfeff2289d8d3cc597e06cb2ea) [#3644](https://github.com/JedWatson/react-select/pull/3644) Thanks [@TrySound](https://github.com/TrySound)! - Remove usage of `raf` package and replace with `window.requestAnimationFrame` because React already depends on `requestAnimationFrame`
+- [cba15309](https://github.com/JedWatson/react-select/commit/cba15309c4d7523ab6a785c8d5c0c7ec1048e22f) [#3676](https://github.com/JedWatson/react-select/pull/3676) Thanks [@wiesys](https://github.com/wiesys)! - Fix `loadingMessage` and `noOptionsMessage` properties in `Styles` flow type
+- [32f9475e](https://github.com/JedWatson/react-select/commit/32f9475e6d43a71000a3906da9e6d2d30710efd2) [#3790](https://github.com/JedWatson/react-select/pull/3790) Thanks [@JedWatson](https://github.com/JedWatson)! - Remove unnecessary dependency on `classnames` package
+- [1731175d](https://github.com/JedWatson/react-select/commit/1731175d790530b9dbfa787e3fffaff3fb0e44a0) [#3733](https://github.com/JedWatson/react-select/pull/3733) Thanks [@ddc67cd](https://github.com/ddc67cd)! - Pass `name` to `onChange` meta in `Creatable` to make it consistent with onChange in standard `Select`
+
+## 3.0.7
+
+### Patch Changes
+
+- [df864f2](https://github.com/JedWatson/react-select/commit/df864f2) - Include updated yarn.lock
+
+## 3.0.6
+
+### Patch Changes
+
+- [3e0a7a7](https://github.com/JedWatson/react-select/commit/3e0a7a7) - \* remove emotion 9 dep from mono repo (this wasn't being used anywhere)
+  - update dep on react-input-autosize to 2.2.2 (adds UNSAFE prefix to deprecated lifecycles) (resolves #3773)
+
+## 3.0.5
+
+### Patch Changes
+
+- [270cc01](https://github.com/JedWatson/react-select/commit/270cc01) [#3719](https://github.com/JedWatson/react-select/pulls/3719) Thanks [@jossmac](https://github.com/jossmac)! - Leverage currentColor for loading indicator dots -- makes styling easier, and more consistent, for consumers
+- [bab8af1](https://github.com/JedWatson/react-select/commit/bab8af1) - Update lifecycle methods with UNSAFE prefix
+
 ## 3.0.4
 
 ### Patch Changes
