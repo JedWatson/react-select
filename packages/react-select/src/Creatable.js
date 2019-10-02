@@ -32,6 +32,8 @@ export type CreatableProps = {|
   onCreateOption?: string => void,
   /* Sets the position of the createOption element in your options list. Defaults to 'last' */
   createOptionPosition: 'first' | 'last',
+  /* Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string,
   options?: OptionsType,
   inputValue: string,
   value: ValueType,
@@ -159,11 +161,10 @@ export const makeCreatableSelect = <C: {}>(
       this.select.blur();
     }
     render() {
-      const { ...props } = this.props;
       const { options } = this.state;
       return (
         <SelectComponent
-          {...props}
+          {...this.props}
           ref={ref => {
             this.select = ref;
           }}
