@@ -918,16 +918,16 @@ export default class Select extends Component<Props, State> {
         this.openMenu('first');
       }
     } else {
-      //$FlowFixMe
       if (
+        // $FlowFixMe
         event.target.tagName !== 'INPUT' &&
         event.target.tagName !== 'TEXTAREA'
       ) {
         this.onMenuClose();
       }
     }
-    //$FlowFixMe
     if (
+      // $FlowFixMe
       event.target.tagName !== 'INPUT' &&
       event.target.tagName !== 'TEXTAREA'
     ) {
