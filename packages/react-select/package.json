@@ -1,0 +1,69 @@
+{
+  "name": "react-select",
+  "version": "3.0.8",
+  "description": "A Select control built with and for ReactJS",
+  "main": "dist/react-select.cjs.js",
+  "module": "dist/react-select.esm.js",
+  "sideEffects": false,
+  "author": "Jed Watson",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JedWatson/react-select.git"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.4",
+    "@emotion/cache": "^10.0.9",
+    "@emotion/core": "^10.0.9",
+    "@emotion/css": "^10.0.9",
+    "memoize-one": "^5.0.0",
+    "prop-types": "^15.6.0",
+    "react-input-autosize": "^2.2.2",
+    "react-transition-group": "^4.3.0"
+  },
+  "devDependencies": {
+    "cypress": "^1.4.1",
+    "enzyme": "^3.8.0",
+    "enzyme-to-json": "^3.3.0",
+    "jest-in-case": "^1.0.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "base",
+    "animated",
+    "async",
+    "creatable",
+    "async-creatable"
+  ],
+  "keywords": [
+    "combobox",
+    "form",
+    "input",
+    "multiselect",
+    "react",
+    "react-component",
+    "select",
+    "ui"
+  ],
+  "preconstruct": {
+    "entrypoints": [
+      ".",
+      "base",
+      "animated",
+      "async",
+      "creatable",
+      "async-creatable"
+    ]
+  },
+  "browser": {
+    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
+    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+  }
+}

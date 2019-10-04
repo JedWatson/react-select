@@ -58,6 +58,7 @@ export default function Api() {
       selectOption: OptionType => void,
       selectProps: any,
       setValue: (ValueType, ActionTypes) => void,
+      emotion: any,
     }
 
     // passed as the second argument to \`onChange\`
@@ -66,6 +67,18 @@ export default function Api() {
 
     Even when commonProps are not listed in the prop types below, a custom component
     will still have access to them.
+
+    ## StateManager Props
+
+    The statemanager is a utility class that wraps around the base Select and each Select variant to
+    expose inputValue and value as controllable props. For more detailed information on these props and their usage
+    please see the [controlled props](/advanced#controlled-props) section of the advanced page.
+
+    ${(
+      <Props
+        props={require('!!extract-react-types-loader!../../PropTypes/stateManager')}
+      />
+    )}
 
     ## Select Props
 

@@ -2,12 +2,12 @@
 
 import React, { Component, type ComponentType } from 'react';
 
-import Select from '../src';
-import type { MenuPlacement } from '../src/types';
+import Select from 'react-select';
+import type { MenuPlacement } from 'react-select/src/types';
 import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions, optionLength } from './data';
 
-import * as animatedComponents from '../src/animated';
+import * as animatedComponents from 'react-select/animated';
 
 type SuiteProps = {
   selectComponent: ComponentType<any>,
@@ -17,6 +17,7 @@ type SuiteState = {
   isDisabled: boolean,
   isFixed: boolean,
   isLoading: boolean,
+  escapeClearsValue: boolean,
   blockScroll: boolean,
   portalPlacement: MenuPlacement,
 };
@@ -36,6 +37,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
     isDisabled: false,
     isFixed: false,
     isLoading: false,
+    escapeClearsValue: false,
     portalPlacement: 'top',
     blockScroll: true,
   };
@@ -50,6 +52,9 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
   };
   toggleMode = () => {
     this.setState(state => ({ isFixed: !state.isFixed }));
+  };
+  toggleEscapeClearsValue = () => {
+    this.setState(state => ({ escapeClearsValue: !state.escapeClearsValue }));
   };
 
   setPlacement = ({ currentTarget }: SyntheticEvent<*>) => {
@@ -77,23 +82,24 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             isLoading={this.state.isLoading}
             options={colourOptions}
           />
+          <Note Tag="label">
+            <input
+              type="checkbox"
+              onChange={this.toggleDisabled}
+              className="disable-checkbox"
+              id={`cypress-${idSuffix}__disabled-checkbox`}
+            />
+            Disabled
+          </Note>
+          <Note Tag="label" style={{ marginLeft: '1em' }}>
+            <input
+              type="checkbox"
+              onChange={this.toggleLoading}
+              id={`cypress-${idSuffix}__loading-checkbox`}
+            />
+            Loading
+          </Note>
         </div>
-        <Note Tag="label">
-          <input
-            type="checkbox"
-            onChange={this.toggleDisabled}
-            id={`cypress-${idSuffix}__disabled-checkbox`}
-          />
-          Disabled
-        </Note>
-        <Note Tag="label" style={{ marginLeft: '1em' }}>
-          <input
-            type="checkbox"
-            onChange={this.toggleLoading}
-            id={`cypress-${idSuffix}__loading-checkbox`}
-          />
-          Loading
-        </Note>
 
         <h4>Grouped</h4>
         <div id={`cypress-${idSuffix}-grouped`}>
@@ -104,6 +110,27 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             defaultValue={colourOptions[1]}
             options={groupedOptions}
           />
+        </div>
+
+        <h4>Clearable</h4>
+        <div id={`cypress-${idSuffix}-clearable`}>
+          <SelectComp
+            id={`clearable-select-${idSuffix}`}
+            instancePrefix={`clearable-select-${idSuffix}`}
+            isClearable
+            escapeClearsValue={this.state.escapeClearsValue}
+            classNamePrefix="react-select"
+            defaultValue={colourOptions[1]}
+            options={groupedOptions}
+          />
+          <Note Tag="label">
+            <input
+              type="checkbox"
+              onChange={this.toggleEscapeClearsValue}
+              className="escape-clears-value-checkbox"
+            />
+            escapeClearsValue
+          </Note>
         </div>
 
         <h4>Portalled</h4>
@@ -213,7 +240,7 @@ export default function Tests() {
       <div id={'cypress-long-values'}>
         <Select
           id="long-value-select"
-          instsanceId="long-value-select"
+          instanceId="long-value-select"
           classNamePrefix="react-select"
           defaultValue={optionLength[3]}
           options={optionLength}

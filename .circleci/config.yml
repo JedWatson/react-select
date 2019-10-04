@@ -4,7 +4,7 @@ docker_defaults: &docker_defaults
     docker:
         - image: cypress/base:8
           environment:
-            TERM: xterm
+              TERM: xterm
     working_directory: ~/project/repo
 
 attach_workspace: &attach_workspace
@@ -15,24 +15,24 @@ install_steps: &install_steps
     steps:
         - checkout
         - restore_cache:
-            name: Restore node_modules cache
-            keys:
-                - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
-                - dependency-cache-{{ .Branch }}-
-                - dependency-cache-
+              name: Restore node_modules cache
+              keys:
+                  - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+                  - dependency-cache-{{ .Branch }}-
+                  - dependency-cache-
         - run:
-            name: Installing Dependencies
-            command: |
-              yarn install --silent
+              name: Installing Dependencies
+              command: |
+                  yarn install --silent
         - save_cache:
-            name: Save node_modules cache
-            key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
-            paths:
-                - node_modules/
+              name: Save node_modules cache
+              key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+              paths:
+                  - node_modules/
         - persist_to_workspace:
-            root: ~/project
-            paths:
-                - repo
+              root: ~/project
+              paths:
+                  - repo
 
 workflows:
     version: 2
@@ -40,11 +40,11 @@ workflows:
         jobs:
             - build
             - unit_test:
-                requires:
-                    - build
+                  requires:
+                      - build
             - end_to_end:
-                requires:
-                    - build
+                  requires:
+                      - build
 jobs:
     build:
         <<: *docker_defaults
@@ -54,16 +54,17 @@ jobs:
         steps:
             - *attach_workspace
             - run:
-                name: Running unit tests
-                command: |
-                  yarn lint
-                  yarn test:jest
-                  yarn coveralls
+                  name: Running unit tests
+                  command: |
+                      yarn lint
+                      yarn flow check --flowconfig-name=.flowconfig-ci
+                      yarn test:jest
+                      yarn coveralls
     end_to_end:
         <<: *docker_defaults
         steps:
             - *attach_workspace
             - run:
-                name: Running E2E tests
-                command: |
-                  yarn e2e
+                  name: Running E2E tests
+                  command: |
+                      yarn e2e

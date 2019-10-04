@@ -87,11 +87,11 @@ export default function Home() {
 
   ## Animated Components
 
-  React-Select comes with Animated variants that wrap the built-in
-  components.
+  React-Select comes with a makeAnimated function that create animated wrappers around components passed in as arguments.
+  If no arguments are passed, built-in components are wrapped instead.
 
   ~~~jsx
-  import Animated from 'react-select/lib/animated';
+  import makeAnimated from 'react-select/animated';
   ~~~
 
   Remove the values below to see them in action.
@@ -136,7 +136,7 @@ export default function Home() {
   Use the Async component to load options from a remote source as the user types.
 
   ~~~jsx
-  import Async from 'react-select/lib/Async';
+  import Async from 'react-select/async';
   ~~~
 
   ${(
@@ -162,9 +162,10 @@ export default function Home() {
   You can see a full explanation of how to do this on the [async](/async) page.
 
   # Creatable
+  The Creatable component enables users to create new options along with choosing existing options.
 
   ~~~jsx
-  import Creatable from 'react-select/lib/Creatable';
+  import Creatable from 'react-select/creatable';
   ~~~
 
   ${(

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 
-import AsyncSelect from '../../src/Async';
+import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
 
 type State = {
   inputValue: string,
 };
 
-const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
+const filterColors = (inputValue: string) => {
+  return colourOptions.filter(i =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
+};
 
 const loadOptions = (inputValue, callback) => {
   setTimeout(() => {

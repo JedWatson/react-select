@@ -17,13 +17,14 @@ import {
   Popout,
   MenuBuffer,
   MenuPortal,
+  MultiSelectSort,
 } from '../../examples';
 
 export default function Advanced() {
   return (
     <Fragment>
       <Helmet>
-        <title>API - React Select</title>
+        <title>Advanced - React Select</title>
         <meta
           name="description"
           content="The react-select property API documentation."
@@ -31,6 +32,19 @@ export default function Advanced() {
       </Helmet>
       {md`
       # Advanced
+
+      ## Sortable MultiSelect
+      Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
+
+      ${(
+        <ExampleWrapper
+          label="Sortable MultiSelect example"
+          urlPath="docs/examples/MultiSelectSort.js"
+          raw={require('!!raw-loader!../../examples/MultiSelectSort.js')}
+        >
+          <MultiSelectSort />
+        </ExampleWrapper>
+      )}
 
       ## Custom Filter logic
       While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
@@ -57,9 +71,9 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          label="Custom filterOption function"
+          urlPath="docs/examples/CustomFilterOptions.js"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
@@ -136,13 +150,13 @@ export default function Advanced() {
 
       The action argument is a string with the following possible values
 
-      'select-option'
-      'deselect-option'
-      'remove-value'
-      'pop-value'
-      'set-value'
-      'clear'
-      'create-option'
+      * 'select-option': Selecting an option from the list
+      * 'deselect-option': (Multiple) Deselecting an option from the list
+      * 'remove-value': (Multiple) Removing a selected option with the remove button
+      * 'pop-value': Removing options using backspace
+      * 'set-value': Calling setValue from a component without an action
+      * 'clear': Removing all selected options with the clear button
+      * 'create-option': (Creatable) Creating a new option
 
       By explicitly passing you what type of change event has been fired, we allow you to have more granular control
       over how the select behaves after an onChange even is fired.
@@ -178,7 +192,6 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          isEditable={false}
           label="Example of controlled MenuIsOpen"
           urlPath="docs/examples/ControlledMenu.js"
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
@@ -221,12 +234,12 @@ export default function Advanced() {
       ~~~
 
       for more ways you can do this (including critical CSS) see the
-      [Emotion SSR Docs](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
+      [Emotion SSR Docs](https://emotion.sh/docs/ssr)
 
 
       ## Experimental
 
-      Experimental recipes of prop combinations with react-select v2.
+      Experimental recipes of prop combinations with react-select.
 
       ${(
         <ExampleWrapper
