@@ -78,7 +78,7 @@
     "react-router-dom": "^4.2.2",
     "react-sortable-hoc": "^1.9.1",
     "react-syntax-highlighter": "^7.0.1",
-    "react-transition-group": "^2.2.1",
+    "react-transition-group": "^4.3.0",
     "style-loader": "^0.23.1",
     "unfetch": "^3.0.0",
     "webpack": "^4.30.0",
