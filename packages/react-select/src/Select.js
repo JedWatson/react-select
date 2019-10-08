@@ -198,7 +198,7 @@ export type Props = {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => string | null,
+  noOptionsMessage: ({ inputValue: string }) => Node | null,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -918,13 +918,19 @@ export default class Select extends Component<Props, State> {
         this.openMenu('first');
       }
     } else {
-      //$FlowFixMe
-      if (event.target.tagName !== 'INPUT') {
+      if (
+        // $FlowFixMe
+        event.target.tagName !== 'INPUT' &&
+        event.target.tagName !== 'TEXTAREA'
+      ) {
         this.onMenuClose();
       }
     }
-    //$FlowFixMe
-    if (event.target.tagName !== 'INPUT') {
+    if (
+      // $FlowFixMe
+      event.target.tagName !== 'INPUT' &&
+      event.target.tagName !== 'TEXTAREA'
+    ) {
       event.preventDefault();
     }
   };
@@ -1397,6 +1403,13 @@ export default class Select extends Component<Props, State> {
 
     const id = inputId || this.getElementId('input');
 
+    // aria attributes makes the JSX "noisy", separated for clarity
+    const ariaAttributes = {
+      'aria-autocomplete': 'list',
+      'aria-label': this.props['aria-label'],
+      'aria-labelledby': this.props['aria-labelledby'],
+    };
+
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
       return (
@@ -1410,16 +1423,10 @@ export default class Select extends Component<Props, State> {
           disabled={isDisabled}
           tabIndex={tabIndex}
           value=""
+          {...ariaAttributes}
         />
       );
     }
-
-    // aria attributes makes the JSX "noisy", separated for clarity
-    const ariaAttributes = {
-      'aria-autocomplete': 'list',
-      'aria-label': this.props['aria-label'],
-      'aria-labelledby': this.props['aria-labelledby'],
-    };
 
     const { cx, theme, selectProps } = this.commonProps;
 
@@ -1480,7 +1487,7 @@ export default class Select extends Component<Props, State> {
     }
 
     if (isMulti) {
-      const selectValues: Array<any> = selectValue.map(opt => {
+      const selectValues: Array<any> = selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
 
         return (
@@ -1494,6 +1501,7 @@ export default class Select extends Component<Props, State> {
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
             key={this.getOptionValue(opt)}
+            index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),

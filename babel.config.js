@@ -1,4 +1,11 @@
 module.exports = {
-  plugins: ['emotion', '@babel/plugin-proposal-class-properties'],
-  presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
+  plugins: [
+    'emotion',
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+  ],
+  presets: [
+    ['@babel/preset-env', { loose: true }],
+    '@babel/preset-react',
+    '@babel/preset-flow',
+  ],
 };

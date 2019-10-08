@@ -36,9 +36,8 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.stopListening(this.scrollTarget);
   }
   startListening(el: HTMLElement) {
-    // bail early if no scroll available
+    // bail early if no element is available to attach to
     if (!el) return;
-    if (el.scrollHeight <= el.clientHeight) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
@@ -60,9 +59,6 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.isListened = true;
   }
   stopListening(el: HTMLElement) {
-    // bail early if no scroll available
-    if (el.scrollHeight <= el.clientHeight) return;
-
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('wheel', this.onWheel, false);
@@ -172,10 +168,9 @@ type SwitchProps = CaptorProps & {
   isEnabled: boolean,
 };
 
-export default class ScrollCaptorSwitch extends Component<SwitchProps> {
-  static defaultProps = { isEnabled: true };
-  render() {
-    const { isEnabled, ...props } = this.props;
-    return isEnabled ? <ScrollCaptor {...props} /> : this.props.children;
-  }
+export default function ScrollCaptorSwitch({
+  isEnabled = true,
+  ...props
+}: SwitchProps) {
+  return isEnabled ? <ScrollCaptor {...props} /> : props.children;
 }
