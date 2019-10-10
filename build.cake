@@ -1,5 +1,5 @@
 #tool "nuget:?package=Microsoft.TestPlatform&version=15.7.0"
-#addin "Cake.Npm"
+#addin nuget:?package=Cake.Npm&version=0.17.0
 #addin nuget:?package=Cake.Json&version=4.0.0
 #addin nuget:?package=Newtonsoft.Json&version=9.0.1
 ////////////////////////////////////////////////////////////////
@@ -14,7 +14,7 @@ var install=Task("Install")
     .Does(() =>
 {
     Information("Starting Install");
-    NpmInstall();      
+    NpmCi();     
     Information("Ending Install");
 });
 
