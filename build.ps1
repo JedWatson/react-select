@@ -47,8 +47,13 @@ Param(
     [switch]$DryRun,
     [switch]$SkipToolPackageRestore,
     [Parameter(Position=0,Mandatory=$false,ValueFromRemainingArguments=$true)]
-    [string[]]$ScriptArgs
+    [string[]]$ScriptArgs,
+	[switch]$Pipeline
 )
+
+if ( -Not $Pipeline) { 
+	$env:CAKE_NUGET_SOURCE = "https://api.nuget.org/v3/index.json" 
+}
 
 # Attempt to set highest encryption available for SecurityProtocol.
 # PowerShell will not set this by default (until maybe .NET 4.6.x). This
