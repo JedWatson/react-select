@@ -55,8 +55,7 @@ const manageState = SelectComponent =>
           setInputValue(
             modifiedInputValue !== undefined
               ? modifiedInputValue
-              : newInputValue,
-            actionMeta
+              : newInputValue
           );
         },
         [onInputChangeProp]

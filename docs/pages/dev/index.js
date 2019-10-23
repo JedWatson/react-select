@@ -6,7 +6,8 @@ import { colourOptions } from '../../data';
 import Select from 'react-select';
 
 const SingleStateManaged = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(colourOptions[0]);
+  console.log('State Managed Single Select value is:', value);
   return (
     <Select
       options={colourOptions}
