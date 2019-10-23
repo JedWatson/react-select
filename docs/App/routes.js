@@ -1,4 +1,5 @@
 import Home from '../pages/home';
+import Dev from '../pages/dev';
 import Props from '../pages/props';
 import Styles from '../pages/styles';
 import Components from '../pages/components';
@@ -9,11 +10,12 @@ import UpgradeGuide from '../pages/upgradeGuide';
 
 export default {
   '/home': Home,
+  '/dev': Dev,
   '/props': Props,
   '/styles': Styles,
   '/components': Components,
   '/async': Async,
   '/creatable': Creatable,
   '/advanced': Advanced,
-  '/upgrade-guide': UpgradeGuide
+  '/upgrade-guide': UpgradeGuide,
 };
