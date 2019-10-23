@@ -3,7 +3,7 @@
 import { type ElementConfig } from 'react';
 import { makeAsyncSelect } from './Async';
 import { makeCreatableSelect } from './Creatable';
-import manageState from './stateManager';
+import manageState from './stateManager-hooks';
 import Select from './Select';
 
 const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(

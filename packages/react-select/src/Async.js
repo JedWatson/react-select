@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
-import manageState from './stateManager';
+import manageState from './stateManager-hooks';
 import type { OptionsType, InputActionMeta } from './types';
 
 type DefaultAsyncProps = {|

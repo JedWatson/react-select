@@ -2,7 +2,7 @@
 import { type ElementConfig } from 'react';
 
 import SelectBase from './Select';
-import manageState from './stateManager';
+import manageState from './stateManager-hooks';
 
 export default manageState<ElementConfig<typeof SelectBase>>(SelectBase);
 
