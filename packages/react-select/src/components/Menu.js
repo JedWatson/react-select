@@ -20,9 +20,9 @@ import {
 } from '../utils';
 import type {
   InnerRef,
-  MenuPlacement,
-  MenuPosition,
-  CommonProps,
+    MenuPlacement,
+    MenuPosition,
+    CommonProps,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -63,26 +63,29 @@ export function getMenuPlacement({
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
 
-  // we can't trust `scrollParent.scrollHeight` --> it may increase when
-  // the menu is rendered
-  const { height: scrollHeight } = scrollParent.getBoundingClientRect();
+  const {
+    top: scrollParentTop,
+    bottom: scrollParentBottom
+  } = scrollParent.getBoundingClientRect();
+
   const {
     bottom: menuBottom,
     height: menuHeight,
     top: menuTop,
   } = menuEl.getBoundingClientRect();
 
-  const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = window.innerHeight;
+  // using the height of the scrollable parent and not the window height.
+  const viewHeight = scrollParent.clientHeight;
   const scrollTop = getScrollTop(scrollParent);
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
   const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
-  const viewSpaceAbove = containerTop - marginTop;
+  const viewSpaceAbove = menuTop - scrollParentTop - scrollTop;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
-  const scrollSpaceBelow = scrollHeight - scrollTop - menuTop;
-
+  // scroll space left in the parent not relative to the menu
+  const scrollSpaceBelow = scrollParent.scrollHeight - scrollTop - viewHeight;
+  const scrollSpaceBelowMenu = scrollParentBottom - menuTop;
   const scrollDown = menuBottom - viewHeight + scrollTop + marginBottom;
   const scrollUp = scrollTop + menuTop - marginTop;
   const scrollDuration = 160;
@@ -96,7 +99,7 @@ export function getMenuPlacement({
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceBelow >= menuHeight && !isFixedPosition) {
+      if (scrollSpaceBelow - marginTop - marginBottom >= menuHeight && !isFixedPosition) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
@@ -105,8 +108,11 @@ export function getMenuPlacement({
       }
 
       // 3: the menu will fit, if constrained
+      // change in `scrollParent.scrollHeight` will not have any effect on the positioning
+      // of the menu and the menu will be contained in the previous dimensions.
       if (
-        (!isFixedPosition && scrollSpaceBelow >= minHeight) ||
+        (!isFixedPosition && scrollSpaceBelowMenu >= minHeight
+          && viewHeight + scrollSpaceBelow >= scrollSpaceBelowMenu) ||
         (isFixedPosition && viewSpaceBelow >= minHeight)
       ) {
         if (shouldScroll) {
@@ -115,9 +121,10 @@ export function getMenuPlacement({
 
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
+        // not greater than the `maxHeight`.
         const constrainedHeight = isFixedPosition
           ? viewSpaceBelow - marginBottom
-          : scrollSpaceBelow - marginBottom;
+          : Math.min(scrollSpaceBelowMenu - marginBottom, maxHeight);
 
         return {
           placement: 'bottom',
