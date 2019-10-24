@@ -36,6 +36,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.6.1",
+    "eslint-plugin-react": "^7.3.0",
     "flow-bin": "^0.91.0",
     "husky": "^0.14.3",
     "jest": "^24.8.0",
