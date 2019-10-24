@@ -20,9 +20,9 @@ import {
 } from '../utils';
 import type {
   InnerRef,
-    MenuPlacement,
-    MenuPosition,
-    CommonProps,
+  MenuPlacement,
+  MenuPosition,
+  CommonProps,
 } from '../types';
 import type { Theme } from '../types';
 
