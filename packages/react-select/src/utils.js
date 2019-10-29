@@ -1,6 +1,5 @@
 // @flow
 
-import raf from 'raf';
 import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
@@ -176,7 +175,7 @@ export function animatedScrollTo(
     const val = easeOutCubic(currentTime, start, change, duration);
     scrollTo(element, val);
     if (currentTime < duration) {
-      raf(animateScroll);
+      window.requestAnimationFrame(animateScroll);
     } else {
       callback(element);
     }

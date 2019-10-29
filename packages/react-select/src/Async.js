@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  type Config,
   type ElementConfig,
   type AbstractComponent,
   type ElementRef,
@@ -11,10 +12,16 @@ import { handleInputChange, debounce } from './utils';
 import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
-export type AsyncProps = {
+type DefaultAsyncProps = {|
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions: OptionsType | boolean,
+  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
+    will remain until `cacheOptions` changes value. */
+  cacheOptions: any,
+|};
+export type AsyncProps = {
+  ...DefaultAsyncProps,
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
@@ -23,8 +30,13 @@ export type AsyncProps = {
   cacheOptions: any,
   /* Debounce interval in milliseconds on input change. */
   debounceInterval: number,
-  onInputChange: (string, InputActionMeta) => void,
+  /* Same behaviour as for Select */
+  onInputChange?: (string, InputActionMeta) => void,
+  /* Same behaviour as for Select */
   inputValue?: string,
+  /* Will cause the select to be displayed in the loading state, even if the
+     Async select is not currently waiting for loadOptions to resolve */
+  isLoading: boolean,
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -33,6 +45,7 @@ export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
   filterOption: null,
+  isLoading: false,
 };
 
 type State = {
@@ -46,7 +59,7 @@ type State = {
 
 export const makeAsyncSelect = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & AsyncProps> =>
+): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
   class Async extends Component<C & AsyncProps, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
@@ -63,7 +76,7 @@ export const makeAsyncSelect = <C: {}>(
           : undefined,
         inputValue:
           typeof props.inputValue !== 'undefined' ? props.inputValue : '',
-        isLoading: props.defaultOptions === true ? true : false,
+        isLoading: props.defaultOptions === true,
         loadedOptions: [],
         passEmptyOptions: false,
       };
@@ -80,7 +93,7 @@ export const makeAsyncSelect = <C: {}>(
         });
       }
     }
-    componentWillReceiveProps(nextProps: C & AsyncProps) {
+    UNSAFE_componentWillReceiveProps(nextProps: C & AsyncProps) {
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
@@ -162,7 +175,7 @@ export const makeAsyncSelect = <C: {}>(
       return inputValue;
     };
     render() {
-      const { loadOptions, ...props } = this.props;
+      const { loadOptions, isLoading: isLoadingProp, ...props } = this.props;
       const {
         defaultOptions,
         inputValue,
@@ -183,7 +196,7 @@ export const makeAsyncSelect = <C: {}>(
             this.select = ref;
           }}
           options={options}
-          isLoading={isLoading}
+          isLoading={isLoading || isLoadingProp}
           onInputChange={this.handleInputChange}
         />
       );
