@@ -127,7 +127,7 @@ export function scrollTo(el: Element, top: number): void {
 
 export function getScrollParent(element: ElementRef<*>): Element {
   let style = getComputedStyle(element);
-  const excludeStaticParent = style.position === 'absolute';
+  let excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
   const docEl = ((document.documentElement: any): Element); // suck it, flow...
 
@@ -135,6 +135,7 @@ export function getScrollParent(element: ElementRef<*>): Element {
 
   for (let parent = element; (parent = parent.parentElement); ) {
     style = getComputedStyle(parent);
+    excludeStaticParent = style.position !== 'static' ? false : excludeStaticParent;
     if (excludeStaticParent && style.position === 'static') {
       continue;
     }
