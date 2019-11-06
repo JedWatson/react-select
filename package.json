@@ -61,7 +61,7 @@
     "memoize-one": "^5.0.0",
     "moment": "^2.20.1",
     "node-fetch": "^2.5.0",
-    "preconstruct": "^0.0.76",
+    "@preconstruct/cli": "^1.0.0",
     "pretty-proptypes": "^0.5.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
