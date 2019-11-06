@@ -55,11 +55,9 @@
     "flow-bin": "^0.91.0",
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^0.14.3",
     "jest": "^24.8.0",
     "jest-emotion": "^10.0.11",
     "jest-in-case": "^1.0.2",
-    "lint-staged": "^7.0.5",
     "memoize-one": "^5.0.0",
     "moment": "^2.20.1",
     "node-fetch": "^2.5.0",
@@ -129,9 +127,6 @@
     "snapshotSerializers": [
       "jest-emotion"
     ]
-  },
-  "lint-staged": {
-    "*.js": "eslint"
   },
   "workspaces": [
     "packages/*",
