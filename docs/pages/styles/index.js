@@ -106,6 +106,43 @@ export default function Styles() {
           options={...}
         />
       );
+      ~~~ 
+
+    
+    ## Select Props
+    In the second argument \`state\`, you have acces to \`selectProps\` which will allow you to gain acess to
+    your own arguments passed into the \`Select\` body.
+
+    ~~~jsx
+    const customStyles = {
+      menu: (provided, state) => ({
+        ...provided,
+        width: state.selectProps.width,
+        borderBottom: '1px dotted pink',
+        color: state.selectProps.menuColor,
+        padding: 20,
+      }),
+
+      control: (_, { selectProps: { width }}) => ({
+        width: width
+      }),
+
+      singleValue: (provided, state) => {
+        const opacity = state.isDisabled ? 0.5 : 1;
+        const transition = 'opacity 300ms';
+
+        return { ...provided, opacity, transition };
+      }
+    }
+
+      const App = () => (
+        <Select
+          styles={customStyles}
+          width='200px'
+          menuColor='red'
+          options={...}
+        />
+      );
       ~~~
 
       ${(
