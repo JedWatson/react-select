@@ -9,5 +9,6 @@ export default manageState<ElementConfig<typeof SelectBase>>(SelectBase);
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
 export { defaultTheme } from './theme';
+export { defaultProps as SelectDefaultProps } from './Select'
 export { createFilter } from './filters';
 export { components } from './components';
