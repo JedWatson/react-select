@@ -1316,6 +1316,25 @@ export default class Select extends Component<Props, State> {
       };
     };
 
+    const parseOptions = (acc, item, itemIndex) => {
+      if (item.options) {
+        const { options: items } = item;
+        const children = items
+          .map((child, i) => parseOptions(acc, child, `${itemIndex}-${i}`))
+          .filter(Boolean);
+        return {
+          type: 'group',
+          key: `${this.getElementId('group')}-${itemIndex}`,
+          data: item,
+          options: children,
+        };
+      } else {
+        const option = toOption(item, `${itemIndex}`);
+        if (option && !option.isDisabled) acc.focusable.push(item);
+        return option;
+      }
+    };
+
     return options.reduce(
       (acc, item, itemIndex) => {
         if (item.options) {
@@ -1324,11 +1343,7 @@ export default class Select extends Component<Props, State> {
 
           const { options: items } = item;
           const children = items
-            .map((child, i) => {
-              const option = toOption(child, `${itemIndex}-${i}`);
-              if (option) acc.focusable.push(child);
-              return option;
-            })
+            .map((child, i) => parseOptions(acc, child, `${itemIndex}-${i}`))
             .filter(Boolean);
           if (children.length) {
             const groupId = `${this.getElementId('group')}-${itemIndex}`;
@@ -1665,27 +1680,40 @@ export default class Select extends Component<Props, State> {
       );
     };
 
+    const renderGroup = (props: GroupType) => {
+      const { type, ...group } = props;
+      const headingId = `${props.key}-heading`;
+      return (
+        <Group
+          {...commonProps}
+          {...group}
+          Heading={GroupHeading}
+          innerProps={{
+            'aria-expanded': true,
+            'aria-labelledby': headingId,
+            role: 'group',
+          }}
+          headingProps={{
+            id: headingId,
+          }}
+          label={this.formatGroupLabel(props.data)}
+        >
+          {props
+            .options
+            .map(option => (option.type === 'group' )
+              ? (renderGroup(option))
+              : (render(option)))
+          }
+        </Group>
+      );
+    };
+
     let menuUI;
 
     if (this.hasOptions()) {
       menuUI = menuOptions.render.map(item => {
         if (item.type === 'group') {
-          const { type, ...group } = item;
-          const headingId = `${item.key}-heading`;
-
-          return (
-            <Group
-              {...commonProps}
-              {...group}
-              Heading={GroupHeading}
-              headingProps={{
-                id: headingId,
-              }}
-              label={this.formatGroupLabel(item.data)}
-            >
-              {item.options.map(option => render(option))}
-            </Group>
-          );
+          return renderGroup(item);
         } else if (item.type === 'option') {
           return render(item);
         }
