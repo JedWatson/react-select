@@ -18,7 +18,7 @@
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
     "react-input-autosize": "^2.2.2",
-    "react-transition-group": "^4.3.0"
+    "react-transition-group": "^2.9.0"
   },
   "devDependencies": {
     "@atlaskit/button": "^7.0.2",
