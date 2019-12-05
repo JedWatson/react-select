@@ -378,7 +378,7 @@ export default class Select extends Component<Props, State> {
       this.focusInput();
     }
   }
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { options, value, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
@@ -1375,7 +1375,7 @@ export default class Select extends Component<Props, State> {
     if (menuIsOpen && isSearchable && isInputInMenu) {
       return null;
     }
-    
+
     return (
       <Input
         autoCapitalize="none"
@@ -1653,7 +1653,7 @@ export default class Select extends Component<Props, State> {
       menuPosition,
       menuShouldScrollIntoView,
     };
-    
+
     let innerInputUI = null;
     const id = inputId || this.getElementId('input');
     const ariaAttributes = {
@@ -1661,7 +1661,7 @@ export default class Select extends Component<Props, State> {
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
     };
-    
+
     if (isSearchable && isInputInMenu) {
       innerInputUI = (
         <Input

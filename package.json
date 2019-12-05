@@ -1,6 +1,6 @@
 {
   "name": "react-select2",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "description": "A Select control built with and for ReactJS",
   "main": "lib/index.js",
   "module": "dist/react-select2.esm.js",
@@ -17,8 +17,8 @@
     "memoize-one": "^4.0.0",
     "prop-types": "^15.6.0",
     "raf": "^3.4.0",
-    "react-input-autosize": "^2.2.1",
-    "react-transition-group": "^2.2.1"
+    "react-input-autosize": "^2.2.2",
+    "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
     "@atlaskit/button": "^7.0.2",
