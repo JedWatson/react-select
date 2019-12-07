@@ -25,18 +25,20 @@ const promiseOptions = inputValue =>
   });
 
 const CustomLoadingIndicator = () => {
-  const [ inputValue, setInputValue ] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
 
   const handleInputChange = (newValue: string) => {
-    inputValue = newValue.replace(/\W/g, '');
-    setInputValue(inputValue);
-    return inputValue;
+    const newInputValue = newValue.replace(/\W/g, '');
+    setInputValue(newInputValue);
+    return newInputValue;
   };
 
   return (
     <AsyncSelect
       cacheOptions
       defaultOptions
+      value={inputValue}
+      onChange={handleInputChange}
       loadOptions={promiseOptions}
       components={{ LoadingIndicator }}
     />
