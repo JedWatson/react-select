@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Spinner from '@atlaskit/spinner';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
@@ -10,10 +10,6 @@ const LoadingIndicator = props => {
       <Spinner {...props} delay={0} />
     </Tooltip>
   );
-};
-
-type State = {
-  inputValue: string,
 };
 
 const filterColors = (inputValue: string) =>
@@ -28,21 +24,24 @@ const promiseOptions = inputValue =>
     }, 1000);
   });
 
-export default class CustomLoadingIndicator extends Component<*, State> {
-  state = { inputValue: '' };
-  handleInputChange = (newValue: string) => {
-    const inputValue = newValue.replace(/\W/g, '');
-    this.setState({ inputValue });
+const CustomLoadingIndicator = () => {
+  const [ inputValue, setInputValue ] = useState<string>('');
+
+  const handleInputChange = (newValue: string) => {
+    inputValue = newValue.replace(/\W/g, '');
+    setInputValue(inputValue);
     return inputValue;
   };
-  render() {
-    return (
-      <AsyncSelect
-        cacheOptions
-        defaultOptions
-        loadOptions={promiseOptions}
-        components={{ LoadingIndicator }}
-      />
-    );
-  }
-}
+
+  return (
+    <AsyncSelect
+      cacheOptions
+      defaultOptions
+      loadOptions={promiseOptions}
+      components={{ LoadingIndicator }}
+    />
+  );
+};
+
+export default CustomLoadingIndicator;
+
