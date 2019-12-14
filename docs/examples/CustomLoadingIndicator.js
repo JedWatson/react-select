@@ -36,4 +36,3 @@ const CustomLoadingIndicator = () => {
 };
 
 export default CustomLoadingIndicator;
-
