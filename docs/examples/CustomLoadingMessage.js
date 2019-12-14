@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
@@ -29,14 +29,6 @@ const promiseOptions = inputValue =>
   });
 
 const CustomLoadingMessage = () => {
-  const [inputValue, setInputValue] = useState<string>('');
-
-  const handleInputChange = (newValue: string) => {
-    const newInputValue = newValue.replace(/\W/g, '');
-    setInputValue(newInputValue);
-    return newInputValue;
-  };
-
   return (
     <AsyncSelect
       cacheOptions
@@ -49,8 +41,6 @@ const CustomLoadingMessage = () => {
           color: 'white',
         }),
       }}
-      value={inputValue}
-      onChange={handleInputChange}
       components={{ LoadingMessage }}
     />
   );
