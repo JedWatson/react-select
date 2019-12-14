@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Spinner from '@atlaskit/spinner';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
@@ -25,20 +25,10 @@ const promiseOptions = inputValue =>
   });
 
 const CustomLoadingIndicator = () => {
-  const [inputValue, setInputValue] = useState<string>('');
-
-  const handleInputChange = (newValue: string) => {
-    const newInputValue = newValue.replace(/\W/g, '');
-    setInputValue(newInputValue);
-    return newInputValue;
-  };
-
   return (
     <AsyncSelect
       cacheOptions
       defaultOptions
-      value={inputValue}
-      onChange={handleInputChange}
       loadOptions={promiseOptions}
       components={{ LoadingIndicator }}
     />
