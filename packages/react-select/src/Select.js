@@ -244,7 +244,7 @@ export type Props = {
   /* The value of the select; reflected by the selected option */
   value: ValueType,
   /* Sets the form attribute on the input */
-  form: string,
+  form?: string,
 };
 
 export const defaultProps = {
