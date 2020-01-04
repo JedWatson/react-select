@@ -243,6 +243,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* Sets the form attribute on the input */
+  form: string,
 };
 
 export const defaultProps = {
