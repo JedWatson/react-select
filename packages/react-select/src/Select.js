@@ -1026,7 +1026,7 @@ export default class Select extends Component<Props, State> {
     }
   }
   onTouchStart = ({ touches }: TouchEvent) => {
-    const touch = touches.item(0);
+    const touch = touches && touches.item(0);
     if (!touch) {
       return;
     }
@@ -1036,7 +1036,7 @@ export default class Select extends Component<Props, State> {
     this.userIsDragging = false;
   };
   onTouchMove = ({ touches }: TouchEvent) => {
-    const touch = touches.item(0);
+    const touch = touches && touches.item(0);
     if (!touch) {
       return;
     }
