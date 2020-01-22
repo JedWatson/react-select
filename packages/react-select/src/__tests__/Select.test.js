@@ -812,6 +812,26 @@ cases(
       selectedOption: OPTIONS_DISABLED[0],
       nextFocusOption: OPTIONS_DISABLED[1],
     },
+    'single select > disabled options should be skipped, ArrowDown': {
+      props: {
+        menuIsOpen: true,
+        options: OPTIONS_DISABLED,
+        skipDisabled: true
+      },
+      keyEvent: [{ keyCode: 40, key: 'ArrowDown' }],
+      selectedOption: OPTIONS_DISABLED[0],
+      nextFocusOption: OPTIONS_DISABLED[2],
+    },
+    'single select > disabled options should be skipped, ArrowUp': {
+      props: {
+        menuIsOpen: true,
+        options: OPTIONS_DISABLED,
+        skipDisabled: true
+      },
+      keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
+      selectedOption: OPTIONS_DISABLED[2],
+      nextFocusOption: OPTIONS_DISABLED[0],
+    },
     'single select > PageDown key takes us to next page with default page size of 5': {
       props: {
         menuIsOpen: true,

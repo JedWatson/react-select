@@ -194,6 +194,7 @@ exports[`defaults - snapshot 1`] = `
       pageSize={5}
       placeholder="Select..."
       screenReaderStatus={[Function]}
+      skipDisabled={false}
       styles={Object {}}
       tabIndex="0"
       tabSelectsValue={true}
@@ -259,6 +260,7 @@ exports[`defaults - snapshot 1`] = `
             "pageSize": 5,
             "placeholder": "Select...",
             "screenReaderStatus": [Function],
+            "skipDisabled": false,
             "styles": Object {},
             "tabIndex": "0",
             "tabSelectsValue": true,
@@ -362,6 +364,7 @@ exports[`defaults - snapshot 1`] = `
                 "pageSize": 5,
                 "placeholder": "Select...",
                 "screenReaderStatus": [Function],
+                "skipDisabled": false,
                 "styles": Object {},
                 "tabIndex": "0",
                 "tabSelectsValue": true,
@@ -457,6 +460,7 @@ exports[`defaults - snapshot 1`] = `
                     "pageSize": 5,
                     "placeholder": "Select...",
                     "screenReaderStatus": [Function],
+                    "skipDisabled": false,
                     "styles": Object {},
                     "tabIndex": "0",
                     "tabSelectsValue": true,
@@ -552,6 +556,7 @@ exports[`defaults - snapshot 1`] = `
                         "pageSize": 5,
                         "placeholder": "Select...",
                         "screenReaderStatus": [Function],
+                        "skipDisabled": false,
                         "styles": Object {},
                         "tabIndex": "0",
                         "tabSelectsValue": true,
@@ -651,6 +656,7 @@ exports[`defaults - snapshot 1`] = `
                         "pageSize": 5,
                         "placeholder": "Select...",
                         "screenReaderStatus": [Function],
+                        "skipDisabled": false,
                         "styles": Object {},
                         "tabIndex": "0",
                         "tabSelectsValue": true,
@@ -834,6 +840,7 @@ exports[`defaults - snapshot 1`] = `
                     "pageSize": 5,
                     "placeholder": "Select...",
                     "screenReaderStatus": [Function],
+                    "skipDisabled": false,
                     "styles": Object {},
                     "tabIndex": "0",
                     "tabSelectsValue": true,
@@ -928,6 +935,7 @@ exports[`defaults - snapshot 1`] = `
                         "pageSize": 5,
                         "placeholder": "Select...",
                         "screenReaderStatus": [Function],
+                        "skipDisabled": false,
                         "styles": Object {},
                         "tabIndex": "0",
                         "tabSelectsValue": true,
@@ -1030,6 +1038,7 @@ exports[`defaults - snapshot 1`] = `
                         "pageSize": 5,
                         "placeholder": "Select...",
                         "screenReaderStatus": [Function],
+                        "skipDisabled": false,
                         "styles": Object {},
                         "tabIndex": "0",
                         "tabSelectsValue": true,

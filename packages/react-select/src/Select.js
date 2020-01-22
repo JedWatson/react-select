@@ -229,6 +229,8 @@ export type Props = {
   placeholder: Node,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
+  /* Skip disabled options during keyboard navigation if true */
+  skipDisabled?: boolean,
   /*
     Style modifier methods
 
@@ -280,6 +282,7 @@ export const defaultProps = {
   placeholder: 'Select...',
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
+  skipDisabled: false,
   styles: {},
   tabIndex: '0',
   tabSelectsValue: true,
@@ -1279,7 +1282,7 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
-    const { inputValue = '', options } = props;
+    const { inputValue = '', options, skipDisabled } = props;
 
     const toOption = (option, id) => {
       const isDisabled = this.isOptionDisabled(option, selectValue);
@@ -1326,7 +1329,7 @@ export default class Select extends Component<Props, State> {
           const children = items
             .map((child, i) => {
               const option = toOption(child, `${itemIndex}-${i}`);
-              if (option) acc.focusable.push(child);
+              if (!skipDisabled || (option && !option.isDisabled)) acc.focusable.push(child);
               return option;
             })
             .filter(Boolean);
@@ -1343,7 +1346,9 @@ export default class Select extends Component<Props, State> {
           const option = toOption(item, `${itemIndex}`);
           if (option) {
             acc.render.push(option);
-            acc.focusable.push(item);
+            if(!skipDisabled || !option.isDisabled) {
+              acc.focusable.push(item);
+            }
           }
         }
         return acc;
