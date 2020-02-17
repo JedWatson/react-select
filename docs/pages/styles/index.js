@@ -110,7 +110,7 @@ export default function Styles() {
 
     
     ## Select Props
-    In the second argument \`state\`, you have acces to \`selectProps\` which will allow you to gain acess to
+    In the second argument \`state\`, you have access to \`selectProps\` which will allow you to gain access to
     your own arguments passed into the \`Select\` body.
 
     ~~~jsx
