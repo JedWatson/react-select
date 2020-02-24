@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
@@ -161,13 +161,12 @@ cases(
 
 cases(
   'close by hitting escape with search text present',
-  ({ props = { options: OPTIONS } }) => {
-    const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
-    creatableSelectWrapper.setState({ inputValue: 'new Option' });
-    creatableSelectWrapper.update();
-    creatableSelectWrapper.simulate('keyDown', { keyCode: 27, key: 'Escape' });
-    creatableSelectWrapper.update();
-    expect(creatableSelectWrapper.state('inputValue')).toBe('');
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
+    const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
+    rerender(<Creatable menuIsOpen inputValue="new Option" {...props} />);
+    fireEvent.keyDown(container, { keyCode: 27, key: 'Escape' });
+    expect(container.querySelector('input').textContent).toEqual('');
   },
   {
     'single select > should remove the search text': {},
