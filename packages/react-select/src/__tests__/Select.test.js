@@ -1114,11 +1114,11 @@ cases('Clicking Enter on a focused select', ({ props = BASIC_PROPS, expectedValu
     },
     expectedValue: true,
   },
-  'while !menuIsOpen > should not invoke event.preventDefault': {
+  'while !menuIsOpen > should invoke event.preventDefault': {
     props: {
       ...BASIC_PROPS,
     },
-    expectedValue: false,
+    expectedValue: true,
   }
 });
 

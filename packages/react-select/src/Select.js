@@ -1217,7 +1217,7 @@ export default class Select extends Component<Props, State> {
           this.selectOption(focusedOption);
           break;
         }
-        return;
+        break;
       case 'Escape':
         if (menuIsOpen) {
           this.inputIsHiddenAfterUpdate = false;
