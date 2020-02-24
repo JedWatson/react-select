@@ -180,27 +180,36 @@ cases(
 );
 
 test('should remove the new option after closing on blur', () => {
-  const creatableSelectWrapper = mount(
+  const { container, rerender } = render(
     <Creatable menuIsOpen options={OPTIONS} />
   );
-  creatableSelectWrapper.setState({ inputValue: 'new Option' });
-  creatableSelectWrapper.find('Control input').simulate('blur');
-  expect(creatableSelectWrapper.state('inputValue')).toBe('');
+  rerender(<Creatable menuIsOpen options={OPTIONS} inputValue="new Option" />);
+  fireEvent.blur(container);
+  expect(container.querySelector('input').textContent).toEqual('');
 });
 
 cases(
   'getNewOptionData() prop',
-  ({ props = { options: OPTIONS } }) => {
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
     let getNewOptionDataSpy = jest.fn(label => ({
       label: `custom text ${label}`,
       value: label,
     }));
-    const creatableSelectWrapper = mount(
-      <Creatable menuIsOpen {...props} getNewOptionData={getNewOptionDataSpy} />
+    const { container, rerender } = render(
+      <Creatable menuIsOpen getNewOptionData={getNewOptionDataSpy} {...props} />
     );
-    creatableSelectWrapper.setState({ inputValue: 'new Option' });
-    expect(creatableSelectWrapper.find(Menu).text()).toEqual(
-      expect.stringContaining('custom text new Option')
+    rerender(
+      <Creatable
+        menuIsOpen
+        getNewOptionData={getNewOptionDataSpy}
+        inputValue="new Option"
+        {...props}
+      />
+    );
+
+    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+      'custom text new Option'
     );
   },
   {
@@ -217,17 +226,26 @@ cases(
 cases(
   'formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
+    props = { ...BASIC_PROPS, ...props };
     let formatCreateLabelSpy = jest.fn(label => `custom label "${label}"`);
-    const creatableSelectWrapper = mount(
+    const { container, rerender } = render(
       <Creatable
         menuIsOpen
-        {...props}
         formatCreateLabel={formatCreateLabelSpy}
+        {...props}
       />
     );
-    creatableSelectWrapper.setState({ inputValue: 'new Option' });
-    expect(creatableSelectWrapper.find(Menu).text()).toEqual(
-      expect.stringContaining('custom label "new Option"')
+
+    rerender(
+      <Creatable
+        menuIsOpen
+        formatCreateLabel={formatCreateLabelSpy}
+        inputValue="new Option"
+        {...props}
+      />
+    );
+    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+      'custom label "new Option"'
     );
   },
   {
