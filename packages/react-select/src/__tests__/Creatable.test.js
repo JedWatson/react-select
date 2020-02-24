@@ -107,23 +107,46 @@ cases(
 
 cases(
   'isValidNewOption() prop',
-  ({ props = { options: OPTIONS } }) => {
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
     let isValidNewOption = jest.fn(options => options === 'new Option');
-    const creatableSelectWrapper = mount(
-      <Creatable menuIsOpen {...props} isValidNewOption={isValidNewOption} />
+
+    const { container, rerender } = render(
+      <Creatable menuIsOpen isValidNewOption={isValidNewOption} {...props} />
     );
 
-    creatableSelectWrapper.setProps({ inputValue: 'new Option' });
-    expect(creatableSelectWrapper.find(Menu).text()).toEqual(
-      expect.stringContaining('Create "new Option"')
+    rerender(
+      <Creatable
+        menuIsOpen
+        isValidNewOption={isValidNewOption}
+        {...props}
+        inputValue="new Option"
+      />
     );
-    expect(creatableSelectWrapper.find(NoOptionsMessage).exists()).toBeFalsy();
 
-    creatableSelectWrapper.setProps({ inputValue: 'invalid new Option' });
-    expect(creatableSelectWrapper.find(Menu).text()).not.toEqual(
-      expect.stringContaining('Create "invalid new Option"')
+    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+      'Create "new Option"'
     );
-    expect(creatableSelectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
+
+    expect(
+      container.querySelector('.react-select__menu-notice--no-options')
+    ).toBeFalsy();
+
+    rerender(
+      <Creatable
+        menuIsOpen
+        isValidNewOption={isValidNewOption}
+        inputValue="invalid new Option"
+        {...props}
+      />
+    );
+    expect(
+      container.querySelector('.react-select__menu').textContent
+    ).not.toEqual('Create "invalid new Option"');
+
+    expect(
+      container.querySelector('.react-select__menu-notice--no-options')
+    ).toBeTruthy();
   },
   {
     'single select > should show "create..." prompt only if isValidNewOption returns thruthy value': {},
