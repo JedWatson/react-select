@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
@@ -8,18 +9,31 @@ import { OPTIONS } from './constants';
 import { components } from '../components';
 const { Menu, NoOptionsMessage } = components;
 
+const BASIC_PROPS = {
+  className: 'react-select',
+  classNamePrefix: 'react-select',
+  onChange: jest.fn(),
+  onInputChange: jest.fn(),
+  onMenuClose: jest.fn(),
+  onMenuOpen: jest.fn(),
+  name: 'test-input-name',
+  options: OPTIONS,
+};
+
 test('defaults - snapshot', () => {
-  const tree = shallow(<Creatable />);
-  expect(toJson(tree)).toMatchSnapshot();
+  const { container } = render(<Creatable />);
+  expect(container).toMatchSnapshot();
 });
 
-cases('filtered option is an exact match for an existing option',
-  ({ props = { options: OPTIONS } }) => {
-    const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
-    creatableSelectWrapper.setProps({ inputValue: 'one' });
-    expect(creatableSelectWrapper.find(Menu).text()).not.toEqual(
-      expect.stringContaining('create')
-    );
+cases(
+  'filtered option is an exact match for an existing option',
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
+    const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
+    rerender(<Creatable inputValue="one" menuIsOpen {...props} />);
+    expect(
+      container.querySelector('.react-select__menu').textContent
+    ).not.toEqual(expect.stringContaining('create'));
   },
   {
     'single select > should not show "create..." prompt"': {},
@@ -32,17 +46,28 @@ cases('filtered option is an exact match for an existing option',
   }
 );
 
-cases('filterOptions returns invalid value ( null )',
-  ({ props = { option: OPTIONS } }) => {
+cases(
+  'filterOptions returns invalid value ( null )',
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
     let filterOptionSpy = jest.fn().mockReturnValue(null);
-    const creatableSelectWrapper = mount(
+
+    const { container, rerender } = render(
       <Creatable filterOption={filterOptionSpy} menuIsOpen {...props} />
     );
-    creatableSelectWrapper.setProps({ inputValue: 'one' });
-    expect(creatableSelectWrapper.find(NoOptionsMessage).exists()).toBeTruthy();
-    expect(creatableSelectWrapper.find(Menu).text()).not.toEqual(
-      expect.stringContaining('create')
+    rerender(
+      <Creatable
+        filterOption={filterOptionSpy}
+        menuIsOpen
+        inputValue="one"
+        {...props}
+      />
     );
+
+    expect(
+      container.querySelector('.react-select__menu-notice--no-options')
+        .textContent
+    ).toEqual(expect.stringContaining('No options'));
   },
   {
     'single select > should not show "create..." prompt"': {},
@@ -55,11 +80,17 @@ cases('filterOptions returns invalid value ( null )',
   }
 );
 
-cases('inputValue does not match any option after filter',
-  ({ props = { options: OPTIONS } }) => {
-    const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
-    creatableSelectWrapper.setProps({ inputValue: 'option not is list' });
-    expect(creatableSelectWrapper.find(Menu).text()).toBe(
+cases(
+  'inputValue does not match any option after filter',
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
+
+    const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
+    rerender(
+      <Creatable menuIsOpen {...props} inputValue="option not is list" />
+    );
+
+    expect(container.querySelector('.react-select__menu').textContent).toBe(
       'Create "option not is list"'
     );
   },
@@ -74,7 +105,8 @@ cases('inputValue does not match any option after filter',
   }
 );
 
-cases('isValidNewOption() prop',
+cases(
+  'isValidNewOption() prop',
   ({ props = { options: OPTIONS } }) => {
     let isValidNewOption = jest.fn(options => options === 'new Option');
     const creatableSelectWrapper = mount(
@@ -104,7 +136,8 @@ cases('isValidNewOption() prop',
   }
 );
 
-cases('close by hitting escape with search text present',
+cases(
+  'close by hitting escape with search text present',
   ({ props = { options: OPTIONS } }) => {
     const creatableSelectWrapper = mount(<Creatable menuIsOpen {...props} />);
     creatableSelectWrapper.setState({ inputValue: 'new Option' });
@@ -114,8 +147,7 @@ cases('close by hitting escape with search text present',
     expect(creatableSelectWrapper.state('inputValue')).toBe('');
   },
   {
-    'single select > should remove the search text': {
-    },
+    'single select > should remove the search text': {},
     'multi select > should remove the search text': {
       props: {
         isMulti: true,
@@ -134,7 +166,8 @@ test('should remove the new option after closing on blur', () => {
   expect(creatableSelectWrapper.state('inputValue')).toBe('');
 });
 
-cases('getNewOptionData() prop',
+cases(
+  'getNewOptionData() prop',
   ({ props = { options: OPTIONS } }) => {
     let getNewOptionDataSpy = jest.fn(label => ({
       label: `custom text ${label}`,
@@ -149,8 +182,7 @@ cases('getNewOptionData() prop',
     );
   },
   {
-    'single select > should create option as per label returned from getNewOptionData': {
-    },
+    'single select > should create option as per label returned from getNewOptionData': {},
     'multi select > should create option as per label returned from getNewOptionData': {
       props: {
         isMulti: true,
@@ -160,7 +192,8 @@ cases('getNewOptionData() prop',
   }
 );
 
-cases('formatCreateLabel() prop',
+cases(
+  'formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
     let formatCreateLabelSpy = jest.fn(label => `custom label "${label}"`);
     const creatableSelectWrapper = mount(
