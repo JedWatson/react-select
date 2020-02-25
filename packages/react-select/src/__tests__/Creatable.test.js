@@ -1,13 +1,9 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
 import { render, fireEvent } from '@testing-library/react';
-import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
 import Creatable from '../Creatable';
 import { OPTIONS } from './constants';
-import { components } from '../components';
-const { Menu, NoOptionsMessage } = components;
 
 const BASIC_PROPS = {
   className: 'react-select',
