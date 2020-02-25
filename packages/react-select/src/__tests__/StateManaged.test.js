@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
@@ -18,8 +19,8 @@ const BASIC_PROPS = {
 };
 
 test('defaults > snapshot', () => {
-  const tree = shallow(<Select />);
-  expect(toJson(tree)).toMatchSnapshot();
+  const { container } = render(<Select />);
+  expect(container).toMatchSnapshot();
 });
 
 test('passes down the className prop', () => {
