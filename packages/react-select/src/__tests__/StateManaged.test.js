@@ -1,12 +1,10 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { render } from '@testing-library/react';
-import toJson from 'enzyme-to-json';
 import cases from 'jest-in-case';
 
 import { OPTIONS } from './constants';
 import Select from '../';
-import SelectBase from '../Select';
 import { components } from '../components';
 
 const { Control, Menu } = components;
@@ -14,8 +12,12 @@ const { Control, Menu } = components;
 const BASIC_PROPS = {
   className: 'react-select',
   classNamePrefix: 'react-select',
-  options: OPTIONS,
+  onChange: jest.fn(),
+  onInputChange: jest.fn(),
+  onMenuClose: jest.fn(),
+  onMenuOpen: jest.fn(),
   name: 'test-input-name',
+  options: OPTIONS,
 };
 
 test('defaults > snapshot', () => {
@@ -24,8 +26,8 @@ test('defaults > snapshot', () => {
 });
 
 test('passes down the className prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class" />);
-  expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
+  const { container } = render(<Select {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select')).toBeTruthy();
 });
 
 cases(
