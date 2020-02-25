@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, prettyDOM } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
 import { OPTIONS } from './constants';
@@ -32,21 +33,34 @@ test('passes down the className prop', () => {
 
 cases(
   'click on dropdown indicator',
-  ({ props = BASIC_PROPS }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    // Menu not open by defualt
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-    // Open Menu
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props };
+    const { container, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue="zero" />);
 
-    // close open menu
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+    // userEvent.click(container);
+    // expect(
+    //   container.querySelector('div.react-select__dropdown-indicator')
+    // ).toBeTruthy();
+
+    // userEvent.click(container);
+
+    // fireEvent.mouseDown(container, { button: 0 });
+    // expect(container.querySelector('.react-select__menu').exists()).toBeFalsy();
+    // let selectWrapper = mount(<Select {...props} />);
+    // // Menu not open by defualt
+    // expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+    // // Open Menu
+    // selectWrapper
+    //   .find('div.react-select__dropdown-indicator')
+    //   .simulate('mouseDown', { button: 0 });
+    // expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+
+    // // close open menu
+    // selectWrapper
+    //   .find('div.react-select__dropdown-indicator')
+    //   .simulate('mouseDown', { button: 0 });
+    // expect(selectWrapper.find(Menu).exists()).toBeFalsy();
   },
   {
     'single select > should toggle Menu': {},
@@ -60,34 +74,35 @@ cases(
 );
 
 test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown Indicator', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen />);
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  const { container } = render(<Select menuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  userEvent.click(
+    container.querySelector('div.react-select__dropdown-indicator')
+  );
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 });
 
 test('defaultMenuIsOpen prop > should open by menu default and clicking on Dropdown Indicator should toggle menu', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} defaultMenuIsOpen />);
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  const { container } = render(<Select defaultMenuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  userEvent.click(
+    container.querySelector('div.react-select__dropdown-indicator')
+  );
+  expect(container.querySelector('.react-select__menu')).toBeFalsy();
 });
 
 test('Menu is controllable by menuIsOpen prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
+  const { container, rerender } = render(<Select {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeFalsy();
 
-  selectWrapper.setProps({ menuIsOpen: true });
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  rerender(<Select menuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeTruthy();
 
-  selectWrapper.setProps({ menuIsOpen: false });
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  rerender(<Select menuIsOpen={false} {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeFalsy();
 });
 
 cases(
