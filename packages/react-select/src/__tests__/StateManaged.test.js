@@ -36,7 +36,6 @@ cases(
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
     const { container, rerender } = render(<Select {...props} />);
-    rerender(<Select {...props} inputValue="zero" />);
 
     // userEvent.click(container);
     // expect(
@@ -107,14 +106,17 @@ test('Menu is controllable by menuIsOpen prop', () => {
 
 cases(
   'Menu to open by default if menuIsOpen prop is true',
-  ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    // menu is not closed
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props, menuIsOpen: true };
+    const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
+    const { container } = render(<Select {...props} />);
+    expect(container.querySelector(menuClass)).toBeTruthy();
+
+    userEvent.click(
+      container.querySelector('div.react-select__dropdown-indicator')
+    );
+
+    expect(container.querySelector(menuClass)).toBeTruthy();
   },
   {
     'single select > should keep Menu open by default if true is passed for menuIsOpen prop': {},
