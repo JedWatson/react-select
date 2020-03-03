@@ -1,9 +1,9 @@
 // @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { useMemo, type Node } from 'react';
 import { jsx, ClassNames } from '@emotion/core';
-import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
+import { defaultComponents } from './index';
 
 export type MultiValueProps = CommonProps & {
   children: Node,
@@ -88,7 +88,9 @@ export type MultiValueRemoveProps = {
 export function MultiValueRemove({
   children,
   innerProps,
+  selectProps: { components = {} },
 }: MultiValueRemoveProps) {
+  const CrossIcon = useMemo(() => defaultComponents({ components }).CrossIcon, [components]);
   return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
 }
 
