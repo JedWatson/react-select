@@ -1794,8 +1794,8 @@ export default class Select extends Component<Props, State> {
       <A11yText aria-live="polite" aria-relevant="additions text" aria-atomic="true">
         {isFocused && (
           <React.Fragment>
-            <p id="aria-selection-event" key={ariaLiveSelection}>&nbsp;{ariaLiveSelection}</p>
-            <p id="aria-context" key={ariaLiveMessage}>&nbsp;{ariaLiveMessage}</p>
+            <span id="aria-selection-event" key={ariaLiveSelection}>&nbsp;{ariaLiveSelection}</span>
+            <span id="aria-context" key={ariaLiveMessage}>&nbsp;{ariaLiveMessage}</span>
           </React.Fragment>
         )}
       </A11yText>
