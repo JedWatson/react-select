@@ -1159,7 +1159,7 @@ cases(
 
 cases(
   'Clicking Enter on a focused select',
-  ({ props = BASIC_PROPS, expectedValue }) => {
+  ({ props, expectedValue }) => {
     let event;
     let { container } = render(
       <div
@@ -1168,18 +1168,20 @@ cases(
           event.persist();
         }}
       >
-        <Select {...props} autoFocus />
+        <Select {...props} />
       </div>
     );
-    fireEvent.mouseDown(
-      container.querySelector('.react-select__dropdown-indicator'),
-      { button: 0 }
-    );
+    if (props.menuIsOpen) {
+      fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+        keyCode: 40,
+        key: 'ArrowDown',
+      });
+    }
+
     fireEvent.keyDown(container.querySelector('.react-select'), {
       key: 'Enter',
       keyCode: 13,
     });
-    console.log(event);
     expect(event.defaultPrevented).toBe(expectedValue);
   },
   {
