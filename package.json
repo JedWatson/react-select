@@ -28,7 +28,7 @@
     "@emotion/cache": "^10.0.9",
     "@emotion/core": "^10.0.9",
     "@emotion/css": "^10.0.9",
-    "@testing-library/react": "9.4.1",
+    "@testing-library/react": "10.0.1",
     "@testing-library/dom": "7.0.4",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/user-event": "^10.0.0",
