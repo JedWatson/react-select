@@ -1,6 +1,6 @@
 import React from 'react';
 import cases from 'jest-in-case';
-import { render, fireEvent, waitFor, prettyDOM } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Async from '../Async';
