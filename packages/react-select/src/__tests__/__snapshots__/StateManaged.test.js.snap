@@ -34,6 +34,7 @@ exports[`defaults > snapshot 1`] = `
   onInputChange={[Function]}
   onMenuClose={[Function]}
   onMenuOpen={[Function]}
+  onMenuScrollToBottomOffset={0}
   openMenuOnClick={true}
   openMenuOnFocus={false}
   options={Array []}

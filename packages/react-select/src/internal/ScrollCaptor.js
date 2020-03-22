@@ -10,11 +10,13 @@ export type CaptorProps = {
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
+  scrollOffset?: number,
 };
 
 class ScrollCaptor extends Component<CaptorProps> {
   isBottom: boolean = false;
   isTop: boolean = false;
+  reachedOffset: boolean = false;
   scrollTarget: HTMLElement;
   touchStart: number;
 
@@ -62,6 +64,7 @@ class ScrollCaptor extends Component<CaptorProps> {
       onBottomLeave,
       onTopArrive,
       onTopLeave,
+      scrollOffset = 0,
     } = this.props;
     const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
     const target = this.scrollTarget;
@@ -69,7 +72,7 @@ class ScrollCaptor extends Component<CaptorProps> {
     const availableScroll = scrollHeight - clientHeight - scrollTop;
     let shouldCancelScroll = false;
 
-    // reset bottom/top flags
+    // reset bottom/top/offset flags
     if (availableScroll > delta && this.isBottom) {
       if (onBottomLeave) onBottomLeave(event);
       this.isBottom = false;
@@ -78,12 +81,26 @@ class ScrollCaptor extends Component<CaptorProps> {
       if (onTopLeave) onTopLeave(event);
       this.isTop = false;
     }
+    if (availableScroll - scrollOffset > delta && this.reachedOffset) {
+      this.reachedOffset = false;
+    }
 
-    // bottom limit
+    if (
+      scrollOffset &&
+      isDeltaPositive &&
+      delta > availableScroll - scrollOffset
+    ) {
+      if (onBottomArrive && !this.isBottom && !this.reachedOffset) {
+        onBottomArrive(event);
+        this.reachedOffset = true;
+      }
+    }
+
     if (isDeltaPositive && delta > availableScroll) {
-      if (onBottomArrive && !this.isBottom) {
+      if (onBottomArrive && !this.isBottom && !scrollOffset) {
         onBottomArrive(event);
       }
+
       target.scrollTop = scrollHeight;
       shouldCancelScroll = true;
       this.isBottom = true;
