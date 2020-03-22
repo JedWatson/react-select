@@ -1,5 +1,21 @@
 # react-select
 
+## 3.1.0
+
+### Minor Changes
+
+- [4cf6c43c](https://github.com/JedWatson/react-select/commit/4cf6c43cc17a01b043fb60b33cad355d433fdf8c) [#3690](https://github.com/JedWatson/react-select/pull/3690) Thanks [@JedWatson](https://github.com/JedWatson)! - Add `isLoading` prop support to the AsyncSelect component (see #3690)
+
+### Patch Changes
+
+- [83b48de4](https://github.com/JedWatson/react-select/commit/83b48de4a18263b361744fc5e89d9b9845b26e4f) [#3868](https://github.com/JedWatson/react-select/pull/3868) Thanks [@Tirzono](https://github.com/Tirzono)! - Fix for not focusing the selected value when the menu opens
+- [563b046a](https://github.com/JedWatson/react-select/commit/563b046a57a94c47950e62cedc4ce1c489f19f91) [#3794](https://github.com/JedWatson/react-select/pull/3794) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Convert class components that don't have to be class components to function components to reduce bundle size
+- [c7e9c697](https://github.com/JedWatson/react-select/commit/c7e9c697dada15ce3ff9a767bf914ad890080433) [#3682](https://github.com/JedWatson/react-select/pull/3682) Thanks [@JedWatson](https://github.com/JedWatson)! - Allow the input component to be a `textarea` element
+- [3c7de0de](https://github.com/JedWatson/react-select/commit/3c7de0de52826fe74d303a01475c43fe88256156) [#3090](https://github.com/JedWatson/react-select/pull/3090) Thanks [@akiselev](https://github.com/akiselev)! - Add aria attributes to dummy input
+- [d2a820ef](https://github.com/JedWatson/react-select/commit/d2a820efc70835adf864169eebc76947783a15e2) [#3537](https://github.com/JedWatson/react-select/pull/3537) Thanks [@jdelStrother](https://github.com/jdelStrother)! - Fix Flow issues. Refer to the linked PR for more details on the specific issues.
+- [fc52085b](https://github.com/JedWatson/react-select/commit/fc52085b969b1b6f53adf29d52469db9560b828c) [#3662](https://github.com/JedWatson/react-select/pull/3662) Thanks [@eemeli](https://github.com/eemeli)! - Update react-transition-group to ^4.3.0
+- [edb18dd3](https://github.com/JedWatson/react-select/commit/edb18dd3d65b8fbc342bde9e805c5e3293ab6e37) [#3797](https://github.com/JedWatson/react-select/pull/3797) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Enable Babel loose mode to improve bundle size
+
 ## 3.0.8
 
 ### Patch Changes
