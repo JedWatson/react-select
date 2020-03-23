@@ -1219,18 +1219,25 @@ export default class Select extends Component<Props, State> {
         this.selectOption(focusedOption);
         break;
       case 'Enter':
+        const targetIsButton = event.target && event.target.type === 'button';
+
+        if (targetIsButton) {
+          return;
+        }
+
         if (event.keyCode === 229) {
           // ignore the keydown event from an Input Method Editor(IME)
           // ref. https://www.w3.org/TR/uievents/#determine-keydown-keyup-keyCode
           break;
         }
+
         if (menuIsOpen) {
-          if (!focusedOption) return;
+          if (!focusedOption) break;
           if (this.isComposing) return;
           this.selectOption(focusedOption);
           break;
         }
-        return;
+        break;
       case 'Escape':
         if (menuIsOpen) {
           this.inputIsHiddenAfterUpdate = false;
