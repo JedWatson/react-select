@@ -214,28 +214,14 @@ export default function Advanced() {
 
       ## SSR / Universal Rendering
 
-      React-Select uses Emotion for CSS, which make it easy to extract the
-      styles when doing server-side rendering. To get started, do the following:
-
-      ~~~bash
-      yarn add emotion-server
-      ~~~
-
-      Then, in the file where you render your React app to a string of HTML that
-      will be sent to the client, wrap React's \`renderToString\` result with
-      Emotion's \`renderStylesToString\` method:
+      React-Select uses Emotion for CSS which has zero-config server rendering. This means that all you need to do to server-render React-Select is call React's \`renderToString\` or use a framework like Next.js or Gatsby and it will work.
 
       ~~~jsx
       import { renderToString } from 'react-dom/server'
-      import { renderStylesToString } from 'emotion-server'
       import App from './App'
 
-      const html = renderStylesToString(renderToString(<App />))
+      const html = renderToString(<App />)
       ~~~
-
-      for more ways you can do this (including critical CSS) see the
-      [Emotion SSR Docs](https://emotion.sh/docs/ssr)
-
 
       ## Experimental
 

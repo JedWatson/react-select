@@ -9,9 +9,9 @@ The Select control for [React](https://reactjs.com). Initially built for use in 
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
-See our [upgrade guide](https://github.com/JedWatson/react-select/issues/3585) for a breakdown on how to upgrade from v2 to v3.
-
 React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
+
+For the story behind this component, watch Jed's talk at React Conf 2019 - [building React Select](https://youtu.be/yS0jUnmBujE)
 
 Features include:
 
@@ -21,11 +21,11 @@ Features include:
 - Controllable state props and modular architecture
 - Long-requested features like option groups, portal support, animation, and more
 
-If you're interested in the background, watch Jed's [talk on React Select](https://youtu.be/Eb2wy-HNGMo) at ReactNYC in March 2018.
+## Using an older version?
 
-See our [upgrade guide](https://react-select.com/upgrade-guide) for a breakdown on how to upgrade from v1 to v2.
-
-The old docs and examples will continue to be available at [v1.react-select.com](https://v1.react-select.com).
+- [v2 to v3 upgrade guide](https://github.com/JedWatson/react-select/issues/3585)
+- [v1 to v2 upgrade guide](https://react-select.com/upgrade-guide)
+- React Select v1 documentation and examples are available at [v1.react-select.com](https://v1.react-select.com)
 
 # Installation and usage
 
