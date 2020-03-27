@@ -27,7 +27,7 @@ export default function Creatable() {
       # Creatable
 
       ~~~jsx
-      import Creatable from 'react-select/creatable';
+      import Creatable, { makeCreatableSelect } from 'react-select/creatable';
       ~~~
 
       For the prop definition, please see the API docs [here](/props)

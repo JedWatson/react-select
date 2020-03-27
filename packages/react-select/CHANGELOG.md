@@ -1,5 +1,44 @@
 # react-select
 
+## 3.1.0
+
+### Minor Changes
+
+- [4cf6c43c](https://github.com/JedWatson/react-select/commit/4cf6c43cc17a01b043fb60b33cad355d433fdf8c) [#3690](https://github.com/JedWatson/react-select/pull/3690) Thanks [@JedWatson](https://github.com/JedWatson)! - Add `isLoading` prop support to the AsyncSelect component (see #3690)
+
+### Patch Changes
+
+- [83b48de4](https://github.com/JedWatson/react-select/commit/83b48de4a18263b361744fc5e89d9b9845b26e4f) [#3868](https://github.com/JedWatson/react-select/pull/3868) Thanks [@Tirzono](https://github.com/Tirzono)! - Fix for not focusing the selected value when the menu opens
+- [563b046a](https://github.com/JedWatson/react-select/commit/563b046a57a94c47950e62cedc4ce1c489f19f91) [#3794](https://github.com/JedWatson/react-select/pull/3794) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Convert class components that don't have to be class components to function components to reduce bundle size
+- [c7e9c697](https://github.com/JedWatson/react-select/commit/c7e9c697dada15ce3ff9a767bf914ad890080433) [#3682](https://github.com/JedWatson/react-select/pull/3682) Thanks [@JedWatson](https://github.com/JedWatson)! - Allow the input component to be a `textarea` element
+- [3c7de0de](https://github.com/JedWatson/react-select/commit/3c7de0de52826fe74d303a01475c43fe88256156) [#3090](https://github.com/JedWatson/react-select/pull/3090) Thanks [@akiselev](https://github.com/akiselev)! - Add aria attributes to dummy input
+- [d2a820ef](https://github.com/JedWatson/react-select/commit/d2a820efc70835adf864169eebc76947783a15e2) [#3537](https://github.com/JedWatson/react-select/pull/3537) Thanks [@jdelStrother](https://github.com/jdelStrother)! - Fix Flow issues. Refer to the linked PR for more details on the specific issues.
+- [fc52085b](https://github.com/JedWatson/react-select/commit/fc52085b969b1b6f53adf29d52469db9560b828c) [#3662](https://github.com/JedWatson/react-select/pull/3662) Thanks [@eemeli](https://github.com/eemeli)! - Update react-transition-group to ^4.3.0
+- [edb18dd3](https://github.com/JedWatson/react-select/commit/edb18dd3d65b8fbc342bde9e805c5e3293ab6e37) [#3797](https://github.com/JedWatson/react-select/pull/3797) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Enable Babel loose mode to improve bundle size
+
+## 3.0.8
+
+### Patch Changes
+
+- [a575a3c4](https://github.com/JedWatson/react-select/commit/a575a3c41798696620c77e8098c1150b4adda6cb) [#3727](https://github.com/JedWatson/react-select/pull/3727) Thanks [@tonytangau](https://github.com/tonytangau)! - Adding an `index` prop to `MultiValue` components
+- [916f0d2c](https://github.com/JedWatson/react-select/commit/916f0d2c651189bfeff2289d8d3cc597e06cb2ea) [#3644](https://github.com/JedWatson/react-select/pull/3644) Thanks [@TrySound](https://github.com/TrySound)! - Remove usage of `raf` package and replace with `window.requestAnimationFrame` because React already depends on `requestAnimationFrame`
+- [cba15309](https://github.com/JedWatson/react-select/commit/cba15309c4d7523ab6a785c8d5c0c7ec1048e22f) [#3676](https://github.com/JedWatson/react-select/pull/3676) Thanks [@wiesys](https://github.com/wiesys)! - Fix `loadingMessage` and `noOptionsMessage` properties in `Styles` flow type
+- [32f9475e](https://github.com/JedWatson/react-select/commit/32f9475e6d43a71000a3906da9e6d2d30710efd2) [#3790](https://github.com/JedWatson/react-select/pull/3790) Thanks [@JedWatson](https://github.com/JedWatson)! - Remove unnecessary dependency on `classnames` package
+- [1731175d](https://github.com/JedWatson/react-select/commit/1731175d790530b9dbfa787e3fffaff3fb0e44a0) [#3733](https://github.com/JedWatson/react-select/pull/3733) Thanks [@ddc67cd](https://github.com/ddc67cd)! - Pass `name` to `onChange` meta in `Creatable` to make it consistent with onChange in standard `Select`
+
+## 3.0.7
+
+### Patch Changes
+
+- [df864f2](https://github.com/JedWatson/react-select/commit/df864f2) - Include updated yarn.lock
+
+## 3.0.6
+
+### Patch Changes
+
+- [3e0a7a7](https://github.com/JedWatson/react-select/commit/3e0a7a7) - \* remove emotion 9 dep from mono repo (this wasn't being used anywhere)
+  - update dep on react-input-autosize to 2.2.2 (adds UNSAFE prefix to deprecated lifecycles) (resolves #3773)
+
 ## 3.0.5
 
 ### Patch Changes

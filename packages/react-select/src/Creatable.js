@@ -2,6 +2,7 @@
 
 import React, {
   Component,
+  type Config,
   type Node,
   type AbstractComponent,
   type ElementRef,
@@ -12,11 +13,13 @@ import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
 
-export type CreatableProps = {|
+export type DefaultCreatableProps = {|
   /* Allow options to be created while the `isLoading` prop is true. Useful to
      prevent the "create new ..." option being displayed while async results are
      still being loaded. */
   allowCreateWhileLoading: boolean,
+  /* Sets the position of the createOption element in your options list. Defaults to 'last' */
+  createOptionPosition: 'first' | 'last',
   /* Gets the label for the "create new ..." option in the menu. Is given the
      current input value. */
   formatCreateLabel: string => Node,
@@ -26,19 +29,24 @@ export type CreatableProps = {|
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
   getNewOptionData: (string, Node) => OptionType,
+|};
+export type CreatableProps = {
+  ...DefaultCreatableProps,
   /* If provided, this will be called with the input value when a new option is
      created, and `onChange` will **not** be called. Use this when you need more
      control over what happens when new options are created. */
   onCreateOption?: string => void,
   /* Sets the position of the createOption element in your options list. Defaults to 'last' */
   createOptionPosition: 'first' | 'last',
+  /* Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string,
   options?: OptionsType,
   inputValue: string,
   value: ValueType,
   isLoading?: boolean,
   isMulti?: boolean,
   onChange: (ValueType, ActionMeta) => void,
-|};
+};
 
 export type Props = SelectProps & CreatableProps;
 
@@ -68,7 +76,7 @@ const builtins = {
   }),
 };
 
-export const defaultProps = {
+export const defaultProps: DefaultCreatableProps = {
   allowCreateWhileLoading: false,
   createOptionPosition: 'last',
   ...builtins,
@@ -81,7 +89,7 @@ type State = {
 
 export const makeCreatableSelect = <C: {}>(
   SelectComponent: AbstractComponent<C>
-): AbstractComponent<CreatableProps & C> =>
+): AbstractComponent<C & Config<CreatableProps, DefaultCreatableProps>> =>
   class Creatable extends Component<CreatableProps & C, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
@@ -129,6 +137,7 @@ export const makeCreatableSelect = <C: {}>(
         onChange,
         onCreateOption,
         value,
+        name,
       } = this.props;
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
@@ -140,7 +149,7 @@ export const makeCreatableSelect = <C: {}>(
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = { action: 'create-option' };
+          const newActionMeta = { action: 'create-option', name };
           if (isMulti) {
             onChange([...cleanValue(value), newOptionData], newActionMeta);
           } else {
@@ -158,11 +167,10 @@ export const makeCreatableSelect = <C: {}>(
       this.select.blur();
     }
     render() {
-      const { ...props } = this.props;
       const { options } = this.state;
       return (
         <SelectComponent
-          {...props}
+          {...this.props}
           ref={ref => {
             this.select = ref;
           }}
