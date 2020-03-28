@@ -12,6 +12,7 @@ import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
+import isEqual from './internal/react-fast-compare';
 
 export type DefaultCreatableProps = {|
   /* Allow options to be created while the `isLoading` prop is true. Useful to
@@ -144,8 +145,12 @@ export const makeCreatableSelect = <C: {}>(
       }
       const { newOption } = this.state;
       const valueArray = Array.isArray(newValue) ? newValue : [newValue];
+      const isNewOptionSelected = isEqual(
+        valueArray[valueArray.length - 1],
+        newOption
+      );
 
-      if (valueArray[valueArray.length - 1] === newOption) {
+      if (isNewOptionSelected) {
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
