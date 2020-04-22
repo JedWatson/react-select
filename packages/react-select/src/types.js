@@ -85,6 +85,8 @@ export type ActionTypes =
 
 export type ActionMeta = {
   action: ActionTypes,
+  name?: string,
+  option?: OptionType,
 };
 
 export type InputActionTypes =
