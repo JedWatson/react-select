@@ -15,6 +15,8 @@ export type InputProps = PropsWithStyles & {
   /** Whether the input is disabled */
   isDisabled?: boolean,
   className?: string,
+  /** The ID of the form that the input belongs to */
+  form?: string,
 };
 
 export const inputCSS = ({
