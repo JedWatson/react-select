@@ -93,7 +93,7 @@ export default function App() {
     <div className="App">
       <Select
         defaultValue={selectedOption}
-        onChange={handleChange}
+        onChange={setSelectedOption}
         options={options}
       />
     </div>
