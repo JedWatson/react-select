@@ -84,7 +84,7 @@ const options = [
 
 export default function App() {
 
-  const [selectedOption, setselectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
   const handleChange = selectedOption => {
     setselectedOption(selectedOption);
   };
