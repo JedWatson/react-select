@@ -2065,7 +2065,7 @@ cases(
     expect(
       container.querySelector('.react-select__placeholder')
     ).not.toBeInTheDocument();
-    rerender(<Select {...props} value="" />);
+    rerender(<Select {...props} value={null} />);
     expect(
       container.querySelector('.react-select__placeholder')
     ).toBeInTheDocument();
