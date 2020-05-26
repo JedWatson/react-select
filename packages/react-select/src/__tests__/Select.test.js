@@ -5,6 +5,7 @@ import cases from 'jest-in-case';
 
 import {
   OPTIONS,
+  OPTIONS_ACCENTED,
   OPTIONS_NUMBER_VALUE,
   OPTIONS_BOOLEAN_VALUE,
   OPTIONS_DISABLED,
@@ -179,6 +180,37 @@ cases(
         ...BASIC_PROPS,
         isMulti: true,
       },
+    },
+  }
+);
+
+cases(
+  'filterOption() prop - default filter behavior',
+  ({ props, searchString, expectResultsLength }) => {
+    let { container, rerender } = render(<Select {...props} />);
+    rerender(<Select {...props} inputValue={searchString} />);
+    expect(container.querySelectorAll('.react-select__option')).toHaveLength(
+      expectResultsLength
+    );
+  },
+  {
+    'single select > should match accented char': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS_ACCENTED,
+      },
+      searchString: 'ecole',  // should match "école"
+      expectResultsLength: 1,
+    },
+    'single select > should ignore accented char in query': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS_ACCENTED,
+      },
+      searchString: 'schoöl',  // should match "school"
+      expectResultsLength: 1,
     },
   }
 );
