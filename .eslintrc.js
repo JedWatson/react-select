@@ -14,7 +14,7 @@ module.exports = {
         argsIgnorePattern: '^event$',
         ignoreRestSiblings: true,
         vars: 'all',
-        varsIgnorePattern: 'jsx|emotionJSX'
+        varsIgnorePattern: 'jsx|emotionJSX',
       },
     ],
     curly: [2, 'multi-line'],
@@ -39,4 +39,15 @@ module.exports = {
     semi: 2,
     strict: 0,
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: ['./tsconfig.json'],
+      },
+    },
+  ],
 };
