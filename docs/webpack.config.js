@@ -63,6 +63,7 @@ module.exports = {
     new ForkTsCheckerWebpackPlugin({
       tsconfig: '../tsconfig.json',
       eslint: true,
+      async: false,
     }),
   ],
 };

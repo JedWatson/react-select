@@ -1,62 +1,57 @@
-import React, { Component, type ElementRef, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
 import { Note } from '../styled-components';
-import { colourOptions } from '../data';
+import { colourOptions, ColourOption } from '../data';
 
 const filterColors = (inputValue: string) => {
-  return colourOptions.filter(i =>
+  return colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string) =>
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
   });
 
-export default class AccessingInterals extends Component {
-  selectRef: ElementRef<*>;
-  asyncRef: ElementRef<*>;
-  creatableRef: ElementRef<*>;
+export default class AccessingInternals extends Component {
+  selectRef?: Select<ColourOption> | null;
+  asyncRef?: AsyncSelect<ColourOption> | null;
+  creatableRef?: CreatableSelect<ColourOption> | null;
   focus = () => {
     console.log(this.selectRef);
-    this.selectRef.focus();
+    this.selectRef!.focus();
   };
   focusCreatable = () => {
     console.log(this.creatableRef);
-    this.creatableRef.focus();
+    this.creatableRef!.focus();
   };
   focusAsync = () => {
     console.log(this.asyncRef);
-    this.asyncRef.focus();
+    this.asyncRef!.focus();
   };
   blurAsync = () => {
-    this.asyncRef.blur();
+    this.asyncRef!.blur();
   };
   blurCreatable = () => {
-    this.creatableRef.blur();
+    this.creatableRef!.blur();
   };
-  blur = () => this.selectRef.blur();
-  onSelectRef = ref => {
-    console.log(ref);
-    this.selectRef = ref;
-  };
+  blur = () => this.selectRef!.blur();
   render() {
     return (
       <Fragment>
         <h4>Creatable Select</h4>
-        <CreatableSelect
-          ref={ref => {
+        <CreatableSelect<ColourOption>
+          ref={(ref) => {
             this.creatableRef = ref;
           }}
           isClearable
-          onChange={this.handleChange}
           options={colourOptions}
         />
         <Note Tag="label">
@@ -76,8 +71,8 @@ export default class AccessingInterals extends Component {
           </button>
         </Note>
         <h4>Async Select</h4>
-        <AsyncSelect
-          ref={ref => {
+        <AsyncSelect<ColourOption>
+          ref={(ref) => {
             this.asyncRef = ref;
           }}
           cacheOptions
@@ -101,8 +96,8 @@ export default class AccessingInterals extends Component {
           </button>
         </Note>
         <h4>Select</h4>
-        <Select
-          ref={ref => {
+        <Select<ColourOption>
+          ref={(ref) => {
             this.selectRef = ref;
           }}
           defaultValue={colourOptions[2]}
