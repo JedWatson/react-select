@@ -58,6 +58,7 @@ jobs:
                   command: |
                       yarn lint
                       yarn flow check --flowconfig-name=.flowconfig-ci
+                      yarn run tsc --noEmit
                       yarn test:jest
                       yarn coveralls
     end_to_end:
