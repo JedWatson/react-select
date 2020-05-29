@@ -35,7 +35,6 @@
     "@testing-library/react": "10.0.1",
     "@testing-library/user-event": "^10.0.0",
     "@types/react": "^16.9.35",
-    "@types/react-select": "^3.0.13",
     "@types/react-syntax-highlighter": "^0.0.8",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
