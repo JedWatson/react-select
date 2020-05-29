@@ -16,6 +16,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.10.1",
     "@babel/runtime": "^7.4.4",
     "@emotion/core": "^10.0.9",
     "babel-loader": "^8.0.0",

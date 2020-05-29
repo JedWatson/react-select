@@ -102,7 +102,10 @@ export const Code = (props: { children: string }) => (
   />
 );
 
-type PreProps = { children: string; language: string };
+interface PreProps {
+  children: string;
+  language: string;
+}
 
 export const CodeBlock = ({ children, language, ...props }: PreProps) => {
   return (
