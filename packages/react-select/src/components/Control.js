@@ -54,6 +54,7 @@ export const css = ({
 
   '&:hover': {
     borderColor: isFocused ? colors.primary : colors.neutral30,
+    cursor: isDisabled ? 'default' : 'pointer',
   },
 });
 
