@@ -55,7 +55,7 @@ export const optionCSS = ({
     : isSelected
     ? colors.neutral0
     : 'inherit',
-  cursor: 'default',
+  cursor: isFocused ? 'pointer' : 'default',
   display: 'block',
   fontSize: 'inherit',
   padding: `${spacing.baseUnit * 2}px ${spacing.baseUnit * 3}px`,
