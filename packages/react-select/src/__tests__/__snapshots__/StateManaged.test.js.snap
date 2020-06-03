@@ -38,6 +38,7 @@ exports[`defaults > snapshot 1`] = `
 
 .emotion-7:hover {
   border-color: hsl(0,0%,70%);
+  cursor: pointer;
 }
 
 .emotion-2 {
@@ -126,6 +127,7 @@ exports[`defaults > snapshot 1`] = `
 
 .emotion-5:hover {
   color: hsl(0,0%,60%);
+  cursor: pointer;
 }
 
 .emotion-4 {
