@@ -68,6 +68,7 @@ const baseCSS = ({
 
   ':hover': {
     color: isFocused ? colors.neutral80 : colors.neutral40,
+    cursor: 'pointer',
   },
 });
 
