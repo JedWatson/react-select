@@ -8,9 +8,11 @@ Please don't file GitHub issues to ask questions. Use Stack Overflow with a [#re
 
 # Are you reporting a bug or runtime error?
 Please include a test case that demonstrates the issue you're reporting!
+
 This is very helpful to maintainers in order to help us see the issue you're seeing.
 
 Please note we are currently only directing our efforts towards the current major (v3) version and beyond.
+
 We understand this might be inconvenient but it is in the best interest of supporting the broader community and to sustain the `react-select` project going forward.
 
 To report bugs against react-select v3 please fork the following code-sandbox:
