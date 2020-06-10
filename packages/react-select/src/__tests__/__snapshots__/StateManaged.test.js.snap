@@ -134,6 +134,7 @@ exports[`defaults > snapshot 1`] = `
   line-height: 1;
   stroke: currentColor;
   stroke-width: 0;
+  cursor: pointer;
 }
 
 <div>
