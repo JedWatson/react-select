@@ -17,7 +17,7 @@ import {
   Popout,
   MenuBuffer,
   MenuPortal,
-  NoDefaultMenuOptionFocus,
+  DisableDefaultFocus,
   MultiSelectSort,
 } from '../../examples';
 
@@ -206,11 +206,11 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          label="Example of disabling the default dropdown focus"
-          urlPath="docs/examples/NoDefaultMenuOptionFocus.js"
-          raw={require('!!raw-loader!../../examples/NoDefaultMenuOptionFocus.js')}
+          label="Example of disabling default dropdown focus"
+          urlPath="docs/examples/DisableDefaultFocus.js"
+          raw={require('!!raw-loader!../../examples/DisableDefaultFocus.js')}
         >
-          <NoDefaultMenuOptionFocus />
+          <DisableDefaultFocus />
         </ExampleWrapper>
       )}
 

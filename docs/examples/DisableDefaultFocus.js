@@ -3,11 +3,11 @@ import Select from 'react-select';
 
 import { colourOptions } from '../data';
 
-const NoDefaultMenuOptionFocus = () => (
+const DisableDefaultFocus = () => (
   <Select
     options={colourOptions}
     focusDefaultOption={false}
   />
 );
 
-export default NoDefaultMenuOptionFocus;
+export default DisableDefaultFocus;
