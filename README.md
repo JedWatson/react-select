@@ -72,18 +72,17 @@ class App extends React.Component {
 ```
 
 #### With React Hooks
-```
+```js
 import React, { useState } from "react";
 import Select from "react-select";
 
 const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" }
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
 ];
 
 export default function App() {
-
   const [selectedOption, setSelectedOption] = useState(null);
   
   return (
@@ -96,8 +95,8 @@ export default function App() {
     </div>
   );
 }
-
 ```
+
 ## Props
 
 Common props you may want to specify include:
