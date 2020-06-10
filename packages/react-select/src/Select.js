@@ -81,6 +81,8 @@ export type Props = {
   'aria-labelledby'?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
+  /* Focus first focusable option on menu open and when user is typing */
+  autoFocusOption: boolean,
   /* Remove the currently focused option when the user presses backspace */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
@@ -277,6 +279,7 @@ export const defaultProps = {
   noOptionsMessage: () => 'No options',
   openMenuOnFocus: false,
   openMenuOnClick: true,
+  autoFocusOption: true,
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
@@ -415,8 +418,13 @@ export default class Select extends Component<Props, State> {
       const menuOptions = nextProps.menuIsOpen
         ? this.buildMenuOptions(nextProps, selectValue)
         : { render: [], focusable: [] };
-      const focusedValue = this.getNextFocusedValue(selectValue);
-      const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+        const { focusedOption, focusedValue } =
+          nextProps.autoFocusOption === false && this.state.focusedOption === null
+          ? { focusedValue: null, focusedOption: null }
+          : {
+            focusedValue: this.getNextFocusedValue(selectValue),
+            focusedOption: this.getNextFocusedOption(menuOptions.focusable)
+          };
       this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
@@ -498,7 +506,7 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
     const menuOptions = this.buildMenuOptions(this.props, selectValue);
-    const { isMulti } = this.props;
+    const { isMulti, autoFocusOption } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
@@ -516,7 +524,7 @@ export default class Select extends Component<Props, State> {
     this.setState({
       menuOptions,
       focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
+      focusedOption: autoFocusOption ? menuOptions.focusable[openAtIndex] : null,
     }, () => {
       this.onMenuOpen();
       this.announceAriaLiveContext({ event: 'menu' });
