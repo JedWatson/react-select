@@ -85,9 +85,6 @@ const options = [
 export default function App() {
 
   const [selectedOption, setSelectedOption] = useState(null);
-  const handleChange = selectedOption => {
-    setselectedOption(selectedOption);
-  };
   
   return (
     <div className="App">
