@@ -22,6 +22,7 @@ const Svg = ({ size, ...props }: { size: number }) => (
       lineHeight: 1,
       stroke: 'currentColor',
       strokeWidth: 0,
+      cursor: 'pointer',
     }}
     {...props}
   />
