@@ -200,15 +200,13 @@ export default function Advanced() {
           <ControlledMenu />
         </ExampleWrapper>
       )}
-      
+
       ## Focus Default Option
-      For when you want to prevent React Select from focusing the default option in the dropdown menu you can set this to false.
-      It can be quite usefull when you want React Select to act as a search input. The user needs to be able to enter text,
-      press the enter key and search what the user entered into the input, not what the first option in the menu is.
-      
+      Prevent React-Select from selecting the first option in the dropdown menu.
+
       ${(
         <ExampleWrapper
-          label="Example of disabling the default dropdown option focus"
+          label="Example of disabling the default dropdown focus"
           urlPath="docs/examples/NoDefaultMenuOptionFocus.js"
           raw={require('!!raw-loader!../../examples/NoDefaultMenuOptionFocus.js')}
         >
