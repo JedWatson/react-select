@@ -1756,10 +1756,12 @@ cases(
 cases(
   'accessibility > passes through aria-describedby prop',
   ({ props = { ...BASIC_PROPS, 'aria-describedby': 'testing' } }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(selectWrapper.find('Control input').props()['aria-describedby']).toBe(
-      'testing'
-    );
+    let { container } = render(<Select {...props} />);
+    expect(
+      container
+        .querySelector('.react-select__input input')
+        .getAttribute('aria-describedby')
+    ).toBe('testing');
   },
   {
     'single select > should pass aria-describedby prop down to input': {},
