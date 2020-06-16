@@ -2,7 +2,7 @@ version: 2
 
 docker_defaults: &docker_defaults
     docker:
-        - image: cypress/base:8
+        - image: cypress/base:13.6.0
           environment:
               TERM: xterm
     working_directory: ~/project/repo
@@ -17,7 +17,7 @@ install_steps: &install_steps
         - restore_cache:
               name: Restore node_modules cache
               keys:
-                  - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+                  - dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
                   - dependency-cache-{{ .Branch }}-
                   - dependency-cache-
         - run:

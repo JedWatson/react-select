@@ -243,6 +243,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* Sets the form attribute on the input */
+  form?: string,
 };
 
 export const defaultProps = {
@@ -1410,6 +1412,7 @@ export default class Select extends Component<Props, State> {
       inputId,
       inputValue,
       tabIndex,
+      form,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
@@ -1435,6 +1438,7 @@ export default class Select extends Component<Props, State> {
           readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          form={form}
           value=""
           {...ariaAttributes}
         />
@@ -1460,6 +1464,7 @@ export default class Select extends Component<Props, State> {
         selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
+        form={form}
         theme={theme}
         type="text"
         value={inputValue}
