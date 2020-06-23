@@ -62,6 +62,7 @@ export const optionCSS = ({
   width: '100%',
   userSelect: 'none',
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+  workBreak: 'break-all',
 
   // provide some affordance on touch devices
   ':active': {
