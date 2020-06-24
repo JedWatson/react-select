@@ -81,12 +81,12 @@ export function getMenuPlacement({
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
   const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
   const viewSpaceAbove = menuTop - scrollParentTop - scrollTop;
-  const viewSpaceBelow = viewHeight - menuTop;
+  const viewSpaceBelow = viewHeight + scrollParentTop - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
   // scroll space left in the parent not relative to the menu
   const scrollSpaceBelow = scrollParent.scrollHeight - scrollTop - viewHeight;
   const scrollSpaceBelowMenu = scrollParentBottom - menuTop;
-  const scrollDown = menuBottom - viewHeight + scrollTop + marginBottom;
+  const scrollDown = menuBottom - (viewHeight + scrollParentTop) + scrollTop + marginBottom;
   const scrollUp = scrollTop + menuTop - marginTop;
   const scrollDuration = 160;
 
@@ -110,11 +110,13 @@ export function getMenuPlacement({
       // 3: the menu will fit, if constrained
       // change in `scrollParent.scrollHeight` will not have any effect on the positioning
       // of the menu and the menu will be contained in the previous dimensions.
-      if (
-        (!isFixedPosition && scrollSpaceBelowMenu >= minHeight
-          && viewHeight + scrollSpaceBelow >= scrollSpaceBelowMenu) ||
-        (isFixedPosition && viewSpaceBelow >= minHeight)
-      ) {
+      const isSpaceAvailableForNonFixedMenu = 
+            !isFixedPosition && scrollSpaceBelowMenu >= minHeight && 
+            viewHeight + scrollSpaceBelow >= scrollSpaceBelowMenu;
+      
+      const isSpaceAvailableForFixedMenu = isFixedPosition && viewSpaceBelow >= minHeight;
+      
+      if (isSpaceAvailableForNonFixedMenu || isSpaceAvailableForFixedMenu) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
