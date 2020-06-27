@@ -1743,8 +1743,9 @@ export default class Select extends Component<Props, State> {
               isEnabled={captureMenuScroll}
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
+              targetRef={this.menuListRef}
             >
-              <ScrollBlock isEnabled={menuShouldBlockScroll}>
+              <ScrollBlock isEnabled={menuShouldBlockScroll} targetRef={this.menuListRef}>
                 <MenuList
                   {...commonProps}
                   innerRef={this.getMenuListRef}
