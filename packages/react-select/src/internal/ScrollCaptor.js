@@ -19,7 +19,7 @@ class ScrollCaptor extends Component<CaptorProps> {
   componentDidMount() {
     this.startListening(this.props.targetRef);
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: CaptorProps) {
     if (prevProps.targetRef != this.props.targetRef) {
       if (prevProps.targetRef) this.stopListening(prevProps.targetRef);
       this.startListening(this.props.targetRef);
