@@ -5,6 +5,7 @@ import {
   type Element as ReactElement,
   type ElementRef,
   type Node,
+  createContext,
 } from 'react';
 import { jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
@@ -234,6 +235,8 @@ export type MenuPlacerProps = MenuAndPlacerCommon & {
   children: ({}) => Node,
 };
 
+const PortalPlacementContext = createContext();
+
 function alignToControl(placement) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
   return placement ? placementToCSSProp[placement] : 'bottom';
@@ -264,9 +267,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
   };
-  static contextTypes = {
-    getPortalPlacement: PropTypes.func,
-  };
+  static contextType = PortalPlacementContext;
   getPlacement = (ref: ElementRef<*>) => {
     const {
       minMenuHeight,
@@ -276,7 +277,6 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       menuShouldScrollIntoView,
       theme,
     } = this.props;
-    const { getPortalPlacement } = this.context;
 
     if (!ref) return;
 
@@ -294,7 +294,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       theme,
     });
 
-    if (getPortalPlacement) getPortalPlacement(state);
+    if (this.context) this.context(state);
 
     this.setState(state);
   };
@@ -481,14 +481,6 @@ export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
 
 export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
   state = { placement: null };
-  static childContextTypes = {
-    getPortalPlacement: PropTypes.func,
-  };
-  getChildContext() {
-    return {
-      getPortalPlacement: this.getPortalPlacement,
-    };
-  }
 
   // callback for occassions where the menu must "flip"
   getPortalPlacement = ({ placement }: MenuState) => {
@@ -523,7 +515,9 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div css={getStyles('menuPortal', state)}>{children}</div>
+      <PortalPlacementContext.Provider value={this.getPortalPlacement}>
+        <div css={getStyles('menuPortal', state)}>{children}</div>
+      </PortalPlacementContext.Provider>
     );
 
     return appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper;
