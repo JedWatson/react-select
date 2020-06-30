@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
 
 import {
   animatedScrollTo,
@@ -235,7 +234,7 @@ export type MenuPlacerProps = MenuAndPlacerCommon & {
   children: ({}) => Node,
 };
 
-const PortalPlacementContext = createContext();
+const PortalPlacementContext = createContext<{getPortalPlacement: any}>({ getPortalPlacement: null });
 
 function alignToControl(placement) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
@@ -293,8 +292,9 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       isFixedPosition,
       theme,
     });
+    const { getPortalPlacement } = this.context;
 
-    if (this.context) this.context(state);
+    if (getPortalPlacement) getPortalPlacement(state);
 
     this.setState(state);
   };
@@ -515,7 +515,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <PortalPlacementContext.Provider value={this.getPortalPlacement}>
+      <PortalPlacementContext.Provider value={{ getPortalPlacement: this.getPortalPlacement }}>
         <div css={getStyles('menuPortal', state)}>{children}</div>
       </PortalPlacementContext.Provider>
     );
