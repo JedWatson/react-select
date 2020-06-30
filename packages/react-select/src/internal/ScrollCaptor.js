@@ -2,27 +2,31 @@
 
 import React, { Component, type Element } from 'react';
 
-import NodeResolver from './NodeResolver';
-
 export type CaptorProps = {
   children: Element<*>,
   onBottomArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
+  targetRef: HTMLElement | null,
 };
 
 class ScrollCaptor extends Component<CaptorProps> {
   isBottom: boolean = false;
   isTop: boolean = false;
-  scrollTarget: HTMLElement;
   touchStart: number;
 
   componentDidMount() {
-    this.startListening(this.scrollTarget);
+    this.startListening(this.props.targetRef);
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.targetRef != this.props.targetRef) {
+      if (prevProps.targetRef) this.stopListening(prevProps.targetRef);
+      this.startListening(this.props.targetRef);
+    }
   }
   componentWillUnmount() {
-    this.stopListening(this.scrollTarget);
+    this.stopListening(this.props.targetRef);
   }
   startListening(el: HTMLElement) {
     // bail early if no element is available to attach to
@@ -62,9 +66,10 @@ class ScrollCaptor extends Component<CaptorProps> {
       onBottomLeave,
       onTopArrive,
       onTopLeave,
+      targetRef,
     } = this.props;
-    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
-    const target = this.scrollTarget;
+    const { scrollTop, scrollHeight, clientHeight } = targetRef;
+    const target = targetRef;
     const isDeltaPositive = delta > 0;
     const availableScroll = scrollHeight - clientHeight - scrollTop;
     let shouldCancelScroll = false;
@@ -116,16 +121,8 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.handleEventDelta(event, deltaY);
   };
 
-  getScrollTarget = (ref: HTMLElement) => {
-    this.scrollTarget = ref;
-  };
-
   render() {
-    return (
-      <NodeResolver innerRef={this.getScrollTarget}>
-        {this.props.children}
-      </NodeResolver>
-    );
+    return (this.props.children);
   }
 }
 
