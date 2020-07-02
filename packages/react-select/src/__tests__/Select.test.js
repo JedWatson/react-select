@@ -71,11 +71,12 @@ test('isRtl boolean prop sets direction: rtl on container', () => {
 });
 
 test('autoComplete string prop is passed down to the control component', () => {
-  let selectWrapper = mount(
+  let { container } = render(
     <Select {...BASIC_PROPS} value={[OPTIONS[0]]} autoComplete="new-password" />
   );
-  expect(selectWrapper.props().autoComplete).toBe('new-password');
-  expect(selectWrapper.find(Input).props().autoComplete).toBe('new-password');
+  expect(container.querySelector('.react-select__input input').getAttribute('autoComplete')).toBe(
+    'new-password'
+  );
 });
 
 test('isOptionSelected() prop > single select > mark value as isSelected if isOptionSelected returns true for the option', () => {
