@@ -51,17 +51,17 @@ import { defaultTheme, type ThemeConfig } from './theme';
 
 import type {
   ActionMeta,
-  ActionTypes,
-  FocusDirection,
-  FocusEventHandler,
-  GroupType,
-  InputActionMeta,
-  KeyboardEventHandler,
-  MenuPlacement,
-  MenuPosition,
-  OptionsType,
-  OptionType,
-  ValueType,
+    ActionTypes,
+    FocusDirection,
+    FocusEventHandler,
+    GroupType,
+    InputActionMeta,
+    KeyboardEventHandler,
+    MenuPlacement,
+    MenuPosition,
+    OptionsType,
+    OptionType,
+    ValueType,
 } from './types';
 
 type MouseOrTouchEvent =
@@ -79,6 +79,8 @@ export type Props = {
   'aria-label'?: string,
   /* HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string,
+  /* Set the key for the browser autocomplete/autofill feature. */
+  autoComplete?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
   /* Remove the currently focused option when the user presses backspace */
@@ -128,8 +130,8 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption:
-    | (({ label: string, value: string, data: OptionType }, string) => boolean)
-    | null,
+  | (({ label: string, value: string, data: OptionType }, string) => boolean)
+  | null,
   /*
     Formats group labels in the menu as React components
 
@@ -248,6 +250,7 @@ export type Props = {
 };
 
 export const defaultProps = {
+  autoComplete: 'off',
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
@@ -1382,19 +1385,19 @@ export default class Select extends Component<Props, State> {
     // An aria live message representing the currently focused value in the select.
     const focusedValueMsg = focusedValue
       ? valueFocusAriaMessage({
-          focusedValue,
-          getOptionLabel: this.getOptionLabel,
-          selectValue,
-        })
+        focusedValue,
+        getOptionLabel: this.getOptionLabel,
+        selectValue,
+      })
       : '';
     // An aria live message representing the currently focused option in the select.
     const focusedOptionMsg =
       focusedOption && menuIsOpen
         ? optionFocusAriaMessage({
-            focusedOption,
-            getOptionLabel: this.getOptionLabel,
-            options,
-          })
+          focusedOption,
+          getOptionLabel: this.getOptionLabel,
+          options,
+        })
         : '';
     // An aria live message representing the set of focusable results and current searchterm/inputvalue.
     const resultsMsg = resultsAriaMessage({
@@ -1407,6 +1410,7 @@ export default class Select extends Component<Props, State> {
 
   renderInput() {
     const {
+      autoComplete,
       isDisabled,
       isSearchable,
       inputId,
@@ -1450,7 +1454,7 @@ export default class Select extends Component<Props, State> {
     return (
       <Input
         autoCapitalize="none"
-        autoComplete="off"
+        autoComplete={autoComplete}
         autoCorrect="off"
         cx={cx}
         getStyles={this.getStyles}
@@ -1774,8 +1778,8 @@ export default class Select extends Component<Props, State> {
         {menuElement}
       </MenuPortal>
     ) : (
-      menuElement
-    );
+        menuElement
+      );
   }
   renderFormField() {
     const { delimiter, isDisabled, isMulti, name } = this.props;
@@ -1801,8 +1805,8 @@ export default class Select extends Component<Props, State> {
               />
             ))
           ) : (
-            <input name={name} type="hidden" />
-          );
+              <input name={name} type="hidden" />
+            );
 
         return <div>{input}</div>;
       }
