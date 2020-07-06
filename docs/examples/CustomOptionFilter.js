@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import { colourOptions } from '../data';
 
+const customOptionFilter = (option, inputValue) => {
+  const expr = new RegExp(`^${inputValue}`);
+  return expr.test(option.label);
+}
+
 export default class SelectCreateFilter extends Component<*, State> {
-  customOptionFilter = (option, inputValue) => () => {
-    const expr = new RegExp(`^${inputValue}`, 'i');
-    return expr.test(option.label);
-  }
   render () {
     return (
       <Fragment>
@@ -16,7 +17,7 @@ export default class SelectCreateFilter extends Component<*, State> {
           isSearchable
           name="color"
           options={colourOptions}
-          filterOption={this.customOptionFilter}
+          filterOption={customOptionFilter}
         />
       </Fragment>
     );
