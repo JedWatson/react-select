@@ -2674,3 +2674,36 @@ test('renders with custom theme', () => {
     window.getComputedStyle(firstOption).getPropertyValue('background-color')
   ).toEqual(primary);
 });
+
+cases(
+  'maxOptions prop - should never show more than maxOptions options',
+  ({ props, searchString, expectResultsLength }) => {
+    let selectWrapper = mount(<Select {...props} />);
+    selectWrapper.setProps({ inputValue: searchString });
+    expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
+  },
+  {
+    'should only show 10 options': {
+      props: {
+        ...BASIC_PROPS,
+        maxOptions: 10,
+        menuIsOpen: true,
+        value: OPTIONS[0],
+      },
+      searchString: undefined,
+      expectResultsLength: 10,
+    },
+    'should only show 4 options': {
+      props: {
+        ...BASIC_PROPS,
+        maxOptions: 10,
+        filterOption: (value, search) => value.value.indexOf(search) > -1,
+        isMulti: true,
+        menuIsOpen: true,
+        value: OPTIONS[0],
+      },
+      searchString: 'o',
+      expectResultsLength: 4,
+    },
+  }
+);
