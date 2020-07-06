@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import Select from '../../src';
+import Select from 'react-select';
 import { colourOptions } from '../data';
 
 export default class SelectCreateFilter extends Component<*, State> {
