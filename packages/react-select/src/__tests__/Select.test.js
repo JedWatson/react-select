@@ -2678,9 +2678,8 @@ test('renders with custom theme', () => {
 cases(
   'maxOptions prop - should never show more than maxOptions options',
   ({ props, searchString, expectResultsLength }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    selectWrapper.setProps({ inputValue: searchString });
-    expect(selectWrapper.find(Option).length).toBe(expectResultsLength);
+    let { container } = render(<Select {...props} inputValue={searchString} />);
+    expect(container.querySelectorAll('.react-select__option').length).toBe(expectResultsLength);
   },
   {
     'should only show 10 options': {
