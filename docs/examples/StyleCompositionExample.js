@@ -1,5 +1,5 @@
-import React from 'react';
-import { css } from 'emotion';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Select from 'react-select';
 import { colourOptions } from '../data';
 
@@ -18,8 +18,8 @@ const Option = (props: OptionProps) => {
   return (
     <div
       ref={innerRef}
+      css={getStyles('option', props)}
       className={cx(
-        css(getStyles('option', props)),
         {
           option: true,
           'option--is-disabled': isDisabled,
