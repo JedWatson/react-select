@@ -243,6 +243,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* Sets the form attribute on the input */
+  form?: string,
 };
 
 export const defaultProps = {
@@ -367,6 +369,17 @@ export default class Select extends Component<Props, State> {
       'react-select-' + (this.props.instanceId || ++instanceId);
 
     const selectValue = cleanValue(value);
+
+    this.buildMenuOptions = memoizeOne(
+      this.buildMenuOptions,
+      (newArgs: any, lastArgs: any) => {
+        const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
+        const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
+
+        return isEqual(newSelectValue, lastSelectValue)
+          && isEqual(newProps.inputValue, lastProps.inputValue)
+          && isEqual(newProps.options, lastProps.options);
+      }).bind(this);
     const menuOptions = props.menuIsOpen
       ? this.buildMenuOptions(props, selectValue)
       : { render: [], focusable: [] };
@@ -434,8 +447,8 @@ export default class Select extends Component<Props, State> {
       this.scrollToFocusedOptionOnUpdate
     ) {
       scrollIntoView(this.menuListRef, this.focusedOptionRef);
+      this.scrollToFocusedOptionOnUpdate = false;
     }
-    this.scrollToFocusedOptionOnUpdate = false;
   }
   componentWillUnmount() {
     this.stopListeningComposition();
@@ -483,7 +496,8 @@ export default class Select extends Component<Props, State> {
   blur = this.blurInput;
 
   openMenu(focusOption: 'first' | 'last') {
-    const { menuOptions, selectValue, isFocused } = this.state;
+    const { selectValue, isFocused } = this.state;
+    const menuOptions = this.buildMenuOptions(this.props, selectValue);
     const { isMulti } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
@@ -499,13 +513,14 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
     this.inputIsHiddenAfterUpdate = false;
 
-    this.onMenuOpen();
     this.setState({
+      menuOptions,
       focusedValue: null,
       focusedOption: menuOptions.focusable[openAtIndex],
+    }, () => {
+      this.onMenuOpen();
+      this.announceAriaLiveContext({ event: 'menu' });
     });
-
-    this.announceAriaLiveContext({ event: 'menu' });
   }
   focusValue(direction: 'previous' | 'next') {
     const { isMulti, isSearchable } = this.props;
@@ -1278,7 +1293,7 @@ export default class Select extends Component<Props, State> {
   // Menu Options
   // ==============================
 
-  buildMenuOptions(props: Props, selectValue: OptionsType): MenuOptions {
+  buildMenuOptions = (props: Props, selectValue: OptionsType): MenuOptions => {
     const { inputValue = '', options } = props;
 
     const toOption = (option, id) => {
@@ -1397,6 +1412,7 @@ export default class Select extends Component<Props, State> {
       inputId,
       inputValue,
       tabIndex,
+      form,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
@@ -1422,6 +1438,7 @@ export default class Select extends Component<Props, State> {
           readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          form={form}
           value=""
           {...ariaAttributes}
         />
@@ -1447,6 +1464,7 @@ export default class Select extends Component<Props, State> {
         selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
+        form={form}
         theme={theme}
         type="text"
         value={inputValue}
