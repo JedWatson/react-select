@@ -1437,7 +1437,7 @@ export default class Select extends Component<Props, State> {
     };
 
     // Helper function to form aria attributes from aria object prop
-    attributesFromObject = (prefix, items) =>
+    const attributesFromObject = (prefix, items) =>
       Object.keys(items).reduce((acc, name) => {
         acc[`${prefix}-${name}`] = items[name];
         return acc;
