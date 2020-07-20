@@ -75,6 +75,10 @@ type FormatOptionLabelMeta = {
 };
 
 export type Props = {
+  /* Aria attributes to support accessibility  */
+  aria?: {
+    [key: string]: any,
+  },
   /* Aria label (for assistive tech) */
   'aria-label'?: string,
   /* HTML ID of an element that should be used as the label (for assistive tech) */
@@ -376,10 +380,13 @@ export default class Select extends Component<Props, State> {
         const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
         const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
 
-        return isEqual(newSelectValue, lastSelectValue)
-          && isEqual(newProps.inputValue, lastProps.inputValue)
-          && isEqual(newProps.options, lastProps.options);
-      }).bind(this);
+        return (
+          isEqual(newSelectValue, lastSelectValue) &&
+          isEqual(newProps.inputValue, lastProps.inputValue) &&
+          isEqual(newProps.options, lastProps.options)
+        );
+      }
+    ).bind(this);
     const menuOptions = props.menuIsOpen
       ? this.buildMenuOptions(props, selectValue)
       : { render: [], focusable: [] };
@@ -513,14 +520,17 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
     this.inputIsHiddenAfterUpdate = false;
 
-    this.setState({
-      menuOptions,
-      focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
-    }, () => {
-      this.onMenuOpen();
-      this.announceAriaLiveContext({ event: 'menu' });
-    });
+    this.setState(
+      {
+        menuOptions,
+        focusedValue: null,
+        focusedOption: menuOptions.focusable[openAtIndex],
+      },
+      () => {
+        this.onMenuOpen();
+        this.announceAriaLiveContext({ event: 'menu' });
+      }
+    );
   }
   focusValue(direction: 'previous' | 'next') {
     const { isMulti, isSearchable } = this.props;
@@ -638,7 +648,7 @@ export default class Select extends Component<Props, State> {
       if (this.isOptionSelected(newValue, selectValue)) {
         const candidate = this.getOptionValue(newValue);
         this.setValue(
-          selectValue.filter(i => this.getOptionValue(i) !== candidate),
+          selectValue.filter((i) => this.getOptionValue(i) !== candidate),
           'deselect-option',
           newValue
         );
@@ -685,7 +695,7 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
     const newValue = selectValue.filter(
-      i => this.getOptionValue(i) !== candidate
+      (i) => this.getOptionValue(i) !== candidate
     );
     this.onChange(newValue.length ? newValue : null, {
       action: 'remove-value',
@@ -879,7 +889,7 @@ export default class Select extends Component<Props, State> {
       return this.props.isOptionSelected(option, selectValue);
     }
     const candidate = this.getOptionValue(option);
-    return selectValue.some(i => this.getOptionValue(i) === candidate);
+    return selectValue.some((i) => this.getOptionValue(i) === candidate);
   }
   filterOption(
     option: { label: string, value: string, data: OptionType },
@@ -1365,7 +1375,7 @@ export default class Select extends Component<Props, State> {
       },
       { render: [], focusable: [] }
     );
-  }
+  };
 
   // ==============================
   // Renderers
@@ -1426,6 +1436,13 @@ export default class Select extends Component<Props, State> {
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
+    // Helper function to form aria attributes from aria object prop
+    attributesFromObject = (prefix, items) =>
+      Object.keys(items).reduce((acc, name) => {
+        acc[`${prefix}-${name}`] = items[name];
+        return acc;
+      }, {});
+
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
       return (
@@ -1440,6 +1457,7 @@ export default class Select extends Component<Props, State> {
           tabIndex={tabIndex}
           form={form}
           value=""
+          {...attributesFromObject('aria', this.props.aria || {})}
           {...ariaAttributes}
         />
       );
@@ -1468,6 +1486,7 @@ export default class Select extends Component<Props, State> {
         theme={theme}
         type="text"
         value={inputValue}
+        {...attributesFromObject('aria', this.props.aria || {})}
         {...ariaAttributes}
       />
     );
@@ -1523,7 +1542,7 @@ export default class Select extends Component<Props, State> {
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
-              onMouseDown: e => {
+              onMouseDown: (e) => {
                 e.preventDefault();
                 e.stopPropagation();
               },
@@ -1686,7 +1705,7 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = menuOptions.render.map(item => {
+      menuUI = menuOptions.render.map((item) => {
         if (item.type === 'group') {
           const { type, ...group } = item;
           const headingId = `${item.key}-heading`;
@@ -1701,7 +1720,7 @@ export default class Select extends Component<Props, State> {
               }}
               label={this.formatGroupLabel(item.data)}
             >
-              {item.options.map(option => render(option))}
+              {item.options.map((option) => render(option))}
             </Group>
           );
         } else if (item.type === 'option') {
@@ -1786,7 +1805,7 @@ export default class Select extends Component<Props, State> {
     if (isMulti) {
       if (delimiter) {
         const value = selectValue
-          .map(opt => this.getOptionValue(opt))
+          .map((opt) => this.getOptionValue(opt))
           .join(delimiter);
         return <input name={name} type="hidden" value={value} />;
       } else {
