@@ -498,7 +498,7 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
     const menuOptions = this.buildMenuOptions(this.props, selectValue);
-    const { isMulti } = this.props;
+    const { isMulti, tabSelectsValue } = this.props;
     let openAtIndex =
       focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
 
@@ -519,7 +519,10 @@ export default class Select extends Component<Props, State> {
       focusedOption: menuOptions.focusable[openAtIndex],
     }, () => {
       this.onMenuOpen();
-      this.announceAriaLiveContext({ event: 'menu' });
+      this.announceAriaLiveContext({
+        event: 'menu',
+        context: { tabSelectsValue }
+      });
     });
   }
   focusValue(direction: 'previous' | 'next') {
@@ -576,7 +579,7 @@ export default class Select extends Component<Props, State> {
   }
 
   focusOption(direction: FocusDirection = 'first') {
-    const { pageSize } = this.props;
+    const { pageSize, tabSelectsValue } = this.props;
     const { focusedOption, menuOptions } = this.state;
     const options = menuOptions.focusable;
 
@@ -585,7 +588,10 @@ export default class Select extends Component<Props, State> {
     let focusedIndex = options.indexOf(focusedOption);
     if (!focusedOption) {
       focusedIndex = -1;
-      this.announceAriaLiveContext({ event: 'menu' });
+      this.announceAriaLiveContext({
+        event: 'menu',
+        context: { tabSelectsValue }
+      });
     }
 
     if (direction === 'up') {
@@ -608,7 +614,7 @@ export default class Select extends Component<Props, State> {
     });
     this.announceAriaLiveContext({
       event: 'menu',
-      context: { isDisabled: isOptionDisabled(options[nextFocus]) },
+      context: { isDisabled: isOptionDisabled(options[nextFocus]), tabSelectsValue },
     });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
