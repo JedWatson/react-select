@@ -61,8 +61,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
     new ForkTsCheckerWebpackPlugin({
-      tsconfig: '../tsconfig.json',
       async: false,
+      typescript: {
+        config: '../tsconfig.json',
+      },
     }),
   ],
 };
