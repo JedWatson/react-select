@@ -245,6 +245,8 @@ export type Props = {
   value: ValueType,
   /* Sets the form attribute on the input */
   form?: string,
+  /** Checks if the select has some value */
+  required?: boolean,
 };
 
 export const defaultProps = {
@@ -1411,6 +1413,8 @@ export default class Select extends Component<Props, State> {
       isSearchable,
       inputId,
       inputValue,
+      value,
+      required,
       tabIndex,
       form,
     } = this.props;
@@ -1467,7 +1471,8 @@ export default class Select extends Component<Props, State> {
         form={form}
         theme={theme}
         type="text"
-        value={inputValue}
+        value={value ? value.value : inputValue}
+        required={required}
         {...ariaAttributes}
       />
     );

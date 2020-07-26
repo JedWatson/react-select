@@ -13,7 +13,7 @@ import {
   loadingIndicatorCSS,
   indicatorSeparatorCSS,
 } from './components/indicators';
-import { inputCSS } from './components/Input';
+import { inputCSS, inputRequiredCSS } from './components/Input';
 import { placeholderCSS } from './components/Placeholder';
 import { optionCSS } from './components/Option';
 import {
@@ -45,6 +45,7 @@ export type Styles = {
   indicatorsContainer?: StyleFn,
   indicatorSeparator?: StyleFn,
   input?: StyleFn,
+  inputRequired?: StyleFn,
   loadingIndicator?: StyleFn,
   loadingMessage?: StyleFn,
   menu?: StyleFn,
@@ -72,6 +73,7 @@ export const defaultStyles: Styles = {
   indicatorsContainer: indicatorsContainerCSS,
   indicatorSeparator: indicatorSeparatorCSS,
   input: inputCSS,
+  inputRequired: inputRequiredCSS,
   loadingIndicator: loadingIndicatorCSS,
   loadingMessage: loadingMessageCSS,
   menu: menuCSS,

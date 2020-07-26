@@ -16,7 +16,11 @@ export type InputProps = PropsWithStyles & {
   isDisabled?: boolean,
   className?: string,
   /** The ID of the form that the input belongs to */
-  form?: string,
+  form ?: string,
+  /** Checks if the select has some value */
+  required ?: boolean,
+  /* The value of the select; reflected by the selected option */
+  value?: string,
 };
 
 export const inputCSS = ({
@@ -28,6 +32,13 @@ export const inputCSS = ({
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
+  });
+export const inputRequiredCSS = () => ({
+  position: 'absolute',
+  bottom: 0,
+  left: '1rem',
+  opacity: 0,
+  height: 0,
 });
 const inputStyle = isHidden => ({
   label: 'input',
@@ -49,6 +60,8 @@ const Input = ({
   isDisabled,
   theme,
   selectProps,
+  required,
+  value,
   ...props
 }: InputProps) => (
   <div css={getStyles('input', { theme, ...props })}>
@@ -58,7 +71,14 @@ const Input = ({
       inputStyle={inputStyle(isHidden)}
       disabled={isDisabled}
       {...props}
-    />
+      />
+      {!isDisabled
+        && <input
+            tabIndex={-1}
+            autoComplete="off"
+            style={getStyles('inputRequired', { theme, ...props })}
+            required={required}
+            value={value} />}
   </div>
 );
 
