@@ -5,10 +5,10 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-// const webpack = require('webpack');
-require('dotenv').config();
+import { config } from 'dotenv';
+config();
 
-const config: webpack.Configuration = {
+const webpackConfig: webpack.Configuration = {
   context: __dirname,
   entry: {
     index: './index',
@@ -49,9 +49,7 @@ const config: webpack.Configuration = {
   },
   plugins: [
     // new webpack.DefinePlugin({
-    //   // $FlowFixMe: This definitely exists here.
     //   'process.env.CLIENT_ID': `'${process.env.CLIENT_ID}'`,
-    //   // $FlowFixMe: This definitely exists here.
     //   'process.env.CLIENT_SECRET': `'${process.env.CLIENT_SECRET}'`,
     // }),
     new HtmlWebpackPlugin({
@@ -69,4 +67,4 @@ const config: webpack.Configuration = {
   ],
 };
 
-export default config;
+export default webpackConfig;
