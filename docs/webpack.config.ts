@@ -4,8 +4,8 @@ import 'webpack-dev-server';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-
 import { config } from 'dotenv';
+
 config();
 
 const webpackConfig: webpack.Configuration = {
