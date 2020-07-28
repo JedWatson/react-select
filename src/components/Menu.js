@@ -18,9 +18,9 @@ import {
 } from '../utils';
 import type {
   InnerRef,
-    MenuPlacement,
-    MenuPosition,
-    CommonProps,
+  MenuPlacement,
+  MenuPosition,
+  CommonProps,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -127,16 +127,13 @@ export function getMenuPlacement({
 
       // AUTO: flip the menu, render above
       if (placement === 'auto' || isFixedPosition) {
-        // may need to be constrained after flipping
-        let constrainedHeight = maxHeight;
         const spaceAbove = isFixedPosition ? viewSpaceAbove : scrollSpaceAbove;
 
-        if (spaceAbove >= minHeight) {
-          constrainedHeight = Math.min(
-            spaceAbove - marginBottom - spacing.controlHeight,
-            maxHeight
-          );
-        }
+        // constrain height to respect available space
+        const constrainedHeight = Math.min(
+          spaceAbove - marginBottom - spacing.controlHeight,
+          maxHeight
+        );
 
         return { placement: 'top', maxHeight: constrainedHeight };
       }
@@ -315,7 +312,7 @@ const Menu = (props: MenuProps) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
   const classNames = cx("", { menu: true }, className);
   const st = getStyles('menu', props);
-  
+
   return (
     <div className={classNames} style={st} {...innerProps} ref={innerRef}>
       {children}
