@@ -29,6 +29,7 @@ var build=Task("Build")
         NpmRunScript("build");      
     Information("Ending Build");
 });
+/*
 var tests = Task("Tests")
 	.Does(()=>
 	{	
@@ -38,7 +39,7 @@ var tests = Task("Tests")
             NpmRunScript("test");
         Information("Ending Tests");
 	});
-
+*/
 var package = Task("Package")
     .Does(()=>
     {
