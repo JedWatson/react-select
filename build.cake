@@ -27,17 +27,17 @@ var build=Task("Build")
         NpmRunScript("build");      
     Information("Ending Build");
 });
-/*
+
 var tests = Task("Tests")
 	.Does(()=>
 	{	
         Information("Starting Tests");
-        var conf = ParseJsonFromFile("package.json");
-        if(conf["scripts"]["test"]!=null)
-            NpmRunScript("test");
+        //var conf = ParseJsonFromFile("package.json");
+        //if(conf["scripts"]["test"]!=null)
+        //    NpmRunScript("test");
         Information("Ending Tests");
 	});
-*/
+
 var package = Task("Package")
     .Does(()=>
     {
