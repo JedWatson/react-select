@@ -1,9 +1,7 @@
 #tool "nuget:?package=Microsoft.TestPlatform&version=15.7.0"
-#addin nuget:?package=Cake.Npm&version=0.17.0
+#addin "Cake.Npm"
 #addin nuget:?package=Cake.Json&version=4.0.0
 #addin nuget:?package=Newtonsoft.Json&version=9.0.1
-using System;
-using System.IO;
 ////////////////////////////////////////////////////////////////
 // Use always this structure. If you don't need to run some   //
 // task, comment the code inside it.                          //
@@ -16,7 +14,7 @@ var install=Task("Install")
     .Does(() =>
 {
     Information("Starting Install");
-    NpmCi();     
+    NpmInstall();      
     Information("Ending Install");
 });
 
@@ -45,8 +43,9 @@ var package = Task("Package")
     {
         Information("Starting Pack");
         CreateDirectory("./artifacts");
-        Environment.CurrentDirectory =@".\artifacts";
-        NpmPack(settings => settings.FromSource("./..")); 
+        MoveFileToDirectory(@"./package.json", @"./artifacts/");
+        NpmPack(settings => settings.FromPath("./artifacts")); 
+        MoveFileToDirectory(@"./artifacts/package.json", @""); 
         Information("Ending Pack");
     });
 Task("Default")
