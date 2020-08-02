@@ -830,14 +830,15 @@ test('clicking when focused does not open select when openMenuOnClick=false', ()
 
 cases(
   'focus on options > keyboard interaction with Menu',
-  ({ props, selectedOption, nextFocusOption, keyEvent = [] }) => {
+  ({ props, selectedOption, nextFocusOption, keyEvent = [], skipDisabled = false }) => {
     let { container } = render(
       <Select classNamePrefix="react-select" {...props} />
     );
 
     let indexOfSelectedOption = props.options.indexOf(selectedOption);
+    const startIndex = skipDisabled ? 0 : -1;
 
-    for (let i = -1; i < indexOfSelectedOption; i++) {
+    for (let i = startIndex; i < indexOfSelectedOption; i++) {
       fireEvent.keyDown(container.querySelector('.react-select__menu'), {
         keyCode: 40,
         key: 'ArrowDown',
@@ -921,6 +922,7 @@ cases(
       keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
       selectedOption: OPTIONS_DISABLED[2],
       nextFocusOption: OPTIONS_DISABLED[0],
+      skipDisabled: true,
     },
     'single select > PageDown key takes us to next page with default page size of 5': {
       props: {
