@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 
-import Select from '../../src';
+import Select from 'react-select';
 import { colourOptions } from '../data';
 
 
