@@ -1,7 +1,8 @@
 coverage/*
 cypress/plugins/*
 cypress/support/*
-dist/*
+**/dist/*
 flow-typed/*
 lib/*
 node_modules/*
+**/node_modules/*

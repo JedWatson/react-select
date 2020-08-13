@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AsyncSelect from '../../src/Async';
+import AsyncSelect from 'react-select/async';
 import { colourOptions } from '../data';
 
 type State = {

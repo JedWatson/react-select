@@ -1,10 +1,11 @@
 // @flow
-
+/** @jsx jsx */
 import fetch from 'unfetch';
-import React, { Component, type Node } from 'react';
+import { Component, type Node } from 'react';
+import { jsx } from '@emotion/core';
 import { withRouter } from 'react-router-dom';
 
-import Select from '../../src';
+import Select from 'react-select';
 import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
@@ -116,7 +117,7 @@ class Header extends Component<HeaderProps, HeaderState> {
   componentDidMount() {
     this.getStarCount();
   }
-  componentWillReceiveProps({ location }: HeaderProps) {
+  UNSAFE_componentWillReceiveProps({ location }: HeaderProps) {
     const valid = ['/', '/home'];
     const shouldCollapse = !valid.includes(this.props.location.pathname);
     if (location.pathname !== this.props.location.pathname && shouldCollapse) {
@@ -175,16 +176,6 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               React Select
-              <small
-                css={{
-                  color: '#B2D4FF',
-                  fontSize: '0.5em',
-                  position: 'relative',
-                  marginLeft: '0.25em',
-                }}
-              >
-                v2
-              </small>
             </h1>
             <Content
               stars={stars}
@@ -260,7 +251,7 @@ const Content = ({ onChange, stars }) => (
             }
           }}
           value={null}
-          placeholder="🎉 What's new in V2"
+          placeholder="🎉 Feature Highlights"
           styles={headerSelectStyles}
         />
       </div>
