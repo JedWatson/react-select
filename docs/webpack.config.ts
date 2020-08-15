@@ -1,14 +1,14 @@
-// @flow
-
-const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+import * as path from 'path';
+import * as webpack from 'webpack';
+import 'webpack-dev-server';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 // const webpack = require('webpack');
 require('dotenv').config();
 
-module.exports = {
+const config: webpack.Configuration = {
   context: __dirname,
   entry: {
     index: './index',
@@ -68,3 +68,5 @@ module.exports = {
     }),
   ],
 };
+
+export default config;
