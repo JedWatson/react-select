@@ -1104,7 +1104,9 @@ export default class Select extends Component<Props, State> {
     const inputValue = event.currentTarget.value;
     this.inputIsHiddenAfterUpdate = false;
     this.onInputChange(inputValue, { action: 'input-change' });
-    this.onMenuOpen();
+    if (!this.props.menuIsOpen) {
+      this.onMenuOpen();
+    }
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
     const { isSearchable, isMulti } = this.props;
