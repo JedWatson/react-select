@@ -2,6 +2,38 @@
 
 import { type OptionType, type OptionsType } from '../types';
 
+export type AccessibilityProp = {
+  valueFocusAriaMessage?: (args: {
+    focusedValue: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    selectValue: OptionsType
+  }) => string,
+  optionFocusAriaMessage?: (args: {
+    focusedOption: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    options: OptionsType
+  }) => string,
+  resultsAriaMessage?: (args: { inputValue: string, screenReaderMessage: string }) => string,
+  valueEventAriaMessage?: (event: ValueEventType, context: ValueEventContext) => string,
+  instructionsAriaMessage?: (event: InstructionEventType, context?: InstructionsContext) => string
+};
+
+export type AccessibilityConfig = {
+  valueFocusAriaMessage: (args: {
+    focusedValue: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    selectValue: OptionsType
+  }) => string,
+  optionFocusAriaMessage: (args: {
+    focusedOption: OptionType,
+    getOptionLabel: (data: OptionType) => string,
+    options: OptionsType
+  }) => string,
+  resultsAriaMessage: (args: { inputValue: string, screenReaderMessage: string }) => string,
+  valueEventAriaMessage: (event: ValueEventType, context: ValueEventContext) => string,
+  instructionsAriaMessage: (event: InstructionEventType, context?: InstructionsContext) => string
+}
+
 export type InstructionsContext = {
   isSearchable?: boolean,
   isMulti?: boolean,
