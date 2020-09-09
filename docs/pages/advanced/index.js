@@ -18,6 +18,7 @@ import {
   MenuBuffer,
   MenuPortal,
   MultiSelectSort,
+  Accessibility,
 } from '../../examples';
 
 export default function Advanced() {
@@ -256,7 +257,22 @@ export default function Advanced() {
       This example uses a combination of custom components and functions to make react-select behave like a date picker.
 
       > Type a date like "25/8/18", "tomorrow", "next monday", or "6 weeks from now" into the field to get date suggestions.
+      
 
+      ## Accessibility
+
+      Here is an example of how to use a custom accesibility messaging.
+
+      ${(
+        <ExampleWrapper
+          isEditable={false}
+          label="Accessibility"
+          urlPath="docs/examples/Accessibility.js"
+          raw={require('!!raw-loader!../../examples/Accessibility.js')}
+        >
+          <Accessibility />
+        </ExampleWrapper>
+      )}
     `}
     </Fragment>
   );
