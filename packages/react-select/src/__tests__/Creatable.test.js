@@ -104,6 +104,33 @@ const executeTests = (Creatable: any) => {
   );
 
   cases(
+    'uncontrolled inputValue does not match any option after filter',
+    ({ props }) => {
+      props = { ...BASIC_PROPS, ...props };
+
+      const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
+      const input = container.querySelector('input')
+      fireEvent.change(input, { target: { value: 'option not is list'} })
+      rerender(
+        <Creatable menuIsOpen {...props} />
+      );
+
+      expect(container.querySelector('.react-select__menu').textContent).toBe(
+        'Create "option not is list"'
+      );
+    },
+    {
+      'single select > should show a placeholder "create..." prompt': {},
+      'multi select > should show a placeholder "create..." prompt': {
+        props: {
+          isMulti: true,
+          options: OPTIONS,
+        },
+      },
+    }
+  );
+
+  cases(
     'isValidNewOption() prop',
     ({ props }) => {
       props = { ...BASIC_PROPS, ...props };
