@@ -9,9 +9,8 @@ import React, {
   type ElementConfig,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
+import type { OptionType, OptionsType, ValueType, ActionMeta, InputActionMeta } from './types';
 import { cleanValue } from './utils';
-import manageState from './stateManager';
 
 export type DefaultCreatableProps = {|
   /* Allow options to be created while the `isLoading` prop is true. Useful to
@@ -46,6 +45,7 @@ export type CreatableProps = {
   isLoading?: boolean,
   isMulti?: boolean,
   onChange: (ValueType, ActionMeta) => void,
+  onInputChange: (string, InputActionMeta) => void,
 };
 
 export type Props = SelectProps & CreatableProps;
@@ -83,8 +83,7 @@ export const defaultProps: DefaultCreatableProps = {
 };
 
 type State = {
-  newOption: OptionType | void,
-  options: OptionsType,
+  inputValue: string,
 };
 
 export const makeCreatableSelect = <C: {}>(
@@ -94,6 +93,18 @@ export const makeCreatableSelect = <C: {}>(
     static defaultProps = defaultProps;
     select: ElementRef<*>;
     buildOptions = createMemoizedOptionsBuilder();
+    state = {
+      inputValue: ''
+    };
+    static getDerivedStateFromProps(props: CreatableProps, state: State) {
+      if (inputIsControlled(props) && props.inputValue !== state.inputValue) {
+        return {
+          inputValue: props.inputValue
+        }
+      }
+
+      return null
+    }
     onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
       const {
         getNewOptionData,
@@ -107,7 +118,7 @@ export const makeCreatableSelect = <C: {}>(
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
       }
-      const { newOption } = this.state;
+      const newOption = this.buildOptions.getNewOption();
       const valueArray = Array.isArray(newValue) ? newValue : [newValue];
 
       if (valueArray[valueArray.length - 1] === newOption) {
@@ -125,6 +136,17 @@ export const makeCreatableSelect = <C: {}>(
       }
       onChange(newValue, actionMeta);
     };
+    onInputChange = (value: string, actionMeta: InputActionMeta) => {
+      if (inputIsControlled(this.props)) {
+        if (typeof this.props.onInputChange === 'function') {
+          this.props.onInputChange(value, actionMeta);
+        }
+      } else {
+        this.setState({
+          inputValue: value,
+        });
+      }
+    };
     focus() {
       this.select.focus();
     }
@@ -138,21 +160,21 @@ export const makeCreatableSelect = <C: {}>(
           ref={ref => {
             this.select = ref;
           }}
-          options={this.buildOptions(this.props)}
+          options={this.buildOptions({ ...this.state, ...this.props })}
           onChange={this.onChange}
+          onInputChange={this.onInputChange}
+          inputValue={inputIsControlled(this.props) ? this.props.inputValue : this.state.inputValue}
         />
       );
     }
   };
 
 // TODO: do this in package entrypoint
-const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
+export default makeCreatableSelect<ElementConfig<typeof Select>>(
   Select
 );
 
-export default manageState<ElementConfig<typeof SelectCreatable>>(
-  SelectCreatable
-);
+const inputIsControlled = (props: CreatableProps): boolean => typeof props.inputValue === 'string';
 
 const newOptionComputationDependencies: $Keys<CreatableProps>[] = ['isValidNewOption', 'inputValue', 'value', 'options'];
 const optionsComputationDependencies: $Keys<CreatableProps>[] = ['options', 'createOptionPosition'];
@@ -161,7 +183,7 @@ const createMemoizedOptionsBuilder = () => {
   let cachedNewOption: ?OptionType;
   let cachedOptions: ?OptionsType;
 
-  return (props: CreatableProps): OptionsType => {
+  const getMemoizedOptions = (props: CreatableProps): OptionsType => {
     const {
       allowCreateWhileLoading,
       createOptionPosition,
@@ -198,4 +220,7 @@ const createMemoizedOptionsBuilder = () => {
     cachedNewOption = newOption;
     return cachedOptions;
   };
+  getMemoizedOptions.getNewOption = () => cachedNewOption;
+
+  return getMemoizedOptions;
 };
