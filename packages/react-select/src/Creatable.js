@@ -94,16 +94,16 @@ export const makeCreatableSelect = <C: {}>(
     select: ElementRef<*>;
     buildOptions = createMemoizedOptionsBuilder();
     state = {
-      inputValue: ''
+      inputValue: '',
     };
     static getDerivedStateFromProps(props: CreatableProps, state: State) {
       if (inputIsControlled(props) && props.inputValue !== state.inputValue) {
         return {
           inputValue: props.inputValue
-        }
+        };
       }
 
-      return null
+      return null;
     }
     onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
       const {

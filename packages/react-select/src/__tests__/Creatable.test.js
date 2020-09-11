@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import cases from 'jest-in-case';
 
 import Select from '../Select';
-import Creatable, { makeCreatableSelect } from '../Creatable';
+import CreatableSelect, { makeCreatableSelect } from '../Creatable';
 import { OPTIONS } from './constants';
 
 const BASIC_PROPS = {
@@ -18,7 +18,7 @@ const BASIC_PROPS = {
 };
 
 test('defaults - snapshot', () => {
-  const { container } = render(<Creatable />);
+  const { container } = render(<CreatableSelect />);
   expect(container).toMatchSnapshot();
 });
 
@@ -108,12 +108,9 @@ const executeTests = (Creatable: any) => {
     ({ props }) => {
       props = { ...BASIC_PROPS, ...props };
 
-      const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
-      const input = container.querySelector('input')
-      fireEvent.change(input, { target: { value: 'option not is list'} })
-      rerender(
-        <Creatable menuIsOpen {...props} />
-      );
+      const { container } = render(<Creatable menuIsOpen {...props} />);
+      const input = container.querySelector('input');
+      fireEvent.change(input, { target: { value: 'option not is list' } });
 
       expect(container.querySelector('.react-select__menu').textContent).toBe(
         'Create "option not is list"'
@@ -285,7 +282,7 @@ const executeTests = (Creatable: any) => {
   );
 };
 
-executeTests(Creatable);
+executeTests(CreatableSelect);
 describe('makeCreatableSelect(Select)', () => {
   executeTests(makeCreatableSelect(Select));
 });
