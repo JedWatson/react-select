@@ -93,42 +93,7 @@ export const makeCreatableSelect = <C: {}>(
   class Creatable extends Component<CreatableProps & C, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
-    constructor(props: CreatableProps & C) {
-      super(props);
-      const options = props.options || [];
-      this.state = {
-        newOption: undefined,
-        options: options,
-      };
-    }
-    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
-      const {
-        allowCreateWhileLoading,
-        createOptionPosition,
-        formatCreateLabel,
-        getNewOptionData,
-        inputValue,
-        isLoading,
-        isValidNewOption,
-        value,
-      } = nextProps;
-      const options = nextProps.options || [];
-      let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
-        newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
-      } else {
-        newOption = undefined;
-      }
-      this.setState({
-        newOption: newOption,
-        options:
-          (allowCreateWhileLoading || !isLoading) && newOption
-            ? createOptionPosition === 'first'
-              ? [newOption, ...options]
-              : [...options, newOption]
-            : options,
-      });
-    }
+    buildOptions = createMemoizedOptionsBuilder();
     onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
       const {
         getNewOptionData,
@@ -167,14 +132,13 @@ export const makeCreatableSelect = <C: {}>(
       this.select.blur();
     }
     render() {
-      const { options } = this.state;
       return (
         <SelectComponent
           {...this.props}
           ref={ref => {
             this.select = ref;
           }}
-          options={options}
+          options={this.buildOptions(this.props)}
           onChange={this.onChange}
         />
       );
@@ -189,3 +153,49 @@ const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
 export default manageState<ElementConfig<typeof SelectCreatable>>(
   SelectCreatable
 );
+
+const newOptionComputationDependencies: $Keys<CreatableProps>[] = ['isValidNewOption', 'inputValue', 'value', 'options'];
+const optionsComputationDependencies: $Keys<CreatableProps>[] = ['options', 'createOptionPosition'];
+const createMemoizedOptionsBuilder = () => {
+  let prevProps: CreatableProps = {};
+  let cachedNewOption: ?OptionType;
+  let cachedOptions: ?OptionsType;
+
+  return (props: CreatableProps): OptionsType => {
+    const {
+      allowCreateWhileLoading,
+      createOptionPosition,
+      formatCreateLabel,
+      getNewOptionData,
+      inputValue,
+      isLoading,
+      isValidNewOption,
+      value,
+      options = [],
+    } = props;
+
+    let newOption = cachedNewOption;
+    if (!newOption || newOptionComputationDependencies.some(key => prevProps[key] !== props[key])) {
+      newOption = isValidNewOption(inputValue, cleanValue(value), options)
+        ? getNewOptionData(inputValue, formatCreateLabel(inputValue))
+        : undefined;
+    }
+
+    if (
+      !cachedOptions ||
+      newOption !== cachedNewOption ||
+      (!allowCreateWhileLoading && prevProps.isLoading !== isLoading) || // only check isLoading in case allowCreateWhileLoading is false
+      (allowCreateWhileLoading !== prevProps.allowCreateWhileLoading && (allowCreateWhileLoading ? prevProps.isLoading : isLoading)) || // a change in createWhileLoading only requires a new computation in case the result of allowCreateWhileLoading || !isLoading changed
+      optionsComputationDependencies.some(key => prevProps[key] !== props[key])
+    ) {
+      cachedOptions = (allowCreateWhileLoading || !isLoading) && newOption
+        ? createOptionPosition === 'first'
+          ? [newOption, ...options]
+          : [...options, newOption]
+        : options;
+    }
+
+    cachedNewOption = newOption;
+    return cachedOptions;
+  };
+};
