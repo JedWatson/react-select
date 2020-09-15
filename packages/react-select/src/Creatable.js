@@ -11,6 +11,7 @@ import React, {
 import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta, InputActionMeta } from './types';
 import { cleanValue } from './utils';
+import manageState from './stateManager';
 
 export type DefaultCreatableProps = {|
   /* Allow options to be created while the `isLoading` prop is true. Useful to
@@ -170,8 +171,12 @@ export const makeCreatableSelect = <C: {}>(
   };
 
 // TODO: do this in package entrypoint
-export default makeCreatableSelect<ElementConfig<typeof Select>>(
+const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
   Select
+);
+
+export default manageState<ElementConfig<typeof SelectCreatable>>(
+  SelectCreatable
 );
 
 const inputIsControlled = (props: CreatableProps): boolean => typeof props.inputValue === 'string';
