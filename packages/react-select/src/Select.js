@@ -241,6 +241,8 @@ export type Props = {
   tabIndex: string,
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean,
+  /* Keep cursor at the end */
+  keepCursorAtEnd: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
   /* Sets the form attribute on the input */
@@ -463,6 +465,10 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   onMenuOpen() {
+    if (this.props.keepCursorAtEnd && !this.props.isMulti) {
+      this.onInputChange(this.props.value?.label, { action: 'input-change' });
+    }
+
     this.props.onMenuOpen();
   }
   onMenuClose() {
