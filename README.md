@@ -9,9 +9,9 @@ The Select control for [React](https://reactjs.com). Initially built for use in 
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
-React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
+See our [upgrade guide](https://github.com/JedWatson/react-select/issues/3585) for a breakdown on how to upgrade from v2 to v3.
 
-For the story behind this component, watch Jed's talk at React Conf 2019 - [building React Select](https://youtu.be/yS0jUnmBujE)
+React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
 
 Features include:
 
@@ -21,11 +21,11 @@ Features include:
 - Controllable state props and modular architecture
 - Long-requested features like option groups, portal support, animation, and more
 
-## Using an older version?
+If you're interested in the background, watch Jed's [talk on React Select](https://youtu.be/Eb2wy-HNGMo) at ReactNYC in March 2018.
 
-- [v2 to v3 upgrade guide](https://github.com/JedWatson/react-select/issues/3585)
-- [v1 to v2 upgrade guide](https://react-select.com/upgrade-guide)
-- React Select v1 documentation and examples are available at [v1.react-select.com](https://v1.react-select.com)
+See our [upgrade guide](https://react-select.com/upgrade-guide) for a breakdown on how to upgrade from v1 to v2.
+
+The old docs and examples will continue to be available at [v1.react-select.com](https://v1.react-select.com).
 
 # Installation and usage
 
@@ -36,7 +36,7 @@ yarn add react-select
 ```
 
 Then use it in your app:
-#### With React Component
+
 ```js
 import React from 'react';
 import Select from 'react-select';
@@ -52,10 +52,8 @@ class App extends React.Component {
     selectedOption: null,
   };
   handleChange = selectedOption => {
-    this.setState(
-      { selectedOption },
-      () => console.log(`Option selected:`, this.state.selectedOption)
-    );
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
   };
   render() {
     const { selectedOption } = this.state;
@@ -68,32 +66,6 @@ class App extends React.Component {
       />
     );
   }
-}
-```
-
-#### With React Hooks
-```js
-import React, { useState } from "react";
-import Select from "react-select";
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
-export default function App() {
-  const [selectedOption, setSelectedOption] = useState(null);
-  
-  return (
-    <div className="App">
-      <Select
-        defaultValue={selectedOption}
-        onChange={setSelectedOption}
-        options={options}
-      />
-    </div>
-  );
 }
 ```
 
@@ -111,7 +83,6 @@ Common props you may want to specify include:
 - `onChange` - subscribe to change events
 - `options` - specify the options the user can select from
 - `placeholder` - change the text displayed when no option is selected
-- `noOptionsMessage` - ({ inputValue: string }) => string | null - Text to display when there are no options
 - `value` - control the current value
 
 See the [props documentation](https://www.react-select.com/props) for complete documentation on the props react-select supports.
