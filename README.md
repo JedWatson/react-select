@@ -9,15 +9,15 @@ The Select control for [React](https://reactjs.com). Initially built for use in 
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
-React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
+React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box while extremely customizable.
 
 For the story behind this component, watch Jed's talk at React Conf 2019 - [building React Select](https://youtu.be/yS0jUnmBujE)
 
 Features include:
 
-- Flexible approach to data, with customisable functions
+- Flexible approach to data, with customizable functions
 - Extensible styling API with [emotion](https://emotion.sh)
-- Component Injection API for complete control over the UI behaviour
+- Component Injection API for complete control over the UI behavior
 - Controllable state props and modular architecture
 - Long-requested features like option groups, portal support, animation, and more
 
@@ -137,11 +137,11 @@ React-select exposes two public methods:
 - `focus()` - focus the control programatically
 - `blur()` - blur the control programatically
 
-## Customisation
+## Customization
 
 Check the docs for more information on:
 
-- [Customising the styles](https://www.react-select.com/styles)
+- [Customizing the styles](https://www.react-select.com/styles)
 - [Using custom components](https://www.react-select.com/components)
 - [Using the built-in animated components](https://www.react-select.com/home#animated-components)
 - [Creating an async select](https://www.react-select.com/async)
@@ -158,4 +158,4 @@ Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://
 
 ## License
 
-MIT Licensed. Copyright (c) Jed Watson 2019.
+MIT Licensed. Copyright (c) Jed Watson, 2019.
