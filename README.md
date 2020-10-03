@@ -84,7 +84,7 @@ const options = [
 
 export default function App() {
   const [selectedOption, setSelectedOption] = useState(null);
-  
+
   return (
     <div className="App">
       <Select
@@ -134,8 +134,8 @@ If you don't provide these props, you can set the initial value of the state the
 
 React-select exposes two public methods:
 
-- `focus()` - focus the control programatically
-- `blur()` - blur the control programatically
+- `focus()` - focus the control programmatically
+- `blur()` - blur the control programmatically
 
 ## Customisation
 
