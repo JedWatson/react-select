@@ -23,3 +23,21 @@ changes, feel free to ping @gwyneplaine
 * Please [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
 (with regards to formatting, etc)
 * All new features and changes need documentation.
+
+## Running the docs website
+
+You can run the website in a local environment using the following steps:
+
+```sh
+git clone https://github.com/JedWatson/react-select
+cd react-select
+yarn
+yarn build
+cd docs
+yarn
+yarn start
+```
+**Note:**
+
+* We recommend using [yarn](https://classic.yarnpkg.com/en/) for setting up the local development environment for this project. Using `npm` might raise unexpected errors.
+* The docs come without a compiled react-select build. You have to run the **build** task in the project's root directory before running the **start** task as shown above. Alternatively, you can run the **watch** task in parallel.
