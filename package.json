@@ -91,6 +91,10 @@
       "./enzymeAdapter.setup.js"
     ]
   },
+  "files": [
+	"dist",
+	"types"
+  ],
   "keywords": [
     "combobox",
     "form",
