@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
@@ -2633,6 +2633,55 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
     name: BASIC_PROPS.name,
   });
 });
+
+test('to clear values when focusInputOnClear is not set', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti/>);
+
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator'),
+    { button: 0 }
+  );
+
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+
+  expect(container.querySelector('.react-select__input input')).toBe(
+    document.activeElement
+  );
+});
+
+test('to clear values when focusInputOnClear is true', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti focusInputOnClear/>);
+
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator'),
+    { button: 0 }
+  );
+
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+
+  expect(container.querySelector('.react-select__input input')).toBe(
+    document.activeElement
+  );
+});
+
+test('to clear values when focusInputOnClear is false', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti focusInputOnClear={false}/>);
+
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator'),
+    { button: 0 }
+  );
+
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+
+  expect(container.querySelector('.react-select__input input')).not.toBe(
+    document.activeElement
+  );
+});
+
 
 /**
  * Selects the option on hitting spacebar on V2

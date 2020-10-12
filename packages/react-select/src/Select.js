@@ -130,6 +130,8 @@ export type Props = {
   filterOption:
     | (({ label: string, value: string, data: OptionType }, string) => boolean)
     | null,
+  /* Focus input when clear all selected options */
+  focusInputOnClear: boolean,
   /*
     Formats group labels in the menu as React components
 
@@ -257,6 +259,7 @@ export const defaultProps = {
   controlShouldRenderValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
+  focusInputOnClear: true,
   formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
@@ -974,6 +977,8 @@ export default class Select extends Component<Props, State> {
     this.clearValue();
     event.stopPropagation();
     this.openAfterFocus = false;
+
+    if (!this.props.focusInputOnClear) return
     if (event.type === 'touchend') {
       this.focusInput();
     } else {
