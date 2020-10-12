@@ -2643,7 +2643,7 @@ test('to clear values when focusInputOnClear is not set', async () => {
     { button: 0 }
   );
 
-  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null);
 
   expect(container.querySelector('.react-select__input input')).toBe(
     document.activeElement
@@ -2659,7 +2659,7 @@ test('to clear values when focusInputOnClear is true', async () => {
     { button: 0 }
   );
 
-  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null);
 
   expect(container.querySelector('.react-select__input input')).toBe(
     document.activeElement
@@ -2675,7 +2675,7 @@ test('to clear values when focusInputOnClear is false', async () => {
     { button: 0 }
   );
 
-  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null)
+  await waitFor(()=>container.querySelector('.react-select__clear-indicator') === null);
 
   expect(container.querySelector('.react-select__input input')).not.toBe(
     document.activeElement
