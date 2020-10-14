@@ -231,7 +231,7 @@ test.skip('in case of callbacks should handle an error by setting options to an 
 
 test('should call loadOptions just once during quick fire input with debounceInterval set', () => {
   let loadOptionsSpy = jest.fn();
-  let asyncSelectWrapper = mount(
+  let { container } = render(
     <Async
       className="react-select"
       classNamePrefix="react-select"
@@ -240,18 +240,27 @@ test('should call loadOptions just once during quick fire input with debounceInt
       debounceInterval={50}
     />
   );
-  let inputValueWrapper = asyncSelectWrapper.find(
-    'div.react-select__input input'
+  let input = container.querySelector('div.react-select__input input');
+  userEvent.type(
+    input,
+    'a'
   );
-
-  asyncSelectWrapper.setProps({ inputValue: 'a' });
-  inputValueWrapper.simulate('change', { currentTarget: { value: 'a' } });
-  inputValueWrapper.simulate('change', { currentTarget: { value: 'b' } });
-  inputValueWrapper.simulate('change', { currentTarget: { value: 'c' } });
-  inputValueWrapper.simulate('change', { currentTarget: { value: 'd' } });
+  userEvent.type(
+    input,
+    'b'
+  );
+  userEvent.type(
+    input,
+    'c'
+  );
+  userEvent.type(
+    input,
+    'd'
+  );
 
   return new Promise((resolve, reject) => setTimeout(() => {
     try {
+      expect(input.value).toBe('abcd');
       expect(loadOptionsSpy).toHaveBeenCalledTimes(1);
       resolve();
     } catch (ex) {
