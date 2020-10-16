@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.12.1",
     "@emotion/cache": "^10.0.9",
     "@emotion/core": "^10.0.9",
     "@emotion/css": "^10.0.9",
