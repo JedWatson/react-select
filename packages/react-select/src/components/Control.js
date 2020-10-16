@@ -37,12 +37,12 @@ export const css = ({
   borderColor: isDisabled
     ? colors.neutral10
     : isFocused
-    ? colors.primary
-    : colors.neutral20,
+      ? colors.primary
+      : colors.neutral20,
   borderRadius: borderRadius,
   borderStyle: 'solid',
   borderWidth: 1,
-  boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : null,
+  boxShadow: !isDisabled && isFocused ? `0 0 0 1px ${colors.primary}` : null,
   cursor: 'default',
   display: 'flex',
   flexWrap: 'wrap',
@@ -53,7 +53,7 @@ export const css = ({
   transition: 'all 100ms',
 
   '&:hover': {
-    borderColor: isFocused ? colors.primary : colors.neutral30,
+    borderColor: !isDisabled && isFocused ? colors.primary : colors.neutral30,
   },
 });
 
@@ -77,8 +77,8 @@ const Control = (props: ControlProps) => {
         {
           control: true,
           'control--is-disabled': isDisabled,
-          'control--is-focused': isFocused,
-          'control--menu-is-open': menuIsOpen,
+          'control--is-focused': !isDisabled && isFocused,
+          'control--menu-is-open': !isDisabled && menuIsOpen,
         },
         className
       )}
