@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
@@ -2633,6 +2633,55 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
     name: BASIC_PROPS.name,
   });
 });
+
+test('to remove value when focusInputOnRemoveValue is not set', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti/>);
+
+  const selectValueElement = [
+    ...container.querySelectorAll('.react-select__multi-value'),
+  ].find(multiValue => multiValue.textContent === '2');
+  userEvent.click(
+    selectValueElement.querySelector('div.react-select__multi-value__remove')
+  );
+
+  expect(container.querySelector('.react-select__input input')).toBe(
+    document.activeElement
+  );
+});
+
+test('to remove value when focusInputOnRemoveValue is true', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti focusInputOnRemoveValue/>);
+
+  const selectValueElement = [
+    ...container.querySelectorAll('.react-select__multi-value'),
+  ].find(multiValue => multiValue.textContent === '2');
+  userEvent.click(
+    selectValueElement.querySelector('div.react-select__multi-value__remove')
+  );
+
+  expect(container.querySelector('.react-select__input input')).toBe(
+    document.activeElement
+  );
+});
+
+test('to remove value when focusInputOnRemoveValue is false', async () => {
+  let props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[2]] };
+  let { container } = render(<Select {...props} isMulti focusInputOnRemoveValue={false}/>);
+
+  const selectValueElement = [
+    ...container.querySelectorAll('.react-select__multi-value'),
+  ].find(multiValue => multiValue.textContent === '2');
+  userEvent.click(
+    selectValueElement.querySelector('div.react-select__multi-value__remove')
+  );
+
+  expect(container.querySelector('.react-select__input input')).not.toBe(
+    document.activeElement
+  );
+});
+
 
 /**
  * Selects the option on hitting spacebar on V2

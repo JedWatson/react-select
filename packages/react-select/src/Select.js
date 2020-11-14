@@ -130,6 +130,8 @@ export type Props = {
   filterOption:
     | (({ label: string, value: string, data: OptionType }, string) => boolean)
     | null,
+  /* Focus input when remove a selected option */
+  focusInputOnRemoveValue: boolean,
   /*
     Formats group labels in the menu as React components
 
@@ -257,6 +259,7 @@ export const defaultProps = {
   controlShouldRenderValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
+  focusInputOnRemoveValue: true,
   formatGroupLabel: formatGroupLabel,
   getOptionLabel: getOptionLabel,
   getOptionValue: getOptionValue,
@@ -697,6 +700,7 @@ export default class Select extends Component<Props, State> {
         value: removedValue ? this.getOptionLabel(removedValue) : '',
       },
     });
+    if (!this.props.focusInputOnRemoveValue) return;
     this.focusInput();
   };
   clearValue = () => {
@@ -974,6 +978,7 @@ export default class Select extends Component<Props, State> {
     this.clearValue();
     event.stopPropagation();
     this.openAfterFocus = false;
+
     if (event.type === 'touchend') {
       this.focusInput();
     } else {
