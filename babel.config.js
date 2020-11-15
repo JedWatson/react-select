@@ -1,6 +1,6 @@
 module.exports = {
   plugins: [
-    'emotion',
+    '@emotion',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-transform-runtime',
   ],

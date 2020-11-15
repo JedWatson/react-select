@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import fetch from 'unfetch';
 import { Component, type Node } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import { withRouter } from 'react-router-dom';
 
 import Select from 'react-select';

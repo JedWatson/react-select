@@ -1,7 +1,7 @@
 // @flow
 /** @jsx emotionJSX */
 import md from 'react-markings';
-import { jsx as emotionJSX } from '@emotion/core'; // eslint-disable-line no-unused-vars
+import { jsx as emotionJSX } from '@emotion/react'; // eslint-disable-line no-unused-vars
 import { Link as RRLink } from 'react-router-dom';
 
 import Svg from '../Svg';

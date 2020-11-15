@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import { CacheProvider } from '@emotion/core';
+import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import memoizeOne from 'memoize-one';
 
