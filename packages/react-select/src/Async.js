@@ -25,9 +25,6 @@ export type AsyncProps = {
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
-     will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
   /* Same behaviour as for Select */
   onInputChange?: (string, InputActionMeta) => void,
   /* Same behaviour as for Select */

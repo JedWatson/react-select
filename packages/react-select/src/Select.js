@@ -243,6 +243,8 @@ export type Props = {
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
   value: ValueType,
+  /* Sets the form attribute on the input */
+  form?: string,
 };
 
 export const defaultProps = {
@@ -1039,7 +1041,7 @@ export default class Select extends Component<Props, State> {
     }
   }
   onTouchStart = ({ touches }: TouchEvent) => {
-    const touch = touches.item(0);
+    const touch = touches && touches.item(0);
     if (!touch) {
       return;
     }
@@ -1049,7 +1051,7 @@ export default class Select extends Component<Props, State> {
     this.userIsDragging = false;
   };
   onTouchMove = ({ touches }: TouchEvent) => {
-    const touch = touches.item(0);
+    const touch = touches && touches.item(0);
     if (!touch) {
       return;
     }
@@ -1102,7 +1104,9 @@ export default class Select extends Component<Props, State> {
     const inputValue = event.currentTarget.value;
     this.inputIsHiddenAfterUpdate = false;
     this.onInputChange(inputValue, { action: 'input-change' });
-    this.onMenuOpen();
+    if (!this.props.menuIsOpen) {
+      this.onMenuOpen();
+    }
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
     const { isSearchable, isMulti } = this.props;
@@ -1410,6 +1414,7 @@ export default class Select extends Component<Props, State> {
       inputId,
       inputValue,
       tabIndex,
+      form,
     } = this.props;
     const { Input } = this.components;
     const { inputIsHidden } = this.state;
@@ -1435,6 +1440,7 @@ export default class Select extends Component<Props, State> {
           readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          form={form}
           value=""
           {...ariaAttributes}
         />
@@ -1460,6 +1466,7 @@ export default class Select extends Component<Props, State> {
         selectProps={selectProps}
         spellCheck="false"
         tabIndex={tabIndex}
+        form={form}
         theme={theme}
         type="text"
         value={inputValue}
@@ -1811,8 +1818,8 @@ export default class Select extends Component<Props, State> {
     if (!this.state.isFocused) return null;
     return (
       <A11yText aria-live="polite">
-        <p id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</p>
-        <p id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</p>
+        <span id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</span>
+        <span id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</span>
       </A11yText>
     );
   }
