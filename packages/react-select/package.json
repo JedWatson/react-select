@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
@@ -19,7 +19,6 @@
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
-    "cypress": "^1.4.1",
     "enzyme": "^3.8.0",
     "enzyme-to-json": "^3.3.0",
     "jest-in-case": "^1.0.2",
