@@ -258,7 +258,9 @@ export const menuCSS = ({
   zIndex: 1,
 });
 
-const PortalPlacementContext = createContext<() => void>(() => { });
+const PortalPlacementContext = createContext<{
+  getPortalPlacement?: (() => void) | null,
+}>({ getPortalPlacement: null });
 
 // NOTE: internal only
 export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
@@ -277,7 +279,6 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       menuShouldScrollIntoView,
       theme,
     } = this.props;
-    const { getPortalPlacement } = this.context;
 
     if (!ref) return;
 
@@ -295,6 +296,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       theme,
     });
 
+    const { getPortalPlacement } = this.context;
     if (getPortalPlacement) getPortalPlacement(state);
 
     this.setState(state);
@@ -520,7 +522,9 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     );
 
     return (
-      <PortalPlacementContext.Provider value={this.getPortalPlacement}>
+      <PortalPlacementContext.Provider
+        value={{ getPortalPlacement: this.getPortalPlacement }}
+      >
         {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
       </PortalPlacementContext.Provider>
     );
