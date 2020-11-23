@@ -2,7 +2,7 @@ version: 2
 
 docker_defaults: &docker_defaults
     docker:
-        - image: cypress/base:13.6.0
+        - image: cypress/browsers:node12.18.0-chrome83-ff77
           environment:
               TERM: xterm
     working_directory: ~/project/repo
@@ -20,6 +20,7 @@ install_steps: &install_steps
                   - dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
                   - dependency-cache-{{ .Branch }}-
                   - dependency-cache-
+                  - cache-{{ checksum "package.json" }}
         - run:
               name: Installing Dependencies
               command: |
@@ -28,7 +29,7 @@ install_steps: &install_steps
               name: Save node_modules cache
               key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
               paths:
-                  - node_modules/
+                  - ~/.cache
         - persist_to_workspace:
               root: ~/project
               paths:
@@ -67,4 +68,7 @@ jobs:
             - run:
                   name: Running E2E tests
                   command: |
+                      yarn global add cypress
+                      yarn install --silent
+                      yarn cypress install
                       yarn e2e
