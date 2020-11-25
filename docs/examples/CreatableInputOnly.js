@@ -21,7 +21,7 @@ export default class CreatableInputOnly extends Component<*, State> {
     console.log(value);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
-    this.setState({ value });
+    this.setState({ value: value ? value : [] });
   };
   handleInputChange = (inputValue: string) => {
     this.setState({ inputValue });
