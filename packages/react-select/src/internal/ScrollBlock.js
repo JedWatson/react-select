@@ -7,7 +7,7 @@ import ScrollLock from './ScrollLock/index';
 type Props = {
   children: Element<*>,
   isEnabled: boolean,
-  targetRef: HTMLElement | null,
+  targetRef: HTMLElement,
 };
 
 // NOTE:

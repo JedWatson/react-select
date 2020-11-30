@@ -8,7 +8,7 @@ export type CaptorProps = {
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-  targetRef: HTMLElement | null,
+  targetRef: HTMLElement,
 };
 
 class ScrollCaptor extends Component<CaptorProps> {
