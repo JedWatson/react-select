@@ -36,7 +36,7 @@ yarn add react-select
 ```
 
 Then use it in your app:
-
+#### With React Component
 ```js
 import React from 'react';
 import Select from 'react-select';
@@ -68,6 +68,32 @@ class App extends React.Component {
       />
     );
   }
+}
+```
+
+#### With React Hooks
+```js
+import React, { useState } from "react";
+import Select from "react-select";
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
+export default function App() {
+  const [selectedOption, setSelectedOption] = useState(null);
+  
+  return (
+    <div className="App">
+      <Select
+        defaultValue={selectedOption}
+        onChange={setSelectedOption}
+        options={options}
+      />
+    </div>
+  );
 }
 ```
 
@@ -132,4 +158,4 @@ Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://
 
 ## License
 
-MIT Licensed. Copyright (c) Jed Watson 2019.
+MIT Licensed. Copyright (c) Jed Watson 2020.
