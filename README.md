@@ -158,4 +158,4 @@ Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://
 
 ## License
 
-MIT Licensed. Copyright (c) Jed Watson 2019.
+MIT Licensed. Copyright (c) Jed Watson 2020.
