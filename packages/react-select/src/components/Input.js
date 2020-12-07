@@ -17,6 +17,7 @@ export type InputProps = PropsWithStyles & {
   className?: string,
   /** The ID of the form that the input belongs to */
   form?: string,
+  ...
 };
 
 export const inputCSS = ({

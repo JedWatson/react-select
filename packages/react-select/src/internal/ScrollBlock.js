@@ -8,9 +8,11 @@ import ScrollLock from './ScrollLock/index';
 type Props = {
   children: Element<*>,
   isEnabled: boolean,
+  ...
 };
 type State = {
   touchScrollTarget: HTMLElement | null,
+  ...
 };
 
 // NOTE:

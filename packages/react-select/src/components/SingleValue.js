@@ -6,6 +6,7 @@ import { jsx } from '@emotion/core';
 type State = {
   /** Whether this is disabled. */
   isDisabled: boolean,
+  ...
 };
 type ValueProps = {
   /** The children to be rendered. */
@@ -14,6 +15,7 @@ type ValueProps = {
   data: any,
   /** Props passed to the wrapping element for the group. */
   innerProps: any,
+  ...
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 

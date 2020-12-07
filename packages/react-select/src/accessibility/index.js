@@ -6,9 +6,10 @@ export type InstructionsContext = {
   isSearchable?: boolean,
   isMulti?: boolean,
   label?: string,
-  isDisabled?: boolean
+  isDisabled?: boolean,
+  ...
 };
-export type ValueEventContext = { value: string, isDisabled?: boolean };
+export type ValueEventContext = { value: string, isDisabled?: boolean, ... };
 
 export const instructionsAriaMessage = (
   event: string,
@@ -53,6 +54,7 @@ export const valueFocusAriaMessage = ({
   focusedValue: OptionType,
   getOptionLabel: (option: OptionType) => string,
   selectValue: OptionsType,
+  ...
 }) =>
   `value ${getOptionLabel(focusedValue)} focused, ${selectValue.indexOf(
     focusedValue
@@ -66,6 +68,7 @@ export const optionFocusAriaMessage = ({
   focusedOption: OptionType,
   getOptionLabel: (option: OptionType) => string,
   options: OptionsType,
+  ...
 }) =>
   `option ${getOptionLabel(focusedOption)} focused${focusedOption.isDisabled ? ' disabled' : ''}, ${options.indexOf(
     focusedOption
@@ -77,6 +80,7 @@ export const resultsAriaMessage = ({
 }: {
   inputValue: string,
   screenReaderMessage: string,
+  ...
 }) =>
   `${screenReaderMessage}${
   inputValue ? ' for search term ' + inputValue : ''

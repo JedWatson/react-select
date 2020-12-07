@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-type Props = { count: number, repo: string };
+type Props = { count: number, repo: string, ... };
 
 const StarButton = ({ count, repo }: Props) => (
   <div css={{ alignItems: 'center', display: 'inline-flex', minWidth: 128 }}>

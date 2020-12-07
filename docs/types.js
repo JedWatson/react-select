@@ -6,4 +6,5 @@ export type RouterProps = {
   history: RouterHistory,
   location: Location,
   match: Match,
+  ...
 };

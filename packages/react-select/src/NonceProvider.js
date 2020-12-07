@@ -7,6 +7,7 @@ import memoizeOne from 'memoize-one';
 type NonceProviderProps = {
   nonce: string,
   children: Node,
+  ...
 };
 
 export default class NonceProvider extends Component<NonceProviderProps> {

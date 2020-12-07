@@ -29,7 +29,7 @@ const NavSection = () => {
   );
 };
 
-type NavState = { links: Array<Object>, activeId: string | null };
+type NavState = { links: Array<Object>, activeId: string | null, ... };
 
 class PageNav extends Component<RouterProps, NavState> {
   scrollSpy: ElementRef<typeof ScrollSpy>;
@@ -131,7 +131,7 @@ const Nav = (props: any) => (
     {...props}
   />
 );
-type NavItemProps = { level: 2 | 3, selected: boolean };
+type NavItemProps = { level: 2 | 3, selected: boolean, ... };
 
 const NavItem = ({ level, selected, ...props }: NavItemProps) => (
   <div

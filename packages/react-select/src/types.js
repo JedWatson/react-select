@@ -3,6 +3,7 @@ import type { Ref } from 'react';
 
 export type OptionType = {
   [string]: any,
+  ...
 };
 
 export type OptionsType = Array<OptionType>;
@@ -10,6 +11,7 @@ export type OptionsType = Array<OptionType>;
 export type GroupType = {
   options: OptionsType,
   [string]: any,
+  ...
 };
 
 export type ValueType = OptionType | OptionsType | null | void;
@@ -24,18 +26,21 @@ export type InnerRef = Ref<*>;
 export type PropsWithInnerRef = {
   /** The inner reference. */
   innerRef: Ref<*>,
+  ...
 };
 
 type ThemeSpacing = {
   baseUnit: number,
   controlHeight: number,
   menuGutter: number,
+  ...
 };
 
 export type Theme = {
   borderRadius: number,
-  colors: { [key: string]: string },
+  colors: { [key: string]: string, ... },
   spacing: ThemeSpacing,
+  ...
 };
 
 export type PropsWithStyles = {
@@ -44,12 +49,13 @@ export type PropsWithStyles = {
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (string, any) => {},
+  getStyles: (string, any) => {...},
   theme: Theme,
+  ...
 };
 
 export type ClassNameList = Array<string>;
-export type ClassNamesState = { [string]: boolean } | void;
+export type ClassNamesState = { [string]: boolean, ... } | void;
 
 export type CommonProps = {
   clearValue: () => void,
@@ -63,7 +69,7 @@ export type CommonProps = {
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (string, any) => {},
+  getStyles: (string, any) => {...},
   theme: Theme,
   getValue: () => ValueType,
   hasValue: boolean,
@@ -72,6 +78,7 @@ export type CommonProps = {
   selectOption: OptionType => void,
   selectProps: any,
   setValue: (ValueType, ActionTypes) => void,
+  ...
 };
 
 export type ActionTypes =
@@ -85,6 +92,7 @@ export type ActionTypes =
 
 export type ActionMeta = {
   action: ActionTypes,
+  ...
 };
 
 export type InputActionTypes =
@@ -119,4 +127,5 @@ export type OptionProps = PropsWithInnerRef & {
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,
   value: any,
+  ...
 };

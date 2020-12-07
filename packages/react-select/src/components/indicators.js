@@ -9,7 +9,7 @@ import type { CommonProps, Theme } from '../types';
 // Dropdown & Clear Icons
 // ==============================
 
-const Svg = ({ size, ...props }: { size: number }) => (
+const Svg = ({ size, ...props }: { size: number, ... }) => (
   <svg
     height={size}
     width={size}
@@ -51,6 +51,7 @@ export type IndicatorProps = CommonProps & {
   isFocused: boolean,
   /** Whether the text is right to left */
   isRtl: boolean,
+  ...
 };
 
 const baseCSS = ({
@@ -115,7 +116,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
 // Separator
 // ==============================
 
-type SeparatorState = { isDisabled: boolean };
+type SeparatorState = { isDisabled: boolean, ... };
 
 export const indicatorSeparatorCSS = ({
   isDisabled,
@@ -163,6 +164,7 @@ export const loadingIndicatorCSS = ({
   isFocused: boolean,
   size: number,
   theme: Theme,
+  ...
 }) => ({
   label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
@@ -177,7 +179,7 @@ export const loadingIndicatorCSS = ({
   verticalAlign: 'middle',
 });
 
-type DotProps = { delay: number, offset: boolean };
+type DotProps = { delay: number, offset: boolean, ... };
 const LoadingDot = ({ delay, offset }: DotProps) => (
   <span
     css={{
@@ -200,9 +202,11 @@ export type LoadingIconProps = {
   isFocused: boolean,
   /** Whether the text is right to left */
   isRtl: boolean,
+  ...
 } & CommonProps & {
     /** Set size of the container. */
     size: number,
+    ...
   };
 export const LoadingIndicator = (props: LoadingIconProps) => {
   const { className, cx, getStyles, innerProps, isRtl } = props;

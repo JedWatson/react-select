@@ -105,8 +105,8 @@ const Container = props => (
   />
 );
 
-type HeaderProps = RouterProps & { children: Node };
-type HeaderState = { contentHeight: 'auto' | number, stars: number };
+type HeaderProps = RouterProps & { children: Node, ... };
+type HeaderState = { contentHeight: 'auto' | number, stars: number, ... };
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 

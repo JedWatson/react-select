@@ -11,9 +11,11 @@ import NodeResolver from 'react-node-resolver';
 type Props = {
   children: ReactElement<*>,
   onChange: (Array<any>) => void,
+  ...
 };
 type State = {
   elements: Array<HTMLElement>,
+  ...
 };
 
 function getStyle(el, prop, numeric = true) {

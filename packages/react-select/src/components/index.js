@@ -75,6 +75,7 @@ export type SelectComponents = {
   SelectContainer: ComponentType<ContainerProps>,
   SingleValue: ComponentType<SingleValueProps>,
   ValueContainer: ComponentType<ValueContainerProps>,
+  ...
 };
 
 export type SelectComponentsConfig = $Shape<SelectComponents>;
@@ -109,6 +110,7 @@ export const components = {
 
 type Props = {
   components: SelectComponentsConfig,
+  ...
 };
 
 export const defaultComponents = (props: Props) => ({

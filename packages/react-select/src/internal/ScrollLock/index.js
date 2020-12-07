@@ -20,9 +20,11 @@ let activeScrollLocks = 0;
 type Props = {
   accountForScrollbars: boolean,
   touchScrollTarget?: HTMLElement,
+  ...
 };
 type TargetStyle = {
   [key: string]: string | null,
+  ...
 };
 
 export default class ScrollLock extends Component<Props> {

@@ -30,10 +30,10 @@ import {
   multiValueRemoveCSS,
 } from './components/MultiValue';
 
-type Props = { [key: string]: any };
+type Props = { [key: string]: any, ... };
 
 // TODO: flow for state
-type StyleFn = (props: Props, state: { [key: string]: any }) => {};
+type StyleFn = (props: Props, state: { [key: string]: any, ... }) => {...};
 
 export type Styles = {
   clearIndicator?: StyleFn,
@@ -58,9 +58,10 @@ export type Styles = {
   placeholder?: StyleFn,
   singleValue?: StyleFn,
   valueContainer: StyleFn,
+  ...
 };
 export type StylesConfig = $Shape<Styles>;
-export type GetStyles = (string, Props) => {};
+export type GetStyles = (string, Props) => {...};
 
 export const defaultStyles: Styles = {
   clearIndicator: clearIndicatorCSS,

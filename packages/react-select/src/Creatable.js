@@ -44,6 +44,7 @@ export type CreatableProps = {
   isLoading?: boolean,
   isMulti?: boolean,
   onChange: (ValueType, ActionMeta) => void,
+  ...
 };
 
 export type Props = SelectProps & CreatableProps;
@@ -83,9 +84,10 @@ export const defaultProps: DefaultCreatableProps = {
 type State = {
   newOption: OptionType | void,
   options: OptionsType,
+  ...
 };
 
-export const makeCreatableSelect = <C: {}>(
+export const makeCreatableSelect = <C: {...}>(
   SelectComponent: AbstractComponent<C>
 ): AbstractComponent<C & Config<CreatableProps, DefaultCreatableProps>> =>
   class Creatable extends Component<CreatableProps & C, State> {

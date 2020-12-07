@@ -12,6 +12,7 @@ type State = {
   isFocused: boolean,
   /** Whether the option is selected. */
   isSelected: boolean,
+  ...
 };
 type InnerProps = {
   id: string,
@@ -19,6 +20,7 @@ type InnerProps = {
   onClick: MouseEventHandler,
   onMouseOver: MouseEventHandler,
   tabIndex: number,
+  ...
 };
 export type OptionProps = PropsWithStyles &
   CommonProps &
@@ -36,6 +38,7 @@ export type OptionProps = PropsWithStyles &
     type: 'option',
     /* The data of the selected option. */
     data: any,
+    ...
   };
 
 export const optionCSS = ({

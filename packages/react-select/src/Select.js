@@ -72,6 +72,7 @@ type FormatOptionLabelMeta = {
   context: FormatOptionLabelContext,
   inputValue: string,
   selectValue: ValueType,
+  ...
 };
 
 export type Props = {
@@ -128,7 +129,7 @@ export type Props = {
   escapeClearsValue: boolean,
   /* Custom method to filter whether an option should be displayed in the menu */
   filterOption:
-    | (({ label: string, value: string, data: OptionType }, string) => boolean)
+    | (({ label: string, value: string, data: OptionType, ... }, string) => boolean)
     | null,
   /*
     Formats group labels in the menu as React components
@@ -173,7 +174,7 @@ export type Props = {
   /* Whether to enable search functionality */
   isSearchable: boolean,
   /* Async: Text to display when loading options */
-  loadingMessage: ({ inputValue: string }) => string | null,
+  loadingMessage: ({ inputValue: string, ... }) => string | null,
   /* Minimum height of the menu before flipping */
   minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
@@ -198,7 +199,7 @@ export type Props = {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => Node | null,
+  noOptionsMessage: ({ inputValue: string, ... }) => Node | null,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
   /* Handle change events on the select */
@@ -228,7 +229,7 @@ export type Props = {
   /* Placeholder for the select value */
   placeholder: Node,
   /* Status to relay to screen readers */
-  screenReaderStatus: ({ count: number }) => string,
+  screenReaderStatus: ({ count: number, ... }) => string,
   /*
     Style modifier methods
 
@@ -245,6 +246,7 @@ export type Props = {
   value: ValueType,
   /* Sets the form attribute on the input */
   form?: string,
+  ...
 };
 
 export const defaultProps = {
@@ -280,7 +282,7 @@ export const defaultProps = {
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
-  screenReaderStatus: ({ count }: { count: number }) =>
+  screenReaderStatus: ({ count }: { count: number, ... }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
   styles: {},
   tabIndex: '0',
@@ -290,6 +292,7 @@ export const defaultProps = {
 type MenuOptions = {
   render: Array<OptionType>,
   focusable: Array<OptionType>,
+  ...
 };
 
 type State = {
@@ -301,6 +304,7 @@ type State = {
   focusedValue: OptionType | null,
   menuOptions: MenuOptions,
   selectValue: OptionsType,
+  ...
 };
 
 type ElRef = ElementRef<*>;
@@ -801,7 +805,7 @@ export default class Select extends Component<Props, State> {
   getOptionValue = (data: OptionType): string => {
     return this.props.getOptionValue(data);
   };
-  getStyles = (key: string, props: {}): {} => {
+  getStyles = (key: string, props: {...}): {...} => {
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
@@ -831,6 +835,7 @@ export default class Select extends Component<Props, State> {
   }: {
     event: string,
     context: ValueEventContext,
+    ...
   }) => {
     this.setState({
       ariaLiveSelection: valueEventAriaMessage(event, context),
@@ -842,6 +847,7 @@ export default class Select extends Component<Props, State> {
   }: {
     event: string,
     context?: InstructionsContext,
+    ...
   }) => {
     this.setState({
       ariaLiveContext: instructionsAriaMessage(event, {
@@ -884,7 +890,7 @@ export default class Select extends Component<Props, State> {
     return selectValue.some(i => this.getOptionValue(i) === candidate);
   }
   filterOption(
-    option: { label: string, value: string, data: OptionType },
+    option: { label: string, value: string, data: OptionType, ... },
     inputValue: string
   ) {
     return this.props.filterOption

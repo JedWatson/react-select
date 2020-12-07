@@ -10,6 +10,7 @@ import rafSchedule from 'raf-schd';
 type Props = {
   children: ReactElement<*>, // Component | Element
   preserveHeight: boolean,
+  ...
 };
 type State = {
   height: number | 'auto',
@@ -17,6 +18,7 @@ type State = {
   overScroll: number,
   scrollHeight: number | null,
   width: number | 'auto',
+  ...
 };
 
 export default class Sticky extends Component<Props, State> {

@@ -20,6 +20,7 @@ export type Props = {
   menuIsOpen?: boolean,
   value?: ValueType,
   onChange?: (ValueType, ActionMeta) => void,
+  ...
 };
 
 type StateProps<P> = $Diff<
@@ -32,6 +33,7 @@ type StateProps<P> = $Diff<
     onInputChange: any,
     onMenuClose: any,
     onMenuOpen: any,
+    ...
   }
 >;
 
@@ -39,6 +41,7 @@ type State = {
   inputValue: string,
   menuIsOpen: boolean,
   value: ValueType,
+  ...
 };
 
 export const defaultProps = {
@@ -47,7 +50,7 @@ export const defaultProps = {
   defaultValue: null,
 };
 
-const manageState = <C: {}>(
+const manageState = <C: {...}>(
   SelectComponent: AbstractComponent<C>
 ): AbstractComponent<StateProps<C> & Config<Props, DefaultProps>> =>
   class StateManager extends Component<StateProps<C> & Props, State> {

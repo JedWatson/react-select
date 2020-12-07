@@ -232,6 +232,7 @@ export type RectType = {
   bottom: number,
   height: number,
   width: number,
+  ...
 };
 
 // ==============================

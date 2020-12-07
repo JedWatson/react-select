@@ -12,6 +12,7 @@ type State = {
   isFocused: boolean,
   /** Whether the select is expanded. */
   menuIsOpen: boolean,
+  ...
 };
 
 export type ControlProps = CommonProps &
@@ -23,7 +24,9 @@ export type ControlProps = CommonProps &
     /** The mouse down event and the innerRef to pass down to the controller element. */
     innerProps: {
       onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
+      ...
     },
+    ...
   };
 
 export const css = ({

@@ -36,6 +36,7 @@ import type { Theme } from '../types';
 type MenuState = {
   placement: 'bottom' | 'top' | null,
   maxHeight: number,
+  ...
 };
 type PlacementArgs = {
   maxHeight: number,
@@ -45,6 +46,7 @@ type PlacementArgs = {
   shouldScroll: boolean,
   isFixedPosition: boolean,
   theme: Theme,
+  ...
 };
 
 export function getMenuPlacement({
@@ -211,7 +213,7 @@ export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
   getPortalPlacement: MenuState => void,
   /** Props to be passed to the menu wrapper. */
-  innerProps: {},
+  innerProps: {...},
   /** Set the maximum height of the menu. */
   maxMenuHeight: number,
   /** Set whether the menu should be at the top, at the bottom. The auto options sets it to bottom. */
@@ -222,16 +224,19 @@ export type MenuAndPlacerCommon = CommonProps & {
   minMenuHeight: number,
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
+  ...
 };
 export type MenuProps = MenuAndPlacerCommon & {
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: ElementRef<*>,
   /** The children to be rendered. */
   children: ReactElement<*>,
+  ...
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({}) => Node,
+  children: ({...}) => Node,
+  ...
 };
 
 function alignToControl(placement) {
@@ -260,6 +265,7 @@ export const menuCSS = ({
 
 const PortalPlacementContext = createContext<{
   getPortalPlacement?: (() => void) | null,
+  ...
 }>({ getPortalPlacement: null });
 
 // NOTE: internal only
@@ -343,6 +349,7 @@ type MenuListState = {
   isMulti: boolean,
   /* Set the max height of the Menu component  */
   maxHeight: number,
+  ...
 };
 
 export type MenuListProps = {
@@ -351,7 +358,8 @@ export type MenuListProps = {
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
     /** Props to be passed to the menu-list wrapper. */
-  innerProps: {},
+  innerProps: {...},
+  ...
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -410,7 +418,8 @@ export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** Props to be passed on to the wrapper. */
-  innerProps: {},
+  innerProps: {...},
+  ...
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
@@ -467,14 +476,17 @@ export type MenuPortalProps = CommonProps & {
   controlElement: HTMLElement,
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
+  ...
 };
 type MenuPortalState = {
   placement: 'bottom' | 'top' | null,
+  ...
 };
 type PortalStyleArgs = {
   offset: number,
   position: MenuPosition,
   rect: RectType,
+  ...
 };
 
 export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({

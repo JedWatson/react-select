@@ -33,7 +33,7 @@ export const Hr = () => (
   />
 );
 
-export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
+export const Note = ({ Tag = 'div', ...props }: { Tag?: string, ... }) => (
   <Tag
     css={{
       color: 'hsl(0, 0%, 40%)',
@@ -49,7 +49,7 @@ export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
 export const H1 = (props: any) => <h1 css={{ marginTop: 0 }} {...props} />;
 export const H2 = (props: any) => <h2 css={{ marginTop: '2em' }} {...props} />;
 
-export const ColorSample = ({ name, color }: { color: string, name: string }) => (
+export const ColorSample = ({ name, color }: { color: string, name: string, ... }) => (
   <div
     css={{
       display: 'inline-flex',
@@ -77,7 +77,7 @@ export const ColorSample = ({ name, color }: { color: string, name: string }) =>
 // Code
 // ==============================
 
-export const Code = (props: {}) => (
+export const Code = (props: {...}) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
@@ -90,7 +90,7 @@ export const Code = (props: {}) => (
   />
 );
 
-type PreProps = { children: string, language: string };
+type PreProps = { children: string, language: string, ... };
 
 export const CodeBlock = ({ children, language, ...props }: PreProps) => {
   return (

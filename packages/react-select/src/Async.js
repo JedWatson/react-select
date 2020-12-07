@@ -32,6 +32,7 @@ export type AsyncProps = {
   /* Will cause the select to be displayed in the loading state, even if the
      Async select is not currently waiting for loadOptions to resolve */
   isLoading: boolean,
+  ...
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -50,17 +51,18 @@ type State = {
   loadedInputValue?: string,
   loadedOptions: OptionsType,
   passEmptyOptions: boolean,
+  ...
 };
 
-export const makeAsyncSelect = <C: {}>(
+export const makeAsyncSelect = <C: {...}>(
   SelectComponent: AbstractComponent<C>
 ): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
   class Async extends Component<C & AsyncProps, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
-    lastRequest: {};
+    lastRequest: {...};
     mounted: boolean = false;
-    optionsCache: { [string]: OptionsType } = {};
+    optionsCache: { [string]: OptionsType, ... } = {};
     constructor(props: C & AsyncProps) {
       super();
       this.state = {

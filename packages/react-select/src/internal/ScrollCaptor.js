@@ -10,6 +10,7 @@ export type CaptorProps = {
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
+  ...
 };
 
 class ScrollCaptor extends Component<CaptorProps> {
@@ -133,6 +134,7 @@ class ScrollCaptor extends Component<CaptorProps> {
 
 type SwitchProps = CaptorProps & {
   isEnabled: boolean,
+  ...
 };
 
 export default function ScrollCaptorSwitch({

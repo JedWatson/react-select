@@ -79,7 +79,7 @@ export const PrimaryNav = (props: any) => (
     />
   </div>
 );
-type PrimaryNavItemProps = ElementConfig<typeof Link> & { selected: boolean };
+type PrimaryNavItemProps = ElementConfig<typeof Link> & { selected: boolean, ... };
 export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
   <Link
     css={{

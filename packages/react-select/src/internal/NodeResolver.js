@@ -6,6 +6,7 @@ import { findDOMNode } from 'react-dom';
 type Props = {
   children: Element<*>,
   innerRef: ElementRef<*>,
+  ...
 };
 
 export default class NodeResolver extends Component<Props> {

@@ -17,7 +17,9 @@ export type MultiValueProps = CommonProps & {
     onTouchEnd: any => void,
     onClick: any => void,
     onMouseDown: any => void,
+    ...
   },
+  ...
 };
 
 export const multiValueCSS = ({
@@ -64,8 +66,9 @@ export const multiValueRemoveCSS = ({
 export type MultiValueGenericProps = {
   children: Node,
   data: any,
-  innerProps: { className?: string },
+  innerProps: { className?: string, ... },
   selectProps: any,
+  ...
 };
 export const MultiValueGeneric = ({
   children,
@@ -82,8 +85,10 @@ export type MultiValueRemoveProps = {
     onTouchEnd: any => void,
     onClick: any => void,
     onMouseDown: any => void,
+    ...
   },
   selectProps: any,
+  ...
 };
 export function MultiValueRemove({
   children,

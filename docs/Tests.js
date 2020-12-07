@@ -12,6 +12,7 @@ import * as animatedComponents from 'react-select/animated';
 type SuiteProps = {
   selectComponent: ComponentType<any>,
   idSuffix: string,
+  ...
 };
 type SuiteState = {
   isDisabled: boolean,
@@ -20,6 +21,7 @@ type SuiteState = {
   escapeClearsValue: boolean,
   blockScroll: boolean,
   portalPlacement: MenuPlacement,
+  ...
 };
 
 const AnimatedSelect = props => (

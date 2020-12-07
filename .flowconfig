@@ -14,6 +14,7 @@
 <PROJECT_ROOT>/node_modules/raf-schd/.*
 
 [lints]
+implicit-inexact-object=error
 unclear-type=warn
 untyped-type-import=error
 

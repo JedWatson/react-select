@@ -14,6 +14,7 @@ type ComponentProps = {
   headingProps: any,
   /** Label to be displayed in the heading component. */
   label: Node,
+  ...
 };
 export type GroupProps = CommonProps & ComponentProps;
 

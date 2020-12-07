@@ -13,6 +13,7 @@ type ContainerState = {
   isDisabled: boolean,
   /** Whether the text in the select is indented from right to left. */
   isRtl: boolean,
+  ...
 };
 
 export type ContainerProps = CommonProps &
@@ -20,7 +21,8 @@ export type ContainerProps = CommonProps &
     /** The children to be rendered. */
     children: Node,
     /** Inner props to be passed down to the container. */
-    innerProps: { onKeyDown: KeyboardEventHandler },
+    innerProps: { onKeyDown: KeyboardEventHandler, ... },
+    ...
   };
 export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   label: 'container',
@@ -66,6 +68,7 @@ export type ValueContainerProps = CommonProps & {
   hasValue: boolean,
   /** The children to be rendered. */
   children: Node,
+  ...
 };
 export const valueContainerCSS = ({
   theme: { spacing },
@@ -106,12 +109,14 @@ export const ValueContainer = (props: ValueContainerProps) => {
 type IndicatorsState = {
   /** Whether the text should be rendered right to left. */
   isRtl: boolean,
+  ...
 };
 
 export type IndicatorContainerProps = CommonProps &
   IndicatorsState & {
     /** The children to be rendered. */
     children: Node,
+    ...
   };
 
 export const indicatorsContainerCSS = () => ({
