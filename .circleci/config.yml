@@ -58,7 +58,7 @@ jobs:
                   name: Running unit tests
                   command: |
                       yarn lint
-                      yarn flow check --flowconfig-name=.flowconfig-ci
+                      yarn flow check --sharedmemory-hash-table-pow=21 --max-workers=1
                       yarn test:jest
                       yarn coveralls
     end_to_end:

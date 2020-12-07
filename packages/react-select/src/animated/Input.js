@@ -8,6 +8,7 @@ import { type InputProps } from '../components/Input';
 const AnimatedInput = (
   WrappedComponent: AbstractComponent<InputProps>
 ): AbstractComponent<InputProps> => {
+  // $FlowFixMe_0_108_0
   return ({ in: inProp, onExited, appear, enter, exit, ...props }) => (
     <WrappedComponent {...props} />
   );

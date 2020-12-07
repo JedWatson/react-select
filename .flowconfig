@@ -1,23 +1,41 @@
 [ignore]
-.*/node_modules/cypress/.*
+# Ignore everything
+<PROJECT_ROOT>/.*
+# except
+!<PROJECT_ROOT>/docs/.*
+!<PROJECT_ROOT>/packages/.*
+!<PROJECT_ROOT>/typings/.*
+# Do not ignore node_modules written in Flow.
+!<PROJECT_ROOT>/node_modules/@emotion/.*
+!<PROJECT_ROOT>/node_modules/raf-schd/.*
+!<PROJECT_ROOT>/node_modules/react-node-resolver/.*
 
-[untyped]
-.*/node_modules/@atlaskit/tooltip/dist/cjs/components/Marshal.js.flow
-.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/FocusLock/index.js.flow
-.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/gateway/components/Gateway.js.flow
-.*/node_modules/@atlaskit/layer-manager/dist/cjs/components/withRenderTarget.js.flow
-
-[include]
-
-[libs]
-flow-typed
+[declarations]
+<PROJECT_ROOT>/node_modules/raf-schd/.*
 
 [lints]
 unclear-type=warn
 untyped-type-import=error
 
 [options]
+suppress_type=$FlowFixMe_0_108_0
 module.name_mapper='\!\!raw-loader\!.*' -> '<PROJECT_ROOT>/typings/raw-loader.js'
 module.name_mapper='\!\!extract-react-types-loader\!.*' -> '<PROJECT_ROOT>/typings/extract-react-types-loader.js'
-
-[strict]
+# Map node_modules not written in Flow to any
+module.name_mapper='@atlaskit/icon/glyph/emoji' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='@atlaskit/tooltip' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='chrono-node' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='copy-webpack-plugin' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='dotenv' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='html-webpack-plugin' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='memoize-one' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='moment' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='pretty-proptypes' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-helmet' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-input-autosize' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-markings' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-syntax-highlighter/languages/prism/jsx' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-syntax-highlighter/prism-light' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-syntax-highlighter/styles/prism' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='react-transition-group' -> '<PROJECT_ROOT>/typings/any.js'
+module.name_mapper='unfetch' -> '<PROJECT_ROOT>/typings/any.js'

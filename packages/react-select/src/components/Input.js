@@ -48,6 +48,7 @@ const Input = ({
   isHidden,
   isDisabled,
   theme,
+  // $FlowFixMe_0_108_0
   selectProps,
   ...props
 }: InputProps) => (

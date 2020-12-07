@@ -9,6 +9,7 @@ import { Fade } from './transitions';
 const AnimatedSingleValue = (
   WrappedComponent: AbstractComponent<SingleValueProps>
 ): AbstractComponent<SingleValueProps> => (props) => (
+  // $FlowFixMe_0_108_0
   <Fade component={WrappedComponent} {...props} />
 );
 

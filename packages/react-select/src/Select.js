@@ -456,6 +456,7 @@ export default class Select extends Component<Props, State> {
     document.removeEventListener('scroll', this.onScroll, true);
   }
   cacheComponents = (components: SelectComponents) => {
+    // $FlowFixMe_0_108_0
     this.components = defaultComponents({ components });
   };
   // ==============================

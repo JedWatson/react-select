@@ -11,6 +11,7 @@ import { default as AnimatedValueContainer } from './ValueContainer';
 const makeAnimated = (externalComponents?: SelectComponents= {}): SelectComponents => {
   const components = defaultComponents({ components: externalComponents });
   const { Input, MultiValue, Placeholder, SingleValue, ValueContainer, ...rest } = components;
+  // $FlowFixMe_0_108_0
   return {
     Input: AnimatedInput(Input),
     MultiValue: AnimatedMultiValue(MultiValue),

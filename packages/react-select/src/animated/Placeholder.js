@@ -8,6 +8,7 @@ import { Fade, collapseDuration } from './transitions';
 const AnimatedPlaceholder = (
   WrappedComponent: AbstractComponent<PlaceholderProps>
 ): AbstractComponent<PlaceholderProps> => (props) => (
+  // $FlowFixMe_0_108_0
   <Fade
     component={WrappedComponent}
     duration={props.isMulti ? collapseDuration : 1}

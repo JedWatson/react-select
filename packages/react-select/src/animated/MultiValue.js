@@ -9,6 +9,7 @@ import { Collapse } from './transitions';
 const AnimatedMultiValue = (
   WrappedComponent: AbstractComponent<MultiValueProps>
 ): AbstractComponent<MultiValueProps> => {
+  // $FlowFixMe_0_108_0
   return ({ in: inProp, onExited, ...props }) => (
     <Collapse in={inProp} onExited={onExited}>
       <WrappedComponent cropWithEllipsis={inProp} {...props} />
