@@ -31,10 +31,10 @@ import {
 } from './utils';
 
 import {
-  formatGroupLabel,
-  getOptionLabel,
-  getOptionValue,
-  isOptionDisabled,
+  formatGroupLabel as formatGroupLabelBuiltin,
+  getOptionLabel as getOptionLabelBuiltin,
+  getOptionValue as getOptionValueBuiltin,
+  isOptionDisabled as isOptionDisabledBuiltin,
 } from './builtins';
 
 import {
@@ -132,13 +132,13 @@ export type Props = {
 
     An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
-  formatGroupLabel: typeof formatGroupLabel,
+  formatGroupLabel: typeof formatGroupLabelBuiltin,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
-  getOptionLabel: typeof getOptionLabel,
+  getOptionLabel: typeof getOptionLabelBuiltin,
   /* Resolves option data to a string to compare options and specify value attributes */
-  getOptionValue: typeof getOptionValue,
+  getOptionValue: typeof getOptionValueBuiltin,
   /* Hide the selected option from the menu */
   hideSelectedOptions?: boolean,
   /* The id to set on the SelectContainer component. */
@@ -254,15 +254,15 @@ export const defaultProps = {
   controlShouldRenderValue: true,
   escapeClearsValue: false,
   filterOption: createFilter(),
-  formatGroupLabel: formatGroupLabel,
-  getOptionLabel: getOptionLabel,
-  getOptionValue: getOptionValue,
+  formatGroupLabel: formatGroupLabelBuiltin,
+  getOptionLabel: getOptionLabelBuiltin,
+  getOptionValue: getOptionValueBuiltin,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
   isRtl: false,
   isSearchable: true,
-  isOptionDisabled: isOptionDisabled,
+  isOptionDisabled: isOptionDisabledBuiltin,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
   minMenuHeight: 140,
@@ -300,6 +300,71 @@ type State = {
 };
 
 type ElRef = ElementRef<*>;
+
+function getNextFocusedValue(state: State, nextSelectValue: OptionsType) {
+  const { focusedValue, selectValue: lastSelectValue } = state;
+  const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+  if (lastFocusedIndex > -1) {
+    const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+    if (nextFocusedIndex > -1) {
+      // the focused value is still in the selectValue, return it
+      return focusedValue;
+    } else if (lastFocusedIndex < nextSelectValue.length) {
+      // the focusedValue is not present in the next selectValue array by
+      // reference, so return the new value at the same index
+      return nextSelectValue[lastFocusedIndex];
+    }
+  }
+  return null;
+}
+
+function getNextFocusedOption(state: State, options: OptionsType) {
+  const { focusedOption: lastFocusedOption } = state;
+  return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
+    ? lastFocusedOption
+    : options[0];
+}
+const getOptionLabel = (props: Props, data: OptionType): string => {
+  return props.getOptionLabel(data);
+};
+const getOptionValue = (props: Props, data: OptionType): string => {
+  return props.getOptionValue(data);
+};
+
+function isOptionDisabled(
+  props: Props,
+  option: OptionType,
+  selectValue: OptionsType
+): boolean {
+  return typeof props.isOptionDisabled === 'function'
+    ? props.isOptionDisabled(option, selectValue)
+    : false;
+}
+function isOptionSelected(
+  props: Props,
+  option: OptionType,
+  selectValue: OptionsType
+): boolean {
+  if (selectValue.indexOf(option) > -1) return true;
+  if (typeof props.isOptionSelected === 'function') {
+    return props.isOptionSelected(option, selectValue);
+  }
+  const candidate = getOptionValue(props, option);
+  return selectValue.some(i => getOptionValue(props, i) === candidate);
+}
+function filterOption(
+  props: Props,
+  option: { label: string, value: string, data: OptionType },
+  inputValue: string
+) {
+  return props.filterOption ? props.filterOption(option, inputValue) : true;
+}
+
+const shouldHideSelectedOptions = (props: Props) => {
+  const { hideSelectedOptions, isMulti } = props;
+  if (hideSelectedOptions === undefined) return isMulti;
+  return hideSelectedOptions;
+};
 
 let instanceId = 1;
 
@@ -386,8 +451,13 @@ export default class Select extends Component<Props, State> {
       const menuOptions = nextProps.menuIsOpen
         ? this.buildMenuOptions(nextProps, selectValue)
         : { render: [], focusable: [] };
-      const focusedValue = this.getNextFocusedValue(selectValue);
-      const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
+      const focusedValue = this.clearFocusValueOnUpdate
+        ? getNextFocusedValue(this.state, selectValue)
+        : null;
+      const focusedOption = getNextFocusedOption(
+        this.state,
+        menuOptions.focusable
+      );
       this.setState({ selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
@@ -580,7 +650,7 @@ export default class Select extends Component<Props, State> {
     });
     this.announceAriaLiveContext({
       event: 'menu',
-      context: { isDisabled: isOptionDisabled(options[nextFocus]) },
+      context: { isDisabled: isOptionDisabledBuiltin(options[nextFocus]) },
     });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
@@ -738,38 +808,11 @@ export default class Select extends Component<Props, State> {
     };
   }
 
-  getNextFocusedValue(nextSelectValue: OptionsType) {
-    if (this.clearFocusValueOnUpdate) {
-      this.clearFocusValueOnUpdate = false;
-      return null;
-    }
-    const { focusedValue, selectValue: lastSelectValue } = this.state;
-    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
-    if (lastFocusedIndex > -1) {
-      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
-      if (nextFocusedIndex > -1) {
-        // the focused value is still in the selectValue, return it
-        return focusedValue;
-      } else if (lastFocusedIndex < nextSelectValue.length) {
-        // the focusedValue is not present in the next selectValue array by
-        // reference, so return the new value at the same index
-        return nextSelectValue[lastFocusedIndex];
-      }
-    }
-    return null;
-  }
-
-  getNextFocusedOption(options: OptionsType) {
-    const { focusedOption: lastFocusedOption } = this.state;
-    return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-      ? lastFocusedOption
-      : options[0];
-  }
   getOptionLabel = (data: OptionType): string => {
-    return this.props.getOptionLabel(data);
+    return getOptionLabel(this.props, data);
   };
   getOptionValue = (data: OptionType): string => {
-    return this.props.getOptionValue(data);
+    return getOptionValue(this.props, data);
   };
   getStyles = (key: string, props: {}): {} => {
     const base = defaultStyles[key](props);
@@ -834,25 +877,16 @@ export default class Select extends Component<Props, State> {
     return isClearable;
   }
   isOptionDisabled(option: OptionType, selectValue: OptionsType): boolean {
-    return typeof this.props.isOptionDisabled === 'function'
-      ? this.props.isOptionDisabled(option, selectValue)
-      : false;
+    return isOptionDisabled(this.props, option, selectValue);
   }
   isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
-    if (selectValue.indexOf(option) > -1) return true;
-    if (typeof this.props.isOptionSelected === 'function') {
-      return this.props.isOptionSelected(option, selectValue);
-    }
-    const candidate = this.getOptionValue(option);
-    return selectValue.some(i => this.getOptionValue(i) === candidate);
+    return isOptionSelected(this.props, option, selectValue);
   }
   filterOption(
     option: { label: string, value: string, data: OptionType },
     inputValue: string
   ) {
-    return this.props.filterOption
-      ? this.props.filterOption(option, inputValue)
-      : true;
+    return filterOption(this.props, option, inputValue);
   }
   formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
     if (typeof this.props.formatOptionLabel === 'function') {
@@ -1113,9 +1147,7 @@ export default class Select extends Component<Props, State> {
     this.setState({ focusedOption });
   };
   shouldHideSelectedOptions = () => {
-    const { hideSelectedOptions, isMulti } = this.props;
-    if (hideSelectedOptions === undefined) return isMulti;
-    return hideSelectedOptions;
+    return shouldHideSelectedOptions(this.props);
   };
 
   // ==============================
