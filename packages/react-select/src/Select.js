@@ -618,7 +618,7 @@ export default class Select extends Component<Props, State> {
 
   focusOption(direction: FocusDirection = 'first') {
     const { pageSize } = this.props;
-    const { focusedOption } = this.state;
+    const { focusedOption, selectValue } = this.state;
     const menuOptions = this.getMenuOptions();
     const options = menuOptions.focusable;
 
@@ -650,7 +650,9 @@ export default class Select extends Component<Props, State> {
     });
     this.announceAriaLiveContext({
       event: 'menu',
-      context: { isDisabled: isOptionDisabledBuiltin(options[nextFocus]) },
+      context: {
+        isDisabled: this.isOptionDisabled(options[nextFocus], selectValue),
+      },
     });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
