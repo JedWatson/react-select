@@ -806,7 +806,7 @@ export default class Select extends Component<Props, State> {
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+  getElementId = (element: 'group' | 'input' | 'listbox' | 'combobox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
   getActiveDescendentId = () => {
@@ -1421,9 +1421,13 @@ export default class Select extends Component<Props, State> {
     const { inputIsHidden } = this.state;
 
     const id = inputId || this.getElementId('input');
+    const menuRole = isSearchable ? 'combobox' : 'listbox';
+    const menuId = this.getElementId(menuRole);
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
+      role: menuRole,
+      'aria-owns': menuId,
       'aria-autocomplete': 'list',
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
@@ -1668,6 +1672,7 @@ export default class Select extends Component<Props, State> {
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      isSearchable,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1728,6 +1733,9 @@ export default class Select extends Component<Props, State> {
       menuShouldScrollIntoView,
     };
 
+    const menuRole = isSearchable ? 'combobox' : 'listbox';
+    const menuId = this.getElementId(menuRole);
+
     const menuElement = (
       <MenuPlacer {...commonProps} {...menuPlacementProps}>
         {({ ref, placerProps: { placement, maxHeight } }) => (
@@ -1750,6 +1758,7 @@ export default class Select extends Component<Props, State> {
               <ScrollBlock isEnabled={menuShouldBlockScroll}>
                 <MenuList
                   {...commonProps}
+                  id={menuId}
                   innerRef={this.getMenuListRef}
                   isLoading={isLoading}
                   maxHeight={maxHeight}

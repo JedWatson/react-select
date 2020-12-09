@@ -350,8 +350,10 @@ export type MenuListProps = {
   children: Node,
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
-    /** Props to be passed to the menu-list wrapper. */
+  /** Props to be passed to the menu-list wrapper. */
   innerProps: {},
+  /** ID of DOM Element */
+  id?: string,
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -370,9 +372,17 @@ export const menuListCSS = ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerRef, innerProps } = props;
+  const { children, className, cx, getStyles, isMulti, innerRef, innerProps, id } = props;
+
+  // aria attributes makes the JSX "noisy", separated for clarity
+  const ariaAttributes = {
+    role: 'listbox',
+    'aria-expanded': true,
+  };
+
   return (
     <div
+      id={id}
       css={getStyles('menuList', props)}
       className={cx(
         {
@@ -383,6 +393,7 @@ export const MenuList = (props: MenuListComponentProps) => {
       )}
       ref={innerRef}
       {...innerProps}
+      {...ariaAttributes}
     >
       {children}
     </div>

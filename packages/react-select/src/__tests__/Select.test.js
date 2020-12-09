@@ -32,6 +32,11 @@ test('snapshot - defaults', () => {
   expect(container).toMatchSnapshot();
 });
 
+test('snapshot - listbox', () => {
+  const { container } = render(<Select isSearchable={false} />);
+  expect(container).toMatchSnapshot();
+});
+
 test('instanceId prop > to have instanceId as id prefix for the select components', () => {
   let { container } = render(
     <Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
