@@ -284,11 +284,6 @@ export const defaultProps = {
   tabSelectsValue: true,
 };
 
-type MenuOptions = {
-  render: Array<OptionType>,
-  focusable: Array<OptionType>,
-};
-
 type State = {
   ariaLiveSelection: string,
   ariaLiveContext: string,
@@ -300,6 +295,100 @@ type State = {
 };
 
 type ElRef = ElementRef<*>;
+
+type CategorizedOption = {
+  type: 'option',
+  data: OptionType,
+  isDisabled: boolean,
+  isSelected: boolean,
+  label: string,
+  value: string,
+};
+
+type CategorizedGroup = {
+  type: 'group',
+  data: GroupType,
+  options: OptionsType,
+};
+
+type CategorizedGroupOrOption = CategorizedGroup | CategorizedOption;
+
+function toCategorizedOption(
+  props: Props,
+  option: OptionType,
+  selectValue: OptionsType
+) {
+  const isDisabled = isOptionDisabled(props, option, selectValue);
+  const isSelected = isOptionSelected(props, option, selectValue);
+  const label = getOptionLabel(props, option);
+  const value = getOptionValue(props, option);
+
+  return {
+    type: 'option',
+    data: option,
+    isDisabled,
+    isSelected,
+    label,
+    value,
+  };
+}
+
+function buildCategorizedOptions(
+  props: Props,
+  state: State,
+  selectValue: OptionsType
+) {
+  return ((props.options
+    .map(groupOrOption => {
+      if (groupOrOption.options) {
+        const categorizedOptions = groupOrOption.options
+          .map(option => toCategorizedOption(props, option, selectValue))
+          .filter(categorizedOption => isFocusable(props, categorizedOption));
+        return categorizedOptions.length > 0
+          ? { type: 'group', data: groupOrOption, options: categorizedOptions }
+          : undefined;
+      }
+      const categorizedOption = toCategorizedOption(
+        props,
+        groupOrOption,
+        selectValue
+      );
+      return isFocusable(props, categorizedOption)
+        ? categorizedOption
+        : undefined;
+    })
+    .filter(
+      categorizedOption => !!categorizedOption
+    ): any[]): CategorizedGroupOrOption[]);
+}
+
+function buildFocusableOptions(
+  props: Props,
+  state: State,
+  selectValue: OptionsType
+) {
+  return buildCategorizedOptions(props, state, selectValue).reduce(
+    (optionsAccumulator, categorizedOption) => {
+      if (categorizedOption.type === 'group') {
+        optionsAccumulator.push(...categorizedOption.options);
+      } else {
+        optionsAccumulator.push(categorizedOption.data);
+      }
+      return optionsAccumulator;
+    },
+    []
+  );
+}
+
+function isFocusable(props: Props, categorizedOption: CategorizedOption) {
+  const { inputValue = '' } = props;
+  const { data, isSelected, label, value } = categorizedOption;
+
+  return (
+    (!shouldHideSelectedOptions(props) || !isSelected) &&
+    filterOption(props, { label, value, data }, inputValue)
+  );
+}
 
 function getNextFocusedValue(state: State, nextSelectValue: OptionsType) {
   const { focusedValue, selectValue: lastSelectValue } = state;
@@ -387,7 +476,6 @@ export default class Select extends Component<Props, State> {
   isComposing: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
-  hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
   inputIsHiddenAfterUpdate: ?boolean;
@@ -448,16 +536,13 @@ export default class Select extends Component<Props, State> {
       nextProps.inputValue !== inputValue
     ) {
       const selectValue = cleanValue(nextProps.value);
-      const menuOptions = nextProps.menuIsOpen
-        ? this.buildMenuOptions(nextProps, selectValue)
-        : { render: [], focusable: [] };
+      const focusableOptions = nextProps.menuIsOpen
+        ? buildFocusableOptions(nextProps, this.state, selectValue)
+        : [];
       const focusedValue = this.clearFocusValueOnUpdate
         ? getNextFocusedValue(this.state, selectValue)
         : null;
-      const focusedOption = getNextFocusedOption(
-        this.state,
-        menuOptions.focusable
-      );
+      const focusedOption = getNextFocusedOption(this.state, focusableOptions);
       this.setState({ selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
@@ -536,13 +621,12 @@ export default class Select extends Component<Props, State> {
 
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
-    const menuOptions = this.buildMenuOptions(this.props, selectValue);
+    const focusableOptions = this.buildFocusableOptions();
     const { isMulti } = this.props;
-    let openAtIndex =
-      focusOption === 'first' ? 0 : menuOptions.focusable.length - 1;
+    let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
     if (!isMulti) {
-      const selectedIndex = menuOptions.focusable.indexOf(selectValue[0]);
+      const selectedIndex = focusableOptions.indexOf(selectValue[0]);
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
       }
@@ -555,7 +639,7 @@ export default class Select extends Component<Props, State> {
     this.setState(
       {
         focusedValue: null,
-        focusedOption: menuOptions.focusable[openAtIndex],
+        focusedOption: focusableOptions[openAtIndex],
       },
       () => {
         this.onMenuOpen();
@@ -619,8 +703,7 @@ export default class Select extends Component<Props, State> {
   focusOption(direction: FocusDirection = 'first') {
     const { pageSize } = this.props;
     const { focusedOption, selectValue } = this.state;
-    const menuOptions = this.getMenuOptions();
-    const options = menuOptions.focusable;
+    const options = this.getFocusableOptions();
 
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
@@ -830,6 +913,15 @@ export default class Select extends Component<Props, State> {
     return defaultComponents(this.props);
   };
 
+  getCategorizedOptions = () =>
+    this.props.menuIsOpen
+      ? buildCategorizedOptions(this.props, this.state, this.state.selectValue)
+      : [];
+  buildFocusableOptions = () =>
+    buildFocusableOptions(this.props, this.state, this.state.selectValue);
+  getFocusableOptions = () =>
+    this.props.menuIsOpen ? this.buildFocusableOptions() : [];
+
   // ==============================
   // Helpers
   // ==============================
@@ -864,10 +956,10 @@ export default class Select extends Component<Props, State> {
     return selectValue.length > 0;
   }
   hasOptions() {
-    return !!this.getMenuOptions().render.length;
+    return !!this.getFocusableOptions().length;
   }
   countOptions() {
-    return this.getMenuOptions().focusable.length;
+    return this.getFocusableOptions().length;
   }
   isClearable(): boolean {
     const { isClearable, isMulti } = this.props;
@@ -1291,88 +1383,6 @@ export default class Select extends Component<Props, State> {
   };
 
   // ==============================
-  // Menu Options
-  // ==============================
-
-  buildMenuOptions = (props: Props, selectValue: OptionsType): MenuOptions => {
-    const { inputValue = '', options } = props;
-
-    const toOption = (option, id) => {
-      const isDisabled = this.isOptionDisabled(option, selectValue);
-      const isSelected = this.isOptionSelected(option, selectValue);
-      const label = this.getOptionLabel(option);
-      const value = this.getOptionValue(option);
-
-      if (
-        (this.shouldHideSelectedOptions() && isSelected) ||
-        !this.filterOption({ label, value, data: option }, inputValue)
-      ) {
-        return;
-      }
-
-      const onHover = isDisabled ? undefined : () => this.onOptionHover(option);
-      const onSelect = isDisabled ? undefined : () => this.selectOption(option);
-      const optionId = `${this.getElementId('option')}-${id}`;
-
-      return {
-        innerProps: {
-          id: optionId,
-          onClick: onSelect,
-          onMouseMove: onHover,
-          onMouseOver: onHover,
-          tabIndex: -1,
-        },
-        data: option,
-        isDisabled,
-        isSelected,
-        key: optionId,
-        label,
-        type: 'option',
-        value,
-      };
-    };
-
-    return options.reduce(
-      (acc, item, itemIndex) => {
-        if (item.options) {
-          // TODO needs a tidier implementation
-          if (!this.hasGroups) this.hasGroups = true;
-
-          const { options: items } = item;
-          const children = items
-            .map((child, i) => {
-              const option = toOption(child, `${itemIndex}-${i}`);
-              if (option) acc.focusable.push(child);
-              return option;
-            })
-            .filter(Boolean);
-          if (children.length) {
-            const groupId = `${this.getElementId('group')}-${itemIndex}`;
-            acc.render.push({
-              type: 'group',
-              key: groupId,
-              data: item,
-              options: children,
-            });
-          }
-        } else {
-          const option = toOption(item, `${itemIndex}`);
-          if (option) {
-            acc.render.push(option);
-            acc.focusable.push(item);
-          }
-        }
-        return acc;
-      },
-      { render: [], focusable: [] }
-    );
-  };
-  getMenuOptions = () =>
-    this.props.menuIsOpen
-      ? this.buildMenuOptions(this.props, this.state.selectValue)
-      : { render: [], focusable: [] };
-
-  // ==============================
   // Renderers
   // ==============================
   constructAriaLiveMessage() {
@@ -1675,14 +1685,34 @@ export default class Select extends Component<Props, State> {
     if (!menuIsOpen) return null;
 
     // TODO: Internal Option Type here
-    const render = (props: OptionType) => {
-      // for performance, the menu options in state aren't changed when the
-      // focused option changes so we calculate additional props based on that
-      const isFocused = focusedOption === props.data;
-      props.innerRef = isFocused ? this.getFocusedOptionRef : undefined;
+    const render = (props: OptionType, id: string) => {
+      const { type, data, isDisabled, isSelected, label, value } = props;
+      const isFocused = focusedOption === data;
+      const onHover = isDisabled ? undefined : () => this.onOptionHover(data);
+      const onSelect = isDisabled ? undefined : () => this.selectOption(data);
+      const optionId = `${this.getElementId('option')}-${id}`;
+      const innerProps = {
+        id: optionId,
+        onClick: onSelect,
+        onMouseMove: onHover,
+        onMouseOver: onHover,
+        tabIndex: -1,
+      };
 
       return (
-        <Option {...commonProps} {...props} isFocused={isFocused}>
+        <Option
+          {...commonProps}
+          innerProps={innerProps}
+          data={data}
+          isDisabled={isDisabled}
+          isSelected={isSelected}
+          key={optionId}
+          label={label}
+          type={type}
+          value={value}
+          isFocused={isFocused}
+          innerRef={isFocused ? this.getFocusedOptionRef : undefined}
+        >
           {this.formatOptionLabel(props.data, 'menu')}
         </Option>
       );
@@ -1691,26 +1721,31 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = this.getMenuOptions().render.map(item => {
+      menuUI = this.getCategorizedOptions().map((item, itemIndex) => {
         if (item.type === 'group') {
-          const { type, ...group } = item;
-          const headingId = `${item.key}-heading`;
+          const { data, options } = item;
+          const groupId = `${this.getElementId('group')}-${itemIndex}`;
+          const headingId = `${groupId}-heading`;
 
           return (
             <Group
               {...commonProps}
-              {...group}
+              key={groupId}
+              data={data}
+              options={options}
               Heading={GroupHeading}
               headingProps={{
                 id: headingId,
               }}
               label={this.formatGroupLabel(item.data)}
             >
-              {item.options.map(option => render(option))}
+              {item.options.map((option, i) =>
+                render(option, `${itemIndex}-${i}`)
+              )}
             </Group>
           );
         } else if (item.type === 'option') {
-          return render(item);
+          return render(item, `${itemIndex}`);
         }
       });
     } else if (isLoading) {
