@@ -306,12 +306,14 @@ type CategorizedOption = {
   isSelected: boolean,
   label: string,
   value: string,
+  index: number,
 };
 
 type CategorizedGroup = {
   type: 'group',
   data: GroupType,
   options: OptionsType,
+  index: number,
 };
 
 type CategorizedGroupOrOption = CategorizedGroup | CategorizedOption;
@@ -319,7 +321,8 @@ type CategorizedGroupOrOption = CategorizedGroup | CategorizedOption;
 function toCategorizedOption(
   props: Props,
   option: OptionType,
-  selectValue: OptionsType
+  selectValue: OptionsType,
+  index: number
 ) {
   const isDisabled = isOptionDisabled(props, option, selectValue);
   const isSelected = isOptionSelected(props, option, selectValue);
@@ -333,24 +336,33 @@ function toCategorizedOption(
     isSelected,
     label,
     value,
+    index,
   };
 }
 
 function buildCategorizedOptions(props: Props, selectValue: OptionsType) {
   return ((props.options
-    .map(groupOrOption => {
+    .map((groupOrOption, groupOrOptionIndex) => {
       if (groupOrOption.options) {
         const categorizedOptions = groupOrOption.options
-          .map(option => toCategorizedOption(props, option, selectValue))
+          .map(option =>
+            toCategorizedOption(props, option, selectValue, option)
+          )
           .filter(categorizedOption => isFocusable(props, categorizedOption));
         return categorizedOptions.length > 0
-          ? { type: 'group', data: groupOrOption, options: categorizedOptions }
+          ? {
+              type: 'group',
+              data: groupOrOption,
+              options: categorizedOptions,
+              index: groupOrOptionIndex,
+            }
           : undefined;
       }
       const categorizedOption = toCategorizedOption(
         props,
         groupOrOption,
-        selectValue
+        selectValue,
+        groupOrOptionIndex
       );
       return isFocusable(props, categorizedOption)
         ? categorizedOption
@@ -1734,10 +1746,10 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().map((item, itemIndex) => {
+      menuUI = this.getCategorizedOptions().map(item => {
         if (item.type === 'group') {
-          const { data, options } = item;
-          const groupId = `${this.getElementId('group')}-${itemIndex}`;
+          const { data, options, index: groupIndex } = item;
+          const groupId = `${this.getElementId('group')}-${groupIndex}`;
           const headingId = `${groupId}-heading`;
 
           return (
@@ -1752,13 +1764,13 @@ export default class Select extends Component<Props, State> {
               }}
               label={this.formatGroupLabel(item.data)}
             >
-              {item.options.map((option, i) =>
-                render(option, `${itemIndex}-${i}`)
+              {item.options.map(option =>
+                render(option, `${groupIndex}-${option.index}`)
               )}
             </Group>
           );
         } else if (item.type === 'option') {
-          return render(item, `${itemIndex}`);
+          return render(item, `${item.index}`);
         }
       });
     } else if (isLoading) {
