@@ -292,6 +292,9 @@ type State = {
   focusedOption: OptionType | null,
   focusedValue: OptionType | null,
   selectValue: OptionsType,
+  clearFocusValueOnUpdate: boolean,
+  inputIsHiddenAfterUpdate: ?boolean,
+  prevProps: Props | void,
 };
 
 type ElRef = ElementRef<*>;
@@ -467,6 +470,9 @@ export default class Select extends Component<Props, State> {
     inputIsHidden: false,
     isFocused: false,
     selectValue: [],
+    clearFocusValueOnUpdate: false,
+    inputIsHiddenAfterUpdate: undefined,
+    prevProps: undefined,
   };
 
   // Misc. Instance Properties
@@ -474,11 +480,9 @@ export default class Select extends Component<Props, State> {
 
   blockOptionHover: boolean = false;
   isComposing: boolean = false;
-  clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
   initialTouchX: number = 0;
   initialTouchY: number = 0;
-  inputIsHiddenAfterUpdate: ?boolean;
   instancePrefix: string = '';
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
@@ -513,6 +517,50 @@ export default class Select extends Component<Props, State> {
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
   }
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const {
+      prevProps,
+      clearFocusValueOnUpdate,
+      inputIsHiddenAfterUpdate,
+    } = state;
+    const { options, value, menuIsOpen, inputValue } = props;
+    let newMenuOptionsState = {};
+    if (
+      prevProps &&
+      (value !== prevProps.value ||
+        options !== prevProps.options ||
+        menuIsOpen !== prevProps.menuIsOpen ||
+        inputValue !== prevProps.inputValue)
+    ) {
+      const selectValue = cleanValue(value);
+      const focusableOptions = menuIsOpen
+        ? buildFocusableOptions(props, state, selectValue)
+        : [];
+      const focusedValue = clearFocusValueOnUpdate
+        ? getNextFocusedValue(state, selectValue)
+        : null;
+      const focusedOption = getNextFocusedOption(state, focusableOptions);
+      newMenuOptionsState = {
+        selectValue,
+        focusedOption,
+        focusedValue,
+        clearFocusValueOnUpdate: false,
+      };
+    }
+    // some updates should toggle the state of the input visibility
+    const newInputIsHiddenState =
+      inputIsHiddenAfterUpdate != null && props !== prevProps
+        ? {
+            inputIsHidden: inputIsHiddenAfterUpdate,
+            inputIsHiddenAfterUpdate: undefined,
+          }
+        : {};
+    return {
+      ...newMenuOptionsState,
+      ...newInputIsHiddenState,
+      prevProps: props,
+    };
+  }
   componentDidMount() {
     this.startListeningComposition();
     this.startListeningToTouch();
@@ -524,33 +572,6 @@ export default class Select extends Component<Props, State> {
 
     if (this.props.autoFocus) {
       this.focusInput();
-    }
-  }
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { options, value, menuIsOpen, inputValue } = this.props;
-    // rebuild the menu options
-    if (
-      nextProps.value !== value ||
-      nextProps.options !== options ||
-      nextProps.menuIsOpen !== menuIsOpen ||
-      nextProps.inputValue !== inputValue
-    ) {
-      const selectValue = cleanValue(nextProps.value);
-      const focusableOptions = nextProps.menuIsOpen
-        ? buildFocusableOptions(nextProps, this.state, selectValue)
-        : [];
-      const focusedValue = this.clearFocusValueOnUpdate
-        ? getNextFocusedValue(this.state, selectValue)
-        : null;
-      const focusedOption = getNextFocusedOption(this.state, focusableOptions);
-      this.setState({ selectValue, focusedOption, focusedValue });
-    }
-    // some updates should toggle the state of the input visibility
-    if (this.inputIsHiddenAfterUpdate != null) {
-      this.setState({
-        inputIsHidden: this.inputIsHiddenAfterUpdate,
-      });
-      delete this.inputIsHiddenAfterUpdate;
     }
   }
   componentDidUpdate(prevProps: Props) {
@@ -634,10 +655,10 @@ export default class Select extends Component<Props, State> {
 
     // only scroll if the menu isn't already open
     this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
-    this.inputIsHiddenAfterUpdate = false;
 
     this.setState(
       {
+        inputIsHiddenAfterUpdate: false,
         focusedValue: null,
         focusedOption: focusableOptions[openAtIndex],
       },
@@ -750,11 +771,11 @@ export default class Select extends Component<Props, State> {
     const { closeMenuOnSelect, isMulti } = this.props;
     this.onInputChange('', { action: 'set-value' });
     if (closeMenuOnSelect) {
-      this.inputIsHiddenAfterUpdate = !isMulti;
+      this.setState({ inputIsHiddenAfterUpdate: !isMulti });
       this.onMenuClose();
     }
     // when the select value should change, we should reset focusedValue
-    this.clearFocusValueOnUpdate = true;
+    this.setState({ clearFocusValueOnUpdate: true });
     this.onChange(newValue, { action, option });
   };
   selectOption = (newValue: OptionType) => {
@@ -1051,7 +1072,7 @@ export default class Select extends Component<Props, State> {
     const { isMulti, menuIsOpen } = this.props;
     this.focusInput();
     if (menuIsOpen) {
-      this.inputIsHiddenAfterUpdate = !isMulti;
+      this.setState({ inputIsHiddenAfterUpdate: !isMulti });
       this.onMenuClose();
     } else {
       this.openMenu('first');
@@ -1195,7 +1216,7 @@ export default class Select extends Component<Props, State> {
 
   handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     const inputValue = event.currentTarget.value;
-    this.inputIsHiddenAfterUpdate = false;
+    this.setState({ inputIsHiddenAfterUpdate: false });
     this.onInputChange(inputValue, { action: 'input-change' });
     if (!this.props.menuIsOpen) {
       this.onMenuOpen();
@@ -1206,7 +1227,7 @@ export default class Select extends Component<Props, State> {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
-    this.inputIsHiddenAfterUpdate = false;
+    this.setState({ inputIsHiddenAfterUpdate: false });
     this.announceAriaLiveContext({
       event: 'input',
       context: { isSearchable, isMulti },
@@ -1328,7 +1349,7 @@ export default class Select extends Component<Props, State> {
         return;
       case 'Escape':
         if (menuIsOpen) {
-          this.inputIsHiddenAfterUpdate = false;
+          this.setState({ inputIsHiddenAfterUpdate: false });
           this.onInputChange('', { action: 'menu-close' });
           this.onMenuClose();
         } else if (isClearable && escapeClearsValue) {
