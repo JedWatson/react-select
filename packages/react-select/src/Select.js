@@ -1,9 +1,7 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
-import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
-import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
 import {
@@ -298,7 +296,6 @@ type State = {
   isFocused: boolean,
   focusedOption: OptionType | null,
   focusedValue: OptionType | null,
-  menuOptions: MenuOptions,
   selectValue: OptionsType,
 };
 
@@ -315,7 +312,6 @@ export default class Select extends Component<Props, State> {
     focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
-    menuOptions: { render: [], focusable: [] },
     selectValue: [],
   };
 
@@ -360,31 +356,9 @@ export default class Select extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { value } = props;
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
-
-    const selectValue = cleanValue(value);
-
-    this.buildMenuOptions = memoizeOne(
-      this.buildMenuOptions,
-      (newArgs: any, lastArgs: any) => {
-        const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
-        const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
-
-        return (
-          isEqual(newSelectValue, lastSelectValue) &&
-          isEqual(newProps.inputValue, lastProps.inputValue) &&
-          isEqual(newProps.options, lastProps.options)
-        );
-      }
-    ).bind(this);
-    const menuOptions = props.menuIsOpen
-      ? this.buildMenuOptions(props, selectValue)
-      : { render: [], focusable: [] };
-
-    this.state.menuOptions = menuOptions;
-    this.state.selectValue = selectValue;
+    this.state.selectValue = cleanValue(props.value);
   }
   componentDidMount() {
     this.startListeningComposition();
@@ -414,7 +388,7 @@ export default class Select extends Component<Props, State> {
         : { render: [], focusable: [] };
       const focusedValue = this.getNextFocusedValue(selectValue);
       const focusedOption = this.getNextFocusedOption(menuOptions.focusable);
-      this.setState({ menuOptions, selectValue, focusedOption, focusedValue });
+      this.setState({ selectValue, focusedOption, focusedValue });
     }
     // some updates should toggle the state of the input visibility
     if (this.inputIsHiddenAfterUpdate != null) {
@@ -510,7 +484,6 @@ export default class Select extends Component<Props, State> {
 
     this.setState(
       {
-        menuOptions,
         focusedValue: null,
         focusedOption: menuOptions.focusable[openAtIndex],
       },
@@ -575,7 +548,8 @@ export default class Select extends Component<Props, State> {
 
   focusOption(direction: FocusDirection = 'first') {
     const { pageSize } = this.props;
-    const { focusedOption, menuOptions } = this.state;
+    const { focusedOption } = this.state;
+    const menuOptions = this.getMenuOptions();
     const options = menuOptions.focusable;
 
     if (!options.length) return;
@@ -806,17 +780,6 @@ export default class Select extends Component<Props, State> {
   getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
-  getActiveDescendentId = () => {
-    const { menuIsOpen } = this.props;
-    const { menuOptions, focusedOption } = this.state;
-
-    if (!focusedOption || !menuIsOpen) return undefined;
-
-    const index = menuOptions.focusable.indexOf(focusedOption);
-    const option = menuOptions.render[index];
-
-    return option && option.key;
-  };
 
   getComponents = () => {
     return defaultComponents(this.props);
@@ -856,10 +819,10 @@ export default class Select extends Component<Props, State> {
     return selectValue.length > 0;
   }
   hasOptions() {
-    return !!this.state.menuOptions.render.length;
+    return !!this.getMenuOptions().render.length;
   }
   countOptions() {
-    return this.state.menuOptions.focusable.length;
+    return this.getMenuOptions().focusable.length;
   }
   isClearable(): boolean {
     const { isClearable, isMulti } = this.props;
@@ -1370,6 +1333,10 @@ export default class Select extends Component<Props, State> {
       { render: [], focusable: [] }
     );
   };
+  getMenuOptions = () =>
+    this.props.menuIsOpen
+      ? this.buildMenuOptions(this.props, this.state.selectValue)
+      : { render: [], focusable: [] };
 
   // ==============================
   // Renderers
@@ -1652,7 +1619,7 @@ export default class Select extends Component<Props, State> {
       Option,
     } = this.getComponents();
     const { commonProps } = this;
-    const { focusedOption, menuOptions } = this.state;
+    const { focusedOption } = this.state;
     const {
       captureMenuScroll,
       inputValue,
@@ -1690,7 +1657,7 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = menuOptions.render.map(item => {
+      menuUI = this.getMenuOptions().render.map(item => {
         if (item.type === 'group') {
           const { type, ...group } = item;
           const headingId = `${item.key}-heading`;
