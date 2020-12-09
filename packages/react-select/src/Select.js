@@ -1,7 +1,9 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
+import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
+import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
 import {
@@ -340,8 +342,11 @@ function toCategorizedOption(
   };
 }
 
-function buildCategorizedOptions(props: Props, selectValue: OptionsType) {
-  return ((props.options
+function buildCategorizedOptions(
+  props: Props,
+  selectValue: OptionsType
+): CategorizedGroupOrOption[] {
+  return (props.options
     .map((groupOrOption, groupOrOptionIndex) => {
       if (groupOrOption.options) {
         const categorizedOptions = groupOrOption.options
@@ -368,22 +373,26 @@ function buildCategorizedOptions(props: Props, selectValue: OptionsType) {
         ? categorizedOption
         : undefined;
     })
-    .filter(
-      categorizedOption => !!categorizedOption
-    ): any[]): CategorizedGroupOrOption[]);
+    // Flow limitation (see https://github.com/facebook/flow/issues/1414)
+    .filter(categorizedOption => !!categorizedOption): any[]);
+}
+
+function buildFocusableOptionsFromCategorizedOptions(
+  categorizedOptions: CategorizedGroupOrOption[]
+) {
+  return categorizedOptions.reduce((optionsAccumulator, categorizedOption) => {
+    if (categorizedOption.type === 'group') {
+      optionsAccumulator.push(...categorizedOption.options);
+    } else {
+      optionsAccumulator.push(categorizedOption.data);
+    }
+    return optionsAccumulator;
+  }, []);
 }
 
 function buildFocusableOptions(props: Props, selectValue: OptionsType) {
-  return buildCategorizedOptions(props, selectValue).reduce(
-    (optionsAccumulator, categorizedOption) => {
-      if (categorizedOption.type === 'group') {
-        optionsAccumulator.push(...categorizedOption.options);
-      } else {
-        optionsAccumulator.push(categorizedOption.data);
-      }
-      return optionsAccumulator;
-    },
-    []
+  return buildFocusableOptionsFromCategorizedOptions(
+    buildCategorizedOptions(props, selectValue)
   );
 }
 
@@ -938,12 +947,28 @@ export default class Select extends Component<Props, State> {
     return defaultComponents(this.props);
   };
 
+  buildCategorizedOptionsFromPropsAndSelectValue = memoizeOne(
+    buildCategorizedOptions,
+    (newArgs: any, lastArgs: any) => {
+      const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
+      const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
+
+      return (
+        isEqual(newSelectValue, lastSelectValue) &&
+        isEqual(newProps.inputValue, lastProps.inputValue) &&
+        isEqual(newProps.options, lastProps.options)
+      );
+    }
+  );
+  buildCategorizedOptions = () =>
+    this.buildCategorizedOptionsFromPropsAndSelectValue(
+      this.props,
+      this.state.selectValue
+    );
   getCategorizedOptions = () =>
-    this.props.menuIsOpen
-      ? buildCategorizedOptions(this.props, this.state.selectValue)
-      : [];
+    this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
   buildFocusableOptions = () =>
-    buildFocusableOptions(this.props, this.state.selectValue);
+    buildFocusableOptionsFromCategorizedOptions(this.buildCategorizedOptions());
   getFocusableOptions = () =>
     this.props.menuIsOpen ? this.buildFocusableOptions() : [];
 
