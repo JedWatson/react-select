@@ -336,11 +336,7 @@ function toCategorizedOption(
   };
 }
 
-function buildCategorizedOptions(
-  props: Props,
-  state: State,
-  selectValue: OptionsType
-) {
+function buildCategorizedOptions(props: Props, selectValue: OptionsType) {
   return ((props.options
     .map(groupOrOption => {
       if (groupOrOption.options) {
@@ -365,12 +361,8 @@ function buildCategorizedOptions(
     ): any[]): CategorizedGroupOrOption[]);
 }
 
-function buildFocusableOptions(
-  props: Props,
-  state: State,
-  selectValue: OptionsType
-) {
-  return buildCategorizedOptions(props, state, selectValue).reduce(
+function buildFocusableOptions(props: Props, selectValue: OptionsType) {
+  return buildCategorizedOptions(props, selectValue).reduce(
     (optionsAccumulator, categorizedOption) => {
       if (categorizedOption.type === 'group') {
         optionsAccumulator.push(...categorizedOption.options);
@@ -534,7 +526,7 @@ export default class Select extends Component<Props, State> {
     ) {
       const selectValue = cleanValue(value);
       const focusableOptions = menuIsOpen
-        ? buildFocusableOptions(props, state, selectValue)
+        ? buildFocusableOptions(props, selectValue)
         : [];
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
@@ -936,10 +928,10 @@ export default class Select extends Component<Props, State> {
 
   getCategorizedOptions = () =>
     this.props.menuIsOpen
-      ? buildCategorizedOptions(this.props, this.state, this.state.selectValue)
+      ? buildCategorizedOptions(this.props, this.state.selectValue)
       : [];
   buildFocusableOptions = () =>
-    buildFocusableOptions(this.props, this.state, this.state.selectValue);
+    buildFocusableOptions(this.props, this.state.selectValue);
   getFocusableOptions = () =>
     this.props.menuIsOpen ? this.buildFocusableOptions() : [];
 
