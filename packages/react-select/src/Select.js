@@ -42,7 +42,6 @@ import {
 import {
   defaultComponents,
   type PlaceholderOrValue,
-  type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
 
@@ -327,7 +326,6 @@ export default class Select extends Component<Props, State> {
   isComposing: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
-  components: SelectComponents;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -363,8 +361,6 @@ export default class Select extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const { value } = props;
-    this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
-    this.cacheComponents(props.components);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
 
@@ -405,8 +401,6 @@ export default class Select extends Component<Props, State> {
   }
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { options, value, menuIsOpen, inputValue } = this.props;
-    // re-cache custom components
-    this.cacheComponents(nextProps.components);
     // rebuild the menu options
     if (
       nextProps.value !== value ||
@@ -458,9 +452,7 @@ export default class Select extends Component<Props, State> {
     this.stopListeningToTouch();
     document.removeEventListener('scroll', this.onScroll, true);
   }
-  cacheComponents = (components: SelectComponents) => {
-    this.components = defaultComponents({ components });
-  };
+
   // ==============================
   // Consumer Handlers
   // ==============================
@@ -824,6 +816,10 @@ export default class Select extends Component<Props, State> {
     const option = menuOptions.render[index];
 
     return option && option.key;
+  };
+
+  getComponents = () => {
+    return defaultComponents(this.props);
   };
 
   // ==============================
@@ -1422,7 +1418,7 @@ export default class Select extends Component<Props, State> {
       tabIndex,
       form,
     } = this.props;
-    const { Input } = this.components;
+    const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
 
     const id = inputId || this.getElementId('input');
@@ -1488,7 +1484,7 @@ export default class Select extends Component<Props, State> {
       MultiValueRemove,
       SingleValue,
       Placeholder,
-    } = this.components;
+    } = this.getComponents();
     const { commonProps } = this;
     const {
       controlShouldRenderValue,
@@ -1557,7 +1553,7 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderClearIndicator() {
-    const { ClearIndicator } = this.components;
+    const { ClearIndicator } = this.getComponents();
     const { commonProps } = this;
     const { isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
@@ -1587,7 +1583,7 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderLoadingIndicator() {
-    const { LoadingIndicator } = this.components;
+    const { LoadingIndicator } = this.getComponents();
     const { commonProps } = this;
     const { isDisabled, isLoading } = this.props;
     const { isFocused } = this.state;
@@ -1605,7 +1601,7 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderIndicatorSeparator() {
-    const { DropdownIndicator, IndicatorSeparator } = this.components;
+    const { DropdownIndicator, IndicatorSeparator } = this.getComponents();
 
     // separator doesn't make sense without the dropdown indicator
     if (!DropdownIndicator || !IndicatorSeparator) return null;
@@ -1623,7 +1619,7 @@ export default class Select extends Component<Props, State> {
     );
   }
   renderDropdownIndicator() {
-    const { DropdownIndicator } = this.components;
+    const { DropdownIndicator } = this.getComponents();
     if (!DropdownIndicator) return null;
     const { commonProps } = this;
     const { isDisabled } = this.props;
@@ -1654,7 +1650,7 @@ export default class Select extends Component<Props, State> {
       LoadingMessage,
       NoOptionsMessage,
       Option,
-    } = this.components;
+    } = this.getComponents();
     const { commonProps } = this;
     const { focusedOption, menuOptions } = this.state;
     const {
@@ -1838,7 +1834,7 @@ export default class Select extends Component<Props, State> {
       IndicatorsContainer,
       SelectContainer,
       ValueContainer,
-    } = this.components;
+    } = this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
