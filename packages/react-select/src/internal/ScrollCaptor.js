@@ -44,6 +44,9 @@ class ScrollCaptor extends Component<CaptorProps> {
     }
   }
   stopListening(el: HTMLElement) {
+    // bail early if no element is available to detach from
+    if (!el) return;
+
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('wheel', this.onWheel, false);
