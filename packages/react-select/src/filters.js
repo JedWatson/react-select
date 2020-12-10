@@ -3,15 +3,15 @@
 type Config = {
   ignoreCase?: boolean,
   ignoreAccents?: boolean,
-  stringify?: Object => string,
+  stringify?: (Object) => string,
   trim?: boolean,
   matchFrom?: 'any' | 'start' | 'start-word',
 };
 
 import { stripDiacritics } from './diacritics';
 
-const trimString = str => str.replace(/^\s+|\s+$/g, '');
-const defaultStringify = option => `${option.label} ${option.value}`;
+const trimString = (str) => str.replace(/^\s+|\s+$/g, '');
+const defaultStringify = (option) => `${option.label} ${option.value}`;
 
 export const createFilter = (config: ?Config) => (
   option: { label: string, value: string, data: any },
@@ -38,12 +38,9 @@ export const createFilter = (config: ?Config) => (
   if (matchFrom === 'start') {
     return candidate.substr(0, input.length) === input;
   } else if (matchFrom === 'start-word') {
-    const matchIndex = candidate.indexOf(input);
-    // Accept a match at the start of the string or one preceded by space:
-    return (
-      matchIndex === 0 ||
-      (matchIndex > 0 && /\s/.test(candidate.charAt(matchIndex - 1)))
-    );
+    return candidate
+      .split(/\s+/)
+      .some((candidateWord) => candidateWord.indexOf(input) === 0);
   } else {
     // matchFrom === 'any'
     return candidate.indexOf(input) > -1;

@@ -23,3 +23,11 @@ test('matchFrom > start-word > to ignore a match within a word', () => {
   });
   expect(filter('foo bar', 'oo')).toBe(false);
 });
+
+test('matchFrom > start-word > to find match preceded by a match that was not at the start of a word', () => {
+  const filter = createFilter({
+    matchFrom: 'start-word',
+    stringify: String,
+  });
+  expect(filter('foo ooze', 'oo')).toBe(true);
+});
