@@ -42,7 +42,6 @@ import {
 import {
   defaultComponents,
   type PlaceholderOrValue,
-  type SelectComponents,
   type SelectComponentsConfig,
 } from './components/index';
 
@@ -944,12 +943,9 @@ export default class Select extends Component<Props, State> {
     return `${this.instancePrefix}-${element}`;
   };
 
-  getComponentsFromComponentsProp = memoizeOne(
-    (components: SelectComponents) => defaultComponents({ components }),
-    isEqual
-  );
-  getComponents = () =>
-    this.getComponentsFromComponentsProp(this.props.components);
+  getComponents = () => {
+    return defaultComponents(this.props);
+  };
 
   buildCategorizedOptionsFromPropsAndSelectValue = memoizeOne(
     buildCategorizedOptions,
