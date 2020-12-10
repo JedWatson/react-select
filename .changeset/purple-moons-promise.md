@@ -1,5 +1,5 @@
 ---
-"react-select": patch
+"react-select": major
 ---
 
 Remove usages of UNSAFE React methods
