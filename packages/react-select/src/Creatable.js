@@ -36,8 +36,6 @@ export type CreatableProps = {
      created, and `onChange` will **not** be called. Use this when you need more
      control over what happens when new options are created. */
   onCreateOption?: string => void,
-  /* Sets the position of the createOption element in your options list. Defaults to 'last' */
-  createOptionPosition: 'first' | 'last',
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string,
   options?: OptionsType,
