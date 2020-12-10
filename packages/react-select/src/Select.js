@@ -971,8 +971,13 @@ export default class Select extends Component<Props, State> {
     );
   getCategorizedOptions = () =>
     this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
+  buildFocusableOptionsFromCategorizedOptions = memoizeOne(
+    buildFocusableOptionsFromCategorizedOptions
+  );
   buildFocusableOptions = () =>
-    buildFocusableOptionsFromCategorizedOptions(this.buildCategorizedOptions());
+    this.buildFocusableOptionsFromCategorizedOptions(
+      this.buildCategorizedOptions()
+    );
   getFocusableOptions = () =>
     this.props.menuIsOpen ? this.buildFocusableOptions() : [];
 
