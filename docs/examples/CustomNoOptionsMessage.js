@@ -20,7 +20,7 @@ const CustomNoOptionsMessage = () => {
     <Select
       isClearable
       components={{ NoOptionsMessage }}
-      styles={{ NoOptionsMessage: base => ({ ...base, ...msgStyles }) }}
+      styles={{ noOptionsMessage: base => ({ ...base, ...msgStyles }) }}
       isSearchable
       name="color"
       options={[]}
