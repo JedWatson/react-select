@@ -74,7 +74,7 @@
     "react-codesandboxer": "^2.0.1",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.0",
-    "react-input-autosize": "^2.2.2",
+    "react-input-autosize": "^3.0.0",
     "react-markings": "^1.3.0",
     "react-router-dom": "^4.2.2",
     "react-sortable-hoc": "^1.9.1",
