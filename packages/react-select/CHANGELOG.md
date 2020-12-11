@@ -1,5 +1,26 @@
 # react-select
 
+## 3.1.1
+
+### Patch Changes
+
+- [c8d74bd5](https://github.com/JedWatson/react-select/commit/c8d74bd5710b1db6736837fb4334a59e46614a27) [#3979](https://github.com/JedWatson/react-select/pull/3979) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix repository field
+
+- [c8447f48](https://github.com/JedWatson/react-select/commit/c8447f480f8b9ca04386bee08e8d3a6fbb4f07c8) [#4034](https://github.com/JedWatson/react-select/pull/4034) Thanks [@sophiebits](https://github.com/sophiebits)! - Improve performance of option filtering when ignoreAccents is enabled (the default)
+
+- [7af1aafb](https://github.com/JedWatson/react-select/commit/7af1aafb2314db02544b7970784b868e97ec4824) [#4295](https://github.com/JedWatson/react-select/pull/4295) Thanks [@JedWatson](https://github.com/JedWatson)! - Fix menuplacement context
+
+- [32ad5c04](https://github.com/JedWatson/react-select/commit/32ad5c040bdd96cd1ca71010c2558842d684629c) [#3892](https://github.com/JedWatson/react-select/pull/3892) Thanks [@flexdinesh](https://github.com/flexdinesh)! - Fix react-select ignoring HTML5 "form" attribute
+
+- [6af14fbb](https://github.com/JedWatson/react-select/commit/6af14fbbc8ab42f2d17721732c9fe221d47c9e30) [#3897](https://github.com/JedWatson/react-select/pull/3897) Thanks [@lorisdev](https://github.com/lorisdev)! - Removes the call to `onMenuOpen` on every input change
+
+  If you were relying on this undesired behavior it may be a breaking change.
+  Please upgrade accordingly.
+
+- [0eb1ef96](https://github.com/JedWatson/react-select/commit/0eb1ef9625de907fddaf29516cec3bd93bf9c5f7) Thanks [@JedWatson](https://github.com/JedWatson)! - Fixes touch issues in IE11
+
+- [ad608c8f](https://github.com/JedWatson/react-select/commit/ad608c8f1f445e70a082bae755dd30bda5b5f205) [#3928](https://github.com/JedWatson/react-select/pull/3928) Thanks [@dpordomingo](https://github.com/dpordomingo)! - Update MenuPlacer context usage in order to the new React Context API
+
 ## 3.1.0
 
 ### Minor Changes
