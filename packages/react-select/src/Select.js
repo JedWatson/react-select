@@ -742,14 +742,15 @@ export default class Select extends Component<Props, State> {
     };
   }
 
-  getCommonProps() {
-    const { clearValue, getStyles, setValue, selectOption, props } = this;
-    const { classNamePrefix, isMulti, isRtl, options } = props;
-    const { selectValue } = this.state;
-    const hasValue = this.hasValue();
-    const getValue = () => selectValue;
+  getValue = () => this.state.selectValue;
 
-    const cx = classNames.bind(null, classNamePrefix);
+  cx = (...args: any) => classNames(this.props.classNamePrefix, ...args);
+
+  getCommonProps() {
+    const { clearValue, cx, getStyles, getValue, setValue, selectOption, props } = this;
+    const { isMulti, isRtl, options } = props;
+    const hasValue = this.hasValue();
+
     return {
       cx,
       clearValue,
