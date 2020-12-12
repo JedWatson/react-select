@@ -17,6 +17,7 @@ import {
   Popout,
   MenuBuffer,
   MenuPortal,
+  DisableDefaultFocus,
   MultiSelectSort,
 } from '../../examples';
 
@@ -197,6 +198,19 @@ export default function Advanced() {
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
         >
           <ControlledMenu />
+        </ExampleWrapper>
+      )}
+
+      ## Focus Default Option
+      Prevent React-Select from selecting the first option in the dropdown menu.
+
+      ${(
+        <ExampleWrapper
+          label="Example of disabling default dropdown focus"
+          urlPath="docs/examples/DisableDefaultFocus.js"
+          raw={require('!!raw-loader!../../examples/DisableDefaultFocus.js')}
+        >
+          <DisableDefaultFocus />
         </ExampleWrapper>
       )}
 
