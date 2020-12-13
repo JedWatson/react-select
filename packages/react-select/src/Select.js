@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type ElementRef, type Node, type Ref } from 'react';
+import React, { Component, type ElementRef, type Node } from 'react';
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';

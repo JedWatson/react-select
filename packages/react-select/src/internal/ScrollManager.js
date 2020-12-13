@@ -22,7 +22,7 @@ type State = {
 
 const defaultProps = {
   captureEnabled: true
-}
+};
 
 export default class ScrollManager extends PureComponent<Props,State> {
   static defaultProps = defaultProps;
@@ -40,12 +40,18 @@ export default class ScrollManager extends PureComponent<Props,State> {
   blurSelectInput = () => document.activeElement && document.activeElement.blur();
 
   componentDidMount() {
-    this.props.captureEnabled && this.startListening(this.targetRef.current);
+    if (this.props.captureEnabled) {
+      this.startListening(this.targetRef.current);
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.captureEnabled !== this.props.captureEnabled) {
-      this.props.captureEnabled ? this.startListening(this.targetRef.current) : this.stopListening(this.targetRef.current);
+      if (this.props.captureEnabled) {
+        this.startListening(this.targetRef.current);
+      } else {
+        this.stopListening(this.targetRef.current);
+      }
     }
   }
 
