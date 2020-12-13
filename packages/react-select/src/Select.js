@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type ElementRef, type Node } from 'react';
+import React, { Component, type ElementRef, type Node, type Ref } from 'react';
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
@@ -9,8 +9,7 @@ import { createFilter } from './filters';
 import {
   A11yText,
   DummyInput,
-  ScrollBlock,
-  ScrollCaptor,
+  ScrollManager,
 } from './internal/index';
 import {
   valueFocusAriaMessage,
@@ -341,19 +340,19 @@ export default class Select extends Component<Props, State> {
   // ------------------------------
 
   controlRef: ElRef = null;
-  getControlRef = (ref: HTMLElement) => {
+  getControlRef = (ref: ?HTMLElement) => {
     this.controlRef = ref;
   };
   focusedOptionRef: ElRef = null;
-  getFocusedOptionRef = (ref: HTMLElement) => {
+  getFocusedOptionRef = (ref: ?HTMLElement) => {
     this.focusedOptionRef = ref;
   };
   menuListRef: ElRef = null;
-  getMenuListRef = (ref: HTMLElement) => {
+  getMenuListRef = (ref: ?HTMLElement) => {
     this.menuListRef = ref;
   };
   inputRef: ElRef = null;
-  getInputRef = (ref: HTMLElement) => {
+  getInputRef = (ref: ?HTMLElement) => {
     this.inputRef = ref;
   };
 
@@ -1770,22 +1769,23 @@ export default class Select extends Component<Props, State> {
             isLoading={isLoading}
             placement={placement}
           >
-            <ScrollCaptor
-              isEnabled={captureMenuScroll}
+            <ScrollManager
+              captureEnabled={captureMenuScroll}
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
-            >
-              <ScrollBlock isEnabled={menuShouldBlockScroll}>
-                <MenuList
-                  {...commonProps}
-                  innerRef={this.getMenuListRef}
-                  isLoading={isLoading}
-                  maxHeight={maxHeight}
-                >
-                  {menuUI}
-                </MenuList>
-              </ScrollBlock>
-            </ScrollCaptor>
+              lockEnabled={menuShouldBlockScroll}
+            >{(scrollTargetRef) => (<MenuList
+                {...commonProps}
+                innerRef={(instance: HTMLElement | null): void => {
+                  this.getMenuListRef(instance);
+                  scrollTargetRef(instance);
+                }}
+                isLoading={isLoading}
+                maxHeight={maxHeight}
+              >
+                {menuUI}
+              </MenuList>)}
+            </ScrollManager>
           </Menu>
         )}
       </MenuPlacer>
