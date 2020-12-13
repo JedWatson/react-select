@@ -182,7 +182,7 @@ export default class ScrollManager extends PureComponent<Props,State> {
             css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
         />}
         {children(this.setTargetRef)}
-        {(this.state.enableLock && this.targetRef.current) && <ScrollLock touchScrollTarget={this.targetRef.current} />}
+        {(lockEnabled && this.state.enableLock && this.targetRef.current) && <ScrollLock touchScrollTarget={this.targetRef.current} />}
       </React.Fragment>
     );
   }
