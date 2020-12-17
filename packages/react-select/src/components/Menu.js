@@ -258,7 +258,9 @@ export const menuCSS = ({
   zIndex: 1,
 });
 
-const PortalPlacementContext = createContext<() => void>(() => { });
+const PortalPlacementContext = createContext<{
+  getPortalPlacement?: (() => void) | null,
+}>({ getPortalPlacement: null });
 
 // NOTE: internal only
 export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
@@ -277,7 +279,6 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       menuShouldScrollIntoView,
       theme,
     } = this.props;
-    const { getPortalPlacement } = this.context;
 
     if (!ref) return;
 
@@ -295,6 +296,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
       theme,
     });
 
+    const { getPortalPlacement } = this.context;
     if (getPortalPlacement) getPortalPlacement(state);
 
     this.setState(state);
@@ -348,6 +350,8 @@ export type MenuListProps = {
   children: Node,
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
+    /** Props to be passed to the menu-list wrapper. */
+  innerProps: {},
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -366,7 +370,7 @@ export const menuListCSS = ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerRef } = props;
+  const { children, className, cx, getStyles, isMulti, innerRef, innerProps } = props;
   return (
     <div
       css={getStyles('menuList', props)}
@@ -378,6 +382,7 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
+      {...innerProps}
     >
       {children}
     </div>
@@ -520,7 +525,9 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     );
 
     return (
-      <PortalPlacementContext.Provider value={this.getPortalPlacement}>
+      <PortalPlacementContext.Provider
+        value={{ getPortalPlacement: this.getPortalPlacement }}
+      >
         {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
       </PortalPlacementContext.Provider>
     );

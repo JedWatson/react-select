@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
@@ -15,7 +15,7 @@
     "@emotion/react": "^11.1.1",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
-    "react-input-autosize": "^2.2.2",
+    "react-input-autosize": "^3.0.0",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
@@ -26,8 +26,8 @@
     "react-dom": "^16.13.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
   },
   "files": [
     "dist",
