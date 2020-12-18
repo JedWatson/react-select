@@ -13,7 +13,7 @@ const Control = ({ children, ...props }) => {
       <span onMouseDown={onEmojiClick} style={style}>{emoji}</span>
       {children}
     </components.Control>
-  )
+  );
 };
 
 const CustomSelectProps = props => {
@@ -30,18 +30,18 @@ const CustomSelectProps = props => {
   };
 
   const emoji = EMOJIS[ clickCount % EMOJIS.length ];
-  
+
   return (
-    <Select {...props} 
+    <Select {...props}
       emoji={emoji}
       onEmojiClick={onClick}
-      components={{ Control }}        
+      components={{ Control }}
       isSearchable
       name="emoji"
       options={colourOptions}
       styles={styles}
     />
-  )
-}
+  );
+};
 
 export default CustomSelectProps;
