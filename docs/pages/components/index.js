@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
+  CustomSelectProps,
   CustomClearIndicator,
   CustomDropdownIndicator,
   CustomLoadingIndicator,
@@ -124,6 +125,60 @@ export default function Components() {
           }
         }
 
+        ~~~
+
+        ## Defining components
+        
+        When defining replacement components, it is important to do so __outside__ the scope of 
+        rendering the Select. Defining a replacement component directly in the components prop can 
+        cause issues. 
+        
+        On this topic, React 
+        [documentation](https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method)
+        has the following to say:
+
+        > The problem here isn’t just about performance — remounting a component causes the state
+        of that component and all of its children to be lost.
+        
+        This statement applies as well when replacing components in react-select with inline definitions. 
+
+        ~~~jsx
+        // Bad: Inline declaration will cause remounting issues
+        const BadSelect = props => (
+          <Select {...props} components={{
+            Control: ({ children, ...rest }) => (
+              <components.Control {...rest}>
+                👎 {children}
+              </components.Control>
+            )}} 
+          />
+        )
+
+        // Good: Custom component declared outside of the Select scope
+        const Control = props => ({ children, ...rest }) => (
+          <components.Control {...rest}>
+            👍 {children}
+          </components.Control>
+        );
+
+        const GoodSelect = props => <Select {...props} components={{ Control }} />
+
+        ~~~
+
+        There will likely be times that data or methods may need to be shared,
+        but this can be achieved with the \`selectProps\` prop passed to each component.
+
+        ${
+          <ExampleWrapper
+            label="Custom Component with selectProps Example"
+            urlPath="docs/examples/CustomSelectProps.js"
+            raw={require('!!raw-loader!../../examples/CustomSelectProps.js')}
+          >
+            <CustomSelectProps/>
+          </ExampleWrapper>
+        }
+
+        ~~~
         ~~~
 
         ## Adjusting the Styling
