@@ -51,6 +51,7 @@ export default class MenuPortal extends Component<*, State> {
               menuPosition={isFixed ? 'fixed' : 'absolute'}
               menuPlacement={portalPlacement}
               options={colourOptions}
+              menuShouldScrollIntoView={false}
             />
             <Note Tag="label">
               <select
