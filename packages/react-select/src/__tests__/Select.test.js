@@ -1645,7 +1645,7 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
 
 test('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true and isMulti is false', () => {
   let onChangeSpy = jest.fn();
-  let selectWrapper = mount(
+  let { container } = render(
     <Select
       {...BASIC_PROPS}
       backspaceRemovesValue
@@ -1654,9 +1654,10 @@ test('should call onChange with `null` on hitting backspace when backspaceRemove
       onChange={onChangeSpy}
     />
   );
-  selectWrapper
-    .find(Control)
-    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+    keyCode: 8,
+    key: 'Backspace',
+  });
   expect(onChangeSpy).toHaveBeenCalledWith(null, {
     action: 'clear',
     name: 'test-input-name',
@@ -1665,7 +1666,7 @@ test('should call onChange with `null` on hitting backspace when backspaceRemove
 
 test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
   let onChangeSpy = jest.fn();
-  let selectWrapper = mount(
+  let { container } = render(
     <Select
       {...BASIC_PROPS}
       backspaceRemovesValue
@@ -1674,9 +1675,10 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
       onChange={onChangeSpy}
     />
   );
-  selectWrapper
-    .find(Control)
-    .simulate('keyDown', { keyCode: 8, key: 'Backspace' });
+  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+    keyCode: 8,
+    key: 'Backspace',
+  });
   expect(onChangeSpy).toHaveBeenCalledWith([], {
     action: 'pop-value',
     name: 'test-input-name',
