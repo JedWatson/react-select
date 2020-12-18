@@ -685,13 +685,13 @@ export default class Select extends Component<Props, State> {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
-    const filteredValue = selectValue.filter(
+    const newValues = selectValue.filter(
       i => this.getOptionValue(i) !== candidate
     );
     const newValue = isMulti
-      ? filteredValue
-      : filteredValue.length > 0
-      ? filteredValue[0]
+      ? newValues
+      : newValues.length > 0
+      ? newValues[0]
       : null;
     this.onChange(newValue, {
       action: 'remove-value',
@@ -713,11 +713,11 @@ export default class Select extends Component<Props, State> {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
-    const slicedValue = selectValue.slice(0, selectValue.length - 1);
+    const newValues = selectValue.slice(0, selectValue.length - 1);
     const newValue = isMulti
-      ? slicedValue
-      : slicedValue.length > 0
-      ? slicedValue[0]
+      ? newValues
+      : newValues.length > 0
+      ? newValues[0]
       : null;
     this.announceAriaLiveSelection({
       event: 'pop-value',
