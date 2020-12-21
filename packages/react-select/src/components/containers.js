@@ -80,7 +80,15 @@ export const valueContainerCSS = ({
   overflow: 'hidden',
 });
 export const ValueContainer = (props: ValueContainerProps) => {
-  const { children, className, cx, isMulti, getStyles, hasValue } = props;
+  const {
+    children,
+    className,
+    cx,
+    innerProps,
+    isMulti,
+    getStyles,
+    hasValue,
+  } = props;
 
   return (
     <div
@@ -93,6 +101,7 @@ export const ValueContainer = (props: ValueContainerProps) => {
         },
         className
       )}
+      {...innerProps}
     >
       {children}
     </div>
@@ -121,7 +130,7 @@ export const indicatorsContainerCSS = () => ({
   flexShrink: 0,
 });
 export const IndicatorsContainer = (props: IndicatorContainerProps) => {
-  const { children, className, cx, getStyles } = props;
+  const { children, className, cx, innerProps, getStyles } = props;
 
   return (
     <div
@@ -132,6 +141,7 @@ export const IndicatorsContainer = (props: IndicatorContainerProps) => {
         },
         className
       )}
+      {...innerProps}
     >
       {children}
     </div>

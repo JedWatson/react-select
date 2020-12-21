@@ -30,6 +30,7 @@ const Group = (props: GroupProps) => {
     getStyles,
     Heading,
     headingProps,
+    innerProps,
     label,
     theme,
     selectProps,
@@ -38,6 +39,7 @@ const Group = (props: GroupProps) => {
     <div
       css={getStyles('group', props)}
       className={cx({ group: true }, className)}
+      {...innerProps}
     >
       <Heading
         {...headingProps}
