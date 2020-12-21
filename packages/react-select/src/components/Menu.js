@@ -473,6 +473,7 @@ export type MenuPortalProps = CommonProps & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
+  innerProps: {},
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
 };
