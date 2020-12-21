@@ -375,9 +375,9 @@ export const MenuList = (props: MenuListComponentProps) => {
     className,
     cx,
     getStyles,
-    isMulti,
-    innerRef,
     innerProps,
+    innerRef,
+    isMulti,
   } = props;
   return (
     <div
