@@ -510,6 +510,7 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
     const {
       appendTo,
       children,
+      className,
       controlElement,
       cx,
       innerProps,

@@ -61,7 +61,7 @@ export const SelectContainer = (props: ContainerProps) => {
 
 export type ValueContainerProps = CommonProps & {
   /** Props to be passed to the value container element. */
-  innerProps: {},
+  innerProps?: {},
   /** Set when the value container should hold multiple values */
   isMulti: boolean,
   /** Whether the value container currently holds a value. */
@@ -124,7 +124,7 @@ export type IndicatorContainerProps = CommonProps &
     /** The children to be rendered. */
     children: Node,
     /** Props to be passed to the indicators container element. */
-    innerProps: {},
+    innerProps?: {},
   };
 
 export const indicatorsContainerCSS = () => ({
