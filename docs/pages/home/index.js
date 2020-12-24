@@ -136,7 +136,7 @@ export default function Home() {
   Use the Async component to load options from a remote source as the user types.
 
   ~~~jsx
-  import Async from 'react-select/async';
+  import AsyncSelect from 'react-select/async';
   ~~~
 
   ${(

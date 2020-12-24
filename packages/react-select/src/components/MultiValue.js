@@ -1,6 +1,6 @@
 // @flow
 /** @jsx jsx */
-import { Component, type Node } from 'react';
+import { type Node } from 'react';
 import { jsx, ClassNames } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
@@ -85,46 +85,57 @@ export type MultiValueRemoveProps = {
   },
   selectProps: any,
 };
-export class MultiValueRemove extends Component<MultiValueRemoveProps> {
-  render() {
-    const { children, innerProps } = this.props;
-    return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
-  }
+export function MultiValueRemove({
+  children,
+  innerProps,
+}: MultiValueRemoveProps) {
+  return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
 }
 
-class MultiValue extends Component<MultiValueProps> {
-  static defaultProps = {
-    cropWithEllipsis: true,
-  };
-  render() {
-    const {
-      children,
-      className,
-      components,
-      cx,
-      data,
-      getStyles,
-      innerProps,
-      isDisabled,
-      removeProps,
-      selectProps,
-    } = this.props;
+const MultiValue = (props: MultiValueProps) => {
+  const {
+    children,
+    className,
+    components,
+    cx,
+    data,
+    getStyles,
+    innerProps,
+    isDisabled,
+    removeProps,
+    selectProps,
+  } = props;
 
-    const { Container, Label, Remove } = components;
+  const { Container, Label, Remove } = components;
 
-    return (
-      <ClassNames>
-        {({ css, cx: emotionCx }) => (
-          <Container
+  return (
+    <ClassNames>
+      {({ css, cx: emotionCx }) => (
+        <Container
+          data={data}
+          innerProps={{
+            ...innerProps,
+            className: emotionCx(
+              css(getStyles('multiValue', props)),
+              cx(
+                {
+                  'multi-value': true,
+                  'multi-value--is-disabled': isDisabled,
+                },
+                className
+              )
+            ),
+          }}
+          selectProps={selectProps}
+        >
+          <Label
             data={data}
             innerProps={{
-              ...innerProps,
               className: emotionCx(
-                css(getStyles('multiValue', this.props)),
+                css(getStyles('multiValueLabel', props)),
                 cx(
                   {
-                    'multi-value': true,
-                    'multi-value--is-disabled': isDisabled,
+                    'multi-value__label': true,
                   },
                   className
                 )
@@ -132,44 +143,32 @@ class MultiValue extends Component<MultiValueProps> {
             }}
             selectProps={selectProps}
           >
-            <Label
-              data={data}
-              innerProps={{
-                className: emotionCx(
-                  css(getStyles('multiValueLabel', this.props)),
-                  cx(
-                    {
-                      'multi-value__label': true,
-                    },
-                    className
-                  )
-                ),
-              }}
-              selectProps={selectProps}
-            >
-              {children}
-            </Label>
-            <Remove
-              data={data}
-              innerProps={{
-                className: emotionCx(
-                  css(getStyles('multiValueRemove', this.props)),
-                  cx(
-                    {
-                      'multi-value__remove': true,
-                    },
-                    className
-                  )
-                ),
-                ...removeProps,
-              }}
-              selectProps={selectProps}
-            />
-          </Container>
-        )}
-      </ClassNames>
-    );
-  }
-}
+            {children}
+          </Label>
+          <Remove
+            data={data}
+            innerProps={{
+              className: emotionCx(
+                css(getStyles('multiValueRemove', props)),
+                cx(
+                  {
+                    'multi-value__remove': true,
+                  },
+                  className
+                )
+              ),
+              ...removeProps,
+            }}
+            selectProps={selectProps}
+          />
+        </Container>
+      )}
+    </ClassNames>
+  );
+};
+
+MultiValue.defaultProps = {
+  cropWithEllipsis: true,
+};
 
 export default MultiValue;
