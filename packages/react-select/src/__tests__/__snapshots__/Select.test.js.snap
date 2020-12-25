@@ -160,7 +160,7 @@ exports[`snapshot - defaults 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-owns="react-select-2-combobox"
+              aria-owns="react-select-2-menu"
               autocapitalize="none"
               autocomplete="off"
               autocorrect="off"
@@ -367,7 +367,7 @@ exports[`snapshot - listbox 1`] = `
         </div>
         <input
           aria-autocomplete="list"
-          aria-owns="react-select-3-listbox"
+          aria-owns="react-select-3-menu"
           class="emotion-1"
           id="react-select-3-input"
           readonly=""

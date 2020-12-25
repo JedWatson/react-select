@@ -392,8 +392,8 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
-      {...innerProps}
       {...ariaAttributes}
+      {...innerProps}
     >
       {children}
     </div>

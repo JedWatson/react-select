@@ -160,7 +160,7 @@ exports[`defaults > snapshot 1`] = `
           >
             <input
               aria-autocomplete="list"
-              aria-owns="react-select-2-combobox"
+              aria-owns="react-select-2-menu"
               autocapitalize="none"
               autocomplete="off"
               autocorrect="off"

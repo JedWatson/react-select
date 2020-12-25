@@ -806,7 +806,7 @@ export default class Select extends Component<Props, State> {
     const custom = this.props.styles[key];
     return custom ? custom(base, props) : base;
   };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'combobox' | 'option') => {
+  getElementId = (element: 'group' | 'input' | 'menu' | 'option') => {
     return `${this.instancePrefix}-${element}`;
   };
   getActiveDescendentId = () => {
@@ -1422,7 +1422,7 @@ export default class Select extends Component<Props, State> {
 
     const id = inputId || this.getElementId('input');
     const menuRole = isSearchable ? 'combobox' : 'listbox';
-    const menuId = this.getElementId(menuRole);
+    const menuId = this.getElementId('menu');
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
@@ -1672,7 +1672,6 @@ export default class Select extends Component<Props, State> {
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
-      isSearchable,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1733,8 +1732,7 @@ export default class Select extends Component<Props, State> {
       menuShouldScrollIntoView,
     };
 
-    const menuRole = isSearchable ? 'combobox' : 'listbox';
-    const menuId = this.getElementId(menuRole);
+    const menuId = this.getElementId('menu');
 
     const menuElement = (
       <MenuPlacer {...commonProps} {...menuPlacementProps}>
