@@ -350,6 +350,8 @@ export type MenuListProps = {
   children: Node,
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
+    /** Props to be passed to the menu-list wrapper. */
+  innerProps: {},
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -368,7 +370,7 @@ export const menuListCSS = ({
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = (props: MenuListComponentProps) => {
-  const { children, className, cx, getStyles, isMulti, innerRef } = props;
+  const { children, className, cx, getStyles, isMulti, innerRef, innerProps } = props;
   return (
     <div
       css={getStyles('menuList', props)}
@@ -380,6 +382,7 @@ export const MenuList = (props: MenuListComponentProps) => {
         className
       )}
       ref={innerRef}
+      {...innerProps}
     >
       {children}
     </div>
