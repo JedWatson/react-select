@@ -120,3 +120,5 @@ export type OptionProps = PropsWithInnerRef & {
   onMouseOver: MouseEventHandler,
   value: any,
 };
+
+export type isOptionDisabledType = (OptionType, OptionsType) => boolean;

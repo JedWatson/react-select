@@ -56,6 +56,7 @@ import type {
   FocusEventHandler,
   GroupType,
   InputActionMeta,
+  isOptionDisabledType,
   KeyboardEventHandler,
   MenuPlacement,
   MenuPosition,
@@ -163,7 +164,7 @@ export type Props = {
 
     An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
-  isOptionDisabled: (OptionType, OptionsType) => boolean | false,
+  isOptionDisabled: isOptionDisabledType,
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (OptionType, OptionsType) => boolean,
   /* Support multiple selected options */
@@ -896,7 +897,7 @@ export default class Select extends Component<Props, State> {
 
     return isClearable;
   }
-  isOptionDisabled(option: OptionType, selectValue: OptionsType, isOptionDisabledFunc: isOptionDisabled): boolean {
+  isOptionDisabled(option: OptionType, selectValue: OptionsType, isOptionDisabledFunc: isOptionDisabledType): boolean {
     return typeof isOptionDisabledFunc === 'function'
       ? isOptionDisabledFunc(option, selectValue)
       : false;

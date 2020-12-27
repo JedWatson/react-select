@@ -629,7 +629,6 @@ cases(
       menuIsOpen: true,
       hideSelectedOptions: false,
       isMulti: true,
-      menuIsOpen: true,
     };
     let { container } = render(<Select {...props} />);
 
