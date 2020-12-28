@@ -59,6 +59,8 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.isListened = true;
   }
   stopListening(el: HTMLElement) {
+    if (!el) return;
+
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('wheel', this.onWheel, false);
