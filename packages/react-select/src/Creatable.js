@@ -12,7 +12,6 @@ import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
-import isEqual from './internal/react-fast-compare';
 
 export type DefaultCreatableProps = {|
   /* Allow options to be created while the `isLoading` prop is true. Useful to
