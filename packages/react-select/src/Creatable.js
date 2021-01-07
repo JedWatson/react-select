@@ -145,12 +145,8 @@ export const makeCreatableSelect = <C: {}>(
       }
       const { newOption } = this.state;
       const valueArray = Array.isArray(newValue) ? newValue : [newValue];
-      const isNewOptionSelected = isEqual(
-        valueArray[valueArray.length - 1],
-        newOption
-      );
 
-      if (isNewOptionSelected) {
+      if (valueArray[valueArray.length - 1] === newOption) {
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
