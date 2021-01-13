@@ -1,5 +1,35 @@
 # react-select
 
+## 3.2.0
+
+### Minor Changes
+
+- [c615e93d](https://github.com/JedWatson/react-select/commit/c615e93dbca15b9f9c6c3e6437744ca53703347f) [#4084](https://github.com/JedWatson/react-select/pull/4084) Thanks [@JedWatson](https://github.com/JedWatson)! - Changed the `cx` and `getValue` props that are passed to components into instance properties, which means they now pass a referential equality check on subsequent renders.
+
+  This is helpful, for example, when you're optimising the performance of rendering custom Option components - see [#3055](https://github.com/JedWatson/react-select/issues/3055)
+
+- [72f6036f](https://github.com/JedWatson/react-select/commit/72f6036fa6f425837c8c2326bf91dff7bd7f6147) [#4306](https://github.com/JedWatson/react-select/pull/4306) Thanks [@bladey](https://github.com/bladey)! - Remove duplicate prop createOptionPosition
+
+### Patch Changes
+
+- [ee638d46](https://github.com/JedWatson/react-select/commit/ee638d4615e789090ea860d2e1c9f4d95a829d50) [#4275](https://github.com/JedWatson/react-select/pull/4275) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Adds react ^17.0.0 to peer dependencies for React 17 support
+
+- [a0133f19](https://github.com/JedWatson/react-select/commit/a0133f19f45eb2dc9a2faebd74e18f44da7d509b) [#4154](https://github.com/JedWatson/react-select/pull/4154) Thanks [@brenshanny](https://github.com/brenshanny)! - Creatable: Fixed removing MultiValues that have identical values. See issue #4137 for details.
+
+- [d1e660c6](https://github.com/JedWatson/react-select/commit/d1e660c6b261d7fd60a85a6eca2ee9e3e0348ea2) [#4213](https://github.com/JedWatson/react-select/pull/4213) Thanks [@eythort](https://github.com/eythort)! - Added a guard to the `ScrollCaptor` component to check that `el` exists before calling `removeEventListener`, fixes intermittent errors
+
+- [a1e1db25](https://github.com/JedWatson/react-select/commit/a1e1db255aceda301d9705d0639e7ca0302bd079) [#4373](https://github.com/JedWatson/react-select/pull/4373) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fixed value passed to onChange when clearing value
+
+- [2ad29d61](https://github.com/JedWatson/react-select/commit/2ad29d615bc769c3b3dc4177eb0007a267369748) [#4136](https://github.com/JedWatson/react-select/pull/4136) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Base aria-live message on tabSelectsValue prop
+
+- [ad890f27](https://github.com/JedWatson/react-select/commit/ad890f279300b6baaca55a642141999a79af8883) [#4326](https://github.com/JedWatson/react-select/pull/4326) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Updated react-input-autosize to v3.0.0
+
+- [b28d9922](https://github.com/JedWatson/react-select/commit/b28d99222ab191db27482c6219f8c8b12ef753d8) [#3990](https://github.com/JedWatson/react-select/pull/3990) Thanks [@nikitaindik](https://github.com/nikitaindik)! - Fixed onCreateOption is not always called for Creatable
+
+- [24ba8702](https://github.com/JedWatson/react-select/commit/24ba8702b93885790ee919de8c01ea8f44d1c354) [#4289](https://github.com/JedWatson/react-select/pull/4289) Thanks [@slimklim](https://github.com/slimklim)! - Added `innerProps` prop to the built-in `MenuList` component to reduce the need for additional DOM nodes or forking internal code when passing additional props to the DOM element the MenuList component is rendering.
+
+  See issue [#4265](https://github.com/JedWatson/react-select/issues/4265) for an explanation.
+
 ## 3.1.1
 
 ### Patch Changes
