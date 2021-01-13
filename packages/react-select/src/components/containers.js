@@ -1,6 +1,6 @@
 // @flow
 /** @jsx jsx */
-import { Component, type Node } from 'react';
+import { type Node } from 'react';
 import { jsx } from '@emotion/core';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
@@ -79,34 +79,25 @@ export const valueContainerCSS = ({
   position: 'relative',
   overflow: 'hidden',
 });
-export class ValueContainer extends Component<ValueContainerProps> {
-  render() {
-    const {
-      children,
-      className,
-      cx,
-      isMulti,
-      getStyles,
-      hasValue,
-    } = this.props;
+export const ValueContainer = (props: ValueContainerProps) => {
+  const { children, className, cx, isMulti, getStyles, hasValue } = props;
 
-    return (
-      <div
-        css={getStyles('valueContainer', this.props)}
-        className={cx(
-          {
-            'value-container': true,
-            'value-container--is-multi': isMulti,
-            'value-container--has-value': hasValue,
-          },
-          className
-        )}
-      >
-        {children}
-      </div>
-    );
-  }
-}
+  return (
+    <div
+      css={getStyles('valueContainer', props)}
+      className={cx(
+        {
+          'value-container': true,
+          'value-container--is-multi': isMulti,
+          'value-container--has-value': hasValue,
+        },
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
 
 // ==============================
 // Indicator Container

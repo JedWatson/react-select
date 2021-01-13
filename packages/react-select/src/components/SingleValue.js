@@ -9,7 +9,7 @@ type State = {
 };
 type ValueProps = {
   /** The children to be rendered. */
-  children: string,
+  children: React$Node,
   /* The data of the selected option rendered in the Single Value component. */
   data: any,
   /** Props passed to the wrapping element for the group. */
