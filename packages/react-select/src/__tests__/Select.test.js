@@ -200,7 +200,7 @@ cases(
         menuIsOpen: true,
         options: OPTIONS_ACCENTED,
       },
-      searchString: 'ecole',  // should match "école"
+      searchString: 'ecole', // should match "école"
       expectResultsLength: 1,
     },
     'single select > should ignore accented char in query': {
@@ -209,7 +209,7 @@ cases(
         menuIsOpen: true,
         options: OPTIONS_ACCENTED,
       },
-      searchString: 'schoöl',  // should match "school"
+      searchString: 'schoöl', // should match "school"
       expectResultsLength: 1,
     },
   }

@@ -104,7 +104,11 @@ export default function Api() {
     These props are included with in both the Async and AsyncCreatable select. For
     more on using async selects, see the [async select documentation](/async)
 
-    ${(<Props props={require('!!extract-react-types-loader!../../PropTypes/Async')} />)}
+    ${(
+      <Props
+        props={require('!!extract-react-types-loader!../../PropTypes/Async')}
+      />
+    )}
 
     ## Creatable props
 
