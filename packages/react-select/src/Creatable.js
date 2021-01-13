@@ -9,7 +9,7 @@ import React, {
   type ElementConfig,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
+import type { OptionType, OptionsType, ValueType, ActionMeta, InputActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
 
@@ -44,6 +44,7 @@ export type CreatableProps = {
   isLoading?: boolean,
   isMulti?: boolean,
   onChange: (ValueType, ActionMeta) => void,
+  onInputChange: (string, InputActionMeta) => void,
 };
 
 export type Props = SelectProps & CreatableProps;
@@ -81,8 +82,7 @@ export const defaultProps: DefaultCreatableProps = {
 };
 
 type State = {
-  newOption: OptionType | void,
-  options: OptionsType,
+  inputValue: string,
 };
 
 export const makeCreatableSelect = <C: {}>(
@@ -91,41 +91,18 @@ export const makeCreatableSelect = <C: {}>(
   class Creatable extends Component<CreatableProps & C, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
-    constructor(props: CreatableProps & C) {
-      super(props);
-      const options = props.options || [];
-      this.state = {
-        newOption: undefined,
-        options: options,
-      };
-    }
-    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
-      const {
-        allowCreateWhileLoading,
-        createOptionPosition,
-        formatCreateLabel,
-        getNewOptionData,
-        inputValue,
-        isLoading,
-        isValidNewOption,
-        value,
-      } = nextProps;
-      const options = nextProps.options || [];
-      let { newOption } = this.state;
-      if (isValidNewOption(inputValue, cleanValue(value), options)) {
-        newOption = getNewOptionData(inputValue, formatCreateLabel(inputValue));
-      } else {
-        newOption = undefined;
+    buildOptions = createMemoizedOptionsBuilder();
+    state = {
+      inputValue: '',
+    };
+    static getDerivedStateFromProps(props: CreatableProps, state: State) {
+      if (inputIsControlled(props) && props.inputValue !== state.inputValue) {
+        return {
+          inputValue: props.inputValue
+        };
       }
-      this.setState({
-        newOption: newOption,
-        options:
-          (allowCreateWhileLoading || !isLoading) && newOption
-            ? createOptionPosition === 'first'
-              ? [newOption, ...options]
-              : [...options, newOption]
-            : options,
-      });
+
+      return null;
     }
     onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
       const {
@@ -140,7 +117,7 @@ export const makeCreatableSelect = <C: {}>(
       if (actionMeta.action !== 'select-option') {
         return onChange(newValue, actionMeta);
       }
-      const { newOption } = this.state;
+      const newOption = this.buildOptions.getNewOption();
       const valueArray = Array.isArray(newValue) ? newValue : [newValue];
 
       if (valueArray[valueArray.length - 1] === newOption) {
@@ -158,6 +135,17 @@ export const makeCreatableSelect = <C: {}>(
       }
       onChange(newValue, actionMeta);
     };
+    onInputChange = (value: string, actionMeta: InputActionMeta) => {
+      if (inputIsControlled(this.props)) {
+        if (typeof this.props.onInputChange === 'function') {
+          this.props.onInputChange(value, actionMeta);
+        }
+      } else {
+        this.setState({
+          inputValue: value,
+        });
+      }
+    };
     focus() {
       this.select.focus();
     }
@@ -165,15 +153,16 @@ export const makeCreatableSelect = <C: {}>(
       this.select.blur();
     }
     render() {
-      const { options } = this.state;
       return (
         <SelectComponent
           {...this.props}
           ref={ref => {
             this.select = ref;
           }}
-          options={options}
+          options={this.buildOptions({ ...this.state, ...this.props })}
           onChange={this.onChange}
+          onInputChange={this.onInputChange}
+          inputValue={inputIsControlled(this.props) ? this.props.inputValue : this.state.inputValue}
         />
       );
     }
@@ -187,3 +176,54 @@ const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
 export default manageState<ElementConfig<typeof SelectCreatable>>(
   SelectCreatable
 );
+
+const inputIsControlled = (props: CreatableProps): boolean => typeof props.inputValue === 'string';
+
+const newOptionComputationDependencies: $Keys<CreatableProps>[] = ['isValidNewOption', 'inputValue', 'value', 'options'];
+const optionsComputationDependencies: $Keys<CreatableProps>[] = ['options', 'createOptionPosition'];
+const createMemoizedOptionsBuilder = () => {
+  let prevProps: CreatableProps = {};
+  let cachedNewOption: ?OptionType;
+  let cachedOptions: ?OptionsType;
+
+  const getMemoizedOptions = (props: CreatableProps): OptionsType => {
+    const {
+      allowCreateWhileLoading,
+      createOptionPosition,
+      formatCreateLabel,
+      getNewOptionData,
+      inputValue,
+      isLoading,
+      isValidNewOption,
+      value,
+      options = [],
+    } = props;
+
+    let newOption = cachedNewOption;
+    if (!newOption || newOptionComputationDependencies.some(key => prevProps[key] !== props[key])) {
+      newOption = isValidNewOption(inputValue, cleanValue(value), options)
+        ? getNewOptionData(inputValue, formatCreateLabel(inputValue))
+        : undefined;
+    }
+
+    if (
+      !cachedOptions ||
+      newOption !== cachedNewOption ||
+      (!allowCreateWhileLoading && prevProps.isLoading !== isLoading) || // only check isLoading in case allowCreateWhileLoading is false
+      (allowCreateWhileLoading !== prevProps.allowCreateWhileLoading && (allowCreateWhileLoading ? prevProps.isLoading : isLoading)) || // a change in createWhileLoading only requires a new computation in case the result of allowCreateWhileLoading || !isLoading changed
+      optionsComputationDependencies.some(key => prevProps[key] !== props[key])
+    ) {
+      cachedOptions = (allowCreateWhileLoading || !isLoading) && newOption
+        ? createOptionPosition === 'first'
+          ? [newOption, ...options]
+          : [...options, newOption]
+        : options;
+    }
+
+    cachedNewOption = newOption;
+    return cachedOptions;
+  };
+  getMemoizedOptions.getNewOption = () => cachedNewOption;
+
+  return getMemoizedOptions;
+};
