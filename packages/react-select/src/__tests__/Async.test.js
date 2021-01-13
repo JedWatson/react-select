@@ -228,3 +228,43 @@ test.skip('in case of callbacks should handle an error by setting options to an 
   });
   expect(container.querySelectorAll('.react-select__option').length).toBe(0);
 });
+
+test('should call loadOptions just once during quick fire input with debounceInterval set', () => {
+  let loadOptionsSpy = jest.fn();
+  let { container } = render(
+    <Async
+      className="react-select"
+      classNamePrefix="react-select"
+      loadOptions={loadOptionsSpy}
+      options={OPTIONS}
+      debounceInterval={50}
+    />
+  );
+  let input = container.querySelector('div.react-select__input input');
+  userEvent.type(
+    input,
+    'a'
+  );
+  userEvent.type(
+    input,
+    'b'
+  );
+  userEvent.type(
+    input,
+    'c'
+  );
+  userEvent.type(
+    input,
+    'd'
+  );
+
+  return new Promise((resolve, reject) => setTimeout(() => {
+    try {
+      expect(input.value).toBe('abcd');
+      expect(loadOptionsSpy).toHaveBeenCalledTimes(1);
+      resolve();
+    } catch (ex) {
+      reject(ex);
+    }
+  }, 100));
+});

@@ -8,7 +8,7 @@ import React, {
   type ElementRef,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
-import { handleInputChange } from './utils';
+import { handleInputChange, debounce } from './utils';
 import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
 
@@ -25,6 +25,8 @@ export type AsyncProps = {
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
+  /* Debounce interval in milliseconds on input change. */
+  debounceInterval: number,
   /* Same behaviour as for Select */
   onInputChange?: (string, InputActionMeta) => void,
   /* Same behaviour as for Select */
@@ -61,8 +63,10 @@ export const makeAsyncSelect = <C: {}>(
     lastRequest: {};
     mounted: boolean = false;
     optionsCache: { [string]: OptionsType } = {};
+    loadOptions: (inputValue: string, callback: (?Array<*>) => void) => void;
     constructor(props: C & AsyncProps) {
       super();
+      this.loadOptions = props.debounceInterval ? debounce(this.handleLoadOptions, props.debounceInterval) : this.handleLoadOptions;
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
@@ -108,7 +112,7 @@ export const makeAsyncSelect = <C: {}>(
     blur() {
       this.select.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    handleLoadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
       const loader = loadOptions(inputValue, callback);
