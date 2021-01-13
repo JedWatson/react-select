@@ -623,7 +623,13 @@ cases(
     focusedOption,
   }) => {
     let onChangeSpy = jest.fn();
-    props = { ...props, onChange: onChangeSpy, hideSelectedOptions: false, isMulti: true, menuIsOpen: true };
+    props = {
+      ...props,
+      onChange: onChangeSpy,
+      hideSelectedOptions: false,
+      isMulti: true,
+      menuIsOpen: true,
+    };
     let selectWrapper = mount(<Select {...props} />);
 
     let selectOption = [
@@ -1800,14 +1806,20 @@ test('accessibility > aria-live region should not have content initially', () =>
   const selectWrapper = mount(<Select {...BASIC_PROPS} />);
 
   expect(selectWrapper.find('span[aria-live="polite"]').text()).toBe('');
-  expect(selectWrapper.find('span[aria-live="polite"]').children()).toHaveLength(0);
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').children()
+  ).toHaveLength(0);
 });
 
 test('accessibility > aria-live region should have aria-atomic and aria-relevant defined', () => {
   const selectWrapper = mount(<Select {...BASIC_PROPS} />);
 
-  expect(selectWrapper.find('span[aria-live="polite"]').prop('aria-atomic')).toBe('true');
-  expect(selectWrapper.find('span[aria-live="polite"]').prop('aria-relevant')).toBe('additions text');
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').prop('aria-atomic')
+  ).toBe('true');
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').prop('aria-relevant')
+  ).toBe('additions text');
 });
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
@@ -1876,7 +1888,15 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 });
 
 test('accessibility > aria-live region descendants should have unique keys so that they are remounted in DOM and not just updated (NVDA in FF bug)', () => {
-  const selectWrapper = mount(<Select {...BASIC_PROPS} options={OPTIONS_DISABLED} inputValue={''} autoFocus menuIsOpen />);
+  const selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      options={OPTIONS_DISABLED}
+      inputValue={''}
+      autoFocus
+      menuIsOpen
+    />
+  );
   const liveRegionId = '#aria-context';
   const liveRegionEventId = '#aria-selection-event';
 
@@ -1893,7 +1913,9 @@ test('accessibility > aria-live region descendants should have unique keys so th
     .simulate('keyDown', { keyCode: 13, key: 'Enter' });
 
   expect(selectWrapper.find(liveRegionId).key()).not.toEqual(liveRegionKey);
-  expect(selectWrapper.find(liveRegionEventId).key()).not.toEqual(liveRegionEventKey);
+  expect(selectWrapper.find(liveRegionEventId).key()).not.toEqual(
+    liveRegionEventKey
+  );
 });
 
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {

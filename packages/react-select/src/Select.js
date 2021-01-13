@@ -1834,11 +1834,19 @@ export default class Select extends Component<Props, State> {
     const ariaLiveMessage = this.constructAriaLiveMessage();
 
     return (
-      <A11yText aria-live="polite" aria-relevant="additions text" aria-atomic="true">
+      <A11yText
+        aria-live="polite"
+        aria-relevant="additions text"
+        aria-atomic="true"
+      >
         {isFocused && (
           <React.Fragment>
-            <span id="aria-selection-event" key={ariaLiveSelection}>&nbsp;{ariaLiveSelection}</span>
-            <span id="aria-context" key={ariaLiveMessage}>&nbsp;{ariaLiveMessage}</span>
+            <span id="aria-selection-event" key={ariaLiveSelection}>
+              &nbsp;{ariaLiveSelection}
+            </span>
+            <span id="aria-context" key={ariaLiveMessage}>
+              &nbsp;{ariaLiveMessage}
+            </span>
           </React.Fragment>
         )}
       </A11yText>
