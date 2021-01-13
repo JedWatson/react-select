@@ -44,7 +44,6 @@ const CustomLoadingMessage = () => {
       components={{ LoadingMessage }}
     />
   );
-
 };
 
 export default CustomLoadingMessage;

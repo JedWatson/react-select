@@ -28,7 +28,8 @@ const colourStyles = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor: !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+        backgroundColor:
+          !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
       },
     };
   },
