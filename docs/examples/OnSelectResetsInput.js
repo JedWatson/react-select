@@ -5,7 +5,7 @@ import { colourOptions } from '../data';
 export default class OnSelectResetsInput extends Component {
   state = {
     inputValue: '',
-  }
+  };
   onInputChange = (inputValue, { action }) => {
     console.log(inputValue, action);
     switch (action) {
@@ -19,14 +19,14 @@ export default class OnSelectResetsInput extends Component {
           menuIsOpen = true;
         }
         this.setState({
-          menuIsOpen
+          menuIsOpen,
         });
         return;
       default:
         return;
     }
-  }
-  render () {
+  };
+  render() {
     const { inputValue, menuIsOpen } = this.state;
     return (
       <Select
@@ -42,4 +42,4 @@ export default class OnSelectResetsInput extends Component {
       />
     );
   }
-};
+}
