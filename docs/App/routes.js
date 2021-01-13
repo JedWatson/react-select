@@ -15,5 +15,5 @@ export default {
   '/async': Async,
   '/creatable': Creatable,
   '/advanced': Advanced,
-  '/upgrade-guide': UpgradeGuide
+  '/upgrade-guide': UpgradeGuide,
 };
