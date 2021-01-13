@@ -7,6 +7,7 @@ export type InstructionsContext = {
   isMulti?: boolean,
   label?: string,
   isDisabled?: boolean,
+  tabSelectsValue?: boolean,
 };
 export type ValueEventContext = { value: string, isDisabled?: boolean };
 
@@ -14,12 +15,16 @@ export const instructionsAriaMessage = (
   event: string,
   context?: InstructionsContext = {}
 ) => {
-  const { isSearchable, isMulti, label, isDisabled } = context;
+  const { isSearchable, isMulti, label, isDisabled, tabSelectsValue } = context;
   switch (event) {
     case 'menu':
       return `Use Up and Down to choose options${
         isDisabled ? '' : ', press Enter to select the currently focused option'
-      }, press Escape to exit the menu, press Tab to select the option and exit the menu.`;
+      }, press Escape to exit the menu${
+        tabSelectsValue
+          ? ', press Tab to select the option and exit the menu'
+          : ''
+      }.`;
     case 'input':
       return `${label ? label : 'Select'} is focused ${
         isSearchable ? ',type to refine list' : ''
