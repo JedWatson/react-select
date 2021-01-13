@@ -626,7 +626,6 @@ cases(
     props = {
       ...props,
       onChange: onChangeSpy,
-      menuIsOpen: true,
       hideSelectedOptions: false,
       isMulti: true,
       menuIsOpen: true,
@@ -1797,6 +1796,32 @@ cases(
   }
 );
 
+test('accessibility > renders aria-live region even when not focused', () => {
+  const selectWrapper = mount(<Select {...BASIC_PROPS} />);
+
+  expect(selectWrapper.find('span[aria-live="polite"]').exists()).toBe(true);
+});
+
+test('accessibility > aria-live region should not have content initially', () => {
+  const selectWrapper = mount(<Select {...BASIC_PROPS} />);
+
+  expect(selectWrapper.find('span[aria-live="polite"]').text()).toBe('');
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').children()
+  ).toHaveLength(0);
+});
+
+test('accessibility > aria-live region should have aria-atomic and aria-relevant defined', () => {
+  const selectWrapper = mount(<Select {...BASIC_PROPS} />);
+
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').prop('aria-atomic')
+  ).toBe('true');
+  expect(
+    selectWrapper.find('span[aria-live="polite"]').prop('aria-relevant')
+  ).toBe('additions text');
+});
+
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
   let { container, rerender } = render(
     <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
@@ -1859,6 +1884,37 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 
   expect(container.querySelector(liveRegionEventId).textContent).toMatch(
     'option 1 is disabled. Select another option.'
+  );
+});
+
+test('accessibility > aria-live region descendants should have unique keys so that they are remounted in DOM and not just updated (NVDA in FF bug)', () => {
+  const selectWrapper = mount(
+    <Select
+      {...BASIC_PROPS}
+      options={OPTIONS_DISABLED}
+      inputValue={''}
+      autoFocus
+      menuIsOpen
+    />
+  );
+  const liveRegionId = '#aria-context';
+  const liveRegionEventId = '#aria-selection-event';
+
+  selectWrapper.setState({ isFocused: true });
+  selectWrapper.update();
+
+  const liveRegionKey = selectWrapper.find(liveRegionId).key();
+  const liveRegionEventKey = selectWrapper.find(liveRegionEventId).key();
+
+  selectWrapper
+    .find(Menu)
+    .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' })
+    .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' })
+    .simulate('keyDown', { keyCode: 13, key: 'Enter' });
+
+  expect(selectWrapper.find(liveRegionId).key()).not.toEqual(liveRegionKey);
+  expect(selectWrapper.find(liveRegionEventId).key()).not.toEqual(
+    liveRegionEventKey
   );
 });
 

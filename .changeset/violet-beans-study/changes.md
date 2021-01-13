@@ -1,0 +1,1 @@
+Fix aria-live region to work properly with screen readers

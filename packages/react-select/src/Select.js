@@ -1844,13 +1844,25 @@ export default class Select extends Component<Props, State> {
   }
 
   renderLiveRegion() {
-    if (!this.state.isFocused) return null;
+    const { ariaLiveSelection, isFocused } = this.state;
+    const ariaLiveMessage = this.constructAriaLiveMessage();
+
     return (
-      <A11yText aria-live="polite">
-        <span id="aria-selection-event">
-          &nbsp;{this.state.ariaLiveSelection}
-        </span>
-        <span id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</span>
+      <A11yText
+        aria-live="polite"
+        aria-relevant="additions text"
+        aria-atomic="true"
+      >
+        {isFocused && (
+          <React.Fragment>
+            <span id="aria-selection-event" key={ariaLiveSelection}>
+              &nbsp;{ariaLiveSelection}
+            </span>
+            <span id="aria-context" key={ariaLiveMessage}>
+              &nbsp;{ariaLiveMessage}
+            </span>
+          </React.Fragment>
+        )}
       </A11yText>
     );
   }
