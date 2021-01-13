@@ -1,9 +1,10 @@
 // @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { useMemo, type Node } from 'react';
 import { jsx, keyframes } from '@emotion/core';
 
 import type { CommonProps, Theme } from '../types';
+import { defaultComponents } from './index';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -73,7 +74,8 @@ const baseCSS = ({
 
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = (props: IndicatorProps) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps, selectProps: { components = {} } } = props;
+  const DownChevronComponent = useMemo(() => defaultComponents({ components }).DownChevron, [components]);
   return (
     <div
       {...innerProps}
@@ -86,14 +88,15 @@ export const DropdownIndicator = (props: IndicatorProps) => {
         className
       )}
     >
-      {children || <DownChevron />}
+      {children || <DownChevronComponent />}
     </div>
   );
 };
 
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = (props: IndicatorProps) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, className, cx, getStyles, innerProps, selectProps: { components = {} } } = props;
+  const CrossIconComponent = useMemo(() => defaultComponents({ components }).CrossIcon, [components]);
   return (
     <div
       {...innerProps}
@@ -106,7 +109,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
         className
       )}
     >
-      {children || <CrossIcon />}
+      {children || <CrossIconComponent />}
     </div>
   );
 };
