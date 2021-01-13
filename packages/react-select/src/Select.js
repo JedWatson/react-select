@@ -526,7 +526,7 @@ export default class Select extends Component<Props, State> {
         this.onMenuOpen();
         this.announceAriaLiveContext({
           event: 'menu',
-          context: { tabSelectsValue }
+          context: { tabSelectsValue },
         });
       }
     );
@@ -596,7 +596,7 @@ export default class Select extends Component<Props, State> {
       focusedIndex = -1;
       this.announceAriaLiveContext({
         event: 'menu',
-        context: { tabSelectsValue }
+        context: { tabSelectsValue },
       });
     }
 
@@ -620,7 +620,10 @@ export default class Select extends Component<Props, State> {
     });
     this.announceAriaLiveContext({
       event: 'menu',
-      context: { isDisabled: isOptionDisabled(options[nextFocus]), tabSelectsValue },
+      context: {
+        isDisabled: isOptionDisabled(options[nextFocus]),
+        tabSelectsValue,
+      },
     });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
