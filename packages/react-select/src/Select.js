@@ -1715,6 +1715,7 @@ export default class Select extends Component<Props, State> {
               Heading={GroupHeading}
               headingProps={{
                 id: headingId,
+                data: item.data,
               }}
               label={this.formatGroupLabel(item.data)}
             >
