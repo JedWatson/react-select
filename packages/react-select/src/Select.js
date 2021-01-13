@@ -443,6 +443,11 @@ export default class Select extends Component<Props, State> {
       this.focusInput();
     }
 
+    if (isFocused && isDisabled && !prevProps.isDisabled) {
+      // ensure select state gets blurred in case Select is programatically disabled while focused
+      this.setState({ isFocused: false }, this.onMenuClose);
+    }
+
     // scroll the focused option into view if necessary
     if (
       this.menuListRef &&
