@@ -376,10 +376,13 @@ export default class Select extends Component<Props, State> {
         const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
         const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
 
-        return isEqual(newSelectValue, lastSelectValue)
-          && isEqual(newProps.inputValue, lastProps.inputValue)
-          && isEqual(newProps.options, lastProps.options);
-      }).bind(this);
+        return (
+          isEqual(newSelectValue, lastSelectValue) &&
+          isEqual(newProps.inputValue, lastProps.inputValue) &&
+          isEqual(newProps.options, lastProps.options)
+        );
+      }
+    ).bind(this);
     const menuOptions = props.menuIsOpen
       ? this.buildMenuOptions(props, selectValue)
       : { render: [], focusable: [] };
@@ -513,17 +516,20 @@ export default class Select extends Component<Props, State> {
     this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
     this.inputIsHiddenAfterUpdate = false;
 
-    this.setState({
-      menuOptions,
-      focusedValue: null,
-      focusedOption: menuOptions.focusable[openAtIndex],
-    }, () => {
-      this.onMenuOpen();
-      this.announceAriaLiveContext({
-        event: 'menu',
-        context: { tabSelectsValue }
-      });
-    });
+    this.setState(
+      {
+        menuOptions,
+        focusedValue: null,
+        focusedOption: menuOptions.focusable[openAtIndex],
+      },
+      () => {
+        this.onMenuOpen();
+        this.announceAriaLiveContext({
+          event: 'menu',
+          context: { tabSelectsValue }
+        });
+      }
+    );
   }
   focusValue(direction: 'previous' | 'next') {
     const { isMulti, isSearchable } = this.props;
@@ -753,7 +759,15 @@ export default class Select extends Component<Props, State> {
   cx = (...args: any) => classNames(this.props.classNamePrefix, ...args);
 
   getCommonProps() {
-    const { clearValue, cx, getStyles, getValue, setValue, selectOption, props } = this;
+    const {
+      clearValue,
+      cx,
+      getStyles,
+      getValue,
+      setValue,
+      selectOption,
+      props,
+    } = this;
     const { isMulti, isRtl, options } = props;
     const hasValue = this.hasValue();
 
@@ -1374,7 +1388,7 @@ export default class Select extends Component<Props, State> {
       },
       { render: [], focusable: [] }
     );
-  }
+  };
 
   // ==============================
   // Renderers
@@ -1825,7 +1839,9 @@ export default class Select extends Component<Props, State> {
     if (!this.state.isFocused) return null;
     return (
       <A11yText aria-live="polite">
-        <span id="aria-selection-event">&nbsp;{this.state.ariaLiveSelection}</span>
+        <span id="aria-selection-event">
+          &nbsp;{this.state.ariaLiveSelection}
+        </span>
         <span id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</span>
       </A11yText>
     );

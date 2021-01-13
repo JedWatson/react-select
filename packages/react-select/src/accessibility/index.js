@@ -7,7 +7,7 @@ export type InstructionsContext = {
   isMulti?: boolean,
   label?: string,
   isDisabled?: boolean,
-  tabSelectsValue?: boolean
+  tabSelectsValue?: boolean,
 };
 export type ValueEventContext = { value: string, isDisabled?: boolean };
 
@@ -22,9 +22,9 @@ export const instructionsAriaMessage = (
     case 'input':
       return `${label ? label : 'Select'} is focused ${
         isSearchable ? ',type to refine list' : ''
-        }, press Down to open the menu, ${
+      }, press Down to open the menu, ${
         isMulti ? ' press left to focus selected values' : ''
-        }`;
+      }`;
     case 'value':
       return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
   }
@@ -42,7 +42,9 @@ export const valueEventAriaMessage = (
     case 'remove-value':
       return `option ${value}, deselected.`;
     case 'select-option':
-      return isDisabled ? `option ${value} is disabled. Select another option.` : `option ${value}, selected.`;
+      return isDisabled
+        ? `option ${value} is disabled. Select another option.`
+        : `option ${value}, selected.`;
   }
 };
 
@@ -68,9 +70,9 @@ export const optionFocusAriaMessage = ({
   getOptionLabel: (option: OptionType) => string,
   options: OptionsType,
 }) =>
-  `option ${getOptionLabel(focusedOption)} focused${focusedOption.isDisabled ? ' disabled' : ''}, ${options.indexOf(
-    focusedOption
-  ) + 1} of ${options.length}.`;
+  `option ${getOptionLabel(focusedOption)} focused${
+    focusedOption.isDisabled ? ' disabled' : ''
+  }, ${options.indexOf(focusedOption) + 1} of ${options.length}.`;
 
 export const resultsAriaMessage = ({
   inputValue,
@@ -80,5 +82,5 @@ export const resultsAriaMessage = ({
   screenReaderMessage: string,
 }) =>
   `${screenReaderMessage}${
-  inputValue ? ' for search term ' + inputValue : ''
+    inputValue ? ' for search term ' + inputValue : ''
   }.`;

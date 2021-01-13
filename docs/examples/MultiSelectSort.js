@@ -35,7 +35,10 @@ export default function MultiSelectSort() {
   const onSortEnd = ({ oldIndex, newIndex }) => {
     const newValue = arrayMove(selected, oldIndex, newIndex);
     setSelected(newValue);
-    console.log('Values sorted:', newValue.map(i => i.value));
+    console.log(
+      'Values sorted:',
+      newValue.map(i => i.value)
+    );
   };
 
   return (
