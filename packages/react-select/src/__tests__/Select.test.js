@@ -630,7 +630,7 @@ cases(
       isMulti: true,
       menuIsOpen: true,
     };
-    let selectWrapper = mount(<Select {...props} />);
+    let { container } = render(<Select {...props} />);
 
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
