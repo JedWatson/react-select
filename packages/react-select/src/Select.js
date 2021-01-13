@@ -711,8 +711,7 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    const { isMulti } = this.props;
-    this.onChange(isMulti ? [] : null, { action: 'clear' });
+    this.onChange(null, { action: 'clear' });
   };
   popValue = () => {
     const { selectValue } = this.state;
@@ -1720,6 +1719,7 @@ export default class Select extends Component<Props, State> {
               Heading={GroupHeading}
               headingProps={{
                 id: headingId,
+                data: item.data,
               }}
               label={this.formatGroupLabel(item.data)}
             >
