@@ -167,15 +167,15 @@ export default function Components() {
         There will likely be times that data or methods may need to be shared,
         but this can be achieved with the \`selectProps\` prop passed to each component.
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Component with selectProps Example"
             urlPath="docs/examples/CustomSelectProps.js"
             raw={require('!!raw-loader!../../examples/CustomSelectProps.js')}
           >
-            <CustomSelectProps/>
+            <CustomSelectProps />
           </ExampleWrapper>
-        }
+        )}
 
         ~~~
         ~~~
