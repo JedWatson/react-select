@@ -377,9 +377,9 @@ export default class Select extends Component<Props, State> {
         const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
 
         return (
-          isEqual(newSelectValue, lastSelectValue) &&
-          isEqual(newProps.inputValue, lastProps.inputValue) &&
-          isEqual(newProps.options, lastProps.options)
+          newSelectValue === lastSelectValue &&
+          newProps.inputValue === lastProps.inputValue &&
+          newProps.options === lastProps.options
         );
       }
     ).bind(this);
