@@ -81,7 +81,7 @@ export type Props = {
   'aria-labelledby'?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
-  /* Remove the currently focused option when the user presses backspace */
+  /* Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
   blurInputOnSelect: boolean,
