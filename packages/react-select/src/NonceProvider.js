@@ -7,7 +7,7 @@ import memoizeOne from 'memoize-one';
 type NonceProviderProps = {
   nonce: string,
   children: Node,
-  key: string,
+  cacheKey: string,
 };
 
 export default class NonceProvider extends Component<NonceProviderProps> {
@@ -21,7 +21,7 @@ export default class NonceProvider extends Component<NonceProviderProps> {
   render() {
     const emotionCache = this.createEmotionCache(
       this.props.nonce,
-      this.props.key
+      this.props.cacheKey
     );
     return (
       <CacheProvider value={emotionCache}>{this.props.children}</CacheProvider>

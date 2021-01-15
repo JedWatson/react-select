@@ -1,6 +1,6 @@
 ---
-'@react-select/docs': minor
-'react-select': minor
+'@react-select/docs': major
+'react-select': major
 ---
 
 Upgrades Emotion dependency to v11.0.0
