@@ -174,6 +174,8 @@ export type Props = {
   isSearchable: boolean,
   /* Async: Text to display when loading options */
   loadingMessage: ({ inputValue: string }) => string | null,
+  /* Maximum number of options to show */
+  maxOptions: number,
   /* Minimum height of the menu before flipping */
   minMenuHeight: number,
   /* Maximum height of the menu before scrolling */
@@ -1326,7 +1328,7 @@ export default class Select extends Component<Props, State> {
   buildMenuOptions = (props: Props, selectValue: OptionsType): MenuOptions => {
     const { inputValue = '', options } = props;
 
-    const toOption = (option, id) => {
+    const toOption = (option, id, acc) => {
       const isDisabled = this.isOptionDisabled(option, selectValue);
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
@@ -1334,7 +1336,8 @@ export default class Select extends Component<Props, State> {
 
       if (
         (this.shouldHideSelectedOptions() && isSelected) ||
-        !this.filterOption({ label, value, data: option }, inputValue)
+        !this.filterOption({ label, value, data: option }, inputValue) ||
+        (this.props.maxOptions && acc.flatList.length >= this.props.maxOptions )
       ) {
         return;
       }
@@ -1372,6 +1375,7 @@ export default class Select extends Component<Props, State> {
             .map((child, i) => {
               const option = toOption(child, `${itemIndex}-${i}`);
               if (option) acc.focusable.push(child);
+              if (option) acc.flatList.push(option);
               return option;
             })
             .filter(Boolean);
@@ -1385,15 +1389,16 @@ export default class Select extends Component<Props, State> {
             });
           }
         } else {
-          const option = toOption(item, `${itemIndex}`);
+          const option = toOption(item, `${itemIndex}`, acc);
           if (option) {
             acc.render.push(option);
             acc.focusable.push(item);
+            acc.flatList.push(option);
           }
         }
         return acc;
       },
-      { render: [], focusable: [] }
+      { flatList: [], render: [], focusable: [] }
     );
   };
 
