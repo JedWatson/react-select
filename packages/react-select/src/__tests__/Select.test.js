@@ -1431,7 +1431,7 @@ cases(
   }
 );
 
-test.only('should rebuild menu options if different isOptionDisabled prop is passed', () => {
+test('should rebuild menu options if different isOptionDisabled prop is passed', () => {
   const optionIsEnabledFunc = () => false;
   const optionIsDisabledFunc = () => true;
 

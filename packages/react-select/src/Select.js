@@ -380,7 +380,14 @@ export default class Select extends Component<Props, State> {
         return (
           newSelectValue === lastSelectValue &&
           newProps.inputValue === lastProps.inputValue &&
-          newProps.options === lastProps.options
+          newProps.options === lastProps.options &&
+          newProps.isOptionDisabled === lastProps.isOptionDisabled &&
+          newProps.isOptionSelected === lastProps.isOptionSelected &&
+          newProps.getOptionLabel === lastProps.getOptionLabel &&
+          newProps.getOptionValue === lastProps.getOptionValue &&
+          newProps.blurInputOnSelect === lastProps.blurInputOnSelect &&
+          newProps.hideSelectedOptions === lastProps.hideSelectedOptions &&
+          newProps.filterOption === lastProps.filterOption
         );
       }
     ).bind(this);
