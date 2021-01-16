@@ -1435,21 +1435,31 @@ test('should rebuild menu options if different isOptionDisabled prop is passed',
   const optionIsEnabledFunc = () => false;
   const optionIsDisabledFunc = () => true;
 
-  const { container, rerender } = render(<Select {...BASIC_PROPS} menuIsOpen isOptionDisabled={optionIsEnabledFunc} />);
+  const { container, rerender } = render(
+    <Select
+      {...BASIC_PROPS}
+      menuIsOpen
+      isOptionDisabled={optionIsEnabledFunc}
+    />
+  );
   const enabledOptionsValues = [
     ...container.querySelectorAll('.react-select__option'),
-  ]
-    .filter(n => !n.classList.contains('react-select__option--is-disabled'));
+  ].filter(n => !n.classList.contains('react-select__option--is-disabled'));
 
   expect(enabledOptionsValues.length).toEqual(OPTIONS.length);
 
   rerender(<Select {...BASIC_PROPS} isOptionDisabled={optionIsEnabledFunc} />);
-  rerender(<Select {...BASIC_PROPS} menuIsOpen isOptionDisabled={optionIsDisabledFunc} />);
+  rerender(
+    <Select
+      {...BASIC_PROPS}
+      menuIsOpen
+      isOptionDisabled={optionIsDisabledFunc}
+    />
+  );
 
   const enabledOptionsValuesAfterPropChange = [
     ...container.querySelectorAll('.react-select__option'),
-  ]
-    .filter(n => !n.classList.contains('react-select__option--is-disabled'));
+  ].filter(n => !n.classList.contains('react-select__option--is-disabled'));
 
   expect(enabledOptionsValuesAfterPropChange.length).toEqual(0);
 });

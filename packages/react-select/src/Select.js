@@ -675,7 +675,13 @@ export default class Select extends Component<Props, State> {
           context: { value: this.getOptionLabel(newValue) },
         });
       } else {
-        if (!this.isOptionDisabled(newValue, selectValue, this.props.isOptionDisabled)) {
+        if (
+          !this.isOptionDisabled(
+            newValue,
+            selectValue,
+            this.props.isOptionDisabled
+          )
+        ) {
           this.setValue([...selectValue, newValue], 'select-option', newValue);
           this.announceAriaLiveSelection({
             event: 'select-option',
@@ -690,7 +696,13 @@ export default class Select extends Component<Props, State> {
         }
       }
     } else {
-      if (!this.isOptionDisabled(newValue, selectValue, this.props.isOptionDisabled)) {
+      if (
+        !this.isOptionDisabled(
+          newValue,
+          selectValue,
+          this.props.isOptionDisabled
+        )
+      ) {
         this.setValue(newValue, 'select-option');
         this.announceAriaLiveSelection({
           event: 'select-option',
@@ -904,7 +916,11 @@ export default class Select extends Component<Props, State> {
 
     return isClearable;
   }
-  isOptionDisabled(option: OptionType, selectValue: OptionsType, isOptionDisabledFunc: isOptionDisabledType): boolean {
+  isOptionDisabled(
+    option: OptionType,
+    selectValue: OptionsType,
+    isOptionDisabledFunc: isOptionDisabledType
+  ): boolean {
     return typeof isOptionDisabledFunc === 'function'
       ? isOptionDisabledFunc(option, selectValue)
       : false;
@@ -1335,7 +1351,11 @@ export default class Select extends Component<Props, State> {
     const { inputValue = '', options } = props;
 
     const toOption = (option, id) => {
-      const isDisabled = this.isOptionDisabled(option, selectValue, props.isOptionDisabled);
+      const isDisabled = this.isOptionDisabled(
+        option,
+        selectValue,
+        props.isOptionDisabled
+      );
       const isSelected = this.isOptionSelected(option, selectValue);
       const label = this.getOptionLabel(option);
       const value = this.getOptionValue(option);
