@@ -6,11 +6,7 @@ import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
-import {
-  A11yText,
-  DummyInput,
-  ScrollManager,
-} from './internal/index';
+import { A11yText, DummyInput, ScrollManager } from './internal/index';
 import {
   valueFocusAriaMessage,
   optionFocusAriaMessage,
@@ -1774,17 +1770,20 @@ export default class Select extends Component<Props, State> {
               onTopArrive={onMenuScrollToTop}
               onBottomArrive={onMenuScrollToBottom}
               lockEnabled={menuShouldBlockScroll}
-            >{(scrollTargetRef) => (<MenuList
-                {...commonProps}
-                innerRef={(instance: HTMLElement | null): void => {
-                  this.getMenuListRef(instance);
-                  scrollTargetRef(instance);
-                }}
-                isLoading={isLoading}
-                maxHeight={maxHeight}
-              >
-                {menuUI}
-              </MenuList>)}
+            >
+              {scrollTargetRef => (
+                <MenuList
+                  {...commonProps}
+                  innerRef={(instance: HTMLElement | null): void => {
+                    this.getMenuListRef(instance);
+                    scrollTargetRef(instance);
+                  }}
+                  isLoading={isLoading}
+                  maxHeight={maxHeight}
+                >
+                  {menuUI}
+                </MenuList>
+              )}
             </ScrollManager>
           </Menu>
         )}

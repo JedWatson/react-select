@@ -14,17 +14,17 @@ type Props = {
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-}
-
-type State = {
-  enableLock: boolean
-}
-
-const defaultProps = {
-  captureEnabled: true
 };
 
-export default class ScrollManager extends PureComponent<Props,State> {
+type State = {
+  enableLock: boolean,
+};
+
+const defaultProps = {
+  captureEnabled: true,
+};
+
+export default class ScrollManager extends PureComponent<Props, State> {
   static defaultProps = defaultProps;
 
   isBottom: boolean = false;
@@ -32,12 +32,13 @@ export default class ScrollManager extends PureComponent<Props,State> {
   touchStart: number;
 
   state = {
-    enableLock: false
-  }
+    enableLock: false,
+  };
 
   targetRef = React.createRef<HTMLElement>();
 
-  blurSelectInput = () => document.activeElement && document.activeElement.blur();
+  blurSelectInput = () =>
+    document.activeElement && document.activeElement.blur();
 
   componentDidMount() {
     if (this.props.captureEnabled) {
@@ -162,7 +163,7 @@ export default class ScrollManager extends PureComponent<Props,State> {
   setTargetRef = (instance: HTMLElement | null) => {
     this.targetRef.current = instance;
     this.setState({ enableLock: !!instance });
-  }
+  };
 
   render() {
     const { children, lockEnabled } = this.props;
@@ -177,12 +178,16 @@ export default class ScrollManager extends PureComponent<Props,State> {
      */
     return (
       <React.Fragment>
-        {lockEnabled && <div
+        {lockEnabled && (
+          <div
             onClick={this.blurSelectInput}
             css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
-        />}
+          />
+        )}
         {children(this.setTargetRef)}
-        {(lockEnabled && this.state.enableLock && this.targetRef.current) && <ScrollLock touchScrollTarget={this.targetRef.current} />}
+        {lockEnabled && this.state.enableLock && this.targetRef.current && (
+          <ScrollLock touchScrollTarget={this.targetRef.current} />
+        )}
       </React.Fragment>
     );
   }
