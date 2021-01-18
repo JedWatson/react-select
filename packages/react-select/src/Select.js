@@ -1444,41 +1444,6 @@ export default class Select extends Component<Props, State> {
   // ==============================
   // Renderers
   // ==============================
-  constructAriaLiveMessage() {
-    const {
-      ariaLiveContext,
-      selectValue,
-      focusedValue,
-      focusedOption,
-    } = this.state;
-    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
-
-    // An aria live message representing the currently focused value in the select.
-    const focusedValueMsg = focusedValue
-      ? valueFocusAriaMessage({
-          focusedValue,
-          getOptionLabel: this.getOptionLabel,
-          selectValue,
-        })
-      : '';
-    // An aria live message representing the currently focused option in the select.
-    const focusedOptionMsg =
-      focusedOption && menuIsOpen
-        ? optionFocusAriaMessage({
-            focusedOption,
-            getOptionLabel: this.getOptionLabel,
-            options,
-          })
-        : '';
-    // An aria live message representing the set of focusable results and current searchterm/inputvalue.
-    const resultsMsg = resultsAriaMessage({
-      inputValue,
-      screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
-    });
-
-    return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
-  }
-
   renderInput() {
     const {
       isDisabled,
@@ -1917,13 +1882,49 @@ export default class Select extends Component<Props, State> {
   }
 
   renderLiveRegion() {
+    const {
+      ariaLiveContext,
+      selectValue,
+      focusedValue,
+      focusedOption,
+    } = this.state;
+    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
+
+    const constructAriaLiveMessage = () => {
+  
+      // An aria live message representing the currently focused value in the select.
+      const focusedValueMsg = focusedValue
+        ? valueFocusAriaMessage({
+            focusedValue,
+            getOptionLabel: this.getOptionLabel,
+            selectValue,
+          })
+        : '';
+      // An aria live message representing the currently focused option in the select.
+      const focusedOptionMsg =
+        focusedOption && menuIsOpen
+          ? optionFocusAriaMessage({
+              focusedOption,
+              getOptionLabel: this.getOptionLabel,
+              options,
+            })
+          : '';
+      // An aria live message representing the set of focusable results and current searchterm/inputvalue.
+      const resultsMsg = resultsAriaMessage({
+        inputValue,
+        screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
+      });
+
+      return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
+    }
+    
     if (!this.state.isFocused) return null;
     return (
       <A11yText aria-live="polite">
         <span id="aria-selection-event">
           &nbsp;{this.state.ariaLiveSelection}
         </span>
-        <span id="aria-context">&nbsp;{this.constructAriaLiveMessage()}</span>
+        <span id="aria-context">&nbsp;{constructAriaLiveMessage()}</span>
       </A11yText>
     );
   }
