@@ -1884,30 +1884,23 @@ export default class Select extends Component<Props, State> {
   renderLiveRegion() {
     const {
       ariaLiveContext,
-      selectValue,
-      focusedValue,
+      ariaLiveSelection,
       focusedOption,
+      focusedValue,
+      isFocused,
+      selectValue,
     } = this.state;
-    const { options, menuIsOpen, inputValue, screenReaderStatus } = this.props;
+    const { getOptionLabel, inputValue, menuIsOpen, options, screenReaderStatus } = this.props;
 
     const constructAriaLiveMessage = () => {
-  
       // An aria live message representing the currently focused value in the select.
       const focusedValueMsg = focusedValue
-        ? valueFocusAriaMessage({
-            focusedValue,
-            getOptionLabel: this.getOptionLabel,
-            selectValue,
-          })
+        ? valueFocusAriaMessage({ focusedValue, getOptionLabel, selectValue })
         : '';
       // An aria live message representing the currently focused option in the select.
       const focusedOptionMsg =
         focusedOption && menuIsOpen
-          ? optionFocusAriaMessage({
-              focusedOption,
-              getOptionLabel: this.getOptionLabel,
-              options,
-            })
+          ? optionFocusAriaMessage({ focusedOption, getOptionLabel, options })
           : '';
       // An aria live message representing the set of focusable results and current searchterm/inputvalue.
       const resultsMsg = resultsAriaMessage({
@@ -1918,12 +1911,10 @@ export default class Select extends Component<Props, State> {
       return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
     }
     
-    if (!this.state.isFocused) return null;
+    if (!isFocused) return null;
     return (
       <A11yText aria-live="polite">
-        <span id="aria-selection-event">
-          &nbsp;{this.state.ariaLiveSelection}
-        </span>
+        <span id="aria-selection-event">&nbsp;{ariaLiveSelection}</span>
         <span id="aria-context">&nbsp;{constructAriaLiveMessage()}</span>
       </A11yText>
     );
