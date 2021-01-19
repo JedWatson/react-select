@@ -508,6 +508,8 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
   render() {
     const {
       appendTo,
+      className,
+      cx,
       children,
       controlElement,
       menuPlacement,
@@ -529,7 +531,12 @@ export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
 
     // same wrapper element whether fixed or portalled
     const menuWrapper = (
-      <div css={getStyles('menuPortal', state)}>{children}</div>
+      <div
+        css={getStyles('menuPortal', state)}
+        className={cx({ 'menu-portal': true }, className)}
+      >
+        {children}
+      </div>
     );
 
     return (
