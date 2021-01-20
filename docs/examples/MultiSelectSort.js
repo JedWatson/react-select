@@ -4,7 +4,7 @@ import Select, { components } from 'react-select';
 import {
   SortableContainer,
   SortableElement,
-  sortableHandle
+  sortableHandle,
 } from 'react-sortable-hoc';
 import { colourOptions } from './docs/data';
 
