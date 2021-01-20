@@ -2,8 +2,8 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
 import React, { type Element, useRef, useState } from 'react';
-import ScrollLock from './ScrollLock/index';
 import useScrollCapture from './useScrollCapture';
+import useScrollLock from './useScrollLock';
 
 type RefCallback<T> = (T | null) => void;
 
@@ -36,12 +36,11 @@ export default function ScrollManager({
     onTopArrive,
     onTopLeave,
   });
-  const [enableLock, setEnableLock] = useState(false);
-  const targetElement = useRef<HTMLElement | null>(null);
+  const setScrollLockTarget = useScrollLock({ enabled: lockEnabled });
 
   const targetRef = element => {
     setScrollCaptureTarget(element);
-    setEnableLock(!!element);
+    setScrollLockTarget(element);
   };
 
   return (
@@ -53,9 +52,6 @@ export default function ScrollManager({
         />
       )}
       {children(targetRef)}
-      {lockEnabled && enableLock && targetElement.current && (
-        <ScrollLock touchScrollTarget={targetElement.current} />
-      )}
     </React.Fragment>
   );
 }

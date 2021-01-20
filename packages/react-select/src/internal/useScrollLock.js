@@ -1,13 +1,47 @@
 // @flow
-import { Component } from 'react';
 
-import { LOCK_STYLES, STYLE_KEYS } from './constants';
-import {
-  allowTouchMove,
-  isTouchDevice,
-  preventInertiaScroll,
-  preventTouchMove,
-} from './utils';
+import { useEffect, useRef } from 'react';
+
+const STYLE_KEYS = [
+  'boxSizing',
+  'height',
+  'overflow',
+  'paddingRight',
+  'position',
+];
+
+const LOCK_STYLES = {
+  boxSizing: 'border-box', // account for possible declaration `width: 100%;` on body
+  overflow: 'hidden',
+  position: 'relative',
+  height: '100%',
+};
+
+function preventTouchMove(e: TouchEvent) {
+  e.preventDefault();
+}
+
+function allowTouchMove(e: TouchEvent) {
+  e.stopPropagation();
+}
+
+function preventInertiaScroll() {
+  const top = this.scrollTop;
+  const totalScroll = this.scrollHeight;
+  const currentScroll = top + this.offsetHeight;
+
+  if (top === 0) {
+    this.scrollTop = 1;
+  } else if (currentScroll === totalScroll) {
+    this.scrollTop = top - 1;
+  }
+}
+
+// `ontouchstart` check works on most browsers
+// `maxTouchPoints` works on IE10/11 and Surface
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints;
+}
 
 const canUseDOM = !!(
   typeof window !== 'undefined' &&
@@ -17,27 +51,29 @@ const canUseDOM = !!(
 
 let activeScrollLocks = 0;
 
-type Props = {
-  accountForScrollbars: boolean,
-  touchScrollTarget?: HTMLElement,
+type Options = {
+  enabled: boolean,
+  accountForScrollbars?: boolean,
 };
 type TargetStyle = {
   [key: string]: string | null,
 };
 
-export default class ScrollLock extends Component<Props> {
-  originalStyles = {};
-  listenerOptions = {
-    capture: false,
-    passive: false,
-  };
-  static defaultProps = {
-    accountForScrollbars: true,
-  };
-  componentDidMount() {
+const listenerOptions = {
+  capture: false,
+  passive: false,
+};
+
+export default function useScrollLock({
+  enabled,
+  accountForScrollbars = true,
+}: Options) {
+  const originalStyles = useRef({});
+  const scrollTarget = useRef<HTMLElement | null>(null);
+
+  const addScrollLock = (touchScrollTarget: HTMLElement | null) => {
     if (!canUseDOM) return;
 
-    const { accountForScrollbars, touchScrollTarget } = this.props;
     const target = document.body;
     const targetStyle = target && (target.style: TargetStyle);
 
@@ -45,14 +81,14 @@ export default class ScrollLock extends Component<Props> {
       // store any styles already applied to the body
       STYLE_KEYS.forEach(key => {
         const val = targetStyle && targetStyle[key];
-        this.originalStyles[key] = val;
+        originalStyles.current[key] = val;
       });
     }
 
     // apply the lock styles and padding if this is the first scroll lock
     if (accountForScrollbars && activeScrollLocks < 1) {
       const currentPadding =
-        parseInt(this.originalStyles.paddingRight, 10) || 0;
+        parseInt(originalStyles.current.paddingRight, 10) || 0;
       const clientWidth = document.body ? document.body.clientWidth : 0;
       const adjustedPadding =
         window.innerWidth - clientWidth + currentPadding || 0;
@@ -72,34 +108,30 @@ export default class ScrollLock extends Component<Props> {
     // account for touch devices
     if (target && isTouchDevice()) {
       // Mobile Safari ignores { overflow: hidden } declaration on the body.
-      target.addEventListener(
-        'touchmove',
-        preventTouchMove,
-        this.listenerOptions
-      );
+      target.addEventListener('touchmove', preventTouchMove, listenerOptions);
 
       // Allow scroll on provided target
       if (touchScrollTarget) {
         touchScrollTarget.addEventListener(
           'touchstart',
           preventInertiaScroll,
-          this.listenerOptions
+          listenerOptions
         );
         touchScrollTarget.addEventListener(
           'touchmove',
           allowTouchMove,
-          this.listenerOptions
+          listenerOptions
         );
       }
     }
 
     // increment active scroll locks
     activeScrollLocks += 1;
-  }
-  componentWillUnmount() {
+  };
+
+  const removeScrollLock = (touchScrollTarget: HTMLElement | null) => {
     if (!canUseDOM) return;
 
-    const { accountForScrollbars, touchScrollTarget } = this.props;
     const target = document.body;
     const targetStyle = target && (target.style: TargetStyle);
 
@@ -109,7 +141,7 @@ export default class ScrollLock extends Component<Props> {
     // reapply original body styles, if any
     if (accountForScrollbars && activeScrollLocks < 1) {
       STYLE_KEYS.forEach(key => {
-        const val = this.originalStyles[key];
+        const val = originalStyles.current[key];
         if (targetStyle) {
           targetStyle[key] = val;
         }
@@ -121,24 +153,36 @@ export default class ScrollLock extends Component<Props> {
       target.removeEventListener(
         'touchmove',
         preventTouchMove,
-        this.listenerOptions
+        listenerOptions
       );
 
       if (touchScrollTarget) {
         touchScrollTarget.removeEventListener(
           'touchstart',
           preventInertiaScroll,
-          this.listenerOptions
+          listenerOptions
         );
         touchScrollTarget.removeEventListener(
           'touchmove',
           allowTouchMove,
-          this.listenerOptions
+          listenerOptions
         );
       }
     }
-  }
-  render() {
-    return null;
-  }
+  };
+
+  useEffect(() => {
+    const element = scrollTarget.current;
+    if (enabled) {
+      addScrollLock(element);
+    }
+
+    return () => {
+      removeScrollLock(element);
+    };
+  });
+
+  return (element: HTMLElement | null) => {
+    scrollTarget.current = element;
+  };
 }

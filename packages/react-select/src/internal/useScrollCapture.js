@@ -124,6 +124,7 @@ export default function useScrollCapture({
     if (enabled) {
       startListening(element);
     }
+
     return () => {
       stopListening(element);
     };
