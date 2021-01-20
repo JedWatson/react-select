@@ -1,52 +1,71 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { render, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import cases from 'jest-in-case';
 
 import { OPTIONS } from './constants';
 import Select from '../';
-import SelectBase from '../Select';
-import { components } from '../components';
 
-const { Control, Menu } = components;
+function openMenu(container) {
+  expect(
+    container.querySelector('.react-select__menu')
+  ).not.toBeInTheDocument();
+
+  toggleMenuOpen(container);
+
+  expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
+}
+
+function toggleMenuOpen(container) {
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__dropdown-indicator'),
+    { button: 0 }
+  );
+}
+
+function closeMenu(container) {
+  expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
+  toggleMenuOpen(container);
+  expect(
+    container.querySelector('.react-select__menu')
+  ).not.toBeInTheDocument();
+}
 
 const BASIC_PROPS = {
   className: 'react-select',
   classNamePrefix: 'react-select',
-  options: OPTIONS,
+  onChange: jest.fn(),
+  onInputChange: jest.fn(),
+  onMenuClose: jest.fn(),
+  onMenuOpen: jest.fn(),
   name: 'test-input-name',
+  options: OPTIONS,
 };
 
 test('defaults > snapshot', () => {
-  const tree = shallow(<Select />);
-  expect(toJson(tree)).toMatchSnapshot();
+  const { container } = render(<Select />);
+  expect(container).toMatchSnapshot();
 });
 
 test('passes down the className prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} className="test-class" />);
-  expect(selectWrapper.find(SelectBase).props().className).toBe('test-class');
+  const { container } = render(<Select {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select')).toBeTruthy();
 });
 
 cases(
   'click on dropdown indicator',
-  ({ props = BASIC_PROPS }) => {
-    let selectWrapper = mount(<Select {...props} />);
+  ({ props }) => {
+    let { container } = render(<Select {...props} />);
     // Menu not open by defualt
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
-    // Open Menu
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
-
-    // close open menu
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+    expect(
+      container.querySelector('.react-select__menu')
+    ).not.toBeInTheDocument();
+    openMenu(container);
+    closeMenu(container);
   },
   {
-    'single select > should toggle Menu': {},
+    'single select > should toggle Menu': { props: BASIC_PROPS },
     'multi select > should toggle Menu': {
       props: {
         ...BASIC_PROPS,
@@ -57,46 +76,46 @@ cases(
 );
 
 test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown Indicator', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} menuIsOpen />);
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  const { container } = render(<Select menuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  toggleMenuOpen(container);
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 });
 
 test('defaultMenuIsOpen prop > should open by menu default and clicking on Dropdown Indicator should toggle menu', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} defaultMenuIsOpen />);
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  const { container } = render(<Select defaultMenuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector('.react-select__menu')).toBeTruthy();
 
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  toggleMenuOpen(container);
+  expect(container.querySelector('.react-select__menu')).toBeFalsy();
 });
 
 test('Menu is controllable by menuIsOpen prop', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} />);
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
+  const { container, rerender } = render(<Select {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeFalsy();
 
-  selectWrapper.setProps({ menuIsOpen: true });
-  expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  rerender(<Select menuIsOpen {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeTruthy();
 
-  selectWrapper.setProps({ menuIsOpen: false });
-  expect(selectWrapper.find(Menu).exists()).toBeFalsy();
+  rerender(<Select menuIsOpen={false} {...BASIC_PROPS} />);
+  expect(container.querySelector(menuClass)).toBeFalsy();
 });
 
 cases(
   'Menu to open by default if menuIsOpen prop is true',
-  ({ props = { ...BASIC_PROPS, menuIsOpen: true } }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('mouseDown', { button: 0 });
-    // menu is not closed
-    expect(selectWrapper.find(Menu).exists()).toBeTruthy();
+  ({ props }) => {
+    props = { ...BASIC_PROPS, ...props, menuIsOpen: true };
+    const menuClass = `.${BASIC_PROPS.classNamePrefix}__menu`;
+    const { container } = render(<Select {...props} />);
+    expect(container.querySelector(menuClass)).toBeTruthy();
+
+    userEvent.click(
+      container.querySelector('div.react-select__dropdown-indicator')
+    );
+
+    expect(container.querySelector(menuClass)).toBeTruthy();
   },
   {
     'single select > should keep Menu open by default if true is passed for menuIsOpen prop': {},
@@ -111,84 +130,73 @@ cases(
 );
 
 test('multi select > selecting multiple values', () => {
-  let selectWrapper = mount(<Select {...BASIC_PROPS} isMulti />);
-  // Open Menu
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find(Control).text()).toBe('0');
+  let { container } = render(<Select {...BASIC_PROPS} isMulti />);
+  openMenu(container);
+  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    keyCode: 13,
+    key: 'Enter',
+  });
+  expect(container.querySelector('.react-select__control').textContent).toBe(
+    '0'
+  );
 
-  selectWrapper
-    .find('div.react-select__dropdown-indicator')
-    .simulate('mouseDown', { button: 0 });
-  selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-  expect(selectWrapper.find(Control).text()).toBe('01');
+  openMenu(container);
+  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    keyCode: 13,
+    key: 'Enter',
+  });
+  expect(container.querySelector('.react-select__control').textContent).toBe(
+    '01'
+  );
 });
 
 test('defaultInputValue prop > should update the inputValue on change of input if defaultInputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, defaultInputValue: '0' };
-  let selectWrapper = mount(<Select {...props} />);
-  expect(selectWrapper.find('Control input').props().value).toBe('0');
-  let input = selectWrapper.find('Control input').getDOMNode();
-  // Thit is to set the event.currentTarget.value
-  // Enzyme issue : https://github.com/airbnb/enzyme/issues/218
-  input.value = 'A';
-  selectWrapper
-    .find('Control input')
-    .simulate('change', { keyCode: 65, Key: 'A' });
-  expect(selectWrapper.find('Control input').props().value).toBe('A');
+  let { container } = render(<Select {...props} />);
+  let input = container.querySelector('.react-select__control input');
+
+  expect(input.value).toBe('0');
+  userEvent.type(input, 'A');
+  expect(input.value).toBe('0A');
 });
 
 test('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, inputValue: '0' };
-  let selectWrapper = mount(<Select {...props} />);
-  let input = selectWrapper.find('Control input').getDOMNode();
-  // Thit is to set the event.currentTarget.value
-  // Enzyme issue : https://github.com/airbnb/enzyme/issues/218
-  input.value = 'A';
-  selectWrapper
-    .find('Control input')
-    .simulate('change', { keyCode: 65, Key: 'A' });
-  expect(selectWrapper.find('Control input').props().value).toBe('0');
+  let { container } = render(<Select {...props} />);
+  let input = container.querySelector('.react-select__control input');
+  expect(input.value).toBe('0');
+  userEvent.type(input, 'A');
+  expect(input.value).toBe('0');
 });
 
 test('defaultValue prop > should update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, defaultValue: [OPTIONS[0]] };
-  let selectWrapper = mount(<Select {...props} menuIsOpen />);
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-  selectWrapper
-    .find('div.react-select__option')
-    .at(1)
-    .simulate('click');
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('one');
+  let { container } = render(<Select {...props} menuIsOpen />);
+  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
+  expect(container.querySelector('input[type="hidden"]').value).toBe('one');
 });
 
-test('value prop > should update the value on selecting option', () => {
+test('value prop > should not update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0]] };
-  let selectWrapper = mount(<Select {...props} menuIsOpen />);
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
-  selectWrapper
-    .find('div.react-select__option')
-    .at(1)
-    .simulate('click');
-  expect(selectWrapper.find('input[type="hidden"]').props().value).toBe('zero');
+  let { container } = render(<Select {...props} menuIsOpen />);
+  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
+  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
 });
 
 cases(
   'Integration tests > selecting an option > mouse interaction',
   ({
     props = { ...BASIC_PROPS },
-    event,
+    event: [eventName, eventArgs],
     selectOption,
     expectSelectedOption,
   }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    let toSelectOption = selectWrapper
-      .find('div.react-select__option')
-      .findWhere(n => n.props().children === selectOption.label);
-    toSelectOption.simulate(...event);
-    expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(
+    let { container, getByText } = render(<Select {...props} />);
+    let toSelectOption = getByText(selectOption.label);
+    fireEvent[eventName](toSelectOption, eventArgs);
+    expect(container.querySelector('input[type="hidden"]').value).toBe(
       expectSelectedOption
     );
   },
@@ -223,16 +231,19 @@ cases(
     eventsToSimulate,
     expectedSelectedOption,
   }) => {
-    let selectWrapper = mount(<Select {...props} />);
-    // open the menu
-    selectWrapper
-      .find('div.react-select__dropdown-indicator')
-      .simulate('keyDown', { keyCode: 40, key: 'ArrowDown' });
-    eventsToSimulate.map(eventToSimulate => {
-      selectWrapper.find(Menu).simulate(...eventToSimulate);
+    let { container } = render(<Select {...props} />);
+    openMenu(container);
+    eventsToSimulate.map(([eventName, eventArgs]) => {
+      fireEvent[eventName](
+        container.querySelector('.react-select__menu'),
+        eventArgs
+      );
     });
-    selectWrapper.find(Menu).simulate('keyDown', { keyCode: 13, key: 'Enter' });
-    expect(selectWrapper.find('input[type="hidden"]').props().value).toBe(
+    fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+      keyCode: 13,
+      key: 'Enter',
+    });
+    expect(container.querySelector('input[type="hidden"]').value).toBe(
       expectedSelectedOption
     );
   },

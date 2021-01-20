@@ -3,12 +3,12 @@ export const STYLE_KEYS = [
   'height',
   'overflow',
   'paddingRight',
-  'position'
+  'position',
 ];
 
 export const LOCK_STYLES = {
   boxSizing: 'border-box', // account for possible declaration `width: 100%;` on body
   overflow: 'hidden',
   position: 'relative',
-  height: '100%'
+  height: '100%',
 };
