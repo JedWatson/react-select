@@ -6,7 +6,7 @@ import {
   SortableElement,
   sortableHandle,
 } from 'react-sortable-hoc';
-import { colourOptions } from './docs/data';
+import { colourOptions } from '../data';
 
 function arrayMove(array, from, to) {
   array = array.slice();
