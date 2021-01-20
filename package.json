@@ -91,6 +91,8 @@
     "build": "preconstruct build",
     "watch": "preconstruct watch",
     "coveralls": "cat coverage/lcov.info | coveralls",
+    "prettier:write": "prettier --write \"**/*.js\"",
+    "prettier:check": "prettier --check \"**/*.js\"",
     "lint": "eslint .",
     "start": "cd docs && yarn start",
     "build:docs": "cd docs && yarn build:docs",
