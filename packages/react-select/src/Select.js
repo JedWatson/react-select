@@ -80,7 +80,7 @@ export type Props = {
   'aria-labelledby'?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
-  /* Remove the currently focused option when the user presses backspace */
+  /* Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
   blurInputOnSelect: boolean,
@@ -600,6 +600,11 @@ export default class Select extends Component<Props, State> {
       this.focusInput();
     }
 
+    if (isFocused && isDisabled && !prevProps.isDisabled) {
+      // ensure select state gets blurred in case Select is programatically disabled while focused
+      this.setState({ isFocused: false }, this.onMenuClose);
+    }
+
     // scroll the focused option into view if necessary
     if (
       this.menuListRef &&
@@ -744,7 +749,10 @@ export default class Select extends Component<Props, State> {
     let focusedIndex = options.indexOf(focusedOption);
     if (!focusedOption) {
       focusedIndex = -1;
-      this.announceAriaLiveContext({ event: 'menu' });
+      this.announceAriaLiveContext({
+        event: 'menu',
+        context: { tabSelectsValue },
+      });
     }
 
     if (direction === 'up') {
@@ -861,8 +869,7 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    const { isMulti } = this.props;
-    this.onChange(isMulti ? [] : null, { action: 'clear' });
+    this.onChange(null, { action: 'clear' });
   };
   popValue = () => {
     const { selectValue } = this.state;
@@ -908,7 +915,15 @@ export default class Select extends Component<Props, State> {
   cx = (...args: any) => classNames(this.props.classNamePrefix, ...args);
 
   getCommonProps() {
-    const { clearValue, cx, getStyles, getValue, setValue, selectOption, props } = this;
+    const {
+      clearValue,
+      cx,
+      getStyles,
+      getValue,
+      setValue,
+      selectOption,
+      props,
+    } = this;
     const { isMulti, isRtl, options } = props;
     const hasValue = this.hasValue();
 
@@ -1792,6 +1807,7 @@ export default class Select extends Component<Props, State> {
               Heading={GroupHeading}
               headingProps={{
                 id: headingId,
+                data: item.data,
               }}
               label={this.formatGroupLabel(item.data)}
             >
