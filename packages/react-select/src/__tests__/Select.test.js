@@ -2305,7 +2305,7 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
     container.querySelector('.react-select__clear-indicator'),
     { button: 0 }
   );
-  expect(onChangeSpy).toBeCalledWith([], {
+  expect(onChangeSpy).toBeCalledWith(null, {
     action: 'clear',
     name: BASIC_PROPS.name,
   });
