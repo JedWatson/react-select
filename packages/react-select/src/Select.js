@@ -3,7 +3,6 @@
 import React, { Component, type ElementRef, type Node } from 'react';
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
-import isEqual from './internal/react-fast-compare';
 
 import { createFilter } from './filters';
 import {
@@ -661,7 +660,7 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
     const focusableOptions = this.buildFocusableOptions();
-    const { isMulti } = this.props;
+    const { isMulti, tabSelectsValue } = this.props;
     let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
     if (!isMulti) {
@@ -682,7 +681,10 @@ export default class Select extends Component<Props, State> {
       },
       () => {
         this.onMenuOpen();
-        this.announceAriaLiveContext({ event: 'menu' });
+        this.announceAriaLiveContext({
+          event: 'menu',
+          context: { tabSelectsValue },
+        });
       }
     );
   }
@@ -740,7 +742,7 @@ export default class Select extends Component<Props, State> {
   }
 
   focusOption(direction: FocusDirection = 'first') {
-    const { pageSize } = this.props;
+    const { pageSize, tabSelectsValue } = this.props;
     const { focusedOption, selectValue } = this.state;
     const options = this.getFocusableOptions();
 
@@ -777,6 +779,7 @@ export default class Select extends Component<Props, State> {
       event: 'menu',
       context: {
         isDisabled: this.isOptionDisabled(options[nextFocus], selectValue),
+        tabSelectsValue,
       },
     });
   }
@@ -970,9 +973,9 @@ export default class Select extends Component<Props, State> {
       const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
 
       return (
-        isEqual(newSelectValue, lastSelectValue) &&
-        isEqual(newProps.inputValue, lastProps.inputValue) &&
-        isEqual(newProps.options, lastProps.options)
+        newSelectValue === lastSelectValue &&
+        newProps.inputValue === lastProps.inputValue &&
+        newProps.option === lastProps.options
       );
     }
   );
