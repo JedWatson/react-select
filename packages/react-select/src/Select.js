@@ -975,7 +975,7 @@ export default class Select extends Component<Props, State> {
       return (
         newSelectValue === lastSelectValue &&
         newProps.inputValue === lastProps.inputValue &&
-        newProps.option === lastProps.options
+        newProps.options === lastProps.options
       );
     }
   );
