@@ -5,6 +5,7 @@ import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
+  AriaLiveConfiguration,
   ControlledMenu,
   OnSelectResetsInput,
   BasicGrouped,
@@ -32,6 +33,19 @@ export default function Advanced() {
       </Helmet>
       {md`
       # Advanced
+
+      ## Accessibility
+      Accessibility is important! Here is a placeholder to address aria-live status and aria attribute status.
+
+      ${(
+        <ExampleWrapper
+          label="Custom Aria Live Messages example"
+          urlPath="docs/examples/AriaLiveConfiguration.js"
+          raw={require('!!raw-loader!../../examples/AriaLiveConfiguration.js')}
+        >
+          <AriaLiveConfiguration />
+        </ExampleWrapper>
+      )}
 
       ## Sortable MultiSelect
       Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
