@@ -8,19 +8,19 @@ export default function AriaLiveConfiguration() {
   return (
     <form>
       <label id="aria-live-select-label" htmlFor="select-aria-live-example">
-        Test form label
+        Select a color
       </label>
 
       <Select
-        aria-labelledby="select-label"
+        aria-labelledby="aria-live-select-label"
         ariaLiveMessages={{
           focusOption: ({ focusedOption, getOptionLabel }) => {
             return `custom aria option focus message: 
               ${getOptionLabel(focusedOption)}`;
           },
         }}
-        id="select-aria-live-example"
-        name="color"
+        inputId="select-aria-live-example"
+        name="aria-live-color"
         options={colourOptions}
       />
     </form>

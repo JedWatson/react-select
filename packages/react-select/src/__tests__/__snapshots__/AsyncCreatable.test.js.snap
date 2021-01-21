@@ -7,6 +7,18 @@ exports[`defaults - snapshot 1`] = `
 }
 
 .emotion-1 {
+  z-index: 9999;
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.emotion-2 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -36,11 +48,11 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-1:hover {
+.emotion-2:hover {
   border-color: hsl(0, 0%, 70%);
 }
 
-.emotion-2 {
+.emotion-3 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -63,7 +75,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-3 {
+.emotion-4 {
   color: hsl(0, 0%, 50%);
   margin-left: 2px;
   margin-right: 2px;
@@ -76,7 +88,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-4 {
+.emotion-5 {
   margin: 2px;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -85,7 +97,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-5 {
+.emotion-6 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -103,7 +115,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-6 {
+.emotion-7 {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
@@ -114,7 +126,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-7 {
+.emotion-8 {
   color: hsl(0, 0%, 80%);
   display: -webkit-box;
   display: -webkit-flex;
@@ -126,11 +138,11 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-7:hover {
+.emotion-8:hover {
   color: hsl(0, 0%, 60%);
 }
 
-.emotion-8 {
+.emotion-9 {
   display: inline-block;
   fill: currentColor;
   line-height: 1;
@@ -142,19 +154,23 @@ exports[`defaults - snapshot 1`] = `
   <div
     class=" emotion-0"
   >
+    <span
+      aria-live="polite"
+      class="emotion-1"
+    />
     <div
-      class=" emotion-1"
+      class=" emotion-2"
     >
       <div
-        class=" emotion-2"
+        class=" emotion-3"
       >
         <div
-          class=" emotion-3"
+          class=" emotion-4"
         >
           Select...
         </div>
         <div
-          class="emotion-4"
+          class="emotion-5"
         >
           <div
             class=""
@@ -179,18 +195,18 @@ exports[`defaults - snapshot 1`] = `
         </div>
       </div>
       <div
-        class=" emotion-5"
+        class=" emotion-6"
       >
         <span
-          class=" emotion-6"
+          class=" emotion-7"
         />
         <div
           aria-hidden="true"
-          class=" emotion-7"
+          class=" emotion-8"
         >
           <svg
             aria-hidden="true"
-            class="emotion-8"
+            class="emotion-9"
             focusable="false"
             height="20"
             viewBox="0 0 20 20"

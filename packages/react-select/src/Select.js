@@ -1920,12 +1920,15 @@ export default class Select extends Component<Props, State> {
       return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
     };
 
-    if (!isFocused) return null;
-    const arialiveMessage = constructAriaLiveMessage();
+    const arialiveMessage = isFocused && constructAriaLiveMessage();
     return (
       <A11yText aria-live="polite">
-        <span id="aria-selection-event">&nbsp;{ariaLiveSelection}</span>
-        <span id="aria-context">&nbsp;{arialiveMessage}</span>
+        {!!isFocused && (
+          <React.Fragment>
+            <span id="aria-selection-event">&nbsp;{ariaLiveSelection}</span>
+            <span id="aria-context">&nbsp;{arialiveMessage}</span>
+          </React.Fragment>
+        )}
       </A11yText>
     );
   }
