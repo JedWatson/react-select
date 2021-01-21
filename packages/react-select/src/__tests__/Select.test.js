@@ -1862,6 +1862,44 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   );
 });
 
+test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
+
+  const ariaLiveMessages = {
+    selectValue: (
+      event,
+      context
+    ) => {
+      const { value, isDisabled } = context;
+      if (event === 'select-option' && !isDisabled) {
+        return `CUSTOM: option ${value} is selected.`;
+      }
+    }
+  };
+
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      ariaLiveMessages={ariaLiveMessages}
+      options={OPTIONS}
+      inputValue={''}
+      menuIsOpen
+    />
+  );
+  const liveRegionEventId = '#aria-selection-event';
+  fireEvent.focus(container.querySelector('.react-select__input input'));
+
+  let menu = container.querySelector('.react-select__menu');
+  fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
+  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    keyCode: 13,
+    key: 'Enter',
+  });
+
+  expect(container.querySelector(liveRegionEventId).textContent).toMatch(
+    'CUSTOM: option 0 is selected.'
+  );
+});
+
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
   const screenReaderStatus = ({ count }) =>
     `There are ${count} options available`;
