@@ -16,8 +16,7 @@ export default function AriaLiveConfiguration() {
         ariaLiveMessages={{
           focusOption: ({ focusedOption, getOptionLabel }) => {
             return `custom aria option focus message: 
-              ${getOptionLabel(focusedOption)
-            }`;
+              ${getOptionLabel(focusedOption)}`;
           },
         }}
         id="select-aria-live-example"
