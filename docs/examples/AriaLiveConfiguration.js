@@ -4,7 +4,6 @@ import React from 'react';
 import Select from 'react-select';
 import { colourOptions } from '../data';
 
-
 export default function AriaLiveConfiguration() {
   return (
     <form>
@@ -15,10 +14,11 @@ export default function AriaLiveConfiguration() {
       <Select
         aria-labelledby="select-label"
         ariaLiveMessages={{
-          focusOption:
-            ({ focusedOption, getOptionLabel }) => {
-              return `custom aria option focus message: ${getOptionLabel(focusedOption)}`;
-            }
+          focusOption: ({ focusedOption, getOptionLabel }) => {
+            return `custom aria option focus message: 
+              ${getOptionLabel(focusedOption)
+            }`;
+          },
         }}
         id="select-aria-live-example"
         name="color"
