@@ -985,7 +985,7 @@ export default class Select extends Component<Props, State> {
     this.setState({
       ariaLiveSelection: this.ariaLiveMessages.selectValue
         ? this.ariaLiveMessages.selectValue(event, context)
-        : ''
+        : '',
     });
   };
   announceInstructions = ({
@@ -997,11 +997,11 @@ export default class Select extends Component<Props, State> {
   }) => {
     this.setState({
       ariaLiveContext: this.ariaLiveMessages.instructions
-       ? this.ariaLiveMessages.instructions(type, {
-          ...context,
-          label: this.props['aria-label'],
-        })
-      : ''
+        ? this.ariaLiveMessages.instructions(type, {
+            ...context,
+            label: this.props['aria-label'],
+          })
+        : '',
     });
   };
 
@@ -1890,13 +1890,14 @@ export default class Select extends Component<Props, State> {
     const constructAriaLiveMessage = () => {
       const { focusValue, focusOption, filterResults } = this.ariaLiveMessages;
       // An aria live message representing the currently focused value in the select.
-      const focusedValueMsg = focusedValue && focusValue
-        ? focusValue({
-            focusedValue,
-            getOptionLabel: this.getOptionLabel,
-            selectValue,
-          })
-        : '';
+      const focusedValueMsg =
+        focusedValue && focusValue
+          ? focusValue({
+              focusedValue,
+              getOptionLabel: this.getOptionLabel,
+              selectValue,
+            })
+          : '';
       // An aria live message representing the currently focused option in the select.
       const focusedOptionMsg =
         focusedOption && menuIsOpen && focusOption
@@ -1910,7 +1911,9 @@ export default class Select extends Component<Props, State> {
       const resultsMsg = filterResults
         ? filterResults({
             inputValue,
-            screenReaderMessage: screenReaderStatus({ count: this.countOptions() }),
+            screenReaderMessage: screenReaderStatus({
+              count: this.countOptions(),
+            }),
           })
         : '';
 
