@@ -1863,17 +1863,13 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 });
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
-
   const ariaLiveMessages = {
-    selectValue: (
-      event,
-      context
-    ) => {
+    selectValue: (event, context) => {
       const { value, isDisabled } = context;
       if (event === 'select-option' && !isDisabled) {
         return `CUSTOM: option ${value} is selected.`;
       }
-    }
+    },
   };
 
   let { container } = render(
