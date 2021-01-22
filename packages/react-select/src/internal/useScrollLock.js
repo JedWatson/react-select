@@ -1,6 +1,6 @@
 // @flow
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const STYLE_KEYS = [
   'boxSizing',
@@ -52,7 +52,7 @@ const canUseDOM = !!(
 let activeScrollLocks = 0;
 
 type Options = {
-  enabled: boolean,
+  isEnabled: boolean,
   accountForScrollbars?: boolean,
 };
 type TargetStyle = {
@@ -65,13 +65,13 @@ const listenerOptions = {
 };
 
 export default function useScrollLock({
-  enabled,
+  isEnabled,
   accountForScrollbars = true,
 }: Options) {
   const originalStyles = useRef({});
   const scrollTarget = useRef<HTMLElement | null>(null);
 
-  const addScrollLock = (touchScrollTarget: HTMLElement | null) => {
+  const addScrollLock = useCallback((touchScrollTarget: HTMLElement | null) => {
     if (!canUseDOM) return;
 
     const target = document.body;
@@ -127,60 +127,63 @@ export default function useScrollLock({
 
     // increment active scroll locks
     activeScrollLocks += 1;
-  };
+  }, []);
 
-  const removeScrollLock = (touchScrollTarget: HTMLElement | null) => {
-    if (!canUseDOM) return;
+  const removeScrollLock = useCallback(
+    (touchScrollTarget: HTMLElement | null) => {
+      if (!canUseDOM) return;
 
-    const target = document.body;
-    const targetStyle = target && (target.style: TargetStyle);
+      const target = document.body;
+      const targetStyle = target && (target.style: TargetStyle);
 
-    // safely decrement active scroll locks
-    activeScrollLocks = Math.max(activeScrollLocks - 1, 0);
+      // safely decrement active scroll locks
+      activeScrollLocks = Math.max(activeScrollLocks - 1, 0);
 
-    // reapply original body styles, if any
-    if (accountForScrollbars && activeScrollLocks < 1) {
-      STYLE_KEYS.forEach(key => {
-        const val = originalStyles.current[key];
-        if (targetStyle) {
-          targetStyle[key] = val;
-        }
-      });
-    }
-
-    // remove touch listeners
-    if (target && isTouchDevice()) {
-      target.removeEventListener(
-        'touchmove',
-        preventTouchMove,
-        listenerOptions
-      );
-
-      if (touchScrollTarget) {
-        touchScrollTarget.removeEventListener(
-          'touchstart',
-          preventInertiaScroll,
-          listenerOptions
-        );
-        touchScrollTarget.removeEventListener(
-          'touchmove',
-          allowTouchMove,
-          listenerOptions
-        );
+      // reapply original body styles, if any
+      if (accountForScrollbars && activeScrollLocks < 1) {
+        STYLE_KEYS.forEach(key => {
+          const val = originalStyles.current[key];
+          if (targetStyle) {
+            targetStyle[key] = val;
+          }
+        });
       }
-    }
-  };
+
+      // remove touch listeners
+      if (target && isTouchDevice()) {
+        target.removeEventListener(
+          'touchmove',
+          preventTouchMove,
+          listenerOptions
+        );
+
+        if (touchScrollTarget) {
+          touchScrollTarget.removeEventListener(
+            'touchstart',
+            preventInertiaScroll,
+            listenerOptions
+          );
+          touchScrollTarget.removeEventListener(
+            'touchmove',
+            allowTouchMove,
+            listenerOptions
+          );
+        }
+      }
+    },
+    []
+  );
 
   useEffect(() => {
+    if (!isEnabled) return;
+
     const element = scrollTarget.current;
-    if (enabled) {
-      addScrollLock(element);
-    }
+    addScrollLock(element);
 
     return () => {
       removeScrollLock(element);
     };
-  });
+  }, [isEnabled, addScrollLock, removeScrollLock]);
 
   return (element: HTMLElement | null) => {
     scrollTarget.current = element;

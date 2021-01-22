@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import React, { type Element, useRef, useState } from 'react';
+import React, { type Element } from 'react';
 import useScrollCapture from './useScrollCapture';
 import useScrollLock from './useScrollLock';
 
@@ -30,13 +30,13 @@ export default function ScrollManager({
   onTopLeave,
 }: Props) {
   const setScrollCaptureTarget = useScrollCapture({
-    enabled: captureEnabled,
+    isEnabled: captureEnabled,
     onBottomArrive,
     onBottomLeave,
     onTopArrive,
     onTopLeave,
   });
-  const setScrollLockTarget = useScrollLock({ enabled: lockEnabled });
+  const setScrollLockTarget = useScrollLock({ isEnabled: lockEnabled });
 
   const targetRef = element => {
     setScrollCaptureTarget(element);
