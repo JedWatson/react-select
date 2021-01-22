@@ -10,9 +10,9 @@
   "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@emotion/cache": "^10.0.9",
-    "@emotion/core": "^10.0.9",
-    "@emotion/css": "^10.0.9",
+    "@emotion/cache": "^11.0.0",
+    "@emotion/css": "^11.0.0",
+    "@emotion/react": "^11.1.1",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
     "react-input-autosize": "^3.0.0",
