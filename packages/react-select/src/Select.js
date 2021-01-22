@@ -343,8 +343,8 @@ function buildCategorizedOptions(
     .map((groupOrOption, groupOrOptionIndex) => {
       if (groupOrOption.options) {
         const categorizedOptions = groupOrOption.options
-          .map(option =>
-            toCategorizedOption(props, option, selectValue, option)
+          .map((option, optionIndex) =>
+            toCategorizedOption(props, option, selectValue, optionIndex)
           )
           .filter(categorizedOption => isFocusable(props, categorizedOption));
         return categorizedOptions.length > 0
