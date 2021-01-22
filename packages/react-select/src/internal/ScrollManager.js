@@ -1,7 +1,13 @@
 // @flow
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import React, { PureComponent, type Element } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  type Element,
+} from 'react';
 import ScrollLock from './ScrollLock/index';
 
 type RefCallback<T> = (T | null) => void;
@@ -16,179 +22,149 @@ type Props = {
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
 };
 
-type State = {
-  enableLock: boolean,
+const blurSelectInput = () =>
+  document.activeElement && document.activeElement.blur();
+
+const cancelScroll = (event: SyntheticEvent<HTMLElement>) => {
+  event.preventDefault();
+  event.stopPropagation();
 };
 
-const defaultProps = {
-  captureEnabled: true,
-};
+export default function ScrollManager({
+  children,
+  lockEnabled,
+  captureEnabled = true,
+  onBottomArrive,
+  onBottomLeave,
+  onTopArrive,
+  onTopLeave,
+}: Props) {
+  const isBottom = useRef(false);
+  const isTop = useRef(false);
+  const touchStart = useRef(undefined);
+  const targetElement = useRef(null);
 
-export default class ScrollManager extends PureComponent<Props, State> {
-  static defaultProps = defaultProps;
+  const [enableLock, setEnableLock] = useState(false);
 
-  isBottom: boolean = false;
-  isTop: boolean = false;
-  touchStart: number;
-
-  state = {
-    enableLock: false,
-  };
-
-  targetRef = React.createRef<HTMLElement>();
-
-  blurSelectInput = () =>
-    document.activeElement && document.activeElement.blur();
-
-  componentDidMount() {
-    if (this.props.captureEnabled) {
-      this.startListening(this.targetRef.current);
+  useEffect(() => {
+    if (captureEnabled) {
+      startListening(targetElement);
     }
-  }
+    return () => {
+      stopListening(targetElement);
+    };
+  });
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.captureEnabled !== this.props.captureEnabled) {
-      if (this.props.captureEnabled) {
-        this.startListening(this.targetRef.current);
-      } else {
-        this.stopListening(this.targetRef.current);
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.stopListening(this.targetRef.current);
-  }
-
-  startListening(el: ?HTMLElement) {
+  const startListening = useCallback(el => {
     // bail early if no element is available to attach to
     if (!el) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('wheel', this.onWheel, false);
+      el.addEventListener('wheel', onWheel, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchstart', this.onTouchStart, false);
+      el.addEventListener('touchstart', onTouchStart, false);
     }
     if (typeof el.addEventListener === 'function') {
-      el.addEventListener('touchmove', this.onTouchMove, false);
+      el.addEventListener('touchmove', onTouchMove, false);
     }
-  }
+  }, []);
 
-  stopListening(el: ?HTMLElement) {
+  const stopListening = useCallback(el => {
     // bail early if no element is available to detach from
     if (!el) return;
 
     // all the if statements are to appease Flow 😢
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('wheel', this.onWheel, false);
+      el.removeEventListener('wheel', onWheel, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchstart', this.onTouchStart, false);
+      el.removeEventListener('touchstart', onTouchStart, false);
     }
     if (typeof el.removeEventListener === 'function') {
-      el.removeEventListener('touchmove', this.onTouchMove, false);
+      el.removeEventListener('touchmove', onTouchMove, false);
     }
-  }
+  }, []);
 
-  cancelScroll = (event: SyntheticEvent<HTMLElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-  handleEventDelta = (event: SyntheticEvent<HTMLElement>, delta: number) => {
-    const {
-      onBottomArrive,
-      onBottomLeave,
-      onTopArrive,
-      onTopLeave,
-    } = this.props;
+  const handleEventDelta = useCallback(
+    (event: SyntheticEvent<HTMLElement>, delta: number) => {
+      // Reference should never be `null` at this point, but flow complains otherwise
+      if (targetElement.current === null) return;
 
-    // Reference should never be `null` at this point, but flow complains otherwise
-    if (this.targetRef.current === null) return;
+      const { scrollTop, scrollHeight, clientHeight } = targetElement.current;
+      const target = targetElement.current;
+      const isDeltaPositive = delta > 0;
+      const availableScroll = scrollHeight - clientHeight - scrollTop;
+      let shouldCancelScroll = false;
 
-    const { scrollTop, scrollHeight, clientHeight } = this.targetRef.current;
-    const target = this.targetRef.current;
-    const isDeltaPositive = delta > 0;
-    const availableScroll = scrollHeight - clientHeight - scrollTop;
-    let shouldCancelScroll = false;
-
-    // reset bottom/top flags
-    if (availableScroll > delta && this.isBottom) {
-      if (onBottomLeave) onBottomLeave(event);
-      this.isBottom = false;
-    }
-    if (isDeltaPositive && this.isTop) {
-      if (onTopLeave) onTopLeave(event);
-      this.isTop = false;
-    }
-
-    // bottom limit
-    if (isDeltaPositive && delta > availableScroll) {
-      if (onBottomArrive && !this.isBottom) {
-        onBottomArrive(event);
+      // reset bottom/top flags
+      if (availableScroll > delta && isBottom.current) {
+        if (onBottomLeave) onBottomLeave(event);
+        isBottom.current = false;
       }
-      target.scrollTop = scrollHeight;
-      shouldCancelScroll = true;
-      this.isBottom = true;
-
-      // top limit
-    } else if (!isDeltaPositive && -delta > scrollTop) {
-      if (onTopArrive && !this.isTop) {
-        onTopArrive(event);
+      if (isDeltaPositive && isTop.current) {
+        if (onTopLeave) onTopLeave(event);
+        isTop.current = false;
       }
-      target.scrollTop = 0;
-      shouldCancelScroll = true;
-      this.isTop = true;
+
+      // bottom limit
+      if (isDeltaPositive && delta > availableScroll) {
+        if (onBottomArrive && !isBottom.current) {
+          onBottomArrive(event);
+        }
+        target.scrollTop = scrollHeight;
+        shouldCancelScroll = true;
+        isBottom.current = true;
+
+        // top limit
+      } else if (!isDeltaPositive && -delta > scrollTop) {
+        if (onTopArrive && !isTop.current) {
+          onTopArrive(event);
+        }
+        target.scrollTop = 0;
+        shouldCancelScroll = true;
+        isTop.current = true;
+      }
+
+      // cancel scroll
+      if (shouldCancelScroll) {
+        cancelScroll(event);
+      }
     }
+  );
 
-    // cancel scroll
-    if (shouldCancelScroll) {
-      this.cancelScroll(event);
+  const onWheel = useCallback((event: SyntheticWheelEvent<HTMLElement>) => {
+    handleEventDelta(event, event.deltaY);
+  });
+  const onTouchStart = useCallback(
+    (event: SyntheticTouchEvent<HTMLElement>) => {
+      // set touch start so we can calculate touchmove delta
+      touchStart.current = event.changedTouches[0].clientY;
     }
-  };
+  );
+  const onTouchMove = useCallback((event: SyntheticTouchEvent<HTMLElement>) => {
+    const deltaY = touchStart - event.changedTouches[0].clientY;
+    handleEventDelta(event, deltaY);
+  });
 
-  onWheel = (event: SyntheticWheelEvent<HTMLElement>) => {
-    this.handleEventDelta(event, event.deltaY);
-  };
-  onTouchStart = (event: SyntheticTouchEvent<HTMLElement>) => {
-    // set touch start so we can calculate touchmove delta
-    this.touchStart = event.changedTouches[0].clientY;
-  };
-  onTouchMove = (event: SyntheticTouchEvent<HTMLElement>) => {
-    const deltaY = this.touchStart - event.changedTouches[0].clientY;
-    this.handleEventDelta(event, deltaY);
-  };
+  const targetRef = useCallback(element => {
+    targetElement.current = element;
+    setEnableLock(!!element);
+  });
 
-  setTargetRef = (instance: HTMLElement | null) => {
-    this.targetRef.current = instance;
-    this.setState({ enableLock: !!instance });
-  };
-
-  render() {
-    const { children, lockEnabled } = this.props;
-
-    /*
-     * Div
-     * ------------------------------
-     * blocks scrolling on non-body elements behind the menu
-     * ScrollLock
-     * ------------------------------
-     * actually does the scroll locking
-     */
-    return (
-      <React.Fragment>
-        {lockEnabled && (
-          <div
-            onClick={this.blurSelectInput}
-            css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
-          />
-        )}
-        {children(this.setTargetRef)}
-        {lockEnabled && this.state.enableLock && this.targetRef.current && (
-          <ScrollLock touchScrollTarget={this.targetRef.current} />
-        )}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {lockEnabled && (
+        <div
+          onClick={blurSelectInput}
+          css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
+        />
+      )}
+      {children(targetRef)}
+      {lockEnabled && enableLock && targetElement.current && (
+        <ScrollLock touchScrollTarget={targetElement.current} />
+      )}
+    </React.Fragment>
+  );
 }
