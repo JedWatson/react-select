@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { Component, type ElementConfig } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 
 const navWidth = 180;
 const appWidth = 800;

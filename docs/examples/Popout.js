@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { Component } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import Button from '@atlaskit/button';
 
 import Select from 'react-select';
