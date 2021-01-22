@@ -1,13 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import React, {
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-  type Element,
-} from 'react';
+import React, { useRef, useState, useEffect, type Element } from 'react';
 import ScrollLock from './ScrollLock/index';
 
 type RefCallback<T> = (T | null) => void;
@@ -46,16 +40,67 @@ export default function ScrollManager({
 
   const [enableLock, setEnableLock] = useState(false);
 
-  useEffect(() => {
-    if (captureEnabled) {
-      startListening(targetElement);
-    }
-    return () => {
-      stopListening(targetElement);
-    };
-  });
+  const handleEventDelta = (
+    event: SyntheticEvent<HTMLElement>,
+    delta: number
+  ) => {
+    // Reference should never be `null` at this point, but flow complains otherwise
+    if (targetElement.current === null) return;
 
-  const startListening = useCallback(el => {
+    const { scrollTop, scrollHeight, clientHeight } = targetElement.current;
+    const target = targetElement.current;
+    const isDeltaPositive = delta > 0;
+    const availableScroll = scrollHeight - clientHeight - scrollTop;
+    let shouldCancelScroll = false;
+
+    // reset bottom/top flags
+    if (availableScroll > delta && isBottom.current) {
+      if (onBottomLeave) onBottomLeave(event);
+      isBottom.current = false;
+    }
+    if (isDeltaPositive && isTop.current) {
+      if (onTopLeave) onTopLeave(event);
+      isTop.current = false;
+    }
+
+    // bottom limit
+    if (isDeltaPositive && delta > availableScroll) {
+      if (onBottomArrive && !isBottom.current) {
+        onBottomArrive(event);
+      }
+      target.scrollTop = scrollHeight;
+      shouldCancelScroll = true;
+      isBottom.current = true;
+
+      // top limit
+    } else if (!isDeltaPositive && -delta > scrollTop) {
+      if (onTopArrive && !isTop.current) {
+        onTopArrive(event);
+      }
+      target.scrollTop = 0;
+      shouldCancelScroll = true;
+      isTop.current = true;
+    }
+
+    // cancel scroll
+    if (shouldCancelScroll) {
+      cancelScroll(event);
+    }
+  };
+
+  const onWheel = (event: SyntheticWheelEvent<HTMLElement>) => {
+    handleEventDelta(event, event.deltaY);
+  };
+  const onTouchStart = (event: SyntheticTouchEvent<HTMLElement>) => {
+    // set touch start so we can calculate touchmove delta
+    touchStart.current = event.changedTouches[0].clientY;
+  };
+  const onTouchMove = (event: SyntheticTouchEvent<HTMLElement>) => {
+    const deltaY = touchStart - event.changedTouches[0].clientY;
+    handleEventDelta(event, deltaY);
+  };
+
+  const startListening = el => {
     // bail early if no element is available to attach to
     if (!el) return;
 
@@ -69,9 +114,9 @@ export default function ScrollManager({
     if (typeof el.addEventListener === 'function') {
       el.addEventListener('touchmove', onTouchMove, false);
     }
-  }, []);
+  };
 
-  const stopListening = useCallback(el => {
+  const stopListening = el => {
     // bail early if no element is available to detach from
     if (!el) return;
 
@@ -85,73 +130,21 @@ export default function ScrollManager({
     if (typeof el.removeEventListener === 'function') {
       el.removeEventListener('touchmove', onTouchMove, false);
     }
-  }, []);
+  };
 
-  const handleEventDelta = useCallback(
-    (event: SyntheticEvent<HTMLElement>, delta: number) => {
-      // Reference should never be `null` at this point, but flow complains otherwise
-      if (targetElement.current === null) return;
-
-      const { scrollTop, scrollHeight, clientHeight } = targetElement.current;
-      const target = targetElement.current;
-      const isDeltaPositive = delta > 0;
-      const availableScroll = scrollHeight - clientHeight - scrollTop;
-      let shouldCancelScroll = false;
-
-      // reset bottom/top flags
-      if (availableScroll > delta && isBottom.current) {
-        if (onBottomLeave) onBottomLeave(event);
-        isBottom.current = false;
-      }
-      if (isDeltaPositive && isTop.current) {
-        if (onTopLeave) onTopLeave(event);
-        isTop.current = false;
-      }
-
-      // bottom limit
-      if (isDeltaPositive && delta > availableScroll) {
-        if (onBottomArrive && !isBottom.current) {
-          onBottomArrive(event);
-        }
-        target.scrollTop = scrollHeight;
-        shouldCancelScroll = true;
-        isBottom.current = true;
-
-        // top limit
-      } else if (!isDeltaPositive && -delta > scrollTop) {
-        if (onTopArrive && !isTop.current) {
-          onTopArrive(event);
-        }
-        target.scrollTop = 0;
-        shouldCancelScroll = true;
-        isTop.current = true;
-      }
-
-      // cancel scroll
-      if (shouldCancelScroll) {
-        cancelScroll(event);
-      }
+  useEffect(() => {
+    if (captureEnabled) {
+      startListening(targetElement);
     }
-  );
-
-  const onWheel = useCallback((event: SyntheticWheelEvent<HTMLElement>) => {
-    handleEventDelta(event, event.deltaY);
-  });
-  const onTouchStart = useCallback(
-    (event: SyntheticTouchEvent<HTMLElement>) => {
-      // set touch start so we can calculate touchmove delta
-      touchStart.current = event.changedTouches[0].clientY;
-    }
-  );
-  const onTouchMove = useCallback((event: SyntheticTouchEvent<HTMLElement>) => {
-    const deltaY = touchStart - event.changedTouches[0].clientY;
-    handleEventDelta(event, deltaY);
+    return () => {
+      stopListening(targetElement);
+    };
   });
 
-  const targetRef = useCallback(element => {
+  const targetRef = element => {
     targetElement.current = element;
     setEnableLock(!!element);
-  });
+  };
 
   return (
     <React.Fragment>
