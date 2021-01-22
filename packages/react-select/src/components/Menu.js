@@ -7,7 +7,7 @@ import {
   type ElementRef,
   type Node,
 } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
 
 import {
