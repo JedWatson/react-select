@@ -1,6 +1,6 @@
 // @flow
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import React, { PureComponent, type Element } from 'react';
 import ScrollLock from './ScrollLock/index';
 
