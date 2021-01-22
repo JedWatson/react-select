@@ -1,5 +1,11 @@
 # react-select
 
+## 4.0.1
+
+### Patch Changes
+
+- [645feb3e](https://github.com/JedWatson/react-select/commit/645feb3e34776a5f181b32f603027df5ca709b7d) [#4396](https://github.com/JedWatson/react-select/pull/4396) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fixed keys for options within groups
+
 ## 4.0.0
 
 ### Major Changes
