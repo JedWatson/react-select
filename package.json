@@ -25,9 +25,11 @@
     "@babel/runtime": "^7.4.4",
     "@changesets/cli": "^2.0.3",
     "@changesets/get-github-info": "^0.2.1",
-    "@emotion/cache": "^10.0.9",
-    "@emotion/core": "^10.0.9",
-    "@emotion/css": "^10.0.9",
+    "@emotion/babel-plugin": "^11.0.0",
+    "@emotion/cache": "^11.0.0",
+    "@emotion/css": "^11.0.0",
+    "@emotion/jest": "^11.1.0",
+    "@emotion/react": "^11.1.1",
     "@preconstruct/cli": "^1.0.0",
     "@testing-library/dom": "7.0.4",
     "@testing-library/jest-dom": "5.1.1",
@@ -37,7 +39,6 @@
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-emotion": "^10.0.9",
     "bolt-check": "^0.3.0",
     "chroma-js": "^1.3.6",
     "chrono-node": "^1.3.5",
@@ -60,7 +61,6 @@
     "gh-pages": "^1.1.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^25.1.0",
-    "jest-emotion": "^10.0.11",
     "jest-in-case": "^1.0.2",
     "memoize-one": "^5.0.0",
     "moment": "^2.20.1",
@@ -133,7 +133,7 @@
       "./test-setup.js"
     ],
     "snapshotSerializers": [
-      "jest-emotion"
+      "@emotion/jest/serializer"
     ]
   },
   "workspaces": [
