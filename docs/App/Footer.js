@@ -46,6 +46,9 @@ const A = props => (
       color: '#505F79',
       textDecoration: 'none',
 
+      ':visited': {
+        color: '#505F79',
+      },
       ':hover': {
         textDecoration: 'underline',
       },
