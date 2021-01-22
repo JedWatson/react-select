@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
-import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 
 import { createFilter } from './filters';
@@ -978,33 +977,12 @@ export default class Select extends Component<Props, State> {
     return defaultComponents(this.props);
   };
 
-  buildCategorizedOptionsFromPropsAndSelectValue = memoizeOne(
-    buildCategorizedOptions,
-    (newArgs: any, lastArgs: any) => {
-      const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
-      const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
-
-      return (
-        newSelectValue === lastSelectValue &&
-        newProps.inputValue === lastProps.inputValue &&
-        newProps.options === lastProps.options
-      );
-    }
-  );
   buildCategorizedOptions = () =>
-    this.buildCategorizedOptionsFromPropsAndSelectValue(
-      this.props,
-      this.state.selectValue
-    );
+    buildCategorizedOptions(this.props, this.state.selectValue);
   getCategorizedOptions = () =>
     this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
-  buildFocusableOptionsFromCategorizedOptions = memoizeOne(
-    buildFocusableOptionsFromCategorizedOptions
-  );
   buildFocusableOptions = () =>
-    this.buildFocusableOptionsFromCategorizedOptions(
-      this.buildCategorizedOptions()
-    );
+    buildFocusableOptionsFromCategorizedOptions(this.buildCategorizedOptions());
   getFocusableOptions = () =>
     this.props.menuIsOpen ? this.buildFocusableOptions() : [];
 
