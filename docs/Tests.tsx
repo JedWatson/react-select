@@ -1,7 +1,11 @@
-import React, { ChangeEventHandler, Component, ComponentProps, ComponentType } from 'react';
+import React, {
+  ChangeEventHandler,
+  Component,
+  ComponentProps,
+  ComponentType,
+} from 'react';
 
-import Select from 'react-select';
-import type { MenuPlacement } from 'react-select/src/types';
+import Select, { MenuPlacement } from 'react-select';
 import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions, optionLength } from './data';
 
@@ -12,12 +16,12 @@ interface SuiteProps {
   readonly idSuffix: string;
 }
 interface SuiteState {
-  readonly isDisabled: boolean,
-  readonly isFixed: boolean,
-  readonly isLoading: boolean,
-  readonly escapeClearsValue: boolean,
-  readonly blockScroll: boolean,
-  readonly portalPlacement: MenuPlacement,
+  readonly isDisabled: boolean;
+  readonly isFixed: boolean;
+  readonly isLoading: boolean;
+  readonly escapeClearsValue: boolean;
+  readonly blockScroll: boolean;
+  readonly portalPlacement: MenuPlacement;
 }
 
 const AnimatedSelect = (props: ComponentProps<typeof Select>) => (
@@ -56,7 +60,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
   };
 
   setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
-    const portalPlacement = currentTarget && (currentTarget.value as MenuPlacement);
+    const portalPlacement =
+      currentTarget && (currentTarget.value as MenuPlacement);
     this.setState({ portalPlacement });
   };
 
