@@ -16,7 +16,7 @@ const contentGutter = 30;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
-const NavSection = () => {
+const NavSection = (props: RouteComponentProps) => {
   const routeKeys = Object.keys(routes);
   return (
     <Switch>
