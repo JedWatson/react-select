@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';

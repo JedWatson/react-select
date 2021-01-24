@@ -1,8 +1,9 @@
-import React, { Component, RefCallback } from 'react';
+import React, { Component, ReactElement, RefCallback } from 'react';
 import rafSchedule from 'raf-schd';
 import NodeResolver from 'react-node-resolver';
 
 interface Props {
+  readonly children: ReactElement;
   readonly onChange: (elements: readonly (string | null)[]) => void;
 }
 interface State {

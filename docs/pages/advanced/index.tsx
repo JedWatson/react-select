@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
@@ -54,7 +53,7 @@ export default function Advanced() {
       without having to rewrite the logic wholesale.
 
       ~~~jsx
-      // default filter configuration 
+      // default filter configuration
       ignoreCase: true,
       ignoreAccents: true,
       matchFrom: 'any',
@@ -87,7 +86,7 @@ export default function Advanced() {
           <CustomFilterOptions />
         </ExampleWrapper>
       )}
-      ~~~jsx 
+      ~~~jsx
       ~~~
       > Please note that if you are using a Select that is creatable, you would also likey want to include the "Create" option.
       ~~~jsx

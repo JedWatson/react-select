@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import ExampleWrapper from '../../ExampleWrapper';
 import md from '../../markdown/renderer';

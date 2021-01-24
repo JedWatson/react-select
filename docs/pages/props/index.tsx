@@ -1,10 +1,18 @@
-// @flow
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
-import PrettyProps, { Prop } from 'pretty-proptypes';
+import PrettyProps, { CommonProps, Inter, Obj, Prop } from 'pretty-proptypes';
 
-const Props = props => (
+interface PropsProps {
+  readonly overrides?: {
+    readonly [key: string]: React.ComponentType<CommonProps>;
+  };
+  readonly props: {
+    readonly component?: Obj | Inter;
+  };
+}
+
+const Props = (props: PropsProps) => (
   <PrettyProps
     heading=""
     components={{
