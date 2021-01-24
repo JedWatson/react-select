@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Component, MouseEvent, RefCallback } from 'react';
+import { Component, FunctionComponent, MouseEvent, RefCallback } from 'react';
 import { jsx } from '@emotion/react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const contentGutter = 30;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
-const NavSection = (props: RouteComponentProps) => {
+const NavSection: FunctionComponent<RouteComponentProps> = () => {
   const routeKeys = Object.keys(routes);
   return (
     <Switch>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 
 import routes from './routes';
 
-const Section = (props: RouteComponentProps) => {
+const Section: FunctionComponent<RouteComponentProps> = () => {
   const routeKeys = Object.keys(routes);
   return (
     <Switch>
