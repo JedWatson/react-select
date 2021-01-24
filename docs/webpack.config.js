@@ -3,6 +3,7 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 // const webpack = require('webpack');
 require('dotenv').config();
@@ -10,7 +11,7 @@ require('dotenv').config();
 module.exports = {
   context: __dirname,
   entry: {
-    index: './index.js',
+    index: './index',
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -23,10 +24,13 @@ module.exports = {
   },
   // devtool: 'source-map',
   devtool: 'cheap-module-eval-source-map',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(ts|js)x?$/,
         exclude: [/node_modules/],
         use: [
           {
@@ -56,5 +60,11 @@ module.exports = {
       template: path.resolve(__dirname, 'index.html'),
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      typescript: {
+        configFile: '../tsconfig.json',
+      },
+    }),
   ],
 };
