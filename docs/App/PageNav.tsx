@@ -1,15 +1,13 @@
-// @flow
 /** @jsx jsx */
-import { Component, type ElementRef } from 'react';
+import { Component, MouseEvent, RefCallback } from 'react';
 import { jsx } from '@emotion/react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 
-import type { RouterProps } from '../types';
 import { animatedScrollTo } from 'react-select/src/utils';
 import routes from './routes';
 import ScrollSpy from './ScrollSpy';
 import Sticky from './Sticky';
-import store from '../markdown/store';
+import store, { Data } from '../markdown/store';
 
 const navWidth = 180;
 const appGutter = 20;
@@ -29,18 +27,21 @@ const NavSection = () => {
   );
 };
 
-type NavState = { links: Array<Object>, activeId: string | null };
+interface NavState {
+  readonly links: readonly Data[];
+  readonly activeId: string | null;
+}
 
-class PageNav extends Component<RouterProps, NavState> {
-  scrollSpy: ElementRef<typeof ScrollSpy>;
-  state = { activeId: null, links: [] };
+class PageNav extends Component<RouteComponentProps, NavState> {
+  scrollSpy!: ScrollSpy;
+  state: NavState = { activeId: null, links: [] };
   componentDidMount() {
     const { match } = this.props;
 
     // eslint-disable-next-line
     this.setState({ links: store.getPageHeadings(match.path) });
   }
-  componentDidUpdate({ history, location }: RouterProps) {
+  componentDidUpdate({ history, location }: RouteComponentProps) {
     const { hash } = this.props.location; // old hash
     const shouldRefresh = location.hash !== hash && history.action !== 'POP';
 
@@ -49,20 +50,26 @@ class PageNav extends Component<RouterProps, NavState> {
       this.scrollSpy.buildNodeList();
     }
   }
-  getSelected = ids => {
+  getSelected = (ids: readonly string[]) => {
     const activeId = ids[0];
     if (activeId !== this.state.activeId) {
       this.setState({ activeId });
     }
   };
-  getScrollSpy = ref => {
+  getScrollSpy: RefCallback<ScrollSpy> = ref => {
     if (!ref) return;
     this.scrollSpy = ref;
   };
-  handleItemClick = ({ event, hash }) => {
+  handleItemClick = ({
+    event,
+    hash,
+  }: {
+    readonly event: MouseEvent<HTMLDivElement>;
+    readonly hash: string;
+  }) => {
     event.preventDefault();
     const path = `#${hash}`;
-    const el = document.querySelector(path);
+    const el = document.querySelector<HTMLElement>(path);
     const { history } = this.props;
 
     if (el && el.offsetTop) {
@@ -105,7 +112,7 @@ class PageNav extends Component<RouterProps, NavState> {
 
 export default NavSection;
 
-const Nav = (props: any) => (
+const Nav = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       [smallDevice]: {
@@ -131,9 +138,17 @@ const Nav = (props: any) => (
     {...props}
   />
 );
-type NavItemProps = { level: 2 | 3, selected: boolean };
 
-const NavItem = ({ level, selected, ...props }: NavItemProps) => (
+interface NavItemProps {
+  readonly level: number;
+  readonly selected: boolean;
+}
+
+const NavItem = ({
+  level,
+  selected,
+  ...props
+}: NavItemProps & JSX.IntrinsicElements['div']) => (
   <div
     role="button"
     css={{
@@ -150,15 +165,15 @@ const NavItem = ({ level, selected, ...props }: NavItemProps) => (
       },
 
       [smallDevice]: {
-        display: level === 3 ? 'none' : null,
-        boxShadow: selected ? 'inset 0 -1px 0 black' : null,
+        display: level === 3 ? 'none' : undefined,
+        boxShadow: selected ? 'inset 0 -1px 0 black' : undefined,
         padding: `10px ${appGutter}px`,
       },
 
       [largeDevice]: {
         backgroundColor: selected ? 'white' : 'transparent',
         display: 'block',
-        fontSize: level === 3 ? '0.9em' : null,
+        fontSize: level === 3 ? '0.9em' : undefined,
         fontWeight: selected ? 800 : 'inherit',
         padding: '10px 20px 10px 0',
         paddingLeft: level === 3 ? 10 : 0,

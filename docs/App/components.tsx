@@ -1,7 +1,11 @@
-// @flow
 /** @jsx jsx */
-import { Component, type ElementConfig } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Component } from 'react';
+import {
+  Link,
+  LinkProps,
+  RouteComponentProps,
+  withRouter,
+} from 'react-router-dom';
 import { jsx } from '@emotion/react';
 
 const navWidth = 180;
@@ -11,7 +15,7 @@ const contentGutter = 30;
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
 
-export const AppContainer = (props: any) => (
+export const AppContainer = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       boxSizing: 'border-box',
@@ -24,7 +28,7 @@ export const AppContainer = (props: any) => (
     {...props}
   />
 );
-export const PageContent = (props: any) => (
+export const PageContent = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       paddingBottom: contentGutter * 4,
@@ -37,7 +41,7 @@ export const PageContent = (props: any) => (
     {...props}
   />
 );
-export const AppContent = (props: any) => (
+export const AppContent = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       flex: '1 1 auto',
@@ -56,7 +60,7 @@ export const AppContent = (props: any) => (
 // Navigation
 // ==============================
 
-export const PrimaryNav = (props: any) => (
+export const PrimaryNav = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       backgroundColor: 'rgba(0, 0, 0, 0.11)',
@@ -79,8 +83,10 @@ export const PrimaryNav = (props: any) => (
     />
   </div>
 );
-type PrimaryNavItemProps = ElementConfig<typeof Link> & { selected: boolean };
-export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
+export const PrimaryNavItem = ({
+  selected,
+  ...props
+}: LinkProps & { readonly selected: boolean }) => (
   <Link
     css={{
       color: selected ? 'white' : '#DEEBFF',
@@ -109,8 +115,8 @@ export const PrimaryNavItem = ({ selected, ...props }: PrimaryNavItemProps) => (
 // ==============================
 
 // Return scroll to top on route change
-class ScrollToTop extends Component<*> {
-  componentDidUpdate(prevProps) {
+class ScrollToTop extends Component<RouteComponentProps> {
+  componentDidUpdate(prevProps: RouteComponentProps) {
     const { history, location } = this.props;
 
     // do not influence scroll on browser back/forward
