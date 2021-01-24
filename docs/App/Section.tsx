@@ -1,8 +1,6 @@
-// @flow
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 
-import type { RouterProps } from '../types';
 import routes from './routes';
 
 const Section = () => {
@@ -17,7 +15,7 @@ const Section = () => {
   );
 };
 
-const Content = ({ location, match }: RouterProps) => {
+const Content = ({ location, match }: RouteComponentProps) => {
   const page = routes[match.path];
 
   return (
