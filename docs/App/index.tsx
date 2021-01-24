@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -31,7 +29,7 @@ const sections = [
   { label: 'Upgrading', path: '/upgrade-guide' },
 ];
 
-export default class App extends Component<*> {
+export default class App extends Component {
   render() {
     return (
       <BrowserRouter>
