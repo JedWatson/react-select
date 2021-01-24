@@ -1,28 +1,21 @@
-// @flow
-
-import React, {
-  Component,
-  type ElementRef,
-  type Element as ReactElement,
-} from 'react';
+import React, { Component, CSSProperties, RefCallback } from 'react';
 import rafSchedule from 'raf-schd';
 
-type Props = {
-  children: ReactElement<*>, // Component | Element
-  preserveHeight: boolean,
-};
-type State = {
-  height: number | 'auto',
-  isFixed: boolean,
-  overScroll: number,
-  scrollHeight: number | null,
-  width: number | 'auto',
-};
+interface Props {
+  readonly preserveHeight: boolean;
+}
+interface State {
+  readonly height: number | 'auto';
+  readonly isFixed: boolean;
+  readonly overScroll: number;
+  readonly scrollHeight: number | null | undefined;
+  readonly width: number | 'auto';
+}
 
 export default class Sticky extends Component<Props, State> {
-  innerEl: ElementRef<'div'>;
-  outerEl: ElementRef<'div'>;
-  state = {
+  innerEl: HTMLDivElement | undefined;
+  outerEl: HTMLDivElement | undefined;
+  state: State = {
     height: 'auto',
     isFixed: false,
     overScroll: 0,
@@ -63,18 +56,18 @@ export default class Sticky extends Component<Props, State> {
       this.setState({ overScroll: 0 });
     }
   });
-  getOuterEl = (ref: ElementRef<*>) => {
+  getOuterEl: RefCallback<HTMLDivElement> = ref => {
     if (!ref) return;
 
     this.outerEl = ref;
   };
-  getInnerEl = (ref: ElementRef<*>) => {
+  getInnerEl: RefCallback<HTMLDivElement> = ref => {
     if (!ref) return;
 
     this.innerEl = ref;
 
     // get dimensions once, we're not interested in resize events
-    const firstChild = ref.firstElementChild;
+    const firstChild = ref.firstElementChild!;
     const availableHeight = window.innerHeight;
     let { height, width } = firstChild.getBoundingClientRect();
     let scrollHeight;
@@ -87,15 +80,22 @@ export default class Sticky extends Component<Props, State> {
   render() {
     const { preserveHeight } = this.props;
     const { height, isFixed, overScroll, scrollHeight, width } = this.state;
-    const outerStyle = isFixed && preserveHeight ? { height } : null;
-    const fixedStyles = { position: 'fixed', top: 0, width, zIndex: 1 };
+    const outerStyle = isFixed && preserveHeight ? { height } : undefined;
+    const fixedStyles: CSSProperties = {
+      position: 'fixed',
+      top: 0,
+      width,
+      zIndex: 1,
+    };
     const scrollStyles = scrollHeight
       ? {
           height: overScroll ? scrollHeight - overScroll : scrollHeight,
           overflow: 'scroll',
         }
       : null;
-    const innerStyle = isFixed ? { ...fixedStyles, ...scrollStyles } : null;
+    const innerStyle = isFixed
+      ? { ...fixedStyles, ...scrollStyles }
+      : undefined;
 
     return (
       <div ref={this.getOuterEl} style={outerStyle}>

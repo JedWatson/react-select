@@ -118,7 +118,7 @@ interface HeaderState {
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<RouteComponentProps, HeaderState> {
-  nav!: HTMLElement;
+  nav: HTMLElement | undefined;
   content!: HTMLElement;
   state: HeaderState = { contentHeight: 'auto', stars: 0 };
   componentDidMount() {

@@ -8,7 +8,7 @@ import Creatable from '../pages/creatable';
 import Advanced from '../pages/advanced';
 import UpgradeGuide from '../pages/upgradeGuide';
 
-const routes: { [key: string]: ComponentType } = {
+const routes: { readonly [key: string]: ComponentType } = {
   '/home': Home,
   '/props': Props,
   '/styles': Styles,

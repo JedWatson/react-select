@@ -1,26 +1,19 @@
-// @flow
-
-import React, {
-  Component,
-  type ElementRef,
-  type Element as ReactElement,
-} from 'react';
+import React, { Component, RefCallback } from 'react';
 import rafSchedule from 'raf-schd';
 import NodeResolver from 'react-node-resolver';
 
-type Props = {
-  children: ReactElement<*>,
-  onChange: (Array<any>) => void,
-};
-type State = {
-  elements: Array<HTMLElement>,
-};
-
-function getStyle(el, prop, numeric = true) {
-  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
-  return numeric ? parseFloat(val) : val;
+interface Props {
+  readonly onChange: (elements: readonly (string | null)[]) => void;
 }
-function isInView(el) {
+interface State {
+  readonly elements: readonly HTMLElement[];
+}
+
+function getStyle(el: HTMLElement, prop: string) {
+  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
+  return parseFloat(val);
+}
+function isInView(el: HTMLElement) {
   let rect = el.getBoundingClientRect();
 
   const topOffset =
@@ -34,9 +27,9 @@ function isInView(el) {
 }
 
 export default class ScrollSpy extends Component<Props, State> {
-  nav: Element;
+  nav: HTMLElement | undefined;
   allIds = [];
-  state = { elements: [] };
+  state: State = { elements: [] };
   static defaultProps = { preserveHeight: false };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, false);
@@ -56,19 +49,17 @@ export default class ScrollSpy extends Component<Props, State> {
       onChange(idsInView);
     }
   });
-  getElements = (ref: ElementRef<*>) => {
+  getElements: RefCallback<HTMLElement> = ref => {
     if (!ref) return;
     this.nav = ref;
   };
   buildNodeList = () => {
     if (!this.nav) return;
 
-    const anchorList = this.nav.querySelectorAll('[data-hash]');
-    const els = Array.from(anchorList).map(i =>
-      document.querySelector(`#${i.dataset.hash}`)
+    const anchorList = this.nav.querySelectorAll<HTMLElement>('[data-hash]');
+    const elements = Array.from(anchorList).map(
+      i => document.querySelector<HTMLElement>(`#${i.dataset.hash}`)!
     );
-
-    const elements = ((els: any): Array<HTMLElement>); // suck it flow...
 
     this.setState({ elements });
   };

@@ -50,7 +50,7 @@ class PageNav extends Component<RouteComponentProps, NavState> {
       this.scrollSpy.buildNodeList();
     }
   }
-  getSelected = (ids: readonly string[]) => {
+  getSelected = (ids: readonly (string | null)[]) => {
     const activeId = ids[0];
     if (activeId !== this.state.activeId) {
       this.setState({ activeId });
