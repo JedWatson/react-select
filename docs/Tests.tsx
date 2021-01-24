@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component, type ComponentType } from 'react';
+import React, { ChangeEventHandler, Component, ComponentProps, ComponentType } from 'react';
 
 import Select from 'react-select';
 import type { MenuPlacement } from 'react-select/src/types';
@@ -9,20 +7,20 @@ import { colourOptions, groupedOptions, optionLength } from './data';
 
 import * as animatedComponents from 'react-select/animated';
 
-type SuiteProps = {
-  selectComponent: ComponentType<any>,
-  idSuffix: string,
-};
-type SuiteState = {
-  isDisabled: boolean,
-  isFixed: boolean,
-  isLoading: boolean,
-  escapeClearsValue: boolean,
-  blockScroll: boolean,
-  portalPlacement: MenuPlacement,
-};
+interface SuiteProps {
+  readonly selectComponent: ComponentType<ComponentProps<typeof Select>>;
+  readonly idSuffix: string;
+}
+interface SuiteState {
+  readonly isDisabled: boolean,
+  readonly isFixed: boolean,
+  readonly isLoading: boolean,
+  readonly escapeClearsValue: boolean,
+  readonly blockScroll: boolean,
+  readonly portalPlacement: MenuPlacement,
+}
 
-const AnimatedSelect = props => (
+const AnimatedSelect = (props: ComponentProps<typeof Select>) => (
   <Select
     {...props}
     components={{
@@ -33,7 +31,7 @@ const AnimatedSelect = props => (
 );
 
 class TestSuite extends Component<SuiteProps, SuiteState> {
-  state = {
+  state: SuiteState = {
     isDisabled: false,
     isFixed: false,
     isLoading: false,
@@ -57,8 +55,8 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
     this.setState(state => ({ escapeClearsValue: !state.escapeClearsValue }));
   };
 
-  setPlacement = ({ currentTarget }: SyntheticEvent<*>) => {
-    const portalPlacement = currentTarget && currentTarget.value;
+  setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
+    const portalPlacement = currentTarget && (currentTarget.value as MenuPlacement);
     this.setState({ portalPlacement });
   };
 
@@ -162,7 +160,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           />
           <Note Tag="label">
             <select
-              type="radio"
               onChange={this.setPlacement}
               value={portalPlacement}
               id="cypress-portalled__radio-bottom"
