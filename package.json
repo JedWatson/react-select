@@ -45,7 +45,7 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-helmet": "^5.0.16",
     "@types/react-router-dom": "^4.3.5",
-    "@types/react-select": "^4.0.0",
+    "@types/react-select": "^4.0.1",
     "@types/react-syntax-highlighter": "^0.0.8",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.1",
