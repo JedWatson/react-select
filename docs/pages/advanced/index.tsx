@@ -132,6 +132,7 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom isOptionDisabled function example"
+          urlPath="docs/examples/CustomIsOptionDisabled.js"
           raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
         >
           <CustomIsOptionDisabled />
@@ -141,6 +142,7 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Using the style API to replace `menuBuffer`"
+          urlPath="docs/examples/MenuBuffer.js"
           raw={require('!!raw-loader!../../examples/MenuBuffer.js')}
         >
           <MenuBuffer />
