@@ -1,7 +1,4 @@
 import { Component } from 'react';
-import { OptionTypeBase } from 'react-select';
-import { SingleValueProps } from 'react-select/src/components/SingleValue';
+import { type SingleValueProps } from 'react-select/src/components/SingleValue';
 
-export default class SingleValue extends Component<
-  SingleValueProps<OptionTypeBase>
-> {}
+export default class SingleValue extends Component<SingleValueProps> {}
