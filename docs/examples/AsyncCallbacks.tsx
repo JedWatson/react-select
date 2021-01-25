@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
-type State = {
-  inputValue: string,
-};
+interface State {
+  readonly inputValue: string;
+}
 
 const filterColors = (inputValue: string) => {
   return colourOptions.filter(i =>
@@ -13,14 +13,17 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const loadOptions = (inputValue, callback) => {
+const loadOptions = (
+  inputValue: string,
+  callback: (options: ColourOption[]) => void
+) => {
   setTimeout(() => {
     callback(filterColors(inputValue));
   }, 1000);
 };
 
-export default class WithCallbacks extends Component<*, State> {
-  state = { inputValue: '' };
+export default class WithCallbacks extends Component<{}, State> {
+  state: State = { inputValue: '' };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');
     this.setState({ inputValue });

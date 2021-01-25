@@ -224,8 +224,8 @@ export default function Advanced() {
         <ExampleWrapper
           isEditable={false}
           label="Accessing Internals via ref"
-          urlPath="docs/examples/Experimental.js"
-          raw={require('!!raw-loader!../../examples/AccessingInternals.js')}
+          urlPath="docs/examples/AccessingInternals.js"
+          raw={require('!!raw-loader!../../examples/AccessingInternals.tsx')}
         >
           <AccessingInternals />
         </ExampleWrapper>

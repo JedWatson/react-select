@@ -67,8 +67,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Async Creatable Example"
-          urlPath="docs/examples/AsyncCreatable.js"
-          raw={require('!!raw-loader!../../examples/AsyncCreatable.js')}
+          urlPath="docs/examples/AsyncCreatable.tsx"
+          raw={require('!!raw-loader!../../examples/AsyncCreatable.tsx')}
         >
           <AsyncCreatable />
         </ExampleWrapper>

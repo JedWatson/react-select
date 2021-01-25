@@ -38,6 +38,7 @@ export { default as CustomGetOptionLabel } from './CustomGetOptionLabel';
 export { default as CustomGetOptionValue } from './CustomGetOptionValue';
 export { default as CustomFilterOptions } from './CustomFilterOptions';
 export { default as CustomIsOptionDisabled } from './CustomIsOptionDisabled';
+export { default as DefaultOptions } from './DefaultOptions';
 export { default as Experimental } from './Experimental';
 export { default as FixedOptions } from './FixedOptions';
 export { default as MultiSelectSort } from './MultiSelectSort';

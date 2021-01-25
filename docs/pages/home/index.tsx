@@ -97,8 +97,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Animation"
-      urlPath="docs/examples/AnimatedMulti.js"
-      raw={require('!!raw-loader!../../examples/AnimatedMulti.js')}
+      urlPath="docs/examples/AnimatedMulti.tsx"
+      raw={require('!!raw-loader!../../examples/AnimatedMulti.tsx')}
     >
       <AnimatedMulti />
     </ExampleWrapper>
@@ -140,8 +140,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Callbacks"
-      urlPath="docs/examples/AsyncCallbacks.js"
-      raw={require('!!raw-loader!../../examples/AsyncCallbacks.js')}
+      urlPath="docs/examples/AsyncCallbacks.tsx"
+      raw={require('!!raw-loader!../../examples/AsyncCallbacks.tsx')}
     >
       <AsyncCallbacks />
     </ExampleWrapper>
@@ -150,8 +150,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Promises"
-      urlPath="docs/examples/AsyncPromises.js"
-      raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+      urlPath="docs/examples/AsyncPromises.tsx"
+      raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
     >
       <AsyncPromises />
     </ExampleWrapper>

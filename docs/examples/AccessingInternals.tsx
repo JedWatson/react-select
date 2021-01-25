@@ -1,11 +1,11 @@
-import React, { Component, type ElementRef, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
 import { Note } from '../styled-components';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
 const filterColors = (inputValue: string) => {
   return colourOptions.filter(i =>
@@ -13,37 +13,37 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string) =>
+  new Promise<ColourOption[]>(resolve => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
   });
 
-export default class AccessingInterals extends Component {
-  selectRef: ElementRef<*>;
-  asyncRef: ElementRef<*>;
-  creatableRef: ElementRef<*>;
+export default class AccessingInternals extends Component {
+  selectRef?: Select<ColourOption, false> | null;
+  asyncRef?: AsyncSelect<ColourOption> | null;
+  creatableRef?: CreatableSelect<ColourOption> | null;
   focus = () => {
     console.log(this.selectRef);
-    this.selectRef.focus();
+    this.selectRef!.focus();
   };
   focusCreatable = () => {
     console.log(this.creatableRef);
-    this.creatableRef.focus();
+    this.creatableRef!.focus();
   };
   focusAsync = () => {
     console.log(this.asyncRef);
-    this.asyncRef.focus();
+    this.asyncRef!.focus();
   };
   blurAsync = () => {
-    this.asyncRef.blur();
+    this.asyncRef!.blur();
   };
   blurCreatable = () => {
-    this.creatableRef.blur();
+    this.creatableRef!.blur();
   };
-  blur = () => this.selectRef.blur();
-  onSelectRef = ref => {
+  blur = () => this.selectRef!.blur();
+  onSelectRef = (ref: Select<ColourOption, false>) => {
     console.log(ref);
     this.selectRef = ref;
   };
@@ -56,7 +56,6 @@ export default class AccessingInterals extends Component {
             this.creatableRef = ref;
           }}
           isClearable
-          onChange={this.handleChange}
           options={colourOptions}
         />
         <Note Tag="label">

@@ -40,6 +40,7 @@ export class CustomGetOptionLabel extends Component {}
 export class CustomGetOptionValue extends Component {}
 export class CustomFilterOptions extends Component {}
 export class CustomIsOptionDisabled extends Component {}
+export class DefaultOptions extends Component {}
 export class Experimental extends Component {}
 export class FixedOptions extends Component {}
 export class MultiSelectSort extends Component {}
