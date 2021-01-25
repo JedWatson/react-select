@@ -1,13 +1,21 @@
-// @flow
+/** @jsx jsx */
+import React, {
+  Component,
+  Fragment,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
+import { jsx } from '@emotion/react';
 
-import React, { Component, Fragment } from 'react';
-
-import Select, { components } from 'react-select';
+import Select, { components, OptionProps, OptionTypeBase } from 'react-select';
 import md from '../../markdown/renderer';
 
-const Code = ({ children }) => <code>{children}</code>;
+const Code: FunctionComponent = ({ children }) => <code>{children}</code>;
 
-const propChangeData = [
+const propChangeData: (
+  | [string, string]
+  | [string, string, string | ReactElement]
+)[] = [
   ['aria-describedby', 'unchanged'],
   ['aria-label', 'unchanged'],
   ['aria-labelledby', 'unchanged'],
@@ -138,7 +146,7 @@ see \`createFilter()\`
   ['wrapperStyle', 'styles'],
 ];
 
-const Table = ({ children }) => (
+const Table: FunctionComponent = ({ children }) => (
   <table
     css={{
       width: '100%',
@@ -150,7 +158,7 @@ const Table = ({ children }) => (
   </table>
 );
 
-const Header = ({ children }) => (
+const Header: FunctionComponent = ({ children }) => (
   <td
     css={{
       fontWeight: 'bold',
@@ -162,7 +170,7 @@ const Header = ({ children }) => (
   </td>
 );
 
-const Cell = ({ children }) => (
+const Cell: FunctionComponent = ({ children }) => (
   <td
     css={{
       fontSize: '90%',
@@ -175,7 +183,13 @@ const Cell = ({ children }) => (
   </td>
 );
 
-class PropStatus extends Component<*> {
+interface Props {
+  prop: string;
+  status: string;
+  note: string | ReactElement | undefined;
+}
+
+class PropStatus extends Component<Props> {
   renderStatus() {
     const { status, note } = this.props;
     switch (status) {
@@ -224,8 +238,15 @@ class PropStatus extends Component<*> {
   }
 }
 
-class InputOption extends Component<*, *> {
-  state = { isActive: false };
+interface InputOptionState {
+  readonly isActive: boolean;
+}
+
+class InputOption extends Component<
+  OptionProps<OptionTypeBase, boolean>,
+  InputOptionState
+> {
+  state: InputOptionState = { isActive: false };
   onMouseDown = () => this.setState({ isActive: true });
   onMouseUp = () => this.setState({ isActive: false });
   onMouseLeave = () => this.setState({ isActive: false });
@@ -233,7 +254,6 @@ class InputOption extends Component<*, *> {
   render() {
     const {
       getStyles,
-      Icon,
       isDisabled,
       isFocused,
       isSelected,
@@ -291,17 +311,21 @@ const filterOptions = [
   { value: 'status', label: 'status' },
 ];
 
-const getDisplayedStatus = status => {
+const getDisplayedStatus = (status: string) => {
   if (status === 'components' || status === 'styles') return 'removed';
   else return status;
 };
 
-class PropChanges extends Component<
-  *,
-  { selectedOptions: Array<string>, filterValue: string }
-> {
-  state = {
-    selectedOptions: (allOptions.map(opt => opt.value): Array<string>),
+interface PropChangesProps {}
+
+interface PropChangesState {
+  readonly selectedOptions: readonly string[];
+  readonly filterValue: string;
+}
+
+class PropChanges extends Component<PropChangesProps, PropChangesState> {
+  state: PropChangesState = {
+    selectedOptions: allOptions.map(opt => opt.value),
     filterValue: filterOptions[0].value,
   };
 
