@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type IndicatorProps } from 'react-select/src/components/indicators';
+import { OptionTypeBase } from 'react-select';
+import { IndicatorProps } from 'react-select/src/components/indicators';
 
-export default class DropdownIndicator extends Component<IndicatorProps> {}
+export default class DropdownIndicator extends Component<
+  IndicatorProps<OptionTypeBase, boolean>
+> {}

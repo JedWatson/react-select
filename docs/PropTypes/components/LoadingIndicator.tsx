@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type LoadingIconProps } from 'react-select/src/components/indicators';
+import { OptionTypeBase } from 'react-select';
+import { LoadingIndicatorProps } from 'react-select/src/components/indicators';
 
-export default class LoadingIndicator extends Component<LoadingIconProps> {}
+export default class LoadingIndicator extends Component<
+  LoadingIndicatorProps<OptionTypeBase, boolean>
+> {}

@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type MenuProps } from 'react-select/src/components/Menu';
+import { OptionTypeBase } from 'react-select';
+import { MenuProps } from 'react-select/src/components/Menu';
 
-export default class Menu extends Component<MenuProps> {}
+export default class Menu extends Component<
+  MenuProps<OptionTypeBase, boolean>
+> {}

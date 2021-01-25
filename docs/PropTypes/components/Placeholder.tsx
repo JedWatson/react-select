@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type PlaceholderProps } from 'react-select/src/components/Placeholder';
+import { OptionTypeBase } from 'react-select';
+import { PlaceholderProps } from 'react-select/src/components/Placeholder';
 
-export default class Placeholder extends Component<PlaceholderProps> {}
+export default class Placeholder extends Component<
+  PlaceholderProps<OptionTypeBase, boolean>
+> {}

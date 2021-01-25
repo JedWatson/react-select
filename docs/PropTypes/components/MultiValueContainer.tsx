@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type MultiValueGenericProps } from 'react-select/src/components/MultiValue';
+import { OptionTypeBase } from 'react-select';
+import { MultiValueGenericProps } from 'react-select/src/components/MultiValue';
 
-export default class MultiValueContainer extends Component<MultiValueGenericProps> {}
+export default class MultiValueContainer extends Component<
+  MultiValueGenericProps<OptionTypeBase>
+> {}

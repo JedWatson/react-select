@@ -1,4 +1,7 @@
 import { Component } from 'react';
-import { type OptionProps } from 'react-select/src/components/Option';
+import { OptionTypeBase } from 'react-select';
+import { OptionProps } from 'react-select/src/components/Option';
 
-export default class Option extends Component<OptionProps> {}
+export default class Option extends Component<
+  OptionProps<OptionTypeBase, boolean>
+> {}
