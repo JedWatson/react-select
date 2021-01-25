@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/react'; // eslint-disable-line no-unused-vars
-import { Component, CSSProperties, ReactNode } from 'react';
+import { CSSObject, jsx } from '@emotion/react'; // eslint-disable-line no-unused-vars
+import { Component } from 'react';
 import CodeSandboxer, { GitInfo } from 'react-codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../packages/react-select/package.json';
@@ -52,23 +52,22 @@ export default class ExampleWrapper extends Component<Props, State> {
 
     if (!raw) {
       return (
-        <Action
+        <AAction
           href={`${sourceUrl}/${this.props.urlPath}`}
-          tag="a"
           target="_blank"
           title="View Source"
         >
           <SourceIcon />
-        </Action>
+        </AAction>
       );
     } else {
       return (
-        <Action
+        <ButtonAction
           onClick={() => this.setState({ showCode: !showCode })}
           title="View Source"
         >
           <SourceIcon />
-        </Action>
+        </ButtonAction>
       );
     }
   };
@@ -88,9 +87,9 @@ export default class ExampleWrapper extends Component<Props, State> {
           }}
         >
           {({ isLoading }) => (
-            <Action title="Edit in CodeSandbox">
+            <ButtonAction title="Edit in CodeSandbox">
               {isLoading ? <Spinner /> : <NewWindowIcon />}
-            </Action>
+            </ButtonAction>
           )}
         </CodeSandboxer>
       );
@@ -152,54 +151,68 @@ const NewWindowIcon = (props: Omit<SvgProps, 'ref' | 'size'>) => (
   </Svg>
 );
 
-interface ActionProps<Tag extends 'a' | 'button'> {
-  readonly children: ReactNode;
-  readonly css?: CSSProperties;
-  readonly tag?: Tag;
+const actionCSS: CSSObject = {
+  alignItems: 'center',
+  background: 0,
+  border: 0,
+  borderRadius: 3,
+  boxSizing: 'border-box',
+  color: colors.neutral40,
+  cursor: 'pointer',
+  display: 'flex',
+  fontSize: 'inherit',
+  height: 24,
+  marginLeft: 2,
+  justifyContent: 'center',
+  position: 'relative',
+  transition: 'background-color 150ms, box-shadow 150ms, color 150ms',
+  width: 30,
+
+  ':hover': {
+    backgroundColor: colors.neutral5,
+    outline: 0,
+  },
+  ':active': {
+    backgroundColor: colors.neutral10,
+    bottom: -1,
+  },
+  ':focus': {
+    outline: 0,
+  },
+};
+
+interface ActionProps {
+  readonly css?: CSSObject;
 }
-const Action = <TagType extends 'a' | 'button' = 'button'>({
+const ButtonAction = ({
   css,
-  tag: Tag = 'button' as TagType,
   ...props
-}: ActionProps<TagType> & JSX.IntrinsicElements[TagType]) => {
+}: ActionProps & JSX.IntrinsicElements['button']) => {
   return (
-    // @ts-expect-error
-    <Tag
+    <button
       css={{
-        alignItems: 'center',
-        background: 0,
-        border: 0,
-        borderRadius: 3,
-        boxSizing: 'border-box',
-        color: colors.neutral40,
-        cursor: 'pointer',
-        display: 'flex',
-        fontSize: 'inherit',
-        height: 24,
-        marginLeft: 2,
-        justifyContent: 'center',
-        position: 'relative',
-        transition: 'background-color 150ms, box-shadow 150ms, color 150ms',
-        width: 30,
-
-        ':hover': {
-          backgroundColor: colors.neutral5,
-          outline: 0,
-        },
-        ':active': {
-          backgroundColor: colors.neutral10,
-          bottom: -1,
-        },
-        ':focus': {
-          outline: 0,
-        },
-
+        ...actionCSS,
         ...css,
       }}
       {...props}
     />
   );
 };
+const AAction = ({
+  css,
+  ...props
+}: ActionProps & JSX.IntrinsicElements['a']) => {
+  return (
+    <a
+      css={{
+        ...actionCSS,
+        ...css,
+      }}
+      {...props}
+    />
+  );
+};
+
 const Actions = ({
   show,
   ...props
