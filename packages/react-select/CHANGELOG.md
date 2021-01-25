@@ -1,5 +1,11 @@
 # react-select
 
+## 4.0.2
+
+### Patch Changes
+
+- [44f285b0](https://github.com/JedWatson/react-select/commit/44f285b0d4a50e16713b9aa3746d73d80dee2c91) [#4399](https://github.com/JedWatson/react-select/pull/4399) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fixed building focusable options from groups
+
 ## 4.0.1
 
 ### Patch Changes
