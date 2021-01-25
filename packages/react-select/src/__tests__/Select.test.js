@@ -1872,6 +1872,29 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   );
 });
 
+test('accessibility > interacting with multi values options shows correct A11yText', () => {
+  let { container } = render(
+    <Select {...BASIC_PROPS} isMulti value={[OPTIONS[0], OPTIONS[1]]} />
+  );
+  const liveRegionId = '#aria-context';
+  let input = container.querySelector('.react-select__value-container input');
+
+  fireEvent.focus(container.querySelector('.react-select__input input'));
+  expect(container.querySelector(liveRegionId).textContent).toMatch(
+    '0 results available. Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
+  );
+
+  fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
+  expect(container.querySelector(liveRegionId).textContent).toMatch(
+    'value 1 focused, 2 of 2.  0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+  );
+
+  fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
+  expect(container.querySelector(liveRegionId).textContent).toMatch(
+    'value 0 focused, 1 of 2.  0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+  );
+});
+
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
   const screenReaderStatus = ({ count }) =>
     `There are ${count} options available`;
