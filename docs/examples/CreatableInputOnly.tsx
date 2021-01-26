@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
+import { ActionMeta, KeyboardEventHandler, ValueType } from 'react-select';
 
 const components = {
   DropdownIndicator: null,
 };
+
+interface Option {
+  readonly label: string;
+  readonly value: string;
+}
 
 const createOption = (label: string) => ({
   label,
   value: label,
 });
 
-export default class CreatableInputOnly extends Component<*, State> {
-  state = {
+interface State {
+  readonly inputValue: string;
+  readonly value: readonly Option[];
+}
+
+export default class CreatableInputOnly extends Component<{}, State> {
+  state: State = {
     inputValue: '',
     value: [],
   };
-  handleChange = (value: any, actionMeta: any) => {
+  handleChange = (
+    value: ValueType<Option, true>,
+    actionMeta: ActionMeta<Option>
+  ) => {
     console.group('Value Changed');
     console.log(value);
     console.log(`action: ${actionMeta.action}`);
@@ -26,7 +40,7 @@ export default class CreatableInputOnly extends Component<*, State> {
   handleInputChange = (inputValue: string) => {
     this.setState({ inputValue });
   };
-  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+  handleKeyDown: KeyboardEventHandler = event => {
     const { inputValue, value } = this.state;
     if (!inputValue) return;
     switch (event.key) {

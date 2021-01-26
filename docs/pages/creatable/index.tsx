@@ -33,8 +33,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Creatable Example"
-          urlPath="docs/examples/CreatableSingle.js"
-          raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
+          urlPath="docs/examples/CreatableSingle.tsx"
+          raw={require('!!raw-loader!../../examples/CreatableSingle.tsx')}
         >
           <CreatableSingle />
         </ExampleWrapper>
@@ -43,8 +43,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Creatable Multiselect Example"
-          urlPath="docs/examples/CreatableMulti.js"
-          raw={require('!!raw-loader!../../examples/CreatableMulti.js')}
+          urlPath="docs/examples/CreatableMulti.tsx"
+          raw={require('!!raw-loader!../../examples/CreatableMulti.tsx')}
         >
           <CreatableMulti />
         </ExampleWrapper>
@@ -53,8 +53,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Advanced Example"
-          urlPath="docs/examples/CreatableAdvanced.js"
-          raw={require('!!raw-loader!../../examples/CreatableAdvanced.js')}
+          urlPath="docs/examples/CreatableAdvanced.tsx"
+          raw={require('!!raw-loader!../../examples/CreatableAdvanced.tsx')}
         >
           <CreatableAdvanced />
         </ExampleWrapper>
@@ -79,8 +79,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Multi-select text input"
-          urlPath="docs/examples/CreatableInputOnly.js"
-          raw={require('!!raw-loader!../../examples/CreatableInputOnly.js')}
+          urlPath="docs/examples/CreatableInputOnly.tsx"
+          raw={require('!!raw-loader!../../examples/CreatableInputOnly.tsx')}
         >
           <CreatableInputOnly />
         </ExampleWrapper>

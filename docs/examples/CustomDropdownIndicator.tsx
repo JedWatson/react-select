@@ -1,16 +1,13 @@
-// @flow
-
-import React, { type ElementConfig } from 'react';
+import React from 'react';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
+import { IndicatorProps } from 'react-select/src/components/indicators';
 
-const DropdownIndicator = (
-  props: ElementConfig<typeof components.DropdownIndicator>
-) => {
+const DropdownIndicator = (props: IndicatorProps<ColourOption, true>) => {
   return (
     <components.DropdownIndicator {...props}>
-      <EmojiIcon primaryColor={colourOptions[2].color} />
+      <EmojiIcon label="emoji" primaryColor={colourOptions[2].color} />
     </components.DropdownIndicator>
   );
 };

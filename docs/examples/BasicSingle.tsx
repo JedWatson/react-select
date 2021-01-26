@@ -4,18 +4,20 @@ import Select from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
-const Checkbox = props => <input type="checkbox" {...props} />;
+const Checkbox = (props: JSX.IntrinsicElements['input']) => (
+  <input type="checkbox" {...props} />
+);
 
-type State = {
-  isClearable: boolean,
-  isDisabled: boolean,
-  isLoading: boolean,
-  isRtl: boolean,
-  isSearchable: boolean,
-};
+interface State {
+  readonly isClearable: boolean;
+  readonly isDisabled: boolean;
+  readonly isLoading: boolean;
+  readonly isRtl: boolean;
+  readonly isSearchable: boolean;
+}
 
-export default class SingleSelect extends Component<*, State> {
-  state = {
+export default class SingleSelect extends Component<{}, State> {
+  state: State = {
     isClearable: true,
     isDisabled: false,
     isLoading: false,

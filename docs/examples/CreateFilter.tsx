@@ -3,24 +3,26 @@ import Select, { createFilter } from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
-const Checkbox = props => <input type="checkbox" {...props} />;
+const Checkbox = (props: JSX.IntrinsicElements['input']) => (
+  <input type="checkbox" {...props} />
+);
 
-type State = {
-  ignoreCase: boolean,
-  ignoreAccents: boolean,
-  trim: boolean,
-  matchFrom: boolean,
-};
+interface State {
+  readonly ignoreCase: boolean;
+  readonly ignoreAccents: boolean;
+  readonly trim: boolean;
+  readonly matchFromStart: boolean;
+}
 
-export default class SelectCreateFilter extends Component<*, State> {
+export default class SelectCreateFilter extends Component<{}, State> {
   state: State = {
     ignoreCase: false,
     ignoreAccents: false,
     trim: false,
     matchFromStart: false,
   };
-  toggleOption = key => () => {
-    this.setState(state => ({ [key]: !state[key] }));
+  toggleOption = (key: keyof State) => () => {
+    this.setState(state => ({ ...state, [key]: !state[key] }));
   };
   render() {
     const { ignoreCase, ignoreAccents, trim, matchFromStart } = this.state;
@@ -29,7 +31,9 @@ export default class SelectCreateFilter extends Component<*, State> {
       ignoreCase,
       ignoreAccents,
       trim,
-      matchFrom: this.state.matchFromStart ? 'start' : 'any',
+      matchFrom: this.state.matchFromStart
+        ? ('start' as const)
+        : ('any' as const),
     };
 
     return (

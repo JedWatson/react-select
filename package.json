@@ -10,7 +10,7 @@
     "url": "https://github.com/JedWatson/react-select.git"
   },
   "dependencies": {
-    "@atlaskit/button": "^7.0.2",
+    "@atlaskit/button": "^15.1.4",
     "@atlaskit/icon": "^11.0.1",
     "@atlaskit/modal-dialog": "^4.0.3",
     "@atlaskit/spinner": "^5.0.0",
@@ -103,6 +103,7 @@
     "react-syntax-highlighter": "^7.0.1",
     "react-transition-group": "^4.3.0",
     "style-loader": "^0.23.1",
+    "styled-components": "^3.4.10",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",
     "unfetch": "^3.0.0",

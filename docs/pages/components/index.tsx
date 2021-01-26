@@ -127,19 +127,19 @@ export default function Components() {
         ~~~
 
         ## Defining components
-        
-        When defining replacement components, it is important to do so __outside__ the scope of 
-        rendering the Select. Defining a replacement component directly in the components prop can 
-        cause issues. 
-        
-        On this topic, React 
+
+        When defining replacement components, it is important to do so __outside__ the scope of
+        rendering the Select. Defining a replacement component directly in the components prop can
+        cause issues.
+
+        On this topic, React
         [documentation](https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method)
         has the following to say:
 
         > The problem here isn’t just about performance — remounting a component causes the state
         of that component and all of its children to be lost.
-        
-        This statement applies as well when replacing components in react-select with inline definitions. 
+
+        This statement applies as well when replacing components in react-select with inline definitions.
 
         ~~~jsx
         // Bad: Inline declaration will cause remounting issues
@@ -149,7 +149,7 @@ export default function Components() {
               <components.Control {...rest}>
                 👎 {children}
               </components.Control>
-            )}} 
+            )}}
           />
         )
 
@@ -204,8 +204,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom ClearIndicator Example"
-            urlPath="docs/examples/CustomClearIndicator.js"
-            raw={require('!!raw-loader!../../examples/CustomClearIndicator.js')}
+            urlPath="docs/examples/CustomClearIndicator.tsx"
+            raw={require('!!raw-loader!../../examples/CustomClearIndicator.tsx')}
           >
             <CustomClearIndicator />
           </ExampleWrapper>
@@ -222,8 +222,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Control Example"
-            urlPath="docs/examples/CustomControl.js"
-            raw={require('!!raw-loader!../../examples/CustomControl.js')}
+            urlPath="docs/examples/CustomControl.tsx"
+            raw={require('!!raw-loader!../../examples/CustomControl.tsx')}
           >
             <CustomControl />
           </ExampleWrapper>
@@ -239,8 +239,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Dropdown Indicator Example"
-            urlPath="docs/examples/CustomDropdownIndicator.js"
-            raw={require('!!raw-loader!../../examples/CustomDropdownIndicator.js')}
+            urlPath="docs/examples/CustomDropdownIndicator.tsx"
+            raw={require('!!raw-loader!../../examples/CustomDropdownIndicator.tsx')}
           >
             <CustomDropdownIndicator />
           </ExampleWrapper>

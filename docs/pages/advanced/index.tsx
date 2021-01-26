@@ -66,8 +66,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          urlPath="docs/examples/CreateFilter.tsx"
+          raw={require('!!raw-loader!../../examples/CreateFilter.tsx')}
         >
           <CreateFilter />
         </ExampleWrapper>
@@ -102,8 +102,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom formatGroupLabel function example"
-          urlPath="docs/examples/BasicGrouped.js"
-          raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
+          urlPath="docs/examples/BasicGrouped.tsx"
+          raw={require('!!raw-loader!../../examples/BasicGrouped.tsx')}
         >
           <BasicGrouped />
         </ExampleWrapper>
@@ -212,8 +212,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Example of controlled MenuIsOpen"
-          urlPath="docs/examples/ControlledMenu.js"
-          raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
+          urlPath="docs/examples/ControlledMenu.tsx"
+          raw={require('!!raw-loader!../../examples/ControlledMenu.tsx')}
         >
           <ControlledMenu />
         </ExampleWrapper>

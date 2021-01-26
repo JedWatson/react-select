@@ -1,20 +1,22 @@
 import React, { Component, Fragment } from 'react';
 
 import Select from 'react-select';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 import { Note } from '../styled-components';
 
-const Checkbox = props => <input type="checkbox" {...props} />;
+const Checkbox = (props: JSX.IntrinsicElements['input']) => (
+  <input type="checkbox" {...props} />
+);
 
-type State = {
-  menuIsOpen: boolean,
-};
+interface State {
+  readonly menuIsOpen: boolean;
+}
 
-export default class controlledMenu extends Component<*, State> {
-  state = {
+export default class controlledMenu extends Component<{}, State> {
+  state: State = {
     menuIsOpen: false,
   };
-  select: ElementRef<*>;
+  select?: Select<ColourOption> | null;
   toggleMenuIsOpen = () => {
     this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
     if (this.select) {
