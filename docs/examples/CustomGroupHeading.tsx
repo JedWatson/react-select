@@ -1,9 +1,15 @@
 import React from 'react';
 
 import Select, { components } from 'react-select';
-import { colourOptions, groupedOptions } from '../data';
+import {
+  ColourOption,
+  colourOptions,
+  FlavourOption,
+  groupedOptions,
+} from '../data';
 import EditorPanelIcon from '@atlaskit/icon/glyph/editor/panel';
 import Tooltip from '@atlaskit/tooltip';
+import { GroupHeadingProps } from 'react-select/src/components/Group';
 
 const groupStyles = {
   border: `2px dotted ${colourOptions[2].color}`,
@@ -13,17 +19,19 @@ const groupStyles = {
   display: 'flex',
 };
 
-const GroupHeading = props => (
+const GroupHeading = (
+  props: GroupHeadingProps<ColourOption | FlavourOption, false>
+) => (
   <div style={groupStyles}>
     <components.GroupHeading {...props} />
     <Tooltip content="Custom GroupHeading Component">
-      <EditorPanelIcon />
+      <EditorPanelIcon label="Editor Panel" />
     </Tooltip>
   </div>
 );
 
 export default () => (
-  <Select
+  <Select<ColourOption | FlavourOption>
     defaultValue={colourOptions[1]}
     options={groupedOptions}
     components={{ GroupHeading }}

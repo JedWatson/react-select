@@ -17,11 +17,18 @@ export interface GroupedOption {
   options: ColourOption[] | FlavourOption[];
 }
 
+interface DogOption {
+  id: number;
+  label: string;
+}
+
 interface OptionLength {
   value: number;
   label: string;
 }
 
 export const colourOptions: ColourOption[];
+export const flavourOptions: FlavourOption[];
 export const optionLength: OptionLength[];
+export const dogOptions: DogOption[];
 export const groupedOptions: GroupedOption[];

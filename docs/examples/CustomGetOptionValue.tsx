@@ -12,7 +12,7 @@ export default function CustomGetOptionValue() {
         isSearchable
         name="dog"
         options={dogOptions}
-        getOptionValue={option => option['id']}
+        getOptionValue={option => `${option['id']}`}
       />
     </Fragment>
   );

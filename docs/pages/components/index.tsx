@@ -257,8 +257,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Group Example"
-            urlPath="docs/examples/CustomGroup.js"
-            raw={require('!!raw-loader!../../examples/CustomGroup.js')}
+            urlPath="docs/examples/CustomGroup.tsx"
+            raw={require('!!raw-loader!../../examples/CustomGroup.tsx')}
           >
             <CustomGroup />
           </ExampleWrapper>
@@ -273,8 +273,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom GroupHeading Example"
-            urlPath="docs/examples/CustomGroupHeading.js"
-            raw={require('!!raw-loader!../../examples/CustomGroupHeading.js')}
+            urlPath="docs/examples/CustomGroupHeading.tsx"
+            raw={require('!!raw-loader!../../examples/CustomGroupHeading.tsx')}
           >
             <CustomGroupHeading />
           </ExampleWrapper>

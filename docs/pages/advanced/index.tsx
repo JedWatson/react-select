@@ -80,8 +80,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Custom filterOption function"
-          urlPath="docs/examples/CustomFilterOptions.js"
-          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
+          urlPath="docs/examples/CustomFilterOptions.tsx"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.tsx')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
@@ -112,8 +112,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionLabel function example"
-          urlPath="docs/examples/CustomGetOptionLabel.js"
-          raw={require('!!raw-loader!../../examples/CustomGetOptionLabel.js')}
+          urlPath="docs/examples/CustomGetOptionLabel.tsx"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionLabel.tsx')}
         >
           <CustomGetOptionLabel />
         </ExampleWrapper>
@@ -122,8 +122,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionValue function example"
-          urlPath="docs/examples/CustomGetOptionValue.js"
-          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.js')}
+          urlPath="docs/examples/CustomGetOptionValue.tsx"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.tsx')}
         >
           <CustomGetOptionValue />
         </ExampleWrapper>

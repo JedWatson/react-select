@@ -7,7 +7,7 @@ import { IndicatorProps } from 'react-select/src/components/indicators';
 const DropdownIndicator = (props: IndicatorProps<ColourOption, true>) => {
   return (
     <components.DropdownIndicator {...props}>
-      <EmojiIcon label="emoji" primaryColor={colourOptions[2].color} />
+      <EmojiIcon label="Emoji" primaryColor={colourOptions[2].color} />
     </components.DropdownIndicator>
   );
 };

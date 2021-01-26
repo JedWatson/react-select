@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import { flavourOptions } from '../data';
 
-export default class CustomGetOptionLabel extends Component<*> {
+export default class CustomGetOptionLabel extends Component {
   render() {
     return (
       <Fragment>
