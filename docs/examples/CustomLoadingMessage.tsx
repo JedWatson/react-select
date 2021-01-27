@@ -1,9 +1,10 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { NoticeProps } from 'react-select/src/components/Menu';
+import { ColourOption, colourOptions } from '../data';
 
-const LoadingMessage = props => {
+const LoadingMessage = (props: NoticeProps<ColourOption, false>) => {
   return (
     <Tooltip content={'Custom Loading Message'}>
       <div
@@ -21,8 +22,8 @@ const filterColors = (inputValue: string) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string) =>
+  new Promise<ColourOption[]>(resolve => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);

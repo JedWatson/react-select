@@ -1,13 +1,14 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import Select, { components } from 'react-select';
+import Select, { components, OptionTypeBase } from 'react-select';
+import { NoticeProps } from 'react-select/src/components/Menu';
 import { colourOptions } from '../data';
 const msgStyles = {
   background: colourOptions[2].color,
   color: 'white',
 };
 
-const NoOptionsMessage = props => {
+const NoOptionsMessage = (props: NoticeProps<OptionTypeBase, false>) => {
   return (
     <Tooltip content="Custom NoOptionsMessage Component">
       <components.NoOptionsMessage {...props} />

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import { flavourOptions } from '../data';
 
-export default class CustomIsOptionDisabled extends Component<*> {
+export default class CustomIsOptionDisabled extends Component {
   render() {
     return (
       <Fragment>

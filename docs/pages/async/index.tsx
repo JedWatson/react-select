@@ -67,8 +67,8 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Async with defaultOptions provided"
-        urlPath="docs/examples/DefaultOptions.js"
-        raw={require('!!raw-loader!../../examples/DefaultOptions.js')}
+        urlPath="docs/examples/DefaultOptions.tsx"
+        raw={require('!!raw-loader!../../examples/DefaultOptions.tsx')}
       >
         <DefaultOptions />
       </ExampleWrapper>

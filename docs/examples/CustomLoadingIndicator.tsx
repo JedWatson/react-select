@@ -2,9 +2,12 @@ import React from 'react';
 import Spinner from '@atlaskit/spinner';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { LoadingIndicatorProps } from 'react-select/src/components/indicators';
+import { ColourOption, colourOptions } from '../data';
 
-const LoadingIndicator = props => {
+const LoadingIndicator = (
+  props: LoadingIndicatorProps<ColourOption, false>
+) => {
   return (
     <Tooltip content={'Custom Loader'}>
       <Spinner {...props} delay={0} />
@@ -17,8 +20,8 @@ const filterColors = (inputValue: string) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string) =>
+  new Promise<ColourOption[]>(resolve => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);

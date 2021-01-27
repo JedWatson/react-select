@@ -1,11 +1,10 @@
-// @flow
-
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import { MultiValueGenericProps } from 'react-select/src/components/MultiValue';
+import { ColourOption, colourOptions } from '../data';
 
-const MultiValueLabel = props => {
+const MultiValueLabel = (props: MultiValueGenericProps<ColourOption>) => {
   return (
     <Tooltip content={'Customise your multi-value label component!'}>
       <components.MultiValueLabel {...props} />

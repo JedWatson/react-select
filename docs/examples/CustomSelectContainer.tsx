@@ -1,9 +1,12 @@
 import React from 'react';
-import Select, { components } from 'react-select';
+import Select, { components, ContainerProps } from 'react-select';
 import Tooltip from '@atlaskit/tooltip';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
-const SelectContainer = ({ children, ...props }) => {
+const SelectContainer = ({
+  children,
+  ...props
+}: ContainerProps<ColourOption, false>) => {
   return (
     <Tooltip content={'customise your select container'} delay={0}>
       <components.SelectContainer {...props}>

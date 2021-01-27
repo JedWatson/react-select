@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import Select, { components, SingleValueProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
-const SingleValue = ({ children, ...props }) => (
+const SingleValue = ({
+  children,
+  ...props
+}: SingleValueProps<ColourOption>) => (
   <components.SingleValue {...props}>{children}</components.SingleValue>
 );
 
-type State = {};
-
-export default class CustomControl extends Component<*, State> {
-  state = {};
+export default class CustomControl extends Component {
   render() {
     return (
       <Select

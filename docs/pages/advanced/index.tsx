@@ -132,8 +132,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom isOptionDisabled function example"
-          urlPath="docs/examples/CustomIsOptionDisabled.js"
-          raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
+          urlPath="docs/examples/CustomIsOptionDisabled.tsx"
+          raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.tsx')}
         >
           <CustomIsOptionDisabled />
         </ExampleWrapper>

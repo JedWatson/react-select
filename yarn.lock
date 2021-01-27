@@ -128,7 +128,7 @@
     exenv "^1.2.2"
     tiny-invariant "^0.0.3"
 
-"@atlaskit/spinner@5.0.2", "@atlaskit/spinner@^5.0.0":
+"@atlaskit/spinner@5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@atlaskit/spinner/-/spinner-5.0.2.tgz#a28ba94ae6a1c12f6ab6955e97db90f62546e95f"
   integrity sha512-n0j/urjG3FF9q/6Nae981GwsdvT44zAobPqFGnaeKDfqUzrFHcs1PmL0dqa36aFJzOPZHzl6ZfBl9Q3Vpl9PKQ==
@@ -138,7 +138,7 @@
     react-transition-group "^2.2.1"
     styled-components "1.4.6 - 3"
 
-"@atlaskit/spinner@^15.0.0":
+"@atlaskit/spinner@^15.0.0", "@atlaskit/spinner@^15.0.6":
   version "15.0.6"
   resolved "https://registry.yarnpkg.com/@atlaskit/spinner/-/spinner-15.0.6.tgz#3b8d95fcdba196e28ca712002f9ac3b81fc6e4f5"
   integrity sha512-yi/32OT8cU0HRywjgw2EAvdb+ILt+9lopY4B61F/pdlZCra45srAHTM3Wj4KvqhCLeZ5UNiBaSPFC21G6UZjVA==

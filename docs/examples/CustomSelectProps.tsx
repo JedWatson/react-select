@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import React, { MouseEventHandler, useState } from 'react';
+import Select, {
+  components,
+  ControlProps,
+  Props,
+  StylesConfig,
+} from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
 const EMOJIS = ['👍', '🤙', '👏', '👌', '🙌', '✌️', '🖖', '👐'];
 
-const Control = ({ children, ...props }) => {
+const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: 'pointer' };
 
@@ -18,16 +23,16 @@ const Control = ({ children, ...props }) => {
   );
 };
 
-const CustomSelectProps = props => {
+const CustomSelectProps = (props: Props<ColourOption>) => {
   const [clickCount, setClickCount] = useState(0);
 
-  const onClick = e => {
+  const onClick: MouseEventHandler<HTMLSpanElement> = e => {
     setClickCount(clickCount + 1);
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const styles = {
+  const styles: StylesConfig<ColourOption, false> = {
     control: css => ({ ...css, paddingLeft: '1rem' }),
   };
 

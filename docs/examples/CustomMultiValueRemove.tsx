@@ -1,19 +1,15 @@
-// @flow
-
 import React from 'react';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
+import { MultiValueRemoveProps } from 'react-select/src/components/MultiValue';
 
-const MultiValueRemove = props => {
+const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
   return (
-    <Tooltip
-      content={'Customise your multi-value remove component!'}
-      truncateText
-    >
+    <Tooltip content={'Customise your multi-value remove component!'} truncate>
       <components.MultiValueRemove {...props}>
-        <EmojiIcon primaryColor={colourOptions[2].color} />
+        <EmojiIcon label="Emoji" primaryColor={colourOptions[2].color} />
       </components.MultiValueRemove>
     </Tooltip>
   );
