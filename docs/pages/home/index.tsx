@@ -121,8 +121,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Multi Select"
-      urlPath="docs/examples/StyledMulti.js"
-      raw={require('!!raw-loader!../../examples/StyledMulti.js')}
+      urlPath="docs/examples/StyledMulti.tsx"
+      raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
     >
       <StyledMulti />
     </ExampleWrapper>
@@ -183,8 +183,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Fixed Options Example"
-      urlPath="docs/home/examples/FixedOptions.js"
-      raw={require('!!raw-loader!../../examples/FixedOptions.js')}
+      urlPath="docs/home/examples/FixedOptions.tsx"
+      raw={require('!!raw-loader!../../examples/FixedOptions.tsx')}
     >
       <FixedOptions />
     </ExampleWrapper>

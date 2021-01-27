@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { ChangeEventHandler, Component, Fragment } from 'react';
 import Modal from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import Select from 'react-select';
@@ -6,14 +6,14 @@ import { H1, Note } from '../styled-components';
 
 import { colourOptions } from '../data';
 
-type State = {
-  isOpen: boolean,
-  isFixed: boolean,
-  portalPlacement: 'auto' | 'bottom' | 'top',
-};
+interface State {
+  readonly isOpen: boolean;
+  readonly isFixed: boolean;
+  readonly portalPlacement: 'auto' | 'bottom' | 'top';
+}
 
-export default class MenuPortal extends Component<*, State> {
-  state = {
+export default class MenuPortal extends Component<{}, State> {
+  state: State = {
     isOpen: false,
     isFixed: false,
     portalPlacement: 'bottom',
@@ -25,8 +25,9 @@ export default class MenuPortal extends Component<*, State> {
   close = () => {
     this.setState({ isOpen: false });
   };
-  setPlacement = ({ currentTarget }: SyntheticEvent<Event>) => {
-    const portalPlacement = currentTarget && currentTarget.value;
+  setPlacement: ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+    const portalPlacement =
+      currentTarget && (currentTarget.value as 'auto' | 'bottom' | 'top');
     this.setState({ portalPlacement });
   };
   toggleMode = () => {
@@ -54,7 +55,7 @@ export default class MenuPortal extends Component<*, State> {
               menuShouldScrollIntoView={false}
             />
             <Note Tag="label">
-              <select
+              <input
                 type="radio"
                 onChange={this.setPlacement}
                 value={portalPlacement}
@@ -63,7 +64,7 @@ export default class MenuPortal extends Component<*, State> {
                 <option value="auto">auto</option>
                 <option value="bottom">bottom</option>
                 <option value="top">top</option>
-              </select>
+              </input>
             </Note>
             <Note Tag="label" style={{ marginLeft: '1em' }}>
               <input

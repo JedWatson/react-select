@@ -12,6 +12,11 @@ export interface FlavourOption {
   rating: string;
 }
 
+export interface StateOption {
+  value: string;
+  label: string;
+}
+
 export interface GroupedOption {
   label: string;
   options: ColourOption[] | FlavourOption[];
@@ -29,6 +34,7 @@ interface OptionLength {
 
 export const colourOptions: ColourOption[];
 export const flavourOptions: FlavourOption[];
+export const stateOptions: StateOption[];
 export const optionLength: OptionLength[];
 export const dogOptions: DogOption[];
 export const groupedOptions: GroupedOption[];

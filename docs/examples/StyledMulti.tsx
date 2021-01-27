@@ -1,10 +1,10 @@
 import React from 'react';
 import chroma from 'chroma-js';
 
-import { colourOptions } from '../data';
-import Select from 'react-select';
+import { ColourOption, colourOptions } from '../data';
+import Select, { StylesConfig } from 'react-select';
 
-const colourStyles = {
+const colourStyles: StylesConfig<ColourOption, true> = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);

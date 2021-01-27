@@ -160,8 +160,8 @@ export default function Styles() {
       ${(
         <ExampleWrapper
           label="Customised styles for Multi Select"
-          urlPath="docs/examples/StyledMulti.js"
-          raw={require('!!raw-loader!../../examples/StyledMulti.js')}
+          urlPath="docs/examples/StyledMulti.tsx"
+          raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
         >
           <StyledMulti />
         </ExampleWrapper>
@@ -227,8 +227,8 @@ export default function Styles() {
     ${(
       <ExampleWrapper
         label="Style composition for custom components"
-        urlPath="docs/examples/StyleCompositionExample.js"
-        raw={require('!!raw-loader!../../examples/StyleCompositionExample.js')}
+        urlPath="docs/examples/StyleCompositionExample.tsx"
+        raw={require('!!raw-loader!../../examples/StyleCompositionExample.tsx')}
       >
         <StyleCompositionExample />
       </ExampleWrapper>

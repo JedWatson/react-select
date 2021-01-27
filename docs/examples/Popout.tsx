@@ -1,27 +1,34 @@
 /** @jsx jsx */
-import { Component } from 'react';
+import { Component, CSSProperties, FunctionComponent, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import Button from '@atlaskit/button';
 
-import Select from 'react-select';
+import Select, { ValueType } from 'react-select';
 import { defaultTheme } from 'react-select';
-import { stateOptions } from '../data';
+import { StateOption, stateOptions } from '../data';
 
 const { colors } = defaultTheme;
 
 const selectStyles = {
-  control: provided => ({ ...provided, minWidth: 240, margin: 8 }),
+  control: (provided: CSSProperties) => ({
+    ...provided,
+    minWidth: 240,
+    margin: 8,
+  }),
   menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)' }),
 };
 
-type State = { isOpen: boolean, value: Object };
+interface State {
+  readonly isOpen: boolean;
+  readonly value: StateOption | null | undefined;
+}
 
-export default class PopoutExample extends Component<*, State> {
-  state = { isOpen: false, value: undefined };
+export default class PopoutExample extends Component<{}, State> {
+  state: State = { isOpen: false, value: undefined };
   toggleOpen = () => {
     this.setState(state => ({ isOpen: !state.isOpen }));
   };
-  onSelectChange = value => {
+  onSelectChange = (value: ValueType<StateOption, false>) => {
     this.toggleOpen();
     this.setState({ value });
   };
@@ -63,7 +70,7 @@ export default class PopoutExample extends Component<*, State> {
 
 // styled components
 
-const Menu = props => {
+const Menu = (props: JSX.IntrinsicElements['div']) => {
   const shadow = 'hsla(218, 50%, 10%, 0.1)';
   return (
     <div
@@ -79,7 +86,7 @@ const Menu = props => {
     />
   );
 };
-const Blanket = props => (
+const Blanket = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       bottom: 0,
@@ -92,14 +99,24 @@ const Blanket = props => (
     {...props}
   />
 );
-const Dropdown = ({ children, isOpen, target, onClose }) => (
+interface DropdownProps {
+  readonly isOpen: boolean;
+  readonly target: ReactNode;
+  readonly onClose: () => void;
+}
+const Dropdown: FunctionComponent<DropdownProps> = ({
+  children,
+  isOpen,
+  target,
+  onClose,
+}) => (
   <div css={{ position: 'relative' }}>
     {target}
     {isOpen ? <Menu>{children}</Menu> : null}
     {isOpen ? <Blanket onClick={onClose} /> : null}
   </div>
 );
-const Svg = p => (
+const Svg = (p: JSX.IntrinsicElements['svg']) => (
   <svg
     width="24"
     height="24"

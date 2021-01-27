@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
+import Select, { InputActionMeta } from 'react-select';
 import { colourOptions } from '../data';
 
-export default class OnSelectResetsInput extends Component {
-  state = {
+interface State {
+  readonly inputValue: string;
+  readonly menuIsOpen?: boolean;
+}
+
+export default class OnSelectResetsInput extends Component<{}, State> {
+  state: State = {
     inputValue: '',
   };
-  onInputChange = (inputValue, { action }) => {
+  onInputChange = (inputValue: string, { action }: InputActionMeta) => {
     console.log(inputValue, action);
     switch (action) {
       case 'input-change':
