@@ -1,10 +1,10 @@
-// @flow
-
 import React from 'react';
-import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import Select, { components, IndicatorContainerProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
-const IndicatorsContainer = props => {
+const IndicatorsContainer = (
+  props: IndicatorContainerProps<ColourOption, true>
+) => {
   return (
     <div style={{ background: colourOptions[2].color }}>
       <components.IndicatorsContainer {...props} />
