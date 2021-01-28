@@ -111,8 +111,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Single"
-      urlPath="docs/examples/StyledSingle.js"
-      raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+      urlPath="docs/examples/StyledSingle.tsx"
+      raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
     >
       <StyledSingle />
     </ExampleWrapper>

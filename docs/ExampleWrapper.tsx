@@ -187,7 +187,7 @@ interface ActionProps {
 const ButtonAction = ({
   css,
   ...props
-}: ActionProps & JSX.IntrinsicElements['button']) => {
+}: ActionProps & Omit<JSX.IntrinsicElements['button'], 'css'>) => {
   return (
     <button
       css={{

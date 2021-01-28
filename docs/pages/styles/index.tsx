@@ -150,8 +150,8 @@ export default function Styles() {
       ${(
         <ExampleWrapper
           label="Customised Styles for Single Select"
-          urlPath="docs/examples/StyledSingle.js"
-          raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+          urlPath="docs/examples/StyledSingle.tsx"
+          raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
         >
           <StyledSingle />
         </ExampleWrapper>
@@ -271,8 +271,8 @@ export default function Styles() {
     ${(
       <ExampleWrapper
         label="Customised theme"
-        urlPath="docs/examples/Theme.js"
-        raw={require('!!raw-loader!../../examples/Theme.js')}
+        urlPath="docs/examples/Theme.tsx"
+        raw={require('!!raw-loader!../../examples/Theme.tsx')}
       >
         <Theme />
       </ExampleWrapper>
