@@ -1,8 +1,8 @@
 import React from 'react';
 import chroma from 'chroma-js';
 
-import { colourOptions } from '../data';
-import Select from 'react-select';
+import { ColourOption, colourOptions } from '../data';
+import Select, { StylesConfig } from 'react-select';
 
 const dot = (color = '#ccc') => ({
   alignItems: 'center',
@@ -19,7 +19,7 @@ const dot = (color = '#ccc') => ({
   },
 });
 
-const colourStyles = {
+const colourStyles: StylesConfig<ColourOption, false> = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);

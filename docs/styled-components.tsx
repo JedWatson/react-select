@@ -1,4 +1,3 @@
-// @flow
 /** @jsx emotionJSX */
 import { jsx as emotionJSX } from '@emotion/react';
 
@@ -7,6 +6,7 @@ import SyntaxHighlighter, {
 } from 'react-syntax-highlighter/prism-light';
 import jsx from 'react-syntax-highlighter/languages/prism/jsx';
 import { tomorrow } from 'react-syntax-highlighter/styles/prism';
+import { HTMLAttributes } from 'react';
 
 const customTomorrow = {
   ...tomorrow,
@@ -33,7 +33,10 @@ export const Hr = () => (
   />
 );
 
-export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
+export const Note = ({
+  Tag = 'div',
+  ...props
+}: { readonly Tag?: string } & HTMLAttributes<HTMLElement>) => (
   <Tag
     css={{
       color: 'hsl(0, 0%, 40%)',
@@ -46,15 +49,17 @@ export const Note = ({ Tag = 'div', ...props }: { Tag?: string }) => (
   />
 );
 
-export const H1 = (props: any) => <h1 css={{ marginTop: 0 }} {...props} />;
+export const H1 = (props: JSX.IntrinsicElements['h1']) => (
+  <h1 css={{ marginTop: 0 }} {...props} />
+);
 export const H2 = (props: any) => <h2 css={{ marginTop: '2em' }} {...props} />;
 
 export const ColorSample = ({
   name,
   color,
 }: {
-  color: string,
-  name: string,
+  color: string;
+  name: string;
 }) => (
   <div
     css={{
@@ -83,7 +88,7 @@ export const ColorSample = ({
 // Code
 // ==============================
 
-export const Code = (props: {}) => (
+export const Code = (props: JSX.IntrinsicElements['code']) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
@@ -96,7 +101,10 @@ export const Code = (props: {}) => (
   />
 );
 
-type PreProps = { children: string, language: string };
+interface PreProps {
+  readonly children: string;
+  readonly language: string;
+}
 
 export const CodeBlock = ({ children, language, ...props }: PreProps) => {
   return (
