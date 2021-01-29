@@ -201,7 +201,7 @@ const ButtonAction = ({
 const AAction = ({
   css,
   ...props
-}: ActionProps & JSX.IntrinsicElements['a']) => {
+}: ActionProps & Omit<JSX.IntrinsicElements['a'], 'css'>) => {
   return (
     <a
       css={{

@@ -5,6 +5,7 @@ import {
   ColourOption,
   colourOptions,
   FlavourOption,
+  GroupedOption,
   groupedOptions,
 } from '../data';
 
@@ -15,7 +16,11 @@ const menuHeaderStyle = {
 };
 
 const MenuList = (
-  props: MenuListComponentProps<ColourOption | FlavourOption, false>
+  props: MenuListComponentProps<
+    ColourOption | FlavourOption,
+    false,
+    GroupedOption
+  >
 ) => {
   return (
     <components.MenuList {...props}>
@@ -26,7 +31,7 @@ const MenuList = (
 };
 
 export default () => (
-  <Select
+  <Select<ColourOption | FlavourOption, false, GroupedOption>
     defaultValue={colourOptions[1]}
     options={groupedOptions}
     components={{ MenuList }}
