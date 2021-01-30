@@ -4789,15 +4789,16 @@ codesandboxer@^0.1.1:
     codesandbox "^1.1.14"
     isomorphic-unfetch "^2.0.0"
 
-codesandboxer@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/codesandboxer/-/codesandboxer-0.5.0.tgz#b730232958a124775c382328c41dbaf78e5b8627"
-  integrity sha512-l9LAZxq3WzdO1nZNZSz1ATmOCwZ62YnrKKOJK/Wj5Bav8hqPakAncV5FI5fbPUhwccHh0Oiwg2DzPYsXrFaQiA==
+codesandboxer@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/codesandboxer/-/codesandboxer-1.0.3.tgz#a2530a15eb9395f2c6f25e4b8064063dfb7b12f9"
+  integrity sha512-LRBGbQ707AsaC8cPEMEr5K5y2EGskg7T5K4RIC30wzgr1LKeLEtB2exy4P+QwUrQKwJOgxmiq1yKPLnKzXWJ+w==
   dependencies:
     babel-runtime "^6.26.0"
     form-data "^2.3.2"
     isomorphic-unfetch "^2.0.0"
     lz-string "^1.4.4"
+    path-browserify "^1.0.0"
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
@@ -9708,6 +9709,11 @@ lodash.once@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
 
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
+
 lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
@@ -11040,6 +11046,11 @@ path-browserify@0.0.1:
   resolved "https://registry.yarnpkg.com/path-browserify/-/path-browserify-0.0.1.tgz#e6c4ddd7ed3aa27c68a20cc4e50e1a4ee83bbc4a"
   integrity sha512-BapA40NHICOS+USX9SN4tyhq+A2RrN/Ws5F0Z5aMHDp98Fl86lX8Oti8B7uN93L4Ifv4fHOEA+pQw87gmMO/lQ==
 
+path-browserify@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/path-browserify/-/path-browserify-1.0.1.tgz#d98454a9c3753d5790860f16f68867b9e46be1fd"
+  integrity sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==
+
 path-dirname@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/path-dirname/-/path-dirname-1.0.2.tgz#cc33d24d525e099a5388c0336c6e32b9160609e0"
@@ -11907,12 +11918,14 @@ react-clientside-effect@^1.2.0:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-react-codesandboxer@^2.0.1:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/react-codesandboxer/-/react-codesandboxer-2.1.4.tgz#7d08d40e5d5cd23783cb41941880c0cc406052cd"
-  integrity sha512-LUWPS/sUzevgaQ8Fvj75wG4wCz6iE86eZle6wlQekFNoOR+5RHGQe1R5t04uEUwGHKCJVGnYaExlW1VkIos2ng==
+react-codesandboxer@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/react-codesandboxer/-/react-codesandboxer-3.1.5.tgz#ae647383be78c01761f6063f052fd817cc3a5942"
+  integrity sha512-gao6ydAfVI9DlmxvXJb1poqWDZt4jCSi2DWvfUCLUBmJAxH8+DkoGtjrO3VJDjdwcCFvumWb+ztg3WxsvrsWJw==
   dependencies:
-    codesandboxer "^0.5.0"
+    codesandboxer "^1.0.3"
+    lodash.isequal "^4.5.0"
+    lodash.pick "^4.4.0"
     react-node-resolver "^1.0.1"
 
 react-dom@^16.13.0:
