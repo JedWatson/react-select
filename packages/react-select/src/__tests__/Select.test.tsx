@@ -132,7 +132,7 @@ cases(
         ...BASIC_PROPS,
         formatOptionLabel: (
           { label, value }: Option,
-          { context }: FormatOptionLabelMeta<Option, false>
+          { context }: FormatOptionLabelMeta<Option, boolean>
         ) => `${label} ${value} ${context}`,
         value: OPTIONS[0],
       },
@@ -144,7 +144,7 @@ cases(
         ...BASIC_PROPS,
         formatOptionLabel: (
           { label, value }: Option,
-          { context }: FormatOptionLabelMeta<Option, true>
+          { context }: FormatOptionLabelMeta<Option, boolean>
         ) => `${label} ${value} ${context}`,
         isMulti: true,
         value: OPTIONS[0],
