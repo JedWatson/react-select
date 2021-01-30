@@ -73,6 +73,8 @@ export type Props = {
   'aria-labelledby'?: string,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
+  /* Focus the control when removed value in multi select */
+  autoFocusAfterRemoveValue?: boolean,
   /* Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
   backspaceRemovesValue: boolean,
   /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
@@ -277,6 +279,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: '0',
   tabSelectsValue: true,
+  autoFocusAfterRemoveValue: true
 };
 
 type State = {
@@ -869,7 +872,12 @@ export default class Select extends Component<Props, State> {
         value: removedValue ? this.getOptionLabel(removedValue) : '',
       },
     });
-    this.focusInput();
+
+    if (isMulti) {
+      this.props.autoFocusAfterRemoveValue && this.focusInput();
+    } else {
+      this.focusInput();
+    }
   };
   clearValue = () => {
     this.onChange(this.props.isMulti ? [] : null, { action: 'clear' });
