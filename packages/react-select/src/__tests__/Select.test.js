@@ -1946,7 +1946,6 @@ cases(
 cases(
   'autoFocusAfterRemoveValue',
   ({ props }) => {
-    console.log('props', props);
     let onChangeSpy = jest.fn();
 
     let { container } = render(
