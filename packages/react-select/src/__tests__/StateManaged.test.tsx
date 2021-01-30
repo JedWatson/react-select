@@ -1,13 +1,13 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, EventType } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import cases from 'jest-in-case';
 
-import { OPTIONS } from './constants';
+import { Option, OPTIONS } from './constants';
 import Select from '../';
 
-function openMenu(container) {
+function openMenu(container: HTMLElement) {
   expect(
     container.querySelector('.react-select__menu')
   ).not.toBeInTheDocument();
@@ -17,14 +17,14 @@ function openMenu(container) {
   expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
 }
 
-function toggleMenuOpen(container) {
+function toggleMenuOpen(container: HTMLElement) {
   fireEvent.mouseDown(
-    container.querySelector('.react-select__dropdown-indicator'),
+    container.querySelector('.react-select__dropdown-indicator')!,
     { button: 0 }
   );
 }
 
-function closeMenu(container) {
+function closeMenu(container: HTMLElement) {
   expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
   toggleMenuOpen(container);
   expect(
@@ -32,7 +32,18 @@ function closeMenu(container) {
   ).not.toBeInTheDocument();
 }
 
-const BASIC_PROPS = {
+interface BasicProps {
+  readonly className: string;
+  readonly classNamePrefix: string;
+  readonly onChange: () => void;
+  readonly onInputChange: () => void;
+  readonly onMenuClose: () => void;
+  readonly onMenuOpen: () => void;
+  readonly name: string;
+  readonly options: readonly Option[];
+}
+
+const BASIC_PROPS: BasicProps = {
   className: 'react-select',
   classNamePrefix: 'react-select',
   onChange: jest.fn(),
@@ -103,7 +114,16 @@ test('Menu is controllable by menuIsOpen prop', () => {
   expect(container.querySelector(menuClass)).toBeFalsy();
 });
 
-cases(
+interface MenuToOpenByDefaultOptsProps extends Partial<BasicProps> {
+  readonly isMulti?: boolean;
+  readonly menuIsOpen?: boolean;
+}
+
+interface MenuToOpenByDefaultOpts {
+  readonly props?: MenuToOpenByDefaultOptsProps;
+}
+
+cases<MenuToOpenByDefaultOpts>(
   'Menu to open by default if menuIsOpen prop is true',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props, menuIsOpen: true };
@@ -112,7 +132,7 @@ cases(
     expect(container.querySelector(menuClass)).toBeTruthy();
 
     userEvent.click(
-      container.querySelector('div.react-select__dropdown-indicator')
+      container.querySelector('div.react-select__dropdown-indicator')!
     );
 
     expect(container.querySelector(menuClass)).toBeTruthy();
@@ -132,20 +152,20 @@ cases(
 test('multi select > selecting multiple values', () => {
   let { container } = render(<Select {...BASIC_PROPS} isMulti />);
   openMenu(container);
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '0'
   );
 
   openMenu(container);
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '01'
   );
 });
@@ -153,36 +173,48 @@ test('multi select > selecting multiple values', () => {
 test('defaultInputValue prop > should update the inputValue on change of input if defaultInputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, defaultInputValue: '0' };
   let { container } = render(<Select {...props} />);
-  let input = container.querySelector('.react-select__control input');
+  let input = container.querySelector<HTMLInputElement>(
+    '.react-select__control input'
+  );
 
-  expect(input.value).toBe('0');
-  userEvent.type(input, 'A');
-  expect(input.value).toBe('0A');
+  expect(input!.value).toBe('0');
+  userEvent.type(input!, 'A');
+  expect(input!.value).toBe('0A');
 });
 
 test('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, inputValue: '0' };
   let { container } = render(<Select {...props} />);
-  let input = container.querySelector('.react-select__control input');
-  expect(input.value).toBe('0');
-  userEvent.type(input, 'A');
-  expect(input.value).toBe('0');
+  let input = container.querySelector<HTMLInputElement>(
+    '.react-select__control input'
+  );
+  expect(input!.value).toBe('0');
+  userEvent.type(input!, 'A');
+  expect(input!.value).toBe('0');
 });
 
 test('defaultValue prop > should update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, defaultValue: [OPTIONS[0]] };
   let { container } = render(<Select {...props} menuIsOpen />);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(
+    container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+  ).toBe('zero');
   userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('one');
+  expect(
+    container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+  ).toBe('one');
 });
 
 test('value prop > should not update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0]] };
   let { container } = render(<Select {...props} menuIsOpen />);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(
+    container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+  ).toBe('zero');
   userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(
+    container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+  ).toBe('zero');
 });
 
 cases(
@@ -196,9 +228,9 @@ cases(
     let { container, getByText } = render(<Select {...props} />);
     let toSelectOption = getByText(selectOption.label);
     fireEvent[eventName](toSelectOption, eventArgs);
-    expect(container.querySelector('input[type="hidden"]').value).toBe(
-      expectSelectedOption
-    );
+    expect(
+      container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+    ).toBe(expectSelectedOption);
   },
   {
     'single select > clicking on an option > should select the clicked option': {
@@ -206,7 +238,7 @@ cases(
         ...BASIC_PROPS,
         menuIsOpen: true,
       },
-      event: ['click', { button: 0 }],
+      event: ['click' as const, { button: 0 }] as const,
       selectOption: OPTIONS[2],
       expectSelectedOption: 'two',
     },
@@ -217,14 +249,24 @@ cases(
         isMulti: true,
         menuIsOpen: true,
       },
-      event: ['click', { button: 0 }],
+      event: ['click' as const, { button: 0 }] as const,
       selectOption: OPTIONS[2],
       expectSelectedOption: 'two',
     },
   }
 );
 
-cases(
+interface KeyboardInteractionOptsProps extends BasicProps {
+  readonly isMulti?: boolean;
+}
+
+interface KeyboardInteractionOpts {
+  readonly props?: KeyboardInteractionOptsProps;
+  readonly eventsToSimulate: readonly [EventType, {}][];
+  readonly expectedSelectedOption: string;
+}
+
+cases<KeyboardInteractionOpts>(
   'Integration tests > selection an option > keyboard interaction',
   ({
     props = { ...BASIC_PROPS },
@@ -235,17 +277,17 @@ cases(
     openMenu(container);
     eventsToSimulate.map(([eventName, eventArgs]) => {
       fireEvent[eventName](
-        container.querySelector('.react-select__menu'),
+        container.querySelector('.react-select__menu')!,
         eventArgs
       );
     });
-    fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
       keyCode: 13,
       key: 'Enter',
     });
-    expect(container.querySelector('input[type="hidden"]').value).toBe(
-      expectedSelectedOption
-    );
+    expect(
+      container.querySelector<HTMLInputElement>('input[type="hidden"]')!.value
+    ).toBe(expectedSelectedOption);
   },
   {
     'single select > open select and hit enter > should select first option': {

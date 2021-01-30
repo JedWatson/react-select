@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AsyncCreatable from '../AsyncCreatable';
-import { OPTIONS } from './constants';
+import { Option, OPTIONS } from './constants';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -36,15 +36,17 @@ test('to show the create option in menu', () => {
       inputValue="a"
     />
   );
-  userEvent.type(input, 'a');
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  userEvent.type(input!, 'a');
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'Create "a"'
   );
 });
 
 test('to show loading and then create option in menu', async () => {
-  let loadOptionsSpy = jest.fn((inputValue, callback) =>
-    setTimeout(() => callback(OPTIONS), 200)
+  let loadOptionsSpy = jest.fn(
+    (inputValue: string, callback: (options: readonly Option[]) => void) => {
+      setTimeout(() => callback(OPTIONS), 200);
+    }
   );
   let { container } = render(
     <AsyncCreatable
@@ -54,10 +56,10 @@ test('to show loading and then create option in menu', async () => {
     />
   );
   let input = container.querySelector('div.react-select__input input');
-  userEvent.type(input, 'a');
+  userEvent.type(input!, 'a');
 
   // to show a loading message while loading options
-  expect(container.querySelector('.react-select__menu').textContent).toBe(
+  expect(container.querySelector('.react-select__menu')!.textContent).toBe(
     'Loading...'
   );
   await waitFor(() => {

@@ -1,6 +1,9 @@
-// @flow
+export interface Option {
+  readonly label: string;
+  readonly value: string;
+}
 
-export const OPTIONS = [
+export const OPTIONS: readonly Option[] = [
   { label: '0', value: 'zero' },
   { label: '1', value: 'one' },
   { label: '2', value: 'two' },
@@ -20,7 +23,13 @@ export const OPTIONS = [
   { label: '16', value: 'sixteen' },
 ];
 
-export const OPTIONS_DISABLED = [
+export interface OptionDisabled {
+  readonly label: string;
+  readonly value: string;
+  readonly isDisabled?: boolean;
+}
+
+export const OPTIONS_DISABLED: readonly OptionDisabled[] = [
   { label: '0', value: 'zero' },
   { label: '1', value: 'one', isDisabled: true },
   { label: '2', value: 'two' },
@@ -40,7 +49,12 @@ export const OPTIONS_DISABLED = [
   { label: '16', value: 'sixteen' },
 ];
 
-export const OPTIONS_NUMBER_VALUE = [
+export interface OptionNumberValue {
+  readonly label: string;
+  readonly value: number;
+}
+
+export const OPTIONS_NUMBER_VALUE: readonly OptionNumberValue[] = [
   { label: '0', value: 0 },
   { label: '1', value: 1 },
   { label: '2', value: 2 },
@@ -54,12 +68,22 @@ export const OPTIONS_NUMBER_VALUE = [
   { label: '10', value: 10 },
 ];
 
-export const OPTIONS_BOOLEAN_VALUE = [
+export interface OptionBooleanValue {
+  readonly label: string;
+  readonly value: boolean;
+}
+
+export const OPTIONS_BOOLEAN_VALUE: readonly OptionBooleanValue[] = [
   { label: 'true', value: true },
   { label: 'false', value: false },
 ];
 
-export const OPTIONS_ACCENTED = [
+export interface OptionAccented {
+  readonly label: string;
+  readonly value: string;
+}
+
+export const OPTIONS_ACCENTED: readonly OptionAccented[] = [
   { label: 'school', value: 'en' },
   { label: 'école', value: 'fr' },
 ];

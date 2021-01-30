@@ -4,7 +4,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Async from '../Async';
-import { OPTIONS } from './constants';
+import { Option, OPTIONS } from './constants';
 
 test('defaults - snapshot', () => {
   const { container } = render(<Async />);
@@ -33,7 +33,10 @@ cases(
     'with callback  > should resolve options': {
       props: {
         defaultOptions: true,
-        loadOptions: (inputValue, callBack) => callBack([OPTIONS[0]]),
+        loadOptions: (
+          inputValue: string,
+          callBack: (options: readonly Option[]) => void
+        ) => callBack([OPTIONS[0]]),
       },
       expectOptionLength: 1,
     },
@@ -76,7 +79,7 @@ cases(
       />
     );
     let input = container.querySelector('div.react-select__input input');
-    userEvent.type(input, 'a');
+    userEvent.type(input!, 'a');
     await waitFor(() => {
       expect(container.querySelectorAll('.react-select__option').length).toBe(
         expectloadOptionsLength
@@ -86,7 +89,10 @@ cases(
   {
     'with callback > should resolve the options': {
       props: {
-        loadOptions: (inputValue, callBack) => callBack(OPTIONS),
+        loadOptions: (
+          inputValue: string,
+          callBack: (options: readonly Option[]) => void
+        ) => callBack(OPTIONS),
       },
       expectloadOptionsLength: 17,
     },
@@ -111,21 +117,21 @@ test('to not call loadOptions again for same value when cacheOptions is true', (
   );
   let input = container.querySelector('div.react-select__input input');
 
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'foo',
     },
     bubbles: true,
     cancelable: true,
   });
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'bar',
     },
     bubbles: true,
     cancelable: true,
   });
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'foo',
     },
@@ -146,7 +152,7 @@ test('to create new cache for each instance', async () => {
     />
   );
   userEvent.type(
-    containerOne.querySelector('div.react-select__input input'),
+    containerOne.querySelector('div.react-select__input input')!,
     'a'
   );
 
@@ -161,7 +167,7 @@ test('to create new cache for each instance', async () => {
   );
 
   userEvent.type(
-    containerTwo.querySelector('div.react-select__input input'),
+    containerTwo.querySelector('div.react-select__input input')!,
     'a'
   );
 
@@ -170,8 +176,11 @@ test('to create new cache for each instance', async () => {
 });
 
 test('in case of callbacks display the most recently-requested loaded options (if results are returned out of order)', () => {
-  let callbacks = [];
-  const loadOptions = (inputValue, callback) => {
+  let callbacks: ((options: readonly Option[]) => void)[] = [];
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: readonly Option[]) => void
+  ) => {
     callbacks.push(callback);
   };
   let { container } = render(
@@ -183,14 +192,14 @@ test('in case of callbacks display the most recently-requested loaded options (i
   );
 
   let input = container.querySelector('div.react-select__input input');
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'foo',
     },
     bubbles: true,
     cancelable: true,
   });
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'bar',
     },
@@ -200,14 +209,18 @@ test('in case of callbacks display the most recently-requested loaded options (i
   expect(container.querySelector('.react-select__option')).toBeFalsy();
   callbacks[1]([{ value: 'bar', label: 'bar' }]);
   callbacks[0]([{ value: 'foo', label: 'foo' }]);
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'bar'
   );
 });
 
 // QUESTION: we currently do not do this, do we want to?
 test.skip('in case of callbacks should handle an error by setting options to an empty array', () => {
-  const loadOptions = (inputValue, callback) => {
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: readonly Option[]) => void
+  ) => {
+    // @ts-ignore
     callback(new Error('error'));
   };
   let { container } = render(
@@ -219,7 +232,7 @@ test.skip('in case of callbacks should handle an error by setting options to an 
     />
   );
   let input = container.querySelector('div.react-select__input input');
-  fireEvent.input(input, {
+  fireEvent.input(input!, {
     target: {
       value: 'foo',
     },

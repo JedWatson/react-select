@@ -19,6 +19,7 @@
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
+    "@types/jest-in-case": "^1.0.3",
     "enzyme": "^3.8.0",
     "enzyme-to-json": "^3.3.0",
     "jest-in-case": "^1.0.2",

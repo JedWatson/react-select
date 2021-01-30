@@ -3,9 +3,20 @@ import { render, fireEvent } from '@testing-library/react';
 import cases from 'jest-in-case';
 
 import Creatable from '../Creatable';
-import { OPTIONS } from './constants';
+import { Option, OPTIONS } from './constants';
 
-const BASIC_PROPS = {
+interface BasicProps {
+  readonly className: string;
+  readonly classNamePrefix: string;
+  readonly onChange: () => void;
+  readonly onInputChange: () => void;
+  readonly onMenuClose: () => void;
+  readonly onMenuOpen: () => void;
+  readonly name: string;
+  readonly options: readonly Option[];
+}
+
+const BASIC_PROPS: BasicProps = {
   className: 'react-select',
   classNamePrefix: 'react-select',
   onChange: jest.fn(),
@@ -21,14 +32,22 @@ test('defaults - snapshot', () => {
   expect(container).toMatchSnapshot();
 });
 
-cases(
+interface Props extends Partial<BasicProps> {
+  readonly isMulti?: boolean;
+}
+
+interface Opts {
+  readonly props?: Props;
+}
+
+cases<Opts>(
   'filtered option is an exact match for an existing option',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
     const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
     rerender(<Creatable inputValue="one" menuIsOpen {...props} />);
     expect(
-      container.querySelector('.react-select__menu').textContent
+      container.querySelector('.react-select__menu')!.textContent
     ).not.toEqual(expect.stringContaining('create'));
   },
   {
@@ -42,7 +61,7 @@ cases(
   }
 );
 
-cases(
+cases<Opts>(
   'filterOptions returns invalid value ( null )',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
@@ -61,7 +80,7 @@ cases(
     );
 
     expect(
-      container.querySelector('.react-select__menu-notice--no-options')
+      container.querySelector('.react-select__menu-notice--no-options')!
         .textContent
     ).toEqual(expect.stringContaining('No options'));
   },
@@ -70,13 +89,13 @@ cases(
     'multi select > should not show "create..." prompt"': {
       props: {
         isMulti: true,
-        option: OPTIONS,
+        options: OPTIONS,
       },
     },
   }
 );
 
-cases(
+cases<Opts>(
   'inputValue does not match any option after filter',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
@@ -86,7 +105,7 @@ cases(
       <Creatable menuIsOpen {...props} inputValue="option not is list" />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toBe(
+    expect(container.querySelector('.react-select__menu')!.textContent).toBe(
       'Create "option not is list"'
     );
   },
@@ -101,7 +120,7 @@ cases(
   }
 );
 
-cases(
+cases<Opts>(
   'isValidNewOption() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
@@ -120,7 +139,7 @@ cases(
       />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'Create "new Option"'
     );
 
@@ -137,7 +156,7 @@ cases(
       />
     );
     expect(
-      container.querySelector('.react-select__menu').textContent
+      container.querySelector('.react-select__menu')!.textContent
     ).not.toEqual('Create "invalid new Option"');
 
     expect(
@@ -155,14 +174,14 @@ cases(
   }
 );
 
-cases(
+cases<Opts>(
   'close by hitting escape with search text present',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
     const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
     rerender(<Creatable menuIsOpen inputValue="new Option" {...props} />);
     fireEvent.keyDown(container, { keyCode: 27, key: 'Escape' });
-    expect(container.querySelector('input').textContent).toEqual('');
+    expect(container.querySelector('input')!.textContent).toEqual('');
   },
   {
     'single select > should remove the search text': {},
@@ -181,10 +200,10 @@ test('should remove the new option after closing on blur', () => {
   );
   rerender(<Creatable menuIsOpen options={OPTIONS} inputValue="new Option" />);
   fireEvent.blur(container);
-  expect(container.querySelector('input').textContent).toEqual('');
+  expect(container.querySelector('input')!.textContent).toEqual('');
 });
 
-cases(
+cases<Opts>(
   'getNewOptionData() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
@@ -204,7 +223,7 @@ cases(
       />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'custom text new Option'
     );
   },
@@ -219,7 +238,7 @@ cases(
   }
 );
 
-cases(
+cases<Opts>(
   'formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
     props = { ...BASIC_PROPS, ...props };
@@ -240,7 +259,7 @@ cases(
         {...props}
       />
     );
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'custom label "new Option"'
     );
   },

@@ -2415,6 +2415,14 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
+"@types/jest-in-case@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.3.tgz#af65d145ecf184d20df115a051c25d496ac86a1a"
+  integrity sha512-M+bKsCA/oF3Bw9qSZyWHsK8sfqFtZsNXe0xV1gTK3ahFCgaqzjJkAFp84Wd8md+EshGbR9Bb6nCmu4FAiuImZw==
+  dependencies:
+    "@types/jest" "*"
+    "@types/node" "*"
+
 "@types/jest@*":
   version "26.0.4"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.4.tgz#d2e513e85aca16992816f192582b5e67b0b15efb"
