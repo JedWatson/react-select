@@ -1,15 +1,20 @@
-const selector = require('../fixtures/selectors.json');
-const baseUrl = require('../../cypress.json').baseUrl;
+import selector from '../fixtures/selectors.json';
+import cypressJson from '../../cypress.json';
 
 const setup = [
-  { width: 1440, height: 900, viewport: 'macbook-15', device: 'Laptop' },
-  { width: 375, height: 667, viewport: 'iphone-6', device: 'Mobile' },
-  { width: 768, height: 1024, viewport: 'ipad-2', device: 'Tablet' },
+  {
+    width: 1440,
+    height: 900,
+    viewport: 'macbook-15' as const,
+    device: 'Laptop',
+  },
+  { width: 375, height: 667, viewport: 'iphone-6' as const, device: 'Mobile' },
+  { width: 768, height: 1024, viewport: 'ipad-2' as const, device: 'Tablet' },
 ];
 
 describe('Single Select', () => {
   before(() => {
-    cy.visit(baseUrl);
+    cy.visit(cypressJson.baseUrl);
     cy.title().should('equal', 'React-Select');
     cy.get('h1').should('contain', 'Test Page for Cypress');
   });
