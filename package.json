@@ -155,7 +155,7 @@
     "modulePathIgnorePatterns": [
       "./node_modules"
     ],
-    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(js?))$",
+    "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(ts|js)x?)$",
     "setupFilesAfterEnv": [
       "./test-setup.js"
     ],
