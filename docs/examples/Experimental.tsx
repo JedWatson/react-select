@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { Component, CSSProperties } from 'react';
-import { CSSObject, jsx } from '@emotion/react';
+import { jsx } from '@emotion/react';
+import { CSSObject } from '@emotion/serialize';
 import moment, { Moment } from 'moment';
 import chrono from 'chrono-node';
 
@@ -97,23 +98,23 @@ const suggest = (str: string) =>
 
 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-const daysHeaderStyles = {
+const daysHeaderStyles: CSSObject = {
   marginTop: '5px',
   paddingTop: '5px',
   paddingLeft: '2%',
   borderTop: '1px solid #eee',
 };
-const daysHeaderItemStyles = {
+const daysHeaderItemStyles: CSSObject = {
   color: '#999',
   cursor: 'default',
   fontSize: '75%',
-  fontWeight: '500',
+  fontWeight: 500,
   display: 'inline-block',
   width: '12%',
   margin: '0 1%',
   textAlign: 'center',
 };
-const daysContainerStyles = {
+const daysContainerStyles: CSSObject = {
   paddingTop: '5px',
   paddingLeft: '2%',
 };
@@ -124,13 +125,12 @@ const Group = (props: GroupProps<DateOption, false>) => {
     getStyles,
     children,
     label,
-    innerProps,
     headingProps,
     cx,
     theme,
   } = props;
   return (
-    <div aria-label={label} css={getStyles('group', props)} {...innerProps}>
+    <div aria-label={label as string} css={getStyles('group', props)}>
       <Heading theme={theme} getStyles={getStyles} cx={cx} {...headingProps}>
         {label}
       </Heading>
@@ -180,7 +180,7 @@ interface DatePickerProps {
 }
 
 interface DatePickerState {
-  readonly options: readonly DateOption[] | readonly CalendarGroup[];
+  readonly options: readonly (DateOption | CalendarGroup)[];
 }
 
 class DatePicker extends Component<DatePickerProps, DatePickerState> {
@@ -229,7 +229,7 @@ interface State {
 
 export default class Experimental extends Component<{}, State> {
   state: State = {
-    value: defaultOptions[0],
+    value: defaultOptions[0] as DateOption,
   };
   handleChange = (value: DateOption | null) => {
     this.setState({ value });

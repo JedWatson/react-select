@@ -1,16 +1,16 @@
 /** @jsx jsx */
-import { Component, CSSProperties, FunctionComponent, ReactNode } from 'react';
+import { Component, FunctionComponent, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import Button from '@atlaskit/button';
 
-import Select, { ValueType } from 'react-select';
+import Select, { StylesConfig, ValueType } from 'react-select';
 import { defaultTheme } from 'react-select';
 import { StateOption, stateOptions } from '../data';
 
 const { colors } = defaultTheme;
 
-const selectStyles = {
-  control: (provided: CSSProperties) => ({
+const selectStyles: StylesConfig<StateOption, false> = {
+  control: provided => ({
     ...provided,
     minWidth: 240,
     margin: 8,

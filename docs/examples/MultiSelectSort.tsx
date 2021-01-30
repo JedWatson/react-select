@@ -1,8 +1,14 @@
 import React, { MouseEventHandler } from 'react';
 
-import Select, { components, MultiValueProps, ValueType } from 'react-select';
+import Select, {
+  components,
+  MultiValueProps,
+  Props,
+  ValueType,
+} from 'react-select';
 import {
   SortableContainer,
+  SortableContainerProps,
   SortableElement,
   SortEndHandler,
 } from 'react-sortable-hoc';
@@ -32,7 +38,9 @@ const SortableMultiValue = SortableElement(
     return <components.MultiValue {...props} innerProps={innerProps} />;
   }
 );
-const SortableSelect = SortableContainer(Select);
+const SortableSelect = SortableContainer(Select) as React.ComponentClass<
+  Props<ColourOption, true> & SortableContainerProps
+>;
 
 export default function MultiSelectSort() {
   const [selected, setSelected] = React.useState<readonly ColourOption[]>([
@@ -66,6 +74,7 @@ export default function MultiSelectSort() {
       value={selected}
       onChange={onChange}
       components={{
+        // @ts-ignore We're failing to provide a required index prop to SortableElement
         MultiValue: SortableMultiValue,
       }}
       closeMenuOnSelect={false}

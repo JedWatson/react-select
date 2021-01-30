@@ -1,6 +1,7 @@
-import React, { CSSProperties, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import Select, { IndicatorProps } from 'react-select';
+import { CSSObject } from '@emotion/serialize';
 import { ColourOption, colourOptions } from '../data';
 
 const CustomClearText: FunctionComponent = () => <>clear all</>;
@@ -22,9 +23,9 @@ const ClearIndicator = (props: IndicatorProps<ColourOption, true>) => {
 };
 
 const ClearIndicatorStyles = (
-  base: CSSProperties,
+  base: CSSObject,
   state: IndicatorProps<ColourOption, true>
-): CSSProperties => ({
+): CSSObject => ({
   ...base,
   cursor: 'pointer',
   color: state.isFocused ? 'blue' : 'black',

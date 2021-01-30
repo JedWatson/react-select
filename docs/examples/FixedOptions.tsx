@@ -38,12 +38,12 @@ export default class FixedOptions extends Component<{}, State> {
 
   onChange(
     value: ValueType<ColourOption, true>,
-    { action, removedValue }: ActionMeta<ColourOption>
+    actionMeta: ActionMeta<ColourOption>
   ) {
-    switch (action) {
+    switch (actionMeta.action) {
       case 'remove-value':
       case 'pop-value':
-        if (removedValue.isFixed) {
+        if (actionMeta.removedValue.isFixed) {
           return;
         }
         break;

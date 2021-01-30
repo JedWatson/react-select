@@ -22,14 +22,20 @@ const menuHeaderStyle = {
   padding: '8px 12px',
 };
 
-const Menu = (props: MenuProps<ColourOption | FlavourOption, false>) => {
+const Menu = (
+  props: MenuProps<ColourOption | FlavourOption, false, GroupedOption>
+) => {
   const optionsLength = getLength(props.options);
   return (
     <Fragment>
       <div style={menuHeaderStyle}>
         Custom Menu with {optionsLength} options
       </div>
-      <components.Menu {...props}>{props.children}</components.Menu>
+      <components.Menu<ColourOption | FlavourOption, false, GroupedOption>
+        {...props}
+      >
+        {props.children}
+      </components.Menu>
     </Fragment>
   );
 };

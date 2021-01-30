@@ -35,7 +35,7 @@ const formatGroupLabel = (data: GroupedOption) => (
 );
 
 export default () => (
-  <Select<ColourOption | FlavourOption>
+  <Select<ColourOption | FlavourOption, false, GroupedOption>
     defaultValue={colourOptions[1]}
     options={groupedOptions}
     formatGroupLabel={formatGroupLabel}
