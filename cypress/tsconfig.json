@@ -2,8 +2,11 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es5", "dom"],
+    "noEmit": true,
+    "strict": true,
     "types": ["cypress"],
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "resolveJsonModule": true
   },
   "include": [

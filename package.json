@@ -125,7 +125,7 @@
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
     "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start --progress=false --no-info' 'yarn test:cypress'",
-    "type-check": "flow check && tsc",
+    "type-check": "flow check && tsc --build packages/react-select/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
     "precommit": "yarn run type-check",
     "postinstall": "preconstruct dev",
     "test:cypress": "yarn test:cypress:chrome && yarn test:cypress:firefox",

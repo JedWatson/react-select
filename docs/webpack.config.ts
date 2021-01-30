@@ -60,7 +60,7 @@ const webpackConfig: webpack.Configuration = {
     new ForkTsCheckerWebpackPlugin({
       async: false,
       typescript: {
-        configFile: '../tsconfig.json',
+        configFile: './tsconfig.json',
       },
     }),
   ],
