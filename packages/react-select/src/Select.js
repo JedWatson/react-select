@@ -279,7 +279,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: '0',
   tabSelectsValue: true,
-  autoFocusAfterRemoveValue: true
+  autoFocusAfterRemoveValue: true,
 };
 
 type State = {

@@ -1960,7 +1960,9 @@ cases(
     );
 
     // there are 3 values in select
-    expect(container.querySelectorAll('.react-select__multi-value').length).toBe(3);
+    expect(
+      container.querySelectorAll('.react-select__multi-value').length
+    ).toBe(3);
 
     const selectValueElement = [
       ...container.querySelectorAll('.react-select__multi-value'),
@@ -1986,23 +1988,22 @@ cases(
       expect(container.querySelector('.react-select__input input')).toBe(
         document.activeElement
       );
-    }  else {
+    } else {
       expect(container.querySelector('.react-select__input input')).not.toBe(
         document.activeElement
       );
     }
-
   },
   {
     'multi select > should focus select after remove value without autoFocusAfterRemoveValue props': {},
     'multi select > should focus select after remove value': {
       props: {
-        autoFocusAfterRemoveValue: true
-      }
+        autoFocusAfterRemoveValue: true,
+      },
     },
     'multi select > shouldn not focus select after remove value': {
       props: {
-        autoFocusAfterRemoveValue: false
+        autoFocusAfterRemoveValue: false,
       },
     },
   }
