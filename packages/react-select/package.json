@@ -4,7 +4,7 @@
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
-  "types": "src/index.d.ts",
+  "types": "dist/react-select.cjs.d.ts",
   "sideEffects": false,
   "author": "Jed Watson",
   "license": "MIT",

@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Select, { components } from 'react-select';
-import { GroupHeadingProps } from 'react-select/src/components/Group';
+import Select, { components, GroupHeadingProps } from 'react-select';
 import {
   ColourOption,
   colourOptions,

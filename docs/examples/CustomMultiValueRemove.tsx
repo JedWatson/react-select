@@ -1,9 +1,8 @@
 import React from 'react';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Tooltip from '@atlaskit/tooltip';
-import Select, { components } from 'react-select';
+import Select, { components, MultiValueRemoveProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
-import { MultiValueRemoveProps } from 'react-select/src/components/MultiValue';
 
 const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
   return (

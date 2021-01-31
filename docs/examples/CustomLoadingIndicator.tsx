@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from '@atlaskit/spinner';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
-import { LoadingIndicatorProps } from 'react-select/src/components/indicators';
+import { LoadingIndicatorProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
 const LoadingIndicator = (

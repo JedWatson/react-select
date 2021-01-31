@@ -1,7 +1,6 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import Select, { components, OptionTypeBase } from 'react-select';
-import { NoticeProps } from 'react-select/src/components/Menu';
+import Select, { components, NoticeProps, OptionTypeBase } from 'react-select';
 import { colourOptions } from '../data';
 const msgStyles = {
   background: colourOptions[2].color,
