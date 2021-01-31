@@ -1,7 +1,6 @@
-import SelectBase from './Select';
-import manageState from './stateManager';
+import { StateManager } from './stateManager';
 
-export default manageState(SelectBase);
+export default StateManager;
 
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
