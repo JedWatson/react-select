@@ -22,7 +22,7 @@ export type OptionContext = {
 export type SelectionContext = ActionMeta &
   OptionContext & {
     // selected "thing" (option, removedValue, value)
-    selected?: OptionType,
+    selected?: OptionType | null,
   };
 
 export type FocusedContext = OptionContext & {
