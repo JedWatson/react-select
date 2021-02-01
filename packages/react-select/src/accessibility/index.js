@@ -7,12 +7,12 @@ import {
   type ValueType,
 } from '../types';
 
-export type FocusedType = 'option' | 'value'; // | 'group-option';
+export type FocusedType = 'option' | 'value';
 
 export type GuidanceType = 'menu' | 'input' | 'value';
 
 export type OptionContext = {
-  // deriveed label of selected "thing" via getOptionLabel
+  // derived label of selected option via getOptionLabel
   // Note: different aria attributes could potentially introduce need for DOM query selectors
   label?: string,
   // selected option was disabled, used only for accessibility purposes
@@ -21,8 +21,8 @@ export type OptionContext = {
 
 export type SelectionContext = ActionMeta &
   OptionContext & {
-    // selected "thing" (option, removedValue, removedValues)
-    selected?: ValueType | OptionType,
+    // selected "thing" (option, removedValue, value)
+    selected?: OptionType,
   };
 
 export type FocusedContext = OptionContext & {

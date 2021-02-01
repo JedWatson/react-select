@@ -578,7 +578,6 @@ export default class Select extends Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
-    //this.ariaLiveMessages = this.getAriaMessages();
 
     if (
       // ensure focus is restored correctly when the control becomes enabled

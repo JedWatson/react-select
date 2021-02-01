@@ -5,8 +5,8 @@ import Select from 'react-select';
 import { colourOptions } from '../data';
 
 export default function CustomAriaLive() {
-  const [ ariaFocusMessage, setAriaFocusMessage ] = useState('');
-  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const [ariaFocusMessage, setAriaFocusMessage] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const style = {
     blockquote: {

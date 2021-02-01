@@ -75,7 +75,7 @@ const LiveRegion = (props: LiveRegionProps) => {
 
   // Update aria live selected option when prop changes
   useEffect(
-    function updateAriaSelected() {
+    function onChange() {
       let message = '';
       if (ariaSelection && messages.onChange) {
         const { value, ...context } = ariaSelection;
@@ -88,7 +88,7 @@ const LiveRegion = (props: LiveRegionProps) => {
 
   // Formatting function for newly focused option/value
   useEffect(
-    function updateAriaFocused() {
+    function onFocus() {
       let focusMsg = '';
       const focused = focusedOption || focusedValue;
       if (focused && messages.onFocus) {
@@ -117,7 +117,7 @@ const LiveRegion = (props: LiveRegionProps) => {
   );
 
   useEffect(
-    function updateFilteredOptions() {
+    function onFilter() {
       let resultsMsg = '';
       if (options.length && messages.onFilter) {
         const resultsMessage = screenReaderStatus({
@@ -138,11 +138,10 @@ const LiveRegion = (props: LiveRegionProps) => {
   );
 
   useEffect(
-    function onContext() {
-      let type = '',
-        guidanceMsg = '';
+    function guidance() {
+      let guidanceMsg = '';
       if (messages.guidance) {
-        type = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
+        const type = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
         guidanceMsg = messages.guidance(type, {
           isDisabled: focusedOption && isOptionDisabled(focusedOption),
           isMulti,
@@ -168,7 +167,6 @@ const LiveRegion = (props: LiveRegionProps) => {
     ]
   );
 
-  // guidance context includes labeL: this.props.aria-laebl
   return (
     <A11yText aria-live="polite">
       {isFocused && (
