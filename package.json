@@ -27,7 +27,6 @@
     "@changesets/get-github-info": "^0.2.1",
     "@emotion/babel-plugin": "^11.0.0",
     "@emotion/cache": "^11.0.0",
-    "@emotion/css": "^11.0.0",
     "@emotion/jest": "^11.1.0",
     "@emotion/react": "^11.1.1",
     "@preconstruct/cli": "^1.0.0",
