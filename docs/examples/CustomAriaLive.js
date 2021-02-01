@@ -5,7 +5,8 @@ import Select from 'react-select';
 import { colourOptions } from '../data';
 
 export default function CustomAriaLive() {
-  const [ariaFocusMessage, setAriaFocusMessage] = useState('');
+  const [ ariaFocusMessage, setAriaFocusMessage ] = useState('');
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
   const style = {
     blockquote: {
@@ -20,12 +21,16 @@ export default function CustomAriaLive() {
     },
   };
 
-  const focusOption = ({ focusedOption, getOptionLabel }) => {
-    const msg = `custom aria option focus message: 
-      ${getOptionLabel(focusedOption)}`;
+  const onFocus = (focused, { isDisabled }) => {
+    const msg = `You are currently focused on option ${focused.label}${
+      isDisabled ? ', disabled' : ''
+    }`;
     setAriaFocusMessage(msg);
     return msg;
   };
+
+  const onMenuOpen = () => setIsMenuOpen(true);
+  const onMenuClose = () => setIsMenuOpen(false);
 
   return (
     <form>
@@ -33,19 +38,21 @@ export default function CustomAriaLive() {
         Select a color
       </label>
 
+      {!!ariaFocusMessage && !!isMenuOpen && (
+        <blockquote style={style.blockquote}>"{ariaFocusMessage}"</blockquote>
+      )}
+
       <Select
         aria-labelledby="aria-label"
         ariaLiveMessages={{
-          focusOption,
+          onFocus,
         }}
         inputId="aria-example-input"
         name="aria-live-color"
+        onMenuOpen={onMenuOpen}
+        onMenuClose={onMenuClose}
         options={colourOptions}
       />
-
-      {!!ariaFocusMessage && (
-        <blockquote style={style.blockquote}>"{ariaFocusMessage}"</blockquote>
-      )}
     </form>
   );
 }

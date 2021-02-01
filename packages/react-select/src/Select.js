@@ -2,15 +2,13 @@
 
 import React, { Component, type ElementRef, type Node } from 'react';
 import { MenuPlacer } from './components/Menu';
+import LiveRegion from './components/LiveRegion';
 
 import { createFilter } from './filters';
-import { A11yText, DummyInput, ScrollManager } from './internal/index';
+import { DummyInput, ScrollManager } from './internal/index';
 import {
-  getAriaLiveMessages,
   type AriaLiveMessagesProps,
-  type InstructionsType,
-  type InstructionsContext,
-  type ChangeValueContext,
+  type AriaSelectionType,
 } from './accessibility/index';
 
 import {
@@ -279,8 +277,7 @@ export const defaultProps = {
 };
 
 type State = {
-  ariaLiveSelection: string,
-  ariaLiveContext: string,
+  ariaSelection: AriaSelectionType | null,
   inputIsHidden: boolean,
   isFocused: boolean,
   focusedOption: OptionType | null,
@@ -468,8 +465,7 @@ let instanceId = 1;
 export default class Select extends Component<Props, State> {
   static defaultProps = defaultProps;
   state = {
-    ariaLiveSelection: '',
-    ariaLiveContext: '',
+    ariaSelection: null,
     focusedOption: null,
     focusedValue: null,
     inputIsHidden: false,
@@ -483,7 +479,6 @@ export default class Select extends Component<Props, State> {
   // Misc. Instance Properties
   // ------------------------------
 
-  ariaLiveMessages: AriaLiveMessagesProps;
   blockOptionHover: boolean = false;
   isComposing: boolean = false;
   commonProps: any; // TODO
@@ -522,7 +517,6 @@ export default class Select extends Component<Props, State> {
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
-    this.ariaLiveMessages = this.getAriaMessages();
   }
   static getDerivedStateFromProps(props: Props, state: State) {
     const {
@@ -624,11 +618,6 @@ export default class Select extends Component<Props, State> {
     this.props.onMenuOpen();
   }
   onMenuClose() {
-    const { isSearchable, isMulti } = this.props;
-    this.announceAriaLiveContext({
-      type: 'input',
-      context: { isSearchable, isMulti },
-    });
     this.onInputChange('', { action: 'menu-close' });
     this.props.onMenuClose();
   }
@@ -656,10 +645,9 @@ export default class Select extends Component<Props, State> {
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
     const focusableOptions = this.buildFocusableOptions();
-    const { isMulti, tabSelectsValue } = this.props;
     let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
-    if (!isMulti) {
+    if (!this.props.isMulti) {
       const selectedIndex = focusableOptions.indexOf(selectValue[0]);
       if (selectedIndex > -1) {
         openAtIndex = selectedIndex;
@@ -675,21 +663,15 @@ export default class Select extends Component<Props, State> {
         focusedValue: null,
         focusedOption: focusableOptions[openAtIndex],
       },
-      () => {
-        this.onMenuOpen();
-        this.announceAriaLiveContext({
-          type: 'menu',
-          context: { tabSelectsValue },
-        });
-      }
+      () => this.onMenuOpen()
     );
   }
+
   focusValue(direction: 'previous' | 'next') {
-    const { isMulti, isSearchable } = this.props;
     const { selectValue, focusedValue } = this.state;
 
     // Only multiselects support value focusing
-    if (!isMulti) return;
+    if (!this.props.isMulti) return;
 
     this.setState({
       focusedOption: null,
@@ -698,7 +680,6 @@ export default class Select extends Component<Props, State> {
     let focusedIndex = selectValue.indexOf(focusedValue);
     if (!focusedValue) {
       focusedIndex = -1;
-      this.announceAriaLiveContext({ type: 'multi-value' });
     }
 
     const lastIndex = selectValue.length - 1;
@@ -723,14 +704,6 @@ export default class Select extends Component<Props, State> {
         }
         break;
     }
-
-    if (nextFocus === -1) {
-      this.announceAriaLiveContext({
-        type: 'input',
-        context: { isSearchable, isMulti },
-      });
-    }
-
     this.setState({
       inputIsHidden: nextFocus !== -1,
       focusedValue: selectValue[nextFocus],
@@ -738,8 +711,8 @@ export default class Select extends Component<Props, State> {
   }
 
   focusOption(direction: FocusDirection = 'first') {
-    const { pageSize, tabSelectsValue } = this.props;
-    const { focusedOption, selectValue } = this.state;
+    const { pageSize } = this.props;
+    const { focusedOption } = this.state;
     const options = this.getFocusableOptions();
 
     if (!options.length) return;
@@ -747,10 +720,6 @@ export default class Select extends Component<Props, State> {
     let focusedIndex = options.indexOf(focusedOption);
     if (!focusedOption) {
       focusedIndex = -1;
-      this.announceAriaLiveContext({
-        type: 'menu',
-        context: { tabSelectsValue },
-      });
     }
 
     if (direction === 'up') {
@@ -771,17 +740,13 @@ export default class Select extends Component<Props, State> {
       focusedOption: options[nextFocus],
       focusedValue: null,
     });
-    this.announceAriaLiveContext({
-      type: 'menu',
-      context: {
-        isDisabled: this.isOptionDisabled(options[nextFocus], selectValue),
-        tabSelectsValue,
-      },
-    });
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
     const { onChange, name } = this.props;
-    onChange(newValue, { ...actionMeta, name });
+    const context = { ...actionMeta, name };
+
+    this.ariaOnChange(newValue, context);
+    onChange(newValue, context);
   };
   setValue = (
     newValue: ValueType,
@@ -799,13 +764,12 @@ export default class Select extends Component<Props, State> {
     this.onChange(newValue, { action, option });
   };
   selectOption = (newValue: OptionType) => {
-    const { blurInputOnSelect, isMulti } = this.props;
+    const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
-    const value = this.getOptionLabel(newValue);
-    const isSelected = isMulti && this.isOptionSelected(newValue, selectValue);
+    const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
     const isDisabled = this.isOptionDisabled(newValue, selectValue);
 
-    if (isSelected) {
+    if (deselected) {
       const candidate = this.getOptionValue(newValue);
       this.setValue(
         selectValue.filter(i => this.getOptionValue(i) !== candidate),
@@ -819,12 +783,15 @@ export default class Select extends Component<Props, State> {
       } else {
         this.setValue(newValue, 'select-option');
       }
+    } else {
+      this.ariaOnChange(selectValue, {
+        action: 'select-option',
+        option: newValue,
+        name,
+        isDisabled,
+      });
+      return;
     }
-    // aria onChange
-    this.announceAriaLiveSelection({
-      event: isSelected ? 'deselect-option' : 'select-option',
-      context: { value, isDisabled },
-    });
 
     if (blurInputOnSelect) {
       this.blurInput();
@@ -837,21 +804,9 @@ export default class Select extends Component<Props, State> {
     const newValueArray = selectValue.filter(
       i => this.getOptionValue(i) !== candidate
     );
-    const newValue = isMulti
-      ? newValueArray
-      : newValueArray.length > 0
-      ? newValueArray[0]
-      : null;
-    this.onChange(newValue, {
-      action: 'remove-value',
-      removedValue,
-    });
-    this.announceAriaLiveSelection({
-      event: 'remove-value',
-      context: {
-        value: removedValue ? this.getOptionLabel(removedValue) : '',
-      },
-    });
+    const newValue = isMulti ? newValueArray : newValueArray[0] || null;
+
+    this.onChange(newValue, { action: 'remove-value', removedValue });
     this.focusInput();
   };
   clearValue = () => {
@@ -862,17 +817,8 @@ export default class Select extends Component<Props, State> {
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
     const newValueArray = selectValue.slice(0, selectValue.length - 1);
-    const newValue = isMulti
-      ? newValueArray
-      : newValueArray.length > 0
-      ? newValueArray[0]
-      : null;
-    this.announceAriaLiveSelection({
-      event: 'pop-value',
-      context: {
-        value: lastSelectedValue ? this.getOptionLabel(lastSelectedValue) : '',
-      },
-    });
+    const newValue = isMulti ? newValueArray : newValueArray[0] || null;
+
     this.onChange(newValue, {
       action: 'pop-value',
       removedValue: lastSelectedValue,
@@ -968,40 +914,15 @@ export default class Select extends Component<Props, State> {
   // Helpers
   // ==============================
 
-  getAriaMessages(): AriaLiveMessagesProps {
-    return {
-      ...getAriaLiveMessages(),
-      ...(this.props.ariaLiveMessages || {}),
-    };
-  }
-  announceAriaLiveSelection = ({
-    event,
-    context,
-  }: {
-    event: ActionTypes,
-    context: ChangeValueContext,
-  }) => {
-    this.setState({
-      ariaLiveSelection: this.ariaLiveMessages.selectValue
-        ? this.ariaLiveMessages.selectValue(event, context)
-        : '',
-    });
-  };
-  announceAriaLiveContext = ({
-    type,
-    context,
-  }: {
-    type: InstructionsType,
-    context?: InstructionsContext,
-  }) => {
-    this.setState({
-      ariaLiveContext: this.ariaLiveMessages.instructions
-        ? this.ariaLiveMessages.instructions(type, {
-            ...context,
-            label: this.props['aria-label'],
-          })
-        : '',
-    });
+  ariaOnChange = (value: ValueType, actionMeta: ActionMeta) => {
+    const { option, removedValue } = actionMeta;
+    const asOption = val => (!Array.isArray(val) ? val : null);
+    const selected = removedValue || option || asOption(value);
+
+    const label = selected ? this.getOptionLabel(selected) : '';
+    const ariaSelection = { value, selected, label, ...actionMeta };
+
+    this.setState({ ariaSelection });
   };
 
   hasValue() {
@@ -1010,9 +931,6 @@ export default class Select extends Component<Props, State> {
   }
   hasOptions() {
     return !!this.getFocusableOptions().length;
-  }
-  countOptions() {
-    return this.getFocusableOptions().length;
   }
   isClearable(): boolean {
     const { isClearable, isMulti } = this.props;
@@ -1255,16 +1173,11 @@ export default class Select extends Component<Props, State> {
     }
   };
   onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
-    const { isSearchable, isMulti } = this.props;
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
-    this.setState({ inputIsHiddenAfterUpdate: false });
-    this.announceAriaLiveContext({
-      type: 'input',
-      context: { isSearchable, isMulti },
-    });
     this.setState({
+      inputIsHiddenAfterUpdate: false,
       isFocused: true,
     });
     if (this.openAfterFocus || this.props.openMenuOnFocus) {
@@ -1876,59 +1789,32 @@ export default class Select extends Component<Props, State> {
   }
 
   renderLiveRegion() {
+    const { commonProps } = this;
     const {
-      ariaLiveContext,
-      ariaLiveSelection,
+      ariaSelection,
       focusedOption,
       focusedValue,
       isFocused,
       selectValue,
     } = this.state;
-    const { inputValue, menuIsOpen, options, screenReaderStatus } = this.props;
 
-    const constructAriaLiveMessage = () => {
-      const { focusValue, focusOption, filterResults } = this.ariaLiveMessages;
-      // An aria live message representing the currently focused value in the select.
-      const focusedValueMsg =
-        focusedValue && focusValue
-          ? focusValue({
-              focusedValue,
-              getOptionLabel: this.getOptionLabel,
-              selectValue,
-            })
-          : '';
-      // An aria live message representing the currently focused option in the select.
-      const focusedOptionMsg =
-        focusedOption && menuIsOpen && focusOption
-          ? focusOption({
-              focusedOption,
-              getOptionLabel: this.getOptionLabel,
-              options,
-            })
-          : '';
-      // An aria live message representing the set of focusable results and current searchterm/inputvalue.
-      const resultsMsg = filterResults
-        ? filterResults({
-            inputValue,
-            screenReaderMessage: screenReaderStatus({
-              count: this.countOptions(),
-            }),
-          })
-        : '';
+    const { inputValue, menuIsOpen, options } = this.props;
 
-      return `${focusedValueMsg} ${focusedOptionMsg} ${resultsMsg} ${ariaLiveContext}`;
-    };
+    const focusableOptions = menuIsOpen ? this.getFocusableOptions() : [];
 
-    const arialiveMessage = isFocused && constructAriaLiveMessage();
     return (
-      <A11yText aria-live="polite">
-        {!!isFocused && (
-          <React.Fragment>
-            <span id="aria-selection-event">&nbsp;{ariaLiveSelection}</span>
-            <span id="aria-context">&nbsp;{arialiveMessage}</span>
-          </React.Fragment>
-        )}
-      </A11yText>
+      <LiveRegion
+        {...commonProps}
+        ariaSelection={ariaSelection}
+        focusedOption={focusedOption}
+        focusedValue={focusedValue}
+        isFocused={isFocused}
+        selectValue={selectValue}
+        focusableOptions={focusableOptions}
+        inputValue={inputValue}
+        menuIsOpen={menuIsOpen}
+        options={options}
+      />
     );
   }
 

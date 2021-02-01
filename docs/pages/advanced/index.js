@@ -35,7 +35,7 @@ export default function Advanced() {
       # Advanced
 
       ## Accessibility
-      Accessibility is import. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide 
+      Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide 
       a custom experience for all users. As such, we also provide an api to address internationalization or further customization.
 
       ${(

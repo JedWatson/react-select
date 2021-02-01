@@ -1886,12 +1886,12 @@ test('accessibility > interacting with multi values options shows correct A11yTe
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
   expect(container.querySelector(liveRegionId).textContent).toMatch(
-    'value 1 focused, 2 of 2.  0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+    'value 1 focused, 2 of 2. 0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
   expect(container.querySelector(liveRegionId).textContent).toMatch(
-    'value 0 focused, 1 of 2.  0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+    'value 0 focused, 1 of 2. 0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 });
 
@@ -1944,10 +1944,10 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
   const ariaLiveMessages = {
-    selectValue: (event, context) => {
-      const { value, isDisabled } = context;
-      if (event === 'select-option' && !isDisabled) {
-        return `CUSTOM: option ${value} is selected.`;
+    onChange: (value, context) => {
+      const { action, isDisabled, label } = context;
+      if (action === 'select-option' && !isDisabled) {
+        return `CUSTOM: option ${label} is selected.`;
       }
     },
   };
