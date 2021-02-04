@@ -1,4 +1,5 @@
 module.exports = {
+  extends: ['plugin:react-hooks/recommended'],
   parser: 'babel-eslint',
   env: {
     browser: true,

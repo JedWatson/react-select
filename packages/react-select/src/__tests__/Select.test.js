@@ -12,7 +12,7 @@ import {
 } from './constants';
 import Select from '../Select';
 
-import { matchers } from 'jest-emotion';
+import { matchers } from '@emotion/jest';
 
 expect.extend(matchers);
 
@@ -1643,48 +1643,49 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-cases(
-  'should call onChange with `null` on hitting backspace when backspaceRemovesValue is true',
-  ({ props = { ...BASIC_PROPS }, expectedValue }) => {
-    let onChangeSpy = jest.fn();
-    let { container } = render(
-      <Select
-        {...props}
-        backspaceRemovesValue
-        isClearable
-        onChange={onChangeSpy}
-      />
-    );
-    fireEvent.keyDown(container.querySelector('.react-select__control'), {
-      keyCode: 8,
-      key: 'Backspace',
-    });
-    expect(onChangeSpy).toHaveBeenCalledWith(null, expectedValue);
-  },
-  {
-    'and isMulti is false': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: false,
-      },
-      expectedValue: {
-        action: 'clear',
-        name: 'test-input-name',
-      },
-    },
-    'and isMulti is true': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-      },
-      expectedValue: {
-        action: 'pop-value',
-        name: 'test-input-name',
-        removedValue: undefined,
-      },
-    },
-  }
-);
+test('should call onChange with `null` on hitting backspace when backspaceRemovesValue is true and isMulti is false', () => {
+  let onChangeSpy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti={false}
+      onChange={onChangeSpy}
+    />
+  );
+  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+    keyCode: 8,
+    key: 'Backspace',
+  });
+  expect(onChangeSpy).toHaveBeenCalledWith(null, {
+    action: 'clear',
+    name: 'test-input-name',
+    removedValues: [],
+  });
+});
+
+test('should call onChange with an array on hitting backspace when backspaceRemovesValue is true and isMulti is true', () => {
+  let onChangeSpy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti
+      onChange={onChangeSpy}
+    />
+  );
+  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+    keyCode: 8,
+    key: 'Backspace',
+  });
+  expect(onChangeSpy).toHaveBeenCalledWith([], {
+    action: 'pop-value',
+    name: 'test-input-name',
+    removedValue: undefined,
+  });
+});
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
   let onChangeSpy = jest.fn();
@@ -2305,9 +2306,10 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
     container.querySelector('.react-select__clear-indicator'),
     { button: 0 }
   );
-  expect(onChangeSpy).toBeCalledWith(null, {
+  expect(onChangeSpy).toBeCalledWith([], {
     action: 'clear',
     name: BASIC_PROPS.name,
+    removedValues: [{ label: '0', value: 'zero' }],
   });
 });
 
@@ -2631,6 +2633,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   expect(onInputChangeSpy).toHaveBeenCalledWith(null, {
     action: 'clear',
     name: BASIC_PROPS.name,
+    removedValues: [{ label: '0', value: 'zero' }],
   });
 });
 
