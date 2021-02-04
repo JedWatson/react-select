@@ -3,4 +3,4 @@
 "@react-select/docs": patch
 ---
 
-Bump dependency on @babel/runtime in order to fix compabitibility issues with Webpack 5
+Bump dependency on @babel/runtime in order to fix compatibility issues with Webpack 5
