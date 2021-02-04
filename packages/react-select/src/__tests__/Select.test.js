@@ -1661,6 +1661,7 @@ test('should call onChange with `null` on hitting backspace when backspaceRemove
   expect(onChangeSpy).toHaveBeenCalledWith(null, {
     action: 'clear',
     name: 'test-input-name',
+    removedValues: [],
   });
 });
 
@@ -2308,6 +2309,7 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
   expect(onChangeSpy).toBeCalledWith([], {
     action: 'clear',
     name: BASIC_PROPS.name,
+    removedValues: [{ label: '0', value: 'zero' }],
   });
 });
 
@@ -2631,6 +2633,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   expect(onInputChangeSpy).toHaveBeenCalledWith(null, {
     action: 'clear',
     name: BASIC_PROPS.name,
+    removedValues: [{ label: '0', value: 'zero' }],
   });
 });
 
