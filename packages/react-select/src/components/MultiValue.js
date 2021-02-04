@@ -114,7 +114,6 @@ const MultiValue = (props: MultiValueProps) => {
         <Container
           data={data}
           innerProps={{
-            ...innerProps,
             className: emotionCx(
               css(getStyles('multiValue', props)),
               cx(
@@ -125,6 +124,7 @@ const MultiValue = (props: MultiValueProps) => {
                 className
               )
             ),
+            ...innerProps,
           }}
           selectProps={selectProps}
         >
