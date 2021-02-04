@@ -1,5 +1,5 @@
 ---
-"react-select": patch
+"react-select": minor
 ---
 
-Add `removedValues` that points to the current selection into a meta of onChange callback when clearing value.
+Add `removedValues` to `onChange` event meta when the action is `clear` (when the user clears the value in the Select)
