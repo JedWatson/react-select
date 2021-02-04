@@ -9,9 +9,8 @@
   "license": "MIT",
   "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.12.0",
     "@emotion/cache": "^11.0.0",
-    "@emotion/css": "^11.0.0",
     "@emotion/react": "^11.1.1",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
