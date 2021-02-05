@@ -1,7 +1,11 @@
 import React from 'react';
 
 import Select, { components } from 'react-select';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import {
+  SortableContainer,
+  SortableElement,
+  sortableHandle,
+} from 'react-sortable-hoc';
 import { colourOptions } from '../data';
 
 function arrayMove(array, from, to) {
@@ -19,9 +23,14 @@ const SortableMultiValue = SortableElement(props => {
     e.preventDefault();
     e.stopPropagation();
   };
-  const innerProps = { onMouseDown };
+  const innerProps = { ...props.innerProps, onMouseDown };
   return <components.MultiValue {...props} innerProps={innerProps} />;
 });
+
+const SortableMultiValueLabel = sortableHandle(props => (
+  <components.MultiValueLabel {...props} />
+));
+
 const SortableSelect = SortableContainer(Select);
 
 export default function MultiSelectSort() {
@@ -43,6 +52,7 @@ export default function MultiSelectSort() {
 
   return (
     <SortableSelect
+      useDragHandle
       // react-sortable-hoc props:
       axis="xy"
       onSortEnd={onSortEnd}
@@ -56,6 +66,7 @@ export default function MultiSelectSort() {
       onChange={onChange}
       components={{
         MultiValue: SortableMultiValue,
+        MultiValueLabel: SortableMultiValueLabel,
       }}
       closeMenuOnSelect={false}
     />
