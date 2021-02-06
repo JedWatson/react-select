@@ -34,6 +34,7 @@ const inputStyle = isHidden => ({
   background: 0,
   border: 0,
   fontSize: 'inherit',
+  fontWeight: 'inherit',
   opacity: isHidden ? 0 : 1,
   outline: 0,
   padding: 0,
