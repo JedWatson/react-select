@@ -155,8 +155,11 @@ exports[`defaults > snapshot 1`] = `
     class=" emotion-0"
   >
     <span
+      aria-atomic="false"
       aria-live="polite"
+      aria-relevant="additions text"
       class="emotion-1"
+      role="alert"
     />
     <div
       class=" emotion-2"

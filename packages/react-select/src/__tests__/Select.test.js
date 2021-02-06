@@ -1849,7 +1849,7 @@ test('accessibility > interacting with disabled options shows correct A11yText',
     />
   );
   const liveRegionId = '#aria-context';
-  const liveRegionEventId = '#aria-selection-event';
+  const liveRegionEventId = '#aria-selection';
   fireEvent.focus(container.querySelector('.react-select__input input'));
 
   // navigate to disabled option
@@ -1961,7 +1961,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
       menuIsOpen
     />
   );
-  const liveRegionEventId = '#aria-selection-event';
+  const liveRegionEventId = '#aria-selection';
   fireEvent.focus(container.querySelector('.react-select__input input'));
 
   let menu = container.querySelector('.react-select__menu');

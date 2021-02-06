@@ -167,14 +167,19 @@ const LiveRegion = (props: LiveRegionProps) => {
     ]
   );
 
+  const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
+
   return (
-    <A11yText aria-live="polite">
+    <A11yText
+      role="alert"
+      aria-live="polite"
+      aria-atomic="false"
+      aria-relevant="additions text"
+    >
       {isFocused && (
         <React.Fragment>
-          <span id="aria-selection-event">{ariaSelected}</span>
-          <span id="aria-context">
-            {ariaFocused} {ariaResults} {ariaGuidance}
-          </span>
+          <span id="aria-selection">{ariaSelected}</span>
+          <span id="aria-context">{ariaContext}</span>
         </React.Fragment>
       )}
     </A11yText>
