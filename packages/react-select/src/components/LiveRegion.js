@@ -119,7 +119,7 @@ const LiveRegion = (props: LiveRegionProps) => {
   useEffect(
     function onFilter() {
       let resultsMsg = '';
-      if (options.length && messages.onFilter) {
+      if (menuIsOpen && options.length && messages.onFilter) {
         const resultsMessage = screenReaderStatus({
           count: focusableOptions.length,
         });

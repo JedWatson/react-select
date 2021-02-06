@@ -1881,17 +1881,17 @@ test('accessibility > interacting with multi values options shows correct A11yTe
 
   fireEvent.focus(container.querySelector('.react-select__input input'));
   expect(container.querySelector(liveRegionId).textContent).toMatch(
-    '0 results available. Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
+    ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
   expect(container.querySelector(liveRegionId).textContent).toMatch(
-    'value 1 focused, 2 of 2. 0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+    'value 1 focused, 2 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
   expect(container.querySelector(liveRegionId).textContent).toMatch(
-    'value 0 focused, 1 of 2. 0 results available. Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+    'value 0 focused, 1 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 });
 
