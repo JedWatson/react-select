@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
