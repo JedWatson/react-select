@@ -48,7 +48,6 @@ const LiveRegion = (props: LiveRegionProps) => {
     isDisabled,
     isMulti,
     isOptionDisabled,
-    isOptionSelected,
     isSearchable,
     screenReaderStatus,
     tabSelectsValue,
@@ -92,11 +91,17 @@ const LiveRegion = (props: LiveRegionProps) => {
     function onFocus() {
       let focusMsg = '';
       const focused = focusedOption || focusedValue;
+      const isSelected = !!(
+        focusedOption &&
+        selectValue &&
+        selectValue.includes(focusedOption)
+      );
+
       if (focused && messages.onFocus) {
         const context = {
           label: getOptionLabel(focused),
           isDisabled: isOptionDisabled(focused),
-          isSelected: isOptionSelected(focusedOption, selectValue),
+          isSelected,
           options,
           type: focused === focusedOption ? 'option' : 'value',
           value: selectValue,
@@ -111,7 +116,6 @@ const LiveRegion = (props: LiveRegionProps) => {
       focusedValue,
       getOptionLabel,
       isOptionDisabled,
-      isOptionSelected,
       menuIsOpen,
       messages,
       options,

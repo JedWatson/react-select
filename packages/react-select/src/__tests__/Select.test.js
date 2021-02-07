@@ -1878,7 +1878,7 @@ test('accessibility > interacting with multi values options shows correct A11yTe
     options: OPTIONS_DISABLED,
     isMulti: true,
     value: [OPTIONS_DISABLED[0], OPTIONS_DISABLED[1]],
-    hideSelectedOptions: false
+    hideSelectedOptions: false,
   };
 
   let { container, rerender } = render(<Select {...renderProps} />);
