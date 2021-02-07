@@ -17,6 +17,8 @@ export type OptionContext = {
   label?: string,
   // selected option was disabled, used only for accessibility purposes
   isDisabled?: boolean,
+  // option is selected
+  isSelected?: boolean,
 };
 
 export type SelectionContext = ActionMeta &
@@ -105,18 +107,19 @@ export function getAriaLiveMessages() {
     },
 
     onFocus: (focused: OptionType, context: FocusedContext) => {
-      const { type, value, options, label = '' } = context;
+      const { type, value, options, label = '', isSelected } = context;
+      const getIndexOf = (arr, item) =>
+        arr && arr.length ? `${arr.indexOf(item) + 1} of ${arr.length}` : '';
 
       if (type === 'value' && value) {
-        return `value ${label} focused, ${value.indexOf(focused) + 1} of ${
-          value.length
-        }.`;
+        return `value ${label} focused, ${getIndexOf(value, focused)}.`;
       }
 
       if (type === 'option') {
-        return `option ${label} focused${
-          focused.isDisabled ? ' disabled' : ''
-        }, ${options.indexOf(focused) + 1} of ${options.length}.`;
+        const disabled = focused.isDisabled ? ' disabled' : '';
+        const status = `${isSelected ? 'selected' : 'focused'}${disabled}`;
+
+        return `option ${label} ${status}, ${getIndexOf(options, focused)}.`;
       }
       return '';
     },
