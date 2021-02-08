@@ -103,13 +103,13 @@ export default function useScrollCapture({
 
       // all the if statements are to appease Flow 😢
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('wheel', onWheel, false);
+        el.addEventListener('wheel', onWheel, { passive: false });
       }
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchstart', onTouchStart, false);
+        el.addEventListener('touchstart', onTouchStart, { passive: false });
       }
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchmove', onTouchMove, false);
+        el.addEventListener('touchmove', onTouchMove, { passive: false });
       }
     },
     [onTouchMove, onTouchStart, onWheel]
