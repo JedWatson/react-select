@@ -65,6 +65,9 @@ type FormatOptionLabelMeta = {
   inputValue: string,
   selectValue: ValueType,
 };
+type FormatGroupLabelMeta = {
+  inputValue: string
+};
 
 export type Props = {
   /* Aria label (for assistive tech) */
@@ -127,7 +130,7 @@ export type Props = {
 
     An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
-  formatGroupLabel: typeof formatGroupLabelBuiltin,
+  formatGroupLabel: (OptionType, FormatGroupLabelMeta) => Node,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
   /* Resolves option data to a string to be displayed as the label by components */
@@ -1055,7 +1058,10 @@ export default class Select extends Component<Props, State> {
     }
   }
   formatGroupLabel(data: GroupType) {
-    return this.props.formatGroupLabel(data);
+    const { inputValue } = this.props;
+    return this.props.formatGroupLabel(data, {
+      inputValue
+    });
   }
 
   // ==============================
