@@ -11,6 +11,7 @@ import {
   SortableContainerProps,
   SortableElement,
   SortEndHandler,
+  sortableHandle,
 } from 'react-sortable-hoc';
 import { ColourOption, colourOptions } from '../data';
 
@@ -34,10 +35,15 @@ const SortableMultiValue = SortableElement(
       e.preventDefault();
       e.stopPropagation();
     };
-    const innerProps = { onMouseDown };
+    const innerProps = { ...props.innerProps, onMouseDown };
     return <components.MultiValue {...props} innerProps={innerProps} />;
   }
 );
+
+const SortableMultiValueLabel = sortableHandle(props => (
+  <components.MultiValueLabel {...props} />
+));
+
 const SortableSelect = SortableContainer(Select) as React.ComponentClass<
   Props<ColourOption, true> & SortableContainerProps
 >;
@@ -62,6 +68,7 @@ export default function MultiSelectSort() {
 
   return (
     <SortableSelect
+      useDragHandle
       // react-sortable-hoc props:
       axis="xy"
       onSortEnd={onSortEnd}
@@ -76,6 +83,7 @@ export default function MultiSelectSort() {
       components={{
         // @ts-ignore We're failing to provide a required index prop to SortableElement
         MultiValue: SortableMultiValue,
+        MultiValueLabel: SortableMultiValueLabel,
       }}
       closeMenuOnSelect={false}
     />

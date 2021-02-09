@@ -375,7 +375,9 @@ function buildFocusableOptionsFromCategorizedOptions(
 ) {
   return categorizedOptions.reduce((optionsAccumulator, categorizedOption) => {
     if (categorizedOption.type === 'group') {
-      optionsAccumulator.push(...categorizedOption.data.options);
+      optionsAccumulator.push(
+        ...categorizedOption.options.map(option => option.data)
+      );
     } else {
       optionsAccumulator.push(categorizedOption.data);
     }
@@ -872,7 +874,11 @@ export default class Select extends Component<Props, State> {
     this.focusInput();
   };
   clearValue = () => {
-    this.onChange(this.props.isMulti ? [] : null, { action: 'clear' });
+    const { selectValue } = this.state;
+    this.onChange(this.props.isMulti ? [] : null, {
+      action: 'clear',
+      removedValues: selectValue,
+    });
   };
   popValue = () => {
     const { isMulti } = this.props;
