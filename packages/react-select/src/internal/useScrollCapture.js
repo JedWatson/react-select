@@ -1,6 +1,7 @@
 // @flow
 
 import { useCallback, useEffect, useRef } from 'react';
+import { supportsPassiveEvents } from '../utils';
 
 const cancelScroll = (event: SyntheticEvent<HTMLElement>) => {
   event.preventDefault();
@@ -101,15 +102,16 @@ export default function useScrollCapture({
       // bail early if no element is available to attach to
       if (!el) return;
 
+      const notPassive = supportsPassiveEvents ? { passive: false } : false;
       // all the if statements are to appease Flow 😢
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('wheel', onWheel, { passive: false });
+        el.addEventListener('wheel', onWheel, notPassive);
       }
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchstart', onTouchStart, { passive: false });
+        el.addEventListener('touchstart', onTouchStart, notPassive);
       }
       if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchmove', onTouchMove, { passive: false });
+        el.addEventListener('touchmove', onTouchMove, notPassive);
       }
     },
     [onTouchMove, onTouchStart, onWheel]
