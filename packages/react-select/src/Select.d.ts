@@ -42,7 +42,7 @@ export interface FormatOptionLabelMeta<
   selectValue: ValueType<OptionType, IsMulti>;
 }
 
-export interface Props<
+export interface SelectBaseProps<
   OptionType extends OptionTypeBase = { label: string; value: string },
   IsMulti extends boolean = false,
   GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
@@ -209,7 +209,7 @@ export interface Props<
   value: readonly OptionType[] | OptionType | null;
 }
 
-export const defaultProps: Props<any>;
+export const defaultProps: SelectBaseProps<any>;
 
 export interface MenuOptions<OptionType extends OptionTypeBase> {
   render: OptionType[];
@@ -235,7 +235,7 @@ export default class Select<
   IsMulti extends boolean = false,
   GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
 > extends React.Component<
-  Props<OptionType, IsMulti, GroupType>,
+  SelectBaseProps<OptionType, IsMulti, GroupType>,
   State<OptionType>
 > {
   // Misc. Instance Properties
@@ -328,7 +328,7 @@ export default class Select<
     selectProps: Readonly<{
       children?: React.ReactNode;
     }> &
-      Readonly<Props<OptionType, IsMulti, GroupType>>;
+      Readonly<SelectBaseProps<OptionType, IsMulti, GroupType>>;
   };
 
   getNextFocusedValue(nextSelectValue: OptionsType<OptionType>): OptionType;
@@ -425,7 +425,7 @@ export default class Select<
   // ==============================
 
   buildMenuOptions(
-    props: Props<OptionType, IsMulti, GroupType>,
+    props: SelectBaseProps<OptionType, IsMulti, GroupType>,
     selectValue: OptionsType<OptionType>
   ): MenuOptions<OptionType>;
 
