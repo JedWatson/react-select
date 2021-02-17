@@ -90,7 +90,7 @@ export interface CommonProps<
   isRtl: boolean;
   options: OptionsType<OptionType>;
   selectOption: (option: OptionType) => void;
-  selectProps: SelectProps<OptionType, IsMulti, GroupType>;
+  selectProps: BaseSelectProps<OptionType, IsMulti, GroupType>;
   setValue: (
     newValue: ValueType<OptionType, IsMulti>,
     action: SetValueAction,
