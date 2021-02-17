@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Props as SelectProps } from './Select';
+import { BaseSelectProps } from './Select';
 
 export interface OptionBase {}
 

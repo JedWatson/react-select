@@ -31,6 +31,5 @@ export {
 export { OptionProps } from './components/Option';
 export { PlaceholderProps } from './components/Placeholder';
 export { SingleValueProps } from './components/SingleValue';
-export { Props } from './Select';
 export { StylesConfig } from './styles';
 export * from './types';
