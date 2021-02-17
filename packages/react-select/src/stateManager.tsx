@@ -27,11 +27,27 @@ declare class BaseComponent<
   blur(): void;
 }
 
+type StateManagedPropKeys =
+  | 'inputValue'
+  | 'menuIsOpen'
+  | 'onChange'
+  | 'onInputChange'
+  | 'onMenuClose'
+  | 'onMenuOpen'
+  | 'value';
+
+type SelectPropsWithOptionalStateManagedProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = Omit<BaseComponentProps<Option, IsMulti, Group>, StateManagedPropKeys> &
+  Partial<BaseComponentProps<Option, IsMulti, Group>>;
+
 export interface StateMangerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends BaseComponentProps<Option, IsMulti, Group> {
+> extends SelectPropsWithOptionalStateManagedProps<Option, IsMulti, Group> {
   defaultInputValue: string;
   defaultMenuIsOpen: boolean;
   defaultValue: PropsValue<Option>;
@@ -142,9 +158,10 @@ const manageState = (SelectComponent: typeof BaseComponent) =>
     blur() {
       this.select!.blur();
     }
-    getProp<K extends keyof State<Option>>(key: K) {
-      const prop = this.props[key];
-      return prop !== undefined ? prop : this.state[key];
+    getProp<K extends keyof State<Option>>(key: K): State<Option>[K] {
+      return this.props[key] !== undefined
+        ? (this.props[key] as State<Option>[K])
+        : this.state[key];
     }
     callProp<
       K extends 'onChange' | 'onInputChange' | 'onMenuClose' | 'onMenuOpen'
@@ -158,10 +175,9 @@ const manageState = (SelectComponent: typeof BaseComponent) =>
           Exclude<StateMangerProps<Option, IsMulti, Group>[K], undefined>
         >
       | undefined {
-      const prop = this.props[name];
-      if (prop && typeof prop === 'function') {
+      if (typeof this.props[name] === 'function') {
         // TypeScript limitation: https://stackoverflow.com/a/60196073/5327429
-        return (prop as any)(...args);
+        return (this.props[name] as any)(...args);
       }
     }
     onChange = (
