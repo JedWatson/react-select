@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react';
-import Select, { Props as SelectProps } from './Select';
+import Select, { BaseSelectProps } from './Select';
 import {
   ActionMeta,
   OptionBase,
@@ -18,7 +18,7 @@ export interface CreatableProps<
 >
   extends JSX.LibraryManagedAttributes<
     typeof Select,
-    SelectProps<Option, IsMulti, Group>
+    BaseSelectProps<Option, IsMulti, Group>
   > {
   /**
    * Allow options to be created while the `isLoading` prop is true. Useful to

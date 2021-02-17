@@ -8,27 +8,15 @@ import {
   OptionBase,
   PropsValue,
 } from './types';
-import Select, { SelectBaseProps } from './Select';
-
-type StateManagedProps =
-  | 'inputValue'
-  | 'menuIsOpen'
-  | 'onChange'
-  | 'onInputChange'
-  | 'onMenuClose'
-  | 'onMenuOpen'
-  | 'value';
+import Select, { BaseSelectProps } from './Select';
 
 type BaseComponentProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = Pick<
-  JSX.LibraryManagedAttributes<
-    typeof Select,
-    SelectBaseProps<Option, IsMulti, Group>
-  >,
-  StateManagedProps
+> = JSX.LibraryManagedAttributes<
+  typeof Select,
+  BaseSelectProps<Option, IsMulti, Group>
 >;
 declare class BaseComponent<
   Option extends OptionBase,
@@ -39,7 +27,7 @@ declare class BaseComponent<
   blur(): void;
 }
 
-interface StateMangerProps<
+export interface StateMangerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
@@ -165,7 +153,11 @@ const manageState = (SelectComponent: typeof BaseComponent) =>
       ...args: Parameters<
         Exclude<StateMangerProps<Option, IsMulti, Group>[K], undefined>
       >
-    ) {
+    ):
+      | ReturnType<
+          Exclude<StateMangerProps<Option, IsMulti, Group>[K], undefined>
+        >
+      | undefined {
       const prop = this.props[name];
       if (prop && typeof prop === 'function') {
         // TypeScript limitation: https://stackoverflow.com/a/60196073/5327429

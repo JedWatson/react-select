@@ -1,40 +1,62 @@
-// @flow
-
-import React, {
-  Component,
-  type Config,
-  type ElementConfig,
-  type AbstractComponent,
-  type ElementRef,
-} from 'react';
-import Select, { type Props as SelectProps } from './Select';
+import React, { Component } from 'react';
+import Select from './Select';
 import { handleInputChange } from './utils';
-import manageState from './stateManager';
-import type { OptionsType, InputActionMeta } from './types';
+import manageState, { StateMangerProps } from './stateManager';
+import {
+  InputActionMeta,
+  OptionBase,
+  GroupBase,
+  OptionsOrGroups,
+} from './types';
 
-type DefaultAsyncProps = {|
-  /* The default set of options to show before the user starts searching. When
-     set to `true`, the results for loadOptions('') will be autoloaded. */
-  defaultOptions: OptionsType | boolean,
-  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
-    will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
-|};
-export type AsyncProps = {
-  ...DefaultAsyncProps,
-  /* Function that returns a promise, which is the set of options to be used
-     once the promise resolves. */
-  loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  /* Same behaviour as for Select */
-  onInputChange?: (string, InputActionMeta) => void,
-  /* Same behaviour as for Select */
-  inputValue?: string,
-  /* Will cause the select to be displayed in the loading state, even if the
-     Async select is not currently waiting for loadOptions to resolve */
-  isLoading: boolean,
-};
+type BaseComponentProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = JSX.LibraryManagedAttributes<
+  ReturnType<typeof manageState>,
+  StateMangerProps<Option, IsMulti, Group>
+>;
+declare class BaseComponent<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<BaseComponentProps<Option, IsMulti, Group>, unknown> {
+  focus(): void;
+  blur(): void;
+}
 
-export type Props = SelectProps & AsyncProps;
+export interface AsyncProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends BaseComponentProps<Option, IsMulti, Group> {
+  /**
+   * The default set of options to show before the user starts searching. When
+   * set to `true`, the results for loadOptions('') will be autoloaded.
+   */
+  defaultOptions: OptionsOrGroups<Option, Group> | boolean;
+  /**
+   * If cacheOptions is truthy, then the loaded data will be cached. The cache
+   * will remain until `cacheOptions` changes value.
+   */
+  cacheOptions: any;
+  /**
+   * Function that returns a promise, which is the set of options to be used
+   * once the promise resolves.
+   */
+  loadOptions?:
+    | ((
+        inputValue: string,
+        callback: (options: OptionsOrGroups<Option, Group>) => void
+      ) => void)
+    | ((inputValue: string) => Promise<OptionsOrGroups<Option, Group>>);
+  /**
+   * Will cause the select to be displayed in the loading state, even if the
+   * Async select is not currently waiting for loadOptions to resolve
+   */
+  isLoading: boolean;
+}
 
 export const defaultProps = {
   cacheOptions: false,
@@ -43,43 +65,50 @@ export const defaultProps = {
   isLoading: false,
 };
 
-type State = {
-  defaultOptions?: OptionsType,
-  inputValue: string,
-  isLoading: boolean,
-  loadedInputValue?: string,
-  loadedOptions: OptionsType,
-  passEmptyOptions: boolean,
-  optionsCache: { [string]: OptionsType },
-  prevDefaultOptions: OptionsType | boolean | void,
-  prevCacheOptions: any | void,
-};
+interface State<Option extends OptionBase, Group extends GroupBase<Option>> {
+  defaultOptions?: OptionsOrGroups<Option, Group>;
+  inputValue: string;
+  isLoading: boolean;
+  loadedInputValue?: string;
+  loadedOptions: OptionsOrGroups<Option, Group>;
+  passEmptyOptions: boolean;
+  optionsCache: { [inputValue: string]: OptionsOrGroups<Option, Group> };
+  prevDefaultOptions: OptionsOrGroups<Option, Group> | boolean | void;
+  prevCacheOptions: any | void;
+}
 
-export const makeAsyncSelect = <C: {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
-  class Async extends Component<C & AsyncProps, State> {
+export const makeAsyncSelect = (SelectComponent: typeof BaseComponent) =>
+  class Async<
+    Option extends OptionBase,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  > extends Component<
+    AsyncProps<Option, IsMulti, Group>,
+    State<Option, Group>
+  > {
     static defaultProps = defaultProps;
-    select: ElementRef<*>;
-    lastRequest: {};
+    select?: BaseComponent<Option, IsMulti, Group> | null;
+    lastRequest?: {};
     mounted: boolean = false;
-    constructor(props: C & AsyncProps) {
-      super();
-      this.state = {
-        defaultOptions: Array.isArray(props.defaultOptions)
-          ? props.defaultOptions
-          : undefined,
-        inputValue:
-          typeof props.inputValue !== 'undefined' ? props.inputValue : '',
-        isLoading: props.defaultOptions === true,
-        loadedOptions: [],
-        passEmptyOptions: false,
-        optionsCache: {},
-        prevDefaultOptions: undefined,
-        prevCacheOptions: undefined,
-      };
-    }
-    static getDerivedStateFromProps(props: C & AsyncProps, state: State) {
+    state: State<Option, Group> = {
+      defaultOptions: Array.isArray(this.props.defaultOptions)
+        ? this.props.defaultOptions
+        : undefined,
+      inputValue:
+        typeof this.props.inputValue !== 'undefined'
+          ? this.props.inputValue
+          : '',
+      isLoading: this.props.defaultOptions === true,
+      loadedOptions: [],
+      passEmptyOptions: false,
+      optionsCache: {},
+      prevDefaultOptions: undefined,
+      prevCacheOptions: undefined,
+    };
+    static getDerivedStateFromProps(
+      props: AsyncProps<OptionBase, boolean, GroupBase<OptionBase>>,
+      state: State<OptionBase, GroupBase<OptionBase>>
+    ) {
       const newCacheOptionsState =
         props.cacheOptions !== state.prevCacheOptions
           ? {
@@ -117,12 +146,15 @@ export const makeAsyncSelect = <C: {}>(
       this.mounted = false;
     }
     focus() {
-      this.select.focus();
+      this.select!.focus();
     }
     blur() {
-      this.select.blur();
+      this.select!.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    loadOptions(
+      inputValue: string,
+      callback: (options?: OptionsOrGroups<Option, Group>) => void
+    ) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
       const loader = loadOptions(inputValue, callback);
@@ -210,6 +242,6 @@ export const makeAsyncSelect = <C: {}>(
     }
   };
 
-const SelectState = manageState<ElementConfig<typeof Select>>(Select);
+const SelectState = manageState(Select);
 
-export default makeAsyncSelect<ElementConfig<typeof SelectState>>(SelectState);
+export default makeAsyncSelect(SelectState);
