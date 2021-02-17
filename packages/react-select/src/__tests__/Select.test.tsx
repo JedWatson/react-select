@@ -29,6 +29,8 @@ interface BasicProps {
   readonly onMenuOpen: () => void;
   readonly name: string;
   readonly options: readonly Option[];
+  readonly inputValue: string;
+  readonly value: null;
 }
 
 const BASIC_PROPS: BasicProps = {
@@ -40,10 +42,14 @@ const BASIC_PROPS: BasicProps = {
   onMenuOpen: jest.fn(),
   name: 'test-input-name',
   options: OPTIONS,
+  inputValue: '',
+  value: null,
 };
 
 test('snapshot - defaults', () => {
-  const { container } = render(<Select />);
+  const { container } = render(
+    <Select onChange={() => {}} inputValue="" value={null} />
+  );
   expect(container).toMatchSnapshot();
 });
 
@@ -58,13 +64,21 @@ test('instanceId prop > to have instanceId as id prefix for the select component
 });
 
 test('hidden input field is not present if name is not passes', () => {
-  let { container } = render(<Select options={OPTIONS} />);
+  let { container } = render(
+    <Select onChange={() => {}} inputValue="" value={null} options={OPTIONS} />
+  );
   expect(container.querySelector('input[type="hidden"]')).toBeNull();
 });
 
 test('hidden input field is present if name passes', () => {
   let { container } = render(
-    <Select name="test-input-name" options={OPTIONS} />
+    <Select
+      onChange={() => {}}
+      inputValue=""
+      value={null}
+      name="test-input-name"
+      options={OPTIONS}
+    />
   );
   expect(container.querySelector('input[type="hidden"]')).toBeTruthy();
 });
@@ -648,13 +662,14 @@ cases(
   }
 );
 
-interface CallsOnChangeOnDeselectOptsProps extends Omit<BasicProps, 'options'> {
+interface CallsOnChangeOnDeselectOptsProps
+  extends Omit<BasicProps, 'options' | 'value'> {
   readonly options: readonly (
     | Option
     | OptionNumberValue
     | OptionBooleanValue
   )[];
-  readonly value?:
+  readonly value:
     | readonly Option[]
     | readonly OptionNumberValue[]
     | readonly OptionBooleanValue[]
@@ -680,7 +695,7 @@ interface CallsOnOnDeselectChangeOpts {
 cases<CallsOnOnDeselectChangeOpts>(
   'calls onChange on de-selecting an option in multi select',
   ({
-    props = { ...BASIC_PROPS },
+    props,
     event: [eventName, eventOptions],
     expectedSelectedOption,
     expectedMetaOption,
@@ -903,9 +918,7 @@ test('clicking when focused does not open select when openMenuOnClick=false', ()
 cases(
   'focus on options > keyboard interaction with Menu',
   ({ props, selectedOption, nextFocusOption, keyEvent = [] }) => {
-    let { container } = render(
-      <Select classNamePrefix="react-select" {...props} />
-    );
+    let { container } = render(<Select {...props} />);
 
     let indexOfSelectedOption = props.options.indexOf(selectedOption);
 
@@ -940,6 +953,7 @@ cases(
     },
     'single select > ArrowDown key on last option should focus first option': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -949,6 +963,7 @@ cases(
     },
     'single select > ArrowUp key on first option should focus last option': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -958,6 +973,7 @@ cases(
     },
     'single select > ArrowUp key on last option should focus second last option': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -967,6 +983,7 @@ cases(
     },
     'single select > disabled options should be focusable': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS_DISABLED,
       },
@@ -976,6 +993,7 @@ cases(
     },
     'single select > PageDown key takes us to next page with default page size of 5': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -985,6 +1003,7 @@ cases(
     },
     'single select > PageDown key takes us to next page with custom pageSize 7': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         pageSize: 7,
         options: OPTIONS,
@@ -995,6 +1014,7 @@ cases(
     },
     'single select > PageDown key takes to the last option is options below is less then page size': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -1004,6 +1024,7 @@ cases(
     },
     'single select > PageUp key takes us to previous page with default page size of 5': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -1013,6 +1034,7 @@ cases(
     },
     'single select > PageUp key takes us to previous page with custom pageSize of 7': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         pageSize: 7,
         options: OPTIONS,
@@ -1023,6 +1045,7 @@ cases(
     },
     'single select > PageUp key takes us to first option - (previous options < pageSize)': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -1032,6 +1055,7 @@ cases(
     },
     'single select > Home key takes up to the first option': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -1041,6 +1065,7 @@ cases(
     },
     'single select > End key takes down to the last option': {
       props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
         options: OPTIONS,
       },
@@ -1050,6 +1075,7 @@ cases(
     },
     'multi select > ArrowDown key on first option should focus second option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1060,6 +1086,7 @@ cases(
     },
     'multi select > ArrowDown key on last option should focus first option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1070,6 +1097,7 @@ cases(
     },
     'multi select > ArrowUp key on first option should focus last option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1080,6 +1108,7 @@ cases(
     },
     'multi select > ArrowUp key on last option should focus second last option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1090,6 +1119,7 @@ cases(
     },
     'multi select > PageDown key takes us to next page with default page size of 5': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1100,6 +1130,7 @@ cases(
     },
     'multi select > PageDown key takes us to next page with custom pageSize of 8': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         pageSize: 8,
@@ -1111,6 +1142,7 @@ cases(
     },
     'multi select > PageDown key takes to the last option is options below is less then page size': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1121,6 +1153,7 @@ cases(
     },
     'multi select > PageUp key takes us to previous page with default page size of 5': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1131,6 +1164,7 @@ cases(
     },
     'multi select > PageUp key takes us to previous page with default page size of 9': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         pageSize: 9,
@@ -1142,6 +1176,7 @@ cases(
     },
     'multi select > PageUp key takes us to first option - previous options < pageSize': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1152,6 +1187,7 @@ cases(
     },
     'multi select > Home key takes up to the first option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1162,6 +1198,7 @@ cases(
     },
     'multi select > End key takes down to the last option': {
       props: {
+        ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
         options: OPTIONS,
@@ -1570,6 +1607,8 @@ test('hitting Enter on option should not call onChange if the event comes from I
       onMenuClose={jest.fn()}
       options={OPTIONS}
       tabSelectsValue={false}
+      inputValue=""
+      value={null}
     />
   );
 
@@ -1595,6 +1634,8 @@ test('hitting tab on option should not call onChange if tabSelectsValue is false
       onMenuClose={jest.fn()}
       options={OPTIONS}
       tabSelectsValue={false}
+      inputValue=""
+      value={null}
     />
   );
 
@@ -1662,6 +1703,8 @@ test('multi select > to not hide the selected options from the menu if hideSelec
       onInputChange={jest.fn()}
       onMenuClose={jest.fn()}
       options={OPTIONS}
+      inputValue=""
+      value={null}
     />
   );
   let firstOption = container.querySelectorAll('.react-select__option')[0];
@@ -2221,6 +2264,9 @@ test('renders a read only input when isSearchable is false', () => {
       classNamePrefix="react-select"
       options={OPTIONS}
       isSearchable={false}
+      onChange={() => {}}
+      inputValue=""
+      value={null}
     />
   );
   let input = container.querySelector<HTMLInputElement>(
@@ -2485,6 +2531,9 @@ test('formatGroupLabel function prop > to format Group label', () => {
       options={options}
       menuIsOpen
       formatGroupLabel={formatGroupLabel}
+      onChange={() => {}}
+      inputValue=""
+      value={null}
     />
   );
   expect(
@@ -2515,6 +2564,8 @@ test('to only render groups with at least one match when filtering', () => {
       options={options}
       menuIsOpen
       inputValue="1"
+      onChange={() => {}}
+      value={null}
     />
   );
 
@@ -2549,6 +2600,8 @@ test('not render any groups when there is not a single match when filtering', ()
       options={options}
       menuIsOpen
       inputValue="5"
+      onChange={() => {}}
+      value={null}
     />
   );
 
