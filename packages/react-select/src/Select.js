@@ -193,6 +193,8 @@ export type Props = {
   noOptionsMessage: ({ inputValue: string }) => Node | null,
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler,
+  /* Whether to clear partial input when the control is blurred */
+  clearInputOnBlur: boolean,
   /* Handle change events on the select */
   onChange: (ValueType, ActionMeta) => void,
   /* Handle focus events on the control */
@@ -270,6 +272,7 @@ export const defaultProps = {
   openMenuOnFocus: false,
   openMenuOnClick: true,
   options: [],
+  clearInputOnBlur: true,
   pageSize: 5,
   placeholder: 'Select...',
   screenReaderStatus: ({ count }: { count: number }) =>
@@ -629,7 +632,9 @@ export default class Select extends Component<Props, State> {
       event: 'input',
       context: { isSearchable, isMulti },
     });
-    this.onInputChange('', { action: 'menu-close' });
+    if (this.props.clearInputOnBlur) {
+      this.onInputChange('', { action: 'menu-close' });
+    }
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
@@ -1292,7 +1297,9 @@ export default class Select extends Component<Props, State> {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
-    this.onInputChange('', { action: 'input-blur' });
+    if (this.props.clearInputOnBlur) {
+      this.onInputChange('', { action: 'input-blur' });
+    }
     this.onMenuClose();
     this.setState({
       focusedValue: null,

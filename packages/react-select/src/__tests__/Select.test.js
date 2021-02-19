@@ -2034,6 +2034,23 @@ test('onInputChange() function prop to be called on blur', () => {
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
 });
 
+test('onInputChange() function prop to not be called on blur when clearInputOnBlur=false', () => {
+  let onInputChangeSpy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      clearInputOnBlur={false}
+      onBlur={jest.fn()}
+      onInputChange={onInputChangeSpy}
+      onMenuClose={jest.fn()}
+    />
+  );
+
+  fireEvent.blur(container.querySelector('.react-select__input input'));
+  // onInputChangeSpy should not be called on blur with clearInputOnBlur={false}
+  expect(onInputChangeSpy).toHaveBeenCalledTimes(0);
+});
+
 test('onMenuClose() function prop to be called on blur', () => {
   let onMenuCloseSpy = jest.fn();
   let { container } = render(
