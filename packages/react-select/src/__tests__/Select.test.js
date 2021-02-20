@@ -629,7 +629,6 @@ cases(
       menuIsOpen: true,
       hideSelectedOptions: false,
       isMulti: true,
-      menuIsOpen: true,
     };
     let { container } = render(<Select {...props} />);
 
@@ -1940,6 +1939,71 @@ cases(
         ...BASIC_PROPS,
         isMulti: true,
         autoFocus: true,
+      },
+    },
+  }
+);
+
+cases(
+  'autoFocusAfterRemoveValue',
+  ({ props }) => {
+    let onChangeSpy = jest.fn();
+
+    let { container } = render(
+      <Select
+        {...BASIC_PROPS}
+        {...props}
+        isMulti
+        onChange={onChangeSpy}
+        value={[OPTIONS[0], OPTIONS[2], OPTIONS[4]]}
+      />
+    );
+
+    // there are 3 values in select
+    expect(
+      container.querySelectorAll('.react-select__multi-value').length
+    ).toBe(3);
+
+    const selectValueElement = [
+      ...container.querySelectorAll('.react-select__multi-value'),
+    ].find(multiValue => multiValue.textContent === '4');
+
+    userEvent.click(
+      selectValueElement.querySelector('div.react-select__multi-value__remove')
+    );
+
+    expect(onChangeSpy).toHaveBeenCalledWith(
+      [
+        { label: '0', value: 'zero' },
+        { label: '2', value: 'two' },
+      ],
+      {
+        action: 'remove-value',
+        removedValue: { label: '4', value: 'four' },
+        name: BASIC_PROPS.name,
+      }
+    );
+
+    if (props === undefined || props.autoFocusAfterRemoveValue) {
+      expect(container.querySelector('.react-select__input input')).toBe(
+        document.activeElement
+      );
+    } else {
+      expect(container.querySelector('.react-select__input input')).not.toBe(
+        document.activeElement
+      );
+    }
+  },
+  {
+    'multi select > should focus select after remove value without autoFocusAfterRemoveValue props': {},
+    'multi select > should focus select after remove value': {
+      props: {
+        autoFocusAfterRemoveValue: true,
+      },
+    },
+    'multi select > shouldn not focus select after remove value': {
+      props: {
+        autoFocusAfterRemoveValue: false,
       },
     },
   }

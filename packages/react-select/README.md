@@ -74,6 +74,7 @@ class App extends React.Component {
 Common props you may want to specify include:
 
 - `autoFocus` - focus the control when it mounts
+- `autoFocusAfterRemoveValue` - focus the control when removed value in multi select
 - `className` - apply a className to the control
 - `classNamePrefix` - apply classNames to inner elements with the given prefix
 - `isDisabled` - disable the control
