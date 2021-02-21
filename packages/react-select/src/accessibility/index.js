@@ -11,6 +11,8 @@ export type FocusedType = 'option' | 'value';
 
 export type GuidanceType = 'menu' | 'input' | 'value';
 
+export type AriaLiveProp = 'polite' | 'off' | 'assertive';
+
 export type OptionContext = {
   // derived label of selected option via getOptionLabel
   // Note: different aria attributes could potentially introduce need for DOM query selectors

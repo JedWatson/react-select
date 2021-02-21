@@ -7,6 +7,7 @@ import LiveRegion from './components/LiveRegion';
 import { createFilter } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
 import {
+  type AriaLiveProp,
   type AriaLiveMessagesProps,
   type AriaSelectionType,
 } from './accessibility/index';
@@ -67,6 +68,9 @@ export type Props = {
   'aria-label'?: string,
   /* HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string,
+  /* Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
+  'aria-live'?: AriaLiveProp,
+  /* Customize the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessagesProps,
   /* Focus the control when it is mounted */
   autoFocus?: boolean,
@@ -237,6 +241,7 @@ export type Props = {
 };
 
 export const defaultProps = {
+  'aria-live': 'polite',
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),

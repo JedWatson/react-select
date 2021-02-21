@@ -53,6 +53,7 @@ const LiveRegion = (props: LiveRegionProps) => {
     tabSelectsValue,
   } = selectProps;
   const ariaLabel = selectProps['aria-label'];
+  const ariaLive = selectProps['aria-live'];
 
   const defaultMessages = useRef(getAriaLiveMessages()).current;
 
@@ -178,8 +179,7 @@ const LiveRegion = (props: LiveRegionProps) => {
 
   return (
     <A11yText
-      role="alert"
-      aria-live="polite"
+      aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
     >
