@@ -159,7 +159,6 @@ exports[`defaults > snapshot 1`] = `
       aria-live="polite"
       aria-relevant="additions text"
       class="emotion-1"
-      role="alert"
     />
     <div
       class=" emotion-2"
