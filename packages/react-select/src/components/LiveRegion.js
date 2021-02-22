@@ -1,9 +1,12 @@
 // @flow
 /** @jsx jsx */
-import React, { type Node, useState, useEffect, useRef } from 'react';
+import React, { type Node, useState, useEffect } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
-import { getAriaLiveMessages, type AriaSelectionType } from '../accessibility';
+import {
+  defaultAriaLiveMessages,
+  type AriaSelectionType,
+} from '../accessibility';
 
 import type { CommonProps, OptionType, OptionsType, ValueType } from '../types';
 
@@ -55,23 +58,21 @@ const LiveRegion = (props: LiveRegionProps) => {
   const ariaLabel = selectProps['aria-label'];
   const ariaLive = selectProps['aria-live'];
 
-  const defaultMessages = useRef(getAriaLiveMessages()).current;
-
   const [ariaSelected, setAriaSelected] = useState('');
   const [ariaFocused, setAriaFocused] = useState('');
   const [ariaResults, setAriaResults] = useState('');
   const [ariaGuidance, setAriaGuidance] = useState('');
-  const [messages, setMessages] = useState(defaultMessages);
+  const [messages, setMessages] = useState(defaultAriaLiveMessages);
 
   // Update aria live message configuration when prop changes
   useEffect(
     function updateAriaLiveMessages() {
       setMessages({
-        ...defaultMessages,
+        ...defaultAriaLiveMessages,
         ...(ariaLiveMessages || {}),
       });
     },
-    [ariaLiveMessages, defaultMessages]
+    [ariaLiveMessages]
   );
 
   // Update aria live selected option when prop changes
