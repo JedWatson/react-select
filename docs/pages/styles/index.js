@@ -88,8 +88,9 @@ export default function Styles() {
         color: state.isSelected ? 'red' : 'blue',
         padding: 20,
       }),
-      control: () => ({
-        // none of react-select's styles are passed to <Control />
+      control: (provided, state) => ({
+      // none of react-select's styles are passed to <Control />
+      ...provided,
         width: 200,
       }),
       singleValue: (provided, state) => {
