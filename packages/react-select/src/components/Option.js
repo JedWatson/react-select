@@ -15,9 +15,9 @@ type State = {
 };
 type InnerProps = {
   id: string,
-  key: string,
-  onClick: MouseEventHandler,
-  onMouseOver: MouseEventHandler,
+  key?: string,
+  onClick?: MouseEventHandler,
+  onMouseOver?: MouseEventHandler,
   tabIndex: number,
 };
 export type OptionProps = PropsWithStyles &

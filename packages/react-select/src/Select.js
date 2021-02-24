@@ -313,6 +313,25 @@ type CategorizedGroup = {
 
 type CategorizedGroupOrOption = CategorizedGroup | CategorizedOption;
 
+type CommonProps = {
+  cx(...args: any): string,
+  clearValue(): void,
+  getStyles(key: string, props: {}): {},
+  getValue(): OptionsType,
+  hasValue: boolean,
+  isMulti: boolean,
+  isRtl: boolean,
+  options: OptionsType,
+  selectOption(newValue: OptionType): void,
+  setValue(
+    newValue: ValueType,
+    action?: ActionTypes,
+    option?: OptionType
+  ): void,
+  selectProps: Props,
+  theme: typeof defaultTheme,
+}
+
 function toCategorizedOption(
   props: Props,
   option: OptionType,
@@ -488,7 +507,7 @@ export default class Select extends Component<Props, State> {
 
   blockOptionHover: boolean = false;
   isComposing: boolean = false;
-  commonProps: any; // TODO
+  commonProps: CommonProps;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
   instancePrefix: string = '';
@@ -929,7 +948,7 @@ export default class Select extends Component<Props, State> {
 
   cx = (...args: any) => classNames(this.props.classNamePrefix, ...args);
 
-  getCommonProps() {
+  getCommonProps(): $Exact<CommonProps> {
     const {
       clearValue,
       cx,

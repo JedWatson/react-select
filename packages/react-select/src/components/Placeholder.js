@@ -8,7 +8,7 @@ export type PlaceholderProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** props passed to the wrapping element for the group. */
-  innerProps: { [string]: any },
+  innerProps?: {},
 };
 
 export const placeholderCSS = ({

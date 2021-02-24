@@ -8,9 +8,9 @@ import type { CommonProps } from '../types';
 export type MultiValueProps = CommonProps & {
   children: Node,
   components: any,
-  cropWithEllipsis: boolean,
+  cropWithEllipsis?: boolean,
   data: any,
-  innerProps: any,
+  innerProps?: {},
   isFocused: boolean,
   isDisabled: boolean,
   removeProps: {

@@ -209,9 +209,9 @@ export function getMenuPlacement({
 
 export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
-  getPortalPlacement: MenuState => void,
+  getPortalPlacement?: MenuState => void,
   /** Props to be passed to the menu wrapper. */
-  innerProps: {},
+  innerProps?: {},
   /** Set the maximum height of the menu. */
   maxMenuHeight: number,
   /** Set whether the menu should be at the top, at the bottom. The auto options sets it to bottom. */
@@ -231,7 +231,7 @@ export type MenuProps = MenuAndPlacerCommon & {
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({}) => Node,
+  children: ({ ref: any, placerProps: any }) => Node,
 };
 
 function alignToControl(placement) {
@@ -351,7 +351,7 @@ export type MenuListProps = {
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
   /** Props to be passed to the menu-list wrapper. */
-  innerProps: {},
+  innerProps?: {},
 };
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
@@ -418,7 +418,7 @@ export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
   children: Node,
   /** Props to be passed on to the wrapper. */
-  innerProps: {},
+  innerProps?: {},
 };
 
 export const NoOptionsMessage = (props: NoticeProps) => {
@@ -473,7 +473,7 @@ export type MenuPortalProps = CommonProps & {
   appendTo: HTMLElement,
   children: Node, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
-  innerProps: {},
+  innerProps?: {},
   menuPlacement: MenuPlacement,
   menuPosition: MenuPosition,
 };

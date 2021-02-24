@@ -44,9 +44,9 @@ export const DownChevron = (props: any) => (
 
 export type IndicatorProps = CommonProps & {
   /** The children to be rendered inside the indicator. */
-  children: Node,
+  children?: Node,
   /** Props that will be passed on to the children. */
-  innerProps: any,
+  innerProps?: {},
   /** The focused state of the select. */
   isFocused: boolean,
   /** Whether the text is right to left */
@@ -202,7 +202,7 @@ export type LoadingIconProps = {
   isRtl: boolean,
 } & CommonProps & {
     /** Set size of the container. */
-    size: number,
+    size?: number,
   };
 export const LoadingIndicator = (props: LoadingIconProps) => {
   const { className, cx, getStyles, innerProps, isRtl } = props;

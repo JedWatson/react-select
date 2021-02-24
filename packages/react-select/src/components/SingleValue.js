@@ -13,7 +13,7 @@ type ValueProps = {
   /* The data of the selected option rendered in the Single Value component. */
   data: any,
   /** Props passed to the wrapping element for the group. */
-  innerProps: any,
+  innerProps?: {},
 };
 export type SingleValueProps = CommonProps & ValueProps & State;
 
