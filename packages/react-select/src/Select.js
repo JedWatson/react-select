@@ -330,7 +330,7 @@ type CommonProps = {
   ): void,
   selectProps: Props,
   theme: typeof defaultTheme,
-}
+};
 
 function toCategorizedOption(
   props: Props,
