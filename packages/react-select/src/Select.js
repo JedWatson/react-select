@@ -1802,9 +1802,7 @@ export default class Select extends Component<Props, State> {
       selectValue,
     } = this.state;
 
-    const { inputValue, menuIsOpen, options } = this.props;
-
-    const focusableOptions = menuIsOpen ? this.getFocusableOptions() : [];
+    const focusableOptions = this.getFocusableOptions();
 
     return (
       <LiveRegion
@@ -1815,9 +1813,6 @@ export default class Select extends Component<Props, State> {
         isFocused={isFocused}
         selectValue={selectValue}
         focusableOptions={focusableOptions}
-        inputValue={inputValue}
-        menuIsOpen={menuIsOpen}
-        options={options}
       />
     );
   }

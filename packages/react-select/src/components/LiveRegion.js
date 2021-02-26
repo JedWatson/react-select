@@ -1,6 +1,6 @@
 // @flow
 /** @jsx jsx */
-import React, { type Node, useState, useEffect } from 'react';
+import React, { type Node, useMemo } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import {
@@ -23,158 +23,128 @@ export type LiveRegionProps = CommonProps & {
   focusedValue: ValueType,
   selectValue?: ValueType,
   focusableOptions: OptionsType,
-
   isFocused: boolean,
-  // StateManager props
-  inputValue: string,
-  menuIsOpen: boolean,
-  options: OptionsType,
 };
 
 const LiveRegion = (props: LiveRegionProps) => {
   const {
-    inputValue,
     ariaSelection,
     focusedOption,
     focusedValue,
     focusableOptions,
     isFocused,
-    menuIsOpen,
     selectValue,
-    options,
     selectProps,
   } = props;
 
   const {
     ariaLiveMessages,
     getOptionLabel,
-    isDisabled,
+    inputValue,
     isMulti,
     isOptionDisabled,
     isSearchable,
+    menuIsOpen,
+    options,
     screenReaderStatus,
     tabSelectsValue,
   } = selectProps;
   const ariaLabel = selectProps['aria-label'];
   const ariaLive = selectProps['aria-live'];
 
-  const [ariaSelected, setAriaSelected] = useState('');
-  const [ariaFocused, setAriaFocused] = useState('');
-  const [ariaResults, setAriaResults] = useState('');
-  const [ariaGuidance, setAriaGuidance] = useState('');
-  const [messages, setMessages] = useState(defaultAriaLiveMessages);
-
   // Update aria live message configuration when prop changes
-  useEffect(
-    function updateAriaLiveMessages() {
-      setMessages({
-        ...defaultAriaLiveMessages,
-        ...(ariaLiveMessages || {}),
-      });
-    },
+  const messages = useMemo(
+    () => ({
+      ...defaultAriaLiveMessages,
+      ...(ariaLiveMessages || {}),
+    }),
     [ariaLiveMessages]
   );
 
   // Update aria live selected option when prop changes
-  useEffect(
-    function onChange() {
-      let message = '';
-      if (ariaSelection && messages.onChange) {
-        const { value, ...context } = ariaSelection;
-        message = messages.onChange(value, { ...context });
-      }
-      setAriaSelected(message);
-    },
-    [ariaSelection, messages]
-  );
+  const ariaSelected = useMemo(() => {
+    let message = '';
+    if (ariaSelection && messages.onChange) {
+      const { value, ...context } = ariaSelection;
+      message = messages.onChange(value, { ...context });
+    }
+    return message;
+  }, [ariaSelection, messages]);
 
-  // Formatting function for newly focused option/value
-  useEffect(
-    function onFocus() {
-      let focusMsg = '';
-      const focused = focusedOption || focusedValue;
-      const isSelected = !!(
-        focusedOption &&
-        selectValue &&
-        selectValue.includes(focusedOption)
-      );
+  const ariaFocused = useMemo(() => {
+    let focusMsg = '';
+    const focused = focusedOption || focusedValue;
+    const isSelected = !!(
+      focusedOption &&
+      selectValue &&
+      selectValue.includes(focusedOption)
+    );
 
-      if (focused && messages.onFocus) {
-        const context = {
-          label: getOptionLabel(focused),
-          isDisabled: isOptionDisabled(focused),
-          isSelected,
-          options,
-          type: focused === focusedOption ? 'option' : 'value',
-          value: selectValue,
-        };
+    if (focused && messages.onFocus) {
+      const context = {
+        label: getOptionLabel(focused),
+        isDisabled: isOptionDisabled(focused),
+        isSelected,
+        options,
+        type: focused === focusedOption ? 'option' : 'value',
+        value: selectValue,
+      };
 
-        focusMsg = messages.onFocus(focused, { ...context });
-      }
-      setAriaFocused(focusMsg);
-    },
-    [
-      focusedOption,
-      focusedValue,
-      getOptionLabel,
-      isOptionDisabled,
-      menuIsOpen,
-      messages,
-      options,
-      selectValue,
-    ]
-  );
+      focusMsg = messages.onFocus(focused, { ...context });
+    }
+    return focusMsg;
+  }, [
+    focusedOption,
+    focusedValue,
+    getOptionLabel,
+    isOptionDisabled,
+    messages,
+    options,
+    selectValue,
+  ]);
 
-  useEffect(
-    function onFilter() {
-      let resultsMsg = '';
-      if (menuIsOpen && options.length && messages.onFilter) {
-        const resultsMessage = screenReaderStatus({
-          count: focusableOptions.length,
-        });
-        resultsMsg = messages.onFilter({ inputValue, resultsMessage });
-      }
-      setAriaResults(resultsMsg);
-    },
-    [
-      focusableOptions,
-      inputValue,
-      menuIsOpen,
-      messages,
-      options,
-      screenReaderStatus,
-    ]
-  );
+  const ariaResults = useMemo(() => {
+    let resultsMsg = '';
+    if (menuIsOpen && options.length && messages.onFilter) {
+      const resultsMessage = screenReaderStatus({
+        count: focusableOptions.length,
+      });
+      resultsMsg = messages.onFilter({ inputValue, resultsMessage });
+    }
+    return resultsMsg;
+  }, [
+    focusableOptions,
+    inputValue,
+    menuIsOpen,
+    messages,
+    options,
+    screenReaderStatus,
+  ]);
 
-  useEffect(
-    function guidance() {
-      let guidanceMsg = '';
-      if (messages.guidance) {
-        const type = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
-        guidanceMsg = messages.guidance(type, {
-          isDisabled: focusedOption && isOptionDisabled(focusedOption),
-          isMulti,
-          isSearchable,
-          label: ariaLabel,
-          tabSelectsValue,
-        });
-      }
-      setAriaGuidance(guidanceMsg);
-    },
-    [
-      ariaLabel,
-      focusedOption,
-      focusedValue,
-      isDisabled,
-      isFocused,
-      isMulti,
-      isOptionDisabled,
-      isSearchable,
-      menuIsOpen,
-      messages,
-      tabSelectsValue,
-    ]
-  );
+  const ariaGuidance = useMemo(() => {
+    let guidanceMsg = '';
+    if (messages.guidance) {
+      const type = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
+      guidanceMsg = messages.guidance(type, {
+        isDisabled: focusedOption && isOptionDisabled(focusedOption),
+        isMulti,
+        isSearchable,
+        label: ariaLabel,
+        tabSelectsValue,
+      });
+    }
+    return guidanceMsg;
+  }, [
+    ariaLabel,
+    focusedOption,
+    focusedValue,
+    isMulti,
+    isOptionDisabled,
+    isSearchable,
+    menuIsOpen,
+    messages,
+    tabSelectsValue,
+  ]);
 
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
