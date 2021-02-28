@@ -1,4 +1,9 @@
-import React, { Component } from 'react';
+import React, {
+  Component,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 
 import {
   ActionMeta,
@@ -9,6 +14,7 @@ import {
   PropsValue,
 } from './types';
 import Select, { BaseSelectProps } from './Select';
+import useStateManager, { StateManagedProps } from './useStateManager';
 
 type BaseComponentProps<
   Option extends OptionBase,
@@ -128,6 +134,7 @@ export const defaultProps = {
 //   ? typeof SelectComponentType
 //   : typeof CreatableComponentType;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const manageState = (SelectComponent: typeof BaseComponent) =>
   class StateManager<
     Option extends OptionBase,
@@ -228,4 +235,33 @@ const manageState = (SelectComponent: typeof BaseComponent) =>
     }
   };
 
-export default manageState;
+// export default manageState;
+
+type StateManagedSelect = <
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+>(
+  props: StateManagedProps<Option, IsMulti, Group> &
+    RefAttributes<Select<Option, IsMulti, Group>>
+) => ReactElement;
+
+const StateManagedSelect = React.forwardRef(
+  <
+    Option extends OptionBase,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  >(
+    props: StateManagedProps<Option, IsMulti, Group>,
+    ref:
+      | ((instance: Select<Option, IsMulti, Group> | null) => void)
+      | MutableRefObject<Select<Option, IsMulti, Group> | null>
+      | null
+  ) => {
+    const baseSelectProps = useStateManager(props);
+
+    return <Select ref={ref} {...baseSelectProps} />;
+  }
+) as StateManagedSelect;
+
+export default StateManagedSelect;

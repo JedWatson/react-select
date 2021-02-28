@@ -108,7 +108,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <div id={`cypress-${idSuffix}-grouped`}>
           <SelectComp
             id={`grouped-options-${idSuffix}`}
-            instancePrefix={`grouped-options-${idSuffix}`}
             classNamePrefix="react-select"
             defaultValue={colourOptions[1]}
             options={groupedOptions}
@@ -119,7 +118,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
         <div id={`cypress-${idSuffix}-clearable`}>
           <SelectComp
             id={`clearable-select-${idSuffix}`}
-            instancePrefix={`clearable-select-${idSuffix}`}
             isClearable
             escapeClearsValue={this.state.escapeClearsValue}
             classNamePrefix="react-select"

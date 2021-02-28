@@ -1,13 +1,18 @@
-import SelectBase from './Select';
-import manageState from './stateManager';
+import Select from './Select';
+import { GroupBase, OptionBase } from './types';
 
-export default manageState(SelectBase);
-
+export { default } from './stateManager';
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
 export { defaultTheme } from './theme';
 export { createFilter } from './filters';
 export { components } from './components';
+export type SelectInstance<
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = Select<Option, IsMulti, Group>;
+export { StateManagedProps as Props } from './useStateManager';
 
 export {
   ContainerProps,

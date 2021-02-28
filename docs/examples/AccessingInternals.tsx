@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Select from 'react-select';
+import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
@@ -21,9 +21,9 @@ const promiseOptions = (inputValue: string) =>
   });
 
 export default class AccessingInternals extends Component {
-  selectRef?: Select<ColourOption, false> | null;
-  asyncRef?: AsyncSelect<ColourOption> | null;
-  creatableRef?: CreatableSelect<ColourOption> | null;
+  selectRef?: SelectInstance<ColourOption> | null;
+  asyncRef?: SelectInstance<ColourOption> | null;
+  creatableRef?: SelectInstance<ColourOption> | null;
   focus = () => {
     console.log(this.selectRef);
     this.selectRef!.focus();
@@ -43,7 +43,7 @@ export default class AccessingInternals extends Component {
     this.creatableRef!.blur();
   };
   blur = () => this.selectRef!.blur();
-  onSelectRef = (ref: Select<ColourOption, false>) => {
+  onSelectRef = (ref: SelectInstance<ColourOption>) => {
     console.log(ref);
     this.selectRef = ref;
   };

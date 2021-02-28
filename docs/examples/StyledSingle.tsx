@@ -56,7 +56,6 @@ const colourStyles: StylesConfig<ColourOption, false> = {
 export default () => (
   <Select
     defaultValue={colourOptions[2]}
-    label="Single select"
     options={colourOptions}
     styles={colourStyles}
   />

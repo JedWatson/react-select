@@ -27,6 +27,8 @@ import {
   ValueType,
   OptionTypeBase,
   SetValueAction,
+  OptionBase,
+  GroupBase,
 } from './types';
 
 export type MouseOrTouchEvent =
@@ -42,7 +44,7 @@ export interface FormatOptionLabelMeta<
   selectValue: ValueType<OptionType, IsMulti>;
 }
 
-export interface BaseSelectProps<
+interface Props<
   OptionType extends OptionTypeBase = { label: string; value: string },
   IsMulti extends boolean = false,
   GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
@@ -209,7 +211,7 @@ export interface BaseSelectProps<
   value: readonly OptionType[] | OptionType | null;
 }
 
-export const defaultProps: BaseSelectProps<any>;
+export const defaultProps: Props<any>;
 
 export interface MenuOptions<OptionType extends OptionTypeBase> {
   render: OptionType[];
@@ -235,7 +237,7 @@ export default class Select<
   IsMulti extends boolean = false,
   GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
 > extends React.Component<
-  BaseSelectProps<OptionType, IsMulti, GroupType>,
+  Props<OptionType, IsMulti, GroupType>,
   State<OptionType>
 > {
   // Misc. Instance Properties
@@ -328,7 +330,7 @@ export default class Select<
     selectProps: Readonly<{
       children?: React.ReactNode;
     }> &
-      Readonly<BaseSelectProps<OptionType, IsMulti, GroupType>>;
+      Readonly<Props<OptionType, IsMulti, GroupType>>;
   };
 
   getNextFocusedValue(nextSelectValue: OptionsType<OptionType>): OptionType;
@@ -425,7 +427,7 @@ export default class Select<
   // ==============================
 
   buildMenuOptions(
-    props: BaseSelectProps<OptionType, IsMulti, GroupType>,
+    props: Props<OptionType, IsMulti, GroupType>,
     selectValue: OptionsType<OptionType>
   ): MenuOptions<OptionType>;
 
@@ -449,3 +451,9 @@ export default class Select<
 
   renderLiveRegion(): React.ReactNode;
 }
+
+export type BaseSelectProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = JSX.LibraryManagedAttributes<typeof Select, Props<Option, IsMulti, Group>>;

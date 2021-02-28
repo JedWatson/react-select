@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Select from 'react-select';
+import Select, { SelectInstance } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 import { Note } from '../styled-components';
 
@@ -16,7 +16,7 @@ export default class controlledMenu extends Component<{}, State> {
   state: State = {
     menuIsOpen: false,
   };
-  select?: Select<ColourOption> | null;
+  select?: SelectInstance<ColourOption> | null;
   toggleMenuIsOpen = () => {
     this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
     if (this.select) {
