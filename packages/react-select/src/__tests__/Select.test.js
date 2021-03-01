@@ -1972,8 +1972,8 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
   const ariaLiveMessages = {
-    onChange: (value, context) => {
-      const { action, isDisabled, label } = context;
+    onChange: props => {
+      const { action, isDisabled, label } = props;
       if (action === 'select-option' && !isDisabled) {
         return `CUSTOM: option ${label} is selected.`;
       }

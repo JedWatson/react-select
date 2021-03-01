@@ -7,66 +7,85 @@ import {
   type ValueType,
 } from '../types';
 
-export type FocusedType = 'option' | 'value';
+export type OptionContextType = 'menu' | 'value';
 
-export type GuidanceType = 'menu' | 'input' | 'value';
+export type GuidanceContextType = 'menu' | 'input' | 'value';
 
 export type AriaLiveProp = 'polite' | 'off' | 'assertive';
 
-export type OptionContext = {
-  // derived label of selected option via getOptionLabel
-  // Note: different aria attributes could potentially introduce need for DOM query selectors
-  label?: string,
-  // selected option was disabled, used only for accessibility purposes
-  isDisabled?: boolean,
-  // option is selected
-  isSelected?: boolean,
-};
-
-export type SelectionContext = ActionMeta &
-  OptionContext & {
-    // selected "thing" (option, removedValue, value)
-    selected?: OptionType | null,
-  };
-
-export type FocusedContext = OptionContext & {
-  type: FocusedType,
-  options: OptionsType,
+export type AriaSelectionType = ActionMeta & {
   value?: ValueType,
 };
 
-export type GuidanceContext = OptionContext & {
+export type AriaGuidanceProps = {
+  // String value of selectProp aria-label
+  'aria-label'?: string,
+  // String indicating user's current context and availabile keyboard interactivity
+  context: GuidanceContextType,
+  // Boolean value of selectProp isSearchable
   isSearchable?: boolean,
+  // Boolean value of selectProp isMulti
   isMulti?: boolean,
+  // Boolean value of selectProp isDisabled
   isDisabled?: boolean,
+  // Boolean value of selectProp tabSelectsValue
   tabSelectsValue?: boolean,
 };
 
-export type AriaSelectionType = SelectionContext & {
-  // first parameter passed in onChange
-  value?: ValueType,
+export type AriaOnChangeProps = ActionMeta & {
+  // selected option(s) of the Select
+  selectValue?: ValueType,
+  // String derived label from selected or removed option/value
+  label?: string,
+  // Boolean indicating if the selected menu option is disabled
+  isDisabled?: boolean,
+};
+
+export type AriaOnFilterProps = {
+  // String indicating current inputValue of the input
+  inputValue: string,
+  // String dervied from selectProp screenReaderStatus
+  resultsMessage: string,
+};
+
+export type AriaOnFocusProps = {
+  // String indicating whether the option was focused in the menu or as (multi-) value
+  context: OptionContextType,
+  // Option that is being focused
+  focused: OptionType,
+  // Boolean indicating whether focused menu option has been disabled
+  isDisabled?: boolean,
+  // Boolean indicating whether focused menu option is an already selcted option
+  isSelected?: boolean,
+  // String derived label from focused option/value
+  label?: string,
+  // Options provided as props to Select used to determine indexing
+  options?: OptionsType,
+  // selected option(s) of the Select
+  selectValue?: ValueType,
 };
 
 export type AriaLiveMessagesProps = {
-  onChange?: (value: ValueType, context: SelectionContext) => string,
-  onFocus?: (focused: OptionType, context: FocusedContext) => string,
-  onFilter?: (args: {
-    inputValue: string,
-    screenReaderMessage: string,
-  }) => string,
-  guidance?: (type: GuidanceType, context?: GuidanceContext) => string,
+  // Guidance message used to convey component state and specific keyboard interactivity
+  guidance?: (tprops: AriaGuidanceProps) => string,
+  // OnChange message used to convey changes to value but also called when user selects disabled option
+  onChange?: (props: AriaOnChangeProps) => string,
+  // OnFilter message used to convey information about filtered results displayed in the menu
+  onFilter?: (props: AriaOnFilterProps) => string,
+  // OnFocus message used to convey information about the currently focused option or value
+  onFocus?: (props: AriaOnFocusProps) => string,
 };
 
 export const defaultAriaLiveMessages = {
-  guidance: (type: GuidanceType, context?: GuidanceContext = {}) => {
+  guidance: (props: AriaGuidanceProps) => {
     const {
       isSearchable,
       isMulti,
-      label,
       isDisabled,
       tabSelectsValue,
-    } = context;
-    switch (type) {
+      context,
+    } = props;
+    switch (context) {
       case 'menu':
         return `Use Up and Down to choose options${
           isDisabled
@@ -78,7 +97,7 @@ export const defaultAriaLiveMessages = {
             : ''
         }.`;
       case 'input':
-        return `${label || 'Select'} is focused ${
+        return `${props['aria-label'] || 'Select'} is focused ${
           isSearchable ? ',type to refine list' : ''
         }, press Down to open the menu, ${
           isMulti ? ' press left to focus selected values' : ''
@@ -90,9 +109,8 @@ export const defaultAriaLiveMessages = {
     }
   },
 
-  onChange: (value: ValueType, context: SelectionContext) => {
-    const { action, label, isDisabled } = context;
-    if (!label) return '';
+  onChange: (props: AriaOnChangeProps) => {
+    const { action, label = '', isDisabled } = props;
     switch (action) {
       case 'deselect-option':
       case 'pop-value':
@@ -107,30 +125,36 @@ export const defaultAriaLiveMessages = {
     }
   },
 
-  onFocus: (focused: OptionType, context: FocusedContext) => {
-    const { type, value, options, label = '', isSelected } = context;
-    const getIndexOf = (arr, item) =>
+  onFocus: (props: AriaOnFocusProps) => {
+    const {
+      context,
+      focused = {},
+      options,
+      label = '',
+      selectValue,
+      isDisabled,
+      isSelected,
+    } = props;
+
+    const getArrayIndex = (arr, item) =>
       arr && arr.length ? `${arr.indexOf(item) + 1} of ${arr.length}` : '';
 
-    if (type === 'value' && value) {
-      return `value ${label} focused, ${getIndexOf(value, focused)}.`;
+    if (context === 'value' && selectValue) {
+      return `value ${label} focused, ${getArrayIndex(selectValue, focused)}.`;
     }
 
-    if (type === 'option') {
-      const disabled = focused.isDisabled ? ' disabled' : '';
+    if (context === 'menu') {
+      const disabled = isDisabled ? ' disabled' : '';
       const status = `${isSelected ? 'selected' : 'focused'}${disabled}`;
-
-      return `option ${label} ${status}, ${getIndexOf(options, focused)}.`;
+      return `option ${label} ${status}, ${getArrayIndex(options, focused)}.`;
     }
     return '';
   },
 
-  onFilter: ({
-    inputValue,
-    resultsMessage,
-  }: {
-    inputValue: string,
-    resultsMessage: string,
-  }) =>
-    `${resultsMessage}${inputValue ? ' for search term ' + inputValue : ''}.`,
+  onFilter: (props: AriaOnFilterProps) => {
+    const { inputValue, resultsMessage } = props;
+    return `${resultsMessage}${
+      inputValue ? ' for search term ' + inputValue : ''
+    }.`;
+  },
 };

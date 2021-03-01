@@ -131,7 +131,12 @@ export type Props = {
   formatGroupLabel: typeof formatGroupLabelBuiltin,
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
-  /* Resolves option data to a string to be displayed as the label by components */
+  /*
+    Resolves option data to a string to be displayed as the label by components
+
+    Note: Failure to resolve to a string type can interfere with filtering and
+    screen reader support.
+  */
   getOptionLabel: typeof getOptionLabelBuiltin,
   /* Resolves option data to a string to compare options and specify value attributes */
   getOptionValue: typeof getOptionValueBuiltin,
@@ -747,10 +752,10 @@ export default class Select extends Component<Props, State> {
   }
   onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
     const { onChange, name } = this.props;
-    const context = { ...actionMeta, name };
+    actionMeta.name = name;
 
-    this.ariaOnChange(newValue, context);
-    onChange(newValue, context);
+    this.ariaOnChange(newValue, actionMeta);
+    onChange(newValue, actionMeta);
   };
   setValue = (
     newValue: ValueType,
@@ -788,12 +793,7 @@ export default class Select extends Component<Props, State> {
         this.setValue(newValue, 'select-option');
       }
     } else {
-      this.ariaOnChange(selectValue, {
-        action: 'select-option',
-        option: newValue,
-        name,
-        isDisabled,
-      });
+      this.ariaOnChange(newValue, { action: 'select-option', name });
       return;
     }
 
@@ -919,14 +919,7 @@ export default class Select extends Component<Props, State> {
   // ==============================
 
   ariaOnChange = (value: ValueType, actionMeta: ActionMeta) => {
-    const { option, removedValue } = actionMeta;
-    const asOption = val => (!Array.isArray(val) ? val : null);
-    const selected = removedValue || option || asOption(value);
-
-    const label = selected ? this.getOptionLabel(selected) : '';
-    const ariaSelection = { value, selected, label, ...actionMeta };
-
-    this.setState({ ariaSelection });
+    this.setState({ ariaSelection: { value, ...actionMeta } });
   };
 
   hasValue() {

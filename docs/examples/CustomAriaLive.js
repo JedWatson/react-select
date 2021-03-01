@@ -21,7 +21,7 @@ export default function CustomAriaLive() {
     },
   };
 
-  const onFocus = (focused, { isDisabled }) => {
+  const onFocus = ({ focused, isDisabled }) => {
     const msg = `You are currently focused on option ${focused.label}${
       isDisabled ? ', disabled' : ''
     }`;

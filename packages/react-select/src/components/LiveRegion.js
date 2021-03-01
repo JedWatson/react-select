@@ -65,11 +65,21 @@ const LiveRegion = (props: LiveRegionProps) => {
   const ariaSelected = useMemo(() => {
     let message = '';
     if (ariaSelection && messages.onChange) {
-      const { value, ...context } = ariaSelection;
-      message = messages.onChange(value, { ...context });
+      const { option, removedValue, value } = ariaSelection;
+      // select-option when !isMulti does not return option so we assume selected option is value
+      const asOption = val => (!Array.isArray(val) ? val : null);
+      const selected = removedValue || option || asOption(value);
+
+      const onChangeProps = {
+        isDisabled: selected && isOptionDisabled(selected),
+        label: selected ? getOptionLabel(selected) : '',
+        ...ariaSelection,
+      };
+
+      message = messages.onChange(onChangeProps);
     }
     return message;
-  }, [ariaSelection, messages]);
+  }, [ariaSelection, isOptionDisabled, getOptionLabel, messages]);
 
   const ariaFocused = useMemo(() => {
     let focusMsg = '';
@@ -81,16 +91,17 @@ const LiveRegion = (props: LiveRegionProps) => {
     );
 
     if (focused && messages.onFocus) {
-      const context = {
+      const onFocusProps = {
+        focused,
         label: getOptionLabel(focused),
         isDisabled: isOptionDisabled(focused),
         isSelected,
         options,
-        type: focused === focusedOption ? 'option' : 'value',
-        value: selectValue,
+        context: focused === focusedOption ? 'menu' : 'value',
+        selectValue,
       };
 
-      focusMsg = messages.onFocus(focused, { ...context });
+      focusMsg = messages.onFocus(onFocusProps);
     }
     return focusMsg;
   }, [
@@ -124,12 +135,13 @@ const LiveRegion = (props: LiveRegionProps) => {
   const ariaGuidance = useMemo(() => {
     let guidanceMsg = '';
     if (messages.guidance) {
-      const type = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
-      guidanceMsg = messages.guidance(type, {
+      const context = focusedValue ? 'value' : menuIsOpen ? 'menu' : 'input';
+      guidanceMsg = messages.guidance({
+        'aria-label': ariaLabel,
+        context,
         isDisabled: focusedOption && isOptionDisabled(focusedOption),
         isMulti,
         isSearchable,
-        label: ariaLabel,
         tabSelectsValue,
       });
     }
