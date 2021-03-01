@@ -67,7 +67,7 @@ export type AriaOnFocusProps = {
 
 export type AriaLiveMessagesProps = {
   // Guidance message used to convey component state and specific keyboard interactivity
-  guidance?: (tprops: AriaGuidanceProps) => string,
+  guidance?: (props: AriaGuidanceProps) => string,
   // OnChange message used to convey changes to value but also called when user selects disabled option
   onChange?: (props: AriaOnChangeProps) => string,
   // OnFilter message used to convey information about filtered results displayed in the menu
