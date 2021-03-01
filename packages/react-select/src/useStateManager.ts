@@ -50,23 +50,21 @@ export default function useStateManager<
     defaultInputValue = '',
     defaultMenuIsOpen = false,
     defaultValue = null,
-    inputValue: propsInputValue,
-    menuIsOpen: propsMenuIsOpen,
-    value: propsValue,
     onChange: propsOnChange,
     onInputChange: propsOnInputChange,
     onMenuOpen: propsOnMenuOpen,
     onMenuClose: propsOnMenuClose,
   } = props;
   const [stateInputValue, setStateInputValue] = useState(
-    propsInputValue !== undefined ? propsInputValue : defaultInputValue
+    props.inputValue !== undefined ? props.inputValue : defaultInputValue
   );
   const [stateMenuIsOpen, setStateMenuIsOpen] = useState(
-    propsMenuIsOpen !== undefined ? propsMenuIsOpen : defaultMenuIsOpen
+    props.menuIsOpen !== undefined ? props.menuIsOpen : defaultMenuIsOpen
   );
   const [stateValue, setStateValue] = useState(
-    propsValue !== undefined ? propsValue : defaultValue
+    props.value !== undefined ? props.value : defaultValue
   );
+
   const onChange = useCallback(
     (
       newValue: OnChangeValue<Option, IsMulti>,
@@ -100,6 +98,7 @@ export default function useStateManager<
     }
     setStateMenuIsOpen(false);
   }, [propsOnMenuClose]);
+
   const inputValue =
     props.inputValue !== undefined ? props.inputValue : stateInputValue;
   const menuIsOpen =
