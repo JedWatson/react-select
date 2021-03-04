@@ -1,14 +1,14 @@
 // @flow
 /** @jsx jsx */
 import { type Node } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
 type State = {
-  /** Wether the option is disabled. */
+  /** Whether the option is disabled. */
   isDisabled: boolean,
-  /** Wether the option is focused. */
+  /** Whether the option is focused. */
   isFocused: boolean,
   /** Whether the option is selected. */
   isSelected: boolean,
@@ -31,8 +31,8 @@ export type OptionProps = PropsWithStyles &
     innerProps: InnerProps,
     /* Text to be displayed representing the option. */
     label: string,
-    /* Type is used by the menu to determine whether this is an option or a group.
-    In the case of option this is always `option`. */
+    /** Type is used by the menu to determine whether this is an option or a group.
+    In the case of option this is always `option`. **/
     type: 'option',
     /* The data of the selected option. */
     data: any,
