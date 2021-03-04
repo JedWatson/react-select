@@ -2,7 +2,7 @@ version: 2
 
 docker_defaults: &docker_defaults
     docker:
-        - image: cypress/base:8
+        - image: cypress/browsers:node12.18.0-chrome83-ff77
           environment:
               TERM: xterm
     working_directory: ~/project/repo
@@ -17,9 +17,10 @@ install_steps: &install_steps
         - restore_cache:
               name: Restore node_modules cache
               keys:
-                  - dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
+                  - dependency-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
                   - dependency-cache-{{ .Branch }}-
                   - dependency-cache-
+                  - cache-{{ checksum "package.json" }}
         - run:
               name: Installing Dependencies
               command: |
@@ -28,7 +29,7 @@ install_steps: &install_steps
               name: Save node_modules cache
               key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
               paths:
-                  - node_modules/
+                  - ~/.cache
         - persist_to_workspace:
               root: ~/project
               paths:
@@ -56,6 +57,7 @@ jobs:
             - run:
                   name: Running unit tests
                   command: |
+                      yarn prettier:check
                       yarn lint
                       yarn flow check --flowconfig-name=.flowconfig-ci
                       yarn test:jest
@@ -67,4 +69,7 @@ jobs:
             - run:
                   name: Running E2E tests
                   command: |
+                      yarn global add cypress
+                      yarn install --silent
+                      yarn cypress install
                       yarn e2e

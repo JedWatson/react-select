@@ -25,9 +25,6 @@ export type AsyncProps = {
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
   loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
-  /* If cacheOptions is truthy, then the loaded data will be cached. The cache
-     will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
   /* Same behaviour as for Select */
   onInputChange?: (string, InputActionMeta) => void,
   /* Same behaviour as for Select */
@@ -53,6 +50,9 @@ type State = {
   loadedInputValue?: string,
   loadedOptions: OptionsType,
   passEmptyOptions: boolean,
+  optionsCache: { [string]: OptionsType },
+  prevDefaultOptions: OptionsType | boolean | void,
+  prevCacheOptions: any | void,
 };
 
 export const makeAsyncSelect = <C: {}>(
@@ -63,7 +63,6 @@ export const makeAsyncSelect = <C: {}>(
     select: ElementRef<*>;
     lastRequest: {};
     mounted: boolean = false;
-    optionsCache: { [string]: OptionsType } = {};
     constructor(props: C & AsyncProps) {
       super();
       this.state = {
@@ -75,6 +74,31 @@ export const makeAsyncSelect = <C: {}>(
         isLoading: props.defaultOptions === true,
         loadedOptions: [],
         passEmptyOptions: false,
+        optionsCache: {},
+        prevDefaultOptions: undefined,
+        prevCacheOptions: undefined,
+      };
+    }
+    static getDerivedStateFromProps(props: C & AsyncProps, state: State) {
+      const newCacheOptionsState =
+        props.cacheOptions !== state.prevCacheOptions
+          ? {
+              prevCacheOptions: props.cacheOptions,
+              optionsCache: {},
+            }
+          : {};
+      const newDefaultOptionsState =
+        props.defaultOptions !== state.prevDefaultOptions
+          ? {
+              prevDefaultOptions: props.defaultOptions,
+              defaultOptions: Array.isArray(props.defaultOptions)
+                ? props.defaultOptions
+                : undefined,
+            }
+          : {};
+      return {
+        ...newCacheOptionsState,
+        ...newDefaultOptionsState,
       };
     }
     componentDidMount() {
@@ -86,19 +110,6 @@ export const makeAsyncSelect = <C: {}>(
           if (!this.mounted) return;
           const isLoading = !!this.lastRequest;
           this.setState({ defaultOptions: options || [], isLoading });
-        });
-      }
-    }
-    UNSAFE_componentWillReceiveProps(nextProps: C & AsyncProps) {
-      // if the cacheOptions prop changes, clear the cache
-      if (nextProps.cacheOptions !== this.props.cacheOptions) {
-        this.optionsCache = {};
-      }
-      if (nextProps.defaultOptions !== this.props.defaultOptions) {
-        this.setState({
-          defaultOptions: Array.isArray(nextProps.defaultOptions)
-            ? nextProps.defaultOptions
-            : undefined,
         });
       }
     }
@@ -134,11 +145,11 @@ export const makeAsyncSelect = <C: {}>(
         });
         return;
       }
-      if (cacheOptions && this.optionsCache[inputValue]) {
+      if (cacheOptions && this.state.optionsCache[inputValue]) {
         this.setState({
           inputValue,
           loadedInputValue: inputValue,
-          loadedOptions: this.optionsCache[inputValue],
+          loadedOptions: this.state.optionsCache[inputValue],
           isLoading: false,
           passEmptyOptions: false,
         });
@@ -153,17 +164,17 @@ export const makeAsyncSelect = <C: {}>(
           () => {
             this.loadOptions(inputValue, options => {
               if (!this.mounted) return;
-              if (options) {
-                this.optionsCache[inputValue] = options;
-              }
               if (request !== this.lastRequest) return;
               delete this.lastRequest;
-              this.setState({
+              this.setState(state => ({
                 isLoading: false,
                 loadedInputValue: inputValue,
                 loadedOptions: options || [],
                 passEmptyOptions: false,
-              });
+                optionsCache: options
+                  ? { ...state.optionsCache, [inputValue]: options }
+                  : state.optionsCache,
+              }));
             });
           }
         );

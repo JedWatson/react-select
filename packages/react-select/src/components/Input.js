@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { type ElementRef } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import AutosizeInput from 'react-input-autosize';
 
 import type { PropsWithStyles, ClassNamesState } from '../types';
@@ -15,6 +15,8 @@ export type InputProps = PropsWithStyles & {
   /** Whether the input is disabled */
   isDisabled?: boolean,
   className?: string,
+  /** The ID of the form that the input belongs to */
+  form?: string,
 };
 
 export const inputCSS = ({

@@ -8,7 +8,7 @@ import { Fade } from './transitions';
 
 const AnimatedSingleValue = (
   WrappedComponent: AbstractComponent<SingleValueProps>
-): AbstractComponent<SingleValueProps> => (props) => (
+): AbstractComponent<SingleValueProps> => props => (
   <Fade component={WrappedComponent} {...props} />
 );
 

@@ -36,7 +36,7 @@ yarn add react-select
 ```
 
 Then use it in your app:
-
+#### With React Component
 ```js
 import React from 'react';
 import Select from 'react-select';
@@ -68,6 +68,32 @@ class App extends React.Component {
       />
     );
   }
+}
+```
+
+#### With React Hooks
+```js
+import React, { useState } from "react";
+import Select from "react-select";
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
+export default function App() {
+  const [selectedOption, setSelectedOption] = useState(null);
+  
+  return (
+    <div className="App">
+      <Select
+        defaultValue={selectedOption}
+        onChange={setSelectedOption}
+        options={options}
+      />
+    </div>
+  );
 }
 ```
 
@@ -126,10 +152,10 @@ Check the docs for more information on:
 
 Thank you to everyone who has contributed to this project. It's been a wild ride.
 
-If you like React Select, you should [follow me on twitter](https://twitter.com/jedwatson)
+If you like React Select, you should [follow me on twitter](https://twitter.com/jedwatson)!
 
-Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://github.com/gwyneplaine), [Ben Conolly](https://github.com/Noviny), [Dave Brotherstone](https://github.com/bruderstein), [Brian Vaughn](https://github.com/bvaughn), and the Atlassian Design System team ❤️
+Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://github.com/gwyneplaine), [Ben Conolly](https://github.com/Noviny), [Tom Walker](https://github.com/bladey), [Nathan Bierema](https://github.com/Methuselah96), [Eric Bonow](https://github.com/ebonow), [Mitchell Hamilton](https://github.com/mitchellhamilton), [Dave Brotherstone](https://github.com/bruderstein), [Brian Vaughn](https://github.com/bvaughn), and the [Atlassian Design System](https://atlassian.design) team who along with many other contributors have made this possible ❤️
 
 ## License
 
-MIT Licensed. Copyright (c) Jed Watson 2019.
+MIT Licensed. Copyright (c) Jed Watson 2021.
