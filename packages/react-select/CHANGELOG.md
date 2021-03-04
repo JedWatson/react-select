@@ -1,5 +1,49 @@
 # react-select
 
+## 4.1.0
+
+### Minor Changes
+
+- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customizable components
+
+- [19b76342](https://github.com/JedWatson/react-select/commit/19b763428d6df254f0b9662f18a698dd3c59d83b) [#3911](https://github.com/JedWatson/react-select/pull/3911) Thanks [@eugenet8k](https://github.com/eugenet8k)! - Add `removedValues` to `onChange` event meta when the action is `clear` (when the user clears the value in the Select)
+
+### Patch Changes
+
+- [f600d13f](https://github.com/JedWatson/react-select/commit/f600d13f5981c9e54e78247fdd82f62555373cff) [#4422](https://github.com/JedWatson/react-select/pull/4422) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix finding focusable options for groups
+
+- [a016c878](https://github.com/JedWatson/react-select/commit/a016c87821d9289ef9c317c0c397d64a0824ce16) [#4420](https://github.com/JedWatson/react-select/pull/4420) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Bump dependency on @babel/runtime in order to fix compatibility issues with Webpack 5
+
+- [10b5f5a5](https://github.com/JedWatson/react-select/commit/10b5f5a5edc93becb6b46f22666305ec8c1b7de3) [#4404](https://github.com/JedWatson/react-select/pull/4404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Remove unnecessary dependency on @emotion/css
+
+## 4.0.2
+
+### Patch Changes
+
+- [44f285b0](https://github.com/JedWatson/react-select/commit/44f285b0d4a50e16713b9aa3746d73d80dee2c91) [#4399](https://github.com/JedWatson/react-select/pull/4399) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fixed building focusable options from groups
+
+## 4.0.1
+
+### Patch Changes
+
+- [645feb3e](https://github.com/JedWatson/react-select/commit/645feb3e34776a5f181b32f603027df5ca709b7d) [#4396](https://github.com/JedWatson/react-select/pull/4396) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fixed keys for options within groups
+
+## 4.0.0
+
+### Major Changes
+
+- [02050675](https://github.com/JedWatson/react-select/commit/020506755728f607a77145e2a00458526596496f) [#4339](https://github.com/JedWatson/react-select/pull/4339) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized value passed to onChange
+
+- [26b6325c](https://github.com/JedWatson/react-select/commit/26b6325c95113591e568451bc2296f98318a8dd9) [#4283](https://github.com/JedWatson/react-select/pull/4283) Thanks [@majgaard](https://github.com/majgaard)! - Upgrades Emotion dependency to v11.0.0
+
+  BREAKING CHANGE: The NonceProvider component now requires a `cacheKey` prop that corresponds to the `key` for the Emotion cache.
+
+- [b2488bb5](https://github.com/JedWatson/react-select/commit/b2488bb561ed08c822bc1a828d2d9fd957f25bdf) [#4313](https://github.com/JedWatson/react-select/pull/4313) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Removed usages of UNSAFE React methods
+
+### Patch Changes
+
+- [2d5496d5](https://github.com/JedWatson/react-select/commit/2d5496d52b6650b57352a0ea0dfcab383567f3ac) [#4388](https://github.com/JedWatson/react-select/pull/4388) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Removed memoization of buildMenuOptions
+
 ## 3.2.0
 
 ### Minor Changes

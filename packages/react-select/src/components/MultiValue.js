@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { type Node } from 'react';
-import { jsx, ClassNames } from '@emotion/core';
+import { jsx, ClassNames } from '@emotion/react';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 
@@ -114,7 +114,6 @@ const MultiValue = (props: MultiValueProps) => {
         <Container
           data={data}
           innerProps={{
-            ...innerProps,
             className: emotionCx(
               css(getStyles('multiValue', props)),
               cx(
@@ -125,6 +124,7 @@ const MultiValue = (props: MultiValueProps) => {
                 className
               )
             ),
+            ...innerProps,
           }}
           selectProps={selectProps}
         >

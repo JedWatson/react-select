@@ -294,3 +294,22 @@ export function isMobileDevice() {
     return false;
   }
 }
+
+// ==============================
+// Passive Event Detector
+// ==============================
+
+// https://github.com/rafgraph/detect-it/blob/main/src/index.ts#L19-L36
+let passiveOptionAccessed = false;
+const options = {
+  get passive() {
+    return (passiveOptionAccessed = true);
+  },
+};
+
+if (document.addEventListener && document.removeEventListener) {
+  document.addEventListener('p', noop, options);
+  document.removeEventListener('p', noop, false);
+}
+
+export const supportsPassiveEvents: boolean = passiveOptionAccessed;

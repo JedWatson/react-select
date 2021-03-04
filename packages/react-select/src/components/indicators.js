@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { type Node } from 'react';
-import { jsx, keyframes } from '@emotion/core';
+import { jsx, keyframes } from '@emotion/react';
 
 import type { CommonProps, Theme } from '../types';
 
@@ -76,7 +76,6 @@ export const DropdownIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
-      {...innerProps}
       css={getStyles('dropdownIndicator', props)}
       className={cx(
         {
@@ -85,6 +84,7 @@ export const DropdownIndicator = (props: IndicatorProps) => {
         },
         className
       )}
+      {...innerProps}
     >
       {children || <DownChevron />}
     </div>
@@ -96,7 +96,6 @@ export const ClearIndicator = (props: IndicatorProps) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
-      {...innerProps}
       css={getStyles('clearIndicator', props)}
       className={cx(
         {
@@ -105,6 +104,7 @@ export const ClearIndicator = (props: IndicatorProps) => {
         },
         className
       )}
+      {...innerProps}
     >
       {children || <CrossIcon />}
     </div>
@@ -209,7 +209,6 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
 
   return (
     <div
-      {...innerProps}
       css={getStyles('loadingIndicator', props)}
       className={cx(
         {
@@ -218,6 +217,7 @@ export const LoadingIndicator = (props: LoadingIconProps) => {
         },
         className
       )}
+      {...innerProps}
     >
       <LoadingDot delay={0} offset={isRtl} />
       <LoadingDot delay={160} offset />
