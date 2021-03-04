@@ -1,5 +1,21 @@
 # react-select
 
+## 4.1.0
+
+### Minor Changes
+
+- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customizable components
+
+- [19b76342](https://github.com/JedWatson/react-select/commit/19b763428d6df254f0b9662f18a698dd3c59d83b) [#3911](https://github.com/JedWatson/react-select/pull/3911) Thanks [@eugenet8k](https://github.com/eugenet8k)! - Add `removedValues` to `onChange` event meta when the action is `clear` (when the user clears the value in the Select)
+
+### Patch Changes
+
+- [f600d13f](https://github.com/JedWatson/react-select/commit/f600d13f5981c9e54e78247fdd82f62555373cff) [#4422](https://github.com/JedWatson/react-select/pull/4422) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix finding focusable options for groups
+
+- [a016c878](https://github.com/JedWatson/react-select/commit/a016c87821d9289ef9c317c0c397d64a0824ce16) [#4420](https://github.com/JedWatson/react-select/pull/4420) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Bump dependency on @babel/runtime in order to fix compatibility issues with Webpack 5
+
+- [10b5f5a5](https://github.com/JedWatson/react-select/commit/10b5f5a5edc93becb6b46f22666305ec8c1b7de3) [#4404](https://github.com/JedWatson/react-select/pull/4404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Remove unnecessary dependency on @emotion/css
+
 ## 4.0.2
 
 ### Patch Changes
