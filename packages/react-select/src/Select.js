@@ -236,7 +236,7 @@ export type Props = {
   /* Theme modifier method */
   theme?: ThemeConfig,
   /* Sets the tabIndex attribute on the input */
-  tabIndex: string,
+  tabIndex: number | string,
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean,
   /* The value of the select; reflected by the selected option */
