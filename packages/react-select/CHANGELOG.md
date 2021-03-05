@@ -1,5 +1,11 @@
 # react-select
 
+## 4.2.1
+
+### Patch Changes
+
+- [ca3c41bb](https://github.com/JedWatson/react-select/commit/ca3c41bb55e2666589bbbb69d1153357191d07a4) [#4478](https://github.com/JedWatson/react-select/pull/4478) Thanks [@ebonow](https://github.com/ebonow)! - Check passive events polyfill for the existence of window for SSR
+
 ## 4.2.0
 
 ### Minor Changes
