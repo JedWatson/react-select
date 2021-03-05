@@ -306,10 +306,11 @@ const options = {
     return (passiveOptionAccessed = true);
   },
 };
-
-if (document.addEventListener && document.removeEventListener) {
-  document.addEventListener('p', noop, options);
-  document.removeEventListener('p', noop, false);
+// check for SSR
+const w = typeof window !== 'undefined' ? window : {};
+if (w.addEventListener && w.removeEventListener) {
+  w.addEventListener('p', noop, options);
+  w.removeEventListener('p', noop, false);
 }
 
 export const supportsPassiveEvents: boolean = passiveOptionAccessed;
