@@ -1,5 +1,27 @@
 # react-select
 
+## 4.2.0
+
+### Minor Changes
+
+- [2ffed9c6](https://github.com/JedWatson/react-select/commit/2ffed9c6c40c9d5b81d7c8faf7bfc995976299ec) [#4444](https://github.com/JedWatson/react-select/pull/4444) Thanks [@Rall3n](https://github.com/Rall3n)! - Use accessor props to get value and label in `compareOption`
+
+- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customizations
+
+- [7cdb8a6b](https://github.com/JedWatson/react-select/commit/7cdb8a6b4d9de89a599b3aee8b6d90a44a931ea6) [#4391](https://github.com/JedWatson/react-select/pull/4391) Thanks [@ebonow](https://github.com/ebonow)! - Pass and sanitize CommonProps passed to Group and Input components
+
+### Patch Changes
+
+- [c955415c](https://github.com/JedWatson/react-select/commit/c955415cd3724489423dd8e84d6dab5ace24c984) [#4437](https://github.com/JedWatson/react-select/pull/4437) Thanks [@ebonow](https://github.com/ebonow)! - Set event listeners to be non-passive to remove Chrome console warnings
+
+- [3ca22b2f](https://github.com/JedWatson/react-select/commit/3ca22b2f49ad4f05f98ec8a565d74c483c0b98aa) [#3827](https://github.com/JedWatson/react-select/pull/3827) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Memoize stripDiacritics in createFilter for the input with memoize-one so that stripDiacritics is not called for the same string as many times as there are options every time the input changes
+
+  Inspired by https://blog.johnnyreilly.com/2019/04/react-select-with-less-typing-lag.html
+
+- [dce3863f](https://github.com/JedWatson/react-select/commit/dce3863ff2ba8dfb50f505d81a2e70cf2d7a97e7) [#4423](https://github.com/JedWatson/react-select/pull/4423) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Remove browser alias fields in order to fix SSR apps
+
+- [ec7c0728](https://github.com/JedWatson/react-select/commit/ec7c0728c5bfe98a81ab557699147ae244f7a073) [#4443](https://github.com/JedWatson/react-select/pull/4443) Thanks [@ebonow](https://github.com/ebonow)! - Allow tabIndex prop Type to be number or string
+
 ## 4.1.0
 
 ### Minor Changes
