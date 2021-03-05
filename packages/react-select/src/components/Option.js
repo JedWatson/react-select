@@ -1,7 +1,7 @@
 // @flow
 /** @jsx jsx */
 import { type Node } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
@@ -31,8 +31,8 @@ export type OptionProps = PropsWithStyles &
     innerProps: InnerProps,
     /* Text to be displayed representing the option. */
     label: string,
-    /* Type is used by the menu to determine whether this is an option or a group.
-    In the case of option this is always `option`. */
+    /** Type is used by the menu to determine whether this is an option or a group.
+    In the case of option this is always `option`. **/
     type: 'option',
     /* The data of the selected option. */
     data: any,

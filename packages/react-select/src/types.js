@@ -64,14 +64,15 @@ export type CommonProps = {
     See the `styles` object for the properties available.
   */
   getStyles: (string, any) => {},
-  theme: Theme,
   getValue: () => ValueType,
   hasValue: boolean,
   isMulti: boolean,
+  isRtl: boolean,
   options: OptionsType,
   selectOption: OptionType => void,
   selectProps: any,
   setValue: (ValueType, ActionTypes) => void,
+  theme: Theme,
 };
 
 export type ActionTypes =
@@ -85,6 +86,9 @@ export type ActionTypes =
 
 export type ActionMeta = {
   action: ActionTypes,
+  option?: OptionType,
+  removedValue?: OptionType,
+  name?: string,
 };
 
 export type InputActionTypes =

@@ -1,20 +1,19 @@
 // @flow
 /** @jsx jsx */
 import { type ElementRef } from 'react';
-import { jsx } from '@emotion/core';
+import { jsx } from '@emotion/react';
 import AutosizeInput from 'react-input-autosize';
 
-import type { PropsWithStyles, ClassNamesState } from '../types';
+import type { CommonProps } from '../types';
+import { cleanCommonProps } from '../utils';
 
-export type InputProps = PropsWithStyles & {
-  cx: (?ClassNamesState, ?string) => string | void,
+export type InputProps = CommonProps & {
   /** Reference to the internal element */
   innerRef: (ElementRef<*>) => void,
   /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean,
   /** Whether the input is disabled */
   isDisabled?: boolean,
-  className?: string,
   /** The ID of the form that the input belongs to */
   form?: string,
 };
@@ -40,26 +39,23 @@ const inputStyle = isHidden => ({
   color: 'inherit',
 });
 
-const Input = ({
-  className,
-  cx,
-  getStyles,
-  innerRef,
-  isHidden,
-  isDisabled,
-  theme,
-  selectProps,
-  ...props
-}: InputProps) => (
-  <div css={getStyles('input', { theme, ...props })}>
-    <AutosizeInput
-      className={cx({ input: true }, className)}
-      inputRef={innerRef}
-      inputStyle={inputStyle(isHidden)}
-      disabled={isDisabled}
-      {...props}
-    />
-  </div>
-);
+const Input = (props: InputProps) => {
+  const { className, cx, getStyles } = props;
+  const { innerRef, isDisabled, isHidden, ...innerProps } = cleanCommonProps(
+    props
+  );
+
+  return (
+    <div css={getStyles('input', props)}>
+      <AutosizeInput
+        className={cx({ input: true }, className)}
+        inputRef={innerRef}
+        inputStyle={inputStyle(isHidden)}
+        disabled={isDisabled}
+        {...innerProps}
+      />
+    </div>
+  );
+};
 
 export default Input;
