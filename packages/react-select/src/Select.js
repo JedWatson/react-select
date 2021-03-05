@@ -611,7 +611,7 @@ export default class Select extends Component<Props, State> {
       this.focusedOptionRef &&
       this.scrollToFocusedOptionOnUpdate
     ) {
-      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+      setTimeout(() => scrollIntoView(this.menuListRef, this.focusedOptionRef), 0);
       this.scrollToFocusedOptionOnUpdate = false;
     }
   }
