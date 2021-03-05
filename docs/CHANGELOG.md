@@ -1,5 +1,22 @@
 # @react-select/docs
 
+## 3.1.0
+
+### Minor Changes
+
+- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customizations
+
+### Patch Changes
+
+- Updated dependencies [2ffed9c6]:
+- Updated dependencies [c955415c]:
+- Updated dependencies [3ca22b2f]:
+- Updated dependencies [dce3863f]:
+- Updated dependencies [2baf5a9d]:
+- Updated dependencies [7cdb8a6b]:
+- Updated dependencies [ec7c0728]:
+  - react-select@undefined
+
 ## 3.0.1
 
 ### Patch Changes
