@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "4.1.0",
+  "version": "4.2.1",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
@@ -59,9 +59,5 @@
       "creatable",
       "async-creatable"
     ]
-  },
-  "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
   }
 }

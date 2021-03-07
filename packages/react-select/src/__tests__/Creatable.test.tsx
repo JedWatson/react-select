@@ -273,3 +273,51 @@ cases<Opts>(
     },
   }
 );
+
+const CUSTOM_OPTIONS = [
+  { key: 'testa', title: 'Test A' },
+  { key: 'testb', title: 'Test B' },
+  { key: 'testc', title: 'Test C' },
+  { key: 'testd', title: 'Test D' },
+];
+
+cases(
+  'compareOption() method',
+  ({ props = { options: CUSTOM_OPTIONS } }) => {
+    props = { ...BASIC_PROPS, ...props };
+
+    const getOptionLabel = ({ title }) => title;
+    const getOptionValue = ({ key }) => key;
+
+    const { container, rerender } = render(
+      <Creatable
+        menuIsOpen
+        getOptionLabel={getOptionLabel}
+        getOptionValue={getOptionValue}
+        {...props}
+      />
+    );
+
+    rerender(
+      <Creatable
+        menuIsOpen
+        getOptionLabel={getOptionLabel}
+        getOptionValue={getOptionValue}
+        inputValue="testc"
+        {...props}
+      />
+    );
+    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+      'Test C'
+    );
+  },
+  {
+    'single select > should handle options with custom structure': {},
+    'single select > should handle options with custom structure': {
+      props: {
+        isMulti: true,
+        options: CUSTOM_OPTIONS,
+      },
+    },
+  }
+);
