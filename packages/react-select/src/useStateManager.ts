@@ -31,7 +31,7 @@ interface StateMangerAdditionalProps<Option extends OptionBase> {
   defaultValue?: PropsValue<Option>;
 }
 
-export type StateManagedProps<
+export type StateManagerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
@@ -43,26 +43,28 @@ export default function useStateManager<
   IsMulti extends boolean,
   Group extends GroupBase<Option>,
   AdditionalProps
->(
-  props: StateManagedProps<Option, IsMulti, Group> & AdditionalProps
-): BaseSelectProps<Option, IsMulti, Group> & AdditionalProps {
-  const {
-    defaultInputValue = '',
-    defaultMenuIsOpen = false,
-    defaultValue = null,
-    onChange: propsOnChange,
-    onInputChange: propsOnInputChange,
-    onMenuOpen: propsOnMenuOpen,
-    onMenuClose: propsOnMenuClose,
-  } = props;
+>({
+  defaultInputValue = '',
+  defaultMenuIsOpen = false,
+  defaultValue = null,
+  inputValue: propsInputValue,
+  menuIsOpen: propsMenuIsOpen,
+  onChange: propsOnChange,
+  onInputChange: propsOnInputChange,
+  onMenuClose: propsOnMenuClose,
+  onMenuOpen: propsOnMenuOpen,
+  value: propsValue,
+  ...restSelectProps
+}: StateManagerProps<Option, IsMulti, Group> &
+  AdditionalProps): BaseSelectProps<Option, IsMulti, Group> {
   const [stateInputValue, setStateInputValue] = useState(
-    props.inputValue !== undefined ? props.inputValue : defaultInputValue
+    propsInputValue !== undefined ? propsInputValue : defaultInputValue
   );
   const [stateMenuIsOpen, setStateMenuIsOpen] = useState(
-    props.menuIsOpen !== undefined ? props.menuIsOpen : defaultMenuIsOpen
+    propsMenuIsOpen !== undefined ? propsMenuIsOpen : defaultMenuIsOpen
   );
   const [stateValue, setStateValue] = useState(
-    props.value !== undefined ? props.value : defaultValue
+    propsValue !== undefined ? propsValue : defaultValue
   );
 
   const onChange = useCallback(
@@ -100,12 +102,13 @@ export default function useStateManager<
   }, [propsOnMenuClose]);
 
   const inputValue =
-    props.inputValue !== undefined ? props.inputValue : stateInputValue;
+    propsInputValue !== undefined ? propsInputValue : stateInputValue;
   const menuIsOpen =
-    props.menuIsOpen !== undefined ? props.menuIsOpen : stateMenuIsOpen;
-  const value = props.value !== undefined ? props.value : stateValue;
+    propsMenuIsOpen !== undefined ? propsMenuIsOpen : stateMenuIsOpen;
+  const value = propsValue !== undefined ? propsValue : stateValue;
+
   return {
-    ...props,
+    ...restSelectProps,
     inputValue,
     menuIsOpen,
     onChange,

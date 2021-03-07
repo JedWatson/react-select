@@ -1,6 +1,25 @@
-import { GroupBase, OptionBase, Options, OptionsOrGroups } from './types';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 import { BaseSelectProps } from './Select';
+import {
+  ActionMeta,
+  GetOptionLabel,
+  GetOptionValue,
+  GroupBase,
+  OnChangeValue,
+  OptionBase,
+  Options,
+  OptionsOrGroups,
+} from './types';
+import { cleanValue } from './utils';
+import {
+  getOptionValue as baseGetOptionValue,
+  getOptionLabel as baseGetOptionLabel,
+} from './builtins';
+
+export interface Accessors<Option extends OptionBase> {
+  getOptionValue: GetOptionValue<Option>;
+  getOptionLabel: GetOptionLabel<Option>;
+}
 
 export interface CreatableAdditionalProps<
   Option extends OptionBase,
@@ -26,7 +45,8 @@ export interface CreatableAdditionalProps<
   isValidNewOption?: (
     inputValue: string,
     value: Options<Option>,
-    OptionsType: OptionsOrGroups<Option, Group>
+    options: OptionsOrGroups<Option, Group>,
+    accessors: Accessors<Option>
   ) => boolean;
   /**
    * Returns the data for the new option when it is created. Used to display the
@@ -49,14 +69,153 @@ type BaseCreatableProps<
 > = BaseSelectProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group>;
 
+const compareOption = <Option extends OptionBase>(
+  inputValue = '',
+  option: Option,
+  accessors: Accessors<Option>
+) => {
+  const candidate = String(inputValue).toLowerCase();
+  const optionValue = String(accessors.getOptionValue(option)).toLowerCase();
+  const optionLabel = String(accessors.getOptionLabel(option)).toLowerCase();
+  return optionValue === candidate || optionLabel === candidate;
+};
+
+const builtins = {
+  formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
+  isValidNewOption: <
+    Option extends OptionBase,
+    Group extends GroupBase<Option>
+  >(
+    inputValue: string,
+    selectValue: Options<Option>,
+    selectOptions: OptionsOrGroups<Option, Group>,
+    accessors: Accessors<Option>
+  ) =>
+    !(
+      !inputValue ||
+      selectValue.some(option =>
+        compareOption(inputValue, option, accessors)
+      ) ||
+      selectOptions.some(option => compareOption(inputValue, option, accessors))
+    ),
+  getNewOptionData: (inputValue: string, optionLabel: Node) => ({
+    label: optionLabel,
+    value: inputValue,
+    __isNew__: true,
+  }),
+  getOptionValue: baseGetOptionValue,
+  getOptionLabel: baseGetOptionLabel,
+};
+
 export default function useCreatable<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(
-  props: BaseCreatableProps<Option, IsMulti, Group>
-): BaseSelectProps<Option, IsMulti, Group> {
+>({
+  allowCreateWhileLoading = false,
+  createOptionPosition = 'last',
+  formatCreateLabel = builtins.formatCreateLabel,
+  isValidNewOption = builtins.isValidNewOption,
+  getNewOptionData = builtins.getNewOptionData,
+  onCreateOption,
+  isLoading,
+  options: propsOptions = [],
+  onChange: propsOnChange,
+  ...restSelectProps
+}: BaseCreatableProps<Option, IsMulti, Group>): BaseSelectProps<
+  Option,
+  IsMulti,
+  Group
+> {
+  const {
+    getOptionValue = baseGetOptionValue,
+    getOptionLabel = baseGetOptionLabel,
+    inputValue,
+    isMulti,
+    value,
+    name,
+  } = restSelectProps;
+
+  const newOption = useMemo(
+    () =>
+      isValidNewOption(inputValue, cleanValue(value), propsOptions, {
+        getOptionValue,
+        getOptionLabel,
+      })
+        ? getNewOptionData(inputValue, formatCreateLabel(inputValue))
+        : undefined,
+    [
+      formatCreateLabel,
+      getNewOptionData,
+      getOptionLabel,
+      getOptionValue,
+      inputValue,
+      isValidNewOption,
+      propsOptions,
+      value,
+    ]
+  );
+
+  const options = useMemo(
+    () =>
+      (allowCreateWhileLoading || !isLoading) && newOption
+        ? createOptionPosition === 'first'
+          ? [newOption, ...propsOptions]
+          : [...propsOptions, newOption]
+        : propsOptions,
+    [
+      allowCreateWhileLoading,
+      createOptionPosition,
+      isLoading,
+      newOption,
+      propsOptions,
+    ]
+  );
+
+  const onChange = useCallback(
+    (
+      newValue: OnChangeValue<Option, IsMulti>,
+      actionMeta: ActionMeta<Option>
+    ) => {
+      if (actionMeta.action !== 'select-option') {
+        return propsOnChange(newValue, actionMeta);
+      }
+      const valueArray = Array.isArray(newValue) ? newValue : [newValue];
+
+      if (valueArray[valueArray.length - 1] === newOption) {
+        if (onCreateOption) onCreateOption(inputValue);
+        else {
+          const newOptionData = getNewOptionData(inputValue, inputValue);
+          const newActionMeta = {
+            action: 'create-option',
+            name,
+            option: newOptionData,
+          };
+          if (isMulti) {
+            propsOnChange([...cleanValue(value), newOptionData], newActionMeta);
+          } else {
+            propsOnChange(newOptionData, newActionMeta);
+          }
+        }
+        return;
+      }
+      propsOnChange(newValue, actionMeta);
+    },
+    [
+      getNewOptionData,
+      inputValue,
+      isMulti,
+      name,
+      newOption,
+      onCreateOption,
+      propsOnChange,
+      value,
+    ]
+  );
+
   return {
-    ...props,
+    ...restSelectProps,
+    options,
+    onChange,
   };
 }

@@ -189,3 +189,10 @@ export interface Theme {
   colors: { [key: string]: string };
   spacing: ThemeSpacing;
 }
+
+export type GetOptionValue<Option extends OptionBase> = (
+  option: Option
+) => string;
+export type GetOptionLabel<Option extends OptionBase> = (
+  option: Option
+) => string;

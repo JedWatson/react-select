@@ -12,7 +12,7 @@ export type SelectInstance<
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = Select<Option, IsMulti, Group>;
-export { StateManagedProps as Props } from './useStateManager';
+export { StateManagerProps as Props } from './useStateManager';
 
 export {
   ContainerProps,

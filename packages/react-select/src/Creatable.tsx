@@ -1,7 +1,7 @@
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 import Select from './Select';
 import { OptionBase, GroupBase, OptionsOrGroups } from './types';
-import useStateManager, { StateManagedProps } from './useStateManager';
+import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
 
 // export interface CreatableProps<
@@ -201,7 +201,7 @@ type CreatableProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = StateManagedProps<Option, IsMulti, Group> &
+> = StateManagerProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group>;
 
 type CreatableSelect = <
