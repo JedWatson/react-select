@@ -1,24 +1,21 @@
-// @flow
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import React, { type Element } from 'react';
+import React, { ReactElement, RefCallback } from 'react';
 import useScrollCapture from './useScrollCapture';
 import useScrollLock from './useScrollLock';
 
-type RefCallback<T> = (T | null) => void;
-
-type Props = {
-  children: (RefCallback<HTMLElement>) => Element<*>,
-  lockEnabled: boolean,
-  captureEnabled: boolean,
-  onBottomArrive?: (event: SyntheticEvent<HTMLElement>) => void,
-  onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-  onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
-  onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-};
+interface Props {
+  readonly children: (ref: RefCallback<HTMLElement>) => ReactElement;
+  readonly lockEnabled: boolean;
+  readonly captureEnabled: boolean;
+  readonly onBottomArrive?: (event: WheelEvent | TouchEvent) => void;
+  readonly onBottomLeave?: (event: WheelEvent | TouchEvent) => void;
+  readonly onTopArrive?: (event: WheelEvent | TouchEvent) => void;
+  readonly onTopLeave?: (event: WheelEvent | TouchEvent) => void;
+}
 
 const blurSelectInput = () =>
-  document.activeElement && document.activeElement.blur();
+  document.activeElement && (document.activeElement as HTMLElement).blur();
 
 export default function ScrollManager({
   children,
@@ -38,7 +35,7 @@ export default function ScrollManager({
   });
   const setScrollLockTarget = useScrollLock({ isEnabled: lockEnabled });
 
-  const targetRef = element => {
+  const targetRef: RefCallback<HTMLElement> = element => {
     setScrollCaptureTarget(element);
     setScrollLockTarget(element);
   };
