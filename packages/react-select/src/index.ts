@@ -38,3 +38,17 @@ export { PlaceholderProps } from './components/Placeholder';
 export { SingleValueProps } from './components/SingleValue';
 export { StylesConfig } from './styles';
 export * from './types';
+export {
+  OptionContext,
+  GuidanceContext,
+  AriaLive,
+  AriaGuidanceProps,
+  AriaOnChangeProps,
+  AriaOnFilterProps,
+  AriaOnFocusProps,
+  AriaGuidance,
+  AriaOnChange,
+  AriaOnFilter,
+  AriaOnFocus,
+  AriaLiveMessages,
+} from './accessibility';

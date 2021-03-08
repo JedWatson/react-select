@@ -17,6 +17,7 @@ import Select, { FormatOptionLabelMeta } from '../Select';
 import { Option as FilterOptionOption } from '../filters';
 
 import { matchers } from '@emotion/jest';
+import { AriaLiveMessages } from '../accessibility';
 
 expect.extend(matchers);
 
@@ -2101,12 +2102,13 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 });
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
-  const ariaLiveMessages = {
+  const ariaLiveMessages: AriaLiveMessages<Option> = {
     onChange: props => {
       const { action, isDisabled, label } = props;
       if (action === 'select-option' && !isDisabled) {
         return `CUSTOM: option ${label} is selected.`;
       }
+      return '';
     },
   };
 

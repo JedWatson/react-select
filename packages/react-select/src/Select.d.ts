@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 import { Option } from './filters';
-import { InstructionsContext, ValueEventContext } from './accessibility/index';
-
-import { classNames, noop, scrollIntoView } from './utils';
+import { AriaLiveMessages, AriaLiveProp } from './accessibility/index';
 
 import { formatGroupLabel, getOptionLabel, getOptionValue } from './builtins';
 
@@ -53,6 +51,10 @@ interface Props<
   'aria-label'?: string;
   /** HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string;
+  /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
+  'aria-live'?: AriaLiveProp;
+  /** Customize the messages used by the aria-live component */
+  ariaLiveMessages?: AriaLiveMessages<OptionType>;
   /** Focus the control when it is mounted */
   autoFocus?: boolean;
   /** Remove the currently focused option when the user presses backspace */
@@ -341,18 +343,6 @@ export default class Select<
   getStyles: (key: string, props: {}) => {};
   getElementId: (element: 'group' | 'input' | 'listbox' | 'option') => string;
   getActiveDescendentId: () => any;
-
-  // ==============================
-  // Helpers
-  // ==============================
-  announceAriaLiveSelection: (props: {
-    event: string;
-    context: ValueEventContext;
-  }) => void;
-  announceAriaLiveContext: (props: {
-    event: string;
-    context?: InstructionsContext;
-  }) => void;
 
   hasValue(): boolean;
   hasOptions(): boolean;

@@ -1,14 +1,13 @@
-// @flow
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 
-import Select from 'react-select';
-import { colourOptions } from '../data';
+import Select, { AriaOnFocus } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
 export default function CustomAriaLive() {
   const [ariaFocusMessage, setAriaFocusMessage] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const style = {
+  const style: { [key: string]: CSSProperties } = {
     blockquote: {
       fontStyle: 'italic',
       fontSize: '.75rem',
@@ -21,7 +20,7 @@ export default function CustomAriaLive() {
     },
   };
 
-  const onFocus = ({ focused, isDisabled }) => {
+  const onFocus: AriaOnFocus<ColourOption> = ({ focused, isDisabled }) => {
     const msg = `You are currently focused on option ${focused.label}${
       isDisabled ? ', disabled' : ''
     }`;

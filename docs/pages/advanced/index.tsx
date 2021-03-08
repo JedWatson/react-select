@@ -34,14 +34,14 @@ export default function Advanced() {
       # Advanced
 
       ## Accessibility
-      Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide 
+      Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide
       a custom experience for all users. As such, we also provide an api to address internationalization or further customization.
 
       ${(
         <ExampleWrapper
           label="Custom aria live example"
-          urlPath="docs/examples/CustomAriaLive.js"
-          raw={require('!!raw-loader!../../examples/CustomAriaLive.js')}
+          urlPath="docs/examples/CustomAriaLive.tsx"
+          raw={require('!!raw-loader!../../examples/CustomAriaLive.tsx')}
         >
           <CustomAriaLive />
         </ExampleWrapper>

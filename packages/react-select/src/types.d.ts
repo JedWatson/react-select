@@ -99,27 +99,27 @@ export interface CommonProps<
   theme: Theme;
 }
 
-export interface SelectOptionActionMeta<OptionType extends OptionTypeBase> {
+export interface SelectOptionActionMeta<Option extends OptionBase> {
   action: 'select-option';
-  option: OptionType | undefined;
+  option: Option | undefined;
   name?: string;
 }
 
-export interface DeselectOptionActionMeta<OptionType extends OptionTypeBase> {
+export interface DeselectOptionActionMeta<Option extends OptionBase> {
   action: 'deselect-option';
-  option: OptionType | undefined;
+  option: Option | undefined;
   name?: string;
 }
 
-export interface RemoveValueActionMeta<OptionType extends OptionTypeBase> {
+export interface RemoveValueActionMeta<Option extends OptionBase> {
   action: 'remove-value';
-  removedValue: OptionType;
+  removedValue: Option;
   name?: string;
 }
 
-export interface PopValueActionMeta<OptionType extends OptionTypeBase> {
+export interface PopValueActionMeta<Option extends OptionBase> {
   action: 'pop-value';
-  removedValue: OptionType;
+  removedValue: Option;
   name?: string;
 }
 
@@ -133,11 +133,11 @@ export interface CreateOptionActionMeta {
   name?: string;
 }
 
-export type ActionMeta<OptionType extends OptionTypeBase> =
-  | SelectOptionActionMeta<OptionType>
-  | DeselectOptionActionMeta<OptionType>
-  | RemoveValueActionMeta<OptionType>
-  | PopValueActionMeta<OptionType>
+export type ActionMeta<Option extends OptionBase> =
+  | SelectOptionActionMeta<Option>
+  | DeselectOptionActionMeta<Option>
+  | RemoveValueActionMeta<Option>
+  | PopValueActionMeta<Option>
   | ClearActionMeta
   | CreateOptionActionMeta;
 
