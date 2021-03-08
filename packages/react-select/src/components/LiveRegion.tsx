@@ -1,32 +1,39 @@
 // @flow
 /** @jsx jsx */
-import React, { type Node, useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
-import {
-  defaultAriaLiveMessages,
-  type AriaSelectionType,
-} from '../accessibility';
+import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
 
-import type { CommonProps, OptionType, OptionsType, ValueType } from '../types';
+import { CommonProps, GroupTypeBase, OptionBase, OptionsType } from '../types';
 
 // ==============================
 // Root Container
 // ==============================
 
-export type LiveRegionProps = CommonProps & {
-  children: Node,
-  innerProps: { className?: string },
+export interface LiveRegionProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupTypeBase<Option> = GroupTypeBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  children: ReactNode;
+  innerProps: { className?: string };
   // Select state variables
-  ariaSelection: AriaSelectionType,
-  focusedOption: OptionType,
-  focusedValue: ValueType,
-  selectValue?: ValueType,
-  focusableOptions: OptionsType,
-  isFocused: boolean,
-};
+  ariaSelection: AriaSelection<Option, IsMulti>;
+  focusedOption: Option | null;
+  focusedValue: Option | null;
+  selectValue: OptionsType<Option>;
+  focusableOptions: OptionsType<Option>;
+  isFocused: boolean;
+}
 
-const LiveRegion = (props: LiveRegionProps) => {
+const LiveRegion = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupTypeBase<Option> = GroupTypeBase<Option>
+>(
+  props: LiveRegionProps<Option, IsMulti, Group>
+) => {
   const {
     ariaSelection,
     focusedOption,

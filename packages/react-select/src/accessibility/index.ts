@@ -1,11 +1,4 @@
-// @flow
-
-import {
-  type ActionMeta,
-  type OptionType,
-  type OptionsType,
-  type ValueType,
-} from '../types';
+import { ActionMeta, OnChangeValue, OptionBase } from '../types';
 
 export type OptionContextType = 'menu' | 'value';
 
@@ -13,67 +6,70 @@ export type GuidanceContextType = 'menu' | 'input' | 'value';
 
 export type AriaLiveProp = 'polite' | 'off' | 'assertive';
 
-export type AriaSelectionType = ActionMeta & {
-  value?: ValueType,
+export type AriaSelection<
+  Option extends OptionBase,
+  IsMulti extends boolean
+> = ActionMeta<Option> & {
+  value?: OnChangeValue<Option, IsMulti>;
 };
 
 export type AriaGuidanceProps = {
   // String value of selectProp aria-label
-  'aria-label'?: string,
+  'aria-label'?: string;
   // String indicating user's current context and availabile keyboard interactivity
-  context: GuidanceContextType,
+  context: GuidanceContextType;
   // Boolean value of selectProp isSearchable
-  isSearchable?: boolean,
+  isSearchable?: boolean;
   // Boolean value of selectProp isMulti
-  isMulti?: boolean,
+  isMulti?: boolean;
   // Boolean value of selectProp isDisabled
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   // Boolean value of selectProp tabSelectsValue
-  tabSelectsValue?: boolean,
+  tabSelectsValue?: boolean;
 };
 
 export type AriaOnChangeProps = ActionMeta & {
   // selected option(s) of the Select
-  selectValue?: ValueType,
+  selectValue?: ValueType;
   // String derived label from selected or removed option/value
-  label?: string,
+  label?: string;
   // Boolean indicating if the selected menu option is disabled
-  isDisabled?: boolean,
+  isDisabled?: boolean;
 };
 
 export type AriaOnFilterProps = {
   // String indicating current inputValue of the input
-  inputValue: string,
+  inputValue: string;
   // String dervied from selectProp screenReaderStatus
-  resultsMessage: string,
+  resultsMessage: string;
 };
 
 export type AriaOnFocusProps = {
   // String indicating whether the option was focused in the menu or as (multi-) value
-  context: OptionContextType,
+  context: OptionContextType;
   // Option that is being focused
-  focused: OptionType,
+  focused: OptionType;
   // Boolean indicating whether focused menu option has been disabled
-  isDisabled?: boolean,
+  isDisabled?: boolean;
   // Boolean indicating whether focused menu option is an already selcted option
-  isSelected?: boolean,
+  isSelected?: boolean;
   // String derived label from focused option/value
-  label?: string,
+  label?: string;
   // Options provided as props to Select used to determine indexing
-  options?: OptionsType,
+  options?: OptionsType;
   // selected option(s) of the Select
-  selectValue?: ValueType,
+  selectValue?: ValueType;
 };
 
 export type AriaLiveMessagesProps = {
   // Guidance message used to convey component state and specific keyboard interactivity
-  guidance?: (props: AriaGuidanceProps) => string,
+  guidance?: (props: AriaGuidanceProps) => string;
   // OnChange message used to convey changes to value but also called when user selects disabled option
-  onChange?: (props: AriaOnChangeProps) => string,
+  onChange?: (props: AriaOnChangeProps) => string;
   // OnFilter message used to convey information about filtered results displayed in the menu
-  onFilter?: (props: AriaOnFilterProps) => string,
+  onFilter?: (props: AriaOnFilterProps) => string;
   // OnFocus message used to convey information about the currently focused option or value
-  onFocus?: (props: AriaOnFocusProps) => string,
+  onFocus?: (props: AriaOnFocusProps) => string;
 };
 
 export const defaultAriaLiveMessages = {
