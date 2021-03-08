@@ -1,12 +1,15 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx, ClassNames } from '@emotion/react';
 import { CrossIcon } from './indicators';
-import type { CommonProps } from '../types';
+import { CommonProps, GroupBase, OptionBase } from '../types';
 
-export type MultiValueProps = CommonProps & {
-  children: Node,
+export interface MultiValueProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+  > extends CommonProps<Option, IsMulti, Group> {
+  children: ReactNode,
   components: any,
   cropWithEllipsis: boolean,
   data: any,
@@ -18,7 +21,7 @@ export type MultiValueProps = CommonProps & {
     onClick: any => void,
     onMouseDown: any => void,
   },
-};
+}
 
 export const multiValueCSS = ({
   theme: { spacing, borderRadius, colors },
@@ -62,7 +65,7 @@ export const multiValueRemoveCSS = ({
 });
 
 export type MultiValueGenericProps = {
-  children: Node,
+  children: ReactNode,
   data: any,
   innerProps: { className?: string },
   selectProps: any,
@@ -75,7 +78,7 @@ export const MultiValueGeneric = ({
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export type MultiValueRemoveProps = {
-  children: Node,
+  children: ReactNode,
   data: any,
   innerProps: {
     className: string,
