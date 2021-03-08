@@ -442,6 +442,12 @@ export default class Select<
   renderLiveRegion(): React.ReactNode;
 }
 
+export type InternalBaseSelectProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = Props<Option, IsMulti, Group>;
+
 export type BaseSelectProps<
   Option extends OptionBase,
   IsMulti extends boolean,

@@ -1,6 +1,4 @@
-// @flow
-
-import type { Theme } from './types';
+import { Theme } from './types';
 
 export const colors = {
   primary: '#2684FF',

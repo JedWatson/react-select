@@ -1,14 +1,13 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import memoizeOne from 'memoize-one';
 
-type NonceProviderProps = {
-  nonce: string,
-  children: Node,
-  cacheKey: string,
-};
+interface NonceProviderProps {
+  nonce: string;
+  children: ReactNode;
+  cacheKey: string;
+}
 
 export default class NonceProvider extends Component<NonceProviderProps> {
   constructor(props: NonceProviderProps) {

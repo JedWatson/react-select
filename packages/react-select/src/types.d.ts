@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BaseSelectProps } from './Select';
+import { InternalBaseSelectProps } from './Select';
 
 export interface OptionBase {}
 
@@ -65,9 +65,9 @@ export type ClassNameList = string[];
 export type ClassNamesState = { [key: string]: boolean } | undefined;
 
 export interface CommonProps<
-  OptionType extends OptionTypeBase,
+  Option extends OptionBase,
   IsMulti extends boolean,
-  GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
+  Group extends GroupTypeBase<Option> = GroupTypeBase<Option>
 > {
   clearValue: () => void;
   className?: string;
@@ -81,20 +81,20 @@ export interface CommonProps<
    * See the `styles` object for the properties available.
    */
   getStyles: (name: string, props: any) => {};
-  getValue: () => OptionsType<OptionType>;
+  getValue: () => OptionsType<Option>;
   /** Whether the value container currently holds a value. */
   hasValue: boolean;
   /** Set when the value container should hold multiple values */
   isMulti: boolean;
   /** Whether the text is right to left */
   isRtl: boolean;
-  options: OptionsType<OptionType>;
-  selectOption: (option: OptionType) => void;
-  selectProps: BaseSelectProps<OptionType, IsMulti, GroupType>;
+  options: OptionsType<Option>;
+  selectOption: (option: Option) => void;
+  selectProps: InternalBaseSelectProps<Option, IsMulti, Group>;
   setValue: (
-    newValue: ValueType<OptionType, IsMulti>,
+    newValue: ValueType<Option, IsMulti>,
     action: SetValueAction,
-    option?: OptionType
+    option?: Option
   ) => void;
   theme: Theme;
 }
@@ -178,7 +178,29 @@ export type OptionProps = PropsWithInnerRef & {
   value: any;
 };
 
-export interface ThemeSpacing {
+interface Colors {
+  primary: string;
+  primary75: string;
+  primary50: string;
+  primary25: string;
+
+  danger: string;
+  dangerLight: string;
+
+  neutral0: string;
+  neutral5: string;
+  neutral10: string;
+  neutral20: string;
+  neutral30: string;
+  neutral40: string;
+  neutral50: string;
+  neutral60: string;
+  neutral70: string;
+  neutral80: string;
+  neutral90: string;
+}
+
+interface ThemeSpacing {
   baseUnit: number;
   controlHeight: number;
   menuGutter: number;
@@ -186,7 +208,7 @@ export interface ThemeSpacing {
 
 export interface Theme {
   borderRadius: number;
-  colors: { [key: string]: string };
+  colors: Colors;
   spacing: ThemeSpacing;
 }
 
