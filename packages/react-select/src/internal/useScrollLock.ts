@@ -1,5 +1,3 @@
-// @flow
-
 import { useCallback, useEffect, useRef } from 'react';
 
 const STYLE_KEYS = [
@@ -8,7 +6,7 @@ const STYLE_KEYS = [
   'overflow',
   'paddingRight',
   'position',
-];
+] as const;
 
 const LOCK_STYLES = {
   boxSizing: 'border-box', // account for possible declaration `width: 100%;` on body
@@ -25,7 +23,7 @@ function allowTouchMove(e: TouchEvent) {
   e.stopPropagation();
 }
 
-function preventInertiaScroll() {
+function preventInertiaScroll(this: HTMLElement) {
   const top = this.scrollTop;
   const totalScroll = this.scrollHeight;
   const currentScroll = top + this.offsetHeight;
@@ -51,13 +49,10 @@ const canUseDOM = !!(
 
 let activeScrollLocks = 0;
 
-type Options = {
-  isEnabled: boolean,
-  accountForScrollbars?: boolean,
-};
-type TargetStyle = {
-  [key: string]: string | null,
-};
+interface Options {
+  readonly isEnabled: boolean;
+  readonly accountForScrollbars?: boolean;
+}
 
 const listenerOptions = {
   capture: false,
@@ -68,73 +63,76 @@ export default function useScrollLock({
   isEnabled,
   accountForScrollbars = true,
 }: Options) {
-  const originalStyles = useRef({});
+  const originalStyles = useRef<{ [key: string]: string }>({});
   const scrollTarget = useRef<HTMLElement | null>(null);
 
-  const addScrollLock = useCallback((touchScrollTarget: HTMLElement | null) => {
-    if (!canUseDOM) return;
+  const addScrollLock = useCallback(
+    (touchScrollTarget: HTMLElement | null) => {
+      if (!canUseDOM) return;
 
-    const target = document.body;
-    const targetStyle = target && (target.style: TargetStyle);
+      const target = document.body;
+      const targetStyle = target && target.style;
 
-    if (accountForScrollbars) {
-      // store any styles already applied to the body
-      STYLE_KEYS.forEach(key => {
-        const val = targetStyle && targetStyle[key];
-        originalStyles.current[key] = val;
-      });
-    }
+      if (accountForScrollbars) {
+        // store any styles already applied to the body
+        STYLE_KEYS.forEach(key => {
+          const val = targetStyle && targetStyle[key];
+          originalStyles.current[key] = val;
+        });
+      }
 
-    // apply the lock styles and padding if this is the first scroll lock
-    if (accountForScrollbars && activeScrollLocks < 1) {
-      const currentPadding =
-        parseInt(originalStyles.current.paddingRight, 10) || 0;
-      const clientWidth = document.body ? document.body.clientWidth : 0;
-      const adjustedPadding =
-        window.innerWidth - clientWidth + currentPadding || 0;
+      // apply the lock styles and padding if this is the first scroll lock
+      if (accountForScrollbars && activeScrollLocks < 1) {
+        const currentPadding =
+          parseInt(originalStyles.current.paddingRight, 10) || 0;
+        const clientWidth = document.body ? document.body.clientWidth : 0;
+        const adjustedPadding =
+          window.innerWidth - clientWidth + currentPadding || 0;
 
-      Object.keys(LOCK_STYLES).forEach(key => {
-        const val = LOCK_STYLES[key];
+        Object.keys(LOCK_STYLES).forEach(key => {
+          const val = LOCK_STYLES[key as keyof typeof LOCK_STYLES];
+          if (targetStyle) {
+            targetStyle[key as keyof typeof LOCK_STYLES] = val;
+          }
+        });
+
         if (targetStyle) {
-          targetStyle[key] = val;
+          targetStyle.paddingRight = `${adjustedPadding}px`;
         }
-      });
-
-      if (targetStyle) {
-        targetStyle.paddingRight = `${adjustedPadding}px`;
       }
-    }
 
-    // account for touch devices
-    if (target && isTouchDevice()) {
-      // Mobile Safari ignores { overflow: hidden } declaration on the body.
-      target.addEventListener('touchmove', preventTouchMove, listenerOptions);
+      // account for touch devices
+      if (target && isTouchDevice()) {
+        // Mobile Safari ignores { overflow: hidden } declaration on the body.
+        target.addEventListener('touchmove', preventTouchMove, listenerOptions);
 
-      // Allow scroll on provided target
-      if (touchScrollTarget) {
-        touchScrollTarget.addEventListener(
-          'touchstart',
-          preventInertiaScroll,
-          listenerOptions
-        );
-        touchScrollTarget.addEventListener(
-          'touchmove',
-          allowTouchMove,
-          listenerOptions
-        );
+        // Allow scroll on provided target
+        if (touchScrollTarget) {
+          touchScrollTarget.addEventListener(
+            'touchstart',
+            preventInertiaScroll,
+            listenerOptions
+          );
+          touchScrollTarget.addEventListener(
+            'touchmove',
+            allowTouchMove,
+            listenerOptions
+          );
+        }
       }
-    }
 
-    // increment active scroll locks
-    activeScrollLocks += 1;
-  }, []);
+      // increment active scroll locks
+      activeScrollLocks += 1;
+    },
+    [accountForScrollbars]
+  );
 
   const removeScrollLock = useCallback(
     (touchScrollTarget: HTMLElement | null) => {
       if (!canUseDOM) return;
 
       const target = document.body;
-      const targetStyle = target && (target.style: TargetStyle);
+      const targetStyle = target && target.style;
 
       // safely decrement active scroll locks
       activeScrollLocks = Math.max(activeScrollLocks - 1, 0);
@@ -171,7 +169,7 @@ export default function useScrollLock({
         }
       }
     },
-    []
+    [accountForScrollbars]
   );
 
   useEffect(() => {
