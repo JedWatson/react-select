@@ -142,7 +142,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     }
 
     return this.content.scrollHeight;
-  }
+  };
   render() {
     const { children, history } = this.props;
     const { stars } = this.state;
