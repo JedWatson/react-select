@@ -2018,37 +2018,37 @@ test('accessibility > interacting with multi values options shows correct A11yTe
   };
 
   const liveRegionId = '#aria-context';
-  let input = container.querySelector('.react-select__value-container input');
+  let input = container.querySelector('.react-select__value-container input')!;
 
-  fireEvent.focus(container.querySelector('.react-select__input input'));
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  fireEvent.focus(container.querySelector('.react-select__input input')!);
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'value 1 focused, 2 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'value 0 focused, 1 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   openMenu();
-  let menu = container.querySelector('.react-select__menu');
+  let menu = container.querySelector('.react-select__menu')!;
 
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 0 selected, 1 of 17. 17 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 
   fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 1 selected disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 
   fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 2 focused, 3 of 17. 17 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 });
@@ -2120,16 +2120,16 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     />
   );
   const liveRegionEventId = '#aria-selection';
-  fireEvent.focus(container.querySelector('.react-select__input input'));
+  fireEvent.focus(container.querySelector('.react-select__input input')!);
 
-  let menu = container.querySelector('.react-select__menu');
+  let menu = container.querySelector('.react-select__menu')!;
   fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
 
-  expect(container.querySelector(liveRegionEventId).textContent).toMatch(
+  expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
   );
 });

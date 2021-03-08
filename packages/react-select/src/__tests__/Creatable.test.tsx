@@ -274,20 +274,34 @@ cases<Opts>(
   }
 );
 
-const CUSTOM_OPTIONS = [
+interface CustomOption {
+  readonly key: string;
+  readonly title: string;
+}
+
+const CUSTOM_OPTIONS: readonly CustomOption[] = [
   { key: 'testa', title: 'Test A' },
   { key: 'testb', title: 'Test B' },
   { key: 'testc', title: 'Test C' },
   { key: 'testd', title: 'Test D' },
 ];
 
-cases(
+interface CustomOptsProps extends Partial<Omit<BasicProps, 'options'>> {
+  isMulti?: boolean;
+  options: readonly CustomOption[];
+}
+
+interface CustomOpts {
+  props: CustomOptsProps;
+}
+
+cases<CustomOpts>(
   'compareOption() method',
-  ({ props = { options: CUSTOM_OPTIONS } }) => {
+  ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
 
-    const getOptionLabel = ({ title }) => title;
-    const getOptionValue = ({ key }) => key;
+    const getOptionLabel = ({ title }: CustomOption) => title;
+    const getOptionValue = ({ key }: CustomOption) => key;
 
     const { container, rerender } = render(
       <Creatable
@@ -307,13 +321,17 @@ cases(
         {...props}
       />
     );
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'Test C'
     );
   },
   {
-    'single select > should handle options with custom structure': {},
     'single select > should handle options with custom structure': {
+      props: {
+        options: CUSTOM_OPTIONS,
+      },
+    },
+    'multi select > should handle options with custom structure': {
       props: {
         isMulti: true,
         options: CUSTOM_OPTIONS,

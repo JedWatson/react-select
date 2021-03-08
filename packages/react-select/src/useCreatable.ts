@@ -59,7 +59,6 @@ export interface CreatableAdditionalProps<
    * control over what happens when new options are created.
    */
   onCreateOption?: (inputValue: string) => void;
-  isLoading?: boolean;
 }
 
 type BaseCreatableProps<
@@ -103,8 +102,6 @@ const builtins = {
     value: inputValue,
     __isNew__: true,
   }),
-  getOptionValue: baseGetOptionValue,
-  getOptionLabel: baseGetOptionLabel,
 };
 
 export default function useCreatable<

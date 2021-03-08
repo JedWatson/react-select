@@ -5,7 +5,7 @@ import Select from './Select';
 import { GroupBase, OptionBase } from './types';
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 import useAsync, { AsyncAdditionalProps } from './useAsync';
-import useStateManager, { StateManagedProps } from './useStateManager';
+import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
 
 // const SelectCreatable = makeCreatableSelect(Select);
@@ -17,7 +17,7 @@ type AsyncCreatableProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = StateManagedProps<Option, IsMulti, Group> &
+> = StateManagerProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group> &
   AsyncAdditionalProps<Option, Group>;
 

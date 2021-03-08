@@ -56,7 +56,11 @@ export default function useStateManager<
   value: propsValue,
   ...restSelectProps
 }: StateManagerProps<Option, IsMulti, Group> &
-  AdditionalProps): BaseSelectProps<Option, IsMulti, Group> {
+  AdditionalProps): BaseSelectProps<Option, IsMulti, Group> &
+  Omit<
+    AdditionalProps,
+    keyof StateMangerAdditionalProps<Option> | StateManagedPropKeys
+  > {
   const [stateInputValue, setStateInputValue] = useState(
     propsInputValue !== undefined ? propsInputValue : defaultInputValue
   );
@@ -68,23 +72,21 @@ export default function useStateManager<
   );
 
   const onChange = useCallback(
-    (
-      newValue: OnChangeValue<Option, IsMulti>,
-      actionMeta: ActionMeta<Option>
-    ) => {
+    (value: OnChangeValue<Option, IsMulti>, actionMeta: ActionMeta<Option>) => {
       if (typeof propsOnChange === 'function') {
-        propsOnChange(newValue, actionMeta);
+        propsOnChange(value, actionMeta);
       }
-      setStateValue(newValue);
+      setStateValue(value);
     },
     [propsOnChange]
   );
   const onInputChange = useCallback(
-    (newValue: string, actionMeta: InputActionMeta) => {
+    (value: string, actionMeta: InputActionMeta) => {
+      let newValue;
       if (typeof propsOnInputChange === 'function') {
-        propsOnInputChange(newValue, actionMeta);
+        newValue = propsOnInputChange(value, actionMeta);
       }
-      setStateInputValue(newValue);
+      setStateInputValue(newValue !== undefined ? newValue : value);
     },
     [propsOnInputChange]
   );

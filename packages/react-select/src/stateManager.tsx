@@ -14,7 +14,7 @@ import {
   PropsValue,
 } from './types';
 import Select, { BaseSelectProps } from './Select';
-import useStateManager, { StateManagedProps } from './useStateManager';
+import useStateManager, { StateManagerProps } from './useStateManager';
 
 type BaseComponentProps<
   Option extends OptionBase,
@@ -242,7 +242,7 @@ type StateManagedSelect = <
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
-  props: StateManagedProps<Option, IsMulti, Group> &
+  props: StateManagerProps<Option, IsMulti, Group> &
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
@@ -252,7 +252,7 @@ const StateManagedSelect = React.forwardRef(
     IsMulti extends boolean,
     Group extends GroupBase<Option>
   >(
-    props: StateManagedProps<Option, IsMulti, Group>,
+    props: StateManagerProps<Option, IsMulti, Group>,
     ref:
       | ((instance: Select<Option, IsMulti, Group> | null) => void)
       | MutableRefObject<Select<Option, IsMulti, Group> | null>
