@@ -1,36 +1,37 @@
-// @flow
 /** @jsx jsx */
-import { type Node, type ElementRef } from 'react';
+import { ReactNode, Ref } from 'react';
 import { jsx } from '@emotion/react';
 
-import type { CommonProps, PropsWithStyles } from '../types';
+import { CommonProps, GroupBase, OptionBase } from '../types';
 
-type State = {
+export interface ControlProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  className: string | undefined;
+  /** Children to render. */
+  children: ReactNode;
+  innerRef: Ref<HTMLDivElement>;
+  /** The mouse down event and the innerRef to pass down to the controller element. */
+  innerProps: JSX.IntrinsicElements['div'];
   /** Whether the select is disabled. */
-  isDisabled: boolean,
+  isDisabled: boolean;
   /** Whether the select is focused. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the select is expanded. */
-  menuIsOpen: boolean,
-};
+  menuIsOpen: boolean;
+}
 
-export type ControlProps = CommonProps &
-  PropsWithStyles &
-  State & {
-    /** Children to render. */
-    children: Node,
-    innerRef: ElementRef<*>,
-    /** The mouse down event and the innerRef to pass down to the controller element. */
-    innerProps: {
-      onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
-    },
-  };
-
-export const css = ({
+export const css = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps) => ({
+}: ControlProps<Option, IsMulti, Group>) => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
@@ -57,7 +58,13 @@ export const css = ({
   },
 });
 
-const Control = (props: ControlProps) => {
+const Control = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: ControlProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     cx,
