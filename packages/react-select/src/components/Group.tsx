@@ -1,26 +1,29 @@
-// @flow
 /** @jsx jsx */
-import { type Node, type ComponentType } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import { cleanCommonProps } from '../utils';
 
-import type { CommonProps } from '../types';
+import { CommonProps, GroupBase, OptionBase, Options } from '../types';
 
-type ComponentProps = {
+export interface GroupProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode;
   /** Component to wrap the label, receives headingProps. */
-  Heading: ComponentType<any>,
+  Heading: ComponentType<any>;
   /** Props to pass to Heading. */
-  headingProps: any,
+  headingProps: any;
   /** Props to be passed to the group element. */
-  innerProps: {},
+  innerProps: JSX.IntrinsicElements['div'];
   /** Label to be displayed in the heading component. */
-  label: Node,
-  /* The data of the group. */
-  data: any,
-};
-export type GroupProps = CommonProps & ComponentProps;
+  label: ReactNode;
+  /** The data of the group. */
+  data: Group;
+  options: Options<Option>;
+}
 
 export const groupCSS = ({ theme: { spacing } }: GroupProps) => ({
   paddingBottom: spacing.baseUnit * 2,
