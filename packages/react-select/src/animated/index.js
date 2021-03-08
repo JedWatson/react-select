@@ -1,6 +1,5 @@
 // @flow
 import memoize from 'memoize-one';
-import isEqual from '../internal/react-fast-compare';
 import { type SelectComponents, defaultComponents } from '../components/index';
 import { default as AnimatedInput } from './Input';
 import { default as AnimatedMultiValue } from './MultiValue';
@@ -38,4 +37,4 @@ export const Placeholder = AnimatedComponents.Placeholder;
 export const SingleValue = AnimatedComponents.SingleValue;
 export const ValueContainer = AnimatedComponents.ValueContainer;
 
-export default memoize(makeAnimated, isEqual);
+export default memoize(makeAnimated);

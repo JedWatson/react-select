@@ -1,19 +1,17 @@
-// @flow
-
 import { useCallback, useEffect, useRef } from 'react';
 import { supportsPassiveEvents } from '../utils';
 
-const cancelScroll = (event: SyntheticEvent<HTMLElement>) => {
+const cancelScroll = (event: WheelEvent | TouchEvent) => {
   event.preventDefault();
   event.stopPropagation();
 };
 
 type Options = {
-  isEnabled: boolean,
-  onBottomArrive?: (event: SyntheticEvent<HTMLElement>) => void,
-  onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-  onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
-  onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
+  isEnabled: boolean;
+  onBottomArrive?: (event: WheelEvent | TouchEvent) => void;
+  onBottomLeave?: (event: WheelEvent | TouchEvent) => void;
+  onTopArrive?: (event: WheelEvent | TouchEvent) => void;
+  onTopLeave?: (event: WheelEvent | TouchEvent) => void;
 };
 
 export default function useScrollCapture({
@@ -29,7 +27,7 @@ export default function useScrollCapture({
   const scrollTarget = useRef<HTMLElement | null>(null);
 
   const handleEventDelta = useCallback(
-    (event: SyntheticEvent<HTMLElement>, delta: number) => {
+    (event: WheelEvent | TouchEvent, delta: number) => {
       // Reference should never be `null` at this point, but flow complains otherwise
       if (scrollTarget.current === null) return;
 
@@ -73,24 +71,21 @@ export default function useScrollCapture({
         cancelScroll(event);
       }
     },
-    []
+    [onBottomArrive, onBottomLeave, onTopArrive, onTopLeave]
   );
 
   const onWheel = useCallback(
-    (event: SyntheticWheelEvent<HTMLElement>) => {
+    (event: WheelEvent) => {
       handleEventDelta(event, event.deltaY);
     },
     [handleEventDelta]
   );
-  const onTouchStart = useCallback(
-    (event: SyntheticTouchEvent<HTMLElement>) => {
-      // set touch start so we can calculate touchmove delta
-      touchStart.current = event.changedTouches[0].clientY;
-    },
-    []
-  );
+  const onTouchStart = useCallback((event: TouchEvent) => {
+    // set touch start so we can calculate touchmove delta
+    touchStart.current = event.changedTouches[0].clientY;
+  }, []);
   const onTouchMove = useCallback(
-    (event: SyntheticTouchEvent<HTMLElement>) => {
+    (event: TouchEvent) => {
       const deltaY = touchStart.current - event.changedTouches[0].clientY;
       handleEventDelta(event, deltaY);
     },
@@ -103,16 +98,9 @@ export default function useScrollCapture({
       if (!el) return;
 
       const notPassive = supportsPassiveEvents ? { passive: false } : false;
-      // all the if statements are to appease Flow 😢
-      if (typeof el.addEventListener === 'function') {
-        el.addEventListener('wheel', onWheel, notPassive);
-      }
-      if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchstart', onTouchStart, notPassive);
-      }
-      if (typeof el.addEventListener === 'function') {
-        el.addEventListener('touchmove', onTouchMove, notPassive);
-      }
+      el.addEventListener('wheel', onWheel, notPassive);
+      el.addEventListener('touchstart', onTouchStart, notPassive);
+      el.addEventListener('touchmove', onTouchMove, notPassive);
     },
     [onTouchMove, onTouchStart, onWheel]
   );
@@ -122,16 +110,9 @@ export default function useScrollCapture({
       // bail early if no element is available to detach from
       if (!el) return;
 
-      // all the if statements are to appease Flow 😢
-      if (typeof el.removeEventListener === 'function') {
-        el.removeEventListener('wheel', onWheel, false);
-      }
-      if (typeof el.removeEventListener === 'function') {
-        el.removeEventListener('touchstart', onTouchStart, false);
-      }
-      if (typeof el.removeEventListener === 'function') {
-        el.removeEventListener('touchmove', onTouchMove, false);
-      }
+      el.removeEventListener('wheel', onWheel, false);
+      el.removeEventListener('touchstart', onTouchStart, false);
+      el.removeEventListener('touchmove', onTouchMove, false);
     },
     [onTouchMove, onTouchStart, onWheel]
   );
