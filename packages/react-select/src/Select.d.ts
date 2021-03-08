@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Option } from './filters';
-import { AriaLiveMessages, AriaLiveProp } from './accessibility/index';
+import { AriaLiveMessages, AriaLive } from './accessibility/index';
 
 import { formatGroupLabel, getOptionLabel, getOptionValue } from './builtins';
 
@@ -52,7 +52,7 @@ interface Props<
   /** HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: string;
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
-  'aria-live'?: AriaLiveProp;
+  'aria-live'?: AriaLive;
   /** Customize the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<OptionType>;
   /** Focus the control when it is mounted */

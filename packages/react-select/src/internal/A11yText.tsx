@@ -1,10 +1,8 @@
-// @flow
 /** @jsx jsx */
-import { type ElementConfig } from 'react';
 import { jsx } from '@emotion/react';
 
 // Assistive text to describe visual elements. Hidden for sighted users.
-const A11yText = (props: ElementConfig<'span'>) => (
+const A11yText = (props: JSX.IntrinsicElements['span']) => (
   <span
     css={{
       label: 'a11yText',
