@@ -70,7 +70,6 @@ export interface CommonProps<
   Group extends GroupTypeBase<Option> = GroupTypeBase<Option>
 > {
   clearValue: () => void;
-  className?: string;
   cx: (
     state: ClassNamesState | undefined,
     className: string | undefined

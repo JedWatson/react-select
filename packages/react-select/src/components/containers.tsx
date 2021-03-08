@@ -1,34 +1,46 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import type { CommonProps, KeyboardEventHandler } from '../types';
+import { CommonProps, GroupBase, OptionBase } from '../types';
 
 // ==============================
 // Root Container
 // ==============================
 
-type ContainerState = {
+export interface ContainerProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  className: string | undefined;
   /** Whether the select is disabled. */
-  isDisabled: boolean,
-  /** Whether the text in the select is indented from right to left. */
-  isRtl: boolean,
-};
-
-export type ContainerProps = CommonProps &
-  ContainerState & {
-    /** The children to be rendered. */
-    children: Node,
-    /** Inner props to be passed down to the container. */
-    innerProps: { onKeyDown: KeyboardEventHandler },
-  };
-export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
+  isDisabled: boolean;
+  isFocused: boolean;
+  /** The children to be rendered. */
+  children: ReactNode;
+  /** Inner props to be passed down to the container. */
+  innerProps: JSX.IntrinsicElements['div'];
+}
+export const containerCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
+  isDisabled,
+  isRtl,
+}: ContainerProps<Option, IsMulti, Group>) => ({
   label: 'container',
   direction: isRtl ? 'rtl' : null,
   pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
   position: 'relative',
 });
-export const SelectContainer = (props: ContainerProps) => {
+export const SelectContainer = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: ContainerProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     className,
@@ -59,19 +71,24 @@ export const SelectContainer = (props: ContainerProps) => {
 // Value Container
 // ==============================
 
-export type ValueContainerProps = CommonProps & {
+export interface ValueContainerProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  className: string | undefined;
   /** Props to be passed to the value container element. */
-  innerProps?: {},
-  /** Set when the value container should hold multiple values */
-  isMulti: boolean,
-  /** Whether the value container currently holds a value. */
-  hasValue: boolean,
+  innerProps?: JSX.IntrinsicElements['div'];
   /** The children to be rendered. */
-  children: Node,
-};
-export const valueContainerCSS = ({
+  children: ReactNode;
+}
+export const valueContainerCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   theme: { spacing },
-}: ValueContainerProps) => ({
+}: ValueContainerProps<Option, IsMulti, Group>) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -81,7 +98,13 @@ export const valueContainerCSS = ({
   position: 'relative',
   overflow: 'hidden',
 });
-export const ValueContainer = (props: ValueContainerProps) => {
+export const ValueContainer = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: ValueContainerProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     className,
@@ -114,18 +137,18 @@ export const ValueContainer = (props: ValueContainerProps) => {
 // Indicator Container
 // ==============================
 
-type IndicatorsState = {
-  /** Whether the text should be rendered right to left. */
-  isRtl: boolean,
-};
-
-export type IndicatorContainerProps = CommonProps &
-  IndicatorsState & {
-    /** The children to be rendered. */
-    children: Node,
-    /** Props to be passed to the indicators container element. */
-    innerProps?: {},
-  };
+export interface IndicatorContainerProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  className: string | undefined;
+  isDisabled: boolean;
+  /** The children to be rendered. */
+  children: ReactNode;
+  /** Props to be passed to the indicators container element. */
+  innerProps?: {};
+}
 
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
@@ -133,7 +156,13 @@ export const indicatorsContainerCSS = () => ({
   display: 'flex',
   flexShrink: 0,
 });
-export const IndicatorsContainer = (props: IndicatorContainerProps) => {
+export const IndicatorsContainer = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: IndicatorContainerProps<Option, IsMulti, Group>
+) => {
   const { children, className, cx, innerProps, getStyles } = props;
 
   return (
