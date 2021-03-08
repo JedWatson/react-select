@@ -1,18 +1,13 @@
-// @flow
 /** @jsx jsx */
+import { Ref } from 'react';
 import { jsx } from '@emotion/react';
 
 export default function DummyInput({
-  in: inProp,
-  out,
-  onExited,
-  appear,
-  enter,
-  exit,
   innerRef,
-  emotion,
   ...props
-}: any) {
+}: JSX.IntrinsicElements['input'] & {
+  readonly innerRef: Ref<HTMLInputElement>;
+}) {
   return (
     <input
       ref={innerRef}
