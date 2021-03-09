@@ -1,10 +1,10 @@
 import { ActionMeta, OnChangeValue, OptionBase } from '../types';
 
-export type OptionContextType = 'menu' | 'value';
+export type OptionContext = 'menu' | 'value';
 
-export type GuidanceContextType = 'menu' | 'input' | 'value';
+export type GuidanceContext = 'menu' | 'input' | 'value';
 
-export type AriaLiveProp = 'polite' | 'off' | 'assertive';
+export type AriaLive = 'polite' | 'off' | 'assertive';
 
 export type AriaSelection<
   Option extends OptionBase,
@@ -17,7 +17,7 @@ export type AriaGuidanceProps = {
   // String value of selectProp aria-label
   'aria-label'?: string;
   // String indicating user's current context and availabile keyboard interactivity
-  context: GuidanceContextType;
+  context: GuidanceContext;
   // Boolean value of selectProp isSearchable
   isSearchable?: boolean;
   // Boolean value of selectProp isMulti
@@ -46,7 +46,7 @@ export type AriaOnFilterProps = {
 
 export type AriaOnFocusProps = {
   // String indicating whether the option was focused in the menu or as (multi-) value
-  context: OptionContextType;
+  context: OptionContext;
   // Option that is being focused
   focused: OptionType;
   // Boolean indicating whether focused menu option has been disabled
