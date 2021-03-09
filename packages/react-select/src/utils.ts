@@ -1,12 +1,7 @@
-// @flow
-
-import { type ElementRef } from 'react';
-import type {
+import {
   ClassNamesState,
-  CommonProps,
-  InputActionMeta,
-  OptionsType,
-  ValueType,
+  CommonProps, GroupBase,
+  InputActionMeta, OptionBase, Options, PropsValue,
 } from './types';
 
 // ==============================
@@ -29,7 +24,7 @@ export const emptyString = () => '';
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
-function applyPrefixToName(prefix, name) {
+function applyPrefixToName(prefix: string, name: string) {
   if (!name) {
     return prefix;
   } else if (name[0] === '-') {
@@ -62,7 +57,7 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = (value: ValueType): OptionsType => {
+export const cleanValue = <Option extends OptionBase>(value: PropsValue<Option>): Options<Option> => {
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
   return [];
@@ -72,7 +67,12 @@ export const cleanValue = (value: ValueType): OptionsType => {
 // Clean Common Props
 // ==============================
 
-export const cleanCommonProps = (props: CommonProps): any => {
+export const cleanCommonProps = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>,
+  AdditionalProps
+  >(props: CommonProps<Option, IsMulti, Group> & AdditionalProps): AdditionalProps => {
   //className
   const {
     className, // not listed in commonProps documentation, needs to be removed to allow Emotion to generate classNames
@@ -100,7 +100,8 @@ export const cleanCommonProps = (props: CommonProps): any => {
 export function handleInputChange(
   inputValue: string,
   actionMeta: InputActionMeta,
-  onInputChange?: (string, InputActionMeta) => string | void
+  onInputChange?: (newValue: string,
+                   actionMeta: InputActionMeta) => string | void
 ) {
   if (onInputChange) {
     const newValue = onInputChange(inputValue, actionMeta);
@@ -151,7 +152,7 @@ export function scrollTo(el: Element, top: number): void {
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: ElementRef<*>): Element {
+export function getScrollParent(element: ElementRef): Element {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;

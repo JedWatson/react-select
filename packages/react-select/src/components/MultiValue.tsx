@@ -11,7 +11,7 @@ export interface MultiValueProps<
   > extends CommonProps<Option, IsMulti, Group> {
   children: ReactNode,
   components: any,
-  cropWithEllipsis: boolean,
+  cropWithEllipsis?: boolean,
   data: any,
   innerProps: any,
   isFocused: boolean,

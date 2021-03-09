@@ -1,11 +1,8 @@
-// @flow
 /** @jsx jsx */
 import {
   createContext,
   Component,
-  type Element as ReactElement,
-  type ElementRef,
-  type Node,
+  ReactNode,
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
@@ -13,18 +10,18 @@ import { createPortal } from 'react-dom';
 import {
   animatedScrollTo,
   getBoundingClientObj,
-  type RectType,
+  RectType,
   getScrollParent,
   getScrollTop,
   scrollTo,
 } from '../utils';
-import type {
+import {
   InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
+  Theme,
 } from '../types';
-import type { Theme } from '../types';
 
 // ==============================
 // Menu
@@ -39,7 +36,7 @@ type MenuState = {
 };
 type PlacementArgs = {
   maxHeight: number,
-  menuEl: ElementRef<*>,
+  menuEl: ElementRef,
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
@@ -225,13 +222,13 @@ export type MenuAndPlacerCommon = CommonProps & {
 };
 export type MenuProps = MenuAndPlacerCommon & {
   /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: ElementRef<*>,
+  innerRef: ElementRef,
   /** The children to be rendered. */
-  children: ReactElement<*>,
+  children: ReactElement,
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({}) => Node,
+  children: ({}) => ReactNode,
 };
 
 function alignToControl(placement) {
@@ -270,7 +267,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
   };
   static contextType = PortalPlacementContext;
 
-  getPlacement = (ref: ElementRef<*>) => {
+  getPlacement = (ref: ElementRef) => {
     const {
       minMenuHeight,
       maxMenuHeight,
@@ -347,8 +344,8 @@ type MenuListState = {
 
 export type MenuListProps = {
   /** The children to be rendered. */
-  children: Node,
-  /** Inner ref to DOM Node */
+  children: ReactNode,
+  /** Inner ref to DOM ReactNode */
   innerRef: InnerRef,
   /** Props to be passed to the menu-list wrapper. */
   innerProps: {},
@@ -416,7 +413,7 @@ export const loadingMessageCSS = noticeCSS;
 
 export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode,
   /** Props to be passed on to the wrapper. */
   innerProps: {},
 };
@@ -471,7 +468,7 @@ LoadingMessage.defaultProps = {
 
 export type MenuPortalProps = CommonProps & {
   appendTo: HTMLElement,
-  children: Node, // ideally Menu<MenuProps>
+  children: ReactNode, // ideally Menu<MenuProps>
   controlElement: HTMLElement,
   innerProps: {},
   menuPlacement: MenuPlacement,
