@@ -1,32 +1,34 @@
-// @flow
-
-import React, { Component, type ComponentType, type ElementRef } from 'react';
+import React, {
+  Component,
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+  RefCallback,
+} from 'react';
 import { Transition } from 'react-transition-group';
-
-export type fn = () => void;
-export type BaseTransition = {
-  /** Whether we are in a transition. */
-  in: boolean,
-  /** Function to be called once transition finishes. */
-  onExited: fn,
-};
+import {
+  ExitHandler,
+  TransitionStatus,
+} from 'react-transition-group/Transition';
 
 // ==============================
 // Fade Transition
 // ==============================
 
-type FadeProps = BaseTransition & {
-  component: ComponentType<any>,
-  duration: number,
-};
-export const Fade = ({
+type FadeProps<ComponentProps> = {
+  component: ComponentType<ComponentProps>;
+  in?: boolean;
+  onExited?: ExitHandler<undefined | HTMLElement>;
+  duration?: number;
+} & ComponentProps;
+export const Fade = <ComponentProps extends {}>({
   component: Tag,
   duration = 1,
   in: inProp,
-  onExited, // eslint-disable-line no-unused-vars
+  onExited,
   ...props
-}: FadeProps) => {
-  const transition = {
+}: FadeProps<ComponentProps>) => {
+  const transition: { [K in TransitionStatus]?: CSSProperties } = {
     entering: { opacity: 0 },
     entered: { opacity: 1, transition: `opacity ${duration}ms` },
     exiting: { opacity: 0 },
@@ -53,18 +55,23 @@ export const Fade = ({
 
 export const collapseDuration = 260;
 
-type TransitionState = 'exiting' | 'exited';
 type Width = number | 'auto';
-type CollapseProps = { children: any, in: boolean };
-type CollapseState = { width: Width };
+interface CollapseProps {
+  children: ReactNode;
+  in?: boolean;
+  onExited?: ExitHandler<undefined | HTMLElement>;
+}
+interface CollapseState {
+  width: Width;
+}
 
 // wrap each MultiValue with a collapse transition; decreases width until
 // finally removing from DOM
 export class Collapse extends Component<CollapseProps, CollapseState> {
   duration = collapseDuration;
-  rafID: number | null;
-  state = { width: 'auto' };
-  transition = {
+  rafID?: number | null;
+  state: CollapseState = { width: 'auto' };
+  transition: { [K in TransitionStatus]?: CSSProperties } = {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
@@ -75,8 +82,8 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   }
 
   // width must be calculated; cannot transition from `undefined` to `number`
-  getWidth = (ref: ElementRef<*>) => {
-    if (ref && isNaN(this.state.width)) {
+  getWidth: RefCallback<HTMLDivElement> = ref => {
+    if (ref && isNaN(this.state.width as number)) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our
         call to getBoundingClientRect and setState in order to resolve an edge case
@@ -93,14 +100,14 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   };
 
   // get base styles
-  getStyle = (width: Width) => ({
+  getStyle = (width: Width): CSSProperties => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     width,
   });
 
   // get transition styles
-  getTransition = (state: TransitionState) => this.transition[state];
+  getTransition = (state: TransitionStatus) => this.transition[state];
 
   render() {
     const { children, in: inProp } = this.props;

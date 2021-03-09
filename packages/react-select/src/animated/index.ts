@@ -1,6 +1,5 @@
-// @flow
 import memoize from 'memoize-one';
-import { type SelectComponents, defaultComponents } from '../components/index';
+import { SelectComponents, defaultComponents } from '../components/index';
 import { default as AnimatedInput } from './Input';
 import { default as AnimatedMultiValue } from './MultiValue';
 import { default as AnimatedPlaceholder } from './Placeholder';
