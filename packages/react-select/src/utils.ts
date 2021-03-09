@@ -1,7 +1,11 @@
 import {
   ClassNamesState,
-  CommonProps, GroupBase,
-  InputActionMeta, OptionBase, Options, PropsValue,
+  CommonProps,
+  GroupBase,
+  InputActionMeta,
+  OptionBase,
+  Options,
+  PropsValue,
 } from './types';
 
 // ==============================
@@ -57,7 +61,9 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = <Option extends OptionBase>(value: PropsValue<Option>): Options<Option> => {
+export const cleanValue = <Option extends OptionBase>(
+  value: PropsValue<Option>
+): Options<Option> => {
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
   return [];
@@ -72,7 +78,9 @@ export const cleanCommonProps = <
   IsMulti extends boolean,
   Group extends GroupBase<Option>,
   AdditionalProps
-  >(props: CommonProps<Option, IsMulti, Group> & AdditionalProps): AdditionalProps => {
+>(
+  props: CommonProps<Option, IsMulti, Group> & AdditionalProps
+): AdditionalProps => {
   //className
   const {
     className, // not listed in commonProps documentation, needs to be removed to allow Emotion to generate classNames
@@ -100,8 +108,10 @@ export const cleanCommonProps = <
 export function handleInputChange(
   inputValue: string,
   actionMeta: InputActionMeta,
-  onInputChange?: (newValue: string,
-                   actionMeta: InputActionMeta) => string | void
+  onInputChange?: (
+    newValue: string,
+    actionMeta: InputActionMeta
+  ) => string | void
 ) {
   if (onInputChange) {
     const newValue = onInputChange(inputValue, actionMeta);
@@ -114,14 +124,16 @@ export function handleInputChange(
 // Scroll Helpers
 // ==============================
 
-export function isDocumentElement(el: Element) {
+export function isDocumentElement(
+  el: HTMLElement | typeof window
+): el is typeof window {
   return [document.documentElement, document.body, window].indexOf(el) > -1;
 }
 
 // Normalized Scroll Top
 // ------------------------------
 
-export function normalizedHeight(el: Element): number {
+export function normalizedHeight(el: HTMLElement | typeof window): number {
   if (isDocumentElement(el)) {
     return window.innerHeight;
   }
@@ -132,14 +144,14 @@ export function normalizedHeight(el: Element): number {
 // Normalized scrollTo & scrollTop
 // ------------------------------
 
-export function getScrollTop(el: Element): number {
+export function getScrollTop(el: HTMLElement | typeof window): number {
   if (isDocumentElement(el)) {
     return window.pageYOffset;
   }
   return el.scrollTop;
 }
 
-export function scrollTo(el: Element, top: number): void {
+export function scrollTo(el: HTMLElement | typeof window, top: number): void {
   // with a scroll distance, we perform scroll on the element
   if (isDocumentElement(el)) {
     window.scrollTo(0, top);
@@ -152,15 +164,18 @@ export function scrollTo(el: Element, top: number): void {
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: ElementRef): Element {
+export function getScrollParent(element: HTMLElement) {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
-  const docEl = ((document.documentElement: any): Element); // suck it, flow...
 
-  if (style.position === 'fixed') return docEl;
+  if (style.position === 'fixed') return document.documentElement;
 
-  for (let parent = element; (parent = parent.parentElement); ) {
+  for (
+    let parent: HTMLElement | null = element;
+    (parent = parent.parentElement);
+
+  ) {
     style = getComputedStyle(parent);
     if (excludeStaticParent && style.position === 'static') {
       continue;
@@ -170,7 +185,7 @@ export function getScrollParent(element: ElementRef): Element {
     }
   }
 
-  return docEl;
+  return document.documentElement;
 }
 
 // Animated Scroll To
@@ -187,10 +202,10 @@ function easeOutCubic(t: number, b: number, c: number, d: number): number {
 }
 
 export function animatedScrollTo(
-  element: Element,
+  element: HTMLElement | typeof window,
   to: number,
   duration: number = 200,
-  callback: Element => void = noop
+  callback: (element: HTMLElement | typeof window) => void = noop
 ) {
   const start = getScrollTop(element);
   const change = to - start;
@@ -253,19 +268,19 @@ export function getBoundingClientObj(element: HTMLElement) {
     width: rect.width,
   };
 }
-export type RectType = {
-  left: number,
-  right: number,
-  bottom: number,
-  height: number,
-  width: number,
-};
+export interface RectType {
+  left: number;
+  right: number;
+  bottom: number;
+  height: number;
+  width: number;
+}
 
 // ==============================
 // String to Key (kebabify)
 // ==============================
 
-export function toKey(str: string): string {
+export function toKey(str: string) {
   return str.replace(/\W/g, '-');
 }
 
@@ -308,7 +323,10 @@ const options = {
   },
 };
 // check for SSR
-const w = typeof window !== 'undefined' ? window : {};
+const w:
+  | typeof window
+  | { addEventListener?: never; removeEventListener?: never } =
+  typeof window !== 'undefined' ? window : {};
 if (w.addEventListener && w.removeEventListener) {
   w.addEventListener('p', noop, options);
   w.removeEventListener('p', noop, false);
