@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type MultiValueProps } from 'react-select/src/components/MultiValue';
+import { MultiValueProps } from 'react-select';
 
 export default class MultiValue extends Component<MultiValueProps> {}

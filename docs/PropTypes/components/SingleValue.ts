@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type SingleValueProps } from 'react-select/src/components/SingleValue';
+import { SingleValueProps } from 'react-select';
 
 export default class SingleValue extends Component<SingleValueProps> {}

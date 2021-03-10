@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type PlaceholderProps } from 'react-select/src/components/Placeholder';
+import { PlaceholderProps } from 'react-select';
 
 export default class Placeholder extends Component<PlaceholderProps> {}

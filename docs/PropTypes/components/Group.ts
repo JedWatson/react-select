@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type GroupProps } from 'react-select/src/components/Group';
+import { GroupProps } from 'react-select';
 
 export default class Group extends Component<GroupProps> {}

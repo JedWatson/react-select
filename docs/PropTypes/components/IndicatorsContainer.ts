@@ -1,4 +1,6 @@
 import { Component } from 'react';
-import { type IndicatorContainerProps } from 'react-select/src/components/containers';
+import { IndicatorContainerProps } from 'react-select';
 
-export default class IndicatorContainer extends Component<IndicatorContainerProps> {}
+export default class IndicatorContainer extends Component<
+  IndicatorContainerProps
+> {}

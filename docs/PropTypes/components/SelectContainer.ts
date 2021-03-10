@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type ContainerProps } from 'react-select/src/components/containers';
+import { ContainerProps } from 'react-select';
 
 export default class SelectContainer extends Component<ContainerProps> {}

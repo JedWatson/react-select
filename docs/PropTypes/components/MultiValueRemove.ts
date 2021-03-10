@@ -1,4 +1,6 @@
 import { Component } from 'react';
-import { type MultiValueGenericProps } from 'react-select/src/components/MultiValue';
+import { MultiValueGenericProps } from 'react-select';
 
-export default class MultiValueRemove extends Component<MultiValueGenericProps> {}
+export default class MultiValueRemove extends Component<
+  MultiValueGenericProps
+> {}

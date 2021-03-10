@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type ValueContainerProps } from 'react-select/src/components/containers';
+import { ValueContainerProps } from 'react-select';
 
 export default class ValueContainer extends Component<ValueContainerProps> {}

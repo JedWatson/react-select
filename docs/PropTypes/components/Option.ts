@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type OptionProps } from 'react-select/src/components/Option';
+import { OptionProps } from 'react-select';
 
 export default class Option extends Component<OptionProps> {}

@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type ControlProps } from 'react-select/src/components/Control';
+import { ControlProps } from 'react-select';
 
 export default class Control extends Component<ControlProps> {}

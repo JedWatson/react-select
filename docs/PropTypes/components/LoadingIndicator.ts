@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type LoadingIconProps } from 'react-select/src/components/indicators';
+import { LoadingIconProps } from 'react-select';
 
 export default class LoadingIndicator extends Component<LoadingIconProps> {}

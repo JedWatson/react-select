@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type InputProps } from 'react-select/src/components/Input';
+import { InputProps } from 'react-select';
 
 export default class Input extends Component<InputProps> {}

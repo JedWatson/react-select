@@ -1,4 +1,4 @@
 import { Component } from 'react';
-import { type MenuProps } from 'react-select/src/components/Menu';
+import { MenuProps } from 'react-select';
 
 export default class Menu extends Component<MenuProps> {}
