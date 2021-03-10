@@ -333,3 +333,7 @@ if (w.addEventListener && w.removeEventListener) {
 }
 
 export const supportsPassiveEvents: boolean = passiveOptionAccessed;
+
+export function notNullish<T>(item: T | null | undefined): item is T {
+  return item != null;
+}

@@ -151,3 +151,10 @@ export type FocusDirection =
   | 'pagedown'
   | 'first'
   | 'last';
+
+export type GetOptionLabel<Option extends OptionBase> = (
+  option: Option
+) => string;
+export type GetOptionValue<Option extends OptionBase> = (
+  option: Option
+) => string;

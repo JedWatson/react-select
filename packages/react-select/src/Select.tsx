@@ -1,15 +1,22 @@
-// @flow
-
-import React, { Component, type ElementRef, type Node } from 'react';
+import React, {
+  Component,
+  FocusEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  ReactNode,
+  RefCallback,
+  TouchEventHandler,
+} from 'react';
 import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
-import { createFilter } from './filters';
+import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
 import {
-  type AriaLiveProp,
-  type AriaLiveMessagesProps,
-  type AriaSelectionType,
+  AriaLive,
+  AriaLiveMessages,
+  AriaSelection,
 } from './accessibility/index';
 
 import {
@@ -20,6 +27,7 @@ import {
   noop,
   scrollIntoView,
   isDocumentElement,
+  notNullish,
 } from './utils';
 
 import {
@@ -29,221 +37,228 @@ import {
   isOptionDisabled as isOptionDisabledBuiltin,
 } from './builtins';
 
+import { defaultComponents, SelectComponentsConfig } from './components/index';
+
+import { defaultStyles } from './styles';
+import { defaultTheme, ThemeConfig } from './theme';
+
 import {
-  defaultComponents,
-  type PlaceholderOrValue,
-  type SelectComponentsConfig,
-} from './components/index';
-
-import { defaultStyles, type StylesConfig } from './styles';
-import { defaultTheme, type ThemeConfig } from './theme';
-
-import type {
   ActionMeta,
-  ActionTypes,
   FocusDirection,
-  FocusEventHandler,
-  GroupType,
+  GetOptionLabel,
+  GetOptionValue,
+  GroupBase,
   InputActionMeta,
-  KeyboardEventHandler,
   MenuPlacement,
   MenuPosition,
-  OptionsType,
-  OptionType,
-  ValueType,
+  OnChangeValue,
+  OptionBase,
+  Options,
+  OptionsOrGroups,
+  PropsValue,
+  SetValueAction,
 } from './types';
 
-type MouseOrTouchEvent =
-  | SyntheticMouseEvent<HTMLElement>
-  | SyntheticTouchEvent<HTMLElement>;
 type FormatOptionLabelContext = 'menu' | 'value';
-type FormatOptionLabelMeta = {
-  context: FormatOptionLabelContext,
-  inputValue: string,
-  selectValue: ValueType,
-};
+interface FormatOptionLabelMeta<Option extends OptionBase> {
+  context: FormatOptionLabelContext;
+  inputValue: string;
+  selectValue: Options<Option>;
+}
 
-export type Props = {
-  /* Aria label (for assistive tech) */
-  'aria-label'?: string,
-  /* HTML ID of an element that should be used as the label (for assistive tech) */
-  'aria-labelledby'?: string,
-  /* Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
-  'aria-live'?: AriaLiveProp,
-  /* Customize the messages used by the aria-live component */
-  ariaLiveMessages?: AriaLiveMessagesProps,
-  /* Focus the control when it is mounted */
-  autoFocus?: boolean,
-  /* Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
-  backspaceRemovesValue: boolean,
-  /* Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
-  blurInputOnSelect: boolean,
-  /* When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
-  captureMenuScroll: boolean,
-  /* Sets a className attribute on the outer component */
-  className?: string,
-  /*
-    If provided, all inner components will be given a prefixed className attribute.
-
-    This is useful when styling via CSS classes instead of the Styles API approach.
-  */
-  classNamePrefix?: string | null,
-  /* Close the select menu when the user selects an option */
-  closeMenuOnSelect: boolean,
-  /*
-    If `true`, close the select menu when the user scrolls the document/body.
-
-    If a function, takes a standard javascript `ScrollEvent` you return a boolean:
-
-    `true` => The menu closes
-
-    `false` => The menu stays open
-
-    This is useful when you have a scrollable modal and want to portal the menu out,
-    but want to avoid graphical issues.
+export interface Props<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> {
+  /** Aria label (for assistive tech) */
+  'aria-label'?: string;
+  /** HTML ID of an element that should be used as the label (for assistive tech) */
+  'aria-labelledby'?: string;
+  /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
+  'aria-live'?: AriaLive;
+  /** Customize the messages used by the aria-live component */
+  ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
+  /** Focus the control when it is mounted */
+  autoFocus?: boolean;
+  /** Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
+  backspaceRemovesValue: boolean;
+  /** Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
+  blurInputOnSelect: boolean;
+  /** When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
+  captureMenuScroll: boolean;
+  /** Sets a className attribute on the outer component */
+  className?: string;
+  /**
+   * If provided, all inner components will be given a prefixed className attribute.
+   *
+   * This is useful when styling via CSS classes instead of the Styles API approach.
    */
-  closeMenuOnScroll: boolean | EventListener,
-  /*
-    This complex object includes all the compositional components that are used
-    in `react-select`. If you wish to overwrite a component, pass in an object
-    with the appropriate namespace.
-
-    If you only wish to restyle a component, we recommend using the `styles` prop
-    instead. For a list of the components that can be passed in, and the shape
-    that will be passed to them, see [the components docs](/components)
-  */
-  components: SelectComponentsConfig,
-  /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
-  controlShouldRenderValue: boolean,
-  /* Delimiter used to join multiple values into a single HTML Input value */
-  delimiter?: string,
-  /* Clear all values when the user presses escape AND the menu is closed */
-  escapeClearsValue: boolean,
-  /* Custom method to filter whether an option should be displayed in the menu */
+  classNamePrefix?: string | null;
+  /** Close the select menu when the user selects an option */
+  closeMenuOnSelect: boolean;
+  /**
+   * If `true`, close the select menu when the user scrolls the document/body.
+   *
+   * If a function, takes a standard javascript `ScrollEvent` you return a boolean:
+   *
+   * `true` => The menu closes
+   *
+   * `false` => The menu stays open
+   *
+   * This is useful when you have a scrollable modal and want to portal the menu out,
+   * but want to avoid graphical issues.
+   */
+  closeMenuOnScroll: boolean | ((event: Event) => boolean);
+  /**
+   * This complex object includes all the compositional components that are used
+   * in `react-select`. If you wish to overwrite a component, pass in an object
+   * with the appropriate namespace.
+   *
+   * If you only wish to restyle a component, we recommend using the `styles` prop
+   * instead. For a list of the components that can be passed in, and the shape
+   * that will be passed to them, see [the components docs](/components)
+   */
+  components: SelectComponentsConfig;
+  /** Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
+  controlShouldRenderValue: boolean;
+  /** Delimiter used to join multiple values into a single HTML Input value */
+  delimiter?: string;
+  /** Clear all values when the user presses escape AND the menu is closed */
+  escapeClearsValue: boolean;
+  /** Custom method to filter whether an option should be displayed in the menu */
   filterOption:
-    | (({ label: string, value: string, data: OptionType }, string) => boolean)
-    | null,
-  /*
-    Formats group labels in the menu as React components
-
-    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
-  */
-  formatGroupLabel: typeof formatGroupLabelBuiltin,
-  /* Formats option labels in the menu and control as React components */
-  formatOptionLabel?: (OptionType, FormatOptionLabelMeta) => Node,
-  /*
-    Resolves option data to a string to be displayed as the label by components
-
-    Note: Failure to resolve to a string type can interfere with filtering and
-    screen reader support.
-  */
-  getOptionLabel: typeof getOptionLabelBuiltin,
-  /* Resolves option data to a string to compare options and specify value attributes */
-  getOptionValue: typeof getOptionValueBuiltin,
-  /* Hide the selected option from the menu */
-  hideSelectedOptions?: boolean,
-  /* The id to set on the SelectContainer component. */
-  id?: string,
-  /* The value of the search input */
-  inputValue: string,
-  /* The id of the search input */
-  inputId?: string,
-  /* Define an id prefix for the select components e.g. {your-id}-value */
-  instanceId?: number | string,
-  /* Is the select value clearable */
-  isClearable?: boolean,
-  /* Is the select disabled */
-  isDisabled: boolean,
-  /* Is the select in a state of loading (async) */
-  isLoading: boolean,
-  /*
-    Override the built-in logic to detect whether an option is disabled
-
-    An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
-  */
-  isOptionDisabled: (OptionType, OptionsType) => boolean | false,
-  /* Override the built-in logic to detect whether an option is selected */
-  isOptionSelected?: (OptionType, OptionsType) => boolean,
-  /* Support multiple selected options */
-  isMulti: boolean,
-  /* Is the select direction right-to-left */
-  isRtl: boolean,
-  /* Whether to enable search functionality */
-  isSearchable: boolean,
-  /* Async: Text to display when loading options */
-  loadingMessage: ({ inputValue: string }) => string | null,
-  /* Minimum height of the menu before flipping */
-  minMenuHeight: number,
-  /* Maximum height of the menu before scrolling */
-  maxMenuHeight: number,
-  /* Whether the menu is open */
-  menuIsOpen: boolean,
-  /* Default placement of the menu in relation to the control. 'auto' will flip
-     when there isn't enough space below the control. */
-  menuPlacement: MenuPlacement,
-  /* The CSS position value of the menu, when "fixed" extra layout management is required */
-  menuPosition: MenuPosition,
-  /*
-    Whether the menu should use a portal, and where it should attach
-
-    An example can be found in the [Portaling](/advanced#portaling) documentation
-  */
-  menuPortalTarget?: HTMLElement,
-  /* Whether to block scroll events when the menu is open */
-  menuShouldBlockScroll: boolean,
-  /* Whether the menu should be scrolled into view when it opens */
-  menuShouldScrollIntoView: boolean,
-  /* Name of the HTML Input (optional - without this, no input will be rendered) */
-  name?: string,
-  /* Text to display when there are no options */
-  noOptionsMessage: ({ inputValue: string }) => Node | null,
-  /* Handle blur events on the control */
-  onBlur?: FocusEventHandler,
-  /* Handle change events on the select */
-  onChange: (ValueType, ActionMeta) => void,
-  /* Handle focus events on the control */
-  onFocus?: FocusEventHandler,
-  /* Handle change events on the input */
-  onInputChange: (string, InputActionMeta) => void,
-  /* Handle key down events on the select */
-  onKeyDown?: KeyboardEventHandler,
-  /* Handle the menu opening */
-  onMenuOpen: () => void,
-  /* Handle the menu closing */
-  onMenuClose: () => void,
-  /* Fired when the user scrolls to the top of the menu */
-  onMenuScrollToTop?: (SyntheticEvent<HTMLElement>) => void,
-  /* Fired when the user scrolls to the bottom of the menu */
-  onMenuScrollToBottom?: (SyntheticEvent<HTMLElement>) => void,
-  /* Allows control of whether the menu is opened when the Select is focused */
-  openMenuOnFocus: boolean,
-  /* Allows control of whether the menu is opened when the Select is clicked */
-  openMenuOnClick: boolean,
-  /* Array of options that populate the select menu */
-  options: OptionsType,
-  /* Number of options to jump in menu when page{up|down} keys are used */
-  pageSize: number,
-  /* Placeholder for the select value */
-  placeholder: Node,
-  /* Status to relay to screen readers */
-  screenReaderStatus: ({ count: number }) => string,
-  /*
-    Style modifier methods
-
-    A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
-  */
-  styles: StylesConfig,
-  /* Theme modifier method */
-  theme?: ThemeConfig,
-  /* Sets the tabIndex attribute on the input */
-  tabIndex: number | string,
-  /* Select the currently focused option when the user presses tab */
-  tabSelectsValue: boolean,
-  /* The value of the select; reflected by the selected option */
-  value: ValueType,
-  /* Sets the form attribute on the input */
-  form?: string,
-};
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null;
+  /**
+   * Formats group labels in the menu as React components
+   *
+   * An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+   */
+  formatGroupLabel: (group: Group) => ReactNode;
+  /** Formats option labels in the menu and control as React components */
+  formatOptionLabel?: (
+    data: Option,
+    formatOptionLabelMeta: FormatOptionLabelMeta<Option>
+  ) => ReactNode;
+  /**
+   * Resolves option data to a string to be displayed as the label by components
+   *
+   * Note: Failure to resolve to a string type can interfere with filtering and
+   * screen reader support.
+   */
+  getOptionLabel: GetOptionLabel<Option>;
+  /** Resolves option data to a string to compare options and specify value attributes */
+  getOptionValue: GetOptionValue<Option>;
+  /** Hide the selected option from the menu */
+  hideSelectedOptions?: boolean;
+  /** The id to set on the SelectContainer component. */
+  id?: string;
+  /** The value of the search input */
+  inputValue: string;
+  /** The id of the search input */
+  inputId?: string;
+  /** Define an id prefix for the select components e.g. {your-id}-value */
+  instanceId?: number | string;
+  /** Is the select value clearable */
+  isClearable?: boolean;
+  /** Is the select disabled */
+  isDisabled: boolean;
+  /** Is the select in a state of loading (async) */
+  isLoading: boolean;
+  /**
+   * Override the built-in logic to detect whether an option is disabled
+   *
+   * An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
+   */
+  isOptionDisabled: (option: Option, selectValue: Options<Option>) => boolean;
+  /** Override the built-in logic to detect whether an option is selected */
+  isOptionSelected?: (option: Option, selectValue: Options<Option>) => boolean;
+  /** Support multiple selected options */
+  isMulti: IsMulti;
+  /** Is the select direction right-to-left */
+  isRtl: boolean;
+  /** Whether to enable search functionality */
+  isSearchable: boolean;
+  /** Async: Text to display when loading options */
+  loadingMessage: (obj: { inputValue: string }) => string | null;
+  /** Minimum height of the menu before flipping */
+  minMenuHeight: number;
+  /** Maximum height of the menu before scrolling */
+  maxMenuHeight: number;
+  /** Whether the menu is open */
+  menuIsOpen: boolean;
+  /**
+   * Default placement of the menu in relation to the control. 'auto' will flip
+   * when there isn't enough space below the control.
+   */
+  menuPlacement: MenuPlacement;
+  /** The CSS position value of the menu, when "fixed" extra layout management is required */
+  menuPosition: MenuPosition;
+  /**
+   * Whether the menu should use a portal, and where it should attach
+   *
+   * An example can be found in the [Portaling](/advanced#portaling) documentation
+   */
+  menuPortalTarget?: HTMLElement;
+  /** Whether to block scroll events when the menu is open */
+  menuShouldBlockScroll: boolean;
+  /** Whether the menu should be scrolled into view when it opens */
+  menuShouldScrollIntoView: boolean;
+  /** Name of the HTML Input (optional - without this, no input will be rendered) */
+  name?: string;
+  /** Text to display when there are no options */
+  noOptionsMessage: (obj: { inputValue: string }) => ReactNode;
+  /** Handle blur events on the control */
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  /** Handle change events on the select */
+  onChange: (
+    newValue: OnChangeValue<Option, IsMulti>,
+    actionMeta: ActionMeta<Option>
+  ) => void;
+  /** Handle focus events on the control */
+  onFocus?: FocusEventHandler<HTMLInputElement>;
+  /** Handle change events on the input */
+  onInputChange: (newValue: string, actionMeta: InputActionMeta) => void;
+  /** Handle key down events on the select */
+  onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
+  /** Handle the menu opening */
+  onMenuOpen: () => void;
+  /** Handle the menu closing */
+  onMenuClose: () => void;
+  /** Fired when the user scrolls to the top of the menu */
+  onMenuScrollToTop?: (event: WheelEvent | TouchEvent) => void;
+  /** Fired when the user scrolls to the bottom of the menu */
+  onMenuScrollToBottom?: (event: WheelEvent | TouchEvent) => void;
+  /** Allows control of whether the menu is opened when the Select is focused */
+  openMenuOnFocus: boolean;
+  /** Allows control of whether the menu is opened when the Select is clicked */
+  openMenuOnClick: boolean;
+  /** Array of options that populate the select menu */
+  options: OptionsOrGroups<Option, Group>;
+  /** Number of options to jump in menu when page{up|down} keys are used */
+  pageSize: number;
+  /** Placeholder for the select value */
+  placeholder: ReactNode;
+  /** Status to relay to screen readers */
+  screenReaderStatus: (obj: { count: number }) => string;
+  /**
+   * Style modifier methods
+   *
+   * A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
+   */
+  styles: StylesConfig;
+  /** Theme modifier method */
+  theme?: ThemeConfig;
+  /** Sets the tabIndex attribute on the input */
+  tabIndex: number;
+  /** Select the currently focused option when the user presses tab */
+  tabSelectsValue: boolean;
+  /** The value of the select; reflected by the selected option */
+  value: PropsValue<Option>;
+  /** Sets the form attribute on the input */
+  form?: string;
+}
 
 export const defaultProps = {
   'aria-live': 'polite',
@@ -282,49 +297,61 @@ export const defaultProps = {
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
   styles: {},
-  tabIndex: '0',
+  tabIndex: 0,
   tabSelectsValue: true,
 };
 
-type State = {
-  ariaSelection: AriaSelectionType | null,
-  inputIsHidden: boolean,
-  isFocused: boolean,
-  focusedOption: OptionType | null,
-  focusedValue: OptionType | null,
-  selectValue: OptionsType,
-  clearFocusValueOnUpdate: boolean,
-  inputIsHiddenAfterUpdate: ?boolean,
-  prevProps: Props | void,
-};
+interface State<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> {
+  ariaSelection: AriaSelection<Option, IsMulti> | null;
+  inputIsHidden: boolean;
+  isFocused: boolean;
+  focusedOption: Option | null;
+  focusedValue: Option | null;
+  selectValue: Options<Option>;
+  clearFocusValueOnUpdate: boolean;
+  inputIsHiddenAfterUpdate: boolean | null | undefined;
+  prevProps: Props<Option, IsMulti, Group> | void;
+}
 
-type ElRef = ElementRef<*>;
+interface CategorizedOption<Option extends OptionBase> {
+  type: 'option';
+  data: Option;
+  isDisabled: boolean;
+  isSelected: boolean;
+  label: string;
+  value: string;
+  index: number;
+}
 
-type CategorizedOption = {
-  type: 'option',
-  data: OptionType,
-  isDisabled: boolean,
-  isSelected: boolean,
-  label: string,
-  value: string,
-  index: number,
-};
+interface CategorizedGroup<
+  Option extends OptionBase,
+  Group extends GroupBase<Option>
+> {
+  type: 'group';
+  data: Group;
+  options: readonly CategorizedOption<Option>[];
+  index: number;
+}
 
-type CategorizedGroup = {
-  type: 'group',
-  data: GroupType,
-  options: OptionsType,
-  index: number,
-};
+type CategorizedGroupOrOption<
+  Option extends OptionBase,
+  Group extends GroupBase<Option>
+> = CategorizedGroup<Option, Group> | CategorizedOption<Option>;
 
-type CategorizedGroupOrOption = CategorizedGroup | CategorizedOption;
-
-function toCategorizedOption(
-  props: Props,
-  option: OptionType,
-  selectValue: OptionsType,
+function toCategorizedOption<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  option: Option,
+  selectValue: Options<Option>,
   index: number
-) {
+): CategorizedOption<Option> {
   const isDisabled = isOptionDisabled(props, option, selectValue);
   const isSelected = isOptionSelected(props, option, selectValue);
   const label = getOptionLabel(props, option);
@@ -341,13 +368,17 @@ function toCategorizedOption(
   };
 }
 
-function buildCategorizedOptions(
-  props: Props,
-  selectValue: OptionsType
-): CategorizedGroupOrOption[] {
-  return (props.options
+function buildCategorizedOptions<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  selectValue: Options<Option>
+): CategorizedGroupOrOption<Option, Group>[] {
+  return props.options
     .map((groupOrOption, groupOrOptionIndex) => {
-      if (groupOrOption.options) {
+      if ('options' in groupOrOption) {
         const categorizedOptions = groupOrOption.options
           .map((option, optionIndex) =>
             toCategorizedOption(props, option, selectValue, optionIndex)
@@ -355,7 +386,7 @@ function buildCategorizedOptions(
           .filter(categorizedOption => isFocusable(props, categorizedOption));
         return categorizedOptions.length > 0
           ? {
-              type: 'group',
+              type: 'group' as const,
               data: groupOrOption,
               options: categorizedOptions,
               index: groupOrOptionIndex,
@@ -372,32 +403,46 @@ function buildCategorizedOptions(
         ? categorizedOption
         : undefined;
     })
-    // Flow limitation (see https://github.com/facebook/flow/issues/1414)
-    .filter(categorizedOption => !!categorizedOption): any[]);
+    .filter(notNullish);
 }
 
-function buildFocusableOptionsFromCategorizedOptions(
-  categorizedOptions: CategorizedGroupOrOption[]
-) {
-  return categorizedOptions.reduce((optionsAccumulator, categorizedOption) => {
-    if (categorizedOption.type === 'group') {
-      optionsAccumulator.push(
-        ...categorizedOption.options.map(option => option.data)
-      );
-    } else {
-      optionsAccumulator.push(categorizedOption.data);
-    }
-    return optionsAccumulator;
-  }, []);
+function buildFocusableOptionsFromCategorizedOptions<
+  Option extends OptionBase,
+  Group extends GroupBase<Option>
+>(categorizedOptions: readonly CategorizedGroupOrOption<Option, Group>[]) {
+  return categorizedOptions.reduce<Option[]>(
+    (optionsAccumulator, categorizedOption) => {
+      if (categorizedOption.type === 'group') {
+        optionsAccumulator.push(
+          ...categorizedOption.options.map(option => option.data)
+        );
+      } else {
+        optionsAccumulator.push(categorizedOption.data);
+      }
+      return optionsAccumulator;
+    },
+    []
+  );
 }
 
-function buildFocusableOptions(props: Props, selectValue: OptionsType) {
+function buildFocusableOptions<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
   return buildFocusableOptionsFromCategorizedOptions(
     buildCategorizedOptions(props, selectValue)
   );
 }
 
-function isFocusable(props: Props, categorizedOption: CategorizedOption) {
+function isFocusable<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  categorizedOption: CategorizedOption<Option>
+) {
   const { inputValue = '' } = props;
   const { data, isSelected, label, value } = categorizedOption;
 
@@ -407,7 +452,11 @@ function isFocusable(props: Props, categorizedOption: CategorizedOption) {
   );
 }
 
-function getNextFocusedValue(state: State, nextSelectValue: OptionsType) {
+function getNextFocusedValue<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(state: State<Option, IsMulti, Group>, nextSelectValue: Options<Option>) {
   const { focusedValue, selectValue: lastSelectValue } = state;
   const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
   if (lastFocusedIndex > -1) {
@@ -424,32 +473,58 @@ function getNextFocusedValue(state: State, nextSelectValue: OptionsType) {
   return null;
 }
 
-function getNextFocusedOption(state: State, options: OptionsType) {
+function getNextFocusedOption<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(state: State<Option, IsMulti, Group>, options: Options<Option>) {
   const { focusedOption: lastFocusedOption } = state;
   return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
     ? lastFocusedOption
     : options[0];
 }
-const getOptionLabel = (props: Props, data: OptionType): string => {
+const getOptionLabel = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  data: Option
+): string => {
   return props.getOptionLabel(data);
 };
-const getOptionValue = (props: Props, data: OptionType): string => {
+const getOptionValue = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  data: Option
+): string => {
   return props.getOptionValue(data);
 };
 
-function isOptionDisabled(
-  props: Props,
-  option: OptionType,
-  selectValue: OptionsType
+function isOptionDisabled<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  option: Option,
+  selectValue: Options<Option>
 ): boolean {
   return typeof props.isOptionDisabled === 'function'
     ? props.isOptionDisabled(option, selectValue)
     : false;
 }
-function isOptionSelected(
-  props: Props,
-  option: OptionType,
-  selectValue: OptionsType
+function isOptionSelected<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  option: Option,
+  selectValue: Options<Option>
 ): boolean {
   if (selectValue.indexOf(option) > -1) return true;
   if (typeof props.isOptionSelected === 'function') {
@@ -458,15 +533,25 @@ function isOptionSelected(
   const candidate = getOptionValue(props, option);
   return selectValue.some(i => getOptionValue(props, i) === candidate);
 }
-function filterOption(
-  props: Props,
-  option: { label: string, value: string, data: OptionType },
+function filterOption<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>,
+  option: FilterOptionOption<Option>,
   inputValue: string
 ) {
   return props.filterOption ? props.filterOption(option, inputValue) : true;
 }
 
-const shouldHideSelectedOptions = (props: Props) => {
+const shouldHideSelectedOptions = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: Props<Option, IsMulti, Group>
+) => {
   const { hideSelectedOptions, isMulti } = props;
   if (hideSelectedOptions === undefined) return isMulti;
   return hideSelectedOptions;
@@ -474,9 +559,16 @@ const shouldHideSelectedOptions = (props: Props) => {
 
 let instanceId = 1;
 
-export default class Select extends Component<Props, State> {
+export default class Select<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<
+  Props<Option, IsMulti, Group>,
+  State<Option, IsMulti, Group>
+> {
   static defaultProps = defaultProps;
-  state = {
+  state: State<Option, IsMulti, Group> = {
     ariaSelection: null,
     focusedOption: null,
     focusedValue: null,
@@ -499,38 +591,41 @@ export default class Select extends Component<Props, State> {
   instancePrefix: string = '';
   openAfterFocus: boolean = false;
   scrollToFocusedOptionOnUpdate: boolean = false;
-  userIsDragging: ?boolean;
+  userIsDragging?: boolean;
 
   // Refs
   // ------------------------------
 
-  controlRef: ElRef = null;
-  getControlRef = (ref: ?HTMLElement) => {
+  controlRef: HTMLDivElement | null = null;
+  getControlRef: RefCallback<HTMLDivElement> = ref => {
     this.controlRef = ref;
   };
-  focusedOptionRef: ElRef = null;
-  getFocusedOptionRef = (ref: ?HTMLElement) => {
+  focusedOptionRef: HTMLDivElement | null = null;
+  getFocusedOptionRef: RefCallback<HTMLDivElement> = ref => {
     this.focusedOptionRef = ref;
   };
-  menuListRef: ElRef = null;
-  getMenuListRef = (ref: ?HTMLElement) => {
+  menuListRef: HTMLDivElement | null = null;
+  getMenuListRef: RefCallback<HTMLDivElement> = ref => {
     this.menuListRef = ref;
   };
-  inputRef: ElRef = null;
-  getInputRef = (ref: ?HTMLElement) => {
+  inputRef: HTMLInputElement | null = null;
+  getInputRef: RefCallback<HTMLInputElement> = ref => {
     this.inputRef = ref;
   };
 
   // Lifecycle
   // ------------------------------
 
-  constructor(props: Props) {
+  constructor(props: Props<Option, IsMulti, Group>) {
     super(props);
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
   }
-  static getDerivedStateFromProps(props: Props, state: State) {
+  static getDerivedStateFromProps(
+    props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
+    state: State<OptionBase, boolean, GroupBase<OptionBase>>
+  ) {
     const {
       prevProps,
       clearFocusValueOnUpdate,
@@ -587,7 +682,7 @@ export default class Select extends Component<Props, State> {
       this.focusInput();
     }
   }
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
     const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
@@ -752,7 +847,10 @@ export default class Select extends Component<Props, State> {
       focusedValue: null,
     });
   }
-  onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
+  onChange = (
+    newValue: OnChangeValue<Option, IsMulti>,
+    actionMeta: ActionMeta<Option>
+  ) => {
     const { onChange, name } = this.props;
     actionMeta.name = name;
 
@@ -760,9 +858,9 @@ export default class Select extends Component<Props, State> {
     onChange(newValue, actionMeta);
   };
   setValue = (
-    newValue: ValueType,
-    action: ActionTypes = 'set-value',
-    option?: OptionType
+    newValue: OnChangeValue<Option, IsMulti>,
+    action: SetValueAction,
+    option?: Option
   ) => {
     const { closeMenuOnSelect, isMulti } = this.props;
     this.onInputChange('', { action: 'set-value' });
@@ -774,7 +872,7 @@ export default class Select extends Component<Props, State> {
     this.setState({ clearFocusValueOnUpdate: true });
     this.onChange(newValue, { action, option });
   };
-  selectOption = (newValue: OptionType) => {
+  selectOption = (newValue: Option) => {
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
     const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
@@ -803,7 +901,7 @@ export default class Select extends Component<Props, State> {
       this.blurInput();
     }
   };
-  removeValue = (removedValue: OptionType) => {
+  removeValue = (removedValue: Option) => {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
@@ -891,10 +989,10 @@ export default class Select extends Component<Props, State> {
     };
   }
 
-  getOptionLabel = (data: OptionType): string => {
+  getOptionLabel = (data: Option): string => {
     return getOptionLabel(this.props, data);
   };
-  getOptionValue = (data: OptionType): string => {
+  getOptionValue = (data: Option): string => {
     return getOptionValue(this.props, data);
   };
   getStyles = (key: string, props: {}): {} => {
@@ -924,7 +1022,10 @@ export default class Select extends Component<Props, State> {
   // Helpers
   // ==============================
 
-  ariaOnChange = (value: ValueType, actionMeta: ActionMeta) => {
+  ariaOnChange = (
+    value: OnChangeValue<Option, IsMulti>,
+    actionMeta: ActionMeta<Option>
+  ) => {
     this.setState({ ariaSelection: { value, ...actionMeta } });
   };
 
@@ -944,19 +1045,19 @@ export default class Select extends Component<Props, State> {
 
     return isClearable;
   }
-  isOptionDisabled(option: OptionType, selectValue: OptionsType): boolean {
+  isOptionDisabled(option: Option, selectValue: Options<Option>): boolean {
     return isOptionDisabled(this.props, option, selectValue);
   }
-  isOptionSelected(option: OptionType, selectValue: OptionsType): boolean {
+  isOptionSelected(option: Option, selectValue: Options<Option>): boolean {
     return isOptionSelected(this.props, option, selectValue);
   }
-  filterOption(
-    option: { label: string, value: string, data: OptionType },
-    inputValue: string
-  ) {
+  filterOption(option: FilterOptionOption<Option>, inputValue: string) {
     return filterOption(this.props, option, inputValue);
   }
-  formatOptionLabel(data: OptionType, context: FormatOptionLabelContext): Node {
+  formatOptionLabel(
+    data: Option,
+    context: FormatOptionLabelContext
+  ): ReactNode {
     if (typeof this.props.formatOptionLabel === 'function') {
       const { inputValue } = this.props;
       const { selectValue } = this.state;
@@ -969,7 +1070,7 @@ export default class Select extends Component<Props, State> {
       return this.getOptionLabel(data);
     }
   }
-  formatGroupLabel(data: GroupType) {
+  formatGroupLabel(data: Group) {
     return this.props.formatGroupLabel(data);
   }
 
@@ -977,7 +1078,7 @@ export default class Select extends Component<Props, State> {
   // Mouse Handlers
   // ==============================
 
-  onMenuMouseDown = (event: SyntheticMouseEvent<HTMLElement>) => {
+  onMenuMouseDown: MouseEventHandler<HTMLDivElement> = event => {
     if (event.button !== 0) {
       return;
     }
@@ -985,10 +1086,12 @@ export default class Select extends Component<Props, State> {
     event.preventDefault();
     this.focusInput();
   };
-  onMenuMouseMove = (event: SyntheticMouseEvent<HTMLElement>) => {
+  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = event => {
     this.blockOptionHover = false;
   };
-  onControlMouseDown = (event: MouseOrTouchEvent) => {
+  onControlMouseDown = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) => {
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
@@ -1016,7 +1119,9 @@ export default class Select extends Component<Props, State> {
       event.preventDefault();
     }
   };
-  onDropdownIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+  onDropdownIndicatorMouseDown = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) => {
     // ignore mouse events that weren't triggered by the primary button
     if (event && event.type === 'mousedown' && event.button !== 0) {
       return;
@@ -1033,7 +1138,9 @@ export default class Select extends Component<Props, State> {
     event.preventDefault();
     event.stopPropagation();
   };
-  onClearIndicatorMouseDown = (event: MouseOrTouchEvent) => {
+  onClearIndicatorMouseDown = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) => {
     // ignore mouse events that weren't triggered by the primary button
     if (event && event.type === 'mousedown' && event.button !== 0) {
       return;
@@ -1148,16 +1255,16 @@ export default class Select extends Component<Props, State> {
     this.initialTouchX = 0;
     this.initialTouchY = 0;
   };
-  onControlTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+  onControlTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
     if (this.userIsDragging) return;
     this.onControlMouseDown(event);
   };
-  onClearIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+  onClearIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
     if (this.userIsDragging) return;
 
     this.onClearIndicatorMouseDown(event);
   };
-  onDropdownIndicatorTouchEnd = (event: SyntheticTouchEvent<HTMLElement>) => {
+  onDropdownIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
     if (this.userIsDragging) return;
 
     this.onDropdownIndicatorMouseDown(event);
@@ -1167,7 +1274,7 @@ export default class Select extends Component<Props, State> {
   // Focus Handlers
   // ==============================
 
-  handleInputChange = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+  handleInputChange: FormEventHandler<HTMLInputElement> = event => {
     const inputValue = event.currentTarget.value;
     this.setState({ inputIsHiddenAfterUpdate: false });
     this.onInputChange(inputValue, { action: 'input-change' });
@@ -1175,7 +1282,7 @@ export default class Select extends Component<Props, State> {
       this.onMenuOpen();
     }
   };
-  onInputFocus = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+  onInputFocus: FocusEventHandler<HTMLInputElement> = event => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
@@ -1188,7 +1295,7 @@ export default class Select extends Component<Props, State> {
     }
     this.openAfterFocus = false;
   };
-  onInputBlur = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+  onInputBlur: FocusEventHandler<HTMLInputElement> = event => {
     if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef.focus();
       return;
@@ -1203,7 +1310,7 @@ export default class Select extends Component<Props, State> {
       isFocused: false,
     });
   };
-  onOptionHover = (focusedOption: OptionType) => {
+  onOptionHover = (focusedOption: Option) => {
     if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
       return;
     }
@@ -1217,7 +1324,7 @@ export default class Select extends Component<Props, State> {
   // Keyboard Handlers
   // ==============================
 
-  onKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+  onKeyDown: KeyboardEventHandler<HTMLDivElement> = event => {
     const {
       isMulti,
       backspaceRemovesValue,
@@ -1371,7 +1478,7 @@ export default class Select extends Component<Props, State> {
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
-      'aria-autocomplete': 'list',
+      'aria-autocomplete': 'list' as const,
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
     };
@@ -1417,7 +1524,7 @@ export default class Select extends Component<Props, State> {
       />
     );
   }
-  renderPlaceholderOrValue(): ?PlaceholderOrValue {
+  renderPlaceholderOrValue() {
     const {
       MultiValue,
       MultiValueContainer,
@@ -1615,7 +1722,7 @@ export default class Select extends Component<Props, State> {
     if (!menuIsOpen) return null;
 
     // TODO: Internal Option Type here
-    const render = (props: OptionType, id: string) => {
+    const render = (props: CategorizedOption<Option>, id: string) => {
       const { type, data, isDisabled, isSelected, label, value } = props;
       const isFocused = focusedOption === data;
       const onHover = isDisabled ? undefined : () => this.onOptionHover(data);
@@ -1648,7 +1755,7 @@ export default class Select extends Component<Props, State> {
       );
     };
 
-    let menuUI;
+    let menuUI: ReactNode;
 
     if (this.hasOptions()) {
       menuUI = this.getCategorizedOptions().map(item => {
@@ -1719,7 +1826,7 @@ export default class Select extends Component<Props, State> {
               {scrollTargetRef => (
                 <MenuList
                   {...commonProps}
-                  innerRef={(instance: HTMLElement | null): void => {
+                  innerRef={instance => {
                     this.getMenuListRef(instance);
                     scrollTargetRef(instance);
                   }}
