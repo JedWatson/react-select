@@ -28,7 +28,6 @@ export default function useScrollCapture({
 
   const handleEventDelta = useCallback(
     (event: WheelEvent | TouchEvent, delta: number) => {
-      // Reference should never be `null` at this point, but flow complains otherwise
       if (scrollTarget.current === null) return;
 
       const { scrollTop, scrollHeight, clientHeight } = scrollTarget.current;

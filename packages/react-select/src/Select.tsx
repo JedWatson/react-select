@@ -1104,7 +1104,6 @@ export default class Select<
       }
     } else {
       if (
-        // $FlowFixMe
         event.target.tagName !== 'INPUT' &&
         event.target.tagName !== 'TEXTAREA'
       ) {
@@ -1112,7 +1111,6 @@ export default class Select<
       }
     }
     if (
-      // $FlowFixMe
       event.target.tagName !== 'INPUT' &&
       event.target.tagName !== 'TEXTAREA'
     ) {

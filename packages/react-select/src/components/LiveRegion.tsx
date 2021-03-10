@@ -1,4 +1,3 @@
-// @flow
 /** @jsx jsx */
 import React, { ReactNode, useMemo } from 'react';
 import { jsx } from '@emotion/react';

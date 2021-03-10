@@ -11,7 +11,7 @@ the [development server](http://localhost:8000).
 adding a major new use-case, add a new example demonstrating its use.
 * Be careful to follow the code style of the project. Run `yarn lint` after
 your changes and ensure you do not introduce any new errors or warnings.
-* This repository uses `flow`, please run `yarn flow` after your changes to ensure
+* This repository uses TypeScript, please run `yarn type-check` after your changes to ensure
 that you do not introduce any new type errors.
 
 * Ensure that your effort is aligned with the project's roadmap by talking to

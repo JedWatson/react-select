@@ -8,19 +8,15 @@ export interface MultiValueProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-  > extends CommonProps<Option, IsMulti, Group> {
-  children: ReactNode,
-  components: any,
-  cropWithEllipsis?: boolean,
-  data: any,
-  innerProps: any,
-  isFocused: boolean,
-  isDisabled: boolean,
-  removeProps: {
-    onTouchEnd: any => void,
-    onClick: any => void,
-    onMouseDown: any => void,
-  },
+> extends CommonProps<Option, IsMulti, Group> {
+  children: ReactNode;
+  components: any;
+  cropWithEllipsis?: boolean;
+  data: any;
+  innerProps: any;
+  isFocused: boolean;
+  isDisabled: boolean;
+  removeProps: JSX.IntrinsicElements['div'];
 }
 
 export const multiValueCSS = ({
@@ -65,10 +61,10 @@ export const multiValueRemoveCSS = ({
 });
 
 export type MultiValueGenericProps = {
-  children: ReactNode,
-  data: any,
-  innerProps: { className?: string },
-  selectProps: any,
+  children: ReactNode;
+  data: any;
+  innerProps: { className?: string };
+  selectProps: any;
 };
 export const MultiValueGeneric = ({
   children,
@@ -78,15 +74,10 @@ export const MultiValueGeneric = ({
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export type MultiValueRemoveProps = {
-  children: ReactNode,
-  data: any,
-  innerProps: {
-    className: string,
-    onTouchEnd: any => void,
-    onClick: any => void,
-    onMouseDown: any => void,
-  },
-  selectProps: any,
+  children: ReactNode;
+  data: any;
+  innerProps: JSX.IntrinsicElements['div'];
+  selectProps: any;
 };
 export function MultiValueRemove({
   children,
