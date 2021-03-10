@@ -96,13 +96,10 @@ export default function useScrollCapture({
     },
     [handleEventDelta]
   );
-  const onMouseDown = useCallback(
-    (event: SyntheticMouseEvent<HTMLElement>) => {
-      // set mouse start so we can calculate mousemove delta
-      touchStart.current = event.clientY;
-    },
-    []
-  );
+  const onMouseDown = useCallback((event: SyntheticMouseEvent<HTMLElement>) => {
+    // set mouse start so we can calculate mousemove delta
+    touchStart.current = event.clientY;
+  }, []);
   const onMouseUp = useCallback(
     (event: SyntheticMouseEvent<HTMLElement>) => {
       const deltaY = event.clientY - touchStart.current;
