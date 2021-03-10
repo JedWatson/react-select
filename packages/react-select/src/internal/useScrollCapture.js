@@ -96,6 +96,20 @@ export default function useScrollCapture({
     },
     [handleEventDelta]
   );
+  const onMouseDown = useCallback(
+    (event: SyntheticMouseEvent<HTMLElement>) => {
+      // set mouse start so we can calculate mousemove delta
+      touchStart.current = event.clientY;
+    },
+    []
+  );
+  const onMouseUp = useCallback(
+    (event: SyntheticMouseEvent<HTMLElement>) => {
+      const deltaY = event.clientY - touchStart.current;
+      handleEventDelta(event, deltaY);
+    },
+    [handleEventDelta]
+  );
 
   const startListening = useCallback(
     el => {
@@ -113,8 +127,14 @@ export default function useScrollCapture({
       if (typeof el.addEventListener === 'function') {
         el.addEventListener('touchmove', onTouchMove, notPassive);
       }
+      if (typeof el.addEventListener === 'function') {
+        el.addEventListener('mousedown', onMouseDown, notPassive);
+      }
+      if (typeof el.addEventListener === 'function') {
+        el.addEventListener('mouseup', onMouseUp, notPassive);
+      }
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onWheel, onMouseDown, onMouseUp]
   );
 
   const stopListening = useCallback(
@@ -132,8 +152,14 @@ export default function useScrollCapture({
       if (typeof el.removeEventListener === 'function') {
         el.removeEventListener('touchmove', onTouchMove, false);
       }
+      if (typeof el.removeEventListener === 'function') {
+        el.removeEventListener('mousedown', onMouseDown, false);
+      }
+      if (typeof el.removeEventListener === 'function') {
+        el.removeEventListener('mouseup', onMouseUp, false);
+      }
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onWheel, onMouseDown, onMouseUp]
   );
 
   useEffect(() => {
