@@ -2,15 +2,14 @@
 import { jsx } from '@emotion/react';
 import AutosizeInput from 'react-input-autosize';
 
-import { CommonProps, GroupBase, OptionBase } from '../types';
+import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
 import { cleanCommonProps } from '../utils';
 
 export interface InputProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
-  className: string | undefined;
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Reference to the internal element */
   innerRef?: (instance: HTMLInputElement | null) => void;
   /** Set whether the input should be visible. Does not affect input size. */

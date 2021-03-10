@@ -14,10 +14,11 @@ import {
   OptionBooleanValue,
 } from './constants';
 import Select, { FormatOptionLabelMeta } from '../Select';
-import { Option as FilterOptionOption } from '../filters';
+import { FilterOptionOption } from '../filters';
 
 import { matchers } from '@emotion/jest';
 import { AriaLiveMessages } from '../accessibility';
+import { noop } from '../utils';
 
 expect.extend(matchers);
 
@@ -49,7 +50,14 @@ const BASIC_PROPS: BasicProps = {
 
 test('snapshot - defaults', () => {
   const { container } = render(
-    <Select onChange={() => {}} inputValue="" value={null} />
+    <Select
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
+      inputValue=""
+      value={null}
+    />
   );
   expect(container).toMatchSnapshot();
 });
@@ -66,7 +74,15 @@ test('instanceId prop > to have instanceId as id prefix for the select component
 
 test('hidden input field is not present if name is not passes', () => {
   let { container } = render(
-    <Select onChange={() => {}} inputValue="" value={null} options={OPTIONS} />
+    <Select
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
+      inputValue=""
+      value={null}
+      options={OPTIONS}
+    />
   );
   expect(container.querySelector('input[type="hidden"]')).toBeNull();
 });
@@ -74,7 +90,10 @@ test('hidden input field is not present if name is not passes', () => {
 test('hidden input field is present if name passes', () => {
   let { container } = render(
     <Select
-      onChange={() => {}}
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
       inputValue=""
       value={null}
       name="test-input-name"
@@ -878,7 +897,7 @@ cases(
       <Select
         {...props}
         onMenuOpen={() => {
-          rerender(<Select {...props} menuIsOpen onMenuOpen={() => {}} />);
+          rerender(<Select {...props} menuIsOpen onMenuOpen={noop} />);
         }}
       />
     );
@@ -1606,6 +1625,7 @@ test('hitting Enter on option should not call onChange if the event comes from I
       onChange={spy}
       onInputChange={jest.fn()}
       onMenuClose={jest.fn()}
+      onMenuOpen={jest.fn()}
       options={OPTIONS}
       tabSelectsValue={false}
       inputValue=""
@@ -1633,6 +1653,7 @@ test('hitting tab on option should not call onChange if tabSelectsValue is false
       onChange={spy}
       onInputChange={jest.fn()}
       onMenuClose={jest.fn()}
+      onMenuOpen={jest.fn()}
       options={OPTIONS}
       tabSelectsValue={false}
       inputValue=""
@@ -1703,6 +1724,7 @@ test('multi select > to not hide the selected options from the menu if hideSelec
       onChange={jest.fn()}
       onInputChange={jest.fn()}
       onMenuClose={jest.fn()}
+      onMenuOpen={jest.fn()}
       options={OPTIONS}
       inputValue=""
       value={null}
@@ -2351,7 +2373,10 @@ test('renders a read only input when isSearchable is false', () => {
       classNamePrefix="react-select"
       options={OPTIONS}
       isSearchable={false}
-      onChange={() => {}}
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
       inputValue=""
       value={null}
     />
@@ -2618,7 +2643,10 @@ test('formatGroupLabel function prop > to format Group label', () => {
       options={options}
       menuIsOpen
       formatGroupLabel={formatGroupLabel}
-      onChange={() => {}}
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
       inputValue=""
       value={null}
     />
@@ -2651,7 +2679,10 @@ test('to only render groups with at least one match when filtering', () => {
       options={options}
       menuIsOpen
       inputValue="1"
-      onChange={() => {}}
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
       value={null}
     />
   );
@@ -2687,7 +2718,10 @@ test('not render any groups when there is not a single match when filtering', ()
       options={options}
       menuIsOpen
       inputValue="5"
-      onChange={() => {}}
+      onChange={noop}
+      onInputChange={noop}
+      onMenuOpen={noop}
+      onMenuClose={noop}
       value={null}
     />
   );

@@ -4,7 +4,13 @@ import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
 
-import { CommonProps, GroupBase, OptionBase, Options } from '../types';
+import {
+  CommonProps,
+  GroupBase,
+  OnChangeValue,
+  OptionBase,
+  Options,
+} from '../types';
 
 // ==============================
 // Root Container
@@ -73,11 +79,12 @@ const LiveRegion = <
     if (ariaSelection && messages.onChange) {
       const { option, removedValue, value } = ariaSelection;
       // select-option when !isMulti does not return option so we assume selected option is value
-      const asOption = val => (!Array.isArray(val) ? val : null);
+      const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
+        !Array.isArray(val) ? val : null;
       const selected = removedValue || option || asOption(value);
 
       const onChangeProps = {
-        isDisabled: selected && isOptionDisabled(selected),
+        isDisabled: selected && isOptionDisabled(selected, selectValue),
         label: selected ? getOptionLabel(selected) : '',
         ...ariaSelection,
       };
@@ -85,7 +92,7 @@ const LiveRegion = <
       message = messages.onChange(onChangeProps);
     }
     return message;
-  }, [ariaSelection, isOptionDisabled, getOptionLabel, messages]);
+  }, [ariaSelection, messages, isOptionDisabled, selectValue, getOptionLabel]);
 
   const ariaFocused = useMemo(() => {
     let focusMsg = '';
@@ -100,10 +107,11 @@ const LiveRegion = <
       const onFocusProps = {
         focused,
         label: getOptionLabel(focused),
-        isDisabled: isOptionDisabled(focused),
+        isDisabled: isOptionDisabled(focused, selectValue),
         isSelected,
         options,
-        context: focused === focusedOption ? 'menu' : 'value',
+        context:
+          focused === focusedOption ? ('menu' as const) : ('value' as const),
         selectValue,
       };
 
@@ -145,7 +153,8 @@ const LiveRegion = <
       guidanceMsg = messages.guidance({
         'aria-label': ariaLabel,
         context,
-        isDisabled: focusedOption && isOptionDisabled(focusedOption),
+        isDisabled:
+          focusedOption && isOptionDisabled(focusedOption, selectValue),
         isMulti,
         isSearchable,
         tabSelectsValue,
@@ -161,6 +170,7 @@ const LiveRegion = <
     isSearchable,
     menuIsOpen,
     messages,
+    selectValue,
     tabSelectsValue,
   ]);
 

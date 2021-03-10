@@ -1,5 +1,11 @@
 /** @jsx jsx */
-import { createContext, Component, ReactNode } from 'react';
+import {
+  createContext,
+  Component,
+  ReactNode,
+  RefCallback,
+  ContextType,
+} from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
 
@@ -12,13 +18,14 @@ import {
   scrollTo,
 } from '../utils';
 import {
-  InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
   Theme,
   OptionBase,
   GroupBase,
+  CommonPropsAndClassName,
+  CoercedMenuPlacement,
 } from '../types';
 
 // ==============================
@@ -28,19 +35,19 @@ import {
 // Get Menu Placement
 // ------------------------------
 
-type MenuState = {
-  placement: 'bottom' | 'top' | null;
+interface MenuState {
+  placement: CoercedMenuPlacement | null;
   maxHeight: number;
-};
-type PlacementArgs = {
+}
+interface PlacementArgs {
   maxHeight: number;
-  menuEl: ElementRef;
+  menuEl: HTMLDivElement | null;
   minHeight: number;
-  placement: 'bottom' | 'top' | 'auto';
+  placement: MenuPlacement;
   shouldScroll: boolean;
   isFixedPosition: boolean;
   theme: Theme;
-};
+}
 
 export function getMenuPlacement({
   maxHeight,
@@ -52,8 +59,8 @@ export function getMenuPlacement({
   theme,
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
-  const scrollParent = getScrollParent(menuEl);
-  const defaultState = { placement: 'bottom', maxHeight };
+  const scrollParent = getScrollParent(menuEl!);
+  const defaultState: MenuState = { placement: 'bottom', maxHeight };
 
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
@@ -201,11 +208,7 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-export interface MenuPlacementProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
+export interface MenuPlacementProps {
   /** Set the minimum height of the menu. */
   minMenuHeight: number;
   /** Set the maximum height of the menu. */
@@ -218,35 +221,53 @@ export interface MenuPlacementProps<
   menuShouldScrollIntoView: boolean;
 }
 
-// export type MenuAndPlacerCommon = CommonProps & {
-//   /** Callback to update the portal after possible flip. */
-//   getPortalPlacement: MenuState => void,
-//   /** Props to be passed to the menu wrapper. */
-//   innerProps: {},
-// };
-export type MenuProps = MenuAndPlacerCommon & {
+export interface MenuProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonPropsAndClassName<Option, IsMulti, Group>, MenuPlacementProps {
   /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: ElementRef;
+  innerRef: RefCallback<HTMLDivElement>;
+  innerProps: JSX.IntrinsicElements['div'];
+  isLoading: boolean;
+  placement: CoercedMenuPlacement;
   /** The children to be rendered. */
-  children: ReactElement;
-};
-export type MenuPlacerProps = MenuAndPlacerCommon & {
-  /** The children to be rendered. */
-  children: ({}) => ReactNode;
-};
+  children: ReactNode;
+}
 
-function alignToControl(placement) {
+interface PlacerProps {
+  placement: CoercedMenuPlacement;
+  maxHeight: number;
+}
+
+interface ChildrenProps {
+  ref: RefCallback<HTMLDivElement>;
+  placerProps: PlacerProps;
+}
+
+export interface MenuPlacerProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group>, MenuPlacementProps {
+  /** The children to be rendered. */
+  children: (childrenProps: ChildrenProps) => ReactNode;
+}
+
+function alignToControl(placement: CoercedMenuPlacement) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
   return placement ? placementToCSSProp[placement] : 'bottom';
 }
-const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
+const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 
-type MenuStateWithProps = MenuState & MenuProps;
-
-export const menuCSS = ({
+export const menuCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuStateWithProps) => ({
+}: MenuProps<Option, IsMulti, Group>) => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -260,18 +281,23 @@ export const menuCSS = ({
 });
 
 const PortalPlacementContext = createContext<{
-  getPortalPlacement?: (() => void) | null;
+  getPortalPlacement: ((menuState: MenuState) => void) | null;
 }>({ getPortalPlacement: null });
 
 // NOTE: internal only
-export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
-  state = {
+export class MenuPlacer<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<MenuPlacerProps<Option, IsMulti, Group>, MenuState> {
+  state: MenuState = {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
   };
   static contextType = PortalPlacementContext;
+  context!: ContextType<typeof PortalPlacementContext>;
 
-  getPlacement = (ref: ElementRef) => {
+  getPlacement: RefCallback<HTMLDivElement> = ref => {
     const {
       minMenuHeight,
       maxMenuHeight,
@@ -318,7 +344,13 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
   }
 }
 
-const Menu = (props: MenuProps) => {
+const Menu = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: MenuProps<Option, IsMulti, Group>
+) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
 
   return (
@@ -339,30 +371,30 @@ export default Menu;
 // Menu List
 // ==============================
 
-type MenuListState = {
-  /** Set classname for isMulti */
-  isMulti: boolean;
-  /* Set the max height of the Menu component  */
+export interface MenuListProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
+  /** Set the max height of the Menu component  */
   maxHeight: number;
-};
-
-export type MenuListProps = {
   /** The children to be rendered. */
   children: ReactNode;
   /** Inner ref to DOM ReactNode */
-  innerRef: InnerRef;
+  innerRef: RefCallback<HTMLDivElement>;
   /** Props to be passed to the menu-list wrapper. */
-  innerProps: {};
-};
-export type MenuListComponentProps = CommonProps &
-  MenuListProps &
-  MenuListState;
-export const menuListCSS = ({
+  innerProps: JSX.IntrinsicElements['div'];
+}
+export const menuListCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   maxHeight,
   theme: {
     spacing: { baseUnit },
   },
-}: MenuListComponentProps) => ({
+}: MenuListProps<Option, IsMulti, Group>) => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -370,7 +402,13 @@ export const menuListCSS = ({
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
 });
-export const MenuList = (props: MenuListComponentProps) => {
+export const MenuList = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: MenuListProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     className,
@@ -402,12 +440,16 @@ export const MenuList = (props: MenuListComponentProps) => {
 // Menu Notices
 // ==============================
 
-const noticeCSS = ({
+const noticeCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   theme: {
     spacing: { baseUnit },
     colors,
   },
-}: NoticeProps) => ({
+}: NoticeProps<Option, IsMulti, Group>) => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -415,14 +457,24 @@ const noticeCSS = ({
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
-export type NoticeProps = CommonProps & {
+export interface NoticeProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;
   /** Props to be passed on to the wrapper. */
-  innerProps: {};
-};
+  innerProps: JSX.IntrinsicElements['div'];
+}
 
-export const NoOptionsMessage = (props: NoticeProps) => {
+export const NoOptionsMessage = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: NoticeProps<Option, IsMulti, Group>
+) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
@@ -444,7 +496,13 @@ NoOptionsMessage.defaultProps = {
   children: 'No options',
 };
 
-export const LoadingMessage = (props: NoticeProps) => {
+export const LoadingMessage = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: NoticeProps<Option, IsMulti, Group>
+) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
@@ -470,22 +528,28 @@ LoadingMessage.defaultProps = {
 // Menu Portal
 // ==============================
 
-export type MenuPortalProps = CommonProps & {
-  appendTo: HTMLElement;
+export interface MenuPortalProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
+  appendTo: HTMLElement | undefined;
   children: ReactNode; // ideally Menu<MenuProps>
-  controlElement: HTMLElement;
-  innerProps: {};
+  controlElement: HTMLDivElement | null;
+  innerProps: JSX.IntrinsicElements['div'];
   menuPlacement: MenuPlacement;
   menuPosition: MenuPosition;
-};
-type MenuPortalState = {
+}
+
+interface MenuPortalState {
   placement: 'bottom' | 'top' | null;
-};
-type PortalStyleArgs = {
+}
+
+export interface PortalStyleArgs {
   offset: number;
   position: MenuPosition;
   rect: RectType;
-};
+}
 
 export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
   left: rect.left,
@@ -495,8 +559,12 @@ export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
   zIndex: 1,
 });
 
-export class MenuPortal extends Component<MenuPortalProps, MenuPortalState> {
-  state = { placement: null };
+export class MenuPortal<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<MenuPortalProps<Option, IsMulti, Group>, MenuPortalState> {
+  state: MenuPortalState = { placement: null };
 
   // callback for occassions where the menu must "flip"
   getPortalPlacement = ({ placement }: MenuState) => {

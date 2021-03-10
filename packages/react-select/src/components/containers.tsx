@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { CommonProps, GroupBase, OptionBase } from '../types';
+import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
 
 // ==============================
 // Root Container
@@ -11,8 +11,7 @@ export interface ContainerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
-  className: string | undefined;
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Whether the select is disabled. */
   isDisabled: boolean;
   isFocused: boolean;
@@ -75,8 +74,7 @@ export interface ValueContainerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
-  className: string | undefined;
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Props to be passed to the value container element. */
   innerProps?: JSX.IntrinsicElements['div'];
   /** The children to be rendered. */
@@ -137,12 +135,11 @@ export const ValueContainer = <
 // Indicator Container
 // ==============================
 
-export interface IndicatorContainerProps<
+export interface IndicatorsContainerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
-  className: string | undefined;
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   isDisabled: boolean;
   /** The children to be rendered. */
   children: ReactNode;
@@ -161,7 +158,7 @@ export const IndicatorsContainer = <
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
-  props: IndicatorContainerProps<Option, IsMulti, Group>
+  props: IndicatorsContainerProps<Option, IsMulti, Group>
 ) => {
   const { children, className, cx, innerProps, getStyles } = props;
 

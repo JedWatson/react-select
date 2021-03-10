@@ -59,8 +59,8 @@ import {
   SetValueAction,
 } from './types';
 
-type FormatOptionLabelContext = 'menu' | 'value';
-interface FormatOptionLabelMeta<Option extends OptionBase> {
+export type FormatOptionLabelContext = 'menu' | 'value';
+export interface FormatOptionLabelMeta<Option extends OptionBase> {
   context: FormatOptionLabelContext;
   inputValue: string;
   selectValue: Options<Option>;
@@ -1555,7 +1555,7 @@ export default class Select<
     }
 
     if (isMulti) {
-      const selectValues: Array<any> = selectValue.map((opt, index) => {
+      return selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
 
         return (
@@ -1584,7 +1584,6 @@ export default class Select<
           </MultiValue>
         );
       });
-      return selectValues;
     }
 
     if (inputValue) {

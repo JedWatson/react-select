@@ -21,13 +21,14 @@ export {
 } from './components/containers';
 export { ControlProps } from './components/Control';
 export { GroupProps, GroupHeadingProps } from './components/Group';
-export { IndicatorProps, LoadingIndicatorProps } from './components/indicators';
-export { InputProps } from './components/Input';
 export {
-  MenuListComponentProps,
-  MenuProps,
-  NoticeProps,
-} from './components/Menu';
+  ClearIndicatorProps,
+  DropdownIndicatorProps,
+  IndicatorSeparatorProps,
+  LoadingIndicatorProps,
+} from './components/indicators';
+export { InputProps } from './components/Input';
+export { MenuListProps, MenuProps, NoticeProps } from './components/Menu';
 export {
   MultiValueGenericProps,
   MultiValueProps,
@@ -46,9 +47,5 @@ export {
   AriaOnChangeProps,
   AriaOnFilterProps,
   AriaOnFocusProps,
-  AriaGuidance,
-  AriaOnChange,
-  AriaOnFilter,
-  AriaOnFocus,
   AriaLiveMessages,
 } from './accessibility';

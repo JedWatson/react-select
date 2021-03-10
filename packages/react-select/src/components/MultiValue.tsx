@@ -1,27 +1,42 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { jsx, ClassNames } from '@emotion/react';
 import { CrossIcon } from './indicators';
-import { CommonProps, GroupBase, OptionBase } from '../types';
+import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import { Props } from '../Select';
+
+interface MultiValueComponents<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> {
+  Container: ComponentType<MultiValueGenericProps<Option, IsMulti, Group>>;
+  Label: ComponentType<MultiValueGenericProps<Option, IsMulti, Group>>;
+  Remove: ComponentType<MultiValueRemoveProps<Option, IsMulti, Group>>;
+}
 
 export interface MultiValueProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   children: ReactNode;
-  components: any;
+  components: MultiValueComponents<Option, IsMulti, Group>;
   cropWithEllipsis?: boolean;
-  data: any;
-  innerProps: any;
+  data: Option;
+  innerProps: JSX.IntrinsicElements['div'];
   isFocused: boolean;
   isDisabled: boolean;
   removeProps: JSX.IntrinsicElements['div'];
 }
 
-export const multiValueCSS = ({
+export const multiValueCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   theme: { spacing, borderRadius, colors },
-}: MultiValueProps) => ({
+}: MultiValueProps<Option, IsMulti, Group>) => ({
   label: 'multiValue',
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
@@ -30,10 +45,14 @@ export const multiValueCSS = ({
   minWidth: 0, // resolves flex/text-overflow bug
 });
 
-export const multiValueLabelCSS = ({
+export const multiValueLabelCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   theme: { borderRadius, colors },
   cropWithEllipsis,
-}: MultiValueProps) => ({
+}: MultiValueProps<Option, IsMulti, Group>) => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
@@ -44,10 +63,14 @@ export const multiValueLabelCSS = ({
   whiteSpace: 'nowrap',
 });
 
-export const multiValueRemoveCSS = ({
+export const multiValueRemoveCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   theme: { spacing, borderRadius, colors },
   isFocused,
-}: MultiValueProps) => ({
+}: MultiValueProps<Option, IsMulti, Group>) => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   backgroundColor: isFocused && colors.dangerLight,
@@ -60,33 +83,54 @@ export const multiValueRemoveCSS = ({
   },
 });
 
-export type MultiValueGenericProps = {
+export interface MultiValueGenericProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> {
   children: ReactNode;
   data: any;
   innerProps: { className?: string };
-  selectProps: any;
-};
-export const MultiValueGeneric = ({
+  selectProps: Props<Option, IsMulti, Group>;
+}
+export const MultiValueGeneric = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
   children,
   innerProps,
-}: MultiValueGenericProps) => <div {...innerProps}>{children}</div>;
+}: MultiValueGenericProps<Option, IsMulti, Group>) => (
+  <div {...innerProps}>{children}</div>
+);
 
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
-export type MultiValueRemoveProps = {
-  children: ReactNode;
-  data: any;
+export interface MultiValueRemoveProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> {
+  children?: ReactNode;
+  data: Option;
   innerProps: JSX.IntrinsicElements['div'];
-  selectProps: any;
-};
-export function MultiValueRemove({
-  children,
-  innerProps,
-}: MultiValueRemoveProps) {
+  selectProps: Props<Option, IsMulti, Group>;
+}
+export function MultiValueRemove<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({ children, innerProps }: MultiValueRemoveProps<Option, IsMulti, Group>) {
   return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
 }
 
-const MultiValue = (props: MultiValueProps) => {
+const MultiValue = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: MultiValueProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     className,

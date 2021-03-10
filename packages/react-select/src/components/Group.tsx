@@ -1,21 +1,38 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import { cleanCommonProps } from '../utils';
 
-import { CommonProps, GroupBase, OptionBase, Options } from '../types';
+import {
+  CommonPropsAndClassName,
+  CX,
+  GetStyles,
+  GroupBase,
+  OptionBase,
+  Options,
+  Theme,
+} from '../types';
+import { Props } from '../Select';
+
+export interface ForwardedHeadingProps<
+  Option extends OptionBase,
+  Group extends GroupBase<Option>
+> {
+  id: string;
+  data: Group;
+}
 
 export interface GroupProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;
   /** Component to wrap the label, receives headingProps. */
-  Heading: ComponentType<any>;
+  Heading: ComponentType<GroupHeadingProps<Option, IsMulti, Group>>;
   /** Props to pass to Heading. */
-  headingProps: any;
+  headingProps: ForwardedHeadingProps<Option, Group>;
   /** Props to be passed to the group element. */
   innerProps: JSX.IntrinsicElements['div'];
   /** Label to be displayed in the heading component. */
@@ -25,12 +42,24 @@ export interface GroupProps<
   options: Options<Option>;
 }
 
-export const groupCSS = ({ theme: { spacing } }: GroupProps) => ({
+export const groupCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
+  theme: { spacing },
+}: GroupProps<Option, IsMulti, Group>) => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
 
-const Group = (props: GroupProps) => {
+const Group = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: GroupProps<Option, IsMulti, Group>
+) => {
   const {
     children,
     className,
@@ -63,7 +92,32 @@ const Group = (props: GroupProps) => {
   );
 };
 
-export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
+interface GroupHeadingPropsDefinedProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends ForwardedHeadingProps<Option, Group> {
+  className?: string | undefined;
+  selectProps: Props<Option, IsMulti, Group>;
+  theme: Theme;
+  getStyles: GetStyles;
+  cx: CX;
+}
+
+export type GroupHeadingProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = GroupHeadingPropsDefinedProps<Option, IsMulti, Group> &
+  JSX.IntrinsicElements['div'];
+
+export const groupHeadingCSS = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>({
+  theme: { spacing },
+}: GroupHeadingProps<Option, IsMulti, Group>) => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
@@ -76,7 +130,13 @@ export const groupHeadingCSS = ({ theme: { spacing } }: GroupProps) => ({
   textTransform: 'uppercase',
 });
 
-export const GroupHeading = (props: any) => {
+export const GroupHeading = <
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(
+  props: GroupHeadingProps<Option, IsMulti, Group>
+) => {
   const { getStyles, cx, className } = props;
   const { data, ...innerProps } = cleanCommonProps(props);
   return (

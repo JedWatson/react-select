@@ -2,14 +2,13 @@
 import { ReactNode, RefCallback } from 'react';
 import { jsx } from '@emotion/react';
 
-import { CommonProps, GroupBase, OptionBase } from '../types';
+import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
 
 export interface OptionProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group> {
-  className: string | undefined;
+> extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;
   /** Inner ref to DOM Node */

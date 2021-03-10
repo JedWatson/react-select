@@ -1,6 +1,6 @@
 import {
   ClassNamesState,
-  CommonProps,
+  CommonPropsAndClassName,
   GroupBase,
   InputActionMeta,
   OptionBase,
@@ -64,7 +64,7 @@ export function classNames(
 export const cleanValue = <Option extends OptionBase>(
   value: PropsValue<Option>
 ): Options<Option> => {
-  if (Array.isArray(value)) return value.filter(Boolean);
+  if (isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value];
   return [];
 };
@@ -79,8 +79,12 @@ export const cleanCommonProps = <
   Group extends GroupBase<Option>,
   AdditionalProps
 >(
-  props: CommonProps<Option, IsMulti, Group> & AdditionalProps
-): AdditionalProps => {
+  props: Partial<CommonPropsAndClassName<Option, IsMulti, Group>> &
+    AdditionalProps
+): Omit<
+  AdditionalProps,
+  keyof CommonPropsAndClassName<Option, IsMulti, Group>
+> => {
   //className
   const {
     className, // not listed in commonProps documentation, needs to be removed to allow Emotion to generate classNames
@@ -336,4 +340,8 @@ export const supportsPassiveEvents: boolean = passiveOptionAccessed;
 
 export function notNullish<T>(item: T | null | undefined): item is T {
   return item != null;
+}
+
+export function isArray<T>(arg: unknown): arg is readonly T[] {
+  return Array.isArray(arg);
 }

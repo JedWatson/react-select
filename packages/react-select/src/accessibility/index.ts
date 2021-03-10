@@ -17,22 +17,22 @@ export type AriaSelection<
   Option extends OptionBase,
   IsMulti extends boolean
 > = ActionMeta<Option> & {
-  value?: OnChangeValue<Option, IsMulti>;
+  value: OnChangeValue<Option, IsMulti>;
 };
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
-  'aria-label'?: string;
+  'aria-label': string | undefined;
   /** String indicating user's current context and available keyboard interactivity */
   context: GuidanceContext;
   /** Boolean value of selectProp isSearchable */
-  isSearchable?: boolean;
+  isSearchable: boolean;
   /** Boolean value of selectProp isMulti */
-  isMulti?: boolean;
+  isMulti: boolean;
   /** Boolean value of selectProp isDisabled */
-  isDisabled?: boolean;
+  isDisabled: boolean | null;
   /** Boolean value of selectProp tabSelectsValue */
-  tabSelectsValue?: boolean;
+  tabSelectsValue: boolean;
 }
 
 export type AriaOnChangeProps<
@@ -40,9 +40,9 @@ export type AriaOnChangeProps<
   IsMulti extends boolean
 > = AriaSelection<Option, IsMulti> & {
   /** String derived label from selected or removed option/value */
-  label?: string;
+  label: string;
   /** Boolean indicating if the selected menu option is disabled */
-  isDisabled?: boolean;
+  isDisabled: boolean | null;
 };
 
 export interface AriaOnFilterProps {
@@ -61,15 +61,15 @@ export interface AriaOnFocusProps<
   /** Option that is being focused */
   focused: Option | null;
   /** Boolean indicating whether focused menu option has been disabled */
-  isDisabled?: boolean;
+  isDisabled: boolean;
   /** Boolean indicating whether focused menu option is an already selected option */
-  isSelected?: boolean;
+  isSelected: boolean;
   /** String derived label from focused option/value */
-  label?: string;
+  label: string;
   /** Options provided as props to Select used to determine indexing */
   options: OptionsOrGroups<Option, Group>;
   /** selected option(s) of the Select */
-  selectValue?: Options<Option>;
+  selectValue: Options<Option>;
 }
 
 export interface AriaLiveMessages<

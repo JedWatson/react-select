@@ -1,7 +1,14 @@
-export interface OptionBase {}
+import { Props } from './Select';
+
+export interface OptionBase {
+  readonly label?: string;
+  readonly value?: string;
+  readonly isDisabled?: string;
+}
 
 export interface GroupBase<Option extends OptionBase> {
   readonly options: readonly Option[];
+  readonly label?: string;
 }
 
 export type OptionsOrGroups<
@@ -59,26 +66,29 @@ export interface Theme {
 
 export type ClassNamesState = { [key: string]: boolean };
 
+export type CX = (state: ClassNamesState, className?: string) => string;
+export type GetStyles = (name: string, props: any) => {};
+
 export interface CommonProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
   clearValue: () => void;
-  cx: (state: ClassNamesState, className?: string) => string | void;
+  cx: CX;
   /**
     Get the styles of a particular part of the select. Pass in the name of the
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (name: string, props: any) => {};
+  getStyles: GetStyles;
   getValue: () => Options<Option>;
   hasValue: boolean;
   isMulti: boolean;
   isRtl: boolean;
   options: OptionsOrGroups<Option, Group>;
   selectOption: (newValue: Option) => void;
-  selectProps: any;
+  selectProps: Props<Option, IsMulti, Group>;
   setValue: (
     newValue: OnChangeValue<Option, IsMulti>,
     action: SetValueAction,
@@ -87,36 +97,56 @@ export interface CommonProps<
   theme: Theme;
 }
 
-export interface SelectOptionActionMeta<Option extends OptionBase> {
+export interface CommonPropsAndClassName<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends CommonProps<Option, IsMulti, Group> {
+  className?: string | undefined;
+}
+
+export interface ActionMetaBase<Option extends OptionBase> {
+  option?: Option | undefined;
+  removedValue?: Option;
+  name?: string;
+}
+
+export interface SelectOptionActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'select-option';
   option: Option | undefined;
   name?: string;
 }
 
-export interface DeselectOptionActionMeta<Option extends OptionBase> {
+export interface DeselectOptionActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'deselect-option';
   option: Option | undefined;
   name?: string;
 }
 
-export interface RemoveValueActionMeta<Option extends OptionBase> {
+export interface RemoveValueActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'remove-value';
   removedValue: Option;
   name?: string;
 }
 
-export interface PopValueActionMeta<Option extends OptionBase> {
+export interface PopValueActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'pop-value';
   removedValue: Option;
   name?: string;
 }
 
-export interface ClearActionMeta {
+export interface ClearActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'clear';
   name?: string;
 }
 
-export interface CreateOptionActionMeta {
+export interface CreateOptionActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
   action: 'create-option';
   name?: string;
 }
@@ -126,8 +156,8 @@ export type ActionMeta<Option extends OptionBase> =
   | DeselectOptionActionMeta<Option>
   | RemoveValueActionMeta<Option>
   | PopValueActionMeta<Option>
-  | ClearActionMeta
-  | CreateOptionActionMeta;
+  | ClearActionMeta<Option>
+  | CreateOptionActionMeta<Option>;
 
 export type SetValueAction = 'select-option' | 'deselect-option';
 
@@ -142,6 +172,7 @@ export interface InputActionMeta {
 }
 
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
+export type CoercedMenuPlacement = 'bottom' | 'top';
 export type MenuPosition = 'absolute' | 'fixed';
 
 export type FocusDirection =
