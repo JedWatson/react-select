@@ -5,19 +5,20 @@ import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
-  ControlledMenu,
-  OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
+  ControlledMenu,
+  CustomAriaLive,
   CustomFilterOptions,
   CustomGetOptionLabel,
   CustomGetOptionValue,
   CustomIsOptionDisabled,
   Experimental,
-  Popout,
   MenuBuffer,
   MenuPortal,
   MultiSelectSort,
+  Popout,
+  OnSelectResetsInput,
 } from '../../examples';
 
 export default function Advanced() {
@@ -32,6 +33,20 @@ export default function Advanced() {
       </Helmet>
       {md`
       # Advanced
+
+      ## Accessibility
+      Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide 
+      a custom experience for all users. As such, we also provide an api to address internationalization or further customization.
+
+      ${(
+        <ExampleWrapper
+          label="Custom aria live example"
+          urlPath="docs/examples/CustomAriaLive.js"
+          raw={require('!!raw-loader!../../examples/CustomAriaLive.js')}
+        >
+          <CustomAriaLive />
+        </ExampleWrapper>
+      )}
 
       ## Sortable MultiSelect
       Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
@@ -52,6 +67,15 @@ export default function Advanced() {
       ### createFilter function
       React-Select exports a createFilter function that returns a filterOption method. By using this, users can pick and choose bits of the filtration logic to customise,
       without having to rewrite the logic wholesale.
+
+      ~~~jsx
+      // default filter configuration 
+      ignoreCase: true,
+      ignoreAccents: true,
+      matchFrom: 'any',
+      stringify: option => \`\${option.label} \${option.value}\`,
+      trim: true,
+      ~~~
 
       Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
@@ -78,6 +102,15 @@ export default function Advanced() {
           <CustomFilterOptions />
         </ExampleWrapper>
       )}
+      ~~~jsx 
+      ~~~
+      > Please note that if you are using a Select that is creatable, you would also likey want to include the "Create" option.
+      ~~~jsx
+      const filterOption = (candidate, input) => {
+        return candidate.data.__isNew__ || candidate.label.includes(input);
+      };
+      ~~~
+
 
       ## Replacing builtins
       For a list of builtins that we expose, please see the API docs [here](/props#prop-types).
@@ -95,8 +128,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionLabel function example"
-          urlPath="docs/examples/CustomSingleValue.js"
-          raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+          urlPath="docs/examples/CustomGetOptionLabel.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionLabel.js')}
         >
           <CustomGetOptionLabel />
         </ExampleWrapper>
@@ -161,7 +194,7 @@ export default function Advanced() {
       By explicitly passing you what type of change event has been fired, we allow you to have more granular control
       over how the select behaves after an onChange even is fired.
 
-      Below is an example of replicating the behaviour supported by the (deprecated) onSelectResetsInput and (deprecated) closeMenuOnSelect props in react-select v1
+      Below is an example of replicating the behaviour of the deprecated props from react-select v1, onSelectResetsInput and closeOnSelect
 
       ${(
         <ExampleWrapper

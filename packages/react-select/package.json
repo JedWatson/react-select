@@ -1,37 +1,32 @@
 {
   "name": "react-select",
-  "version": "3.0.8",
+  "version": "4.2.1",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
   "sideEffects": false,
   "author": "Jed Watson",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JedWatson/react-select.git"
-  },
+  "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@emotion/cache": "^10.0.9",
-    "@emotion/core": "^10.0.9",
-    "@emotion/css": "^10.0.9",
+    "@babel/runtime": "^7.12.0",
+    "@emotion/cache": "^11.0.0",
+    "@emotion/react": "^11.1.1",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
-    "react-input-autosize": "^2.2.2",
+    "react-input-autosize": "^3.0.0",
     "react-transition-group": "^4.3.0"
   },
   "devDependencies": {
-    "cypress": "^1.4.1",
     "enzyme": "^3.8.0",
     "enzyme-to-json": "^3.3.0",
     "jest-in-case": "^1.0.2",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.8.0 || ^17.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0"
   },
   "files": [
     "dist",
@@ -61,9 +56,5 @@
       "creatable",
       "async-creatable"
     ]
-  },
-  "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
   }
 }

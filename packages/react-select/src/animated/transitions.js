@@ -8,7 +8,7 @@ export type BaseTransition = {
   /** Whether we are in a transition. */
   in: boolean,
   /** Function to be called once transition finishes. */
-  onExited: fn
+  onExited: fn,
 };
 
 // ==============================
@@ -39,7 +39,7 @@ export const Fade = ({
         const innerProps = {
           style: {
             ...transition[state],
-          }
+          },
         };
         return <Tag innerProps={innerProps} {...props} />;
       }}
@@ -68,7 +68,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.rafID) {
       window.cancelAnimationFrame(this.rafID);
     }
