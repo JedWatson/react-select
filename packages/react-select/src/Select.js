@@ -1767,7 +1767,7 @@ export default class Select extends Component<Props, State> {
       } else {
         const input =
           selectValue.length > 0 ? (
-            selectValue.map((opt, i) => {
+            selectValue.map(opt => {
               const value = this.getOptionValue(opt);
               return (
                 <input key={value} name={name} type="hidden" value={value} />
