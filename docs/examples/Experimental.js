@@ -1,11 +1,12 @@
 // @flow
-
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { Component } from 'react';
+import { jsx } from '@emotion/react';
 import moment from 'moment';
 import chrono from 'chrono-node';
 
-import Select from '../../src';
-import { components as SelectComponents } from '../../src';
+import Select from 'react-select';
+import { components as SelectComponents } from 'react-select';
 
 const createOptionForDate = d => {
   const date = moment.isMoment(d) ? d : moment(d);
@@ -104,15 +105,19 @@ const daysContainerStyles = {
 };
 
 const Group = props => {
-  const { Heading, getStyles, children, label, innerProps, headingProps, cx, theme } = props;
+  const {
+    Heading,
+    getStyles,
+    children,
+    label,
+    innerProps,
+    headingProps,
+    cx,
+    theme,
+  } = props;
   return (
     <div aria-label={label} css={getStyles('group', props)} {...innerProps}>
-      <Heading
-        theme={theme}
-        getStyles={getStyles}
-        cx={cx}
-        {...headingProps}
-      >
+      <Heading theme={theme} getStyles={getStyles} cx={cx} {...headingProps}>
         {label}
       </Heading>
       <div css={daysHeaderStyles}>

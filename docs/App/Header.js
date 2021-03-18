@@ -1,10 +1,11 @@
 // @flow
-
+/** @jsx jsx */
 import fetch from 'unfetch';
-import React, { Component } from 'react';
+import { Component, type Node } from 'react';
+import { jsx } from '@emotion/react';
 import { withRouter } from 'react-router-dom';
 
-import Select from '../../src';
+import Select from 'react-select';
 import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
@@ -50,7 +51,7 @@ function getLabel({ icon, label }) {
 }
 
 const headerSelectStyles = {
-  control: (base, { isFocused }) => ({
+  control: ({ isFocused, ...base }) => ({
     ...base,
     backgroundClip: 'padding-box',
     borderColor: 'rgba(0,0,0,0.1)',
@@ -104,24 +105,17 @@ const Container = props => (
   />
 );
 
-type HeaderProps = RouterProps & { children: any };
-type HeaderState = { contentHeight: 'auto' | number, stars: number };
+type HeaderProps = RouterProps & { children: Node };
+type HeaderState = { stars: number };
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<HeaderProps, HeaderState> {
   nav: HTMLElement;
   content: HTMLElement;
-  state = { contentHeight: 'auto', stars: 0 };
+  state = { stars: 0 };
   componentDidMount() {
     this.getStarCount();
-  }
-  componentWillReceiveProps({ location }: HeaderProps) {
-    const valid = ['/', '/home'];
-    const shouldCollapse = !valid.includes(this.props.location.pathname);
-    if (location.pathname !== this.props.location.pathname && shouldCollapse) {
-      this.toggleCollapse();
-    }
   }
   getStarCount = () => {
     fetch(apiUrl)
@@ -138,25 +132,28 @@ class Header extends Component<HeaderProps, HeaderState> {
     const valid = ['/', '/home'];
     return valid.includes(props.location.pathname);
   };
-  toggleCollapse = () => {
-    const contentHeight = this.content.scrollHeight;
-    this.setState({ contentHeight });
-  };
-  getContent = ref => {
+  setContentRef = ref => {
     if (!ref) return;
     this.content = ref;
   };
+  getContentHeight = () => {
+    if (!this.content) {
+      return 'auto';
+    }
+
+    return this.content.scrollHeight;
+  };
   render() {
     const { children, history } = this.props;
-    const { contentHeight, stars } = this.state;
+    const { stars } = this.state;
 
     return (
       <Gradient>
         {children}
         <Collapse
           isCollapsed={!this.isHome()}
-          height={contentHeight}
-          innerRef={this.getContent}
+          height={this.getContentHeight()}
+          innerRef={this.setContentRef}
         >
           <Container>
             <h1
@@ -175,16 +172,6 @@ class Header extends Component<HeaderProps, HeaderState> {
               }}
             >
               React Select
-              <small
-                css={{
-                  color: '#B2D4FF',
-                  fontSize: '0.5em',
-                  position: 'relative',
-                  marginLeft: '0.25em',
-                }}
-              >
-                v2
-              </small>
             </h1>
             <Content
               stars={stars}
@@ -251,12 +238,16 @@ const Content = ({ onChange, stars }) => (
     >
       <div className="animate-dropin">
         <Select
-          getOptionLabel={getLabel}
+          formatOptionLabel={getLabel}
           isSearchable={false}
           options={changes}
-          onChange={onChange}
+          onChange={option => {
+            if (option && !Array.isArray(option)) {
+              onChange(option);
+            }
+          }}
           value={null}
-          placeholder="🎉 What's new in V2"
+          placeholder="🎉 Feature Highlights"
           styles={headerSelectStyles}
         />
       </div>

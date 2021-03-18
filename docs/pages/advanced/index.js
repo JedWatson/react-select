@@ -5,18 +5,20 @@ import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
   AccessingInternals,
-  ControlledMenu,
-  OnSelectResetsInput,
   BasicGrouped,
   CreateFilter,
+  ControlledMenu,
+  CustomAriaLive,
   CustomFilterOptions,
   CustomGetOptionLabel,
   CustomGetOptionValue,
   CustomIsOptionDisabled,
   Experimental,
-  Popout,
   MenuBuffer,
   MenuPortal,
+  MultiSelectSort,
+  Popout,
+  OnSelectResetsInput,
 } from '../../examples';
 
 export default function Advanced() {
@@ -32,12 +34,48 @@ export default function Advanced() {
       {md`
       # Advanced
 
+      ## Accessibility
+      Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide 
+      a custom experience for all users. As such, we also provide an api to address internationalization or further customization.
+
+      ${(
+        <ExampleWrapper
+          label="Custom aria live example"
+          urlPath="docs/examples/CustomAriaLive.js"
+          raw={require('!!raw-loader!../../examples/CustomAriaLive.js')}
+        >
+          <CustomAriaLive />
+        </ExampleWrapper>
+      )}
+
+      ## Sortable MultiSelect
+      Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
+
+      ${(
+        <ExampleWrapper
+          label="Sortable MultiSelect example"
+          urlPath="docs/examples/MultiSelectSort.js"
+          raw={require('!!raw-loader!../../examples/MultiSelectSort.js')}
+        >
+          <MultiSelectSort />
+        </ExampleWrapper>
+      )}
+
       ## Custom Filter logic
       While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
 
       ### createFilter function
       React-Select exports a createFilter function that returns a filterOption method. By using this, users can pick and choose bits of the filtration logic to customise,
       without having to rewrite the logic wholesale.
+
+      ~~~jsx
+      // default filter configuration 
+      ignoreCase: true,
+      ignoreAccents: true,
+      matchFrom: 'any',
+      stringify: option => \`\${option.label} \${option.value}\`,
+      trim: true,
+      ~~~
 
       Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
@@ -57,13 +95,22 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          label="Custom filterOption function"
+          urlPath="docs/examples/CustomFilterOptions.js"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
       )}
+      ~~~jsx 
+      ~~~
+      > Please note that if you are using a Select that is creatable, you would also likey want to include the "Create" option.
+      ~~~jsx
+      const filterOption = (candidate, input) => {
+        return candidate.data.__isNew__ || candidate.label.includes(input);
+      };
+      ~~~
+
 
       ## Replacing builtins
       For a list of builtins that we expose, please see the API docs [here](/props#prop-types).
@@ -81,8 +128,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionLabel function example"
-          urlPath="docs/examples/CustomSingleValue.js"
-          raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+          urlPath="docs/examples/CustomGetOptionLabel.js"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionLabel.js')}
         >
           <CustomGetOptionLabel />
         </ExampleWrapper>
@@ -136,18 +183,18 @@ export default function Advanced() {
 
       The action argument is a string with the following possible values
 
-      'select-option'
-      'deselect-option'
-      'remove-value'
-      'pop-value'
-      'set-value'
-      'clear'
-      'create-option'
+      * 'select-option': Selecting an option from the list
+      * 'deselect-option': (Multiple) Deselecting an option from the list
+      * 'remove-value': (Multiple) Removing a selected option with the remove button
+      * 'pop-value': Removing options using backspace
+      * 'set-value': Calling setValue from a component without an action
+      * 'clear': Removing all selected options with the clear button
+      * 'create-option': (Creatable) Creating a new option
 
       By explicitly passing you what type of change event has been fired, we allow you to have more granular control
       over how the select behaves after an onChange even is fired.
 
-      Below is an example of replicating the behaviour supported by the (deprecated) onSelectResetsInput and (deprecated) closeMenuOnSelect props in react-select v1
+      Below is an example of replicating the behaviour of the deprecated props from react-select v1, onSelectResetsInput and closeOnSelect
 
       ${(
         <ExampleWrapper
@@ -178,7 +225,6 @@ export default function Advanced() {
 
       ${(
         <ExampleWrapper
-          isEditable={false}
           label="Example of controlled MenuIsOpen"
           urlPath="docs/examples/ControlledMenu.js"
           raw={require('!!raw-loader!../../examples/ControlledMenu.js')}
@@ -201,32 +247,18 @@ export default function Advanced() {
 
       ## SSR / Universal Rendering
 
-      React-Select uses Emotion for CSS, which make it easy to extract the
-      styles when doing server-side rendering. To get started, do the following:
-
-      ~~~bash
-      yarn add emotion-server
-      ~~~
-
-      Then, in the file where you render your React app to a string of HTML that
-      will be sent to the client, wrap React's \`renderToString\` result with
-      Emotion's \`renderStylesToString\` method:
+      React-Select uses Emotion for CSS which has zero-config server rendering. This means that all you need to do to server-render React-Select is call React's \`renderToString\` or use a framework like Next.js or Gatsby and it will work.
 
       ~~~jsx
       import { renderToString } from 'react-dom/server'
-      import { renderStylesToString } from 'emotion-server'
       import App from './App'
 
-      const html = renderStylesToString(renderToString(<App />))
+      const html = renderToString(<App />)
       ~~~
-
-      for more ways you can do this (including critical CSS) see the
-      [Emotion SSR Docs](https://github.com/emotion-js/emotion/blob/master/docs/ssr.md)
-
 
       ## Experimental
 
-      Experimental recipes of prop combinations with react-select v2.
+      Experimental recipes of prop combinations with react-select.
 
       ${(
         <ExampleWrapper

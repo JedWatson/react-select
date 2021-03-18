@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Modal from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
-import Select from '../../src';
+import Select from 'react-select';
 import { H1, Note } from '../styled-components';
 
 import { colourOptions } from '../data';
@@ -9,7 +9,7 @@ import { colourOptions } from '../data';
 type State = {
   isOpen: boolean,
   isFixed: boolean,
-  portalPlacement: 'auto' | 'bottom' | 'top'
+  portalPlacement: 'auto' | 'bottom' | 'top',
 };
 
 export default class MenuPortal extends Component<*, State> {
@@ -22,7 +22,9 @@ export default class MenuPortal extends Component<*, State> {
     console.log('menuPortal is Open');
     this.setState({ isOpen: true });
   };
-  close = () => { this.setState({ isOpen: false }); };
+  close = () => {
+    this.setState({ isOpen: false });
+  };
   setPlacement = ({ currentTarget }: SyntheticEvent<Event>) => {
     const portalPlacement = currentTarget && currentTarget.value;
     this.setState({ portalPlacement });
@@ -36,8 +38,7 @@ export default class MenuPortal extends Component<*, State> {
     return (
       <Fragment>
         <Button onClick={open}>Open Modal</Button>
-        {
-          isOpen ?
+        {isOpen ? (
           <Modal onClose={close}>
             <H1>Portaled Menu Element</H1>
             <Select
@@ -50,6 +51,7 @@ export default class MenuPortal extends Component<*, State> {
               menuPosition={isFixed ? 'fixed' : 'absolute'}
               menuPlacement={portalPlacement}
               options={colourOptions}
+              menuShouldScrollIntoView={false}
             />
             <Note Tag="label">
               <select
@@ -84,8 +86,7 @@ export default class MenuPortal extends Component<*, State> {
               Portal
             </Note>
           </Modal>
-          : null
-        }
+        ) : null}
       </Fragment>
     );
   }

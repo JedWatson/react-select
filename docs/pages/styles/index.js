@@ -2,9 +2,14 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
-import { StyledSingle, StyledMulti, Theme, StyleCompositionExample } from '../../examples';
+import {
+  StyledSingle,
+  StyledMulti,
+  Theme,
+  StyleCompositionExample,
+} from '../../examples';
 import { ColorSample } from '../../styled-components';
-import { defaultTheme } from '../../../src/theme';
+import { defaultTheme } from 'react-select';
 
 export default function Styles() {
   return (
@@ -101,6 +106,43 @@ export default function Styles() {
           options={...}
         />
       );
+      ~~~ 
+
+    
+    ## Select Props
+    In the second argument \`state\`, you have access to \`selectProps\` which will allow you to gain access to
+    your own arguments passed into the \`Select\` body.
+
+    ~~~jsx
+    const customStyles = {
+      menu: (provided, state) => ({
+        ...provided,
+        width: state.selectProps.width,
+        borderBottom: '1px dotted pink',
+        color: state.selectProps.menuColor,
+        padding: 20,
+      }),
+
+      control: (_, { selectProps: { width }}) => ({
+        width: width
+      }),
+
+      singleValue: (provided, state) => {
+        const opacity = state.isDisabled ? 0.5 : 1;
+        const transition = 'opacity 300ms';
+
+        return { ...provided, opacity, transition };
+      }
+    }
+
+      const App = () => (
+        <Select
+          styles={customStyles}
+          width='200px'
+          menuColor='red'
+          options={...}
+        />
+      );
       ~~~
 
       ${(
@@ -126,7 +168,7 @@ export default function Styles() {
     ## cx and custom Components
 
     In the event that you need to rewrite a particular component, you'll also have to compose together the styling functionality.
-    Thankfully all the requisite parts are supplid to you via props as below:
+    Thankfully all the requisite parts are supplied to you via props as below:
 
     ### cx
     cx is an internal utility function that manages the composition of emotion style declarations, className/classNamePrefixes and
@@ -161,7 +203,7 @@ export default function Styles() {
     In the end configuring your custom component with the correct styling functionality should look like this
     ~~~
     import { css } from 'emotion';
-    
+
     const CustomOption = ({ cx, children, getStyles, innerRef, ...props }) => (
       <div
         ref={innerRef}
@@ -180,15 +222,15 @@ export default function Styles() {
     )
     ~~~
 
-    ${
+    ${(
       <ExampleWrapper
         label="Style composition for custom components"
         urlPath="docs/examples/StyleCompositionExample.js"
         raw={require('!!raw-loader!../../examples/StyleCompositionExample.js')}
       >
-        <StyleCompositionExample/>
+        <StyleCompositionExample />
       </ExampleWrapper>
-    }
+    )}
 
     ## Using classNames
 
@@ -239,11 +281,7 @@ export default function Styles() {
     ${(
       <div css={{ marginTop: '1em' }}>
         {Object.keys(defaultTheme.colors).map(key => (
-          <ColorSample
-            key={key}
-            name={key}
-            color={defaultTheme.colors[key]}
-          />
+          <ColorSample key={key} name={key} color={defaultTheme.colors[key]} />
         ))}
       </div>
     )}

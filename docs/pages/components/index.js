@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 import ExampleWrapper from '../../ExampleWrapper';
 import {
+  CustomSelectProps,
   CustomClearIndicator,
   CustomDropdownIndicator,
   CustomLoadingIndicator,
@@ -27,7 +28,6 @@ import {
   CustomValueContainer,
 } from '../../examples';
 
-
 export default function Components() {
   return (
     <Fragment>
@@ -45,6 +45,31 @@ export default function Components() {
         building blocks necessary to create _their_ component.
 
         The following components are customisable and switchable:
+          * ClearIndicator
+          * Control
+          * DropdownIndicator
+          * DownChevron
+          * CrossIcon
+          * Group
+          * GroupHeading
+          * IndicatorsContainer
+          * IndicatorSeparator
+          * Input
+          * LoadingIndicator
+          * Menu
+          * MenuList
+          * MenuPortal
+          * LoadingMessage
+          * NoOptionsMessage
+          * MultiValue
+          * MultiValueContainer
+          * MultiValueLabel
+          * MultiValueRemove
+          * Option
+          * Placeholder
+          * SelectContainer
+          * SingleValue
+          * ValueContainer
 
         ## Replacing Components
 
@@ -101,6 +126,60 @@ export default function Components() {
 
         ~~~
 
+        ## Defining components
+        
+        When defining replacement components, it is important to do so __outside__ the scope of 
+        rendering the Select. Defining a replacement component directly in the components prop can 
+        cause issues. 
+        
+        On this topic, React 
+        [documentation](https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method)
+        has the following to say:
+
+        > The problem here isn’t just about performance — remounting a component causes the state
+        of that component and all of its children to be lost.
+        
+        This statement applies as well when replacing components in react-select with inline definitions. 
+
+        ~~~jsx
+        // Bad: Inline declaration will cause remounting issues
+        const BadSelect = props => (
+          <Select {...props} components={{
+            Control: ({ children, ...rest }) => (
+              <components.Control {...rest}>
+                👎 {children}
+              </components.Control>
+            )}} 
+          />
+        )
+
+        // Good: Custom component declared outside of the Select scope
+        const Control = props => ({ children, ...rest }) => (
+          <components.Control {...rest}>
+            👍 {children}
+          </components.Control>
+        );
+
+        const GoodSelect = props => <Select {...props} components={{ Control }} />
+
+        ~~~
+
+        There will likely be times that data or methods may need to be shared,
+        but this can be achieved with the \`selectProps\` prop passed to each component.
+
+        ${(
+          <ExampleWrapper
+            label="Custom Component with selectProps Example"
+            urlPath="docs/examples/CustomSelectProps.js"
+            raw={require('!!raw-loader!../../examples/CustomSelectProps.js')}
+          >
+            <CustomSelectProps />
+          </ExampleWrapper>
+        )}
+
+        ~~~
+        ~~~
+
         ## Adjusting the Styling
 
         The \`styles\` prop allows you to pass styles to a particular component, without
@@ -122,15 +201,15 @@ export default function Components() {
 
         See [props docs](/props#clearindicator) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom ClearIndicator Example"
             urlPath="docs/examples/CustomClearIndicator.js"
             raw={require('!!raw-loader!../../examples/CustomClearIndicator.js')}
           >
-            <CustomClearIndicator/>
+            <CustomClearIndicator />
           </ExampleWrapper>
-        }
+        )}
 
         ### Control
 
@@ -140,15 +219,15 @@ export default function Components() {
 
         See [props docs](/props#control) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Control Example"
             urlPath="docs/examples/CustomControl.js"
             raw={require('!!raw-loader!../../examples/CustomControl.js')}
           >
-            <CustomControl/>
+            <CustomControl />
           </ExampleWrapper>
-        }
+        )}
 
         ### Dropdown Indicator
 
@@ -157,15 +236,15 @@ export default function Components() {
 
         See [props docs](/props#dropdownindicator) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Dropdown Indicator Example"
             urlPath="docs/examples/CustomDropdownIndicator.js"
             raw={require('!!raw-loader!../../examples/CustomDropdownIndicator.js')}
           >
-            <CustomDropdownIndicator/>
+            <CustomDropdownIndicator />
           </ExampleWrapper>
-        }
+        )}
 
         ### Group
 
@@ -175,15 +254,15 @@ export default function Components() {
 
         See [props docs](/props#group) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Group Example"
             urlPath="docs/examples/CustomGroup.js"
             raw={require('!!raw-loader!../../examples/CustomGroup.js')}
           >
-            <CustomGroup/>
+            <CustomGroup />
           </ExampleWrapper>
-        }
+        )}
 
         ### GroupHeading
 
@@ -191,15 +270,15 @@ export default function Components() {
 
         See [props docs](/props#groupheading) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom GroupHeading Example"
             urlPath="docs/examples/CustomGroupHeading.js"
             raw={require('!!raw-loader!../../examples/CustomGroupHeading.js')}
           >
-            <CustomGroupHeading/>
+            <CustomGroupHeading />
           </ExampleWrapper>
-        }
+        )}
 
         ### IndicatorsContainer
 
@@ -212,7 +291,7 @@ export default function Components() {
 
         See [props docs](/props#indicatorscontainer) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom IndicatorsContainer Example"
             urlPath="docs/examples/CustomIndicatorsContainer.js"
@@ -220,7 +299,7 @@ export default function Components() {
           >
             <CustomIndicatorsContainer />
           </ExampleWrapper>
-        }
+        )}
 
         ### Indicator Separator
 
@@ -229,7 +308,7 @@ export default function Components() {
 
         See [props docs](/props#customindicatorseparator) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom IndicatorSeparator Example"
             urlPath="docs/examples/CustomIndicatorSeparator.js"
@@ -237,7 +316,7 @@ export default function Components() {
           >
             <CustomIndicatorSeparator />
           </ExampleWrapper>
-        }
+        )}
 
         ### Input
 
@@ -250,32 +329,32 @@ export default function Components() {
 
         See [props docs](/props#input) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Input Example"
             urlPath="docs/examples/CustomInput.js"
             raw={require('!!raw-loader!../../examples/CustomInput.js')}
           >
-            <CustomInput/>
+            <CustomInput />
           </ExampleWrapper>
-        }
+        )}
 
         ### LoadingIndicator
 
-        Loading indicator to be displayed in the Indicators Container when \`isLoading]\`
+        Loading indicator to be displayed in the Indicators Container when \`isLoading\`
         is true. By default it is three dots.
 
         See [props docs](/props#loadingindicator) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom LoadingIndicator Example"
             urlPath="docs/examples/CustomLoadingIndicator.js"
             raw={require('!!raw-loader!../../examples/CustomLoadingIndicator.js')}
           >
-            <CustomLoadingIndicator/>
+            <CustomLoadingIndicator />
           </ExampleWrapper>
-        }
+        )}
 
         ### Menu
 
@@ -285,15 +364,15 @@ export default function Components() {
 
         See [props docs](/props#menu) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Menu Example"
             urlPath="docs/examples/CustomMenu.js"
             raw={require('!!raw-loader!../../examples/CustomMenu.js')}
           >
-            <CustomMenu/>
+            <CustomMenu />
           </ExampleWrapper>
-        }
+        )}
 
         ### MenuList
 
@@ -301,15 +380,15 @@ export default function Components() {
 
         See [props docs](/props#menulist) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom MenuList Example"
             urlPath="docs/examples/CustomMenuList.js"
             raw={require('!!raw-loader!../../examples/CustomMenuList.js')}
           >
-            <CustomMenuList/>
+            <CustomMenuList />
           </ExampleWrapper>
-        }
+        )}
 
         ### LoadingMessage
 
@@ -318,15 +397,15 @@ export default function Components() {
 
         See [props docs](/props#loadingmessage) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom LoadingMessage Example"
             urlPath="docs/examples/CustomLoadingMessage.js"
             raw={require('!!raw-loader!../../examples/CustomLoadingMessage.js')}
           >
-            <CustomLoadingMessage/>
+            <CustomLoadingMessage />
           </ExampleWrapper>
-        }
+        )}
 
         ### NoOptionsMessage
 
@@ -334,15 +413,15 @@ export default function Components() {
 
         See [props docs](/props#nooptionsmessage) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom NoOptionsMessage Example"
             urlPath="docs/examples/CustomNoOptionsMessage.js"
             raw={require('!!raw-loader!../../examples/CustomNoOptionsMessage.js')}
           >
-            <CustomNoOptionsMessage/>
+            <CustomNoOptionsMessage />
           </ExampleWrapper>
-        }
+        )}
 
         ### MultiValue
 
@@ -350,21 +429,21 @@ export default function Components() {
         true. Takes responsibility for rendering the \`MultiValueContainer\`,
         \`MultiValueLabel\`, and \`MultiValueRemove\`.
 
-        #### MultiValueContainer
+        ### MultiValueContainer
 
         Wraps the Label and Remove in a Multi Value
 
         See [props docs](/props#multivaluecontainer) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom MultiValueContainer Example"
             urlPath="docs/examples/CustomMultiValueContainer.js"
             raw={require('!!raw-loader!../../examples/CustomMultiValueContainer.js')}
           >
-            <CustomMultiValueContainer/>
+            <CustomMultiValueContainer />
           </ExampleWrapper>
-        }
+        )}
 
         ### MultiValueLabel
 
@@ -373,15 +452,15 @@ export default function Components() {
 
         See [props docs](/props#multivaluelabel) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom MultiValueLabel Example"
             urlPath="docs/examples/CustomMultiValueLabel.js"
             raw={require('!!raw-loader!../../examples/CustomMultiValueLabel.js')}
           >
-            <CustomMultiValueLabel/>
+            <CustomMultiValueLabel />
           </ExampleWrapper>
-        }
+        )}
 
 
         ### MultiValueRemove
@@ -390,15 +469,15 @@ export default function Components() {
 
         See [props docs](/props#multivalueremove) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom MultiValueRemove Example"
             urlPath="docs/examples/CustomMultiValueRemove.js"
             raw={require('!!raw-loader!../../examples/CustomMultiValueRemove.js')}
           >
-            <CustomMultiValueRemove/>
+            <CustomMultiValueRemove />
           </ExampleWrapper>
-        }
+        )}
 
         ### Option
 
@@ -406,15 +485,15 @@ export default function Components() {
 
         See [props docs](/props#option) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Option Example"
             urlPath="docs/examples/CustomOption.js"
             raw={require('!!raw-loader!../../examples/CustomOption.js')}
           >
-            <CustomOption/>
+            <CustomOption />
           </ExampleWrapper>
-        }
+        )}
 
 
         ### Placeholder
@@ -424,15 +503,15 @@ export default function Components() {
 
         See [props docs](/props#placeholder) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom Placeholder Example"
             urlPath="docs/examples/CustomPlaceholder.js"
             raw={require('!!raw-loader!../../examples/CustomPlaceholder.js')}
           >
-            <CustomPlaceholder/>
+            <CustomPlaceholder />
           </ExampleWrapper>
-        }
+        )}
 
         ### SelectContainer
 
@@ -440,15 +519,15 @@ export default function Components() {
 
         See [props docs](/props#selectcontainer) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom SelectContainer Example"
             urlPath="docs/examples/CustomSelectContainer.js"
             raw={require('!!raw-loader!../../examples/CustomSelectContainer.js')}
           >
-            <CustomSelectContainer/>
+            <CustomSelectContainer />
           </ExampleWrapper>
-        }
+        )}
 
         ### SingleValue
 
@@ -456,15 +535,15 @@ export default function Components() {
 
         See [props docs](/props#singlevalue) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom SingleValue Example"
             urlPath="docs/examples/CustomSingleValue.js"
             raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
           >
-            <CustomSingleValue/>
+            <CustomSingleValue />
           </ExampleWrapper>
-        }
+        )}
 
         ### ValueContainer
 
@@ -472,15 +551,16 @@ export default function Components() {
 
         See [props docs](/props#valuecontainer) for more details
 
-        ${
+        ${(
           <ExampleWrapper
             label="Custom ValueContainer Example"
             urlPath="docs/examples/CustomValueContainer.js"
             raw={require('!!raw-loader!../../examples/CustomValueContainer.js')}
           >
-            <CustomValueContainer/>
+            <CustomValueContainer />
           </ExampleWrapper>
-        }
+        )}
       `}
-</Fragment>);
+    </Fragment>
+  );
 }

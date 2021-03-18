@@ -1,26 +1,22 @@
-import React, { Component } from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/react'; // eslint-disable-line no-unused-vars
+import { Component } from 'react';
 import CodeSandboxer from 'react-codesandboxer';
-import { replaceImports } from 'codesandboxer';
 import { CodeBlock } from './markdown/renderer';
-import pkg from '../package.json';
-import { colors } from '../src/theme';
+import pkg from '../packages/react-select/package.json';
+import { defaultTheme } from 'react-select';
 import Svg from './Svg';
+
+const { colors } = defaultTheme;
 
 const gitInfo = {
   account: 'JedWatson',
   repository: 'react-select',
-  branch: 'v2',
+  branch: 'master',
   host: 'github',
 };
 
-const importReplacements = [
-  ['src/*', 'react-select/lib/'],
-  ['src', 'react-select'],
-];
-
-const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${
-  gitInfo.branch
-}`;
+const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${gitInfo.branch}`;
 
 export default class ExampleWrapper extends Component {
   state = { isHovered: false, showCode: false };
@@ -34,20 +30,7 @@ export default class ExampleWrapper extends Component {
     if (!showCode || !raw) {
       return null;
     } else {
-      return (
-        <CodeBlock
-          codeinfo={['jsx']}
-          /*
-            CodeSandboxer currently does not export its tools to resolve absolute
-            paths, so we replace on relative paths. This will cause incorrect
-            displays if our examples are not from docs/examples/file.js
-          */
-          literal={replaceImports(raw, [
-            ['../../src/*', 'react-select/lib/'],
-            ['../../src', 'react-select'],
-          ])}
-        />
-      );
+      return <CodeBlock literal={raw.default} codeinfo={['jsx']} />;
     }
   };
 
@@ -84,11 +67,10 @@ export default class ExampleWrapper extends Component {
     if (isEditable) {
       return (
         <CodeSandboxer
-          example={raw}
+          example={raw.default}
           examplePath={urlPath}
           pkgJSON={pkg}
           gitInfo={gitInfo}
-          importReplacements={importReplacements}
           dependencies={{
             [pkg.name]: pkg.version,
           }}

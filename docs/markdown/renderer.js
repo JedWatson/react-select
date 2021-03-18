@@ -1,5 +1,7 @@
-import React from 'react';
+// @flow
+/** @jsx emotionJSX */
 import md from 'react-markings';
+import { jsx as emotionJSX } from '@emotion/react'; // eslint-disable-line no-unused-vars
 import { Link as RRLink } from 'react-router-dom';
 
 import Svg from '../Svg';
@@ -95,7 +97,7 @@ const Heading = props => {
   }
   const css = {
     marginTop: 0,
-    '&:not(:first-child)': { marginTop: 30 },
+    '&:not(:first-of-type)': { marginTop: 30 },
   };
 
   return linkify ? (
@@ -119,7 +121,7 @@ const Heading = props => {
 };
 
 // eslint-disable-next-line no-unused-vars
-export const Code = ({ children, inline, literal, nodeKey }) => (
+export const Code = ({ children, inline, literal, nodeKey }: any) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
@@ -134,7 +136,7 @@ export const Code = ({ children, inline, literal, nodeKey }) => (
   </code>
 );
 
-export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }) => {
+export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }: any) => {
   const language = codeinfo[0];
 
   return (

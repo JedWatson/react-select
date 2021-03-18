@@ -22,13 +22,13 @@ export default function UpgradeGuide() {
 
 React-select v2 is a complete rewrite, and includes some major changes:
 
-* The architecture has been cleaned up
-* Many redundant props have been removed
-* Several major features have been added (including option groups!)
-* The custom component API has been reinvented and is much more consistent
-* Styles are now implemented with css-in-js rather than less / scss stylesheets
-* Support for option groups has been added 🎉
-* You can use any shape of data in your options array, and control how they are
+- The architecture has been cleaned up
+- Many redundant props have been removed
+- Several major features have been added (including option groups!)
+- The custom component API has been reinvented and is much more consistent
+- Styles are now implemented with css-in-js rather than less / scss stylesheets
+- Support for option groups has been added 🎉
+- You can use any shape of data in your options array, and control how they are
   handled by providing custom functions
 
 With that in mind, we've tried to make the upgrade as easy as possible. How
@@ -45,9 +45,9 @@ result.
 In v2, there are three optional props you can use to control the state of the
 component:
 
-* \`value\` controls the select value
-* \`inputValue\` controls the search input value
-* \`menuIsOpen\` controls whether the menu is open
+- \`value\` controls the select value
+- \`inputValue\` controls the search input value
+- \`menuIsOpen\` controls whether the menu is open
 
 You can use none, any, or all of these depending on your requirements.
 
@@ -155,17 +155,17 @@ See the [Styles Documentation](/styles) for more details and examples.
 This means the following props have been removed, and their use-cases should now
 be handled with the new styles API:
 
-* \`menuContainerStyle\`
-* \`menuStyle\`
-* \`optionClassName\`
-* \`wrapperStyle\`
+- \`menuContainerStyle\`
+- \`menuStyle\`
+- \`optionClassName\`
+- \`wrapperStyle\`
 
 ### Using classNames
 
-If you provide the \`className\` prop to react-select, all inner elements will
+If you provide the \`classNamePrefix\` prop to react-select, all inner elements will
 be given a className based on the one you have provided.
 
-For example, given \`className="react-select"\`, the DOM would roughtly look
+For example, given \`classNamePrefix="react-select"\`, the DOM would roughly look
 like this:
 
 ~~~html
@@ -205,15 +205,15 @@ components={{
 All components are passed a set of common props. The most important to
 understand are:
 
-* \`children\` - if the component should contain other components (for example,
+- \`children\` - if the component should contain other components (for example,
   a menu contains options) they will be passed as children. This way you don't
   need to re-implement more than you absolutely need to.
-* \`innerProps\` - a set of props that should be spread onto the DOM element
+- \`innerProps\` - a set of props that should be spread onto the DOM element
   your component returns. It wires up accessibility attributes and events.
-* \`getStyles\` - a function that will return an object containing the styles
+- \`getStyles\` - a function that will return an object containing the styles
   for the component. If you have specified custom style modifiers, they will be
   executed by this function.
-* \`innerRef\` - additional some components need to expose a ref to
+- \`innerRef\` - additional some components need to expose a ref to
   the base Select component, to facilitate internally managed behaviour.
   We specify this as innerRef to avoid collision with React's reserved \`ref\`
   keyword when we spread props.
@@ -227,15 +227,15 @@ examples.
 This means the following props have been removed, and their use-cases should now
 be handled with the new components API:
 
-* \`inputProps\`
-* \`inputRenderer\`
-* \`menuRenderer\`
-* \`optionComponent\`
-* \`optionRenderer\`
-* \`valueComponent\`
-* \`valueRenderer\`
-* \`arrowRenderer\`
-* \`clearRenderer\`
+- \`inputProps\`
+- \`inputRenderer\`
+- \`menuRenderer\`
+- \`optionComponent\`
+- \`optionRenderer\`
+- \`valueComponent\`
+- \`valueRenderer\`
+- \`arrowRenderer\`
+- \`clearRenderer\`
 
 ## Filtering
 
@@ -267,24 +267,24 @@ See the [Advanced Guide](/advanced) for more details and examples.
 ## Simple Value
 
 React-select v1 allowed you to use strings for the \`value\` prop, but with v2 we've deprecated this behaviour
-in favor of a value prop that is always either an array of Options objects or an Options object. 
+in favor of a value prop that is always either an array of Options objects or an Options object.
 If you still want to manage your selected values as a simple string you
 can easily do so by applying a simple filter on your dataset as below.
 
 ~~~js
 const options = [
-  {name: 'John', id: 1},
-  {name: 'Doe', id: 2},
-]
+  { name: 'John', id: 1 },
+  { name: 'Doe', id: 2 },
+];
 return (
   <ReactSelect
     options={options}
-    value={options.filter(({id}) => id === this.state.id)}
-    getOptionLabel={({name}) => name}
-    getOptionValue={({id}) => id}
-    onChange={({value}) => this.setState({id: value})}
+    value={options.filter(({ id }) => id === this.state.id)}
+    getOptionLabel={({ name }) => name}
+    getOptionValue={({ id }) => id}
+    onChange={({ value }) => this.setState({ id: value })}
   />
-)
+);
 ~~~
 
 Note that if you use the default react-select options schema (an array with
