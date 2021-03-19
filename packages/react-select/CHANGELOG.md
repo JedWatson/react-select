@@ -1,5 +1,15 @@
 # react-select
 
+## 4.3.0
+
+### Minor Changes
+
+- [035294f4](https://github.com/JedWatson/react-select/commit/035294f457921423c9237861f7c73584bdecbcc4) [#3360](https://github.com/JedWatson/react-select/pull/3360) Thanks [@JedWatson](https://github.com/JedWatson)! - Now pass the focusedOption to the MenuList Component as a prop
+
+### Patch Changes
+
+- [7a414a7c](https://github.com/JedWatson/react-select/commit/7a414a7c7a1f8e2902e43bd476e3db17a8dce049) [#3262](https://github.com/JedWatson/react-select/pull/3262) Thanks [@JedWatson](https://github.com/JedWatson)! - The Menu bottom is no longer scrolled into view when menuShouldScrollIntoView=false
+
 ## 4.2.1
 
 ### Patch Changes
