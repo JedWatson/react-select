@@ -341,7 +341,7 @@ export default function Components() {
 
         ### LoadingIndicator
 
-        Loading indicator to be displayed in the Indicators Container when \`isLoading]\`
+        Loading indicator to be displayed in the Indicators Container when \`isLoading\`
         is true. By default it is three dots.
 
         See [props docs](/props#loadingindicator) for more details

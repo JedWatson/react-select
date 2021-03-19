@@ -23,6 +23,7 @@ import type {
   MenuPlacement,
   MenuPosition,
   CommonProps,
+  OptionType,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -145,7 +146,9 @@ export function getMenuPlacement({
 
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
       if (placement === 'bottom') {
-        scrollTo(scrollParent, scrollDown);
+        if (shouldScroll) {
+          scrollTo(scrollParent, scrollDown);
+        }
         return { placement: 'bottom', maxHeight };
       }
       break;
@@ -350,6 +353,8 @@ export type MenuListProps = {
   children: Node,
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
+  /** The currently focused option */
+  focusedOption: OptionType,
   /** Props to be passed to the menu-list wrapper. */
   innerProps: {},
 };
