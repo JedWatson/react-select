@@ -2040,10 +2040,6 @@ cases(
   }
 );
 
-/**
- * onFocus hook is not being called when component is mounted is autoFocus true
- * Reproducible here ->  https://codesandbox.io/s/71xrkj0qj
- */
 cases(
   'onFocus prop with autoFocus',
   ({ props = { ...BASIC_PROPS, autoFocus: true } }) => {
@@ -2056,10 +2052,12 @@ cases(
   },
   {
     'single select > should call auto focus only once when select is autoFocus': {
-      skip: true,
+      props: {
+        ...BASIC_PROPS,
+        autoFocus: true,
+      },
     },
     'multi select > should call auto focus only once when select is autoFocus': {
-      skip: true,
       props: {
         ...BASIC_PROPS,
         autoFocus: true,
@@ -2732,18 +2730,13 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
   });
 });
 
-/**
- * Selects the option on hitting spacebar on V2
- * Needs varification
- */
-test.skip('hitting spacebar should not select option if isSearchable is true (default)', () => {
-  // let onChangeSpy = jest.fn();
-  // let props = { ...BASIC_PROPS, onChange: onChangeSpy };
-  // let { container } = render(<Select {...props} menuIsOpen />);
-  // // Open Menu
-  // selectWrapper.setState({ focusedOption: OPTIONS[0] });
-  // fireEvent.keyDown(container, { keyCode: 32, key: ' ' });
-  // expect(onChangeSpy).not.toHaveBeenCalled();
+test('hitting spacebar should not select option if isSearchable is true (default)', () => {
+  let onChangeSpy = jest.fn();
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy };
+  let { container } = render(<Select {...props} menuIsOpen />);
+  // Open Menu
+  fireEvent.keyDown(container, { keyCode: 32, key: ' ' });
+  expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
 test('renders with custom theme', () => {
