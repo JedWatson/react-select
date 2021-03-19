@@ -23,6 +23,7 @@ import type {
   MenuPlacement,
   MenuPosition,
   CommonProps,
+  OptionType,
 } from '../types';
 import type { Theme } from '../types';
 
@@ -352,6 +353,8 @@ export type MenuListProps = {
   children: Node,
   /** Inner ref to DOM Node */
   innerRef: InnerRef,
+  /** The currently focused option */
+  focusedOption: OptionType,
   /** Props to be passed to the menu-list wrapper. */
   innerProps: {},
 };
