@@ -321,10 +321,10 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 }
 
 const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerRef, innerProps } = props;
+  const { children, className, cx, getStyles, innerRef, innerProps, isFocused } = props;
 
   return (
-    <div
+    <div 
       css={getStyles('menu', props)}
       className={cx({ menu: true }, className)}
       ref={innerRef}
@@ -383,9 +383,11 @@ export const MenuList = (props: MenuListComponentProps) => {
     innerProps,
     innerRef,
     isMulti,
+    isFocused
   } = props;
   return (
-    <div
+    <ul
+      aria-expanded={isFocused}
       css={getStyles('menuList', props)}
       className={cx(
         {
@@ -398,7 +400,7 @@ export const MenuList = (props: MenuListComponentProps) => {
       {...innerProps}
     >
       {children}
-    </div>
+    </ul>
   );
 };
 

@@ -83,7 +83,7 @@ const Option = (props: OptionProps) => {
     innerProps,
   } = props;
   return (
-    <div
+    <li
       role="option"
       css={getStyles('option', props)}
       className={cx(
@@ -99,7 +99,7 @@ const Option = (props: OptionProps) => {
       {...innerProps}
     >
       {children}
-    </div>
+    </li>
   );
 };
 
