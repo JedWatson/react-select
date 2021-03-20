@@ -63,8 +63,8 @@ export function classNames(
 // ==============================
 
 export const cleanValue = (value: ValueType): OptionsType => {
-  if (Array.isArray(value)) return value.filter(Boolean);
-  if (typeof value === 'object' && value !== null) return [value];
+  if (Array.isArray(value)) return value.filter(v => v !== undefined && v !== null);
+  if (value !== undefined && value !== null) return [value];
   return [];
 };
 
