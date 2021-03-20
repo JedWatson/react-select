@@ -84,6 +84,7 @@ const Option = (props: OptionProps) => {
   } = props;
   return (
     <div
+      role="option"
       css={getStyles('option', props)}
       className={cx(
         {
