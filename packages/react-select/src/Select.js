@@ -1281,7 +1281,7 @@ export default class Select extends Component<Props, State> {
           return;
         }
         this.selectOption(focusedOption);
-        break;
+        return;
       case 'Enter':
         if (event.keyCode === 229) {
           // ignore the keydown event from an Input Method Editor(IME)
