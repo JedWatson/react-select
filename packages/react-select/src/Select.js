@@ -64,6 +64,8 @@ type FormatOptionLabelMeta = {
 };
 
 export type Props = {
+  /* HTML ID of an element that should be used to describe this input (for assistive tech) */
+  'aria-describedby'?: string,
   /* Aria label (for assistive tech) */
   'aria-label'?: string,
   /* HTML ID of an element that should be used as the label (for assistive tech) */
@@ -1372,6 +1374,7 @@ export default class Select extends Component<Props, State> {
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-autocomplete': 'list',
+      'aria-describedby': this.props['aria-describedby'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
     };
