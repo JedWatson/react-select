@@ -36,7 +36,6 @@ export const css = ({
 
 const SingleValue = (props: SingleValueProps) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
-  
   return (
     <div
       css={getStyles('singleValue', props)}

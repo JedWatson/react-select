@@ -321,7 +321,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 }
 
 const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerRef, innerProps, isFocused } = props;
+  const { children, className, cx, getStyles, innerRef, innerProps } = props;
 
   return (
     <div 
@@ -368,9 +368,12 @@ export const menuListCSS = ({
   },
 }: MenuListComponentProps) => ({
   maxHeight,
+  margin:0,
+  paddingLeft:0,
   overflowY: 'auto',
   paddingBottom: baseUnit,
   paddingTop: baseUnit,
+  listStyle:'none',
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
 });
@@ -383,11 +386,11 @@ export const MenuList = (props: MenuListComponentProps) => {
     innerProps,
     innerRef,
     isMulti,
-    isFocused
+    selectProps:{ menuIsOpen }
   } = props;
   return (
     <ul
-      aria-expanded={isFocused}
+      aria-expanded={menuIsOpen}
       css={getStyles('menuList', props)}
       className={cx(
         {
