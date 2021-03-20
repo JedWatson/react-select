@@ -79,6 +79,10 @@ export function getMenuPlacement({
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
   const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
+  const borderBottomWidth = parseInt(getComputedStyle(menuEl).borderBottomWidth, 10);
+  const borderTopWidth = parseInt(getComputedStyle(menuEl).borderTopWidth, 10);
+  const bordersWidth = borderBottomWidth + borderTopWidth;
+  
   const viewSpaceAbove = containerTop - marginTop;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
@@ -117,8 +121,8 @@ export function getMenuPlacement({
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
         const constrainedHeight = isFixedPosition
-          ? viewSpaceBelow - marginBottom
-          : scrollSpaceBelow - marginBottom;
+          ? viewSpaceBelow - marginBottom - bordersWidth
+          : scrollSpaceBelow - marginBottom - bordersWidth;
 
         return {
           placement: 'bottom',
@@ -136,7 +140,7 @@ export function getMenuPlacement({
 
         if (spaceAbove >= minHeight) {
           constrainedHeight = Math.min(
-            spaceAbove - marginBottom - spacing.controlHeight,
+            spaceAbove - marginBottom - spacing.controlHeight - bordersWidth,
             maxHeight
           );
         }
@@ -181,8 +185,8 @@ export function getMenuPlacement({
           (isFixedPosition && viewSpaceAbove >= minHeight)
         ) {
           constrainedHeight = isFixedPosition
-            ? viewSpaceAbove - marginTop
-            : scrollSpaceAbove - marginTop;
+            ? viewSpaceAbove - marginTop - bordersWidth
+            : scrollSpaceAbove - marginTop - bordersWidth;
         }
 
         if (shouldScroll) {
