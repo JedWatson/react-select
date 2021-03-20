@@ -159,7 +159,9 @@ export const makeAsyncSelect = <C: {}>(
           {
             inputValue,
             isLoading: true,
-            passEmptyOptions: !this.state.loadedInputValue,
+            passEmptyOptions: cacheOptions
+              ? !this.state.loadedInputValue
+              : true,
           },
           () => {
             this.loadOptions(inputValue, options => {
