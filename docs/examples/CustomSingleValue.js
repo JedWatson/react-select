@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
 const SingleValue = ({ children, ...props }) => (
-  <components.SingleValue {...props}>{children}</components.SingleValue>
+  <components.SingleValue {...props}>{`my value -${children}`}</components.SingleValue>
 );
 
 type State = {};
@@ -15,16 +15,6 @@ export default class CustomControl extends Component<*, State> {
       <Select
         defaultValue={colourOptions[0]}
         isClearable
-        styles={{
-          singleValue: base => ({
-            ...base,
-            padding: 5,
-            borderRadius: 5,
-            background: colourOptions[2].color,
-            color: 'white',
-            display: 'flex',
-          }),
-        }}
         components={{ SingleValue }}
         isSearchable
         name="color"

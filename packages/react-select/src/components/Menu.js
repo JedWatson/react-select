@@ -390,6 +390,8 @@ export const MenuList = (props: MenuListComponentProps) => {
   } = props;
   return (
     <ul
+      role="listbox"
+      tabIndex="-1"
       aria-expanded={menuIsOpen}
       css={getStyles('menuList', props)}
       className={cx(

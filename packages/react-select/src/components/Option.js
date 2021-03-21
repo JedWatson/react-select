@@ -85,6 +85,7 @@ const Option = (props: OptionProps) => {
   return (
     <li
       role="option"
+      aria-disabled = {isDisabled}
       css={getStyles('option', props)}
       className={cx(
         {

@@ -40,6 +40,7 @@ export const SelectContainer = (props: ContainerProps) => {
   } = props;
   return (
     <div
+    role="combobox"
       css={getStyles('container', props)}
       className={cx(
         {
