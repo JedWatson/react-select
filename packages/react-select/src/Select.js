@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component, type ElementRef, type Node } from 'react';
+import memoize from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
@@ -341,7 +342,7 @@ function toCategorizedOption(
   };
 }
 
-function buildCategorizedOptions(
+let buildCategorizedOptions = memoize(function(
   props: Props,
   selectValue: OptionsType
 ): CategorizedGroupOrOption[] {
@@ -374,7 +375,18 @@ function buildCategorizedOptions(
     })
     // Flow limitation (see https://github.com/facebook/flow/issues/1414)
     .filter(categorizedOption => !!categorizedOption): any[]);
-}
+}, function([newProps, newSelectValue], [lastProps, lastSelectValue]) {
+  // Shallow compare props
+  // ignore menuIsOpen, as it's not used by sub-functions
+  // use find instead of filter(!"menuIsOpen").map(equal).includes(false)
+  // to traverse the properties as few times as possible
+  let propsEqual = !Object.entries(newProps).find(([key, value]) => key !== 'menuIsOpen' && value !== lastProps[key]);
+
+  // Sometimes we recieve a new instance of an empty array, check for that
+  let selectValueEqual = newSelectValue === lastSelectValue || (newSelectValue.length === 0 && lastSelectValue.length === 0);
+
+  return propsEqual && selectValueEqual;
+});
 
 function buildFocusableOptionsFromCategorizedOptions(
   categorizedOptions: CategorizedGroupOrOption[]
