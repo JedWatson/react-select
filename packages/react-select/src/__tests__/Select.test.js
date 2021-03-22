@@ -2767,15 +2767,11 @@ test('renders with custom theme', () => {
 });
 
 test('filterOption only called once per option when opening menu', () => {
-  let options = Array(1000)
-    .fill(null)
-    .map((_, i) => ({ label: 'Option', value: i }));
-  let timesCalled = 0;
-  let filterOption = () => timesCalled++;
-  let { rerender } = render(
-    <Select options={options} filterOption={filterOption} />
+  const filterOption = jest.fn();
+  const { rerender } = render(
+    <Select options={OPTIONS} filterOption={filterOption} />
   );
-  rerender(<Select options={options} filterOption={filterOption} menuIsOpen />);
+  rerender(<Select options={OPTIONS} filterOption={filterOption} menuIsOpen />);
 
-  expect(timesCalled).toEqual(options.length);
+  expect(filterOption).toHaveBeenCalledTimes(OPTIONS.length);
 });
