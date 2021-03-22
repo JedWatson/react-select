@@ -1654,7 +1654,7 @@ export default class Select extends Component<Props, State> {
 
     if (this.hasOptions()) {
       menuUI = this.getCategorizedOptions();
-      if (this.props.resultLimit > 0) {
+      if (this.props.resultLimit && this.props.resultLimit > 0) {
         menuUI = menuUI.slice(0, this.props.resultLimit);
       }
       menuUI = menuUI.map(item => {
