@@ -147,7 +147,9 @@ export function getMenuPlacement({
 
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
       if (placement === 'bottom') {
-        scrollTo(scrollParent, scrollDown);
+        if (shouldScroll) {
+          scrollTo(scrollParent, scrollDown);
+        }
         return { placement: 'bottom', maxHeight };
       }
       break;
@@ -382,6 +384,8 @@ export interface MenuListProps<
   children: ReactNode;
   /** Inner ref to DOM ReactNode */
   innerRef: RefCallback<HTMLDivElement>;
+  /** The currently focused option */
+  focusedOption: Option;
   /** Props to be passed to the menu-list wrapper. */
   innerProps: JSX.IntrinsicElements['div'];
 }

@@ -1829,6 +1829,7 @@ export default class Select<
                   }}
                   isLoading={isLoading}
                   maxHeight={maxHeight}
+                  focusedOption={focusedOption}
                 >
                   {menuUI}
                 </MenuList>
