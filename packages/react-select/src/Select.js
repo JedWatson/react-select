@@ -225,6 +225,8 @@ export type Props = {
   pageSize: number,
   /* Placeholder for the select value */
   placeholder: Node,
+  /* Limits the number of rendered options in the dropdown */
+  resultLimit?: number,
   /* Status to relay to screen readers */
   screenReaderStatus: ({ count: number }) => string,
   /*
@@ -1651,7 +1653,7 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().map(item => {
+      menuUI = this.getCategorizedOptions().slice(0, this.props.resultLimit || undefined).map(item => {
         if (item.type === 'group') {
           const { data, options, index: groupIndex } = item;
           const groupId = `${this.getElementId('group')}-${groupIndex}`;
