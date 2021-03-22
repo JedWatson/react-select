@@ -374,24 +374,25 @@ let buildCategorizedOptions = memoize(
       // Flow limitation (see https://github.com/facebook/flow/issues/1414)
       .filter(categorizedOption => !!categorizedOption): any[]);
   },
-  function([newProps, newSelectValue], [lastProps, lastSelectValue]) {
+  function(newArgs: any, lastArgs: any) {
+    const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
+    const [lastProps, lastSelectValue] = (newArgs: [Props, OptionsType]);
+
     // Shallow compare props
     // ignore menuIsOpen, as it's not used by sub-functions
-    // use find instead of filter(!"menuIsOpen").map(equal).includes(false)
-    // to traverse the properties as few times as possible
-    let propsEqual = !Object.entries(newProps).find(
-      ([key, value]) => key !== 'menuIsOpen' && value !== lastProps[key]
-    );
+    for (let key in newProps) {
+      if (key === 'menuIsOpen') continue;
+      if (newProps[key] !== lastProps[key]) return false;
+    }
 
     // Sometimes we recieve a new instance of an empty array, check for that
-    let selectValueEqual =
+    return (
       newSelectValue === lastSelectValue ||
       (Array.isArray(newSelectValue) &&
         Array.isArray(lastSelectValue) &&
         newSelectValue.length === 0 &&
-        lastSelectValue.length === 0);
-
-    return propsEqual && selectValueEqual;
+        lastSelectValue.length === 0)
+    );
   }
 );
 
