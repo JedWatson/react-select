@@ -25,6 +25,7 @@ export const inputCSS = ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
+  boxShadow: 'none',
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
 });
