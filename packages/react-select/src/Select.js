@@ -1653,34 +1653,36 @@ export default class Select extends Component<Props, State> {
     let menuUI;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().slice(0, this.props.resultLimit || undefined).map(item => {
-        if (item.type === 'group') {
-          const { data, options, index: groupIndex } = item;
-          const groupId = `${this.getElementId('group')}-${groupIndex}`;
-          const headingId = `${groupId}-heading`;
+      menuUI = this.getCategorizedOptions()
+        .slice(0, this.props.resultLimit || undefined)
+        .map(item => {
+          if (item.type === 'group') {
+            const { data, options, index: groupIndex } = item;
+            const groupId = `${this.getElementId('group')}-${groupIndex}`;
+            const headingId = `${groupId}-heading`;
 
-          return (
-            <Group
-              {...commonProps}
-              key={groupId}
-              data={data}
-              options={options}
-              Heading={GroupHeading}
-              headingProps={{
-                id: headingId,
-                data: item.data,
-              }}
-              label={this.formatGroupLabel(item.data)}
-            >
-              {item.options.map(option =>
-                render(option, `${groupIndex}-${option.index}`)
-              )}
-            </Group>
-          );
-        } else if (item.type === 'option') {
-          return render(item, `${item.index}`);
-        }
-      });
+            return (
+              <Group
+                {...commonProps}
+                key={groupId}
+                data={data}
+                options={options}
+                Heading={GroupHeading}
+                headingProps={{
+                  id: headingId,
+                  data: item.data,
+                }}
+                label={this.formatGroupLabel(item.data)}
+              >
+                {item.options.map(option =>
+                  render(option, `${groupIndex}-${option.index}`)
+                )}
+              </Group>
+            );
+          } else if (item.type === 'option') {
+            return render(item, `${item.index}`);
+          }
+        });
     } else if (isLoading) {
       const message = loadingMessage({ inputValue });
       if (message === null) return null;
