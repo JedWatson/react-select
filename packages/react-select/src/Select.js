@@ -376,7 +376,7 @@ let buildCategorizedOptions = memoize(
   },
   function(newArgs: any, lastArgs: any) {
     const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
-    const [lastProps, lastSelectValue] = (newArgs: [Props, OptionsType]);
+    const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
 
     // Shallow compare props
     // ignore menuIsOpen, as it's not used by sub-functions
