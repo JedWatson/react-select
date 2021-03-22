@@ -386,7 +386,10 @@ let buildCategorizedOptions = memoize(
     // Sometimes we recieve a new instance of an empty array, check for that
     let selectValueEqual =
       newSelectValue === lastSelectValue ||
-      (newSelectValue.length === 0 && lastSelectValue.length === 0);
+      (Array.isArray(newSelectValue) &&
+        Array.isArray(lastSelectValue) &&
+        newSelectValue.length === 0 &&
+        lastSelectValue.length === 0);
 
     return propsEqual && selectValueEqual;
   }
