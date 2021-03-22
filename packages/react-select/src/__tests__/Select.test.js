@@ -2767,10 +2767,14 @@ test('renders with custom theme', () => {
 });
 
 test('filterOption only called once per option when opening menu', () => {
-  let options = Array(1000).fill(null).map((_, i) => ({ label: 'Option', value: i }));
+  let options = Array(1000)
+    .fill(null)
+    .map((_, i) => ({ label: 'Option', value: i }));
   let timesCalled = 0;
   let filterOption = () => timesCalled++;
-  let { rerender } = render(<Select options={options} filterOption={filterOption} />);
+  let { rerender } = render(
+    <Select options={options} filterOption={filterOption} />
+  );
   rerender(<Select options={options} filterOption={filterOption} menuIsOpen />);
 
   expect(timesCalled).toEqual(options.length);
