@@ -13,7 +13,7 @@ import {
   OptionBase,
   PropsValue,
 } from './types';
-import Select, { BaseSelectProps } from './Select';
+import Select, { PublicBaseSelectProps } from './Select';
 import useStateManager, { StateManagerProps } from './useStateManager';
 
 type BaseComponentProps<
@@ -22,7 +22,7 @@ type BaseComponentProps<
   Group extends GroupBase<Option>
 > = JSX.LibraryManagedAttributes<
   typeof Select,
-  BaseSelectProps<Option, IsMulti, Group>
+  PublicBaseSelectProps<Option, IsMulti, Group>
 >;
 declare class BaseComponent<
   Option extends OptionBase,

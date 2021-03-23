@@ -39,7 +39,7 @@ import {
 
 import { defaultComponents, SelectComponentsConfig } from './components/index';
 
-import { defaultStyles } from './styles';
+import { defaultStyles, StylesConfig } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -247,7 +247,7 @@ export interface Props<
    *
    * A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
    */
-  styles: StylesConfig;
+  styles: StylesConfig<Option, IsMulti, Group>;
   /** Theme modifier method */
   theme?: ThemeConfig;
   /** Sets the tabIndex attribute on the input */
@@ -1969,3 +1969,9 @@ export default class Select<
     );
   }
 }
+
+export type PublicBaseSelectProps<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = JSX.LibraryManagedAttributes<typeof Select, Props<Option, IsMulti, Group>>;

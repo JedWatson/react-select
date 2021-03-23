@@ -6,7 +6,7 @@ import {
   OptionBase,
   PropsValue,
 } from './types';
-import { BaseSelectProps } from './Select';
+import { PublicBaseSelectProps } from './Select';
 import { useCallback, useState } from 'react';
 
 type StateManagedPropKeys =
@@ -22,8 +22,8 @@ type SelectPropsWithOptionalStateManagedProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = Omit<BaseSelectProps<Option, IsMulti, Group>, StateManagedPropKeys> &
-  Partial<BaseSelectProps<Option, IsMulti, Group>>;
+> = Omit<PublicBaseSelectProps<Option, IsMulti, Group>, StateManagedPropKeys> &
+  Partial<PublicBaseSelectProps<Option, IsMulti, Group>>;
 
 interface StateMangerAdditionalProps<Option extends OptionBase> {
   defaultInputValue?: string;
@@ -56,7 +56,7 @@ export default function useStateManager<
   value: propsValue,
   ...restSelectProps
 }: StateManagerProps<Option, IsMulti, Group> &
-  AdditionalProps): BaseSelectProps<Option, IsMulti, Group> &
+  AdditionalProps): PublicBaseSelectProps<Option, IsMulti, Group> &
   Omit<
     AdditionalProps,
     keyof StateMangerAdditionalProps<Option> | StateManagedPropKeys
