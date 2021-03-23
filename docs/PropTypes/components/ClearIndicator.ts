@@ -1,4 +1,8 @@
 import { Component } from 'react';
-import { IndicatorProps } from 'react-select';
+import { GroupBase, ClearIndicatorProps, OptionBase } from 'react-select';
 
-export default class ClearIndicator extends Component<IndicatorProps> {}
+export default class ClearIndicator<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<ClearIndicatorProps<Option, IsMulti, Group>> {}

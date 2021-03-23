@@ -1,6 +1,8 @@
 import { Component } from 'react';
-import { MultiValueGenericProps } from 'react-select';
+import { GroupBase, MultiValueGenericProps, OptionBase } from 'react-select';
 
-export default class MultiValueLabel extends Component<
-  MultiValueGenericProps
-> {}
+export default class MultiValueLabel<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<MultiValueGenericProps<Option, IsMulti, Group>> {}

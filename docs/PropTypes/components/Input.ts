@@ -1,4 +1,8 @@
 import { Component } from 'react';
-import { InputProps } from 'react-select';
+import { GroupBase, InputProps, OptionBase } from 'react-select';
 
-export default class Input extends Component<InputProps> {}
+export default class Input<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> extends Component<InputProps<Option, IsMulti, Group>> {}
