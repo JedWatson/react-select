@@ -16,7 +16,7 @@ export { StateManagerProps as Props } from './useStateManager';
 
 export {
   ContainerProps,
-  IndicatorContainerProps,
+  IndicatorsContainerProps,
   ValueContainerProps,
 } from './components/containers';
 export { ControlProps } from './components/Control';

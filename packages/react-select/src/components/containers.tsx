@@ -1,7 +1,12 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 // ==============================
 // Root Container
@@ -27,10 +32,10 @@ export const containerCSS = <
 >({
   isDisabled,
   isRtl,
-}: ContainerProps<Option, IsMulti, Group>) => ({
+}: ContainerProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'container',
-  direction: isRtl ? 'rtl' : null,
-  pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
+  direction: isRtl ? 'rtl' : undefined,
+  pointerEvents: isDisabled ? 'none' : undefined, // cancel mouse events when disabled
   position: 'relative',
 });
 export const SelectContainer = <
@@ -86,7 +91,7 @@ export const valueContainerCSS = <
   Group extends GroupBase<Option>
 >({
   theme: { spacing },
-}: ValueContainerProps<Option, IsMulti, Group>) => ({
+}: ValueContainerProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -147,7 +152,7 @@ export interface IndicatorsContainerProps<
   innerProps?: {};
 }
 
-export const indicatorsContainerCSS = () => ({
+export const indicatorsContainerCSS = (): CSSObjectWithLabel => ({
   alignItems: 'center',
   alignSelf: 'stretch',
   display: 'flex',

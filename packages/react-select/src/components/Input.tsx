@@ -2,7 +2,12 @@
 import { jsx } from '@emotion/react';
 import AutosizeInput from 'react-input-autosize';
 
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 import { cleanCommonProps } from '../utils';
 
 export interface InputProps<
@@ -27,7 +32,7 @@ export const inputCSS = <
 >({
   isDisabled,
   theme: { spacing, colors },
-}: InputProps<Option, IsMulti, Group>) => ({
+}: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,

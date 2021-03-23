@@ -128,6 +128,8 @@ export const components = {
   ValueContainer: ValueContainer,
 };
 
+export type SelectComponentsGeneric = typeof components;
+
 interface Props<
   Option extends OptionBase,
   IsMulti extends boolean,
@@ -142,7 +144,7 @@ export const defaultComponents = <
   Group extends GroupBase<Option>
 >(
   props: Props<Option, IsMulti, Group>
-) => ({
+): SelectComponentsGeneric => ({
   ...components,
   ...props.components,
 });

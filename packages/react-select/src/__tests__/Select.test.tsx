@@ -19,6 +19,7 @@ import { FilterOptionOption } from '../filters';
 import { matchers } from '@emotion/jest';
 import { AriaLiveMessages } from '../accessibility';
 import { noop } from '../utils';
+import { GroupBase } from '../types';
 
 expect.extend(matchers);
 
@@ -166,7 +167,7 @@ cases(
         ...BASIC_PROPS,
         formatOptionLabel: (
           { label, value }: Option,
-          { context }: FormatOptionLabelMeta<Option, boolean>
+          { context }: FormatOptionLabelMeta<Option>
         ) => `${label} ${value} ${context}`,
         value: OPTIONS[0],
       },
@@ -178,7 +179,7 @@ cases(
         ...BASIC_PROPS,
         formatOptionLabel: (
           { label, value }: Option,
-          { context }: FormatOptionLabelMeta<Option, boolean>
+          { context }: FormatOptionLabelMeta<Option>
         ) => `${label} ${value} ${context}`,
         isMulti: true,
         value: OPTIONS[0],
@@ -281,7 +282,7 @@ cases(
     'single select > should filter all options as per searchString': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         menuIsOpen: true,
         value: OPTIONS[0],
@@ -292,7 +293,7 @@ cases(
     'multi select > should filter all options other that options in value of select': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         isMulti: true,
         menuIsOpen: true,
@@ -351,7 +352,7 @@ cases(
     'single Select > should show NoOptionsMessage': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         menuIsOpen: true,
       },
@@ -360,7 +361,7 @@ cases(
     'multi select > should show NoOptionsMessage': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         menuIsOpen: true,
       },
@@ -382,7 +383,7 @@ cases(
     'single Select > should show NoOptionsMessage returned from noOptionsMessage function prop': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         menuIsOpen: true,
         noOptionsMessage: () =>
@@ -395,7 +396,7 @@ cases(
     'multi select > should show NoOptionsMessage returned from noOptionsMessage function prop': {
       props: {
         ...BASIC_PROPS,
-        filterOption: (value: FilterOptionOption, search: string) =>
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
           value.value.indexOf(search) > -1,
         menuIsOpen: true,
         noOptionsMessage: () =>
@@ -2124,7 +2125,11 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 });
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
-  const ariaLiveMessages: AriaLiveMessages<Option> = {
+  const ariaLiveMessages: AriaLiveMessages<
+    Option,
+    boolean,
+    GroupBase<Option>
+  > = {
     onChange: props => {
       const { action, isDisabled, label } = props;
       if (action === 'select-option' && !isDisabled) {

@@ -5,6 +5,7 @@ import { cleanCommonProps } from '../utils';
 
 import {
   CommonPropsAndClassName,
+  CSSObjectWithLabel,
   CX,
   GetStyles,
   GroupBase,
@@ -48,7 +49,7 @@ export const groupCSS = <
   Group extends GroupBase<Option>
 >({
   theme: { spacing },
-}: GroupProps<Option, IsMulti, Group>) => ({
+}: GroupProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
@@ -117,13 +118,13 @@ export const groupHeadingCSS = <
   Group extends GroupBase<Option>
 >({
   theme: { spacing },
-}: GroupHeadingProps<Option, IsMulti, Group>) => ({
+}: GroupHeadingProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
   display: 'block',
   fontSize: '75%',
-  fontWeight: '500',
+  fontWeight: 500,
   marginBottom: '0.25em',
   paddingLeft: spacing.baseUnit * 3,
   paddingRight: spacing.baseUnit * 3,

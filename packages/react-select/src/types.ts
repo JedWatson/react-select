@@ -1,9 +1,10 @@
+import { CSSObject } from '@emotion/serialize';
 import { Props } from './Select';
 
 export interface OptionBase {
   readonly label?: string;
-  readonly value?: string;
-  readonly isDisabled?: string;
+  readonly value?: string | number | boolean;
+  readonly isDisabled?: boolean;
 }
 
 export interface GroupBase<Option extends OptionBase> {
@@ -189,3 +190,5 @@ export type GetOptionLabel<Option extends OptionBase> = (
 export type GetOptionValue<Option extends OptionBase> = (
   option: Option
 ) => string;
+
+export type CSSObjectWithLabel = CSSObject & { label?: string };

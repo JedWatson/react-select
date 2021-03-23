@@ -2,7 +2,12 @@
 import { ComponentType, ReactNode } from 'react';
 import { jsx, ClassNames } from '@emotion/react';
 import { CrossIcon } from './indicators';
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 import { Props } from '../Select';
 
 interface MultiValueComponents<
@@ -36,7 +41,7 @@ export const multiValueCSS = <
   Group extends GroupBase<Option>
 >({
   theme: { spacing, borderRadius, colors },
-}: MultiValueProps<Option, IsMulti, Group>) => ({
+}: MultiValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'multiValue',
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
@@ -52,14 +57,14 @@ export const multiValueLabelCSS = <
 >({
   theme: { borderRadius, colors },
   cropWithEllipsis,
-}: MultiValueProps<Option, IsMulti, Group>) => ({
+}: MultiValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
   overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
-  textOverflow: cropWithEllipsis ? 'ellipsis' : null,
+  textOverflow: cropWithEllipsis ? 'ellipsis' : undefined,
   whiteSpace: 'nowrap',
 });
 
@@ -70,10 +75,10 @@ export const multiValueRemoveCSS = <
 >({
   theme: { spacing, borderRadius, colors },
   isFocused,
-}: MultiValueProps<Option, IsMulti, Group>) => ({
+}: MultiValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
-  backgroundColor: isFocused && colors.dangerLight,
+  backgroundColor: isFocused ? colors.dangerLight : undefined,
   display: 'flex',
   paddingLeft: spacing.baseUnit,
   paddingRight: spacing.baseUnit,

@@ -2,7 +2,12 @@
 import { ReactNode, Ref } from 'react';
 import { jsx } from '@emotion/react';
 
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 export interface ControlProps<
   Option extends OptionBase,
@@ -30,7 +35,7 @@ export const css = <
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps<Option, IsMulti, Group>) => ({
+}: ControlProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
@@ -42,7 +47,7 @@ export const css = <
   borderRadius: borderRadius,
   borderStyle: 'solid',
   borderWidth: 1,
-  boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : null,
+  boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : undefined,
   cursor: 'default',
   display: 'flex',
   flexWrap: 'wrap',

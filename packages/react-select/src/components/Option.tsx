@@ -2,7 +2,12 @@
 import { ReactNode, RefCallback } from 'react';
 import { jsx } from '@emotion/react';
 
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 export interface OptionProps<
   Option extends OptionBase,
@@ -39,7 +44,7 @@ export const optionCSS = <
   isFocused,
   isSelected,
   theme: { spacing, colors },
-}: OptionProps<Option, IsMulti, Group>) => ({
+}: OptionProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'option',
   backgroundColor: isSelected
     ? colors.primary
@@ -61,8 +66,11 @@ export const optionCSS = <
 
   // provide some affordance on touch devices
   ':active': {
-    backgroundColor:
-      !isDisabled && (isSelected ? colors.primary : colors.primary50),
+    backgroundColor: !isDisabled
+      ? isSelected
+        ? colors.primary
+        : colors.primary50
+      : undefined,
   },
 });
 

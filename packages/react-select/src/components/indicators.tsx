@@ -2,7 +2,12 @@
 import { ReactNode } from 'react';
 import { jsx, keyframes } from '@emotion/react';
 
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -72,7 +77,7 @@ const baseCSS = <
   },
 }:
   | DropdownIndicatorProps<Option, IsMulti, Group>
-  | ClearIndicatorProps<Option, IsMulti, Group>) => ({
+  | ClearIndicatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -173,7 +178,7 @@ export const indicatorSeparatorCSS = <
     spacing: { baseUnit },
     colors,
   },
-}: IndicatorSeparatorProps<Option, IsMulti, Group>) => ({
+}: IndicatorSeparatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -219,7 +224,7 @@ export const loadingIndicatorCSS = <
     colors,
     spacing: { baseUnit },
   },
-}: LoadingIndicatorProps<Option, IsMulti, Group>) => ({
+}: LoadingIndicatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',

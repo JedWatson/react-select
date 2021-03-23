@@ -119,7 +119,7 @@ export interface Props<
    * instead. For a list of the components that can be passed in, and the shape
    * that will be passed to them, see [the components docs](/components)
    */
-  components: SelectComponentsConfig;
+  components: SelectComponentsConfig<Option, IsMulti, Group>;
   /** Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
   controlShouldRenderValue: boolean;
   /** Delimiter used to join multiple values into a single HTML Input value */
@@ -560,9 +560,9 @@ const shouldHideSelectedOptions = <
 let instanceId = 1;
 
 export default class Select<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends Component<
   Props<Option, IsMulti, Group>,
   State<Option, IsMulti, Group>

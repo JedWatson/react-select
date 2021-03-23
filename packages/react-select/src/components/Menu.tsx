@@ -26,6 +26,7 @@ import {
   GroupBase,
   CommonPropsAndClassName,
   CoercedMenuPlacement,
+  CSSObjectWithLabel,
 } from '../types';
 
 // ==============================
@@ -269,7 +270,7 @@ export const menuCSS = <
 >({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuProps<Option, IsMulti, Group>) => ({
+}: MenuProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -398,7 +399,7 @@ export const menuListCSS = <
   theme: {
     spacing: { baseUnit },
   },
-}: MenuListProps<Option, IsMulti, Group>) => ({
+}: MenuListProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -453,7 +454,7 @@ const noticeCSS = <
     spacing: { baseUnit },
     colors,
   },
-}: NoticeProps<Option, IsMulti, Group>) => ({
+}: NoticeProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -555,7 +556,11 @@ export interface PortalStyleArgs {
   rect: RectType;
 }
 
-export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
+export const menuPortalCSS = ({
+  rect,
+  offset,
+  position,
+}: PortalStyleArgs): CSSObjectWithLabel => ({
   left: rect.left,
   position: position,
   top: offset,

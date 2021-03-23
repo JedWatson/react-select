@@ -1,7 +1,12 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 export interface SingleValueProps<
   Option extends OptionBase,
@@ -25,7 +30,7 @@ export const css = <
 >({
   isDisabled,
   theme: { spacing, colors },
-}: SingleValueProps<Option, IsMulti, Group>) => ({
+}: SingleValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,

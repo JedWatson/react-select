@@ -1,7 +1,12 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { CommonPropsAndClassName, GroupBase, OptionBase } from '../types';
+import {
+  CommonPropsAndClassName,
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionBase,
+} from '../types';
 
 export interface PlaceholderProps<
   Option extends OptionBase,
@@ -22,7 +27,7 @@ export const placeholderCSS = <
   Group extends GroupBase<Option>
 >({
   theme: { spacing, colors },
-}: PlaceholderProps<Option, IsMulti, Group>) => ({
+}: PlaceholderProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
