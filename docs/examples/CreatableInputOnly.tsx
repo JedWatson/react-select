@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, KeyboardEventHandler } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, KeyboardEventHandler, ValueType } from 'react-select';
+import { ActionMeta, OnChangeValue } from 'react-select';
 
 const components = {
   DropdownIndicator: null,
@@ -28,7 +28,7 @@ export default class CreatableInputOnly extends Component<{}, State> {
     value: [],
   };
   handleChange = (
-    value: ValueType<Option, true>,
+    value: OnChangeValue<Option, true>,
     actionMeta: ActionMeta<Option>
   ) => {
     console.group('Value Changed');
@@ -40,7 +40,7 @@ export default class CreatableInputOnly extends Component<{}, State> {
   handleInputChange = (inputValue: string) => {
     this.setState({ inputValue });
   };
-  handleKeyDown: KeyboardEventHandler = event => {
+  handleKeyDown: KeyboardEventHandler<HTMLDivElement> = event => {
     const { inputValue, value } = this.state;
     if (!inputValue) return;
     switch (event.key) {

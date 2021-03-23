@@ -5,7 +5,7 @@ import { ColourOption, colourOptions } from '../data';
 const ValueContainer = ({
   children,
   ...props
-}: ValueContainerProps<ColourOption, false>) => (
+}: ValueContainerProps<ColourOption>) => (
   <components.ValueContainer {...props}>{children}</components.ValueContainer>
 );
 

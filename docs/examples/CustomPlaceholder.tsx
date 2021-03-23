@@ -2,7 +2,7 @@ import React from 'react';
 import Select, { components, PlaceholderProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
-const Placeholder = (props: PlaceholderProps<ColourOption, false>) => {
+const Placeholder = (props: PlaceholderProps<ColourOption>) => {
   return <components.Placeholder {...props} />;
 };
 

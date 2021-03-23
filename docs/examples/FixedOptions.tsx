@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Select, { ActionMeta, StylesConfig, ValueType } from 'react-select';
+import Select, { ActionMeta, OnChangeValue, StylesConfig } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
 interface State {
@@ -37,7 +37,7 @@ export default class FixedOptions extends Component<{}, State> {
   }
 
   onChange(
-    value: ValueType<ColourOption, true>,
+    value: OnChangeValue<ColourOption, true>,
     actionMeta: ActionMeta<ColourOption>
   ) {
     switch (actionMeta.action) {

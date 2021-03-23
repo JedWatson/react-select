@@ -3,7 +3,7 @@ import { jsx } from '@emotion/react';
 import Select, { OptionProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
-const Option = (props: OptionProps<ColourOption, false>) => {
+const Option = (props: OptionProps<ColourOption>) => {
   const {
     children,
     className,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Select, { components, MenuListComponentProps } from 'react-select';
+import Select, { components, MenuListProps } from 'react-select';
 import {
   ColourOption,
   colourOptions,
@@ -16,11 +16,7 @@ const menuHeaderStyle = {
 };
 
 const MenuList = (
-  props: MenuListComponentProps<
-    ColourOption | FlavourOption,
-    false,
-    GroupedOption
-  >
+  props: MenuListProps<ColourOption | FlavourOption, false, GroupedOption>
 ) => {
   return (
     <components.MenuList {...props}>

@@ -24,9 +24,9 @@ export interface ForwardedHeadingProps<
 }
 
 export interface GroupProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;
@@ -106,9 +106,9 @@ interface GroupHeadingPropsDefinedProps<
 }
 
 export type GroupHeadingProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = GroupHeadingPropsDefinedProps<Option, IsMulti, Group> &
   JSX.IntrinsicElements['div'];
 

@@ -3,7 +3,7 @@ import Tooltip from '@atlaskit/tooltip';
 import Select, { components, OptionProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
-const Option = (props: OptionProps<ColourOption, false>) => {
+const Option = (props: OptionProps<ColourOption>) => {
   return (
     <Tooltip content={'Customise your option component!'} truncate>
       <components.Option {...props} />

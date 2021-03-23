@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, ValueType } from 'react-select';
+import { ActionMeta, OnChangeValue } from 'react-select';
 
 interface Option {
   readonly label: string;
@@ -32,7 +32,7 @@ export default class CreatableAdvanced extends Component<{}, State> {
     value: undefined,
   };
   handleChange = (
-    newValue: ValueType<Option, false>,
+    newValue: OnChangeValue<Option, false>,
     actionMeta: ActionMeta<Option>
   ) => {
     console.group('Value Changed');

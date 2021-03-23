@@ -19,7 +19,7 @@ const groupStyles = {
 };
 
 const GroupHeading = (
-  props: GroupHeadingProps<ColourOption | FlavourOption, false>
+  props: GroupHeadingProps<ColourOption | FlavourOption>
 ) => (
   <div style={groupStyles}>
     <components.GroupHeading {...props} />

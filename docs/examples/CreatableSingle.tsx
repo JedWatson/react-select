@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
 import { ColourOption, colourOptions } from '../data';
-import { ActionMeta, ValueType } from 'react-select';
+import { ActionMeta, OnChangeValue } from 'react-select';
 
 export default class CreatableSingle extends Component {
   handleChange = (
-    newValue: ValueType<ColourOption, false>,
+    newValue: OnChangeValue<ColourOption, false>,
     actionMeta: ActionMeta<ColourOption>
   ) => {
     console.group('Value Changed');

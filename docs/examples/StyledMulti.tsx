@@ -11,12 +11,12 @@ const colourStyles: StylesConfig<ColourOption, true> = {
     return {
       ...styles,
       backgroundColor: isDisabled
-        ? null
+        ? undefined
         : isSelected
         ? data.color
         : isFocused
         ? color.alpha(0.1).css()
-        : null,
+        : undefined,
       color: isDisabled
         ? '#ccc'
         : isSelected
@@ -28,8 +28,11 @@ const colourStyles: StylesConfig<ColourOption, true> = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor:
-          !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+        backgroundColor: !isDisabled
+          ? isSelected
+            ? data.color
+            : color.alpha(0.3).css()
+          : undefined,
       },
     };
   },

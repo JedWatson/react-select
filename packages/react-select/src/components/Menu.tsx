@@ -225,9 +225,9 @@ export interface MenuPlacementProps {
 }
 
 export interface MenuProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group>, MenuPlacementProps {
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: RefCallback<HTMLDivElement>;
@@ -375,9 +375,9 @@ export default Menu;
 // ==============================
 
 export interface MenuListProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Set the max height of the Menu component  */
   maxHeight: number;
@@ -463,9 +463,9 @@ export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
 export interface NoticeProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;

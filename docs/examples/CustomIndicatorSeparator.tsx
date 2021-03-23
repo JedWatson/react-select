@@ -1,5 +1,5 @@
 import React from 'react';
-import Select, { IndicatorProps } from 'react-select';
+import Select, { IndicatorSeparatorProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
 const indicatorSeparatorStyle = {
@@ -12,7 +12,7 @@ const indicatorSeparatorStyle = {
 
 const IndicatorSeparator = ({
   innerProps,
-}: IndicatorProps<ColourOption, true>) => {
+}: IndicatorSeparatorProps<ColourOption, true>) => {
   return <span style={indicatorSeparatorStyle} {...innerProps} />;
 };
 

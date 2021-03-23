@@ -6,7 +6,7 @@ import { ColourOption, colourOptions } from '../data';
 const SelectContainer = ({
   children,
   ...props
-}: ContainerProps<ColourOption, false>) => {
+}: ContainerProps<ColourOption>) => {
   return (
     <Tooltip content={'customise your select container'} delay={0}>
       <components.SelectContainer {...props}>

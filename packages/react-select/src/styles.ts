@@ -94,9 +94,9 @@ export type StylesConfigFunction<Props> = (
   props: Props
 ) => CSSObjectWithLabel;
 export type StylesConfig<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = {
   [K in keyof StylesProps<Option, IsMulti, Group>]?: StylesConfigFunction<
     StylesProps<Option, IsMulti, Group>[K]

@@ -19,19 +19,19 @@ const dot = (color = '#ccc') => ({
   },
 });
 
-const colourStyles: StylesConfig<ColourOption, false> = {
+const colourStyles: StylesConfig<ColourOption> = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);
     return {
       ...styles,
       backgroundColor: isDisabled
-        ? null
+        ? undefined
         : isSelected
         ? data.color
         : isFocused
         ? color.alpha(0.1).css()
-        : null,
+        : undefined,
       color: isDisabled
         ? '#ccc'
         : isSelected
@@ -43,8 +43,11 @@ const colourStyles: StylesConfig<ColourOption, false> = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor:
-          !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+        backgroundColor: !isDisabled
+          ? isSelected
+            ? data.color
+            : color.alpha(0.3).css()
+          : undefined,
       },
     };
   },

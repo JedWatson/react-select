@@ -13,9 +13,9 @@ import {
 // ==============================
 
 export interface ContainerProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Whether the select is disabled. */
   isDisabled: boolean;
@@ -76,9 +76,9 @@ export const SelectContainer = <
 // ==============================
 
 export interface ValueContainerProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Props to be passed to the value container element. */
   innerProps?: JSX.IntrinsicElements['div'];
@@ -141,9 +141,9 @@ export const ValueContainer = <
 // ==============================
 
 export interface IndicatorsContainerProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   isDisabled: boolean;
   /** The children to be rendered. */

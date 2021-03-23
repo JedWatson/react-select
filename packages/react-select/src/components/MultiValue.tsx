@@ -89,9 +89,9 @@ export const multiValueRemoveCSS = <
 });
 
 export interface MultiValueGenericProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > {
   children: ReactNode;
   data: any;
@@ -112,9 +112,9 @@ export const MultiValueGeneric = <
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export interface MultiValueRemoveProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > {
   children?: ReactNode;
   data: Option;

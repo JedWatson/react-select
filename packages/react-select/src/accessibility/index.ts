@@ -72,6 +72,17 @@ export interface AriaOnFocusProps<
   selectValue: Options<Option>;
 }
 
+export type AriaGuidance = (props: AriaGuidanceProps) => string;
+export type AriaOnChange<
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean
+> = (props: AriaOnChangeProps<Option, IsMulti>) => string;
+export type AriaOnFilter = (props: AriaOnFilterProps) => string;
+export type AriaOnFocus<
+  Option extends OptionBase = OptionBase,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = (props: AriaOnFocusProps<Option, Group>) => string;
+
 export interface AriaLiveMessages<
   Option extends OptionBase,
   IsMulti extends boolean,

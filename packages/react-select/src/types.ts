@@ -3,7 +3,7 @@ import { Props } from './Select';
 
 export interface OptionBase {
   readonly label?: string;
-  readonly value?: string | number | boolean;
+  readonly value?: unknown;
   readonly isDisabled?: boolean;
 }
 

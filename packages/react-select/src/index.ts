@@ -48,4 +48,8 @@ export {
   AriaOnFilterProps,
   AriaOnFocusProps,
   AriaLiveMessages,
+  AriaGuidance,
+  AriaOnChange,
+  AriaOnFilter,
+  AriaOnFocus,
 } from './accessibility';

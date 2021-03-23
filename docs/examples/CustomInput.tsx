@@ -1,9 +1,9 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components, InputProps } from 'react-select';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
-const Input = (props: InputProps) => {
+const Input = (props: InputProps<ColourOption, true>) => {
   if (props.isHidden) {
     return <components.Input {...props} />;
   }

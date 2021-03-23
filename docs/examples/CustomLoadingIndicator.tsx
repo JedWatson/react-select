@@ -5,9 +5,7 @@ import AsyncSelect from 'react-select/async';
 import { LoadingIndicatorProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
-const LoadingIndicator = (
-  props: LoadingIndicatorProps<ColourOption, false>
-) => {
+const LoadingIndicator = (props: LoadingIndicatorProps<ColourOption>) => {
   return (
     <Tooltip content={'Custom Loader'}>
       <Spinner {...props} delay={0} />

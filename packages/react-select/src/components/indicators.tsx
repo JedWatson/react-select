@@ -52,9 +52,9 @@ export const DownChevron = (props: DownChevronProps) => (
 // ==============================
 
 export interface DropdownIndicatorProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered inside the indicator. */
   children?: ReactNode;
@@ -116,9 +116,9 @@ export const DropdownIndicator = <
 };
 
 export interface ClearIndicatorProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered inside the indicator. */
   children?: ReactNode;
@@ -159,9 +159,9 @@ export const ClearIndicator = <
 // ==============================
 
 export interface IndicatorSeparatorProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   isDisabled: boolean;
   isFocused: boolean;
@@ -258,9 +258,9 @@ const LoadingDot = ({ delay, offset }: LoadingDotProps) => (
 );
 
 export interface LoadingIndicatorProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Props that will be passed on to the children. */
   innerProps: JSX.IntrinsicElements['div'];

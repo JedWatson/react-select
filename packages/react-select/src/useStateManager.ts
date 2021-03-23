@@ -32,9 +32,9 @@ interface StateMangerAdditionalProps<Option extends OptionBase> {
 }
 
 export type StateManagerProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = SelectPropsWithOptionalStateManagedProps<Option, IsMulti, Group> &
   StateMangerAdditionalProps<Option>;
 
