@@ -128,10 +128,17 @@ const Group = (props: GroupProps<DateOption, false>) => {
     headingProps,
     cx,
     theme,
+    selectProps,
   } = props;
   return (
     <div aria-label={label as string} css={getStyles('group', props)}>
-      <Heading theme={theme} getStyles={getStyles} cx={cx} {...headingProps}>
+      <Heading
+        selectProps={selectProps}
+        theme={theme}
+        getStyles={getStyles}
+        cx={cx}
+        {...headingProps}
+      >
         {label}
       </Heading>
       <div css={daysHeaderStyles}>

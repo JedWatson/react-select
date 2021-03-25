@@ -3,7 +3,7 @@ import { Component, FunctionComponent, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import Button from '@atlaskit/button';
 
-import Select, { StylesConfig, ValueType } from 'react-select';
+import Select, { OnChangeValue, StylesConfig } from 'react-select';
 import { defaultTheme } from 'react-select';
 import { StateOption, stateOptions } from '../data';
 
@@ -28,7 +28,7 @@ export default class PopoutExample extends Component<{}, State> {
   toggleOpen = () => {
     this.setState(state => ({ isOpen: !state.isOpen }));
   };
-  onSelectChange = (value: ValueType<StateOption, false>) => {
+  onSelectChange = (value: OnChangeValue<StateOption, false>) => {
     this.toggleOpen();
     this.setState({ value });
   };

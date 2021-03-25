@@ -41,7 +41,7 @@ const Menu = (
 };
 
 export default () => (
-  <Select
+  <Select<ColourOption | FlavourOption, false, GroupedOption>
     defaultValue={colourOptions[1]}
     options={groupedOptions}
     components={{ Menu }}

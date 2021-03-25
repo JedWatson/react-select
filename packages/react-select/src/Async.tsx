@@ -2,7 +2,9 @@ import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 import Select from './Select';
 import { OptionBase, GroupBase, OptionsOrGroups } from './types';
 import useStateManager from './useStateManager';
-import useAsync, { AsyncProps } from './useAsync';
+import useAsync from './useAsync';
+import type { AsyncProps } from './useAsync';
+export type { AsyncProps };
 
 // export interface AsyncProps<
 //   Option extends OptionBase,

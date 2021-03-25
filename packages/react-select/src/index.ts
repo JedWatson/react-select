@@ -12,34 +12,34 @@ export type SelectInstance<
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = Select<Option, IsMulti, Group>;
-export { StateManagerProps as Props } from './useStateManager';
+export type { StateManagerProps as Props } from './useStateManager';
 
-export {
+export type {
   ContainerProps,
   IndicatorsContainerProps,
   ValueContainerProps,
 } from './components/containers';
-export { ControlProps } from './components/Control';
-export { GroupProps, GroupHeadingProps } from './components/Group';
-export {
+export type { ControlProps } from './components/Control';
+export type { GroupProps, GroupHeadingProps } from './components/Group';
+export type {
   ClearIndicatorProps,
   DropdownIndicatorProps,
   IndicatorSeparatorProps,
   LoadingIndicatorProps,
 } from './components/indicators';
-export { InputProps } from './components/Input';
-export { MenuListProps, MenuProps, NoticeProps } from './components/Menu';
-export {
+export type { InputProps } from './components/Input';
+export type { MenuListProps, MenuProps, NoticeProps } from './components/Menu';
+export type {
   MultiValueGenericProps,
   MultiValueProps,
   MultiValueRemoveProps,
 } from './components/MultiValue';
-export { OptionProps } from './components/Option';
-export { PlaceholderProps } from './components/Placeholder';
-export { SingleValueProps } from './components/SingleValue';
-export { StylesConfig } from './styles';
+export type { OptionProps } from './components/Option';
+export type { PlaceholderProps } from './components/Placeholder';
+export type { SingleValueProps } from './components/SingleValue';
+export type { StylesConfig } from './styles';
 export * from './types';
-export {
+export type {
   OptionContext,
   GuidanceContext,
   AriaLive,

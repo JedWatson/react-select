@@ -641,13 +641,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-syntax-flow@^7.12.13":
-  version "7.12.13"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-flow/-/plugin-syntax-flow-7.12.13.tgz#5df9962503c0a9c918381c929d51d4d6949e7e86"
-  integrity sha512-J/RYxnlSLXZLVR7wTRsozxKT8qbsx1mNKJzXEEjQ0Kjx1ZACcyHgbanNWNCFtc36IzuWhYWPpvJFFoexoOWFmA==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.12.13"
-
 "@babel/plugin-syntax-import-meta@^7.8.3":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-import-meta/-/plugin-syntax-import-meta-7.10.4.tgz#ee601348c370fa334d2207be158777496521fd51"
@@ -804,14 +797,6 @@
   dependencies:
     "@babel/helper-builder-binary-assignment-operator-visitor" "^7.12.13"
     "@babel/helper-plugin-utils" "^7.12.13"
-
-"@babel/plugin-transform-flow-strip-types@^7.12.13":
-  version "7.12.13"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.12.13.tgz#b439c43116dc60fb45b7efd2e1db91897b7c8f4b"
-  integrity sha512-39/t9HtN+Jlc7EEY6oCSCf3kRrKIl2JULOGPnHZiaRjoYZEFaDXDZI32uE2NosQRh8o6N9B+8iGvDK7ToJhJaw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.12.13"
-    "@babel/plugin-syntax-flow" "^7.12.13"
 
 "@babel/plugin-transform-for-of@^7.12.13":
   version "7.12.13"
@@ -1111,14 +1096,6 @@
     "@babel/types" "^7.12.13"
     core-js-compat "^3.8.0"
     semver "^5.5.0"
-
-"@babel/preset-flow@^7.12.1":
-  version "7.12.13"
-  resolved "https://registry.yarnpkg.com/@babel/preset-flow/-/preset-flow-7.12.13.tgz#71ee7fe65a95b507ac12bcad65a4ced27d8dfc3e"
-  integrity sha512-gcEjiwcGHa3bo9idURBp5fmJPcyFPOszPQjztXrOjUE2wWVqc6fIVJPgWPIQksaQ5XZ2HWiRsf2s1fRGVjUtVw==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.12.13"
-    "@babel/plugin-transform-flow-strip-types" "^7.12.13"
 
 "@babel/preset-modules@^0.1.3":
   version "0.1.4"
@@ -7083,11 +7060,6 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
-flow-bin@^0.93.0:
-  version "0.93.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.93.0.tgz#9192a08d88db2a8da0ff55e42420f44539791430"
-  integrity sha512-p8yq4ocOlpyJgOEBEj0v0GzCP25c9WP0ilFQ8hXSbrTR7RPKuR+Whr+OitlVyp8ocdX0j1MrIwQ8x28dacy1pg==
-
 flush-write-stream@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
@@ -12792,9 +12764,9 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     inherits "^2.0.1"
 
 rollup@^2.32.0:
-  version "2.38.4"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.38.4.tgz#1b84ea8728c73b1a00a6a6e9c630ec8c3fe48cea"
-  integrity sha512-B0LcJhjiwKkTl79aGVF/u5KdzsH8IylVfV56Ut6c9ouWLJcUK17T83aZBetNYSnZtXf2OHD4+2PbmRW+Fp5ulg==
+  version "2.42.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.42.4.tgz#97c910a48bd0db6aaa4271dd48745870cbbbf970"
+  integrity sha512-Zqv3EvNfcllBHyyEUM754npqsZw82VIjK34cDQMwrQ1d6aqxzeYu5yFb7smGkPU4C1Bj7HupIMeT6WU7uIdnMw==
   optionalDependencies:
     fsevents "~2.3.1"
 

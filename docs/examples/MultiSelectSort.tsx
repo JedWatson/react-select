@@ -3,8 +3,8 @@ import React, { MouseEventHandler } from 'react';
 import Select, {
   components,
   MultiValueProps,
+  OnChangeValue,
   Props,
-  ValueType,
 } from 'react-select';
 import {
   SortableContainer,
@@ -54,7 +54,7 @@ export default function MultiSelectSort() {
     colourOptions[5],
   ]);
 
-  const onChange = (selectedOptions: ValueType<ColourOption, true>) =>
+  const onChange = (selectedOptions: OnChangeValue<ColourOption, true>) =>
     setSelected(selectedOptions);
 
   const onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {

@@ -57,7 +57,7 @@ export interface SelectComponents<
   Control: ComponentType<ControlProps<Option, IsMulti, Group>>;
   DropdownIndicator: ComponentType<
     DropdownIndicatorProps<Option, IsMulti, Group>
-  >;
+  > | null;
   DownChevron: ComponentType<DownChevronProps>;
   CrossIcon: ComponentType<CrossIconProps>;
   Group: ComponentType<GroupProps<Option, IsMulti, Group>>;
@@ -67,7 +67,7 @@ export interface SelectComponents<
   >;
   IndicatorSeparator: ComponentType<
     IndicatorSeparatorProps<Option, IsMulti, Group>
-  >;
+  > | null;
   Input: ComponentType<InputProps<Option, IsMulti, Group>>;
   LoadingIndicator: ComponentType<
     LoadingIndicatorProps<Option, IsMulti, Group>

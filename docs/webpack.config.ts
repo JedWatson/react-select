@@ -57,12 +57,12 @@ const webpackConfig: webpack.Configuration = {
       template: path.resolve(__dirname, 'index.html'),
     }),
     new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      typescript: {
-        configFile: './tsconfig.json',
-      },
-    }),
+    // new ForkTsCheckerWebpackPlugin({
+    //   async: false,
+    //   typescript: {
+    //     configFile: './tsconfig.json',
+    //   },
+    // }),
   ],
 };
 

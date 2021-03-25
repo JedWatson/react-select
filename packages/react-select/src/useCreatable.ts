@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useMemo } from 'react';
-import { BaseSelectProps } from './Select';
+import { PublicBaseSelectProps } from './Select';
 import {
   ActionMeta,
   GetOptionLabel,
@@ -65,7 +65,7 @@ type BaseCreatableProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> = BaseSelectProps<Option, IsMulti, Group> &
+> = PublicBaseSelectProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group>;
 
 const compareOption = <Option extends OptionBase>(
@@ -119,7 +119,7 @@ export default function useCreatable<
   options: propsOptions = [],
   onChange: propsOnChange,
   ...restSelectProps
-}: BaseCreatableProps<Option, IsMulti, Group>): BaseSelectProps<
+}: BaseCreatableProps<Option, IsMulti, Group>): PublicBaseSelectProps<
   Option,
   IsMulti,
   Group

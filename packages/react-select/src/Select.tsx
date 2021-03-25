@@ -200,7 +200,7 @@ export interface Props<
    *
    * An example can be found in the [Portaling](/advanced#portaling) documentation
    */
-  menuPortalTarget?: HTMLElement;
+  menuPortalTarget?: HTMLElement | null;
   /** Whether to block scroll events when the menu is open */
   menuShouldBlockScroll: boolean;
   /** Whether the menu should be scrolled into view when it opens */

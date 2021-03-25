@@ -138,7 +138,7 @@ class Header extends Component<RouteComponentProps, HeaderState> {
     const valid = ['/', '/home'];
     return valid.includes(props.location.pathname);
   };
-  setContentRef = ref => {
+  setContentRef: RefCallback<HTMLDivElement> = ref => {
     if (!ref) return;
     this.content = ref;
   };

@@ -21,9 +21,9 @@ interface MultiValueComponents<
 }
 
 export interface MultiValueProps<
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option extends OptionBase = OptionBase,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   children: ReactNode;
   components: MultiValueComponents<Option, IsMulti, Group>;

@@ -197,7 +197,7 @@ interface State<Option extends OptionBase, Group extends GroupBase<Option>> {
 
 // export default manageState(SelectCreatable);
 
-type CreatableProps<
+export type CreatableProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>

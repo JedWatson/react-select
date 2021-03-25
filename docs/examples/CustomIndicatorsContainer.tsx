@@ -1,9 +1,9 @@
 import React from 'react';
-import Select, { components, IndicatorContainerProps } from 'react-select';
+import Select, { components, IndicatorsContainerProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
 const IndicatorsContainer = (
-  props: IndicatorContainerProps<ColourOption, true>
+  props: IndicatorsContainerProps<ColourOption, true>
 ) => {
   return (
     <div style={{ background: colourOptions[2].color }}>

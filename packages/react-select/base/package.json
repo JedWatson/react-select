@@ -1,7 +1,7 @@
 {
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
-  "types": "../src/Select.d.ts",
+  "types": "dist/react-select.cjs.d.ts",
   "preconstruct": {
     "source": "../src/Select"
   }
