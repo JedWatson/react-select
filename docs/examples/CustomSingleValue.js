@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
 const SingleValue = ({ children, ...props }) => (
-  <components.SingleValue {...props}>{`my value -${children}`}</components.SingleValue>
+  <components.SingleValue {...props}>{children}</components.SingleValue>
 );
 
 type State = {};
