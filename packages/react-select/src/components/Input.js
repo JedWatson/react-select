@@ -41,14 +41,13 @@ const inputStyle = isHidden => ({
 
 const Input = (props: InputProps) => {
   const { className, cx, getStyles } = props;
-  const { innerRef, isDisabled, isHidden, id, ...innerProps } = cleanCommonProps(
+  const { innerRef, isDisabled, isHidden, ...innerProps } = cleanCommonProps(
     props
   );
 
   return (
     <label css={getStyles('input', props)}>
       <AutosizeInput
-        id={id}
         className={cx({ input: true }, className)}
         inputRef={innerRef}
         inputStyle={inputStyle(isHidden)}

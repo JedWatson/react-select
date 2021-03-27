@@ -80,11 +80,13 @@ const Option = (props: OptionProps) => {
     isFocused,
     isSelected,
     innerRef,
+    type,
     innerProps,
   } = props;
+
   return (
     <li
-      role="option"
+      role={type}
       aria-disabled = {isDisabled}
       aria-selected={isFocused}
       css={getStyles('option', props)}
