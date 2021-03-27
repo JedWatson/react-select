@@ -40,13 +40,13 @@ const inputStyle = isHidden => ({
 });
 
 const Input = (props: InputProps) => {
-  const { className, cx, getStyles, selectProps } = props;
+  const { className, cx, getStyles } = props;
   const { innerRef, isDisabled, isHidden, id, ...innerProps } = cleanCommonProps(
     props
   );
 
   return (
-    <label htmlFor={id} css={getStyles('input', props)}>
+    <label css={getStyles('input', props)}>
       <AutosizeInput
         id={id}
         className={cx({ input: true }, className)}
@@ -54,7 +54,6 @@ const Input = (props: InputProps) => {
         inputStyle={inputStyle(isHidden)}
         disabled={isDisabled}
         {...innerProps}
-        value={selectProps.value?.value}
       />
     </label>
   );

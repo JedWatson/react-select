@@ -86,6 +86,7 @@ const Option = (props: OptionProps) => {
     <li
       role="option"
       aria-disabled = {isDisabled}
+      aria-selected={isFocused}
       css={getStyles('option', props)}
       className={cx(
         {
