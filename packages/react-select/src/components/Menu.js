@@ -321,7 +321,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
 }
 
 const Menu = (props: MenuProps) => {
-  const { children, className, cx, getStyles, innerRef, innerProps } = props;
+  const { children, className, cx, getStyles, innerRef, innerProps, isFocused } = props;
 
   return (
     <div 
