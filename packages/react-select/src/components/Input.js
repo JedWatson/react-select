@@ -1,6 +1,6 @@
 // @flow
 /** @jsx jsx */
-import { type ElementRef } from 'react';
+import { type ElementRef, memo } from 'react';
 import { jsx } from '@emotion/react';
 import AutosizeInput from 'react-input-autosize';
 
@@ -46,7 +46,7 @@ const Input = (props: InputProps) => {
   );
 
   return (
-    <div css={getStyles('input', props)}>
+    <label css={getStyles('input', props)}>
       <AutosizeInput
         className={cx({ input: true }, className)}
         inputRef={innerRef}
@@ -54,8 +54,8 @@ const Input = (props: InputProps) => {
         disabled={isDisabled}
         {...innerProps}
       />
-    </div>
+    </label>
   );
 };
 
-export default Input;
+export default memo(Input);

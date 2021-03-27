@@ -80,10 +80,15 @@ const Option = (props: OptionProps) => {
     isFocused,
     isSelected,
     innerRef,
+    type,
     innerProps,
   } = props;
+
   return (
-    <div
+    <li
+      role={type}
+      aria-disabled = {isDisabled}
+      aria-selected={isFocused}
       css={getStyles('option', props)}
       className={cx(
         {
@@ -98,7 +103,7 @@ const Option = (props: OptionProps) => {
       {...innerProps}
     >
       {children}
-    </div>
+    </li>
   );
 };
 
