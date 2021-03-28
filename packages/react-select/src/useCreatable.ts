@@ -97,7 +97,7 @@ const builtins = {
       ) ||
       selectOptions.some(option => compareOption(inputValue, option, accessors))
     ),
-  getNewOptionData: (inputValue: string, optionLabel: Node) => ({
+  getNewOptionData: (inputValue: string, optionLabel: ReactNode) => ({
     label: optionLabel,
     value: inputValue,
     __isNew__: true,

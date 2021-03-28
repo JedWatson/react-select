@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react';
 
 import Select, {
   components,
+  MultiValueGenericProps,
   MultiValueProps,
   OnChangeValue,
   Props,
@@ -11,7 +12,7 @@ import {
   SortableContainerProps,
   SortableElement,
   SortEndHandler,
-  sortableHandle,
+  SortableHandle,
 } from 'react-sortable-hoc';
 import { ColourOption, colourOptions } from '../data';
 
@@ -40,9 +41,9 @@ const SortableMultiValue = SortableElement(
   }
 );
 
-const SortableMultiValueLabel = sortableHandle(props => (
-  <components.MultiValueLabel {...props} />
-));
+const SortableMultiValueLabel = SortableHandle(
+  (props: MultiValueGenericProps) => <components.MultiValueLabel {...props} />
+);
 
 const SortableSelect = SortableContainer(Select) as React.ComponentClass<
   Props<ColourOption, true> & SortableContainerProps

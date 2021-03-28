@@ -59,7 +59,7 @@ export interface AriaOnFocusProps<
   /** String indicating whether the option was focused in the menu or as (multi-) value */
   context: OptionContext;
   /** Option that is being focused */
-  focused: Option | null;
+  focused: Option;
   /** Boolean indicating whether focused menu option has been disabled */
   isDisabled: boolean;
   /** Boolean indicating whether focused menu option is an already selected option */
@@ -154,7 +154,7 @@ export const defaultAriaLiveMessages = {
   ) => {
     const {
       context,
-      focused = {},
+      focused,
       options,
       label = '',
       selectValue,
@@ -162,10 +162,8 @@ export const defaultAriaLiveMessages = {
       isSelected,
     } = props;
 
-    const getArrayIndex = (
-      arr: OptionsOrGroups<Option, Group>,
-      item: Option | null
-    ) => (arr && arr.length ? `${arr.indexOf(item) + 1} of ${arr.length}` : '');
+    const getArrayIndex = (arr: OptionsOrGroups<Option, Group>, item: Option) =>
+      arr && arr.length ? `${arr.indexOf(item) + 1} of ${arr.length}` : '';
 
     if (context === 'value' && selectValue) {
       return `value ${label} focused, ${getArrayIndex(selectValue, focused)}.`;

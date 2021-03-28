@@ -10,6 +10,7 @@ import { ColourOption, colourOptions } from '../data';
 const EMOJIS = ['👍', '🤙', '👏', '👌', '🙌', '✌️', '🖖', '👐'];
 
 const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
+  // @ts-ignore
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: 'pointer' };
 
@@ -41,6 +42,7 @@ const CustomSelectProps = (props: Props<ColourOption>) => {
   return (
     <Select
       {...props}
+      // @ts-ignore
       emoji={emoji}
       onEmojiClick={onClick}
       components={{ Control }}
