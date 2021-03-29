@@ -3,9 +3,12 @@ import {
   CommonPropsAndClassName,
   GroupBase,
   InputActionMeta,
+  MultiValue,
+  OnChangeValue,
   OptionBase,
   Options,
   PropsValue,
+  SingleValue,
 } from './types';
 
 // ==============================
@@ -344,4 +347,29 @@ export function notNullish<T>(item: T | null | undefined): item is T {
 
 export function isArray<T>(arg: unknown): arg is readonly T[] {
   return Array.isArray(arg);
+}
+
+export function valueTernary<
+  Option extends OptionBase,
+  IsMulti extends boolean
+>(
+  isMulti: IsMulti | undefined,
+  multiValue: MultiValue<Option>,
+  singleValue: SingleValue<Option>
+): OnChangeValue<Option, IsMulti> {
+  return (isMulti ? multiValue : singleValue) as OnChangeValue<Option, IsMulti>;
+}
+
+export function singleValueAsValue<
+  Option extends OptionBase,
+  IsMulti extends boolean
+>(singleValue: SingleValue<Option>): OnChangeValue<Option, IsMulti> {
+  return singleValue as OnChangeValue<Option, IsMulti>;
+}
+
+export function multiValueAsValue<
+  Option extends OptionBase,
+  IsMulti extends boolean
+>(multiValue: MultiValue<Option>): OnChangeValue<Option, IsMulti> {
+  return multiValue as OnChangeValue<Option, IsMulti>;
 }

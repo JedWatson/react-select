@@ -84,6 +84,7 @@ export interface ValueContainerProps<
   innerProps?: JSX.IntrinsicElements['div'];
   /** The children to be rendered. */
   children: ReactNode;
+  isDisabled: boolean;
 }
 export const valueContainerCSS = <
   Option extends OptionBase,

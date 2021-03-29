@@ -153,7 +153,7 @@ const Group = (props: GroupProps<DateOption, false>) => {
   );
 };
 
-const getOptionStyles = (defaultStyles: CSSProperties): CSSObject => ({
+const getOptionStyles = (defaultStyles: CSSObject): CSSObject => ({
   ...defaultStyles,
   display: 'inline-block',
   width: '12%',

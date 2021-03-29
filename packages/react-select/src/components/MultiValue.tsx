@@ -64,7 +64,8 @@ export const multiValueLabelCSS = <
   overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
-  textOverflow: cropWithEllipsis ? 'ellipsis' : undefined,
+  textOverflow:
+    cropWithEllipsis || cropWithEllipsis === undefined ? 'ellipsis' : undefined,
   whiteSpace: 'nowrap',
 });
 
@@ -208,10 +209,6 @@ const MultiValue = <
       )}
     </ClassNames>
   );
-};
-
-MultiValue.defaultProps = {
-  cropWithEllipsis: true,
 };
 
 export default MultiValue;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
 import { NoticeProps } from 'react-select';
@@ -9,7 +9,7 @@ const LoadingMessage = (props: NoticeProps<ColourOption, false>) => {
     <Tooltip content={'Custom Loading Message'}>
       <div
         {...props.innerProps}
-        style={props.getStyles('loadingMessage', props)}
+        style={props.getStyles('loadingMessage', props) as CSSProperties}
       >
         {props.children}
       </div>

@@ -1,5 +1,6 @@
 import { CSSObject } from '@emotion/serialize';
 import { Props } from './Select';
+import { StylesProps } from './styles';
 
 export interface OptionBase {
   readonly label?: string;
@@ -68,7 +69,14 @@ export interface Theme {
 export type ClassNamesState = { [key: string]: boolean };
 
 export type CX = (state: ClassNamesState, className?: string) => string;
-export type GetStyles = (name: string, props: any) => {};
+export type GetStyles<
+  Option extends OptionBase,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+> = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+  propertyName: Key,
+  props: StylesProps<Option, IsMulti, Group>[Key]
+) => CSSObjectWithLabel;
 
 export interface CommonProps<
   Option extends OptionBase,
@@ -82,7 +90,7 @@ export interface CommonProps<
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: GetStyles;
+  getStyles: GetStyles<Option, IsMulti, Group>;
   getValue: () => Options<Option>;
   hasValue: boolean;
   isMulti: boolean;
@@ -109,6 +117,7 @@ export interface CommonPropsAndClassName<
 export interface ActionMetaBase<Option extends OptionBase> {
   option?: Option | undefined;
   removedValue?: Option;
+  removedValues?: Options<Option>;
   name?: string;
 }
 
@@ -143,6 +152,7 @@ export interface PopValueActionMeta<Option extends OptionBase>
 export interface ClearActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'clear';
+  removedValues: Options<Option>;
   name?: string;
 }
 

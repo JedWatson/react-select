@@ -10,7 +10,7 @@ import {
   Options,
   OptionsOrGroups,
 } from './types';
-import { cleanValue } from './utils';
+import { cleanValue, valueTernary } from './utils';
 import {
   getOptionValue as baseGetOptionValue,
   getOptionLabel as baseGetOptionLabel,
@@ -95,7 +95,9 @@ const builtins = {
       selectValue.some(option =>
         compareOption(inputValue, option, accessors)
       ) ||
-      selectOptions.some(option => compareOption(inputValue, option, accessors))
+      selectOptions.some(option =>
+        compareOption(inputValue, option as Option, accessors)
+      )
     ),
   getNewOptionData: (inputValue: string, optionLabel: ReactNode) => ({
     label: optionLabel,
@@ -183,16 +185,19 @@ export default function useCreatable<
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = {
+          const newActionMeta: ActionMeta<Option> = {
             action: 'create-option',
             name,
             option: newOptionData,
           };
-          if (isMulti) {
-            propsOnChange([...cleanValue(value), newOptionData], newActionMeta);
-          } else {
-            propsOnChange(newOptionData, newActionMeta);
-          }
+          propsOnChange(
+            valueTernary(
+              isMulti,
+              [...cleanValue(value), newOptionData],
+              newOptionData
+            ),
+            newActionMeta
+          );
         }
         return;
       }

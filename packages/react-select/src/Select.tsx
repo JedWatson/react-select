@@ -28,6 +28,9 @@ import {
   scrollIntoView,
   isDocumentElement,
   notNullish,
+  valueTernary,
+  multiValueAsValue,
+  singleValueAsValue,
 } from './utils';
 
 import {
@@ -39,7 +42,7 @@ import {
 
 import { defaultComponents, SelectComponentsConfig } from './components/index';
 
-import { defaultStyles, StylesConfig } from './styles';
+import { defaultStyles, StylesConfig, StylesProps } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -458,9 +461,9 @@ function getNextFocusedValue<
   Group extends GroupBase<Option>
 >(state: State<Option, IsMulti, Group>, nextSelectValue: Options<Option>) {
   const { focusedValue, selectValue: lastSelectValue } = state;
-  const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+  const lastFocusedIndex = lastSelectValue.indexOf(focusedValue!);
   if (lastFocusedIndex > -1) {
-    const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+    const nextFocusedIndex = nextSelectValue.indexOf(focusedValue!);
     if (nextFocusedIndex > -1) {
       // the focused value is still in the selectValue, return it
       return focusedValue;
@@ -783,7 +786,7 @@ export default class Select<
       focusedOption: null,
     });
 
-    let focusedIndex = selectValue.indexOf(focusedValue);
+    let focusedIndex = selectValue.indexOf(focusedValue!);
     if (!focusedValue) {
       focusedIndex = -1;
     }
@@ -823,7 +826,7 @@ export default class Select<
 
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
-    let focusedIndex = options.indexOf(focusedOption);
+    let focusedIndex = options.indexOf(focusedOption!);
     if (!focusedOption) {
       focusedIndex = -1;
     }
@@ -881,19 +884,29 @@ export default class Select<
     if (deselected) {
       const candidate = this.getOptionValue(newValue);
       this.setValue(
-        selectValue.filter(i => this.getOptionValue(i) !== candidate),
+        multiValueAsValue(
+          selectValue.filter(i => this.getOptionValue(i) !== candidate)
+        ),
         'deselect-option',
         newValue
       );
     } else if (!isDisabled) {
       // Select option if option is not disabled
       if (isMulti) {
-        this.setValue([...selectValue, newValue], 'select-option', newValue);
+        this.setValue(
+          multiValueAsValue([...selectValue, newValue]),
+          'select-option',
+          newValue
+        );
       } else {
-        this.setValue(newValue, 'select-option');
+        this.setValue(singleValueAsValue(newValue), 'select-option');
       }
     } else {
-      this.ariaOnChange(newValue, { action: 'select-option', name });
+      this.ariaOnChange(singleValueAsValue(newValue), {
+        action: 'select-option',
+        option: newValue,
+        name,
+      });
       return;
     }
 
@@ -908,14 +921,18 @@ export default class Select<
     const newValueArray = selectValue.filter(
       i => this.getOptionValue(i) !== candidate
     );
-    const newValue = isMulti ? newValueArray : newValueArray[0] || null;
+    const newValue = valueTernary(
+      isMulti,
+      newValueArray,
+      newValueArray[0] || null
+    );
 
     this.onChange(newValue, { action: 'remove-value', removedValue });
     this.focusInput();
   };
   clearValue = () => {
     const { selectValue } = this.state;
-    this.onChange(this.props.isMulti ? [] : null, {
+    this.onChange(valueTernary(this.props.isMulti, [], null), {
       action: 'clear',
       removedValues: selectValue,
     });
@@ -925,7 +942,11 @@ export default class Select<
     const { selectValue } = this.state;
     const lastSelectedValue = selectValue[selectValue.length - 1];
     const newValueArray = selectValue.slice(0, selectValue.length - 1);
-    const newValue = isMulti ? newValueArray : newValueArray[0] || null;
+    const newValue = valueTernary(
+      isMulti,
+      newValueArray,
+      newValueArray[0] || null
+    );
 
     this.onChange(newValue, {
       action: 'pop-value',
@@ -995,11 +1016,14 @@ export default class Select<
   getOptionValue = (data: Option): string => {
     return getOptionValue(this.props, data);
   };
-  getStyles = (key: string, props: {}): {} => {
-    const base = defaultStyles[key](props);
+  getStyles = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+    key: Key,
+    props: StylesProps<Option, IsMulti, Group>[Key]
+  ) => {
+    const base = defaultStyles[key](props as any);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
-    return custom ? custom(base, props) : base;
+    return custom ? custom(base, props as any) : base;
   };
   getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
@@ -1104,15 +1128,15 @@ export default class Select<
       }
     } else {
       if (
-        event.target.tagName !== 'INPUT' &&
-        event.target.tagName !== 'TEXTAREA'
+        (event.target as HTMLElement).tagName !== 'INPUT' &&
+        (event.target as HTMLElement).tagName !== 'TEXTAREA'
       ) {
         this.onMenuClose();
       }
     }
     if (
-      event.target.tagName !== 'INPUT' &&
-      event.target.tagName !== 'TEXTAREA'
+      (event.target as HTMLElement).tagName !== 'INPUT' &&
+      (event.target as HTMLElement).tagName !== 'TEXTAREA'
     ) {
       event.preventDefault();
     }
@@ -1121,7 +1145,11 @@ export default class Select<
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
+    if (
+      event &&
+      event.type === 'mousedown' &&
+      (event as React.MouseEvent<HTMLDivElement>).button !== 0
+    ) {
       return;
     }
     if (this.props.isDisabled) return;
@@ -1140,7 +1168,11 @@ export default class Select<
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
+    if (
+      event &&
+      event.type === 'mousedown' &&
+      (event as React.MouseEvent<HTMLDivElement>).button !== 0
+    ) {
       return;
     }
     this.clearValue();
@@ -1242,9 +1274,9 @@ export default class Select<
     // on events on child elements, not the document (which we've attached this handler to).
     if (
       this.controlRef &&
-      !this.controlRef.contains(event.target) &&
+      !this.controlRef.contains(event.target as Node) &&
       this.menuListRef &&
-      !this.menuListRef.contains(event.target)
+      !this.menuListRef.contains(event.target as Node)
     ) {
       this.blurInput();
     }
@@ -1295,7 +1327,7 @@ export default class Select<
   };
   onInputBlur: FocusEventHandler<HTMLInputElement> = event => {
     if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
-      this.inputRef.focus();
+      this.inputRef!.focus();
       return;
     }
     if (this.props.onBlur) {
