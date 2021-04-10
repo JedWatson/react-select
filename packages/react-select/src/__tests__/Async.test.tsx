@@ -1,6 +1,6 @@
 import React from 'react';
 import cases from 'jest-in-case';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Async from '../Async';
@@ -207,8 +207,12 @@ test('in case of callbacks display the most recently-requested loaded options (i
     cancelable: true,
   });
   expect(container.querySelector('.react-select__option')).toBeFalsy();
-  callbacks[1]([{ value: 'bar', label: 'bar' }]);
-  callbacks[0]([{ value: 'foo', label: 'foo' }]);
+  act(() => {
+    callbacks[1]([{ value: 'bar', label: 'bar' }]);
+  });
+  act(() => {
+    callbacks[0]([{ value: 'foo', label: 'foo' }]);
+  });
   expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'bar'
   );
