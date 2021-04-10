@@ -43,7 +43,7 @@ export const Fade = <ComponentProps extends {}>({
             ...transition[state],
           },
         };
-        return <Tag innerProps={innerProps} {...props} />;
+        return <Tag innerProps={innerProps} {...(props as any)} />;
       }}
     </Transition>
   );

@@ -80,7 +80,7 @@ const LiveRegion = <
       const { option, removedValue, value } = ariaSelection;
       // select-option when !isMulti does not return option so we assume selected option is value
       const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
-        !Array.isArray(val) ? val : null;
+        !Array.isArray(val) ? (val as Option) : null;
       const selected = removedValue || option || asOption(value);
 
       const onChangeProps = {

@@ -4,6 +4,7 @@ import cases from 'jest-in-case';
 
 import Creatable from '../Creatable';
 import { Option, OPTIONS } from './constants';
+import { OptionBase } from '../types';
 
 interface BasicProps {
   readonly className: string;
@@ -274,7 +275,7 @@ cases<Opts>(
   }
 );
 
-interface CustomOption {
+interface CustomOption extends OptionBase {
   readonly key: string;
   readonly title: string;
 }

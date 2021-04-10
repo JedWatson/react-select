@@ -18,6 +18,6 @@ const AnimatedValueContainer = (WrappedComponent: ValueContainerComponent) => <
   Group extends GroupBase<Option>
 >(
   props: ValueContainerProps<Option, IsMulti, Group>
-) => <TransitionGroup component={WrappedComponent} {...props} />;
+) => <TransitionGroup component={WrappedComponent} {...(props as any)} />;
 
 export default AnimatedValueContainer;

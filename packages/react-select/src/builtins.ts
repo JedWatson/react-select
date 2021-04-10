@@ -5,15 +5,15 @@ export const formatGroupLabel = <
   Group extends GroupBase<Option>
 >(
   group: Group
-): string => group.label;
+): string => group.label as string;
 
 export const getOptionLabel = <Option extends OptionBase>(
   option: Option
-): string => option.label;
+): string => option.label as string;
 
 export const getOptionValue = <Option extends OptionBase>(
   option: Option
-): string => option.value;
+): string => option.value as string;
 
 export const isOptionDisabled = <Option extends OptionBase>(
   option: Option
