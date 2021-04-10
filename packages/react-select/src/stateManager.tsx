@@ -2,7 +2,9 @@ import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 
 import { GroupBase, OptionBase } from './types';
 import Select from './Select';
-import useStateManager, { StateManagerProps } from './useStateManager';
+import useStateManager from './useStateManager';
+import type { StateManagerProps } from './useStateManager';
+export type { StateManagerProps };
 
 type StateManagedSelect = <
   Option extends OptionBase = OptionBase,
