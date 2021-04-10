@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { CSSProperties, FunctionComponent } from 'react';
 
 import Select, { ClearIndicatorProps } from 'react-select';
 import { CSSObject } from '@emotion/serialize';
@@ -15,7 +15,7 @@ const ClearIndicator = (props: ClearIndicatorProps<ColourOption, true>) => {
     <div
       {...restInnerProps}
       ref={ref}
-      style={getStyles('clearIndicator', props)}
+      style={getStyles('clearIndicator', props) as CSSProperties}
     >
       <div style={{ padding: '0px 5px' }}>{children}</div>
     </div>

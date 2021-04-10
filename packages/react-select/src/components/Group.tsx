@@ -101,7 +101,7 @@ interface GroupHeadingPropsDefinedProps<
   className?: string | undefined;
   selectProps: Props<Option, IsMulti, Group>;
   theme: Theme;
-  getStyles: GetStyles;
+  getStyles: GetStyles<Option, IsMulti, Group>;
   cx: CX;
 }
 

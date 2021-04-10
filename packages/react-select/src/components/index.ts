@@ -144,7 +144,8 @@ export const defaultComponents = <
   Group extends GroupBase<Option>
 >(
   props: Props<Option, IsMulti, Group>
-): SelectComponentsGeneric => ({
-  ...components,
-  ...props.components,
-});
+): SelectComponentsGeneric =>
+  ({
+    ...components,
+    ...props.components,
+  } as SelectComponentsGeneric);
