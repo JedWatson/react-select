@@ -116,16 +116,19 @@ export default function useAsync<
     };
   }, []);
 
-  const loadOptions = (
-    inputValue: string,
-    callback: (options?: OptionsOrGroups<Option, Group>) => void
-  ) => {
-    if (!propsLoadOptions) return callback();
-    const loader = propsLoadOptions(inputValue, callback);
-    if (loader && typeof loader.then === 'function') {
-      loader.then(callback, () => callback());
-    }
-  };
+  const loadOptions = useCallback(
+    (
+      inputValue: string,
+      callback: (options?: OptionsOrGroups<Option, Group>) => void
+    ) => {
+      if (!propsLoadOptions) return callback();
+      const loader = propsLoadOptions(inputValue, callback);
+      if (loader && typeof loader.then === 'function') {
+        loader.then(callback, () => callback());
+      }
+    },
+    [propsLoadOptions]
+  );
 
   useEffect(() => {
     if (propsDefaultOptions === true) {

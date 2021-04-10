@@ -1,17 +1,9 @@
-// import { AsyncProps, makeAsyncSelect } from './Async';
-// import { makeCreatableSelect } from './Creatable';
-// import manageState from './stateManager';
 import Select from './Select';
 import { GroupBase, OptionBase } from './types';
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 import useAsync, { AsyncAdditionalProps } from './useAsync';
 import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
-
-// const SelectCreatable = makeCreatableSelect(Select);
-// const SelectCreatableState = manageState(SelectCreatable);
-//
-// export default makeAsyncSelect(SelectCreatableState);
 
 type AsyncCreatableProps<
   Option extends OptionBase,
