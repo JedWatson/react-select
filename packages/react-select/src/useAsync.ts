@@ -8,7 +8,11 @@ import {
   OptionsOrGroups,
 } from './types';
 
-type AsyncManagedPropKeys = 'options' | 'isLoading' | 'onInputChange';
+type AsyncManagedPropKeys =
+  | 'options'
+  | 'isLoading'
+  | 'onInputChange'
+  | 'filterOption';
 
 export interface AsyncAdditionalProps<
   Option extends OptionBase,
@@ -60,6 +64,7 @@ export default function useAsync<
   options: propsOptions,
   isLoading: propsIsLoading = false,
   onInputChange: propsOnInputChange,
+  filterOption = null,
   ...restSelectProps
 }: AsyncProps<Option, IsMulti, Group> & AdditionalProps): StateManagerProps<
   Option,
@@ -201,5 +206,6 @@ export default function useAsync<
     options,
     isLoading: isLoading || propsIsLoading,
     onInputChange,
+    filterOption,
   };
 }
