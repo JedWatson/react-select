@@ -34,8 +34,8 @@ const AsyncCreatableSelect = React.forwardRef(
       | MutableRefObject<Select<Option, IsMulti, Group> | null>
       | null
   ) => {
-    const stateManagedProps = useAsync(props);
-    const creatableProps = useStateManager(stateManagedProps);
+    const stateManagerProps = useAsync(props);
+    const creatableProps = useStateManager(stateManagerProps);
     const selectProps = useCreatable(creatableProps);
 
     return <Select ref={ref} {...selectProps} />;

@@ -118,7 +118,6 @@ export default function useCreatable<
   // @ts-ignore
   getNewOptionData = builtins.getNewOptionData,
   onCreateOption,
-  isLoading,
   options: propsOptions = [],
   onChange: propsOnChange,
   ...restSelectProps
@@ -131,6 +130,7 @@ export default function useCreatable<
     getOptionValue = baseGetOptionValue,
     getOptionLabel = baseGetOptionLabel,
     inputValue,
+    isLoading,
     isMulti,
     value,
     name,
