@@ -147,7 +147,7 @@ export function mergeStyles<
   const styles = { ...source };
 
   // massage in target styles
-  Object.keys(target).forEach(keyAsString => {
+  Object.keys(target).forEach((keyAsString) => {
     const key = keyAsString as keyof StylesConfig<Option, IsMulti, Group>;
     if (source[key]) {
       styles[key] = (rsCss: any, props: any) => {

@@ -14,12 +14,12 @@ const LoadingIndicator = (props: LoadingIndicatorProps<ColourOption>) => {
 };
 
 const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
+  colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
 const promiseOptions = (inputValue: string) =>
-  new Promise<ColourOption[]>(resolve => {
+  new Promise<ColourOption[]>((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);

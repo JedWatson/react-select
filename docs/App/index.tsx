@@ -41,7 +41,7 @@ export default class App extends Component {
                 <Route
                   render={({ location }) => (
                     <PrimaryNav>
-                      {sections.map(l => {
+                      {sections.map((l) => {
                         const selected = location.pathname.includes(l.path);
 
                         return (
@@ -69,7 +69,7 @@ export default class App extends Component {
                     />
                   </Helmet>
                   <Route
-                    render={props => (
+                    render={(props) => (
                       <Fragment>
                         <PageNav {...props} />
                         <AppContent>

@@ -27,14 +27,14 @@ const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
 const CustomSelectProps = (props: Props<ColourOption>) => {
   const [clickCount, setClickCount] = useState(0);
 
-  const onClick: MouseEventHandler<HTMLSpanElement> = e => {
+  const onClick: MouseEventHandler<HTMLSpanElement> = (e) => {
     setClickCount(clickCount + 1);
     e.preventDefault();
     e.stopPropagation();
   };
 
   const styles: StylesConfig<ColourOption, false> = {
-    control: css => ({ ...css, paddingLeft: '1rem' }),
+    control: (css) => ({ ...css, paddingLeft: '1rem' }),
   };
 
   const emoji = EMOJIS[clickCount % EMOJIS.length];

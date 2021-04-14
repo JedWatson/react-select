@@ -16,7 +16,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueContainer }}
     styles={{
-      multiValue: base => ({
+      multiValue: (base) => ({
         ...base,
         border: `2px dotted ${colourOptions[2].color}`,
       }),

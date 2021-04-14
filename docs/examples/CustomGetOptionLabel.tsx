@@ -16,7 +16,7 @@ export default class CustomGetOptionLabel extends Component {
           isSearchable
           name="color"
           options={flavourOptions}
-          getOptionLabel={option => `${option.label}: ${option.rating}`}
+          getOptionLabel={(option) => `${option.label}: ${option.rating}`}
         />
       </Fragment>
     );

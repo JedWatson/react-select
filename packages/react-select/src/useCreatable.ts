@@ -92,10 +92,10 @@ const builtins = {
   ) =>
     !(
       !inputValue ||
-      selectValue.some(option =>
+      selectValue.some((option) =>
         compareOption(inputValue, option, accessors)
       ) ||
-      selectOptions.some(option =>
+      selectOptions.some((option) =>
         compareOption(inputValue, option as Option, accessors)
       )
     ),

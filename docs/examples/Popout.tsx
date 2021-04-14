@@ -10,7 +10,7 @@ import { StateOption, stateOptions } from '../data';
 const { colors } = defaultTheme;
 
 const selectStyles: StylesConfig<StateOption, false> = {
-  control: provided => ({
+  control: (provided) => ({
     ...provided,
     minWidth: 240,
     margin: 8,
@@ -26,7 +26,7 @@ interface State {
 export default class PopoutExample extends Component<{}, State> {
   state: State = { isOpen: false, value: undefined };
   toggleOpen = () => {
-    this.setState(state => ({ isOpen: !state.isOpen }));
+    this.setState((state) => ({ isOpen: !state.isOpen }));
   };
   onSelectChange = (value: OnChangeValue<StateOption, false>) => {
     this.toggleOpen();

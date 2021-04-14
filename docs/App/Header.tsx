@@ -66,11 +66,11 @@ const headerSelectStyles: StylesConfig<Change, boolean> = {
       borderColor: 'rgba(0,0,0,0.2)',
     },
   }),
-  option: base => ({
+  option: (base) => ({
     ...base,
     padding: '4px 12px',
   }),
-  placeholder: base => ({
+  placeholder: (base) => ({
     ...base,
     color: 'black',
   }),
@@ -125,12 +125,12 @@ class Header extends Component<RouteComponentProps, HeaderState> {
   }
   getStarCount = () => {
     fetch(apiUrl)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const stars = data.stargazers_count;
         this.setState({ stars });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error retrieving data', err);
       });
   };
@@ -138,7 +138,7 @@ class Header extends Component<RouteComponentProps, HeaderState> {
     const valid = ['/', '/home'];
     return valid.includes(props.location.pathname);
   };
-  setContentRef: RefCallback<HTMLDivElement> = ref => {
+  setContentRef: RefCallback<HTMLDivElement> = (ref) => {
     if (!ref) return;
     this.content = ref;
   };
@@ -181,7 +181,7 @@ class Header extends Component<RouteComponentProps, HeaderState> {
             </h1>
             <Content
               stars={stars}
-              onChange={opt => {
+              onChange={(opt) => {
                 history.push(opt.value);
               }}
             />
@@ -263,7 +263,7 @@ const Content = ({ onChange, stars }: ContentProps) => (
           formatOptionLabel={getLabel}
           isSearchable={false}
           options={changes}
-          onChange={option => {
+          onChange={(option) => {
             if (option && !isArray(option)) {
               onChange(option);
             }

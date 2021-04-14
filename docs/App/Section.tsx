@@ -7,8 +7,8 @@ const Section: FunctionComponent<RouteComponentProps> = () => {
   const routeKeys = Object.keys(routes);
   return (
     <Switch>
-      {routeKeys.map(r => (
-        <Route key={r} path={r} render={p => <Content {...p} />} />
+      {routeKeys.map((r) => (
+        <Route key={r} path={r} render={(p) => <Content {...p} />} />
       ))}
       <Redirect from="/" to="/home" />
     </Switch>

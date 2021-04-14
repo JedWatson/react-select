@@ -96,7 +96,7 @@ export default function Api() {
       <Props
         props={require('!!extract-react-types-loader!../../PropTypes/Select')}
         overrides={{
-          components: props => (
+          components: (props) => (
             <Prop
               {...props}
               shapeComponent={() => null}

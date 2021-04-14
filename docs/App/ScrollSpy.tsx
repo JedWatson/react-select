@@ -45,12 +45,14 @@ export default class ScrollSpy extends Component<Props, State> {
     const { elements } = this.state;
     if (!elements.length) return;
 
-    const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
+    const idsInView = elements
+      .filter(isInView)
+      .map((i) => i.getAttribute('id'));
     if (idsInView.length) {
       onChange(idsInView);
     }
   });
-  getElements: RefCallback<HTMLElement> = ref => {
+  getElements: RefCallback<HTMLElement> = (ref) => {
     if (!ref) return;
     this.nav = ref;
   };
@@ -59,7 +61,7 @@ export default class ScrollSpy extends Component<Props, State> {
 
     const anchorList = this.nav.querySelectorAll<HTMLElement>('[data-hash]');
     const elements = Array.from(anchorList).map(
-      i => document.querySelector<HTMLElement>(`#${i.dataset.hash}`)!
+      (i) => document.querySelector<HTMLElement>(`#${i.dataset.hash}`)!
     );
 
     this.setState({ elements });

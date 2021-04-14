@@ -26,14 +26,14 @@ export default class SingleSelect extends Component<{}, State> {
   };
 
   toggleClearable = () =>
-    this.setState(state => ({ isClearable: !state.isClearable }));
+    this.setState((state) => ({ isClearable: !state.isClearable }));
   toggleDisabled = () =>
-    this.setState(state => ({ isDisabled: !state.isDisabled }));
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   toggleLoading = () =>
-    this.setState(state => ({ isLoading: !state.isLoading }));
-  toggleRtl = () => this.setState(state => ({ isRtl: !state.isRtl }));
+    this.setState((state) => ({ isLoading: !state.isLoading }));
+  toggleRtl = () => this.setState((state) => ({ isRtl: !state.isRtl }));
   toggleSearchable = () =>
-    this.setState(state => ({ isSearchable: !state.isSearchable }));
+    this.setState((state) => ({ isSearchable: !state.isSearchable }));
   render() {
     const {
       isClearable,

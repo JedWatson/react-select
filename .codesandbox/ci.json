@@ -1,8 +1,5 @@
-
-
 {
   "buildCommand": "build",
   "packages": ["packages/*"],
   "sandboxes": ["nfmxw"]
 }
-

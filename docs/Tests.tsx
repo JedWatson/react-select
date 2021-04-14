@@ -44,19 +44,19 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
     blockScroll: true,
   };
   toggleDisabled = () => {
-    this.setState(state => ({ isDisabled: !state.isDisabled }));
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   };
   toggleLoading = () => {
-    this.setState(state => ({ isLoading: !state.isLoading }));
+    this.setState((state) => ({ isLoading: !state.isLoading }));
   };
   toggleScroll = () => {
-    this.setState(state => ({ blockScroll: !state.blockScroll }));
+    this.setState((state) => ({ blockScroll: !state.blockScroll }));
   };
   toggleMode = () => {
-    this.setState(state => ({ isFixed: !state.isFixed }));
+    this.setState((state) => ({ isFixed: !state.isFixed }));
   };
   toggleEscapeClearsValue = () => {
-    this.setState(state => ({ escapeClearsValue: !state.escapeClearsValue }));
+    this.setState((state) => ({ escapeClearsValue: !state.escapeClearsValue }));
   };
 
   setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
@@ -79,7 +79,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             styles={{
-              menuPortal: base => ({ ...base, zIndex: 999 }),
+              menuPortal: (base) => ({ ...base, zIndex: 999 }),
             }}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}

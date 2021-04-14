@@ -7,7 +7,7 @@ export default () => (
   <Select
     defaultValue={flavourOptions[2]}
     options={flavourOptions}
-    theme={theme => ({
+    theme={(theme) => ({
       ...theme,
       borderRadius: 0,
       colors: {

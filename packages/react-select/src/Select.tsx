@@ -386,7 +386,7 @@ function buildCategorizedOptions<
           .map((option, optionIndex) =>
             toCategorizedOption(props, option, selectValue, optionIndex)
           )
-          .filter(categorizedOption => isFocusable(props, categorizedOption));
+          .filter((categorizedOption) => isFocusable(props, categorizedOption));
         return categorizedOptions.length > 0
           ? {
               type: 'group' as const,
@@ -417,7 +417,7 @@ function buildFocusableOptionsFromCategorizedOptions<
     (optionsAccumulator, categorizedOption) => {
       if (categorizedOption.type === 'group') {
         optionsAccumulator.push(
-          ...categorizedOption.options.map(option => option.data)
+          ...categorizedOption.options.map((option) => option.data)
         );
       } else {
         optionsAccumulator.push(categorizedOption.data);
@@ -534,7 +534,7 @@ function isOptionSelected<
     return props.isOptionSelected(option, selectValue);
   }
   const candidate = getOptionValue(props, option);
-  return selectValue.some(i => getOptionValue(props, i) === candidate);
+  return selectValue.some((i) => getOptionValue(props, i) === candidate);
 }
 function filterOption<
   Option extends OptionBase,
@@ -600,19 +600,19 @@ export default class Select<
   // ------------------------------
 
   controlRef: HTMLDivElement | null = null;
-  getControlRef: RefCallback<HTMLDivElement> = ref => {
+  getControlRef: RefCallback<HTMLDivElement> = (ref) => {
     this.controlRef = ref;
   };
   focusedOptionRef: HTMLDivElement | null = null;
-  getFocusedOptionRef: RefCallback<HTMLDivElement> = ref => {
+  getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
     this.focusedOptionRef = ref;
   };
   menuListRef: HTMLDivElement | null = null;
-  getMenuListRef: RefCallback<HTMLDivElement> = ref => {
+  getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
     this.menuListRef = ref;
   };
   inputRef: HTMLInputElement | null = null;
-  getInputRef: RefCallback<HTMLInputElement> = ref => {
+  getInputRef: RefCallback<HTMLInputElement> = (ref) => {
     this.inputRef = ref;
   };
 
@@ -885,7 +885,7 @@ export default class Select<
       const candidate = this.getOptionValue(newValue);
       this.setValue(
         multiValueAsValue(
-          selectValue.filter(i => this.getOptionValue(i) !== candidate)
+          selectValue.filter((i) => this.getOptionValue(i) !== candidate)
         ),
         'deselect-option',
         newValue
@@ -919,7 +919,7 @@ export default class Select<
     const { selectValue } = this.state;
     const candidate = this.getOptionValue(removedValue);
     const newValueArray = selectValue.filter(
-      i => this.getOptionValue(i) !== candidate
+      (i) => this.getOptionValue(i) !== candidate
     );
     const newValue = valueTernary(
       isMulti,
@@ -1102,7 +1102,7 @@ export default class Select<
   // Mouse Handlers
   // ==============================
 
-  onMenuMouseDown: MouseEventHandler<HTMLDivElement> = event => {
+  onMenuMouseDown: MouseEventHandler<HTMLDivElement> = (event) => {
     if (event.button !== 0) {
       return;
     }
@@ -1110,7 +1110,7 @@ export default class Select<
     event.preventDefault();
     this.focusInput();
   };
-  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = event => {
+  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (
@@ -1285,16 +1285,16 @@ export default class Select<
     this.initialTouchX = 0;
     this.initialTouchY = 0;
   };
-  onControlTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
+  onControlTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     if (this.userIsDragging) return;
     this.onControlMouseDown(event);
   };
-  onClearIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
+  onClearIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     if (this.userIsDragging) return;
 
     this.onClearIndicatorMouseDown(event);
   };
-  onDropdownIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = event => {
+  onDropdownIndicatorTouchEnd: TouchEventHandler<HTMLDivElement> = (event) => {
     if (this.userIsDragging) return;
 
     this.onDropdownIndicatorMouseDown(event);
@@ -1304,7 +1304,7 @@ export default class Select<
   // Focus Handlers
   // ==============================
 
-  handleInputChange: FormEventHandler<HTMLInputElement> = event => {
+  handleInputChange: FormEventHandler<HTMLInputElement> = (event) => {
     const inputValue = event.currentTarget.value;
     this.setState({ inputIsHiddenAfterUpdate: false });
     this.onInputChange(inputValue, { action: 'input-change' });
@@ -1312,7 +1312,7 @@ export default class Select<
       this.onMenuOpen();
     }
   };
-  onInputFocus: FocusEventHandler<HTMLInputElement> = event => {
+  onInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
@@ -1325,7 +1325,7 @@ export default class Select<
     }
     this.openAfterFocus = false;
   };
-  onInputBlur: FocusEventHandler<HTMLInputElement> = event => {
+  onInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef!.focus();
       return;
@@ -1354,7 +1354,7 @@ export default class Select<
   // Keyboard Handlers
   // ==============================
 
-  onKeyDown: KeyboardEventHandler<HTMLDivElement> = event => {
+  onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     const {
       isMulti,
       backspaceRemovesValue,
@@ -1605,7 +1605,7 @@ export default class Select<
             removeProps={{
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
-              onMouseDown: e => {
+              onMouseDown: (e) => {
                 e.preventDefault();
                 e.stopPropagation();
               },
@@ -1787,7 +1787,7 @@ export default class Select<
     let menuUI: ReactNode;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().map(item => {
+      menuUI = this.getCategorizedOptions().map((item) => {
         if (item.type === 'group') {
           const { data, options, index: groupIndex } = item;
           const groupId = `${this.getElementId('group')}-${groupIndex}`;
@@ -1806,7 +1806,7 @@ export default class Select<
               }}
               label={this.formatGroupLabel(item.data)}
             >
-              {item.options.map(option =>
+              {item.options.map((option) =>
                 render(option, `${groupIndex}-${option.index}`)
               )}
             </Group>
@@ -1852,10 +1852,10 @@ export default class Select<
               onBottomArrive={onMenuScrollToBottom}
               lockEnabled={menuShouldBlockScroll}
             >
-              {scrollTargetRef => (
+              {(scrollTargetRef) => (
                 <MenuList
                   {...commonProps}
-                  innerRef={instance => {
+                  innerRef={(instance) => {
                     this.getMenuListRef(instance);
                     scrollTargetRef(instance);
                   }}
@@ -1898,7 +1898,7 @@ export default class Select<
     if (isMulti) {
       if (delimiter) {
         const value = selectValue
-          .map(opt => this.getOptionValue(opt))
+          .map((opt) => this.getOptionValue(opt))
           .join(delimiter);
         return <input name={name} type="hidden" value={value} />;
       } else {

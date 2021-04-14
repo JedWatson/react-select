@@ -32,7 +32,7 @@ const SortableMultiValue = SortableElement(
     // on a value to begin dragging it. ideally, detecting a click (instead of
     // a drag) would still focus the control and toggle the menu, but that
     // requires some magic with refs that are out of scope for this example
-    const onMouseDown: MouseEventHandler<HTMLDivElement> = e => {
+    const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
       e.preventDefault();
       e.stopPropagation();
     };
@@ -63,7 +63,7 @@ export default function MultiSelectSort() {
     setSelected(newValue);
     console.log(
       'Values sorted:',
-      newValue.map(i => i.value)
+      newValue.map((i) => i.value)
     );
   };
 

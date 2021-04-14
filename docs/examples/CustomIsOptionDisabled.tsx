@@ -16,7 +16,7 @@ export default class CustomIsOptionDisabled extends Component {
           isSearchable
           name="color"
           options={flavourOptions}
-          isOptionDisabled={option => option.rating !== 'safe'}
+          isOptionDisabled={(option) => option.rating !== 'safe'}
         />
       </Fragment>
     );

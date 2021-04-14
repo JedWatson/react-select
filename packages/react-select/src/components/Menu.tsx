@@ -228,7 +228,8 @@ export interface MenuProps<
   Option extends OptionBase = OptionBase,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
-> extends CommonPropsAndClassName<Option, IsMulti, Group>, MenuPlacementProps {
+> extends CommonPropsAndClassName<Option, IsMulti, Group>,
+    MenuPlacementProps {
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: RefCallback<HTMLDivElement>;
   innerProps: JSX.IntrinsicElements['div'];
@@ -252,7 +253,8 @@ export interface MenuPlacerProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group>, MenuPlacementProps {
+> extends CommonProps<Option, IsMulti, Group>,
+    MenuPlacementProps {
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactNode;
 }
@@ -300,7 +302,7 @@ export class MenuPlacer<
   static contextType = PortalPlacementContext;
   context!: ContextType<typeof PortalPlacementContext>;
 
-  getPlacement: RefCallback<HTMLDivElement> = ref => {
+  getPlacement: RefCallback<HTMLDivElement> = (ref) => {
     const {
       minMenuHeight,
       maxMenuHeight,

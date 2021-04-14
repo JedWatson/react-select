@@ -43,7 +43,7 @@ const defaultOptions: (DateOption | CalendarGroup)[] = [
   'today',
   'tomorrow',
   'yesterday',
-].map(i => createOptionForDate(chrono.parseDate(i)));
+].map((i) => createOptionForDate(chrono.parseDate(i)));
 
 const createCalendarOptions = (date = new Date()) => {
   const daysInMonth = Array.apply(null, Array(moment(date).daysInMonth())).map(
@@ -93,7 +93,7 @@ const suggestions = [
 const suggest = (str: string) =>
   str
     .split(/\b/)
-    .map(i => suggestions[i] || i)
+    .map((i) => suggestions[i] || i)
     .join('');
 
 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -219,7 +219,7 @@ class DatePicker extends Component<DatePickerProps, DatePickerState> {
         components={{ Group, Option }}
         filterOption={null}
         isMulti={false}
-        isOptionSelected={(o, v) => v.some(i => i.date.isSame(o.date, 'day'))}
+        isOptionSelected={(o, v) => v.some((i) => i.date.isSame(o.date, 'day'))}
         maxMenuHeight={380}
         onChange={this.props.onChange}
         onInputChange={this.handleInputChange}

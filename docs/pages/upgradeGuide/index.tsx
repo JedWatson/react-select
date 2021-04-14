@@ -55,9 +55,9 @@ Here's an example implementation of all three:
 ~~~js
 <Select
   value={this.state.value}
-  onChange={value => this.setState({ value })}
+  onChange={(value) => this.setState({ value })}
   inputValue={this.state.inputValue}
-  onInputChange={inputValue => this.setState({ inputValue })}
+  onInputChange={(inputValue) => this.setState({ inputValue })}
   menuIsOpen={this.state.menuIsOpen}
   onMenuOpen={() => this.setState({ menuIsOpen: true })}
   onMenuClose={() => this.setState({ menuIsOpen: false })}

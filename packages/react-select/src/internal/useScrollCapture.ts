@@ -92,7 +92,7 @@ export default function useScrollCapture({
   );
 
   const startListening = useCallback(
-    el => {
+    (el) => {
       // bail early if no element is available to attach to
       if (!el) return;
 
@@ -105,7 +105,7 @@ export default function useScrollCapture({
   );
 
   const stopListening = useCallback(
-    el => {
+    (el) => {
       // bail early if no element is available to detach from
       if (!el) return;
 

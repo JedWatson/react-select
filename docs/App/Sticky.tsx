@@ -56,12 +56,12 @@ export default class Sticky extends Component<Props, State> {
       this.setState({ overScroll: 0 });
     }
   });
-  getOuterEl: RefCallback<HTMLDivElement> = ref => {
+  getOuterEl: RefCallback<HTMLDivElement> = (ref) => {
     if (!ref) return;
 
     this.outerEl = ref;
   };
-  getInnerEl: RefCallback<HTMLDivElement> = ref => {
+  getInnerEl: RefCallback<HTMLDivElement> = (ref) => {
     if (!ref) return;
 
     this.innerEl = ref;

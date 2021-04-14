@@ -12,7 +12,7 @@ export default () => (
     components={{ Placeholder }}
     placeholder={'custom placeholder component'}
     styles={{
-      placeholder: base => ({
+      placeholder: (base) => ({
         ...base,
         fontSize: '1em',
         color: colourOptions[2].color,

@@ -37,7 +37,7 @@ export const Fade = <ComponentProps extends {}>({
 
   return (
     <Transition mountOnEnter unmountOnExit in={inProp} timeout={duration}>
-      {state => {
+      {(state) => {
         const innerProps = {
           style: {
             ...transition[state],
@@ -82,7 +82,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   }
 
   // width must be calculated; cannot transition from `undefined` to `number`
-  getWidth: RefCallback<HTMLDivElement> = ref => {
+  getWidth: RefCallback<HTMLDivElement> = (ref) => {
     if (ref && isNaN(this.state.width as number)) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our
@@ -121,7 +121,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         in={inProp}
         timeout={this.duration}
       >
-        {state => {
+        {(state) => {
           const style = {
             ...this.getStyle(width),
             ...this.getTransition(state),

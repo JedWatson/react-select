@@ -241,7 +241,7 @@ const diacritics = [
 ];
 
 const anyDiacritic = new RegExp(
-  '[' + diacritics.map(d => d.letters).join('') + ']',
+  '[' + diacritics.map((d) => d.letters).join('') + ']',
   'g'
 );
 const diacriticToBase: { [letters: string]: string } = {};
@@ -254,5 +254,5 @@ for (let i = 0; i < diacritics.length; i++) {
 }
 
 export const stripDiacritics = (str: string) => {
-  return str.replace(anyDiacritic, match => diacriticToBase[match]);
+  return str.replace(anyDiacritic, (match) => diacriticToBase[match]);
 };

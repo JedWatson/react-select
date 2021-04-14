@@ -35,7 +35,7 @@ export default function ScrollManager({
   });
   const setScrollLockTarget = useScrollLock({ isEnabled: lockEnabled });
 
-  const targetRef: RefCallback<HTMLElement> = element => {
+  const targetRef: RefCallback<HTMLElement> = (element) => {
     setScrollCaptureTarget(element);
     setScrollLockTarget(element);
   };

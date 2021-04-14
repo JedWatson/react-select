@@ -51,7 +51,7 @@ cases(
 );
 
 test('load options prop with defaultOptions true and inputValue prop', () => {
-  const loadOptionsSpy = jest.fn(value => value);
+  const loadOptionsSpy = jest.fn((value) => value);
   const searchString = 'hello world';
   render(
     <Async

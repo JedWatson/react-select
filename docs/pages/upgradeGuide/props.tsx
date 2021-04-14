@@ -322,7 +322,7 @@ interface PropChangesState {
 
 class PropChanges extends Component<PropChangesProps, PropChangesState> {
   state: PropChangesState = {
-    selectedOptions: allOptions.map(opt => opt.value),
+    selectedOptions: allOptions.map((opt) => opt.value),
     filterValue: filterOptions[0].value,
   };
 
@@ -338,9 +338,11 @@ class PropChanges extends Component<PropChangesProps, PropChangesState> {
           isMulti
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
-          onChange={options => {
+          onChange={(options) => {
             if (Array.isArray(options)) {
-              this.setState({ selectedOptions: options.map(opt => opt.value) });
+              this.setState({
+                selectedOptions: options.map((opt) => opt.value),
+              });
             }
           }}
           options={allOptions}
@@ -352,7 +354,7 @@ class PropChanges extends Component<PropChangesProps, PropChangesState> {
         <h4>Sort Props</h4>
         <Select
           defaultValue={filterOptions[0]}
-          onChange={option => {
+          onChange={(option) => {
             if (!Array.isArray(option)) {
               this.setState({ filterValue: option ? option.value : '' });
             }
@@ -378,7 +380,7 @@ class PropChanges extends Component<PropChangesProps, PropChangesState> {
                   );
                 }
               })
-              .map(data => {
+              .map((data) => {
                 const [prop, status, note] = data;
                 return selectedOptions.includes(getDisplayedStatus(status)) ? (
                   <PropStatus

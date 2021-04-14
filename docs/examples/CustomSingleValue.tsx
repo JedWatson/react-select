@@ -16,7 +16,7 @@ export default class CustomControl extends Component {
         defaultValue={colourOptions[0]}
         isClearable
         styles={{
-          singleValue: base => ({
+          singleValue: (base) => ({
             ...base,
             padding: 5,
             borderRadius: 5,

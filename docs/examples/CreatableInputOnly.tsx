@@ -40,7 +40,7 @@ export default class CreatableInputOnly extends Component<{}, State> {
   handleInputChange = (inputValue: string) => {
     this.setState({ inputValue });
   };
-  handleKeyDown: KeyboardEventHandler<HTMLDivElement> = event => {
+  handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     const { inputValue, value } = this.state;
     if (!inputValue) return;
     switch (event.key) {

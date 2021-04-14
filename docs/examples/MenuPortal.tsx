@@ -31,7 +31,7 @@ export default class MenuPortal extends Component<{}, State> {
     this.setState({ portalPlacement });
   };
   toggleMode = () => {
-    this.setState(state => ({ isFixed: !state.isFixed }));
+    this.setState((state) => ({ isFixed: !state.isFixed }));
   };
   render() {
     const { close, open } = this;
@@ -45,7 +45,7 @@ export default class MenuPortal extends Component<{}, State> {
             <Select
               defaultValue={colourOptions[0]}
               isClearable
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+              styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
               menuPortalTarget={document.body}
               isSearchable
               name="color"

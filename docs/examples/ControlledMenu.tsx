@@ -18,7 +18,7 @@ export default class controlledMenu extends Component<{}, State> {
   };
   select?: SelectInstance<ColourOption> | null;
   toggleMenuIsOpen = () => {
-    this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
+    this.setState((state) => ({ menuIsOpen: !state.menuIsOpen }));
     if (this.select) {
       return !this.state.menuIsOpen ? this.select.focus() : this.select.blur();
     }
@@ -28,13 +28,13 @@ export default class controlledMenu extends Component<{}, State> {
     return (
       <Fragment>
         <Select
-          ref={ref => {
+          ref={(ref) => {
             this.select = ref;
           }}
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
-          styles={{ menu: base => ({ ...base, position: 'relative' }) }}
+          styles={{ menu: (base) => ({ ...base, position: 'relative' }) }}
           name="color"
           options={colourOptions}
         />

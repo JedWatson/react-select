@@ -137,7 +137,7 @@ export default function useAsync<
 
   useEffect(() => {
     if (propsDefaultOptions === true) {
-      loadOptions(stateInputValue, options => {
+      loadOptions(stateInputValue, (options) => {
         if (!mounted.current) return;
         setDefaultOptions(options || []);
         setIsLoading(!!lastRequest.current);
@@ -172,7 +172,7 @@ export default function useAsync<
         setStateInputValue(inputValue);
         setIsLoading(true);
         setPassEmptyOptions(!loadedInputValue);
-        loadOptions(inputValue, options => {
+        loadOptions(inputValue, (options) => {
           if (!mounted) return;
           if (request !== lastRequest.current) return;
           lastRequest.current = undefined;

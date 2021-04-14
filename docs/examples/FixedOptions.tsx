@@ -22,7 +22,9 @@ const styles: StylesConfig<ColourOption, true> = {
 };
 
 const orderOptions = (values: readonly ColourOption[]) => {
-  return values.filter(v => v.isFixed).concat(values.filter(v => !v.isFixed));
+  return values
+    .filter((v) => v.isFixed)
+    .concat(values.filter((v) => !v.isFixed));
 };
 
 export default class FixedOptions extends Component<{}, State> {
@@ -48,7 +50,7 @@ export default class FixedOptions extends Component<{}, State> {
         }
         break;
       case 'clear':
-        value = colourOptions.filter(v => v.isFixed);
+        value = colourOptions.filter((v) => v.isFixed);
         break;
     }
 
@@ -62,7 +64,7 @@ export default class FixedOptions extends Component<{}, State> {
         value={this.state.value}
         isMulti
         styles={styles}
-        isClearable={this.state.value.some(v => !v.isFixed)}
+        isClearable={this.state.value.some((v) => !v.isFixed)}
         name="colors"
         className="basic-multi-select"
         classNamePrefix="select"

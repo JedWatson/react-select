@@ -40,7 +40,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ Option }}
     styles={{
-      option: base => ({
+      option: (base) => ({
         ...base,
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',

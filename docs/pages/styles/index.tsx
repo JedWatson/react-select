@@ -282,7 +282,7 @@ export default function Styles() {
 
     ${(
       <div css={{ marginTop: '1em' }}>
-        {Object.keys(defaultTheme.colors).map(key => (
+        {Object.keys(defaultTheme.colors).map((key) => (
           <ColorSample
             key={key}
             name={key}

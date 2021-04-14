@@ -125,7 +125,7 @@ cases<Opts>(
   'isValidNewOption() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
-    let isValidNewOption = jest.fn(options => options === 'new Option');
+    let isValidNewOption = jest.fn((options) => options === 'new Option');
 
     const { container, rerender } = render(
       <Creatable menuIsOpen isValidNewOption={isValidNewOption} {...props} />
@@ -208,7 +208,7 @@ cases<Opts>(
   'getNewOptionData() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
-    let getNewOptionDataSpy = jest.fn(label => ({
+    let getNewOptionDataSpy = jest.fn((label) => ({
       label: `custom text ${label}`,
       value: label,
     }));
@@ -243,7 +243,7 @@ cases<Opts>(
   'formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
     props = { ...BASIC_PROPS, ...props };
-    let formatCreateLabelSpy = jest.fn(label => `custom label "${label}"`);
+    let formatCreateLabelSpy = jest.fn((label) => `custom label "${label}"`);
     const { container, rerender } = render(
       <Creatable
         menuIsOpen

@@ -20,8 +20,8 @@ const NavSection: FunctionComponent<RouteComponentProps> = () => {
   const routeKeys = Object.keys(routes);
   return (
     <Switch>
-      {routeKeys.map(r => (
-        <Route key={r} path={r} render={p => <PageNav {...p} />} />
+      {routeKeys.map((r) => (
+        <Route key={r} path={r} render={(p) => <PageNav {...p} />} />
       ))}
     </Switch>
   );
@@ -56,7 +56,7 @@ class PageNav extends Component<RouteComponentProps, NavState> {
       this.setState({ activeId });
     }
   };
-  getScrollSpy: RefCallback<ScrollSpy> = ref => {
+  getScrollSpy: RefCallback<ScrollSpy> = (ref) => {
     if (!ref) return;
     this.scrollSpy = ref;
   };
@@ -85,7 +85,7 @@ class PageNav extends Component<RouteComponentProps, NavState> {
       <Sticky preserveHeight={isSmallDevice}>
         <ScrollSpy ref={this.getScrollSpy} onChange={this.getSelected}>
           <Nav>
-            {links.map(l => {
+            {links.map((l) => {
               const hash = l.path.slice(1);
               const selected = hash === activeId;
 
@@ -95,7 +95,7 @@ class PageNav extends Component<RouteComponentProps, NavState> {
                   key={hash}
                   selected={selected}
                   level={l.level}
-                  onClick={event => {
+                  onClick={(event) => {
                     this.handleItemClick({ event, hash });
                   }}
                 >

@@ -21,7 +21,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ SelectContainer }}
     styles={{
-      container: base => ({
+      container: (base) => ({
         ...base,
         backgroundColor: colourOptions[2].color,
         padding: 5,

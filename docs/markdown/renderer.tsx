@@ -56,7 +56,7 @@ function getLabel(children: (ReactElement | string)[] | ReactElement | string) {
   let str = '';
 
   if (Array.isArray(children)) {
-    children.forEach(c => {
+    children.forEach((c) => {
       if (Array.isArray(c)) {
         getLabel(c);
       } else if (isReactElement(c)) {

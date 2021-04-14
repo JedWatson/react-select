@@ -18,12 +18,12 @@ const LoadingMessage = (props: NoticeProps<ColourOption, false>) => {
 };
 
 const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
+  colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
 const promiseOptions = (inputValue: string) =>
-  new Promise<ColourOption[]>(resolve => {
+  new Promise<ColourOption[]>((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
@@ -36,7 +36,7 @@ const CustomLoadingMessage = () => {
       defaultOptions
       loadOptions={promiseOptions}
       styles={{
-        loadingMessage: base => ({
+        loadingMessage: (base) => ({
           ...base,
           backgroundColor: colourOptions[2].color,
           color: 'white',

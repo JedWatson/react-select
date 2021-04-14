@@ -20,7 +20,7 @@ const dot = (color = '#ccc') => ({
 });
 
 const colourStyles: StylesConfig<ColourOption> = {
-  control: styles => ({ ...styles, backgroundColor: 'white' }),
+  control: (styles) => ({ ...styles, backgroundColor: 'white' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);
     return {
@@ -51,8 +51,8 @@ const colourStyles: StylesConfig<ColourOption> = {
       },
     };
   },
-  input: styles => ({ ...styles, ...dot() }),
-  placeholder: styles => ({ ...styles, ...dot() }),
+  input: (styles) => ({ ...styles, ...dot() }),
+  placeholder: (styles) => ({ ...styles, ...dot() }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 

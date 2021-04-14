@@ -20,7 +20,7 @@ describe('Multi Select', () => {
   for (let config of setup) {
     const { viewport } = config;
     it(`Should display several default values that can be removed in view: ${viewport}`, () => {
-      cy.get(selector.multiSelectDefaultValues).then(function($defaultValue) {
+      cy.get(selector.multiSelectDefaultValues).then(function ($defaultValue) {
         expect($defaultValue).to.have.length(2);
         expect($defaultValue.eq(0)).to.contain('Purple');
         expect($defaultValue.eq(1)).to.contain('Red');
@@ -29,7 +29,7 @@ describe('Multi Select', () => {
       cy.get(selector.firstMultiValueRemove)
         .click()
         .get(selector.multiSelectDefaultValues)
-        .then(function($defaultValue) {
+        .then(function ($defaultValue) {
           expect($defaultValue).to.have.length(1);
           expect($defaultValue.eq(0)).to.contain('Red');
         })
@@ -42,7 +42,7 @@ describe('Multi Select', () => {
         .click()
         .type('{backspace}', { force: true })
         .get(selector.multiSelectDefaultValues)
-        .then(function($defaultValue) {
+        .then(function ($defaultValue) {
           expect($defaultValue).to.have.length(1);
           expect($defaultValue.eq(0)).to.contain('Purple');
         })
@@ -74,7 +74,7 @@ describe('Multi Select', () => {
         .type('Slate', { force: true })
         .type('{enter}', { force: true })
         .get(selector.multiSelectDefaultValues)
-        .then(function($defaultValue) {
+        .then(function ($defaultValue) {
           expect($defaultValue).to.have.length(5);
           expect($defaultValue.eq(0)).to.contain('Purple');
           expect($defaultValue.eq(1)).to.contain('Red');

@@ -75,7 +75,7 @@ export default function useScrollLock({
 
       if (accountForScrollbars) {
         // store any styles already applied to the body
-        STYLE_KEYS.forEach(key => {
+        STYLE_KEYS.forEach((key) => {
           const val = targetStyle && targetStyle[key];
           originalStyles.current[key] = val;
         });
@@ -89,7 +89,7 @@ export default function useScrollLock({
         const adjustedPadding =
           window.innerWidth - clientWidth + currentPadding || 0;
 
-        Object.keys(LOCK_STYLES).forEach(key => {
+        Object.keys(LOCK_STYLES).forEach((key) => {
           const val = LOCK_STYLES[key as keyof typeof LOCK_STYLES];
           if (targetStyle) {
             targetStyle[key as keyof typeof LOCK_STYLES] = val;
@@ -139,7 +139,7 @@ export default function useScrollLock({
 
       // reapply original body styles, if any
       if (accountForScrollbars && activeScrollLocks < 1) {
-        STYLE_KEYS.forEach(key => {
+        STYLE_KEYS.forEach((key) => {
           const val = originalStyles.current[key];
           if (targetStyle) {
             targetStyle[key] = val;

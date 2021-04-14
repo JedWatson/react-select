@@ -19,7 +19,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueRemove }}
     styles={{
-      multiValueRemove: base => ({
+      multiValueRemove: (base) => ({
         ...base,
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',
