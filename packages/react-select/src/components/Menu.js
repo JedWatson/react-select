@@ -234,7 +234,7 @@ export type MenuProps = MenuAndPlacerCommon & {
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: ElementRef<*>;
+  innerRef: ElementRef<*>,
   /** The children to be rendered. */
   children: ({}) => Node,
 };
@@ -275,16 +275,16 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
     placement: null,
   };
   static contextType = PortalPlacementContext;
-  constructor(props:MenuPlacerProps) {
+  constructor(props: MenuPlacerProps) {
     super(props);
 
     props.innerRef(this);
   }
   recalculatePlacement = () => {
-    if(this.menuRef !== null) {
+    if (this.menuRef !== null) {
       this.getPlacement(this.menuRef);
     }
-  }
+  };
   getPlacement = (ref: ElementRef<*>) => {
     const {
       minMenuHeight,

@@ -1700,7 +1700,11 @@ export default class Select extends Component<Props, State> {
     };
 
     const menuElement = (
-      <MenuPlacer innerRef={this.getMenuPlacerRef} {...commonProps} {...menuPlacementProps}>
+      <MenuPlacer
+        innerRef={this.getMenuPlacerRef}
+        {...commonProps}
+        {...menuPlacementProps}
+      >
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}

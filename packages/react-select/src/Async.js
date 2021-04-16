@@ -130,7 +130,7 @@ export const makeAsyncSelect = <C: {}>(
       if (this.select.select && this.select.select.menuPlacerRef) {
         this.select.select.menuPlacerRef.recalculatePlacement();
       }
-    }
+    };
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
