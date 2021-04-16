@@ -127,7 +127,7 @@ export const makeAsyncSelect = <C: {}>(
       this.select.blur();
     }
     recalculateMenuPlacement = () => {
-      if (this.select?.select?.menuPlacerRef) {
+      if (this.select.select && this.select.select.menuPlacerRef) {
         this.select.select.menuPlacerRef.recalculatePlacement();
       }
     }

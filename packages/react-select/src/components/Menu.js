@@ -275,7 +275,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
     placement: null,
   };
   static contextType = PortalPlacementContext;
-  constructor(props) {
+  constructor(props:MenuPlacerProps) {
     super(props);
 
     props.innerRef(this);
