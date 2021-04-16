@@ -233,6 +233,8 @@ export type MenuProps = MenuAndPlacerCommon & {
   children: ReactElement<*>,
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
+  /** Reference to the internal element, consumed by the MenuPlacer component */
+  innerRef: ElementRef<*>;
   /** The children to be rendered. */
   children: ({}) => Node,
 };
@@ -267,12 +269,22 @@ const PortalPlacementContext = createContext<{
 
 // NOTE: internal only
 export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
+  menuRef = null;
   state = {
     maxHeight: this.props.maxMenuHeight,
     placement: null,
   };
   static contextType = PortalPlacementContext;
+  constructor(props) {
+    super(props);
 
+    props.innerRef(this);
+  }
+  recalculatePlacement = () => {
+    if(this.menuRef !== null) {
+      this.getPlacement(this.menuRef);
+    }
+  }
   getPlacement = (ref: ElementRef<*>) => {
     const {
       minMenuHeight,
@@ -284,6 +296,8 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
     } = this.props;
 
     if (!ref) return;
+
+    this.menuRef = ref;
 
     // DO NOT scroll if position is fixed
     const isFixedPosition = menuPosition === 'fixed';

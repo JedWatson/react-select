@@ -32,6 +32,9 @@ export type AsyncProps = {
   /* Will cause the select to be displayed in the loading state, even if the
      Async select is not currently waiting for loadOptions to resolve */
   isLoading: boolean,
+  /* Will prevent menu position and size recalculation on async data
+     load finish */
+  preventMenuPositionRecalculation: boolean,
 };
 
 export type Props = SelectProps & AsyncProps;
@@ -41,6 +44,7 @@ export const defaultProps = {
   defaultOptions: false,
   filterOption: null,
   isLoading: false,
+  preventMenuPositionRecalculation: false,
 };
 
 type State = {
@@ -122,12 +126,25 @@ export const makeAsyncSelect = <C: {}>(
     blur() {
       this.select.blur();
     }
+    recalculateMenuPlacement = () => {
+      if (this.select?.select?.menuPlacerRef) {
+        this.select.select.menuPlacerRef.recalculatePlacement();
+      }
+    }
     loadOptions(inputValue: string, callback: (?Array<*>) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
-      const loader = loadOptions(inputValue, callback);
+
+      const wrappedCallback = (...args) => {
+        callback(...args);
+        if (!this.props.preventMenuPositionRecalculation) {
+          this.recalculateMenuPlacement();
+        }
+      };
+
+      const loader = loadOptions(inputValue, wrappedCallback);
       if (loader && typeof loader.then === 'function') {
-        loader.then(callback, () => callback());
+        loader.then(wrappedCallback, () => callback());
       }
     }
     handleInputChange = (newValue: string, actionMeta: InputActionMeta) => {
