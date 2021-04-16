@@ -205,6 +205,67 @@ test('in case of callbacks display the most recently-requested loaded options (i
   );
 });
 
+cases(
+  'on data load menu position should',
+  async ({ preventRecalculation, loader, recalculationCount }) => {
+    const ref = React.createRef();
+
+    const loaderSpy = jest.fn(loader);
+    let { container } = render(
+      <Async
+        className="react-select"
+        classNamePrefix="react-select"
+        loadOptions={loaderSpy}
+        preventMenuPositionRecalculation={preventRecalculation}
+        ref={ref}
+      />
+    );
+
+    let input = container.querySelector('div.react-select__input input');
+
+    ref.current.recalculateMenuPlacement = jest.fn(
+      ref.current.recalculateMenuPlacement
+    );
+
+    expect(ref.current.recalculateMenuPlacement).toHaveBeenCalledTimes(0);
+    fireEvent.input(input, {
+      target: {
+        value: 'foo',
+      },
+      bubbles: true,
+      cancelable: true,
+    });
+
+    await waitFor(() =>
+      expect(ref.current.recalculateMenuPlacement).toHaveBeenCalledTimes(
+        recalculationCount
+      )
+    );
+  },
+  {
+    'promise => should be recalculated': {
+      preventRecalculation: false,
+      loader: () => new Promise(resolve => resolve(OPTIONS)),
+      recalculationCount: 1,
+    },
+    'promise => should not be recalculated when preventMenuPositionRecalculation is used': {
+      preventRecalculation: true,
+      loader: () => new Promise(resolve => resolve(OPTIONS)),
+      recalculationCount: 0,
+    },
+    'callback => should be recalculated': {
+      preventRecalculation: false,
+      loader: (input, callback) => callback(OPTIONS),
+      recalculationCount: 1,
+    },
+    'callback => should not be recalculated when preventMenuPositionRecalculation is used': {
+      preventRecalculation: true,
+      loader: (input, callback) => callback(OPTIONS),
+      recalculationCount: 0,
+    },
+  }
+);
+
 // QUESTION: we currently do not do this, do we want to?
 test.skip('in case of callbacks should handle an error by setting options to an empty array', () => {
   const loadOptions = (inputValue, callback) => {

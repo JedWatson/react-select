@@ -520,7 +520,10 @@ export default class Select extends Component<Props, State> {
   getInputRef = (ref: ?HTMLElement) => {
     this.inputRef = ref;
   };
-
+  menuPlacerRef: ElRef = null;
+  getMenuPlacerRef = (ref: ?HTMLElement) => {
+    this.menuPlacerRef = ref;
+  };
   // Lifecycle
   // ------------------------------
 
@@ -1697,7 +1700,11 @@ export default class Select extends Component<Props, State> {
     };
 
     const menuElement = (
-      <MenuPlacer {...commonProps} {...menuPlacementProps}>
+      <MenuPlacer
+        innerRef={this.getMenuPlacerRef}
+        {...commonProps}
+        {...menuPlacementProps}
+      >
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}
