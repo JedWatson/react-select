@@ -1463,7 +1463,7 @@ export default class Select extends Component<Props, State> {
             }}
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
-            key={`${this.getOptionValue(opt)}${index}`}
+            key={this.getOptionValue(opt)}
             index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
@@ -1768,14 +1768,12 @@ export default class Select extends Component<Props, State> {
       } else {
         const input =
           selectValue.length > 0 ? (
-            selectValue.map((opt, i) => (
-              <input
-                key={`i-${i}`}
-                name={name}
-                type="hidden"
-                value={this.getOptionValue(opt)}
-              />
-            ))
+            selectValue.map(opt => {
+              const value = this.getOptionValue(opt);
+              return (
+                <input key={value} name={name} type="hidden" value={value} />
+              );
+            })
           ) : (
             <input name={name} type="hidden" />
           );
