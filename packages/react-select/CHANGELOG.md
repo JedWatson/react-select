@@ -1,5 +1,15 @@
 # react-select
 
+---
+
+## DRAFT NOTES for TypeScript Release
+
+- Usage of forwardRef
+- Special case to handle `__isNew__` options when filtering
+- new hooks for stateManager / async / creatable
+
+---
+
 ## 4.3.0
 
 ### Minor Changes
