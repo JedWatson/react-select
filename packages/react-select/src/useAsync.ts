@@ -143,6 +143,9 @@ export default function useAsync<
         setIsLoading(!!lastRequest.current);
       });
     }
+    // NOTE: this effect is designed to only run when the component mounts,
+    // so we don't want to include any hook dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onInputChange = useCallback(
