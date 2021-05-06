@@ -59,7 +59,7 @@ jobs:
                   command: |
                       yarn prettier:check
                       yarn lint
-                      yarn flow check --flowconfig-name=.flowconfig-ci
+                      yarn type-check
                       yarn test:jest
                       yarn coveralls
     end_to_end:

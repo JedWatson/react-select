@@ -51,7 +51,7 @@ class App extends React.Component {
   state = {
     selectedOption: null,
   };
-  handleChange = selectedOption => {
+  handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
   };
