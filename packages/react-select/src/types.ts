@@ -6,6 +6,7 @@ export interface OptionBase {
   readonly label?: string;
   readonly value?: unknown;
   readonly isDisabled?: boolean;
+  readonly __isNew__?: true;
 }
 
 export interface GroupBase<Option extends OptionBase> {

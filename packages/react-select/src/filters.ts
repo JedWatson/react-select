@@ -26,6 +26,8 @@ const defaultStringify = <Option extends OptionBase>(
 export const createFilter = <Option extends OptionBase>(
   config?: Config<Option>
 ) => (option: FilterOptionOption<Option>, rawInput: string): boolean => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (option.data.__isNew__) return true;
   const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {
     ignoreCase: true,
     ignoreAccents: true,
