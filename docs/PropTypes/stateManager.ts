@@ -1,1 +1,1 @@
-export { StateManagerProps } from 'react-select/src/stateManager';
+export { StateMangerAdditionalProps } from 'react-select/src/useStateManager';

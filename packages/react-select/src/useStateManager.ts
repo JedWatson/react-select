@@ -25,7 +25,7 @@ type SelectPropsWithOptionalStateManagedProps<
 > = Omit<PublicBaseSelectProps<Option, IsMulti, Group>, StateManagedPropKeys> &
   Partial<PublicBaseSelectProps<Option, IsMulti, Group>>;
 
-interface StateMangerAdditionalProps<Option extends OptionBase> {
+export interface StateMangerAdditionalProps<Option extends OptionBase> {
   defaultInputValue?: string;
   defaultMenuIsOpen?: boolean;
   defaultValue?: PropsValue<Option>;
