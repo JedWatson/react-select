@@ -211,7 +211,7 @@ function easeOutCubic(t: number, b: number, c: number, d: number): number {
 export function animatedScrollTo(
   element: HTMLElement | typeof window,
   to: number,
-  duration: number = 200,
+  duration = 200,
   callback: (element: HTMLElement | typeof window) => void = noop
 ) {
   const start = getScrollTop(element);
