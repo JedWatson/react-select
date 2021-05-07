@@ -18,7 +18,9 @@ const ShowTypes = ({ getNode, index }: ShowTypesProps) => {
 
 export default function Api() {
   const getNode = useMagicalNodes();
+  const stateManagerTypes = metadata['stateManager'];
   const selectTypes = metadata['react-select'];
+  console.log(selectTypes);
   const asyncTypes = metadata['Async'];
   const creatableTypes = metadata['Creatable'];
   return (
@@ -79,7 +81,7 @@ export default function Api() {
     ${(
       <ShowTypes
         getNode={getNode}
-        index={selectTypes['SelectInstance'].index}
+        index={stateManagerTypes['StateManagerProps'].index}
       />
     )}
 
@@ -87,12 +89,7 @@ export default function Api() {
 
     These base props are those available to be passed to all select variants.
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['SelectInstance'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} index={selectTypes['Props'].index} />)}
 
     ## Async props
 
