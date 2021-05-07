@@ -2,6 +2,7 @@
   "name": "@react-select/docs",
   "private": true,
   "version": "3.1.0",
+  "main": "dist/docs.cjs.js",
   "author": "Jed Watson",
   "license": "MIT",
   "dependencies": {
@@ -19,7 +20,11 @@
     "@babel/runtime": "^7.12.0",
     "@emotion/babel-plugin": "^11.0.0",
     "@emotion/react": "^11.1.1",
+    "@magical-types/convert-type": "^0.1.4",
     "@magical-types/macro": "^0.6.3",
+    "@magical-types/pretty": "^0.3.5",
+    "@magical-types/serialization": "^0.2.1",
+    "@magical-types/types": "^0.1.2",
     "@types/chroma-js": "^1.4.3",
     "@types/copy-webpack-plugin": "^5.0.2",
     "@types/html-webpack-plugin": "^3.2.4",
@@ -71,7 +76,8 @@
     "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
-    "start": "cross-env FORCE_EXTRACT_REACT_TYPES=true webpack-dev-server --progress",
-    "build:docs": "rimraf docs/dist && cross-env FORCE_EXTRACT_REACT_TYPES=true webpack --progress -p"
+    "site-prebuild": "node ./generate-magical-types/generate && node ./generate-magical-types/serialize",
+    "start": "yarn site-prebuild && webpack-dev-server --progress",
+    "build:docs": "rimraf docs/dist && yarn site-prebuild && webpack --progress -p"
   }
 }

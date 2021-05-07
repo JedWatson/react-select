@@ -1,58 +1,26 @@
 import React, { Fragment } from 'react';
+
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
-import { PropTypes } from '@magical-types/macro';
-import SelectBase from '../../PropTypes/Select';
-import StateManagerProps from '../../PropTypes/stateManager';
-import AsyncProps from '../../PropTypes/Async';
-import CreatableProps from '../../PropTypes/Creatable';
 
-import ClearIndicator from '../../PropTypes/components/ClearIndicator';
-import Control from '../../PropTypes/components/Control';
-import DropdownIndicator from '../../PropTypes/components/DropdownIndicator';
-import Group from '../../PropTypes/components/Group';
-import IndicatorsContainer from '../../PropTypes/components/IndicatorsContainer';
-import IndicatorsSeparator from '../../PropTypes/components/IndicatorsSeparator';
-import Input from '../../PropTypes/components/Input';
-import LoadingIndicator from '../../PropTypes/components/LoadingIndicator';
-import Menu from '../../PropTypes/components/Menu';
-import MenuList from '../../PropTypes/components/MenuList';
-import LoadingMessage from '../../PropTypes/components/LoadingMessage';
-import NoOptionsMessage from '../../PropTypes/components/NoOptionsMessage';
-import MultiValue from '../../PropTypes/components/MultiValue';
-import MultiValueContainer from '../../PropTypes/components/MultiValueContainer';
-import MultiValueLabel from '../../PropTypes/components/MultiValueLabel';
-import MultiValueRemove from '../../PropTypes/components/MultiValueRemove';
-import Option from '../../PropTypes/components/Option';
-import Placeholder from '../../PropTypes/components/Placeholder';
-import SelectContainer from '../../PropTypes/components/SelectContainer';
-import SingleValue from '../../PropTypes/components/SingleValue';
-import ValueContainer from '../../PropTypes/components/ValueContainer';
+import { metadata, useMagicalNodes } from '../../components/types';
+import { PropTypes } from '@magical-types/pretty';
 
-// interface PropsProps {
-//   readonly overrides?: {
-//     readonly [key: string]: React.ComponentType<CommonProps>;
-//   };
-//   readonly props: {
-//     readonly component?: Obj | Inter;
-//   };
-// }
+type ShowTypesProps = {
+  getNode?: (index: any) => any;
+  index: any;
+};
 
-// const Props = (props: PropsProps) => (
-//   <PrettyProps
-//     heading=""
-//     components={{
-//       Button: ({ isCollapsed, ...rest }) => (
-//         <button {...rest}>
-//           {isCollapsed ? 'Hide Prop Shape' : 'Show Prop Shape'}
-//         </button>
-//       ),
-//     }}
-//     {...props}
-//   />
-// );
+const ShowTypes = ({ getNode, index }: ShowTypesProps) => {
+  if (!getNode) return <span>loading</span>;
+  return <PropTypes node={getNode(index)} />;
+};
 
 export default function Api() {
+  const getNode = useMagicalNodes();
+  const selectTypes = metadata['react-select'];
+  const asyncTypes = metadata['Async'];
+  const creatableTypes = metadata['Creatable'];
   return (
     <Fragment>
       <Helmet>
@@ -108,27 +76,48 @@ export default function Api() {
     expose inputValue and value as controllable props. For more detailed information on these props and their usage
     please see the [controlled props](/advanced#controlled-props) section of the advanced page.
 
-    ${(<PropTypes component={StateManagerProps} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['SelectInstance'].index}
+      />
+    )}
 
     ## Select Props
 
     These base props are those available to be passed to all select variants.
 
-    ${(<PropTypes component={SelectBase} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['SelectInstance'].index}
+      />
+    )}
 
     ## Async props
 
     These props are included with in both the Async and AsyncCreatable select. For
     more on using async selects, see the [async select documentation](/async)
 
-    ${(<PropTypes component={AsyncProps} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={asyncTypes['AsyncAdditionalProps'].index}
+      />
+    )}
 
     ## Creatable props
+
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={creatableTypes['CreatableAdditionalProps'].index}
+      />
+    )}
 
     These props are included with in both the Creatable and AsyncCreatable select. For
     more on using creatable selects, see the [creatable select documentation](/creatable)
 
-    ${(<PropTypes component={CreatableProps} />)}
 
     ## Replacing Components
 
@@ -163,19 +152,30 @@ export default function Api() {
 
     ### ClearIndicator
 
-    ${(<PropTypes component={ClearIndicator} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['ClearIndicatorProps'].index}
+      />
+    )}
 
     ### Control
 
-    ${(<PropTypes component={Control} />)}
-
+    ${(
+      <ShowTypes getNode={getNode} index={selectTypes['ControlProps'].index} />
+    )}
     ### DropdownIndicator
 
-    ${(<PropTypes component={DropdownIndicator} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['DropdownIndicatorProps'].index}
+      />
+    )}
 
     ### Group
 
-    ${(<PropTypes component={Group} />)}
+    ${(<ShowTypes getNode={getNode} index={selectTypes['GroupProps'].index} />)}
 
     ### GroupHeading
 
@@ -183,72 +183,137 @@ export default function Api() {
 
     ### IndicatorsContainer
 
-    ${(<PropTypes component={IndicatorsContainer} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['IndicatorsContainerProps'].index}
+      />
+    )}
 
     ### IndicatorSeparator
 
-    ${(<PropTypes component={IndicatorsSeparator} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['IndicatorSeparatorProps'].index}
+      />
+    )}
 
     ### Input
 
-    ${(<PropTypes component={Input} />)}
+    ${(<ShowTypes getNode={getNode} index={selectTypes['InputProps'].index} />)}
 
     ### LoadingIndicator
 
-    ${(<PropTypes component={LoadingIndicator} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['LoadingIndicatorProps'].index}
+      />
+    )}
 
     ### Menu
 
-    ${(<PropTypes component={Menu} />)}
+    ${(<ShowTypes getNode={getNode} index={selectTypes['MenuProps'].index} />)}
 
     ### MenuList
 
-    ${(<PropTypes component={MenuList} />)}
+    ${(
+      <ShowTypes getNode={getNode} index={selectTypes['MenuListProps'].index} />
+    )}
 
     ### LoadingMessage
 
-    ${(<PropTypes component={LoadingMessage} />)}
+    ${(
+      <ShowTypes getNode={getNode} index={selectTypes['NoticeProps'].index} />
+    )}
 
     ### NoOptionsMessage
 
-    ${(<PropTypes component={NoOptionsMessage} />)}
+    ${(
+      <ShowTypes getNode={getNode} index={selectTypes['NoticeProps'].index} />
+    )}
 
     ### MultiValue
 
-    ${(<PropTypes component={MultiValue} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['MultiValueProps'].index}
+      />
+    )}
 
     ### MultiValueContainer
 
-    ${(<PropTypes component={MultiValueContainer} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['MultiValueGenericProps'].index}
+      />
+    )}
 
     ### MultiValueLabel
 
-    ${(<PropTypes component={MultiValueLabel} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['MultiValueGenericProps'].index}
+      />
+    )}
 
     ### MultiValueRemove
 
-    ${(<PropTypes component={MultiValueRemove} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['MultiValueRemoveProps'].index}
+      />
+    )}
 
     ### Option
 
-    ${(<PropTypes component={Option} />)}
+    ${(
+      <ShowTypes getNode={getNode} index={selectTypes['OptionProps'].index} />
+    )}
 
     ### Placeholder
 
-    ${(<PropTypes component={Placeholder} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['PlaceholderProps'].index}
+      />
+    )}
 
     ### SelectContainer
 
-    ${(<PropTypes component={SelectContainer} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['ContainerProps'].index}
+      />
+    )}
 
     ### SingleValue
 
-    ${(<PropTypes component={SingleValue} />)}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['SingleValueProps'].index}
+      />
+    )}
 
     ### ValueContainer
 
-    ${(<PropTypes component={ValueContainer} />)}
-      `}
+    ${(
+      <ShowTypes
+        getNode={getNode}
+        index={selectTypes['ValueContainerProps'].index}
+      />
+    )}
+
+
+        `}
     </Fragment>
   );
 }

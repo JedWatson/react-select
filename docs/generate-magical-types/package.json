@@ -1,0 +1,20 @@
+{
+  "name": "@react-select/generate-magical-types",
+  "main": "dist/generate-magical-types.cjs.js",
+  "//": "these deps aren't real, they're just to appease preconstruct",
+  "dependencies": {
+    "@babel/runtime": "*",
+    "@magical-types/convert-type": "*",
+    "@magical-types/serialization": "*",
+    "ts-morph": "*",
+    "fs-extra": "*",
+    "flatted": "*"
+  },
+  "preconstruct": {
+    "entrypoints": [
+      "generate",
+      "serialize",
+      "types"
+    ]
+  }
+}

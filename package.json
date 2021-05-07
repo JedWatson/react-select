@@ -168,7 +168,8 @@
   ],
   "preconstruct": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "docs/generate-magical-types"
     ]
   },
   "browser": {

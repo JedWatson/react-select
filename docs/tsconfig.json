@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "commonjs",
     "jsx": "react",
     "noEmit": true,
@@ -10,3 +10,21 @@
     "resolveJsonModule": true
   }
 }
+
+// {
+//   "compilerOptions": {
+//     // "skipLibCheck": true,
+//     "target": "esnext" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */,
+//     "module": "esnext" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
+//     "jsx": "preserve" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
+//     "noEmit": true /* Do not emit outputs. */,
+//     "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
+//     "strict": true /* Enable all strict type-checking options. */,
+//     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
+//     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
+//     "resolveJsonModule": true,
+//     "typeRoots": [],
+//     "types": [],
+//     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
+//   }
+// }
