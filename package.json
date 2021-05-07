@@ -60,7 +60,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-macros": "^3.0.1",
     "bolt-check": "^0.3.0",
     "chroma-js": "^1.3.6",
     "chrono-node": "^2.1.11",

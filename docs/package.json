@@ -21,7 +21,6 @@
     "@emotion/babel-plugin": "^11.0.0",
     "@emotion/react": "^11.1.1",
     "@magical-types/convert-type": "^0.1.4",
-    "@magical-types/macro": "^0.6.3",
     "@magical-types/pretty": "^0.3.5",
     "@magical-types/serialization": "^0.2.1",
     "@magical-types/types": "^0.1.2",
