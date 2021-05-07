@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 
-import { metadata, useMagicalNodes } from '../../components/types';
+import { metadata, useMagicalNodes } from '../../utils';
 import { PropTypes } from '@magical-types/pretty';
 
 type ShowTypesProps = {

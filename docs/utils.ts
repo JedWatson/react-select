@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { MagicalNode, MagicalNodeIndex } from '@magical-types/types';
 import { deserialize } from '@magical-types/serialization/deserialize';
 
-import type { MagicalNodeMetadata } from '../generate-magical-types/src/types';
+import type { MagicalNodeMetadata } from './generate-magical-types/src/types';
 // @ts-ignore
-import manifest from '../magical-types/magical-types-manifest.json';
+import manifest from './magical-types/magical-types-manifest.json';
 
 let getNode: ((index: MagicalNodeIndex) => MagicalNode) | undefined;
 
