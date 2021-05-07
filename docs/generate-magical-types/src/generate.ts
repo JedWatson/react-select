@@ -6,8 +6,6 @@ import * as flatted from 'flatted';
 import { Project } from 'ts-morph';
 import { MagicalNode } from '@magical-types/types';
 import { convertType, getPropTypesType } from '@magical-types/convert-type';
-// import { AsyncProps } from '../../PropTypes/Async';
-// import { CreatableProps } from '../../PropTypes/Creatable';
 
 type MagicalNodesForPackage = Record<
   string,
@@ -62,7 +60,7 @@ const resolveTypes = ({
         node: convertType(type, []),
         type: typeKind,
       };
-      console.log(`converted`);
+      console.log('converted');
     }
   }
 };

@@ -1,6 +1,0 @@
-{
-  "main": "dist/generate-magical-types.cjs.js",
-  "preconstruct": {
-    "source": "../src/types"
-  }
-}

@@ -2,18 +2,7 @@ import { useEffect, useState } from 'react';
 import { MagicalNode, MagicalNodeIndex } from '@magical-types/types';
 import { deserialize } from '@magical-types/serialization/deserialize';
 
-export type MagicalNodeMetadata = Record<
-  string,
-  Record<string, { type: 'component' | 'other'; index: MagicalNodeIndex }>
->;
-
-export type MagicalNodesForPackage = Record<
-  string,
-  { type: 'component' | 'other'; node: MagicalNode }
->;
-
-export type MagicalNodes = Record<string, MagicalNodesForPackage>;
-
+import type { MagicalNodeMetadata } from '../generate-magical-types/src/types';
 // @ts-ignore
 import manifest from '../magical-types/magical-types-manifest.json';
 

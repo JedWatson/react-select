@@ -3,26 +3,13 @@ import path from 'path';
 // @ts-ignore
 import fs from 'fs-extra';
 import * as flatted from 'flatted';
+import { MagicalNode } from '@magical-types/types';
 import {
   chunkNodes,
   serializeNodes,
 } from '@magical-types/serialization/serialize';
 
-// import { MagicalNodeMetadata, MagicalNodes } from './types';
-
-import { MagicalNode, MagicalNodeIndex } from '@magical-types/types';
-
-export type MagicalNodeMetadata = Record<
-  string,
-  Record<string, { type: 'component' | 'other'; index: MagicalNodeIndex }>
->;
-
-export type MagicalNodesForPackage = Record<
-  string,
-  { type: 'component' | 'other'; node: MagicalNode }
->;
-
-export type MagicalNodes = Record<string, MagicalNodesForPackage>;
+import { MagicalNodeMetadata, MagicalNodes } from './types';
 
 const allTypes: MagicalNodes = flatted.parse(
   fs.readFileSync(
@@ -31,15 +18,11 @@ const allTypes: MagicalNodes = flatted.parse(
   )
 );
 
-const staticDir = path.resolve(__dirname, '..', '..', 'magical-types');
+const magicalTypesDir = path.resolve(__dirname, '..', '..', 'magical-types');
 
-// this is where gatsby copies the static directory to
-// it doesn't clear it though, so this prevents it from growing forever
-// fs.removeSync(path.resolve(__dirname, '..', '..', 'public', 'magical-types'));
+fs.removeSync(magicalTypesDir);
 
-fs.removeSync(staticDir);
-
-fs.ensureDirSync(staticDir);
+fs.ensureDirSync(magicalTypesDir);
 
 let rootNodes: MagicalNode[] = [];
 
@@ -59,7 +42,7 @@ console.log('done');
 
 let outputPaths = chunkedNodes.map((x, index) =>
   path.join(
-    staticDir,
+    magicalTypesDir,
     `magical-types-${index}-${Math.random().toString(36)}.json`
   )
 );
@@ -67,7 +50,10 @@ let outputPaths = chunkedNodes.map((x, index) =>
 let outputUrlSegments = outputPaths.map(
   (filepath) => `/magical-types/${path.basename(filepath)}`
 );
-let manifestOutputPath = path.resolve(staticDir, `magical-types-manifest.json`);
+let manifestOutputPath = path.resolve(
+  magicalTypesDir,
+  'magical-types-manifest.json'
+);
 
 const metadataWithIndexes: MagicalNodeMetadata = {};
 
@@ -86,7 +72,7 @@ for (const pkgName in allTypes) {
 }
 
 (async () => {
-  console.log(`writing output`);
+  console.log('writing output');
   await Promise.all([
     fs.writeFile(
       manifestOutputPath,

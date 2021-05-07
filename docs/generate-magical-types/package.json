@@ -13,8 +13,7 @@
   "preconstruct": {
     "entrypoints": [
       "generate",
-      "serialize",
-      "types"
+      "serialize"
     ]
   }
 }
