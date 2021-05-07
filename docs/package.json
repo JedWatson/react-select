@@ -77,6 +77,7 @@
   "scripts": {
     "site-prebuild": "node ./generate-magical-types/generate && node ./generate-magical-types/serialize",
     "start": "yarn site-prebuild && webpack-dev-server --progress",
+    "start:test": "webpack-dev-server --progress",
     "build:docs": "rimraf docs/dist && yarn site-prebuild && webpack --progress -p"
   }
 }
