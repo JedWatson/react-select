@@ -45,7 +45,6 @@ const resolveTypes = ({
 }) => {
   let exportedDeclarations = sourceFile.getExportedDeclarations();
   for (const [exportName, declaration] of exportedDeclarations) {
-    if (item === 'icon' && exportName !== 'IconProps') continue;
     if (declaration.length) {
       let type = declaration[0].getType().compilerType;
       let typeKind: 'component' | 'other' = 'other';
