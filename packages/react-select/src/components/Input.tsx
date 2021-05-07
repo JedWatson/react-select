@@ -70,7 +70,10 @@ const Input = <
   );
 
   return (
-    <div css={getStyles('input', props)}>
+    <div
+      css={getStyles('input', props)}
+      className={cx({ 'input-container': true }, className)}
+    >
       <AutosizeInput
         className={cx({ input: true }, className)}
         inputRef={innerRef}
