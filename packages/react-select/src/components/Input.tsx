@@ -76,7 +76,6 @@ const Input = <
         inputRef={innerRef}
         inputStyle={inputStyle(isHidden)}
         disabled={isDisabled}
-        value="test"
         {...innerProps}
       />
     </div>
