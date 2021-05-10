@@ -117,7 +117,7 @@
     "coveralls": "cat coverage/lcov.info | coveralls",
     "prettify": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "cd docs && yarn start",
     "start:test": "cd docs && yarn start:test",
     "build:docs": "cd docs && yarn build:docs",
