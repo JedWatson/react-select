@@ -2,8 +2,13 @@ import { MagicalNode, MagicalNodeIndex } from '@magical-types/types';
 
 export type MagicalNodeMetadata = Record<
   string,
-  Record<string, { type: 'component' | 'other'; index: MagicalNodeIndex }>
+  Record<string, MagicalNodeRecord>
 >;
+
+export type MagicalNodeRecord = {
+  type: 'component' | 'other';
+  index: MagicalNodeIndex;
+};
 
 export type MagicalNodesForPackage = Record<
   string,

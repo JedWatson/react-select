@@ -6,7 +6,11 @@ import type { MagicalNodeMetadata } from './generate-magical-types/src/types';
 // @ts-ignore
 import manifest from './magical-types/magical-types-manifest.json';
 
-let getNode: ((index: MagicalNodeIndex) => MagicalNode) | undefined;
+export type getNodeType =
+  | ((index: MagicalNodeIndex) => MagicalNode)
+  | undefined;
+
+let getNode: getNodeType;
 
 export const metadata: MagicalNodeMetadata = (manifest as any).types;
 

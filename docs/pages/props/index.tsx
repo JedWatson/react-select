@@ -1,20 +1,22 @@
 import React, { Fragment } from 'react';
 
 import { Helmet } from 'react-helmet';
+import type { MagicalNodeRecord } from '../../generate-magical-types/src/types';
 import md from '../../markdown/renderer';
 
-import { metadata, useMagicalNodes } from '../../utils';
+import { metadata, useMagicalNodes, getNodeType } from '../../utils';
 import { PropTypes } from '@magical-types/pretty';
 
 type ShowTypesProps = {
-  getNode?: (index: any) => any;
-  type?: any;
+  getNode?: getNodeType;
+  type?: MagicalNodeRecord;
 };
 
 const ShowTypes = ({ getNode, type }: ShowTypesProps) => {
-  if (!type) return null;
+  if (!type || !type.index) return null;
   if (!getNode) return <span>loading</span>;
-  return <PropTypes node={getNode(type)} />;
+
+  return <PropTypes node={getNode(type.index)} />;
 };
 
 export default function Api() {
