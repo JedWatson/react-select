@@ -8,19 +8,19 @@ import { PropTypes } from '@magical-types/pretty';
 
 type ShowTypesProps = {
   getNode?: (index: any) => any;
-  index: any;
+  type?: any;
 };
 
-const ShowTypes = ({ getNode, index }: ShowTypesProps) => {
+const ShowTypes = ({ getNode, type }: ShowTypesProps) => {
+  if (!type) return null;
   if (!getNode) return <span>loading</span>;
-  return <PropTypes node={getNode(index)} />;
+  return <PropTypes node={getNode(type)} />;
 };
 
 export default function Api() {
   const getNode = useMagicalNodes();
   const stateManagerTypes = metadata['stateManager'];
   const selectTypes = metadata['react-select'];
-  console.log(selectTypes);
   const asyncTypes = metadata['Async'];
   const creatableTypes = metadata['Creatable'];
   return (
@@ -81,7 +81,7 @@ export default function Api() {
     ${(
       <ShowTypes
         getNode={getNode}
-        index={stateManagerTypes['StateManagerProps'].index}
+        type={stateManagerTypes?.StateManagerProps}
       />
     )}
 
@@ -89,26 +89,21 @@ export default function Api() {
 
     These base props are those available to be passed to all select variants.
 
-    ${(<ShowTypes getNode={getNode} index={selectTypes['Props'].index} />)}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.Props} />)}
 
     ## Async props
 
     These props are included with in both the Async and AsyncCreatable select. For
     more on using async selects, see the [async select documentation](/async)
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={asyncTypes['AsyncAdditionalProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={asyncTypes?.AsyncAdditionalProps} />)}
 
     ## Creatable props
 
     ${(
       <ShowTypes
         getNode={getNode}
-        index={creatableTypes['CreatableAdditionalProps'].index}
+        type={creatableTypes?.CreatableAdditionalProps}
       />
     )}
 
@@ -149,30 +144,20 @@ export default function Api() {
 
     ### ClearIndicator
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['ClearIndicatorProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.ClearIndicatorProps} />)}
 
     ### Control
 
-    ${(
-      <ShowTypes getNode={getNode} index={selectTypes['ControlProps'].index} />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.ControlProps} />)}
     ### DropdownIndicator
 
     ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['DropdownIndicatorProps'].index}
-      />
+      <ShowTypes getNode={getNode} type={selectTypes?.DropdownIndicatorProps} />
     )}
 
     ### Group
 
-    ${(<ShowTypes getNode={getNode} index={selectTypes['GroupProps'].index} />)}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.GroupProps} />)}
 
     ### GroupHeading
 
@@ -183,7 +168,7 @@ export default function Api() {
     ${(
       <ShowTypes
         getNode={getNode}
-        index={selectTypes['IndicatorsContainerProps'].index}
+        type={selectTypes?.IndicatorsContainerProps}
       />
     )}
 
@@ -192,122 +177,77 @@ export default function Api() {
     ${(
       <ShowTypes
         getNode={getNode}
-        index={selectTypes['IndicatorSeparatorProps'].index}
+        type={selectTypes?.IndicatorSeparatorProps}
       />
     )}
 
     ### Input
 
-    ${(<ShowTypes getNode={getNode} index={selectTypes['InputProps'].index} />)}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.InputProps} />)}
 
     ### LoadingIndicator
 
     ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['LoadingIndicatorProps'].index}
-      />
+      <ShowTypes getNode={getNode} type={selectTypes?.LoadingIndicatorProps} />
     )}
 
     ### Menu
 
-    ${(<ShowTypes getNode={getNode} index={selectTypes['MenuProps'].index} />)}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.MenuProps} />)}
 
     ### MenuList
 
-    ${(
-      <ShowTypes getNode={getNode} index={selectTypes['MenuListProps'].index} />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.MenuListProps} />)}
 
     ### LoadingMessage
 
-    ${(
-      <ShowTypes getNode={getNode} index={selectTypes['NoticeProps'].index} />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.NoticeProps} />)}
 
     ### NoOptionsMessage
 
-    ${(
-      <ShowTypes getNode={getNode} index={selectTypes['NoticeProps'].index} />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.NoticeProps} />)}
 
     ### MultiValue
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['MultiValueProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.MultiValueProps} />)}
 
     ### MultiValueContainer
 
     ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['MultiValueGenericProps'].index}
-      />
+      <ShowTypes getNode={getNode} type={selectTypes?.MultiValueGenericProps} />
     )}
 
     ### MultiValueLabel
 
     ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['MultiValueGenericProps'].index}
-      />
+      <ShowTypes getNode={getNode} type={selectTypes?.MultiValueGenericProps} />
     )}
 
     ### MultiValueRemove
 
     ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['MultiValueRemoveProps'].index}
-      />
+      <ShowTypes getNode={getNode} type={selectTypes?.MultiValueRemoveProps} />
     )}
 
     ### Option
 
-    ${(
-      <ShowTypes getNode={getNode} index={selectTypes['OptionProps'].index} />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.OptionProps} />)}
 
     ### Placeholder
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['PlaceholderProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.PlaceholderProps} />)}
 
     ### SelectContainer
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['ContainerProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.ContainerProps} />)}
 
     ### SingleValue
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['SingleValueProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.SingleValueProps} />)}
 
     ### ValueContainer
 
-    ${(
-      <ShowTypes
-        getNode={getNode}
-        index={selectTypes['ValueContainerProps'].index}
-      />
-    )}
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.ValueContainerProps} />)}
 
 
         `}
