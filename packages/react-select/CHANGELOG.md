@@ -1,5 +1,11 @@
 # react-select
 
+## 4.3.1
+
+### Patch Changes
+
+- [2c915d10](https://github.com/JedWatson/react-select/commit/2c915d10b5ce7b7f48aa0903fa838f9c294c434d) [#4577](https://github.com/JedWatson/react-select/pull/4577) - Bump @emotion/cache to v11.4.0 which fixes an issue where different versions of Emotion running at the same time causes styles to disappear in production.
+
 ## 4.3.0
 
 ### Minor Changes
