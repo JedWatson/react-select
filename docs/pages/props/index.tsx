@@ -25,6 +25,7 @@ export default function Api() {
   const selectTypes = metadata['react-select'];
   const asyncTypes = metadata['Async'];
   const creatableTypes = metadata['Creatable'];
+  console.log(stateManagerTypes);
   return (
     <Fragment>
       <Helmet>
@@ -83,7 +84,7 @@ export default function Api() {
     ${(
       <ShowTypes
         getNode={getNode}
-        type={stateManagerTypes?.StateManagerProps}
+        type={stateManagerTypes?.StateManagerAdditionalProps}
       />
     )}
 
