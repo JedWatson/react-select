@@ -118,7 +118,7 @@
     "coveralls": "cat coverage/lcov.info | coveralls",
     "prettify": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "cd docs && yarn start",
     "build:docs": "cd docs && yarn build:docs",
     "fresh": "rm -rf node_modules && yarn install",
