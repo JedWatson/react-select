@@ -1367,6 +1367,7 @@ export default class Select<
       onKeyDown,
       tabSelectsValue,
       openMenuOnFocus,
+      controlShouldRenderValue,
     } = this.props;
     const { focusedOption, focusedValue, selectValue } = this.state;
 
@@ -1383,11 +1384,11 @@ export default class Select<
     this.blockOptionHover = true;
     switch (event.key) {
       case 'ArrowLeft':
-        if (!isMulti || inputValue) return;
+        if (!isMulti || inputValue || !controlShouldRenderValue) return;
         this.focusValue('previous');
         break;
       case 'ArrowRight':
-        if (!isMulti || inputValue) return;
+        if (!isMulti || inputValue || !controlShouldRenderValue) return;
         this.focusValue('next');
         break;
       case 'Delete':
