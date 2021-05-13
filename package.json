@@ -62,7 +62,7 @@
     "babel-loader": "^8.0.0",
     "bolt-check": "^0.3.0",
     "chroma-js": "^1.3.6",
-    "chrono-node": "^2.1.11",
+    "chrono-node": "^2.2.4",
     "codesandboxer": "^0.1.1",
     "concurrently": "^3.5.1",
     "copy-webpack-plugin": "^5.0.3",

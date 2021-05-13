@@ -4523,10 +4523,10 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
-chrono-node@^2.1.11:
-  version "2.1.11"
-  resolved "https://registry.yarnpkg.com/chrono-node/-/chrono-node-2.1.11.tgz#abe0dd2e8c320e50eb98310c5a5892b08a09e21f"
-  integrity sha512-hwCQZK+dcOVJAPBk2qIOIhlgG+ik89S241JeajkEGx+HxRKwo65yim22IOu8OSj13lJPc2wIazjzsOR/XsV1IQ==
+chrono-node@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/chrono-node/-/chrono-node-2.2.4.tgz#0fa169e1d158935bb1d541010046f6107576347d"
+  integrity sha512-58ERHGfWtWzBxckF9ZyFuwJjcreLDr7C79lHEynSqZ7J8y1JfMa8ok1TvCCf/TOZmkGME1ZSaEEb0DqqWaNFHg==
   dependencies:
     dayjs "^1.10.0"
 
@@ -14699,10 +14699,8 @@ watchpack@^1.7.4:
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-1.7.5.tgz#1267e6c55e0b9b5be44c2023aed5437a2c26c453"
   integrity sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==
   dependencies:
-    chokidar "^3.4.1"
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
-    watchpack-chokidar2 "^2.0.1"
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.1"
