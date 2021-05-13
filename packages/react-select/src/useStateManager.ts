@@ -25,7 +25,7 @@ type SelectPropsWithOptionalStateManagedProps<
 > = Omit<PublicBaseSelectProps<Option, IsMulti, Group>, StateManagedPropKeys> &
   Partial<PublicBaseSelectProps<Option, IsMulti, Group>>;
 
-interface StateMangerAdditionalProps<Option extends OptionBase> {
+export interface StateManagerAdditionalProps<Option extends OptionBase> {
   defaultInputValue?: string;
   defaultMenuIsOpen?: boolean;
   defaultValue?: PropsValue<Option>;
@@ -36,7 +36,7 @@ export type StateManagerProps<
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = SelectPropsWithOptionalStateManagedProps<Option, IsMulti, Group> &
-  StateMangerAdditionalProps<Option>;
+  StateManagerAdditionalProps<Option>;
 
 export default function useStateManager<
   Option extends OptionBase,
@@ -59,7 +59,7 @@ export default function useStateManager<
   AdditionalProps): PublicBaseSelectProps<Option, IsMulti, Group> &
   Omit<
     AdditionalProps,
-    keyof StateMangerAdditionalProps<Option> | StateManagedPropKeys
+    keyof StateManagerAdditionalProps<Option> | StateManagedPropKeys
   > {
   const [stateInputValue, setStateInputValue] = useState(
     propsInputValue !== undefined ? propsInputValue : defaultInputValue

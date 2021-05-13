@@ -10,6 +10,7 @@ class HeadingStore {
   headings: { [key: string]: Data[] } = {};
 
   add(key: string, data: Data) {
+    console.log('add being called with', data.label);
     if (!this.headings[location.pathname]) {
       this.headings[location.pathname] = [];
     }
