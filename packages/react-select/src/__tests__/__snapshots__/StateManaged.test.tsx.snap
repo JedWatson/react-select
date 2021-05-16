@@ -89,6 +89,8 @@ exports[`defaults > snapshot 1`] = `
 }
 
 .emotion-5 {
+  border-top: 0;
+  border-bottom: 0;
   margin: 2px;
   padding-bottom: 2px;
   padding-top: 2px;
@@ -175,7 +177,7 @@ exports[`defaults > snapshot 1`] = `
           class="emotion-5"
         >
           <div
-            class=""
+            class="search-in-input"
             style="display: inline-block;"
           >
             <input

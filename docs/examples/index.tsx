@@ -42,6 +42,7 @@ export { default as CustomIsOptionDisabled } from './CustomIsOptionDisabled';
 export { default as DefaultOptions } from './DefaultOptions';
 export { default as Experimental } from './Experimental';
 export { default as FixedOptions } from './FixedOptions';
+export { default as SearchInMenu } from './SearchInMenu';
 export { default as MultiSelectSort } from './MultiSelectSort';
 export { default as Popout } from './Popout';
 export { default as StyledMulti } from './StyledMulti';

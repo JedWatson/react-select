@@ -45,6 +45,7 @@ interface PlacementArgs {
   menuEl: HTMLDivElement | null;
   minHeight: number;
   placement: MenuPlacement;
+  searchInMenu?: boolean;
   shouldScroll: boolean;
   isFixedPosition: boolean;
   theme: Theme;
@@ -55,6 +56,7 @@ export function getMenuPlacement({
   menuEl,
   minHeight,
   placement,
+  searchInMenu,
   shouldScroll,
   isFixedPosition,
   theme,
@@ -75,12 +77,18 @@ export function getMenuPlacement({
     top: menuTop,
   } = menuEl.getBoundingClientRect();
 
+  const searchHeight = searchInMenu
+    ? menuEl.querySelector('.search-in-menu')?.parentElement?.offsetHeight || 0
+    : 0;
+
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
   const viewHeight = window.innerHeight;
   const scrollTop = getScrollTop(scrollParent);
 
-  const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
-  const marginTop = parseInt(getComputedStyle(menuEl).marginTop, 10);
+  const marginBottom =
+    parseInt(getComputedStyle(menuEl).marginBottom, 10) + searchHeight;
+  const marginTop =
+    parseInt(getComputedStyle(menuEl).marginTop, 10) + searchHeight;
   const viewSpaceAbove = containerTop - marginTop;
   const viewSpaceBelow = viewHeight - menuTop;
   const scrollSpaceAbove = viewSpaceAbove + scrollTop;
@@ -257,6 +265,8 @@ export interface MenuPlacerProps<
     MenuPlacementProps {
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactNode;
+  /** The input is rendered in the menu */
+  searchInMenu?: boolean;
 }
 
 function alignToControl(placement: CoercedMenuPlacement) {
@@ -309,6 +319,7 @@ export class MenuPlacer<
       menuPlacement,
       menuPosition,
       menuShouldScrollIntoView,
+      searchInMenu,
       theme,
     } = this.props;
 
@@ -323,6 +334,7 @@ export class MenuPlacer<
       menuEl: ref,
       minHeight: minMenuHeight,
       placement: menuPlacement,
+      searchInMenu,
       shouldScroll,
       isFixedPosition,
       theme,

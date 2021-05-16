@@ -10,6 +10,7 @@ import {
   BasicMulti,
   CreatableSingle,
   FixedOptions,
+  SearchInMenu,
   StyledMulti,
   StyledSingle,
 } from '../../examples';
@@ -193,6 +194,20 @@ export default function Home() {
       raw={require('!!raw-loader!../../examples/FixedOptions.tsx')}
     >
       <FixedOptions />
+    </ExampleWrapper>
+  )}
+
+  # Search in menu
+
+  The search input is placed in the menu along with the options instead of in the input.
+
+  ${(
+    <ExampleWrapper
+      label="Search in menu"
+      urlPath="docs/home/examples/SearchInMenu.tsx"
+      raw={require('!!raw-loader!../../examples/SearchInMenu.tsx')}
+    >
+      <SearchInMenu />
     </ExampleWrapper>
   )}
 `;
