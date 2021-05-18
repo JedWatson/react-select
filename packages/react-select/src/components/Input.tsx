@@ -23,6 +23,10 @@ export interface InputSpecificProps<
   isDisabled?: boolean;
   /** The ID of the form that the input belongs to */
   form?: string;
+  /** The input is rendered in the menu */
+  searchInMenu?: boolean;
+  /** The menu is placed either at the top or at the bottom */
+  menuPlacement?: string;
 }
 
 export type InputProps<
@@ -38,22 +42,38 @@ export const inputCSS = <
   Group extends GroupBase<Option>
 >({
   isDisabled,
+  searchInMenu,
+  menuPlacement,
   theme: { spacing, colors },
 }: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  margin: spacing.baseUnit / 2,
-  paddingBottom: spacing.baseUnit / 2,
-  paddingTop: spacing.baseUnit / 2,
+  borderTop:
+    searchInMenu && menuPlacement === 'top'
+      ? '1px solid hsla(0, 0%, 0%, 0.1)'
+      : 0,
+  borderBottom:
+    searchInMenu && menuPlacement === 'bottom'
+      ? '1px solid hsla(0, 0%, 0%, 0.1)'
+      : 0,
+  margin: searchInMenu ? `${spacing.baseUnit / 2}px 0` : spacing.baseUnit / 2,
+  paddingBottom: searchInMenu ? spacing.baseUnit : spacing.baseUnit / 2,
+  paddingTop: searchInMenu ? spacing.baseUnit : spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
 });
-const inputStyle = (isHidden: boolean) => ({
+const inputStyle = ({
+  isHidden,
+  searchInMenu,
+}: {
+  isHidden: boolean;
+  searchInMenu?: boolean;
+}) => ({
   label: 'input',
   background: 0,
   border: 0,
   fontSize: 'inherit',
   opacity: isHidden ? 0 : 1,
   outline: 0,
-  padding: 0,
+  padding: searchInMenu ? '0 0 0 8px' : 0,
   color: 'inherit',
 });
 
@@ -65,16 +85,24 @@ const Input = <
   props: InputProps<Option, IsMulti, Group>
 ) => {
   const { className, cx, getStyles } = props;
-  const { innerRef, isDisabled, isHidden, ...innerProps } = cleanCommonProps(
-    props
-  );
+  const {
+    innerRef,
+    isDisabled,
+    isHidden,
+    searchInMenu,
+    menuPlacement,
+    ...innerProps
+  } = cleanCommonProps(props);
 
   return (
     <div css={getStyles('input', props)}>
       <AutosizeInput
-        className={cx({ input: true }, className)}
+        className={cx(
+          { input: true },
+          `${className || ''} search-in-${searchInMenu ? 'menu' : 'input'}`
+        )}
         inputRef={innerRef}
-        inputStyle={inputStyle(isHidden)}
+        inputStyle={inputStyle({ isHidden, searchInMenu })}
         disabled={isDisabled}
         {...innerProps}
       />

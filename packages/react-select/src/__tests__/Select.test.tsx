@@ -1887,6 +1887,32 @@ test('multi select > clicking on X next to option will call onChange with all op
   );
 });
 
+cases(
+  'searchInMenu prop',
+  ({ props = BASIC_PROPS }) => {
+    let { container, rerender } = render(<Select {...props} />);
+    expect(
+      container.querySelector('.react-select__menu .react-select__input')
+    ).toBeFalsy();
+    expect(container.querySelector('.search-in-menu')).toBeFalsy();
+
+    rerender(<Select {...props} searchInMenu menuIsOpen />);
+    expect(
+      container.querySelector('.react-select__menu .react-select__input')
+    ).toBeTruthy();
+    expect(container.querySelector('.search-in-menu')).toBeTruthy();
+  },
+  {
+    'single select > should show search input in menu if searchInMenu is true and hide search input in control if searchInMenu prop is false': {},
+    'multi select > should show search input in menu if searchInMenu is true and hide search input in control if searchInMenu prop is false': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+      },
+    },
+  }
+);
+
 /**
  * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
  */

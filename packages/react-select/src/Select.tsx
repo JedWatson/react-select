@@ -245,6 +245,8 @@ export interface Props<
   placeholder: ReactNode;
   /** Status to relay to screen readers */
   screenReaderStatus: (obj: { count: number }) => string;
+  /* Search input is placed in the menu along with the options */
+  searchInMenu: boolean;
   /**
    * Style modifier methods
    *
@@ -299,6 +301,7 @@ export const defaultProps = {
   placeholder: 'Select...',
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
+  searchInMenu: false,
   styles: {},
   tabIndex: 0,
   tabSelectsValue: true,
@@ -1492,14 +1495,16 @@ export default class Select<
   // ==============================
   // Renderers
   // ==============================
-  renderInput() {
+  renderInput(inputInMenu: boolean, menuPlacement?: string) {
     const {
       isDisabled,
       isSearchable,
       inputId,
       inputValue,
+      menuIsOpen,
       tabIndex,
       form,
+      searchInMenu,
     } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
@@ -1514,8 +1519,9 @@ export default class Select<
       'aria-labelledby': this.props['aria-labelledby'],
     };
 
-    if (!isSearchable) {
-      // use a dummy input to maintain focus/blur functionality
+    // use a dummy input to maintain focus/blur functionality in case the real input is rendered
+    // in the menu or in case the select is not searchable
+    if (!inputInMenu && (!isSearchable || (searchInMenu && !menuIsOpen))) {
       return (
         <DummyInput
           id={id}
@@ -1539,10 +1545,12 @@ export default class Select<
         autoCapitalize="none"
         autoComplete="off"
         autoCorrect="off"
-        id={id}
+        id={`${id}${inputInMenu ? '-in-menu' : ''}`}
         innerRef={this.getInputRef}
+        searchInMenu={inputInMenu}
+        menuPlacement={menuPlacement}
         isDisabled={isDisabled}
-        isHidden={inputIsHidden}
+        isHidden={inputIsHidden || (!inputInMenu && searchInMenu && menuIsOpen)}
         onBlur={this.onInputBlur}
         onChange={this.handleInputChange}
         onFocus={this.onInputFocus}
@@ -1735,6 +1743,7 @@ export default class Select<
       captureMenuScroll,
       inputValue,
       isLoading,
+      isSearchable,
       loadingMessage,
       minMenuHeight,
       maxMenuHeight,
@@ -1747,6 +1756,7 @@ export default class Select<
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      searchInMenu,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1818,12 +1828,14 @@ export default class Select<
       });
     } else if (isLoading) {
       const message = loadingMessage({ inputValue });
-      if (message === null) return null;
-      menuUI = <LoadingMessage {...commonProps}>{message}</LoadingMessage>;
+      menuUI = message && (
+        <LoadingMessage {...commonProps}>{message}</LoadingMessage>
+      );
     } else {
       const message = noOptionsMessage({ inputValue });
-      if (message === null) return null;
-      menuUI = <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>;
+      menuUI = message && (
+        <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>
+      );
     }
     const menuPlacementProps = {
       minMenuHeight,
@@ -1831,45 +1843,53 @@ export default class Select<
       menuPlacement,
       menuPosition,
       menuShouldScrollIntoView,
+      searchInMenu,
     };
 
     const menuElement = (
       <MenuPlacer {...commonProps} {...menuPlacementProps}>
-        {({ ref, placerProps: { placement, maxHeight } }) => (
-          <Menu
-            {...commonProps}
-            {...menuPlacementProps}
-            innerRef={ref}
-            innerProps={{
-              onMouseDown: this.onMenuMouseDown,
-              onMouseMove: this.onMenuMouseMove,
-            }}
-            isLoading={isLoading}
-            placement={placement}
-          >
-            <ScrollManager
-              captureEnabled={captureMenuScroll}
-              onTopArrive={onMenuScrollToTop}
-              onBottomArrive={onMenuScrollToBottom}
-              lockEnabled={menuShouldBlockScroll}
+        {({ ref, placerProps: { placement, maxHeight } }) => {
+          const menuInput =
+            isSearchable && searchInMenu && this.renderInput(true, placement);
+
+          return (
+            <Menu
+              {...commonProps}
+              {...menuPlacementProps}
+              innerRef={ref}
+              innerProps={{
+                onMouseDown: this.onMenuMouseDown,
+                onMouseMove: this.onMenuMouseMove,
+              }}
+              isLoading={isLoading}
+              placement={placement}
             >
-              {(scrollTargetRef) => (
-                <MenuList
-                  {...commonProps}
-                  innerRef={(instance) => {
-                    this.getMenuListRef(instance);
-                    scrollTargetRef(instance);
-                  }}
-                  isLoading={isLoading}
-                  maxHeight={maxHeight}
-                  focusedOption={focusedOption}
-                >
-                  {menuUI}
-                </MenuList>
-              )}
-            </ScrollManager>
-          </Menu>
-        )}
+              {placement === 'bottom' && menuInput}
+              <ScrollManager
+                captureEnabled={captureMenuScroll}
+                onTopArrive={onMenuScrollToTop}
+                onBottomArrive={onMenuScrollToBottom}
+                lockEnabled={menuShouldBlockScroll}
+              >
+                {(scrollTargetRef) => (
+                  <MenuList
+                    {...commonProps}
+                    innerRef={(instance: HTMLDivElement): void => {
+                      this.getMenuListRef(instance);
+                      scrollTargetRef(instance);
+                    }}
+                    isLoading={isLoading}
+                    maxHeight={maxHeight}
+                    focusedOption={focusedOption}
+                  >
+                    {menuUI}
+                  </MenuList>
+                )}
+              </ScrollManager>
+              {placement === 'top' && menuInput}
+            </Menu>
+          );
+        }}
       </MenuPlacer>
     );
 
@@ -1987,7 +2007,7 @@ export default class Select<
         >
           <ValueContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderPlaceholderOrValue()}
-            {this.renderInput()}
+            {this.renderInput(false)}
           </ValueContainer>
           <IndicatorsContainer {...commonProps} isDisabled={isDisabled}>
             {this.renderClearIndicator()}
