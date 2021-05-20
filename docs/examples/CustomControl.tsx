@@ -11,7 +11,7 @@ const controlStyles = {
 
 const ControlComponent = (props: ControlProps<ColourOption, false>) => (
   <div style={controlStyles}>
-    {<p>Custom Control</p>}
+    <p>Custom Control</p>
     <components.Control {...props} />
   </div>
 );
