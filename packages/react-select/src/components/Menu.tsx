@@ -5,6 +5,7 @@ import {
   ReactNode,
   RefCallback,
   ContextType,
+  useState,
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
@@ -27,6 +28,7 @@ import {
   CoercedMenuPlacement,
   CSSObjectWithLabel,
 } from '../types';
+import { usePopper } from 'react-popper';
 
 // ==============================
 // Menu
@@ -536,10 +538,6 @@ export interface MenuPortalProps<
   menuPosition: MenuPosition;
 }
 
-interface MenuPortalState {
-  placement: 'bottom' | 'top' | null;
-}
-
 export interface PortalStyleArgs {
   offset: number;
   position: MenuPosition;
@@ -558,69 +556,79 @@ export const menuPortalCSS = ({
   zIndex: 1,
 });
 
-export class MenuPortal<
+export const MenuPortal = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends Component<MenuPortalProps<Option, IsMulti, Group>, MenuPortalState> {
-  state: MenuPortalState = { placement: null };
+>(
+  props: MenuPortalProps<Option, IsMulti, Group>
+) => {
+  const [placementState, setPlacement] = useState<'bottom' | 'top' | null>(
+    null
+  );
+
+  const [menuElement, setMenuElement] = useState<HTMLDivElement | null>(null);
 
   // callback for occassions where the menu must "flip"
-  getPortalPlacement = ({ placement }: MenuState) => {
-    const initialPlacement = coercePlacement(this.props.menuPlacement);
+  const getPortalPlacement = ({ placement }: MenuState) => {
+    const initialPlacement = coercePlacement(props.menuPlacement);
 
     // avoid re-renders if the placement has not changed
-    if (placement !== initialPlacement) {
-      this.setState({ placement });
+    if (placementState !== initialPlacement) {
+      setPlacement(placement);
     }
   };
-  render() {
-    const {
-      appendTo,
-      children,
-      className,
-      controlElement,
-      cx,
-      innerProps,
-      menuPlacement,
-      menuPosition: position,
-      getStyles,
-    } = this.props;
-    const isFixed = position === 'fixed';
 
-    // bail early if required elements aren't present
-    if ((!appendTo && !isFixed) || !controlElement) {
-      return null;
-    }
+  const {
+    appendTo,
+    children,
+    className,
+    controlElement,
+    cx,
+    innerProps,
+    menuPlacement,
+    menuPosition: position,
+    getStyles,
+  } = props;
+  const isFixed = position === 'fixed';
 
-    const placement = this.state.placement || coercePlacement(menuPlacement);
-    const rect = getBoundingClientObj(controlElement);
-    const scrollDistance = isFixed ? 0 : window.pageYOffset;
-    const offset = rect[placement] + scrollDistance;
-    const state = { offset, position, rect };
+  const { styles, attributes } = usePopper(controlElement, menuElement);
 
-    // same wrapper element whether fixed or portalled
-    const menuWrapper = (
-      <div
-        css={getStyles('menuPortal', state)}
-        className={cx(
-          {
-            'menu-portal': true,
-          },
-          className
-        )}
-        {...innerProps}
-      >
-        {children}
-      </div>
-    );
-
-    return (
-      <PortalPlacementContext.Provider
-        value={{ getPortalPlacement: this.getPortalPlacement }}
-      >
-        {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
-      </PortalPlacementContext.Provider>
-    );
+  // bail early if required elements aren't present
+  if ((!appendTo && !isFixed) || !controlElement) {
+    return null;
   }
-}
+
+  const placement = placementState || coercePlacement(menuPlacement);
+  const rect = getBoundingClientObj(controlElement);
+  const scrollDistance = isFixed ? 0 : window.pageYOffset;
+  const offset = rect[placement] + scrollDistance;
+  const state = { offset, position, rect };
+
+  // same wrapper element whether fixed or portalled
+  const menuWrapper = (
+    <div
+      css={getStyles('menuPortal', state)}
+      className={cx(
+        {
+          'menu-portal': true,
+        },
+        className
+      )}
+      {...innerProps}
+      ref={setMenuElement}
+      style={styles.popper}
+      {...attributes.popper}
+    >
+      {children}
+    </div>
+  );
+
+  return (
+    <PortalPlacementContext.Provider
+      value={{ getPortalPlacement: getPortalPlacement }}
+    >
+      {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
+    </PortalPlacementContext.Provider>
+  );
+};
