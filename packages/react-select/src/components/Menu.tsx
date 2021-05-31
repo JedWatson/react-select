@@ -12,8 +12,6 @@ import { createPortal } from 'react-dom';
 
 import {
   animatedScrollTo,
-  getBoundingClientObj,
-  RectType,
   getScrollParent,
   getScrollTop,
   scrollTo,
@@ -28,7 +26,7 @@ import {
   CoercedMenuPlacement,
   CSSObjectWithLabel,
 } from '../types';
-import { usePopper } from 'react-popper';
+import { Modifier, usePopper } from 'react-popper';
 
 // ==============================
 // Menu
@@ -538,23 +536,21 @@ export interface MenuPortalProps<
   menuPosition: MenuPosition;
 }
 
-export interface PortalStyleArgs {
-  offset: number;
-  position: MenuPosition;
-  rect: RectType;
-}
-
-export const menuPortalCSS = ({
-  rect,
-  offset,
-  position,
-}: PortalStyleArgs): CSSObjectWithLabel => ({
-  left: rect.left,
-  position: position,
-  top: offset,
-  width: rect.width,
-  zIndex: 1,
-});
+// Taken from https://popper.js.org/docs/v2/modifiers/community-modifiers/
+const sameWidth: Modifier<'sameWidth'> = {
+  name: 'sameWidth',
+  enabled: true,
+  phase: 'beforeWrite',
+  requires: ['computeStyles'],
+  fn: ({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  },
+  effect: ({ state }) => {
+    state.elements.popper.style.width = `${
+      (state.elements.reference as HTMLElement).offsetWidth
+    }px`;
+  },
+};
 
 export const MenuPortal = <
   Option,
@@ -586,29 +582,22 @@ export const MenuPortal = <
     controlElement,
     cx,
     innerProps,
-    menuPlacement,
     menuPosition: position,
-    getStyles,
   } = props;
   const isFixed = position === 'fixed';
 
-  const { styles, attributes } = usePopper(controlElement, menuElement);
+  const { styles, attributes } = usePopper(controlElement, menuElement, {
+    modifiers: [sameWidth],
+  });
 
   // bail early if required elements aren't present
   if ((!appendTo && !isFixed) || !controlElement) {
     return null;
   }
 
-  const placement = placementState || coercePlacement(menuPlacement);
-  const rect = getBoundingClientObj(controlElement);
-  const scrollDistance = isFixed ? 0 : window.pageYOffset;
-  const offset = rect[placement] + scrollDistance;
-  const state = { offset, position, rect };
-
   // same wrapper element whether fixed or portalled
   const menuWrapper = (
     <div
-      css={getStyles('menuPortal', state)}
       className={cx(
         {
           'menu-portal': true,
