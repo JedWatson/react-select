@@ -8,7 +8,6 @@ import React, {
   RefCallback,
   TouchEventHandler,
 } from 'react';
-import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
@@ -1901,44 +1900,39 @@ export default class Select<
     };
 
     const menuElement = (
-      <MenuPlacer {...commonProps} {...menuPlacementProps}>
-        {({ ref, placerProps: { placement, maxHeight } }) => (
-          <Menu
-            {...commonProps}
-            {...menuPlacementProps}
-            innerRef={ref}
-            innerProps={{
-              onMouseDown: this.onMenuMouseDown,
-              onMouseMove: this.onMenuMouseMove,
+      <Menu
+        {...commonProps}
+        {...menuPlacementProps}
+        innerProps={{
+          onMouseDown: this.onMenuMouseDown,
+          onMouseMove: this.onMenuMouseMove,
               id: this.getElementId('listbox'),
-            }}
-            isLoading={isLoading}
-            placement={placement}
-          >
-            <ScrollManager
-              captureEnabled={captureMenuScroll}
-              onTopArrive={onMenuScrollToTop}
-              onBottomArrive={onMenuScrollToBottom}
-              lockEnabled={menuShouldBlockScroll}
+        }}
+        isLoading={isLoading}
+        controlElement={this.controlRef}
+      >
+        <ScrollManager
+          captureEnabled={captureMenuScroll}
+          onTopArrive={onMenuScrollToTop}
+          onBottomArrive={onMenuScrollToBottom}
+          lockEnabled={menuShouldBlockScroll}
+        >
+          {(scrollTargetRef) => (
+            <MenuList
+              {...commonProps}
+              innerRef={(instance) => {
+                this.getMenuListRef(instance);
+                scrollTargetRef(instance);
+              }}
+              isLoading={isLoading}
+              maxHeight={maxMenuHeight}
+              focusedOption={focusedOption}
             >
-              {(scrollTargetRef) => (
-                <MenuList
-                  {...commonProps}
-                  innerRef={(instance) => {
-                    this.getMenuListRef(instance);
-                    scrollTargetRef(instance);
-                  }}
-                  isLoading={isLoading}
-                  maxHeight={maxHeight}
-                  focusedOption={focusedOption}
-                >
-                  {menuUI}
-                </MenuList>
-              )}
-            </ScrollManager>
-          </Menu>
-        )}
-      </MenuPlacer>
+              {menuUI}
+            </MenuList>
+          )}
+        </ScrollManager>
+      </Menu>
     );
 
     // positioning behaviour is almost identical for portalled and fixed,
