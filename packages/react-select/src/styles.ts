@@ -29,13 +29,11 @@ import { optionCSS, OptionProps } from './components/Option';
 import {
   menuCSS,
   menuListCSS,
-  menuPortalCSS,
   noOptionsMessageCSS,
   loadingMessageCSS,
   NoticeProps,
   MenuProps,
   MenuListProps,
-  PortalStyleArgs,
 } from './components/Menu';
 import {
   css as singleValueCSS,
@@ -67,7 +65,6 @@ export interface StylesProps<
   loadingMessage: NoticeProps<Option, IsMulti, Group>;
   menu: MenuProps<Option, IsMulti, Group>;
   menuList: MenuListProps<Option, IsMulti, Group>;
-  menuPortal: PortalStyleArgs;
   multiValue: MultiValueProps<Option, IsMulti, Group>;
   multiValueLabel: MultiValueProps<Option, IsMulti, Group>;
   multiValueRemove: MultiValueProps<Option, IsMulti, Group>;
@@ -121,7 +118,6 @@ export const defaultStyles: StylesFunctions<
   loadingMessage: loadingMessageCSS,
   menu: menuCSS,
   menuList: menuListCSS,
-  menuPortal: menuPortalCSS,
   multiValue: multiValueCSS,
   multiValueLabel: multiValueLabelCSS,
   multiValueRemove: multiValueRemoveCSS,
