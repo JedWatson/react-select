@@ -416,15 +416,8 @@ export const MenuList = <
 >(
   props: MenuListProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    innerRef,
-    isMulti,
-  } = props;
+  const { children, className, cx, getStyles, innerProps, innerRef, isMulti } =
+    props;
   return (
     <div
       css={getStyles('menuList', props)}

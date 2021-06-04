@@ -13,12 +13,10 @@ export type GuidanceContext = 'menu' | 'input' | 'value';
 
 export type AriaLive = 'polite' | 'off' | 'assertive';
 
-export type AriaSelection<
-  Option extends OptionBase,
-  IsMulti extends boolean
-> = ActionMeta<Option> & {
-  value: OnChangeValue<Option, IsMulti>;
-};
+export type AriaSelection<Option extends OptionBase, IsMulti extends boolean> =
+  ActionMeta<Option> & {
+    value: OnChangeValue<Option, IsMulti>;
+  };
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
@@ -100,13 +98,8 @@ export interface AriaLiveMessages<
 
 export const defaultAriaLiveMessages = {
   guidance: (props: AriaGuidanceProps) => {
-    const {
-      isSearchable,
-      isMulti,
-      isDisabled,
-      tabSelectsValue,
-      context,
-    } = props;
+    const { isSearchable, isMulti, isDisabled, tabSelectsValue, context } =
+      props;
     switch (context) {
       case 'menu':
         return `Use Up and Down to choose options${
