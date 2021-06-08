@@ -540,7 +540,7 @@ export interface MenuPortalProps<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
-  appendTo: HTMLElement | undefined;
+  appendTo?: HTMLElement;
   children: ReactNode; // ideally Menu<MenuProps>
   controlElement: HTMLDivElement | null;
   innerProps: JSX.IntrinsicElements['div'];

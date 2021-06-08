@@ -112,11 +112,11 @@ export interface CommonPropsAndClassName<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonProps<Option, IsMulti, Group> {
-  className?: string | undefined;
+  className?: string;
 }
 
 export interface ActionMetaBase<Option extends OptionBase> {
-  option?: Option | undefined;
+  option?: Option;
   removedValue?: Option;
   removedValues?: Options<Option>;
   name?: string;
@@ -125,14 +125,14 @@ export interface ActionMetaBase<Option extends OptionBase> {
 export interface SelectOptionActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'select-option';
-  option: Option | undefined;
+  option?: Option;
   name?: string;
 }
 
 export interface DeselectOptionActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'deselect-option';
-  option: Option | undefined;
+  option?: Option;
   name?: string;
 }
 

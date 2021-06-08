@@ -22,7 +22,7 @@ export type AriaSelection<
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
-  'aria-label': string | undefined;
+  'aria-label'?: string;
   /** String indicating user's current context and available keyboard interactivity */
   context: GuidanceContext;
   /** Boolean value of selectProp isSearchable */
