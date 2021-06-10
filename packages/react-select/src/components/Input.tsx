@@ -51,14 +51,14 @@ export const inputCSS = <
 });
 
 const spacingStyle = {
-  gridArea: '1 / 2' as const,
+  gridArea: '1 / 2',
   font: 'inherit',
   minWidth: '2px',
   border: 0,
   margin: 0,
   outline: 0,
   padding: 0,
-};
+} as const;
 
 const containerStyle = {
   flex: '1 1 auto',
@@ -66,12 +66,12 @@ const containerStyle = {
   gridTemplateColumns: '0 min-content',
 
   '&:after': {
-    content: 'attr(data-value) " "' as const,
-    visibility: 'hidden' as const,
-    whiteSpace: 'nowrap' as const,
+    content: 'attr(data-value) " "',
+    visibility: 'hidden',
+    whiteSpace: 'nowrap',
     ...spacingStyle,
   },
-};
+} as const;
 
 const inputStyle = (isHidden: boolean) => ({
   label: 'input',
