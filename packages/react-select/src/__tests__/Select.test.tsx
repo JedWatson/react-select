@@ -2372,7 +2372,7 @@ cases(
   }
 );
 
-test('renders a read only input when isSearchable is false', () => {
+test('sets inputMode="none" when isSearchable is false', () => {
   let { container } = render(
     <Select
       classNamePrefix="react-select"
@@ -2389,7 +2389,10 @@ test('renders a read only input when isSearchable is false', () => {
   let input = container.querySelector<HTMLInputElement>(
     '.react-select__value-container input'
   );
-  expect(input!.readOnly).toBe(true);
+  expect(input!.inputMode).toBe('none');
+  expect(
+    window.getComputedStyle(input!).getPropertyValue('caret-color')
+  ).toEqual('transparent');
 });
 
 cases(
