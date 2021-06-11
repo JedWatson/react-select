@@ -17,6 +17,8 @@ export default function DummyInput({
         // get rid of any default styles
         background: 0,
         border: 0,
+        // important! this hides the flashing cursor
+        caretColor: 'transparent',
         fontSize: 'inherit',
         outline: 0,
         padding: 0,
