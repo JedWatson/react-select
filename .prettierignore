@@ -1,1 +1,7 @@
-package.json
+coverage/*
+cypress/plugins/*
+cypress/support/*
+**/dist/*
+lib/*
+node_modules/*
+**/node_modules/*
