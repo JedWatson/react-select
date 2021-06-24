@@ -152,7 +152,7 @@ Check the docs for more information on:
 
 ## Typescript
 
-The v5 release represents a rewrite from JavaScript to Typescript.  The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). 
+The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select).
 
 # Thanks
 
