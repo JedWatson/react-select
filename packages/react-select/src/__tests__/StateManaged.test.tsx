@@ -138,14 +138,16 @@ cases<MenuToOpenByDefaultOpts>(
     expect(container.querySelector(menuClass)).toBeTruthy();
   },
   {
-    'single select > should keep Menu open by default if true is passed for menuIsOpen prop': {},
-    'multi select > should keep Menu open by default if true is passed for menuIsOpen prop': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
-        menuIsOpen: true,
+    'single select > should keep Menu open by default if true is passed for menuIsOpen prop':
+      {},
+    'multi select > should keep Menu open by default if true is passed for menuIsOpen prop':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+          menuIsOpen: true,
+        },
       },
-    },
   }
 );
 
@@ -233,15 +235,16 @@ cases(
     ).toBe(expectSelectedOption);
   },
   {
-    'single select > clicking on an option > should select the clicked option': {
-      props: {
-        ...BASIC_PROPS,
-        menuIsOpen: true,
+    'single select > clicking on an option > should select the clicked option':
+      {
+        props: {
+          ...BASIC_PROPS,
+          menuIsOpen: true,
+        },
+        event: ['click' as const, { button: 0 }] as const,
+        selectOption: OPTIONS[2],
+        expectSelectedOption: 'two',
       },
-      event: ['click' as const, { button: 0 }] as const,
-      selectOption: OPTIONS[2],
-      expectSelectedOption: 'two',
-    },
     'multi select > clicking on an option > should select the clicked option': {
       props: {
         ...BASIC_PROPS,
@@ -294,63 +297,72 @@ cases<KeyboardInteractionOpts>(
       eventsToSimulate: [],
       expectedSelectedOption: OPTIONS[0].value,
     },
-    'single select > (open select -> 3 x ArrowDown -> Enter) > should select the forth option in the select': {
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[3].value,
-    },
-    'single select > (open select -> 2 x ArrowDown -> 2 x ArrowUp -> Enter) > should select the first option in the select': {
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
-        ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'single select > (open select -> 1 x ArrowUp -> Enter) > should select the last option in the select': {
-      eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
-    'single select > (open select -> 1 x PageDown -> Enter) > should select the first option on next page - default pageSize 5': {
-      eventsToSimulate: [['keyDown', { keyCode: 34, key: 'PageDown' }]],
-      expectedSelectedOption: OPTIONS[5].value,
-    },
-    'single select > (open select -> 1 x PageDown -> 1 x ArrowDown -> 1 x PageUp -> Enter) > should select the second option - default pageSize 5': {
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 33, key: 'PageUp' }],
-      ],
-      expectedSelectedOption: OPTIONS[1].value,
-    },
-    'single select > (open select -> End -> Enter) > should select the last option': {
-      eventsToSimulate: [['keyDown', { keyCode: 35, key: 'End' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
-    'single select > (open select -> 3 x PageDown -> Home -> Enter) > should select the last option': {
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 36, key: 'Home' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'single select > cycle options > ( open select -> End -> ArrowDown -> Enter) > should select the first option': {
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 35, key: 'End' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'single select > cycle options > (open select -> ArrowUp -> Enter) > should select the last option': {
-      eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
+    'single select > (open select -> 3 x ArrowDown -> Enter) > should select the forth option in the select':
+      {
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ],
+        expectedSelectedOption: OPTIONS[3].value,
+      },
+    'single select > (open select -> 2 x ArrowDown -> 2 x ArrowUp -> Enter) > should select the first option in the select':
+      {
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
+          ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
+      },
+    'single select > (open select -> 1 x ArrowUp -> Enter) > should select the last option in the select':
+      {
+        eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
+      },
+    'single select > (open select -> 1 x PageDown -> Enter) > should select the first option on next page - default pageSize 5':
+      {
+        eventsToSimulate: [['keyDown', { keyCode: 34, key: 'PageDown' }]],
+        expectedSelectedOption: OPTIONS[5].value,
+      },
+    'single select > (open select -> 1 x PageDown -> 1 x ArrowDown -> 1 x PageUp -> Enter) > should select the second option - default pageSize 5':
+      {
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 33, key: 'PageUp' }],
+        ],
+        expectedSelectedOption: OPTIONS[1].value,
+      },
+    'single select > (open select -> End -> Enter) > should select the last option':
+      {
+        eventsToSimulate: [['keyDown', { keyCode: 35, key: 'End' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
+      },
+    'single select > (open select -> 3 x PageDown -> Home -> Enter) > should select the last option':
+      {
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 36, key: 'Home' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
+      },
+    'single select > cycle options > ( open select -> End -> ArrowDown -> Enter) > should select the first option':
+      {
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 35, key: 'End' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
+      },
+    'single select > cycle options > (open select -> ArrowUp -> Enter) > should select the last option':
+      {
+        eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
+      },
     'multi select > open select and hit enter > should select first option': {
       props: {
         ...BASIC_PROPS,
@@ -359,98 +371,107 @@ cases<KeyboardInteractionOpts>(
       eventsToSimulate: [],
       expectedSelectedOption: OPTIONS[0].value,
     },
-    'multi select > (open select -> 3 x ArrowDown -> Enter) > should select the forth option in the select': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 3 x ArrowDown -> Enter) > should select the forth option in the select':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ],
+        expectedSelectedOption: OPTIONS[3].value,
       },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[3].value,
-    },
-    'multi select > (open select -> 2 x ArrowDown -> 2 x ArrowUp -> Enter) > should select the first option in the select': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 2 x ArrowDown -> 2 x ArrowUp -> Enter) > should select the first option in the select':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
+          ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
       },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
-        ['keyDown', { keyCode: 38, key: 'ArrowUp' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'multi select > (open select -> 1 x ArrowUp -> Enter) > should select the last option in the select': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 1 x ArrowUp -> Enter) > should select the last option in the select':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
       },
-      eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
-    'multi select > (open select -> 1 x PageDown -> Enter) > should select the first option on next page - default pageSize 5': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 1 x PageDown -> Enter) > should select the first option on next page - default pageSize 5':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [['keyDown', { keyCode: 34, key: 'PageDown' }]],
+        expectedSelectedOption: OPTIONS[5].value,
       },
-      eventsToSimulate: [['keyDown', { keyCode: 34, key: 'PageDown' }]],
-      expectedSelectedOption: OPTIONS[5].value,
-    },
-    'multi select > (open select -> 1 x PageDown -> 1 x ArrowDown -> 1 x PageUp -> Enter) > should select the second option - default pageSize 5': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 1 x PageDown -> 1 x ArrowDown -> 1 x PageUp -> Enter) > should select the second option - default pageSize 5':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+          ['keyDown', { keyCode: 33, key: 'PageUp' }],
+        ],
+        expectedSelectedOption: OPTIONS[1].value,
       },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-        ['keyDown', { keyCode: 33, key: 'PageUp' }],
-      ],
-      expectedSelectedOption: OPTIONS[1].value,
-    },
-    'multi select > (open select -> End -> Enter) > should select the last option': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> End -> Enter) > should select the last option':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [['keyDown', { keyCode: 35, key: 'End' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
       },
-      eventsToSimulate: [['keyDown', { keyCode: 35, key: 'End' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
-    'multi select > (open select -> 3 x PageDown -> Home -> Enter) > should select the last option': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > (open select -> 3 x PageDown -> Home -> Enter) > should select the last option':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 34, key: 'PageDown' }],
+          ['keyDown', { keyCode: 36, key: 'Home' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
       },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 34, key: 'PageDown' }],
-        ['keyDown', { keyCode: 36, key: 'Home' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'multi select > cycle options > ( open select -> End -> ArrowDown -> Enter) > should select the first option': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > cycle options > ( open select -> End -> ArrowDown -> Enter) > should select the first option':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [
+          ['keyDown', { keyCode: 35, key: 'End' }],
+          ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
+        ],
+        expectedSelectedOption: OPTIONS[0].value,
       },
-      eventsToSimulate: [
-        ['keyDown', { keyCode: 35, key: 'End' }],
-        ['keyDown', { keyCode: 40, key: 'ArrowDown' }],
-      ],
-      expectedSelectedOption: OPTIONS[0].value,
-    },
-    'multi select > cycle options > (open select -> ArrowUp -> Enter) > should select the last option': {
-      props: {
-        ...BASIC_PROPS,
-        isMulti: true,
+    'multi select > cycle options > (open select -> ArrowUp -> Enter) > should select the last option':
+      {
+        props: {
+          ...BASIC_PROPS,
+          isMulti: true,
+        },
+        eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
+        expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
       },
-      eventsToSimulate: [['keyDown', { keyCode: 38, key: 'ArrowUp' }]],
-      expectedSelectedOption: OPTIONS[OPTIONS.length - 1].value,
-    },
   }
 );

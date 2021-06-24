@@ -94,7 +94,25 @@ exports[`defaults > snapshot 1`] = `
   padding-top: 2px;
   visibility: visible;
   color: hsl(0, 0%, 20%);
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: inline-grid;
+  grid-template-columns: 0 min-content;
   box-sizing: border-box;
+}
+
+.emotion-5:after {
+  content: attr(data-value) " ";
+  visibility: hidden;
+  white-space: nowrap;
+  grid-area: 1/2;
+  font: inherit;
+  min-width: 2px;
+  border: 0;
+  margin: 0;
+  outline: 0;
+  padding: 0;
 }
 
 .emotion-6 {
@@ -172,28 +190,22 @@ exports[`defaults > snapshot 1`] = `
           Select...
         </div>
         <div
-          class="emotion-5"
+          class=" emotion-5"
+          data-value=""
         >
-          <div
+          <input
+            aria-autocomplete="list"
+            autocapitalize="none"
+            autocomplete="off"
+            autocorrect="off"
             class=""
-            style="display: inline-block;"
-          >
-            <input
-              aria-autocomplete="list"
-              autocapitalize="none"
-              autocomplete="off"
-              autocorrect="off"
-              id="react-select-2-input"
-              spellcheck="false"
-              style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
-              tabindex="0"
-              type="text"
-              value=""
-            />
-            <div
-              style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-            />
-          </div>
+            id="react-select-2-input"
+            spellcheck="false"
+            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+            tabindex="0"
+            type="text"
+            value=""
+          />
         </div>
       </div>
       <div
