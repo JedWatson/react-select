@@ -1514,9 +1514,9 @@ export default class Select<
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
-          readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          inputMode="none"
           form={form}
           value=""
           {...ariaAttributes}
