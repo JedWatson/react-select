@@ -45,15 +45,8 @@ export const SelectContainer = <
 >(
   props: ContainerProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    isDisabled,
-    isRtl,
-  } = props;
+  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } =
+    props;
   return (
     <div
       css={getStyles('container', props)}
@@ -109,15 +102,8 @@ export const ValueContainer = <
 >(
   props: ValueContainerProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    innerProps,
-    isMulti,
-    getStyles,
-    hasValue,
-  } = props;
+  const { children, className, cx, innerProps, isMulti, getStyles, hasValue } =
+    props;
 
   return (
     <div

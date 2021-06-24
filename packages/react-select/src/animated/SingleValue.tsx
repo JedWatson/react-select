@@ -13,17 +13,20 @@ export type SingleValueComponent = <
 
 // instant fade; all transition-group children must be transitions
 
-const AnimatedSingleValue = (WrappedComponent: SingleValueComponent) => <
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: SingleValueProps<Option, IsMulti, Group>
-) => (
-  <Fade<SingleValueProps<Option, IsMulti, Group>>
-    component={WrappedComponent}
-    {...props}
-  />
-);
+const AnimatedSingleValue =
+  (WrappedComponent: SingleValueComponent) =>
+  <
+    Option extends OptionBase,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  >(
+    props: SingleValueProps<Option, IsMulti, Group>
+  ) =>
+    (
+      <Fade<SingleValueProps<Option, IsMulti, Group>>
+        component={WrappedComponent}
+        {...props}
+      />
+    );
 
 export default AnimatedSingleValue;
