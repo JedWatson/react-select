@@ -629,11 +629,8 @@ export default class Select<
     props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
     state: State<OptionBase, boolean, GroupBase<OptionBase>>
   ) {
-    const {
-      prevProps,
-      clearFocusValueOnUpdate,
-      inputIsHiddenAfterUpdate,
-    } = state;
+    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
+      state;
     const { options, value, menuIsOpen, inputValue } = props;
     let newMenuOptionsState = {};
     if (
@@ -1493,14 +1490,8 @@ export default class Select<
   // Renderers
   // ==============================
   renderInput() {
-    const {
-      isDisabled,
-      isSearchable,
-      inputId,
-      inputValue,
-      tabIndex,
-      form,
-    } = this.props;
+    const { isDisabled, isSearchable, inputId, inputValue, tabIndex, form } =
+      this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
     const { commonProps } = this;
@@ -1523,9 +1514,9 @@ export default class Select<
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
-          readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          inputMode="none"
           form={form}
           value=""
           {...ariaAttributes}
@@ -1951,12 +1942,8 @@ export default class Select<
   }
 
   render() {
-    const {
-      Control,
-      IndicatorsContainer,
-      SelectContainer,
-      ValueContainer,
-    } = this.getComponents();
+    const { Control, IndicatorsContainer, SelectContainer, ValueContainer } =
+      this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;

@@ -12,12 +12,15 @@ export type ValueContainerComponent = <
 ) => ReactElement;
 
 // make ValueContainer a transition group
-const AnimatedValueContainer = (WrappedComponent: ValueContainerComponent) => <
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: ValueContainerProps<Option, IsMulti, Group>
-) => <TransitionGroup component={WrappedComponent} {...(props as any)} />;
+const AnimatedValueContainer =
+  (WrappedComponent: ValueContainerComponent) =>
+  <
+    Option extends OptionBase,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  >(
+    props: ValueContainerProps<Option, IsMulti, Group>
+  ) =>
+    <TransitionGroup component={WrappedComponent} {...(props as any)} />;
 
 export default AnimatedValueContainer;
