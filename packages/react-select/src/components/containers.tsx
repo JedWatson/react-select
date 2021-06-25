@@ -58,6 +58,7 @@ export const SelectContainer = <
         className
       )}
       {...innerProps}
+      role="widget"
     >
       {children}
     </div>

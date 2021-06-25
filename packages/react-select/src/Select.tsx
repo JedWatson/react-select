@@ -628,7 +628,19 @@ export default class Select<
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
+
+    // If `value` or `defaultValue` props are not empty then announce them
+    // when the Select is focussed
+    if (this.state.selectValue.length) {
+      this.state.ariaSelection = {
+        value: this.state.selectValue as OnChangeValue<Option, IsMulti>,
+        action: 'select-option',
+        option: this.state.selectValue,
+        name: this.props.name,
+      };
+    }
   }
+
   static getDerivedStateFromProps(
     props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
     state: State<OptionBase, boolean, GroupBase<OptionBase>>
@@ -1027,7 +1039,9 @@ export default class Select<
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+  getElementId = (
+    element: 'group' | 'input' | 'listbox' | 'option' | 'placeholder'
+  ) => {
     return `${this.instancePrefix}-${element}`;
   };
 
@@ -1524,6 +1538,9 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
+      ...(!this.hasValue() && {
+        'aria-describedby': this.getElementId('placeholder'),
+      }),
     };
 
     if (!isSearchable) {
@@ -1535,9 +1552,9 @@ export default class Select<
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
+          inputMode="none"
           disabled={isDisabled}
           tabIndex={tabIndex}
-          inputMode="none"
           form={form}
           value=""
           {...ariaAttributes}
@@ -1593,6 +1610,7 @@ export default class Select<
           key="placeholder"
           isDisabled={isDisabled}
           isFocused={isFocused}
+          innerProps={{ id: this.getElementId('placeholder') }}
         >
           {placeholder}
         </Placeholder>
