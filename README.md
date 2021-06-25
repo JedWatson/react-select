@@ -150,6 +150,10 @@ Check the docs for more information on:
 - [Allowing users to create new options](https://www.react-select.com/creatable)
 - [Advanced use-cases](https://www.react-select.com/advanced)
 
+## Typescript
+
+The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select).
+
 # Thanks
 
 Thank you to everyone who has contributed to this project. It's been a wild ride.
