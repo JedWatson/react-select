@@ -202,7 +202,7 @@ const LiveRegion = <
 
   // This is to fix NVDA not announcing the live region when the Select is focussed.
   // It just delays the rendering of the live region a small amount so NVDA sees the
-  // contents of the live region get added.
+  // contents of the live region get mutated.
   const [reveal, setReveal] = useState(false);
   const timeoutRef = useRef<number | undefined>();
   useEffect(() => {
@@ -225,6 +225,8 @@ const LiveRegion = <
       aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
+      // This is to fix VoiceOver not announcing when focussing after Select
+      // has already been focussed once
       style={{ display: isFocused ? 'block' : 'none' }}
     >
       {reveal && (
