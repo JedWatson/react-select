@@ -13,10 +13,13 @@ export type GuidanceContext = 'menu' | 'input' | 'value';
 
 export type AriaLive = 'polite' | 'off' | 'assertive';
 
-export type AriaSelection<Option extends OptionBase, IsMulti extends boolean> =
-  ActionMeta<Option> & {
-    value: OnChangeValue<Option, IsMulti>;
-  };
+export type AriaSelection<
+  Option extends OptionBase,
+  IsMulti extends boolean
+> = Omit<ActionMeta<Option>, 'option'> & {
+  value: OnChangeValue<Option, IsMulti>;
+  option?: Option | Options<Option>;
+};
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
@@ -132,6 +135,7 @@ export const defaultAriaLiveMessages = {
       case 'deselect-option':
       case 'pop-value':
       case 'remove-value':
+      case 'clear':
         return `option ${label}, deselected.`;
       case 'select-option':
         return isDisabled

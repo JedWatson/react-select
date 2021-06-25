@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
@@ -77,17 +77,41 @@ const LiveRegion = <
   const ariaSelected = useMemo(() => {
     let message = '';
     if (ariaSelection && messages.onChange) {
-      const { option, removedValue, value } = ariaSelection;
+      const { option, removedValue, removedValues, value } = ariaSelection;
       // select-option when !isMulti does not return option so we assume selected option is value
       const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
         !Array.isArray(val) ? (val as Option) : null;
-      const selected = removedValue || option || asOption(value);
+
+      const valueFromOption = (
+        opt?: Option | Options<Option>
+      ): Option | undefined => {
+        if (!opt) return;
+        return Array.isArray(opt)
+          ? (opt.reduce(
+              (acc, optionItem) => {
+                if (!optionItem) return { label: '', value: '' };
+                const { value: optionVal, label } = optionItem as Option;
+                acc.label = acc.label + (label || optionVal) + ', ';
+                return acc;
+              },
+              { label: '', value: '' }
+            ) as Option)
+          : (opt as Option);
+      };
+
+      const selected =
+        removedValue ||
+        valueFromOption(removedValues) ||
+        valueFromOption(option) ||
+        asOption(value);
 
       const onChangeProps = {
         isDisabled: selected && isOptionDisabled(selected, selectValue),
         label: selected ? getOptionLabel(selected) : '',
         ...ariaSelection,
       };
+
+      console.log('onChangeProps', onChangeProps);
 
       message = messages.onChange(onChangeProps);
     }
@@ -176,13 +200,34 @@ const LiveRegion = <
 
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
+  // This is to fix NVDA not announcing the live region when the Select is focussed.
+  // It just delays the rendering of the live region a small amount so NVDA sees the
+  // contents of the live region get added.
+  const [reveal, setReveal] = useState(false);
+  const timeoutRef = useRef<number | undefined>();
+  useEffect(() => {
+    if (!timeoutRef.current && isFocused) {
+      // TS kept wanting this to be a NodeJS.Timeout type
+      timeoutRef.current = (setTimeout(
+        () => setReveal(true),
+        50
+      ) as unknown) as number;
+    }
+    return () => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = undefined;
+      setReveal(false);
+    };
+  }, [isFocused]);
+
   return (
     <A11yText
       aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
+      style={{ display: isFocused ? 'block' : 'none' }}
     >
-      {isFocused && (
+      {reveal && (
         <React.Fragment>
           <span id="aria-selection">{ariaSelected}</span>
           <span id="aria-context">{ariaContext}</span>
