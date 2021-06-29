@@ -111,8 +111,6 @@ const LiveRegion = <
         ...ariaSelection,
       };
 
-      console.log('onChangeProps', onChangeProps);
-
       message = messages.onChange(onChangeProps);
     }
     return message;
