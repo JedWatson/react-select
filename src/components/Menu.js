@@ -88,9 +88,9 @@ export function getMenuPlacement({
   switch (placement) {
     case 'auto':
     case 'bottom':
-      // 1: the menu will fit, do nothing
+      // 1: the menu will fit, do nothing but constrain its max height
       if (viewSpaceBelow >= menuHeight) {
-        return { placement: 'bottom', maxHeight };
+        return { placement: 'bottom', maxHeight: Math.min(viewSpaceBelow, maxHeight) };
       }
 
       // 2: the menu will fit, if scrolled
@@ -99,7 +99,7 @@ export function getMenuPlacement({
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
 
-        return { placement: 'bottom', maxHeight };
+        return { placement: 'bottom', maxHeight: Math.min(scrollSpaceBelow, maxHeight) };
       }
 
       // 3: the menu will fit, if constrained
@@ -145,9 +145,9 @@ export function getMenuPlacement({
       }
       break;
     case 'top':
-      // 1: the menu will fit, do nothing
+      // 1: the menu will fit, do nothing but constrain its max height
       if (viewSpaceAbove >= menuHeight) {
-        return { placement: 'top', maxHeight };
+        return { placement: 'top', maxHeight: Math.min(viewSpaceAbove, maxHeight) };
       }
 
       // 2: the menu will fit, if scrolled
@@ -156,7 +156,7 @@ export function getMenuPlacement({
           animatedScrollTo(scrollParent, scrollUp, scrollDuration);
         }
 
-        return { placement: 'top', maxHeight };
+        return { placement: 'top', maxHeight: Math.min(scrollSpaceAbove, maxHeight) };
       }
 
       // 3: the menu will fit, if constrained
