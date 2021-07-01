@@ -177,7 +177,7 @@ export const defaultAriaLiveMessages = {
   onFilter: (props: AriaOnFilterProps) => {
     const { inputValue, resultsMessage } = props;
     return `${resultsMessage}${
-      inputValue ? ' for search term ' + inputValue : ''
+      inputValue ? ' for search term "' + inputValue + '"' : ''
     }.`;
   },
 };
