@@ -202,6 +202,7 @@ exports[`defaults > snapshot 1`] = `
             aria-expanded="false"
             aria-haspopup="true"
             aria-owns="react-select-2-listbox"
+            aria-describedby="react-select-2-placeholder"
             autocapitalize="none"
             autocomplete="off"
             autocorrect="off"
