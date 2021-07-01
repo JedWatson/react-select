@@ -82,27 +82,37 @@ const LiveRegion = <
       const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
         !Array.isArray(val) ? (val as Option) : null;
 
-      const valueFromOption = (
+      // we can get an array of options, just a single option or a falsy option,
+      // need to handle returning an Option shaped object or undefined
+      const optionFromPossibleArray = (
         opt?: Option | Options<Option>
       ): Option | undefined => {
+        // if falsy return early
         if (!opt) return;
-        return Array.isArray(opt)
-          ? (opt.reduce(
-              (acc, optionItem) => {
-                if (!optionItem) return { label: '', value: '' };
-                const { value: optionVal, label } = optionItem as Option;
-                acc.label = acc.label + (label || optionVal) + ', ';
-                return acc;
-              },
-              { label: '', value: '' }
-            ) as Option)
-          : (opt as Option);
+        if (Array.isArray(opt)) {
+          // if the array has no items then return early
+          if (!opt.length) return;
+          // take the array of options and reduce to one single option-like object with
+          // the label/s concatenated for the screen reader
+          return opt.reduce(
+            (acc, optionItem: Option) => {
+              const { value: optionVal, label } = optionItem;
+              const sep = acc.label ? ', ' : '';
+              acc.label = acc.label + sep + (label || optionVal);
+              return acc;
+            },
+            // we only need the label for the returned object
+            { label: '' }
+          ) as Option;
+        }
+        // if just a single option then return it
+        return opt as Option;
       };
 
       const selected =
         removedValue ||
-        valueFromOption(removedValues) ||
-        valueFromOption(option) ||
+        optionFromPossibleArray(removedValues) ||
+        optionFromPossibleArray(option) ||
         asOption(value);
 
       const onChangeProps = {
