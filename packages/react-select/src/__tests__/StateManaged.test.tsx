@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, EventType } from '@testing-library/react';
+import { act, render, fireEvent, EventType } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import cases from 'jest-in-case';
@@ -56,6 +56,9 @@ const BASIC_PROPS: BasicProps = {
 
 test('defaults > snapshot', () => {
   const { container } = render(<Select />);
+  act(() => {
+    jest.runOnlyPendingTimers();
+  });
   expect(container).toMatchSnapshot();
 });
 

@@ -171,12 +171,14 @@ exports[`defaults > snapshot 1`] = `
 <div>
   <div
     class=" emotion-0"
+    role="application"
   >
     <span
       aria-atomic="false"
       aria-live="polite"
       aria-relevant="additions text"
       class="emotion-1"
+      style="display: none;"
     />
     <div
       class=" emotion-2"
@@ -186,6 +188,7 @@ exports[`defaults > snapshot 1`] = `
       >
         <div
           class=" emotion-4"
+          id="react-select-2-placeholder"
         >
           Select...
         </div>
