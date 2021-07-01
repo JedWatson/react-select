@@ -1,5 +1,5 @@
 import React, { KeyboardEvent } from 'react';
-import { render, fireEvent, EventType } from '@testing-library/react';
+import { act, render, fireEvent, EventType } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
@@ -162,33 +162,31 @@ cases(
     expect(value!.textContent).toBe(expectedOptions);
   },
   {
-    'single select > should format label of options according to text returned by formatOptionLabel':
-      {
-        props: {
-          ...BASIC_PROPS,
-          formatOptionLabel: (
-            { label, value }: Option,
-            { context }: FormatOptionLabelMeta<Option>
-          ) => `${label} ${value} ${context}`,
-          value: OPTIONS[0],
-        },
-        valueComponentSelector: '.react-select__single-value',
-        expectedOptions: '0 zero value',
+    'single select > should format label of options according to text returned by formatOptionLabel': {
+      props: {
+        ...BASIC_PROPS,
+        formatOptionLabel: (
+          { label, value }: Option,
+          { context }: FormatOptionLabelMeta<Option>
+        ) => `${label} ${value} ${context}`,
+        value: OPTIONS[0],
       },
-    'multi select > should format label of options according to text returned by formatOptionLabel':
-      {
-        props: {
-          ...BASIC_PROPS,
-          formatOptionLabel: (
-            { label, value }: Option,
-            { context }: FormatOptionLabelMeta<Option>
-          ) => `${label} ${value} ${context}`,
-          isMulti: true,
-          value: OPTIONS[0],
-        },
-        valueComponentSelector: '.react-select__multi-value',
-        expectedOptions: '0 zero value',
+      valueComponentSelector: '.react-select__single-value',
+      expectedOptions: '0 zero value',
+    },
+    'multi select > should format label of options according to text returned by formatOptionLabel': {
+      props: {
+        ...BASIC_PROPS,
+        formatOptionLabel: (
+          { label, value }: Option,
+          { context }: FormatOptionLabelMeta<Option>
+        ) => `${label} ${value} ${context}`,
+        isMulti: true,
+        value: OPTIONS[0],
       },
+      valueComponentSelector: '.react-select__multi-value',
+      expectedOptions: '0 zero value',
+    },
   }
 );
 
@@ -230,15 +228,13 @@ cases(
     expect(container.querySelector('.react-select__menu')).toBeFalsy();
   },
   {
-    'single select > should show menu if menuIsOpen is true and hide menu if menuIsOpen prop is false':
-      {},
-    'multi select > should show menu if menuIsOpen is true and hide menu if menuIsOpen prop is false':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-        },
+    'single select > should show menu if menuIsOpen is true and hide menu if menuIsOpen prop is false': {},
+    'multi select > should show menu if menuIsOpen is true and hide menu if menuIsOpen prop is false': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
       },
+    },
   }
 );
 
@@ -294,19 +290,18 @@ cases(
       searchString: 'o',
       expectResultsLength: 5,
     },
-    'multi select > should filter all options other that options in value of select':
-      {
-        props: {
-          ...BASIC_PROPS,
-          filterOption: (value: FilterOptionOption<Option>, search: string) =>
-            value.value.indexOf(search) > -1,
-          isMulti: true,
-          menuIsOpen: true,
-          value: OPTIONS[0],
-        },
-        searchString: 'o',
-        expectResultsLength: 4,
+    'multi select > should filter all options other that options in value of select': {
+      props: {
+        ...BASIC_PROPS,
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
+          value.value.indexOf(search) > -1,
+        isMulti: true,
+        menuIsOpen: true,
+        value: OPTIONS[0],
       },
+      searchString: 'o',
+      expectResultsLength: 4,
+    },
   }
 );
 
@@ -385,34 +380,32 @@ cases(
     );
   },
   {
-    'single Select > should show NoOptionsMessage returned from noOptionsMessage function prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          filterOption: (value: FilterOptionOption<Option>, search: string) =>
-            value.value.indexOf(search) > -1,
-          menuIsOpen: true,
-          noOptionsMessage: () =>
-            'this is custom no option message for single select',
-        },
-        expectNoOptionsMessage:
+    'single Select > should show NoOptionsMessage returned from noOptionsMessage function prop': {
+      props: {
+        ...BASIC_PROPS,
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
+          value.value.indexOf(search) > -1,
+        menuIsOpen: true,
+        noOptionsMessage: () =>
           'this is custom no option message for single select',
-        searchString: 'some text not in options',
       },
-    'multi select > should show NoOptionsMessage returned from noOptionsMessage function prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          filterOption: (value: FilterOptionOption<Option>, search: string) =>
-            value.value.indexOf(search) > -1,
-          menuIsOpen: true,
-          noOptionsMessage: () =>
-            'this is custom no option message for multi select',
-        },
-        expectNoOptionsMessage:
+      expectNoOptionsMessage:
+        'this is custom no option message for single select',
+      searchString: 'some text not in options',
+    },
+    'multi select > should show NoOptionsMessage returned from noOptionsMessage function prop': {
+      props: {
+        ...BASIC_PROPS,
+        filterOption: (value: FilterOptionOption<Option>, search: string) =>
+          value.value.indexOf(search) > -1,
+        menuIsOpen: true,
+        noOptionsMessage: () =>
           'this is custom no option message for multi select',
-        searchString: 'some text not in options',
       },
+      expectNoOptionsMessage:
+        'this is custom no option message for multi select',
+      searchString: 'some text not in options',
+    },
   }
 );
 
@@ -441,14 +434,13 @@ cases(
       },
       expectedValue: [{ label: '2', value: 'two' }],
     },
-    'single select > with option values as number > should set it as initial value':
-      {
-        props: {
-          ...BASIC_PROPS,
-          value: OPTIONS_NUMBER_VALUE[2],
-        },
-        expectedValue: [{ label: '2', value: 2 }],
+    'single select > with option values as number > should set it as initial value': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS_NUMBER_VALUE[2],
       },
+      expectedValue: [{ label: '2', value: 2 }],
+    },
     'multi select > should set it as initial value': {
       props: {
         ...BASIC_PROPS,
@@ -457,15 +449,14 @@ cases(
       },
       expectedValue: [{ label: '1', value: 'one' }],
     },
-    'multi select > with option values as number > should set it as initial value':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          value: OPTIONS_NUMBER_VALUE[1],
-        },
-        expectedValue: [{ label: '1', value: 1 }],
+    'multi select > with option values as number > should set it as initial value': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        value: OPTIONS_NUMBER_VALUE[1],
       },
+      expectedValue: [{ label: '1', value: 1 }],
+    },
   }
 );
 
@@ -501,17 +492,16 @@ cases(
       expectedInitialValue: 'one',
       expectedUpdatedValue: 'three',
     },
-    'single select > value of options is number > should update the value when prop is updated':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS_NUMBER_VALUE,
-          value: OPTIONS_NUMBER_VALUE[2],
-        },
-        updateValueTo: OPTIONS_NUMBER_VALUE[3],
-        expectedInitialValue: '2',
-        expectedUpdatedValue: '3',
+    'single select > value of options is number > should update the value when prop is updated': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[2],
       },
+      updateValueTo: OPTIONS_NUMBER_VALUE[3],
+      expectedInitialValue: '2',
+      expectedUpdatedValue: '3',
+    },
     'multi select > should update the value when prop is updated': {
       props: {
         ...BASIC_PROPS,
@@ -522,19 +512,18 @@ cases(
       expectedInitialValue: 'one',
       expectedUpdatedValue: 'three',
     },
-    'multi select > value of options is number > should update the value when prop is updated':
-      {
-        props: {
-          ...BASIC_PROPS,
-          delimiter: ',',
-          isMulti: true,
-          options: OPTIONS_NUMBER_VALUE,
-          value: OPTIONS_NUMBER_VALUE[2],
-        },
-        updateValueTo: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[2]],
-        expectedInitialValue: '2',
-        expectedUpdatedValue: '3,2',
+    'multi select > value of options is number > should update the value when prop is updated': {
+      props: {
+        ...BASIC_PROPS,
+        delimiter: ',',
+        isMulti: true,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[2],
       },
+      updateValueTo: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[2]],
+      expectedInitialValue: '2',
+      expectedUpdatedValue: '3,2',
+    },
   }
 );
 
@@ -572,137 +561,125 @@ cases(
     });
   },
   {
-    'single select > option is clicked > should call onChange() prop with selected option':
-      {
-        event: ['click' as const] as const,
-        optionsSelected: { label: '2', value: 'two' },
-        expectedSelectedOption: { label: '2', value: 'two' },
-      },
-    'single select > option with number value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS_NUMBER_VALUE,
-        },
-        event: ['click' as const] as const,
-        optionsSelected: { label: '0', value: 0 },
-        expectedSelectedOption: { label: '0', value: 0 },
-      },
-    'single select > option with boolean value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS_BOOLEAN_VALUE,
-        },
-        event: ['click' as const] as const,
-        optionsSelected: { label: 'true', value: true },
-        expectedSelectedOption: { label: 'true', value: true },
-      },
-    'single select > tab key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        event: ['keyDown' as const, { keyCode: 9, key: 'Tab' }] as const,
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: { label: '1', value: 'one' },
-      },
-    'single select > enter key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        event: ['keyDown' as const, { keyCode: 13, key: 'Enter' }] as const,
-        optionsSelected: { label: '3', value: 'three' },
-        focusedOption: { label: '3', value: 'three' },
-        expectedSelectedOption: { label: '3', value: 'three' },
-      },
-    'single select > space key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        event: ['keyDown' as const, { keyCode: 32, key: ' ' }] as const,
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: { label: '1', value: 'one' },
-      },
-    'multi select > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        event: ['click' as const] as const,
-        optionsSelected: { label: '2', value: 'two' },
-        expectedSelectedOption: [{ label: '2', value: 'two' }],
-        expectedActionMetaOption: { label: '2', value: 'two' },
-      },
-    'multi select > option with number value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS_NUMBER_VALUE,
-        },
-        event: ['click' as const] as const,
-        optionsSelected: { label: '0', value: 0 },
-        expectedSelectedOption: [{ label: '0', value: 0 }],
-        expectedActionMetaOption: { label: '0', value: 0 },
-      },
-    'multi select > option with boolean value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS_BOOLEAN_VALUE,
-        },
-        event: ['click' as const] as const,
-        optionsSelected: { label: 'true', value: true },
-        expectedSelectedOption: [{ label: 'true', value: true }],
-        expectedActionMetaOption: { label: 'true', value: true },
-      },
-    'multi select > tab key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        event: ['keyDown' as const, { keyCode: 9, key: 'Tab' }] as const,
+    'single select > option is clicked > should call onChange() prop with selected option': {
+      event: ['click' as const] as const,
+      optionsSelected: { label: '2', value: 'two' },
+      expectedSelectedOption: { label: '2', value: 'two' },
+    },
+    'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
         menuIsOpen: true,
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: [{ label: '1', value: 'one' }],
-        expectedActionMetaOption: { label: '1', value: 'one' },
+        options: OPTIONS_NUMBER_VALUE,
       },
-    'multi select > enter key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        event: ['keyDown' as const, { keyCode: 13, key: 'Enter' }] as const,
-        optionsSelected: { label: '3', value: 'three' },
-        focusedOption: { label: '3', value: 'three' },
-        expectedSelectedOption: [{ label: '3', value: 'three' }],
-        expectedActionMetaOption: { label: '3', value: 'three' },
+      event: ['click' as const] as const,
+      optionsSelected: { label: '0', value: 0 },
+      expectedSelectedOption: { label: '0', value: 0 },
+    },
+    'single select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS_BOOLEAN_VALUE,
       },
-    'multi select > space key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        event: ['keyDown' as const, { keyCode: 32, key: ' ' }] as const,
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: [{ label: '1', value: 'one' }],
-        expectedActionMetaOption: { label: '1', value: 'one' },
+      event: ['click' as const] as const,
+      optionsSelected: { label: 'true', value: true },
+      expectedSelectedOption: { label: 'true', value: true },
+    },
+    'single select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
+      event: ['keyDown' as const, { keyCode: 9, key: 'Tab' }] as const,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: { label: '1', value: 'one' },
+    },
+    'single select > enter key is pressed while focusing option > should call onChange() prop with selected option': {
+      event: ['keyDown' as const, { keyCode: 13, key: 'Enter' }] as const,
+      optionsSelected: { label: '3', value: 'three' },
+      focusedOption: { label: '3', value: 'three' },
+      expectedSelectedOption: { label: '3', value: 'three' },
+    },
+    'single select > space key is pressed while focusing option > should call onChange() prop with selected option': {
+      event: ['keyDown' as const, { keyCode: 32, key: ' ' }] as const,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: { label: '1', value: 'one' },
+    },
+    'multi select > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
+      event: ['click' as const] as const,
+      optionsSelected: { label: '2', value: 'two' },
+      expectedSelectedOption: [{ label: '2', value: 'two' }],
+      expectedActionMetaOption: { label: '2', value: 'two' },
+    },
+    'multi select > option with number value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS_NUMBER_VALUE,
+      },
+      event: ['click' as const] as const,
+      optionsSelected: { label: '0', value: 0 },
+      expectedSelectedOption: [{ label: '0', value: 0 }],
+      expectedActionMetaOption: { label: '0', value: 0 },
+    },
+    'multi select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS_BOOLEAN_VALUE,
+      },
+      event: ['click' as const] as const,
+      optionsSelected: { label: 'true', value: true },
+      expectedSelectedOption: [{ label: 'true', value: true }],
+      expectedActionMetaOption: { label: 'true', value: true },
+    },
+    'multi select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
+      },
+      event: ['keyDown' as const, { keyCode: 9, key: 'Tab' }] as const,
+      menuIsOpen: true,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [{ label: '1', value: 'one' }],
+      expectedActionMetaOption: { label: '1', value: 'one' },
+    },
+    'multi select > enter key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
+      },
+      event: ['keyDown' as const, { keyCode: 13, key: 'Enter' }] as const,
+      optionsSelected: { label: '3', value: 'three' },
+      focusedOption: { label: '3', value: 'three' },
+      expectedSelectedOption: [{ label: '3', value: 'three' }],
+      expectedActionMetaOption: { label: '3', value: 'three' },
+    },
+    'multi select > space key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
+      },
+      event: ['keyDown' as const, { keyCode: 32, key: ' ' }] as const,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [{ label: '1', value: 'one' }],
+      expectedActionMetaOption: { label: '1', value: 'one' },
+    },
   }
 );
 
@@ -774,82 +751,76 @@ cases<CallsOnOnDeselectChangeOpts>(
     });
   },
   {
-    'option is clicked > should call onChange() prop with correct selected options and meta':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS,
-          value: [{ label: '2', value: 'two' }],
-        },
-        event: ['click'],
-        optionsSelected: { label: '2', value: 'two' },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: '2', value: 'two' },
+    'option is clicked > should call onChange() prop with correct selected options and meta': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS,
+        value: [{ label: '2', value: 'two' }],
       },
-    'option with number value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS_NUMBER_VALUE,
-          value: [{ label: '0', value: 0 }],
-        },
-        event: ['click'],
-        optionsSelected: { label: '0', value: 0 },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: '0', value: 0 },
+      event: ['click'],
+      optionsSelected: { label: '2', value: 'two' },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: '2', value: 'two' },
+    },
+    'option with number value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS_NUMBER_VALUE,
+        value: [{ label: '0', value: 0 }],
       },
-    'option with boolean value > option is clicked > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS_BOOLEAN_VALUE,
-          value: [{ label: 'true', value: true }],
-        },
-        event: ['click'],
-        optionsSelected: { label: 'true', value: true },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: 'true', value: true },
+      event: ['click'],
+      optionsSelected: { label: '0', value: 0 },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: '0', value: 0 },
+    },
+    'option with boolean value > option is clicked > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: [{ label: 'true', value: true }],
       },
-    'tab key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS,
-          value: [{ label: '1', value: 'one' }],
-        },
-        event: ['keyDown', { keyCode: 9, key: 'Tab' }],
-        menuIsOpen: true,
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: '1', value: 'one' },
+      event: ['click'],
+      optionsSelected: { label: 'true', value: true },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: 'true', value: true },
+    },
+    'tab key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS,
+        value: [{ label: '1', value: 'one' }],
       },
-    'enter key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS,
-          value: { label: '3', value: 'three' },
-        },
-        event: ['keyDown', { keyCode: 13, key: 'Enter' }],
-        optionsSelected: { label: '3', value: 'three' },
-        focusedOption: { label: '3', value: 'three' },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: '3', value: 'three' },
+      event: ['keyDown', { keyCode: 9, key: 'Tab' }],
+      menuIsOpen: true,
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: '1', value: 'one' },
+    },
+    'enter key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS,
+        value: { label: '3', value: 'three' },
       },
-    'space key is pressed while focusing option > should call onChange() prop with selected option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS,
-          value: [{ label: '1', value: 'one' }],
-        },
-        event: ['keyDown', { keyCode: 32, key: ' ' }],
-        optionsSelected: { label: '1', value: 'one' },
-        focusedOption: { label: '1', value: 'one' },
-        expectedSelectedOption: [],
-        expectedMetaOption: { label: '1', value: 'one' },
+      event: ['keyDown', { keyCode: 13, key: 'Enter' }],
+      optionsSelected: { label: '3', value: 'three' },
+      focusedOption: { label: '3', value: 'three' },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: '3', value: 'three' },
+    },
+    'space key is pressed while focusing option > should call onChange() prop with selected option': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS,
+        value: [{ label: '1', value: 'one' }],
       },
+      event: ['keyDown', { keyCode: 32, key: ' ' }],
+      optionsSelected: { label: '1', value: 'one' },
+      focusedOption: { label: '1', value: 'one' },
+      expectedSelectedOption: [],
+      expectedMetaOption: { label: '1', value: 'one' },
+    },
   }
 );
 
@@ -994,16 +965,15 @@ cases(
     ).toEqual(nextFocusOption.label);
   },
   {
-    'single select > ArrowDown key on first option should focus second option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-        },
-        keyEvent: [{ keyCode: 40, key: 'ArrowDown' }],
-        selectedOption: OPTIONS[0],
-        nextFocusOption: OPTIONS[1],
+    'single select > ArrowDown key on first option should focus second option': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
       },
+      keyEvent: [{ keyCode: 40, key: 'ArrowDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[1],
+    },
     'single select > ArrowDown key on last option should focus first option': {
       props: {
         ...BASIC_PROPS,
@@ -1024,17 +994,16 @@ cases(
       selectedOption: OPTIONS[0],
       nextFocusOption: OPTIONS[OPTIONS.length - 1],
     },
-    'single select > ArrowUp key on last option should focus second last option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
-        selectedOption: OPTIONS[OPTIONS.length - 1],
-        nextFocusOption: OPTIONS[OPTIONS.length - 2],
+    'single select > ArrowUp key on last option should focus second last option': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
+      keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
+      selectedOption: OPTIONS[OPTIONS.length - 1],
+      nextFocusOption: OPTIONS[OPTIONS.length - 2],
+    },
     'single select > disabled options should be focusable': {
       props: {
         ...BASIC_PROPS,
@@ -1045,74 +1014,68 @@ cases(
       selectedOption: OPTIONS_DISABLED[0],
       nextFocusOption: OPTIONS_DISABLED[1],
     },
-    'single select > PageDown key takes us to next page with default page size of 5':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[0],
-        nextFocusOption: OPTIONS[5],
+    'single select > PageDown key takes us to next page with default page size of 5': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'single select > PageDown key takes us to next page with custom pageSize 7':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          pageSize: 7,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[0],
-        nextFocusOption: OPTIONS[7],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[5],
+    },
+    'single select > PageDown key takes us to next page with custom pageSize 7': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        pageSize: 7,
+        options: OPTIONS,
       },
-    'single select > PageDown key takes to the last option is options below is less then page size':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[OPTIONS.length - 3],
-        nextFocusOption: OPTIONS[OPTIONS.length - 1],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[7],
+    },
+    'single select > PageDown key takes to the last option is options below is less then page size': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'single select > PageUp key takes us to previous page with default page size of 5':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[6],
-        nextFocusOption: OPTIONS[1],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[OPTIONS.length - 3],
+      nextFocusOption: OPTIONS[OPTIONS.length - 1],
+    },
+    'single select > PageUp key takes us to previous page with default page size of 5': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'single select > PageUp key takes us to previous page with custom pageSize of 7':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          pageSize: 7,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[9],
-        nextFocusOption: OPTIONS[2],
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[6],
+      nextFocusOption: OPTIONS[1],
+    },
+    'single select > PageUp key takes us to previous page with custom pageSize of 7': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        pageSize: 7,
+        options: OPTIONS,
       },
-    'single select > PageUp key takes us to first option - (previous options < pageSize)':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[1],
-        nextFocusOption: OPTIONS[0],
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[9],
+      nextFocusOption: OPTIONS[2],
+    },
+    'single select > PageUp key takes us to first option - (previous options < pageSize)': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[1],
+      nextFocusOption: OPTIONS[0],
+    },
     'single select > Home key takes up to the first option': {
       props: {
         ...BASIC_PROPS,
@@ -1166,92 +1129,85 @@ cases(
       selectedOption: OPTIONS[0],
       nextFocusOption: OPTIONS[OPTIONS.length - 1],
     },
-    'multi select > ArrowUp key on last option should focus second last option':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
-        selectedOption: OPTIONS[OPTIONS.length - 1],
-        nextFocusOption: OPTIONS[OPTIONS.length - 2],
+    'multi select > ArrowUp key on last option should focus second last option': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'multi select > PageDown key takes us to next page with default page size of 5':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[0],
-        nextFocusOption: OPTIONS[5],
+      keyEvent: [{ keyCode: 38, key: 'ArrowUp' }],
+      selectedOption: OPTIONS[OPTIONS.length - 1],
+      nextFocusOption: OPTIONS[OPTIONS.length - 2],
+    },
+    'multi select > PageDown key takes us to next page with default page size of 5': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'multi select > PageDown key takes us to next page with custom pageSize of 8':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          pageSize: 8,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[0],
-        nextFocusOption: OPTIONS[8],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[5],
+    },
+    'multi select > PageDown key takes us to next page with custom pageSize of 8': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        pageSize: 8,
+        options: OPTIONS,
       },
-    'multi select > PageDown key takes to the last option is options below is less then page size':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 34, key: 'PageDown' }],
-        selectedOption: OPTIONS[OPTIONS.length - 3],
-        nextFocusOption: OPTIONS[OPTIONS.length - 1],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[0],
+      nextFocusOption: OPTIONS[8],
+    },
+    'multi select > PageDown key takes to the last option is options below is less then page size': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'multi select > PageUp key takes us to previous page with default page size of 5':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[6],
-        nextFocusOption: OPTIONS[1],
+      keyEvent: [{ keyCode: 34, key: 'PageDown' }],
+      selectedOption: OPTIONS[OPTIONS.length - 3],
+      nextFocusOption: OPTIONS[OPTIONS.length - 1],
+    },
+    'multi select > PageUp key takes us to previous page with default page size of 5': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
-    'multi select > PageUp key takes us to previous page with default page size of 9':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          pageSize: 9,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[10],
-        nextFocusOption: OPTIONS[1],
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[6],
+      nextFocusOption: OPTIONS[1],
+    },
+    'multi select > PageUp key takes us to previous page with default page size of 9': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        pageSize: 9,
+        options: OPTIONS,
       },
-    'multi select > PageUp key takes us to first option - previous options < pageSize':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          options: OPTIONS,
-        },
-        keyEvent: [{ keyCode: 33, key: 'PageUp' }],
-        selectedOption: OPTIONS[1],
-        nextFocusOption: OPTIONS[0],
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[10],
+      nextFocusOption: OPTIONS[1],
+    },
+    'multi select > PageUp key takes us to first option - previous options < pageSize': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        options: OPTIONS,
       },
+      keyEvent: [{ keyCode: 33, key: 'PageUp' }],
+      selectedOption: OPTIONS[1],
+      nextFocusOption: OPTIONS[0],
+    },
     'multi select > Home key takes up to the first option': {
       props: {
         ...BASIC_PROPS,
@@ -1293,25 +1249,23 @@ cases(
     expect(spy).toHaveBeenCalledWith('', { action: 'menu-close' });
   },
   {
-    'single select > should call onInputChange prop with empty string as inputValue':
-      {
-        props: {
-          ...BASIC_PROPS,
-          inputValue: 'test',
-          menuIsOpen: true,
-          value: OPTIONS[0],
-        },
+    'single select > should call onInputChange prop with empty string as inputValue': {
+      props: {
+        ...BASIC_PROPS,
+        inputValue: 'test',
+        menuIsOpen: true,
+        value: OPTIONS[0],
       },
-    'multi select > should call onInputChange prop with empty string as inputValue':
-      {
-        props: {
-          ...BASIC_PROPS,
-          inputValue: 'test',
-          isMulti: true,
-          menuIsOpen: true,
-          value: OPTIONS[0],
-        },
+    },
+    'multi select > should call onInputChange prop with empty string as inputValue': {
+      props: {
+        ...BASIC_PROPS,
+        inputValue: 'test',
+        isMulti: true,
+        menuIsOpen: true,
+        value: OPTIONS[0],
       },
+    },
   }
 );
 
@@ -1332,15 +1286,13 @@ cases(
     expect(onMenuOpenSpy).toHaveBeenCalled();
   },
   {
-    'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed':
-      {},
-    'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-        },
+    'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {},
+    'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
       },
+    },
   }
 );
 
@@ -1359,15 +1311,13 @@ cases(
     expect(onMenuCloseSpy).toHaveBeenCalled();
   },
   {
-    'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed':
-      {},
-    'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-        },
+    'single select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {},
+    'multi select > should call onMenuOpen prop when select is opened and onMenuClose prop when select is closed': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
       },
+    },
   }
 );
 
@@ -1408,14 +1358,13 @@ cases<ClickingEnterOpts>(
     expect(event.defaultPrevented).toBe(expectedValue);
   },
   {
-    'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-        },
-        expectedValue: true,
+    'while menuIsOpen && focusedOption && !isComposing  > should invoke event.preventDefault': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
       },
+      expectedValue: true,
+    },
     'while !menuIsOpen > should not invoke event.preventDefault': {
       props: {
         ...BASIC_PROPS,
@@ -1459,18 +1408,16 @@ cases(
     expect(onMenuCloseSpy).not.toHaveBeenCalled();
   },
   {
-    'single select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop':
-      {
-        skip: true,
+    'single select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {
+      skip: true,
+    },
+    'multi select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
       },
-    'multi select > secondary click is ignored > should not call onMenuOpen and onMenuClose prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-        },
-        skip: true,
-      },
+      skip: true,
+    },
   }
 );
 
@@ -1515,24 +1462,22 @@ cases(
       },
       expectedValue: 'three',
     },
-    'single select > options with number values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS_NUMBER_VALUE,
-          value: OPTIONS_NUMBER_VALUE[3],
-        },
-        expectedValue: '3',
+    'single select > options with number values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[3],
       },
-    'single select > options with boolean values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          options: OPTIONS_BOOLEAN_VALUE,
-          value: OPTIONS_BOOLEAN_VALUE[1],
-        },
-        expectedValue: 'false',
+      expectedValue: '3',
+    },
+    'single select > options with boolean values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: OPTIONS_BOOLEAN_VALUE[1],
       },
+      expectedValue: 'false',
+    },
     'multi select > should set value of input as value prop': {
       props: {
         ...BASIC_PROPS,
@@ -1541,58 +1486,53 @@ cases(
       },
       expectedValue: 'three',
     },
-    'multi select > with delimiter prop > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          delimiter: ', ',
-          isMulti: true,
-          value: [OPTIONS[3], OPTIONS[5]],
-        },
-        expectedValue: 'three, five',
+    'multi select > with delimiter prop > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        delimiter: ', ',
+        isMulti: true,
+        value: [OPTIONS[3], OPTIONS[5]],
       },
-    'multi select > options with number values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          options: OPTIONS_NUMBER_VALUE,
-          value: OPTIONS_NUMBER_VALUE[3],
-        },
-        expectedValue: '3',
+      expectedValue: 'three, five',
+    },
+    'multi select > options with number values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        options: OPTIONS_NUMBER_VALUE,
+        value: OPTIONS_NUMBER_VALUE[3],
       },
-    'multi select > with delimiter prop > options with number values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          delimiter: ', ',
-          isMulti: true,
-          options: OPTIONS_NUMBER_VALUE,
-          value: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[1]],
-        },
-        expectedValue: '3, 1',
+      expectedValue: '3',
+    },
+    'multi select > with delimiter prop > options with number values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        delimiter: ', ',
+        isMulti: true,
+        options: OPTIONS_NUMBER_VALUE,
+        value: [OPTIONS_NUMBER_VALUE[3], OPTIONS_NUMBER_VALUE[1]],
       },
-    'multi select > options with boolean values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          options: OPTIONS_BOOLEAN_VALUE,
-          value: OPTIONS_BOOLEAN_VALUE[1],
-        },
-        expectedValue: 'false',
+      expectedValue: '3, 1',
+    },
+    'multi select > options with boolean values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: OPTIONS_BOOLEAN_VALUE[1],
       },
-    'multi select > with delimiter prop > options with boolean values > should set value of input as value prop':
-      {
-        props: {
-          ...BASIC_PROPS,
-          delimiter: ', ',
-          isMulti: true,
-          options: OPTIONS_BOOLEAN_VALUE,
-          value: [OPTIONS_BOOLEAN_VALUE[1], OPTIONS_BOOLEAN_VALUE[0]],
-        },
-        expectedValue: 'false, true',
+      expectedValue: 'false',
+    },
+    'multi select > with delimiter prop > options with boolean values > should set value of input as value prop': {
+      props: {
+        ...BASIC_PROPS,
+        delimiter: ', ',
+        isMulti: true,
+        options: OPTIONS_BOOLEAN_VALUE,
+        value: [OPTIONS_BOOLEAN_VALUE[1], OPTIONS_BOOLEAN_VALUE[0]],
       },
+      expectedValue: 'false, true',
+    },
   }
 );
 
@@ -1622,29 +1562,27 @@ cases(
     });
   },
   {
-    'single select > should add isDisabled as true prop only to options that are disabled':
-      {
-        props: {
-          ...BASIC_PROPS,
-          menuIsOpen: true,
-          isOptionDisabled: (option: Option) =>
-            ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
-        },
-        expectedEnabledOption: ['1', '3', '11'],
-        expectedDisabledOption: ['0', '2', '5'],
+    'single select > should add isDisabled as true prop only to options that are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        menuIsOpen: true,
+        isOptionDisabled: (option: Option) =>
+          ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
       },
-    'multi select > should add isDisabled as true prop only to options that are disabled':
-      {
-        props: {
-          ...BASIC_PROPS,
-          isMulti: true,
-          menuIsOpen: true,
-          isOptionDisabled: (option: Option) =>
-            ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
-        },
-        expectedEnabledOption: ['1', '3', '11'],
-        expectedDisabledOption: ['0', '2', '5'],
+      expectedEnabledOption: ['1', '3', '11'],
+      expectedDisabledOption: ['0', '2', '5'],
+    },
+    'multi select > should add isDisabled as true prop only to options that are disabled': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+        menuIsOpen: true,
+        isOptionDisabled: (option: Option) =>
+          ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
       },
+      expectedEnabledOption: ['1', '3', '11'],
+      expectedDisabledOption: ['0', '2', '5'],
+    },
   }
 );
 
@@ -1968,18 +1906,16 @@ cases(
     ).toBe('1');
   },
   {
-    'single select > should update aria-activedescendant as per focused option':
-      {
-        skip: true,
+    'single select > should update aria-activedescendant as per focused option': {
+      skip: true,
+    },
+    'multi select > should update aria-activedescendant as per focused option': {
+      skip: true,
+      props: {
+        ...BASIC_PROPS,
+        value: { label: '2', value: 'two' },
       },
-    'multi select > should update aria-activedescendant as per focused option':
-      {
-        skip: true,
-        props: {
-          ...BASIC_PROPS,
-          value: { label: '2', value: 'two' },
-        },
-      },
+    },
   }
 );
 
@@ -2072,6 +2008,7 @@ cases(
 );
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
+  jest.useFakeTimers();
   let { container, rerender } = render(
     <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
   );
@@ -2082,6 +2019,10 @@ test('accessibility > to show the number of options available in A11yText when t
 
   const liveRegionId = '#aria-context';
   fireEvent.focus(container.querySelector('input.react-select__input')!);
+
+  act(() => {
+    jest.runAllTimers();
+  });
 
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /17 results available/
@@ -2104,6 +2045,7 @@ test('accessibility > to show the number of options available in A11yText when t
 });
 
 test('accessibility > interacting with disabled options shows correct A11yText', () => {
+  jest.useFakeTimers();
   let { container } = render(
     <Select
       {...BASIC_PROPS}
@@ -2121,6 +2063,10 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
 
+  act(() => {
+    jest.runAllTimers();
+  });
+
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
@@ -2137,6 +2083,7 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 });
 
 test('accessibility > interacting with multi values options shows correct A11yText', () => {
+  jest.useFakeTimers();
   let renderProps = {
     ...BASIC_PROPS,
     options: OPTIONS_DISABLED,
@@ -2155,6 +2102,11 @@ test('accessibility > interacting with multi values options shows correct A11yTe
   let input = container.querySelector('.react-select__value-container input')!;
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
+
+  act(() => {
+    jest.runAllTimers();
+  });
+
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
@@ -2188,6 +2140,7 @@ test('accessibility > interacting with multi values options shows correct A11yTe
 });
 
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
+  jest.useFakeTimers();
   const screenReaderStatus = ({ count }: { count: number }) =>
     `There are ${count} options available`;
 
@@ -2214,6 +2167,10 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
+  act(() => {
+    jest.runAllTimers();
+  });
+
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 17 options available'
   );
@@ -2235,16 +2192,20 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 });
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
-  const ariaLiveMessages: AriaLiveMessages<Option, boolean, GroupBase<Option>> =
-    {
-      onChange: (props) => {
-        const { action, isDisabled, label } = props;
-        if (action === 'select-option' && !isDisabled) {
-          return `CUSTOM: option ${label} is selected.`;
-        }
-        return '';
-      },
-    };
+  jest.useFakeTimers();
+  const ariaLiveMessages: AriaLiveMessages<
+    Option,
+    boolean,
+    GroupBase<Option>
+  > = {
+    onChange: (props) => {
+      const { action, isDisabled, label } = props;
+      if (action === 'select-option' && !isDisabled) {
+        return `CUSTOM: option ${label} is selected.`;
+      }
+      return '';
+    },
+  };
 
   let { container } = render(
     <Select
@@ -2256,6 +2217,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     />
   );
   const liveRegionEventId = '#aria-selection';
+
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
   let menu = container.querySelector('.react-select__menu')!;
@@ -2263,6 +2225,10 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
   fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
+  });
+
+  act(() => {
+    jest.runAllTimers();
   });
 
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
@@ -2316,21 +2282,19 @@ cases(
     expect(onFocusSpy).toHaveBeenCalledTimes(1);
   },
   {
-    'single select > should call auto focus only once when select is autoFocus':
-      {
-        props: {
-          ...BASIC_PROPS,
-          autoFocus: true,
-        },
+    'single select > should call auto focus only once when select is autoFocus': {
+      props: {
+        ...BASIC_PROPS,
+        autoFocus: true,
       },
-    'multi select > should call auto focus only once when select is autoFocus':
-      {
-        props: {
-          ...BASIC_PROPS,
-          autoFocus: true,
-          isMulti: true,
-        },
+    },
+    'multi select > should call auto focus only once when select is autoFocus': {
+      props: {
+        ...BASIC_PROPS,
+        autoFocus: true,
+        isMulti: true,
       },
+    },
   }
 );
 
@@ -2464,20 +2428,18 @@ cases(
     ).toBeInTheDocument();
   },
   {
-    'single select > should display placeholder once the value is removed from select':
-      {
-        props: {
-          ...BASIC_PROPS,
-          value: OPTIONS[0],
-        },
+    'single select > should display placeholder once the value is removed from select': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS[0],
       },
-    'multi select > should display placeholder once the value is removed from select':
-      {
-        props: {
-          ...BASIC_PROPS,
-          value: OPTIONS[0],
-        },
+    },
+    'multi select > should display placeholder once the value is removed from select': {
+      props: {
+        ...BASIC_PROPS,
+        value: OPTIONS[0],
       },
+    },
   }
 );
 
