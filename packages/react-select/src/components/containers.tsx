@@ -58,9 +58,6 @@ export const SelectContainer = <
         className
       )}
       {...innerProps}
-      // this should tell JAWS not treat the component as a custom widget
-      // and not intercept keyboard events
-      role="application"
     >
       {children}
     </div>
