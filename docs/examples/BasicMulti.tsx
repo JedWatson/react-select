@@ -11,6 +11,5 @@ export default () => (
     options={colourOptions}
     className="basic-multi-select"
     classNamePrefix="select"
-    aria-live="assertive"
   />
 );

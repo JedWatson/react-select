@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import Select from '../../packages/react-select/src/';
+import Select from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
@@ -50,8 +50,6 @@ export default class SingleSelect extends Component<{}, State> {
           isSearchable={isSearchable}
           name="color"
           options={colourOptions}
-          placeholder="Pick a color"
-          aria-live="assertive"
         />
         <Note Tag="label">
           <Checkbox
