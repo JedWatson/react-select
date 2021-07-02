@@ -2218,6 +2218,8 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
   );
   const liveRegionEventId = '#aria-selection';
 
+  expect(container.querySelector(liveRegionEventId)!).toBeNull();
+
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
   let menu = container.querySelector('.react-select__menu')!;
@@ -2234,6 +2236,89 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
   );
+});
+
+test('accessibility > announces already selected values when focused', () => {
+  jest.useFakeTimers();
+
+  let { container } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  const liveRegionContextId = '#aria-context';
+
+  // the live region should not be mounted yet
+  expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
+
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+
+  act(() => {
+    // wait for live region setTimeout
+    jest.runAllTimers();
+  });
+
+  expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
+    ' Select is focused ,type to refine list, press Down to open the menu, '
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'option 0, selected.'
+  );
+});
+
+test('accessibility > announces cleared values and does not announce them when refocusing Select', () => {
+  jest.useFakeTimers();
+
+  let { container, rerender } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  const liveRegionContextId = '#aria-context';
+
+  /**
+   * announce deselected value
+   */
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator')!
+  );
+  act(() => {
+    // wait for live region setTimeout
+    jest.runAllTimers();
+  });
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'option 0, deselected.'
+  );
+
+  /**
+   * simulate tabbing back and forth
+   */
+  // blur the Select
+  fireEvent.blur(container.querySelector('input.react-select__input')!);
+  act(() => {
+    // wait for live region setTimeout
+    jest.runAllTimers();
+  });
+  expect(container.querySelector('[class$=A11yText]')!).toHaveAttribute(
+    'style',
+    'display: none;'
+  );
+  // the live region should not be mounted anymore
+  expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
+
+  // there should no longer be a value selected
+  rerender(<Select {...BASIC_PROPS} options={OPTIONS} isClearable />);
+  // then focus the Select again
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+  act(() => {
+    // wait for live region setTimeout
+    jest.runAllTimers();
+  });
+
+  // should not announce the deselscted option
+  expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
+    ' Select is focused ,type to refine list, press Down to open the menu, '
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toBe('');
 });
 
 test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {
