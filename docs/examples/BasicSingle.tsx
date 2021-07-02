@@ -42,7 +42,7 @@ export default class SingleSelect extends Component<{}, State> {
         <Select
           className="basic-single"
           classNamePrefix="select"
-          // defaultValue={colourOptions[0]}
+          defaultValue={colourOptions[0]}
           isDisabled={isDisabled}
           isLoading={isLoading}
           isClearable={isClearable}
