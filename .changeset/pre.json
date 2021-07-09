@@ -1,6 +1,6 @@
 {
   "mode": "pre",
-  "tag": "next",
+  "tag": "beta",
   "initialVersions": {
     "@react-select/docs": "3.1.0",
     "react-select": "4.3.1"
