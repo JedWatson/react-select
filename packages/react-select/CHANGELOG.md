@@ -1,5 +1,17 @@
 # react-select
 
+## 5.0.0-beta.0
+
+### Major Changes
+
+- [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4683](https://github.com/JedWatson/react-select/pull/4683) Thanks [@JedWatson](https://github.com/JedWatson)! - React-Select has been converted from Flow to TypeScript.
+
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+
+### Patch Changes
+
+- [4b028829](https://github.com/JedWatson/react-select/commit/4b028829721bcd9014d70ee8dce1efbaf6373cd0) [#4634](https://github.com/JedWatson/react-select/pull/4634) - The readonly attribute has been removed from the DummyInput to improve accessibility
+
 ---
 
 ## 4.3.1
