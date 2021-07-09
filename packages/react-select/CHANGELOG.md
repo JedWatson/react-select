@@ -8,6 +8,11 @@
 
   Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
 
+-   [#4683](https://github.com/JedWatson/react-select/pull/4625) Thanks [@ebonow](https://github.com/ebonow)! - Remove dependency on AutoSizeInput
+    - BREAKING CHANGES:
+      - IE11 no longer works as it does not fully support CSS grid
+      - Renaming the .prefix__input now targets the input and NOT the container. Unfortunate but overdue and perhaps opens the door to completely decoupling the input from needing a container if autosizing is not important.
+
 ### Patch Changes
 
 - [4b028829](https://github.com/JedWatson/react-select/commit/4b028829721bcd9014d70ee8dce1efbaf6373cd0) [#4634](https://github.com/JedWatson/react-select/pull/4634) - The readonly attribute has been removed from the DummyInput to improve accessibility
