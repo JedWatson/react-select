@@ -4,7 +4,7 @@
 
 ### Major Changes
 
-- [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4683](https://github.com/JedWatson/react-select/pull/4683) Thanks [@JedWatson](https://github.com/JedWatson)! - React-Select has been converted from Flow to TypeScript.
+- [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4489](https://github.com/JedWatson/react-select/pull/4489) Thanks [@Methuselah96](https://github.com/Methuselah96)! - React-Select has been converted from Flow to TypeScript.
 
   Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
 
