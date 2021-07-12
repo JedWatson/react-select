@@ -101,8 +101,13 @@ export interface AriaLiveMessages<
 
 export const defaultAriaLiveMessages = {
   guidance: (props: AriaGuidanceProps) => {
-    const { isSearchable, isMulti, isDisabled, tabSelectsValue, context } =
-      props;
+    const {
+      isSearchable,
+      isMulti,
+      isDisabled,
+      tabSelectsValue,
+      context,
+    } = props;
     switch (context) {
       case 'menu':
         return `Use Up and Down to choose options${
@@ -177,7 +182,7 @@ export const defaultAriaLiveMessages = {
   onFilter: (props: AriaOnFilterProps) => {
     const { inputValue, resultsMessage } = props;
     return `${resultsMessage}${
-      inputValue ? ' for search term "' + inputValue + '"' : ''
+      inputValue ? ' for search term ' + inputValue : ''
     }.`;
   },
 };
