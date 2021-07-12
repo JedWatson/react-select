@@ -98,7 +98,7 @@ interface GroupHeadingPropsDefinedProps<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends ForwardedHeadingProps<Option, Group> {
-  className?: string | undefined;
+  className?: string;
   selectProps: Props<Option, IsMulti, Group>;
   theme: Theme;
   getStyles: GetStyles<Option, IsMulti, Group>;
