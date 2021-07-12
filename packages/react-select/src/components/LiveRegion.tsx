@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
@@ -77,11 +77,43 @@ const LiveRegion = <
   const ariaSelected = useMemo(() => {
     let message = '';
     if (ariaSelection && messages.onChange) {
-      const { option, removedValue, value } = ariaSelection;
+      const { option, removedValue, removedValues, value } = ariaSelection;
       // select-option when !isMulti does not return option so we assume selected option is value
       const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
         !Array.isArray(val) ? (val as Option) : null;
-      const selected = removedValue || option || asOption(value);
+
+      // we can get an array of options, just a single option or a falsy option,
+      // need to handle returning an Option shaped object or undefined
+      const optionFromPossibleArray = (
+        opt?: Option | Options<Option>
+      ): Option | undefined => {
+        // if falsy return early
+        if (!opt) return;
+        if (Array.isArray(opt)) {
+          // if the array has no items then return early
+          if (!opt.length) return;
+          // take the array of options and reduce to one single option-like object with
+          // the label/s concatenated for the screen reader
+          return opt.reduce(
+            (acc, optionItem: Option) => {
+              const { value: optionVal, label } = optionItem;
+              const sep = acc.label ? ', ' : '';
+              acc.label = acc.label + sep + (label || optionVal);
+              return acc;
+            },
+            // we only need the label for the returned object
+            { label: '' }
+          ) as Option;
+        }
+        // if just a single option then return it
+        return opt as Option;
+      };
+
+      const selected =
+        removedValue ||
+        optionFromPossibleArray(removedValues) ||
+        optionFromPossibleArray(option) ||
+        asOption(value);
 
       const onChangeProps = {
         isDisabled: selected && isOptionDisabled(selected, selectValue),
@@ -176,13 +208,36 @@ const LiveRegion = <
 
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
+  // This is to fix NVDA not announcing the live region when the Select is focussed.
+  // It just delays the rendering of the live region a small amount so NVDA sees the
+  // contents of the live region get mutated.
+  const [reveal, setReveal] = useState(false);
+  const timeoutRef = useRef<number | undefined>();
+  useEffect(() => {
+    if (!timeoutRef.current && isFocused) {
+      // TS kept wanting this to be a NodeJS.Timeout type
+      timeoutRef.current = (setTimeout(
+        () => setReveal(true),
+        50
+      ) as unknown) as number;
+    }
+    return () => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = undefined;
+      setReveal(false);
+    };
+  }, [isFocused]);
+
   return (
     <A11yText
       aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
+      // This is to fix VoiceOver not announcing when focussing after Select
+      // has already been focussed once
+      style={{ display: isFocused ? 'block' : 'none' }}
     >
-      {isFocused && (
+      {reveal && (
         <React.Fragment>
           <span id="aria-selection">{ariaSelected}</span>
           <span id="aria-context">{ariaContext}</span>

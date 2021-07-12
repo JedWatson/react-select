@@ -177,6 +177,7 @@ exports[`snapshot - defaults 1`] = `
       aria-live="polite"
       aria-relevant="additions text"
       class="emotion-1"
+      style="display: none;"
     />
     <div
       class=" emotion-2"
@@ -186,6 +187,7 @@ exports[`snapshot - defaults 1`] = `
       >
         <div
           class=" emotion-4"
+          id="react-select-2-placeholder"
         >
           Select...
         </div>
@@ -195,6 +197,7 @@ exports[`snapshot - defaults 1`] = `
         >
           <input
             aria-autocomplete="list"
+            aria-describedby="react-select-2-placeholder"
             autocapitalize="none"
             autocomplete="off"
             autocorrect="off"
