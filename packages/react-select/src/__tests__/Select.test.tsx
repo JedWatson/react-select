@@ -2006,6 +2006,50 @@ cases(
 );
 
 cases(
+  'accessibility > passes through aria-errormessage prop',
+  ({ props = { ...BASIC_PROPS, 'aria-errormessage': 'error-message' } }) => {
+    let { container } = render(<Select {...props} />);
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-errormessage')
+    ).toBe('error-message');
+  },
+  {
+    'single select > should pass aria-errormessage prop down to input': {},
+    'multi select > should pass aria-errormessage prop down to input': {
+      props: {
+        ...BASIC_PROPS,
+        'aria-errormessage': 'error-message',
+        isMulti: true,
+      },
+    },
+  }
+);
+
+cases(
+  'accessibility > passes through aria-invalid prop',
+  ({ props = { ...BASIC_PROPS, 'aria-invalid': true } }) => {
+    let { container } = render(<Select {...props} />);
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-invalid')
+    ).toBe('true');
+  },
+  {
+    'single select > should pass aria-invalid prop down to input': {},
+    'multi select > should pass aria-invalid prop down to input': {
+      props: {
+        ...BASIC_PROPS,
+        'aria-invalid': true,
+        isMulti: true,
+      },
+    },
+  }
+);
+
+cases(
   'accessibility > passes through aria-label prop',
   ({ props = { ...BASIC_PROPS, 'aria-label': 'testing' } }) => {
     let { container } = render(<Select {...props} />);
