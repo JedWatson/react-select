@@ -1,0 +1,12 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@react-select/docs": "3.1.0",
+    "react-select": "4.3.1"
+  },
+  "changesets": [
+    "lazy-rivers-camp",
+    "v5-beta"
+  ]
+}
