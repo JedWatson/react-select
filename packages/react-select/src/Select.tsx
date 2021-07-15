@@ -1591,6 +1591,7 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
+
       ...(!this.hasValue() && {
         'aria-describedby': this.getElementId('placeholder'),
       }),
