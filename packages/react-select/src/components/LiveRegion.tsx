@@ -217,7 +217,7 @@ const LiveRegion = <
       aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
-      // This is to fix VoiceOver not announcing when focussing after Select
+      // This is to fix VoiceOver not announcing when focusing after Select
       // has already been focused once
       style={{ display: isFocused ? 'block' : 'none' }}
     >

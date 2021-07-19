@@ -7,7 +7,6 @@ export interface OptionBase {
   readonly value?: unknown;
   readonly isDisabled?: boolean;
   readonly __isNew__?: true;
-  readonly __artificial__?: true;
 }
 
 export interface GroupBase<Option extends OptionBase> {
@@ -162,7 +161,7 @@ export interface CreateOptionActionMeta<Option extends OptionBase>
   action: 'create-option';
   name?: string;
 }
-export interface InputFocusedActionMeta<Option extends OptionBase>
+export interface InitialInputFocusedActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
   name?: string;
@@ -175,7 +174,7 @@ export type ActionMeta<Option extends OptionBase> =
   | PopValueActionMeta<Option>
   | ClearActionMeta<Option>
   | CreateOptionActionMeta<Option>
-  | InputFocusedActionMeta<Option>;
+  | InitialInputFocusedActionMeta<Option>;
 
 export type SetValueAction = 'select-option' | 'deselect-option';
 
