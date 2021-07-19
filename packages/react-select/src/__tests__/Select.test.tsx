@@ -2286,7 +2286,7 @@ test('accessibility > announces cleared values and does not announce them when r
     jest.runAllTimers();
   });
   expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
-    'option 0, deselected.'
+    'option 0, cleared.'
   );
 
   /**

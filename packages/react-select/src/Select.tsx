@@ -636,8 +636,8 @@ export default class Select<
     if (this.state.selectValue.length) {
       this.state.ariaSelection = {
         value: this.state.selectValue as OnChangeValue<Option, IsMulti>,
-        action: 'select-option',
-        option: this.state.selectValue,
+        options: this.state.selectValue,
+        action: 'initial-input-focus',
         name: this.props.name,
       };
     }
@@ -647,8 +647,11 @@ export default class Select<
     props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
     state: State<OptionBase, boolean, GroupBase<OptionBase>>
   ) {
-    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
-      state;
+    const {
+      prevProps,
+      clearFocusValueOnUpdate,
+      inputIsHiddenAfterUpdate,
+    } = state;
     const { options, value, menuIsOpen, inputValue } = props;
     let newMenuOptionsState = {};
     if (
@@ -742,8 +745,8 @@ export default class Select<
       this.setState({
         ariaSelection: {
           value: selectValue as OnChangeValue<Option, IsMulti>,
-          action: 'select-option',
-          option: selectValue,
+          options: selectValue,
+          action: 'initial-input-focus',
           name,
         },
       });
@@ -1591,7 +1594,6 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
-
       ...(!this.hasValue() && {
         'aria-describedby': this.getElementId('placeholder'),
       }),
@@ -2036,8 +2038,12 @@ export default class Select<
   }
 
   render() {
-    const { Control, IndicatorsContainer, SelectContainer, ValueContainer } =
-      this.getComponents();
+    const {
+      Control,
+      IndicatorsContainer,
+      SelectContainer,
+      ValueContainer,
+    } = this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;

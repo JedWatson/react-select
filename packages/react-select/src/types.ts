@@ -7,6 +7,7 @@ export interface OptionBase {
   readonly value?: unknown;
   readonly isDisabled?: boolean;
   readonly __isNew__?: true;
+  readonly __artificial__?: true;
 }
 
 export interface GroupBase<Option extends OptionBase> {
@@ -28,8 +29,10 @@ export type PropsValue<Option extends OptionBase> =
   | MultiValue<Option>
   | SingleValue<Option>;
 
-export type OnChangeValue<Option extends OptionBase, IsMulti extends boolean> =
-  IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
+export type OnChangeValue<
+  Option extends OptionBase,
+  IsMulti extends boolean
+> = IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
 interface Colors {
   primary: string;
@@ -140,7 +143,6 @@ export interface RemoveValueActionMeta<Option extends OptionBase>
   removedValue: Option;
   name?: string;
 }
-
 export interface PopValueActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'pop-value';
@@ -160,6 +162,11 @@ export interface CreateOptionActionMeta<Option extends OptionBase>
   action: 'create-option';
   name?: string;
 }
+export interface InputFocusedActionMeta<Option extends OptionBase>
+  extends ActionMetaBase<Option> {
+  action: 'initial-input-focus';
+  name?: string;
+}
 
 export type ActionMeta<Option extends OptionBase> =
   | SelectOptionActionMeta<Option>
@@ -167,7 +174,8 @@ export type ActionMeta<Option extends OptionBase> =
   | RemoveValueActionMeta<Option>
   | PopValueActionMeta<Option>
   | ClearActionMeta<Option>
-  | CreateOptionActionMeta<Option>;
+  | CreateOptionActionMeta<Option>
+  | InputFocusedActionMeta<Option>;
 
 export type SetValueAction = 'select-option' | 'deselect-option';
 
