@@ -74,6 +74,10 @@ export interface Props<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
+  /** HTML ID of an element containing an error message related to the input**/
+  'aria-errormessage'?: string;
+  /** Indicate if the value entered in the field is invalid **/
+  'aria-invalid'?: boolean;
   /** Aria label (for assistive tech) */
   'aria-label'?: string;
   /** HTML ID of an element that should be used as the label (for assistive tech) */
@@ -1515,6 +1519,8 @@ export default class Select<
       'aria-haspopup': true,
       'aria-controls': this.getElementId('listbox'),
       'aria-owns': this.getElementId('listbox'),
+      'aria-errormessage': this.props['aria-errormessage'],
+      'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       role: 'combobox',
