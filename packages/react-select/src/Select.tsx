@@ -629,8 +629,11 @@ export default class Select<
     props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
     state: State<OptionBase, boolean, GroupBase<OptionBase>>
   ) {
-    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
-      state;
+    const {
+      prevProps,
+      clearFocusValueOnUpdate,
+      inputIsHiddenAfterUpdate,
+    } = state;
     const { options, value, menuIsOpen, inputValue } = props;
     let newMenuOptionsState = {};
     if (
@@ -1490,8 +1493,15 @@ export default class Select<
   // Renderers
   // ==============================
   renderInput() {
-    const { isDisabled, isSearchable, inputId, inputValue, tabIndex, form } =
-      this.props;
+    const {
+      isDisabled,
+      isSearchable,
+      inputId,
+      inputValue,
+      tabIndex,
+      form,
+      menuIsOpen,
+    } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
     const { commonProps } = this;
@@ -1501,8 +1511,16 @@ export default class Select<
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-autocomplete': 'list' as const,
+      'aria-expanded': menuIsOpen,
+      'aria-haspopup': true,
+      'aria-controls': this.getElementId('listbox'),
+      'aria-owns': this.getElementId('listbox'),
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
+      role: 'combobox',
+      ...(!isSearchable && {
+        'aria-readonly': true,
+      }),
     };
 
     if (!isSearchable) {
@@ -1834,6 +1852,7 @@ export default class Select<
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
+              id: this.getElementId('listbox'),
             }}
             isLoading={isLoading}
             placement={placement}
@@ -1942,8 +1961,12 @@ export default class Select<
   }
 
   render() {
-    const { Control, IndicatorsContainer, SelectContainer, ValueContainer } =
-      this.getComponents();
+    const {
+      Control,
+      IndicatorsContainer,
+      SelectContainer,
+      ValueContainer,
+    } = this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
