@@ -74,6 +74,10 @@ export interface Props<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
+  /** HTML ID of an element containing an error message related to the input**/
+  'aria-errormessage'?: string;
+  /** Indicate if the value entered in the field is invalid **/
+  'aria-invalid'?: boolean;
   /** Aria label (for assistive tech) */
   'aria-label'?: string;
   /** HTML ID of an element that should be used as the label (for assistive tech) */
@@ -629,11 +633,8 @@ export default class Select<
     props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
     state: State<OptionBase, boolean, GroupBase<OptionBase>>
   ) {
-    const {
-      prevProps,
-      clearFocusValueOnUpdate,
-      inputIsHiddenAfterUpdate,
-    } = state;
+    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
+      state;
     const { options, value, menuIsOpen, inputValue } = props;
     let newMenuOptionsState = {};
     if (
@@ -1493,14 +1494,8 @@ export default class Select<
   // Renderers
   // ==============================
   renderInput() {
-    const {
-      isDisabled,
-      isSearchable,
-      inputId,
-      inputValue,
-      tabIndex,
-      form,
-    } = this.props;
+    const { isDisabled, isSearchable, inputId, inputValue, tabIndex, form } =
+      this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
     const { commonProps } = this;
@@ -1510,6 +1505,8 @@ export default class Select<
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-autocomplete': 'list' as const,
+      'aria-errormessage': this.props['aria-errormessage'],
+      'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
     };
@@ -1523,9 +1520,9 @@ export default class Select<
           onBlur={this.onInputBlur}
           onChange={noop}
           onFocus={this.onInputFocus}
-          readOnly
           disabled={isDisabled}
           tabIndex={tabIndex}
+          inputMode="none"
           form={form}
           value=""
           {...ariaAttributes}
@@ -1951,12 +1948,8 @@ export default class Select<
   }
 
   render() {
-    const {
-      Control,
-      IndicatorsContainer,
-      SelectContainer,
-      ValueContainer,
-    } = this.getComponents();
+    const { Control, IndicatorsContainer, SelectContainer, ValueContainer } =
+      this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;

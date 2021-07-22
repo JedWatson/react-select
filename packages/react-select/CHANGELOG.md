@@ -1,12 +1,21 @@
 # react-select
 
----
+## 5.0.0-beta.0
 
-## DRAFT NOTES for TypeScript Release
+### Major Changes
 
-- Usage of forwardRef
-- Special case to handle `__isNew__` options when filtering
-- new hooks for stateManager / async / creatable
+- [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4489](https://github.com/JedWatson/react-select/pull/4489) Thanks [@Methuselah96](https://github.com/Methuselah96)! - React-Select has been converted from Flow to TypeScript.
+
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+
+- [#4625](https://github.com/JedWatson/react-select/pull/4625) Thanks [@ebonow](https://github.com/ebonow)! - Remove dependency on AutoSizeInput
+  - BREAKING CHANGES:
+    - IE11 no longer works as it does not fully support CSS grid
+    - Renaming the .prefix\_\_input now targets the input and NOT the container. Unfortunate but overdue and perhaps opens the door to completely decoupling the input from needing a container if autosizing is not important.
+
+### Patch Changes
+
+- [4b028829](https://github.com/JedWatson/react-select/commit/4b028829721bcd9014d70ee8dce1efbaf6373cd0) [#4634](https://github.com/JedWatson/react-select/pull/4634) - The readonly attribute has been removed from the DummyInput to improve accessibility
 
 ---
 

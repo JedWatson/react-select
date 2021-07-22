@@ -26,11 +26,11 @@ if (process.env.NODE_ENV === 'test') {
       let pkgExports: MagicalNodesForPackage = {};
       obj[`${name}`] = pkgExports;
       let sourceFile = project.getSourceFile(
-        path.join(__dirname, '../../Proptypes', `${name}.ts`)
+        path.join(__dirname, '../../PropTypes', `${name}.ts`)
       );
       if (!sourceFile) {
         sourceFile = project.getSourceFile(
-          path.join(__dirname, '../../Proptypes', `${name}.tsx`)
+          path.join(__dirname, '../../PropTypes', `${name}.tsx`)
         );
       }
       if (!sourceFile) {
