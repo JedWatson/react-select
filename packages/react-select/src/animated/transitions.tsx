@@ -4,6 +4,7 @@ import React, {
   CSSProperties,
   ReactNode,
   RefCallback,
+  useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
 import {
@@ -28,6 +29,8 @@ export const Fade = <ComponentProps extends {}>({
   onExited,
   ...props
 }: FadeProps<ComponentProps>) => {
+  const nodeRef = useRef<HTMLElement>(null);
+
   const transition: { [K in TransitionStatus]?: CSSProperties } = {
     entering: { opacity: 0 },
     entered: { opacity: 1, transition: `opacity ${duration}ms` },
@@ -36,12 +39,19 @@ export const Fade = <ComponentProps extends {}>({
   };
 
   return (
-    <Transition mountOnEnter unmountOnExit in={inProp} timeout={duration}>
+    <Transition
+      mountOnEnter
+      unmountOnExit
+      in={inProp}
+      timeout={duration}
+      nodeRef={nodeRef}
+    >
       {(state) => {
         const innerProps = {
           style: {
             ...transition[state],
           },
+          ref: nodeRef,
         };
         return <Tag innerProps={innerProps} {...(props as any)} />;
       }}
