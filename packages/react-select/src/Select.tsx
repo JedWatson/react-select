@@ -1489,8 +1489,15 @@ export default class Select<
   // Renderers
   // ==============================
   renderInput() {
-    const { isDisabled, isSearchable, inputId, inputValue, tabIndex, form } =
-      this.props;
+    const {
+      isDisabled,
+      isSearchable,
+      inputId,
+      inputValue,
+      tabIndex,
+      form,
+      menuIsOpen,
+    } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden } = this.state;
     const { commonProps } = this;
@@ -1500,10 +1507,18 @@ export default class Select<
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
       'aria-autocomplete': 'list' as const,
+      'aria-expanded': menuIsOpen,
+      'aria-haspopup': true,
+      'aria-controls': this.getElementId('listbox'),
+      'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
+      role: 'combobox',
+      ...(!isSearchable && {
+        'aria-readonly': true,
+      }),
     };
 
     if (!isSearchable) {
@@ -1835,6 +1850,7 @@ export default class Select<
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
+              id: this.getElementId('listbox'),
             }}
             isLoading={isLoading}
             placement={placement}

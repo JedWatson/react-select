@@ -104,6 +104,7 @@ const Option = <
         className
       )}
       ref={innerRef}
+      aria-disabled={isDisabled}
       {...innerProps}
     >
       {children}

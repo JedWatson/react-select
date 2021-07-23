@@ -195,11 +195,16 @@ exports[`defaults > snapshot 1`] = `
         >
           <input
             aria-autocomplete="list"
+            aria-controls="react-select-2-listbox"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-owns="react-select-2-listbox"
             autocapitalize="none"
             autocomplete="off"
             autocorrect="off"
             class=""
             id="react-select-2-input"
+            role="combobox"
             spellcheck="false"
             style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
             tabindex="0"
