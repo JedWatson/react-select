@@ -67,7 +67,7 @@ export interface AriaOnFocusProps<Option, Group extends GroupBase<Option>> {
 }
 
 export type AriaGuidance = (props: AriaGuidanceProps) => string;
-export type AriaOnChange<Option, IsMulti extends boolean = boolean> = (
+export type AriaOnChange<Option, IsMulti extends boolean> = (
   props: AriaOnChangeProps<Option, IsMulti>
 ) => string;
 export type AriaOnFilter = (props: AriaOnFilterProps) => string;

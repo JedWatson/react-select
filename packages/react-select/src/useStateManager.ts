@@ -31,7 +31,7 @@ export interface StateManagerAdditionalProps<Option> {
 }
 
 export type StateManagerProps<
-  Option,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = SelectPropsWithOptionalStateManagedProps<Option, IsMulti, Group> &

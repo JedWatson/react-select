@@ -20,7 +20,7 @@ interface MultiValueComponents<
 }
 
 export interface MultiValueProps<
-  Option,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -112,7 +112,7 @@ export const MultiValueGeneric = <
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export interface MultiValueRemoveProps<
-  Option,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > {
