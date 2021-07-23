@@ -94,7 +94,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     /*
       A check on existence of ref should not be necessary at this point,
       but TypeScript demands it.
-    */ 
+    */
     if (ref) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our
@@ -110,7 +110,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
       });
     }
   }
-  
+
   componentWillUnmount() {
     if (this.rafID) {
       window.cancelAnimationFrame(this.rafID);
