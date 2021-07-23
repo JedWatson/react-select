@@ -1,6 +1,7 @@
 import React, {
   Component,
   ComponentType,
+  createRef,
   CSSProperties,
   ReactNode,
   RefCallback,
@@ -85,15 +86,16 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  componentWillUnmount() {
-    if (this.rafID) {
-      window.cancelAnimationFrame(this.rafID);
-    }
-  }
+  nodeRef = createRef<HTMLDivElement>();
 
-  // width must be calculated; cannot transition from `undefined` to `number`
-  getWidth: RefCallback<HTMLDivElement> = (ref) => {
-    if (ref && isNaN(this.state.width as number)) {
+  componentDidMount() {
+    const { current: ref } = this.nodeRef;
+
+    /*
+      A check on existence of ref should not be necessary at this point,
+      but TypeScript demands it.
+    */ 
+    if (ref) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our
         call to getBoundingClientRect and setState in order to resolve an edge case
@@ -107,7 +109,13 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         this.setState({ width });
       });
     }
-  };
+  }
+  
+  componentWillUnmount() {
+    if (this.rafID) {
+      window.cancelAnimationFrame(this.rafID);
+    }
+  }
 
   // get base styles
   getStyle = (width: Width): CSSProperties => ({
@@ -130,6 +138,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         unmountOnExit
         in={inProp}
         timeout={this.duration}
+        nodeRef={this.nodeRef}
       >
         {(state) => {
           const style = {
@@ -137,7 +146,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
             ...this.getTransition(state),
           };
           return (
-            <div ref={this.getWidth} style={style}>
+            <div ref={this.nodeRef} style={style}>
               {children}
             </div>
           );
