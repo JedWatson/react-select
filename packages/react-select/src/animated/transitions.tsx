@@ -4,7 +4,6 @@ import React, {
   createRef,
   CSSProperties,
   ReactNode,
-  RefCallback,
   useRef,
 } from 'react';
 import { Transition } from 'react-transition-group';
