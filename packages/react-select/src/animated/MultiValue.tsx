@@ -2,10 +2,10 @@ import React, { ReactElement } from 'react';
 import { TransitionProps } from 'react-transition-group/Transition';
 import { MultiValueProps } from '../components/MultiValue';
 import { Collapse } from './transitions';
-import { GroupBase, OptionBase } from '../types';
+import { GroupBase } from '../types';
 
 export type MultiValueComponent = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -13,7 +13,7 @@ export type MultiValueComponent = <
 ) => ReactElement;
 
 export type AnimatedMultiValueProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = MultiValueProps<Option, IsMulti, Group> & Partial<TransitionProps>;
@@ -21,11 +21,7 @@ export type AnimatedMultiValueProps<
 // strip transition props off before spreading onto actual component
 
 const AnimatedMultiValue = (WrappedComponent: MultiValueComponent) => {
-  return <
-    Option extends OptionBase,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>
-  >({
+  return <Option, IsMulti extends boolean, Group extends GroupBase<Option>>({
     in: inProp,
     onExited,
     ...props

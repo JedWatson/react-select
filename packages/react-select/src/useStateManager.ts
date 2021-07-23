@@ -3,7 +3,6 @@ import {
   GroupBase,
   InputActionMeta,
   OnChangeValue,
-  OptionBase,
   PropsValue,
 } from './types';
 import { PublicBaseSelectProps } from './Select';
@@ -19,27 +18,27 @@ type StateManagedPropKeys =
   | 'value';
 
 type SelectPropsWithOptionalStateManagedProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = Omit<PublicBaseSelectProps<Option, IsMulti, Group>, StateManagedPropKeys> &
   Partial<PublicBaseSelectProps<Option, IsMulti, Group>>;
 
-export interface StateManagerAdditionalProps<Option extends OptionBase> {
+export interface StateManagerAdditionalProps<Option> {
   defaultInputValue?: string;
   defaultMenuIsOpen?: boolean;
   defaultValue?: PropsValue<Option>;
 }
 
 export type StateManagerProps<
-  Option extends OptionBase = OptionBase,
+  Option,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = SelectPropsWithOptionalStateManagedProps<Option, IsMulti, Group> &
   StateManagerAdditionalProps<Option>;
 
 export default function useStateManager<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>,
   AdditionalProps

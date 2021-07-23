@@ -4,20 +4,14 @@ import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
 
-import {
-  CommonProps,
-  GroupBase,
-  OnChangeValue,
-  OptionBase,
-  Options,
-} from '../types';
+import { CommonProps, GroupBase, OnChangeValue, Options } from '../types';
 
 // ==============================
 // Root Container
 // ==============================
 
 export interface LiveRegionProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonProps<Option, IsMulti, Group> {
@@ -33,7 +27,7 @@ export interface LiveRegionProps<
 }
 
 const LiveRegion = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
