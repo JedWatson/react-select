@@ -88,15 +88,13 @@ const LiveRegion = <
       const asOption = (val: OnChangeValue<Option, IsMulti>): Option | null =>
         !Array.isArray(val) ? (val as Option) : null;
 
-      // If there is just one item from the action then get it's label
+      // If there is just one item from the action then get its label
       const selected = removedValue || option || asOption(value);
       const label = selected ? getOptionLabel(selected) : '';
 
       // If there are multiple items from the action then get return a array of labels
       const multiSelected = selectedOptions || removedValues || undefined;
       const labels = multiSelected ? multiSelected.map(getOptionLabel) : [];
-
-      // console.log('live message', multiSelected, selectedOptions);
 
       const onChangeProps = {
         // multiSelected items are usually items that have already been selected
@@ -197,7 +195,7 @@ const LiveRegion = <
   // This is to fix NVDA not announcing the live region when the Select is focused.
   // It also fixes VoiceOver not announcing the live region when re-focusing.
   // It just delays the rendering of the live region a small amount so the screen reader
-  // buffers the announcement after their in-built guidance messages.
+  // buffers the announcement after its in-built guidance messages.
   const [reveal, setReveal] = useState(false);
   const timeoutRef = useRef<number | undefined>();
   useEffect(() => {

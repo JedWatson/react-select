@@ -115,7 +115,6 @@ export interface CommonPropsAndClassName<
 
 export interface ActionMetaBase<Option extends OptionBase> {
   option?: Option | undefined;
-  options?: Options<Option>;
   removedValue?: Option;
   removedValues?: Options<Option>;
   name?: string;
@@ -165,8 +164,8 @@ export interface InitialInputFocusedActionMeta<
   IsMulti extends boolean
 > extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
-  name?: string;
   value: OnChangeValue<Option, IsMulti>;
+  options?: Options<Option>;
 }
 
 export type ActionMeta<Option extends OptionBase> =

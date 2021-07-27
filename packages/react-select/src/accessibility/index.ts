@@ -19,6 +19,7 @@ export type AriaSelection<Option extends OptionBase, IsMulti extends boolean> =
   | (ActionMeta<Option> & {
       value: OnChangeValue<Option, IsMulti>;
       option?: Option;
+      options?: Options<Option>;
     });
 
 export interface AriaGuidanceProps {
@@ -42,7 +43,7 @@ export type AriaOnChangeProps<
 > = AriaSelection<Option, IsMulti> & {
   /** String derived label from selected or removed option/value */
   label: string;
-  /** Array of labels derived from multiple selected or cleared options*/
+  /** Array of labels derived from multiple selected or cleared options */
   labels: string[];
   /** Boolean indicating if the selected menu option is disabled */
   isDisabled: boolean | null;
