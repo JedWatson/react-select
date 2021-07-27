@@ -320,7 +320,7 @@ interface State<
   focusedValue: Option | null;
   selectValue: Options<Option>;
   clearFocusValueOnUpdate: boolean;
-  clearIndicatorEngaged: boolean;
+  prevWasFocused: boolean;
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
 }
@@ -584,9 +584,9 @@ export default class Select<
     isFocused: false,
     selectValue: [],
     clearFocusValueOnUpdate: false,
+    prevWasFocused: false,
     inputIsHiddenAfterUpdate: undefined,
     prevProps: undefined,
-    clearIndicatorEngaged: false,
   };
 
   // Misc. Instance Properties
@@ -630,17 +630,6 @@ export default class Select<
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
-
-    // If `value` or `defaultValue` props are not empty then announce them
-    // when the Select is focused
-    if (this.state.selectValue.length) {
-      this.state.ariaSelection = {
-        value: this.state.selectValue as OnChangeValue<Option, IsMulti>,
-        options: this.state.selectValue,
-        action: 'initial-input-focus',
-        name: this.props.name,
-      };
-    }
   }
 
   static getDerivedStateFromProps(
@@ -651,8 +640,12 @@ export default class Select<
       prevProps,
       clearFocusValueOnUpdate,
       inputIsHiddenAfterUpdate,
+      ariaSelection,
+      isFocused,
+      prevWasFocused,
     } = state;
     const { options, value, menuIsOpen, inputValue } = props;
+    const selectValue = cleanValue(value);
     let newMenuOptionsState = {};
     if (
       prevProps &&
@@ -661,7 +654,6 @@ export default class Select<
         menuIsOpen !== prevProps.menuIsOpen ||
         inputValue !== prevProps.inputValue)
     ) {
-      const selectValue = cleanValue(value);
       const focusableOptions = menuIsOpen
         ? buildFocusableOptions(props, selectValue)
         : [];
@@ -684,10 +676,46 @@ export default class Select<
             inputIsHiddenAfterUpdate: undefined,
           }
         : {};
+
+    const optionRemoved = [
+      'deselect-option',
+      'pop-value',
+      'remove-value',
+      'clear',
+    ].includes(ariaSelection?.action || '');
+
+    const allOptionsCleared = !selectValue.length && optionRemoved;
+
+    let newAriaSelection = ariaSelection;
+
+    let hasKeptFocus = isFocused && prevWasFocused;
+
+    if (isFocused && !hasKeptFocus) {
+      if (allOptionsCleared) {
+        newAriaSelection = null;
+      } else if (state.selectValue.length) {
+        // If `value` or `defaultValue` props are not empty then announce them
+        // when the Select is focused
+        newAriaSelection = {
+          value: valueTernary(
+            props.isMulti,
+            state.selectValue,
+            state.selectValue[0] || null
+          ),
+          options: selectValue,
+          action: 'initial-input-focus',
+        };
+
+        hasKeptFocus = !prevWasFocused;
+      }
+    }
+
     return {
       ...newMenuOptionsState,
       ...newInputIsHiddenState,
       prevProps: props,
+      ariaSelection: newAriaSelection,
+      prevWasFocused: hasKeptFocus,
     };
   }
   componentDidMount() {
@@ -703,17 +731,9 @@ export default class Select<
       this.focusInput();
     }
   }
-  componentDidUpdate(
-    prevProps: Props<Option, IsMulti, Group>,
-    prevState: State<Option, IsMulti, Group>
-  ) {
-    const { isDisabled, menuIsOpen, name } = this.props;
-    const {
-      ariaSelection,
-      isFocused,
-      selectValue,
-      clearIndicatorEngaged,
-    } = this.state;
+  componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
+    const { isDisabled, menuIsOpen } = this.props;
+    const { isFocused } = this.state;
 
     if (
       // ensure focus is restored correctly when the control becomes enabled
@@ -738,47 +758,6 @@ export default class Select<
     ) {
       scrollIntoView(this.menuListRef, this.focusedOptionRef);
       this.scrollToFocusedOptionOnUpdate = false;
-    }
-
-    const setAriaSelectionToNull = () => this.setState({ ariaSelection: null });
-    const setAriaSelectionToSelectedValues = () =>
-      this.setState({
-        ariaSelection: {
-          value: selectValue as OnChangeValue<Option, IsMulti>,
-          options: selectValue,
-          action: 'initial-input-focus',
-          name,
-        },
-      });
-
-    const optionRemoved = [
-      'deselect-option',
-      'pop-value',
-      'remove-value',
-    ].includes(ariaSelection?.action || '');
-
-    const allOptionsCleared =
-      !selectValue.length && ariaSelection?.action === 'clear';
-
-    const selectWasRefocused = !prevState.isFocused && isFocused;
-
-    const selectWasRefocusedWithClearIndicatorDisengaged =
-      selectWasRefocused &&
-      !prevState.clearIndicatorEngaged &&
-      !clearIndicatorEngaged;
-
-    // if the last action was to remove options then we reset the aria selection
-    // message so it doesn't announce the removal when the select is focused again
-    if (selectWasRefocusedWithClearIndicatorDisengaged && allOptionsCleared) {
-      setAriaSelectionToNull();
-    } else if (selectWasRefocused && optionRemoved) {
-      if (selectValue.length) {
-        setAriaSelectionToSelectedValues();
-      } else {
-        setAriaSelectionToNull();
-      }
-    } else if (selectWasRefocused && selectValue.length) {
-      setAriaSelectionToSelectedValues();
     }
   }
   componentWillUnmount() {
@@ -1246,9 +1225,9 @@ export default class Select<
       return;
     }
     this.clearValue();
+    event.preventDefault();
     event.stopPropagation();
     this.openAfterFocus = false;
-    this.setState({ clearIndicatorEngaged: true });
     if (event.type === 'touchend') {
       this.focusInput();
     } else {
@@ -1390,7 +1369,6 @@ export default class Select<
     this.setState({
       inputIsHiddenAfterUpdate: false,
       isFocused: true,
-      clearIndicatorEngaged: false,
     });
     if (this.openAfterFocus || this.props.openMenuOnFocus) {
       this.openMenu('first');
@@ -2038,12 +2016,8 @@ export default class Select<
   }
 
   render() {
-    const {
-      Control,
-      IndicatorsContainer,
-      SelectContainer,
-      ValueContainer,
-    } = this.getComponents();
+    const { Control, IndicatorsContainer, SelectContainer, ValueContainer } =
+      this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;

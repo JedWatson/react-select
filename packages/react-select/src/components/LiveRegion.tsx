@@ -96,6 +96,8 @@ const LiveRegion = <
       const multiSelected = selectedOptions || removedValues || undefined;
       const labels = multiSelected ? multiSelected.map(getOptionLabel) : [];
 
+      // console.log('live message', multiSelected, selectedOptions);
+
       const onChangeProps = {
         // multiSelected items are usually items that have already been selected
         // or set by the user as a default value so we assume they are not disabled
@@ -193,17 +195,15 @@ const LiveRegion = <
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
   // This is to fix NVDA not announcing the live region when the Select is focused.
-  // It just delays the rendering of the live region a small amount so NVDA sees the
-  // contents of the live region get mutated.
+  // It also fixes VoiceOver not announcing the live region when re-focusing.
+  // It just delays the rendering of the live region a small amount so the screen reader
+  // buffers the announcement after their in-built guidance messages.
   const [reveal, setReveal] = useState(false);
   const timeoutRef = useRef<number | undefined>();
   useEffect(() => {
     if (!timeoutRef.current && isFocused) {
-      // TS kept wanting this to be a NodeJS.Timeout type
-      timeoutRef.current = (setTimeout(
-        () => setReveal(true),
-        50
-      ) as unknown) as number;
+      // @ts-ignore - TS kept wanting this to be a NodeJS.Timeout type
+      timeoutRef.current = setTimeout(() => setReveal(true));
     }
     return () => {
       clearTimeout(timeoutRef.current);
@@ -217,9 +217,6 @@ const LiveRegion = <
       aria-live={ariaLive}
       aria-atomic="false"
       aria-relevant="additions text"
-      // This is to fix VoiceOver not announcing when focusing after Select
-      // has already been focused once
-      style={{ display: isFocused ? 'block' : 'none' }}
     >
       {reveal && (
         <React.Fragment>

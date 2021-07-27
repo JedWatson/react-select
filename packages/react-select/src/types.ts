@@ -28,10 +28,8 @@ export type PropsValue<Option extends OptionBase> =
   | MultiValue<Option>
   | SingleValue<Option>;
 
-export type OnChangeValue<
-  Option extends OptionBase,
-  IsMulti extends boolean
-> = IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
+export type OnChangeValue<Option extends OptionBase, IsMulti extends boolean> =
+  IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
 interface Colors {
   primary: string;
@@ -117,6 +115,7 @@ export interface CommonPropsAndClassName<
 
 export interface ActionMetaBase<Option extends OptionBase> {
   option?: Option | undefined;
+  options?: Options<Option>;
   removedValue?: Option;
   removedValues?: Options<Option>;
   name?: string;
@@ -161,10 +160,13 @@ export interface CreateOptionActionMeta<Option extends OptionBase>
   action: 'create-option';
   name?: string;
 }
-export interface InitialInputFocusedActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+export interface InitialInputFocusedActionMeta<
+  Option extends OptionBase,
+  IsMulti extends boolean
+> extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
   name?: string;
+  value: OnChangeValue<Option, IsMulti>;
 }
 
 export type ActionMeta<Option extends OptionBase> =
@@ -173,8 +175,7 @@ export type ActionMeta<Option extends OptionBase> =
   | RemoveValueActionMeta<Option>
   | PopValueActionMeta<Option>
   | ClearActionMeta<Option>
-  | CreateOptionActionMeta<Option>
-  | InitialInputFocusedActionMeta<Option>;
+  | CreateOptionActionMeta<Option>;
 
 export type SetValueAction = 'select-option' | 'deselect-option';
 

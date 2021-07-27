@@ -1,6 +1,7 @@
 import {
   ActionMeta,
   GroupBase,
+  InitialInputFocusedActionMeta,
   OnChangeValue,
   OptionBase,
   Options,
@@ -13,14 +14,12 @@ export type GuidanceContext = 'menu' | 'input' | 'value';
 
 export type AriaLive = 'polite' | 'off' | 'assertive';
 
-export type AriaSelection<
-  Option extends OptionBase,
-  IsMulti extends boolean
-> = ActionMeta<Option> & {
-  value: OnChangeValue<Option, IsMulti>;
-  option?: Option;
-  options?: Options<Option>;
-};
+export type AriaSelection<Option extends OptionBase, IsMulti extends boolean> =
+  | InitialInputFocusedActionMeta<Option, IsMulti>
+  | (ActionMeta<Option> & {
+      value: OnChangeValue<Option, IsMulti>;
+      option?: Option;
+    });
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
@@ -104,13 +103,8 @@ export interface AriaLiveMessages<
 
 export const defaultAriaLiveMessages = {
   guidance: (props: AriaGuidanceProps) => {
-    const {
-      isSearchable,
-      isMulti,
-      isDisabled,
-      tabSelectsValue,
-      context,
-    } = props;
+    const { isSearchable, isMulti, isDisabled, tabSelectsValue, context } =
+      props;
     switch (context) {
       case 'menu':
         return `Use Up and Down to choose options${
@@ -138,16 +132,14 @@ export const defaultAriaLiveMessages = {
   onChange: <Option extends OptionBase, IsMulti extends boolean>(
     props: AriaOnChangeProps<Option, IsMulti>
   ) => {
-    const { action, label = '', labels, isDisabled } = props;
+    const { action, label = '', labels, isDisabled, value } = props;
     switch (action) {
       case 'deselect-option':
       case 'pop-value':
       case 'remove-value':
         return `option ${label}, deselected.`;
       case 'clear':
-        return `option${labels.length > 1 ? 's' : ''} ${labels.join(
-          ','
-        )}, cleared.`;
+        return 'All selected options have been cleared.';
       case 'initial-input-focus':
         return `option${labels.length > 1 ? 's' : ''} ${labels.join(
           ','
@@ -157,7 +149,7 @@ export const defaultAriaLiveMessages = {
           ? `option ${label} is disabled. Select another option.`
           : `option ${label}, selected.`;
       case 'create-option':
-        return `option ${label}, created.`;
+        return `option ${value}, created.`;
       default:
         return '';
     }
