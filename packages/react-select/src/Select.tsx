@@ -677,37 +677,30 @@ export default class Select<
           }
         : {};
 
-    const optionRemoved = [
-      'deselect-option',
-      'pop-value',
-      'remove-value',
-      'clear',
-    ].includes(ariaSelection?.action || '');
-
-    const allOptionsCleared = !selectValue.length && optionRemoved;
-
     let newAriaSelection = ariaSelection;
 
     let hasKeptFocus = isFocused && prevWasFocused;
 
     if (isFocused && !hasKeptFocus) {
-      if (allOptionsCleared) {
-        newAriaSelection = null;
-      } else if (state.selectValue.length) {
-        // If `value` or `defaultValue` props are not empty then announce them
-        // when the Select is focused
-        newAriaSelection = {
-          value: valueTernary(
-            props.isMulti,
-            state.selectValue,
-            state.selectValue[0] || null
-          ),
-          options: selectValue,
-          action: 'initial-input-focus',
-        };
+      // If `value` or `defaultValue` props are not empty then announce them
+      // when the Select is initially focused
+      newAriaSelection = {
+        value: valueTernary(
+          props.isMulti,
+          state.selectValue,
+          state.selectValue[0] || null
+        ),
+        options: selectValue,
+        action: 'initial-input-focus',
+      };
 
-        hasKeptFocus = !prevWasFocused;
-      }
+      hasKeptFocus = !prevWasFocused;
+    }
+
+    // If the 'initial-input-focus' action has been set already
+    // then reset the ariaSelection to null
+    if (ariaSelection?.action === 'initial-input-focus') {
+      newAriaSelection = null;
     }
 
     return {
@@ -1073,7 +1066,13 @@ export default class Select<
     return custom ? custom(base, props as any) : base;
   };
   getElementId = (
-    element: 'group' | 'input' | 'listbox' | 'option' | 'placeholder'
+    element:
+      | 'group'
+      | 'input'
+      | 'listbox'
+      | 'option'
+      | 'placeholder'
+      | 'live-region'
   ) => {
     return `${this.instancePrefix}-${element}`;
   };
@@ -1552,7 +1551,7 @@ export default class Select<
       menuIsOpen,
     } = this.props;
     const { Input } = this.getComponents();
-    const { inputIsHidden } = this.state;
+    const { inputIsHidden, ariaSelection } = this.state;
     const { commonProps } = this;
 
     const id = inputId || this.getElementId('input');
@@ -1572,9 +1571,13 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
-      ...(!this.hasValue() && {
-        'aria-describedby': this.getElementId('placeholder'),
-      }),
+      ...(this.hasValue()
+        ? ariaSelection?.action === 'initial-input-focus' && {
+            'aria-describedby': this.getElementId('live-region'),
+          }
+        : {
+            'aria-describedby': this.getElementId('placeholder'),
+          }),
     };
 
     if (!isSearchable) {
@@ -2005,6 +2008,7 @@ export default class Select<
     return (
       <LiveRegion
         {...commonProps}
+        id={this.getElementId('live-region')}
         ariaSelection={ariaSelection}
         focusedOption={focusedOption}
         focusedValue={focusedValue}

@@ -133,7 +133,7 @@ export const defaultAriaLiveMessages = {
   onChange: <Option extends OptionBase, IsMulti extends boolean>(
     props: AriaOnChangeProps<Option, IsMulti>
   ) => {
-    const { action, label = '', labels, isDisabled, value } = props;
+    const { action, label = '', labels, isDisabled } = props;
     switch (action) {
       case 'deselect-option':
       case 'pop-value':
@@ -149,8 +149,6 @@ export const defaultAriaLiveMessages = {
         return isDisabled
           ? `option ${label} is disabled. Select another option.`
           : `option ${label}, selected.`;
-      case 'create-option':
-        return `option ${value}, created.`;
       default:
         return '';
     }

@@ -55,11 +55,7 @@ const BASIC_PROPS: BasicProps = {
 };
 
 test('defaults > snapshot', () => {
-  jest.useFakeTimers();
   const { container } = render(<Select />);
-  act(() => {
-    jest.runAllTimers();
-  });
   expect(container).toMatchSnapshot();
 });
 

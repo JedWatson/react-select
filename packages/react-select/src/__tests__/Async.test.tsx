@@ -6,8 +6,6 @@ import userEvent from '@testing-library/user-event';
 import Async from '../Async';
 import { Option, OPTIONS } from './constants';
 
-jest.useFakeTimers();
-
 test('defaults - snapshot', () => {
   const { container } = render(<Async />);
   expect(container).toMatchSnapshot();
@@ -24,11 +22,6 @@ cases(
     const { container } = render(
       <Async classNamePrefix="react-select" menuIsOpen {...props} />
     );
-
-    act(() => {
-      // wait for live region setTimeout
-      jest.runAllTimers();
-    });
 
     await waitFor(() => {
       expect(container.querySelectorAll('.react-select__option').length).toBe(

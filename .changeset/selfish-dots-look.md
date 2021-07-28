@@ -2,10 +2,10 @@
 'react-select': patch
 ---
 
-The following improvements have been made to the `aria-live` announcements:
+The following improvements have been made for screen reader users:
 
 - NVDA now announces the context text when initially focused
+- Selected option/s (single and multi) are now announced when initially focused
 - VoiceOver now announces the context text when re-focusing
+- The clear action is now announced
 - Placeholder text is now announced
-- The selected option/s (single and multi) are now announced when being focused
-- The deselected option/s (single and multi) are now announced when cleared

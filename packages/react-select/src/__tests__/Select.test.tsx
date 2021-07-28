@@ -49,8 +49,6 @@ const BASIC_PROPS: BasicProps = {
   value: null,
 };
 
-jest.useFakeTimers();
-
 test('snapshot - defaults', () => {
   const { container } = render(
     <Select
@@ -2074,7 +2072,6 @@ cases(
 );
 
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
-  jest.useFakeTimers();
   let { container, rerender } = render(
     <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
   );
@@ -2085,10 +2082,6 @@ test('accessibility > to show the number of options available in A11yText when t
 
   const liveRegionId = '#aria-context';
   fireEvent.focus(container.querySelector('input.react-select__input')!);
-
-  act(() => {
-    jest.runAllTimers();
-  });
 
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /17 results available/
@@ -2111,7 +2104,6 @@ test('accessibility > to show the number of options available in A11yText when t
 });
 
 test('accessibility > interacting with disabled options shows correct A11yText', () => {
-  jest.useFakeTimers();
   let { container } = render(
     <Select
       {...BASIC_PROPS}
@@ -2129,10 +2121,6 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
 
-  act(() => {
-    jest.runAllTimers();
-  });
-
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
@@ -2149,7 +2137,6 @@ test('accessibility > interacting with disabled options shows correct A11yText',
 });
 
 test('accessibility > interacting with multi values options shows correct A11yText', () => {
-  jest.useFakeTimers();
   let renderProps = {
     ...BASIC_PROPS,
     options: OPTIONS_DISABLED,
@@ -2168,10 +2155,6 @@ test('accessibility > interacting with multi values options shows correct A11yTe
   let input = container.querySelector('.react-select__value-container input')!;
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
-
-  act(() => {
-    jest.runAllTimers();
-  });
 
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
@@ -2206,7 +2189,6 @@ test('accessibility > interacting with multi values options shows correct A11yTe
 });
 
 test('accessibility > screenReaderStatus function prop > to pass custom text to A11yText', () => {
-  jest.useFakeTimers();
   const screenReaderStatus = ({ count }: { count: number }) =>
     `There are ${count} options available`;
 
@@ -2233,10 +2215,6 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
-  act(() => {
-    jest.runAllTimers();
-  });
-
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 17 options available'
   );
@@ -2258,7 +2236,6 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 });
 
 test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', () => {
-  jest.useFakeTimers();
   const ariaLiveMessages: AriaLiveMessages<Option, boolean, GroupBase<Option>> =
     {
       onChange: (props) => {
@@ -2292,18 +2269,12 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     key: 'Enter',
   });
 
-  act(() => {
-    jest.runAllTimers();
-  });
-
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
   );
 });
 
 test('accessibility > announces already selected values when focused', () => {
-  jest.useFakeTimers();
-
   let { container } = render(
     <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
   );
@@ -2315,11 +2286,6 @@ test('accessibility > announces already selected values when focused', () => {
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
-  act(() => {
-    // wait for live region setTimeout
-    jest.runAllTimers();
-  });
-
   expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu, '
   );
@@ -2328,15 +2294,11 @@ test('accessibility > announces already selected values when focused', () => {
   );
 });
 
-test('accessibility > announces cleared values and does not announce them when refocusing Select', () => {
-  jest.useFakeTimers();
-
-  let { container, rerender } = render(
+test('accessibility > announces cleared values', () => {
+  let { container } = render(
     <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
   );
   const liveRegionSelectionId = '#aria-selection';
-  const liveRegionContextId = '#aria-context';
-
   /**
    * announce deselected value
    */
@@ -2344,40 +2306,9 @@ test('accessibility > announces cleared values and does not announce them when r
   fireEvent.mouseDown(
     container.querySelector('.react-select__clear-indicator')!
   );
-  act(() => {
-    // wait for live region setTimeout
-    jest.runAllTimers();
-  });
   expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
     'All selected options have been cleared.'
   );
-
-  /**
-   * simulate tabbing back and forth
-   */
-  // blur the Select
-  fireEvent.blur(container.querySelector('input.react-select__input')!);
-  act(() => {
-    // wait for live region setTimeout
-    jest.runAllTimers();
-  });
-  // the live region should not be mounted anymore
-  expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
-
-  // there should no longer be a value selected
-  rerender(<Select {...BASIC_PROPS} options={OPTIONS} isClearable />);
-  // then focus the Select again
-  fireEvent.focus(container.querySelector('input.react-select__input')!);
-  act(() => {
-    // wait for live region setTimeout
-    jest.runAllTimers();
-  });
-
-  // should not announce the deselscted option
-  expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
-    ' Select is focused ,type to refine list, press Down to open the menu, '
-  );
-  expect(container.querySelector(liveRegionSelectionId)!.textContent).toBe('');
 });
 
 test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {

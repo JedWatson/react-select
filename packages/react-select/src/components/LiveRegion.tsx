@@ -30,6 +30,7 @@ export interface LiveRegionProps<
   selectValue: Options<Option>;
   focusableOptions: Options<Option>;
   isFocused: boolean;
+  id: string;
 }
 
 const LiveRegion = <
@@ -47,6 +48,7 @@ const LiveRegion = <
     isFocused,
     selectValue,
     selectProps,
+    id,
   } = props;
 
   const {
@@ -92,7 +94,7 @@ const LiveRegion = <
       const selected = removedValue || option || asOption(value);
       const label = selected ? getOptionLabel(selected) : '';
 
-      // If there are multiple items from the action then get return a array of labels
+      // If there are multiple items from the action then return an array of labels
       const multiSelected = selectedOptions || removedValues || undefined;
       const labels = multiSelected ? multiSelected.map(getOptionLabel) : [];
 
@@ -192,37 +194,28 @@ const LiveRegion = <
 
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
-  // This is to fix NVDA not announcing the live region when the Select is focused.
-  // It also fixes VoiceOver not announcing the live region when re-focusing.
-  // It just delays the rendering of the live region a small amount so the screen reader
-  // buffers the announcement after its in-built guidance messages.
-  const [reveal, setReveal] = useState(false);
-  const timeoutRef = useRef<number | undefined>();
-  useEffect(() => {
-    if (!timeoutRef.current && isFocused) {
-      // @ts-ignore - TS kept wanting this to be a NodeJS.Timeout type
-      timeoutRef.current = setTimeout(() => setReveal(true));
-    }
-    return () => {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = undefined;
-      setReveal(false);
-    };
-  }, [isFocused]);
+  const ScreenReaderText = (
+    <React.Fragment>
+      <span id="aria-selection">{ariaSelected}</span>
+      <span id="aria-context">{ariaContext}</span>
+    </React.Fragment>
+  );
+
+  const isInitialFocus = ariaSelection?.action === 'initial-input-focus';
 
   return (
-    <A11yText
-      aria-live={ariaLive}
-      aria-atomic="false"
-      aria-relevant="additions text"
-    >
-      {reveal && (
-        <React.Fragment>
-          <span id="aria-selection">{ariaSelected}</span>
-          <span id="aria-context">{ariaContext}</span>
-        </React.Fragment>
-      )}
-    </A11yText>
+    <React.Fragment>
+      {/* We use 'aria-describedby' linked to this component for the initial focus */}
+      {/* action, then for all other actions we use the live region below */}
+      <A11yText id={id}>{isInitialFocus && ScreenReaderText}</A11yText>
+      <A11yText
+        aria-live={ariaLive}
+        aria-atomic="false"
+        aria-relevant="additions text"
+      >
+        {isFocused && !isInitialFocus && ScreenReaderText}
+      </A11yText>
+    </React.Fragment>
   );
 };
 
