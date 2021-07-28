@@ -685,11 +685,7 @@ export default class Select<
       // If `value` or `defaultValue` props are not empty then announce them
       // when the Select is initially focused
       newAriaSelection = {
-        value: valueTernary(
-          props.isMulti,
-          state.selectValue,
-          state.selectValue[0] || null
-        ),
+        value: valueTernary(props.isMulti, selectValue, selectValue[0] || null),
         options: selectValue,
         action: 'initial-input-focus',
       };
