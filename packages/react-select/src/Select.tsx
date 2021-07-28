@@ -644,7 +644,7 @@ export default class Select<
       isFocused,
       prevWasFocused,
     } = state;
-    const { options, value, menuIsOpen, inputValue } = props;
+    const { options, value, menuIsOpen, inputValue, isMulti } = props;
     const selectValue = cleanValue(value);
     let newMenuOptionsState = {};
     if (
@@ -685,7 +685,7 @@ export default class Select<
       // If `value` or `defaultValue` props are not empty then announce them
       // when the Select is initially focused
       newAriaSelection = {
-        value: valueTernary(props.isMulti, selectValue, selectValue[0] || null),
+        value: valueTernary(isMulti, selectValue, selectValue[0] || null),
         options: selectValue,
         action: 'initial-input-focus',
       };

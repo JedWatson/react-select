@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { ReactNode, useMemo} from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
