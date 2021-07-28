@@ -9,3 +9,4 @@ The following improvements have been made for screen reader users:
 - VoiceOver now announces the context text when re-focusing
 - The clear action is now announced
 - Placeholder text is now announced
+- Mobile VoiceOver is now able to remove selected multi options
