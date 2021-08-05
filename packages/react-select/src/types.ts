@@ -140,7 +140,6 @@ export interface RemoveValueActionMeta<Option extends OptionBase>
   removedValue: Option;
   name?: string;
 }
-
 export interface PopValueActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'pop-value';
@@ -159,6 +158,14 @@ export interface CreateOptionActionMeta<Option extends OptionBase>
   extends ActionMetaBase<Option> {
   action: 'create-option';
   name?: string;
+}
+export interface InitialInputFocusedActionMeta<
+  Option extends OptionBase,
+  IsMulti extends boolean
+> extends ActionMetaBase<Option> {
+  action: 'initial-input-focus';
+  value: OnChangeValue<Option, IsMulti>;
+  options?: Options<Option>;
 }
 
 export type ActionMeta<Option extends OptionBase> =
