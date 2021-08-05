@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature request
+    url: https://github.com/JedWatson/react-select/discussions/categories/ideas
+    about: Got an idea for a feature or want to propose a change? Then this is the place for you.
+  - name: Question on usage
+    url: https://github.com/JedWatson/react-select/discussions/categories/q-a
+    about: If you have a question regarding the usage of the library.
+  - name: StackOverflow
+    url: https://stackoverflow.com/questions/tagged/react-select
+    about: Alternatively you can visit StackOverflow with the `[react-select]` tag

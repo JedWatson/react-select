@@ -1,3 +1,11 @@
+---
+name: Bug report
+about: File a bug report
+title: '<title>'
+labels: [issue/bug-unconfirmed]
+assignees: ''
+---
+
 ### Thanks for using react-select!
 
 Before creating an issue...
