@@ -16,7 +16,7 @@ var install=Task("Install")
     .Does(() =>
 {
     Information("Starting Install");
-    NpmInstall();      
+    NpmCi();      
     Information("Ending Install");
 });
 
@@ -25,11 +25,10 @@ var build=Task("Build")
 {
     Information("Starting Build");
     var conf = ParseJsonFromFile("package.json");
-    if(conf["scripts"]["build"]!=null)
-        NpmRunScript("build");      
+    if(conf["scripts"]["build"]!=null)        
+        NpmRunScript("build");
     Information("Ending Build");
 });
-
 var tests = Task("Tests")
 	.Does(()=>
 	{	
@@ -49,6 +48,7 @@ var package = Task("Package")
         NpmPack(settings => settings.FromSource("./..")); 
         Information("Ending Pack");
     });
+
 Task("Default")
     .IsDependentOn("Package");
 
