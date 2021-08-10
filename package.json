@@ -92,8 +92,8 @@
     ]
   },
   "files": [
-	"dist",
-	"types"
+    "dist",
+    "types"
   ],
   "keywords": [
     "combobox",
