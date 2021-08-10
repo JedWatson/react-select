@@ -23,13 +23,6 @@ stages:
       inputs:
         versionSpec: 5.2.x
 
-    #Authenticate the machine with the private artifact repository
-    - task: PythonScript@0
-      displayName: 'Run a Python script'
-      inputs:
-        scriptPath: '$(System.DefaultWorkingDirectory)\authenticate.py'
-        arguments: '"$(System.AccessToken)" git'
-
     #Restore the project packages
     - task: npmAuthenticate@0
       inputs:
