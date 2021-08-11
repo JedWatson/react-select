@@ -1,3 +1,6 @@
+
+<b>Note:</b> This is a forked repository, for more information please check the [documentation](https://outsystemsrd.atlassian.net/wiki/spaces/RKB/pages/2678030793/How+to+change+a+third-party+npm+library#How-to-update-a-forked-repository).
+
 [![NPM](https://img.shields.io/npm/v/react-select.svg)](https://www.npmjs.com/package/react-select)
 [![CircleCI](https://circleci.com/gh/JedWatson/react-select/tree/master.svg?style=svg)](https://circleci.com/gh/JedWatson/react-select/tree/master)
 [![Coverage Status](https://coveralls.io/repos/JedWatson/react-select/badge.svg?branch=master&service=github)](https://coveralls.io/github/JedWatson/react-select?branch=master)

@@ -137,5 +137,5 @@
   },
   "sideEffects": false,
   "typings": "types/index.d.ts",
-  "version": "2.4.20"
+  "version": "2.4.2-os18"
 }
