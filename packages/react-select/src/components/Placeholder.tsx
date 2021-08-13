@@ -29,11 +29,9 @@ export const placeholderCSS = <
 }: PlaceholderProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'placeholder',
   color: colors.neutral50,
+  gridArea: '1 / 2',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
 });
 
 const Placeholder = <
