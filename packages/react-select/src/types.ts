@@ -2,33 +2,22 @@ import { CSSObject } from '@emotion/serialize';
 import { Props } from './Select';
 import { StylesProps } from './styles';
 
-export interface OptionBase {
-  readonly label?: string;
-  readonly value?: unknown;
-  readonly isDisabled?: boolean;
-  readonly __isNew__?: true;
-}
-
-export interface GroupBase<Option extends OptionBase> {
+export interface GroupBase<Option> {
   readonly options: readonly Option[];
   readonly label?: string;
 }
 
-export type OptionsOrGroups<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> = readonly (Option | Group)[];
+export type OptionsOrGroups<Option, Group extends GroupBase<Option>> =
+  readonly (Option | Group)[];
 
-export type Options<Option extends OptionBase> = readonly Option[];
+export type Options<Option> = readonly Option[];
 
-export type SingleValue<Option extends OptionBase> = Option | null;
-export type MultiValue<Option extends OptionBase> = readonly Option[];
+export type SingleValue<Option> = Option | null;
+export type MultiValue<Option> = readonly Option[];
 
-export type PropsValue<Option extends OptionBase> =
-  | MultiValue<Option>
-  | SingleValue<Option>;
+export type PropsValue<Option> = MultiValue<Option> | SingleValue<Option>;
 
-export type OnChangeValue<Option extends OptionBase, IsMulti extends boolean> =
+export type OnChangeValue<Option, IsMulti extends boolean> =
   IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
 interface Colors {
@@ -69,7 +58,7 @@ export type ClassNamesState = { [key: string]: boolean };
 
 export type CX = (state: ClassNamesState, className?: string) => string;
 export type GetStyles<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
@@ -78,7 +67,7 @@ export type GetStyles<
 ) => CSSObjectWithLabel;
 
 export interface CommonProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -106,69 +95,63 @@ export interface CommonProps<
 }
 
 export interface CommonPropsAndClassName<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonProps<Option, IsMulti, Group> {
   className?: string | undefined;
 }
 
-export interface ActionMetaBase<Option extends OptionBase> {
+export interface ActionMetaBase<Option> {
   option?: Option | undefined;
   removedValue?: Option;
   removedValues?: Options<Option>;
   name?: string;
 }
 
-export interface SelectOptionActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+export interface SelectOptionActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'select-option';
   option: Option | undefined;
   name?: string;
 }
 
-export interface DeselectOptionActionMeta<Option extends OptionBase>
+export interface DeselectOptionActionMeta<Option>
   extends ActionMetaBase<Option> {
   action: 'deselect-option';
   option: Option | undefined;
   name?: string;
 }
 
-export interface RemoveValueActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+export interface RemoveValueActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'remove-value';
   removedValue: Option;
   name?: string;
 }
-export interface PopValueActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+
+export interface PopValueActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'pop-value';
   removedValue: Option;
   name?: string;
 }
 
-export interface ClearActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+export interface ClearActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'clear';
   removedValues: Options<Option>;
   name?: string;
 }
 
-export interface CreateOptionActionMeta<Option extends OptionBase>
-  extends ActionMetaBase<Option> {
+export interface CreateOptionActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'create-option';
   name?: string;
 }
-export interface InitialInputFocusedActionMeta<
-  Option extends OptionBase,
-  IsMulti extends boolean
-> extends ActionMetaBase<Option> {
+export interface InitialInputFocusedActionMeta<Option, IsMulti extends boolean>
+  extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
   value: OnChangeValue<Option, IsMulti>;
   options?: Options<Option>;
 }
 
-export type ActionMeta<Option extends OptionBase> =
+export type ActionMeta<Option> =
   | SelectOptionActionMeta<Option>
   | DeselectOptionActionMeta<Option>
   | RemoveValueActionMeta<Option>
@@ -200,11 +183,7 @@ export type FocusDirection =
   | 'first'
   | 'last';
 
-export type GetOptionLabel<Option extends OptionBase> = (
-  option: Option
-) => string;
-export type GetOptionValue<Option extends OptionBase> = (
-  option: Option
-) => string;
+export type GetOptionLabel<Option> = (option: Option) => string;
+export type GetOptionValue<Option> = (option: Option) => string;
 
 export type CSSObjectWithLabel = CSSObject & { label?: string };

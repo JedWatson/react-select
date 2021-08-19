@@ -6,12 +6,11 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 import { cleanCommonProps } from '../utils';
 
 export interface InputSpecificProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends InputHTMLAttributes<HTMLInputElement>,
@@ -29,13 +28,13 @@ export interface InputSpecificProps<
 }
 
 export type InputProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = InputSpecificProps<Option, IsMulti, Group>;
 
 export const inputCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -83,7 +82,7 @@ const inputStyle = (isHidden: boolean) => ({
 });
 
 const Input = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
