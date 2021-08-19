@@ -7,8 +7,10 @@ export interface GroupBase<Option> {
   readonly label?: string;
 }
 
-export type OptionsOrGroups<Option, Group extends GroupBase<Option>> =
-  readonly (Option | Group)[];
+export type OptionsOrGroups<
+  Option,
+  Group extends GroupBase<Option>
+> = readonly (Option | Group)[];
 
 export type Options<Option> = readonly Option[];
 
@@ -17,8 +19,10 @@ export type MultiValue<Option> = readonly Option[];
 
 export type PropsValue<Option> = MultiValue<Option> | SingleValue<Option>;
 
-export type OnChangeValue<Option, IsMulti extends boolean> =
-  IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
+export type OnChangeValue<
+  Option,
+  IsMulti extends boolean
+> = IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
 interface Colors {
   primary: string;
@@ -144,10 +148,8 @@ export interface CreateOptionActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'create-option';
   name?: string;
 }
-export interface InitialInputFocusedActionMeta<
-  Option extends OptionBase,
-  IsMulti extends boolean
-> extends ActionMetaBase<Option> {
+export interface InitialInputFocusedActionMeta<Option, IsMulti extends boolean>
+  extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
   value: OnChangeValue<Option, IsMulti>;
   options?: Options<Option>;
