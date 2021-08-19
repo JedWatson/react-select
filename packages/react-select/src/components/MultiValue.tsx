@@ -126,7 +126,11 @@ export function MultiValueRemove<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({ children, innerProps }: MultiValueRemoveProps<Option, IsMulti, Group>) {
-  return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
+  return (
+    <div role="button" {...innerProps}>
+      {children || <CrossIcon size={14} />}
+    </div>
+  );
 }
 
 const MultiValue = <
@@ -200,6 +204,7 @@ const MultiValue = <
                   className
                 )
               ),
+              'aria-label': `Remove ${children || 'option'}`,
               ...removeProps,
             }}
             selectProps={selectProps}

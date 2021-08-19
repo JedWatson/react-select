@@ -1,6 +1,7 @@
 import {
   ActionMeta,
   GroupBase,
+  InitialInputFocusedActionMeta,
   OnChangeValue,
   Options,
   OptionsOrGroups,
@@ -13,9 +14,12 @@ export type GuidanceContext = 'menu' | 'input' | 'value';
 export type AriaLive = 'polite' | 'off' | 'assertive';
 
 export type AriaSelection<Option, IsMulti extends boolean> =
-  ActionMeta<Option> & {
-    value: OnChangeValue<Option, IsMulti>;
-  };
+  | InitialInputFocusedActionMeta<Option, IsMulti>
+  | (ActionMeta<Option> & {
+      value: OnChangeValue<Option, IsMulti>;
+      option?: Option;
+      options?: Options<Option>;
+    });
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
@@ -38,6 +42,8 @@ export type AriaOnChangeProps<Option, IsMulti extends boolean> = AriaSelection<
 > & {
   /** String derived label from selected or removed option/value */
   label: string;
+  /** Array of labels derived from multiple selected or cleared options */
+  labels: string[];
   /** Boolean indicating if the selected menu option is disabled */
   isDisabled: boolean | null;
 };
@@ -122,12 +128,18 @@ export const defaultAriaLiveMessages = {
   onChange: <Option, IsMulti extends boolean>(
     props: AriaOnChangeProps<Option, IsMulti>
   ) => {
-    const { action, label = '', isDisabled } = props;
+    const { action, label = '', labels, isDisabled } = props;
     switch (action) {
       case 'deselect-option':
       case 'pop-value':
       case 'remove-value':
         return `option ${label}, deselected.`;
+      case 'clear':
+        return 'All selected options have been cleared.';
+      case 'initial-input-focus':
+        return `option${labels.length > 1 ? 's' : ''} ${labels.join(
+          ','
+        )}, selected.`;
       case 'select-option':
         return isDisabled
           ? `option ${label} is disabled. Select another option.`

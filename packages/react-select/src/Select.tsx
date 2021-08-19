@@ -319,6 +319,7 @@ interface State<
   focusedValue: Option | null;
   selectValue: Options<Option>;
   clearFocusValueOnUpdate: boolean;
+  prevWasFocused: boolean;
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
 }
@@ -578,6 +579,7 @@ export default class Select<
     isFocused: false,
     selectValue: [],
     clearFocusValueOnUpdate: false,
+    prevWasFocused: false,
     inputIsHiddenAfterUpdate: undefined,
     prevProps: undefined,
   };
@@ -624,13 +626,21 @@ export default class Select<
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
   }
+
   static getDerivedStateFromProps(
     props: Props<unknown, boolean, GroupBase<unknown>>,
     state: State<unknown, boolean, GroupBase<unknown>>
   ) {
-    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
-      state;
-    const { options, value, menuIsOpen, inputValue } = props;
+    const {
+      prevProps,
+      clearFocusValueOnUpdate,
+      inputIsHiddenAfterUpdate,
+      ariaSelection,
+      isFocused,
+      prevWasFocused,
+    } = state;
+    const { options, value, menuIsOpen, inputValue, isMulti } = props;
+    const selectValue = cleanValue(value);
     let newMenuOptionsState = {};
     if (
       prevProps &&
@@ -639,7 +649,6 @@ export default class Select<
         menuIsOpen !== prevProps.menuIsOpen ||
         inputValue !== prevProps.inputValue)
     ) {
-      const selectValue = cleanValue(value);
       const focusableOptions = menuIsOpen
         ? buildFocusableOptions(props, selectValue)
         : [];
@@ -662,10 +671,35 @@ export default class Select<
             inputIsHiddenAfterUpdate: undefined,
           }
         : {};
+
+    let newAriaSelection = ariaSelection;
+
+    let hasKeptFocus = isFocused && prevWasFocused;
+
+    if (isFocused && !hasKeptFocus) {
+      // If `value` or `defaultValue` props are not empty then announce them
+      // when the Select is initially focused
+      newAriaSelection = {
+        value: valueTernary(isMulti, selectValue, selectValue[0] || null),
+        options: selectValue,
+        action: 'initial-input-focus',
+      };
+
+      hasKeptFocus = !prevWasFocused;
+    }
+
+    // If the 'initial-input-focus' action has been set already
+    // then reset the ariaSelection to null
+    if (ariaSelection?.action === 'initial-input-focus') {
+      newAriaSelection = null;
+    }
+
     return {
       ...newMenuOptionsState,
       ...newInputIsHiddenState,
       prevProps: props,
+      ariaSelection: newAriaSelection,
+      prevWasFocused: hasKeptFocus,
     };
   }
   componentDidMount() {
@@ -1022,7 +1056,15 @@ export default class Select<
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+  getElementId = (
+    element:
+      | 'group'
+      | 'input'
+      | 'listbox'
+      | 'option'
+      | 'placeholder'
+      | 'live-region'
+  ) => {
     return `${this.instancePrefix}-${element}`;
   };
 
@@ -1173,6 +1215,7 @@ export default class Select<
       return;
     }
     this.clearValue();
+    event.preventDefault();
     event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
@@ -1499,7 +1542,7 @@ export default class Select<
       menuIsOpen,
     } = this.props;
     const { Input } = this.getComponents();
-    const { inputIsHidden } = this.state;
+    const { inputIsHidden, ariaSelection } = this.state;
     const { commonProps } = this;
 
     const id = inputId || this.getElementId('input');
@@ -1519,6 +1562,13 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
+      ...(this.hasValue()
+        ? ariaSelection?.action === 'initial-input-focus' && {
+            'aria-describedby': this.getElementId('live-region'),
+          }
+        : {
+            'aria-describedby': this.getElementId('placeholder'),
+          }),
     };
 
     if (!isSearchable) {
@@ -1588,6 +1638,7 @@ export default class Select<
           key="placeholder"
           isDisabled={isDisabled}
           isFocused={isFocused}
+          innerProps={{ id: this.getElementId('placeholder') }}
         >
           {placeholder}
         </Placeholder>
@@ -1948,6 +1999,7 @@ export default class Select<
     return (
       <LiveRegion
         {...commonProps}
+        id={this.getElementId('live-region')}
         ariaSelection={ariaSelection}
         focusedOption={focusedOption}
         focusedValue={focusedValue}

@@ -2155,6 +2155,7 @@ test('accessibility > interacting with multi values options shows correct A11yTe
   let input = container.querySelector('.react-select__value-container input')!;
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
+
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
@@ -2256,6 +2257,9 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     />
   );
   const liveRegionEventId = '#aria-selection';
+
+  expect(container.querySelector(liveRegionEventId)!).toBeNull();
+
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
   let menu = container.querySelector('.react-select__menu')!;
@@ -2267,6 +2271,43 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
 
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
+  );
+});
+
+test('accessibility > announces already selected values when focused', () => {
+  let { container } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  const liveRegionContextId = '#aria-context';
+
+  // the live region should not be mounted yet
+  expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
+
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+
+  expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
+    ' Select is focused ,type to refine list, press Down to open the menu, '
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'option 0, selected.'
+  );
+});
+
+test('accessibility > announces cleared values', () => {
+  let { container } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  /**
+   * announce deselected value
+   */
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator')!
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'All selected options have been cleared.'
   );
 });
 
