@@ -7,10 +7,8 @@ export interface GroupBase<Option> {
   readonly label?: string;
 }
 
-export type OptionsOrGroups<
-  Option,
-  Group extends GroupBase<Option>
-> = readonly (Option | Group)[];
+export type OptionsOrGroups<Option, Group extends GroupBase<Option>> =
+  readonly (Option | Group)[];
 
 export type Options<Option> = readonly Option[];
 
@@ -19,10 +17,8 @@ export type MultiValue<Option> = readonly Option[];
 
 export type PropsValue<Option> = MultiValue<Option> | SingleValue<Option>;
 
-export type OnChangeValue<
-  Option,
-  IsMulti extends boolean
-> = IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
+export type OnChangeValue<Option, IsMulti extends boolean> =
+  IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
 interface Colors {
   primary: string;
