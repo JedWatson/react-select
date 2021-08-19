@@ -55,7 +55,6 @@ import {
   MenuPlacement,
   MenuPosition,
   OnChangeValue,
-  OptionBase,
   Options,
   OptionsOrGroups,
   PropsValue,
@@ -63,14 +62,14 @@ import {
 } from './types';
 
 export type FormatOptionLabelContext = 'menu' | 'value';
-export interface FormatOptionLabelMeta<Option extends OptionBase> {
+export interface FormatOptionLabelMeta<Option> {
   context: FormatOptionLabelContext;
   inputValue: string;
   selectValue: Options<Option>;
 }
 
 export interface Props<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -309,7 +308,7 @@ export const defaultProps = {
 };
 
 interface State<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -320,11 +319,12 @@ interface State<
   focusedValue: Option | null;
   selectValue: Options<Option>;
   clearFocusValueOnUpdate: boolean;
+  prevWasFocused: boolean;
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
 }
 
-interface CategorizedOption<Option extends OptionBase> {
+interface CategorizedOption<Option> {
   type: 'option';
   data: Option;
   isDisabled: boolean;
@@ -334,23 +334,19 @@ interface CategorizedOption<Option extends OptionBase> {
   index: number;
 }
 
-interface CategorizedGroup<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> {
+interface CategorizedGroup<Option, Group extends GroupBase<Option>> {
   type: 'group';
   data: Group;
   options: readonly CategorizedOption<Option>[];
   index: number;
 }
 
-type CategorizedGroupOrOption<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> = CategorizedGroup<Option, Group> | CategorizedOption<Option>;
+type CategorizedGroupOrOption<Option, Group extends GroupBase<Option>> =
+  | CategorizedGroup<Option, Group>
+  | CategorizedOption<Option>;
 
 function toCategorizedOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -376,7 +372,7 @@ function toCategorizedOption<
 }
 
 function buildCategorizedOptions<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -414,7 +410,7 @@ function buildCategorizedOptions<
 }
 
 function buildFocusableOptionsFromCategorizedOptions<
-  Option extends OptionBase,
+  Option,
   Group extends GroupBase<Option>
 >(categorizedOptions: readonly CategorizedGroupOrOption<Option, Group>[]) {
   return categorizedOptions.reduce<Option[]>(
@@ -433,7 +429,7 @@ function buildFocusableOptionsFromCategorizedOptions<
 }
 
 function buildFocusableOptions<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
@@ -443,7 +439,7 @@ function buildFocusableOptions<
 }
 
 function isFocusable<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -460,7 +456,7 @@ function isFocusable<
 }
 
 function getNextFocusedValue<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(state: State<Option, IsMulti, Group>, nextSelectValue: Options<Option>) {
@@ -481,7 +477,7 @@ function getNextFocusedValue<
 }
 
 function getNextFocusedOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(state: State<Option, IsMulti, Group>, options: Options<Option>) {
@@ -491,7 +487,7 @@ function getNextFocusedOption<
     : options[0];
 }
 const getOptionLabel = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -501,7 +497,7 @@ const getOptionLabel = <
   return props.getOptionLabel(data);
 };
 const getOptionValue = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -512,7 +508,7 @@ const getOptionValue = <
 };
 
 function isOptionDisabled<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -525,7 +521,7 @@ function isOptionDisabled<
     : false;
 }
 function isOptionSelected<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -541,7 +537,7 @@ function isOptionSelected<
   return selectValue.some((i) => getOptionValue(props, i) === candidate);
 }
 function filterOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -553,7 +549,7 @@ function filterOption<
 }
 
 const shouldHideSelectedOptions = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -567,7 +563,7 @@ const shouldHideSelectedOptions = <
 let instanceId = 1;
 
 export default class Select<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends Component<
@@ -583,6 +579,7 @@ export default class Select<
     isFocused: false,
     selectValue: [],
     clearFocusValueOnUpdate: false,
+    prevWasFocused: false,
     inputIsHiddenAfterUpdate: undefined,
     prevProps: undefined,
   };
@@ -629,13 +626,21 @@ export default class Select<
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
   }
+
   static getDerivedStateFromProps(
-    props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
-    state: State<OptionBase, boolean, GroupBase<OptionBase>>
+    props: Props<unknown, boolean, GroupBase<unknown>>,
+    state: State<unknown, boolean, GroupBase<unknown>>
   ) {
-    const { prevProps, clearFocusValueOnUpdate, inputIsHiddenAfterUpdate } =
-      state;
-    const { options, value, menuIsOpen, inputValue } = props;
+    const {
+      prevProps,
+      clearFocusValueOnUpdate,
+      inputIsHiddenAfterUpdate,
+      ariaSelection,
+      isFocused,
+      prevWasFocused,
+    } = state;
+    const { options, value, menuIsOpen, inputValue, isMulti } = props;
+    const selectValue = cleanValue(value);
     let newMenuOptionsState = {};
     if (
       prevProps &&
@@ -644,7 +649,6 @@ export default class Select<
         menuIsOpen !== prevProps.menuIsOpen ||
         inputValue !== prevProps.inputValue)
     ) {
-      const selectValue = cleanValue(value);
       const focusableOptions = menuIsOpen
         ? buildFocusableOptions(props, selectValue)
         : [];
@@ -667,10 +671,35 @@ export default class Select<
             inputIsHiddenAfterUpdate: undefined,
           }
         : {};
+
+    let newAriaSelection = ariaSelection;
+
+    let hasKeptFocus = isFocused && prevWasFocused;
+
+    if (isFocused && !hasKeptFocus) {
+      // If `value` or `defaultValue` props are not empty then announce them
+      // when the Select is initially focused
+      newAriaSelection = {
+        value: valueTernary(isMulti, selectValue, selectValue[0] || null),
+        options: selectValue,
+        action: 'initial-input-focus',
+      };
+
+      hasKeptFocus = !prevWasFocused;
+    }
+
+    // If the 'initial-input-focus' action has been set already
+    // then reset the ariaSelection to null
+    if (ariaSelection?.action === 'initial-input-focus') {
+      newAriaSelection = null;
+    }
+
     return {
       ...newMenuOptionsState,
       ...newInputIsHiddenState,
       prevProps: props,
+      ariaSelection: newAriaSelection,
+      prevWasFocused: hasKeptFocus,
     };
   }
   componentDidMount() {
@@ -1027,7 +1056,15 @@ export default class Select<
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
-  getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
+  getElementId = (
+    element:
+      | 'group'
+      | 'input'
+      | 'listbox'
+      | 'option'
+      | 'placeholder'
+      | 'live-region'
+  ) => {
     return `${this.instancePrefix}-${element}`;
   };
 
@@ -1178,6 +1215,7 @@ export default class Select<
       return;
     }
     this.clearValue();
+    event.preventDefault();
     event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
@@ -1504,7 +1542,7 @@ export default class Select<
       menuIsOpen,
     } = this.props;
     const { Input } = this.getComponents();
-    const { inputIsHidden } = this.state;
+    const { inputIsHidden, ariaSelection } = this.state;
     const { commonProps } = this;
 
     const id = inputId || this.getElementId('input');
@@ -1524,6 +1562,13 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
+      ...(this.hasValue()
+        ? ariaSelection?.action === 'initial-input-focus' && {
+            'aria-describedby': this.getElementId('live-region'),
+          }
+        : {
+            'aria-describedby': this.getElementId('placeholder'),
+          }),
     };
 
     if (!isSearchable) {
@@ -1593,6 +1638,7 @@ export default class Select<
           key="placeholder"
           isDisabled={isDisabled}
           isFocused={isFocused}
+          innerProps={{ id: this.getElementId('placeholder') }}
         >
           {placeholder}
         </Placeholder>
@@ -1953,6 +1999,7 @@ export default class Select<
     return (
       <LiveRegion
         {...commonProps}
+        id={this.getElementId('live-region')}
         ariaSelection={ariaSelection}
         focusedOption={focusedOption}
         focusedValue={focusedValue}
@@ -2013,7 +2060,7 @@ export default class Select<
 }
 
 export type PublicBaseSelectProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = JSX.LibraryManagedAttributes<typeof Select, Props<Option, IsMulti, Group>>;

@@ -5,11 +5,10 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 export interface SingleValueProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -24,7 +23,7 @@ export interface SingleValueProps<
 }
 
 export const css = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -45,7 +44,7 @@ export const css = <
 });
 
 const SingleValue = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

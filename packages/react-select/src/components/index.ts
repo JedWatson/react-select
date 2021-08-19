@@ -46,10 +46,10 @@ import MultiValue, {
 import Option, { OptionProps } from './Option';
 import Placeholder, { PlaceholderProps } from './Placeholder';
 import SingleValue, { SingleValueProps } from './SingleValue';
-import { GroupBase, OptionBase } from '../types';
+import { GroupBase } from '../types';
 
 export interface SelectComponents<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -95,7 +95,7 @@ export interface SelectComponents<
 }
 
 export type SelectComponentsConfig<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = Partial<SelectComponents<Option, IsMulti, Group>>;
@@ -131,7 +131,7 @@ export const components = {
 export type SelectComponentsGeneric = typeof components;
 
 interface Props<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -139,7 +139,7 @@ interface Props<
 }
 
 export const defaultComponents = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { ControlProps, GroupBase, OptionBase } from 'react-select';
+import { ControlProps, GroupBase } from 'react-select';
 
 export default class Control<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends Component<ControlProps<Option, IsMulti, Group>> {}

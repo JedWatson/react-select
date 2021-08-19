@@ -1,13 +1,13 @@
 import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
 
-import { GroupBase, OptionBase } from './types';
+import { GroupBase } from './types';
 import Select from './Select';
 import useStateManager from './useStateManager';
 import type { StateManagerProps } from './useStateManager';
 export type { StateManagerProps };
 
 type StateManagedSelect = <
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
@@ -16,11 +16,7 @@ type StateManagedSelect = <
 ) => ReactElement;
 
 const StateManagedSelect = React.forwardRef(
-  <
-    Option extends OptionBase,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>
-  >(
+  <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: StateManagerProps<Option, IsMulti, Group>,
     ref:
       | ((instance: Select<Option, IsMulti, Group> | null) => void)
