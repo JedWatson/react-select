@@ -1,14 +1,13 @@
 import memoizeOne from 'memoize-one';
 import { stripDiacritics } from './diacritics';
-import { OptionBase } from './types';
 
-export interface FilterOptionOption<Option extends OptionBase> {
+export interface FilterOptionOption<Option> {
   readonly label: string;
   readonly value: string;
   readonly data: Option;
 }
 
-interface Config<Option extends OptionBase> {
+interface Config<Option> {
   readonly ignoreCase?: boolean;
   readonly ignoreAccents?: boolean;
   readonly stringify?: (option: FilterOptionOption<Option>) => string;
@@ -19,15 +18,14 @@ interface Config<Option extends OptionBase> {
 const memoizedStripDiacriticsForInput = memoizeOne(stripDiacritics);
 
 const trimString = (str: string) => str.replace(/^\s+|\s+$/g, '');
-const defaultStringify = <Option extends OptionBase>(
-  option: FilterOptionOption<Option>
-) => `${option.label} ${option.value}`;
+const defaultStringify = <Option>(option: FilterOptionOption<Option>) =>
+  `${option.label} ${option.value}`;
 
 export const createFilter =
-  <Option extends OptionBase>(config?: Config<Option>) =>
+  <Option>(config?: Config<Option>) =>
   (option: FilterOptionOption<Option>, rawInput: string): boolean => {
     // eslint-disable-next-line no-underscore-dangle
-    if (option.data.__isNew__) return true;
+    if ((option.data as { __isNew__?: unknown }).__isNew__) return true;
     const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {
       ignoreCase: true,
       ignoreAccents: true,

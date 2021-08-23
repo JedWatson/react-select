@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { jsx } from '@emotion/react';
 
-import Select, { components, OptionBase, OptionProps } from 'react-select';
+import Select, { components, OptionProps } from 'react-select';
 import md from '../../markdown/renderer';
 
 const Code: FunctionComponent = ({ children }) => <code>{children}</code>;
@@ -242,7 +242,7 @@ interface InputOptionState {
   readonly isActive: boolean;
 }
 
-class InputOption extends Component<OptionProps<OptionBase>, InputOptionState> {
+class InputOption extends Component<OptionProps, InputOptionState> {
   state: InputOptionState = { isActive: false };
   onMouseDown = () => this.setState({ isActive: true });
   onMouseUp = () => this.setState({ isActive: false });

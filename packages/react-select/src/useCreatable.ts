@@ -6,7 +6,6 @@ import {
   GetOptionValue,
   GroupBase,
   OnChangeValue,
-  OptionBase,
   Options,
   OptionsOrGroups,
 } from './types';
@@ -16,13 +15,13 @@ import {
   getOptionLabel as baseGetOptionLabel,
 } from './builtins';
 
-export interface Accessors<Option extends OptionBase> {
+export interface Accessors<Option> {
   getOptionValue: GetOptionValue<Option>;
   getOptionLabel: GetOptionLabel<Option>;
 }
 
 export interface CreatableAdditionalProps<
-  Option extends OptionBase,
+  Option,
   Group extends GroupBase<Option>
 > {
   /**
@@ -62,13 +61,13 @@ export interface CreatableAdditionalProps<
 }
 
 type BaseCreatableProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = PublicBaseSelectProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group>;
 
-const compareOption = <Option extends OptionBase>(
+const compareOption = <Option>(
   inputValue = '',
   option: Option,
   accessors: Accessors<Option>
@@ -81,10 +80,7 @@ const compareOption = <Option extends OptionBase>(
 
 const builtins = {
   formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
-  isValidNewOption: <
-    Option extends OptionBase,
-    Group extends GroupBase<Option>
-  >(
+  isValidNewOption: <Option, Group extends GroupBase<Option>>(
     inputValue: string,
     selectValue: Options<Option>,
     selectOptions: OptionsOrGroups<Option, Group>,
@@ -107,7 +103,7 @@ const builtins = {
 };
 
 export default function useCreatable<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({

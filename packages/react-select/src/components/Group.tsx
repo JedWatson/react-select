@@ -9,14 +9,13 @@ import {
   CX,
   GetStyles,
   GroupBase,
-  OptionBase,
   Options,
   Theme,
 } from '../types';
 import { Props } from '../Select';
 
 export interface ForwardedHeadingProps<
-  Option extends OptionBase,
+  Option,
   Group extends GroupBase<Option>
 > {
   id: string;
@@ -24,7 +23,7 @@ export interface ForwardedHeadingProps<
 }
 
 export interface GroupProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -44,7 +43,7 @@ export interface GroupProps<
 }
 
 export const groupCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -55,7 +54,7 @@ export const groupCSS = <
 });
 
 const Group = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -94,7 +93,7 @@ const Group = <
 };
 
 interface GroupHeadingPropsDefinedProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends ForwardedHeadingProps<Option, Group> {
@@ -106,14 +105,14 @@ interface GroupHeadingPropsDefinedProps<
 }
 
 export type GroupHeadingProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = GroupHeadingPropsDefinedProps<Option, IsMulti, Group> &
   JSX.IntrinsicElements['div'];
 
 export const groupHeadingCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -132,7 +131,7 @@ export const groupHeadingCSS = <
 });
 
 export const GroupHeading = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

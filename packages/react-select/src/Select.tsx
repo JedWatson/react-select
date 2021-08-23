@@ -55,7 +55,6 @@ import {
   MenuPlacement,
   MenuPosition,
   OnChangeValue,
-  OptionBase,
   Options,
   OptionsOrGroups,
   PropsValue,
@@ -63,14 +62,14 @@ import {
 } from './types';
 
 export type FormatOptionLabelContext = 'menu' | 'value';
-export interface FormatOptionLabelMeta<Option extends OptionBase> {
+export interface FormatOptionLabelMeta<Option> {
   context: FormatOptionLabelContext;
   inputValue: string;
   selectValue: Options<Option>;
 }
 
 export interface Props<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -309,7 +308,7 @@ export const defaultProps = {
 };
 
 interface State<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -325,7 +324,7 @@ interface State<
   prevProps: Props<Option, IsMulti, Group> | void;
 }
 
-interface CategorizedOption<Option extends OptionBase> {
+interface CategorizedOption<Option> {
   type: 'option';
   data: Option;
   isDisabled: boolean;
@@ -335,23 +334,19 @@ interface CategorizedOption<Option extends OptionBase> {
   index: number;
 }
 
-interface CategorizedGroup<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> {
+interface CategorizedGroup<Option, Group extends GroupBase<Option>> {
   type: 'group';
   data: Group;
   options: readonly CategorizedOption<Option>[];
   index: number;
 }
 
-type CategorizedGroupOrOption<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> = CategorizedGroup<Option, Group> | CategorizedOption<Option>;
+type CategorizedGroupOrOption<Option, Group extends GroupBase<Option>> =
+  | CategorizedGroup<Option, Group>
+  | CategorizedOption<Option>;
 
 function toCategorizedOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -377,7 +372,7 @@ function toCategorizedOption<
 }
 
 function buildCategorizedOptions<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -415,7 +410,7 @@ function buildCategorizedOptions<
 }
 
 function buildFocusableOptionsFromCategorizedOptions<
-  Option extends OptionBase,
+  Option,
   Group extends GroupBase<Option>
 >(categorizedOptions: readonly CategorizedGroupOrOption<Option, Group>[]) {
   return categorizedOptions.reduce<Option[]>(
@@ -434,7 +429,7 @@ function buildFocusableOptionsFromCategorizedOptions<
 }
 
 function buildFocusableOptions<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
@@ -444,7 +439,7 @@ function buildFocusableOptions<
 }
 
 function isFocusable<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -461,7 +456,7 @@ function isFocusable<
 }
 
 function getNextFocusedValue<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(state: State<Option, IsMulti, Group>, nextSelectValue: Options<Option>) {
@@ -482,7 +477,7 @@ function getNextFocusedValue<
 }
 
 function getNextFocusedOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(state: State<Option, IsMulti, Group>, options: Options<Option>) {
@@ -492,7 +487,7 @@ function getNextFocusedOption<
     : options[0];
 }
 const getOptionLabel = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -502,7 +497,7 @@ const getOptionLabel = <
   return props.getOptionLabel(data);
 };
 const getOptionValue = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -513,7 +508,7 @@ const getOptionValue = <
 };
 
 function isOptionDisabled<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -526,7 +521,7 @@ function isOptionDisabled<
     : false;
 }
 function isOptionSelected<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -542,7 +537,7 @@ function isOptionSelected<
   return selectValue.some((i) => getOptionValue(props, i) === candidate);
 }
 function filterOption<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -554,7 +549,7 @@ function filterOption<
 }
 
 const shouldHideSelectedOptions = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -568,7 +563,7 @@ const shouldHideSelectedOptions = <
 let instanceId = 1;
 
 export default class Select<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends Component<
@@ -633,8 +628,8 @@ export default class Select<
   }
 
   static getDerivedStateFromProps(
-    props: Props<OptionBase, boolean, GroupBase<OptionBase>>,
-    state: State<OptionBase, boolean, GroupBase<OptionBase>>
+    props: Props<unknown, boolean, GroupBase<unknown>>,
+    state: State<unknown, boolean, GroupBase<unknown>>
   ) {
     const {
       prevProps,
@@ -2065,7 +2060,7 @@ export default class Select<
 }
 
 export type PublicBaseSelectProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = JSX.LibraryManagedAttributes<typeof Select, Props<Option, IsMulti, Group>>;

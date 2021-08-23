@@ -5,11 +5,10 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 export interface PlaceholderProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -22,7 +21,7 @@ export interface PlaceholderProps<
 }
 
 export const placeholderCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -38,7 +37,7 @@ export const placeholderCSS = <
 });
 
 const Placeholder = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
