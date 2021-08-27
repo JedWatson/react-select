@@ -1053,8 +1053,14 @@ export default class Select<
   ) => {
     const base = defaultStyles[key](props as any);
     base.boxSizing = 'border-box';
+
     const custom = this.props.styles[key];
-    return custom ? custom(base, props as any) : base;
+    if (!custom) {
+      return base;
+    }
+
+    const customStyles = custom(base, props as any);
+    return { ...base, ...customStyles };
   };
   getElementId = (
     element:
