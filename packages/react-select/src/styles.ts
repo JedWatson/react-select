@@ -93,12 +93,15 @@ export type StylesConfigFunction<Props> = (
   base: CSSObjectWithLabel,
   props: Props
 ) => CSSObjectWithLabel & { override?: true };
+export type StylesConfigParam<Props> =
+  | StylesConfigFunction<Props>
+  | (CSSObjectWithLabel & { override?: true });
 export type StylesConfig<
   Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = {
-  [K in keyof StylesProps<Option, IsMulti, Group>]?: StylesConfigFunction<
+  [K in keyof StylesProps<Option, IsMulti, Group>]?: StylesConfigParam<
     StylesProps<Option, IsMulti, Group>[K]
   >;
 };
@@ -144,14 +147,23 @@ export function mergeStyles<
   target: StylesConfig<Option, IsMulti, Group> = {}
 ) {
   // initialize with source styles
-  const styles = { ...source };
+  const styles: StylesConfig<Option, IsMulti, Group> = { ...source };
 
   // massage in target styles
   Object.keys(target).forEach((keyAsString) => {
     const key = keyAsString as keyof StylesConfig<Option, IsMulti, Group>;
     if (source[key]) {
+      // @ts-ignore [TS2590] Expression produces a union type that is too complex to represent
       styles[key] = (rsCss: any, props: any) => {
-        return target[key]!(source[key]!(rsCss, props), props);
+        const styles1Param = source[key]!;
+        const styles1 =
+          typeof styles1Param === 'function'
+            ? styles1Param(rsCss, props)
+            : styles1Param;
+        const styles2Param = target[key]!;
+        return typeof styles2Param === 'function'
+          ? styles2Param(styles1, props)
+          : styles2Param;
       };
     } else {
       styles[key] = target[key] as any;

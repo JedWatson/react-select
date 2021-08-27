@@ -47,6 +47,7 @@ import { defaultTheme, ThemeConfig } from './theme';
 
 import {
   ActionMeta,
+  CSSObjectWithLabel,
   FocusDirection,
   GetOptionLabel,
   GetOptionValue,
@@ -1059,7 +1060,8 @@ export default class Select<
       return base;
     }
 
-    const customStyles = custom(base, props as any);
+    const customStyles: CSSObjectWithLabel & { override?: true } =
+      typeof custom === 'function' ? custom(base, props as any) : custom;
 
     if (customStyles.override) {
       delete customStyles.override;
