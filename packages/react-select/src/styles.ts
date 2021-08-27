@@ -92,7 +92,7 @@ export type StylesFunctions<
 export type StylesConfigFunction<Props> = (
   base: CSSObjectWithLabel,
   props: Props
-) => CSSObjectWithLabel;
+) => CSSObjectWithLabel & { override?: true };
 export type StylesConfig<
   Option = unknown,
   IsMulti extends boolean = boolean,

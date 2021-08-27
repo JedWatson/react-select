@@ -1060,7 +1060,13 @@ export default class Select<
     }
 
     const customStyles = custom(base, props as any);
-    return { ...base, ...customStyles };
+
+    if (customStyles.override) {
+      delete customStyles.override;
+      return customStyles;
+    } else {
+      return { ...base, ...customStyles };
+    }
   };
   getElementId = (
     element:
