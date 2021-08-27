@@ -35,12 +35,11 @@ export default () => (
     options={groupedOptions}
     components={{ GroupHeading }}
     styles={{
-      groupHeading: (base) => ({
-        ...base,
+      groupHeading: {
         flex: '1 1',
         color: 'white',
         margin: 0,
-      }),
+      },
     }}
   />
 );

@@ -57,7 +57,6 @@ function getLabel({ icon, label }: Change) {
 
 const headerSelectStyles: StylesConfig<Change, boolean> = {
   control: (base, { isFocused }) => ({
-    ...base,
     backgroundClip: 'padding-box',
     borderColor: 'rgba(0,0,0,0.1)',
     boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : undefined,
@@ -66,14 +65,8 @@ const headerSelectStyles: StylesConfig<Change, boolean> = {
       borderColor: 'rgba(0,0,0,0.2)',
     },
   }),
-  option: (base) => ({
-    ...base,
-    padding: '4px 12px',
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: 'black',
-  }),
+  option: { padding: '4px 12px' },
+  placeholder: { color: 'black' },
 };
 
 const Gradient = (props: JSX.IntrinsicElements['div']) => (

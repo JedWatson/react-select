@@ -16,10 +16,9 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueContainer }}
     styles={{
-      multiValue: (base) => ({
-        ...base,
+      multiValue: {
         border: `2px dotted ${colourOptions[2].color}`,
-      }),
+      },
     }}
     defaultValue={[colourOptions[4], colourOptions[5]]}
     isMulti

@@ -34,7 +34,7 @@ const CustomSelectProps = (props: Props<ColourOption>) => {
   };
 
   const styles: StylesConfig<ColourOption, false> = {
-    control: (css) => ({ ...css, paddingLeft: '1rem' }),
+    control: { paddingLeft: '1rem' },
   };
 
   const emoji = EMOJIS[clickCount % EMOJIS.length];

@@ -78,14 +78,14 @@ export default function Styles() {
 
     ## Provided Styles and State
 
-    Spreading the provided styles into your returned object lets you extend it
-    however you like while maintaining existing styles. Alternatively, you
-    can omit the provided styles and completely take control of the component's styles.
+    By default, React-Select will merge the default style with your provided
+    styles. To take complete control and not merge, add \`override: true\`.
+    You can also specify an object which will behave the same as if it were
+    a function returning the same object.
 
     ~~~jsx
     const customStyles = {
       option: (provided, state) => ({
-        ...provided,
         borderBottom: '1px dotted pink',
         color: state.isSelected ? 'red' : 'blue',
         padding: 20,
@@ -93,13 +93,17 @@ export default function Styles() {
       control: () => ({
         // none of react-select's styles are passed to <Control />
         width: 200,
+        override: true,
       }),
       singleValue: (provided, state) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = 'opacity 300ms';
 
-        return { ...provided, opacity, transition };
-      }
+        return { opacity, transition };
+      },
+      menu: {
+        background: 'red',
+      },
     }
 
       const App = () => (

@@ -34,7 +34,7 @@ export default class controlledMenu extends Component<{}, State> {
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
-          styles={{ menu: (base) => ({ ...base, position: 'relative' }) }}
+          styles={{ menu: { position: 'relative' } }}
           name="color"
           options={colourOptions}
         />

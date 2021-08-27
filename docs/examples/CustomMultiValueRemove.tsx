@@ -19,11 +19,10 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueRemove }}
     styles={{
-      multiValueRemove: (base) => ({
-        ...base,
+      multiValueRemove: {
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',
-      }),
+      },
     }}
     defaultValue={[colourOptions[4], colourOptions[5]]}
     isMulti

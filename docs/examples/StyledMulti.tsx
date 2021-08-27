@@ -5,7 +5,7 @@ import { ColourOption, colourOptions } from '../data';
 import Select, { StylesConfig } from 'react-select';
 
 const colourStyles: StylesConfig<ColourOption, true> = {
-  control: (styles) => ({ ...styles, backgroundColor: 'white' }),
+  control: { backgroundColor: 'white' },
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);
     return {
@@ -39,16 +39,13 @@ const colourStyles: StylesConfig<ColourOption, true> = {
   multiValue: (styles, { data }) => {
     const color = chroma(data.color);
     return {
-      ...styles,
       backgroundColor: color.alpha(0.1).css(),
     };
   },
   multiValueLabel: (styles, { data }) => ({
-    ...styles,
     color: data.color,
   }),
   multiValueRemove: (styles, { data }) => ({
-    ...styles,
     color: data.color,
     ':hover': {
       backgroundColor: data.color,

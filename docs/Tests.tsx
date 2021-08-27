@@ -79,7 +79,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 999 }),
+              menuPortal: { zIndex: 999 },
             }}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}

@@ -16,13 +16,12 @@ export default class CustomControl extends Component {
         defaultValue={colourOptions[0]}
         isClearable
         styles={{
-          singleValue: (base) => ({ ...base, color: 'white' }),
-          valueContainer: (base) => ({
-            ...base,
+          singleValue: { color: 'white' },
+          valueContainer: {
             background: colourOptions[2].color,
             color: 'white',
             width: '100%',
-          }),
+          },
         }}
         components={{ ValueContainer }}
         isSearchable

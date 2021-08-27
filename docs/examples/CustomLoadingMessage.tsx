@@ -36,11 +36,10 @@ const CustomLoadingMessage = () => {
       defaultOptions
       loadOptions={promiseOptions}
       styles={{
-        loadingMessage: (base) => ({
-          ...base,
+        loadingMessage: {
           backgroundColor: colourOptions[2].color,
           color: 'white',
-        }),
+        },
       }}
       components={{ LoadingMessage }}
     />

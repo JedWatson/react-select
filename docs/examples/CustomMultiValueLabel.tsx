@@ -16,11 +16,10 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueLabel }}
     styles={{
-      multiValueLabel: (base) => ({
-        ...base,
+      multiValueLabel: {
         backgroundColor: colourOptions[2].color,
         color: 'white',
-      }),
+      },
     }}
     defaultValue={[colourOptions[4], colourOptions[5]]}
     isMulti

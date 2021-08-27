@@ -9,15 +9,15 @@ interface State {
 
 const styles: StylesConfig<ColourOption, true> = {
   multiValue: (base, state) => {
-    return state.data.isFixed ? { ...base, backgroundColor: 'gray' } : base;
+    return state.data.isFixed ? { backgroundColor: 'gray' } : {};
   },
   multiValueLabel: (base, state) => {
     return state.data.isFixed
-      ? { ...base, fontWeight: 'bold', color: 'white', paddingRight: 6 }
-      : base;
+      ? { fontWeight: 'bold', color: 'white', paddingRight: 6 }
+      : {};
   },
   multiValueRemove: (base, state) => {
-    return state.data.isFixed ? { ...base, display: 'none' } : base;
+    return state.data.isFixed ? { display: 'none' } : {};
   },
 };
 
