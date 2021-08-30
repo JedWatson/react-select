@@ -62,7 +62,7 @@ const spacingStyle = {
 const containerStyle = {
   flex: '1 1 auto',
   display: 'inline-grid',
-  gridArea: '1 / 2',
+  gridArea: '1 / 1 / 2 / 3',
   gridTemplateColumns: '0 min-content',
 
   '&:after': {

@@ -32,7 +32,7 @@ export const css = <
 }: SingleValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
-  gridArea: '1 / 2',
+  gridArea: '1 / 1 / 2 / 3',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
   maxWidth: '100%',
