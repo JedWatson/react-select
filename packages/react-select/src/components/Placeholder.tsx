@@ -29,7 +29,7 @@ export const placeholderCSS = <
 }: PlaceholderProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'placeholder',
   color: colors.neutral50,
-  gridArea: '1 / 2',
+  gridArea: '1 / 1 / 2 / 3',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
 });
