@@ -1,5 +1,19 @@
 # @react-select/docs
 
+## 3.1.1-beta.1
+
+### Patch Changes
+
+- [638f5455](https://github.com/JedWatson/react-select/commit/638f545517d320fe70ca954511a71e96956abae3) [#4702](https://github.com/JedWatson/react-select/pull/4702) Thanks [@Methuselah96](https://github.com/Methuselah96)! - The Option generic is no longer required to extend the OptionBase type
+
+- Updated dependencies [10225290]:
+- Updated dependencies [53f1972b]:
+- Updated dependencies [b41f4ceb]:
+- Updated dependencies [7fcec537]:
+- Updated dependencies [9e82aadc]:
+- Updated dependencies [638f5455]:
+  - react-select@undefined
+
 ## 3.1.1-beta.0
 
 ### Patch Changes
