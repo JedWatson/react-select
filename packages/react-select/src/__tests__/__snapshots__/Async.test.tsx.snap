@@ -57,10 +57,7 @@ exports[`defaults - snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  display: grid;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -77,14 +74,9 @@ exports[`defaults - snapshot 1`] = `
 
 .emotion-5 {
   color: hsl(0, 0%, 50%);
+  grid-area: 1/1/2/3;
   margin-left: 2px;
   margin-right: 2px;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
   box-sizing: border-box;
 }
 
@@ -98,6 +90,7 @@ exports[`defaults - snapshot 1`] = `
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   display: inline-grid;
+  grid-area: 1/1/2/3;
   grid-template-columns: 0 min-content;
   box-sizing: border-box;
 }
