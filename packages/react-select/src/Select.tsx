@@ -1659,7 +1659,7 @@ export default class Select<
             }}
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
-            key={`${this.getOptionValue(opt)}${index}`}
+            key={`${this.getOptionValue(opt)}-${index}`}
             index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
