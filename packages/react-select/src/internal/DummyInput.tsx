@@ -20,6 +20,7 @@ export default function DummyInput({
         // important! this hides the flashing cursor
         caretColor: 'transparent',
         fontSize: 'inherit',
+        gridArea: '1 / 1 / 2 / 3',
         outline: 0,
         padding: 0,
         // important! without `width` browsers won't allow focus
