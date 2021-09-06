@@ -315,6 +315,7 @@ interface State<
   ariaSelection: AriaSelection<Option, IsMulti> | null;
   inputIsHidden: boolean;
   isFocused: boolean;
+  hasControlRef: boolean;
   focusedOption: Option | null;
   focusedValue: Option | null;
   selectValue: Options<Option>;
@@ -577,6 +578,7 @@ export default class Select<
     focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
+    hasControlRef: false,
     selectValue: [],
     clearFocusValueOnUpdate: false,
     prevWasFocused: false,
@@ -603,6 +605,7 @@ export default class Select<
   controlRef: HTMLDivElement | null = null;
   getControlRef: RefCallback<HTMLDivElement> = (ref) => {
     this.controlRef = ref;
+    this.setState({ hasControlRef: true });
   };
   focusedOptionRef: HTMLDivElement | null = null;
   getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
@@ -2015,7 +2018,7 @@ export default class Select<
       this.getComponents();
 
     const { className, id, isDisabled, menuIsOpen } = this.props;
-    const { isFocused } = this.state;
+    const { isFocused, hasControlRef } = this.state;
     const commonProps = (this.commonProps = this.getCommonProps());
 
     return (
@@ -2052,7 +2055,7 @@ export default class Select<
             {this.renderDropdownIndicator()}
           </IndicatorsContainer>
         </Control>
-        {this.renderMenu()}
+        {hasControlRef ? this.renderMenu() : null}
         {this.renderFormField()}
       </SelectContainer>
     );
