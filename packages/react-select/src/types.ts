@@ -143,7 +143,9 @@ export interface ClearActionMeta<Option> extends ActionMetaBase<Option> {
 export interface CreateOptionActionMeta<Option> extends ActionMetaBase<Option> {
   action: 'create-option';
   name?: string;
+  option: Option;
 }
+
 export interface InitialInputFocusedActionMeta<Option, IsMulti extends boolean>
   extends ActionMetaBase<Option> {
   action: 'initial-input-focus';
