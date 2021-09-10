@@ -12,7 +12,7 @@ export default function UpgradeGuide() {
         <meta name="description" content="React-select v2 Upgrade Guide" />
       </Helmet>
       {md`
-# Upgrade guide
+# Upgrade guide for v2
 
 > This guide is a work in progress. Please [open an issue](https://github.com/jedwatson/react-select/issues)
 > if you need something clarified, or [submit a PR](https://github.com/jedwatson/react-select/pulls)
