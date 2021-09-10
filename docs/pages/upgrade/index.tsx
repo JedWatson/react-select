@@ -14,7 +14,15 @@ export default function Upgrade() {
 
 ## From v3 to v4
 
-### Standardize value passed to \`onChange\`
+### Summary
+
+- Standardize value passed to \`onChange\` - the \`onChange\` handler is now always passed an array of options if \`isMulti\` is set to \`true\`
+- Emotion 11 - should only affect you if you're using the \`NonceProvider\` component
+- Remove usage of UNSAFE React methods - shouldn't affect you except now you won't see those warning messages in the console anymore
+
+### Details
+
+#### Standardize value passed to \`onChange\`
 
 This change makes it so that the first parameter passed to the \`onChange\` callback will now always be an array of options if \`isMulti\` is set to \`true\` and will always be a single option or \`null\` if \`isMulti\` is set to \`false\`. Previously the first parameter of \`onChange\` could be an array _or_ \`null\` when \`isMulti\` was set to \`true\`.
 
@@ -30,11 +38,11 @@ You can now remove the nullish coalescing because \`onChange\` will always be an
 <Select isMulti onChange={(newValues) => setValues(newValues)} />
 ~~~
 
-### Emotion 11
+#### Emotion 11
 
 The \`NonceProvider\` component now requires a \`cacheKey\` prop that corresponds to the [newly required \`key\` prop](https://emotion.sh/docs/emotion-11#emotions-caches) for the Emotion cache. This won't affect you if you aren't using \`NonceProvider\`. See [#4283](https://github.com/JedWatson/react-select/pull/4283) for more details.
 
-### Remove usage of UNSAFE React methods
+#### Remove usage of UNSAFE React methods
 
 This isn't necessarily a breaking change, but it required a large refactor in order to accomplish so we released this in a major upgrade in case it has some unintended consequences.
 
