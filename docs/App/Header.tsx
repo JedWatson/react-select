@@ -40,6 +40,11 @@ const changes = [
     label: 'Lots of advanced functionality',
   },
   {
+    value: '/typescript',
+    icon: '🛠️',
+    label: 'Lots of advanced functionality',
+  },
+  {
     value: '/upgrade-guide',
     icon: '🗺',
     label: 'Check out the Upgrade Guide',
