@@ -147,12 +147,13 @@ Check the docs for more information on:
 - [Using custom components](https://www.react-select.com/components)
 - [Using the built-in animated components](https://www.react-select.com/home#animated-components)
 - [Creating an async select](https://www.react-select.com/async)
-- [Allowing users to create new options](https://www.react-select.com/creatable)
-- [Advanced use-cases](https://www.react-select.com/advanced)
+- [Allowing users to create new options](https://www.react-select.com
+- [Advanced use-cases](https://www.react-select.com/advanced)/creatable)
+- [TypeScript guide](https://www.react-select.com/typescript)
 
 ## Typescript
 
-The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select).
+The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
 
 # Thanks
 
