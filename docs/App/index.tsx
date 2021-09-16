@@ -27,7 +27,7 @@ const sections = [
   { label: 'Creatable', path: '/creatable' },
   { label: 'Advanced', path: '/advanced' },
   { label: 'TypeScript', path: '/typescript' },
-  { label: 'Upgrading', path: '/upgrade-guide' },
+  { label: 'Upgrading', path: '/upgrade' },
 ];
 
 export default class App extends Component {

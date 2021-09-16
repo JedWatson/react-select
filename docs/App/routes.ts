@@ -7,7 +7,8 @@ import Async from '../pages/async';
 import Creatable from '../pages/creatable';
 import Advanced from '../pages/advanced';
 import TypeScript from '../pages/typescript';
-import UpgradeGuide from '../pages/upgradeGuide';
+import Upgrade from '../pages/upgrade';
+import UpgradeToV2 from '../pages/upgrade-to-v2';
 
 const routes: { readonly [key: string]: ComponentType } = {
   '/home': Home,
@@ -18,7 +19,8 @@ const routes: { readonly [key: string]: ComponentType } = {
   '/creatable': Creatable,
   '/advanced': Advanced,
   '/typescript': TypeScript,
-  '/upgrade-guide': UpgradeGuide,
+  '/upgrade': Upgrade,
+  '/upgrade-to-v2': UpgradeToV2,
 };
 
 export default routes;
