@@ -147,8 +147,8 @@ Check the docs for more information on:
 - [Using custom components](https://www.react-select.com/components)
 - [Using the built-in animated components](https://www.react-select.com/home#animated-components)
 - [Creating an async select](https://www.react-select.com/async)
-- [Allowing users to create new options](https://www.react-select.com
-- [Advanced use-cases](https://www.react-select.com/advanced)/creatable)
+- [Allowing users to create new options](https://www.react-select.com/creatable)
+- [Advanced use-cases](https://www.react-select.com/advanced)
 - [TypeScript guide](https://www.react-select.com/typescript)
 
 ## Typescript
