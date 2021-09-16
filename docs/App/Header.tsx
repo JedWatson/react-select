@@ -22,7 +22,7 @@ const changes = [
   {
     value: '/typescript',
     icon: '🛠️',
-    label: 'Full TypeScript Support',
+    label: 'Written in TypeScript',
   },
   {
     value: '/props',
