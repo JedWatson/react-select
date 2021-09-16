@@ -20,6 +20,11 @@ interface Change {
 
 const changes = [
   {
+    value: '/typescript',
+    icon: '🛠️',
+    label: 'Full TypeScript Support',
+  },
+  {
     value: '/props',
     icon: '❤️',
     label: 'Simpler and more extensible',
@@ -37,11 +42,6 @@ const changes = [
   {
     value: '/advanced',
     icon: '🔥',
-    label: 'Lots of advanced functionality',
-  },
-  {
-    value: '/typescript',
-    icon: '🛠️',
     label: 'Lots of advanced functionality',
   },
   {
