@@ -26,6 +26,7 @@ const sections = [
   { label: 'Async', path: '/async' },
   { label: 'Creatable', path: '/creatable' },
   { label: 'Advanced', path: '/advanced' },
+  { label: 'TypeScript', path: '/typescript' },
   { label: 'Upgrading', path: '/upgrade' },
 ];
 

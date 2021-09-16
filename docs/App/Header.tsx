@@ -20,6 +20,11 @@ interface Change {
 
 const changes = [
   {
+    value: '/typescript',
+    icon: '🛠️',
+    label: 'Written in TypeScript',
+  },
+  {
     value: '/props',
     icon: '❤️',
     label: 'Simpler and more extensible',
