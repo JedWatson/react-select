@@ -270,7 +270,7 @@ export interface Props<
 }
 
 export const defaultProps = {
-  alwaysFocusFirstMenuOption: false,
+  alwaysFocusFirstMenuOption: true,
   'aria-live': 'polite',
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
