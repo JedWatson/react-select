@@ -171,6 +171,7 @@ export type InputAction =
 
 export interface InputActionMeta {
   action: InputAction;
+  currentValue: string;
 }
 
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
