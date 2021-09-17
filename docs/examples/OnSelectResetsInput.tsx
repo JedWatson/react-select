@@ -8,7 +8,10 @@ interface State {
 
 export default class OnSelectResetsInput extends Component<{}, State> {
   state: State = {};
-  onInputChange = (inputValue: string, { action, currentValue }: InputActionMeta) => {
+  onInputChange = (
+    inputValue: string,
+    { action, currentValue }: InputActionMeta
+  ) => {
     console.log(inputValue, action);
     switch (action) {
       case 'input-change':
