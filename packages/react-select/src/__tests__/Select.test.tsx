@@ -1290,7 +1290,10 @@ cases(
       keyCode: 27,
       key: 'Escape',
     });
-    expect(spy).toHaveBeenCalledWith('', { action: 'menu-close' });
+    expect(spy).toHaveBeenCalledWith('', {
+      action: 'menu-close',
+      currentValue: 'test',
+    });
   },
   {
     'single select > should call onInputChange prop with empty string as inputValue':
@@ -3013,9 +3016,13 @@ test('close menu on hitting escape and clear input value if menu is open even if
   expect(onMenuCloseSpy).toHaveBeenCalled();
   // once by onMenuClose and other is direct
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
-  expect(onInputChangeSpy).toHaveBeenCalledWith('', { action: 'menu-close' });
+  expect(onInputChangeSpy).toHaveBeenCalledWith('', {
+    action: 'menu-close',
+    currentValue: '',
+  });
   expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {
     action: 'menu-close',
+    currentValue: '',
   });
 });
 
