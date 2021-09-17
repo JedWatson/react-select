@@ -1,5 +1,40 @@
 # react-select
 
+## 5.0.0
+
+### Major Changes
+
+- [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4683](https://github.com/JedWatson/react-select/pull/4683) Thanks [@JedWatson](https://github.com/JedWatson)! - React-Select has been converted from Flow to TypeScript.
+
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+
+### Patch Changes
+
+- [10225290](https://github.com/JedWatson/react-select/commit/10225290f9b1c9a722fc96fa4c74d91bfbeb7df8) [#4720](https://github.com/JedWatson/react-select/pull/4720) - Updated the layout for the singleValue input/placeholder/container so that it works better when used in flex layouts.
+
+- [53f1972b](https://github.com/JedWatson/react-select/commit/53f1972b2d76443a63df18eb538ccbf68787e362) [#4731](https://github.com/JedWatson/react-select/pull/4731) Thanks [@JedWatson](https://github.com/JedWatson)! - MultiValue key now includes a hyphen between the value and the index to prevent edge cases where you could get a duplicate key error
+
+- [b41f4ceb](https://github.com/JedWatson/react-select/commit/b41f4cebbcaa8714bcf36cf24357f580a74c6a16) [#4704](https://github.com/JedWatson/react-select/pull/4704) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix findDOMNode deprecation by adding refs to transition components
+
+- [4b028829](https://github.com/JedWatson/react-select/commit/4b028829721bcd9014d70ee8dce1efbaf6373cd0) [#4634](https://github.com/JedWatson/react-select/pull/4634) - The readonly attribute has been removed from the DummyInput to improve accessibility
+
+- [7fcec537](https://github.com/JedWatson/react-select/commit/7fcec537e75b80b3084b64db76150cfef9d2ee2f) [#4697](https://github.com/JedWatson/react-select/pull/4697) - Add the role of combobox and the required ARIA attributes to the Input and DummyInput components to allow JAWS support and a better screen reader experience overall.
+
+- [ca2c0e5b](https://github.com/JedWatson/react-select/commit/ca2c0e5b18f0c862e7cb5956d0f56104ffa4255f) [#4756](https://github.com/JedWatson/react-select/pull/4756) Thanks [@fdcds](https://github.com/fdcds)! - Add `option` field to type of `CreateOptionActionMeta`
+
+- [9e82aadc](https://github.com/JedWatson/react-select/commit/9e82aadcd1931f730235d317a2299a681da8c373) [#4676](https://github.com/JedWatson/react-select/pull/4676) - The following improvements have been made for screen reader users:
+
+  - NVDA now announces the context text when initially focused
+  - Selected option/s (single and multi) are now announced when initially focused
+  - VoiceOver now announces the context text when re-focusing
+  - The clear action is now announced
+  - Placeholder text is now announced
+  - Mobile VoiceOver is now able to remove selected multi options
+
+- [638f5455](https://github.com/JedWatson/react-select/commit/638f545517d320fe70ca954511a71e96956abae3) [#4702](https://github.com/JedWatson/react-select/pull/4702) Thanks [@Methuselah96](https://github.com/Methuselah96)! - The Option generic is no longer required to extend the OptionBase type
+
+- [23cea0b5](https://github.com/JedWatson/react-select/commit/23cea0b513525bdf6282e3d03e66eff38da9e993) [#4782](https://github.com/JedWatson/react-select/pull/4782) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix type of loadingMessage prop to allow it to return any ReactNode
+
 ## 5.0.0-beta.1
 
 ### Patch Changes
