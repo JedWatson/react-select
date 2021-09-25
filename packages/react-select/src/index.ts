@@ -4,9 +4,9 @@ import { GroupBase } from './types';
 export { default } from './stateManager';
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
-export { defaultTheme, ThemeConfig } from './theme';
+export { defaultTheme } from './theme';
 export { createFilter } from './filters';
-export { components, SelectComponentsConfig } from './components';
+export { components } from './components';
 export type SelectInstance<
   Option = unknown,
   IsMulti extends boolean = false,
@@ -14,6 +14,7 @@ export type SelectInstance<
 > = Select<Option, IsMulti, Group>;
 export type { StateManagerProps as Props } from './useStateManager';
 
+export type { SelectComponentsConfig } from './components';
 export type {
   ContainerProps,
   IndicatorsContainerProps,
@@ -37,6 +38,7 @@ export type {
 export type { OptionProps } from './components/Option';
 export type { PlaceholderProps } from './components/Placeholder';
 export type { SingleValueProps } from './components/SingleValue';
+export type { ThemeConfig } from './theme';
 export type { StylesConfig } from './styles';
 export * from './types';
 export type {
