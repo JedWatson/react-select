@@ -4,9 +4,9 @@ import { GroupBase } from './types';
 export { default } from './stateManager';
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
-export { defaultTheme } from './theme';
+export { defaultTheme, ThemeConfig } from './theme';
 export { createFilter } from './filters';
-export { components } from './components';
+export { components, SelectComponentsConfig } from './components';
 export type SelectInstance<
   Option = unknown,
   IsMulti extends boolean = false,
