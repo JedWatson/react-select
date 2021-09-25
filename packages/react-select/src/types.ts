@@ -1,4 +1,4 @@
-import { CSSObject } from '@emotion/serialize';
+import { CSSObject } from '@emotion/react';
 import { Props } from './Select';
 import { StylesProps } from './styles';
 
