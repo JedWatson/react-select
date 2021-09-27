@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { config } from 'dotenv';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 config();
 
@@ -51,12 +52,18 @@ const webpackConfig: webpack.Configuration = {
     //   'process.env.CLIENT_ID': `'${process.env.CLIENT_ID}'`,
     //   'process.env.CLIENT_SECRET': `'${process.env.CLIENT_SECRET}'`,
     // }),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       inject: false,
       template: path.resolve(__dirname, 'index.html'),
     }),
-    new CopyWebpackPlugin(['_redirects', 'favicon.ico', 'index.css']),
+    new CopyWebpackPlugin([
+      '_redirects',
+      'favicon.ico',
+      'index.css',
+      'magical-types/*',
+    ]),
     new ForkTsCheckerWebpackPlugin({
       async: false,
       typescript: {
