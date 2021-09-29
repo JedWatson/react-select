@@ -91,7 +91,7 @@ exports[`snapshot - defaults 1`] = `
   flex: 1 1 auto;
   display: inline-grid;
   grid-area: 1/1/2/3;
-  grid-template-columns: 0 min-content;
+  grid-template-columns: 0 auto;
   box-sizing: border-box;
 }
 
