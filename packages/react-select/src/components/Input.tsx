@@ -39,7 +39,6 @@ export const inputCSS = <
   Group extends GroupBase<Option>
 >({
   isDisabled,
-  isMulti,
   theme: { spacing, colors },
 }: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   margin: spacing.baseUnit / 2,
@@ -47,7 +46,6 @@ export const inputCSS = <
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
-  ...(isMulti ? { width: 0, minWidth: 30 } : {}),
   ...containerStyle,
 });
 
@@ -65,12 +63,12 @@ const containerStyle = {
   flex: '1 1 auto',
   display: 'inline-grid',
   gridArea: '1 / 1 / 2 / 3',
-  gridTemplateColumns: '0 auto',
+  gridTemplateColumns: '0 min-content',
 
   '&:after': {
     content: 'attr(data-value) " "',
     visibility: 'hidden',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'pre',
     ...spacingStyle,
   },
 } as const;

@@ -91,14 +91,14 @@ exports[`defaults - snapshot 1`] = `
   flex: 1 1 auto;
   display: inline-grid;
   grid-area: 1/1/2/3;
-  grid-template-columns: 0 auto;
+  grid-template-columns: 0 min-content;
   box-sizing: border-box;
 }
 
 .emotion-6:after {
   content: attr(data-value) " ";
   visibility: hidden;
-  white-space: nowrap;
+  white-space: pre;
   grid-area: 1/2;
   font: inherit;
   min-width: 2px;
