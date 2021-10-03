@@ -88,7 +88,7 @@ export const valueContainerCSS = <
   hasValue,
 }: ValueContainerProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   alignItems: 'center',
-  display: (isMulti && hasValue) ? 'flex' : 'grid',
+  display: isMulti && hasValue ? 'flex' : 'grid',
   flex: 1,
   flexWrap: 'wrap',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
