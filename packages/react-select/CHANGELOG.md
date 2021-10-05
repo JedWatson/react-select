@@ -1,5 +1,21 @@
 # react-select
 
+## 5.1.0
+
+### Minor Changes
+
+- [8b38d49b](https://github.com/JedWatson/react-select/commit/8b38d49b4a779c653f70b502a61f7c64220fa44d) [#4807](https://github.com/JedWatson/react-select/pull/4807) Thanks [@hcharley](https://github.com/hcharley)! - Export AsyncCreatableProps from creatable entrypoint
+
+- [46eeda1a](https://github.com/JedWatson/react-select/commit/46eeda1a6829af168ae24b49a251d12e410706ab) [#4801](https://github.com/JedWatson/react-select/pull/4801) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Export more types from main entry point
+
+### Patch Changes
+
+- [fdd01e66](https://github.com/JedWatson/react-select/commit/fdd01e664400b684b83c2b1c629bd3c76b152236) [#4833](https://github.com/JedWatson/react-select/pull/4833) Thanks [@ebonow](https://github.com/ebonow)! - Value container display property should be grid when isMulti and has no value so the Placeholder component is positioned correctly with the Input
+
+- [0937604f](https://github.com/JedWatson/react-select/commit/0937604ffcec5d56dd4918ae728feee345e1c78c) [#4823](https://github.com/JedWatson/react-select/pull/4823) Thanks [@mikunpham](https://github.com/mikunpham)! - Fix the issue where input contents are moved to the left due to multiple space characters.
+
+- [ec80b577](https://github.com/JedWatson/react-select/commit/ec80b577665f2bd9b2cff9d7ca34723b6b65e5b8) [#4803](https://github.com/JedWatson/react-select/pull/4803) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Import CSSObject from @emotion/react instead of @emotion/serialize
+
 ## 5.0.0
 
 ### Major Changes
