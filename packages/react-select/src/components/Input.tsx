@@ -68,7 +68,7 @@ const containerStyle = {
   '&:after': {
     content: 'attr(data-value) " "',
     visibility: 'hidden',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'pre',
     ...spacingStyle,
   },
 } as const;

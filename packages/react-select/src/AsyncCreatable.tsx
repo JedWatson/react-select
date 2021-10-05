@@ -5,7 +5,7 @@ import useAsync, { AsyncAdditionalProps } from './useAsync';
 import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
 
-type AsyncCreatableProps<
+export type AsyncCreatableProps<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>

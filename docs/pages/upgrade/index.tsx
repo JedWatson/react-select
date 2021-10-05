@@ -38,6 +38,20 @@ Here are the most notable changes when replacing \`@types/react-select\` with ou
         <TypesReplacementTable />
         <br />
         {md`
+If you were previously importing a type from the \`src\` directory when using \`@types/react-select\`:
+
+~~~jsx
+import { ... } from 'react-select/src/...';
+~~~
+
+These should now be imported from the \`dist/declarations/src\` directory:
+
+~~~jsx
+import { ... } from 'react-select/dist/declarations/src/...';
+~~~
+
+We export any types from the main entry point that we think might be useful to the user. If you are using a type that is not exported from the main entry point please open a PR or issue so that we can add it.
+
 #### Drop IE11 support
 
 This allows us to use modern CSS in order to improve the quality of \`react-select\` and remove excessive JavaScript code to work around not having the ability to use modern CSS. If you need IE11 support either:
