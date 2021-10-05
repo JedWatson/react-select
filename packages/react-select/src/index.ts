@@ -14,6 +14,7 @@ export type SelectInstance<
 > = Select<Option, IsMulti, Group>;
 export type { StateManagerProps as Props } from './useStateManager';
 
+export type { SelectComponentsConfig } from './components';
 export type {
   ContainerProps,
   IndicatorsContainerProps,
@@ -37,6 +38,7 @@ export type {
 export type { OptionProps } from './components/Option';
 export type { PlaceholderProps } from './components/Placeholder';
 export type { SingleValueProps } from './components/SingleValue';
+export type { ThemeConfig } from './theme';
 export type { StylesConfig } from './styles';
 export * from './types';
 export type {
