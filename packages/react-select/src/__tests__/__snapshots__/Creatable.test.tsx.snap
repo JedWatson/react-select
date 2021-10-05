@@ -98,7 +98,7 @@ exports[`defaults - snapshot 1`] = `
 .emotion-6:after {
   content: attr(data-value) " ";
   visibility: hidden;
-  white-space: nowrap;
+  white-space: pre;
   grid-area: 1/2;
   font: inherit;
   min-width: 2px;
