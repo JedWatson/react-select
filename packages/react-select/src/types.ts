@@ -20,7 +20,7 @@ export type PropsValue<Option> = MultiValue<Option> | SingleValue<Option>;
 export type OnChangeValue<Option, IsMulti extends boolean> =
   IsMulti extends true ? MultiValue<Option> : SingleValue<Option>;
 
-interface Colors {
+export interface Colors {
   primary: string;
   primary75: string;
   primary50: string;
@@ -42,7 +42,7 @@ interface Colors {
   neutral90: string;
 }
 
-interface ThemeSpacing {
+export interface ThemeSpacing {
   baseUnit: number;
   controlHeight: number;
   menuGutter: number;
