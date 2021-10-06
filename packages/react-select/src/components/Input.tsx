@@ -40,12 +40,14 @@ export const inputCSS = <
 >({
   isDisabled,
   theme: { spacing, colors },
+  value,
 }: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
+  transform: value ? 'translateZ(0)' : '',
   ...containerStyle,
 });
 
