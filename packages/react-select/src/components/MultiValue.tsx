@@ -32,6 +32,7 @@ export interface MultiValueProps<
   isFocused: boolean;
   isDisabled: boolean;
   removeProps: JSX.IntrinsicElements['div'];
+  index: number;
 }
 
 export const multiValueCSS = <
