@@ -39,8 +39,8 @@ export const inputCSS = <
   Group extends GroupBase<Option>
 >({
   isDisabled,
-  theme: { spacing, colors },
   value,
+  theme: { spacing, colors },
 }: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
