@@ -1648,6 +1648,7 @@ export default class Select<
     if (isMulti) {
       return selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
+        const key = `${this.getOptionLabel(opt)}-${this.getOptionValue(opt)}`;
 
         return (
           <MultiValue
@@ -1659,7 +1660,7 @@ export default class Select<
             }}
             isFocused={isOptionFocused}
             isDisabled={isDisabled}
-            key={`${this.getOptionValue(opt)}-${index}`}
+            key={key}
             index={index}
             removeProps={{
               onClick: () => this.removeValue(opt),
