@@ -5,7 +5,6 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 // ==============================
@@ -13,7 +12,7 @@ import {
 // ==============================
 
 export interface ContainerProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -26,7 +25,7 @@ export interface ContainerProps<
   innerProps: JSX.IntrinsicElements['div'];
 }
 export const containerCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -39,21 +38,14 @@ export const containerCSS = <
   position: 'relative',
 });
 export const SelectContainer = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
   props: ContainerProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    isDisabled,
-    isRtl,
-  } = props;
+  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } =
+    props;
   return (
     <div
       css={getStyles('container', props)}
@@ -76,7 +68,7 @@ export const SelectContainer = <
 // ==============================
 
 export interface ValueContainerProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -87,14 +79,16 @@ export interface ValueContainerProps<
   isDisabled: boolean;
 }
 export const valueContainerCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
   theme: { spacing },
+  isMulti,
+  hasValue,
 }: ValueContainerProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   alignItems: 'center',
-  display: 'flex',
+  display: isMulti && hasValue ? 'flex' : 'grid',
   flex: 1,
   flexWrap: 'wrap',
   padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
@@ -103,21 +97,14 @@ export const valueContainerCSS = <
   overflow: 'hidden',
 });
 export const ValueContainer = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
   props: ValueContainerProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    innerProps,
-    isMulti,
-    getStyles,
-    hasValue,
-  } = props;
+  const { children, className, cx, innerProps, isMulti, getStyles, hasValue } =
+    props;
 
   return (
     <div
@@ -142,7 +129,7 @@ export const ValueContainer = <
 // ==============================
 
 export interface IndicatorsContainerProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -160,7 +147,7 @@ export const indicatorsContainerCSS = (): CSSObjectWithLabel => ({
   flexShrink: 0,
 });
 export const IndicatorsContainer = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

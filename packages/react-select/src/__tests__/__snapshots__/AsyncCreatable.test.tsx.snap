@@ -18,7 +18,7 @@ exports[`defaults - snapshot 1`] = `
   white-space: nowrap;
 }
 
-.emotion-2 {
+.emotion-3 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -48,19 +48,16 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-2:hover {
+.emotion-3:hover {
   border-color: hsl(0, 0%, 70%);
 }
 
-.emotion-3 {
+.emotion-4 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  display: grid;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -75,29 +72,43 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-4 {
+.emotion-5 {
   color: hsl(0, 0%, 50%);
+  grid-area: 1/1/2/3;
   margin-left: 2px;
   margin-right: 2px;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
   box-sizing: border-box;
 }
 
-.emotion-5 {
+.emotion-6 {
   margin: 2px;
   padding-bottom: 2px;
   padding-top: 2px;
   visibility: visible;
   color: hsl(0, 0%, 20%);
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: inline-grid;
+  grid-area: 1/1/2/3;
+  grid-template-columns: 0 min-content;
   box-sizing: border-box;
 }
 
-.emotion-6 {
+.emotion-6:after {
+  content: attr(data-value) " ";
+  visibility: hidden;
+  white-space: pre;
+  grid-area: 1/2;
+  font: inherit;
+  min-width: 2px;
+  border: 0;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+}
+
+.emotion-7 {
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -115,7 +126,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-7 {
+.emotion-8 {
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
@@ -126,7 +137,7 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-8 {
+.emotion-9 {
   color: hsl(0, 0%, 80%);
   display: -webkit-box;
   display: -webkit-flex;
@@ -138,11 +149,11 @@ exports[`defaults - snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.emotion-8:hover {
+.emotion-9:hover {
   color: hsl(0, 0%, 60%);
 }
 
-.emotion-9 {
+.emotion-10 {
   display: inline-block;
   fill: currentColor;
   line-height: 1;
@@ -155,60 +166,65 @@ exports[`defaults - snapshot 1`] = `
     class=" emotion-0"
   >
     <span
+      class="emotion-1"
+      id="react-select-2-live-region"
+    />
+    <span
       aria-atomic="false"
       aria-live="polite"
       aria-relevant="additions text"
       class="emotion-1"
     />
     <div
-      class=" emotion-2"
+      class=" emotion-3"
     >
       <div
-        class=" emotion-3"
+        class=" emotion-4"
       >
         <div
-          class=" emotion-4"
+          class=" emotion-5"
+          id="react-select-2-placeholder"
         >
           Select...
         </div>
         <div
-          class="emotion-5"
+          class=" emotion-6"
+          data-value=""
         >
-          <div
+          <input
+            aria-autocomplete="list"
+            aria-controls="react-select-2-listbox"
+            aria-describedby="react-select-2-placeholder"
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-owns="react-select-2-listbox"
+            autocapitalize="none"
+            autocomplete="off"
+            autocorrect="off"
             class=""
-            style="display: inline-block;"
-          >
-            <input
-              aria-autocomplete="list"
-              autocapitalize="none"
-              autocomplete="off"
-              autocorrect="off"
-              id="react-select-2-input"
-              spellcheck="false"
-              style="box-sizing: content-box; width: 2px; border: 0px; opacity: 1; outline: 0; padding: 0px;"
-              tabindex="0"
-              type="text"
-              value=""
-            />
-            <div
-              style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-            />
-          </div>
+            id="react-select-2-input"
+            role="combobox"
+            spellcheck="false"
+            style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+            tabindex="0"
+            type="text"
+            value=""
+          />
         </div>
       </div>
       <div
-        class=" emotion-6"
+        class=" emotion-7"
       >
         <span
-          class=" emotion-7"
+          class=" emotion-8"
         />
         <div
           aria-hidden="true"
-          class=" emotion-8"
+          class=" emotion-9"
         >
           <svg
             aria-hidden="true"
-            class="emotion-9"
+            class="emotion-10"
             focusable="false"
             height="20"
             viewBox="0 0 20 20"

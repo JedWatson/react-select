@@ -35,13 +35,8 @@ export default class SingleSelect extends Component<{}, State> {
   toggleSearchable = () =>
     this.setState((state) => ({ isSearchable: !state.isSearchable }));
   render() {
-    const {
-      isClearable,
-      isSearchable,
-      isDisabled,
-      isLoading,
-      isRtl,
-    } = this.state;
+    const { isClearable, isSearchable, isDisabled, isLoading, isRtl } =
+      this.state;
     return (
       <Fragment>
         <Select

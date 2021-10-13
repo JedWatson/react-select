@@ -5,11 +5,10 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 export interface PlaceholderProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -22,7 +21,7 @@ export interface PlaceholderProps<
 }
 
 export const placeholderCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -30,15 +29,13 @@ export const placeholderCSS = <
 }: PlaceholderProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'placeholder',
   color: colors.neutral50,
+  gridArea: '1 / 1 / 2 / 3',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
-  position: 'absolute',
-  top: '50%',
-  transform: 'translateY(-50%)',
 });
 
 const Placeholder = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

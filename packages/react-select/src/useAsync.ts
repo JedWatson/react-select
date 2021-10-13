@@ -1,12 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { handleInputChange } from './utils';
 import { StateManagerProps } from './useStateManager';
-import {
-  GroupBase,
-  InputActionMeta,
-  OptionBase,
-  OptionsOrGroups,
-} from './types';
+import { GroupBase, InputActionMeta, OptionsOrGroups } from './types';
 
 type AsyncManagedPropKeys =
   | 'options'
@@ -14,10 +9,7 @@ type AsyncManagedPropKeys =
   | 'onInputChange'
   | 'filterOption';
 
-export interface AsyncAdditionalProps<
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
-> {
+export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
   /**
    * The default set of options to show before the user starts searching. When
    * set to `true`, the results for loadOptions('') will be autoloaded.
@@ -46,14 +38,14 @@ export interface AsyncAdditionalProps<
 }
 
 export type AsyncProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = StateManagerProps<Option, IsMulti, Group> &
   AsyncAdditionalProps<Option, Group>;
 
 export default function useAsync<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>,
   AdditionalProps
@@ -87,9 +79,8 @@ export default function useAsync<
     typeof propsInputValue !== 'undefined' ? (propsInputValue as string) : ''
   );
   const [isLoading, setIsLoading] = useState(propsDefaultOptions === true);
-  const [loadedInputValue, setLoadedInputValue] = useState<string | undefined>(
-    undefined
-  );
+  const [loadedInputValue, setLoadedInputValue] =
+    useState<string | undefined>(undefined);
   const [loadedOptions, setLoadedOptions] = useState<
     OptionsOrGroups<Option, Group>
   >([]);
@@ -97,9 +88,8 @@ export default function useAsync<
   const [optionsCache, setOptionsCache] = useState<
     Record<string, OptionsOrGroups<Option, Group>>
   >({});
-  const [prevDefaultOptions, setPrevDefaultOptions] = useState<
-    OptionsOrGroups<Option, Group> | boolean | undefined
-  >(undefined);
+  const [prevDefaultOptions, setPrevDefaultOptions] =
+    useState<OptionsOrGroups<Option, Group> | boolean | undefined>(undefined);
   const [prevCacheOptions, setPrevCacheOptions] = useState(undefined);
 
   if (cacheOptions !== prevCacheOptions) {

@@ -17,7 +17,10 @@ export default function DummyInput({
         // get rid of any default styles
         background: 0,
         border: 0,
+        // important! this hides the flashing cursor
+        caretColor: 'transparent',
         fontSize: 'inherit',
+        gridArea: '1 / 1 / 2 / 3',
         outline: 0,
         padding: 0,
         // important! without `width` browsers won't allow focus
@@ -30,7 +33,7 @@ export default function DummyInput({
         left: -100,
         opacity: 0,
         position: 'relative',
-        transform: 'scale(0)',
+        transform: 'scale(.01)',
       }}
     />
   );
