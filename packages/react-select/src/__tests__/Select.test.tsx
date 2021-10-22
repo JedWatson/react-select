@@ -1292,7 +1292,7 @@ cases(
     });
     expect(spy).toHaveBeenCalledWith('', {
       action: 'menu-close',
-      currentValue: 'test',
+      prevInputValue: 'test',
     });
   },
   {
@@ -3018,11 +3018,11 @@ test('close menu on hitting escape and clear input value if menu is open even if
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
   expect(onInputChangeSpy).toHaveBeenCalledWith('', {
     action: 'menu-close',
-    currentValue: '',
+    prevInputValue: '',
   });
   expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {
     action: 'menu-close',
-    currentValue: '',
+    prevInputValue: '',
   });
 });
 
