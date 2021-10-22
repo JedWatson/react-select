@@ -10,24 +10,24 @@ export default class OnSelectResetsInput extends Component<{}, State> {
   state: State = {};
   onInputChange = (
     inputValue: string,
-    { action, currentValue }: InputActionMeta
+    { action, prevInputValue }: InputActionMeta
   ) => {
     console.log(inputValue, action);
     switch (action) {
       case 'input-change':
         return inputValue;
       case 'menu-close':
-        console.log(currentValue);
+        console.log(prevInputValue);
         let menuIsOpen = undefined;
-        if (currentValue) {
+        if (prevInputValue) {
           menuIsOpen = true;
         }
         this.setState({
           menuIsOpen,
         });
-        return currentValue;
+        return prevInputValue;
       default:
-        return currentValue;
+        return prevInputValue;
     }
   };
   render() {

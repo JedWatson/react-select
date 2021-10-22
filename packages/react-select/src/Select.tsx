@@ -760,7 +760,7 @@ export default class Select<
   onMenuClose() {
     this.onInputChange('', {
       action: 'menu-close',
-      currentValue: this.props.inputValue,
+      prevInputValue: this.props.inputValue,
     });
     this.props.onMenuClose();
   }
@@ -900,7 +900,7 @@ export default class Select<
     option?: Option
   ) => {
     const { closeMenuOnSelect, isMulti, inputValue } = this.props;
-    this.onInputChange('', { action: 'set-value', currentValue: inputValue });
+    this.onInputChange('', { action: 'set-value', prevInputValue: inputValue });
     if (closeMenuOnSelect) {
       this.setState({ inputIsHiddenAfterUpdate: !isMulti });
       this.onMenuClose();
@@ -1348,10 +1348,10 @@ export default class Select<
   // ==============================
 
   handleInputChange: FormEventHandler<HTMLInputElement> = (event) => {
-    const { inputValue: currentValue } = this.props;
+    const { inputValue: prevInputValue } = this.props;
     const inputValue = event.currentTarget.value;
     this.setState({ inputIsHiddenAfterUpdate: false });
-    this.onInputChange(inputValue, { action: 'input-change', currentValue });
+    this.onInputChange(inputValue, { action: 'input-change', prevInputValue });
     if (!this.props.menuIsOpen) {
       this.onMenuOpen();
     }
@@ -1370,7 +1370,7 @@ export default class Select<
     this.openAfterFocus = false;
   };
   onInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
-    const { inputValue: currentValue } = this.props;
+    const { inputValue: prevInputValue } = this.props;
     if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
       this.inputRef!.focus();
       return;
@@ -1378,7 +1378,7 @@ export default class Select<
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
-    this.onInputChange('', { action: 'input-blur', currentValue });
+    this.onInputChange('', { action: 'input-blur', prevInputValue });
     this.onMenuClose();
     this.setState({
       focusedValue: null,
@@ -1482,7 +1482,7 @@ export default class Select<
           this.setState({ inputIsHiddenAfterUpdate: false });
           this.onInputChange('', {
             action: 'menu-close',
-            currentValue: inputValue,
+            prevInputValue: inputValue,
           });
           this.onMenuClose();
         } else if (isClearable && escapeClearsValue) {
