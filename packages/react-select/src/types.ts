@@ -171,6 +171,7 @@ export type InputAction =
 
 export interface InputActionMeta {
   action: InputAction;
+  /** The previous value of the search input. */
   prevInputValue: string;
 }
 
