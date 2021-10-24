@@ -4,7 +4,7 @@ import chroma from 'chroma-js';
 import { ColourOption, colourOptions } from '../data';
 import Select, { StylesConfig } from 'react-select';
 
-const dot = (color = '#ccc') => ({
+const dot = (color = 'transparent') => ({
   alignItems: 'center',
   display: 'flex',
 
@@ -52,7 +52,7 @@ const colourStyles: StylesConfig<ColourOption> = {
     };
   },
   input: (styles) => ({ ...styles, ...dot() }),
-  placeholder: (styles) => ({ ...styles, ...dot() }),
+  placeholder: (styles) => ({ ...styles, ...dot('#ccc') }),
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 
