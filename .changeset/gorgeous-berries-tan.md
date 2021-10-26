@@ -2,4 +2,4 @@
 'react-select': minor
 ---
 
-Add current `inputValue` to action meta
+Add `prevInputValue` to action meta
