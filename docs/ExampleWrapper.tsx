@@ -222,7 +222,7 @@ const Actions = (props: JSX.IntrinsicElements['div']) => (
       },
       '&:focus-within': {
         opacity: 1,
-      }
+      },
     }}
     {...props}
   />
