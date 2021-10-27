@@ -3119,3 +3119,21 @@ test('renders with custom theme', () => {
     window.getComputedStyle(firstOption!).getPropertyValue('background-color')
   ).toEqual(primary);
 });
+
+test('form validation with `required` prop', () => {
+  const components = (value?: Option) => (
+    <form id="formTest">
+      <Select {...BASIC_PROPS} required value={value || null} />
+    </form>
+  );
+
+  const { container, rerender } = render(components());
+
+  expect(
+    container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+  ).toEqual(false);
+  rerender(components(BASIC_PROPS.options[0]));
+  expect(
+    container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+  ).toEqual(true);
+});

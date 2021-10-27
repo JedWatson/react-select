@@ -14,7 +14,7 @@ import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
-import { DummyInput, ScrollManager } from './internal/index';
+import { DummyInput, ScrollManager, RequiredInput } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility/index';
 
 import {
@@ -262,6 +262,10 @@ export interface Props<
   value: PropsValue<Option>;
   /** Sets the form attribute on the input */
   form?: string;
+  /** Text to display if the component fails the `required` validation  */
+  requiredMessage: () => string;
+  /** Marks the value-holding input as required for form validation */
+  required?: boolean;
 }
 
 export const defaultProps = {
@@ -303,6 +307,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: 0,
   tabSelectsValue: true,
+  requiredMessage: () => 'Please select an item from the list.',
 };
 
 interface State<
@@ -1421,6 +1426,15 @@ export default class Select<
     return shouldHideSelectedOptions(this.props);
   };
 
+  // If the hidden input gets focus through form submit,
+  // redirect focus to focusable input.
+  onValueInputFocus: FocusEventHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.focus();
+  };
+
   // ==============================
   // Keyboard Handlers
   // ==============================
@@ -1986,10 +2000,20 @@ export default class Select<
     );
   }
   renderFormField() {
-    const { delimiter, isDisabled, isMulti, name } = this.props;
+    const { delimiter, isDisabled, isMulti, name, required, requiredMessage } =
+      this.props;
     const { selectValue } = this.state;
 
     if (!name || isDisabled) return;
+
+    if (required && !this.hasValue())
+      return (
+        <RequiredInput
+          name={name}
+          onFocus={this.onValueInputFocus}
+          requiredMessage={requiredMessage}
+        />
+      );
 
     if (isMulti) {
       if (delimiter) {
@@ -2009,7 +2033,7 @@ export default class Select<
               />
             ))
           ) : (
-            <input name={name} type="hidden" />
+            <input name={name} type="hidden" value="" />
           );
 
         return <div>{input}</div>;
