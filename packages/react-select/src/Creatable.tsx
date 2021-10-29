@@ -35,4 +35,5 @@ const CreatableSelect = React.forwardRef(
   }
 ) as CreatableSelect;
 
+export { useCreatable };
 export default CreatableSelect;

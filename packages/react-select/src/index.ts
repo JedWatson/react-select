@@ -1,7 +1,5 @@
 import Select from './Select';
 import { GroupBase } from './types';
-import useAsync from './useAsync';
-import useCreatable from './useCreatable';
 import useStateManager from './useStateManager';
 
 export { default } from './stateManager';
@@ -16,7 +14,7 @@ export type SelectInstance<
   Group extends GroupBase<Option> = GroupBase<Option>
 > = Select<Option, IsMulti, Group>;
 export type { StateManagerProps as Props } from './useStateManager';
-export { useAsync, useCreatable, useStateManager };
+export { useStateManager };
 
 export type { SelectComponentsConfig } from './components';
 export type {
