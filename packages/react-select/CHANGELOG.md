@@ -1,5 +1,21 @@
 # react-select
 
+## 5.2.0
+
+### Minor Changes
+
+- [`6c7a3d1e`](https://github.com/JedWatson/react-select/commit/6c7a3d1e07b7d6a8f484a829e69b20eae5a92b91) [#4785](https://github.com/JedWatson/react-select/pull/4785) Thanks [@Rall3n](https://github.com/Rall3n)! - Add `prevInputValue` to action meta
+
+- [`b522ac65`](https://github.com/JedWatson/react-select/commit/b522ac658f85701ecf413436f3cf8d8d49117c82) [#4860](https://github.com/JedWatson/react-select/pull/4860) Thanks [@ebonow](https://github.com/ebonow)! - Fix animated MultiValue transitions when being removed and change method used to generate unqiue keys for Option components. Closes #4844 , closes #4602
+
+### Patch Changes
+
+- [`417e7217`](https://github.com/JedWatson/react-select/commit/417e721786af309ede9b35983a18df89363cd1c5) [#4842](https://github.com/JedWatson/react-select/pull/4842) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Remove src directory from published package
+
+- [`480ea85b`](https://github.com/JedWatson/react-select/commit/480ea85bed6f7c90c45d14884b4ec1105d92971a) [#4846](https://github.com/JedWatson/react-select/pull/4846) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Add missing index to MultiValue props type
+
+- [`b8e34472`](https://github.com/JedWatson/react-select/commit/b8e34472d352a87e9687027a5c3f4ed767984177) [#4854](https://github.com/JedWatson/react-select/pull/4854) Thanks [@mikunpham](https://github.com/mikunpham)! - Make input container css re-compute whenever input value changes due to a bug from `@emotion/react` in development env.
+
 ## 5.1.0
 
 ### Minor Changes
