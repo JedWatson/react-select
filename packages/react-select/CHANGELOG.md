@@ -1,5 +1,11 @@
 # react-select
 
+## 5.2.1
+
+### Patch Changes
+
+- [`f172d7f9`](https://github.com/JedWatson/react-select/commit/f172d7f9c20b82db14e795d578ee4802475d2bdc) [#4886](https://github.com/JedWatson/react-select/pull/4886) Thanks [@Akridian](https://github.com/Akridian)! - Hooks for creation of custom Selects are now exported from main entry
+
 ## 5.2.0
 
 ### Minor Changes
