@@ -216,7 +216,7 @@ describe('Single Select', () => {
           .get(selector.singleClearableSelect)
           .find(selector.placeholder)
           .should('be.visible')
-          .should('contain', 'Select...');
+          .should('contain', 'Select…');
       });
 
       // 'backspaceRemovesValue' is true by default
@@ -228,7 +228,7 @@ describe('Single Select', () => {
           .get(selector.singleClearableSelect)
           .find(selector.placeholder)
           .should('be.visible')
-          .should('contain', 'Select...');
+          .should('contain', 'Select…');
       });
 
       // 'backspaceRemovesValue' is true by default, and delete is included
@@ -240,7 +240,7 @@ describe('Single Select', () => {
           .get(selector.singleClearableSelect)
           .find(selector.placeholder)
           .should('be.visible')
-          .should('contain', 'Select...');
+          .should('contain', 'Select…');
       });
 
       it(`Should not open the menu when a value is cleared with backspace in view: ${viewport}`, () => {

@@ -299,7 +299,7 @@ export const defaultProps = {
   openMenuOnClick: true,
   options: [],
   pageSize: 5,
-  placeholder: 'Select...',
+  placeholder: 'Select…',
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
   styles: {},
