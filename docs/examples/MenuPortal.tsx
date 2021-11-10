@@ -45,7 +45,6 @@ export default class MenuPortal extends Component<{}, State> {
             <Select
               defaultValue={colourOptions[0]}
               isClearable
-              styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
               menuPortalTarget={document.body}
               isSearchable
               name="color"
