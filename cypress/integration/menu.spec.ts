@@ -49,7 +49,10 @@ describe('Menus', () => {
 
       cy.get('html').should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight + 1}px`);
-        expect($el).to.have.prop('scrollTop', 1);
+        const scrollTop = $el.prop('scrollTop');
+        // Firefox has an extra pixel for an unknown reason
+        const firefoxAdjustment = 1;
+        expect(scrollTop).to.be.oneOf([1, 1 + firefoxAdjustment]);
       });
     });
 
@@ -110,11 +113,21 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
-      const spaceAbove = viewportHeight - selectHeightWithMinMenuOpen + 1;
-      const scrollHeight = spaceAbove + selectHeightWithMenuOpen;
       cy.get('html').should(($el) => {
-        expect($el).to.have.prop('scrollHeight', scrollHeight);
-        expect($el).to.have.prop('scrollTop', scrollHeight - viewportHeight);
+        const spaceAbove = viewportHeight - selectHeightWithMinMenuOpen + 1;
+        const scrollHeight = spaceAbove + selectHeightWithMenuOpen;
+        const actualScrollHeight = $el.prop('scrollHeight');
+        const scrollTop = $el.prop('scrollTop');
+        // Firefox has one less pixel for an unknown reason
+        const firefoxAdjustment = -1;
+        expect(actualScrollHeight).to.be.oneOf([
+          scrollHeight,
+          scrollHeight + firefoxAdjustment,
+        ]);
+        expect(scrollTop).to.be.oneOf([
+          scrollHeight - viewportHeight,
+          scrollHeight - viewportHeight + firefoxAdjustment,
+        ]);
       });
     });
 
