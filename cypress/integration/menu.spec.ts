@@ -9,7 +9,7 @@ import {
   viewportHeight,
 } from '../../docs/menu-tests/menuHeights';
 
-describe('Menus', () => {
+describe('Menus', { scrollBehavior: false }, () => {
   context('720p resolution', () => {
     beforeEach(() => {
       cy.viewport(1280, viewportHeight);
@@ -49,10 +49,7 @@ describe('Menus', () => {
 
       cy.get('html').should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight + 1}px`);
-        const scrollTop = $el.prop('scrollTop');
-        // Firefox has an extra pixel for an unknown reason
-        const firefoxAdjustment = 1;
-        expect(scrollTop).to.be.oneOf([1, 1 + firefoxAdjustment]);
+        expect($el).to.have.prop('scrollTop', 1);
       });
     });
 
@@ -146,6 +143,26 @@ describe('Menus', () => {
 
       cy.get(selector.menuTestsScrollContainer).should(($el) => {
         expect($el).to.have.prop('scrollHeight', scrollContainerHeight);
+        expect($el).to.have.prop('scrollTop', 0);
+      });
+    });
+
+    it('the menu will fit in scroll container if scrolled', () => {
+      cy.visit('./cypress-menu-test7');
+      cy.get(selector.menuTestsSelect)
+        .find(selector.indicatorDropdown)
+        .click()
+        .get(selector.menuTestsSelect)
+        .find(selector.menu)
+        .should('exist')
+        .should('be.visible')
+        .should(($el) => {
+          expect($el).to.have.css('height', `${menuHeight}px`);
+        });
+
+      cy.get(selector.menuTestsScrollContainer).should(($el) => {
+        expect($el).to.have.prop('scrollHeight', scrollContainerHeight + 1);
+        expect($el).to.have.prop('scrollTop', 1);
       });
     });
   });
