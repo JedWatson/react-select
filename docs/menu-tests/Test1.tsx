@@ -7,7 +7,7 @@ const spaceAbove = viewportHeight - selectHeightWithMenuOpen;
 
 export default function Test1() {
   return (
-    <div>
+    <div id="menu-tests-container" style={{ height: viewportHeight }}>
       <div style={{ height: spaceAbove }} />
       <Select
         id="menu-tests-select"

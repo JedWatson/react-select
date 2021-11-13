@@ -24,9 +24,9 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
-      cy.document()
-        .then((document) => document.documentElement.scrollHeight)
-        .then((offsetHeight) => expect(offsetHeight).to.equal(viewportHeight));
+      cy.get(selector.menuTestsContainer).should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight}px`);
+      });
     });
 
     it('2: the menu will fit, if scrolled', () => {
@@ -42,11 +42,9 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
-      cy.document()
-        .then((document) => document.documentElement.scrollHeight)
-        .then((offsetHeight) =>
-          expect(offsetHeight).to.equal(viewportHeight + 1)
-        );
+      cy.get(selector.menuTestsContainer).should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight + 1}px`);
+      });
     });
 
     it('3: the menu will fit, if constrained', () => {
@@ -65,9 +63,9 @@ describe('Menus', () => {
           );
         });
 
-      cy.document()
-        .then((document) => document.documentElement.scrollHeight)
-        .then((offsetHeight) => expect(offsetHeight).to.equal(viewportHeight));
+      cy.get(selector.menuTestsContainer).should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight}px`);
+      });
     });
   });
 });

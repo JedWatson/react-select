@@ -4,7 +4,6 @@
   "singleClearable": "#cypress-single-clearable",
   "singleClearableSelect": "#clearable-select-single",
   "singleGroupedSelect": "#grouped-options-single",
-  "menuTestsSelect": "#menu-tests-select",
   "checkboxDisable": ".disable-checkbox",
   "checkboxEscapeClearsValue": ".escape-clears-value-checkbox",
   "groupHeading": ".react-select__group-heading",
@@ -24,5 +23,7 @@
   "multiSelectInput": "#react-select-multi-select-input",
   "placeHolderMulti": "#multi-select .react-select__placeholder",
   "toggleMenuMulti": "#multi-select .react-select__dropdown-indicator",
-  "focusedOption": ".react-select__option--is-focused"
+  "focusedOption": ".react-select__option--is-focused",
+  "menuTestsSelect": "#menu-tests-select",
+  "menuTestsContainer": "#menu-tests-container"
 }
