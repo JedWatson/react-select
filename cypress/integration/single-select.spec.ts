@@ -35,12 +35,12 @@ describe('Single Select', () => {
           .click()
           .click()
           .get(selector.menuSingle)
-          .should('not.be.visible')
+          .should('not.exist')
           // to be sure it says focus and the menu is closed
           .get(selector.singleSelectSingleInput)
           .trigger('mousedown')
           .get(selector.menuSingle)
-          .should('not.be.visible');
+          .should('not.exist');
       });
       it(`Should display a default value in view: ${viewport}`, () => {
         cy.get(selector.singleBasicSelect)
@@ -134,7 +134,7 @@ describe('Single Select', () => {
           .type('{backspace}', { force: true })
           .get(selector.singleBasicSelect)
           .find(selector.placeholder)
-          .should('not.be.visible');
+          .should('not.exist');
       });
     });
 
@@ -241,14 +241,14 @@ describe('Single Select', () => {
           .type('{esc}', { force: true })
           .get(selector.singleClearableSelect)
           .find(selector.menu)
-          .should('not.be.visible')
+          .should('not.exist')
           // Clear the value, verify menu doesn't pop
           .get(selector.singleClearableSelect)
           .find('input')
           .type('{backspace}', { force: true })
           .get(selector.singleClearableSelect)
           .find(selector.menu)
-          .should('not.be.visible');
+          .should('not.exist');
       });
 
       it(`Should clear the value when escape is pressed if escapeClearsValue and menu is closed in view: ${viewport}`, () => {
@@ -261,14 +261,14 @@ describe('Single Select', () => {
           .type('{esc}', { force: true })
           .get(selector.singleBasicSelect)
           .find(selector.menu)
-          .should('not.be.visible')
+          .should('not.exist')
           // Escape again to verify value is not cleared
           .get(selector.singleClearableSelect)
           .find('input')
           .type('{esc}', { force: true })
           .get(selector.singleClearableSelect)
           .find(selector.placeholder)
-          .should('not.be.visible')
+          .should('not.exist')
           // Enable escapeClearsValue and try again, it should clear the value
           .get(selector.singleClearable)
           .find(selector.checkboxEscapeClearsValue)
@@ -280,7 +280,7 @@ describe('Single Select', () => {
           .type('{esc}', { force: true })
           .get(selector.singleBasicSelect)
           .find(selector.menu)
-          .should('not.be.visible')
+          .should('not.exist')
           // Escape again to clear value
           .get(selector.singleClearableSelect)
           .find('input')

@@ -44,7 +44,7 @@ describe('Multi Select', () => {
             expect($defaultValue.eq(0)).to.contain('Red');
           })
           .get(selector.menuMulti)
-          .should('not.be.visible');
+          .should('not.exist');
       });
 
       it(`Should be able to remove values on keyboard actions in view: ${viewport}`, () => {

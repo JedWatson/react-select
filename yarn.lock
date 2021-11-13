@@ -2411,6 +2411,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.1.tgz#9b60797dee1895383a725f828a869c86c6caa5c2"
   integrity sha512-zyxJM8I1c9q5sRMtVF+zdd13Jt6RU4r4qfhTd7lQubyThvLfx6yYekWSQjGCGV2Tkecgxnlpl/DNlb6Hg+dmEw==
 
+"@types/node@12.12.50":
+  version "12.12.50"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.50.tgz#e9b2e85fafc15f2a8aa8fdd41091b983da5fd6ee"
+  integrity sha512-5ImO01Fb8YsEOYpV+aeyGYztcYcjGsBvN4D7G5r1ef2cuQOpymjWNQi5V0rKHE6PC2ru3HkoUr/Br2/8GUA84w==
+
 "@types/node@^12.7.1":
   version "12.20.14"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.14.tgz#9caf7eea0df08b406829889cc015256a6d81ab10"
@@ -5352,14 +5357,15 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-cypress@5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-5.6.0.tgz#6781755c3ddfd644ce3179fcd7389176c0c82280"
-  integrity sha512-cs5vG3E2JLldAc16+5yQxaVRLLqMVya5RlrfPWkC72S5xrlHFdw7ovxPb61s4wYweROKTyH01WQc2PFzwwVvyQ==
+cypress@^6.9.1:
+  version "6.9.1"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-6.9.1.tgz#ce1106bfdc47f8d76381dba63f943447883f864c"
+  integrity sha512-/RVx6sOhsyTR9sd9v0BHI4tnDZAhsH9rNat7CIKCUEr5VPWxyfGH0EzK4IHhAqAH8vjFcD4U14tPiJXshoUrmQ==
   dependencies:
     "@cypress/listr-verbose-renderer" "^0.4.1"
     "@cypress/request" "^2.88.5"
     "@cypress/xvfb" "^1.2.4"
+    "@types/node" "12.12.50"
     "@types/sinonjs__fake-timers" "^6.0.1"
     "@types/sizzle" "^2.3.2"
     arch "^2.1.2"
@@ -5371,7 +5377,8 @@ cypress@5.6.0:
     cli-table3 "~0.6.0"
     commander "^5.1.0"
     common-tags "^1.8.0"
-    debug "^4.1.1"
+    dayjs "^1.9.3"
+    debug "4.3.2"
     eventemitter2 "^6.4.2"
     execa "^4.0.2"
     executable "^4.1.1"
@@ -5385,10 +5392,10 @@ cypress@5.6.0:
     lodash "^4.17.19"
     log-symbols "^4.0.0"
     minimist "^1.2.5"
-    moment "^2.27.0"
+    moment "^2.29.1"
     ospath "^1.2.2"
     pretty-bytes "^5.4.1"
-    ramda "~0.26.1"
+    ramda "~0.27.1"
     request-progress "^3.0.0"
     supports-color "^7.2.0"
     tmp "~0.2.1"
@@ -5441,6 +5448,11 @@ dayjs@^1.10.0:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
   integrity sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==
 
+dayjs@^1.9.3:
+  version "1.10.7"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
+  integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -5454,6 +5466,13 @@ debug@3.1.0:
   integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
   dependencies:
     ms "2.0.0"
+
+debug@4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
+  integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
+  dependencies:
+    ms "2.1.2"
 
 debug@^3.1.0, debug@^3.1.1, debug@^3.2.6:
   version "3.2.7"
@@ -10260,7 +10279,7 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.4, mkdirp@^0.5.5, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment@^2.20.1, moment@^2.27.0:
+moment@^2.20.1, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -11910,15 +11929,10 @@ railroad-diagrams@^1.0.0:
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
   integrity sha1-635iZ1SN3t+4mcG5Dlc3RVnN234=
 
-ramda@^0.27.1:
+ramda@^0.27.1, ramda@~0.27.1:
   version "0.27.1"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.1.tgz#66fc2df3ef873874ffc2da6aa8984658abacf5c9"
   integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
-
-ramda@~0.26.1:
-  version "0.26.1"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
-  integrity sha512-hLWjpy7EnsDBb0p+Z3B7rPi3GDeRG5ZtiI33kJhTt+ORCd38AbAIjB/9zRIUoeTbE/AVX5ZkU7m6bznsvrf8eQ==
 
 randexp@0.4.6:
   version "0.4.6"
