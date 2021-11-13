@@ -8,14 +8,15 @@ import {
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
+import getScrollParent from '@popperjs/core/lib/dom-utils/getScrollParent';
 
 import {
   animatedScrollTo,
   getBoundingClientObj,
   RectType,
-  getScrollParent,
   getScrollTop,
   scrollTo,
+  normalizedHeight,
 } from '../utils';
 import {
   MenuPlacement,
@@ -75,7 +76,9 @@ export function getMenuPlacement({
   } = menuEl.getBoundingClientRect();
 
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = window.innerHeight;
+  const viewHeight = isFixedPosition
+    ? window.innerHeight
+    : normalizedHeight(scrollParent);
   const scrollTop = getScrollTop(scrollParent);
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);

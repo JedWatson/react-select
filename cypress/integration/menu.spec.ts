@@ -150,7 +150,7 @@ describe('Menus', { scrollBehavior: false }, () => {
       });
     });
 
-    it.skip('the menu will fit in scroll container if scrolled', () => {
+    it('the menu will fit in scroll container if scrolled', () => {
       cy.visit('./cypress-menu-test7');
       cy.get(selector.menuTestsSelect)
         .find(selector.indicatorDropdown)
