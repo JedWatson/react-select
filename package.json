@@ -153,6 +153,9 @@
     "modulePathIgnorePatterns": [
       "./node_modules"
     ],
+    "transformIgnorePatterns": [
+      "./node_modules/(?!(@popperjs/core)/)"
+    ],
     "testRegex": "src/*(/(__tests?__/)([^_].*/)*?[^_][^/]*?\\.(test|spec)?\\.(ts|js)x?)$",
     "setupFilesAfterEnv": [
       "./test-setup.js"

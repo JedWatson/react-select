@@ -164,8 +164,15 @@ describe('Menus', { scrollBehavior: false }, () => {
         });
 
       cy.get(selector.menuTestsScrollContainer).should(($el) => {
-        expect($el).to.have.prop('scrollHeight', scrollContainerHeight + 1);
-        expect($el).to.have.prop('scrollTop', 1);
+        const scrollHeight = $el.prop('scrollHeight');
+        const scrollTop = $el.prop('scrollTop');
+        // Firefox has an extra pixel for an unknown reason
+        const firefoxAdjustment = 1;
+        expect(scrollHeight).to.be.oneOf([
+          scrollContainerHeight + 1,
+          scrollContainerHeight + 1 + firefoxAdjustment,
+        ]);
+        expect(scrollTop).to.be.oneOf([1, 1 + firefoxAdjustment]);
       });
     });
   });
