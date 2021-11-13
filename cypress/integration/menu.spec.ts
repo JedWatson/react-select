@@ -28,10 +28,8 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
-      cy.get(selector.menuTestsContainer).should(($el) => {
-        expect($el).to.have.css('height', `${viewportHeight}px`);
-      });
       cy.get('html').should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight}px`);
         expect($el).to.have.prop('scrollTop', 0);
       });
     });
@@ -49,10 +47,8 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
-      cy.get(selector.menuTestsContainer).should(($el) => {
-        expect($el).to.have.css('height', `${viewportHeight + 1}px`);
-      });
       cy.get('html').should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight + 1}px`);
         expect($el).to.have.prop('scrollTop', 1);
       });
     });
@@ -73,10 +69,8 @@ describe('Menus', () => {
           );
         });
 
-      cy.get(selector.menuTestsContainer).should(($el) => {
-        expect($el).to.have.css('height', `${viewportHeight}px`);
-      });
       cy.get('html').should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight}px`);
         expect($el).to.have.prop('scrollTop', 0);
       });
     });
@@ -97,10 +91,8 @@ describe('Menus', () => {
           );
         });
 
-      cy.get(selector.menuTestsContainer).should(($el) => {
-        expect($el).to.have.css('height', `${viewportHeight}px`);
-      });
       cy.get('html').should(($el) => {
+        expect($el).to.have.css('height', `${viewportHeight}px`);
         expect($el).to.have.prop('scrollTop', 0);
       });
     });
@@ -120,10 +112,8 @@ describe('Menus', () => {
 
       const spaceAbove = viewportHeight - selectHeightWithMinMenuOpen + 1;
       const scrollHeight = spaceAbove + selectHeightWithMenuOpen;
-      cy.get(selector.menuTestsContainer).should(($el) => {
-        expect($el).to.have.prop('scrollHeight', scrollHeight);
-      });
       cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollHeight', scrollHeight);
         expect($el).to.have.prop('scrollTop', scrollHeight - viewportHeight);
       });
     });
