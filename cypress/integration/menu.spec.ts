@@ -3,6 +3,7 @@ import {
   menuBottomPadding,
   menuHeight,
   minMenuHeight,
+  scrollContainerHeight,
   selectHeightWithMenuOpen,
   selectHeightWithMinMenuOpen,
   viewportHeight,
@@ -30,6 +31,9 @@ describe('Menus', () => {
       cy.get(selector.menuTestsContainer).should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight}px`);
       });
+      cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollTop', 0);
+      });
     });
 
     it('the menu will fit if scrolled', () => {
@@ -47,6 +51,9 @@ describe('Menus', () => {
 
       cy.get(selector.menuTestsContainer).should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight + 1}px`);
+      });
+      cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollTop', 1);
       });
     });
 
@@ -69,6 +76,9 @@ describe('Menus', () => {
       cy.get(selector.menuTestsContainer).should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight}px`);
       });
+      cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollTop', 0);
+      });
     });
 
     it('the menu will fit if constrained - Case 2', () => {
@@ -90,6 +100,9 @@ describe('Menus', () => {
       cy.get(selector.menuTestsContainer).should(($el) => {
         expect($el).to.have.css('height', `${viewportHeight}px`);
       });
+      cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollTop', 0);
+      });
     });
 
     it('allow browser to increase scrollable area', () => {
@@ -105,12 +118,31 @@ describe('Menus', () => {
           expect($el).to.have.css('height', `${menuHeight}px`);
         });
 
+      const spaceAbove = viewportHeight - selectHeightWithMinMenuOpen + 1;
+      const scrollHeight = spaceAbove + selectHeightWithMenuOpen;
       cy.get(selector.menuTestsContainer).should(($el) => {
-        const spaceAbove = viewportHeight - selectHeightWithMinMenuOpen + 1;
-        expect($el).to.have.prop(
-          'scrollHeight',
-          spaceAbove + selectHeightWithMenuOpen
-        );
+        expect($el).to.have.prop('scrollHeight', scrollHeight);
+      });
+      cy.get('html').should(($el) => {
+        expect($el).to.have.prop('scrollTop', scrollHeight - viewportHeight);
+      });
+    });
+
+    it('the menu will fit in scroll container', () => {
+      cy.visit('./cypress-menu-test6');
+      cy.get(selector.menuTestsSelect)
+        .find(selector.indicatorDropdown)
+        .click()
+        .get(selector.menuTestsSelect)
+        .find(selector.menu)
+        .should('exist')
+        .should('be.visible')
+        .should(($el) => {
+          expect($el).to.have.css('height', `${menuHeight}px`);
+        });
+
+      cy.get(selector.menuTestsScrollContainer).should(($el) => {
+        expect($el).to.have.prop('scrollHeight', scrollContainerHeight);
       });
     });
   });

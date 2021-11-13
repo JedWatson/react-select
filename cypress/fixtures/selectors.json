@@ -25,5 +25,6 @@
   "toggleMenuMulti": "#multi-select .react-select__dropdown-indicator",
   "focusedOption": ".react-select__option--is-focused",
   "menuTestsSelect": "#menu-tests-select",
-  "menuTestsContainer": "#menu-tests-container"
+  "menuTestsContainer": "#menu-tests-container",
+  "menuTestsScrollContainer": "#menu-tests-scroll-container"
 }

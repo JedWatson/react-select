@@ -10,3 +10,5 @@ export const selectHeightWithMenuOpen =
   controlHeight + menuTopPadding + menuHeight;
 export const selectHeightWithMinMenuOpen =
   controlHeight + menuTopPadding + minMenuHeight;
+
+export const scrollContainerHeight = 360;
