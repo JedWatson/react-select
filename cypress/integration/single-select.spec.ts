@@ -22,11 +22,8 @@ describe('Single Select', () => {
     const { viewport } = config;
 
     context(`Basic in view: ${viewport}`, () => {
-      before(() => {
-        cy.viewport(viewport);
-      });
-
       beforeEach(() => {
+        cy.viewport(viewport);
         cy.reload();
       });
 
@@ -142,11 +139,8 @@ describe('Single Select', () => {
     });
 
     context(`Grouped in view: ${viewport}`, () => {
-      before(() => {
-        cy.viewport(viewport);
-      });
-
       beforeEach(() => {
+        cy.viewport(viewport);
         cy.reload();
       });
 
@@ -188,11 +182,8 @@ describe('Single Select', () => {
     });
 
     context(`Clearable in view: ${viewport}`, () => {
-      before(() => {
-        cy.viewport(viewport);
-      });
-
       beforeEach(() => {
+        cy.viewport(viewport);
         cy.reload();
       });
 
