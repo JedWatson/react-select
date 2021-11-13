@@ -1,5 +1,4 @@
 import selector from '../fixtures/selectors.json';
-import cypressJson from '../../cypress.json';
 
 const setup = [
   { width: 1440, height: 900, viewport: 'macbook-15', device: 'Laptop' },
@@ -9,7 +8,7 @@ const setup = [
 
 describe('Multi Select', () => {
   before(() => {
-    cy.visit(cypressJson.baseUrl);
+    cy.visit('./cypress-tests');
     cy.title().should('equal', 'React-Select');
     cy.get('h1').should('contain', 'Test Page for Cypress');
   });

@@ -1,5 +1,4 @@
 import selector from '../fixtures/selectors.json';
-import cypressJson from '../../cypress.json';
 
 const setup = [
   {
@@ -14,7 +13,7 @@ const setup = [
 
 describe('Single Select', () => {
   before(() => {
-    cy.visit(cypressJson.baseUrl);
+    cy.visit('./cypress-tests');
     cy.title().should('equal', 'React-Select');
     cy.get('h1').should('contain', 'Test Page for Cypress');
   });
