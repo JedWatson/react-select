@@ -20,6 +20,8 @@ import Tests from '../Tests';
 import MenuTest1 from '../menu-tests/Test1';
 import MenuTest2 from '../menu-tests/Test2';
 import MenuTest3 from '../menu-tests/Test3';
+import MenuTest4 from '../menu-tests/Test4';
+import MenuTest5 from '../menu-tests/Test5';
 
 const sections = [
   { label: 'Home', path: '/home' },
@@ -42,6 +44,8 @@ export default class App extends Component {
           <Route exact path="/cypress-menu-test1" component={MenuTest1} />
           <Route exact path="/cypress-menu-test2" component={MenuTest2} />
           <Route exact path="/cypress-menu-test3" component={MenuTest3} />
+          <Route exact path="/cypress-menu-test4" component={MenuTest4} />
+          <Route exact path="/cypress-menu-test5" component={MenuTest5} />
           <Route>
             <div>
               <Header>
