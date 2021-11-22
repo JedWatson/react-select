@@ -1,5 +1,5 @@
 ---
-"react-select": patch
+'react-select': patch
 ---
 
 Fix usage with esModuleInterop disabled
