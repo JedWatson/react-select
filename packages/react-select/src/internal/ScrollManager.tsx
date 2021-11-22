@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import React, { ReactElement, RefCallback } from 'react';
+import { Fragment, ReactElement, RefCallback } from 'react';
 import useScrollCapture from './useScrollCapture';
 import useScrollLock from './useScrollLock';
 
@@ -41,7 +41,7 @@ export default function ScrollManager({
   };
 
   return (
-    <React.Fragment>
+    <Fragment>
       {lockEnabled && (
         <div
           onClick={blurSelectInput}
@@ -49,6 +49,6 @@ export default function ScrollManager({
         />
       )}
       {children(targetRef)}
-    </React.Fragment>
+    </Fragment>
   );
 }
