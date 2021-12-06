@@ -14,6 +14,7 @@ import LiveRegion from './components/LiveRegion';
 import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
 import {
+  AriaInvalid,
   AriaLive,
   AriaLiveMessages,
   AriaSelection,
@@ -76,7 +77,7 @@ export interface Props<
   /** HTML ID of an element containing an error message related to the input**/
   'aria-errormessage'?: string;
   /** Indicate if the value entered in the field is invalid **/
-  'aria-invalid'?: boolean;
+  'aria-invalid'?: AriaInvalid;
   /** Aria label (for assistive tech) */
   'aria-label'?: string;
   /** HTML ID of an element that should be used as the label (for assistive tech) */
