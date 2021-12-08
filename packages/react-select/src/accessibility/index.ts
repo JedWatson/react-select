@@ -11,10 +11,6 @@ export type OptionContext = 'menu' | 'value';
 
 export type GuidanceContext = 'menu' | 'input' | 'value';
 
-export type AriaInvalid = boolean | 'false' | 'true' | 'grammar' | 'spelling';
-
-export type AriaLive = 'polite' | 'off' | 'assertive';
-
 export type AriaSelection<Option, IsMulti extends boolean> =
   | InitialInputFocusedActionMeta<Option, IsMulti>
   | (ActionMeta<Option> & {
