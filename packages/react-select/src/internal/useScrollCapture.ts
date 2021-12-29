@@ -104,7 +104,7 @@ export default function useScrollCapture({
       el.addEventListener('touchstart', onTouchStart, notPassive);
       el.addEventListener('touchmove', onTouchMove, notPassive);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   const stopListening = useCallback(
@@ -116,7 +116,7 @@ export default function useScrollCapture({
       el.removeEventListener('touchstart', onTouchStart, false);
       el.removeEventListener('touchmove', onTouchMove, false);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   useEffect(() => {
