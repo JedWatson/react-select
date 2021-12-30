@@ -75,7 +75,7 @@ export default function useScrollCapture({
   );
 
   const onScroll = useCallback(
-    (event: WheelEvent) => {
+    (event: UIEvent<HTMLElement>) => {
       const deltaY = event.currentTarget.scrollTop - previousScrollTop.current;
       previousScrollTop.current = event.currentTarget.scrollTop;
       handleEventDelta(event, deltaY);
