@@ -28,7 +28,7 @@ export default function useScrollCapture({
   const previousScrollTop = useRef(0);
 
   const handleEventDelta = useCallback(
-    (event: WheelEvent | TouchEvent, delta: number) => {
+    (event: WheelEvent | TouchEvent | React.UIEvent<HTMLElement, UIEvent>, delta: number) => {
       if (scrollTarget.current === null) return;
 
       const { scrollTop, scrollHeight, clientHeight } = scrollTarget.current;
