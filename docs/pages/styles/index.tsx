@@ -59,7 +59,7 @@ export default function Styles() {
     - \`dropdownIndicator\`
     - \`group\`
     - \`groupHeading\`
-    - \`indicatorsContainer\`
+    - \`indicatorContainer\`
     - \`indicatorSeparator\`
     - \`input\`
     - \`loadingIndicator\`
