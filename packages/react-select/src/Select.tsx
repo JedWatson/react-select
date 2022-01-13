@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  AriaAttributes,
   Component,
   FocusEventHandler,
   FormEventHandler,
@@ -14,11 +15,7 @@ import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
-import {
-  AriaLive,
-  AriaLiveMessages,
-  AriaSelection,
-} from './accessibility/index';
+import { AriaLiveMessages, AriaSelection } from './accessibility/index';
 
 import {
   classNames,
@@ -75,15 +72,15 @@ export interface Props<
   Group extends GroupBase<Option>
 > {
   /** HTML ID of an element containing an error message related to the input**/
-  'aria-errormessage'?: string;
+  'aria-errormessage'?: AriaAttributes['aria-errormessage'];
   /** Indicate if the value entered in the field is invalid **/
-  'aria-invalid'?: boolean;
+  'aria-invalid'?: AriaAttributes['aria-invalid'];
   /** Aria label (for assistive tech) */
-  'aria-label'?: string;
+  'aria-label'?: AriaAttributes['aria-label'];
   /** HTML ID of an element that should be used as the label (for assistive tech) */
-  'aria-labelledby'?: string;
+  'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
-  'aria-live'?: AriaLive;
+  'aria-live'?: AriaAttributes['aria-live'];
   /** Customize the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
