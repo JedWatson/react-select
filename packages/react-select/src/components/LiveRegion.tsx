@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React, { ReactNode, useMemo } from 'react';
+import { Fragment, ReactNode, useMemo } from 'react';
 import { jsx } from '@emotion/react';
 import A11yText from '../internal/A11yText';
 import { defaultAriaLiveMessages, AriaSelection } from '../accessibility';
@@ -189,16 +189,16 @@ const LiveRegion = <
   const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
   const ScreenReaderText = (
-    <React.Fragment>
+    <Fragment>
       <span id="aria-selection">{ariaSelected}</span>
       <span id="aria-context">{ariaContext}</span>
-    </React.Fragment>
+    </Fragment>
   );
 
   const isInitialFocus = ariaSelection?.action === 'initial-input-focus';
 
   return (
-    <React.Fragment>
+    <Fragment>
       {/* We use 'aria-describedby' linked to this component for the initial focus */}
       {/* action, then for all other actions we use the live region below */}
       <A11yText id={id}>{isInitialFocus && ScreenReaderText}</A11yText>
@@ -209,7 +209,7 @@ const LiveRegion = <
       >
         {isFocused && !isInitialFocus && ScreenReaderText}
       </A11yText>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
