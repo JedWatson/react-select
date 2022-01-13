@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
+import { ReactElement } from 'react';
 import { TransitionProps } from 'react-transition-group/Transition';
 import { InputProps } from '../components/Input';
 import { GroupBase } from '../types';
