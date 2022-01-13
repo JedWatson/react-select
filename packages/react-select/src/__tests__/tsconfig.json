@@ -5,8 +5,8 @@
     "jsx": "react",
     "noEmit": true,
     "strict": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
-  },
-  "exclude": ["src/__tests__"]
+  }
 }
