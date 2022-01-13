@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
+import { ReactElement } from 'react';
 import { TransitionProps } from 'react-transition-group/Transition';
 import { MultiValueProps } from '../components/MultiValue';
 import { Collapse } from './transitions';
