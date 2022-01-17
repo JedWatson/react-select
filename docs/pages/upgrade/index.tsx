@@ -75,7 +75,7 @@ The \`focus()\` and \`blur()\` methods are untouched by this change. However if 
 
 The primary reason for this change is that hooks combined with generic components are easier to type in TypeScript than HOCs combined with generic components. These HOCs/hooks are considered advanced usage.
 
-If you were using the HOCs, it shouldn't be too hard to replace them with its corresponding hook (i.e., \`useStateManager\`, \`useCreatable\`, or \`useAsync\`). As an example, here is how the state managed Select (the default export) used to be constructed with the \`mangeState\` HOC:
+If you were using the HOCs, it shouldn't be too hard to replace them with its corresponding hook (i.e., \`useStateManager\`, \`useCreatable\`, or \`useAsync\`). As an example, here is how the state managed Select (the default export) used to be constructed with the \`manageState\` HOC:
 
 ~~~jsx
 const Select = manageState(SelectBase);
