@@ -89,7 +89,7 @@ export interface CommonProps<
   setValue: (
     newValue: OnChangeValue<Option, IsMulti>,
     action: SetValueAction,
-    option: Option
+    option?: Option
   ) => void;
   theme: Theme;
 }

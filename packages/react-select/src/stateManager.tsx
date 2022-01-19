@@ -1,4 +1,10 @@
-import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
+import * as React from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 
 import { GroupBase } from './types';
 import Select from './Select';
@@ -15,7 +21,7 @@ type StateManagedSelect = <
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
-const StateManagedSelect = React.forwardRef(
+const StateManagedSelect = forwardRef(
   <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: StateManagerProps<Option, IsMulti, Group>,
     ref:

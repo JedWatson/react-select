@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
+import { ReactElement } from 'react';
 import { PlaceholderProps } from '../components/Placeholder';
 import { Fade, collapseDuration } from './transitions';
 import { GroupBase } from '../types';

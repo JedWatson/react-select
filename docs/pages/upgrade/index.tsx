@@ -21,7 +21,7 @@ export default function Upgrade() {
 - Convert to TypeScript - TypeScript types now come packaged with \`react-select\` so you no longer need to have \`@types/react-select\` installed; we no longer include Flow types
 - Drop IE11 support - this allows us to make changes to our CSS that we've wanted to make for a long time as well as remove unnecessary JS solutions (those changes are noted below)
 - Use \`forwardRef\` for all wrapped components - this means that if you were accessing anything on the \`Select\` instance using a \`ref\`, the \`ref\` will now reference the internal \`Select\` directly (see below for how to upgrade)
-- Replace HOCs with hooks - if you were using our HOCs to create custom \`Select\`s (i.e., \`makeCreatableSelect\`, \`mangeState\`, \`makeAsyncSelect\`) these have now been replaced by hooks (i.e., \`useCreatable\`, \`useStateManager\`, \`useAsync\`)
+- Replace HOCs with hooks - if you were using our HOCs to create custom \`Select\`s (i.e., \`makeCreatableSelect\`, \`manageState\`, \`makeAsyncSelect\`) these have now been replaced by hooks (i.e., \`useCreatable\`, \`useStateManager\`, \`useAsync\`)
 - Remove dependency on [AutosizeInput](https://github.com/JedWatson/react-input-autosize) - our new solution uses CSS grid which IE11 does not fully support; also \`.prefix__input\` now targets the input and NOT the container
 - Improve screen reader experience - this isn't a breaking change in the API but it does change the screen reader announcements
 - Use CSS grid for single value layout - this also isn't a breaking change in the API but is it a change in the styles since it switches to using CSS grid (not fully supported by IE11) for single-value \`Select\`s
@@ -75,7 +75,7 @@ The \`focus()\` and \`blur()\` methods are untouched by this change. However if 
 
 The primary reason for this change is that hooks combined with generic components are easier to type in TypeScript than HOCs combined with generic components. These HOCs/hooks are considered advanced usage.
 
-If you were using the HOCs, it shouldn't be too hard to replace them with its corresponding hook (i.e., \`useStateManager\`, \`useCreatable\`, or \`useAsync\`). As an example, here is how the state managed Select (the default export) used to be constructed with the \`mangeState\` HOC:
+If you were using the HOCs, it shouldn't be too hard to replace them with its corresponding hook (i.e., \`useStateManager\`, \`useCreatable\`, or \`useAsync\`). As an example, here is how the state managed Select (the default export) used to be constructed with the \`manageState\` HOC:
 
 ~~~jsx
 const Select = manageState(SelectBase);
