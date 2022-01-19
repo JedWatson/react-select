@@ -81,6 +81,8 @@ export interface Props<
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
   'aria-live'?: AriaAttributes['aria-live'];
+  /** Indicates that user input is required on the element before a form may be submitted. */
+  'aria-required'?: AriaAttributes['aria-required'];
   /** Customize the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
@@ -1564,6 +1566,7 @@ export default class Select<
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
+      'aria-required': this.props['aria-required'],
       role: 'combobox',
       ...(!isSearchable && {
         'aria-readonly': true,
