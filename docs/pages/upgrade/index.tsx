@@ -52,6 +52,20 @@ import { ... } from 'react-select/dist/declarations/src/...';
 
 We export any types from the main entry point that we think might be useful to the user. If you are using a type that is not exported from the main entry point please open a PR or issue so that we can add it.
 
+If you are using custom props for the \`Select\` component you can use module augmentation to add them to the \`Select\` prop types:
+
+~~~jsx
+declare module 'react-select/dist/declarations/src/Select' {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  > {
+    myCustomProp: string;
+  }
+}
+~~~
+
 #### Drop IE11 support
 
 This allows us to use modern CSS in order to improve the quality of \`react-select\` and remove excessive JavaScript code to work around not having the ability to use modern CSS. If you need IE11 support either:
