@@ -85,6 +85,24 @@ const onChange = (option: readonly Option[], actionMeta: ActionMeta<Option>) => 
 ~~~
 
 The \`actionMeta\` parameter is optional. \`ActionMeta\` is a union that is discriminated on the \`action\` type. Take a look at at [types.ts](https://github.com/JedWatson/react-select/blob/master/packages/react-select/src/types.ts) in the source code to see its full definition.
+
+## Custom Select props
+
+You can use module augmentation to add custom props to the \`Select\` prop types:
+
+~~~jsx
+declare module 'react-select/dist/declarations/src/Select' {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>
+  > {
+    myCustomProp: string;
+  }
+}
+~~~
+
+This will make the custom prop available both when using the \`Select\` component as well as when accessing \`selectProps\` when [customizing components](./components).
       `}
     </>
   );
