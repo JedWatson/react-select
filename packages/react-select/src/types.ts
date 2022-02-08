@@ -196,5 +196,6 @@ export type FocusDirection =
 
 export type GetOptionLabel<Option> = (option: Option) => string;
 export type GetOptionValue<Option> = (option: Option) => string;
+export type GetGroupOptions<Option, Group extends GroupBase<Option>> = (groupOrOption: Option | Group) => Option[]|null;
 
 export type CSSObjectWithLabel = CSSObject & { label?: string };
