@@ -10,7 +10,14 @@ export default function DummyInput({
   readonly innerRef: Ref<HTMLInputElement>;
 }) {
   // Remove animation props not meant for HTML elements
-  const filteredProps = removeProps(props, 'onExited', 'in', 'enter', 'exit', 'appear');
+  const filteredProps = removeProps(
+    props,
+    'onExited',
+    'in',
+    'enter',
+    'exit',
+    'appear'
+  );
 
   return (
     <input
