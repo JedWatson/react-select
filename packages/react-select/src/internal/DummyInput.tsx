@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { Ref } from 'react';
 import { jsx } from '@emotion/react';
-import { TransitionProps } from 'react-transition-group/Transition';
+import { removeProps } from '../utils';
 
 export default function DummyInput({
   innerRef,
@@ -10,12 +10,12 @@ export default function DummyInput({
   readonly innerRef: Ref<HTMLInputElement>;
 }) {
   // Remove animation props not meant for HTML elements
-  const { onExited, in: _, enter, exit, appear, ...noAnimProps } = props as (JSX.IntrinsicElements['input'] & Partial<TransitionProps>);
+  const filteredProps = removeProps(props, 'onExited', 'in', 'enter', 'exit', 'appear');
 
   return (
     <input
       ref={innerRef}
-      {...noAnimProps}
+      {...filteredProps}
       css={{
         label: 'dummyInput',
         // get rid of any default styles
