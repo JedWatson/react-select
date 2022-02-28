@@ -1156,6 +1156,11 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
+    // Event captured by dropdown indicator
+    // @ts-ignore
+    if (event.target.closest('.DropdownIndicatorContainer')) {
+      return;
+    }
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
@@ -1202,7 +1207,6 @@ export default class Select<
       this.openMenu('first');
     }
     event.preventDefault();
-    event.stopPropagation();
   };
   onClearIndicatorMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
@@ -1776,6 +1780,7 @@ export default class Select<
 
     return (
       <DropdownIndicator
+        className="DropdownIndicatorContainer"
         {...commonProps}
         innerProps={innerProps}
         isDisabled={isDisabled}
