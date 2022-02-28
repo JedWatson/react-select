@@ -24,12 +24,10 @@ export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
    * Function that returns a promise, which is the set of options to be used
    * once the promise resolves.
    */
-  loadOptions?:
-    | ((
-        inputValue: string,
-        callback: (options: OptionsOrGroups<Option, Group>) => void
-      ) => void)
-    | ((inputValue: string) => Promise<OptionsOrGroups<Option, Group>>);
+  loadOptions?: (
+    inputValue: string,
+    callback: (options: OptionsOrGroups<Option, Group>) => void
+  ) => Promise<OptionsOrGroups<Option, Group>> | void;
   /**
    * Will cause the select to be displayed in the loading state, even if the
    * Async select is not currently waiting for loadOptions to resolve
