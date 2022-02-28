@@ -118,7 +118,9 @@ export default function useAsync<
       callback: (options?: OptionsOrGroups<Option, Group>) => void
     ) => {
       if (!propsLoadOptions) return callback();
-      const loader = propsLoadOptions(inputValue, callback);
+      const loader = propsLoadOptions(inputValue, callback) as Promise<
+        OptionsOrGroups<Option, Group>
+      > | void;
       if (loader && typeof loader.then === 'function') {
         loader.then(callback, () => callback());
       }
