@@ -1558,7 +1558,7 @@ export default class Select<
       'aria-autocomplete': 'list' as const,
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
-      'aria-controls': this.getElementId('listbox'),
+      'aria-controls': menuIsOpen? this.getElementId('listbox') : this.getElementId('input'),
       'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
