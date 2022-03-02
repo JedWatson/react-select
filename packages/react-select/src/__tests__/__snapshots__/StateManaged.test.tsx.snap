@@ -220,7 +220,7 @@ exports[`defaults > snapshot 1`] = `
         />
         <div
           aria-hidden="true"
-          class="DropdownIndicatorContainer emotion-9"
+          class=" emotion-9"
         >
           <svg
             aria-hidden="true"
