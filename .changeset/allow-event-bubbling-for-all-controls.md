@@ -2,4 +2,4 @@
 'react-select': patch
 ---
 
-Use internal flag to prevent duplicate event handler for clicking select.
+Use defaultPrevented to skip duplicate event handler for clicking select.

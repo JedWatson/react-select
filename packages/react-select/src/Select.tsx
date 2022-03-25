@@ -594,7 +594,6 @@ export default class Select<
   openAfterFocus = false;
   scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
-  dropdownEventAlreadyHandled = false;
 
   // Refs
   // ------------------------------
@@ -1158,8 +1157,7 @@ export default class Select<
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     // Event captured by dropdown indicator
-    if (this.dropdownEventAlreadyHandled) {
-      this.dropdownEventAlreadyHandled = false;
+    if (event.defaultPrevented) {
       return;
     }
     const { openMenuOnClick } = this.props;
@@ -1198,7 +1196,6 @@ export default class Select<
     ) {
       return;
     }
-    this.dropdownEventAlreadyHandled = true;
     if (this.props.isDisabled) return;
     const { isMulti, menuIsOpen } = this.props;
     this.focusInput();
