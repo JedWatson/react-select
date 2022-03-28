@@ -1220,7 +1220,6 @@ export default class Select<
     }
     this.clearValue();
     event.preventDefault();
-    event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
       this.focusInput();
