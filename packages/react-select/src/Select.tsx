@@ -1675,7 +1675,6 @@ export default class Select<
               onTouchEnd: () => this.removeValue(opt),
               onMouseDown: (e) => {
                 e.preventDefault();
-                e.stopPropagation();
               },
             }}
             data={opt}
