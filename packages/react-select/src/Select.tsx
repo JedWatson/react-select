@@ -1560,13 +1560,15 @@ export default class Select<
       'aria-autocomplete': 'list' as const,
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
-      'aria-controls': this.getElementId('listbox'),
-      'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       role: 'combobox',
+      ...(menuIsOpen && {
+        'aria-controls': this.getElementId('listbox'),
+        'aria-owns': this.getElementId('listbox'),
+      }),
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
