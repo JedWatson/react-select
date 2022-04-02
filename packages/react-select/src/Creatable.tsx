@@ -1,4 +1,10 @@
-import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
+import * as React from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 import Select from './Select';
 import { GroupBase } from './types';
 import useStateManager, { StateManagerProps } from './useStateManager';
@@ -20,7 +26,7 @@ type CreatableSelect = <
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
-const CreatableSelect = React.forwardRef(
+const CreatableSelect = forwardRef(
   <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: CreatableProps<Option, IsMulti, Group>,
     ref:

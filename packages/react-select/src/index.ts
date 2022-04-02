@@ -46,7 +46,6 @@ export * from './types';
 export type {
   OptionContext,
   GuidanceContext,
-  AriaLive,
   AriaGuidanceProps,
   AriaOnChangeProps,
   AriaOnFilterProps,

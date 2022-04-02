@@ -1,3 +1,4 @@
+import type { AriaAttributes } from 'react';
 import {
   ActionMeta,
   GroupBase,
@@ -11,8 +12,6 @@ export type OptionContext = 'menu' | 'value';
 
 export type GuidanceContext = 'menu' | 'input' | 'value';
 
-export type AriaLive = 'polite' | 'off' | 'assertive';
-
 export type AriaSelection<Option, IsMulti extends boolean> =
   | InitialInputFocusedActionMeta<Option, IsMulti>
   | (ActionMeta<Option> & {
@@ -23,7 +22,7 @@ export type AriaSelection<Option, IsMulti extends boolean> =
 
 export interface AriaGuidanceProps {
   /** String value of selectProp aria-label */
-  'aria-label': string | undefined;
+  'aria-label': AriaAttributes['aria-label'];
   /** String indicating user's current context and available keyboard interactivity */
   context: GuidanceContext;
   /** Boolean value of selectProp isSearchable */

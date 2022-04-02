@@ -154,8 +154,8 @@ export default function Components() {
         )
 
         // Good: Custom component declared outside of the Select scope
-        const Control = props => ({ children, ...rest }) => (
-          <components.Control {...rest}>
+        const Control = ({ children, ...props }) => (
+          <components.Control {...props}>
             👍 {children}
           </components.Control>
         );

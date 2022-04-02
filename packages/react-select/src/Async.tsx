@@ -1,4 +1,10 @@
-import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
+import * as React from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 import Select from './Select';
 import { GroupBase } from './types';
 import useStateManager from './useStateManager';
@@ -15,7 +21,7 @@ type AsyncSelect = <
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
-const AsyncSelect = React.forwardRef(
+const AsyncSelect = forwardRef(
   <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: AsyncProps<Option, IsMulti, Group>,
     ref:

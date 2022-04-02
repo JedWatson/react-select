@@ -1,4 +1,5 @@
-import React, { useEffect, useState, ReactElement, ReactNode } from 'react';
+import * as React from 'react';
+import { useEffect, useState, ReactElement, ReactNode } from 'react';
 import { TransitionGroup } from 'react-transition-group';
 import { ValueContainerProps } from '../components/containers';
 import { GroupBase } from '../types';

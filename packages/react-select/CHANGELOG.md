@@ -1,5 +1,15 @@
 # react-select
 
+## 5.2.2
+
+### Patch Changes
+
+- [`940a50b1`](https://github.com/JedWatson/react-select/commit/940a50b1a579b279b82c1efc5608a92eb422919e) [#4928](https://github.com/JedWatson/react-select/pull/4928) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix usage with esModuleInterop disabled
+
+- [`54f9538e`](https://github.com/JedWatson/react-select/commit/54f9538e350bae4e11aa11311731cb95eb56d669) [#4941](https://github.com/JedWatson/react-select/pull/4941) Thanks [@prichey](https://github.com/prichey)! - Use React's AriaAttributes type directly rather than recreating
+
+- [`e97d45c0`](https://github.com/JedWatson/react-select/commit/e97d45c04bbc91e9e2ff9509f0d9c16fc4e4234e) [#4908](https://github.com/JedWatson/react-select/pull/4908) Thanks [@vjee](https://github.com/vjee)! - Make 3rd argument of CommonProps['setValue'] optional.
+
 ## 5.2.1
 
 ### Patch Changes
