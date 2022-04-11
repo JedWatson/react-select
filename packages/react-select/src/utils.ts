@@ -167,33 +167,6 @@ export function scrollTo(el: HTMLElement | typeof window, top: number): void {
   el.scrollTop = top;
 }
 
-// Get Scroll Parent
-// ------------------------------
-
-export function getScrollParent(element: HTMLElement) {
-  let style = getComputedStyle(element);
-  const excludeStaticParent = style.position === 'absolute';
-  const overflowRx = /(auto|scroll)/;
-
-  if (style.position === 'fixed') return document.documentElement;
-
-  for (
-    let parent: HTMLElement | null = element;
-    (parent = parent.parentElement);
-
-  ) {
-    style = getComputedStyle(parent);
-    if (excludeStaticParent && style.position === 'static') {
-      continue;
-    }
-    if (overflowRx.test(style.overflow + style.overflowY + style.overflowX)) {
-      return parent;
-    }
-  }
-
-  return document.documentElement;
-}
-
 // Animated Scroll To
 // ------------------------------
 

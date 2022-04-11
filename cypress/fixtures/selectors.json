@@ -23,5 +23,8 @@
   "multiSelectInput": "#react-select-multi-select-input",
   "placeHolderMulti": "#multi-select .react-select__placeholder",
   "toggleMenuMulti": "#multi-select .react-select__dropdown-indicator",
-  "focusedOption": ".react-select__option--is-focused"
+  "focusedOption": ".react-select__option--is-focused",
+  "menuTestsSelect": "#menu-tests-select",
+  "menuTestsContainer": "#menu-tests-container",
+  "menuTestsScrollContainer": "#menu-tests-scroll-container"
 }
