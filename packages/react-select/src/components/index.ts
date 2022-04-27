@@ -34,6 +34,8 @@ import Menu, {
   MenuProps,
   NoOptionsMessage,
   NoticeProps,
+  MenuPlacer,
+  MenuPlacerProps,
 } from './Menu';
 import MultiValue, {
   MultiValueContainer,
@@ -73,6 +75,7 @@ export interface SelectComponents<
     LoadingIndicatorProps<Option, IsMulti, Group>
   >;
   Menu: ComponentType<MenuProps<Option, IsMulti, Group>>;
+  MenuPlacer: ComponentType<MenuPlacerProps<Option, IsMulti, Group>>;
   MenuList: ComponentType<MenuListProps<Option, IsMulti, Group>>;
   MenuPortal: ComponentType<MenuPortalProps<Option, IsMulti, Group>>;
   LoadingMessage: ComponentType<NoticeProps<Option, IsMulti, Group>>;
@@ -113,6 +116,7 @@ export const components = {
   Input: Input,
   LoadingIndicator: LoadingIndicator,
   Menu: Menu,
+  MenuPlacer: MenuPlacer,
   MenuList: MenuList,
   MenuPortal: MenuPortal,
   LoadingMessage: LoadingMessage,

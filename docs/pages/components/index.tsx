@@ -26,6 +26,7 @@ import {
   CustomSingleValue,
   CustomGroupHeading,
   CustomValueContainer,
+  CustomMenuPlacer,
 } from '../../examples';
 
 export default function Components() {
@@ -44,7 +45,7 @@ export default function Components() {
         The main feature of this library is providing consumers with the
         building blocks necessary to create _their_ component.
 
-        The following components are customisable and switchable:
+        The following components are customizable and switchable:
           * ClearIndicator
           * Control
           * DropdownIndicator
@@ -58,6 +59,7 @@ export default function Components() {
           * LoadingIndicator
           * Menu
           * MenuList
+          * MenuPlacer
           * MenuPortal
           * LoadingMessage
           * NoOptionsMessage
@@ -387,6 +389,22 @@ export default function Components() {
             raw={require('!!raw-loader!../../examples/CustomMenuList.tsx')}
           >
             <CustomMenuList />
+          </ExampleWrapper>
+        )}
+      
+        ### MenuPlacer
+
+        The wrapper of the Menu. It allows to make custom logic to find the optimal placement of the Menu.
+
+        See [props docs](/props#menuPlacer) for more details
+
+        ${(
+          <ExampleWrapper
+            label="Custom MenuPlacer Example"
+            urlPath="docs/examples/CustomMenuPlacer.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMenuPlacer.tsx')}
+          >
+            <CustomMenuPlacer />
           </ExampleWrapper>
         )}
 

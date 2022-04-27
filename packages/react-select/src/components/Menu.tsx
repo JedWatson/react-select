@@ -238,7 +238,7 @@ export interface MenuProps<
   children: ReactNode;
 }
 
-interface PlacerProps {
+export interface PlacerProps {
   placement: CoercedMenuPlacement;
   maxHeight: number;
 }

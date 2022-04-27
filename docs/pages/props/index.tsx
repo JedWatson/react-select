@@ -202,6 +202,10 @@ export default function Api() {
 
     ${(<ShowTypes getNode={getNode} type={selectTypes?.MenuListProps} />)}
 
+    ### MenuPlacer
+
+    ${(<ShowTypes getNode={getNode} type={selectTypes?.MenuPlacerProps} />)}
+
     ### LoadingMessage
 
     ${(<ShowTypes getNode={getNode} type={selectTypes?.NoticeProps} />)}

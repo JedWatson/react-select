@@ -10,7 +10,6 @@ import {
   RefCallback,
   TouchEventHandler,
 } from 'react';
-import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
@@ -1791,6 +1790,7 @@ export default class Select<
       Group,
       GroupHeading,
       Menu,
+      MenuPlacer,
       MenuList,
       MenuPortal,
       LoadingMessage,
