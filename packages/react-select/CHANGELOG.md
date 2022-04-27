@@ -1,5 +1,11 @@
 # react-select
 
+## 5.3.1
+
+### Patch Changes
+
+- [`03bf7351`](https://github.com/JedWatson/react-select/commit/03bf735127fec6e47de8ae45e7cdc0a39c8b638b) [#5164](https://github.com/JedWatson/react-select/pull/5164) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Bump @emotion/react to ^11.8.1 to avoid `useInsertionEffect` bug
+
 ## 5.3.0
 
 ### Minor Changes
