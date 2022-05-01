@@ -1,6 +1,12 @@
 import React from 'react';
-import Select, { components, IndicatorsContainerProps } from 'react-select';
+import Select, {
+  components,
+  IndicatorsContainerProps,
+  defaultTheme,
+} from 'react-select';
 import { ColourOption, colourOptions } from '../data';
+
+const { colors } = defaultTheme;
 
 const IndicatorsContainer = (
   props: IndicatorsContainerProps<ColourOption, true>
@@ -12,6 +18,17 @@ const IndicatorsContainer = (
   );
 };
 
+const customStyles = {
+  dropdownIndicator: (provided: any) => ({
+    ...provided,
+    color: colors.neutral20,
+  }),
+  clearIndicator: (provided: any) => ({
+    ...provided,
+    color: colors.neutral20,
+  }),
+};
+
 export default () => (
   <Select
     closeMenuOnSelect={false}
@@ -19,5 +36,6 @@ export default () => (
     defaultValue={[colourOptions[4], colourOptions[5]]}
     isMulti
     options={colourOptions}
+    styles={customStyles}
   />
 );
