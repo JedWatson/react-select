@@ -8,7 +8,7 @@ const SelectContainer = ({
   ...props
 }: ContainerProps<ColourOption>) => {
   return (
-    <Tooltip content={'customise your select container'} delay={0}>
+    <Tooltip content={'customize your select container'} delay={0}>
       <components.SelectContainer {...props}>
         {children}
       </components.SelectContainer>

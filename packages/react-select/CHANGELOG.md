@@ -440,7 +440,7 @@
 - [#3296](https://github.com/JedWatson/react-select/pull/3296) Fix for tab interactions when in composition mode with an IME. Thanks [yshr446](https://github.com/yshr446) for the PR.
 - [#3302](https://github.com/JedWatson/react-select/pull/3302) Fix to breaking android and mobile safari touch bug [#2755](https://github.com/JedWatson/react-select/issues/2755), by adding more conscientious checks to the onTouchStart and onTouchMove listeners. Thanks [xakep139](https://github.com/xakep139) for the PR.
 - [#3303](https://github.com/JedWatson/react-select/pull/3303) Input and GroupHeading components now get passed the selectProps prop, thanks [maxmarchuk](https://github.com/maxmarchuk) for the PR.
-- [#3260](https://github.com/JedWatson/react-select/pull/3260) As a result of the CSP nonce support feature, the emotion instance is now cached and passed down to all internal components, meaning that users looking to heavily customise their Select components can do so without externally importing emotion, and nonce instances are respected per select instance. Please see [this segment](https://react-select.com/styles#cx-and-custom-components) in the docs for a more detailed explanation.
+- [#3260](https://github.com/JedWatson/react-select/pull/3260) As a result of the CSP nonce support feature, the emotion instance is now cached and passed down to all internal components, meaning that users looking to heavily customize their Select components can do so without externally importing emotion, and nonce instances are respected per select instance. Please see [this segment](https://react-select.com/styles#cx-and-custom-components) in the docs for a more detailed explanation.
 - [#3299](https://github.com/JedWatson/react-select/pull/3299) fix to assistive text on menu open.
 
 ### Feature
@@ -469,7 +469,7 @@
 
 - [#3132] Strip theme props from default Input and GroupHeading components, as they were polluting the DOM.
 - [#3131] Add support for the 'Delete' key in the internal onKeyDown method. Same functionality as 'Backspace'.
-- [#3100] Update flow-types and normalised default prop declarations in indicators. Thanks [iseredov](https://github.com/iseredov)
+- [#3100] Update flow-types and normalized default prop declarations in indicators. Thanks [iseredov](https://github.com/iseredov)
 
 ### Updates
 
@@ -495,8 +495,8 @@
 - className and classNamePrefix deprecation warning and backward compatibility removed. className now only affects the select container, classNamePrefix prefixes all internal components. [#2820](https://github.com/JedWatson/react-select/pull/2820)
 - Added `closeMenuOnScroll` prop, which can either be a `boolean` or a `function`, if set to `true` the select menu will close on scroll of the document/body. If a function is supplied, it must take the following shape `(event: ScrollEvent) => boolean`, the boolean value will be used to resolve whether the menu should be closed or stay open. [#2809](https://github.com/JedWatson/react-select/pull/2809), thanks [Vynlar](https://github.com/Vynlar) for this.
 - Added fix to support IME inputs. [#2767](https://github.com/JedWatson/react-select/pull/2767), thanks [shamabe](https://github.com/shamabe)
-- Removed primitives, and normalise multi-value components to be in line with existing component customisation patterns. [#2821](https://github.com/JedWatson/react-select/pull/2821)
-- Normalised isOptionDisabled to be inline with its sibling prop isOptionSelected. [#2821](https://github.com/JedWatson/react-select/pull/2695) Thanks [SimeonC](https://github.com/SimeonC)
+- Removed primitives, and normalize multi-value components to be in line with existing component customization patterns. [#2821](https://github.com/JedWatson/react-select/pull/2821)
+- Normalized isOptionDisabled to be inline with its sibling prop isOptionSelected. [#2821](https://github.com/JedWatson/react-select/pull/2695) Thanks [SimeonC](https://github.com/SimeonC)
 - [#2814](https://github.com/JedWatson/react-select/pull/2814) Added memoization to custom components within Select.js as well as in the exported makeAnimated factory method. Thanks to [Alex Reardon's](https://github.com/alexreardon) [memoize-one](https://github.com/alexreardon/memoize-one)
 - [#2652](https://github.com/JedWatson/react-select/pull/2652), Async Select now re-evaluates defaultOptions on componentWillReceiveProps. Thanks [jesstelford](https://github.com/jesstelford)
 
@@ -662,7 +662,7 @@ Ongoing rewrite. Major changes since last alpha:
 - Internal components are now provided a consistent set of props and API
 - Improved handling of keyboard and mouse interaction for options in the menu
 - Default filtering behaviour now has parity with v1
-- New `createFilter` method lets you customise the filter options
+- New `createFilter` method lets you customize the filter options
 - Some unnecessary components have been removed for better performance
 - Long values are now truncated
 
@@ -673,7 +673,7 @@ Ongoing rewrite. Major changes since last alpha:
 - Added `getOptionValue`, `getOptionLabel` and `formatOptionLabel` props
 - Added `isOptionSelected` and `isOptionDisabled` props
 - Added `name` and `delimiter` props to support hidden html inputs for forms
-- Added `loadingMessage`, `noOptionsMessage` and `screenReaderStatus` props so messages can be customised
+- Added `loadingMessage`, `noOptionsMessage` and `screenReaderStatus` props so messages can be customized
 - Customisable components are now passed `innerProps` for simpler implementation
 - Cleaned up internal Components and made sure they can all be styled
 - Implemented customisable filtering function with support for case and diacritics
@@ -1517,7 +1517,7 @@ version; sorry about that!
 ## v0.6.0 / 2015-08-05
 
 - improved; option, value and single value have been split out into their own
-  components, and can be customised with props. see
+  components, and can be customized with props. see
   [#328](https://github.com/JedWatson/react-select/pull/328) for more details.
 - improved; Near-complete test coverage thanks to the awesome work of
   [Dave Brotherstone](https://github.com/bruderstein)
@@ -1553,7 +1553,7 @@ version; sorry about that!
 ## v0.5.4 / 2015-07-06
 
 - fixed; regression in 0.5.3 that broke componentWillMount, sorry everyone!
-- added; `addLabelText` prop for customising the "add {label}?" text when in
+- added; `addLabelText` prop for customizing the "add {label}?" text when in
   tags mode, thanks [Fenn](https://github.com/Fenntasy)
 
 ## v0.5.3 / 2015-07-05

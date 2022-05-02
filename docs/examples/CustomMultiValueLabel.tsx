@@ -5,7 +5,7 @@ import { ColourOption, colourOptions } from '../data';
 
 const MultiValueLabel = (props: MultiValueGenericProps<ColourOption>) => {
   return (
-    <Tooltip content={'Customise your multi-value label component!'}>
+    <Tooltip content={'Customize your multi-value label component!'}>
       <components.MultiValueLabel {...props} />
     </Tooltip>
   );

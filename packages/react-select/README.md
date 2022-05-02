@@ -136,14 +136,14 @@ If you don't provide these props, you can set the initial value of the state the
 
 React-select exposes two public methods:
 
-- `focus()` - focus the control programatically
-- `blur()` - blur the control programatically
+- `focus()` - focus the control programmatically
+- `blur()` - blur the control programmatically
 
-## Customisation
+## Customisztion
 
 Check the docs for more information on:
 
-- [Customising the styles](https://www.react-select.com/styles)
+- [Customizing the styles](https://www.react-select.com/styles)
 - [Using custom components](https://www.react-select.com/components)
 - [Using the built-in animated components](https://www.react-select.com/home#animated-components)
 - [Creating an async select](https://www.react-select.com/async)
