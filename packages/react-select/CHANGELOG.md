@@ -1,5 +1,11 @@
 # react-select
 
+## 5.3.2
+
+### Patch Changes
+
+- [`1f140e42`](https://github.com/JedWatson/react-select/commit/1f140e423707e9966254050e3234a65ee05977e9) [#5177](https://github.com/JedWatson/react-select/pull/5177) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix view height used for menu positioning to be the scroll parent instead of the window
+
 ## 5.3.1
 
 ### Patch Changes
