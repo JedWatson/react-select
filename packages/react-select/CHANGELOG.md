@@ -1,5 +1,33 @@
 # react-select
 
+## 5.3.2
+
+### Patch Changes
+
+- [`1f140e42`](https://github.com/JedWatson/react-select/commit/1f140e423707e9966254050e3234a65ee05977e9) [#5177](https://github.com/JedWatson/react-select/pull/5177) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix view height used for menu positioning to be the scroll parent instead of the window
+
+## 5.3.1
+
+### Patch Changes
+
+- [`03bf7351`](https://github.com/JedWatson/react-select/commit/03bf735127fec6e47de8ae45e7cdc0a39c8b638b) [#5164](https://github.com/JedWatson/react-select/pull/5164) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Bump @emotion/react to ^11.8.1 to avoid `useInsertionEffect` bug
+
+## 5.3.0
+
+### Minor Changes
+
+- [`c7d8d4b3`](https://github.com/JedWatson/react-select/commit/c7d8d4b3ee01cee63b34adf4a895ef07ce2f3b03) [#5133](https://github.com/JedWatson/react-select/pull/5133) Thanks [@nil4](https://github.com/nil4)! - Update `peerDependencies` to include React 18
+
+### Patch Changes
+
+- [`0aaa9575`](https://github.com/JedWatson/react-select/commit/0aaa9575ed7e817841b9c9b494b4bd4dc2247b26) [#5134](https://github.com/JedWatson/react-select/pull/5134) Thanks [@rkulinski](https://github.com/rkulinski)! - Use defaultPrevented to skip duplicate event handler for clicking select.
+
+- [`87e14431`](https://github.com/JedWatson/react-select/commit/87e144319f485fba20b46bc71eb8162f88d19430) [#5131](https://github.com/JedWatson/react-select/pull/5131) Thanks [@pcorpet](https://github.com/pcorpet)! - Avoid referencing an ID that is not in the DOM
+
+- [`7184d538`](https://github.com/JedWatson/react-select/commit/7184d538f587c1dd5a4ca5ad6cc0745fbb8d3809) [#5082](https://github.com/JedWatson/react-select/pull/5082) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix type inference for Async's loadOptions prop
+
+- [`bd4ee8ae`](https://github.com/JedWatson/react-select/commit/bd4ee8ae66e581e8be1679fa4b1838451e3f23b7) [#5057](https://github.com/JedWatson/react-select/pull/5057) Thanks [@Rall3n](https://github.com/Rall3n)! - Prevent transition props from being forwarded to `<input>` element in `DummyInput` component
+
 ## 5.2.2
 
 ### Patch Changes
