@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { MouseEventHandler } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import Select, {
   components,
@@ -7,7 +7,7 @@ import Select, {
 } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 import Tooltip from '@atlaskit/tooltip';
-import { DndContext, DragEndEvent, useDraggable, useDroppable } from '@dnd-kit/core';
+import { DndContext, DragEndEvent,  useDraggable, useDroppable } from '@dnd-kit/core';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
 import { arrayMove, horizontalListSortingStrategy, SortableContext, useSortable } from '@dnd-kit/sortable';
 
@@ -16,11 +16,11 @@ export const MultiValue = (props: MultiValueProps<ColourOption>) => {
     // on a value to begin dragging it. ideally, detecting a click (instead of
     // a drag) would still focus the control and toggle the menu, but that
     // requires some magic with refs that are out of scope for this example
-    // const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
-      // e.preventDefault();
-      // e.stopPropagation();
-    // };
-    const innerProps = { ...props.innerProps, };
+    const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+    const innerProps = { ...props.innerProps, onMouseDown};
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: props.data.id,
   });
@@ -34,10 +34,13 @@ export const MultiValue = (props: MultiValueProps<ColourOption>) => {
             <div
               style={style}
               ref={setNodeRef}
-              {...attributes}
-              {...listeners}
             >
+              <div
+                {...attributes}
+                {...listeners}
+              >
               <components.MultiValue  {...props} innerProps={innerProps} />
+              </div>
             </div>);
   };
 
@@ -77,21 +80,20 @@ export const MultiValueLabel = (props: MultiValueGenericProps<ColourOption>) => 
   );
 };
 
-export const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
-  // console.log('MultiValueRemove', props.data.id);
+export const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption> ) => {
   return (
-    <div onClick={()=> console.log('clicked on ->', props.data.id)} style={{zIndex: 99999}}>
-      <components.MultiValueRemove {...props}  />
-    </div>
+      <components.MultiValueRemove
+        {...props} innerProps={{ onPointerDown: (e) => e.stopPropagation(), ...props.innerProps }}
+      />
   );
 };
 
 
 export default function MultiSelectSort() {
-  const [selected, setSelected] = React.useState<ColourOption[]>([...[
+  const [selected, setSelected] = React.useState<ColourOption[]>([
     colourOptions[4],
     colourOptions[5],
-  ]]);
+  ]);
 
   const onChange = (selectedOptions: OnChangeValue<ColourOption, true>) =>
     setSelected([...selectedOptions]);
@@ -106,16 +108,13 @@ export default function MultiSelectSort() {
       const newIndex = items.findIndex((item) => item.id === over.id);
       return arrayMove(items, oldIndex, newIndex);
     });
-
   };
 
-  // const { setNodeRef } = useDraggable({})
 
   return (
-    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onSortEnd}>
-      <SortableContext items={selected} strategy={horizontalListSortingStrategy}>
+    <DndContext  modifiers={[restrictToParentElement]} onDragEnd={onSortEnd}>
+      <SortableContext items={selected} strategy={horizontalListSortingStrategy}  >
         <Select
-          useDragHandle
           distance={4}
           isMulti
           options={colourOptions}
