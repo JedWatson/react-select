@@ -1,51 +1,46 @@
 import React, { MouseEventHandler } from 'react';
-import { CSS } from '@dnd-kit/utilities';
 import Select, {
   components,
-  MultiValueGenericProps, MultiValueProps, MultiValueRemoveProps,
+  MultiValueGenericProps,
+  MultiValueProps,
+  MultiValueRemoveProps,
   OnChangeValue,
 } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 import Tooltip from '@atlaskit/tooltip';
-import { DndContext, DragEndEvent,  useDraggable, useDroppable } from '@dnd-kit/core';
+import { DndContext, DragEndEvent, useDroppable } from '@dnd-kit/core';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
-import { arrayMove, horizontalListSortingStrategy, SortableContext, useSortable } from '@dnd-kit/sortable';
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-export const MultiValue = (props: MultiValueProps<ColourOption>) => {
-    // this prevents the menu from being opened/closed when the user clicks
-    // on a value to begin dragging it. ideally, detecting a click (instead of
-    // a drag) would still focus the control and toggle the menu, but that
-    // requires some magic with refs that are out of scope for this example
-    const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    const innerProps = { ...props.innerProps, onMouseDown};
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: props.data.id,
-  });
-
+const MultiValue = (props: MultiValueProps<ColourOption>) => {
+  const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const innerProps = { ...props.innerProps, onMouseDown };
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: props.data.id,
+    });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
   return (
-            <div
-              style={style}
-              ref={setNodeRef}
-            >
-              <div
-                {...attributes}
-                {...listeners}
-              >
-              <components.MultiValue  {...props} innerProps={innerProps} />
-              </div>
-            </div>);
-  };
+    <div style={style} ref={setNodeRef} {...attributes} {...listeners}>
+      <components.MultiValue {...props} innerProps={innerProps} />
+    </div>
+  );
+};
 
-
-export const MultiValueContainer = (props: MultiValueGenericProps<ColourOption>) => {
+const MultiValueContainer = (props: MultiValueGenericProps<ColourOption>) => {
   const { isOver, setNodeRef } = useDroppable({
     id: 'droppable',
   });
@@ -53,6 +48,7 @@ export const MultiValueContainer = (props: MultiValueGenericProps<ColourOption>)
   const style = {
     color: isOver ? 'green' : undefined,
   };
+
   return (
     <Tooltip content={'Customise your multi-value container!'}>
       <div style={style} ref={setNodeRef}>
@@ -62,34 +58,19 @@ export const MultiValueContainer = (props: MultiValueGenericProps<ColourOption>)
   );
 };
 
-export const MultiValueLabel = (props: MultiValueGenericProps<ColourOption>) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: 'draggable',
-  });
-
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
-
+const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
   return (
-    <Tooltip content={'Customise your multi-value label component111!'}>
-      <div style={style} ref={setNodeRef} {...listeners} {...attributes}>
-      <components.MultiValueLabel {...props} />
-      </div>
-    </Tooltip>
+    <components.MultiValueRemove
+      {...props}
+      innerProps={{
+        onPointerDown: (e) => e.stopPropagation(),
+        ...props.innerProps,
+      }}
+    />
   );
 };
 
-export const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption> ) => {
-  return (
-      <components.MultiValueRemove
-        {...props} innerProps={{ onPointerDown: (e) => e.stopPropagation(), ...props.innerProps }}
-      />
-  );
-};
-
-
-export default function MultiSelectSort() {
+const MultiSelectSort = () => {
   const [selected, setSelected] = React.useState<ColourOption[]>([
     colourOptions[4],
     colourOptions[5],
@@ -110,10 +91,12 @@ export default function MultiSelectSort() {
     });
   };
 
-
   return (
-    <DndContext  modifiers={[restrictToParentElement]} onDragEnd={onSortEnd}>
-      <SortableContext items={selected} strategy={horizontalListSortingStrategy}  >
+    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onSortEnd}>
+      <SortableContext
+        items={selected}
+        strategy={horizontalListSortingStrategy}
+      >
         <Select
           distance={4}
           isMulti
@@ -124,11 +107,13 @@ export default function MultiSelectSort() {
             // @ts-ignore We're failing to provide a required index prop to SortableElement
             MultiValue,
             MultiValueContainer,
-            MultiValueRemove
+            MultiValueRemove,
           }}
           closeMenuOnSelect={false}
         />
       </SortableContext>
     </DndContext>
   );
-}
+};
+
+export default MultiSelectSort;
