@@ -50,7 +50,7 @@
 
 - [`6c7a3d1e`](https://github.com/JedWatson/react-select/commit/6c7a3d1e07b7d6a8f484a829e69b20eae5a92b91) [#4785](https://github.com/JedWatson/react-select/pull/4785) Thanks [@Rall3n](https://github.com/Rall3n)! - Add `prevInputValue` to action meta
 
-- [`b522ac65`](https://github.com/JedWatson/react-select/commit/b522ac658f85701ecf413436f3cf8d8d49117c82) [#4860](https://github.com/JedWatson/react-select/pull/4860) Thanks [@ebonow](https://github.com/ebonow)! - Fix animated MultiValue transitions when being removed and change method used to generate unqiue keys for Option components. Closes #4844 , closes #4602
+- [`b522ac65`](https://github.com/JedWatson/react-select/commit/b522ac658f85701ecf413436f3cf8d8d49117c82) [#4860](https://github.com/JedWatson/react-select/pull/4860) Thanks [@ebonow](https://github.com/ebonow)! - Fix animated MultiValue transitions when being removed and change method used to generate unique keys for Option components. Closes #4844 , closes #4602
 
 ### Patch Changes
 
@@ -82,7 +82,7 @@
 
 - [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4683](https://github.com/JedWatson/react-select/pull/4683) Thanks [@JedWatson](https://github.com/JedWatson)! - React-Select has been converted from Flow to TypeScript.
 
-  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementation with new options in the creatable variant.
 
 ### Patch Changes
 
@@ -140,7 +140,7 @@
 
 - [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4489](https://github.com/JedWatson/react-select/pull/4489) Thanks [@Methuselah96](https://github.com/Methuselah96)! - React-Select has been converted from Flow to TypeScript.
 
-  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementation with new options in the creatable variant.
 
 - [#4625](https://github.com/JedWatson/react-select/pull/4625) Thanks [@ebonow](https://github.com/ebonow)! - Remove dependency on AutoSizeInput
   - BREAKING CHANGES:
@@ -1152,7 +1152,7 @@ was better to do this before declaring 1.0.0 stable.
 
 ## v1.0.0-beta14 / 2016-07-17
 
-- fixed; `react-input-autosize` has been udpated to `1.1.0`, which includes
+- fixed; `react-input-autosize` has been updated to `1.1.0`, which includes
   fixes for the new warnings that React 15.2 logs
 - fixed; "Unknown prop `inputClassName` on <div> tag" warning, thanks
   [Max Stoiber](https://github.com/mxstbr)
@@ -1231,7 +1231,7 @@ triaging issues for this release!
 
 ## v1.0.0-beta12 / 2016-04-02
 
-- added; `menuRenderer` method and example for effeciently rendering thousands
+- added; `menuRenderer` method and example for efficiently rendering thousands
   of options, thanks [Brian Vaughn](https://github.com/bvaughn)
 - added; `optionClassName` prop, thanks [Max Tyler](https://github.com/iam4x)
 
@@ -1637,7 +1637,7 @@ version; sorry about that!
 - fixed; clarified dependency documentation and added dependencies for Bower
 - fixed; Scoping issues in `_bindCloseMenuIfClickedOutside`, thanks
   [bannaN](https://github.com/bannaN)
-- fixed; Doesnt try to set focus afterupdate if component is disabled, thanks
+- fixed; Doesn't try to set focus afterupdate if component is disabled, thanks
   [bannaN](https://github.com/bannaN)
 
 ## v0.4.7 / 2015-04-21
@@ -1802,7 +1802,7 @@ version; sorry about that!
 - improved; Build tasks and docs
 - added; Working standalone build
 - added; Minified dist version
-- added; Publised to Bower
+- added; Published to Bower
 
 ## v0.2.2 / 2014-11-15
 
