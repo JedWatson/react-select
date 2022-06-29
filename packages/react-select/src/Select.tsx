@@ -262,8 +262,6 @@ export interface Props<
   value: PropsValue<Option>;
   /** Sets the form attribute on the input */
   form?: string;
-  /** Text to display if the component fails the `required` validation  */
-  requiredMessage: () => string;
   /** Marks the value-holding input as required for form validation */
   required?: boolean;
 }
@@ -1588,7 +1586,7 @@ export default class Select<
       tabIndex,
       form,
       menuIsOpen,
-      required
+      required,
     } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden, ariaSelection } = this.state;
@@ -2002,20 +2000,13 @@ export default class Select<
     );
   }
   renderFormField() {
-    const { delimiter, isDisabled, isMulti, name, required, requiredMessage } =
-      this.props;
+    const { delimiter, isDisabled, isMulti, name, required } = this.props;
     const { selectValue } = this.state;
 
     if (!name || isDisabled) return;
 
     if (required && !this.hasValue()) {
-      return (
-        <RequiredInput
-          name={name}
-          onFocus={this.onValueInputFocus}
-          requiredMessage={requiredMessage}
-        />
-      );
+      return <RequiredInput name={name} onFocus={this.onValueInputFocus} />;
     }
 
     if (isMulti) {
