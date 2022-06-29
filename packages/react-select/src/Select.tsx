@@ -727,7 +727,7 @@ export default class Select<
     }
 
     if (isFocused && isDisabled && !prevProps.isDisabled) {
-      // ensure select state gets blurred in case Select is programatically disabled while focused
+      // ensure select state gets blurred in case Select is programmatically disabled while focused
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: false }, this.onMenuClose);
     }
