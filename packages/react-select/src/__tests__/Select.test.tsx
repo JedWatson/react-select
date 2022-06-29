@@ -1953,7 +1953,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 });
 
 /**
- * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
+ * TODO: Need to get highlight a menu option and then match value with aria-activedescendant prop
  */
 cases(
   'accessibility > aria-activedescendant',

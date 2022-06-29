@@ -12,9 +12,10 @@ import { createPortal } from 'react-dom';
 import {
   animatedScrollTo,
   getBoundingClientObj,
-  RectType,
   getScrollParent,
   getScrollTop,
+  normalizedHeight,
+  RectType,
   scrollTo,
 } from '../utils';
 import {
@@ -75,7 +76,9 @@ export function getMenuPlacement({
   } = menuEl.getBoundingClientRect();
 
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = window.innerHeight;
+  const viewHeight = isFixedPosition
+    ? window.innerHeight
+    : normalizedHeight(scrollParent);
   const scrollTop = getScrollTop(scrollParent);
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
@@ -565,7 +568,7 @@ export class MenuPortal<
 > extends Component<MenuPortalProps<Option, IsMulti, Group>, MenuPortalState> {
   state: MenuPortalState = { placement: null };
 
-  // callback for occassions where the menu must "flip"
+  // callback for occasions where the menu must "flip"
   getPortalPlacement = ({ placement }: MenuState) => {
     const initialPlacement = coercePlacement(this.props.menuPlacement);
 
