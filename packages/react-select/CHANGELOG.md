@@ -1,5 +1,11 @@
 # react-select
 
+## 5.4.0
+
+### Minor Changes
+
+- [`5d49f70a`](https://github.com/JedWatson/react-select/commit/5d49f70aeb9d6c2685b81b361e3dab3e2064292d) [#5249](https://github.com/JedWatson/react-select/pull/5249) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Export `formatOptionLabel` types (i.e., `FormatOptionLabelMeta` and `FormatOptionLabelContext`).
+
 ## 5.3.2
 
 ### Patch Changes
