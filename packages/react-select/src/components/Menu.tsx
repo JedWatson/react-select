@@ -568,7 +568,7 @@ export class MenuPortal<
 > extends Component<MenuPortalProps<Option, IsMulti, Group>, MenuPortalState> {
   state: MenuPortalState = { placement: null };
 
-  // callback for occassions where the menu must "flip"
+  // callback for occasions where the menu must "flip"
   getPortalPlacement = ({ placement }: MenuState) => {
     const initialPlacement = coercePlacement(this.props.menuPlacement);
 
