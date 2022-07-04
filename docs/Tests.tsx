@@ -134,6 +134,65 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           </Note>
         </div>
 
+        <div
+          style={{
+            display: 'flex',
+            alignContent: 'center',
+            justifyContent: 'flex-end',
+            height: '80vh'
+          }}
+        >
+          <div
+            style={{
+              background: 'lightgrey',
+              padding: '12px',
+              overflow: 'auto',
+              width: '320px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              height: '80vh'
+            }}
+          >
+            <h4>menuPlacement = bottom</h4>
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              name="color"
+              options={colourOptions}
+              menuPlacement="bottom"
+              menuPortalTarget={window.document.body}
+            />
+            <h4>menuPlacement = top</h4>
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              name="color"
+              options={colourOptions}
+              menuPlacement="top"
+              menuPortalTarget={window.document.body}
+            />
+            <h4>menuPlacement = auto</h4>
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              name="color"
+              options={colourOptions}
+              menuPlacement="auto"
+              menuPortalTarget={window.document.body}
+            />
+            <h4>menuPlacement = auto, menuPortalTarget = false</h4>
+            <Select
+              className="basic-single"
+              classNamePrefix="select"
+              name="color"
+              options={colourOptions}
+              menuPlacement="auto"
+              menuPortalTarget={null}
+            />
+          </div>
+        </div>
+
         <h4>Portalled</h4>
         <div
           id={`cypress-${idSuffix}-portalled`}
@@ -211,39 +270,62 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
 
 export default function Tests() {
   return (
+
     <div
       style={{
-        margin: 'auto',
-        maxWidth: 440,
-        padding: 20,
-        position: 'relative',
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'flex-end',
+        height: '80vh'
       }}
     >
-      <H1>Test Page for Cypress</H1>
-      <h2>Single Select</h2>
-      <TestSuite selectComponent={Select} idSuffix="single" />
-      <h3>Animated components</h3>
-      <TestSuite selectComponent={AnimatedSelect} idSuffix="animated" />
-      <h2>Multi Select</h2>
-      <div id="cypress-multi">
+      <div
+        style={{
+          background: 'lightgrey',
+          padding: '12px',
+          overflow: 'auto',
+          width: '320px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          height: '80vh'
+        }}
+      >
+        <h4>menuPlacement = bottom</h4>
         <Select
-          id="multi-select"
-          instanceId="multi-select"
-          classNamePrefix="react-select"
-          defaultValue={[colourOptions[2], colourOptions[3]]}
-          isMulti
+          className="basic-single"
+          classNamePrefix="select"
+          name="color"
           options={colourOptions}
+          menuPlacement="bottom"
+          menuPortalTarget={window.document.body}
         />
-      </div>
-      <div style={{ height: 400 }} />
-      <h3> Long Values </h3>
-      <div id={'cypress-long-values'}>
+        <h4>menuPlacement = top</h4>
         <Select
-          id="long-value-select"
-          instanceId="long-value-select"
-          classNamePrefix="react-select"
-          defaultValue={optionLength[3]}
-          options={optionLength}
+          className="basic-single"
+          classNamePrefix="select"
+          name="color"
+          options={colourOptions}
+          menuPlacement="top"
+          menuPortalTarget={window.document.body}
+        />
+        <h4>menuPlacement = auto</h4>
+        <Select
+          className="basic-single"
+          classNamePrefix="select"
+          name="color"
+          options={colourOptions}
+          menuPlacement="auto"
+          menuPortalTarget={window.document.body}
+        />
+        <h4>menuPlacement = auto, menuPortalTarget = false</h4>
+        <Select
+          className="basic-single"
+          classNamePrefix="select"
+          name="color"
+          options={colourOptions}
+          menuPlacement="auto"
+          menuPortalTarget={null}
         />
       </div>
     </div>
