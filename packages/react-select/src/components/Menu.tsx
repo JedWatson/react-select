@@ -635,7 +635,7 @@ export const MenuPortal = <
       cleanupRef.current = null;
     }
 
-    if (!isFixed && controlElement && menuPortalRef.current) {
+    if (controlElement && menuPortalRef.current) {
       cleanupRef.current = autoUpdate(
         controlElement,
         menuPortalRef.current,
