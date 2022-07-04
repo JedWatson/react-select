@@ -581,8 +581,6 @@ export const MenuPortal = <
   menuPosition,
   getStyles,
 }: MenuPortalProps<Option, IsMulti, Group>) => {
-  const isFixed = menuPosition === 'fixed';
-
   const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const cleanupRef = useRef<(() => void) | void | null>(null);
 
@@ -607,7 +605,7 @@ export const MenuPortal = <
     if (!controlElement) return;
 
     const rect = getBoundingClientObj(controlElement);
-    const scrollDistance = isFixed ? 0 : window.pageYOffset;
+    const scrollDistance = menuPosition === 'fixed' ? 0 : window.pageYOffset;
     const offset = rect[placement] + scrollDistance;
     if (
       offset !== computedPosition?.offset ||
@@ -618,7 +616,7 @@ export const MenuPortal = <
     }
   }, [
     controlElement,
-    isFixed,
+    menuPosition,
     placement,
     computedPosition?.offset,
     computedPosition?.rect.left,
@@ -643,7 +641,7 @@ export const MenuPortal = <
         { elementResize: false }
       );
     }
-  }, [controlElement, isFixed, updateComputedPosition]);
+  }, [controlElement, updateComputedPosition]);
 
   useLayoutEffect(() => {
     runAutoUpdate();
@@ -658,7 +656,7 @@ export const MenuPortal = <
   );
 
   // bail early if required elements aren't present
-  if ((!appendTo && !isFixed) || !computedPosition) return null;
+  if ((!appendTo && menuPosition !== 'fixed') || !computedPosition) return null;
 
   // same wrapper element whether fixed or portalled
   const menuWrapper = (
