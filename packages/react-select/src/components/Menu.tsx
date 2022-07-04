@@ -561,7 +561,7 @@ export const menuPortalCSS = ({
   zIndex: 1,
 });
 
-export interface ComputedPosition {
+interface ComputedPosition {
   offset: number;
   rect: { left: number; width: number };
 }
