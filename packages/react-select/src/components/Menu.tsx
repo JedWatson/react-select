@@ -6,9 +6,13 @@ import {
   RefCallback,
   ContextType,
   useState,
+  useCallback,
+  useRef,
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
+import { autoUpdate } from '@floating-ui/dom';
+import useLayoutEffect from 'use-isomorphic-layout-effect';
 
 import {
   animatedScrollTo,
@@ -16,7 +20,6 @@ import {
   getScrollParent,
   getScrollTop,
   normalizedHeight,
-  RectType,
   scrollTo,
 } from '../utils';
 import {
@@ -543,7 +546,7 @@ export interface MenuPortalProps<
 export interface PortalStyleArgs {
   offset: number;
   position: MenuPosition;
-  rect: RectType;
+  rect: { left: number; width: number };
 }
 
 export const menuPortalCSS = ({
@@ -558,54 +561,113 @@ export const menuPortalCSS = ({
   zIndex: 1,
 });
 
+export interface ComputedPosition {
+  offset: number;
+  rect: { left: number; width: number };
+}
+
 export const MenuPortal = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(
-  props: MenuPortalProps<Option, IsMulti, Group>
-) => {
-  const [placementState, setPlacement] =
-    useState<'bottom' | 'top' | null>(null);
+>({
+  appendTo,
+  children,
+  className,
+  controlElement,
+  cx,
+  innerProps,
+  menuPlacement,
+  menuPosition,
+  getStyles,
+}: MenuPortalProps<Option, IsMulti, Group>) => {
+  const isFixed = menuPosition === 'fixed';
+
+  const menuPortalRef = useRef<HTMLDivElement | null>(null);
+  const cleanupRef = useRef<(() => void) | void | null>(null);
+
+  const [placement, setPlacement] = useState<'bottom' | 'top'>(
+    coercePlacement(menuPlacement)
+  );
+  const [computedPosition, setComputedPosition] =
+    useState<ComputedPosition | null>(null);
 
   // callback for occasions where the menu must "flip"
-  const getPortalPlacement = ({ placement }: MenuState) => {
-    const initialPlacement = coercePlacement(props.menuPlacement);
+  const getPortalPlacement = useCallback(
+    ({ placement: updatedPlacement }: MenuState) => {
+      // avoid re-renders if the placement has not changed
+      if (updatedPlacement !== placement) {
+        setPlacement(placement);
+      }
+    },
+    [placement]
+  );
 
-    // avoid re-renders if the placement has not changed
-    if (placementState !== initialPlacement) {
-      setPlacement(placement);
+  const updateComputedPosition = useCallback(() => {
+    if (!controlElement) return;
+
+    const rect = getBoundingClientObj(controlElement);
+    const scrollDistance = isFixed ? 0 : window.pageYOffset;
+    const offset = rect[placement] + scrollDistance;
+    if (
+      offset !== computedPosition?.offset ||
+      rect.left !== computedPosition?.rect.left ||
+      rect.width !== computedPosition?.rect.width
+    ) {
+      setComputedPosition({ offset, rect });
     }
-  };
-
-  const {
-    appendTo,
-    children,
-    className,
+  }, [
     controlElement,
-    cx,
-    innerProps,
-    menuPlacement,
-    menuPosition: position,
-    getStyles,
-  } = props;
-  const isFixed = position === 'fixed';
+    isFixed,
+    placement,
+    computedPosition?.offset,
+    computedPosition?.rect.left,
+    computedPosition?.rect.width,
+  ]);
+
+  useLayoutEffect(() => {
+    updateComputedPosition();
+  }, [updateComputedPosition]);
+
+  const runAutoUpdate = useCallback(() => {
+    if (typeof cleanupRef.current === 'function') {
+      cleanupRef.current();
+      cleanupRef.current = null;
+    }
+
+    if (!isFixed && controlElement && menuPortalRef.current) {
+      cleanupRef.current = autoUpdate(
+        controlElement,
+        menuPortalRef.current,
+        updateComputedPosition
+      );
+    }
+  }, [controlElement, isFixed, updateComputedPosition]);
+
+  useLayoutEffect(() => {
+    runAutoUpdate();
+  }, [runAutoUpdate]);
+
+  const setMenuPortalElement = useCallback(
+    (menuPortalElement: HTMLDivElement) => {
+      menuPortalRef.current = menuPortalElement;
+      runAutoUpdate();
+    },
+    [runAutoUpdate]
+  );
 
   // bail early if required elements aren't present
-  if ((!appendTo && !isFixed) || !controlElement) {
-    return null;
-  }
-
-  const placement = placementState || coercePlacement(menuPlacement);
-  const rect = getBoundingClientObj(controlElement);
-  const scrollDistance = isFixed ? 0 : window.pageYOffset;
-  const offset = rect[placement] + scrollDistance;
-  const state = { offset, position, rect };
+  if ((!appendTo && !isFixed) || !computedPosition) return null;
 
   // same wrapper element whether fixed or portalled
   const menuWrapper = (
     <div
-      css={getStyles('menuPortal', state)}
+      ref={setMenuPortalElement}
+      css={getStyles('menuPortal', {
+        offset: computedPosition.offset,
+        position: menuPosition,
+        rect: computedPosition.rect,
+      })}
       className={cx(
         {
           'menu-portal': true,
