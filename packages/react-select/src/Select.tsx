@@ -81,7 +81,7 @@ export interface Props<
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
   'aria-live'?: AriaAttributes['aria-live'];
-  /** Customize the messages used by the aria-live component */
+  /** Customise the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
   autoFocus?: boolean;
