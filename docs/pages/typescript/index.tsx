@@ -102,7 +102,7 @@ declare module 'react-select/dist/declarations/src/Select' {
 }
 ~~~
 
-This will make the custom prop available both when using the \`Select\` component as well as when accessing \`selectProps\` when [customizing components](./components).
+This will make the custom prop available both when using the \`Select\` component as well as when accessing \`selectProps\` when [customising components](./components).
       `}
     </>
   );

@@ -5,7 +5,7 @@ import { ColourOption, colourOptions } from '../data';
 
 const Option = (props: OptionProps<ColourOption>) => {
   return (
-    <Tooltip content={'Customize your option component!'} truncate>
+    <Tooltip content={'Customise your option component!'} truncate>
       <components.Option {...props} />
     </Tooltip>
   );
