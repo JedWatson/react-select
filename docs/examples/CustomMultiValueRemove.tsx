@@ -6,7 +6,7 @@ import { ColourOption, colourOptions } from '../data';
 
 const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
   return (
-    <Tooltip content={'Customize your multi-value remove component!'} truncate>
+    <Tooltip content={'Customise your multi-value remove component!'} truncate>
       <components.MultiValueRemove {...props}>
         <EmojiIcon label="Emoji" primaryColor={colourOptions[2].color} />
       </components.MultiValueRemove>

@@ -991,7 +991,7 @@ export default class Select<
   // ==============================
 
   getTheme() {
-    // Use the default theme if there are no customizations.
+    // Use the default theme if there are no customisations.
     if (!this.props.theme) {
       return defaultTheme;
     }

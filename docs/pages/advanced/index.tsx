@@ -35,7 +35,7 @@ export default function Advanced() {
 
       ## Accessibility
       Accessibility is important. React-select is committed to providing a custom experience to all users and relies heavily on the aria-live spec to provide
-      a custom experience for all users. As such, we also provide an api to address internationalization or further customization.
+      a custom experience for all users. As such, we also provide an api to address internationalization or further customisation.
 
       ${(
         <ExampleWrapper
@@ -61,10 +61,10 @@ export default function Advanced() {
       )}
 
       ## Custom Filter logic
-      While React-Select assumes a standard way of filtering the menu on search, our api allows you to customize that filtering logic in various ways.
+      While React-Select assumes a standard way of filtering the menu on search, our api allows you to customise that filtering logic in various ways.
 
       ### createFilter function
-      React-Select exports a createFilter function that returns a filterOption method. By using this, users can pick and choose bits of the filtration logic to customize,
+      React-Select exports a createFilter function that returns a filterOption method. By using this, users can pick and choose bits of the filtration logic to customise,
       without having to rewrite the logic wholesale.
 
       ~~~jsx
@@ -76,7 +76,7 @@ export default function Advanced() {
       trim: true,
       ~~~
 
-      Below is an example of how you could use the createFilter function to customize filtration logic in react-select.
+      Below is an example of how you could use the createFilter function to customise filtration logic in react-select.
 
       ${(
         <ExampleWrapper

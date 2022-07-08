@@ -30,7 +30,7 @@ React-select v2 is a complete rewrite, and includes some major changes:
   handled by providing custom functions
 
 With that in mind, we've tried to make the upgrade as easy as possible. How
-complex the upgrade is will depend on how much you have customized react-select.
+complex the upgrade is will depend on how much you have customised react-select.
 
 We've also done our best to keep feature parity with v1, either through
 continuing to support props or by providing another way to achieve the same
@@ -116,7 +116,7 @@ expected \`{ label, value }\` keys.
 
 This means the \`labelKey\` and \`valueKey\` props are no longer supported.
 
-Instead, you can use the following props to customize how react-select deals
+Instead, you can use the following props to customise how react-select deals
 with your options:
 
 ~~~
@@ -138,7 +138,7 @@ the control looks, but is a significant change.
 
 Each component that react-select renders has a corresponding key that you can
 specify in the \`styles\` prop. Each value you provide should be a function that
-takes the default styles, and returns your customized style object.
+takes the default styles, and returns your customised style object.
 
 For example, to give the control a white background:
 
