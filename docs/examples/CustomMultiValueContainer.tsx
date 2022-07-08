@@ -1,3 +1,4 @@
+import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components, MultiValueGenericProps } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
