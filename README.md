@@ -151,9 +151,9 @@ Check the docs for more information on:
 - [Advanced use-cases](https://www.react-select.com/advanced)
 - [TypeScript guide](https://www.react-select.com/typescript)
 
-## Typescript
+## TypeScript
 
-The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
+The v5 release represents a rewrite from JavaScript to TypeScript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
 
 # Thanks
 
