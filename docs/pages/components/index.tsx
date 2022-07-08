@@ -44,7 +44,7 @@ export default function Components() {
         The main feature of this library is providing consumers with the
         building blocks necessary to create _their_ component.
 
-        The following components are customisable and switchable:
+        The following components are customizable and switchable:
           * ClearIndicator
           * Control
           * DropdownIndicator

@@ -149,7 +149,7 @@ export default function Styles() {
 
       ${(
         <ExampleWrapper
-          label="Customised Styles for Single Select"
+          label="Customized Styles for Single Select"
           urlPath="docs/examples/StyledSingle.tsx"
           raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
         >
@@ -159,7 +159,7 @@ export default function Styles() {
 
       ${(
         <ExampleWrapper
-          label="Customised styles for Multi Select"
+          label="Customized styles for Multi Select"
           urlPath="docs/examples/StyledMulti.tsx"
           raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
         >
@@ -270,7 +270,7 @@ export default function Styles() {
 
     ${(
       <ExampleWrapper
-        label="Customised theme"
+        label="Customized theme"
         urlPath="docs/examples/Theme.tsx"
         raw={require('!!raw-loader!../../examples/Theme.tsx')}
       >

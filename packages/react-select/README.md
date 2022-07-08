@@ -143,7 +143,7 @@ React-select exposes two public methods:
 
 Check the docs for more information on:
 
-- [Customising the styles](https://www.react-select.com/styles)
+- [Customizing the styles](https://www.react-select.com/styles)
 - [Using custom components](https://www.react-select.com/components)
 - [Using the built-in animated components](https://www.react-select.com/home#animated-components)
 - [Creating an async select](https://www.react-select.com/async)
