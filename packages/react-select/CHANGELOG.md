@@ -187,7 +187,7 @@
 
 - [2ffed9c6](https://github.com/JedWatson/react-select/commit/2ffed9c6c40c9d5b81d7c8faf7bfc995976299ec) [#4444](https://github.com/JedWatson/react-select/pull/4444) Thanks [@Rall3n](https://github.com/Rall3n)! - Use accessor props to get value and label in `compareOption`
 
-- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customizations
+- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customisations
 
 - [7cdb8a6b](https://github.com/JedWatson/react-select/commit/7cdb8a6b4d9de89a599b3aee8b6d90a44a931ea6) [#4391](https://github.com/JedWatson/react-select/pull/4391) Thanks [@ebonow](https://github.com/ebonow)! - Pass and sanitize CommonProps passed to Group and Input components
 
@@ -207,7 +207,7 @@
 
 ### Minor Changes
 
-- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customizable components
+- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customisable components
 
 - [19b76342](https://github.com/JedWatson/react-select/commit/19b763428d6df254f0b9662f18a698dd3c59d83b) [#3911](https://github.com/JedWatson/react-select/pull/3911) Thanks [@eugenet8k](https://github.com/eugenet8k)! - Add `removedValues` to `onChange` event meta when the action is `clear` (when the user clears the value in the Select)
 
@@ -1616,7 +1616,7 @@ version; sorry about that!
   [Kevin Burke](https://github.com/kembuco)
 - added; Support for case-insensitive filtering when `matchPos="start"`, thanks
   [wesrage](https://github.com/wesrage)
-- added; Support for customizable background color, thanks
+- added; Support for customisable background color, thanks
   [John Morales](https://github.com/JohnMorales)
 - fixed; Updated ESLint and cleared up warnings, thanks
   [Alexander Shemetovsky](https://github.com/AlexKVal)
