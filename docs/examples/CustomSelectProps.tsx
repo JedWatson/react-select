@@ -2,15 +2,26 @@ import React, { MouseEventHandler, useState } from 'react';
 import Select, {
   components,
   ControlProps,
+  GroupBase,
   Props,
   StylesConfig,
 } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
+declare module "react-select/dist/declarations/src/Select" {
+  export interface Props<
+    Option,
+    IsMulti extends boolean,
+    Group extends GroupBase<Option>,
+  > {
+    emoji: string;
+    onEmojiClick: React.MouseEvent<HTMLElement> => void;
+  }
+}
+
 const EMOJIS = ['👍', '🤙', '👏', '👌', '🙌', '✌️', '🖖', '👐'];
 
 const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
-  // @ts-ignore
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: 'pointer' };
 
@@ -42,7 +53,6 @@ const CustomSelectProps = (props: Props<ColourOption>) => {
   return (
     <Select
       {...props}
-      // @ts-ignore
       emoji={emoji}
       onEmojiClick={onClick}
       components={{ Control }}
