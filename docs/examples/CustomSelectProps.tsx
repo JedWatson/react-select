@@ -8,11 +8,11 @@ import Select, {
 } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
 
-declare module "react-select/dist/declarations/src/Select" {
+declare module 'react-select/dist/declarations/src/Select' {
   export interface Props<
     Option,
     IsMulti extends boolean,
-    Group extends GroupBase<Option>,
+    Group extends GroupBase<Option>
   > {
     emoji: string;
     onEmojiClick: MouseEventHandler<HTMLElement>;
