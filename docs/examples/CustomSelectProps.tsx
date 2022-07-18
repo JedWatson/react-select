@@ -15,7 +15,7 @@ declare module "react-select/dist/declarations/src/Select" {
     Group extends GroupBase<Option>,
   > {
     emoji: string;
-    onEmojiClick: (React.MouseEvent<HTMLElement>) => void;
+    onEmojiClick: MouseEventHandler<HTMLElement>;
   }
 }
 
