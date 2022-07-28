@@ -1,12 +1,18 @@
+import * as React from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 import Select from './Select';
-import { GroupBase, OptionBase } from './types';
-import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
+import { GroupBase } from './types';
 import useAsync, { AsyncAdditionalProps } from './useAsync';
 import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
 
-type AsyncCreatableProps<
-  Option extends OptionBase,
+export type AsyncCreatableProps<
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > = StateManagerProps<Option, IsMulti, Group> &
@@ -14,7 +20,7 @@ type AsyncCreatableProps<
   AsyncAdditionalProps<Option, Group>;
 
 type AsyncCreatableSelect = <
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
@@ -22,12 +28,8 @@ type AsyncCreatableSelect = <
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
-const AsyncCreatableSelect = React.forwardRef(
-  <
-    Option extends OptionBase,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>
-  >(
+const AsyncCreatableSelect = forwardRef(
+  <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: AsyncCreatableProps<Option, IsMulti, Group>,
     ref:
       | ((instance: Select<Option, IsMulti, Group> | null) => void)

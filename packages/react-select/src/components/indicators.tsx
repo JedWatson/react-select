@@ -6,7 +6,6 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 // ==============================
@@ -52,7 +51,7 @@ export const DownChevron = (props: DownChevronProps) => (
 // ==============================
 
 export interface DropdownIndicatorProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -66,7 +65,7 @@ export interface DropdownIndicatorProps<
 }
 
 const baseCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -91,7 +90,7 @@ const baseCSS = <
 
 export const dropdownIndicatorCSS = baseCSS;
 export const DropdownIndicator = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -116,7 +115,7 @@ export const DropdownIndicator = <
 };
 
 export interface ClearIndicatorProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -130,7 +129,7 @@ export interface ClearIndicatorProps<
 
 export const clearIndicatorCSS = baseCSS;
 export const ClearIndicator = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -159,7 +158,7 @@ export const ClearIndicator = <
 // ==============================
 
 export interface IndicatorSeparatorProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -169,7 +168,7 @@ export interface IndicatorSeparatorProps<
 }
 
 export const indicatorSeparatorCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -188,7 +187,7 @@ export const indicatorSeparatorCSS = <
 });
 
 export const IndicatorSeparator = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -214,7 +213,7 @@ const loadingDotAnimations = keyframes`
 `;
 
 export const loadingIndicatorCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -258,7 +257,7 @@ const LoadingDot = ({ delay, offset }: LoadingDotProps) => (
 );
 
 export interface LoadingIndicatorProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -271,7 +270,7 @@ export interface LoadingIndicatorProps<
   size: number;
 }
 export const LoadingIndicator = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

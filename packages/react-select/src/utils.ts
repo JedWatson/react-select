@@ -5,7 +5,6 @@ import {
   InputActionMeta,
   MultiValue,
   OnChangeValue,
-  OptionBase,
   Options,
   PropsValue,
   SingleValue,
@@ -64,7 +63,7 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = <Option extends OptionBase>(
+export const cleanValue = <Option>(
   value: PropsValue<Option>
 ): Options<Option> => {
   if (isArray(value)) return value.filter(Boolean);
@@ -77,7 +76,7 @@ export const cleanValue = <Option extends OptionBase>(
 // ==============================
 
 export const cleanCommonProps = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>,
   AdditionalProps
@@ -349,10 +348,7 @@ export function isArray<T>(arg: unknown): arg is readonly T[] {
   return Array.isArray(arg);
 }
 
-export function valueTernary<
-  Option extends OptionBase,
-  IsMulti extends boolean
->(
+export function valueTernary<Option, IsMulti extends boolean>(
   isMulti: IsMulti | undefined,
   multiValue: MultiValue<Option>,
   singleValue: SingleValue<Option>
@@ -360,16 +356,28 @@ export function valueTernary<
   return (isMulti ? multiValue : singleValue) as OnChangeValue<Option, IsMulti>;
 }
 
-export function singleValueAsValue<
-  Option extends OptionBase,
-  IsMulti extends boolean
->(singleValue: SingleValue<Option>): OnChangeValue<Option, IsMulti> {
+export function singleValueAsValue<Option, IsMulti extends boolean>(
+  singleValue: SingleValue<Option>
+): OnChangeValue<Option, IsMulti> {
   return singleValue as OnChangeValue<Option, IsMulti>;
 }
 
-export function multiValueAsValue<
-  Option extends OptionBase,
-  IsMulti extends boolean
->(multiValue: MultiValue<Option>): OnChangeValue<Option, IsMulti> {
+export function multiValueAsValue<Option, IsMulti extends boolean>(
+  multiValue: MultiValue<Option>
+): OnChangeValue<Option, IsMulti> {
   return multiValue as OnChangeValue<Option, IsMulti>;
 }
+
+export const removeProps = <Props extends object, K extends string[]>(
+  propsObj: Props,
+  ...properties: K
+): Omit<Props, K[number]> => {
+  let propsMap = Object.entries(propsObj).filter(
+    ([key]) => !properties.includes(key)
+  );
+
+  return propsMap.reduce((newProps: { [key: string]: any }, [key, val]) => {
+    newProps[key] = val;
+    return newProps;
+  }, {}) as Omit<Props, K[number]>;
+};

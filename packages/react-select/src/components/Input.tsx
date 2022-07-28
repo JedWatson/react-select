@@ -6,12 +6,11 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 import { cleanCommonProps } from '../utils';
 
 export interface InputSpecificProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends InputHTMLAttributes<HTMLInputElement>,
@@ -29,17 +28,18 @@ export interface InputSpecificProps<
 }
 
 export type InputProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = InputSpecificProps<Option, IsMulti, Group>;
 
 export const inputCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
   isDisabled,
+  value,
   theme: { spacing, colors },
 }: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   margin: spacing.baseUnit / 2,
@@ -47,6 +47,9 @@ export const inputCSS = <
   paddingTop: spacing.baseUnit / 2,
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
+  // force css to recompute when value change due to @emotion bug.
+  // We can remove it whenever the bug is fixed.
+  transform: value ? 'translateZ(0)' : '',
   ...containerStyle,
 });
 
@@ -63,12 +66,13 @@ const spacingStyle = {
 const containerStyle = {
   flex: '1 1 auto',
   display: 'inline-grid',
+  gridArea: '1 / 1 / 2 / 3',
   gridTemplateColumns: '0 min-content',
 
   '&:after': {
     content: 'attr(data-value) " "',
     visibility: 'hidden',
-    whiteSpace: 'nowrap',
+    whiteSpace: 'pre',
     ...spacingStyle,
   },
 } as const;
@@ -83,7 +87,7 @@ const inputStyle = (isHidden: boolean) => ({
 });
 
 const Input = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

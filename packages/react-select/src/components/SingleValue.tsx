@@ -5,11 +5,10 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 
 export interface SingleValueProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -24,7 +23,7 @@ export interface SingleValueProps<
 }
 
 export const css = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -33,19 +32,17 @@ export const css = <
 }: SingleValueProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
+  gridArea: '1 / 1 / 2 / 3',
   marginLeft: spacing.baseUnit / 2,
   marginRight: spacing.baseUnit / 2,
-  maxWidth: `calc(100% - ${spacing.baseUnit * 2}px)`,
+  maxWidth: '100%',
   overflow: 'hidden',
-  position: 'absolute',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  top: '50%',
-  transform: 'translateY(-50%)',
 });
 
 const SingleValue = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(

@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { GroupBase, NoticeProps, OptionBase } from 'react-select';
+import { GroupBase, NoticeProps } from 'react-select';
 
 export default class NoOptionsMessage<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends Component<NoticeProps<Option, IsMulti, Group>> {}

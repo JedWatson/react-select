@@ -24,8 +24,8 @@
     "@babel/preset-react": "^7.12.1",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/runtime": "^7.12.0",
-    "@changesets/cli": "^2.0.3",
-    "@changesets/get-github-info": "^0.2.1",
+    "@changesets/cli": "^2.17.0",
+    "@changesets/get-github-info": "^0.5.0",
     "@emotion/babel-plugin": "^11.0.0",
     "@emotion/cache": "^11.4.0",
     "@emotion/jest": "^11.1.0",
@@ -124,7 +124,7 @@
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
     "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start:test --progress=false --no-info' 'yarn test:cypress'",
-    "type-check": "tsc --build packages/react-select/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
+    "type-check": "tsc --build packages/react-select/tsconfig.json && tsc --build packages/react-select/src/__tests__/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
     "precommit": "yarn run type-check",
     "postinstall": "preconstruct dev",
     "test:cypress": "yarn test:cypress:chrome && yarn test:cypress:firefox",
@@ -174,5 +174,8 @@
   "browser": {
     "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
     "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+  },
+  "resolutions": {
+    "csstype": "^3.0.2"
   }
 }

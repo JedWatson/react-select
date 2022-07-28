@@ -6,12 +6,11 @@ import {
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   GroupBase,
-  OptionBase,
 } from '../types';
 import { Props } from '../Select';
 
 interface MultiValueComponents<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
@@ -21,7 +20,7 @@ interface MultiValueComponents<
 }
 
 export interface MultiValueProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -33,10 +32,11 @@ export interface MultiValueProps<
   isFocused: boolean;
   isDisabled: boolean;
   removeProps: JSX.IntrinsicElements['div'];
+  index: number;
 }
 
 export const multiValueCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -51,7 +51,7 @@ export const multiValueCSS = <
 });
 
 export const multiValueLabelCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -70,7 +70,7 @@ export const multiValueLabelCSS = <
 });
 
 export const multiValueRemoveCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -90,7 +90,7 @@ export const multiValueRemoveCSS = <
 });
 
 export interface MultiValueGenericProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > {
@@ -100,7 +100,7 @@ export interface MultiValueGenericProps<
   selectProps: Props<Option, IsMulti, Group>;
 }
 export const MultiValueGeneric = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -113,7 +113,7 @@ export const MultiValueGeneric = <
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
 export interface MultiValueRemoveProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > {
@@ -123,15 +123,19 @@ export interface MultiValueRemoveProps<
   selectProps: Props<Option, IsMulti, Group>;
 }
 export function MultiValueRemove<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({ children, innerProps }: MultiValueRemoveProps<Option, IsMulti, Group>) {
-  return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
+  return (
+    <div role="button" {...innerProps}>
+      {children || <CrossIcon size={14} />}
+    </div>
+  );
 }
 
 const MultiValue = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -201,6 +205,7 @@ const MultiValue = <
                   className
                 )
               ),
+              'aria-label': `Remove ${children || 'option'}`,
               ...removeProps,
             }}
             selectProps={selectProps}

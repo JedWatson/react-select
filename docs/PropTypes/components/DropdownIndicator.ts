@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { GroupBase, DropdownIndicatorProps, OptionBase } from 'react-select';
+import { GroupBase, DropdownIndicatorProps } from 'react-select';
 
 export default class DropdownIndicator<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends Component<DropdownIndicatorProps<Option, IsMulti, Group>> {}

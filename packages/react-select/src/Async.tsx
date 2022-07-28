@@ -1,13 +1,19 @@
-import React, { MutableRefObject, ReactElement, RefAttributes } from 'react';
+import * as React from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  RefAttributes,
+} from 'react';
 import Select from './Select';
-import { OptionBase, GroupBase } from './types';
+import { GroupBase } from './types';
 import useStateManager from './useStateManager';
 import useAsync from './useAsync';
 import type { AsyncProps } from './useAsync';
 export type { AsyncProps };
 
 type AsyncSelect = <
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(
@@ -15,12 +21,8 @@ type AsyncSelect = <
     RefAttributes<Select<Option, IsMulti, Group>>
 ) => ReactElement;
 
-const AsyncSelect = React.forwardRef(
-  <
-    Option extends OptionBase,
-    IsMulti extends boolean,
-    Group extends GroupBase<Option>
-  >(
+const AsyncSelect = forwardRef(
+  <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
     props: AsyncProps<Option, IsMulti, Group>,
     ref:
       | ((instance: Select<Option, IsMulti, Group> | null) => void)
@@ -34,4 +36,5 @@ const AsyncSelect = React.forwardRef(
   }
 ) as AsyncSelect;
 
+export { useAsync };
 export default AsyncSelect;

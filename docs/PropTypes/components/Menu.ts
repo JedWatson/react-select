@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { GroupBase, MenuProps, OptionBase } from 'react-select';
+import { GroupBase, MenuProps } from 'react-select';
 
 export default class Menu<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends Component<MenuProps<Option, IsMulti, Group>> {}

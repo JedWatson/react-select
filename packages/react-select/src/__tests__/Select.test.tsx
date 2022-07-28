@@ -1290,7 +1290,10 @@ cases(
       keyCode: 27,
       key: 'Escape',
     });
-    expect(spy).toHaveBeenCalledWith('', { action: 'menu-close' });
+    expect(spy).toHaveBeenCalledWith('', {
+      action: 'menu-close',
+      prevInputValue: 'test',
+    });
   },
   {
     'single select > should call onInputChange prop with empty string as inputValue':
@@ -1950,7 +1953,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 });
 
 /**
- * TODO: Need to get hightlight a menu option and then match value with aria-activedescendant prop
+ * TODO: Need to get highlight a menu option and then match value with aria-activedescendant prop
  */
 cases(
   'accessibility > aria-activedescendant',
@@ -2155,6 +2158,7 @@ test('accessibility > interacting with multi values options shows correct A11yTe
   let input = container.querySelector('.react-select__value-container input')!;
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
+
   expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
@@ -2256,6 +2260,9 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     />
   );
   const liveRegionEventId = '#aria-selection';
+
+  expect(container.querySelector(liveRegionEventId)!).toBeNull();
+
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
   let menu = container.querySelector('.react-select__menu')!;
@@ -2267,6 +2274,43 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
 
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
+  );
+});
+
+test('accessibility > announces already selected values when focused', () => {
+  let { container } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  const liveRegionContextId = '#aria-context';
+
+  // the live region should not be mounted yet
+  expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
+
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+
+  expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
+    ' Select is focused ,type to refine list, press Down to open the menu, '
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'option 0, selected.'
+  );
+});
+
+test('accessibility > announces cleared values', () => {
+  let { container } = render(
+    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
+  );
+  const liveRegionSelectionId = '#aria-selection';
+  /**
+   * announce deselected value
+   */
+  fireEvent.focus(container.querySelector('input.react-select__input')!);
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__clear-indicator')!
+  );
+  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+    'All selected options have been cleared.'
   );
 });
 
@@ -2972,9 +3016,13 @@ test('close menu on hitting escape and clear input value if menu is open even if
   expect(onMenuCloseSpy).toHaveBeenCalled();
   // once by onMenuClose and other is direct
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
-  expect(onInputChangeSpy).toHaveBeenCalledWith('', { action: 'menu-close' });
+  expect(onInputChangeSpy).toHaveBeenCalledWith('', {
+    action: 'menu-close',
+    prevInputValue: '',
+  });
   expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {
     action: 'menu-close',
+    prevInputValue: '',
   });
 });
 

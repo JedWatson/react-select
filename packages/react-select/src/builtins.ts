@@ -1,20 +1,14 @@
-import { GroupBase, OptionBase } from './types';
+import { GroupBase } from './types';
 
-export const formatGroupLabel = <
-  Option extends OptionBase,
-  Group extends GroupBase<Option>
->(
+export const formatGroupLabel = <Option, Group extends GroupBase<Option>>(
   group: Group
 ): string => group.label as string;
 
-export const getOptionLabel = <Option extends OptionBase>(
-  option: Option
-): string => option.label as string;
+export const getOptionLabel = <Option>(option: Option): string =>
+  (option as { label?: unknown }).label as string;
 
-export const getOptionValue = <Option extends OptionBase>(
-  option: Option
-): string => option.value as string;
+export const getOptionValue = <Option>(option: Option): string =>
+  (option as { value?: unknown }).value as string;
 
-export const isOptionDisabled = <Option extends OptionBase>(
-  option: Option
-): boolean => !!option.isDisabled;
+export const isOptionDisabled = <Option>(option: Option): boolean =>
+  !!(option as { isDisabled?: unknown }).isDisabled;

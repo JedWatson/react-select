@@ -1,5 +1,6 @@
 import Select from './Select';
-import { GroupBase, OptionBase } from './types';
+import type { GroupBase } from './types';
+import useStateManager from './useStateManager';
 
 export { default } from './stateManager';
 export { default as NonceProvider } from './NonceProvider';
@@ -8,12 +9,14 @@ export { defaultTheme } from './theme';
 export { createFilter } from './filters';
 export { components } from './components';
 export type SelectInstance<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = Select<Option, IsMulti, Group>;
 export type { StateManagerProps as Props } from './useStateManager';
+export { useStateManager };
 
+export type { SelectComponentsConfig } from './components';
 export type {
   ContainerProps,
   IndicatorsContainerProps,
@@ -37,12 +40,12 @@ export type {
 export type { OptionProps } from './components/Option';
 export type { PlaceholderProps } from './components/Placeholder';
 export type { SingleValueProps } from './components/SingleValue';
+export type { ThemeConfig } from './theme';
 export type { StylesConfig } from './styles';
 export * from './types';
 export type {
   OptionContext,
   GuidanceContext,
-  AriaLive,
   AriaGuidanceProps,
   AriaOnChangeProps,
   AriaOnFilterProps,
@@ -53,3 +56,4 @@ export type {
   AriaOnFilter,
   AriaOnFocus,
 } from './accessibility';
+export type { FormatOptionLabelContext, FormatOptionLabelMeta } from './Select';
