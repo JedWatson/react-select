@@ -665,7 +665,7 @@ export default class Select<
       const focusedOption = getNextFocusedOption(
         state,
         focusableOptions,
-        prevProps
+        !!prevProps?.alwaysFocusFirstMenuOption
       );
       newMenuOptionsState = {
         selectValue,
