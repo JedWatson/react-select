@@ -484,19 +484,12 @@ function getNextFocusedOption<
 >(
   state: State<Option, IsMulti, Group>,
   options: Options<Option>,
-  props?: Props<Option, IsMulti, Group>
+  alwaysFocusFirstMenuOption: boolean
 ) {
   const { focusedOption: lastFocusedOption } = state;
-
-  if (props) {
-    const { alwaysFocusFirstMenuOption } = props;
-
-    if (alwaysFocusFirstMenuOption) {
-      return options[0];
-    }
-  }
-
-  return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
+  return !alwaysFocusFirstMenuOption &&
+    lastFocusedOption &&
+    options.indexOf(lastFocusedOption) > -1
     ? lastFocusedOption
     : options[0];
 }
