@@ -97,16 +97,10 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
     */
     if (ref) {
       /*
-        Here we're invoking requestAnimationFrame with a callback invoking our
-        call to getBoundingClientRect and setState in order to resolve an edge case
-        around portalling. Certain portalling solutions briefly remove children from the DOM
-        before appending them to the target node. This is to avoid us trying to call getBoundingClientrect
-        while the Select component is in this state.
+        Here we are setting default width as auto for selected option.
       */
-      // cannot use `offsetWidth` because it is rounded
       this.rafID = window.requestAnimationFrame(() => {
-        const { width } = ref.getBoundingClientRect();
-        this.setState({ width });
+        this.setState({ width : 'auto' });
       });
     }
   }
