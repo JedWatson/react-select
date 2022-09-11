@@ -40,8 +40,8 @@ import {
 // Get Menu Placement
 // ------------------------------
 
-interface MenuState {
-  placement: CoercedMenuPlacement | null;
+interface CalculatedMenuPlacementAndHeight {
+  placement: CoercedMenuPlacement;
   maxHeight: number;
 }
 interface PlacementArgs {
@@ -62,10 +62,10 @@ export function getMenuPlacement({
   shouldScroll,
   isFixedPosition,
   theme,
-}: PlacementArgs): MenuState {
+}: PlacementArgs): CalculatedMenuPlacementAndHeight {
   const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl!);
-  const defaultState: MenuState = { placement: 'bottom', maxHeight };
+  const defaultState: CalculatedMenuPlacementAndHeight = { placement: 'bottom', maxHeight };
 
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
@@ -292,8 +292,13 @@ export const menuCSS = <
 });
 
 const PortalPlacementContext = createContext<{
-  getPortalPlacement: ((menuState: MenuState) => void) | null;
+  getPortalPlacement: ((menuState: CalculatedMenuPlacementAndHeight) => void) | null;
 }>({ getPortalPlacement: null });
+
+interface MenuState {
+  placement: CoercedMenuPlacement | null;
+  maxHeight: number;
+}
 
 // NOTE: internal only
 export class MenuPlacer<
@@ -592,10 +597,10 @@ export const MenuPortal = <
 
   // callback for occasions where the menu must "flip"
   const getPortalPlacement = useCallback(
-    ({ placement: updatedPlacement }: MenuState) => {
+    ({ placement: updatedPlacement }: CalculatedMenuPlacementAndHeight) => {
       // avoid re-renders if the placement has not changed
       if (updatedPlacement !== placement) {
-        setPlacement(placement);
+        setPlacement(updatedPlacement);
       }
     },
     [placement]
