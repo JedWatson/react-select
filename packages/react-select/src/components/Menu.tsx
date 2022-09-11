@@ -65,7 +65,10 @@ export function getMenuPlacement({
 }: PlacementArgs): CalculatedMenuPlacementAndHeight {
   const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl!);
-  const defaultState: CalculatedMenuPlacementAndHeight = { placement: 'bottom', maxHeight };
+  const defaultState: CalculatedMenuPlacementAndHeight = {
+    placement: 'bottom',
+    maxHeight,
+  };
 
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
@@ -292,7 +295,9 @@ export const menuCSS = <
 });
 
 const PortalPlacementContext = createContext<{
-  getPortalPlacement: ((menuState: CalculatedMenuPlacementAndHeight) => void) | null;
+  getPortalPlacement:
+    | ((menuState: CalculatedMenuPlacementAndHeight) => void)
+    | null;
 }>({ getPortalPlacement: null });
 
 interface MenuState {
