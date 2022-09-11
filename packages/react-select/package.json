@@ -13,7 +13,7 @@
     "@babel/runtime": "^7.12.0",
     "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.8.1",
-    "@floating-ui/dom": "^0.5.4",
+    "@floating-ui/dom": "^1.0.1",
     "@types/react-transition-group": "^4.4.0",
     "memoize-one": "^5.0.0",
     "prop-types": "^15.6.0",
