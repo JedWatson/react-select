@@ -100,7 +100,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         Here we are setting default width as auto for selected option.
       */
       this.rafID = window.requestAnimationFrame(() => {
-        this.setState({ width : 'auto' });
+        this.setState({ width: 'auto' });
       });
     }
   }
