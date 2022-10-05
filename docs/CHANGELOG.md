@@ -44,7 +44,7 @@
 
 ### Minor Changes
 
-- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customizations
+- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customisations
 
 ### Patch Changes
 

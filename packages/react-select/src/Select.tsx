@@ -729,7 +729,7 @@ export default class Select<
     }
 
     if (isFocused && isDisabled && !prevProps.isDisabled) {
-      // ensure select state gets blurred in case Select is programatically disabled while focused
+      // ensure select state gets blurred in case Select is programmatically disabled while focused
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: false }, this.onMenuClose);
     }
@@ -993,7 +993,7 @@ export default class Select<
   // ==============================
 
   getTheme() {
-    // Use the default theme if there are no customizations.
+    // Use the default theme if there are no customisations.
     if (!this.props.theme) {
       return defaultTheme;
     }
@@ -1158,6 +1158,10 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
+    // Event captured by dropdown indicator
+    if (event.defaultPrevented) {
+      return;
+    }
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
@@ -1204,7 +1208,6 @@ export default class Select<
       this.openMenu('first');
     }
     event.preventDefault();
-    event.stopPropagation();
   };
   onClearIndicatorMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
@@ -1219,7 +1222,6 @@ export default class Select<
     }
     this.clearValue();
     event.preventDefault();
-    event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
       this.focusInput();
@@ -1560,14 +1562,16 @@ export default class Select<
       'aria-autocomplete': 'list' as const,
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
-      'aria-controls': this.getElementId('listbox'),
-      'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': this.props['aria-required'],
       role: 'combobox',
+      ...(menuIsOpen && {
+        'aria-controls': this.getElementId('listbox'),
+        'aria-owns': this.getElementId('listbox'),
+      }),
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
@@ -1676,7 +1680,6 @@ export default class Select<
               onTouchEnd: () => this.removeValue(opt),
               onMouseDown: (e) => {
                 e.preventDefault();
-                e.stopPropagation();
               },
             }}
             data={opt}

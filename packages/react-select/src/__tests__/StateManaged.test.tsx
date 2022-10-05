@@ -68,7 +68,7 @@ cases(
   'click on dropdown indicator',
   ({ props }) => {
     let { container } = render(<Select {...props} />);
-    // Menu not open by defualt
+    // Menu not open by default
     expect(
       container.querySelector('.react-select__menu')
     ).not.toBeInTheDocument();
