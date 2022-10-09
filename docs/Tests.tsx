@@ -154,13 +154,13 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
               height: '80vh'
             }}
           >
-            <h4>menuPlacement = bottom</h4>
+            <h4>menuPlacement = auto</h4>
             <Select
               className="basic-single"
               classNamePrefix="select"
               name="color"
               options={colourOptions}
-              menuPlacement="bottom"
+              menuPlacement="auto"
               menuPortalTarget={window.document.body}
             />
             <h4>menuPlacement = top</h4>
@@ -172,13 +172,13 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
               menuPlacement="top"
               menuPortalTarget={window.document.body}
             />
-            <h4>menuPlacement = auto</h4>
+            <h4>menuPlacement = bottom</h4>
             <Select
               className="basic-single"
               classNamePrefix="select"
               name="color"
               options={colourOptions}
-              menuPlacement="auto"
+              menuPlacement="bottom"
               menuPortalTarget={window.document.body}
             />
             <h4>menuPlacement = auto, menuPortalTarget = false</h4>
@@ -291,13 +291,13 @@ export default function Tests() {
           height: '80vh'
         }}
       >
-        <h4>menuPlacement = bottom</h4>
+        <h4>menuPlacement = auto</h4>
         <Select
           className="basic-single"
           classNamePrefix="select"
           name="color"
           options={colourOptions}
-          menuPlacement="bottom"
+          menuPlacement="auto"
           menuPortalTarget={window.document.body}
         />
         <h4>menuPlacement = top</h4>
@@ -309,13 +309,13 @@ export default function Tests() {
           menuPlacement="top"
           menuPortalTarget={window.document.body}
         />
-        <h4>menuPlacement = auto</h4>
+        <h4>menuPlacement = bottom</h4>
         <Select
           className="basic-single"
           classNamePrefix="select"
           name="color"
           options={colourOptions}
-          menuPlacement="auto"
+          menuPlacement="bottom"
           menuPortalTarget={window.document.body}
         />
         <h4>menuPlacement = auto, menuPortalTarget = false</h4>
