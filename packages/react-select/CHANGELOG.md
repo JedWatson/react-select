@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.0
+
+### Minor Changes
+
+- [`598f9ee0`](https://github.com/JedWatson/react-select/commit/598f9ee0e641138820ae1b3d2a2121a1c21d3876) [#5256](https://github.com/JedWatson/react-select/pull/5256) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Auto-update menu position when using menu portalling
+
 ## 5.4.0
 
 ### Minor Changes
