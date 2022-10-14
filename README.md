@@ -5,7 +5,7 @@
 
 # React-Select
 
-The Select control for [React](https://reactjs.com). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
+The Select control for [React](https://reactjs.org). Initially built for use in [KeystoneJS](https://www.keystonejs.com).
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
@@ -159,7 +159,7 @@ The v5 release represents a rewrite from JavaScript to TypeScript. The types for
 
 Thank you to everyone who has contributed to this project. It's been a wild ride.
 
-If you like React Select, you should [follow me on twitter](https://twitter.com/jedwatson)!
+If you like React Select, you should [follow me on Twitter](https://twitter.com/jedwatson)!
 
 Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://github.com/gwyneplaine), [Ben Conolly](https://github.com/Noviny), [Tom Walker](https://github.com/bladey), [Nathan Bierema](https://github.com/Methuselah96), [Eric Bonow](https://github.com/ebonow), [Mitchell Hamilton](https://github.com/mitchellhamilton), [Dave Brotherstone](https://github.com/bruderstein), [Brian Vaughn](https://github.com/bvaughn), and the [Atlassian Design System](https://atlassian.design) team who along with many other contributors have made this possible ❤️
 
