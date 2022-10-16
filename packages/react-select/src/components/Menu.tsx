@@ -647,7 +647,8 @@ export const MenuPortal = <
       cleanupRef.current = autoUpdate(
         controlElement,
         menuPortalRef.current,
-        updateComputedPosition
+        updateComputedPosition,
+        { elementResize: false }
       );
     }
   }, [controlElement, updateComputedPosition]);
