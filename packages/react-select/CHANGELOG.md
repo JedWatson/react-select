@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.1
+
+### Patch Changes
+
+- [`0f6ef093`](https://github.com/JedWatson/react-select/commit/0f6ef093282ca7356fb0e7ee7c706681a5a97901) [#5381](https://github.com/JedWatson/react-select/pull/5381) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Disable use of ResizeObserver for menu position auto-updating to avoid potential breaking changes.
+
 ## 5.5.0
 
 ### Minor Changes
