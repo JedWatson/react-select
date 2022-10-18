@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.2
+
+### Patch Changes
+
+- [`00238f1a`](https://github.com/JedWatson/react-select/commit/00238f1a65ce9184b99edd6d3b3307f9b5c0c6c1) [#5376](https://github.com/JedWatson/react-select/pull/5376) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Fix bug with animated multi-value select width being too wide
+
 ## 5.5.1
 
 ### Patch Changes
