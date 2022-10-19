@@ -53,7 +53,7 @@
     "dotenv": "^8.2.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "html-webpack-plugin": "^3.2.0",
-    "moment": "^2.20.1",
+    "moment": "^2.29.4",
     "pretty-proptypes": "^0.5.0",
     "raf-schd": "^2.1.0",
     "raw-loader": "^2.0.0",
