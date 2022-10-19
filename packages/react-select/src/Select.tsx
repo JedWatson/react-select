@@ -305,7 +305,6 @@ export const defaultProps = {
   styles: {},
   tabIndex: 0,
   tabSelectsValue: true,
-  requiredMessage: () => 'Please select an item from the list.',
 };
 
 interface State<
