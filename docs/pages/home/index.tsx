@@ -24,8 +24,6 @@ export default function Home() {
 
   For complete docs, see the [Props API](/props) and [Advanced Usage](/advanced).
 
-  If you're coming from react-select v1, check out the [Upgrade Guide](/upgrade-guide).
-
   To contribute, or open an issue, check out the [source code on GitHub](https://github.com/JedWatson/react-select).
 
   ${(
@@ -48,6 +46,8 @@ export default function Home() {
     </ExampleWrapper>
   )}
 
+  ${(<br />)}
+
   ## Getting Started
 
   Start by installing \`react-select\`
@@ -65,7 +65,7 @@ export default function Home() {
   Import the default export and render in your component:
 
   ~~~jsx
-  import React, { Component } from 'react'
+  import React from 'react'
   import Select from 'react-select'
 
   const options = [

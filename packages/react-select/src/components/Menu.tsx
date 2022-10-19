@@ -5,16 +5,21 @@ import {
   ReactNode,
   RefCallback,
   ContextType,
+  useState,
+  useCallback,
+  useRef,
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
+import { autoUpdate } from '@floating-ui/dom';
+import useLayoutEffect from 'use-isomorphic-layout-effect';
 
 import {
   animatedScrollTo,
   getBoundingClientObj,
-  RectType,
   getScrollParent,
   getScrollTop,
+  normalizedHeight,
   scrollTo,
 } from '../utils';
 import {
@@ -22,7 +27,6 @@ import {
   MenuPosition,
   CommonProps,
   Theme,
-  OptionBase,
   GroupBase,
   CommonPropsAndClassName,
   CoercedMenuPlacement,
@@ -36,8 +40,8 @@ import {
 // Get Menu Placement
 // ------------------------------
 
-interface MenuState {
-  placement: CoercedMenuPlacement | null;
+interface CalculatedMenuPlacementAndHeight {
+  placement: CoercedMenuPlacement;
   maxHeight: number;
 }
 interface PlacementArgs {
@@ -58,10 +62,13 @@ export function getMenuPlacement({
   shouldScroll,
   isFixedPosition,
   theme,
-}: PlacementArgs): MenuState {
+}: PlacementArgs): CalculatedMenuPlacementAndHeight {
   const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl!);
-  const defaultState: MenuState = { placement: 'bottom', maxHeight };
+  const defaultState: CalculatedMenuPlacementAndHeight = {
+    placement: 'bottom',
+    maxHeight,
+  };
 
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
@@ -76,7 +83,9 @@ export function getMenuPlacement({
   } = menuEl.getBoundingClientRect();
 
   const { top: containerTop } = menuEl.offsetParent.getBoundingClientRect();
-  const viewHeight = window.innerHeight;
+  const viewHeight = isFixedPosition
+    ? window.innerHeight
+    : normalizedHeight(scrollParent);
   const scrollTop = getScrollTop(scrollParent);
 
   const marginBottom = parseInt(getComputedStyle(menuEl).marginBottom, 10);
@@ -225,7 +234,7 @@ export interface MenuPlacementProps {
 }
 
 export interface MenuProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group>,
@@ -250,7 +259,7 @@ interface ChildrenProps {
 }
 
 export interface MenuPlacerProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonProps<Option, IsMulti, Group>,
@@ -266,7 +275,7 @@ function alignToControl(placement: CoercedMenuPlacement) {
 const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 
 export const menuCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -286,12 +295,19 @@ export const menuCSS = <
 });
 
 const PortalPlacementContext = createContext<{
-  getPortalPlacement: ((menuState: MenuState) => void) | null;
+  getPortalPlacement:
+    | ((menuState: CalculatedMenuPlacementAndHeight) => void)
+    | null;
 }>({ getPortalPlacement: null });
+
+interface MenuState {
+  placement: CoercedMenuPlacement | null;
+  maxHeight: number;
+}
 
 // NOTE: internal only
 export class MenuPlacer<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends Component<MenuPlacerProps<Option, IsMulti, Group>, MenuState> {
@@ -349,11 +365,7 @@ export class MenuPlacer<
   }
 }
 
-const Menu = <
-  Option extends OptionBase,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
+const Menu = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
   props: MenuProps<Option, IsMulti, Group>
 ) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
@@ -377,7 +389,7 @@ export default Menu;
 // ==============================
 
 export interface MenuListProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -393,7 +405,7 @@ export interface MenuListProps<
   innerProps: JSX.IntrinsicElements['div'];
 }
 export const menuListCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -410,21 +422,14 @@ export const menuListCSS = <
   WebkitOverflowScrolling: 'touch',
 });
 export const MenuList = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
   props: MenuListProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    innerRef,
-    isMulti,
-  } = props;
+  const { children, className, cx, getStyles, innerProps, innerRef, isMulti } =
+    props;
   return (
     <div
       css={getStyles('menuList', props)}
@@ -448,7 +453,7 @@ export const MenuList = <
 // ==============================
 
 const noticeCSS = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >({
@@ -465,7 +470,7 @@ export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
 export interface NoticeProps<
-  Option extends OptionBase = OptionBase,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -476,7 +481,7 @@ export interface NoticeProps<
 }
 
 export const NoOptionsMessage = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -504,7 +509,7 @@ NoOptionsMessage.defaultProps = {
 };
 
 export const LoadingMessage = <
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
@@ -536,7 +541,7 @@ LoadingMessage.defaultProps = {
 // ==============================
 
 export interface MenuPortalProps<
-  Option extends OptionBase,
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
@@ -548,14 +553,10 @@ export interface MenuPortalProps<
   menuPosition: MenuPosition;
 }
 
-interface MenuPortalState {
-  placement: 'bottom' | 'top' | null;
-}
-
 export interface PortalStyleArgs {
   offset: number;
   position: MenuPosition;
-  rect: RectType;
+  rect: { left: number; width: number };
 }
 
 export const menuPortalCSS = ({
@@ -570,69 +571,127 @@ export const menuPortalCSS = ({
   zIndex: 1,
 });
 
-export class MenuPortal<
-  Option extends OptionBase,
+interface ComputedPosition {
+  offset: number;
+  rect: { left: number; width: number };
+}
+
+export const MenuPortal = <
+  Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends Component<MenuPortalProps<Option, IsMulti, Group>, MenuPortalState> {
-  state: MenuPortalState = { placement: null };
+>({
+  appendTo,
+  children,
+  className,
+  controlElement,
+  cx,
+  innerProps,
+  menuPlacement,
+  menuPosition,
+  getStyles,
+}: MenuPortalProps<Option, IsMulti, Group>) => {
+  const menuPortalRef = useRef<HTMLDivElement | null>(null);
+  const cleanupRef = useRef<(() => void) | void | null>(null);
 
-  // callback for occassions where the menu must "flip"
-  getPortalPlacement = ({ placement }: MenuState) => {
-    const initialPlacement = coercePlacement(this.props.menuPlacement);
+  const [placement, setPlacement] = useState<'bottom' | 'top'>(
+    coercePlacement(menuPlacement)
+  );
+  const [computedPosition, setComputedPosition] =
+    useState<ComputedPosition | null>(null);
 
-    // avoid re-renders if the placement has not changed
-    if (placement !== initialPlacement) {
-      this.setState({ placement });
-    }
-  };
-  render() {
-    const {
-      appendTo,
-      children,
-      className,
-      controlElement,
-      cx,
-      innerProps,
-      menuPlacement,
-      menuPosition: position,
-      getStyles,
-    } = this.props;
-    const isFixed = position === 'fixed';
+  // callback for occasions where the menu must "flip"
+  const getPortalPlacement = useCallback(
+    ({ placement: updatedPlacement }: CalculatedMenuPlacementAndHeight) => {
+      // avoid re-renders if the placement has not changed
+      if (updatedPlacement !== placement) {
+        setPlacement(updatedPlacement);
+      }
+    },
+    [placement]
+  );
 
-    // bail early if required elements aren't present
-    if ((!appendTo && !isFixed) || !controlElement) {
-      return null;
-    }
+  const updateComputedPosition = useCallback(() => {
+    if (!controlElement) return;
 
-    const placement = this.state.placement || coercePlacement(menuPlacement);
     const rect = getBoundingClientObj(controlElement);
-    const scrollDistance = isFixed ? 0 : window.pageYOffset;
+    const scrollDistance = menuPosition === 'fixed' ? 0 : window.pageYOffset;
     const offset = rect[placement] + scrollDistance;
-    const state = { offset, position, rect };
+    if (
+      offset !== computedPosition?.offset ||
+      rect.left !== computedPosition?.rect.left ||
+      rect.width !== computedPosition?.rect.width
+    ) {
+      setComputedPosition({ offset, rect });
+    }
+  }, [
+    controlElement,
+    menuPosition,
+    placement,
+    computedPosition?.offset,
+    computedPosition?.rect.left,
+    computedPosition?.rect.width,
+  ]);
 
-    // same wrapper element whether fixed or portalled
-    const menuWrapper = (
-      <div
-        css={getStyles('menuPortal', state)}
-        className={cx(
-          {
-            'menu-portal': true,
-          },
-          className
-        )}
-        {...innerProps}
-      >
-        {children}
-      </div>
-    );
+  useLayoutEffect(() => {
+    updateComputedPosition();
+  }, [updateComputedPosition]);
 
-    return (
-      <PortalPlacementContext.Provider
-        value={{ getPortalPlacement: this.getPortalPlacement }}
-      >
-        {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
-      </PortalPlacementContext.Provider>
-    );
-  }
-}
+  const runAutoUpdate = useCallback(() => {
+    if (typeof cleanupRef.current === 'function') {
+      cleanupRef.current();
+      cleanupRef.current = null;
+    }
+
+    if (controlElement && menuPortalRef.current) {
+      cleanupRef.current = autoUpdate(
+        controlElement,
+        menuPortalRef.current,
+        updateComputedPosition,
+        { elementResize: false }
+      );
+    }
+  }, [controlElement, updateComputedPosition]);
+
+  useLayoutEffect(() => {
+    runAutoUpdate();
+  }, [runAutoUpdate]);
+
+  const setMenuPortalElement = useCallback(
+    (menuPortalElement: HTMLDivElement) => {
+      menuPortalRef.current = menuPortalElement;
+      runAutoUpdate();
+    },
+    [runAutoUpdate]
+  );
+
+  // bail early if required elements aren't present
+  if ((!appendTo && menuPosition !== 'fixed') || !computedPosition) return null;
+
+  // same wrapper element whether fixed or portalled
+  const menuWrapper = (
+    <div
+      ref={setMenuPortalElement}
+      css={getStyles('menuPortal', {
+        offset: computedPosition.offset,
+        position: menuPosition,
+        rect: computedPosition.rect,
+      })}
+      className={cx(
+        {
+          'menu-portal': true,
+        },
+        className
+      )}
+      {...innerProps}
+    >
+      {children}
+    </div>
+  );
+
+  return (
+    <PortalPlacementContext.Provider value={{ getPortalPlacement }}>
+      {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
+    </PortalPlacementContext.Provider>
+  );
+};
