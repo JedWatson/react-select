@@ -11,8 +11,8 @@ const Checkbox = ({ children, ...props }: JSX.IntrinsicElements['input']) => (
 );
 
 export default () => {
-  const [isClearable, setIsClearable] = useState(false);
-  const [isSearchable, setIsSearchable] = useState(false);
+  const [isClearable, setIsClearable] = useState(true);
+  const [isSearchable, setIsSearchable] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRtl, setIsRtl] = useState(false);
