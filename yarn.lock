@@ -2364,10 +2364,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest-in-case@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.3.tgz#af65d145ecf184d20df115a051c25d496ac86a1a"
-  integrity sha512-M+bKsCA/oF3Bw9qSZyWHsK8sfqFtZsNXe0xV1gTK3ahFCgaqzjJkAFp84Wd8md+EshGbR9Bb6nCmu4FAiuImZw==
+"@types/jest-in-case@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.6.tgz#1099525666c45d91df4f344f109cc32324e8fe78"
+  integrity sha512-2VhZGKiji20QLG0gtcNftDmAaSmxoOLUvPW771ZDfi25IpNATGutn5wBnmqWz1Q7NIR6pqraDqrXXpq75wg/GA==
   dependencies:
     "@types/jest" "*"
     "@types/node" "*"
@@ -2418,10 +2418,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.14.tgz#9caf7eea0df08b406829889cc015256a6d81ab10"
   integrity sha512-iFJOS5Q470FF+r4Ol2pSley7/wCNVqf+jgjhtxLLaJcDs+To2iCxlXIkJXrGLD9w9G/oJ9ibySu7z92DCwr7Pg==
 
-"@types/node@^14.14.22":
-  version "14.17.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.2.tgz#1e94476db57ec93a372c7f7d29aa5707cfb92339"
-  integrity sha512-sld7b/xmFum66AAKuz/rp/CUO8+98fMpyQ3SBfzzBNGMd/1iHBTAg9oyAvcYlAj46bpc74r91jSw2iFdnx29nw==
+"@types/node@^16.11.68":
+  version "16.11.68"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.68.tgz#30ee923f4d940793e0380f5ce61c0bd4b7196b6c"
+  integrity sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -9017,7 +9017,7 @@ jest-haste-map@^25.5.1:
 jest-in-case@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/jest-in-case/-/jest-in-case-1.0.2.tgz#56744b5af33222bd0abab70cf919f1d170ab75cc"
-  integrity sha1-VnRLWvMyIr0KurcM+Rnx0XCrdcw=
+  integrity sha512-2DE6Gdwnh5jkCYTePWoQinF+zne3lCADibXoYJEt8PS84JaRug0CyAOrEgzMxbzln3YcSY2PBeru7ct4tbflYA==
 
 jest-jasmine2@^25.5.4:
   version "25.5.4"
