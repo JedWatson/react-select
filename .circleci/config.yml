@@ -2,7 +2,7 @@ version: 2
 
 docker_defaults: &docker_defaults
     docker:
-        - image: cypress/browsers:node12.18.0-chrome83-ff77
+        - image: cypress/browsers:node16.17.0-chrome106
           environment:
               TERM: xterm
     working_directory: ~/project/repo
