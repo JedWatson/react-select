@@ -1,5 +1,6 @@
 {
   "buildCommand": "build",
   "packages": ["packages/*"],
-  "sandboxes": ["nfmxw"]
+  "sandboxes": ["nfmxw"],
+  "node": "16"
 }
