@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.3
+
+### Patch Changes
+
+- [`07656aaa`](https://github.com/JedWatson/react-select/commit/07656aaac7f636129f8d09e723df9fa6e5ff2841) [#5399](https://github.com/JedWatson/react-select/pull/5399) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update memoize-one
+
 ## 5.5.2
 
 ### Patch Changes
