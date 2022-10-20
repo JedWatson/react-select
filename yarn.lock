@@ -2364,10 +2364,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest-in-case@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.3.tgz#af65d145ecf184d20df115a051c25d496ac86a1a"
-  integrity sha512-M+bKsCA/oF3Bw9qSZyWHsK8sfqFtZsNXe0xV1gTK3ahFCgaqzjJkAFp84Wd8md+EshGbR9Bb6nCmu4FAiuImZw==
+"@types/jest-in-case@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/jest-in-case/-/jest-in-case-1.0.6.tgz#1099525666c45d91df4f344f109cc32324e8fe78"
+  integrity sha512-2VhZGKiji20QLG0gtcNftDmAaSmxoOLUvPW771ZDfi25IpNATGutn5wBnmqWz1Q7NIR6pqraDqrXXpq75wg/GA==
   dependencies:
     "@types/jest" "*"
     "@types/node" "*"
@@ -9017,7 +9017,7 @@ jest-haste-map@^25.5.1:
 jest-in-case@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/jest-in-case/-/jest-in-case-1.0.2.tgz#56744b5af33222bd0abab70cf919f1d170ab75cc"
-  integrity sha1-VnRLWvMyIr0KurcM+Rnx0XCrdcw=
+  integrity sha512-2DE6Gdwnh5jkCYTePWoQinF+zne3lCADibXoYJEt8PS84JaRug0CyAOrEgzMxbzln3YcSY2PBeru7ct4tbflYA==
 
 jest-jasmine2@^25.5.4:
   version "25.5.4"

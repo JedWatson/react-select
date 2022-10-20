@@ -31,7 +31,7 @@
     "@testing-library/user-event": "^10.0.0",
     "@types/copy-webpack-plugin": "^5.0.2",
     "@types/html-webpack-plugin": "^3.2.4",
-    "@types/jest-in-case": "^1.0.3",
+    "@types/jest-in-case": "^1.0.6",
     "@types/node": "^16.11.68",
     "@types/pretty-proptypes": "^1.1.0",
     "@types/react": "^16.14.2",
