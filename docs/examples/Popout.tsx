@@ -1,9 +1,9 @@
 /** @jsx jsx */
-import { Component, FunctionComponent, ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { jsx } from '@emotion/react';
 import Button from '@atlaskit/button';
 
-import Select, { OnChangeValue, StylesConfig } from 'react-select';
+import Select, { StylesConfig } from 'react-select';
 import { defaultTheme } from 'react-select';
 import { StateOption, stateOptions } from '../data';
 
@@ -18,55 +18,45 @@ const selectStyles: StylesConfig<StateOption, false> = {
   menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)' }),
 };
 
-interface State {
-  readonly isOpen: boolean;
-  readonly value: StateOption | null | undefined;
-}
+export default () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState<StateOption | null>();
 
-export default class PopoutExample extends Component<{}, State> {
-  state: State = { isOpen: false, value: undefined };
-  toggleOpen = () => {
-    this.setState((state) => ({ isOpen: !state.isOpen }));
-  };
-  onSelectChange = (value: OnChangeValue<StateOption, false>) => {
-    this.toggleOpen();
-    this.setState({ value });
-  };
-  render() {
-    const { isOpen, value } = this.state;
-    return (
-      <Dropdown
-        isOpen={isOpen}
-        onClose={this.toggleOpen}
-        target={
-          <Button
-            iconAfter={<ChevronDown />}
-            onClick={this.toggleOpen}
-            isSelected={isOpen}
-          >
-            {value ? `State: ${value.label}` : 'Select a State'}
-          </Button>
-        }
-      >
-        <Select
-          autoFocus
-          backspaceRemovesValue={false}
-          components={{ DropdownIndicator, IndicatorSeparator: null }}
-          controlShouldRenderValue={false}
-          hideSelectedOptions={false}
-          isClearable={false}
-          menuIsOpen
-          onChange={this.onSelectChange}
-          options={stateOptions}
-          placeholder="Search..."
-          styles={selectStyles}
-          tabSelectsValue={false}
-          value={value}
-        />
-      </Dropdown>
-    );
-  }
-}
+  return (
+    <Dropdown
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      target={
+        <Button
+          iconAfter={<ChevronDown />}
+          onClick={() => setIsOpen((prev) => !prev)}
+          isSelected={isOpen}
+        >
+          {value ? `State: ${value.label}` : 'Select a State'}
+        </Button>
+      }
+    >
+      <Select
+        autoFocus
+        backspaceRemovesValue={false}
+        components={{ DropdownIndicator, IndicatorSeparator: null }}
+        controlShouldRenderValue={false}
+        hideSelectedOptions={false}
+        isClearable={false}
+        menuIsOpen
+        onChange={(newValue) => {
+          setValue(newValue);
+          setIsOpen(false);
+        }}
+        options={stateOptions}
+        placeholder="Search..."
+        styles={selectStyles}
+        tabSelectsValue={false}
+        value={value}
+      />
+    </Dropdown>
+  );
+};
 
 // styled components
 
@@ -99,16 +89,16 @@ const Blanket = (props: JSX.IntrinsicElements['div']) => (
     {...props}
   />
 );
-interface DropdownProps {
-  readonly isOpen: boolean;
-  readonly target: ReactNode;
-  readonly onClose: () => void;
-}
-const Dropdown: FunctionComponent<DropdownProps> = ({
+const Dropdown = ({
   children,
   isOpen,
   target,
   onClose,
+}: {
+  children?: ReactNode;
+  readonly isOpen: boolean;
+  readonly target: ReactNode;
+  readonly onClose: () => void;
 }) => (
   <div css={{ position: 'relative' }}>
     {target}
