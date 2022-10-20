@@ -15,7 +15,7 @@
     "@emotion/react": "^11.8.1",
     "@floating-ui/dom": "^1.0.1",
     "@types/react-transition-group": "^4.4.0",
-    "memoize-one": "^5.0.0",
+    "memoize-one": "^6.0.0",
     "prop-types": "^15.6.0",
     "react-transition-group": "^4.3.0",
     "use-isomorphic-layout-effect": "^1.1.2"
