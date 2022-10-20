@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.4
+
+### Patch Changes
+
+- [`ebb0a17a`](https://github.com/JedWatson/react-select/commit/ebb0a17a30b22cb7e7f7467ed8eda4256166e401) [#5404](https://github.com/JedWatson/react-select/pull/5404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Use ResizeObserver to auto-update menu position if available
+
 ## 5.5.3
 
 ### Patch Changes
