@@ -73,7 +73,7 @@
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
-    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start:test --progress=false --no-info' 'yarn test:cypress'",
+    "e2e": "concurrently --kill-others --success=first --names 'SERVER,E2E' 'yarn start:test' 'yarn test:cypress'",
     "type-check": "tsc --build packages/react-select/tsconfig.json && tsc --build packages/react-select/src/__tests__/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
     "precommit": "yarn run type-check",
     "postinstall": "preconstruct dev && manypkg check",
