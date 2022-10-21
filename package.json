@@ -48,7 +48,7 @@
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "css-loader": "^0.28.7",
-    "cypress": "^5.0.0",
+    "cypress": "^10.10.0",
     "dotenv": "^16.0.3",
     "eslint": "^7.18.0",
     "eslint-plugin-react": "^7.22.0",
