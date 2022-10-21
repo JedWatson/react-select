@@ -27,7 +27,7 @@
     "@preconstruct/cli": "^1.0.0",
     "@testing-library/dom": "7.0.4",
     "@testing-library/jest-dom": "5.1.1",
-    "@testing-library/react": "10.0.1",
+    "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "^10.0.0",
     "@types/copy-webpack-plugin": "^5.0.2",
     "@types/html-webpack-plugin": "^3.2.4",
