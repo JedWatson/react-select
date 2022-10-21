@@ -25,7 +25,7 @@
     "@emotion/jest": "^11.1.0",
     "@manypkg/cli": "^0.19.2",
     "@preconstruct/cli": "^1.0.0",
-    "@testing-library/dom": "7.0.4",
+    "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "12.1.4",
     "@testing-library/user-event": "^10.0.0",
