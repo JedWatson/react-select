@@ -52,13 +52,13 @@
     "ts-node": "^9.1.1",
     "unfetch": "^3.0.0",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
     "site-prebuild": "node ./generate-magical-types/generate && node ./generate-magical-types/serialize",
-    "start": "yarn site-prebuild && webpack-dev-server --progress",
-    "start:test": "NODE_ENV=test yarn site-prebuild && webpack-dev-server --progress",
-    "build:docs": "rimraf docs/dist && yarn site-prebuild && webpack --progress -p"
+    "start": "yarn site-prebuild && webpack serve --progress",
+    "start:test": "NODE_ENV=test yarn site-prebuild && webpack serve --progress",
+    "build:docs": "rimraf docs/dist && yarn site-prebuild && webpack --progress --mode production"
   }
 }
