@@ -1,0 +1,28 @@
+{
+  "name": "storybook",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "build-storybook",
+    "dev": "start-storybook -p 6006"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.0",
+    "@babel/preset-env": "^7.12.0",
+    "@babel/preset-typescript": "^7.12.7",
+    "@emotion/babel-plugin": "^11.0.0",
+    "@emotion/babel-preset-css-prop": "^10.0.0",
+    "babel-loader": "^8.0.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^6.5.12",
+    "@storybook/addon-essentials": "^6.5.12",
+    "@storybook/builder-webpack4": "^6.5.12",
+    "@storybook/manager-webpack4": "^6.5.12",
+    "@storybook/react": "^6.5.12",
+    "typescript": "^4.1.3"
+  }
+}
