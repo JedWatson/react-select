@@ -6,6 +6,7 @@ const config: StorybookConfig = {
     builder: 'webpack4',
   },
   features: {
+    postcss: false,
     /**
      * Enable code splitting
      * @see https://storybook.js.org/docs/react/builders/webpack#code-splitting

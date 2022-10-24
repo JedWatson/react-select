@@ -2,6 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
 import Select from 'react-select';
 
+import { Field } from '../components/field';
 import { defaultArgs } from '../data';
 
 /**
@@ -9,7 +10,7 @@ import { defaultArgs } from '../data';
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#default-export
  */
 export default {
-  title: 'Select/Basic',
+  title: 'Select/BasicSingle',
   component: Select,
   /**
    * More on argTypes:
@@ -27,27 +28,17 @@ const Template: ComponentStory<typeof Select> = ({
   ...props
 }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'system-ui',
-        gap: '0.5rem',
-      }}
-    >
-      <label htmlFor={inputId} style={{ fontWeight: 500 }}>
-        Select
-      </label>
+    <Field htmlFor={inputId}>
       <Select inputId={inputId} {...props} />
-    </div>
+    </Field>
   );
 };
 
-export const Basic = Template.bind({});
+export const BasicSingle = Template.bind({});
 /**
  * More on args:
  * @see https://storybook.js.org/docs/react/writing-stories/args
  */
-Basic.args = {
+BasicSingle.args = {
   ...defaultArgs,
 };

@@ -3,10 +3,11 @@ import * as React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
+import { Field } from '../components/field';
 import { colourOptions, defaultArgs } from '../data';
 
 export default {
-  title: 'Select/Animated',
+  title: 'Select/AnimatedMulti',
   component: Select,
 } as ComponentMeta<typeof Select>;
 
@@ -17,24 +18,18 @@ const Template: ComponentStory<typeof Select> = ({
   ...props
 }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'system-ui',
-        gap: '0.5rem',
-      }}
+    <Field
+      htmlFor={inputId}
+      label="Animated Multi Select"
+      secondaryLabel="Removing an item from this list will trigger an exit animation."
     >
-      <label htmlFor={inputId} style={{ fontWeight: 500 }}>
-        Select
-      </label>
       <Select components={animatedComponents} inputId={inputId} {...props} />
-    </div>
+    </Field>
   );
 };
 
-export const Animated = Template.bind({});
-Animated.args = {
+export const AnimatedMulti = Template.bind({});
+AnimatedMulti.args = {
   ...defaultArgs,
   defaultValue: [colourOptions[0], colourOptions[1], colourOptions[2]],
   isMulti: true,

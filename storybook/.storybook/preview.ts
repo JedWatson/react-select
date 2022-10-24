@@ -1,7 +1,10 @@
 export const parameters = {
   options: {
     storySort: {
-      order: ['Select', ['Basic', 'Animated']],
+      order: [
+        'Select',
+        ['BasicSingle', 'BasicMulti', 'AnimatedMulti', 'Grouped', 'Creatable'],
+      ],
     },
   },
 };
