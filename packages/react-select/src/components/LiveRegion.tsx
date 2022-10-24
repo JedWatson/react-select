@@ -112,7 +112,7 @@ const LiveRegion = <
     const isSelected = !!(
       focusedOption &&
       selectValue &&
-      selectValue.includes(focusedOption)
+      selectValue.some(option => option.value === focusedOption.value)
     );
 
     if (focused && messages.onFocus) {
