@@ -48,7 +48,7 @@
     "react-sortable-hoc": "^1.9.1",
     "react-syntax-highlighter": "^7.0.1",
     "style-loader": "^0.23.1",
-    "styled-components": "^3.4.10",
+    "styled-components": "^4.4.1",
     "ts-node": "^9.1.1",
     "unfetch": "^3.0.0",
     "webpack": "^4.30.0",
