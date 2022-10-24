@@ -24,7 +24,7 @@
     "@emotion/babel-plugin": "^11.10.2",
     "@emotion/jest": "^11.1.0",
     "@manypkg/cli": "^0.19.2",
-    "@preconstruct/cli": "^1.0.0",
+    "@preconstruct/cli": "^2.2.2",
     "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "12.1.4",
