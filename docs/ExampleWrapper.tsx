@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react'; // eslint-disable-line no-unused-vars
 import { CSSObject } from '@emotion/serialize';
-import { Component } from 'react';
+import { ReactNode, useState } from 'react';
 import CodeSandboxer, { GitInfo } from 'react-codesandboxer';
 import { CodeBlock } from './markdown/renderer';
 import pkg from '../packages/react-select/package.json';
@@ -20,99 +20,69 @@ const gitInfo: GitInfo = {
 const sourceUrl = `https://github.com/${gitInfo.account}/react-select/tree/${gitInfo.branch}`;
 
 interface Props {
+  children?: ReactNode;
   readonly label: string;
   readonly raw: { readonly default: string };
   readonly urlPath: string;
   readonly isEditable?: boolean;
 }
 
-interface State {
-  readonly showCode: boolean;
-}
+export default ({
+  children,
+  label,
+  raw,
+  urlPath,
+  isEditable = true,
+}: Props) => {
+  const [showCode, setShowCode] = useState(false);
 
-export default class ExampleWrapper extends Component<Props, State> {
-  state: State = { showCode: false };
-  static defaultProps = { isEditable: true };
-
-  renderCodeSample = () => {
-    let { raw } = this.props;
-    let { showCode } = this.state;
-
-    if (!showCode || !raw) {
-      return null;
-    } else {
-      return <CodeBlock literal={raw.default} codeinfo={['jsx']} />;
-    }
-  };
-
-  renderSourceViewOption = () => {
-    let { raw } = this.props;
-    let { showCode } = this.state;
-
-    if (!raw) {
-      return (
-        <AAction
-          href={`${sourceUrl}/${this.props.urlPath}`}
-          target="_blank"
-          title="View Source"
-        >
-          <SourceIcon />
-        </AAction>
-      );
-    } else {
-      return (
-        <ButtonAction
-          onClick={() => this.setState({ showCode: !showCode })}
-          title="View Source"
-        >
-          <SourceIcon />
-        </ButtonAction>
-      );
-    }
-  };
-
-  renderCSBButton = () => {
-    let { isEditable, raw, urlPath } = this.props;
-
-    if (isEditable) {
-      return (
-        <CodeSandboxer
-          example={raw.default}
-          examplePath={urlPath}
-          pkgJSON={pkg}
-          gitInfo={gitInfo}
-          dependencies={{
-            [pkg.name]: pkg.version,
-          }}
-        >
-          {({ isLoading }) => (
-            <ButtonAction title="Edit in CodeSandbox">
-              {isLoading ? <Spinner /> : <NewWindowIcon />}
+  return (
+    <div>
+      <ExampleHeading>
+        <h4>{label}</h4>
+        <Actions>
+          {raw ? (
+            <ButtonAction
+              onClick={() => setShowCode((prev) => !prev)}
+              title="View Source"
+            >
+              <SourceIcon />
             </ButtonAction>
+          ) : (
+            <AAction
+              href={`${sourceUrl}/${urlPath}`}
+              target="_blank"
+              title="View Source"
+            >
+              <SourceIcon />
+            </AAction>
           )}
-        </CodeSandboxer>
-      );
-    } else {
-      return null;
-    }
-  };
-
-  render() {
-    return (
-      <div>
-        <ExampleHeading>
-          <h4>{this.props.label}</h4>
-          <Actions>
-            {this.renderSourceViewOption()}
-            {this.renderCSBButton()}
-          </Actions>
-        </ExampleHeading>
-        {this.renderCodeSample()}
-        {this.props.children}
-      </div>
-    );
-  }
-}
+          {isEditable ? (
+            <CodeSandboxer
+              example={raw.default}
+              examplePath={urlPath}
+              pkgJSON={pkg}
+              gitInfo={gitInfo}
+              dependencies={{
+                [pkg.name]: pkg.version,
+              }}
+            >
+              {({ isLoading }) => (
+                <ButtonAction title="Edit in CodeSandbox">
+                  {isLoading ? <Spinner /> : <NewWindowIcon />}
+                </ButtonAction>
+              )}
+            </CodeSandboxer>
+          ) : null}
+        </Actions>
+      </ExampleHeading>
+      {showCode && raw ? (
+        <CodeBlock literal={raw.default} codeinfo={['jsx']} />
+      ) : null}
+      {children}
+    </div>
+  );
+};
 
 const ExampleHeading = (props: any) => (
   <div
