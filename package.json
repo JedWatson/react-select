@@ -77,7 +77,7 @@
     "type-check": "tsc --build packages/react-select/tsconfig.json && tsc --build packages/react-select/src/__tests__/tsconfig.json && tsc --build docs/tsconfig.json && tsc --build cypress/tsconfig.json",
     "precommit": "yarn run type-check",
     "postinstall": "preconstruct dev && manypkg check",
-    "test:cypress": "yarn test:cypress:chrome && yarn test:cypress:firefox",
+    "test:cypress": "yarn test:cypress:chrome",
     "test:cypress:chrome": "cypress run --browser chrome",
     "test:cypress:firefox": "cypress run --browser firefox",
     "test:cypress:watch": "node ./node_modules/.bin/cypress open",
