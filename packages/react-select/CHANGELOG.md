@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.5
+
+### Patch Changes
+
+- [`0dd38029`](https://github.com/JedWatson/react-select/commit/0dd3802977e525b4d8ea1eb083f8f13788016c28) [#5246](https://github.com/JedWatson/react-select/pull/5246) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix re-focus of component in Firefox if being disabled while focused
+
 ## 5.5.4
 
 ### Patch Changes
