@@ -11,17 +11,17 @@
   "repository": "https://github.com/JedWatson/react-select/tree/master/packages/react-select",
   "dependencies": {
     "@babel/runtime": "^7.12.0",
-    "@emotion/cache": "^11.4.0",
-    "@emotion/react": "^11.8.1",
     "@floating-ui/dom": "^1.0.1",
-    "@types/react-transition-group": "^4.4.0",
     "memoize-one": "^6.0.0",
     "prop-types": "^15.6.0",
     "react-transition-group": "^4.3.0",
     "use-isomorphic-layout-effect": "^1.1.2"
   },
   "devDependencies": {
+    "@emotion/cache": "^11.4.0",
+    "@emotion/react": "^11.8.1",
     "@types/jest-in-case": "^1.0.6",
+    "@types/react-transition-group": "^4.4.0",
     "enzyme": "^3.8.0",
     "enzyme-to-json": "^3.3.0",
     "jest-in-case": "^1.0.2",
@@ -29,6 +29,8 @@
     "react-dom": "^16.13.0"
   },
   "peerDependencies": {
+    "@emotion/cache": "^11.4.0",
+    "@emotion/react": "^11.8.1",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
