@@ -1,5 +1,5 @@
 ---
-"react-select": patch
+'react-select': patch
 ---
 
 Fix focused option if `defaultMenuIsOpen` is set
