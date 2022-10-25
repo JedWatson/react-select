@@ -1,5 +1,29 @@
 # react-select
 
+## 5.5.6
+
+### Patch Changes
+
+- [`92398939`](https://github.com/JedWatson/react-select/commit/9239893986c6aaaa7105d3f5a91022827e544b10) [#5409](https://github.com/JedWatson/react-select/pull/5409) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Move files around to as to be compatible with version 2 of `@preconstruct/cli`
+
+## 5.5.5
+
+### Patch Changes
+
+- [`0dd38029`](https://github.com/JedWatson/react-select/commit/0dd3802977e525b4d8ea1eb083f8f13788016c28) [#5246](https://github.com/JedWatson/react-select/pull/5246) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix re-focus of component in Firefox if being disabled while focused
+
+## 5.5.4
+
+### Patch Changes
+
+- [`ebb0a17a`](https://github.com/JedWatson/react-select/commit/ebb0a17a30b22cb7e7f7467ed8eda4256166e401) [#5404](https://github.com/JedWatson/react-select/pull/5404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Use ResizeObserver to auto-update menu position if available
+
+## 5.5.3
+
+### Patch Changes
+
+- [`07656aaa`](https://github.com/JedWatson/react-select/commit/07656aaac7f636129f8d09e723df9fa6e5ff2841) [#5399](https://github.com/JedWatson/react-select/pull/5399) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update memoize-one
+
 ## 5.5.2
 
 ### Patch Changes

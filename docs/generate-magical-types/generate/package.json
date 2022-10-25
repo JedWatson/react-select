@@ -1,6 +1,3 @@
 {
-  "main": "dist/generate-magical-types.cjs.js",
-  "preconstruct": {
-    "source": "../src/generate"
-  }
+  "main": "dist/react-select-generate-magical-types-generate.cjs.js"
 }

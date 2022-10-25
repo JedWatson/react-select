@@ -648,7 +648,7 @@ export const MenuPortal = <
         controlElement,
         menuPortalRef.current,
         updateComputedPosition,
-        { elementResize: false }
+        { elementResize: 'ResizeObserver' in window }
       );
     }
   }, [controlElement, updateComputedPosition]);
