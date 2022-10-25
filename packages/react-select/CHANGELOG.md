@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.6
+
+### Patch Changes
+
+- [`92398939`](https://github.com/JedWatson/react-select/commit/9239893986c6aaaa7105d3f5a91022827e544b10) [#5409](https://github.com/JedWatson/react-select/pull/5409) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Move files around to as to be compatible with version 2 of `@preconstruct/cli`
+
 ## 5.5.5
 
 ### Patch Changes
