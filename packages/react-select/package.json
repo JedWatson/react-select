@@ -52,12 +52,12 @@
   ],
   "preconstruct": {
     "entrypoints": [
-      ".",
-      "base",
-      "animated",
-      "async",
-      "creatable",
-      "async-creatable"
+      "index.ts",
+      "base/index.ts",
+      "animated/index.ts",
+      "async/index.ts",
+      "creatable/index.ts",
+      "async-creatable/index.ts"
     ]
   }
 }
