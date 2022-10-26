@@ -74,8 +74,8 @@ export const Collapse = ({ children, in: _in, onExited }: CollapseProps) => {
   const [width, setWidth] = useState<Width>('auto');
 
   useEffect(() => {
-    const { current } = ref;
-    if (!current) return;
+    const el = ref.current;
+    if (!el) return;
 
     /*
       Here we're invoking requestAnimationFrame with a callback invoking our
@@ -86,11 +86,22 @@ export const Collapse = ({ children, in: _in, onExited }: CollapseProps) => {
     */
     // cannot use `offsetWidth` because it is rounded
     const rafId = window.requestAnimationFrame(() =>
-      setWidth(current.getBoundingClientRect().width)
+      setWidth(el.getBoundingClientRect().width)
     );
 
     return () => window.cancelAnimationFrame(rafId);
   }, []);
+
+  const getStyleFromStatus = (status: TransitionStatus) => {
+    switch (status) {
+      default:
+        return { width };
+      case 'exiting':
+        return { width: 0, transition: `width ${collapseDuration}ms ease-out` };
+      case 'exited':
+        return { width: 0 };
+    }
+  };
 
   return (
     <Transition
@@ -99,24 +110,20 @@ export const Collapse = ({ children, in: _in, onExited }: CollapseProps) => {
       unmountOnExit
       in={_in}
       onExited={() => {
-        const { current } = ref;
-        if (!current) return;
-        onExited?.(current);
+        const el = ref.current;
+        if (!el) return;
+        onExited?.(el);
       }}
       timeout={collapseDuration}
       nodeRef={ref}
     >
-      {(state) => (
+      {(status) => (
         <div
           ref={ref}
           style={{
             overflow: 'hidden',
             whiteSpace: 'nowrap',
-            ...(state === 'exiting'
-              ? { width: 0, transition: `width ${collapseDuration}ms ease-out` }
-              : state === 'exited'
-              ? { width: 0 }
-              : { width }),
+            ...getStyleFromStatus(status),
           }}
         >
           {children}
