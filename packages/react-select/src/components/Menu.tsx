@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import {
   createContext,
-  Component,
+  ReactElement,
   ReactNode,
-  RefCallback,
-  ContextType,
-  useState,
+  Ref,
   useCallback,
+  useContext,
+  useMemo,
   useRef,
+  useState,
 } from 'react';
 import { jsx } from '@emotion/react';
 import { createPortal } from 'react-dom';
@@ -55,10 +56,10 @@ interface PlacementArgs {
 }
 
 export function getMenuPlacement({
-  maxHeight,
+  maxHeight: preferredMaxHeight,
   menuEl,
   minHeight,
-  placement,
+  placement: preferredPlacement,
   shouldScroll,
   isFixedPosition,
   theme,
@@ -67,7 +68,7 @@ export function getMenuPlacement({
   const scrollParent = getScrollParent(menuEl!);
   const defaultState: CalculatedMenuPlacementAndHeight = {
     placement: 'bottom',
-    maxHeight,
+    maxHeight: preferredMaxHeight,
   };
 
   // something went wrong, return default state
@@ -99,12 +100,12 @@ export function getMenuPlacement({
   const scrollUp = scrollTop + menuTop - marginTop;
   const scrollDuration = 160;
 
-  switch (placement) {
+  switch (preferredPlacement) {
     case 'auto':
     case 'bottom':
       // 1: the menu will fit, do nothing
       if (viewSpaceBelow >= menuHeight) {
-        return { placement: 'bottom', maxHeight };
+        return { placement: 'bottom', maxHeight: preferredMaxHeight };
       }
 
       // 2: the menu will fit, if scrolled
@@ -113,7 +114,7 @@ export function getMenuPlacement({
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
 
-        return { placement: 'bottom', maxHeight };
+        return { placement: 'bottom', maxHeight: preferredMaxHeight };
       }
 
       // 3: the menu will fit, if constrained
@@ -140,15 +141,15 @@ export function getMenuPlacement({
       // 4. Forked beviour when there isn't enough space below
 
       // AUTO: flip the menu, render above
-      if (placement === 'auto' || isFixedPosition) {
+      if (preferredPlacement === 'auto' || isFixedPosition) {
         // may need to be constrained after flipping
-        let constrainedHeight = maxHeight;
+        let constrainedHeight = preferredMaxHeight;
         const spaceAbove = isFixedPosition ? viewSpaceAbove : scrollSpaceAbove;
 
         if (spaceAbove >= minHeight) {
           constrainedHeight = Math.min(
             spaceAbove - marginBottom - spacing.controlHeight,
-            maxHeight
+            preferredMaxHeight
           );
         }
 
@@ -156,17 +157,17 @@ export function getMenuPlacement({
       }
 
       // BOTTOM: allow browser to increase scrollable area and immediately set scroll
-      if (placement === 'bottom') {
+      if (preferredPlacement === 'bottom') {
         if (shouldScroll) {
           scrollTo(scrollParent, scrollDown);
         }
-        return { placement: 'bottom', maxHeight };
+        return { placement: 'bottom', maxHeight: preferredMaxHeight };
       }
       break;
     case 'top':
       // 1: the menu will fit, do nothing
       if (viewSpaceAbove >= menuHeight) {
-        return { placement: 'top', maxHeight };
+        return { placement: 'top', maxHeight: preferredMaxHeight };
       }
 
       // 2: the menu will fit, if scrolled
@@ -175,7 +176,7 @@ export function getMenuPlacement({
           animatedScrollTo(scrollParent, scrollUp, scrollDuration);
         }
 
-        return { placement: 'top', maxHeight };
+        return { placement: 'top', maxHeight: preferredMaxHeight };
       }
 
       // 3: the menu will fit, if constrained
@@ -183,7 +184,7 @@ export function getMenuPlacement({
         (!isFixedPosition && scrollSpaceAbove >= minHeight) ||
         (isFixedPosition && viewSpaceAbove >= minHeight)
       ) {
-        let constrainedHeight = maxHeight;
+        let constrainedHeight = preferredMaxHeight;
 
         // we want to provide as much of the menu as possible to the user,
         // so give them whatever is available below rather than the minHeight.
@@ -209,9 +210,9 @@ export function getMenuPlacement({
       // 4. not enough space, the browser WILL NOT increase scrollable area when
       // absolutely positioned element rendered above the viewport (only below).
       // Flip the menu, render below
-      return { placement: 'bottom', maxHeight };
+      return { placement: 'bottom', maxHeight: preferredMaxHeight };
     default:
-      throw new Error(`Invalid placement provided "${placement}".`);
+      throw new Error(`Invalid placement provided "${preferredPlacement}".`);
   }
 
   return defaultState;
@@ -240,7 +241,7 @@ export interface MenuProps<
 > extends CommonPropsAndClassName<Option, IsMulti, Group>,
     MenuPlacementProps {
   /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: RefCallback<HTMLDivElement>;
+  innerRef: Ref<HTMLDivElement>;
   innerProps: JSX.IntrinsicElements['div'];
   isLoading: boolean;
   placement: CoercedMenuPlacement;
@@ -254,7 +255,7 @@ interface PlacerProps {
 }
 
 interface ChildrenProps {
-  ref: RefCallback<HTMLDivElement>;
+  ref: Ref<HTMLDivElement>;
   placerProps: PlacerProps;
 }
 
@@ -265,7 +266,7 @@ export interface MenuPlacerProps<
 > extends CommonProps<Option, IsMulti, Group>,
     MenuPlacementProps {
   /** The children to be rendered. */
-  children: (childrenProps: ChildrenProps) => ReactNode;
+  children: (childrenProps: ChildrenProps) => ReactElement;
 }
 
 function alignToControl(placement: CoercedMenuPlacement) {
@@ -294,41 +295,37 @@ export const menuCSS = <
   zIndex: 1,
 });
 
-const PortalPlacementContext = createContext<{
-  getPortalPlacement:
-    | ((menuState: CalculatedMenuPlacementAndHeight) => void)
-    | null;
-}>({ getPortalPlacement: null });
-
-interface MenuState {
-  placement: CoercedMenuPlacement | null;
-  maxHeight: number;
-}
+const PortalPlacementContext =
+  createContext<{
+    setPortalPlacement: (placement: CoercedMenuPlacement) => void;
+  } | null>(null);
 
 // NOTE: internal only
-export class MenuPlacer<
+export const MenuPlacer = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends Component<MenuPlacerProps<Option, IsMulti, Group>, MenuState> {
-  state: MenuState = {
-    maxHeight: this.props.maxMenuHeight,
-    placement: null,
-  };
-  static contextType = PortalPlacementContext;
-  context!: ContextType<typeof PortalPlacementContext>;
+>(
+  props: MenuPlacerProps<Option, IsMulti, Group>
+) => {
+  const {
+    children,
+    minMenuHeight,
+    maxMenuHeight,
+    menuPlacement,
+    menuPosition,
+    menuShouldScrollIntoView,
+    theme,
+  } = props;
 
-  getPlacement: RefCallback<HTMLDivElement> = (ref) => {
-    const {
-      minMenuHeight,
-      maxMenuHeight,
-      menuPlacement,
-      menuPosition,
-      menuShouldScrollIntoView,
-      theme,
-    } = this.props;
+  const { setPortalPlacement } = useContext(PortalPlacementContext) || {};
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [maxHeight, setMaxHeight] = useState(maxMenuHeight);
+  const [placement, setPlacement] = useState<CoercedMenuPlacement | null>(null);
 
-    if (!ref) return;
+  useLayoutEffect(() => {
+    const menuEl = ref.current;
+    if (!menuEl) return;
 
     // DO NOT scroll if position is fixed
     const isFixedPosition = menuPosition === 'fixed';
@@ -336,7 +333,7 @@ export class MenuPlacer<
 
     const state = getMenuPlacement({
       maxHeight: maxMenuHeight,
-      menuEl: ref,
+      menuEl,
       minHeight: minMenuHeight,
       placement: menuPlacement,
       shouldScroll,
@@ -344,26 +341,28 @@ export class MenuPlacer<
       theme,
     });
 
-    const { getPortalPlacement } = this.context;
-    if (getPortalPlacement) getPortalPlacement(state);
+    setMaxHeight(state.maxHeight);
+    setPlacement(state.placement);
+    setPortalPlacement?.(state.placement);
+  }, [
+    maxMenuHeight,
+    menuPlacement,
+    menuPosition,
+    menuShouldScrollIntoView,
+    minMenuHeight,
+    setPortalPlacement,
+    theme,
+  ]);
 
-    this.setState(state);
-  };
-  getUpdatedProps = () => {
-    const { menuPlacement } = this.props;
-    const placement = this.state.placement || coercePlacement(menuPlacement);
-
-    return { ...this.props, placement, maxHeight: this.state.maxHeight };
-  };
-  render() {
-    const { children } = this.props;
-
-    return children({
-      ref: this.getPlacement,
-      placerProps: this.getUpdatedProps(),
-    });
-  }
-}
+  return children({
+    ref,
+    placerProps: {
+      ...props,
+      placement: placement || coercePlacement(menuPlacement),
+      maxHeight,
+    },
+  });
+};
 
 const Menu = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
   props: MenuProps<Option, IsMulti, Group>
@@ -398,7 +397,7 @@ export interface MenuListProps<
   /** The children to be rendered. */
   children: ReactNode;
   /** Inner ref to DOM ReactNode */
-  innerRef: RefCallback<HTMLDivElement>;
+  innerRef: Ref<HTMLDivElement>;
   /** The currently focused option */
   focusedOption: Option;
   /** Props to be passed to the menu-list wrapper. */
@@ -594,22 +593,17 @@ export const MenuPortal = <
   const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const cleanupRef = useRef<(() => void) | void | null>(null);
 
-  const [placement, setPlacement] = useState<'bottom' | 'top'>(
+  const [placement, setPortalPlacement] = useState<'bottom' | 'top'>(
     coercePlacement(menuPlacement)
+  );
+  const portalPlacementContext = useMemo(
+    () => ({
+      setPortalPlacement,
+    }),
+    []
   );
   const [computedPosition, setComputedPosition] =
     useState<ComputedPosition | null>(null);
-
-  // callback for occasions where the menu must "flip"
-  const getPortalPlacement = useCallback(
-    ({ placement: updatedPlacement }: CalculatedMenuPlacementAndHeight) => {
-      // avoid re-renders if the placement has not changed
-      if (updatedPlacement !== placement) {
-        setPlacement(updatedPlacement);
-      }
-    },
-    [placement]
-  );
 
   const updateComputedPosition = useCallback(() => {
     if (!controlElement) return;
@@ -690,7 +684,7 @@ export const MenuPortal = <
   );
 
   return (
-    <PortalPlacementContext.Provider value={{ getPortalPlacement }}>
+    <PortalPlacementContext.Provider value={portalPlacementContext}>
       {appendTo ? createPortal(menuWrapper, appendTo) : menuWrapper}
     </PortalPlacementContext.Provider>
   );
