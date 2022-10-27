@@ -6,6 +6,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 export interface SingleValueProps<
   Option = unknown,
@@ -48,17 +49,13 @@ const SingleValue = <
 >(
   props: SingleValueProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, isDisabled, innerProps } = props;
+  const { children, isDisabled, innerProps } = props;
   return (
     <div
-      css={getStyles('singleValue', props)}
-      className={cx(
-        {
-          'single-value': true,
-          'single-value--is-disabled': isDisabled,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'singleValue', {
+        'single-value': true,
+        'single-value--is-disabled': isDisabled,
+      })}
       {...innerProps}
     >
       {children}

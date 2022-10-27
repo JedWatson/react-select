@@ -6,6 +6,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 // ==============================
 // Root Container
@@ -44,18 +45,13 @@ export const SelectContainer = <
 >(
   props: ContainerProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps, isDisabled, isRtl } =
-    props;
+  const { children, innerProps, isDisabled, isRtl } = props;
   return (
     <div
-      css={getStyles('container', props)}
-      className={cx(
-        {
-          '--is-disabled': isDisabled,
-          '--is-rtl': isRtl,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'container', {
+        '--is-disabled': isDisabled,
+        '--is-rtl': isRtl,
+      })}
       {...innerProps}
     >
       {children}
@@ -104,20 +100,15 @@ export const ValueContainer = <
 >(
   props: ValueContainerProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, innerProps, isMulti, getStyles, hasValue } =
-    props;
+  const { children, innerProps, isMulti, hasValue } = props;
 
   return (
     <div
-      css={getStyles('valueContainer', props)}
-      className={cx(
-        {
-          'value-container': true,
-          'value-container--is-multi': isMulti,
-          'value-container--has-value': hasValue,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'valueContainer', {
+        'value-container': true,
+        'value-container--is-multi': isMulti,
+        'value-container--has-value': hasValue,
+      })}
       {...innerProps}
     >
       {children}
@@ -154,17 +145,13 @@ export const IndicatorsContainer = <
 >(
   props: IndicatorsContainerProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, innerProps, getStyles } = props;
+  const { children, innerProps } = props;
 
   return (
     <div
-      css={getStyles('indicatorsContainer', props)}
-      className={cx(
-        {
-          indicators: true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'indicatorsContainer', {
+        indicators: true,
+      })}
       {...innerProps}
     >
       {children}

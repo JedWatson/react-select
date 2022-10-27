@@ -7,6 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 export interface OptionProps<
   Option = unknown,
@@ -80,29 +81,16 @@ const Option = <
 >(
   props: OptionProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    isDisabled,
-    isFocused,
-    isSelected,
-    innerRef,
-    innerProps,
-  } = props;
+  const { children, isDisabled, isFocused, isSelected, innerRef, innerProps } =
+    props;
   return (
     <div
-      css={getStyles('option', props)}
-      className={cx(
-        {
-          option: true,
-          'option--is-disabled': isDisabled,
-          'option--is-focused': isFocused,
-          'option--is-selected': isSelected,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'option', {
+        option: true,
+        'option--is-disabled': isDisabled,
+        'option--is-focused': isFocused,
+        'option--is-selected': isSelected,
+      })}
       ref={innerRef}
       aria-disabled={isDisabled}
       {...innerProps}

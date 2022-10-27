@@ -7,6 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 export interface ControlProps<
   Option = unknown,
@@ -68,30 +69,17 @@ const Control = <
 >(
   props: ControlProps<Option, IsMulti, Group>
 ) => {
-  const {
-    children,
-    cx,
-    getStyles,
-    className,
-    isDisabled,
-    isFocused,
-    innerRef,
-    innerProps,
-    menuIsOpen,
-  } = props;
+  const { children, isDisabled, isFocused, innerRef, innerProps, menuIsOpen } =
+    props;
   return (
     <div
       ref={innerRef}
-      css={getStyles('control', props)}
-      className={cx(
-        {
-          control: true,
-          'control--is-disabled': isDisabled,
-          'control--is-focused': isFocused,
-          'control--menu-is-open': menuIsOpen,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'control', {
+        control: true,
+        'control--is-disabled': isDisabled,
+        'control--is-focused': isFocused,
+        'control--menu-is-open': menuIsOpen,
+      })}
       {...innerProps}
     >
       {children}

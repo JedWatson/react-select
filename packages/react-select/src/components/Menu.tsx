@@ -20,6 +20,7 @@ import {
   getBoundingClientObj,
   getScrollParent,
   getScrollTop,
+  getStyleProps,
   normalizedHeight,
   scrollTo,
 } from '../utils';
@@ -366,12 +367,10 @@ export const MenuPlacer = <
 const Menu = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
   props: MenuProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerRef, innerProps } = props;
-
+  const { children, innerRef, innerProps } = props;
   return (
     <div
-      css={getStyles('menu', props)}
-      className={cx({ menu: true }, className)}
+      {...getStyleProps(props, 'menu', { menu: true })}
       ref={innerRef}
       {...innerProps}
     >
@@ -426,18 +425,13 @@ export const MenuList = <
 >(
   props: MenuListProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps, innerRef, isMulti } =
-    props;
+  const { children, innerProps, innerRef, isMulti } = props;
   return (
     <div
-      css={getStyles('menuList', props)}
-      className={cx(
-        {
-          'menu-list': true,
-          'menu-list--is-multi': isMulti,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'menuList', {
+        'menu-list': true,
+        'menu-list--is-multi': isMulti,
+      })}
       ref={innerRef}
       {...innerProps}
     >
@@ -485,17 +479,13 @@ export const NoOptionsMessage = <
 >(
   props: NoticeProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('noOptionsMessage', props)}
-      className={cx(
-        {
-          'menu-notice': true,
-          'menu-notice--no-options': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'noOptionsMessage', {
+        'menu-notice': true,
+        'menu-notice--no-options': true,
+      })}
       {...innerProps}
     >
       {children}
@@ -513,17 +503,13 @@ export const LoadingMessage = <
 >(
   props: NoticeProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('loadingMessage', props)}
-      className={cx(
-        {
-          'menu-notice': true,
-          'menu-notice--loading': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'loadingMessage', {
+        'menu-notice': true,
+        'menu-notice--loading': true,
+      })}
       {...innerProps}
     >
       {children}
@@ -578,17 +564,18 @@ export const MenuPortal = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  appendTo,
-  children,
-  className,
-  controlElement,
-  cx,
-  innerProps,
-  menuPlacement,
-  menuPosition,
-  getStyles,
-}: MenuPortalProps<Option, IsMulti, Group>) => {
+>(
+  props: MenuPortalProps<Option, IsMulti, Group>
+) => {
+  const {
+    appendTo,
+    children,
+    controlElement,
+    innerProps,
+    menuPlacement,
+    menuPosition,
+  } = props;
+
   const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const cleanupRef = useRef<(() => void) | void | null>(null);
 
@@ -665,16 +652,17 @@ export const MenuPortal = <
   const menuWrapper = (
     <div
       ref={setMenuPortalElement}
-      css={getStyles('menuPortal', {
-        offset: computedPosition.offset,
-        position: menuPosition,
-        rect: computedPosition.rect,
-      })}
-      className={cx(
+      {...getStyleProps(
+        {
+          ...props,
+          offset: computedPosition.offset,
+          position: menuPosition,
+          rect: computedPosition.rect,
+        },
+        'menuPortal',
         {
           'menu-portal': true,
-        },
-        className
+        }
       )}
       {...innerProps}
     >

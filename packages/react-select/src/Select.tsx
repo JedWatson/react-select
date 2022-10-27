@@ -40,7 +40,12 @@ import {
 
 import { defaultComponents, SelectComponentsConfig } from './components/index';
 
-import { defaultStyles, StylesConfig, StylesProps } from './styles';
+import {
+  ClassNamesConfig,
+  defaultStyles,
+  StylesConfig,
+  StylesProps,
+} from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -99,6 +104,10 @@ export interface Props<
    * This is useful when styling via CSS classes instead of the Styles API approach.
    */
   classNamePrefix?: string | null;
+  /**
+   * Provide a className based on state for each inner component
+   */
+  classNames: ClassNamesConfig<Option, IsMulti, Group>;
   /** Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean;
   /**
@@ -271,6 +280,7 @@ export const defaultProps = {
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
+  classNames: {},
   closeMenuOnSelect: true,
   closeMenuOnScroll: false,
   components: {},
@@ -1046,6 +1056,7 @@ export default class Select<
       clearValue,
       cx,
       getStyles,
+      getClassName,
       getValue,
       selectOption,
       setValue,
@@ -1058,6 +1069,7 @@ export default class Select<
       clearValue,
       cx,
       getStyles,
+      getClassName,
       getValue,
       hasValue,
       isMulti,
@@ -1085,6 +1097,10 @@ export default class Select<
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
+  getClassName = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+    key: Key,
+    props: StylesProps<Option, IsMulti, Group>[Key]
+  ) => this.props.classNames[key]?.(props as any);
   getElementId = (
     element:
       | 'group'

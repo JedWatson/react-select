@@ -7,7 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
-import { cleanCommonProps } from '../utils';
+import { cleanCommonProps, getStyleProps } from '../utils';
 
 export interface InputSpecificProps<
   Option = unknown,
@@ -93,14 +93,12 @@ const Input = <
 >(
   props: InputProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, value } = props;
+  const { cx, value } = props;
   const { innerRef, isDisabled, isHidden, inputClassName, ...innerProps } =
     cleanCommonProps(props);
-
   return (
     <div
-      className={cx({ 'input-container': true }, className)}
-      css={getStyles('input', props)}
+      {...getStyleProps(props, 'input', { 'input-container': true })}
       data-value={value || ''}
     >
       <input

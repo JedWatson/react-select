@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { ComponentType, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { cleanCommonProps } from '../utils';
+import { cleanCommonProps, getStyleProps } from '../utils';
 
 import {
+  CommonProps,
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   CX,
@@ -62,9 +63,9 @@ const Group = <
 ) => {
   const {
     children,
-    className,
     cx,
     getStyles,
+    getClassName,
     Heading,
     headingProps,
     innerProps,
@@ -73,16 +74,13 @@ const Group = <
     selectProps,
   } = props;
   return (
-    <div
-      css={getStyles('group', props)}
-      className={cx({ group: true }, className)}
-      {...innerProps}
-    >
+    <div {...getStyleProps(props, 'group', { group: true })} {...innerProps}>
       <Heading
         {...headingProps}
         selectProps={selectProps}
         theme={theme}
         getStyles={getStyles}
+        getClassName={getClassName}
         cx={cx}
       >
         {label}
@@ -101,6 +99,7 @@ interface GroupHeadingPropsDefinedProps<
   selectProps: Props<Option, IsMulti, Group>;
   theme: Theme;
   getStyles: GetStyles<Option, IsMulti, Group>;
+  getClassName: CommonProps<Option, IsMulti, Group>['getClassName'];
   cx: CX;
 }
 
@@ -137,12 +136,10 @@ export const GroupHeading = <
 >(
   props: GroupHeadingProps<Option, IsMulti, Group>
 ) => {
-  const { getStyles, cx, className } = props;
   const { data, ...innerProps } = cleanCommonProps(props);
   return (
     <div
-      css={getStyles('groupHeading', props)}
-      className={cx({ 'group-heading': true }, className)}
+      {...getStyleProps(props, 'groupHeading', { 'group-heading': true })}
       {...innerProps}
     />
   );
