@@ -123,6 +123,7 @@ const Group = (props: GroupProps<DateOption, false>) => {
   const {
     Heading,
     getStyles,
+    getClassName,
     children,
     label,
     headingProps,
@@ -136,6 +137,7 @@ const Group = (props: GroupProps<DateOption, false>) => {
         selectProps={selectProps}
         theme={theme}
         getStyles={getStyles}
+        getClassName={getClassName}
         cx={cx}
         {...headingProps}
       >

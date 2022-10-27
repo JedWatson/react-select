@@ -7,6 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -96,17 +97,13 @@ export const DropdownIndicator = <
 >(
   props: DropdownIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('dropdownIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'dropdown-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'dropdownIndicator', {
+        indicator: true,
+        'dropdown-indicator': true,
+      })}
       {...innerProps}
     >
       {children || <DownChevron />}
@@ -135,17 +132,13 @@ export const ClearIndicator = <
 >(
   props: ClearIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('clearIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'clear-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'clearIndicator', {
+        indicator: true,
+        'clear-indicator': true,
+      })}
       {...innerProps}
     >
       {children || <CrossIcon />}
@@ -193,12 +186,13 @@ export const IndicatorSeparator = <
 >(
   props: IndicatorSeparatorProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, innerProps } = props;
+  const { innerProps } = props;
   return (
     <span
       {...innerProps}
-      css={getStyles('indicatorSeparator', props)}
-      className={cx({ 'indicator-separator': true }, className)}
+      {...getStyleProps(props, 'indicatorSeparator', {
+        'indicator-separator': true,
+      })}
     />
   );
 };
@@ -276,18 +270,14 @@ export const LoadingIndicator = <
 >(
   props: LoadingIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, innerProps, isRtl } = props;
+  const { innerProps, isRtl } = props;
 
   return (
     <div
-      css={getStyles('loadingIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'loading-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'loadingIndicator', {
+        indicator: true,
+        'loading-indicator': true,
+      })}
       {...innerProps}
     >
       <LoadingDot delay={0} offset={isRtl} />

@@ -56,7 +56,10 @@ export interface Theme {
 
 export type ClassNamesState = { [key: string]: boolean };
 
-export type CX = (state: ClassNamesState, className?: string) => string;
+export type CX = (
+  state: ClassNamesState,
+  ...classNames: (string | undefined)[]
+) => string;
 export type GetStyles<
   Option,
   IsMulti extends boolean,
@@ -79,6 +82,10 @@ export interface CommonProps<
     See the `styles` object for the properties available.
   */
   getStyles: GetStyles<Option, IsMulti, Group>;
+  getClassName: <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+    propertyName: Key,
+    props: StylesProps<Option, IsMulti, Group>[Key]
+  ) => string | undefined;
   getValue: () => Options<Option>;
   hasValue: boolean;
   isMulti: boolean;

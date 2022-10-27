@@ -6,6 +6,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 export interface PlaceholderProps<
   Option = unknown,
@@ -41,16 +42,12 @@ const Placeholder = <
 >(
   props: PlaceholderProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('placeholder', props)}
-      className={cx(
-        {
-          placeholder: true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'placeholder', {
+        placeholder: true,
+      })}
       {...innerProps}
     >
       {children}
