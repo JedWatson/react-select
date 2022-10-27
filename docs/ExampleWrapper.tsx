@@ -183,7 +183,7 @@ const Actions = (props: JSX.IntrinsicElements['div']) => (
       alignItems: 'center',
       display: 'flex',
       justifyContent: 'flex-end',
-      opacity: 0.2,
+      opacity: 0.8,
       transition: 'opacity 140ms',
       transitionDelay: '140ms',
 
