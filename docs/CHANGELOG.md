@@ -1,5 +1,14 @@
 # @react-select/docs
 
+## 3.1.2
+
+### Patch Changes
+
+- [`0ca2d5ba`](https://github.com/JedWatson/react-select/commit/0ca2d5ba4aa42fb2a1bf033bcee660a293e39e50) [#5431](https://github.com/JedWatson/react-select/pull/5431) Thanks [@nderkim](https://github.com/nderkim)! - Change `class` components to `functional` components
+
+- Updated dependencies [0ca2d5ba]:
+  - react-select@undefined
+
 ## 3.1.1
 
 ### Patch Changes

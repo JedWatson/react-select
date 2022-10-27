@@ -14,10 +14,10 @@ export default () => {
 
   const toggleMenuIsOpen = () => {
     setMenuIsOpen((value) => !value);
-    const { current } = ref;
-    if (!current) return;
-    if (menuIsOpen) current.blur();
-    else current.focus();
+    const selectEl = ref.current;
+    if (!selectEl) return;
+    if (menuIsOpen) selectEl.blur();
+    else selectEl.focus();
   };
 
   return (

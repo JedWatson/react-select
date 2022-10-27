@@ -136,6 +136,25 @@ export const groupedOptions: readonly GroupedOption[] = [
   },
 ];
 
+export type PersonOption = {
+  readonly id: number;
+  readonly name: string;
+  readonly online: boolean;
+};
+
+export const people: readonly PersonOption[] = [
+  { id: 1, name: 'Carla Conroy', online: true },
+  { id: 2, name: 'Beverly Wehner', online: false },
+  { id: 3, name: 'Clifton Schimmel', online: true },
+  { id: 4, name: 'Charles Greenfelder', online: true },
+  { id: 5, name: 'Nadine Hoeger', online: false },
+  { id: 6, name: 'Freddie Klocko', online: false },
+  { id: 7, name: 'Della Crona', online: false },
+  { id: 8, name: 'Leigh Herzog', online: false },
+  { id: 9, name: 'Winston Schultz', online: true },
+  { id: 10, name: 'Andrew Ryan', online: true },
+];
+
 export const defaultArgs = {
   defaultMenuIsOpen: false,
   defaultValue: undefined,
