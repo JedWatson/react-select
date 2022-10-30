@@ -356,7 +356,7 @@ function toCategorizedOption<
   const isDisabled = props.isOptionDisabled(option, selectValue);
   const isSelected = isOptionSelected(props, option, selectValue);
   const label = props.getOptionLabel(option);
-  const value = getOptionValue(props, option);
+  const value = props.getOptionValue(option);
 
   return {
     type: 'option',
@@ -484,16 +484,6 @@ function getNextFocusedOption<
     ? lastFocusedOption
     : options[0];
 }
-const getOptionValue = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  data: Option
-): string => {
-  return props.getOptionValue(data);
-};
 
 function isOptionSelected<
   Option,
@@ -508,8 +498,8 @@ function isOptionSelected<
   if (typeof props.isOptionSelected === 'function') {
     return props.isOptionSelected(option, selectValue);
   }
-  const candidate = getOptionValue(props, option);
-  return selectValue.some((i) => getOptionValue(props, i) === candidate);
+  const candidate = props.getOptionValue(option);
+  return selectValue.some((i) => props.getOptionValue(i) === candidate);
 }
 function filterOption<
   Option,
@@ -900,10 +890,10 @@ export default class Select<
     const isDisabled = this.props.isOptionDisabled(newValue, selectValue);
 
     if (deselected) {
-      const candidate = this.getOptionValue(newValue);
+      const candidate = this.props.getOptionValue(newValue);
       this.setValue(
         multiValueAsValue(
-          selectValue.filter((i) => this.getOptionValue(i) !== candidate)
+          selectValue.filter((i) => this.props.getOptionValue(i) !== candidate)
         ),
         'deselect-option',
         newValue
@@ -935,9 +925,9 @@ export default class Select<
   removeValue = (removedValue: Option) => {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
-    const candidate = this.getOptionValue(removedValue);
+    const candidate = this.props.getOptionValue(removedValue);
     const newValueArray = selectValue.filter(
-      (i) => this.getOptionValue(i) !== candidate
+      (i) => this.props.getOptionValue(i) !== candidate
     );
     const newValue = valueTernary(
       isMulti,
@@ -1028,9 +1018,6 @@ export default class Select<
     };
   }
 
-  getOptionValue = (data: Option): string => {
-    return getOptionValue(this.props, data);
-  };
   getStyles = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
     key: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
@@ -1638,7 +1625,9 @@ export default class Select<
     if (isMulti) {
       return selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
-        const key = `${this.props.getOptionLabel(opt)}-${this.getOptionValue(opt)}`;
+        const key = `${this.props.getOptionLabel(
+          opt
+        )}-${this.props.getOptionValue(opt)}`;
 
         return (
           <MultiValue
@@ -1948,7 +1937,7 @@ export default class Select<
     if (isMulti) {
       if (delimiter) {
         const value = selectValue
-          .map((opt) => this.getOptionValue(opt))
+          .map((opt) => this.props.getOptionValue(opt))
           .join(delimiter);
         return <input name={name} type="hidden" value={value} />;
       } else {
@@ -1959,7 +1948,7 @@ export default class Select<
                 key={`i-${i}`}
                 name={name}
                 type="hidden"
-                value={this.getOptionValue(opt)}
+                value={this.props.getOptionValue(opt)}
               />
             ))
           ) : (
@@ -1969,7 +1958,9 @@ export default class Select<
         return <div>{input}</div>;
       }
     } else {
-      const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
+      const value = selectValue[0]
+        ? this.props.getOptionValue(selectValue[0])
+        : '';
       return <input name={name} type="hidden" value={value} />;
     }
   }
