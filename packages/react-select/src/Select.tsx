@@ -354,7 +354,12 @@ function toCategorizedOption<
   index: number
 ): CategorizedOption<Option> {
   const isDisabled = props.isOptionDisabled(option, selectValue);
-  const isSelected = isOptionSelected(props, option, selectValue);
+  const isSelected = isOptionSelected(
+    option,
+    selectValue,
+    props.getOptionValue,
+    props.isOptionSelected
+  );
   const label = props.getOptionLabel(option);
   const value = props.getOptionValue(option);
 
@@ -485,21 +490,20 @@ function getNextFocusedOption<
     : options[0];
 }
 
-function isOptionSelected<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function isOptionSelected<Option>(
   option: Option,
-  selectValue: Options<Option>
+  selectValue: Options<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined
 ): boolean {
   if (selectValue.indexOf(option) > -1) return true;
-  if (typeof props.isOptionSelected === 'function') {
-    return props.isOptionSelected(option, selectValue);
+  if (typeof isOptionSelectedProp === 'function') {
+    return isOptionSelectedProp(option, selectValue);
   }
-  const candidate = props.getOptionValue(option);
-  return selectValue.some((i) => props.getOptionValue(i) === candidate);
+  const candidate = getOptionValueProp(option);
+  return selectValue.some((i) => getOptionValueProp(i) === candidate);
 }
 function filterOption<
   Option,
@@ -886,7 +890,14 @@ export default class Select<
   selectOption = (newValue: Option) => {
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
-    const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
+    const deselected =
+      isMulti &&
+      isOptionSelected(
+        newValue,
+        selectValue,
+        this.props.getOptionValue,
+        this.props.isOptionSelected
+      );
     const isDisabled = this.props.isOptionDisabled(newValue, selectValue);
 
     if (deselected) {
@@ -1078,9 +1089,6 @@ export default class Select<
     if (isClearable === undefined) return isMulti;
 
     return isClearable;
-  }
-  isOptionSelected(option: Option, selectValue: Options<Option>): boolean {
-    return isOptionSelected(this.props, option, selectValue);
   }
   filterOption(option: FilterOptionOption<Option>, inputValue: string) {
     return filterOption(this.props, option, inputValue);
@@ -1425,7 +1433,13 @@ export default class Select<
           !focusedOption ||
           // don't capture the event if the menu opens on focus and the focused
           // option is already selected; it breaks the flow of navigation
-          (openMenuOnFocus && this.isOptionSelected(focusedOption, selectValue))
+          (openMenuOnFocus &&
+            isOptionSelected(
+              focusedOption,
+              selectValue,
+              this.props.getOptionValue,
+              this.props.isOptionSelected
+            ))
         ) {
           return;
         }
