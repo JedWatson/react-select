@@ -355,7 +355,7 @@ function toCategorizedOption<
 ): CategorizedOption<Option> {
   const isDisabled = props.isOptionDisabled(option, selectValue);
   const isSelected = isOptionSelected(props, option, selectValue);
-  const label = getOptionLabel(props, option);
+  const label = props.getOptionLabel(option);
   const value = getOptionValue(props, option);
 
   return {
@@ -484,16 +484,6 @@ function getNextFocusedOption<
     ? lastFocusedOption
     : options[0];
 }
-const getOptionLabel = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  data: Option
-): string => {
-  return props.getOptionLabel(data);
-};
 const getOptionValue = <
   Option,
   IsMulti extends boolean,
@@ -1038,9 +1028,6 @@ export default class Select<
     };
   }
 
-  getOptionLabel = (data: Option): string => {
-    return getOptionLabel(this.props, data);
-  };
   getOptionValue = (data: Option): string => {
     return getOptionValue(this.props, data);
   };
@@ -1124,7 +1111,7 @@ export default class Select<
         selectValue,
       });
     } else {
-      return this.getOptionLabel(data);
+      return this.props.getOptionLabel(data);
     }
   }
   formatGroupLabel(data: Group) {
@@ -1651,7 +1638,7 @@ export default class Select<
     if (isMulti) {
       return selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
-        const key = `${this.getOptionLabel(opt)}-${this.getOptionValue(opt)}`;
+        const key = `${this.props.getOptionLabel(opt)}-${this.getOptionValue(opt)}`;
 
         return (
           <MultiValue
