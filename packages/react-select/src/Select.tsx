@@ -353,7 +353,7 @@ function toCategorizedOption<
   selectValue: Options<Option>,
   index: number
 ): CategorizedOption<Option> {
-  const isDisabled = isOptionDisabled(props, option, selectValue);
+  const isDisabled = props.isOptionDisabled(option, selectValue);
   const isSelected = isOptionSelected(props, option, selectValue);
   const label = getOptionLabel(props, option);
   const value = getOptionValue(props, option);
@@ -505,19 +505,6 @@ const getOptionValue = <
   return props.getOptionValue(data);
 };
 
-function isOptionDisabled<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  option: Option,
-  selectValue: Options<Option>
-): boolean {
-  return typeof props.isOptionDisabled === 'function'
-    ? props.isOptionDisabled(option, selectValue)
-    : false;
-}
 function isOptionSelected<
   Option,
   IsMulti extends boolean,
@@ -920,7 +907,7 @@ export default class Select<
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
     const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
-    const isDisabled = this.isOptionDisabled(newValue, selectValue);
+    const isDisabled = this.props.isOptionDisabled(newValue, selectValue);
 
     if (deselected) {
       const candidate = this.getOptionValue(newValue);
@@ -1117,9 +1104,6 @@ export default class Select<
     if (isClearable === undefined) return isMulti;
 
     return isClearable;
-  }
-  isOptionDisabled(option: Option, selectValue: Options<Option>): boolean {
-    return isOptionDisabled(this.props, option, selectValue);
   }
   isOptionSelected(option: Option, selectValue: Options<Option>): boolean {
     return isOptionSelected(this.props, option, selectValue);
