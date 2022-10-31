@@ -5,8 +5,15 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
   release:
+    permissions:
+      # for changesets/action
+      contents: write
+      pull-requests: write
     name: Release
     runs-on: ubuntu-latest
     steps:
@@ -16,10 +23,10 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node.js 10.x
+      - name: Setup Node.js 16.x
         uses: actions/setup-node@master
         with:
-          node-version: 10.x
+          node-version: 16.x
 
       - name: Install Yarn
         run: npm install --global yarn

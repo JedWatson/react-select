@@ -12,8 +12,8 @@
   },
   "preconstruct": {
     "entrypoints": [
-      "generate",
-      "serialize"
+      "generate.ts",
+      "serialize.ts"
     ]
   }
 }

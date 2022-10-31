@@ -1,5 +1,41 @@
 # react-select
 
+## 5.5.8
+
+### Patch Changes
+
+- [`1ad6de4e`](https://github.com/JedWatson/react-select/commit/1ad6de4ee75041129a657b92931a2965a1805c31) [#5084](https://github.com/JedWatson/react-select/pull/5084) Thanks [@kosciolek](https://github.com/kosciolek)! - When focusing a dropdown option, the numbers included in the aria live region take filtering into consideration.
+
+## 5.5.7
+
+### Patch Changes
+
+- [`0ca2d5ba`](https://github.com/JedWatson/react-select/commit/0ca2d5ba4aa42fb2a1bf033bcee660a293e39e50) [#5431](https://github.com/JedWatson/react-select/pull/5431) Thanks [@nderkim](https://github.com/nderkim)! - Change `class` components to `functional` components
+
+## 5.5.6
+
+### Patch Changes
+
+- [`92398939`](https://github.com/JedWatson/react-select/commit/9239893986c6aaaa7105d3f5a91022827e544b10) [#5409](https://github.com/JedWatson/react-select/pull/5409) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Move files around to as to be compatible with version 2 of `@preconstruct/cli`
+
+## 5.5.5
+
+### Patch Changes
+
+- [`0dd38029`](https://github.com/JedWatson/react-select/commit/0dd3802977e525b4d8ea1eb083f8f13788016c28) [#5246](https://github.com/JedWatson/react-select/pull/5246) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix re-focus of component in Firefox if being disabled while focused
+
+## 5.5.4
+
+### Patch Changes
+
+- [`ebb0a17a`](https://github.com/JedWatson/react-select/commit/ebb0a17a30b22cb7e7f7467ed8eda4256166e401) [#5404](https://github.com/JedWatson/react-select/pull/5404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Use ResizeObserver to auto-update menu position if available
+
+## 5.5.3
+
+### Patch Changes
+
+- [`07656aaa`](https://github.com/JedWatson/react-select/commit/07656aaac7f636129f8d09e723df9fa6e5ff2841) [#5399](https://github.com/JedWatson/react-select/pull/5399) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update memoize-one
+
 ## 5.5.2
 
 ### Patch Changes
