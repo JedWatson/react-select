@@ -81,7 +81,7 @@ export interface Props<
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
   'aria-live'?: AriaAttributes['aria-live'];
-  /** Customize the messages used by the aria-live component */
+  /** Customise the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
   autoFocus?: boolean;
@@ -727,9 +727,18 @@ export default class Select<
     }
 
     if (isFocused && isDisabled && !prevProps.isDisabled) {
-      // ensure select state gets blurred in case Select is programatically disabled while focused
+      // ensure select state gets blurred in case Select is programmatically disabled while focused
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: false }, this.onMenuClose);
+    } else if (
+      !isFocused &&
+      !isDisabled &&
+      prevProps.isDisabled &&
+      this.inputRef === document.activeElement
+    ) {
+      // ensure select state gets focused in case Select is programatically re-enabled while focused (Firefox)
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ isFocused: true });
     }
 
     // scroll the focused option into view if necessary
@@ -991,7 +1000,7 @@ export default class Select<
   // ==============================
 
   getTheme() {
-    // Use the default theme if there are no customizations.
+    // Use the default theme if there are no customisations.
     if (!this.props.theme) {
       return defaultTheme;
     }
@@ -1560,13 +1569,15 @@ export default class Select<
       'aria-autocomplete': 'list' as const,
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
-      'aria-controls': this.getElementId('listbox'),
-      'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       role: 'combobox',
+      ...(menuIsOpen && {
+        'aria-controls': this.getElementId('listbox'),
+        'aria-owns': this.getElementId('listbox'),
+      }),
       ...(!isSearchable && {
         'aria-readonly': true,
       }),

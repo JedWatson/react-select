@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Component, ReactNode } from 'react';
+import { useMemo } from 'react';
+import { ReactNode } from 'react';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import memoizeOne from 'memoize-one';
 
 interface NonceProviderProps {
   nonce: string;
@@ -10,21 +10,10 @@ interface NonceProviderProps {
   cacheKey: string;
 }
 
-export default class NonceProvider extends Component<NonceProviderProps> {
-  constructor(props: NonceProviderProps) {
-    super(props);
-    this.createEmotionCache = memoizeOne(this.createEmotionCache);
-  }
-  createEmotionCache = (nonce: string, key: string) => {
-    return createCache({ nonce, key });
-  };
-  render() {
-    const emotionCache = this.createEmotionCache(
-      this.props.nonce,
-      this.props.cacheKey
-    );
-    return (
-      <CacheProvider value={emotionCache}>{this.props.children}</CacheProvider>
-    );
-  }
-}
+export default ({ nonce, children, cacheKey }: NonceProviderProps) => {
+  const emotionCache = useMemo(
+    () => createCache({ key: cacheKey, nonce }),
+    [cacheKey, nonce]
+  );
+  return <CacheProvider value={emotionCache}>{children}</CacheProvider>;
+};

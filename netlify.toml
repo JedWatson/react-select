@@ -1,3 +1,6 @@
 [build]
   command = "yarn build:docs"
   publish = "docs/dist"
+
+[build.environment]
+  YARN_VERSION = "1.22.19"

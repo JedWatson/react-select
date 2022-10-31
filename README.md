@@ -5,7 +5,7 @@
 
 # React-Select
 
-The Select control for [React](https://reactjs.com). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
+The Select control for [React](https://reactjs.org). Initially built for use in [KeystoneJS](https://www.keystonejs.com).
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
@@ -136,8 +136,8 @@ If you don't provide these props, you can set the initial value of the state the
 
 React-select exposes two public methods:
 
-- `focus()` - focus the control programatically
-- `blur()` - blur the control programatically
+- `focus()` - focus the control programmatically
+- `blur()` - blur the control programmatically
 
 ## Customisation
 
@@ -151,15 +151,15 @@ Check the docs for more information on:
 - [Advanced use-cases](https://www.react-select.com/advanced)
 - [TypeScript guide](https://www.react-select.com/typescript)
 
-## Typescript
+## TypeScript
 
-The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
+The v5 release represents a rewrite from JavaScript to TypeScript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
 
 # Thanks
 
 Thank you to everyone who has contributed to this project. It's been a wild ride.
 
-If you like React Select, you should [follow me on twitter](https://twitter.com/jedwatson)!
+If you like React Select, you should [follow me on Twitter](https://twitter.com/jedwatson)!
 
 Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://github.com/gwyneplaine), [Ben Conolly](https://github.com/Noviny), [Tom Walker](https://github.com/bladey), [Nathan Bierema](https://github.com/Methuselah96), [Eric Bonow](https://github.com/ebonow), [Mitchell Hamilton](https://github.com/mitchellhamilton), [Dave Brotherstone](https://github.com/bruderstein), [Brian Vaughn](https://github.com/bvaughn), and the [Atlassian Design System](https://atlassian.design) team who along with many other contributors have made this possible ❤️
 
