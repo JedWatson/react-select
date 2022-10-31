@@ -343,25 +343,29 @@ type CategorizedGroupOrOption<Option, Group extends GroupBase<Option>> =
   | CategorizedGroup<Option, Group>
   | CategorizedOption<Option>;
 
-function toCategorizedOption<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function toCategorizedOption<Option>(
   option: Option,
+  index: number,
   selectValue: Options<Option>,
-  index: number
+  getOptionLabelProp: GetOptionLabel<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  isOptionDisabledProp: (
+    option: Option,
+    selectValue: Options<Option>
+  ) => boolean,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined
 ): CategorizedOption<Option> {
-  const isDisabled = props.isOptionDisabled(option, selectValue);
+  const isDisabled = isOptionDisabledProp(option, selectValue);
   const isSelected = isOptionSelected(
     option,
     selectValue,
-    props.getOptionValue,
-    props.isOptionSelected
+    getOptionValueProp,
+    isOptionSelectedProp
   );
-  const label = props.getOptionLabel(option);
-  const value = props.getOptionValue(option);
+  const label = getOptionLabelProp(option);
+  const value = getOptionValueProp(option);
 
   return {
     type: 'option',
@@ -387,7 +391,15 @@ function buildCategorizedOptions<
       if ('options' in groupOrOption) {
         const categorizedOptions = groupOrOption.options
           .map((option, optionIndex) =>
-            toCategorizedOption(props, option, selectValue, optionIndex)
+            toCategorizedOption(
+              option,
+              optionIndex,
+              selectValue,
+              props.getOptionLabel,
+              props.getOptionValue,
+              props.isOptionDisabled,
+              props.isOptionSelected
+            )
           )
           .filter((categorizedOption) => isFocusable(props, categorizedOption));
         return categorizedOptions.length > 0
@@ -400,10 +412,13 @@ function buildCategorizedOptions<
           : undefined;
       }
       const categorizedOption = toCategorizedOption(
-        props,
         groupOrOption,
+        groupOrOptionIndex,
         selectValue,
-        groupOrOptionIndex
+        props.getOptionLabel,
+        props.getOptionValue,
+        props.isOptionDisabled,
+        props.isOptionSelected
       );
       return isFocusable(props, categorizedOption)
         ? categorizedOption
