@@ -45,7 +45,7 @@
     "babel-loader": "^8.2.5",
     "concurrently": "^7.5.0",
     "copy-webpack-plugin": "^5.0.3",
-    "coveralls": "^2.11.12",
+    "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "css-loader": "^0.28.7",
     "cypress": "^5.0.0",
