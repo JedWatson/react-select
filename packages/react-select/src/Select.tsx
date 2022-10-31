@@ -19,6 +19,7 @@ import { DummyInput, ScrollManager } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility';
 
 import {
+  areArraysEqual,
   classNames,
   cleanValue,
   isTouchCapable,
@@ -664,7 +665,11 @@ export default class Select<
       prevWasFocused,
     } = state;
     const { options, value, menuIsOpen, inputValue, isMulti } = props;
-    const selectValue = cleanValue(value);
+
+    // Try to preserve instance equality of `selectValue` if possible to improve memoization of `buildCategorizedOptions`.
+    const cleanedSelectValue = cleanValue(value);
+    const selectValue = areArraysEqual(state.selectValue, cleanedSelectValue) ? state.selectValue : cleanedSelectValue;
+
     let newMenuOptionsState = {};
     if (
       prevProps &&
