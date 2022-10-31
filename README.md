@@ -9,7 +9,10 @@ The Select control for [React](https://reactjs.org). Initially built for use in 
 
 See [react-select.com](https://www.react-select.com) for live demos and comprehensive docs.
 
-React Select is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com). It represents a whole new approach to developing powerful React.js components that _just work_ out of the box, while being extremely customisable.
+`react-select` is funded by [Thinkmill](https://www.thinkmill.com.au) and [Atlassian](https://atlaskit.atlassian.com).
+We are an open source project that is continously supported by the community.
+
+React Select helps you develop powerful select components that _just work_ out of the box, without stopping you from customising the parts that are important to you.
 
 For the story behind this component, watch Jed's talk at React Conf 2019 - [building React Select](https://youtu.be/yS0jUnmBujE)
 
@@ -36,43 +39,6 @@ yarn add react-select
 ```
 
 Then use it in your app:
-
-#### With React Component
-
-```js
-import React from 'react';
-import Select from 'react-select';
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
-
-class App extends React.Component {
-  state = {
-    selectedOption: null,
-  };
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption }, () =>
-      console.log(`Option selected:`, this.state.selectedOption)
-    );
-  };
-  render() {
-    const { selectedOption } = this.state;
-
-    return (
-      <Select
-        value={selectedOption}
-        onChange={this.handleChange}
-        options={options}
-      />
-    );
-  }
-}
-```
-
-#### With React Hooks
 
 ```js
 import React, { useState } from 'react';
