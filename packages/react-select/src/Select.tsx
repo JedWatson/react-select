@@ -468,7 +468,8 @@ function isFocusable<
   const { data, isSelected, label, value } = categorizedOption;
 
   return (
-    (!shouldHideSelectedOptions(props) || !isSelected) &&
+    (!shouldHideSelectedOptions(props.hideSelectedOptions, props.isMulti) ||
+      !isSelected) &&
     filterOption(props, { label, value, data }, inputValue)
   );
 }
@@ -532,17 +533,13 @@ function filterOption<
   return props.filterOption ? props.filterOption(option, inputValue) : true;
 }
 
-const shouldHideSelectedOptions = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>
-) => {
-  const { hideSelectedOptions, isMulti } = props;
-  if (hideSelectedOptions === undefined) return isMulti;
-  return hideSelectedOptions;
-};
+function shouldHideSelectedOptions<Option, IsMulti extends boolean>(
+  hideSelectedOptionsProp: boolean | undefined,
+  isMultiProp: IsMulti
+) {
+  if (hideSelectedOptionsProp === undefined) return isMultiProp;
+  return hideSelectedOptionsProp;
+}
 
 let instanceId = 1;
 
@@ -1380,9 +1377,6 @@ export default class Select<
       return;
     }
     this.setState({ focusedOption });
-  };
-  shouldHideSelectedOptions = () => {
-    return shouldHideSelectedOptions(this.props);
   };
 
   // ==============================
