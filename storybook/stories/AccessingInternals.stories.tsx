@@ -1,4 +1,4 @@
-import { ComponentMeta } from '@storybook/react';
+import type { ComponentMeta } from '@storybook/react';
 import React, { useRef } from 'react';
 import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
