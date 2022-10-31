@@ -1,5 +1,5 @@
 import { ComponentMeta } from '@storybook/react';
-import React from 'react';
+import * as React from 'react';
 import Select from 'react-select';
 
 import { Field } from '../components/field';

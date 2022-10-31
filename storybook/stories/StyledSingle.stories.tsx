@@ -1,6 +1,6 @@
 import { ComponentMeta } from '@storybook/react';
 import chroma from 'chroma-js';
-import React from 'react';
+import * as React from 'react';
 import Select, { StylesConfig } from 'react-select';
 
 import { Field } from '../components/field';
