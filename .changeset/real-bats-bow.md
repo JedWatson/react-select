@@ -2,4 +2,4 @@
 'react-select': patch
 ---
 
-Improve performance of Select by memoizing `buildCategorizedOptions`.
+Improve performance by memoizing `buildCategorizedOptions`.
