@@ -383,10 +383,25 @@ function buildCategorizedOptions<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
-  props: Props<Option, IsMulti, Group>,
-  selectValue: Options<Option>
+  selectValue: Options<Option>,
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  getOptionLabelProp: GetOptionLabel<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  hideSelectedOptionsProp: boolean | undefined,
+  inputValueProp: string,
+  isMultiProp: IsMulti,
+  isOptionDisabledProp: (
+    option: Option,
+    selectValue: Options<Option>
+  ) => boolean,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined,
+  optionsProp: OptionsOrGroups<Option, Group>
 ): CategorizedGroupOrOption<Option, Group>[] {
-  return props.options
+  return optionsProp
     .map((groupOrOption, groupOrOptionIndex) => {
       if ('options' in groupOrOption) {
         const categorizedOptions = groupOrOption.options
@@ -395,19 +410,19 @@ function buildCategorizedOptions<
               option,
               optionIndex,
               selectValue,
-              props.getOptionLabel,
-              props.getOptionValue,
-              props.isOptionDisabled,
-              props.isOptionSelected
+              getOptionLabelProp,
+              getOptionValueProp,
+              isOptionDisabledProp,
+              isOptionSelectedProp
             )
           )
           .filter((categorizedOption) =>
             isFocusable(
               categorizedOption,
-              props.filterOption,
-              props.hideSelectedOptions,
-              props.inputValue,
-              props.isMulti
+              filterOptionProp,
+              hideSelectedOptionsProp,
+              inputValueProp,
+              isMultiProp
             )
           );
         return categorizedOptions.length > 0
@@ -423,17 +438,17 @@ function buildCategorizedOptions<
         groupOrOption,
         groupOrOptionIndex,
         selectValue,
-        props.getOptionLabel,
-        props.getOptionValue,
-        props.isOptionDisabled,
-        props.isOptionSelected
+        getOptionLabelProp,
+        getOptionValueProp,
+        isOptionDisabledProp,
+        isOptionSelectedProp
       );
       return isFocusable(
         categorizedOption,
-        props.filterOption,
-        props.hideSelectedOptions,
-        props.inputValue,
-        props.isMulti
+        filterOptionProp,
+        hideSelectedOptionsProp,
+        inputValueProp,
+        isMultiProp
       )
         ? categorizedOption
         : undefined;
@@ -466,7 +481,18 @@ function buildFocusableOptions<
   Group extends GroupBase<Option>
 >(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
   return buildFocusableOptionsFromCategorizedOptions(
-    buildCategorizedOptions(props, selectValue)
+    buildCategorizedOptions(
+      selectValue,
+      props.filterOption,
+      props.getOptionLabel,
+      props.getOptionValue,
+      props.hideSelectedOptions,
+      props.inputValue,
+      props.isMulti,
+      props.isOptionDisabled,
+      props.isOptionSelected,
+      props.options
+    )
   );
 }
 
@@ -1079,7 +1105,18 @@ export default class Select<
   };
 
   buildCategorizedOptions = () =>
-    buildCategorizedOptions(this.props, this.state.selectValue);
+    buildCategorizedOptions(
+      this.state.selectValue,
+      this.props.filterOption,
+      this.props.getOptionLabel,
+      this.props.getOptionValue,
+      this.props.hideSelectedOptions,
+      this.props.inputValue,
+      this.props.isMulti,
+      this.props.isOptionDisabled,
+      this.props.isOptionSelected,
+      this.props.options
+    );
   getCategorizedOptions = () =>
     this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
   buildFocusableOptions = () =>
