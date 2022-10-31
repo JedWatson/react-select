@@ -380,7 +380,7 @@ function toCategorizedOption<Option>(
   };
 }
 
-function buildCategorizedOptionsRaw<
+function buildCategorizedOptions<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
@@ -458,9 +458,28 @@ function buildCategorizedOptionsRaw<
     .filter(notNullish);
 }
 
-const buildCategorizedOptions = memoizeOne(
-  buildCategorizedOptionsRaw
-) as typeof buildCategorizedOptionsRaw;
+const memoizedBuildCategorizedOptions = memoizeOne(
+  buildCategorizedOptions
+) as typeof buildCategorizedOptions;
+
+function buildCategorizedOptionsFromProps<
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
+  return memoizedBuildCategorizedOptions(
+    selectValue,
+    props.filterOption,
+    props.getOptionLabel,
+    props.getOptionValue,
+    props.hideSelectedOptions,
+    props.inputValue,
+    props.isMulti,
+    props.isOptionDisabled,
+    props.isOptionSelected,
+    props.options
+  );
+}
 
 function buildFocusableOptionsFromCategorizedOptions<
   Option,
@@ -487,18 +506,7 @@ function buildFocusableOptions<
   Group extends GroupBase<Option>
 >(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
   return buildFocusableOptionsFromCategorizedOptions(
-    buildCategorizedOptions(
-      selectValue,
-      props.filterOption,
-      props.getOptionLabel,
-      props.getOptionValue,
-      props.hideSelectedOptions,
-      props.inputValue,
-      props.isMulti,
-      props.isOptionDisabled,
-      props.isOptionSelected,
-      props.options
-    )
+    buildCategorizedOptionsFromProps(props, selectValue)
   );
 }
 
@@ -668,7 +676,9 @@ export default class Select<
 
     // Try to preserve instance equality of `selectValue` if possible to improve memoization of `buildCategorizedOptions`.
     const cleanedSelectValue = cleanValue(value);
-    const selectValue = areArraysEqual(state.selectValue, cleanedSelectValue) ? state.selectValue : cleanedSelectValue;
+    const selectValue = areArraysEqual(state.selectValue, cleanedSelectValue)
+      ? state.selectValue
+      : cleanedSelectValue;
 
     let newMenuOptionsState = {};
     if (
@@ -950,14 +960,7 @@ export default class Select<
   selectOption = (newValue: Option) => {
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
-    const deselected =
-      isMulti &&
-      isOptionSelected(
-        newValue,
-        selectValue,
-        this.props.getOptionValue,
-        this.props.isOptionSelected
-      );
+    const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
     const isDisabled = this.props.isOptionDisabled(newValue, selectValue);
 
     if (deselected) {
@@ -1115,18 +1118,7 @@ export default class Select<
   };
 
   buildCategorizedOptions = () =>
-    buildCategorizedOptions(
-      this.state.selectValue,
-      this.props.filterOption,
-      this.props.getOptionLabel,
-      this.props.getOptionValue,
-      this.props.hideSelectedOptions,
-      this.props.inputValue,
-      this.props.isMulti,
-      this.props.isOptionDisabled,
-      this.props.isOptionSelected,
-      this.props.options
-    );
+    buildCategorizedOptionsFromProps(this.props, this.state.selectValue);
   getCategorizedOptions = () =>
     this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
   buildFocusableOptions = () =>
@@ -1160,6 +1152,14 @@ export default class Select<
     if (isClearable === undefined) return isMulti;
 
     return isClearable;
+  }
+  isOptionSelected(option: Option, selectValue: Options<Option>): boolean {
+    return isOptionSelected(
+      option,
+      selectValue,
+      this.props.getOptionValue,
+      this.props.isOptionSelected
+    );
   }
   formatOptionLabel(
     data: Option,
@@ -1498,13 +1498,7 @@ export default class Select<
           !focusedOption ||
           // don't capture the event if the menu opens on focus and the focused
           // option is already selected; it breaks the flow of navigation
-          (openMenuOnFocus &&
-            isOptionSelected(
-              focusedOption,
-              selectValue,
-              this.props.getOptionValue,
-              this.props.isOptionSelected
-            ))
+          (openMenuOnFocus && this.isOptionSelected(focusedOption, selectValue))
         ) {
           return;
         }

@@ -384,7 +384,7 @@ export const removeProps = <Props extends object, K extends string[]>(
 
 export function areArraysEqual(
   newInputs: readonly unknown[],
-  lastInputs: readonly unknown[],
+  lastInputs: readonly unknown[]
 ): boolean {
   if (newInputs.length !== lastInputs.length) {
     return false;
