@@ -10,12 +10,13 @@ import {
   RefCallback,
   TouchEventHandler,
 } from 'react';
+import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
-import { AriaLiveMessages, AriaSelection } from './accessibility/index';
+import { AriaLiveMessages, AriaSelection } from './accessibility';
 
 import {
   classNames,
@@ -38,7 +39,7 @@ import {
   isOptionDisabled as isOptionDisabledBuiltin,
 } from './builtins';
 
-import { defaultComponents, SelectComponentsConfig } from './components/index';
+import { defaultComponents, SelectComponentsConfig } from './components';
 
 import { defaultStyles, StylesConfig, StylesProps } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
@@ -378,7 +379,7 @@ function toCategorizedOption<Option>(
   };
 }
 
-function buildCategorizedOptions<
+function buildCategorizedOptionsRaw<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
@@ -455,6 +456,10 @@ function buildCategorizedOptions<
     })
     .filter(notNullish);
 }
+
+const buildCategorizedOptions = memoizeOne(
+  buildCategorizedOptionsRaw
+) as typeof buildCategorizedOptionsRaw;
 
 function buildFocusableOptionsFromCategorizedOptions<
   Option,
@@ -1183,7 +1188,7 @@ export default class Select<
     event.preventDefault();
     this.focusInput();
   };
-  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
+  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = () => {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (
