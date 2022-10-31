@@ -401,7 +401,15 @@ function buildCategorizedOptions<
               props.isOptionSelected
             )
           )
-          .filter((categorizedOption) => isFocusable(props, categorizedOption));
+          .filter((categorizedOption) =>
+            isFocusable(
+              categorizedOption,
+              props.filterOption,
+              props.hideSelectedOptions,
+              props.inputValue,
+              props.isMulti
+            )
+          );
         return categorizedOptions.length > 0
           ? {
               type: 'group' as const,
@@ -420,7 +428,13 @@ function buildCategorizedOptions<
         props.isOptionDisabled,
         props.isOptionSelected
       );
-      return isFocusable(props, categorizedOption)
+      return isFocusable(
+        categorizedOption,
+        props.filterOption,
+        props.hideSelectedOptions,
+        props.inputValue,
+        props.isMulti
+      )
         ? categorizedOption
         : undefined;
     })
@@ -456,21 +470,21 @@ function buildFocusableOptions<
   );
 }
 
-function isFocusable<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  categorizedOption: CategorizedOption<Option>
+function isFocusable<Option, IsMulti extends boolean>(
+  categorizedOption: CategorizedOption<Option>,
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  hideSelectedOptionsProp: boolean | undefined,
+  inputValueProp: string,
+  isMultiProp: IsMulti
 ) {
-  const { inputValue = '' } = props;
   const { data, isSelected, label, value } = categorizedOption;
 
   return (
-    (!shouldHideSelectedOptions(props.hideSelectedOptions, props.isMulti) ||
+    (!shouldHideSelectedOptions(hideSelectedOptionsProp, isMultiProp) ||
       !isSelected) &&
-    filterOption(props, { label, value, data }, inputValue)
+    filterOption({ label, value, data }, filterOptionProp, inputValueProp)
   );
 }
 
@@ -521,19 +535,17 @@ function isOptionSelected<Option>(
   const candidate = getOptionValueProp(option);
   return selectValue.some((i) => getOptionValueProp(i) === candidate);
 }
-function filterOption<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function filterOption<Option>(
   option: FilterOptionOption<Option>,
-  inputValue: string
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  inputValueProp: string
 ) {
-  return props.filterOption ? props.filterOption(option, inputValue) : true;
+  return filterOptionProp ? filterOptionProp(option, inputValueProp) : true;
 }
 
-function shouldHideSelectedOptions<Option, IsMulti extends boolean>(
+function shouldHideSelectedOptions<IsMulti extends boolean>(
   hideSelectedOptionsProp: boolean | undefined,
   isMultiProp: IsMulti
 ) {
@@ -1101,9 +1113,6 @@ export default class Select<
     if (isClearable === undefined) return isMulti;
 
     return isClearable;
-  }
-  filterOption(option: FilterOptionOption<Option>, inputValue: string) {
-    return filterOption(this.props, option, inputValue);
   }
   formatOptionLabel(
     data: Option,
