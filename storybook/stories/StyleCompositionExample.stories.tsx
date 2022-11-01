@@ -12,39 +12,6 @@ export default {
   argTypes: {},
 } as ComponentMeta<typeof Select>;
 
-function Option(props: OptionProps<ColourOption>) {
-  const {
-    children,
-    className,
-    cx,
-    getStyles,
-    innerProps,
-    innerRef,
-    isDisabled,
-    isFocused,
-    isSelected,
-  } = props;
-  console.log(innerRef);
-  return (
-    <div
-      ref={innerRef}
-      css={getStyles('option', props)}
-      className={cx(
-        {
-          option: true,
-          'option--is-disabled': isDisabled,
-          'option--is-focused': isFocused,
-          'option--is-selected': isSelected,
-        },
-        className
-      )}
-      {...innerProps}
-    >
-      {children}
-    </div>
-  );
-}
-
 export function StyleCompositionExample() {
   return (
     <Field label="Style Composition" htmlFor="style-composition-id">
@@ -63,5 +30,30 @@ export function StyleCompositionExample() {
         options={colourOptions}
       />
     </Field>
+  );
+}
+
+// =============================================================================
+// Styled components
+// =============================================================================
+
+function Option(props: OptionProps<ColourOption>) {
+  return (
+    <div
+      ref={props.innerRef}
+      css={props.getStyles('option', props)}
+      className={props.cx(
+        {
+          option: true,
+          'option--is-disabled': props.isDisabled,
+          'option--is-focused': props.isFocused,
+          'option--is-selected': props.isSelected,
+        },
+        props.className
+      )}
+      {...props.innerProps}
+    >
+      {props.children}
+    </div>
   );
 }
