@@ -1,32 +1,19 @@
+import '../styles/tailwind.css';
+
 import type { ComponentMeta } from '@storybook/react';
 import React, { useRef } from 'react';
 import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
-import { Field } from '../components/field';
+import { Button, ButtonGroup, Field } from '../components';
 import { ColourOption, colourOptions } from '../data';
-import '../styles/tailwind.css';
 
 export default {
   title: 'Select/AccessingInternalsViaRef',
   component: Select,
   argTypes: {},
 } as ComponentMeta<typeof Select>;
-
-function filterColors(inputValue: string) {
-  return colourOptions.filter((i) =>
-    i.label.toLowerCase().includes(inputValue.toLowerCase())
-  );
-}
-
-function promiseOptions(inputValue: string) {
-  return new Promise<ColourOption[]>((resolve) => {
-    setTimeout(() => {
-      resolve(filterColors(inputValue));
-    }, 1000);
-  });
-}
 
 export function AccessingInternalsViaRef() {
   const selectRef = useRef<SelectInstance<ColourOption> | null>(null);
@@ -113,19 +100,20 @@ export function AccessingInternalsViaRef() {
   );
 }
 
-function ButtonGroup({ children }: { children: React.ReactNode }) {
-  return <div className="flex gap-4">{children}</div>;
+// =============================================================================
+// Utils
+// =============================================================================
+
+function filterColors(inputValue: string) {
+  return colourOptions.filter((i) =>
+    i.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
 }
 
-function Button(
-  props: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children: React.ReactNode;
-  }
-) {
-  return (
-    <button
-      className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
-      {...props}
-    />
-  );
+function promiseOptions(inputValue: string) {
+  return new Promise<ColourOption[]>((resolve) => {
+    setTimeout(() => {
+      resolve(filterColors(inputValue));
+    }, 1000);
+  });
 }

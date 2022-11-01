@@ -2,7 +2,7 @@ import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
 import Select from 'react-select';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import { flavourOptions } from '../data';
 
 export default {

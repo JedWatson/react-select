@@ -3,7 +3,7 @@ import { jsx } from '@emotion/react';
 import type { ComponentMeta } from '@storybook/react';
 import Select, { OptionProps } from 'react-select';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import { ColourOption, colourOptions } from '../data';
 
 export default {
