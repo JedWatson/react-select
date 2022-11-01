@@ -1,20 +1,20 @@
 import * as React from 'react';
 
-type InlineProps = React.HTMLAttributes<HTMLDivElement> & {
+type StackProps = React.HTMLAttributes<HTMLDivElement> & {
   gap?: keyof typeof gapSize;
 };
 
-export function Inline({
+export function Stack({
   children,
   gap = 'small',
   style,
   ...consumerProps
-}: InlineProps) {
+}: StackProps) {
   return (
     <div
       style={{
         display: 'flex',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
         gap: gapSize[gap],
         ...style,
       }}
