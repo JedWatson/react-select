@@ -155,6 +155,8 @@ export const people: readonly PersonOption[] = [
   { id: 10, name: 'Andrew Ryan', online: true },
 ];
 
+export const EMOJIS = ['👍', '🤙', '👏', '👌', '🙌', '✌️', '🖖', '👐'];
+
 export const defaultArgs = {
   defaultMenuIsOpen: false,
   defaultValue: undefined,
