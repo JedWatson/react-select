@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@atlaskit/modal-dialog": "^11.2.5",
+    "@atlaskit/tooltip": "^17.1.2",
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-typescript": "^7.18.6",
