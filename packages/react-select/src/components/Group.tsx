@@ -47,12 +47,16 @@ export const groupCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: { spacing },
-}: GroupProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  paddingBottom: spacing.baseUnit * 2,
-  paddingTop: spacing.baseUnit * 2,
-});
+>(
+  { theme: { spacing } }: GroupProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel =>
+  unstyled
+    ? {}
+    : {
+        paddingBottom: spacing.baseUnit * 2,
+        paddingTop: spacing.baseUnit * 2,
+      };
 
 const Group = <
   Option,
@@ -114,9 +118,10 @@ export const groupHeadingCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: { spacing },
-}: GroupHeadingProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  { theme: { spacing } }: GroupHeadingProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
@@ -124,9 +129,13 @@ export const groupHeadingCSS = <
   fontSize: '75%',
   fontWeight: 500,
   marginBottom: '0.25em',
-  paddingLeft: spacing.baseUnit * 3,
-  paddingRight: spacing.baseUnit * 3,
   textTransform: 'uppercase',
+  ...(unstyled
+    ? {}
+    : {
+        paddingLeft: spacing.baseUnit * 3,
+        paddingRight: spacing.baseUnit * 3,
+      }),
 });
 
 export const GroupHeading = <

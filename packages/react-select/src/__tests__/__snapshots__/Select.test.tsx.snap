@@ -23,11 +23,6 @@ exports[`snapshot - defaults 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: hsl(0, 0%, 100%);
-  border-color: hsl(0, 0%, 80%);
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px;
   cursor: default;
   display: -webkit-box;
   display: -webkit-flex;
@@ -45,6 +40,11 @@ exports[`snapshot - defaults 1`] = `
   position: relative;
   -webkit-transition: all 100ms;
   transition: all 100ms;
+  background-color: hsl(0, 0%, 100%);
+  border-color: hsl(0, 0%, 80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
   box-sizing: border-box;
 }
 
@@ -65,33 +65,33 @@ exports[`snapshot - defaults 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: 2px 8px;
   -webkit-overflow-scrolling: touch;
   position: relative;
   overflow: hidden;
+  padding: 2px 8px;
   box-sizing: border-box;
 }
 
 .emotion-5 {
-  color: hsl(0, 0%, 50%);
   grid-area: 1/1/2/3;
+  color: hsl(0, 0%, 50%);
   margin-left: 2px;
   margin-right: 2px;
   box-sizing: border-box;
 }
 
 .emotion-6 {
-  margin: 2px;
-  padding-bottom: 2px;
-  padding-top: 2px;
   visibility: visible;
-  color: hsl(0, 0%, 20%);
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   display: inline-grid;
   grid-area: 1/1/2/3;
   grid-template-columns: 0 min-content;
+  margin: 2px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  color: hsl(0, 0%, 20%);
   box-sizing: border-box;
 }
 
@@ -130,22 +130,22 @@ exports[`snapshot - defaults 1`] = `
   -webkit-align-self: stretch;
   -ms-flex-item-align: stretch;
   align-self: stretch;
+  width: 1px;
   background-color: hsl(0, 0%, 80%);
   margin-bottom: 8px;
   margin-top: 8px;
-  width: 1px;
   box-sizing: border-box;
 }
 
 .emotion-9 {
-  color: hsl(0, 0%, 80%);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  padding: 8px;
   -webkit-transition: color 150ms;
   transition: color 150ms;
+  color: hsl(0, 0%, 80%);
+  padding: 8px;
   box-sizing: border-box;
 }
 

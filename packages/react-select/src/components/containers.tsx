@@ -78,20 +78,27 @@ export const valueContainerCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: { spacing },
-  isMulti,
-  hasValue,
-  selectProps: { controlShouldRenderValue },
-}: ValueContainerProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    theme: { spacing },
+    isMulti,
+    hasValue,
+    selectProps: { controlShouldRenderValue },
+  }: ValueContainerProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   alignItems: 'center',
   display: isMulti && hasValue && controlShouldRenderValue ? 'flex' : 'grid',
   flex: 1,
   flexWrap: 'wrap',
-  padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
   WebkitOverflowScrolling: 'touch',
   position: 'relative',
   overflow: 'hidden',
+  ...(unstyled
+    ? {}
+    : {
+        padding: `${spacing.baseUnit / 2}px ${spacing.baseUnit * 2}px`,
+      }),
 });
 export const ValueContainer = <
   Option,
