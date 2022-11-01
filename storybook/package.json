@@ -8,6 +8,7 @@
     "dev": "start-storybook -p 6006"
   },
   "dependencies": {
+    "@atlaskit/icon": "^11.0.1",
     "@atlaskit/modal-dialog": "^11.2.5",
     "@atlaskit/tooltip": "^17.1.2",
     "@babel/core": "^7.19.6",
