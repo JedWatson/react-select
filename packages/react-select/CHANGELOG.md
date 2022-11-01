@@ -1,5 +1,17 @@
 # react-select
 
+## 5.5.9
+
+### Patch Changes
+
+- [`851ed2b8`](https://github.com/JedWatson/react-select/commit/851ed2b8b88d7230be2263a6c07c826bf507374d) [#5430](https://github.com/JedWatson/react-select/pull/5430) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix focused option if `defaultMenuIsOpen` is set
+
+## 5.5.8
+
+### Patch Changes
+
+- [`1ad6de4e`](https://github.com/JedWatson/react-select/commit/1ad6de4ee75041129a657b92931a2965a1805c31) [#5084](https://github.com/JedWatson/react-select/pull/5084) Thanks [@kosciolek](https://github.com/kosciolek)! - When focusing a dropdown option, the numbers included in the aria live region take filtering into consideration.
+
 ## 5.5.7
 
 ### Patch Changes
