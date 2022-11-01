@@ -267,6 +267,8 @@ export interface Props<
   tabIndex: number;
   /** Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean;
+  /** Remove all non-essential styles */
+  unstyled: boolean;
   /** The value of the select; reflected by the selected option */
   value: PropsValue<Option>;
   /** Sets the form attribute on the input */
@@ -315,6 +317,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: 0,
   tabSelectsValue: true,
+  unstyled: false,
 };
 
 interface State<
@@ -1092,7 +1095,8 @@ export default class Select<
     key: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
   ) => {
-    const base = defaultStyles[key](props as any);
+    const { unstyled } = this.props;
+    const base = defaultStyles[key](props as any, unstyled);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;

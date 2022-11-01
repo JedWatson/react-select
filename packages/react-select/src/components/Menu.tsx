@@ -278,20 +278,28 @@ export const menuCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  placement,
-  theme: { borderRadius, spacing, colors },
-}: MenuProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    placement,
+    theme: { borderRadius, spacing, colors },
+  }: MenuProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
-  backgroundColor: colors.neutral0,
-  borderRadius: borderRadius,
-  boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
-  marginBottom: spacing.menuGutter,
-  marginTop: spacing.menuGutter,
   position: 'absolute',
   width: '100%',
   zIndex: 1,
+  ...(unstyled
+    ? {}
+    : {
+        backgroundColor: colors.neutral0,
+        borderRadius: borderRadius,
+        boxShadow:
+          '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
+        marginBottom: spacing.menuGutter,
+        marginTop: spacing.menuGutter,
+      }),
 });
 
 const PortalPlacementContext =
@@ -405,18 +413,25 @@ export const menuListCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  maxHeight,
-  theme: {
-    spacing: { baseUnit },
-  },
-}: MenuListProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    maxHeight,
+    theme: {
+      spacing: { baseUnit },
+    },
+  }: MenuListProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   maxHeight,
   overflowY: 'auto',
-  paddingBottom: baseUnit,
-  paddingTop: baseUnit,
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
+  ...(unstyled
+    ? {}
+    : {
+        paddingBottom: baseUnit,
+        paddingTop: baseUnit,
+      }),
 });
 export const MenuList = <
   Option,
@@ -448,15 +463,22 @@ const noticeCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: {
-    spacing: { baseUnit },
-    colors,
-  },
-}: NoticeProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  color: colors.neutral40,
-  padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
+>(
+  {
+    theme: {
+      spacing: { baseUnit },
+      colors,
+    },
+  }: NoticeProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   textAlign: 'center',
+  ...(unstyled
+    ? {}
+    : {
+        color: colors.neutral40,
+        padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
+      }),
 });
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
