@@ -40,10 +40,7 @@ const styles: StylesConfig<ColourOption> = {
 // Components
 // =============================================================================
 
-const SelectContainer = ({
-  children,
-  ...props
-}: ContainerProps<ColourOption>) => {
+function SelectContainer({ children, ...props }: ContainerProps<ColourOption>) {
   return (
     <Tooltip content={'customise your select container'} delay={0}>
       <components.SelectContainer {...props}>
@@ -51,4 +48,4 @@ const SelectContainer = ({
       </components.SelectContainer>
     </Tooltip>
   );
-};
+}

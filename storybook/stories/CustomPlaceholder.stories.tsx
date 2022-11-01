@@ -46,6 +46,6 @@ const styles: StylesConfig<ColourOption> = {
 // Components
 // =============================================================================
 
-const Placeholder = (props: PlaceholderProps<ColourOption>) => {
+function Placeholder(props: PlaceholderProps<ColourOption>) {
   return <components.Placeholder {...props} />;
-};
+}

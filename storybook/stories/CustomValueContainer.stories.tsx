@@ -49,9 +49,11 @@ const styles: StylesConfig<ColourOption> = {
 // Components
 // =============================================================================
 
-const ValueContainer = ({
+function ValueContainer({
   children,
   ...props
-}: ValueContainerProps<ColourOption>) => (
-  <components.ValueContainer {...props}>{children}</components.ValueContainer>
-);
+}: ValueContainerProps<ColourOption>) {
+  return (
+    <components.ValueContainer {...props}>{children}</components.ValueContainer>
+  );
+}

@@ -49,9 +49,6 @@ const styles: StylesConfig<ColourOption> = {
 // Components
 // =============================================================================
 
-const SingleValue = ({
-  children,
-  ...props
-}: SingleValueProps<ColourOption>) => (
-  <components.SingleValue {...props}>{children}</components.SingleValue>
-);
+function SingleValue({ children, ...props }: SingleValueProps<ColourOption>) {
+  return <components.SingleValue {...props}>{children}</components.SingleValue>;
+}

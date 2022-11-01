@@ -47,7 +47,7 @@ export function CustomSelectProps(props: Props<ColourOption>) {
 // Styles
 // =============================================================================
 
-const styles: StylesConfig<ColourOption, false> = {
+const styles: StylesConfig<ColourOption> = {
   control: (css) => ({ ...css, paddingLeft: '1rem' }),
 };
 
@@ -55,7 +55,7 @@ const styles: StylesConfig<ColourOption, false> = {
 // Components
 // =============================================================================
 
-const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
+function Control({ children, ...props }: ControlProps<ColourOption>) {
   // @ts-ignore
   const { emoji, onEmojiClick } = props.selectProps;
   const style = { cursor: 'pointer' };
@@ -68,4 +68,4 @@ const Control = ({ children, ...props }: ControlProps<ColourOption, false>) => {
       {children}
     </components.Control>
   );
-};
+}
