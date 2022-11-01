@@ -82,18 +82,8 @@ export function AccessingInternalsViaRef() {
           />
         </Field>
         <Inline>
-          <button
-            className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
-            onClick={focusCreatable}
-          >
-            Focus
-          </button>
-          <button
-            className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
-            onClick={blurCreatable}
-          >
-            Blur
-          </button>
+          <Button onClick={focusCreatable}>Focus</Button>
+          <Button onClick={blurCreatable}>Blur</Button>
         </Inline>
       </div>
     </div>
