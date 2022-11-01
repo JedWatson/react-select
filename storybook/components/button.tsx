@@ -2,6 +2,9 @@ import * as React from 'react';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * Please make sure to import the stylesheet for Tailwind when using this component.
+ */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({ type = 'button', ...props }, forwardedRef) {
     return (
