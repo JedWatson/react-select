@@ -623,6 +623,13 @@ export default class Select<
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
+
+    // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
+    if (props.menuIsOpen && this.state.selectValue.length) {
+      const focusableOptions = this.buildFocusableOptions();
+      const optionIndex = focusableOptions.indexOf(this.state.selectValue[0]);
+      this.state.focusedOption = focusableOptions[optionIndex];
+    }
   }
 
   static getDerivedStateFromProps(
@@ -711,6 +718,16 @@ export default class Select<
 
     if (this.props.autoFocus) {
       this.focusInput();
+    }
+
+    // Scroll focusedOption into view if menuIsOpen is set on mount (e.g. defaultMenuIsOpen)
+    if (
+      this.props.menuIsOpen &&
+      this.state.focusedOption &&
+      this.menuListRef &&
+      this.focusedOptionRef
+    ) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
     }
   }
   componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
