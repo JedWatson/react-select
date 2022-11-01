@@ -1,10 +1,10 @@
 import '../styles/tailwind.css';
 
-import Button from '@atlaskit/button/standard-button';
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
 import Select, { StylesConfig } from 'react-select';
 
+import { Button } from '../components';
 import { StateOption, stateOptions } from '../data';
 
 export default {
@@ -22,12 +22,9 @@ export function Popout() {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       target={
-        <Button
-          iconAfter={<ChevronDown />}
-          onClick={() => setIsOpen((prev) => !prev)}
-          isSelected={isOpen}
-        >
+        <Button onClick={() => setIsOpen((prev) => !prev)}>
           {value ? `State: ${value.label}` : 'Select a State'}
+          <ChevronDown />
         </Button>
       }
     >
