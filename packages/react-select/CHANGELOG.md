@@ -1,5 +1,11 @@
 # react-select
 
+## 5.5.9
+
+### Patch Changes
+
+- [`851ed2b8`](https://github.com/JedWatson/react-select/commit/851ed2b8b88d7230be2263a6c07c826bf507374d) [#5430](https://github.com/JedWatson/react-select/pull/5430) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix focused option if `defaultMenuIsOpen` is set
+
 ## 5.5.8
 
 ### Patch Changes
