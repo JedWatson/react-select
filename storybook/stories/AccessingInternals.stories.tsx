@@ -6,7 +6,7 @@ import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
-import { Button, ButtonGroup, Field } from '../components';
+import { Button, Inline, Field } from '../components';
 import { ColourOption, colourOptions } from '../data';
 
 export default {
@@ -48,10 +48,10 @@ export function AccessingInternalsViaRef() {
         <Field label="Select" htmlFor="select-id">
           <Select ref={selectRef} inputId="select-id" options={colourOptions} />
         </Field>
-        <ButtonGroup>
+        <Inline>
           <Button onClick={focus}>Focus</Button>
           <Button onClick={blur}>Blur</Button>
-        </ButtonGroup>
+        </Inline>
       </div>
 
       {/* Async Select */}
@@ -65,10 +65,10 @@ export function AccessingInternalsViaRef() {
             loadOptions={promiseOptions}
           />
         </Field>
-        <ButtonGroup>
+        <Inline>
           <Button onClick={focusAsync}>Focus</Button>
           <Button onClick={blurAsync}>Blur</Button>
-        </ButtonGroup>
+        </Inline>
       </div>
 
       {/* Creatable */}
@@ -81,7 +81,7 @@ export function AccessingInternalsViaRef() {
             options={colourOptions}
           />
         </Field>
-        <ButtonGroup>
+        <Inline>
           <button
             className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
             onClick={focusCreatable}
@@ -94,7 +94,7 @@ export function AccessingInternalsViaRef() {
           >
             Blur
           </button>
-        </ButtonGroup>
+        </Inline>
       </div>
     </div>
   );
