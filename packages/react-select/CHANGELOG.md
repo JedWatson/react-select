@@ -1,5 +1,11 @@
 # react-select
 
+## 5.6.0
+
+### Minor Changes
+
+- [`c37e86d8`](https://github.com/JedWatson/react-select/commit/c37e86d8eaa3f6eba83696453a58d525cce6c7c6) [#4882](https://github.com/JedWatson/react-select/pull/4882) Thanks [@Rall3n](https://github.com/Rall3n)! - Add `required` prop
+
 ## 5.5.9
 
 ### Patch Changes
