@@ -1,5 +1,3 @@
-import '../styles/tailwind.css';
-
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
 import Select, { SelectInstance } from 'react-select';

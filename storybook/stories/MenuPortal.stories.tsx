@@ -1,12 +1,14 @@
-import '../styles/tailwind.css';
-
+import Button from '@atlaskit/button/standard-button';
 import Modal from '@atlaskit/modal-dialog';
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
-import Select, { MenuPlacement, StylesConfig } from 'react-select';
+import Select, {
+  defaultTheme,
+  MenuPlacement,
+  StylesConfig,
+} from 'react-select';
 
-import { Button, ChevronDown, Field, Stack } from '../components';
-import { Inline } from '../components/inline';
+import { ChevronDown, Field, Inline, Stack } from '../components';
 import { ColourOption, colourOptions } from '../data';
 
 export default {
@@ -25,7 +27,13 @@ export function MenuPortal() {
     if (!isModalOpen) return null;
     return (
       <Modal onClose={() => setIsModalOpen(false)}>
-        <Stack className="py-24">
+        <Stack
+          style={{
+            fontFamily: 'system-ui',
+            paddingTop: '6rem',
+            paddingBottom: '6rem',
+          }}
+        >
           <Field
             label="Portaled Menu Element"
             htmlFor="portaled-menu-element-id"
@@ -46,11 +54,31 @@ export function MenuPortal() {
           <Inline gap="large">
             {/* Menu placement */}
             <Field label="Menu Placement" htmlFor="menu-placement-id">
-              <span className="relative inline-flex items-center">
-                <ChevronDown className="absolute right-3 transform -translate-y-1/2 top-1/2 pointer-events-none" />
+              <Inline style={{ position: 'relative', alignItems: 'center' }}>
+                <ChevronDown
+                  style={{
+                    position: 'absolute',
+                    right: '0.75rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    pointerEvents: 'none',
+                    height: '1.5rem',
+                    width: '1.5rem',
+                  }}
+                />
                 <select
                   id="menu-placement-id"
-                  className="block appearance-none border w-full rounded-md border-gray-300 h-10 pl-3 pr-10 text-base focus:border-blue-500 sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  style={{
+                    fontSize: '1rem',
+                    display: 'block',
+                    appearance: 'none',
+                    border: `1px solid ${defaultTheme.colors.neutral20}`,
+                    width: '100%',
+                    borderRadius: '4px',
+                    height: '2.5rem',
+                    paddingLeft: '0.75rem',
+                    paddingRight: '2.5rem',
+                  }}
                   onChange={(e) =>
                     setMenuPlacement(e.currentTarget.value as MenuPlacement)
                   }
@@ -60,30 +88,41 @@ export function MenuPortal() {
                   <option value="bottom">bottom</option>
                   <option value="top">top</option>
                 </select>
-              </span>
+              </Inline>
             </Field>
             {/* Menu Position */}
-            <fieldset>
-              <legend className="font-medium flex flex-col mb-2">
+            <fieldset style={{ padding: 0, margin: 0, border: 'none' }}>
+              <legend
+                style={{
+                  fontWeight: 500,
+                  marginBottom: '0.5rem',
+                }}
+              >
                 Menu position
               </legend>
               <Inline gap="medium">
                 {(['fixed', 'absolute'] as const).map((menuPosition) => (
-                  <div key={menuPosition} className="flex items-center">
+                  <Inline
+                    key={menuPosition}
+                    gap="small"
+                    style={{ alignItems: 'center' }}
+                  >
                     <input
                       id={menuPosition}
                       checked={menuPosition === 'fixed' ? isFixed : !isFixed}
-                      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                       onChange={() => setIsFixed((prev) => !prev)}
+                      style={{
+                        borderRadius: '100%',
+                        height: '1.25rem',
+                        width: '1.25rem',
+                        margin: 0,
+                      }}
                       type="radio"
                     />
-                    <label
-                      htmlFor={menuPosition}
-                      className="ml-3 block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor={menuPosition} style={{ display: 'block' }}>
                       {menuPosition}
                     </label>
-                  </div>
+                  </Inline>
                 ))}
               </Inline>
             </fieldset>

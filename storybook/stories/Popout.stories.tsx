@@ -1,10 +1,9 @@
-import '../styles/tailwind.css';
-
+import Button from '@atlaskit/button/standard-button';
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
-import Select, { StylesConfig } from 'react-select';
+import Select, { defaultTheme, StylesConfig } from 'react-select';
 
-import { Button, ChevronDown, Svg } from '../components';
+import { ChevronDown, Svg } from '../components';
 import { StateOption, stateOptions } from '../data';
 
 export default {
@@ -22,9 +21,11 @@ export function Popout() {
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       target={
-        <Button onClick={() => setIsOpen((prev) => !prev)}>
+        <Button
+          iconAfter={<ChevronDown />}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
           {value ? `State: ${value.label}` : 'Select a State'}
-          <ChevronDown />
         </Button>
       }
     >
@@ -68,16 +69,36 @@ const selectStyles: StylesConfig<StateOption, false> = {
 // =============================================================================
 
 function Menu(props: JSX.IntrinsicElements['div']) {
+  const shadow = 'hsla(218, 50%, 10%, 0.1)';
   return (
     <div
-      className="absolute z-10 mt-2 bg-white rounded shadow-lg border"
+      style={{
+        backgroundColor: '#fff',
+        borderRadius: 4,
+        boxShadow: `0 0 0 1px ${shadow}, 0 4px 11px ${shadow}`,
+        marginTop: 8,
+        position: 'absolute',
+        zIndex: 1,
+      }}
       {...props}
     />
   );
 }
 
 function Blanket(props: JSX.IntrinsicElements['div']) {
-  return <div className="fixed inset-0 transition-colors" {...props} />;
+  return (
+    <div
+      style={{
+        bottom: 0,
+        left: 0,
+        top: 0,
+        right: 0,
+        position: 'fixed',
+        zIndex: 1,
+      }}
+      {...props}
+    />
+  );
 }
 
 function Dropdown({
@@ -102,7 +123,9 @@ function Dropdown({
 
 function DropdownIndicator() {
   return (
-    <div className="h-6 w-8 text-gray-300">
+    <div
+      style={{ color: defaultTheme.colors.neutral20, height: 24, width: 32 }}
+    >
       <Svg>
         <path
           d="M16.436 15.085l3.94 4.01a1 1 0 0 1-1.425 1.402l-3.938-4.006a7.5 7.5 0 1 1 1.423-1.406zM10.5 16a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z"

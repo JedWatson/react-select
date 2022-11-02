@@ -53,7 +53,6 @@ const styles = {
   form: {
     display: 'flex',
     flexDirection: 'column',
-    fontFamily: 'system-ui',
     gap: '0.5rem',
   },
   blockquote: {

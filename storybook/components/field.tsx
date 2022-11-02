@@ -18,7 +18,6 @@ export function Field({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        fontFamily: 'system-ui',
         gap: '0.5rem',
       }}
     >

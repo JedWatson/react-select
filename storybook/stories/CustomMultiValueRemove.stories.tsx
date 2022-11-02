@@ -1,5 +1,3 @@
-import '../styles/tailwind.css';
-
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Tooltip from '@atlaskit/tooltip';
 import type { ComponentMeta } from '@storybook/react';

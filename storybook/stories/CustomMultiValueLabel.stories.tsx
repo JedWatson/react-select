@@ -1,5 +1,3 @@
-import '../styles/tailwind.css';
-
 import Tooltip from '@atlaskit/tooltip';
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';

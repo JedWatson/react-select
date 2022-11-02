@@ -1,12 +1,11 @@
-import '../styles/tailwind.css';
-
+import Button from '@atlaskit/button/standard-button';
 import type { ComponentMeta } from '@storybook/react';
 import React, { useRef } from 'react';
 import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
-import { Button, Inline, Field } from '../components';
+import { Field, Inline, Stack } from '../components';
 import { ColourOption, colourOptions } from '../data';
 
 export default {
@@ -43,8 +42,8 @@ export function AccessingInternalsViaRef() {
   };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
+    <Stack gap="large">
+      <Stack>
         <Field label="Select" htmlFor="select-id">
           <Select ref={selectRef} inputId="select-id" options={colourOptions} />
         </Field>
@@ -52,10 +51,10 @@ export function AccessingInternalsViaRef() {
           <Button onClick={focus}>Focus</Button>
           <Button onClick={blur}>Blur</Button>
         </Inline>
-      </div>
+      </Stack>
 
       {/* Async Select */}
-      <div className="flex flex-col gap-2">
+      <Stack>
         <Field label="Async Select" htmlFor="async-select-id">
           <AsyncSelect
             ref={asyncRef}
@@ -69,10 +68,10 @@ export function AccessingInternalsViaRef() {
           <Button onClick={focusAsync}>Focus</Button>
           <Button onClick={blurAsync}>Blur</Button>
         </Inline>
-      </div>
+      </Stack>
 
       {/* Creatable */}
-      <div className="flex flex-col gap-2">
+      <Stack>
         <Field label="Creatable Select" htmlFor="creatable-select-id">
           <CreatableSelect
             ref={creatableRef}
@@ -85,8 +84,8 @@ export function AccessingInternalsViaRef() {
           <Button onClick={focusCreatable}>Focus</Button>
           <Button onClick={blurCreatable}>Blur</Button>
         </Inline>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 }
 
