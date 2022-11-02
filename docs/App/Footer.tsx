@@ -61,7 +61,7 @@ export default function Footer() {
       <Container>
         <p>
           Copyright © <A href="https://twitter.com/JedWatson">Jed Watson</A>,
-          2021. MIT Licensed.
+          2022. MIT Licensed.
         </p>
         <p>
           Thanks to <A href="https://www.thinkmill.com.au">Thinkmill</A> and{' '}
