@@ -14,7 +14,7 @@ import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
-import { DummyInput, ScrollManager } from './internal/index';
+import { DummyInput, ScrollManager, RequiredInput } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility/index';
 
 import {
@@ -262,6 +262,8 @@ export interface Props<
   value: PropsValue<Option>;
   /** Sets the form attribute on the input */
   form?: string;
+  /** Marks the value-holding input as required for form validation */
+  required?: boolean;
 }
 
 export const defaultProps = {
@@ -1421,6 +1423,15 @@ export default class Select<
     return shouldHideSelectedOptions(this.props);
   };
 
+  // If the hidden input gets focus through form submit,
+  // redirect focus to focusable input.
+  onValueInputFocus: FocusEventHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.focus();
+  };
+
   // ==============================
   // Keyboard Handlers
   // ==============================
@@ -1574,6 +1585,7 @@ export default class Select<
       tabIndex,
       form,
       menuIsOpen,
+      required,
     } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden, ariaSelection } = this.state;
@@ -1590,6 +1602,7 @@ export default class Select<
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
+      'aria-required': required,
       role: 'combobox',
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
@@ -1986,10 +1999,14 @@ export default class Select<
     );
   }
   renderFormField() {
-    const { delimiter, isDisabled, isMulti, name } = this.props;
+    const { delimiter, isDisabled, isMulti, name, required } = this.props;
     const { selectValue } = this.state;
 
     if (!name || isDisabled) return;
+
+    if (required && !this.hasValue()) {
+      return <RequiredInput name={name} onFocus={this.onValueInputFocus} />;
+    }
 
     if (isMulti) {
       if (delimiter) {
@@ -2009,7 +2026,7 @@ export default class Select<
               />
             ))
           ) : (
-            <input name={name} type="hidden" />
+            <input name={name} type="hidden" value="" />
           );
 
         return <div>{input}</div>;

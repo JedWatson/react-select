@@ -475,3 +475,23 @@ cases<KeyboardInteractionOpts>(
       },
   }
 );
+
+test('`required` prop > should validate', () => {
+  const { container } = render(
+    <form id="formTest">
+      <Select {...BASIC_PROPS} menuIsOpen required />
+    </form>
+  );
+
+  expect(
+    container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+  ).toEqual(false);
+
+  let selectOption = container.querySelectorAll('div.react-select__option')[3];
+
+  userEvent.click(selectOption);
+
+  expect(
+    container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+  ).toEqual(true);
+});
