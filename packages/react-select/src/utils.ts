@@ -381,3 +381,19 @@ export const removeProps = <Props extends object, K extends string[]>(
     return newProps;
   }, {}) as Omit<Props, K[number]>;
 };
+
+export function areArraysEqual(
+  newInputs: readonly unknown[],
+  lastInputs: readonly unknown[]
+): boolean {
+  if (newInputs.length !== lastInputs.length) {
+    return false;
+  }
+
+  for (let i = 0; i < newInputs.length; i++) {
+    if (newInputs[i] !== lastInputs[i]) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -10,14 +10,16 @@ import {
   RefCallback,
   TouchEventHandler,
 } from 'react';
+import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager } from './internal/index';
-import { AriaLiveMessages, AriaSelection } from './accessibility/index';
+import { AriaLiveMessages, AriaSelection } from './accessibility';
 
 import {
+  areArraysEqual,
   classNames,
   cleanValue,
   isTouchCapable,
@@ -38,7 +40,7 @@ import {
   isOptionDisabled as isOptionDisabledBuiltin,
 } from './builtins';
 
-import { defaultComponents, SelectComponentsConfig } from './components/index';
+import { defaultComponents, SelectComponentsConfig } from './components';
 
 import { defaultStyles, StylesConfig, StylesProps } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
@@ -343,20 +345,29 @@ type CategorizedGroupOrOption<Option, Group extends GroupBase<Option>> =
   | CategorizedGroup<Option, Group>
   | CategorizedOption<Option>;
 
-function toCategorizedOption<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function toCategorizedOption<Option>(
   option: Option,
+  index: number,
   selectValue: Options<Option>,
-  index: number
+  getOptionLabelProp: GetOptionLabel<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  isOptionDisabledProp: (
+    option: Option,
+    selectValue: Options<Option>
+  ) => boolean,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined
 ): CategorizedOption<Option> {
-  const isDisabled = isOptionDisabled(props, option, selectValue);
-  const isSelected = isOptionSelected(props, option, selectValue);
-  const label = getOptionLabel(props, option);
-  const value = getOptionValue(props, option);
+  const isDisabled = isOptionDisabledProp(option, selectValue);
+  const isSelected = isOptionSelected(
+    option,
+    selectValue,
+    getOptionValueProp,
+    isOptionSelectedProp
+  );
+  const label = getOptionLabelProp(option);
+  const value = getOptionValueProp(option);
 
   return {
     type: 'option',
@@ -374,17 +385,48 @@ function buildCategorizedOptions<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
-  props: Props<Option, IsMulti, Group>,
-  selectValue: Options<Option>
+  selectValue: Options<Option>,
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  getOptionLabelProp: GetOptionLabel<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  hideSelectedOptionsProp: boolean | undefined,
+  inputValueProp: string,
+  isMultiProp: IsMulti,
+  isOptionDisabledProp: (
+    option: Option,
+    selectValue: Options<Option>
+  ) => boolean,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined,
+  optionsProp: OptionsOrGroups<Option, Group>
 ): CategorizedGroupOrOption<Option, Group>[] {
-  return props.options
+  return optionsProp
     .map((groupOrOption, groupOrOptionIndex) => {
       if ('options' in groupOrOption) {
         const categorizedOptions = groupOrOption.options
           .map((option, optionIndex) =>
-            toCategorizedOption(props, option, selectValue, optionIndex)
+            toCategorizedOption(
+              option,
+              optionIndex,
+              selectValue,
+              getOptionLabelProp,
+              getOptionValueProp,
+              isOptionDisabledProp,
+              isOptionSelectedProp
+            )
           )
-          .filter((categorizedOption) => isFocusable(props, categorizedOption));
+          .filter((categorizedOption) =>
+            isFocusable(
+              categorizedOption,
+              filterOptionProp,
+              hideSelectedOptionsProp,
+              inputValueProp,
+              isMultiProp
+            )
+          );
         return categorizedOptions.length > 0
           ? {
               type: 'group' as const,
@@ -395,16 +437,48 @@ function buildCategorizedOptions<
           : undefined;
       }
       const categorizedOption = toCategorizedOption(
-        props,
         groupOrOption,
+        groupOrOptionIndex,
         selectValue,
-        groupOrOptionIndex
+        getOptionLabelProp,
+        getOptionValueProp,
+        isOptionDisabledProp,
+        isOptionSelectedProp
       );
-      return isFocusable(props, categorizedOption)
+      return isFocusable(
+        categorizedOption,
+        filterOptionProp,
+        hideSelectedOptionsProp,
+        inputValueProp,
+        isMultiProp
+      )
         ? categorizedOption
         : undefined;
     })
     .filter(notNullish);
+}
+
+const memoizedBuildCategorizedOptions = memoizeOne(
+  buildCategorizedOptions
+) as typeof buildCategorizedOptions;
+
+function buildCategorizedOptionsFromProps<
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>
+>(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
+  return memoizedBuildCategorizedOptions(
+    selectValue,
+    props.filterOption,
+    props.getOptionLabel,
+    props.getOptionValue,
+    props.hideSelectedOptions,
+    props.inputValue,
+    props.isMulti,
+    props.isOptionDisabled,
+    props.isOptionSelected,
+    props.options
+  );
 }
 
 function buildFocusableOptionsFromCategorizedOptions<
@@ -432,24 +506,25 @@ function buildFocusableOptions<
   Group extends GroupBase<Option>
 >(props: Props<Option, IsMulti, Group>, selectValue: Options<Option>) {
   return buildFocusableOptionsFromCategorizedOptions(
-    buildCategorizedOptions(props, selectValue)
+    buildCategorizedOptionsFromProps(props, selectValue)
   );
 }
 
-function isFocusable<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  categorizedOption: CategorizedOption<Option>
+function isFocusable<Option, IsMulti extends boolean>(
+  categorizedOption: CategorizedOption<Option>,
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  hideSelectedOptionsProp: boolean | undefined,
+  inputValueProp: string,
+  isMultiProp: IsMulti
 ) {
-  const { inputValue = '' } = props;
   const { data, isSelected, label, value } = categorizedOption;
 
   return (
-    (!shouldHideSelectedOptions(props) || !isSelected) &&
-    filterOption(props, { label, value, data }, inputValue)
+    (!shouldHideSelectedOptions(hideSelectedOptionsProp, isMultiProp) ||
+      !isSelected) &&
+    filterOption({ label, value, data }, filterOptionProp, inputValueProp)
   );
 }
 
@@ -484,79 +559,39 @@ function getNextFocusedOption<
     ? lastFocusedOption
     : options[0];
 }
-const getOptionLabel = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  data: Option
-): string => {
-  return props.getOptionLabel(data);
-};
-const getOptionValue = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  data: Option
-): string => {
-  return props.getOptionValue(data);
-};
 
-function isOptionDisabled<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function isOptionSelected<Option>(
   option: Option,
-  selectValue: Options<Option>
-): boolean {
-  return typeof props.isOptionDisabled === 'function'
-    ? props.isOptionDisabled(option, selectValue)
-    : false;
-}
-function isOptionSelected<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
-  option: Option,
-  selectValue: Options<Option>
+  selectValue: Options<Option>,
+  getOptionValueProp: GetOptionValue<Option>,
+  isOptionSelectedProp:
+    | ((option: Option, selectValue: Options<Option>) => boolean)
+    | undefined
 ): boolean {
   if (selectValue.indexOf(option) > -1) return true;
-  if (typeof props.isOptionSelected === 'function') {
-    return props.isOptionSelected(option, selectValue);
+  if (typeof isOptionSelectedProp === 'function') {
+    return isOptionSelectedProp(option, selectValue);
   }
-  const candidate = getOptionValue(props, option);
-  return selectValue.some((i) => getOptionValue(props, i) === candidate);
+  const candidate = getOptionValueProp(option);
+  return selectValue.some((i) => getOptionValueProp(i) === candidate);
 }
-function filterOption<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>,
+function filterOption<Option>(
   option: FilterOptionOption<Option>,
-  inputValue: string
+  filterOptionProp:
+    | ((option: FilterOptionOption<Option>, inputValue: string) => boolean)
+    | null,
+  inputValueProp: string
 ) {
-  return props.filterOption ? props.filterOption(option, inputValue) : true;
+  return filterOptionProp ? filterOptionProp(option, inputValueProp) : true;
 }
 
-const shouldHideSelectedOptions = <
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
->(
-  props: Props<Option, IsMulti, Group>
-) => {
-  const { hideSelectedOptions, isMulti } = props;
-  if (hideSelectedOptions === undefined) return isMulti;
-  return hideSelectedOptions;
-};
+function shouldHideSelectedOptions<IsMulti extends boolean>(
+  hideSelectedOptionsProp: boolean | undefined,
+  isMultiProp: IsMulti
+) {
+  if (hideSelectedOptionsProp === undefined) return isMultiProp;
+  return hideSelectedOptionsProp;
+}
 
 let instanceId = 1;
 
@@ -645,7 +680,13 @@ export default class Select<
       prevWasFocused,
     } = state;
     const { options, value, menuIsOpen, inputValue, isMulti } = props;
-    const selectValue = cleanValue(value);
+
+    // Try to preserve instance equality of `selectValue` if possible to improve memoization of `buildCategorizedOptions`.
+    const cleanedSelectValue = cleanValue(value);
+    const selectValue = areArraysEqual(state.selectValue, cleanedSelectValue)
+      ? state.selectValue
+      : cleanedSelectValue;
+
     let newMenuOptionsState = {};
     if (
       prevProps &&
@@ -937,13 +978,13 @@ export default class Select<
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
     const deselected = isMulti && this.isOptionSelected(newValue, selectValue);
-    const isDisabled = this.isOptionDisabled(newValue, selectValue);
+    const isDisabled = this.props.isOptionDisabled(newValue, selectValue);
 
     if (deselected) {
-      const candidate = this.getOptionValue(newValue);
+      const candidate = this.props.getOptionValue(newValue);
       this.setValue(
         multiValueAsValue(
-          selectValue.filter((i) => this.getOptionValue(i) !== candidate)
+          selectValue.filter((i) => this.props.getOptionValue(i) !== candidate)
         ),
         'deselect-option',
         newValue
@@ -975,9 +1016,9 @@ export default class Select<
   removeValue = (removedValue: Option) => {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
-    const candidate = this.getOptionValue(removedValue);
+    const candidate = this.props.getOptionValue(removedValue);
     const newValueArray = selectValue.filter(
-      (i) => this.getOptionValue(i) !== candidate
+      (i) => this.props.getOptionValue(i) !== candidate
     );
     const newValue = valueTernary(
       isMulti,
@@ -1068,12 +1109,6 @@ export default class Select<
     };
   }
 
-  getOptionLabel = (data: Option): string => {
-    return getOptionLabel(this.props, data);
-  };
-  getOptionValue = (data: Option): string => {
-    return getOptionValue(this.props, data);
-  };
   getStyles = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
     key: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
@@ -1100,7 +1135,7 @@ export default class Select<
   };
 
   buildCategorizedOptions = () =>
-    buildCategorizedOptions(this.props, this.state.selectValue);
+    buildCategorizedOptionsFromProps(this.props, this.state.selectValue);
   getCategorizedOptions = () =>
     this.props.menuIsOpen ? this.buildCategorizedOptions() : [];
   buildFocusableOptions = () =>
@@ -1135,14 +1170,13 @@ export default class Select<
 
     return isClearable;
   }
-  isOptionDisabled(option: Option, selectValue: Options<Option>): boolean {
-    return isOptionDisabled(this.props, option, selectValue);
-  }
   isOptionSelected(option: Option, selectValue: Options<Option>): boolean {
-    return isOptionSelected(this.props, option, selectValue);
-  }
-  filterOption(option: FilterOptionOption<Option>, inputValue: string) {
-    return filterOption(this.props, option, inputValue);
+    return isOptionSelected(
+      option,
+      selectValue,
+      this.props.getOptionValue,
+      this.props.isOptionSelected
+    );
   }
   formatOptionLabel(
     data: Option,
@@ -1157,7 +1191,7 @@ export default class Select<
         selectValue,
       });
     } else {
-      return this.getOptionLabel(data);
+      return this.props.getOptionLabel(data);
     }
   }
   formatGroupLabel(data: Group) {
@@ -1176,7 +1210,7 @@ export default class Select<
     event.preventDefault();
     this.focusInput();
   };
-  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = (event) => {
+  onMenuMouseMove: MouseEventHandler<HTMLDivElement> = () => {
     this.blockOptionHover = false;
   };
   onControlMouseDown = (
@@ -1416,9 +1450,6 @@ export default class Select<
       return;
     }
     this.setState({ focusedOption });
-  };
-  shouldHideSelectedOptions = () => {
-    return shouldHideSelectedOptions(this.props);
   };
 
   // ==============================
@@ -1684,7 +1715,9 @@ export default class Select<
     if (isMulti) {
       return selectValue.map((opt, index) => {
         const isOptionFocused = opt === focusedValue;
-        const key = `${this.getOptionLabel(opt)}-${this.getOptionValue(opt)}`;
+        const key = `${this.props.getOptionLabel(
+          opt
+        )}-${this.props.getOptionValue(opt)}`;
 
         return (
           <MultiValue
@@ -1994,7 +2027,7 @@ export default class Select<
     if (isMulti) {
       if (delimiter) {
         const value = selectValue
-          .map((opt) => this.getOptionValue(opt))
+          .map((opt) => this.props.getOptionValue(opt))
           .join(delimiter);
         return <input name={name} type="hidden" value={value} />;
       } else {
@@ -2005,7 +2038,7 @@ export default class Select<
                 key={`i-${i}`}
                 name={name}
                 type="hidden"
-                value={this.getOptionValue(opt)}
+                value={this.props.getOptionValue(opt)}
               />
             ))
           ) : (
@@ -2015,7 +2048,9 @@ export default class Select<
         return <div>{input}</div>;
       }
     } else {
-      const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
+      const value = selectValue[0]
+        ? this.props.getOptionValue(selectValue[0])
+        : '';
       return <input name={name} type="hidden" value={value} />;
     }
   }
