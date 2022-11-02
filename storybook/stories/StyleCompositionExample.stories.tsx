@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
 import type { ComponentMeta } from '@storybook/react';
-import Select, { OptionProps } from 'react-select';
+import Select, { OptionProps, StylesConfig } from 'react-select';
 
 import { Field } from '../components';
 import { ColourOption, colourOptions } from '../data';
@@ -19,13 +19,7 @@ export function StyleCompositionExample() {
         inputId="style-composition-id"
         closeMenuOnSelect={false}
         components={{ Option }}
-        styles={{
-          option: (base) => ({
-            ...base,
-            border: `1px dotted ${colourOptions[2].color}`,
-            height: '100%',
-          }),
-        }}
+        styles={styles}
         defaultValue={colourOptions[4]}
         options={colourOptions}
       />
@@ -34,7 +28,19 @@ export function StyleCompositionExample() {
 }
 
 // =============================================================================
-// Styled components
+// Styles
+// =============================================================================
+
+const styles: StylesConfig<ColourOption> = {
+  option: (base) => ({
+    ...base,
+    border: `1px dotted ${colourOptions[2].color}`,
+    height: '100%',
+  }),
+};
+
+// =============================================================================
+// Components
 // =============================================================================
 
 function Option(props: OptionProps<ColourOption>) {

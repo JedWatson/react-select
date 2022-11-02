@@ -1,9 +1,9 @@
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
-import Select, { SelectInstance } from 'react-select';
+import Select, { SelectInstance, StylesConfig } from 'react-select';
 
 import { Field, Inline, Stack } from '../components';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
 export default {
   title: 'Select/ControlledMenu',
@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof Select>;
 
 export function ControlledMenu() {
-  const inputRef = React.useRef<SelectInstance>(null);
+  const inputRef = React.useRef<SelectInstance<ColourOption>>(null);
   const [menuIsOpen, setMenuIsOpen] = React.useState<boolean>(false);
 
   function toggleMenuIsOpen() {
@@ -40,9 +40,17 @@ export function ControlledMenu() {
           defaultValue={colourOptions[0]}
           menuIsOpen={menuIsOpen}
           options={colourOptions}
-          styles={{ menu: (base) => ({ ...base, position: 'relative' }) }}
+          styles={styles}
         />
       </Field>
     </Stack>
   );
 }
+
+// =============================================================================
+// Styles
+// =============================================================================
+
+const styles: StylesConfig<ColourOption, false> = {
+  menu: (base) => ({ ...base, position: 'relative' }),
+};

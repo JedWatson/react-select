@@ -2,7 +2,11 @@ import EditorPanelIcon from '@atlaskit/icon/glyph/editor/panel';
 import Tooltip from '@atlaskit/tooltip';
 import type { ComponentMeta } from '@storybook/react';
 import * as React from 'react';
-import Select, { components, GroupHeadingProps } from 'react-select';
+import Select, {
+  components,
+  GroupHeadingProps,
+  StylesConfig,
+} from 'react-select';
 import { Field } from '../components';
 import {
   ColourOption,
@@ -25,18 +29,24 @@ export function CustomGroupHeading() {
         defaultValue={colourOptions[1]}
         options={groupedOptions}
         components={{ GroupHeading }}
-        styles={{
-          groupHeading: (base) => ({
-            ...base,
-            flex: '1 1',
-            color: 'white',
-            margin: 0,
-          }),
-        }}
+        styles={styles}
       />
     </Field>
   );
 }
+
+// =============================================================================
+// Styles
+// =============================================================================
+
+const styles: StylesConfig<ColourOption | FlavourOption> = {
+  groupHeading: (base) => ({
+    ...base,
+    flex: '1 1',
+    color: 'white',
+    margin: 0,
+  }),
+};
 
 // =============================================================================
 // Components
