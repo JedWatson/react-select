@@ -1,5 +1,7 @@
+/** @jsx jsx */
+import { jsx, Global, css } from '@emotion/react';
 import type { DecoratorFn } from '@storybook/react';
-import * as React from 'react';
+import { Fragment } from 'react';
 
 export const parameters = {
   options: {
@@ -12,12 +14,25 @@ export const parameters = {
   },
 };
 
-const withSystemFont: DecoratorFn = (Story) => {
+const globalStyles = css`
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+  }
+`;
+
+const withCssReset: DecoratorFn = (Story) => {
   return (
-    <div style={{ fontFamily: 'system-ui' }}>
+    <Fragment>
+      <Global styles={globalStyles} />
       <Story />
-    </div>
+    </Fragment>
   );
 };
 
-export const decorators = [withSystemFont];
+export const decorators = [withCssReset];
