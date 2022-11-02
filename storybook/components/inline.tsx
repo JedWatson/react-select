@@ -13,7 +13,7 @@ export function Inline({
   return (
     <div
       style={{
-        display: 'flex',
+        display: 'inline-flex',
         flexWrap: 'wrap',
         gap: gapSize[gap],
         ...style,
