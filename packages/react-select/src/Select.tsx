@@ -105,7 +105,7 @@ export interface Props<
    */
   classNamePrefix?: string | null;
   /**
-   * Provide a className based on state for each inner component
+   * Provide classNames based on state for each inner component
    */
   classNames: ClassNamesConfig<Option, IsMulti, Group>;
   /** Close the select menu when the user selects an option */
@@ -1059,7 +1059,7 @@ export default class Select<
       clearValue,
       cx,
       getStyles,
-      getClassName,
+      getClassNames,
       getValue,
       selectOption,
       setValue,
@@ -1072,7 +1072,7 @@ export default class Select<
       clearValue,
       cx,
       getStyles,
-      getClassName,
+      getClassNames,
       getValue,
       hasValue,
       isMulti,
@@ -1101,7 +1101,7 @@ export default class Select<
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
-  getClassName = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+  getClassNames = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
     key: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
   ) => this.props.classNames[key]?.(props as any);

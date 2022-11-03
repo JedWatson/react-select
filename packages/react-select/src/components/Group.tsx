@@ -69,7 +69,7 @@ const Group = <
     children,
     cx,
     getStyles,
-    getClassName,
+    getClassNames,
     Heading,
     headingProps,
     innerProps,
@@ -84,7 +84,7 @@ const Group = <
         selectProps={selectProps}
         theme={theme}
         getStyles={getStyles}
-        getClassName={getClassName}
+        getClassNames={getClassNames}
         cx={cx}
       >
         {label}
@@ -103,7 +103,7 @@ interface GroupHeadingPropsDefinedProps<
   selectProps: Props<Option, IsMulti, Group>;
   theme: Theme;
   getStyles: GetStyles<Option, IsMulti, Group>;
-  getClassName: CommonProps<Option, IsMulti, Group>['getClassName'];
+  getClassNames: CommonProps<Option, IsMulti, Group>['getClassNames'];
   cx: CX;
 }
 
@@ -119,22 +119,22 @@ export const groupHeadingCSS = <
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 >(
-  { theme: { spacing } }: GroupHeadingProps<Option, IsMulti, Group>,
+  { theme: { colors, spacing } }: GroupHeadingProps<Option, IsMulti, Group>,
   unstyled: boolean
 ): CSSObjectWithLabel => ({
   label: 'group',
-  color: '#999',
   cursor: 'default',
   display: 'block',
-  fontSize: '75%',
-  fontWeight: 500,
-  marginBottom: '0.25em',
-  textTransform: 'uppercase',
   ...(unstyled
     ? {}
     : {
+        color: colors.neutral40,
+        fontSize: '75%',
+        fontWeight: 500,
+        marginBottom: '0.25em',
         paddingLeft: spacing.baseUnit * 3,
         paddingRight: spacing.baseUnit * 3,
+        textTransform: 'uppercase',
       }),
 });
 
