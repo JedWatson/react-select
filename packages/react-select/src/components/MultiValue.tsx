@@ -69,10 +69,7 @@ export const multiValueLabelCSS = <
   }: MultiValueProps<Option, IsMulti, Group>,
   unstyled: boolean
 ): CSSObjectWithLabel => ({
-  fontSize: '85%',
   overflow: 'hidden',
-  padding: 3,
-  paddingLeft: 6,
   textOverflow:
     cropWithEllipsis || cropWithEllipsis === undefined ? 'ellipsis' : undefined,
   whiteSpace: 'nowrap',
@@ -81,6 +78,9 @@ export const multiValueLabelCSS = <
     : {
         borderRadius: borderRadius / 2,
         color: colors.neutral80,
+        fontSize: '85%',
+        padding: 3,
+        paddingLeft: 6,
       }),
 });
 

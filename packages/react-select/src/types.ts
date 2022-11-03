@@ -82,7 +82,7 @@ export interface CommonProps<
     See the `styles` object for the properties available.
   */
   getStyles: GetStyles<Option, IsMulti, Group>;
-  getClassName: <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+  getClassNames: <Key extends keyof StylesProps<Option, IsMulti, Group>>(
     propertyName: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
   ) => string | undefined;

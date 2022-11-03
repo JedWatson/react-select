@@ -53,7 +53,15 @@ const Template: ComponentStory<typeof Select> = ({
               isFocused ? 'hover:text-neutral-800' : 'hover:text-neutral-400'
             ),
           group: () => classNames('py-2'),
-          groupHeading: () => classNames('px-3'),
+          groupHeading: () =>
+            classNames(
+              'text-neutral-400',
+              'text-xs',
+              'font-medium',
+              'mb-1',
+              'px-3',
+              'uppercase'
+            ),
           // indicatorsContainer: () => classNames(),
           indicatorSeparator: ({ isDisabled }) =>
             classNames(
@@ -77,7 +85,14 @@ const Template: ComponentStory<typeof Select> = ({
           menuList: () => classNames('py-1'),
           // menuPortal: () => classNames(),
           multiValue: () => classNames('bg-neutral-100', 'rounded-sm', 'm-0.5'),
-          multiValueLabel: () => classNames('rounded-sm', 'text-neutral-800'),
+          multiValueLabel: () =>
+            classNames(
+              'rounded-sm',
+              'text-neutral-800',
+              'text-sm',
+              'p-[3]',
+              'pl-[6]'
+            ),
           multiValueRemove: ({ isFocused }) =>
             classNames(
               'rounded-sm',

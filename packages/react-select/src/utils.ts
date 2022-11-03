@@ -94,7 +94,7 @@ export const cleanCommonProps = <
     clearValue,
     cx,
     getStyles,
-    getClassName,
+    getClassNames,
     getValue,
     hasValue,
     isMulti,
@@ -121,16 +121,16 @@ export const getStyleProps = <
 >(
   props: Pick<
     CommonPropsAndClassName<Option, IsMulti, Group>,
-    'cx' | 'getStyles' | 'getClassName' | 'className'
+    'cx' | 'getStyles' | 'getClassNames' | 'className'
   > &
     StylesProps<Option, IsMulti, Group>[Key],
   name: Key,
   classNamesState?: ClassNamesState
 ) => {
-  const { cx, getStyles, getClassName, className } = props;
+  const { cx, getStyles, getClassNames, className } = props;
   return {
     css: getStyles(name, props),
-    className: cx(classNamesState ?? {}, getClassName(name, props), className),
+    className: cx(classNamesState ?? {}, getClassNames(name, props), className),
   };
 };
 
