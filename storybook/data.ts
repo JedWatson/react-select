@@ -155,6 +155,19 @@ export const people: readonly PersonOption[] = [
   { id: 10, name: 'Andrew Ryan', online: true },
 ];
 
+export type NumberOption = {
+  readonly label: string;
+  readonly value: string;
+};
+
+export const numbers: NumberOption[] = [
+  { label: 'One', value: 'one' },
+  { label: 'Two', value: 'two' },
+  { label: 'Three', value: 'three' },
+];
+
+export const EMOJIS = ['👍', '🤙', '👏', '👌', '🙌', '✌️', '🖖', '👐'];
+
 export const defaultArgs = {
   defaultMenuIsOpen: false,
   defaultValue: undefined,

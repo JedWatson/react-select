@@ -3,7 +3,7 @@ import * as React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import { colourOptions, defaultArgs } from '../data';
 
 export default {
