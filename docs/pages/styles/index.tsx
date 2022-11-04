@@ -26,146 +26,128 @@ export default function Styles() {
       {md`
     # Styles
 
-    React-Select offers a flexible, light-weight styling framework which is
-    a thin abstraction over simple javascript objects using
-    [emotion](https://emotion.sh/).
+    React Select offers 3 main APIs for styling;
+
+    - [The styles prop](#the-styles-prop)
+    - [The classNames prop](#the-classnames-prop)
+    - [The classNamePrefix prop](#the-classnameprefix-prop)
+
+    ## The styles prop
+
+    The recommended way to provide custom styles to \`react-select\` is to use the \`styles\` prop.
+    \`styles\` takes an object with [keys](#todo) to represent the various [inner components](#todo) that \`react-select\` is made up of.
+    Each inner component takes a callback function with the following signature;
 
     ~~~jsx
-    /**
-     * @param {Object} provided -- the component's default styles
-     * @param {Object} state -- the component's current state e.g. \`isFocused\`
-     * @returns {Object}
-     */
-    function styleFn(provided, state) {
-      return { ...provided, color: state.isFocused ? 'blue' : 'red' };
-    }
+    <Select
+      styles={{
+        control: (baseStyles, state) => ({
+          ...baseStyles,
+          borderColor: state.isFocused ? 'grey' : 'red',
+        }),
+      }}
+    />
     ~~~
 
-    ## Style Object
+    The first argument is an object with the base styles. Spreading the base styles into your returned object lets you extend it however you like while maintaining existing styles. Alternatively, you can omit the provided styles and completely take control of the component's styles.
 
-    Each component is keyed, and ships with default styles. The component's
-    default style object is passed as the first argument to the function
-    when it's resolved.
+    The second argument is the current state (features like \`isFocused\`, \`isSelected\` etc). This allows you to implement dynamic styles for each of the components.
 
-    The second argument is the current state of the select, features like
-    \`isFocused\`, \`isSelected\` etc. allowing you to
-    implement dynamic styles for each of the components.
+    ## The classNames prop
 
-    ###### Style Keys
+    As of version \`5.7.0\` of \`react-select\` you can now use the \`classNames\` prop for styling. Note: this is not to be confused with the \`className\` prop, which will add a class to the component.
 
-    - \`clearIndicator\`
-    - \`container\`
-    - \`control\`
-    - \`dropdownIndicator\`
-    - \`group\`
-    - \`groupHeading\`
-    - \`indicatorsContainer\`
-    - \`indicatorSeparator\`
-    - \`input\`
-    - \`loadingIndicator\`
-    - \`loadingMessage\`
-    - \`menu\`
-    - \`menuList\`
-    - \`menuPortal\`
-    - \`multiValue\`
-    - \`multiValueLabel\`
-    - \`multiValueRemove\`
-    - \`noOptionsMessage\`
-    - \`option\`
-    - \`placeholder\`
-    - \`singleValue\`
-    - \`valueContainer\`
-
-    ## Provided Styles and State
-
-    Spreading the provided styles into your returned object lets you extend it
-    however you like while maintaining existing styles. Alternatively, you
-    can omit the provided styles and completely take control of the component's styles.
+    \`classNames\` takes an object with [keys](#todo) to represent the various [inner components](#todo) that \`react-select\` is made up of.
+    Each inner component takes a callback function with the following signature;
 
     ~~~jsx
-    const customStyles = {
-      option: (provided, state) => ({
-        ...provided,
-        borderBottom: '1px dotted pink',
-        color: state.isSelected ? 'red' : 'blue',
-        padding: 20,
-      }),
-      control: () => ({
-        // none of react-select's styles are passed to <Control />
-        width: 200,
-      }),
-      singleValue: (provided, state) => {
-        const opacity = state.isDisabled ? 0.5 : 1;
-        const transition = 'opacity 300ms';
+    <Select
+      classNames={{
+        control: (state) =>
+          state.isFocused ? 'border-red-600' : 'border-grey-300',
+      }}
+    />
+    ~~~
 
-        return { ...provided, opacity, transition };
-      }
-    }
+    ### Note on CSS specificity
 
-      const App = () => (
-        <Select
-          styles={customStyles}
-          options={...}
-        />
-      );
-      ~~~
+    If you are using the \`classNames\` API and you are trying to override some base styles with the same level of specificity, you must ensure that your provided styles are declared later than the styles from React Select (e.g. the \`link\` or \`style\` tag in the head of your HTML document) in order for them to take precedence.
 
+    For an example on how you might want to do this, see the [Storybook example here](https://github.com/JedWatson/react-select/master/storybook/stories/ClassNamesWithTailwind.stories.tsx).
 
-    ## Select Props
-    In the second argument \`state\`, you have access to \`selectProps\` which will allow you to gain access to
-    your own arguments passed into the \`Select\` body.
+    ## The unstyled prop
+
+    If you are trying to style everything from scratch you can use the \`unstyled\` prop. This removes all the presentational styles from React Select (leaving some important functional styles, like those for menu positioning and input width in multi select).
+
+    This will make it easier to completely specify your own \`styles\` _or_ \`classNames\` to control the look of React Select, without having to specifically override the default theme we apply.
+
+    ## Inner components
+
+    <details>
+    <summary>See list of keys for all of React Select's inner components</summary>
+      <ul>
+        <li>clearIndicator</li>
+        <li>container</li>
+        <li>control</li>
+        <li>dropdownIndicator</li>
+        <li>group</li>
+        <li>groupHeading</li>
+        <li>indicatorsContainer</li>
+        <li>indicatorSeparator</li>
+        <li>input</li>
+        <li>loadingIndicator</li>
+        <li>loadingMessage</li>
+        <li>menu</li>
+        <li>menuList</li>
+        <li>menuPortal</li>
+        <li>multiValue</li>
+        <li>multiValueLabel</li>
+        <li>multiValueRemove</li>
+        <li>noOptionsMessage</li>
+        <li>option</li>
+        <li>placeholder</li>
+        <li>singleValue</li>
+        <li>valueContainer</li>
+      </ul>
+    </details>
+
+    ## The classNamePrefix prop
+
+    If you provide the \`classNamePrefix\` prop to React Select, all inner elements will be given a className with the provided prefix.
+
+    Given the following JSX:
 
     ~~~jsx
-    const customStyles = {
-      menu: (provided, state) => ({
-        ...provided,
-        width: state.selectProps.width,
-        borderBottom: '1px dotted pink',
-        color: state.selectProps.menuColor,
-        padding: 20,
-      }),
+    <Select
+      {...props}
+      className="react-select-container"
+      classNamePrefix="react-select"
+    />
+    ~~~
 
-      control: (_, { selectProps: { width }}) => ({
-        width: width
-      }),
+    ...the DOM structure is similar to this:
 
-      singleValue: (provided, state) => {
-        const opacity = state.isDisabled ? 0.5 : 1;
-        const transition = 'opacity 300ms';
+    ~~~html
+    <div class="react-select-container">
+      <div class="react-select__control">
+        <div class="react-select__value-container">...</div>
+        <div class="react-select__indicators">...</div>
+      </div>
+      <div class="react-select__menu">
+        <div class="react-select__menu-list">
+          <div class="react-select__option">...</div>
+        </div>
+      </div>
+    </div>
+    ~~~
 
-        return { ...provided, opacity, transition };
-      }
-    }
+    ## Select props
 
-      const App = () => (
-        <Select
-          styles={customStyles}
-          width='200px'
-          menuColor='red'
-          options={...}
-        />
-      );
-      ~~~
+    In the \`state\` argument for both the \`styles\` and \`classNames\` API, you have access to \`selectProps\` which will allow you to gain access to your own arguments passed into the Select body.
 
-      ${(
-        <ExampleWrapper
-          label="Customised Styles for Single Select"
-          urlPath="docs/examples/StyledSingle.tsx"
-          raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
-        >
-          <StyledSingle />
-        </ExampleWrapper>
-      )}
 
-      ${(
-        <ExampleWrapper
-          label="Customised styles for Multi Select"
-          urlPath="docs/examples/StyledMulti.tsx"
-          raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
-        >
-          <StyledMulti />
-        </ExampleWrapper>
-      )}
+
+
 
     ## cx and custom Components
 
@@ -234,34 +216,6 @@ export default function Styles() {
       </ExampleWrapper>
     )}
 
-    ## Using classNames
-
-    If you provide the \`className\` prop to react-select, the SelectContainer will be given a className based on the provided value.
-
-    If you provide the \`classNamePrefix\` prop to react-select, all inner elements will be given a className
-    with the provided prefix.
-
-    For example, given \`className='react-select-container'\` and \`classNamePrefix="react-select"\`,
-    the DOM structure is similar to this:
-
-    ~~~html
-    <div class="react-select-container">
-      <div class="react-select__control">
-        <div class="react-select__value-container">...</div>
-        <div class="react-select__indicators">...</div>
-      </div>
-      <div class="react-select__menu">
-        <div class="react-select__menu-list">
-          <div class="react-select__option">...</div>
-        </div>
-      </div>
-    </div>
-    ~~~
-
-    While we encourage you to use the new Styles API, you still have the option of styling via CSS classes.
-    This ensures compatibility with [styled components](https://www.styled-components.com/),
-    [CSS modules](https://github.com/css-modules/css-modules) and other libraries.
-
     ## Overriding the theme
 
     The default styles are derived from a theme object, which you can mutate like \`styles\`.
@@ -291,6 +245,28 @@ export default function Styles() {
         ))}
       </div>
     )}
+
+    ## Examples
+
+      ${(
+        <ExampleWrapper
+          label="Customised Styles for Single Select"
+          urlPath="docs/examples/StyledSingle.tsx"
+          raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
+        >
+          <StyledSingle />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Customised styles for Multi Select"
+          urlPath="docs/examples/StyledMulti.tsx"
+          raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
+        >
+          <StyledMulti />
+        </ExampleWrapper>
+      )}
 
     `}
     </Fragment>
