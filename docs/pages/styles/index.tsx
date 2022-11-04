@@ -26,7 +26,7 @@ export default function Styles() {
       {md`
     # Styles
 
-    React Select offers 3 main APIs for styling;
+    React Select offers 3 main APIs for styling:
 
     - [The styles prop](#the-styles-prop)
     - [The classNames prop](#the-classnames-prop)
@@ -35,8 +35,8 @@ export default function Styles() {
     ## The styles prop
 
     The recommended way to provide custom styles to \`react-select\` is to use the \`styles\` prop.
-    \`styles\` takes an object with [keys](#todo) to represent the various [inner components](#todo) that \`react-select\` is made up of.
-    Each inner component takes a callback function with the following signature;
+    \`styles\` takes an object with keys to represent the various [inner components](#inner-components) that \`react-select\` is made up of.
+    Each inner component takes a callback function with the following signature:
 
     ~~~jsx
     <Select
@@ -57,8 +57,8 @@ export default function Styles() {
 
     As of version \`5.7.0\` of \`react-select\` you can now use the \`classNames\` prop for styling. Note: this is not to be confused with the \`className\` prop, which will add a class to the component.
 
-    \`classNames\` takes an object with [keys](#todo) to represent the various [inner components](#todo) that \`react-select\` is made up of.
-    Each inner component takes a callback function with the following signature;
+    \`classNames\` takes an object with keys to represent the various [inner components](#inner-components) that \`react-select\` is made up of.
+    Each inner component takes a callback function with the following signature:
 
     ~~~jsx
     <Select
@@ -73,7 +73,7 @@ export default function Styles() {
 
     If you are using the \`classNames\` API and you are trying to override some base styles with the same level of specificity, you must ensure that your provided styles are declared later than the styles from React Select (e.g. the \`link\` or \`style\` tag in the head of your HTML document) in order for them to take precedence.
 
-    For an example on how you might want to do this, see the [Storybook example here](https://github.com/JedWatson/react-select/master/storybook/stories/ClassNamesWithTailwind.stories.tsx).
+    For an example on how you might want to do this, see the [Storybook example here](https://github.com/JedWatson/react-select/blob/master/storybook/stories/ClassNamesWithTailwind.stories.tsx).
 
     ## The unstyled prop
 
@@ -84,7 +84,7 @@ export default function Styles() {
     ## Inner components
 
     <details>
-    <summary>See list of keys for all of React Select's inner components</summary>
+      <summary>See list of keys for all of React Select's inner components</summary>
       <ul>
         <li>clearIndicator</li>
         <li>container</li>
