@@ -120,9 +120,9 @@ export type StylesConfig<
 };
 
 export type ClassNamesConfig<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+	Option = unknown,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = {
   [K in keyof StylesProps<Option, IsMulti, Group>]?: (
     props: StylesProps<Option, IsMulti, Group>[K]
