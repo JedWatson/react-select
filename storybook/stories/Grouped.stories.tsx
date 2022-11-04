@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import * as React from 'react';
 import Select from 'react-select';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import { defaultArgs, groupedOptions } from '../data';
 
 export default {

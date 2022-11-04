@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { SelectInstance } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import { defaultArgs } from '../data';
 
 export default {

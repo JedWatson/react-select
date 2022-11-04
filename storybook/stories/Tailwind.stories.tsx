@@ -7,7 +7,7 @@ import type { GroupBase, OptionProps, ValueContainerProps } from 'react-select';
 import Select, { components } from 'react-select';
 import { omit } from 'remeda';
 
-import { Field } from '../components/field';
+import { Field } from '../components';
 import type { PersonOption } from '../data';
 import { defaultArgs, people } from '../data';
 
