@@ -120,7 +120,7 @@ export type StylesConfig<
 };
 
 export type ClassNamesConfig<
-	Option = unknown,
+  Option = unknown,
   IsMulti extends boolean = boolean,
   Group extends GroupBase<Option> = GroupBase<Option>
 > = {
