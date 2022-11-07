@@ -33,7 +33,7 @@
     "chrono-node": "^2.1.11",
     "clean-webpack-plugin": "^3.0.0",
     "codesandboxer": "^0.1.1",
-    "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
     "html-webpack-plugin": "^3.2.0",
     "moment": "^2.29.4",
     "raf-schd": "^4.0.3",
