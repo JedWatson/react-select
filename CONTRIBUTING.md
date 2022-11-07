@@ -19,5 +19,4 @@ Before you open a PR:
 - Make sure you do not add regressions by running `yarn test`.
 - Where possible, include tests with your changes, either that demonstrates the
   bug, or tests the new functionality.
-- Please [follow our contributors guidelines](https://github.com/JedWatson/react-select/blob/master/CONTRIBUTING.md).
 - All new features and changes need documentation.
