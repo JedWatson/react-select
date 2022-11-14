@@ -27,7 +27,6 @@ import {
   MenuPlacement,
   MenuPosition,
   CommonProps,
-  Theme,
   GroupBase,
   CommonPropsAndClassName,
   CoercedMenuPlacement,
@@ -52,7 +51,7 @@ interface PlacementArgs {
   placement: MenuPlacement;
   shouldScroll: boolean;
   isFixedPosition: boolean;
-  theme: Theme;
+  controlHeight: number;
 }
 
 export function getMenuPlacement({
@@ -62,9 +61,8 @@ export function getMenuPlacement({
   placement: preferredPlacement,
   shouldScroll,
   isFixedPosition,
-  theme,
+  controlHeight,
 }: PlacementArgs): CalculatedMenuPlacementAndHeight {
-  const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl!);
   const defaultState: CalculatedMenuPlacementAndHeight = {
     placement: 'bottom',
@@ -148,7 +146,7 @@ export function getMenuPlacement({
 
         if (spaceAbove >= minHeight) {
           constrainedHeight = Math.min(
-            spaceAbove - marginBottom - spacing.controlHeight,
+            spaceAbove - marginBottom - controlHeight,
             preferredMaxHeight
           );
         }
@@ -322,6 +320,7 @@ export const MenuPlacer = <
   const ref = useRef<HTMLDivElement | null>(null);
   const [maxHeight, setMaxHeight] = useState(maxMenuHeight);
   const [placement, setPlacement] = useState<CoercedMenuPlacement | null>(null);
+  const { controlHeight } = theme.spacing;
 
   useLayoutEffect(() => {
     const menuEl = ref.current;
@@ -338,7 +337,7 @@ export const MenuPlacer = <
       placement: menuPlacement,
       shouldScroll,
       isFixedPosition,
-      theme,
+      controlHeight,
     });
 
     setMaxHeight(state.maxHeight);
@@ -351,7 +350,7 @@ export const MenuPlacer = <
     menuShouldScrollIntoView,
     minMenuHeight,
     setPortalPlacement,
-    theme,
+    controlHeight,
   ]);
 
   return children({
