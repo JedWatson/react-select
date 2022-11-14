@@ -1,5 +1,11 @@
 # react-select
 
+## 5.6.1
+
+### Patch Changes
+
+- [`cda16826`](https://github.com/JedWatson/react-select/commit/cda168262f777fd7be275d46063149c7d157fe55) [#5482](https://github.com/JedWatson/react-select/pull/5482) Thanks [@nderkim](https://github.com/nderkim)! - Fix unstable theme rerendering menu
+
 ## 5.6.0
 
 ### Minor Changes
