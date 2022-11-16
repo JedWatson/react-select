@@ -50,7 +50,7 @@
     "style-loader": "^0.23.1",
     "styled-components": "^4.4.1",
     "ts-node": "^9.1.1",
-    "unfetch": "^3.0.0",
+    "unfetch": "^4.2.0",
     "webpack": "^4.30.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^3.3.1"
