@@ -105,8 +105,7 @@ const Heading = (props: HeadingProps) => {
     store.add(nodeKey, { key: nodeKey, label, level, path: `#${slug}` });
   }
   const css = {
-    marginTop: 0,
-    '&:not(:first-of-type)': { marginTop: 30 },
+    '&:first-child': { marginTop: 0 },
   };
 
   return linkify ? (

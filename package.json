@@ -69,7 +69,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "cd docs && yarn start",
     "start:test": "cd docs && yarn start:test",
-    "build:docs": "cd docs && yarn build:docs",
+    "build:docs": "yarn --cwd=docs build:docs && yarn --cwd=storybook build && cp -r storybook/storybook-static docs/dist/storybook",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
