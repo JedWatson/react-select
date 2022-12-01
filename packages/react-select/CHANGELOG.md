@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.0
+
+### Minor Changes
+
+- [`0773095f`](https://github.com/JedWatson/react-select/commit/0773095f4990b636f64ae7d0ab593353a1e03b22) [#5457](https://github.com/JedWatson/react-select/pull/5457) Thanks [@nderkim](https://github.com/nderkim)! - Add classNames API and unstyled prop
+
 ## 5.6.1
 
 ### Patch Changes
