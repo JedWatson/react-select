@@ -1,8 +1,5 @@
 {
-  "main": "dist/react-select.cjs.js",
-  "module": "dist/react-select.esm.js",
-  "types": "dist/react-select.cjs.d.ts",
-  "preconstruct": {
-    "source": "../src/AsyncCreatable"
-  }
+  "main": "dist/react-select-async-creatable.cjs.js",
+  "module": "dist/react-select-async-creatable.esm.js",
+  "types": "dist/react-select-async-creatable.cjs.d.ts"
 }

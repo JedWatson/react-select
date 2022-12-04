@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import { colourOptions } from '../data';
 
@@ -20,17 +20,13 @@ const customOptions = [
   ...colourOptions,
 ];
 
-export default class SelectCreateFilter extends Component {
-  render() {
-    return (
-      <Select
-        defaultValue={customOptions[0]}
-        isClearable
-        isSearchable
-        name="color"
-        options={customOptions}
-        filterOption={filterOptions}
-      />
-    );
-  }
-}
+export default () => (
+  <Select
+    defaultValue={customOptions[0]}
+    isClearable
+    isSearchable
+    name="color"
+    options={customOptions}
+    filterOption={filterOptions}
+  />
+);

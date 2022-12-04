@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import Select, { ActionMeta, OnChangeValue, StylesConfig } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
-
-interface State {
-  readonly value: readonly ColourOption[];
-}
 
 const styles: StylesConfig<ColourOption, true> = {
   multiValue: (base, state) => {
@@ -27,21 +23,15 @@ const orderOptions = (values: readonly ColourOption[]) => {
     .concat(values.filter((v) => !v.isFixed));
 };
 
-export default class FixedOptions extends Component<{}, State> {
-  state = {
-    value: orderOptions([colourOptions[0], colourOptions[1], colourOptions[3]]),
-  };
+export default () => {
+  const [value, setValue] = useState<readonly ColourOption[]>(
+    orderOptions([colourOptions[0], colourOptions[1], colourOptions[3]])
+  );
 
-  constructor(props: {}) {
-    super(props);
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(
-    value: OnChangeValue<ColourOption, true>,
+  const onChange = (
+    newValue: OnChangeValue<ColourOption, true>,
     actionMeta: ActionMeta<ColourOption>
-  ) {
+  ) => {
     switch (actionMeta.action) {
       case 'remove-value':
       case 'pop-value':
@@ -50,27 +40,24 @@ export default class FixedOptions extends Component<{}, State> {
         }
         break;
       case 'clear':
-        value = colourOptions.filter((v) => v.isFixed);
+        newValue = colourOptions.filter((v) => v.isFixed);
         break;
     }
 
-    value = orderOptions(value);
-    this.setState({ value: value });
-  }
+    setValue(orderOptions(newValue));
+  };
 
-  render() {
-    return (
-      <Select
-        value={this.state.value}
-        isMulti
-        styles={styles}
-        isClearable={this.state.value.some((v) => !v.isFixed)}
-        name="colors"
-        className="basic-multi-select"
-        classNamePrefix="select"
-        onChange={this.onChange}
-        options={colourOptions}
-      />
-    );
-  }
-}
+  return (
+    <Select
+      value={value}
+      isMulti
+      styles={styles}
+      isClearable={value.some((v) => !v.isFixed)}
+      name="colors"
+      className="basic-multi-select"
+      classNamePrefix="select"
+      onChange={onChange}
+      options={colourOptions}
+    />
+  );
+};

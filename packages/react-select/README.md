@@ -136,8 +136,8 @@ If you don't provide these props, you can set the initial value of the state the
 
 React-select exposes two public methods:
 
-- `focus()` - focus the control programatically
-- `blur()` - blur the control programatically
+- `focus()` - focus the control programmatically
+- `blur()` - blur the control programmatically
 
 ## Customisation
 
@@ -151,9 +151,9 @@ Check the docs for more information on:
 - [Advanced use-cases](https://www.react-select.com/advanced)
 - [TypeScript guide](https://www.react-select.com/typescript)
 
-## Typescript
+## TypeScript
 
-The v5 release represents a rewrite from JavaScript to Typescript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
+The v5 release represents a rewrite from JavaScript to TypeScript. The types for v4 and earlier releases are available at [@types](https://www.npmjs.com/package/@types/react-select). See the [TypeScript guide](https://www.react-select.com/typescript) for how to use the types starting with v5.
 
 # Thanks
 
@@ -165,4 +165,4 @@ Shout out to [Joss Mackison](https://github.com/jossmac), [Charles Lee](https://
 
 ## License
 
-MIT Licensed. Copyright (c) Jed Watson 2021.
+MIT Licensed. Copyright (c) Jed Watson 2022.

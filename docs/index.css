@@ -15,7 +15,10 @@ body {
 }
 p > a,
 p > a:hover,
-p > a:visited {
+p > a:visited,
+li > a,
+li > a:hover,
+li > a:visited {
   color: #2684ff;
 }
 code {

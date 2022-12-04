@@ -1,8 +1,8 @@
 import React, {
   ChangeEventHandler,
-  Component,
   ComponentProps,
   ComponentType,
+  useState,
 } from 'react';
 
 import Select, { MenuPlacement } from 'react-select';
@@ -15,14 +15,6 @@ interface SuiteProps {
   readonly selectComponent: ComponentType<ComponentProps<typeof Select>>;
   readonly idSuffix: string;
 }
-interface SuiteState {
-  readonly isDisabled: boolean;
-  readonly isFixed: boolean;
-  readonly isLoading: boolean;
-  readonly escapeClearsValue: boolean;
-  readonly blockScroll: boolean;
-  readonly portalPlacement: MenuPlacement;
-}
 
 const AnimatedSelect = (props: ComponentProps<typeof Select>) => (
   <Select
@@ -34,180 +26,177 @@ const AnimatedSelect = (props: ComponentProps<typeof Select>) => (
   />
 );
 
-class TestSuite extends Component<SuiteProps, SuiteState> {
-  state: SuiteState = {
-    isDisabled: false,
-    isFixed: false,
-    isLoading: false,
-    escapeClearsValue: false,
-    portalPlacement: 'top',
-    blockScroll: true,
+const TestSuite = ({ selectComponent: SelectComp, idSuffix }: SuiteProps) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isFixed, setIsFixed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [escapeClearsValue, setEscapeClearsValue] = useState(false);
+  const [portalPlacement, setPortalPlacement] = useState<MenuPlacement>('top');
+  const [blockScroll, setBlockScroll] = useState(true);
+  const toggleDisabled = () => {
+    setIsDisabled((state) => !state);
   };
-  toggleDisabled = () => {
-    this.setState((state) => ({ isDisabled: !state.isDisabled }));
+  const toggleLoading = () => {
+    setIsLoading((state) => !state);
   };
-  toggleLoading = () => {
-    this.setState((state) => ({ isLoading: !state.isLoading }));
+  const toggleScroll = () => {
+    setBlockScroll((state) => !state);
   };
-  toggleScroll = () => {
-    this.setState((state) => ({ blockScroll: !state.blockScroll }));
+  const toggleMode = () => {
+    setIsFixed((state) => !state);
   };
-  toggleMode = () => {
-    this.setState((state) => ({ isFixed: !state.isFixed }));
-  };
-  toggleEscapeClearsValue = () => {
-    this.setState((state) => ({ escapeClearsValue: !state.escapeClearsValue }));
+  const toggleEscapeClearsValue = () => {
+    setEscapeClearsValue((state) => !state);
   };
 
-  setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
-    const portalPlacement =
+  const setPlacement: ChangeEventHandler<HTMLSelectElement> = ({
+    currentTarget,
+  }) => {
+    const newPortalPlacement =
       currentTarget && (currentTarget.value as MenuPlacement);
-    this.setState({ portalPlacement });
+    setPortalPlacement(newPortalPlacement);
   };
 
-  render() {
-    const { isFixed, portalPlacement, blockScroll } = this.state;
-    const { selectComponent: SelectComp, idSuffix } = this.props;
-    const menuPortalTarget = !isFixed ? document.body : null;
-    return (
-      <div id={`cypress-container-${idSuffix}`}>
-        <div id={`cypress-${idSuffix}`}>
-          <SelectComp
-            autoFocus
-            id={`basic-select-${idSuffix}`}
-            instanceId={`basic-select-${idSuffix}`}
-            classNamePrefix="react-select"
-            defaultValue={colourOptions[0]}
-            styles={{
-              menuPortal: (base) => ({ ...base, zIndex: 999 }),
-            }}
-            isDisabled={this.state.isDisabled}
-            isLoading={this.state.isLoading}
-            options={colourOptions}
-          />
-          <Note Tag="label">
-            <input
-              type="checkbox"
-              onChange={this.toggleDisabled}
-              className="disable-checkbox"
-              id={`cypress-${idSuffix}__disabled-checkbox`}
-            />
-            Disabled
-          </Note>
-          <Note Tag="label" style={{ marginLeft: '1em' }}>
-            <input
-              type="checkbox"
-              onChange={this.toggleLoading}
-              id={`cypress-${idSuffix}__loading-checkbox`}
-            />
-            Loading
-          </Note>
-        </div>
+  const menuPortalTarget = !isFixed ? document.body : null;
 
-        <h4>Grouped</h4>
-        <div id={`cypress-${idSuffix}-grouped`}>
-          <SelectComp
-            id={`grouped-options-${idSuffix}`}
-            classNamePrefix="react-select"
-            defaultValue={colourOptions[1]}
-            options={groupedOptions}
-          />
-        </div>
-
-        <h4>Clearable</h4>
-        <div id={`cypress-${idSuffix}-clearable`}>
-          <SelectComp
-            id={`clearable-select-${idSuffix}`}
-            isClearable
-            escapeClearsValue={this.state.escapeClearsValue}
-            classNamePrefix="react-select"
-            defaultValue={colourOptions[1]}
-            options={groupedOptions}
-          />
-          <Note Tag="label">
-            <input
-              type="checkbox"
-              onChange={this.toggleEscapeClearsValue}
-              className="escape-clears-value-checkbox"
-            />
-            escapeClearsValue
-          </Note>
-        </div>
-
-        <h4>Portalled</h4>
-        <div
-          id={`cypress-${idSuffix}-portalled`}
-          style={{
-            backgroundColor: 'papayaWhip',
-            borderRadius: 5,
-            boxSizing: 'border-box',
-            height: 200,
-            overflow: 'auto',
-            padding: 15,
-            width: '100%',
+  return (
+    <div id={`cypress-container-${idSuffix}`}>
+      <div id={`cypress-${idSuffix}`}>
+        <SelectComp
+          autoFocus
+          id={`basic-select-${idSuffix}`}
+          instanceId={`basic-select-${idSuffix}`}
+          classNamePrefix="react-select"
+          defaultValue={colourOptions[0]}
+          styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 999 }),
           }}
-        >
-          <div style={{ height: 100 }} />
-          <pre>{'overflow: hidden; position: absolute;'}</pre>
-          <SelectComp
-            id={`portalled-select-${idSuffix}`}
-            instanceId={`portalled-select-${idSuffix}`}
-            classNamePrefix="react-select"
-            defaultValue={colourOptions[0]}
-            options={colourOptions}
-            menuPortalTarget={menuPortalTarget}
-            menuShouldBlockScroll={blockScroll}
-            menuShouldScrollIntoView
-            menuPlacement={portalPlacement}
-            menuPosition={isFixed ? 'fixed' : 'absolute'}
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          options={colourOptions}
+        />
+        <Note Tag="label">
+          <input
+            type="checkbox"
+            onChange={toggleDisabled}
+            className="disable-checkbox"
+            id={`cypress-${idSuffix}__disabled-checkbox`}
           />
-          <Note Tag="label">
-            <select
-              onChange={this.setPlacement}
-              value={portalPlacement}
-              id="cypress-portalled__radio-bottom"
-            >
-              <option value="auto">auto</option>
-              <option value="bottom">bottom</option>
-              <option value="top">top</option>
-            </select>
-          </Note>
-          <Note Tag="label" style={{ marginLeft: '1em' }}>
-            <input
-              type="radio"
-              onChange={this.toggleMode}
-              value="fixed"
-              checked={isFixed}
-              id="cypress-portalled__fixed"
-            />
-            Fixed
-          </Note>
-          <Note Tag="label" style={{ marginLeft: '1em' }}>
-            <input
-              type="radio"
-              onChange={this.toggleMode}
-              value="portal"
-              checked={!isFixed}
-              id="cypress-portalled__portal"
-            />
-            Portal
-          </Note>
-          <Note Tag="label" style={{ marginLeft: '1em' }}>
-            <input
-              type="checkbox"
-              onChange={this.toggleScroll}
-              value="blockScroll"
-              checked={blockScroll}
-              id="cypress-portalled__scroll"
-            />
-            Block Scroll
-          </Note>
-          <div style={{ height: 100 }} />
-        </div>
+          Disabled
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input
+            type="checkbox"
+            onChange={toggleLoading}
+            id={`cypress-${idSuffix}__loading-checkbox`}
+          />
+          Loading
+        </Note>
       </div>
-    );
-  }
-}
+
+      <h4>Grouped</h4>
+      <div id={`cypress-${idSuffix}-grouped`}>
+        <SelectComp
+          id={`grouped-options-${idSuffix}`}
+          classNamePrefix="react-select"
+          defaultValue={colourOptions[1]}
+          options={groupedOptions}
+        />
+      </div>
+
+      <h4>Clearable</h4>
+      <div id={`cypress-${idSuffix}-clearable`}>
+        <SelectComp
+          id={`clearable-select-${idSuffix}`}
+          isClearable
+          escapeClearsValue={escapeClearsValue}
+          classNamePrefix="react-select"
+          defaultValue={colourOptions[1]}
+          options={groupedOptions}
+        />
+        <Note Tag="label">
+          <input
+            type="checkbox"
+            onChange={toggleEscapeClearsValue}
+            className="escape-clears-value-checkbox"
+          />
+          escapeClearsValue
+        </Note>
+      </div>
+
+      <h4>Portalled</h4>
+      <div
+        id={`cypress-${idSuffix}-portalled`}
+        style={{
+          backgroundColor: 'papayaWhip',
+          borderRadius: 5,
+          boxSizing: 'border-box',
+          height: 200,
+          overflow: 'auto',
+          padding: 15,
+          width: '100%',
+        }}
+      >
+        <div style={{ height: 100 }} />
+        <pre>{'overflow: hidden; position: absolute;'}</pre>
+        <SelectComp
+          id={`portalled-select-${idSuffix}`}
+          instanceId={`portalled-select-${idSuffix}`}
+          classNamePrefix="react-select"
+          defaultValue={colourOptions[0]}
+          options={colourOptions}
+          menuPortalTarget={menuPortalTarget}
+          menuShouldBlockScroll={blockScroll}
+          menuShouldScrollIntoView
+          menuPlacement={portalPlacement}
+          menuPosition={isFixed ? 'fixed' : 'absolute'}
+        />
+        <Note Tag="label">
+          <select
+            onChange={setPlacement}
+            value={portalPlacement}
+            id="cypress-portalled__radio-bottom"
+          >
+            <option value="auto">auto</option>
+            <option value="bottom">bottom</option>
+            <option value="top">top</option>
+          </select>
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input
+            type="radio"
+            onChange={toggleMode}
+            value="fixed"
+            checked={isFixed}
+            id="cypress-portalled__fixed"
+          />
+          Fixed
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input
+            type="radio"
+            onChange={toggleMode}
+            value="portal"
+            checked={!isFixed}
+            id="cypress-portalled__portal"
+          />
+          Portal
+        </Note>
+        <Note Tag="label" style={{ marginLeft: '1em' }}>
+          <input
+            type="checkbox"
+            onChange={toggleScroll}
+            value="blockScroll"
+            checked={blockScroll}
+            id="cypress-portalled__scroll"
+          />
+          Block Scroll
+        </Note>
+        <div style={{ height: 100 }} />
+      </div>
+    </div>
+  );
+};
 
 export default function Tests() {
   return (

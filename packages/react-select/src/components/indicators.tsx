@@ -7,6 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
+import { getStyleProps } from '../utils';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -68,24 +69,30 @@ const baseCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  isFocused,
-  theme: {
-    spacing: { baseUnit },
-    colors,
-  },
-}:
-  | DropdownIndicatorProps<Option, IsMulti, Group>
-  | ClearIndicatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    isFocused,
+    theme: {
+      spacing: { baseUnit },
+      colors,
+    },
+  }:
+    | DropdownIndicatorProps<Option, IsMulti, Group>
+    | ClearIndicatorProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'indicatorContainer',
-  color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: baseUnit * 2,
   transition: 'color 150ms',
-
-  ':hover': {
-    color: isFocused ? colors.neutral80 : colors.neutral40,
-  },
+  ...(unstyled
+    ? {}
+    : {
+        color: isFocused ? colors.neutral60 : colors.neutral20,
+        padding: baseUnit * 2,
+        ':hover': {
+          color: isFocused ? colors.neutral80 : colors.neutral40,
+        },
+      }),
 });
 
 export const dropdownIndicatorCSS = baseCSS;
@@ -96,17 +103,13 @@ export const DropdownIndicator = <
 >(
   props: DropdownIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('dropdownIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'dropdown-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'dropdownIndicator', {
+        indicator: true,
+        'dropdown-indicator': true,
+      })}
       {...innerProps}
     >
       {children || <DownChevron />}
@@ -135,17 +138,13 @@ export const ClearIndicator = <
 >(
   props: ClearIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('clearIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'clear-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'clearIndicator', {
+        indicator: true,
+        'clear-indicator': true,
+      })}
       {...innerProps}
     >
       {children || <CrossIcon />}
@@ -171,19 +170,26 @@ export const indicatorSeparatorCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  isDisabled,
-  theme: {
-    spacing: { baseUnit },
-    colors,
-  },
-}: IndicatorSeparatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    isDisabled,
+    theme: {
+      spacing: { baseUnit },
+      colors,
+    },
+  }: IndicatorSeparatorProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
-  backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
-  marginBottom: baseUnit * 2,
-  marginTop: baseUnit * 2,
   width: 1,
+  ...(unstyled
+    ? {}
+    : {
+        backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
+        marginBottom: baseUnit * 2,
+        marginTop: baseUnit * 2,
+      }),
 });
 
 export const IndicatorSeparator = <
@@ -193,12 +199,13 @@ export const IndicatorSeparator = <
 >(
   props: IndicatorSeparatorProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, innerProps } = props;
+  const { innerProps } = props;
   return (
     <span
       {...innerProps}
-      css={getStyles('indicatorSeparator', props)}
-      className={cx({ 'indicator-separator': true }, className)}
+      {...getStyleProps(props, 'indicatorSeparator', {
+        'indicator-separator': true,
+      })}
     />
   );
 };
@@ -216,18 +223,19 @@ export const loadingIndicatorCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  isFocused,
-  size,
-  theme: {
-    colors,
-    spacing: { baseUnit },
-  },
-}: LoadingIndicatorProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    isFocused,
+    size,
+    theme: {
+      colors,
+      spacing: { baseUnit },
+    },
+  }: LoadingIndicatorProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'loadingIndicator',
-  color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
-  padding: baseUnit * 2,
   transition: 'color 150ms',
   alignSelf: 'center',
   fontSize: size,
@@ -235,6 +243,12 @@ export const loadingIndicatorCSS = <
   marginRight: size,
   textAlign: 'center',
   verticalAlign: 'middle',
+  ...(unstyled
+    ? {}
+    : {
+        color: isFocused ? colors.neutral60 : colors.neutral20,
+        padding: baseUnit * 2,
+      }),
 });
 
 interface LoadingDotProps {
@@ -276,18 +290,14 @@ export const LoadingIndicator = <
 >(
   props: LoadingIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, innerProps, isRtl } = props;
+  const { innerProps, isRtl } = props;
 
   return (
     <div
-      css={getStyles('loadingIndicator', props)}
-      className={cx(
-        {
-          indicator: true,
-          'loading-indicator': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'loadingIndicator', {
+        indicator: true,
+        'loading-indicator': true,
+      })}
       {...innerProps}
     >
       <LoadingDot delay={0} offset={isRtl} />

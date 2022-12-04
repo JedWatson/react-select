@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { ComponentType, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
-import { cleanCommonProps } from '../utils';
+import { cleanCommonProps, getStyleProps } from '../utils';
 
 import {
+  CommonProps,
   CommonPropsAndClassName,
   CSSObjectWithLabel,
   CX,
@@ -46,12 +47,16 @@ export const groupCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: { spacing },
-}: GroupProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  paddingBottom: spacing.baseUnit * 2,
-  paddingTop: spacing.baseUnit * 2,
-});
+>(
+  { theme: { spacing } }: GroupProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel =>
+  unstyled
+    ? {}
+    : {
+        paddingBottom: spacing.baseUnit * 2,
+        paddingTop: spacing.baseUnit * 2,
+      };
 
 const Group = <
   Option,
@@ -62,9 +67,9 @@ const Group = <
 ) => {
   const {
     children,
-    className,
     cx,
     getStyles,
+    getClassNames,
     Heading,
     headingProps,
     innerProps,
@@ -73,16 +78,13 @@ const Group = <
     selectProps,
   } = props;
   return (
-    <div
-      css={getStyles('group', props)}
-      className={cx({ group: true }, className)}
-      {...innerProps}
-    >
+    <div {...getStyleProps(props, 'group', { group: true })} {...innerProps}>
       <Heading
         {...headingProps}
         selectProps={selectProps}
         theme={theme}
         getStyles={getStyles}
+        getClassNames={getClassNames}
         cx={cx}
       >
         {label}
@@ -101,6 +103,7 @@ interface GroupHeadingPropsDefinedProps<
   selectProps: Props<Option, IsMulti, Group>;
   theme: Theme;
   getStyles: GetStyles<Option, IsMulti, Group>;
+  getClassNames: CommonProps<Option, IsMulti, Group>['getClassNames'];
   cx: CX;
 }
 
@@ -115,19 +118,24 @@ export const groupHeadingCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: { spacing },
-}: GroupHeadingProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  { theme: { colors, spacing } }: GroupHeadingProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'group',
-  color: '#999',
   cursor: 'default',
   display: 'block',
-  fontSize: '75%',
-  fontWeight: 500,
-  marginBottom: '0.25em',
-  paddingLeft: spacing.baseUnit * 3,
-  paddingRight: spacing.baseUnit * 3,
-  textTransform: 'uppercase',
+  ...(unstyled
+    ? {}
+    : {
+        color: colors.neutral40,
+        fontSize: '75%',
+        fontWeight: 500,
+        marginBottom: '0.25em',
+        paddingLeft: spacing.baseUnit * 3,
+        paddingRight: spacing.baseUnit * 3,
+        textTransform: 'uppercase',
+      }),
 });
 
 export const GroupHeading = <
@@ -137,12 +145,10 @@ export const GroupHeading = <
 >(
   props: GroupHeadingProps<Option, IsMulti, Group>
 ) => {
-  const { getStyles, cx, className } = props;
   const { data, ...innerProps } = cleanCommonProps(props);
   return (
     <div
-      css={getStyles('groupHeading', props)}
-      className={cx({ 'group-heading': true }, className)}
+      {...getStyleProps(props, 'groupHeading', { 'group-heading': true })}
       {...innerProps}
     />
   );
