@@ -768,7 +768,7 @@ export default class Select<
       prevProps.isDisabled &&
       this.inputRef === document.activeElement
     ) {
-      // ensure select state gets focused in case Select is programatically re-enabled while focused (Firefox)
+      // ensure select state gets focused in case Select is programmatically re-enabled while focused (Firefox)
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: true });
     }

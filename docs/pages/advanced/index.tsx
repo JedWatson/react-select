@@ -103,7 +103,7 @@ export default function Advanced() {
       )}
       ~~~jsx
       ~~~
-      > Please note that if you are using a Select that is creatable, you would also likey want to include the "Create" option.
+      > Please note that if you are using a Select that is creatable, you would also likely want to include the "Create" option.
       ~~~jsx
       const filterOption = (candidate, input) => {
         return candidate.data.__isNew__ || candidate.label.includes(input);
