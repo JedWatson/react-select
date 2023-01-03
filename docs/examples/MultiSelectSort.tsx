@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useCallback } from 'react';
 import Select, {
   components,
   MultiValueGenericProps,
@@ -79,7 +79,7 @@ const MultiSelectSort = () => {
   const onChange = (selectedOptions: OnChangeValue<ColourOption, true>) =>
     setSelected([...selectedOptions]);
 
-  const onSortEnd = (event: DragEndEvent) => {
+  const onDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!active || !over) return;
@@ -89,10 +89,10 @@ const MultiSelectSort = () => {
       const newIndex = items.findIndex((item) => item.id === over.id);
       return arrayMove(items, oldIndex, newIndex);
     });
-  };
+  }, [setSelected]);
 
   return (
-    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onSortEnd}>
+    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onDragEnd}>
       <SortableContext
         items={selected}
         strategy={horizontalListSortingStrategy}
