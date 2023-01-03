@@ -24,7 +24,7 @@ const MultiValue = (props: MultiValueProps<ColourOption>) => {
   const innerProps = { ...props.innerProps, onMouseDown };
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
-      id: props.data.id,
+      id: props.data.value,
     });
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -65,8 +65,8 @@ const MultiSelectSort = () => {
     if (!active || !over) return;
 
     setSelected((items) => {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over.id);
+      const oldIndex = items.findIndex((item) => item.value === active.id);
+      const newIndex = items.findIndex((item) => item.value === over.id);
       return arrayMove(items, oldIndex, newIndex);
     });
   }, [setSelected]);
@@ -74,7 +74,7 @@ const MultiSelectSort = () => {
   return (
     <DndContext modifiers={[restrictToParentElement]} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
       <SortableContext
-        items={selected}
+        items={selected.map((o) => o.value)}
         strategy={horizontalListSortingStrategy}
       >
         <Select
