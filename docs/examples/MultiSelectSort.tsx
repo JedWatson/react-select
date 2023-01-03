@@ -1,14 +1,12 @@
 import React, { MouseEventHandler, useCallback } from 'react';
 import Select, {
   components,
-  MultiValueGenericProps,
   MultiValueProps,
   MultiValueRemoveProps,
   OnChangeValue,
 } from 'react-select';
 import { ColourOption, colourOptions } from '../data';
-import Tooltip from '@atlaskit/tooltip';
-import { DndContext, DragEndEvent, useDroppable } from '@dnd-kit/core';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import { restrictToParentElement } from '@dnd-kit/modifiers';
 import {
   arrayMove,
@@ -37,24 +35,6 @@ const MultiValue = (props: MultiValueProps<ColourOption>) => {
     <div style={style} ref={setNodeRef} {...attributes} {...listeners}>
       <components.MultiValue {...props} innerProps={innerProps} />
     </div>
-  );
-};
-
-const MultiValueContainer = (props: MultiValueGenericProps<ColourOption>) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id: 'droppable',
-  });
-
-  const style = {
-    color: isOver ? 'green' : undefined,
-  };
-
-  return (
-    <Tooltip content={'Customise your multi-value container!'}>
-      <div style={style} ref={setNodeRef}>
-        <components.MultiValueContainer {...props} />
-      </div>
-    </Tooltip>
   );
 };
 
@@ -92,7 +72,7 @@ const MultiSelectSort = () => {
   }, [setSelected]);
 
   return (
-    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onDragEnd}>
+    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
       <SortableContext
         items={selected}
         strategy={horizontalListSortingStrategy}
@@ -106,7 +86,6 @@ const MultiSelectSort = () => {
           components={{
             // @ts-ignore We're failing to provide a required index prop to SortableElement
             MultiValue,
-            MultiValueContainer,
             MultiValueRemove,
           }}
           closeMenuOnSelect={false}
