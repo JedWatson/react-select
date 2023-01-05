@@ -212,6 +212,58 @@ test('in case of callbacks display the most recently-requested loaded options (i
   );
 });
 
+test('in case of callbacks display the most recently-requested loaded options (when most recently-requested loaded options come from cache)', () => {
+  let callbacks: ((options: readonly Option[]) => void)[] = [];
+  const loadOptions = (
+    inputValue: string,
+    callback: (options: readonly Option[]) => void
+  ) => {
+    callbacks.push(callback);
+  };
+  let { container } = render(
+    <Async
+      className="react-select"
+      classNamePrefix="react-select"
+      loadOptions={loadOptions}
+      cacheOptions
+    />
+  );
+  let input = container.querySelector('input.react-select__input');
+  // preloading data to cache
+  fireEvent.input(input!, {
+    target: {
+      value: 'bar',
+    },
+    bubbles: true,
+    cancelable: true,
+  });
+  expect(container.querySelector('.react-select__option')).toBeFalsy();
+  act(() => {
+    callbacks[0]([{ value: 'bar', label: 'bar' }]);
+  });
+  fireEvent.input(input!, {
+    target: {
+      value: 'foo',
+    },
+    bubbles: true,
+    cancelable: true,
+  });
+  // this one loads from cache
+  fireEvent.input(input!, {
+    target: {
+      value: 'bar',
+    },
+    bubbles: true,
+    cancelable: true,
+  });
+  act(() => {
+    callbacks[1]([{ value: 'foo', label: 'foo' }]);
+  });
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
+    'bar'
+  );
+});
+
 // QUESTION: we currently do not do this, do we want to?
 test.skip('in case of callbacks should handle an error by setting options to an empty array', () => {
   const loadOptions = (
