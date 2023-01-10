@@ -9,6 +9,8 @@ type AsyncManagedPropKeys =
   | 'onInputChange'
   | 'filterOption';
 
+type LoadOptionsCallback<Option, Group extends GroupBase<Option>> = (options?: OptionsOrGroups<Option, Group>) => void;
+
 export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
   /**
    * The default set of options to show before the user starts searching. When
@@ -26,7 +28,7 @@ export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
    */
   loadOptions?: (
     inputValue: string,
-    callback: (options: OptionsOrGroups<Option, Group>) => void
+    callback: LoadOptionsCallback<Option, Group>
   ) => Promise<OptionsOrGroups<Option, Group>> | void;
   /**
    * Will cause the select to be displayed in the loading state, even if the
@@ -112,7 +114,7 @@ export default function useAsync<
   const loadOptions = useCallback(
     (
       inputValue: string,
-      callback: (options?: OptionsOrGroups<Option, Group>) => void
+      callback: LoadOptionsCallback<Option, Group>
     ) => {
       if (!propsLoadOptions) return callback();
       const loader = propsLoadOptions(inputValue, callback);
