@@ -2022,11 +2022,11 @@ export default class Select<
     const { delimiter, isDisabled, isMulti, name, required } = this.props;
     const { selectValue } = this.state;
 
-    if (!name || isDisabled) return;
-
-    if (required && !this.hasValue()) {
+    if (required && !this.hasValue() && !isDisabled) {
       return <RequiredInput name={name} onFocus={this.onValueInputFocus} />;
     }
+
+    if (!name || isDisabled) return;
 
     if (isMulti) {
       if (delimiter) {
