@@ -10,6 +10,7 @@ const RequiredInput: FunctionComponent<{
     required
     name={name}
     tabIndex={-1}
+    aria-hidden="true"
     onFocus={onFocus}
     css={{
       label: 'requiredInput',
