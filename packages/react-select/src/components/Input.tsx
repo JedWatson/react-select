@@ -7,7 +7,7 @@ import {
   CSSObjectWithLabel,
   GroupBase,
 } from '../types';
-import { cleanCommonProps } from '../utils';
+import { cleanCommonProps, getStyleProps } from '../utils';
 
 export interface InputSpecificProps<
   Option = unknown,
@@ -37,20 +37,27 @@ export const inputCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  isDisabled,
-  value,
-  theme: { spacing, colors },
-}: InputProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  margin: spacing.baseUnit / 2,
-  paddingBottom: spacing.baseUnit / 2,
-  paddingTop: spacing.baseUnit / 2,
+>(
+  {
+    isDisabled,
+    value,
+    theme: { spacing, colors },
+  }: InputProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   visibility: isDisabled ? 'hidden' : 'visible',
-  color: colors.neutral80,
   // force css to recompute when value change due to @emotion bug.
   // We can remove it whenever the bug is fixed.
   transform: value ? 'translateZ(0)' : '',
   ...containerStyle,
+  ...(unstyled
+    ? {}
+    : {
+        margin: spacing.baseUnit / 2,
+        paddingBottom: spacing.baseUnit / 2,
+        paddingTop: spacing.baseUnit / 2,
+        color: colors.neutral80,
+      }),
 });
 
 const spacingStyle = {
@@ -93,14 +100,12 @@ const Input = <
 >(
   props: InputProps<Option, IsMulti, Group>
 ) => {
-  const { className, cx, getStyles, value } = props;
+  const { cx, value } = props;
   const { innerRef, isDisabled, isHidden, inputClassName, ...innerProps } =
     cleanCommonProps(props);
-
   return (
     <div
-      className={cx({ 'input-container': true }, className)}
-      css={getStyles('input', props)}
+      {...getStyleProps(props, 'input', { 'input-container': true })}
       data-value={value || ''}
     >
       <input

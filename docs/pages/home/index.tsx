@@ -65,7 +65,7 @@ export default function Home() {
   Import the default export and render in your component:
 
   ~~~jsx
-  import React, { Component } from 'react'
+  import React from 'react'
   import Select from 'react-select'
 
   const options = [
