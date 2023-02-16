@@ -1641,8 +1641,8 @@ export default class Select<
             'aria-describedby': this.getElementId('placeholder'),
           }),
       ...(!!this.props['aria-describedby'] && {
-        'aria-describedby': this.props['aria-describedby']
-      })
+        'aria-describedby': this.props['aria-describedby'],
+      }),
     };
 
     if (!isSearchable) {
