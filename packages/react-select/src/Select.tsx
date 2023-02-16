@@ -86,6 +86,8 @@ export interface Props<
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
   'aria-live'?: AriaAttributes['aria-live'];
+  /** HTML ID of an element that should be used as a description */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
   /** Customise the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
@@ -1638,6 +1640,9 @@ export default class Select<
         : {
             'aria-describedby': this.getElementId('placeholder'),
           }),
+      ...(!!this.props['aria-describedby'] && {
+        'aria-describedby': this.props['aria-describedby']
+      })
     };
 
     if (!isSearchable) {
