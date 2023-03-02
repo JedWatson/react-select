@@ -59,5 +59,37 @@
       "creatable/index.ts",
       "async-creatable/index.ts"
     ]
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/react-select.cjs.js",
+      "import": "./dist/react-select.esm.js",
+      "types": "./dist/react-select.cjs.d.ts"
+    },
+    "./base": {
+      "require": "./base/dist/react-select-base.cjs.js",
+      "import": "./base/dist/react-select-base.esm.js",
+      "types": "./base/dist/react-select-base.cjs.d.ts"
+    },
+    "./animated": {
+      "require": "./animated/dist/react-select-animated.cjs.js",
+      "import": "./animated/dist/react-select-animated.esm.js",
+      "types": "./animated/dist/react-select-animated.cjs.d.ts"
+    },
+    "./async": {
+      "require": "./async/dist/react-select-async.cjs.js",
+      "import": "./async/dist/react-select-async.esm.js",
+      "types": "./async/dist/react-select-async.cjs.d.ts"
+    },
+    "./creatable": {
+      "require": "./creatable/dist/react-select-creatable.cjs.js",
+      "import": "./creatable/dist/react-select-creatable.esm.js",
+      "types": "./creatable/dist/react-select-creatable.cjs.d.ts"
+    },
+    "./async-creatable": {
+      "require": "./async-creatable/dist/react-select-async-creatable.cjs.js",
+      "import": "./async-creatable/dist/react-select-async-creatable.esm.js",
+      "types": "./async-creatable/dist/react-select-async-creatable.cjs.d.ts"
+    }
   }
 }
