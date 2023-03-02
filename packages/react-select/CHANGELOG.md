@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.1
+
+### Patch Changes
+
+- [`597143ee`](https://github.com/JedWatson/react-select/commit/597143ee3d5c27ce87e9b1508b068dc7c1323201) [#5559](https://github.com/JedWatson/react-select/pull/5559) Thanks [@gdiazdelaserna](https://github.com/gdiazdelaserna)! - Add `exports` field in package.json
+
 ## 5.7.0
 
 ### Minor Changes
