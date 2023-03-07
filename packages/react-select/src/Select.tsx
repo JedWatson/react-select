@@ -394,7 +394,11 @@ function buildCategorizedOptions<
 ): CategorizedGroupOrOption<Option, Group>[] {
   return props.options
     .map((groupOrOption, groupOrOptionIndex) => {
-      if ('options' in groupOrOption) {
+      if (
+        groupOrOption &&
+        typeof groupOrOption === 'object' &&
+        'options' in groupOrOption
+      ) {
         const categorizedOptions = groupOrOption.options
           .map((option, optionIndex) =>
             toCategorizedOption(props, option, selectValue, optionIndex)
