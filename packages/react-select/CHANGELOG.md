@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.2
+
+### Patch Changes
+
+- [`925cd4a2`](https://github.com/JedWatson/react-select/commit/925cd4a26097823187fb14cdae2561dd3c637e8c) [#5536](https://github.com/JedWatson/react-select/pull/5536) Thanks [@Rall3n](https://github.com/Rall3n)! - `required` prop accessibiltiy and functionality improvements
+
 ## 5.7.1
 
 ### Patch Changes
