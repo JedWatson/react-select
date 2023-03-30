@@ -2952,6 +2952,26 @@ test('hitting escape does not call onChange if menu is Open', () => {
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
+test('hitting escape when menu is close and clear does not prevent default', () => {
+  let onChangeSpy = jest.fn();
+  let event!: KeyboardEvent<HTMLDivElement>;
+  let props = { ...BASIC_PROPS, onChange: onChangeSpy };
+  let { container } = render(
+    <Select
+      {...props}
+      onKeyDown={(_event) => {
+        event = _event;
+        event.persist();
+      }}
+    />
+  );
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
+    keyCode: 27,
+    key: 'Escape',
+  });
+  expect(event.defaultPrevented).toBe(false);
+});
+
 test('multi select > removes the selected option from the menu options when isSearchable is false', () => {
   let { container, rerender } = render(
     <Select
