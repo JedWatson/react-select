@@ -56,12 +56,14 @@ const A = (props: JSX.IntrinsicElements['a']) => (
 );
 
 export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <Wrapper>
       <Container>
         <p>
           Copyright © <A href="https://twitter.com/JedWatson">Jed Watson</A>,
-          2022. MIT Licensed.
+          {year}. MIT Licensed.
         </p>
         <p>
           Thanks to <A href="https://www.thinkmill.com.au">Thinkmill</A> and{' '}
