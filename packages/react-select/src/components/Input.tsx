@@ -45,7 +45,7 @@ export const inputCSS = <
   }: InputProps<Option, IsMulti, Group>,
   unstyled: boolean
 ): CSSObjectWithLabel => ({
-  visibility: isDisabled ? 'hidden' : 'visible',
+  visibility: isDisabled ? 'hidden' : 'unset',
   // force css to recompute when value change due to @emotion bug.
   // We can remove it whenever the bug is fixed.
   transform: value ? 'translateZ(0)' : '',
