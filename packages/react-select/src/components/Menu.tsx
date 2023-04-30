@@ -448,6 +448,7 @@ export const MenuList = <
         'menu-list--is-multi': isMulti,
       })}
       ref={innerRef}
+      role="listbox"
       {...innerProps}
     >
       {children}
