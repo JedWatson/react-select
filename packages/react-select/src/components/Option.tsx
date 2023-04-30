@@ -98,6 +98,8 @@ const Option = <
         'option--is-selected': isSelected,
       })}
       ref={innerRef}
+      role="option"
+      aria-selected={isSelected}
       aria-disabled={isDisabled}
       {...innerProps}
     >
