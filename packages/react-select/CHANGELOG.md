@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.3
+
+### Patch Changes
+
+- [`59513d00`](https://github.com/JedWatson/react-select/commit/59513d0035a20cf9c0575c4be52204de7f77d742) [#5626](https://github.com/JedWatson/react-select/pull/5626) Thanks [@emmatown](https://github.com/emmatown)! - Fix importing `react-select` in Node ESM
+
 ## 5.7.2
 
 ### Patch Changes
