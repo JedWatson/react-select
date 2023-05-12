@@ -1,3 +1,4 @@
 {
-  "main": "dist/react-select-generate-magical-types-generate.cjs.js"
+  "main": "dist/react-select-generate-magical-types-generate.cjs.js",
+  "module": "dist/react-select-generate-magical-types-generate.esm.js"
 }
