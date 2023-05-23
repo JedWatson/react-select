@@ -3120,6 +3120,28 @@ test('renders with custom theme', () => {
   ).toEqual(primary);
 });
 
+test('resultLimit limits number of rendered props', () => {
+  const resultLimit = 5;
+  const { container } = render(
+    <Select {...BASIC_PROPS} resultLimit={resultLimit} menuIsOpen />
+  );
+  expect(container.querySelectorAll('.react-select__option').length).toBe(
+    resultLimit
+  );
+});
+
+test.each([undefined, 0, -10])(
+  'resultLimit negative, undefined or zero should render all options',
+  resultLimit => {
+    const { container } = render(
+      <Select {...BASIC_PROPS} resultLimit={resultLimit} menuIsOpen />
+    );
+    expect(container.querySelectorAll('.react-select__option').length).toBe(
+      OPTIONS.length
+    );
+  }
+);
+
 cases(
   '`required` prop',
   ({ props = BASIC_PROPS }) => {
