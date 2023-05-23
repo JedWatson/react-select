@@ -253,6 +253,8 @@ export interface Props<
   pageSize: number;
   /** Placeholder for the select value */
   placeholder: ReactNode;
+  /** Limits the number of rendered options in the dropdown */
+  resultLimit?: number,
   /** Status to relay to screen readers */
   screenReaderStatus: (obj: { count: number }) => string;
   /**
@@ -1874,6 +1876,7 @@ export default class Select<
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      resultLimit,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -1915,7 +1918,9 @@ export default class Select<
     let menuUI: ReactNode;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().map((item) => {
+      menuUI = this.getCategorizedOptions()
+      .slice(0, resultLimit || undefined)
+      .map((item) => {
         if (item.type === 'group') {
           const { data, options, index: groupIndex } = item;
           const groupId = `${this.getElementId('group')}-${groupIndex}`;
