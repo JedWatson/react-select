@@ -1918,12 +1918,9 @@ export default class Select<
     let menuUI: ReactNode;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions();
-
-      if (resultLimit && resultLimit > 0) {
-        menuUI = menuUI.slice(0, resultLimit);
-      }
-      menuUI = menuUI.map((item) => {
+      menuUI = this.getCategorizedOptions()
+        .slice(0, resultLimit && resultLimit > 0 ? resultLimit : undefined)
+        .map((item) => {
         if (item.type === 'group') {
           const { data, options, index: groupIndex } = item;
           const groupId = `${this.getElementId('group')}-${groupIndex}`;
