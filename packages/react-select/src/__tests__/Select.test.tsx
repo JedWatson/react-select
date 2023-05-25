@@ -3132,7 +3132,7 @@ test('resultLimit limits number of rendered props', () => {
 
 test.each([undefined, 0, -10])(
   'resultLimit negative, undefined or zero should render all options',
-  resultLimit => {
+  (resultLimit) => {
     const { container } = render(
       <Select {...BASIC_PROPS} resultLimit={resultLimit} menuIsOpen />
     );
