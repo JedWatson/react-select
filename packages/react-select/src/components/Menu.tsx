@@ -20,6 +20,7 @@ import {
   getBoundingClientObj,
   getScrollParent,
   getScrollTop,
+  getStyleProps,
   normalizedHeight,
   scrollTo,
 } from '../utils';
@@ -27,7 +28,6 @@ import {
   MenuPlacement,
   MenuPosition,
   CommonProps,
-  Theme,
   GroupBase,
   CommonPropsAndClassName,
   CoercedMenuPlacement,
@@ -52,7 +52,7 @@ interface PlacementArgs {
   placement: MenuPlacement;
   shouldScroll: boolean;
   isFixedPosition: boolean;
-  theme: Theme;
+  controlHeight: number;
 }
 
 export function getMenuPlacement({
@@ -62,9 +62,8 @@ export function getMenuPlacement({
   placement: preferredPlacement,
   shouldScroll,
   isFixedPosition,
-  theme,
+  controlHeight,
 }: PlacementArgs): CalculatedMenuPlacementAndHeight {
-  const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl!);
   const defaultState: CalculatedMenuPlacementAndHeight = {
     placement: 'bottom',
@@ -148,7 +147,7 @@ export function getMenuPlacement({
 
         if (spaceAbove >= minHeight) {
           constrainedHeight = Math.min(
-            spaceAbove - marginBottom - spacing.controlHeight,
+            spaceAbove - marginBottom - controlHeight,
             preferredMaxHeight
           );
         }
@@ -279,20 +278,28 @@ export const menuCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  placement,
-  theme: { borderRadius, spacing, colors },
-}: MenuProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    placement,
+    theme: { borderRadius, spacing, colors },
+  }: MenuProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
-  backgroundColor: colors.neutral0,
-  borderRadius: borderRadius,
-  boxShadow: '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
-  marginBottom: spacing.menuGutter,
-  marginTop: spacing.menuGutter,
   position: 'absolute',
   width: '100%',
   zIndex: 1,
+  ...(unstyled
+    ? {}
+    : {
+        backgroundColor: colors.neutral0,
+        borderRadius: borderRadius,
+        boxShadow:
+          '0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1)',
+        marginBottom: spacing.menuGutter,
+        marginTop: spacing.menuGutter,
+      }),
 });
 
 const PortalPlacementContext =
@@ -322,6 +329,7 @@ export const MenuPlacer = <
   const ref = useRef<HTMLDivElement | null>(null);
   const [maxHeight, setMaxHeight] = useState(maxMenuHeight);
   const [placement, setPlacement] = useState<CoercedMenuPlacement | null>(null);
+  const { controlHeight } = theme.spacing;
 
   useLayoutEffect(() => {
     const menuEl = ref.current;
@@ -338,7 +346,7 @@ export const MenuPlacer = <
       placement: menuPlacement,
       shouldScroll,
       isFixedPosition,
-      theme,
+      controlHeight,
     });
 
     setMaxHeight(state.maxHeight);
@@ -351,7 +359,7 @@ export const MenuPlacer = <
     menuShouldScrollIntoView,
     minMenuHeight,
     setPortalPlacement,
-    theme,
+    controlHeight,
   ]);
 
   return children({
@@ -367,12 +375,10 @@ export const MenuPlacer = <
 const Menu = <Option, IsMulti extends boolean, Group extends GroupBase<Option>>(
   props: MenuProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerRef, innerProps } = props;
-
+  const { children, innerRef, innerProps } = props;
   return (
     <div
-      css={getStyles('menu', props)}
-      className={cx({ menu: true }, className)}
+      {...getStyleProps(props, 'menu', { menu: true })}
       ref={innerRef}
       {...innerProps}
     >
@@ -407,18 +413,25 @@ export const menuListCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  maxHeight,
-  theme: {
-    spacing: { baseUnit },
-  },
-}: MenuListProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
+>(
+  {
+    maxHeight,
+    theme: {
+      spacing: { baseUnit },
+    },
+  }: MenuListProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   maxHeight,
   overflowY: 'auto',
-  paddingBottom: baseUnit,
-  paddingTop: baseUnit,
   position: 'relative', // required for offset[Height, Top] > keyboard scroll
   WebkitOverflowScrolling: 'touch',
+  ...(unstyled
+    ? {}
+    : {
+        paddingBottom: baseUnit,
+        paddingTop: baseUnit,
+      }),
 });
 export const MenuList = <
   Option,
@@ -427,18 +440,13 @@ export const MenuList = <
 >(
   props: MenuListProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps, innerRef, isMulti } =
-    props;
+  const { children, innerProps, innerRef, isMulti } = props;
   return (
     <div
-      css={getStyles('menuList', props)}
-      className={cx(
-        {
-          'menu-list': true,
-          'menu-list--is-multi': isMulti,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'menuList', {
+        'menu-list': true,
+        'menu-list--is-multi': isMulti,
+      })}
       ref={innerRef}
       {...innerProps}
     >
@@ -455,15 +463,22 @@ const noticeCSS = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  theme: {
-    spacing: { baseUnit },
-    colors,
-  },
-}: NoticeProps<Option, IsMulti, Group>): CSSObjectWithLabel => ({
-  color: colors.neutral40,
-  padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
+>(
+  {
+    theme: {
+      spacing: { baseUnit },
+      colors,
+    },
+  }: NoticeProps<Option, IsMulti, Group>,
+  unstyled: boolean
+): CSSObjectWithLabel => ({
   textAlign: 'center',
+  ...(unstyled
+    ? {}
+    : {
+        color: colors.neutral40,
+        padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
+      }),
 });
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
@@ -486,17 +501,13 @@ export const NoOptionsMessage = <
 >(
   props: NoticeProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('noOptionsMessage', props)}
-      className={cx(
-        {
-          'menu-notice': true,
-          'menu-notice--no-options': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'noOptionsMessage', {
+        'menu-notice': true,
+        'menu-notice--no-options': true,
+      })}
       {...innerProps}
     >
       {children}
@@ -514,17 +525,13 @@ export const LoadingMessage = <
 >(
   props: NoticeProps<Option, IsMulti, Group>
 ) => {
-  const { children, className, cx, getStyles, innerProps } = props;
+  const { children, innerProps } = props;
   return (
     <div
-      css={getStyles('loadingMessage', props)}
-      className={cx(
-        {
-          'menu-notice': true,
-          'menu-notice--loading': true,
-        },
-        className
-      )}
+      {...getStyleProps(props, 'loadingMessage', {
+        'menu-notice': true,
+        'menu-notice--loading': true,
+      })}
       {...innerProps}
     >
       {children}
@@ -579,17 +586,18 @@ export const MenuPortal = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->({
-  appendTo,
-  children,
-  className,
-  controlElement,
-  cx,
-  innerProps,
-  menuPlacement,
-  menuPosition,
-  getStyles,
-}: MenuPortalProps<Option, IsMulti, Group>) => {
+>(
+  props: MenuPortalProps<Option, IsMulti, Group>
+) => {
+  const {
+    appendTo,
+    children,
+    controlElement,
+    innerProps,
+    menuPlacement,
+    menuPosition,
+  } = props;
+
   const menuPortalRef = useRef<HTMLDivElement | null>(null);
   const cleanupRef = useRef<(() => void) | void | null>(null);
 
@@ -666,16 +674,17 @@ export const MenuPortal = <
   const menuWrapper = (
     <div
       ref={setMenuPortalElement}
-      css={getStyles('menuPortal', {
-        offset: computedPosition.offset,
-        position: menuPosition,
-        rect: computedPosition.rect,
-      })}
-      className={cx(
+      {...getStyleProps(
+        {
+          ...props,
+          offset: computedPosition.offset,
+          position: menuPosition,
+          rect: computedPosition.rect,
+        },
+        'menuPortal',
         {
           'menu-portal': true,
-        },
-        className
+        }
       )}
       {...innerProps}
     >

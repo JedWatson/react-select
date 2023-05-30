@@ -24,7 +24,7 @@
     "@emotion/babel-plugin": "^11.10.2",
     "@emotion/jest": "^11.1.0",
     "@manypkg/cli": "^0.19.2",
-    "@preconstruct/cli": "^2.2.2",
+    "@preconstruct/cli": "^2.6.2",
     "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "12.1.4",
@@ -45,7 +45,7 @@
     "babel-loader": "^8.2.5",
     "concurrently": "^7.5.0",
     "copy-webpack-plugin": "^5.0.3",
-    "coveralls": "^2.11.12",
+    "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "css-loader": "^0.28.7",
     "cypress": "^5.0.0",
@@ -69,7 +69,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "cd docs && yarn start",
     "start:test": "cd docs && yarn start:test",
-    "build:docs": "cd docs && yarn build:docs",
+    "build:docs": "yarn --cwd=docs build:docs && yarn --cwd=storybook build && cp -r storybook/storybook-static docs/dist/storybook",
     "fresh": "rm -rf node_modules && yarn install",
     "test": "npm run test:jest && npm run test:cypress",
     "test:jest": "jest --coverage",
@@ -120,11 +120,10 @@
     "packages": [
       "packages/*",
       "docs/generate-magical-types"
-    ]
-  },
-  "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+    ],
+    "exports": {
+      "importConditionDefaultExport": "default"
+    }
   },
   "resolutions": {
     "csstype": "^3.0.2"

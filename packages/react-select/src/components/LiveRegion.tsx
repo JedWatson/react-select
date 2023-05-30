@@ -124,7 +124,7 @@ const LiveRegion = <
         label: getOptionLabel(focused),
         isDisabled: isOptionDisabled(focused, selectValue),
         isSelected,
-        options,
+        options: focusableOptions,
         context:
           focused === focusedOption ? ('menu' as const) : ('value' as const),
         selectValue,
@@ -140,7 +140,7 @@ const LiveRegion = <
     getOptionValue,
     isOptionDisabled,
     messages,
-    options,
+    focusableOptions,
     selectValue,
   ]);
 

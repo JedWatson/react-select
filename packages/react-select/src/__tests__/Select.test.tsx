@@ -3119,3 +3119,43 @@ test('renders with custom theme', () => {
     window.getComputedStyle(firstOption!).getPropertyValue('background-color')
   ).toEqual(primary);
 });
+
+cases(
+  '`required` prop',
+  ({ props = BASIC_PROPS }) => {
+    const components = (value: Option | null | undefined = null) => (
+      <form id="formTest">
+        <Select {...props} required value={value} />
+      </form>
+    );
+
+    const { container, rerender } = render(components());
+
+    expect(
+      container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+    ).toEqual(false);
+    rerender(components(props.options[0]));
+    expect(
+      container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
+    ).toEqual(true);
+  },
+  {
+    'single select > should validate with value': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'single select (isSearchable is false) > should validate with value': {
+      props: {
+        ...BASIC_PROPS,
+        isSearchable: false,
+      },
+    },
+    'multi select > should validate with value': {
+      props: {
+        ...BASIC_PROPS,
+        isMulti: true,
+      },
+    },
+  }
+);

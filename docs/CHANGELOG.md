@@ -1,5 +1,14 @@
 # @react-select/docs
 
+## 3.1.3
+
+### Patch Changes
+
+- [`0773095f`](https://github.com/JedWatson/react-select/commit/0773095f4990b636f64ae7d0ab593353a1e03b22) [#5457](https://github.com/JedWatson/react-select/pull/5457) Thanks [@nderkim](https://github.com/nderkim)! - Add classNames API and unstyled prop
+
+- Updated dependencies [0773095f]:
+  - react-select@undefined
+
 ## 3.1.2
 
 ### Patch Changes
