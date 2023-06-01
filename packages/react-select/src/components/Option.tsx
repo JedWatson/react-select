@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode, RefCallback } from 'react';
+import { ReactNode, Ref } from 'react';
 import { jsx } from '@emotion/react';
 
 import {
@@ -17,7 +17,7 @@ export interface OptionProps<
   /** The children to be rendered. */
   children: ReactNode;
   /** Inner ref to DOM Node */
-  innerRef: RefCallback<HTMLDivElement>;
+  innerRef: Ref<HTMLDivElement>;
   /** props passed to the wrapping element for the group. */
   innerProps: JSX.IntrinsicElements['div'];
   /** Text to be displayed representing the option. */
