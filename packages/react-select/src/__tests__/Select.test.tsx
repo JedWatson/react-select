@@ -2053,6 +2053,28 @@ cases(
 );
 
 cases(
+  'accessibility > passes through aria-placeholder prop',
+  ({ props = { ...BASIC_PROPS, 'aria-placeholder': 'foo' } }) => {
+    let { container } = render(<Select {...props} />);
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-placeholder')
+    ).toBe('foo');
+  },
+  {
+    'single select > should pass aria-invalid prop down to input': {},
+    'multi select > should pass aria-invalid prop down to input': {
+      props: {
+        ...BASIC_PROPS,
+        'aria-placeholder': 'foo',
+        isMulti: true,
+      },
+    },
+  }
+);
+
+cases(
   'accessibility > passes through aria-label prop',
   ({ props = { ...BASIC_PROPS, 'aria-label': 'testing' } }) => {
     let { container } = render(<Select {...props} />);
