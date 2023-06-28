@@ -54,6 +54,7 @@ import {
   FocusDirection,
   GetOptionLabel,
   GetOptionValue,
+  GetGroupOptions,
   GroupBase,
   InputActionMeta,
   MenuPlacement,
@@ -64,7 +65,6 @@ import {
   PropsValue,
   SetValueAction,
 } from './types';
-import { GetGroupOptions } from '.';
 
 export type FormatOptionLabelContext = 'menu' | 'value';
 export interface FormatOptionLabelMeta<Option> {
