@@ -29,7 +29,7 @@
     "@emotion/cache": "^11.4.0",
     "@emotion/jest": "^11.1.0",
     "@manypkg/cli": "^0.19.2",
-    "@preconstruct/cli": "^2.2.2",
+    "@preconstruct/cli": "^2.6.2",
     "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "12.1.4",
@@ -125,11 +125,10 @@
     "packages": [
       "packages/*",
       "docs/generate-magical-types"
-    ]
-  },
-  "browser": {
-    "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
-    "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+    ],
+    "exports": {
+      "importConditionDefaultExport": "default"
+    }
   },
   "resolutions": {
     "csstype": "^3.0.2"
