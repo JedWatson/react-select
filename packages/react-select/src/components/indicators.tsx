@@ -287,16 +287,22 @@ export const LoadingIndicator = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(
-  { innerProps, isRtl, size = 4, ...restProps }: LoadingIndicatorProps<Option, IsMulti, Group>
-) => {
-
+>({
+  innerProps,
+  isRtl,
+  size = 4,
+  ...restProps
+}: LoadingIndicatorProps<Option, IsMulti, Group>) => {
   return (
     <div
-      {...getStyleProps({ ...restProps, innerProps, isRtl, size }, 'loadingIndicator', {
-        indicator: true,
-        'loading-indicator': true,
-      })}
+      {...getStyleProps(
+        { ...restProps, innerProps, isRtl, size },
+        'loadingIndicator',
+        {
+          indicator: true,
+          'loading-indicator': true,
+        }
+      )}
       {...innerProps}
     >
       <LoadingDot delay={0} offset={isRtl} />
