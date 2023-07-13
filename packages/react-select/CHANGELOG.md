@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.4
+
+### Patch Changes
+
+- [`16414bb5`](https://github.com/JedWatson/react-select/commit/16414bb53295b362690d2b089d74182ddeabc1dd) [#5689](https://github.com/JedWatson/react-select/pull/5689) Thanks [@Rall3n](https://github.com/Rall3n)! - Resolve `defaultProps` deprecation warning for React v18+.
+
 ## 5.7.3
 
 ### Patch Changes
