@@ -1,5 +1,4 @@
 import selector from '../fixtures/selectors.json';
-import cypressJson from '../../cypress.json';
 
 const setup = [
   { width: 1440, height: 900, viewport: 'macbook-15', device: 'Laptop' },
@@ -9,12 +8,13 @@ const setup = [
 
 describe('Multi Select', () => {
   before(() => {
-    cy.visit(cypressJson.baseUrl);
+    cy.visit(Cypress.config('baseUrl')!);
     cy.title().should('equal', 'React-Select');
     cy.get('h1').should('contain', 'Test Page for Cypress');
   });
+
   beforeEach(() => {
-    cy.reload();
+    cy.reload(true);
   });
 
   for (let config of setup) {
@@ -34,7 +34,7 @@ describe('Multi Select', () => {
           expect($defaultValue.eq(0)).to.contain('Red');
         })
         .get(selector.menuMulti)
-        .should('not.be.visible');
+        .should('not.exist');
     });
 
     it(`Should be able to remove values on keyboard actions in view: ${viewport}`, () => {
