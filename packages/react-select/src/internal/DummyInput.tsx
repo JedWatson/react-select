@@ -29,6 +29,7 @@ export default function DummyInput({
         position: 'absolute',
         pointerEvents: 'none',
         opacity: '0',
+        caretColor: 'transparent',
       }}
     />
   );
