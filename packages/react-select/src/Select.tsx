@@ -1961,7 +1961,7 @@ export default class Select<
     };
 
     const menuElement = (
-      <MenuPlacer {...commonProps} {...menuPlacementProps}>
+      <MenuPlacer {...commonProps} {...menuPlacementProps} isLoading={isLoading}>
         {({ ref, placerProps: { placement, maxHeight } }) => (
           <Menu
             {...commonProps}

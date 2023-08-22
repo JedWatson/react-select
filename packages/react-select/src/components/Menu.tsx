@@ -266,6 +266,7 @@ export interface MenuPlacerProps<
     MenuPlacementProps {
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactElement;
+  isLoading: boolean;
 }
 
 function alignToControl(placement: CoercedMenuPlacement) {
@@ -317,6 +318,7 @@ export const MenuPlacer = <
 ) => {
   const {
     children,
+    isLoading,
     minMenuHeight,
     maxMenuHeight,
     menuPlacement,
@@ -353,6 +355,7 @@ export const MenuPlacer = <
     setPlacement(state.placement);
     setPortalPlacement?.(state.placement);
   }, [
+    isLoading,
     maxMenuHeight,
     menuPlacement,
     menuPosition,
