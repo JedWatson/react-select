@@ -1368,10 +1368,10 @@ export default class Select<
     if (
         !target ||
         !(target instanceof Element) ||
-        (selectRef.controlRef &&
-            !selectRef.controlRef.contains(target) &&
-            selectRef.menuListRef &&
-            !selectRef.menuListRef.contains(target))
+        (this.controlRef &&
+            !this.controlRef.contains(target) &&
+            this.menuListRef &&
+            !this.menuListRef.contains(target))
     ) {
 
     // reset move vars
