@@ -1373,7 +1373,8 @@ export default class Select<
             this.menuListRef &&
             !this.menuListRef.contains(target))
     ) {
-
+        selectRef.blurInput();
+    }
     // reset move vars
     this.initialTouchX = 0;
     this.initialTouchY = 0;
