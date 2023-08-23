@@ -1375,6 +1375,7 @@ export default class Select<
     ) {
       this.blurInput();
     }
+    
     // reset move vars
     this.initialTouchX = 0;
     this.initialTouchY = 0;
