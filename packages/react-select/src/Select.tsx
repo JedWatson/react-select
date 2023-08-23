@@ -1360,17 +1360,19 @@ export default class Select<
   onTouchEnd = (event: TouchEvent) => {
     if (this.userIsDragging) return;
 
+    const target =
+        event.target instanceof Element && event.target.shadowRoot && event.composedPath?.()[0] || event.target;
     // close the menu if the user taps outside
     // we're checking on event.target here instead of event.currentTarget, because we want to assert information
     // on events on child elements, not the document (which we've attached this handler to).
     if (
-      this.controlRef &&
-      !this.controlRef.contains(event.target as Node) &&
-      this.menuListRef &&
-      !this.menuListRef.contains(event.target as Node)
+        !target ||
+        !(target instanceof Element) ||
+        (selectRef.controlRef &&
+            !selectRef.controlRef.contains(target) &&
+            selectRef.menuListRef &&
+            !selectRef.menuListRef.contains(target))
     ) {
-      this.blurInput();
-    }
 
     // reset move vars
     this.initialTouchX = 0;
