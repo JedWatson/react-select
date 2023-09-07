@@ -175,18 +175,19 @@ const LiveRegion = <
     return guidanceMsg;
   }, [
     ariaLabel,
-    focusedOption,
-    focusedValue,
+    // focusedOption,
+    // focusedValue,
     isMulti,
-    isOptionDisabled,
+    // isOptionDisabled,
     isSearchable,
     menuIsOpen,
     messages,
-    selectValue,
+    // selectValue,
     tabSelectsValue,
   ]);
 
-  const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
+  // const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
+  const ariaContext = `${ariaGuidance}`;
 
   const ScreenReaderText = (
     <Fragment>

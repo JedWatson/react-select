@@ -329,6 +329,8 @@ interface State<
   inputIsHidden: boolean;
   isFocused: boolean;
   focusedOption: Option | null;
+  focusedOptionId: string | null;
+  focusableOptionsWithIds: FocusableOptionWithId<Option>[];
   focusedValue: Option | null;
   selectValue: Options<Option>;
   clearFocusValueOnUpdate: boolean;
@@ -345,6 +347,11 @@ interface CategorizedOption<Option> {
   label: string;
   value: string;
   index: number;
+}
+
+interface FocusableOptionWithId<Option> {
+  data: Option;
+  id: string;
 }
 
 interface CategorizedGroup<Option, Group extends GroupBase<Option>> {
@@ -434,6 +441,34 @@ function buildFocusableOptionsFromCategorizedOptions<
         );
       } else {
         optionsAccumulator.push(categorizedOption.data);
+      }
+      return optionsAccumulator;
+    },
+    []
+  );
+}
+
+function buildFocusableOptionsFromCategorizedOptionsWithIds<
+  Option,
+  Group extends GroupBase<Option>
+>(
+  categorizedOptions: readonly CategorizedGroupOrOption<Option, Group>[],
+  optionId: string
+) {
+  return categorizedOptions.reduce<FocusableOptionWithId<Option>[]>(
+    (optionsAccumulator, categorizedOption) => {
+      if (categorizedOption.type === 'group') {
+        optionsAccumulator.push(
+          ...categorizedOption.options.map((option) => ({
+            data: option.data,
+            id: `${optionId}-${categorizedOption.index}-${option.index}`,
+          }))
+        );
+      } else {
+        optionsAccumulator.push({
+          data: categorizedOption.data,
+          id: `${optionId}-${categorizedOption.index}`,
+        });
       }
       return optionsAccumulator;
     },
@@ -587,6 +622,8 @@ export default class Select<
   state: State<Option, IsMulti, Group> = {
     ariaSelection: null,
     focusedOption: null,
+    focusedOptionId: null,
+    focusableOptionsWithIds: [],
     focusedValue: null,
     inputIsHidden: false,
     isFocused: false,
@@ -638,12 +675,21 @@ export default class Select<
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
-
+    this.state.focusableOptionsWithIds =
+      buildFocusableOptionsFromCategorizedOptionsWithIds(
+        buildCategorizedOptions(props, this.state.selectValue),
+        this.getElementId('option')
+      );
     // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
     if (props.menuIsOpen && this.state.selectValue.length) {
       const focusableOptions = this.buildFocusableOptions();
+
       const optionIndex = focusableOptions.indexOf(this.state.selectValue[0]);
+
       this.state.focusedOption = focusableOptions[optionIndex];
+      this.state.focusedOptionId = `${this.getElementId(
+        'option'
+      )}-${optionIndex}`;
     }
   }
 
@@ -801,6 +847,11 @@ export default class Select<
       action: 'menu-close',
       prevInputValue: this.props.inputValue,
     });
+
+    this.setState({
+      focusedOptionId: null,
+    });
+
     this.props.onMenuClose();
   }
   onInputChange(newValue: string, actionMeta: InputActionMeta) {
@@ -844,6 +895,7 @@ export default class Select<
         inputIsHiddenAfterUpdate: false,
         focusedValue: null,
         focusedOption: focusableOptions[openAtIndex],
+        focusedOptionId: this.getFocusedOptionId(focusableOptions[openAtIndex]),
       },
       () => this.onMenuOpen()
     );
@@ -921,6 +973,7 @@ export default class Select<
     this.setState({
       focusedOption: options[nextFocus],
       focusedValue: null,
+      focusedOptionId: this.getFocusedOptionId(options[nextFocus]),
     });
   }
   onChange = (
@@ -941,7 +994,9 @@ export default class Select<
     const { closeMenuOnSelect, isMulti, inputValue } = this.props;
     this.onInputChange('', { action: 'set-value', prevInputValue: inputValue });
     if (closeMenuOnSelect) {
-      this.setState({ inputIsHiddenAfterUpdate: !isMulti });
+      this.setState({
+        inputIsHiddenAfterUpdate: !isMulti,
+      });
       this.onMenuClose();
     }
     // when the select value should change, we should reset focusedValue
@@ -1049,6 +1104,13 @@ export default class Select<
       ...this.props.theme,
     };
   }
+
+  getFocusedOptionId = (focusedOption: Option) => {
+    const focusedOptionId = this.state.focusableOptionsWithIds.find(
+      (option) => option.data === focusedOption
+    )?.id;
+    return focusedOptionId || null;
+  };
 
   getValue = () => this.state.selectValue;
 
@@ -1437,7 +1499,14 @@ export default class Select<
     if (this.blockOptionHover || this.state.focusedOption === focusedOption) {
       return;
     }
-    this.setState({ focusedOption });
+    const options = this.getFocusableOptions();
+    const focusedOptionIndex = options.indexOf(focusedOption!);
+    console.log('getFocusedOptionId', this.getFocusedOptionId(focusedOption));
+    this.setState({
+      focusedOption,
+      focusedOptionId:
+        focusedOptionIndex > -1 ? this.getFocusedOptionId(focusedOption) : null,
+    });
   };
   shouldHideSelectedOptions = () => {
     return shouldHideSelectedOptions(this.props);
@@ -1536,7 +1605,9 @@ export default class Select<
         return;
       case 'Escape':
         if (menuIsOpen) {
-          this.setState({ inputIsHiddenAfterUpdate: false });
+          this.setState({
+            inputIsHiddenAfterUpdate: false,
+          });
           this.onInputChange('', {
             action: 'menu-close',
             prevInputValue: inputValue,
@@ -1624,6 +1695,8 @@ export default class Select<
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
       role: 'combobox',
+      'aria-activedescendant': this.state.focusedOptionId || '',
+
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
         'aria-owns': this.getElementId('listbox'),
@@ -1891,6 +1964,8 @@ export default class Select<
         onMouseMove: onHover,
         onMouseOver: onHover,
         tabIndex: -1,
+        role: 'option',
+        'aria-selected': isSelected,
       };
 
       return (
@@ -1971,6 +2046,7 @@ export default class Select<
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
               id: this.getElementId('listbox'),
+              role: 'listbox',
             }}
             isLoading={isLoading}
             placement={placement}
