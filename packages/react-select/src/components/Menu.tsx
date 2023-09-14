@@ -498,48 +498,52 @@ export const NoOptionsMessage = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(
-  props: NoticeProps<Option, IsMulti, Group>
-) => {
-  const { children, innerProps } = props;
+>({
+  children = 'No options',
+  innerProps,
+  ...restProps
+}: NoticeProps<Option, IsMulti, Group>) => {
   return (
     <div
-      {...getStyleProps(props, 'noOptionsMessage', {
-        'menu-notice': true,
-        'menu-notice--no-options': true,
-      })}
+      {...getStyleProps(
+        { ...restProps, children, innerProps },
+        'noOptionsMessage',
+        {
+          'menu-notice': true,
+          'menu-notice--no-options': true,
+        }
+      )}
       {...innerProps}
     >
       {children}
     </div>
   );
-};
-NoOptionsMessage.defaultProps = {
-  children: 'No options',
 };
 
 export const LoadingMessage = <
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(
-  props: NoticeProps<Option, IsMulti, Group>
-) => {
-  const { children, innerProps } = props;
+>({
+  children = 'Loading...',
+  innerProps,
+  ...restProps
+}: NoticeProps<Option, IsMulti, Group>) => {
   return (
     <div
-      {...getStyleProps(props, 'loadingMessage', {
-        'menu-notice': true,
-        'menu-notice--loading': true,
-      })}
+      {...getStyleProps(
+        { ...restProps, children, innerProps },
+        'loadingMessage',
+        {
+          'menu-notice': true,
+          'menu-notice--loading': true,
+        }
+      )}
       {...innerProps}
     >
       {children}
     </div>
   );
-};
-LoadingMessage.defaultProps = {
-  children: 'Loading...',
 };
 
 // ==============================
