@@ -1501,7 +1501,6 @@ export default class Select<
     }
     const options = this.getFocusableOptions();
     const focusedOptionIndex = options.indexOf(focusedOption!);
-    console.log('getFocusedOptionId', this.getFocusedOptionId(focusedOption));
     this.setState({
       focusedOption,
       focusedOptionId:
