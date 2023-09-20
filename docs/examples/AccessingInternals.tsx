@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 
 import Select, { SelectInstance } from 'react-select';
 import AsyncSelect from 'react-select/async';
@@ -20,105 +20,87 @@ const promiseOptions = (inputValue: string) =>
     }, 1000);
   });
 
-export default class AccessingInternals extends Component {
-  selectRef?: SelectInstance<ColourOption> | null;
-  asyncRef?: SelectInstance<ColourOption> | null;
-  creatableRef?: SelectInstance<ColourOption> | null;
-  focus = () => {
-    console.log(this.selectRef);
-    this.selectRef!.focus();
+export default function AccessingInternals() {
+  const selectRef = useRef<SelectInstance<ColourOption> | null>(null);
+  const asyncRef = useRef<SelectInstance<ColourOption> | null>(null);
+  const creatableRef = useRef<SelectInstance<ColourOption> | null>(null);
+
+  // Focus handlers
+  const focus = () => {
+    console.log(selectRef);
+    selectRef.current?.focus();
   };
-  focusCreatable = () => {
-    console.log(this.creatableRef);
-    this.creatableRef!.focus();
+  const focusAsync = () => {
+    console.log(asyncRef);
+    asyncRef.current?.focus();
   };
-  focusAsync = () => {
-    console.log(this.asyncRef);
-    this.asyncRef!.focus();
+  const focusCreatable = () => {
+    console.log(creatableRef);
+    creatableRef.current?.focus();
   };
-  blurAsync = () => {
-    this.asyncRef!.blur();
+
+  // Blur handlers
+  const blur = () => {
+    selectRef.current?.blur();
   };
-  blurCreatable = () => {
-    this.creatableRef!.blur();
+  const blurAsync = () => {
+    asyncRef.current?.blur();
   };
-  blur = () => this.selectRef!.blur();
-  onSelectRef = (ref: SelectInstance<ColourOption>) => {
-    console.log(ref);
-    this.selectRef = ref;
+  const blurCreatable = () => {
+    creatableRef.current?.blur();
   };
-  render() {
-    return (
-      <Fragment>
-        <h4>Creatable Select</h4>
-        <CreatableSelect
-          ref={(ref) => {
-            this.creatableRef = ref;
-          }}
-          isClearable
-          options={colourOptions}
-        />
-        <Note Tag="label">
-          <button
-            onClick={this.focusCreatable}
-            id="cypress-single__clearable-checkbox"
-          >
-            Focus
-          </button>
-        </Note>
-        <Note Tag="label">
-          <button
-            onClick={this.blurCreatable}
-            id="cypress-single__clearable-checkbox"
-          >
-            Blur
-          </button>
-        </Note>
-        <h4>Async Select</h4>
-        <AsyncSelect
-          ref={(ref) => {
-            this.asyncRef = ref;
-          }}
-          cacheOptions
-          defaultOptions
-          loadOptions={promiseOptions}
-        />
-        <Note Tag="label">
-          <button
-            onClick={this.focusAsync}
-            id="cypress-single__clearable-checkbox"
-          >
-            Focus
-          </button>
-        </Note>
-        <Note Tag="label">
-          <button
-            onClick={this.blurAsync}
-            id="cypress-single__clearable-checkbox"
-          >
-            Blur
-          </button>
-        </Note>
-        <h4>Select</h4>
-        <Select
-          ref={(ref) => {
-            this.selectRef = ref;
-          }}
-          defaultValue={colourOptions[2]}
-          name="colors"
-          options={colourOptions}
-        />
-        <Note Tag="label">
-          <button onClick={this.focus} id="cypress-single__clearable-checkbox">
-            Focus
-          </button>
-        </Note>
-        <Note Tag="label">
-          <button onClick={this.blur} id="cypress-single__clearable-checkbox">
-            Blur
-          </button>
-        </Note>
-      </Fragment>
-    );
-  }
+
+  return (
+    <Fragment>
+      <h4>Creatable Select</h4>
+      <CreatableSelect ref={creatableRef} isClearable options={colourOptions} />
+      <Note Tag="label">
+        <button
+          onClick={focusCreatable}
+          id="cypress-single__clearable-checkbox"
+        >
+          Focus
+        </button>
+      </Note>
+      <Note Tag="label">
+        <button onClick={blurCreatable} id="cypress-single__clearable-checkbox">
+          Blur
+        </button>
+      </Note>
+      <h4>Async Select</h4>
+      <AsyncSelect
+        ref={asyncRef}
+        cacheOptions
+        defaultOptions
+        loadOptions={promiseOptions}
+      />
+      <Note Tag="label">
+        <button onClick={focusAsync} id="cypress-single__clearable-checkbox">
+          Focus
+        </button>
+      </Note>
+      <Note Tag="label">
+        <button onClick={blurAsync} id="cypress-single__clearable-checkbox">
+          Blur
+        </button>
+      </Note>
+      <h4>Select</h4>
+      <Select
+        ref={selectRef}
+        defaultValue={colourOptions[2]}
+        name="colors"
+        options={colourOptions}
+      />
+      <Note Tag="label">
+        <button onClick={focus} id="cypress-single__clearable-checkbox">
+          Focus
+        </button>
+      </Note>
+      <Note Tag="label">
+        <button onClick={blur} id="cypress-single__clearable-checkbox">
+          Blur
+        </button>
+      </Note>
+    </Fragment>
+  );
 }

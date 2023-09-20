@@ -1,4 +1,5 @@
-import {
+import type { StylesProps } from './styles';
+import type {
   ClassNamesState,
   CommonPropsAndClassName,
   GroupBase,
@@ -43,9 +44,9 @@ function applyPrefixToName(prefix: string, name: string) {
 export function classNames(
   prefix?: string | null,
   state?: ClassNamesState,
-  className?: string
+  ...classNameList: string[]
 ) {
-  const arr = [className];
+  const arr = [...classNameList];
   if (state && prefix) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
@@ -93,6 +94,7 @@ export const cleanCommonProps = <
     clearValue,
     cx,
     getStyles,
+    getClassNames,
     getValue,
     hasValue,
     isMulti,
@@ -105,6 +107,31 @@ export const cleanCommonProps = <
     ...innerProps
   } = props;
   return { ...innerProps };
+};
+
+// ==============================
+// Get Style Props
+// ==============================
+
+export const getStyleProps = <
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>,
+  Key extends keyof StylesProps<Option, IsMulti, Group>
+>(
+  props: Pick<
+    CommonPropsAndClassName<Option, IsMulti, Group>,
+    'cx' | 'getStyles' | 'getClassNames' | 'className'
+  > &
+    StylesProps<Option, IsMulti, Group>[Key],
+  name: Key,
+  classNamesState?: ClassNamesState
+) => {
+  const { cx, getStyles, getClassNames, className } = props;
+  return {
+    css: getStyles(name, props),
+    className: cx(classNamesState ?? {}, getClassNames(name, props), className),
+  };
 };
 
 // ==============================
