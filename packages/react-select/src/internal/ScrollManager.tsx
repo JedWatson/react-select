@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
-import { Fragment, ReactElement, RefCallback } from 'react';
+import { Fragment, ReactElement, RefCallback, MouseEvent } from 'react';
 import useScrollCapture from './useScrollCapture';
 import useScrollLock from './useScrollLock';
 
@@ -14,8 +14,13 @@ interface Props {
   readonly onTopLeave?: (event: WheelEvent | TouchEvent) => void;
 }
 
-const blurSelectInput = () =>
-  document.activeElement && (document.activeElement as HTMLElement).blur();
+const blurSelectInput = (event: MouseEvent<HTMLDivElement>) => {
+  const element = event.target as HTMLDivElement;
+  return (
+    element.ownerDocument.activeElement &&
+    (element.ownerDocument.activeElement as HTMLElement).blur()
+  );
+};
 
 export default function ScrollManager({
   children,
