@@ -337,6 +337,7 @@ interface State<
   prevWasFocused: boolean;
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
+  instancePrefix: string;
 }
 
 interface CategorizedOption<Option> {
@@ -448,10 +449,7 @@ function buildFocusableOptionsFromCategorizedOptions<
   );
 }
 
-function buildFocusableOptionsFromCategorizedOptionsWithIds<
-  Option,
-  Group extends GroupBase<Option>
->(
+function buildFocusableOptionsWithIds<Option, Group extends GroupBase<Option>>(
   categorizedOptions: readonly CategorizedGroupOrOption<Option, Group>[],
   optionId: string
 ) {
@@ -534,6 +532,17 @@ function getNextFocusedOption<
     ? lastFocusedOption
     : options[0];
 }
+
+const getFocusedOptionId = <Option,>(
+  focusableOptionsWithIds: FocusableOptionWithId<Option>[],
+  focusedOption: Option
+) => {
+  const focusedOptionId = focusableOptionsWithIds.find(
+    (option) => option.data === focusedOption
+  )?.id;
+  return focusedOptionId || null;
+};
+
 const getOptionLabel = <
   Option,
   IsMulti extends boolean,
@@ -632,6 +641,7 @@ export default class Select<
     prevWasFocused: false,
     inputIsHiddenAfterUpdate: undefined,
     prevProps: undefined,
+    instancePrefix: '',
   };
 
   // Misc. Instance Properties
@@ -642,7 +652,6 @@ export default class Select<
   commonProps: any; // TODO
   initialTouchX = 0;
   initialTouchY = 0;
-  instancePrefix = '';
   openAfterFocus = false;
   scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
@@ -672,16 +681,15 @@ export default class Select<
 
   constructor(props: Props<Option, IsMulti, Group>) {
     super(props);
-    this.instancePrefix =
+    this.state.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
-    this.state.focusableOptionsWithIds = this.getFocusableOptionsWithIds();
     // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
     if (props.menuIsOpen && this.state.selectValue.length) {
+      this.state.focusableOptionsWithIds = this.getFocusableOptionsWithIds();
+
       const focusableOptions = this.buildFocusableOptions();
-
       const optionIndex = focusableOptions.indexOf(this.state.selectValue[0]);
-
       this.state.focusedOption = focusableOptions[optionIndex];
       this.state.focusedOptionId = `${this.getElementId(
         'option'
@@ -700,6 +708,7 @@ export default class Select<
       ariaSelection,
       isFocused,
       prevWasFocused,
+      instancePrefix,
     } = state;
     const { options, value, menuIsOpen, inputValue, isMulti } = props;
     const selectValue = cleanValue(value);
@@ -714,13 +723,28 @@ export default class Select<
       const focusableOptions = menuIsOpen
         ? buildFocusableOptions(props, selectValue)
         : [];
+
+      const focusableOptionsWithIds = menuIsOpen
+        ? buildFocusableOptionsWithIds(
+            buildCategorizedOptions(props, selectValue),
+            `${instancePrefix}-option`
+          )
+        : [];
+
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
       const focusedOption = getNextFocusedOption(state, focusableOptions);
+      const focusedOptionId = getFocusedOptionId(
+        focusableOptionsWithIds,
+        focusedOption
+      );
+
       newMenuOptionsState = {
         selectValue,
         focusedOption,
+        focusedOptionId,
+        focusableOptionsWithIds,
         focusedValue,
         clearFocusValueOnUpdate: false,
       };
@@ -788,7 +812,7 @@ export default class Select<
     }
   }
   componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
-    const { isDisabled, menuIsOpen, options } = this.props;
+    const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
     if (
@@ -824,13 +848,6 @@ export default class Select<
       scrollIntoView(this.menuListRef, this.focusedOptionRef);
       this.scrollToFocusedOptionOnUpdate = false;
     }
-
-    if (options !== prevProps.options) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        focusableOptionsWithIds: this.getFocusableOptionsWithIds(),
-      });
-    }
   }
   componentWillUnmount() {
     this.stopListeningComposition();
@@ -849,10 +866,6 @@ export default class Select<
     this.onInputChange('', {
       action: 'menu-close',
       prevInputValue: this.props.inputValue,
-    });
-
-    this.setState({
-      focusedOptionId: null,
     });
 
     this.props.onMenuClose();
@@ -1109,14 +1122,14 @@ export default class Select<
   }
 
   getFocusedOptionId = (focusedOption: Option) => {
-    const focusedOptionId = this.state.focusableOptionsWithIds.find(
-      (option) => option.data === focusedOption
-    )?.id;
-    return focusedOptionId || null;
+    return getFocusedOptionId(
+      this.state.focusableOptionsWithIds,
+      focusedOption
+    );
   };
 
   getFocusableOptionsWithIds = () => {
-    return buildFocusableOptionsFromCategorizedOptionsWithIds(
+    return buildFocusableOptionsWithIds(
       buildCategorizedOptions(this.props, this.state.selectValue),
       this.getElementId('option')
     );
@@ -1186,7 +1199,7 @@ export default class Select<
       | 'placeholder'
       | 'live-region'
   ) => {
-    return `${this.instancePrefix}-${element}`;
+    return `${this.state.instancePrefix}-${element}`;
   };
 
   getComponents = () => {
