@@ -197,7 +197,7 @@ const LiveRegion = <
       <span id="aria-selection">{ariaSelected}</span>
       <span id="aria-focused">{ariaFocused}</span>
       <span id="aria-results">{ariaResults}</span>
-      <span id="aria-context">{ariaGuidance}</span>
+      <span id="aria-guidance">{ariaGuidance}</span>
     </Fragment>
   );
 

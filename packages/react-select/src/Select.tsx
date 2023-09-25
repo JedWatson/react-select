@@ -686,14 +686,16 @@ export default class Select<
     this.state.selectValue = cleanValue(props.value);
     // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
     if (props.menuIsOpen && this.state.selectValue.length) {
-      this.state.focusableOptionsWithIds = this.getFocusableOptionsWithIds();
-
+      const focusableOptionsWithIds: FocusableOptionWithId<Option>[] =
+        this.getFocusableOptionsWithIds();
       const focusableOptions = this.buildFocusableOptions();
       const optionIndex = focusableOptions.indexOf(this.state.selectValue[0]);
+      this.state.focusableOptionsWithIds = focusableOptionsWithIds;
       this.state.focusedOption = focusableOptions[optionIndex];
-      this.state.focusedOptionId = `${this.getElementId(
-        'option'
-      )}-${optionIndex}`;
+      this.state.focusedOptionId = getFocusedOptionId(
+        focusableOptionsWithIds,
+        focusableOptions[optionIndex]
+      );
     }
   }
 
