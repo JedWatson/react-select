@@ -78,36 +78,12 @@ export interface StylesProps<
   valueContainer: ValueContainerProps<Option, IsMulti, Group>;
 }
 
-type StylesFunction<Props> = (props: Props) => CSSObjectWithLabel;
-export type StylesFunctions<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
-> = {
-  [K in keyof StylesProps<Option, IsMulti, Group>]: StylesFunction<
-    StylesProps<Option, IsMulti, Group>[K]
-  >;
-};
-
-export type StylesConfigFunction<Props> = (
-  base: CSSObjectWithLabel,
-  props: Props
-) => CSSObjectWithLabel;
-export type StylesConfig<
-  Option = unknown,
-  IsMulti extends boolean = boolean,
-  Group extends GroupBase<Option> = GroupBase<Option>
-> = {
-  [K in keyof StylesProps<Option, IsMulti, Group>]?: StylesConfigFunction<
-    StylesProps<Option, IsMulti, Group>[K]
-  >;
-};
-
-export const defaultStyles: StylesFunctions<
-  unknown,
-  boolean,
-  GroupBase<unknown>
-> = {
+export const defaultStyles: {
+  [K in keyof StylesProps<any, any, any>]: (
+    props: StylesProps<unknown, boolean, GroupBase<unknown>>[K],
+    unstyled: boolean
+  ) => CSSObjectWithLabel;
+} = {
   clearIndicator: clearIndicatorCSS,
   container: containerCSS,
   control: controlCSS,
@@ -130,6 +106,27 @@ export const defaultStyles: StylesFunctions<
   placeholder: placeholderCSS,
   singleValue: singleValueCSS,
   valueContainer: valueContainerCSS,
+};
+
+export type StylesConfig<
+  Option = unknown,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = {
+  [K in keyof StylesProps<Option, IsMulti, Group>]?: (
+    base: CSSObjectWithLabel,
+    props: StylesProps<Option, IsMulti, Group>[K]
+  ) => CSSObjectWithLabel;
+};
+
+export type ClassNamesConfig<
+  Option = unknown,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = {
+  [K in keyof StylesProps<Option, IsMulti, Group>]?: (
+    props: StylesProps<Option, IsMulti, Group>[K]
+  ) => string;
 };
 
 // Merge Utility

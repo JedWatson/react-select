@@ -1,6 +1,4 @@
 {
-  "main": "dist/generate-magical-types.cjs.js",
-  "preconstruct": {
-    "source": "../src/serialize"
-  }
+  "main": "dist/react-select-generate-magical-types-serialize.cjs.js",
+  "module": "dist/react-select-generate-magical-types-serialize.esm.js"
 }

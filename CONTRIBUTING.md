@@ -18,8 +18,5 @@ Before you open a PR:
   know. We'll help you get started, rather than inadvertently doubling up on your hard work.
 - Make sure you do not add regressions by running `yarn test`.
 - Where possible, include tests with your changes, either that demonstrates the
-  bug, or tests the new functionality. If you're not sure how to test your
-  changes, feel free to ping @gwyneplaine
-- Please [follow our established coding conventions](https://github.com/keystonejs/keystone/wiki/Coding-Standards)
-  (with regards to formatting, etc)
+  bug, or tests the new functionality.
 - All new features and changes need documentation.

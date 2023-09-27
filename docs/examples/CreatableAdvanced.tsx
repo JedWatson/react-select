@@ -1,17 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, OnChangeValue } from 'react-select';
 
 interface Option {
   readonly label: string;
   readonly value: string;
-}
-
-interface State {
-  readonly isLoading: boolean;
-  readonly options: readonly Option[];
-  readonly value: Option | null | undefined;
 }
 
 const createOption = (label: string) => ({
@@ -25,50 +18,30 @@ const defaultOptions = [
   createOption('Three'),
 ];
 
-export default class CreatableAdvanced extends Component<{}, State> {
-  state: State = {
-    isLoading: false,
-    options: defaultOptions,
-    value: undefined,
-  };
-  handleChange = (
-    newValue: OnChangeValue<Option, false>,
-    actionMeta: ActionMeta<Option>
-  ) => {
-    console.group('Value Changed');
-    console.log(newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-    this.setState({ value: newValue });
-  };
-  handleCreate = (inputValue: string) => {
-    this.setState({ isLoading: true });
-    console.group('Option created');
-    console.log('Wait a moment...');
+export default () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState(defaultOptions);
+  const [value, setValue] = useState<Option | null>();
+
+  const handleCreate = (inputValue: string) => {
+    setIsLoading(true);
     setTimeout(() => {
-      const { options } = this.state;
       const newOption = createOption(inputValue);
-      console.log(newOption);
-      console.groupEnd();
-      this.setState({
-        isLoading: false,
-        options: [...options, newOption],
-        value: newOption,
-      });
+      setIsLoading(false);
+      setOptions((prev) => [...prev, newOption]);
+      setValue(newOption);
     }, 1000);
   };
-  render() {
-    const { isLoading, options, value } = this.state;
-    return (
-      <CreatableSelect
-        isClearable
-        isDisabled={isLoading}
-        isLoading={isLoading}
-        onChange={this.handleChange}
-        onCreateOption={this.handleCreate}
-        options={options}
-        value={value}
-      />
-    );
-  }
-}
+
+  return (
+    <CreatableSelect
+      isClearable
+      isDisabled={isLoading}
+      isLoading={isLoading}
+      onChange={(newValue) => setValue(newValue)}
+      onCreateOption={handleCreate}
+      options={options}
+      value={value}
+    />
+  );
+};

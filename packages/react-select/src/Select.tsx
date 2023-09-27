@@ -14,7 +14,7 @@ import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
-import { DummyInput, ScrollManager } from './internal/index';
+import { DummyInput, ScrollManager, RequiredInput } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility/index';
 
 import {
@@ -40,7 +40,12 @@ import {
 
 import { defaultComponents, SelectComponentsConfig } from './components/index';
 
-import { defaultStyles, StylesConfig, StylesProps } from './styles';
+import {
+  ClassNamesConfig,
+  defaultStyles,
+  StylesConfig,
+  StylesProps,
+} from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -81,7 +86,7 @@ export interface Props<
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
   'aria-live'?: AriaAttributes['aria-live'];
-  /** Customize the messages used by the aria-live component */
+  /** Customise the messages used by the aria-live component */
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
   autoFocus?: boolean;
@@ -99,6 +104,10 @@ export interface Props<
    * This is useful when styling via CSS classes instead of the Styles API approach.
    */
   classNamePrefix?: string | null;
+  /**
+   * Provide classNames based on state for each inner component
+   */
+  classNames: ClassNamesConfig<Option, IsMulti, Group>;
   /** Close the select menu when the user selects an option */
   closeMenuOnSelect: boolean;
   /**
@@ -258,10 +267,14 @@ export interface Props<
   tabIndex: number;
   /** Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean;
+  /** Remove all non-essential styles */
+  unstyled: boolean;
   /** The value of the select; reflected by the selected option */
   value: PropsValue<Option>;
   /** Sets the form attribute on the input */
   form?: string;
+  /** Marks the value-holding input as required for form validation */
+  required?: boolean;
 }
 
 export const defaultProps = {
@@ -269,6 +282,7 @@ export const defaultProps = {
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
+  classNames: {},
   closeMenuOnSelect: true,
   closeMenuOnScroll: false,
   components: {},
@@ -303,6 +317,7 @@ export const defaultProps = {
   styles: {},
   tabIndex: 0,
   tabSelectsValue: true,
+  unstyled: false,
 };
 
 interface State<
@@ -623,6 +638,13 @@ export default class Select<
     this.instancePrefix =
       'react-select-' + (this.props.instanceId || ++instanceId);
     this.state.selectValue = cleanValue(props.value);
+
+    // Set focusedOption if menuIsOpen is set on init (e.g. defaultMenuIsOpen)
+    if (props.menuIsOpen && this.state.selectValue.length) {
+      const focusableOptions = this.buildFocusableOptions();
+      const optionIndex = focusableOptions.indexOf(this.state.selectValue[0]);
+      this.state.focusedOption = focusableOptions[optionIndex];
+    }
   }
 
   static getDerivedStateFromProps(
@@ -712,6 +734,16 @@ export default class Select<
     if (this.props.autoFocus) {
       this.focusInput();
     }
+
+    // Scroll focusedOption into view if menuIsOpen is set on mount (e.g. defaultMenuIsOpen)
+    if (
+      this.props.menuIsOpen &&
+      this.state.focusedOption &&
+      this.menuListRef &&
+      this.focusedOptionRef
+    ) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
   }
   componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
     const { isDisabled, menuIsOpen } = this.props;
@@ -727,9 +759,18 @@ export default class Select<
     }
 
     if (isFocused && isDisabled && !prevProps.isDisabled) {
-      // ensure select state gets blurred in case Select is programatically disabled while focused
+      // ensure select state gets blurred in case Select is programmatically disabled while focused
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: false }, this.onMenuClose);
+    } else if (
+      !isFocused &&
+      !isDisabled &&
+      prevProps.isDisabled &&
+      this.inputRef === document.activeElement
+    ) {
+      // ensure select state gets focused in case Select is programatically re-enabled while focused (Firefox)
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ isFocused: true });
     }
 
     // scroll the focused option into view if necessary
@@ -996,7 +1037,7 @@ export default class Select<
   // ==============================
 
   getTheme() {
-    // Use the default theme if there are no customizations.
+    // Use the default theme if there are no customisations.
     if (!this.props.theme) {
       return defaultTheme;
     }
@@ -1026,6 +1067,7 @@ export default class Select<
       focusInput,
       cx,
       getStyles,
+      getClassNames,
       getValue,
       selectOption,
       setValue,
@@ -1042,6 +1084,7 @@ export default class Select<
       focusInput,
       cx,
       getStyles,
+      getClassNames,
       getValue,
       hasValue,
       isFocused,
@@ -1065,11 +1108,16 @@ export default class Select<
     key: Key,
     props: StylesProps<Option, IsMulti, Group>[Key]
   ) => {
-    const base = defaultStyles[key](props as any);
+    const { unstyled } = this.props;
+    const base = defaultStyles[key](props as any, unstyled);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
     return custom ? custom(base, props as any) : base;
   };
+  getClassNames = <Key extends keyof StylesProps<Option, IsMulti, Group>>(
+    key: Key,
+    props: StylesProps<Option, IsMulti, Group>[Key]
+  ) => this.props.classNames[key]?.(props as any);
   getElementId = (
     element:
       | 'group'
@@ -1169,6 +1217,10 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
+    // Event captured by dropdown indicator
+    if (event.defaultPrevented) {
+      return;
+    }
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
@@ -1215,7 +1267,6 @@ export default class Select<
       this.openMenu('first');
     }
     event.preventDefault();
-    event.stopPropagation();
   };
   onClearIndicatorMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
@@ -1230,7 +1281,6 @@ export default class Select<
     }
     this.clearValue();
     event.preventDefault();
-    event.stopPropagation();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
       this.focusInput();
@@ -1406,6 +1456,15 @@ export default class Select<
     return shouldHideSelectedOptions(this.props);
   };
 
+  // If the hidden input gets focus through form submit,
+  // redirect focus to focusable input.
+  onValueInputFocus: FocusEventHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.focus();
+  };
+
   // ==============================
   // Keyboard Handlers
   // ==============================
@@ -1559,6 +1618,7 @@ export default class Select<
       tabIndex,
       form,
       menuIsOpen,
+      required,
     } = this.props;
     const { Input } = this.getComponents();
     const { inputIsHidden, ariaSelection } = this.state;
@@ -1571,13 +1631,16 @@ export default class Select<
       'aria-autocomplete': 'list' as const,
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
-      'aria-controls': this.getElementId('listbox'),
-      'aria-owns': this.getElementId('listbox'),
       'aria-errormessage': this.props['aria-errormessage'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
+      'aria-required': required,
       role: 'combobox',
+      ...(menuIsOpen && {
+        'aria-controls': this.getElementId('listbox'),
+        'aria-owns': this.getElementId('listbox'),
+      }),
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
@@ -1686,7 +1749,6 @@ export default class Select<
               onTouchEnd: () => this.removeValue(opt),
               onMouseDown: (e) => {
                 e.preventDefault();
-                e.stopPropagation();
               },
             }}
             data={opt}
@@ -1971,8 +2033,12 @@ export default class Select<
     );
   }
   renderFormField() {
-    const { delimiter, isDisabled, isMulti, name } = this.props;
+    const { delimiter, isDisabled, isMulti, name, required } = this.props;
     const { selectValue } = this.state;
+
+    if (required && !this.hasValue() && !isDisabled) {
+      return <RequiredInput name={name} onFocus={this.onValueInputFocus} />;
+    }
 
     if (!name || isDisabled) return;
 
@@ -1994,7 +2060,7 @@ export default class Select<
               />
             ))
           ) : (
-            <input name={name} type="hidden" />
+            <input name={name} type="hidden" value="" />
           );
 
         return <div>{input}</div>;

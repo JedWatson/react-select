@@ -1,4 +1,5 @@
-import {
+import type { StylesProps } from './styles';
+import type {
   ClassNamesState,
   CommonPropsAndClassName,
   GroupBase,
@@ -43,9 +44,9 @@ function applyPrefixToName(prefix: string, name: string) {
 export function classNames(
   prefix?: string | null,
   state?: ClassNamesState,
-  className?: string
+  ...classNameList: string[]
 ) {
-  const arr = [className];
+  const arr = [...classNameList];
   if (state && prefix) {
     for (let key in state) {
       if (state.hasOwnProperty(key) && state[key]) {
@@ -96,6 +97,7 @@ export const cleanCommonProps = <
     focusInput,
     cx,
     getStyles,
+    getClassNames,
     getValue,
     hasValue,
     isFocused,
@@ -109,6 +111,31 @@ export const cleanCommonProps = <
     ...innerProps
   } = props;
   return { ...innerProps };
+};
+
+// ==============================
+// Get Style Props
+// ==============================
+
+export const getStyleProps = <
+  Option,
+  IsMulti extends boolean,
+  Group extends GroupBase<Option>,
+  Key extends keyof StylesProps<Option, IsMulti, Group>
+>(
+  props: Pick<
+    CommonPropsAndClassName<Option, IsMulti, Group>,
+    'cx' | 'getStyles' | 'getClassNames' | 'className'
+  > &
+    StylesProps<Option, IsMulti, Group>[Key],
+  name: Key,
+  classNamesState?: ClassNamesState
+) => {
+  const { cx, getStyles, getClassNames, className } = props;
+  return {
+    css: getStyles(name, props),
+    className: cx(classNamesState ?? {}, getClassNames(name, props), className),
+  };
 };
 
 // ==============================
@@ -371,3 +398,17 @@ export function multiValueAsValue<Option, IsMulti extends boolean>(
 ): OnChangeValue<Option, IsMulti> {
   return multiValue as OnChangeValue<Option, IsMulti>;
 }
+
+export const removeProps = <Props extends object, K extends string[]>(
+  propsObj: Props,
+  ...properties: K
+): Omit<Props, K[number]> => {
+  let propsMap = Object.entries(propsObj).filter(
+    ([key]) => !properties.includes(key)
+  );
+
+  return propsMap.reduce((newProps: { [key: string]: any }, [key, val]) => {
+    newProps[key] = val;
+    return newProps;
+  }, {}) as Omit<Props, K[number]>;
+};

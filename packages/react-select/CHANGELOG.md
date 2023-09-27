@@ -1,5 +1,147 @@
 # react-select
 
+## 5.7.5
+
+### Patch Changes
+
+- [`9d1730ba`](https://github.com/JedWatson/react-select/commit/9d1730ba4f97a51d25c7e704acd1a4c2be8f7182) [#5347](https://github.com/JedWatson/react-select/pull/5347) Thanks [@aszmyd](https://github.com/aszmyd)! - Make scroll lock div work on a document context it belongs to
+
+## 5.7.4
+
+### Patch Changes
+
+- [`16414bb5`](https://github.com/JedWatson/react-select/commit/16414bb53295b362690d2b089d74182ddeabc1dd) [#5689](https://github.com/JedWatson/react-select/pull/5689) Thanks [@Rall3n](https://github.com/Rall3n)! - Resolve `defaultProps` deprecation warning for React v18+.
+
+## 5.7.3
+
+### Patch Changes
+
+- [`59513d00`](https://github.com/JedWatson/react-select/commit/59513d0035a20cf9c0575c4be52204de7f77d742) [#5626](https://github.com/JedWatson/react-select/pull/5626) Thanks [@emmatown](https://github.com/emmatown)! - Fix importing `react-select` in Node ESM
+
+## 5.7.2
+
+### Patch Changes
+
+- [`925cd4a2`](https://github.com/JedWatson/react-select/commit/925cd4a26097823187fb14cdae2561dd3c637e8c) [#5536](https://github.com/JedWatson/react-select/pull/5536) Thanks [@Rall3n](https://github.com/Rall3n)! - `required` prop accessibiltiy and functionality improvements
+
+## 5.7.1
+
+### Patch Changes
+
+- [`597143ee`](https://github.com/JedWatson/react-select/commit/597143ee3d5c27ce87e9b1508b068dc7c1323201) [#5559](https://github.com/JedWatson/react-select/pull/5559) Thanks [@gdiazdelaserna](https://github.com/gdiazdelaserna)! - Add `exports` field in package.json
+
+## 5.7.0
+
+### Minor Changes
+
+- [`0773095f`](https://github.com/JedWatson/react-select/commit/0773095f4990b636f64ae7d0ab593353a1e03b22) [#5457](https://github.com/JedWatson/react-select/pull/5457) Thanks [@nderkim](https://github.com/nderkim)! - Add classNames API and unstyled prop
+
+## 5.6.1
+
+### Patch Changes
+
+- [`cda16826`](https://github.com/JedWatson/react-select/commit/cda168262f777fd7be275d46063149c7d157fe55) [#5482](https://github.com/JedWatson/react-select/pull/5482) Thanks [@nderkim](https://github.com/nderkim)! - Fix unstable theme rerendering menu
+
+## 5.6.0
+
+### Minor Changes
+
+- [`c37e86d8`](https://github.com/JedWatson/react-select/commit/c37e86d8eaa3f6eba83696453a58d525cce6c7c6) [#4882](https://github.com/JedWatson/react-select/pull/4882) Thanks [@Rall3n](https://github.com/Rall3n)! - Add `required` prop
+
+## 5.5.9
+
+### Patch Changes
+
+- [`851ed2b8`](https://github.com/JedWatson/react-select/commit/851ed2b8b88d7230be2263a6c07c826bf507374d) [#5430](https://github.com/JedWatson/react-select/pull/5430) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix focused option if `defaultMenuIsOpen` is set
+
+## 5.5.8
+
+### Patch Changes
+
+- [`1ad6de4e`](https://github.com/JedWatson/react-select/commit/1ad6de4ee75041129a657b92931a2965a1805c31) [#5084](https://github.com/JedWatson/react-select/pull/5084) Thanks [@kosciolek](https://github.com/kosciolek)! - When focusing a dropdown option, the numbers included in the aria live region take filtering into consideration.
+
+## 5.5.7
+
+### Patch Changes
+
+- [`0ca2d5ba`](https://github.com/JedWatson/react-select/commit/0ca2d5ba4aa42fb2a1bf033bcee660a293e39e50) [#5431](https://github.com/JedWatson/react-select/pull/5431) Thanks [@nderkim](https://github.com/nderkim)! - Change `class` components to `functional` components
+
+## 5.5.6
+
+### Patch Changes
+
+- [`92398939`](https://github.com/JedWatson/react-select/commit/9239893986c6aaaa7105d3f5a91022827e544b10) [#5409](https://github.com/JedWatson/react-select/pull/5409) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Move files around to as to be compatible with version 2 of `@preconstruct/cli`
+
+## 5.5.5
+
+### Patch Changes
+
+- [`0dd38029`](https://github.com/JedWatson/react-select/commit/0dd3802977e525b4d8ea1eb083f8f13788016c28) [#5246](https://github.com/JedWatson/react-select/pull/5246) Thanks [@Rall3n](https://github.com/Rall3n)! - Fix re-focus of component in Firefox if being disabled while focused
+
+## 5.5.4
+
+### Patch Changes
+
+- [`ebb0a17a`](https://github.com/JedWatson/react-select/commit/ebb0a17a30b22cb7e7f7467ed8eda4256166e401) [#5404](https://github.com/JedWatson/react-select/pull/5404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Use ResizeObserver to auto-update menu position if available
+
+## 5.5.3
+
+### Patch Changes
+
+- [`07656aaa`](https://github.com/JedWatson/react-select/commit/07656aaac7f636129f8d09e723df9fa6e5ff2841) [#5399](https://github.com/JedWatson/react-select/pull/5399) Thanks [@dependabot](https://github.com/apps/dependabot)! - Update memoize-one
+
+## 5.5.2
+
+### Patch Changes
+
+- [`00238f1a`](https://github.com/JedWatson/react-select/commit/00238f1a65ce9184b99edd6d3b3307f9b5c0c6c1) [#5376](https://github.com/JedWatson/react-select/pull/5376) Thanks [@lukebennett88](https://github.com/lukebennett88)! - Fix bug with animated multi-value select width being too wide
+
+## 5.5.1
+
+### Patch Changes
+
+- [`0f6ef093`](https://github.com/JedWatson/react-select/commit/0f6ef093282ca7356fb0e7ee7c706681a5a97901) [#5381](https://github.com/JedWatson/react-select/pull/5381) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Disable use of ResizeObserver for menu position auto-updating to avoid potential breaking changes.
+
+## 5.5.0
+
+### Minor Changes
+
+- [`598f9ee0`](https://github.com/JedWatson/react-select/commit/598f9ee0e641138820ae1b3d2a2121a1c21d3876) [#5256](https://github.com/JedWatson/react-select/pull/5256) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Auto-update menu position when using menu portalling
+
+## 5.4.0
+
+### Minor Changes
+
+- [`5d49f70a`](https://github.com/JedWatson/react-select/commit/5d49f70aeb9d6c2685b81b361e3dab3e2064292d) [#5249](https://github.com/JedWatson/react-select/pull/5249) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Export `formatOptionLabel` types (i.e., `FormatOptionLabelMeta` and `FormatOptionLabelContext`).
+
+## 5.3.2
+
+### Patch Changes
+
+- [`1f140e42`](https://github.com/JedWatson/react-select/commit/1f140e423707e9966254050e3234a65ee05977e9) [#5177](https://github.com/JedWatson/react-select/pull/5177) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix view height used for menu positioning to be the scroll parent instead of the window
+
+## 5.3.1
+
+### Patch Changes
+
+- [`03bf7351`](https://github.com/JedWatson/react-select/commit/03bf735127fec6e47de8ae45e7cdc0a39c8b638b) [#5164](https://github.com/JedWatson/react-select/pull/5164) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Bump @emotion/react to ^11.8.1 to avoid `useInsertionEffect` bug
+
+## 5.3.0
+
+### Minor Changes
+
+- [`c7d8d4b3`](https://github.com/JedWatson/react-select/commit/c7d8d4b3ee01cee63b34adf4a895ef07ce2f3b03) [#5133](https://github.com/JedWatson/react-select/pull/5133) Thanks [@nil4](https://github.com/nil4)! - Update `peerDependencies` to include React 18
+
+### Patch Changes
+
+- [`0aaa9575`](https://github.com/JedWatson/react-select/commit/0aaa9575ed7e817841b9c9b494b4bd4dc2247b26) [#5134](https://github.com/JedWatson/react-select/pull/5134) Thanks [@rkulinski](https://github.com/rkulinski)! - Use defaultPrevented to skip duplicate event handler for clicking select.
+
+- [`87e14431`](https://github.com/JedWatson/react-select/commit/87e144319f485fba20b46bc71eb8162f88d19430) [#5131](https://github.com/JedWatson/react-select/pull/5131) Thanks [@pcorpet](https://github.com/pcorpet)! - Avoid referencing an ID that is not in the DOM
+
+- [`7184d538`](https://github.com/JedWatson/react-select/commit/7184d538f587c1dd5a4ca5ad6cc0745fbb8d3809) [#5082](https://github.com/JedWatson/react-select/pull/5082) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Fix type inference for Async's loadOptions prop
+
+- [`bd4ee8ae`](https://github.com/JedWatson/react-select/commit/bd4ee8ae66e581e8be1679fa4b1838451e3f23b7) [#5057](https://github.com/JedWatson/react-select/pull/5057) Thanks [@Rall3n](https://github.com/Rall3n)! - Prevent transition props from being forwarded to `<input>` element in `DummyInput` component
+
 ## 5.2.2
 
 ### Patch Changes
@@ -22,7 +164,7 @@
 
 - [`6c7a3d1e`](https://github.com/JedWatson/react-select/commit/6c7a3d1e07b7d6a8f484a829e69b20eae5a92b91) [#4785](https://github.com/JedWatson/react-select/pull/4785) Thanks [@Rall3n](https://github.com/Rall3n)! - Add `prevInputValue` to action meta
 
-- [`b522ac65`](https://github.com/JedWatson/react-select/commit/b522ac658f85701ecf413436f3cf8d8d49117c82) [#4860](https://github.com/JedWatson/react-select/pull/4860) Thanks [@ebonow](https://github.com/ebonow)! - Fix animated MultiValue transitions when being removed and change method used to generate unqiue keys for Option components. Closes #4844 , closes #4602
+- [`b522ac65`](https://github.com/JedWatson/react-select/commit/b522ac658f85701ecf413436f3cf8d8d49117c82) [#4860](https://github.com/JedWatson/react-select/pull/4860) Thanks [@ebonow](https://github.com/ebonow)! - Fix animated MultiValue transitions when being removed and change method used to generate unique keys for Option components. Closes #4844 , closes #4602
 
 ### Patch Changes
 
@@ -54,7 +196,7 @@
 
 - [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4683](https://github.com/JedWatson/react-select/pull/4683) Thanks [@JedWatson](https://github.com/JedWatson)! - React-Select has been converted from Flow to TypeScript.
 
-  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementation with new options in the creatable variant.
 
 ### Patch Changes
 
@@ -112,7 +254,7 @@
 
 - [ef87c3ac](https://github.com/JedWatson/react-select/commit/ef87c3ac7fd453800595eebebb85f1107f78d34c) [#4489](https://github.com/JedWatson/react-select/pull/4489) Thanks [@Methuselah96](https://github.com/Methuselah96)! - React-Select has been converted from Flow to TypeScript.
 
-  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementaion with new options in the creatable variant.
+  Other changes for v5 include usage of `forwardRef`, new hooks for `stateManager`, `async` and `creatable` components, and more reliable filtering implementation with new options in the creatable variant.
 
 - [#4625](https://github.com/JedWatson/react-select/pull/4625) Thanks [@ebonow](https://github.com/ebonow)! - Remove dependency on AutoSizeInput
   - BREAKING CHANGES:
@@ -153,7 +295,7 @@
 
 - [2ffed9c6](https://github.com/JedWatson/react-select/commit/2ffed9c6c40c9d5b81d7c8faf7bfc995976299ec) [#4444](https://github.com/JedWatson/react-select/pull/4444) Thanks [@Rall3n](https://github.com/Rall3n)! - Use accessor props to get value and label in `compareOption`
 
-- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customizations
+- [2baf5a9d](https://github.com/JedWatson/react-select/commit/2baf5a9df2f4f56f9c9374fcb879cb5259a6d8d0) [#4414](https://github.com/JedWatson/react-select/pull/4414) Thanks [@ebonow](https://github.com/ebonow)! - Add ariaLiveMessages prop for internationalization and other customisations
 
 - [7cdb8a6b](https://github.com/JedWatson/react-select/commit/7cdb8a6b4d9de89a599b3aee8b6d90a44a931ea6) [#4391](https://github.com/JedWatson/react-select/pull/4391) Thanks [@ebonow](https://github.com/ebonow)! - Pass and sanitize CommonProps passed to Group and Input components
 
@@ -161,7 +303,7 @@
 
 - [c955415c](https://github.com/JedWatson/react-select/commit/c955415cd3724489423dd8e84d6dab5ace24c984) [#4437](https://github.com/JedWatson/react-select/pull/4437) Thanks [@ebonow](https://github.com/ebonow)! - Set event listeners to be non-passive to remove Chrome console warnings
 
-- [3ca22b2f](https://github.com/JedWatson/react-select/commit/3ca22b2f49ad4f05f98ec8a565d74c483c0b98aa) [#3827](https://github.com/JedWatson/react-select/pull/3827) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Memoize stripDiacritics in createFilter for the input with memoize-one so that stripDiacritics is not called for the same string as many times as there are options every time the input changes
+- [3ca22b2f](https://github.com/JedWatson/react-select/commit/3ca22b2f49ad4f05f98ec8a565d74c483c0b98aa) [#3827](https://github.com/JedWatson/react-select/pull/3827) Thanks [@emmatown](https://github.com/emmatown)! - Memoize stripDiacritics in createFilter for the input with memoize-one so that stripDiacritics is not called for the same string as many times as there are options every time the input changes
 
   Inspired by https://blog.johnnyreilly.com/2019/04/react-select-with-less-typing-lag.html
 
@@ -173,7 +315,7 @@
 
 ### Minor Changes
 
-- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customizable components
+- [b5f9b0c5](https://github.com/JedWatson/react-select/commit/b5f9b0c59d7ac8559f88287ba73f0495b4c8eed2) [#4342](https://github.com/JedWatson/react-select/pull/4342) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Standardized innerProps and className props on customisable components
 
 - [19b76342](https://github.com/JedWatson/react-select/commit/19b763428d6df254f0b9662f18a698dd3c59d83b) [#3911](https://github.com/JedWatson/react-select/pull/3911) Thanks [@eugenet8k](https://github.com/eugenet8k)! - Add `removedValues` to `onChange` event meta when the action is `clear` (when the user clears the value in the Select)
 
@@ -247,7 +389,7 @@
 
 ### Patch Changes
 
-- [c8d74bd5](https://github.com/JedWatson/react-select/commit/c8d74bd5710b1db6736837fb4334a59e46614a27) [#3979](https://github.com/JedWatson/react-select/pull/3979) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fix repository field
+- [c8d74bd5](https://github.com/JedWatson/react-select/commit/c8d74bd5710b1db6736837fb4334a59e46614a27) [#3979](https://github.com/JedWatson/react-select/pull/3979) Thanks [@emmatown](https://github.com/emmatown)! - Fix repository field
 
 - [c8447f48](https://github.com/JedWatson/react-select/commit/c8447f480f8b9ca04386bee08e8d3a6fbb4f07c8) [#4034](https://github.com/JedWatson/react-select/pull/4034) Thanks [@sophiebits](https://github.com/sophiebits)! - Improve performance of option filtering when ignoreAccents is enabled (the default)
 
@@ -273,12 +415,12 @@
 ### Patch Changes
 
 - [83b48de4](https://github.com/JedWatson/react-select/commit/83b48de4a18263b361744fc5e89d9b9845b26e4f) [#3868](https://github.com/JedWatson/react-select/pull/3868) Thanks [@Tirzono](https://github.com/Tirzono)! - Fix for not focusing the selected value when the menu opens
-- [563b046a](https://github.com/JedWatson/react-select/commit/563b046a57a94c47950e62cedc4ce1c489f19f91) [#3794](https://github.com/JedWatson/react-select/pull/3794) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Convert class components that don't have to be class components to function components to reduce bundle size
+- [563b046a](https://github.com/JedWatson/react-select/commit/563b046a57a94c47950e62cedc4ce1c489f19f91) [#3794](https://github.com/JedWatson/react-select/pull/3794) Thanks [@emmatown](https://github.com/emmatown)! - Convert class components that don't have to be class components to function components to reduce bundle size
 - [c7e9c697](https://github.com/JedWatson/react-select/commit/c7e9c697dada15ce3ff9a767bf914ad890080433) [#3682](https://github.com/JedWatson/react-select/pull/3682) Thanks [@JedWatson](https://github.com/JedWatson)! - Allow the input component to be a `textarea` element
 - [3c7de0de](https://github.com/JedWatson/react-select/commit/3c7de0de52826fe74d303a01475c43fe88256156) [#3090](https://github.com/JedWatson/react-select/pull/3090) Thanks [@akiselev](https://github.com/akiselev)! - Add aria attributes to dummy input
 - [d2a820ef](https://github.com/JedWatson/react-select/commit/d2a820efc70835adf864169eebc76947783a15e2) [#3537](https://github.com/JedWatson/react-select/pull/3537) Thanks [@jdelStrother](https://github.com/jdelStrother)! - Fix Flow issues. Refer to the linked PR for more details on the specific issues.
 - [fc52085b](https://github.com/JedWatson/react-select/commit/fc52085b969b1b6f53adf29d52469db9560b828c) [#3662](https://github.com/JedWatson/react-select/pull/3662) Thanks [@eemeli](https://github.com/eemeli)! - Update react-transition-group to ^4.3.0
-- [edb18dd3](https://github.com/JedWatson/react-select/commit/edb18dd3d65b8fbc342bde9e805c5e3293ab6e37) [#3797](https://github.com/JedWatson/react-select/pull/3797) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Enable Babel loose mode to improve bundle size
+- [edb18dd3](https://github.com/JedWatson/react-select/commit/edb18dd3d65b8fbc342bde9e805c5e3293ab6e37) [#3797](https://github.com/JedWatson/react-select/pull/3797) Thanks [@emmatown](https://github.com/emmatown)! - Enable Babel loose mode to improve bundle size
 
 ## 3.0.8
 
@@ -314,7 +456,7 @@
 
 ### Patch Changes
 
-- [cd8c3090](https://github.com/JedWatson/react-select/commit/cd8c3090) [#3586](https://github.com/JedWatson/react-select/pull/3586) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Add base entrypoint back
+- [cd8c3090](https://github.com/JedWatson/react-select/commit/cd8c3090) [#3586](https://github.com/JedWatson/react-select/pull/3586) Thanks [@emmatown](https://github.com/emmatown)! - Add base entrypoint back
 
 - [#3569](https://github.com/JedWatson/react-select/pull/3569) Thanks [@vadimka123](https://github.com/vadimka123) - Performance improvement: menu items are built when the menu opens, not in the constructor
 
@@ -1124,7 +1266,7 @@ was better to do this before declaring 1.0.0 stable.
 
 ## v1.0.0-beta14 / 2016-07-17
 
-- fixed; `react-input-autosize` has been udpated to `1.1.0`, which includes
+- fixed; `react-input-autosize` has been updated to `1.1.0`, which includes
   fixes for the new warnings that React 15.2 logs
 - fixed; "Unknown prop `inputClassName` on <div> tag" warning, thanks
   [Max Stoiber](https://github.com/mxstbr)
@@ -1203,7 +1345,7 @@ triaging issues for this release!
 
 ## v1.0.0-beta12 / 2016-04-02
 
-- added; `menuRenderer` method and example for effeciently rendering thousands
+- added; `menuRenderer` method and example for efficiently rendering thousands
   of options, thanks [Brian Vaughn](https://github.com/bvaughn)
 - added; `optionClassName` prop, thanks [Max Tyler](https://github.com/iam4x)
 
@@ -1582,7 +1724,7 @@ version; sorry about that!
   [Kevin Burke](https://github.com/kembuco)
 - added; Support for case-insensitive filtering when `matchPos="start"`, thanks
   [wesrage](https://github.com/wesrage)
-- added; Support for customizable background color, thanks
+- added; Support for customisable background color, thanks
   [John Morales](https://github.com/JohnMorales)
 - fixed; Updated ESLint and cleared up warnings, thanks
   [Alexander Shemetovsky](https://github.com/AlexKVal)
@@ -1609,7 +1751,7 @@ version; sorry about that!
 - fixed; clarified dependency documentation and added dependencies for Bower
 - fixed; Scoping issues in `_bindCloseMenuIfClickedOutside`, thanks
   [bannaN](https://github.com/bannaN)
-- fixed; Doesnt try to set focus afterupdate if component is disabled, thanks
+- fixed; Doesn't try to set focus afterupdate if component is disabled, thanks
   [bannaN](https://github.com/bannaN)
 
 ## v0.4.7 / 2015-04-21
@@ -1774,7 +1916,7 @@ version; sorry about that!
 - improved; Build tasks and docs
 - added; Working standalone build
 - added; Minified dist version
-- added; Publised to Bower
+- added; Published to Bower
 
 ## v0.2.2 / 2014-11-15
 
