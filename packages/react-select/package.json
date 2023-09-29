@@ -58,7 +58,14 @@
       "async/index.ts",
       "creatable/index.ts",
       "async-creatable/index.ts"
-    ]
+    ],
+    "exports": {
+      "extra": {
+        "./dist/declarations/src/*": {
+          "types": "./dist/declarations/src/*.d.ts"
+        }
+      }
+    }
   },
   "exports": {
     ".": {
@@ -91,6 +98,9 @@
       "import": "./async-creatable/dist/react-select-async-creatable.cjs.mjs",
       "default": "./async-creatable/dist/react-select-async-creatable.cjs.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./dist/declarations/src/*": {
+      "types": "./dist/declarations/src/*.d.ts"
+    }
   }
 }
