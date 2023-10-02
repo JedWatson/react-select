@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { supportsPassiveEvents } from '../utils';
 
 const cancelScroll = (event: WheelEvent | TouchEvent) => {
-  event.preventDefault();
+  if (event.cancelable) event.preventDefault();
   event.stopPropagation();
 };
 
