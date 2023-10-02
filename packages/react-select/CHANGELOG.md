@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.6
+
+### Patch Changes
+
+- [`f6315cd5`](https://github.com/JedWatson/react-select/commit/f6315cd5feddb2e9ea168bcad391b29990b53afb) [#5672](https://github.com/JedWatson/react-select/pull/5672) Thanks [@tu4mo](https://github.com/tu4mo)! - Fix for calling non-cancellable scroll events
+
 ## 5.7.5
 
 ### Patch Changes
