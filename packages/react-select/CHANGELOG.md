@@ -1,5 +1,17 @@
 # react-select
 
+## 5.7.7
+
+### Patch Changes
+
+- [`224a8f0d`](https://github.com/JedWatson/react-select/commit/224a8f0d01a5b6200ff10280a0d7a9b613383032) [#5666](https://github.com/JedWatson/react-select/pull/5666) Thanks [@yhy-1](https://github.com/yhy-1)! - Add aria-disabled to select's control component.
+
+## 5.7.6
+
+### Patch Changes
+
+- [`f6315cd5`](https://github.com/JedWatson/react-select/commit/f6315cd5feddb2e9ea168bcad391b29990b53afb) [#5672](https://github.com/JedWatson/react-select/pull/5672) Thanks [@tu4mo](https://github.com/tu4mo)! - Fix for calling non-cancellable scroll events
+
 ## 5.7.5
 
 ### Patch Changes
