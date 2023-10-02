@@ -1,5 +1,11 @@
 # react-select
 
+## 5.7.7
+
+### Patch Changes
+
+- [`224a8f0d`](https://github.com/JedWatson/react-select/commit/224a8f0d01a5b6200ff10280a0d7a9b613383032) [#5666](https://github.com/JedWatson/react-select/pull/5666) Thanks [@yhy-1](https://github.com/yhy-1)! - Add aria-disabled to select's control component.
+
 ## 5.7.6
 
 ### Patch Changes
