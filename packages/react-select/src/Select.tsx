@@ -171,6 +171,8 @@ export interface Props<
   inputValue: string;
   /** The id of the search input */
   inputId?: string;
+  /** The role of the search input */
+  inputRole?: string;
   /** Define an id prefix for the select components e.g. {your-id}-value */
   instanceId?: number | string;
   /** Is the select value clearable */
@@ -297,6 +299,7 @@ export const defaultProps = {
   isMulti: false,
   isRtl: false,
   isSearchable: true,
+  inputRole: 'combobox',
   isOptionDisabled: isOptionDisabledBuiltin,
   loadingMessage: () => 'Loading...',
   maxMenuHeight: 300,
@@ -1601,6 +1604,7 @@ export default class Select<
       isDisabled,
       isSearchable,
       inputId,
+      inputRole,
       inputValue,
       tabIndex,
       form,
@@ -1623,7 +1627,6 @@ export default class Select<
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
-      role: 'combobox',
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
         'aria-owns': this.getElementId('listbox'),
@@ -1654,6 +1657,7 @@ export default class Select<
           inputMode="none"
           form={form}
           value=""
+          role={inputRole}
           {...ariaAttributes}
         />
       );
@@ -1677,6 +1681,7 @@ export default class Select<
         form={form}
         type="text"
         value={inputValue}
+        role={inputRole}
         {...ariaAttributes}
       />
     );
