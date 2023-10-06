@@ -1627,7 +1627,7 @@ export default class Select<
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
-      'role': inputRole,
+      role: inputRole,
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
         'aria-owns': this.getElementId('listbox'),
