@@ -1627,6 +1627,7 @@ export default class Select<
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
+      'role': inputRole,
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
         'aria-owns': this.getElementId('listbox'),
@@ -1657,7 +1658,6 @@ export default class Select<
           inputMode="none"
           form={form}
           value=""
-          role={inputRole}
           {...ariaAttributes}
         />
       );
@@ -1681,7 +1681,6 @@ export default class Select<
         form={form}
         type="text"
         value={inputValue}
-        role={inputRole}
         {...ariaAttributes}
       />
     );
