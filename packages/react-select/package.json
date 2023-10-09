@@ -91,6 +91,9 @@
       "import": "./async-creatable/dist/react-select-async-creatable.cjs.mjs",
       "default": "./async-creatable/dist/react-select-async-creatable.cjs.js"
     },
+    "./dist/declarations/*": {
+      "types": "./dist/declarations/*.d.ts"
+    },
     "./package.json": "./package.json"
   }
 }
