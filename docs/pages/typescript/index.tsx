@@ -91,6 +91,8 @@ The \`actionMeta\` parameter is optional. \`ActionMeta\` is a union that is disc
 You can use module augmentation to add custom props to the \`Select\` prop types:
 
 ~~~jsx
+import { GroupBase } from 'react-select';
+
 declare module 'react-select/dist/declarations/src/Select' {
   export interface Props<
     Option,
