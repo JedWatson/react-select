@@ -76,6 +76,8 @@ export interface Props<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
+  /** Always focus first option on menu list */
+  alwaysFocusFirstMenuOption: boolean;
   /** HTML ID of an element containing an error message related to the input**/
   'aria-errormessage'?: AriaAttributes['aria-errormessage'];
   /** Indicate if the value entered in the field is invalid **/
@@ -278,6 +280,7 @@ export interface Props<
 }
 
 export const defaultProps = {
+  alwaysFocusFirstMenuOption: true,
   'aria-live': 'polite',
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
@@ -493,9 +496,15 @@ function getNextFocusedOption<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(state: State<Option, IsMulti, Group>, options: Options<Option>) {
+>(
+  state: State<Option, IsMulti, Group>,
+  options: Options<Option>,
+  alwaysFocusFirstMenuOption: boolean
+) {
   const { focusedOption: lastFocusedOption } = state;
-  return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
+  return !alwaysFocusFirstMenuOption &&
+    lastFocusedOption &&
+    options.indexOf(lastFocusedOption) > -1
     ? lastFocusedOption
     : options[0];
 }
@@ -675,7 +684,11 @@ export default class Select<
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
-      const focusedOption = getNextFocusedOption(state, focusableOptions);
+      const focusedOption = getNextFocusedOption(
+        state,
+        focusableOptions,
+        !!prevProps?.alwaysFocusFirstMenuOption
+      );
       newMenuOptionsState = {
         selectValue,
         focusedOption,
