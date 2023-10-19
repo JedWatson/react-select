@@ -668,10 +668,16 @@ export default class Select<
   focusedOptionRef: HTMLDivElement | null = null;
   getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
     this.focusedOptionRef = ref;
+    if (this.menuListRef && this.focusedOptionRef) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
   };
   menuListRef: HTMLDivElement | null = null;
   getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
     this.menuListRef = ref;
+    if (this.menuListRef && this.focusedOptionRef) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
   };
   inputRef: HTMLInputElement | null = null;
   getInputRef: RefCallback<HTMLInputElement> = (ref) => {
