@@ -493,11 +493,29 @@ function getNextFocusedOption<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(state: State<Option, IsMulti, Group>, options: Options<Option>) {
+>(
+  props: Props<Option, IsMulti, Group>,
+  state: State<Option, IsMulti, Group>,
+  options: Options<Option>
+) {
   const { focusedOption: lastFocusedOption } = state;
-  return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-    ? lastFocusedOption
-    : options[0];
+
+  if (lastFocusedOption) {
+    if (options.indexOf(lastFocusedOption) > -1) {
+      return lastFocusedOption;
+    }
+
+    const lastFocusedOptionValue = props.getOptionValue(lastFocusedOption);
+    const newRef = options.find(
+      (o) => props.getOptionValue(o) === lastFocusedOptionValue
+    );
+    if (newRef) {
+      // The option has changed its reference but has still the same value
+      return newRef;
+    }
+  }
+
+  return options[0];
 }
 const getOptionLabel = <
   Option,
@@ -675,7 +693,11 @@ export default class Select<
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
-      const focusedOption = getNextFocusedOption(state, focusableOptions);
+      const focusedOption = getNextFocusedOption(
+        props,
+        state,
+        focusableOptions
+      );
       newMenuOptionsState = {
         selectValue,
         focusedOption,
