@@ -266,7 +266,6 @@ export interface MenuPlacerProps<
     MenuPlacementProps {
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactElement;
-  isLoading: boolean;
 }
 
 function alignToControl(placement: CoercedMenuPlacement) {
@@ -318,14 +317,15 @@ export const MenuPlacer = <
 ) => {
   const {
     children,
-    isLoading,
     minMenuHeight,
     maxMenuHeight,
     menuPlacement,
     menuPosition,
     menuShouldScrollIntoView,
+    selectProps,
     theme,
   } = props;
+  const { isLoading } = selectProps;
 
   const { setPortalPlacement } = useContext(PortalPlacementContext) || {};
   const ref = useRef<HTMLDivElement | null>(null);
