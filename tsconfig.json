@@ -8,8 +8,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": [
-      "./node_modules/user-agent-data-types"
-    ]
+    "types": ["./node_modules/user-agent-data-types"]
   }
 }
