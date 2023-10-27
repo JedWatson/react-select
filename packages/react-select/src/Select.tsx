@@ -1727,7 +1727,6 @@ export default class Select<
 
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
-        'aria-owns': this.getElementId('listbox'),
       }),
       ...(!isSearchable && {
         'aria-readonly': true,
@@ -2073,8 +2072,6 @@ export default class Select<
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
-              id: this.getElementId('listbox'),
-              role: 'listbox',
             }}
             isLoading={isLoading}
             placement={placement}
@@ -2091,6 +2088,11 @@ export default class Select<
                   innerRef={(instance) => {
                     this.getMenuListRef(instance);
                     scrollTargetRef(instance);
+                  }}
+                  innerProps={{
+                    role: 'listbox',
+                    'aria-multiselectable': commonProps.isMulti,
+                    id: this.getElementId('listbox'),
                   }}
                   isLoading={isLoading}
                   maxHeight={maxHeight}
