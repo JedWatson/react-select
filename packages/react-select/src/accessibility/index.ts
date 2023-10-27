@@ -173,8 +173,8 @@ export const defaultAriaLiveMessages = {
 
     if (context === 'menu' && isAppleDevice) {
       const disabled = isDisabled ? ' disabled' : '';
-      const status = `${isSelected ? 'selected' : 'focused'}${disabled}`;
-      return `option ${label} ${status}, ${getArrayIndex(options, focused)}.`;
+      const status = `${isSelected ? ' selected' : ''}${disabled}`;
+      return `${label}${status}, ${getArrayIndex(options, focused)}.`;
     }
     return '';
   },

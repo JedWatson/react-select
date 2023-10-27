@@ -214,6 +214,7 @@ const LiveRegion = <
         aria-live={ariaLive}
         aria-atomic="false"
         aria-relevant="additions text"
+        role="log"
       >
         {isFocused && !isInitialFocus && ScreenReaderText}
       </A11yText>
