@@ -25,6 +25,7 @@ export interface LiveRegionProps<
   focusableOptions: Options<Option>;
   isFocused: boolean;
   id: string;
+  isAppleDevice: boolean;
 }
 
 const LiveRegion = <
@@ -43,6 +44,7 @@ const LiveRegion = <
     selectValue,
     selectProps,
     id,
+    isAppleDevice,
   } = props;
 
   const {
@@ -126,6 +128,7 @@ const LiveRegion = <
         context:
           focused === focusedOption ? ('menu' as const) : ('value' as const),
         selectValue,
+        isAppleDevice,
       };
 
       focusMsg = messages.onFocus(onFocusProps);
@@ -139,6 +142,7 @@ const LiveRegion = <
     messages,
     focusableOptions,
     selectValue,
+    isAppleDevice,
   ]);
 
   const ariaResults = useMemo(() => {
@@ -210,6 +214,7 @@ const LiveRegion = <
         aria-live={ariaLive}
         aria-atomic="false"
         aria-relevant="additions text"
+        role="log"
       >
         {isFocused && !isInitialFocus && ScreenReaderText}
       </A11yText>

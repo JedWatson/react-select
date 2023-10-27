@@ -71,6 +71,8 @@ export interface AriaOnFocusProps<Option, Group extends GroupBase<Option>> {
   options: OptionsOrGroups<Option, Group>;
   /** selected option(s) of the Select */
   selectValue: Options<Option>;
+  /** Boolean indicating whether user uses Apple device */
+  isAppleDevice: boolean;
 }
 
 export type AriaGuidance = (props: AriaGuidanceProps) => string;
@@ -151,7 +153,16 @@ export const defaultAriaLiveMessages = {
   onFocus: <Option, Group extends GroupBase<Option>>(
     props: AriaOnFocusProps<Option, Group>
   ) => {
-    const { context, focused, label = '', selectValue } = props;
+    const {
+      context,
+      focused,
+      options,
+      label = '',
+      selectValue,
+      isDisabled,
+      isSelected,
+      isAppleDevice,
+    } = props;
 
     const getArrayIndex = (arr: OptionsOrGroups<Option, Group>, item: Option) =>
       arr && arr.length ? `${arr.indexOf(item) + 1} of ${arr.length}` : '';
@@ -160,6 +171,11 @@ export const defaultAriaLiveMessages = {
       return `value ${label} focused, ${getArrayIndex(selectValue, focused)}.`;
     }
 
+    if (context === 'menu' && isAppleDevice) {
+      const disabled = isDisabled ? ' disabled' : '';
+      const status = `${isSelected ? ' selected' : ''}${disabled}`;
+      return `${label}${status}, ${getArrayIndex(options, focused)}.`;
+    }
     return '';
   },
 

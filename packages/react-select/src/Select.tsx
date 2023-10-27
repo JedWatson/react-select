@@ -16,6 +16,7 @@ import LiveRegion from './components/LiveRegion';
 import { createFilter, FilterOptionOption } from './filters';
 import { DummyInput, ScrollManager, RequiredInput } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility/index';
+import { isAppleDevice } from './accessibility/helpers';
 
 import {
   classNames,
@@ -655,6 +656,7 @@ export default class Select<
   openAfterFocus = false;
   scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
+  isAppleDevice = isAppleDevice();
 
   // Refs
   // ------------------------------
@@ -1719,11 +1721,12 @@ export default class Select<
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
       role: 'combobox',
-      'aria-activedescendant': this.state.focusedOptionId || '',
+      'aria-activedescendant': this.isAppleDevice
+        ? undefined
+        : this.state.focusedOptionId || '',
 
       ...(menuIsOpen && {
         'aria-controls': this.getElementId('listbox'),
-        'aria-owns': this.getElementId('listbox'),
       }),
       ...(!isSearchable && {
         'aria-readonly': true,
@@ -1989,7 +1992,7 @@ export default class Select<
         onMouseOver: onHover,
         tabIndex: -1,
         role: 'option',
-        'aria-selected': isSelected,
+        'aria-selected': this.isAppleDevice ? undefined : isSelected, // is not supported on Apple devices
       };
 
       return (
@@ -2069,8 +2072,6 @@ export default class Select<
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
-              id: this.getElementId('listbox'),
-              role: 'listbox',
             }}
             isLoading={isLoading}
             placement={placement}
@@ -2087,6 +2088,11 @@ export default class Select<
                   innerRef={(instance) => {
                     this.getMenuListRef(instance);
                     scrollTargetRef(instance);
+                  }}
+                  innerProps={{
+                    role: 'listbox',
+                    'aria-multiselectable': commonProps.isMulti,
+                    id: this.getElementId('listbox'),
                   }}
                   isLoading={isLoading}
                   maxHeight={maxHeight}
@@ -2179,6 +2185,7 @@ export default class Select<
         isFocused={isFocused}
         selectValue={selectValue}
         focusableOptions={focusableOptions}
+        isAppleDevice={this.isAppleDevice}
       />
     );
   }
