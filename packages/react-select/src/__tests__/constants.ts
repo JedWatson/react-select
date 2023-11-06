@@ -87,3 +87,21 @@ export const OPTIONS_ACCENTED: readonly OptionAccented[] = [
   { label: 'school', value: 'en' },
   { label: 'école', value: 'fr' },
 ];
+
+export interface GroupedOption {
+  readonly label: string;
+  readonly options:
+    | readonly OptionNumberValue[]
+    | readonly OptionBooleanValue[];
+}
+
+export const OPTIONS_GROUPED: readonly GroupedOption[] = [
+  {
+    label: 'Numbers',
+    options: OPTIONS_NUMBER_VALUE,
+  },
+  {
+    label: 'Booleans',
+    options: OPTIONS_BOOLEAN_VALUE,
+  },
+];
