@@ -103,12 +103,12 @@ export function getMenuPlacement({
     case 'auto':
     case 'bottom':
       // 1: the menu will fit, do nothing
-      if (viewSpaceBelow >= menuHeight) {
+      if (viewSpaceBelow >= preferredMaxHeight) {
         return { placement: 'bottom', maxHeight: preferredMaxHeight };
       }
 
       // 2: the menu will fit, if scrolled
-      if (scrollSpaceBelow >= menuHeight && !isFixedPosition) {
+      if (scrollSpaceBelow >= preferredMaxHeight && !isFixedPosition) {
         if (shouldScroll) {
           animatedScrollTo(scrollParent, scrollDown, scrollDuration);
         }
