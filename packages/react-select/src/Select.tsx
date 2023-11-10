@@ -1641,6 +1641,8 @@ export default class Select<
           this.onMenuClose();
         } else if (isClearable && escapeClearsValue) {
           this.clearValue();
+        } else {
+          return;
         }
         break;
       case ' ': // space
