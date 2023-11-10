@@ -37,6 +37,7 @@ import {
   getOptionLabel as getOptionLabelBuiltin,
   getOptionValue as getOptionValueBuiltin,
   isOptionDisabled as isOptionDisabledBuiltin,
+  getGroupOptions as getGroupOptionsBuiltin,
 } from './builtins';
 
 import { defaultComponents, SelectComponentsConfig } from './components/index';
@@ -54,6 +55,7 @@ import {
   FocusDirection,
   GetOptionLabel,
   GetOptionValue,
+  GetGroupOptions,
   GroupBase,
   InputActionMeta,
   MenuPlacement,
@@ -164,6 +166,8 @@ export interface Props<
   getOptionLabel: GetOptionLabel<Option>;
   /** Resolves option data to a string to compare options and specify value attributes */
   getOptionValue: GetOptionValue<Option>;
+  /** Resolves option data to identify group and access group options */
+  getGroupOptions: GetGroupOptions<Option, Group>,
   /** Hide the selected option from the menu */
   hideSelectedOptions?: boolean;
   /** The id to set on the SelectContainer component. */
@@ -293,6 +297,7 @@ export const defaultProps = {
   formatGroupLabel: formatGroupLabelBuiltin,
   getOptionLabel: getOptionLabelBuiltin,
   getOptionValue: getOptionValueBuiltin,
+  getGroupOptions: getGroupOptionsBuiltin,
   isDisabled: false,
   isLoading: false,
   isMulti: false,
@@ -403,8 +408,10 @@ function buildCategorizedOptions<
 ): CategorizedGroupOrOption<Option, Group>[] {
   return props.options
     .map((groupOrOption, groupOrOptionIndex) => {
-      if ('options' in groupOrOption) {
-        const categorizedOptions = groupOrOption.options
+      const groupOptions = props.getGroupOptions(groupOrOption);
+
+      if (groupOptions !== null) {
+        const categorizedOptions = groupOptions
           .map((option, optionIndex) =>
             toCategorizedOption(props, option, selectValue, optionIndex)
           )
@@ -412,7 +419,7 @@ function buildCategorizedOptions<
         return categorizedOptions.length > 0
           ? {
               type: 'group' as const,
-              data: groupOrOption,
+              data: groupOrOption as Group,
               options: categorizedOptions,
               index: groupOrOptionIndex,
             }
@@ -420,7 +427,7 @@ function buildCategorizedOptions<
       }
       const categorizedOption = toCategorizedOption(
         props,
-        groupOrOption,
+        groupOrOption as Option,
         selectValue,
         groupOrOptionIndex
       );
