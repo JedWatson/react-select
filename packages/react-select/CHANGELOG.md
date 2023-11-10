@@ -1,5 +1,39 @@
 # react-select
 
+## 5.8.0
+
+### Minor Changes
+
+- [`884f1c42`](https://github.com/JedWatson/react-select/commit/884f1c42549faad7cb210169223b427ad6f0c9fd) [#5758](https://github.com/JedWatson/react-select/pull/5758) Thanks [@Ke1sy](https://github.com/Ke1sy)! - 1. Added 'aria-activedescendant' for input and functionality to calculate it;
+
+  2. Added role 'option' and 'aria-selected' for option;
+  3. Added role 'listbox' for menu;
+  4. Added tests for 'aria-activedescendant';
+  5. Changes in aria-live region:
+
+  - the instructions how to use select will be announced only one time when user focuses the input for the first time.
+  - instructions for menu or selected value will be announced only once after focusing them.
+  - removed aria-live for focused option because currently with correct aria-attributes it will be announced by screenreader natively as well as the status of this option (active or disabled).
+  - separated ariaContext into ariaFocused, ariaResults, ariaGuidance to avoid announcing redundant information and higlight only current change.
+
+## 5.7.7
+
+### Patch Changes
+
+- [`224a8f0d`](https://github.com/JedWatson/react-select/commit/224a8f0d01a5b6200ff10280a0d7a9b613383032) [#5666](https://github.com/JedWatson/react-select/pull/5666) Thanks [@yhy-1](https://github.com/yhy-1)! - Add aria-disabled to select's control component.
+
+## 5.7.6
+
+### Patch Changes
+
+- [`f6315cd5`](https://github.com/JedWatson/react-select/commit/f6315cd5feddb2e9ea168bcad391b29990b53afb) [#5672](https://github.com/JedWatson/react-select/pull/5672) Thanks [@tu4mo](https://github.com/tu4mo)! - Fix for calling non-cancellable scroll events
+
+## 5.7.5
+
+### Patch Changes
+
+- [`9d1730ba`](https://github.com/JedWatson/react-select/commit/9d1730ba4f97a51d25c7e704acd1a4c2be8f7182) [#5347](https://github.com/JedWatson/react-select/pull/5347) Thanks [@aszmyd](https://github.com/aszmyd)! - Make scroll lock div work on a document context it belongs to
+
 ## 5.7.4
 
 ### Patch Changes

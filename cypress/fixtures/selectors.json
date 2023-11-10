@@ -10,6 +10,7 @@
   "indicatorClear": ".react-select__clear-indicator",
   "indicatorDropdown": ".react-select__dropdown-indicator",
   "menu": ".react-select__menu",
+  "control": ".react-select__control",
   "menuOption": ".react-select__option",
   "noOptionsValue": ".react-select__menu-notice--no-options",
   "placeholder": ".react-select__placeholder",
