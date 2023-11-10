@@ -182,4 +182,5 @@ export const defaultArgs = {
   menuPortalTarget: undefined,
   options: colourOptions,
   placeholder: 'Select...',
+  loopWithArrowKeys: true,
 } as const;
