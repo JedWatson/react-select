@@ -93,6 +93,8 @@ export interface Props<
   autoFocus?: boolean;
   /** Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
   backspaceRemovesValue: boolean;
+  /** Only removes a value if it has been focused, if backspace is clicked when the value is not focused it will focus it. This is only for Select or isMulti */
+  backspaceFriction: boolean;
   /** Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
   blurInputOnSelect: boolean;
   /** When the user reaches the top/bottom of the menu, prevent scroll on the scroll-parent  */
@@ -281,6 +283,7 @@ export interface Props<
 export const defaultProps = {
   'aria-live': 'polite',
   backspaceRemovesValue: true,
+  backspaceFriction: false,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
   classNames: {},
@@ -1555,6 +1558,7 @@ export default class Select<
     const {
       isMulti,
       backspaceRemovesValue,
+      backspaceFriction,
       escapeClearsValue,
       inputValue,
       isClearable,
@@ -1589,6 +1593,15 @@ export default class Select<
       case 'Delete':
       case 'Backspace':
         if (inputValue) return;
+        if (backspaceFriction) {
+          if (focusedValue) {
+            this.removeValue(focusedValue);
+            return;
+          } else {
+            this.focusValue('previous');
+            return;
+          }
+        }
         if (focusedValue) {
           this.removeValue(focusedValue);
         } else {
