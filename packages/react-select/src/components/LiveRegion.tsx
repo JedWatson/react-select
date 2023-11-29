@@ -25,6 +25,7 @@ export interface LiveRegionProps<
   focusableOptions: Options<Option>;
   isFocused: boolean;
   id: string;
+  isAppleDevice: boolean;
 }
 
 const LiveRegion = <
@@ -43,6 +44,7 @@ const LiveRegion = <
     selectValue,
     selectProps,
     id,
+    isAppleDevice,
   } = props;
 
   const {
@@ -56,6 +58,7 @@ const LiveRegion = <
     options,
     screenReaderStatus,
     tabSelectsValue,
+    isLoading,
   } = selectProps;
   const ariaLabel = selectProps['aria-label'];
   const ariaLive = selectProps['aria-live'];
@@ -125,6 +128,7 @@ const LiveRegion = <
         context:
           focused === focusedOption ? ('menu' as const) : ('value' as const),
         selectValue,
+        isAppleDevice,
       };
 
       focusMsg = messages.onFocus(onFocusProps);
@@ -138,11 +142,12 @@ const LiveRegion = <
     messages,
     focusableOptions,
     selectValue,
+    isAppleDevice,
   ]);
 
   const ariaResults = useMemo(() => {
     let resultsMsg = '';
-    if (menuIsOpen && options.length && messages.onFilter) {
+    if (menuIsOpen && options.length && !isLoading && messages.onFilter) {
       const resultsMessage = screenReaderStatus({
         count: focusableOptions.length,
       });
@@ -156,7 +161,10 @@ const LiveRegion = <
     messages,
     options,
     screenReaderStatus,
+    isLoading,
   ]);
+
+  const isInitialFocus = ariaSelection?.action === 'initial-input-focus';
 
   const ariaGuidance = useMemo(() => {
     let guidanceMsg = '';
@@ -170,6 +178,7 @@ const LiveRegion = <
         isMulti,
         isSearchable,
         tabSelectsValue,
+        isInitialFocus,
       });
     }
     return guidanceMsg;
@@ -184,18 +193,17 @@ const LiveRegion = <
     messages,
     selectValue,
     tabSelectsValue,
+    isInitialFocus,
   ]);
-
-  const ariaContext = `${ariaFocused} ${ariaResults} ${ariaGuidance}`;
 
   const ScreenReaderText = (
     <Fragment>
       <span id="aria-selection">{ariaSelected}</span>
-      <span id="aria-context">{ariaContext}</span>
+      <span id="aria-focused">{ariaFocused}</span>
+      <span id="aria-results">{ariaResults}</span>
+      <span id="aria-guidance">{ariaGuidance}</span>
     </Fragment>
   );
-
-  const isInitialFocus = ariaSelection?.action === 'initial-input-focus';
 
   return (
     <Fragment>
@@ -206,6 +214,7 @@ const LiveRegion = <
         aria-live={ariaLive}
         aria-atomic="false"
         aria-relevant="additions text"
+        role="log"
       >
         {isFocused && !isInitialFocus && ScreenReaderText}
       </A11yText>

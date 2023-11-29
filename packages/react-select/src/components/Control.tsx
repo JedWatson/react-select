@@ -87,6 +87,7 @@ const Control = <
         'control--menu-is-open': menuIsOpen,
       })}
       {...innerProps}
+      aria-disabled={isDisabled || undefined}
     >
       {children}
     </div>

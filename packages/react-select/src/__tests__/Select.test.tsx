@@ -7,9 +7,11 @@ import {
   OPTIONS,
   OPTIONS_ACCENTED,
   OPTIONS_NUMBER_VALUE,
+  OPTIONS_GROUPED,
   OPTIONS_BOOLEAN_VALUE,
   OPTIONS_DISABLED,
   Option,
+  GroupedOption,
   OptionNumberValue,
   OptionBooleanValue,
 } from './constants';
@@ -1952,39 +1954,262 @@ test('multi select > clicking on X next to option will call onChange with all op
   );
 });
 
-/**
- * TODO: Need to get highlight a menu option and then match value with aria-activedescendant prop
- */
 cases(
-  'accessibility > aria-activedescendant',
-  ({ props = { ...BASIC_PROPS } }) => {
-    let { container } = render(<Select {...props} menuIsOpen />);
+  'accessibility > aria-activedescendant for basic options',
+  (props: BasicProps) => {
+    const renderProps = {
+      ...props,
+      instanceId: 1000,
+      value: BASIC_PROPS.options[2],
+      menuIsOpen: true,
+      hideSelectedOptions: false,
+    };
 
-    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
-      keyCode: 40,
-      key: 'ArrowDown',
-    });
+    const { container, rerender } = render(<Select {...renderProps} />);
+
+    // aria-activedescendant should be set if menu is open initially and selected options are not hidden
     expect(
       container
         .querySelector('input.react-select__input')!
         .getAttribute('aria-activedescendant')
-    ).toBe('1');
+    ).toBe('react-select-1000-option-2');
+
+    // aria-activedescendant is updated during keyboard navigation
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 40,
+      key: 'ArrowDown',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-3');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 38,
+      key: 'ArrowUp',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-2');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 36,
+      key: 'Home',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 35,
+      key: 'End',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-16');
+
+    rerender(<Select {...renderProps} menuIsOpen={false} />);
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('');
+
+    // searching should update activedescendant
+    rerender(<Select {...renderProps} isSearchable />);
+
+    const setInputValue = (val: string) => {
+      rerender(<Select {...renderProps} autoFocus inputValue={val} />);
+    };
+
+    setInputValue('four');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-4');
+
+    setInputValue('fourt');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-14');
+
+    setInputValue('fourt1');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('');
   },
   {
     'single select > should update aria-activedescendant as per focused option':
       {
-        skip: true,
+        ...BASIC_PROPS,
       },
     'multi select > should update aria-activedescendant as per focused option':
       {
-        skip: true,
-        props: {
-          ...BASIC_PROPS,
-          value: { label: '2', value: 'two' },
-        },
+        ...BASIC_PROPS,
+        isMulti: true,
       },
   }
 );
+
+cases(
+  'accessibility > aria-activedescendant for grouped options',
+  (props: BasicProps) => {
+    const renderProps = {
+      ...props,
+      instanceId: 1000,
+      options: OPTIONS_GROUPED,
+      value: OPTIONS_GROUPED[0].options[2],
+      menuIsOpen: true,
+      hideSelectedOptions: false,
+    };
+
+    let { container, rerender } = render(
+      <Select<OptionNumberValue | OptionBooleanValue, false, GroupedOption>
+        {...renderProps}
+      />
+    );
+
+    // aria-activedescendant should be set if menu is open initially and selected options are not hidden
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-2');
+
+    // aria-activedescendant is updated during keyboard navigation
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 40,
+      key: 'ArrowDown',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-3');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 38,
+      key: 'ArrowUp',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-2');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 36,
+      key: 'Home',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-0');
+
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 35,
+      key: 'End',
+    });
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-1-1');
+
+    rerender(<Select {...renderProps} menuIsOpen={false} />);
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('');
+
+    // searching should update activedescendant
+    rerender(<Select {...renderProps} isSearchable />);
+
+    const setInputValue = (val: string) => {
+      rerender(<Select {...renderProps} autoFocus inputValue={val} />);
+    };
+
+    setInputValue('1');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-1');
+
+    setInputValue('10');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('react-select-1000-option-0-10');
+
+    setInputValue('102');
+
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-activedescendant')
+    ).toBe('');
+  },
+  {
+    'single select > should update aria-activedescendant as per focused option':
+      {
+        ...BASIC_PROPS,
+      },
+    'multi select > should update aria-activedescendant as per focused option':
+      {
+        ...BASIC_PROPS,
+        isMulti: true,
+      },
+  }
+);
+
+test('accessibility > aria-activedescendant should not exist if hideSelectedOptions=true', () => {
+  const { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      instanceId="1000"
+      value={BASIC_PROPS.options[2]}
+      isMulti
+      menuIsOpen
+    />
+  );
+
+  expect(
+    container
+      .querySelector('input.react-select__input')!
+      .getAttribute('aria-activedescendant')
+  ).toBe('');
+});
 
 cases(
   'accessibility > passes through aria-labelledby prop',
@@ -2083,25 +2308,25 @@ test('accessibility > to show the number of options available in A11yText when t
     rerender(<Select {...BASIC_PROPS} autoFocus menuIsOpen inputValue={val} />);
   };
 
-  const liveRegionId = '#aria-context';
+  const liveRegionResultsId = '#aria-results';
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     /17 results available/
   );
 
   setInputValue('0');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     /2 results available/
   );
 
   setInputValue('10');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     /1 result available/
   );
 
   setInputValue('100');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     /0 results available/
   );
 });
@@ -2115,7 +2340,6 @@ test('accessibility > interacting with disabled options shows correct A11yText',
       menuIsOpen
     />
   );
-  const liveRegionId = '#aria-context';
   const liveRegionEventId = '#aria-selection';
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
@@ -2123,10 +2347,6 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   let menu = container.querySelector('.react-select__menu');
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
   fireEvent.keyDown(menu!, { keyCode: 40, key: 'ArrowDown' });
-
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
-  );
 
   // attempt to select disabled option
   fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
@@ -2154,40 +2374,37 @@ test('accessibility > interacting with multi values options shows correct A11yTe
     rerender(<Select {...renderProps} menuIsOpen />);
   };
 
-  const liveRegionId = '#aria-context';
+  const liveRegionGuidanceId = '#aria-guidance';
+  const liveRegionFocusedId = '#aria-focused';
   let input = container.querySelector('.react-select__value-container input')!;
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    ' Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
+  expect(container.querySelector(liveRegionGuidanceId)!.textContent).toMatch(
+    'Select is focused ,type to refine list, press Down to open the menu,  press left to focus selected values'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'value 1 focused, 2 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+  expect(container.querySelector(liveRegionFocusedId)!.textContent).toMatch(
+    'value 1 focused, 2 of 2.'
+  );
+  expect(container.querySelector(liveRegionGuidanceId)!.textContent).toMatch(
+    'Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   fireEvent.keyDown(input, { keyCode: 37, key: 'ArrowLeft' });
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'value 0 focused, 1 of 2.  Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
+  expect(container.querySelector(liveRegionFocusedId)!.textContent).toMatch(
+    'value 0 focused, 1 of 2.'
+  );
+  expect(container.querySelector(liveRegionGuidanceId)!.textContent).toMatch(
+    'Use left and right to toggle between focused values, press Backspace to remove the currently focused value'
   );
 
   openMenu();
-  let menu = container.querySelector('.react-select__menu')!;
 
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'option 0 selected, 1 of 17. 17 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.'
-  );
-
-  fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'option 1 selected disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
-  );
-
-  fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
-    'option 2 focused, 3 of 17. 17 results available. Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.'
+  // user will be notified if option is disabled by screen reader because of correct aria-attributes, so this message will be announce only once after menu opens
+  expect(container.querySelector(liveRegionGuidanceId)!.textContent).toMatch(
+    'Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 });
 
@@ -2195,7 +2412,7 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
   const screenReaderStatus = ({ count }: { count: number }) =>
     `There are ${count} options available`;
 
-  const liveRegionId = '#aria-context';
+  const liveRegionResultsId = '#aria-results';
   let { container, rerender } = render(
     <Select
       {...BASIC_PROPS}
@@ -2218,22 +2435,22 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
 
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     'There are 17 options available'
   );
 
   setInputValue('0');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     'There are 2 options available'
   );
 
   setInputValue('10');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     'There are 1 options available'
   );
 
   setInputValue('100');
-  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
+  expect(container.querySelector(liveRegionResultsId)!.textContent).toMatch(
     'There are 0 options available'
   );
 });
@@ -2282,7 +2499,7 @@ test('accessibility > announces already selected values when focused', () => {
     <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} />
   );
   const liveRegionSelectionId = '#aria-selection';
-  const liveRegionContextId = '#aria-context';
+  const liveRegionContextId = '#aria-guidance';
 
   // the live region should not be mounted yet
   expect(container.querySelector(liveRegionSelectionId)!).toBeNull();
@@ -2290,7 +2507,7 @@ test('accessibility > announces already selected values when focused', () => {
   fireEvent.focus(container.querySelector('input.react-select__input')!);
 
   expect(container.querySelector(liveRegionContextId)!.textContent).toMatch(
-    ' Select is focused ,type to refine list, press Down to open the menu, '
+    'Select is focused ,type to refine list, press Down to open the menu, '
   );
   expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
     'option 0, selected.'
