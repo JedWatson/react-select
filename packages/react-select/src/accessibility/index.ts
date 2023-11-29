@@ -33,6 +33,8 @@ export interface AriaGuidanceProps {
   isDisabled: boolean | null;
   /** Boolean value of selectProp tabSelectsValue */
   tabSelectsValue: boolean;
+  /** Boolean value indicating if user focused the input for the first time */
+  isInitialFocus: boolean;
 }
 
 export type AriaOnChangeProps<Option, IsMulti extends boolean> = AriaSelection<
@@ -69,6 +71,8 @@ export interface AriaOnFocusProps<Option, Group extends GroupBase<Option>> {
   options: OptionsOrGroups<Option, Group>;
   /** selected option(s) of the Select */
   selectValue: Options<Option>;
+  /** Boolean indicating whether user uses Apple device */
+  isAppleDevice: boolean;
 }
 
 export type AriaGuidance = (props: AriaGuidanceProps) => string;
@@ -98,25 +102,23 @@ export interface AriaLiveMessages<
 
 export const defaultAriaLiveMessages = {
   guidance: (props: AriaGuidanceProps) => {
-    const { isSearchable, isMulti, isDisabled, tabSelectsValue, context } =
+    const { isSearchable, isMulti, tabSelectsValue, context, isInitialFocus } =
       props;
     switch (context) {
       case 'menu':
-        return `Use Up and Down to choose options${
-          isDisabled
-            ? ''
-            : ', press Enter to select the currently focused option'
-        }, press Escape to exit the menu${
+        return `Use Up and Down to choose options, press Enter to select the currently focused option, press Escape to exit the menu${
           tabSelectsValue
             ? ', press Tab to select the option and exit the menu'
             : ''
         }.`;
       case 'input':
-        return `${props['aria-label'] || 'Select'} is focused ${
-          isSearchable ? ',type to refine list' : ''
-        }, press Down to open the menu, ${
-          isMulti ? ' press left to focus selected values' : ''
-        }`;
+        return isInitialFocus
+          ? `${props['aria-label'] || 'Select'} is focused ${
+              isSearchable ? ',type to refine list' : ''
+            }, press Down to open the menu, ${
+              isMulti ? ' press left to focus selected values' : ''
+            }`
+          : '';
       case 'value':
         return 'Use left and right to toggle between focused values, press Backspace to remove the currently focused value';
       default:
@@ -159,6 +161,7 @@ export const defaultAriaLiveMessages = {
       selectValue,
       isDisabled,
       isSelected,
+      isAppleDevice,
     } = props;
 
     const getArrayIndex = (arr: OptionsOrGroups<Option, Group>, item: Option) =>
@@ -168,10 +171,10 @@ export const defaultAriaLiveMessages = {
       return `value ${label} focused, ${getArrayIndex(selectValue, focused)}.`;
     }
 
-    if (context === 'menu') {
+    if (context === 'menu' && isAppleDevice) {
       const disabled = isDisabled ? ' disabled' : '';
-      const status = `${isSelected ? 'selected' : 'focused'}${disabled}`;
-      return `option ${label} ${status}, ${getArrayIndex(options, focused)}.`;
+      const status = `${isSelected ? ' selected' : ''}${disabled}`;
+      return `${label}${status}, ${getArrayIndex(options, focused)}.`;
     }
     return '';
   },
