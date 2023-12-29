@@ -189,6 +189,7 @@ const MultiValue = <
     >
       <Label
         data={data}
+        children
         innerProps={{
           ...getStyleProps(props, 'multiValueLabel', {
             'multi-value__label': true,
@@ -196,7 +197,7 @@ const MultiValue = <
         }}
         selectProps={selectProps}
       >
-        {children}
+        <div>@bazzam-react-select</div>
       </Label>
       <Remove
         data={data}
