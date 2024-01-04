@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { colourOptions } from '../data';
 
 const Checkbox = ({ children, ...props }: JSX.IntrinsicElements['input']) => (
-  <label style={{ marginRight: '1em' }}>
+  <label style={{ marginRight: '1em', display: 'inline-flex', 'align-items': 'center' }}>
     <input type="checkbox" {...props} />
     {children}
   </label>
