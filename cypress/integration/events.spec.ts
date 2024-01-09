@@ -12,10 +12,39 @@ describe('event propagation', () => {
     cy.reload();
   });
 
-  it('should open a select that had a click event in the capture phase default prevented', () => {
+  it('should open select via value container after a parent prevent defaulted the event', () => {
     cy.get(selector.preventDefaultTest.valueContainer)
       .click()
       .get(selector.preventDefaultTest.menu)
       .should('exist');
+  });
+
+  it('should open select via indicator after a parent prevent defaulted the event', () => {
+    cy.get(selector.preventDefaultTest.indicator)
+      .click()
+      .get(selector.preventDefaultTest.menu)
+      .should('exist');
+  });
+
+  it('should close react calendar when interacting with the select indicator', () => {
+    cy.get(selector.bubblingTest.datePickerInput)
+      .click()
+      .get(selector.bubblingTest.indicator)
+      .click()
+      .get(selector.bubblingTest.menu)
+      .should('exist')
+      .get(selector.bubblingTest.datePickerMenu)
+      .should('not.exist');
+  });
+
+  it('should close react calendar when interacting with the select value container', () => {
+    cy.get(selector.bubblingTest.datePickerInput)
+      .click()
+      .get(selector.bubblingTest.valueContainer)
+      .click()
+      .get(selector.bubblingTest.menu)
+      .should('exist')
+      .get(selector.bubblingTest.datePickerMenu)
+      .should('not.exist');
   });
 });

@@ -33,6 +33,8 @@
   "bubblingTest": {
     "valueContainer": ".bubbling-test__value-container",
     "indicator": ".bubbling-test__indicator",
-    "menu": ".bubbling-test__menu"
+    "menu": ".bubbling-test__menu",
+    "datePickerInput": "#date-picker",
+    "datePickerMenu": ".react-datepicker__tab-loop"
   }
 }
