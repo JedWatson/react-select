@@ -256,7 +256,7 @@ export default function Tests() {
         <DatePicker id="date-picker" onChange={() => {}} />
       </div>
 
-      <h3>Event handling with pevent default</h3>
+      <h3>Event handling with prevent default</h3>
       <label htmlFor="prevent-default-test">Select inside capture phase</label>
       <div onMouseDownCapture={(e) => e.preventDefault()}>
         <Select
