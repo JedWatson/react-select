@@ -24,5 +24,15 @@
   "multiSelectInput": "#react-select-multi-select-input",
   "placeHolderMulti": "#multi-select .react-select__placeholder",
   "toggleMenuMulti": "#multi-select .react-select__dropdown-indicator",
-  "focusedOption": ".react-select__option--is-focused"
+  "focusedOption": ".react-select__option--is-focused",
+  "preventDefaultTest": {
+    "valueContainer": ".prevent-default-test__value-container",
+    "indicator": ".prevent-default-test__indicator",
+    "menu": ".prevent-default-test__menu"
+  },
+  "bubblingTest": {
+    "valueContainer": ".bubbling-test__value-container",
+    "indicator": ".bubbling-test__indicator",
+    "menu": ".bubbling-test__menu"
+  }
 }
