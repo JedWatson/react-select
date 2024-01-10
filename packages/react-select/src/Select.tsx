@@ -1352,6 +1352,7 @@ export default class Select<
       return;
     }
     this.clearValue();
+    event.stopPropagation();
     event.preventDefault();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
