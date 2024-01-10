@@ -1293,10 +1293,6 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
-    // Event captured by dropdown indicator
-    if (event.defaultPrevented) {
-      return;
-    }
     const { openMenuOnClick } = this.props;
     if (!this.state.isFocused) {
       if (openMenuOnClick) {
@@ -1356,6 +1352,7 @@ export default class Select<
       return;
     }
     this.clearValue();
+    event.stopPropagation();
     event.preventDefault();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
