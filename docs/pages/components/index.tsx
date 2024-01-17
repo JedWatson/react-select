@@ -499,7 +499,7 @@ export default function Components() {
         ### Placeholder
 
         Component to be displayed in the input when nothing is selected. By default
-        it is the text 'Select...'
+        it is the text 'Select…'
 
         See [props docs](/props#placeholder) for more details
 
