@@ -3107,6 +3107,21 @@ test('not render any groups when there is not a single match when filtering', ()
   expect(container.querySelectorAll('.react-select__group').length).toBe(0);
 });
 
+test('should render ClearableIndicator if renderClearableIndicatorForEmptyValue is true', () => {
+  const { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      isClearable
+      renderClearableIndicatorForEmptyValue
+      value={null}
+    />
+  );
+
+  expect(
+    container.querySelectorAll('.react-select__clear-indicator').length
+  ).toBe(1);
+});
+
 test('multi select > have default value delimiter seperated', () => {
   let { container } = render(
     <Select

@@ -176,6 +176,8 @@ export interface Props<
   instanceId?: number | string;
   /** Is the select value clearable */
   isClearable?: boolean;
+  /** is the ClearableIndicator rendered even for empty value */
+  renderClearableIndicatorForEmptyValue?: boolean;
   /** Is the select disabled */
   isDisabled: boolean;
   /** Is the select in a state of loading (async) */
@@ -1860,16 +1862,18 @@ export default class Select<
   renderClearIndicator() {
     const { ClearIndicator } = this.getComponents();
     const { commonProps } = this;
-    const { isDisabled, isLoading } = this.props;
+    const { isDisabled, isLoading, renderClearableIndicatorForEmptyValue } =
+      this.props;
     const { isFocused } = this.state;
 
-    if (
-      !this.isClearable() ||
-      !ClearIndicator ||
-      isDisabled ||
-      !this.hasValue() ||
-      isLoading
-    ) {
+    const needRenderIndicator =
+      this.isClearable() &&
+      ClearIndicator &&
+      !isDisabled &&
+      !isLoading &&
+      (renderClearableIndicatorForEmptyValue || this.hasValue());
+
+    if (!needRenderIndicator) {
       return null;
     }
 

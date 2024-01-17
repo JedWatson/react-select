@@ -196,7 +196,7 @@ export default function Components() {
 
         * When \`isClearable\` is false, or when \`isMulti\` is false, and \`isClearable\` is undefined
         * When the select is disabled
-        * When the select has no value
+        * When the select has no value and \`renderClearableIndicatorForEmptyValue\` is not true
         * When the select is loading
 
         See [props docs](/props#clearindicator) for more details
