@@ -30,6 +30,7 @@ export default () => {
         isSearchable={isSearchable}
         name="color"
         options={colourOptions}
+        enableAccessibleClearIndicator
       />
 
       <div

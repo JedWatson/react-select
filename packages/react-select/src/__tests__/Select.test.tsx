@@ -2467,7 +2467,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
       },
     };
 
-  let { container } = render(
+  let { container, debug } = render(
     <Select
       {...BASIC_PROPS}
       ariaLiveMessages={ariaLiveMessages}
@@ -2488,7 +2488,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     keyCode: 13,
     key: 'Enter',
   });
-
+  debug();
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
   );
@@ -2515,7 +2515,7 @@ test('accessibility > announces already selected values when focused', () => {
 });
 
 test('accessibility > announces cleared values', () => {
-  let { container } = render(
+  let { container, debug } = render(
     <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
   );
   const liveRegionSelectionId = '#aria-selection';
@@ -3376,3 +3376,31 @@ cases(
     },
   }
 );
+
+test('enableAccessibleClearIndicator is false render non-interactive clear indicator', () => {
+  let props = {
+    ...BASIC_PROPS,
+    value: OPTIONS[0],
+  };
+  let { container } = render(<Select {...props} isClearable />);
+  expect(
+    container.querySelector('div.react-select__clear-indicator')
+  ).toBeVisible();
+});
+
+test.only('enableAccessibleClearIndicator is true render ', () => {
+  let props = {
+    ...BASIC_PROPS,
+    value: OPTIONS[0],
+  };
+  let { container } = render(
+    <Select {...props} isClearable enableAccessibleClearIndicator />
+  );
+  expect(
+    container.querySelector('button.react-select__clear-indicator')
+  ).toBeVisible();
+  // set focus on clear button
+  userEvent.click(
+    container.querySelector('button.react-select__clear-indicator')!
+  );
+});

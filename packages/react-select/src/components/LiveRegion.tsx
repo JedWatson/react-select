@@ -204,7 +204,7 @@ const LiveRegion = <
       <span id="aria-guidance">{ariaGuidance}</span>
     </Fragment>
   );
-
+  console.log(ariaSelected);
   return (
     <Fragment>
       {/* We use 'aria-describedby' linked to this component for the initial focus */}

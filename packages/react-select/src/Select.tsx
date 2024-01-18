@@ -176,6 +176,8 @@ export interface Props<
   instanceId?: number | string;
   /** Is the select value clearable */
   isClearable?: boolean;
+  /** enabled clear indicator to accessible via keyboard and screen-reader */
+  enableAccessibleClearIndicator?: boolean;
   /** Is the select disabled */
   isDisabled: boolean;
   /** Is the select in a state of loading (async) */
@@ -677,7 +679,10 @@ export default class Select<
   getInputRef: RefCallback<HTMLInputElement> = (ref) => {
     this.inputRef = ref;
   };
-
+  // clearIndicatorRef: HTMLButtonElement | null = null;
+  // getClearIndicatorRef: RefCallback<HTMLButtonElement> = (ref) => {
+  //   this.clearIndicatorRef = ref;
+  // };
   // Lifecycle
   // ------------------------------
 
@@ -734,7 +739,6 @@ export default class Select<
             `${instancePrefix}-option`
           )
         : [];
-
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
@@ -743,7 +747,6 @@ export default class Select<
         focusableOptionsWithIds,
         focusedOption
       );
-
       newMenuOptionsState = {
         selectValue,
         focusedOption,
@@ -764,8 +767,9 @@ export default class Select<
 
     let newAriaSelection = ariaSelection;
 
-    let hasKeptFocus = isFocused && prevWasFocused;
-
+    let hasKeptFocus =
+      isFocused && (prevWasFocused || ariaSelection?.action === 'clear');
+    //let isCleared = ariaSelection?.action === 'clear';
     if (isFocused && !hasKeptFocus) {
       // If `value` or `defaultValue` props are not empty then announce them
       // when the Select is initially focused
@@ -1057,6 +1061,10 @@ export default class Select<
       });
       return;
     }
+    // // ensure focus is restored correctly
+    // if (enableAccessibleClearIndicator) {
+    //   this.focusInput();
+    // }
 
     if (blurInputOnSelect) {
       this.blurInput();
@@ -1860,7 +1868,8 @@ export default class Select<
   renderClearIndicator() {
     const { ClearIndicator } = this.getComponents();
     const { commonProps } = this;
-    const { isDisabled, isLoading } = this.props;
+    const { isDisabled, isLoading, enableAccessibleClearIndicator } =
+      this.props;
     const { isFocused } = this.state;
 
     if (
@@ -1879,11 +1888,23 @@ export default class Select<
       'aria-hidden': 'true',
     };
 
+    // const searchInput = React.useRef(null);
+
+    // const onClearFocus = () => {
+    //   this.setState({ focusedValue: null, isFocused: true });
+    // };
     return (
       <ClearIndicator
         {...commonProps}
+        //ref={this.getClearIndicatorRef}
         innerProps={innerProps}
         isFocused={isFocused}
+        enableAccessibleClearIndicator={enableAccessibleClearIndicator}
+        onClearValue={() => {
+          this.setState({ focusedValue: null, isFocused: true });
+          this.clearValue();
+          this.openAfterFocus = false;
+        }}
       />
     );
   }
