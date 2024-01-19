@@ -1887,7 +1887,7 @@ export default class Select<
         innerProps={innerProps}
         isFocused={isFocused}
         enableAccessibleClearIndicator={enableAccessibleClearIndicator}
-        onClearValue={() => {
+        handleClearingValue={() => {
           this.openAfterFocus = false;
           this.focusInput();
           this.clearValue();

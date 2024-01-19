@@ -136,8 +136,8 @@ export interface ClearIndicatorProps<
   innerProps: JSX.IntrinsicElements['div'];
   /** The focused state of the select. */
   isFocused: boolean;
-  /** Handle events on when select option is cleared*/
-  onClearValue: () => void;
+  /** Handle clearing the value and focus*/
+  handleClearingValue: () => void;
   /** Enabled clear indictor to be acessible via keyboard and screen-reader */
   enableAccessibleClearIndicator?: boolean;
 }
@@ -150,8 +150,12 @@ export const ClearIndicator = <
 >(
   props: ClearIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, innerProps, enableAccessibleClearIndicator, onClearValue } =
-    props;
+  const {
+    children,
+    innerProps,
+    enableAccessibleClearIndicator,
+    handleClearingValue: onClearValue,
+  } = props;
 
   const clearIndicatorStyle = getStyleProps(props, 'clearIndicator', {
     indicator: true,
