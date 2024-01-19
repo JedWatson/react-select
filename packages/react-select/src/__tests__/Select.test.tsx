@@ -2514,7 +2514,7 @@ test('accessibility > announces already selected values when focused', () => {
 });
 
 test('accessibility > announces cleared values', () => {
-  let { container, debug } = render(
+  let { container } = render(
     <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
   );
   const liveRegionSelectionId = '#aria-selection';
