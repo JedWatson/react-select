@@ -769,7 +769,7 @@ export default class Select<
 
     let hasKeptFocus =
       isFocused && (prevWasFocused || ariaSelection?.action === 'clear');
-    //let isCleared = ariaSelection?.action === 'clear';
+
     if (isFocused && !hasKeptFocus) {
       // If `value` or `defaultValue` props are not empty then announce them
       // when the Select is initially focused
@@ -1061,10 +1061,6 @@ export default class Select<
       });
       return;
     }
-    // // ensure focus is restored correctly
-    // if (enableAccessibleClearIndicator) {
-    //   this.focusInput();
-    // }
 
     if (blurInputOnSelect) {
       this.blurInput();
@@ -1888,22 +1884,16 @@ export default class Select<
       'aria-hidden': 'true',
     };
 
-    // const searchInput = React.useRef(null);
-
-    // const onClearFocus = () => {
-    //   this.setState({ focusedValue: null, isFocused: true });
-    // };
     return (
       <ClearIndicator
         {...commonProps}
-        //ref={this.getClearIndicatorRef}
         innerProps={innerProps}
         isFocused={isFocused}
         enableAccessibleClearIndicator={enableAccessibleClearIndicator}
         onClearValue={() => {
-          this.setState({ focusedValue: null, isFocused: true });
-          this.clearValue();
           this.openAfterFocus = false;
+          this.focusInput();
+          this.clearValue();
         }}
       />
     );

@@ -2467,7 +2467,7 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
       },
     };
 
-  let { container, debug } = render(
+  let { container } = render(
     <Select
       {...BASIC_PROPS}
       ariaLiveMessages={ariaLiveMessages}
@@ -2488,7 +2488,6 @@ test('accessibility > A11yTexts can be provided through ariaLiveMessages prop', 
     keyCode: 13,
     key: 'Enter',
   });
-  debug();
   expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'CUSTOM: option 0 is selected.'
   );
@@ -2926,48 +2925,81 @@ cases(
   }
 );
 
-test('clear select by clicking on clear button > should not call onMenuOpen', () => {
-  let onChangeSpy = jest.fn();
-  let props = { ...BASIC_PROPS, onChange: onChangeSpy };
-  let { container } = render(
-    <Select {...props} isMulti value={[OPTIONS[0]]} />
-  );
+cases(
+  'clear select by clicking on clear button > should not call onMenuOpen',
+  ({ props = BASIC_PROPS }) => {
+    let onChangeSpy = jest.fn();
+    let { container } = render(
+      <Select {...props} onChange={onChangeSpy} isMulti value={[OPTIONS[0]]} />
+    );
 
-  expect(container.querySelectorAll('.react-select__multi-value').length).toBe(
-    1
-  );
-  fireEvent.mouseDown(
-    container.querySelector('.react-select__clear-indicator')!,
-    { button: 0 }
-  );
-  expect(onChangeSpy).toBeCalledWith([], {
-    action: 'clear',
-    name: BASIC_PROPS.name,
-    removedValues: [{ label: '0', value: 'zero' }],
-  });
-});
+    expect(
+      container.querySelectorAll('.react-select__multi-value').length
+    ).toBe(1);
+    fireEvent.mouseDown(
+      container.querySelector('.react-select__clear-indicator')!,
+      { button: 0 }
+    );
+    expect(onChangeSpy).toBeCalledWith([], {
+      action: 'clear',
+      name: BASIC_PROPS.name,
+      removedValues: [{ label: '0', value: 'zero' }],
+    });
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+        isClearable: true,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      isClearable: true,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
-test('clearing select using clear button to not call onMenuOpen or onMenuClose', () => {
-  let onMenuCloseSpy = jest.fn();
-  let onMenuOpenSpy = jest.fn();
-  let props = {
-    ...BASIC_PROPS,
-    onMenuClose: onMenuCloseSpy,
-    onMenuOpen: onMenuOpenSpy,
-  };
-  let { container } = render(
-    <Select {...props} isMulti value={[OPTIONS[0]]} />
-  );
-  expect(container.querySelectorAll('.react-select__multi-value').length).toBe(
-    1
-  );
-  fireEvent.mouseDown(
-    container.querySelector('.react-select__clear-indicator')!,
-    { button: 0 }
-  );
-  expect(onMenuOpenSpy).not.toHaveBeenCalled();
-  expect(onMenuCloseSpy).not.toHaveBeenCalled();
-});
+cases(
+  'clearing select using clear button to not call onMenuOpen or onMenuClose',
+  ({ props = BASIC_PROPS }) => {
+    let onMenuCloseSpy = jest.fn();
+    let onMenuOpenSpy = jest.fn();
+
+    let { container } = render(
+      <Select
+        {...props}
+        onMenuClose={onMenuCloseSpy}
+        onMenuOpen={onMenuOpenSpy}
+        isMulti
+        value={[OPTIONS[0]]}
+      />
+    );
+    expect(
+      container.querySelectorAll('.react-select__multi-value').length
+    ).toBe(1);
+    fireEvent.mouseDown(
+      container.querySelector('.react-select__clear-indicator')!,
+      { button: 0 }
+    );
+    expect(onMenuOpenSpy).not.toHaveBeenCalled();
+    expect(onMenuCloseSpy).not.toHaveBeenCalled();
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+        isClearable: true,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      isClearable: true,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
 test('multi select >  calls onChange when option is selected and isSearchable is false', () => {
   let onChangeSpy = jest.fn();
@@ -3377,7 +3409,7 @@ cases(
   }
 );
 
-test('enableAccessibleClearIndicator is false render non-interactive clear indicator', () => {
+test('enableAccessibleClearIndicator is false > render non-interactive clear indicator', () => {
   let props = {
     ...BASIC_PROPS,
     value: OPTIONS[0],
@@ -3388,7 +3420,7 @@ test('enableAccessibleClearIndicator is false render non-interactive clear indic
   ).toBeVisible();
 });
 
-test.only('enableAccessibleClearIndicator is true render ', () => {
+test('enableAccessibleClearIndicator is true > clear indicator is focusable and clear value', () => {
   let props = {
     ...BASIC_PROPS,
     value: OPTIONS[0],
@@ -3396,11 +3428,29 @@ test.only('enableAccessibleClearIndicator is true render ', () => {
   let { container } = render(
     <Select {...props} isClearable enableAccessibleClearIndicator />
   );
+
+  const clearIndicator = container.querySelector(
+    'button.react-select__clear-indicator'
+  )!;
+  expect(clearIndicator).toBeVisible();
+
+  userEvent.click(container.querySelector('.react-select__input')!);
+  userEvent.tab();
+  expect(
+    container.querySelector('button.react-select__clear-indicator')!
+  ).toHaveFocus();
+
+  fireEvent.keyDown(
+    container.querySelector('button.react-select__clear-indicator')!,
+    {
+      key: 'Enter',
+      keyCode: 13,
+    }
+  );
   expect(
     container.querySelector('button.react-select__clear-indicator')
-  ).toBeVisible();
-  // set focus on clear button
-  userEvent.click(
-    container.querySelector('button.react-select__clear-indicator')!
-  );
+  ).not.toBeInTheDocument();
+  expect(
+    container.querySelector('.react-select__single-value')!.textContent
+  ).toEqual('0');
 });
