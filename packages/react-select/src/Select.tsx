@@ -679,10 +679,7 @@ export default class Select<
   getInputRef: RefCallback<HTMLInputElement> = (ref) => {
     this.inputRef = ref;
   };
-  // clearIndicatorRef: HTMLButtonElement | null = null;
-  // getClearIndicatorRef: RefCallback<HTMLButtonElement> = (ref) => {
-  //   this.clearIndicatorRef = ref;
-  // };
+
   // Lifecycle
   // ------------------------------
 

@@ -6,7 +6,6 @@ import { colourOptions } from '../data';
 export default () => (
   <Select
     defaultValue={[colourOptions[2], colourOptions[3]]}
-    enableAccessibleClearIndicator
     isMulti
     name="colors"
     options={colourOptions}

@@ -30,8 +30,6 @@ export default () => {
         isSearchable={isSearchable}
         name="color"
         options={colourOptions}
-        enableAccessibleClearIndicator
-        onChange={(val) => console.log(val)}
       />
 
       <div
