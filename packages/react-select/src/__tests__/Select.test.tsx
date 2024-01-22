@@ -1,5 +1,11 @@
 import React, { KeyboardEvent } from 'react';
-import { render, fireEvent, EventType } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  EventType,
+  waitFor,
+  act,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
@@ -2513,22 +2519,38 @@ test('accessibility > announces already selected values when focused', () => {
   );
 });
 
-test('accessibility > announces cleared values', () => {
-  let { container } = render(
-    <Select {...BASIC_PROPS} options={OPTIONS} value={OPTIONS[0]} isClearable />
-  );
-  const liveRegionSelectionId = '#aria-selection';
-  /**
-   * announce deselected value
-   */
-  fireEvent.focus(container.querySelector('input.react-select__input')!);
-  fireEvent.mouseDown(
-    container.querySelector('.react-select__clear-indicator')!
-  );
-  expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
-    'All selected options have been cleared.'
-  );
-});
+cases(
+  'accessibility > announces cleared values',
+  ({ props = BASIC_PROPS }) => {
+    let { container } = render(
+      <Select {...props} options={OPTIONS} value={OPTIONS[0]} isClearable />
+    );
+    const liveRegionSelectionId = '#aria-selection';
+    /**
+     * announce deselected value
+     */
+    fireEvent.focus(container.querySelector('input.react-select__input')!);
+    fireEvent.mouseDown(
+      container.querySelector('.react-select__clear-indicator')!
+    );
+    expect(container.querySelector(liveRegionSelectionId)!.textContent).toMatch(
+      'All selected options have been cleared.'
+    );
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+        isClearable: true,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      isClearable: true,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
 test('closeMenuOnSelect prop > when passed as false it should not call onMenuClose on selecting option', () => {
   let onMenuCloseSpy = jest.fn();
@@ -3186,20 +3208,34 @@ test('hitting spacebar should select option if isSearchable is false', () => {
   );
 });
 
-test('hitting escape does not call onChange if menu is Open', () => {
-  let onChangeSpy = jest.fn();
-  let props = { ...BASIC_PROPS, onChange: onChangeSpy };
-  let { container } = render(
-    <Select {...props} menuIsOpen escapeClearsValue isClearable />
-  );
+cases(
+  'hitting escape does not call onChange if menu is Open',
+  ({ props = BASIC_PROPS }) => {
+    let onChangeSpy = jest.fn();
+    let finalProps = { ...props, onChange: onChangeSpy };
+    let { container } = render(
+      <Select {...finalProps} menuIsOpen escapeClearsValue isClearable />
+    );
 
-  // focus the first option
-  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
-    keyCode: 40,
-    key: 'ArrowDown',
-  });
-  expect(onChangeSpy).not.toHaveBeenCalled();
-});
+    // focus the first option
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
+      keyCode: 40,
+      key: 'ArrowDown',
+    });
+    expect(onChangeSpy).not.toHaveBeenCalled();
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
 test('multi select > removes the selected option from the menu options when isSearchable is false', () => {
   let { container, rerender } = render(
@@ -3242,38 +3278,53 @@ test('hitting ArrowUp key on closed select should focus last element', () => {
   ).toEqual('16');
 });
 
-test('close menu on hitting escape and clear input value if menu is open even if escapeClearsValue and isClearable are true', () => {
-  let onMenuCloseSpy = jest.fn();
-  let onInputChangeSpy = jest.fn();
-  let props = {
-    ...BASIC_PROPS,
-    onInputChange: onInputChangeSpy,
-    onMenuClose: onMenuCloseSpy,
-    value: OPTIONS[0],
-  };
-  let { container } = render(
-    <Select {...props} menuIsOpen escapeClearsValue isClearable />
-  );
-  fireEvent.keyDown(container.querySelector('.react-select')!, {
-    keyCode: 27,
-    key: 'Escape',
-  });
-  expect(
-    container.querySelector('.react-select__single-value')!.textContent
-  ).toEqual('0');
+cases(
+  'close menu on hitting escape and clear input value if menu is open even if escapeClearsValue and isClearable are true',
+  ({ props = BASIC_PROPS }) => {
+    let onMenuCloseSpy = jest.fn();
+    let onInputChangeSpy = jest.fn();
 
-  expect(onMenuCloseSpy).toHaveBeenCalled();
-  // once by onMenuClose and other is direct
-  expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
-  expect(onInputChangeSpy).toHaveBeenCalledWith('', {
-    action: 'menu-close',
-    prevInputValue: '',
-  });
-  expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {
-    action: 'menu-close',
-    prevInputValue: '',
-  });
-});
+    let finalProps = {
+      ...props,
+      onInputChange: onInputChangeSpy,
+      onMenuClose: onMenuCloseSpy,
+      value: OPTIONS[0],
+    };
+    let { container } = render(
+      <Select {...finalProps} menuIsOpen escapeClearsValue isClearable />
+    );
+    fireEvent.keyDown(container.querySelector('.react-select')!, {
+      keyCode: 27,
+      key: 'Escape',
+    });
+    expect(
+      container.querySelector('.react-select__single-value')!.textContent
+    ).toEqual('0');
+
+    expect(onMenuCloseSpy).toHaveBeenCalled();
+    // once by onMenuClose and other is direct
+    expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
+    expect(onInputChangeSpy).toHaveBeenCalledWith('', {
+      action: 'menu-close',
+      prevInputValue: '',
+    });
+    expect(onInputChangeSpy).toHaveBeenLastCalledWith('', {
+      action: 'menu-close',
+      prevInputValue: '',
+    });
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
 test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is false', () => {
   let onChangeSpy = jest.fn();
@@ -3303,35 +3354,67 @@ test('to not clear value when hitting escape if escapeClearsValue is true and is
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-test('to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true', () => {
-  let onChangeSpy = jest.fn();
-  let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
-  let { container } = render(<Select {...props} isClearable />);
+cases(
+  'to not clear value when hitting escape if escapeClearsValue is false (default) and isClearable is true',
+  ({ props = BASIC_PROPS }) => {
+    let onChangeSpy = jest.fn();
+    let finalProps = { ...props, onChange: onChangeSpy, value: OPTIONS[0] };
+    let { container } = render(<Select {...finalProps} isClearable />);
 
-  fireEvent.keyDown(container.querySelector('.react-select')!, {
-    keyCode: 27,
-    key: 'Escape',
-  });
-  expect(onChangeSpy).not.toHaveBeenCalled();
-});
+    fireEvent.keyDown(container.querySelector('.react-select')!, {
+      keyCode: 27,
+      key: 'Escape',
+    });
+    expect(onChangeSpy).not.toHaveBeenCalled();
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
-test('to clear value when hitting escape if escapeClearsValue and isClearable are true', () => {
-  let onInputChangeSpy = jest.fn();
-  let props = { ...BASIC_PROPS, onChange: onInputChangeSpy, value: OPTIONS[0] };
-  let { container } = render(
-    <Select {...props} isClearable escapeClearsValue />
-  );
+cases(
+  'to clear value when hitting escape if escapeClearsValue and isClearable are true',
+  ({ props = BASIC_PROPS }) => {
+    let onInputChangeSpy = jest.fn();
+    let finalProps = {
+      ...props,
+      onChange: onInputChangeSpy,
+      value: OPTIONS[0],
+    };
+    let { container } = render(
+      <Select {...finalProps} isClearable escapeClearsValue />
+    );
 
-  fireEvent.keyDown(container.querySelector('.react-select')!, {
-    keyCode: 27,
-    key: 'Escape',
-  });
-  expect(onInputChangeSpy).toHaveBeenCalledWith(null, {
-    action: 'clear',
-    name: BASIC_PROPS.name,
-    removedValues: [{ label: '0', value: 'zero' }],
-  });
-});
+    fireEvent.keyDown(container.querySelector('.react-select')!, {
+      keyCode: 27,
+      key: 'Escape',
+    });
+    expect(onInputChangeSpy).toHaveBeenCalledWith(null, {
+      action: 'clear',
+      name: BASIC_PROPS.name,
+      removedValues: [{ label: '0', value: 'zero' }],
+    });
+  },
+  {
+    'mouse only clear indicator': {
+      props: {
+        ...BASIC_PROPS,
+      },
+    },
+    'clear indicator button': {
+      ...BASIC_PROPS,
+      enableAccessibleClearIndicator: true,
+    },
+  }
+);
 
 test('hitting spacebar should not select option if isSearchable is true (default)', () => {
   let onChangeSpy = jest.fn();
@@ -3420,19 +3503,19 @@ test('enableAccessibleClearIndicator is false > render non-interactive clear ind
   ).toBeVisible();
 });
 
-test('enableAccessibleClearIndicator is true > clear indicator is focusable and clear value', () => {
+test('enableAccessibleClearIndicator is true > clear indicator is focusable and clear value', async () => {
+  let onChangeSpy = jest.fn();
   let props = {
     ...BASIC_PROPS,
     value: OPTIONS[0],
+    onChange: onChangeSpy,
   };
   let { container } = render(
     <Select {...props} isClearable enableAccessibleClearIndicator />
   );
-
-  const clearIndicator = container.querySelector(
-    'button.react-select__clear-indicator'
-  )!;
-  expect(clearIndicator).toBeVisible();
+  expect(
+    container.querySelector('button.react-select__clear-indicator')!
+  ).toBeVisible();
 
   userEvent.click(container.querySelector('.react-select__input')!);
   userEvent.tab();
@@ -3440,17 +3523,11 @@ test('enableAccessibleClearIndicator is true > clear indicator is focusable and 
     container.querySelector('button.react-select__clear-indicator')!
   ).toHaveFocus();
 
-  fireEvent.keyDown(
-    container.querySelector('button.react-select__clear-indicator')!,
-    {
-      key: 'Enter',
-      keyCode: 13,
-    }
-  );
-  expect(
-    container.querySelector('button.react-select__clear-indicator')
-  ).not.toBeInTheDocument();
-  expect(
-    container.querySelector('.react-select__single-value')!.textContent
-  ).toEqual('0');
+  fireEvent.click(container.querySelector('.react-select__clear-indicator')!);
+
+  expect(onChangeSpy).toHaveBeenCalledWith(null, {
+    action: 'clear',
+    name: BASIC_PROPS.name,
+    removedValues: [{ label: '0', value: 'zero' }],
+  });
 });
