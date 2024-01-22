@@ -657,6 +657,7 @@ export default class Select<
   scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
   isAppleDevice = isAppleDevice();
+  mouseDownTriggeredBeyondControl = false;
 
   // Refs
   // ------------------------------
@@ -1293,8 +1294,9 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
-    // Event captured by dropdown indicator
-    if (event.defaultPrevented) {
+    // Event captured somewhere deeper in the DOM
+    if (this.mouseDownTriggeredBeyondControl) {
+      this.mouseDownTriggeredBeyondControl = false;
       return;
     }
     const { openMenuOnClick } = this.props;
@@ -1342,6 +1344,7 @@ export default class Select<
     } else {
       this.openMenu('first');
     }
+    this.mouseDownTriggeredBeyondControl = true;
     event.preventDefault();
   };
   onClearIndicatorMouseDown = (
@@ -1356,6 +1359,7 @@ export default class Select<
       return;
     }
     this.clearValue();
+    this.mouseDownTriggeredBeyondControl = true;
     event.preventDefault();
     this.openAfterFocus = false;
     if (event.type === 'touchend') {
@@ -1835,6 +1839,7 @@ export default class Select<
               onClick: () => this.removeValue(opt),
               onTouchEnd: () => this.removeValue(opt),
               onMouseDown: (e) => {
+                this.mouseDownTriggeredBeyondControl = true;
                 e.preventDefault();
               },
             }}
