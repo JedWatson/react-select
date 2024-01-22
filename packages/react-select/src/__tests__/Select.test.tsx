@@ -1,11 +1,5 @@
 import React, { KeyboardEvent } from 'react';
-import {
-  render,
-  fireEvent,
-  EventType,
-  waitFor,
-  act,
-} from '@testing-library/react';
+import { render, fireEvent, EventType } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
