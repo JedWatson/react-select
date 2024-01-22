@@ -176,6 +176,8 @@ export interface Props<
   instanceId?: number | string;
   /** Is the select value clearable */
   isClearable?: boolean;
+  /** enabled clear indicator to accessible via keyboard and screen-reader */
+  enableAccessibleClearIndicator?: boolean;
   /** Is the select disabled */
   isDisabled: boolean;
   /** Is the select in a state of loading (async) */
@@ -734,7 +736,6 @@ export default class Select<
             `${instancePrefix}-option`
           )
         : [];
-
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
@@ -743,7 +744,6 @@ export default class Select<
         focusableOptionsWithIds,
         focusedOption
       );
-
       newMenuOptionsState = {
         selectValue,
         focusedOption,
@@ -764,7 +764,8 @@ export default class Select<
 
     let newAriaSelection = ariaSelection;
 
-    let hasKeptFocus = isFocused && prevWasFocused;
+    let hasKeptFocus =
+      isFocused && (prevWasFocused || ariaSelection?.action === 'clear');
 
     if (isFocused && !hasKeptFocus) {
       // If `value` or `defaultValue` props are not empty then announce them
@@ -1860,7 +1861,8 @@ export default class Select<
   renderClearIndicator() {
     const { ClearIndicator } = this.getComponents();
     const { commonProps } = this;
-    const { isDisabled, isLoading } = this.props;
+    const { isDisabled, isLoading, enableAccessibleClearIndicator } =
+      this.props;
     const { isFocused } = this.state;
 
     if (
@@ -1884,6 +1886,12 @@ export default class Select<
         {...commonProps}
         innerProps={innerProps}
         isFocused={isFocused}
+        enableAccessibleClearIndicator={enableAccessibleClearIndicator}
+        handleClearingValue={() => {
+          this.openAfterFocus = false;
+          this.focusInput();
+          this.clearValue();
+        }}
       />
     );
   }
