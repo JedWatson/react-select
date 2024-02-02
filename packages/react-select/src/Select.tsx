@@ -2125,11 +2125,17 @@ export default class Select<
     );
   }
   renderFormField() {
-    const { delimiter, isDisabled, isMulti, name, required } = this.props;
+    const { delimiter, form, isDisabled, isMulti, name, required } = this.props;
     const { selectValue } = this.state;
 
     if (required && !this.hasValue() && !isDisabled) {
-      return <RequiredInput name={name} onFocus={this.onValueInputFocus} />;
+      return (
+        <RequiredInput
+          form={form}
+          name={name}
+          onFocus={this.onValueInputFocus}
+        />
+      );
     }
 
     if (!name || isDisabled) return;
@@ -2139,12 +2145,13 @@ export default class Select<
         const value = selectValue
           .map((opt) => this.getOptionValue(opt))
           .join(delimiter);
-        return <input name={name} type="hidden" value={value} />;
+        return <input form={form} name={name} type="hidden" value={value} />;
       } else {
         const input =
           selectValue.length > 0 ? (
             selectValue.map((opt, i) => (
               <input
+                form={form}
                 key={`i-${i}`}
                 name={name}
                 type="hidden"
@@ -2152,14 +2159,14 @@ export default class Select<
               />
             ))
           ) : (
-            <input name={name} type="hidden" value="" />
+            <input form={form} name={name} type="hidden" value="" />
           );
 
         return <div>{input}</div>;
       }
     } else {
       const value = selectValue[0] ? this.getOptionValue(selectValue[0]) : '';
-      return <input name={name} type="hidden" value={value} />;
+      return <input form={form} name={name} type="hidden" value={value} />;
     }
   }
 
