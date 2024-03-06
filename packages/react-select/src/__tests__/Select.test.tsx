@@ -2212,6 +2212,28 @@ test('accessibility > aria-activedescendant should not exist if hideSelectedOpti
 });
 
 cases(
+  'accessibility > passes through aria-describedby prop',
+  ({ props = { ...BASIC_PROPS, 'aria-describedby': 'testing' } }) => {
+    let { container } = render(<Select {...props} />);
+    expect(
+      container
+        .querySelector('input.react-select__input')!
+        .getAttribute('aria-describedby')
+    ).toBe('testing');
+  },
+  {
+    'single select > should pass aria-describedby prop down to input': {},
+    'multi select > should pass aria-describedby prop down to input': {
+      props: {
+        ...BASIC_PROPS,
+        'aria-describedby': 'testing',
+        isMulti: true,
+      },
+    },
+  }
+);
+
+cases(
   'accessibility > passes through aria-labelledby prop',
   ({ props = { ...BASIC_PROPS, 'aria-labelledby': 'testing' } }) => {
     let { container } = render(<Select {...props} />);
