@@ -35,16 +35,15 @@ export default function DummyInput({
         outline: 0,
         padding: 0,
         // important! without `width` browsers won't allow focus
-        width: 1,
+        width: '100%',
 
         // remove cursor on desktop
         color: 'transparent',
 
         // remove cursor on mobile whilst maintaining "scroll into view" behaviour
-        left: -100,
         opacity: 0,
         position: 'relative',
-        transform: 'scale(.01)',
+        cursor: 'default'
       }}
     />
   );
