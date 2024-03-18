@@ -21,6 +21,7 @@ const RequiredInput: FunctionComponent<{
       left: 0,
       right: 0,
       width: '100%',
+      boxSizing: 'border-box',
     }}
     // Prevent `Switching from uncontrolled to controlled` error
     value=""
