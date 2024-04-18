@@ -1738,7 +1738,9 @@ export default class Select<
             'aria-describedby': this.getElementId('live-region'),
           }
         : {
-            'aria-describedby': this.props['aria-describedby'] || this.getElementId('placeholder'),
+            'aria-describedby':
+              this.props['aria-describedby'] ||
+              this.getElementId('placeholder'),
           }),
     };
 
