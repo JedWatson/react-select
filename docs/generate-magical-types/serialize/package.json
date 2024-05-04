@@ -1,3 +1,4 @@
 {
-  "main": "dist/react-select-generate-magical-types-serialize.cjs.js"
+  "main": "dist/react-select-generate-magical-types-serialize.cjs.js",
+  "module": "dist/react-select-generate-magical-types-serialize.esm.js"
 }

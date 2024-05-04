@@ -84,14 +84,19 @@ const onChange = (option: readonly Option[], actionMeta: ActionMeta<Option>) => 
 }
 ~~~
 
-The \`actionMeta\` parameter is optional. \`ActionMeta\` is a union that is discriminated on the \`action\` type. Take a look at at [types.ts](https://github.com/JedWatson/react-select/blob/master/packages/react-select/src/types.ts) in the source code to see its full definition.
+The \`actionMeta\` parameter is optional. \`ActionMeta\` is a union that is discriminated on the \`action\` type. Take a look at [types.ts](https://github.com/JedWatson/react-select/blob/master/packages/react-select/src/types.ts) in the source code to see its full definition.
 
 ## Custom Select props
 
 You can use module augmentation to add custom props to the \`Select\` prop types:
 
 ~~~jsx
-declare module 'react-select/dist/declarations/src/Select' {
+import type {} from 'react-select/base';
+// This import is necessary for module augmentation.
+// It allows us to extend the 'Props' interface in the 'react-select/base' module
+// and add our custom property 'myCustomProp' to it.
+
+declare module 'react-select/base' {
   export interface Props<
     Option,
     IsMulti extends boolean,
