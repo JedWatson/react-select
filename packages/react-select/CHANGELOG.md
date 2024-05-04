@@ -14,7 +14,7 @@
   - the instructions how to use select will be announced only one time when user focuses the input for the first time.
   - instructions for menu or selected value will be announced only once after focusing them.
   - removed aria-live for focused option because currently with correct aria-attributes it will be announced by screenreader natively as well as the status of this option (active or disabled).
-  - separated ariaContext into ariaFocused, ariaResults, ariaGuidance to avoid announcing redundant information and higlight only current change.
+  - separated ariaContext into ariaFocused, ariaResults, ariaGuidance to avoid announcing redundant information and highlight only current change.
 
 ## 5.7.7
 
@@ -50,7 +50,7 @@
 
 ### Patch Changes
 
-- [`925cd4a2`](https://github.com/JedWatson/react-select/commit/925cd4a26097823187fb14cdae2561dd3c637e8c) [#5536](https://github.com/JedWatson/react-select/pull/5536) Thanks [@Rall3n](https://github.com/Rall3n)! - `required` prop accessibiltiy and functionality improvements
+- [`925cd4a2`](https://github.com/JedWatson/react-select/commit/925cd4a26097823187fb14cdae2561dd3c637e8c) [#5536](https://github.com/JedWatson/react-select/pull/5536) Thanks [@Rall3n](https://github.com/Rall3n)! - `required` prop accessibility and functionality improvements
 
 ## 5.7.1
 
