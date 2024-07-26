@@ -11,7 +11,12 @@ interface NonceProviderProps {
   container?: Node;
 }
 
-export default ({ nonce, children, cacheKey, container }: NonceProviderProps) => {
+export default ({
+  nonce,
+  children,
+  cacheKey,
+  container,
+}: NonceProviderProps) => {
   const emotionCache = useMemo(
     () => createCache({ key: cacheKey, nonce, container }),
     [cacheKey, nonce, container]
