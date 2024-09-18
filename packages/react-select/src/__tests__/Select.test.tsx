@@ -1938,7 +1938,6 @@ test('should call not call onChange on hitting backspace when backspaceRemovesVa
   expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
-
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
   let onChangeSpy = jest.fn();
   let { container } = render(
