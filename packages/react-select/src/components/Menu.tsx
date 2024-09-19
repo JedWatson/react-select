@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import {
   createContext,
+  JSX,
   ReactElement,
   ReactNode,
   Ref,

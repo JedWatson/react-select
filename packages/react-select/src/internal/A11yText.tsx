@@ -1,4 +1,5 @@
 /** @jsx jsx */
+import { JSX } from 'react';
 import { jsx } from '@emotion/react';
 
 // Assistive text to describe visual elements. Hidden for sighted users.
