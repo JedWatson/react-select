@@ -322,8 +322,10 @@ export const MenuPlacer = <
     menuPlacement,
     menuPosition,
     menuShouldScrollIntoView,
+    selectProps,
     theme,
   } = props;
+  const { isLoading } = selectProps;
 
   const { setPortalPlacement } = useContext(PortalPlacementContext) || {};
   const ref = useRef<HTMLDivElement | null>(null);
@@ -353,6 +355,7 @@ export const MenuPlacer = <
     setPlacement(state.placement);
     setPortalPlacement?.(state.placement);
   }, [
+    isLoading,
     maxMenuHeight,
     menuPlacement,
     menuPosition,
