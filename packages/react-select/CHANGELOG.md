@@ -1,5 +1,11 @@
 # react-select
 
+## 5.8.1
+
+### Patch Changes
+
+- [`dd740ced`](https://github.com/JedWatson/react-select/commit/dd740cedb29c810a89da4445d4864cd7e63d3aaf) [#5960](https://github.com/JedWatson/react-select/pull/5960) Thanks [@leonaves](https://github.com/leonaves)! - No longer send pop-value action when multi-select is empty. This correctly resolves typings with that event, where removedValue cannot be undefined.
+
 ## 5.8.0
 
 ### Minor Changes

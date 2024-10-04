@@ -1906,6 +1906,7 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
       isClearable
       isMulti
       onChange={onChangeSpy}
+      value={[OPTIONS[0]]}
     />
   );
   fireEvent.keyDown(container.querySelector('.react-select__control')!, {
@@ -1915,8 +1916,26 @@ test('should call onChange with an array on hitting backspace when backspaceRemo
   expect(onChangeSpy).toHaveBeenCalledWith([], {
     action: 'pop-value',
     name: 'test-input-name',
-    removedValue: undefined,
+    removedValue: OPTIONS[0],
   });
+});
+
+test('should call not call onChange on hitting backspace when backspaceRemovesValue is true and isMulti is true and there are no values', () => {
+  let onChangeSpy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      backspaceRemovesValue
+      isClearable
+      isMulti
+      onChange={onChangeSpy}
+    />
+  );
+  fireEvent.keyDown(container.querySelector('.react-select__control')!, {
+    keyCode: 8,
+    key: 'Backspace',
+  });
+  expect(onChangeSpy).not.toHaveBeenCalled();
 });
 
 test('multi select > clicking on X next to option will call onChange with all options other that the clicked option', () => {
