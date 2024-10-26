@@ -6,6 +6,8 @@ import React, {
 } from 'react';
 
 import Select, { MenuPlacement } from 'react-select';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { H1, Note } from './styled-components';
 import { colourOptions, groupedOptions, optionLength } from './data';
 
@@ -235,6 +237,42 @@ export default function Tests() {
           options={optionLength}
         />
       </div>
+      <h3>Event handling with bubbling</h3>
+      <label htmlFor="bubbling-test">Select bubbling</label>
+      <Select
+        instanceId="bubbling-test"
+        inputId="bubbling-test"
+        classNamePrefix="bubbling-test"
+        options={[
+          { value: 'chocolate', label: 'Chocolate' },
+          { value: 'strawberry', label: 'Strawberry' },
+          { value: 'vanilla', label: 'Vanilla' },
+        ]}
+        onChange={console.log}
+        id="bubbling-select"
+      />
+      <label htmlFor="date-picker">Date picker</label>
+      <div>
+        <DatePicker id="date-picker" onChange={() => {}} />
+      </div>
+
+      <h3>Event handling with prevent default</h3>
+      <label htmlFor="prevent-default-test">Select inside capture phase</label>
+      <div onMouseDownCapture={(e) => e.preventDefault()}>
+        <Select
+          instanceId="prevent-default-test"
+          inputId="prevent-default-test"
+          options={[
+            { value: 'chocolate', label: 'Chocolate' },
+            { value: 'strawberry', label: 'Strawberry' },
+            { value: 'vanilla', label: 'Vanilla' },
+          ]}
+          classNamePrefix="prevent-default-test"
+          onChange={console.log}
+          id="prevent-default-select"
+        />
+      </div>
+      <div style={{ height: 500 }} />
     </div>
   );
 }
