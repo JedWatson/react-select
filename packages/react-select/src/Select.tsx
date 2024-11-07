@@ -339,6 +339,7 @@ interface State<
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
   instancePrefix: string;
+  componentHasMounted: boolean
 }
 
 interface CategorizedOption<Option> {
@@ -630,6 +631,7 @@ export default class Select<
 > {
   static defaultProps = defaultProps;
   state: State<Option, IsMulti, Group> = {
+    componentHasMounted: false,
     ariaSelection: null,
     focusedOption: null,
     focusedOptionId: null,
@@ -793,6 +795,7 @@ export default class Select<
     };
   }
   componentDidMount() {
+    this.setState(s => ({ ...s, componentHasMounted: true }));
     this.startListeningComposition();
     this.startListeningToTouch();
 
@@ -1723,7 +1726,7 @@ export default class Select<
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
       role: 'combobox',
-      'aria-activedescendant': this.isAppleDevice
+      'aria-activedescendant': this.isAppleDevice && this.state.componentHasMounted
         ? undefined
         : this.state.focusedOptionId || '',
 
