@@ -16,7 +16,7 @@ const LOCK_STYLES = {
 };
 
 function preventTouchMove(e: TouchEvent) {
-  e.preventDefault();
+  if (e.cancelable) e.preventDefault();
 }
 
 function allowTouchMove(e: TouchEvent) {

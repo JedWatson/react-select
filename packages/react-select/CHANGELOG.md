@@ -1,5 +1,17 @@
 # react-select
 
+## 5.8.2
+
+### Patch Changes
+
+- [`781284a9`](https://github.com/JedWatson/react-select/commit/781284a97059b80c07eb77bc871540fe99304e8f) [#5771](https://github.com/JedWatson/react-select/pull/5771) Thanks [@tu4mo](https://github.com/tu4mo)! - Fix for calling non-cancellable scroll events
+
+## 5.8.1
+
+### Patch Changes
+
+- [`dd740ced`](https://github.com/JedWatson/react-select/commit/dd740cedb29c810a89da4445d4864cd7e63d3aaf) [#5960](https://github.com/JedWatson/react-select/pull/5960) Thanks [@leonaves](https://github.com/leonaves)! - No longer send pop-value action when multi-select is empty. This correctly resolves typings with that event, where removedValue cannot be undefined.
+
 ## 5.8.0
 
 ### Minor Changes

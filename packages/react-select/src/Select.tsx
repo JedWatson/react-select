@@ -1097,10 +1097,12 @@ export default class Select<
       newValueArray[0] || null
     );
 
-    this.onChange(newValue, {
-      action: 'pop-value',
-      removedValue: lastSelectedValue,
-    });
+    if (lastSelectedValue) {
+      this.onChange(newValue, {
+        action: 'pop-value',
+        removedValue: lastSelectedValue,
+      });
+    }
   };
 
   // ==============================
