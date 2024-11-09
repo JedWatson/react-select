@@ -11,7 +11,7 @@ import { default as AnimatedValueContainer } from './ValueContainer';
 
 const makeAnimated = (
   externalComponents: Partial<SelectComponentsGeneric> = {}
-): Partial<SelectComponentsGeneric> => {
+): SelectComponentsGeneric => {
   const components = defaultComponents({ components: externalComponents });
   const {
     Input,
