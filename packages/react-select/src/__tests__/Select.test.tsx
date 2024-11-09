@@ -969,6 +969,46 @@ test('clicking when focused does not open select when openMenuOnClick=false', ()
   expect(spy).not.toHaveBeenCalled();
 });
 
+test('arrow keys does not open select when openMenuOnArrows=false', () => {
+  let spy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      openMenuOnArrows={false}
+      openMenuOnFocus={false}
+      openMenuOnClick={false}
+      onMenuOpen={spy}
+    />
+  );
+
+  // this will get updated on input click, though click on input is not bubbling up to control component
+  userEvent.click(container.querySelector('input.react-select__input')!);
+  expect(spy).not.toHaveBeenCalled();
+
+  userEvent.keyboard('[ArrowUp]');
+  expect(spy).not.toHaveBeenCalled();
+});
+
+test('arrow keys does open select when openMenuOnArrows=true', () => {
+  let spy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      openMenuOnArrows
+      openMenuOnFocus={false}
+      openMenuOnClick={false}
+      onMenuOpen={spy}
+    />
+  );
+
+  // this will get updated on input click, though click on input is not bubbling up to control component
+  userEvent.click(container.querySelector('input.react-select__input')!);
+  expect(spy).not.toHaveBeenCalled();
+
+  userEvent.keyboard('[ArrowUp]');
+  expect(spy).toHaveBeenCalled();
+});
+
 cases(
   'focus on options > keyboard interaction with Menu',
   ({ props, selectedOption, nextFocusOption, keyEvent = [] }) => {

@@ -249,6 +249,8 @@ export interface Props<
   openMenuOnFocus: boolean;
   /** Allows control of whether the menu is opened when the Select is clicked */
   openMenuOnClick: boolean;
+  /** Allows control of whether the menu is opened on up and down arrows */
+  openMenuOnArrows: boolean;
   /** Array of options that populate the select menu */
   options: OptionsOrGroups<Option, Group>;
   /** Number of options to jump in menu when page{up|down} keys are used */
@@ -311,6 +313,7 @@ export const defaultProps = {
   noOptionsMessage: () => 'No options',
   openMenuOnFocus: false,
   openMenuOnClick: true,
+  openMenuOnArrows: true,
   options: [],
   pageSize: 5,
   placeholder: 'Select...',
@@ -1566,6 +1569,7 @@ export default class Select<
       onKeyDown,
       tabSelectsValue,
       openMenuOnFocus,
+      openMenuOnArrows,
     } = this.props;
     const { focusedOption, focusedValue, selectValue } = this.state;
 
@@ -1660,6 +1664,8 @@ export default class Select<
       case 'ArrowUp':
         if (menuIsOpen) {
           this.focusOption('up');
+        } else if (!openMenuOnArrows) {
+          return;
         } else {
           this.openMenu('last');
         }
@@ -1667,6 +1673,8 @@ export default class Select<
       case 'ArrowDown':
         if (menuIsOpen) {
           this.focusOption('down');
+        } else if (!openMenuOnArrows) {
+          return;
         } else {
           this.openMenu('first');
         }
