@@ -84,6 +84,8 @@ export interface Props<
   'aria-invalid'?: AriaAttributes['aria-invalid'];
   /** Aria label (for assistive tech) */
   'aria-label'?: AriaAttributes['aria-label'];
+  /** Aria autocomplete */
+  'aria-autocomplete'?: 'none' | 'list' | 'both';
   /** HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
@@ -1715,7 +1717,7 @@ export default class Select<
 
     // aria attributes makes the JSX "noisy", separated for clarity
     const ariaAttributes = {
-      'aria-autocomplete': 'list' as const,
+      'aria-autocomplete': this.props['aria-autocomplete'] || 'list',
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
       'aria-errormessage': this.props['aria-errormessage'],
