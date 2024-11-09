@@ -4,6 +4,7 @@ import {
   Component,
   FocusEventHandler,
   FormEventHandler,
+  JSX,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
