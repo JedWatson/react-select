@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { config } from 'dotenv';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -43,7 +44,7 @@ const webpackConfig: webpack.Configuration = {
       },
       {
         test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        use: [{ loader: MiniCssExtractPlugin.loader }, { loader: 'css-loader' }],
       },
     ],
   },
@@ -70,6 +71,7 @@ const webpackConfig: webpack.Configuration = {
         configFile: './tsconfig.json',
       },
     }),
+    new MiniCssExtractPlugin()
   ],
 };
 
