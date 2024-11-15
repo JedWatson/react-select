@@ -56,10 +56,14 @@ export default function Api() {
     type ValueType = OptionType | OptionsType | null | void
 
     type CommonProps = {
+      blurInput: () => void,
       clearValue: () => void,
+      closeMenu: () => void,
+      focusInput: () => void,
       getStyles: (string, any) => {},
       getValue: () => ValueType,
       hasValue: boolean,
+      isFocused: boolean,
       isMulti: boolean,
       options: OptionsType,
       selectOption: OptionType => void,
