@@ -1,5 +1,11 @@
 # react-select
 
+## 5.8.3
+
+### Patch Changes
+
+- [`111efad1`](https://github.com/JedWatson/react-select/commit/111efad170a11dbae96ae436251cd028e702eb72) [#5974](https://github.com/JedWatson/react-select/pull/5974) Thanks [@j2ghz](https://github.com/j2ghz)! - Fix types compatibility with React 19
+
 ## 5.8.2
 
 ### Patch Changes
