@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { jsx, keyframes } from '@emotion/react';
 
 import {

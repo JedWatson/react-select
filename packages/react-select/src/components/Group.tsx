@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ComponentType, ReactNode } from 'react';
+import { ComponentType, JSX, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import { cleanCommonProps, getStyleProps } from '../utils';
 
