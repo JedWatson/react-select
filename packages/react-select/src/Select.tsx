@@ -883,7 +883,7 @@ export default class Select<
   blur = this.blurInput;
 
   openMenu(focusOption: 'first' | 'last') {
-    const { selectValue, isFocused } = this.state;
+    const { selectValue } = this.state;
     const focusableOptions = this.buildFocusableOptions();
     let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
