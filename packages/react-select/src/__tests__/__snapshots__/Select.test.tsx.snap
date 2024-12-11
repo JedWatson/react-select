@@ -146,11 +146,19 @@ exports[`snapshot - defaults 1`] = `
   transition: color 150ms;
   color: hsl(0, 0%, 80%);
   padding: 8px;
+  border: none;
+  background: none;
   box-sizing: border-box;
 }
 
 .emotion-9:hover {
   color: hsl(0, 0%, 60%);
+}
+
+.emotion-9:focus {
+  border-color: #2684FF;
+  outline: unset;
+  box-shadow: 0 0 0 2px #2684FF inset;
 }
 
 .emotion-10 {
