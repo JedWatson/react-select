@@ -84,6 +84,8 @@ export interface Props<
   'aria-invalid'?: AriaAttributes['aria-invalid'];
   /** Aria label (for assistive tech) */
   'aria-label'?: AriaAttributes['aria-label'];
+  /** Aria placeholder (for assistive tech) */
+  'aria-placeholder'?: AriaAttributes['aria-placeholder'];
   /** HTML ID of an element that should be used as the label (for assistive tech) */
   'aria-labelledby'?: AriaAttributes['aria-labelledby'];
   /** Used to set the priority with which screen reader should treat updates to live regions. The possible settings are: off, polite (default) or assertive */
@@ -1719,6 +1721,7 @@ export default class Select<
       'aria-expanded': menuIsOpen,
       'aria-haspopup': true,
       'aria-errormessage': this.props['aria-errormessage'],
+      'aria-placeholder': this.props['aria-placeholder'],
       'aria-invalid': this.props['aria-invalid'],
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],
