@@ -1,5 +1,11 @@
 # react-select
 
+## 5.9.0
+
+### Minor Changes
+
+- [`01206c33`](https://github.com/JedWatson/react-select/commit/01206c333c481b511e36521e5b568aebd4534b26) [#5984](https://github.com/JedWatson/react-select/pull/5984) Thanks [@Thris3n](https://github.com/Thris3n)! - Add React 19 to peer dependency range
+
 ## 5.8.3
 
 ### Patch Changes
