@@ -48,7 +48,7 @@ export default function Advanced() {
       )}
 
       ## Sortable MultiSelect
-      Using the [react-sortable-hoc](https://www.npmjs.com/package/react-sortable-hoc) package we can easily allow sorting of MultiSelect values by drag and drop.
+      Using the [DnD-Kit](https://docs.dndkit.com) package we can allow sorting of MultiSelect values by drag and drop.
 
       ${(
         <ExampleWrapper
