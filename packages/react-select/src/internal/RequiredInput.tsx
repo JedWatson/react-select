@@ -3,11 +3,13 @@ import { FocusEventHandler, FunctionComponent } from 'react';
 import { jsx } from '@emotion/react';
 
 const RequiredInput: FunctionComponent<{
+  readonly form?: string;
   readonly name?: string;
   readonly onFocus: FocusEventHandler<HTMLInputElement>;
-}> = ({ name, onFocus }) => (
+}> = ({ form, name, onFocus }) => (
   <input
     required
+    form={form}
     name={name}
     tabIndex={-1}
     aria-hidden="true"
