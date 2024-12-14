@@ -98,10 +98,14 @@ export default function Components() {
         Every component receives \`commonProps\` which are spread onto
         the component. These include:
 
+        * \`blurInput\`
         * \`clearValue\`
+        * \`closeMenu\`
+        * \`focusInput\`
         * \`getStyles\`
         * \`getValue\`
         * \`hasValue\`
+        * \`isFocused\`
         * \`isMulti\`
         * \`isRtl\`
         * \`options\`
