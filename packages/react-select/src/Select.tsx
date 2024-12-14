@@ -1626,7 +1626,7 @@ export default class Select<
           break;
         }
         if (menuIsOpen) {
-          if (!focusedOption) return;
+          if (!focusedOption) break;
           if (this.isComposing) return;
           this.selectOption(focusedOption);
           break;
