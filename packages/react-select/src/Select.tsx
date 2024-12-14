@@ -1461,7 +1461,7 @@ export default class Select<
       this.menuListRef &&
       !this.menuListRef.contains(event.target as Node)
     ) {
-      this.blurInput();
+      this.onMenuClose();
     }
 
     // reset move vars
