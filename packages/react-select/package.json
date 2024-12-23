@@ -1,6 +1,6 @@
 {
   "name": "react-select",
-  "version": "5.8.3",
+  "version": "5.9.0",
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
@@ -18,7 +18,7 @@
     "memoize-one": "^6.0.0",
     "prop-types": "^15.6.0",
     "react-transition-group": "^4.3.0",
-    "use-isomorphic-layout-effect": "^1.1.2"
+    "use-isomorphic-layout-effect": "^1.2.0"
   },
   "devDependencies": {
     "@types/jest-in-case": "^1.0.6",
@@ -29,8 +29,8 @@
     "react-dom": "^16.13.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "files": [
     "dist",
