@@ -1,5 +1,29 @@
 # react-select
 
+## 5.9.0
+
+### Minor Changes
+
+- [`01206c33`](https://github.com/JedWatson/react-select/commit/01206c333c481b511e36521e5b568aebd4534b26) [#5984](https://github.com/JedWatson/react-select/pull/5984) Thanks [@Thris3n](https://github.com/Thris3n)! - Add React 19 to peer dependency range
+
+## 5.8.3
+
+### Patch Changes
+
+- [`111efad1`](https://github.com/JedWatson/react-select/commit/111efad170a11dbae96ae436251cd028e702eb72) [#5974](https://github.com/JedWatson/react-select/pull/5974) Thanks [@j2ghz](https://github.com/j2ghz)! - Fix types compatibility with React 19
+
+## 5.8.2
+
+### Patch Changes
+
+- [`781284a9`](https://github.com/JedWatson/react-select/commit/781284a97059b80c07eb77bc871540fe99304e8f) [#5771](https://github.com/JedWatson/react-select/pull/5771) Thanks [@tu4mo](https://github.com/tu4mo)! - Fix for calling non-cancellable scroll events
+
+## 5.8.1
+
+### Patch Changes
+
+- [`dd740ced`](https://github.com/JedWatson/react-select/commit/dd740cedb29c810a89da4445d4864cd7e63d3aaf) [#5960](https://github.com/JedWatson/react-select/pull/5960) Thanks [@leonaves](https://github.com/leonaves)! - No longer send pop-value action when multi-select is empty. This correctly resolves typings with that event, where removedValue cannot be undefined.
+
 ## 5.8.0
 
 ### Minor Changes

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode, RefCallback } from 'react';
+import { JSX, ReactNode, RefCallback } from 'react';
 import { jsx } from '@emotion/react';
 
 import {
