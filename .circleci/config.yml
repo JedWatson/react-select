@@ -58,6 +58,7 @@ jobs:
             - run:
                   name: Running unit tests
                   command: |
+                      corepack enable
                       yarn prettier:check
                       yarn lint
                       yarn type-check
@@ -70,6 +71,7 @@ jobs:
             - run:
                   name: Running E2E tests
                   command: |
+                      corepack enable
                       yarn global add cypress
                       yarn install --silent
                       yarn cypress install
