@@ -25,6 +25,16 @@ install_steps: &install_steps
               name: Installing Dependencies
               command: |
                   yarn install --silent
+        - run:
+              name: Switching to Node.js 16
+              command: |
+                  # Install nvm (Node Version Manager)
+                  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+                  source ~/.bashrc
+                  # Install and use Node.js 16
+                  nvm install 16
+                  nvm use 16
+                  node -v  # Verify Node.js version
         - save_cache:
               name: Save node_modules cache
               key: dependency-cache-{{ .Branch }}-{{ checksum "package.json" }}
