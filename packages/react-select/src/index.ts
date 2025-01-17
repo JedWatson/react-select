@@ -1,12 +1,13 @@
 import Select from './Select';
 import type { GroupBase } from './types';
+export type { FilterOptionOption } from './filters';
 import useStateManager from './useStateManager';
 
 export { default } from './stateManager';
 export { default as NonceProvider } from './NonceProvider';
 export { mergeStyles } from './styles';
 export { defaultTheme } from './theme';
-export { createFilter, FilterOptionOption } from './filters';
+export { createFilter } from './filters';
 export { components } from './components';
 export type SelectInstance<
   Option = unknown,
