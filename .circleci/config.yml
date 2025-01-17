@@ -24,6 +24,7 @@ install_steps: &install_steps
         - run:
               name: Installing Dependencies
               command: |
+                  corepack enable
                   yarn install --silent
         - save_cache:
               name: Save node_modules cache
