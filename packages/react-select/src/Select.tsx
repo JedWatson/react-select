@@ -655,7 +655,6 @@ export default class Select<
   initialTouchX = 0;
   initialTouchY = 0;
   openAfterFocus = false;
-  scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
   isAppleDevice = isAppleDevice();
 
@@ -669,10 +668,12 @@ export default class Select<
   focusedOptionRef: HTMLDivElement | null = null;
   getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
     this.focusedOptionRef = ref;
+    this.tryScrollIntoView();
   };
   menuListRef: HTMLDivElement | null = null;
   getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
     this.menuListRef = ref;
+    this.tryScrollIntoView();
   };
   inputRef: HTMLInputElement | null = null;
   getInputRef: RefCallback<HTMLInputElement> = (ref) => {
@@ -805,16 +806,6 @@ export default class Select<
     if (this.props.autoFocus) {
       this.focusInput();
     }
-
-    // Scroll focusedOption into view if menuIsOpen is set on mount (e.g. defaultMenuIsOpen)
-    if (
-      this.props.menuIsOpen &&
-      this.state.focusedOption &&
-      this.menuListRef &&
-      this.focusedOptionRef
-    ) {
-      scrollIntoView(this.menuListRef, this.focusedOptionRef);
-    }
   }
   componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
     const { isDisabled, menuIsOpen } = this.props;
@@ -843,16 +834,6 @@ export default class Select<
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isFocused: true });
     }
-
-    // scroll the focused option into view if necessary
-    if (
-      this.menuListRef &&
-      this.focusedOptionRef &&
-      this.scrollToFocusedOptionOnUpdate
-    ) {
-      scrollIntoView(this.menuListRef, this.focusedOptionRef);
-      this.scrollToFocusedOptionOnUpdate = false;
-    }
   }
   componentWillUnmount() {
     this.stopListeningComposition();
@@ -864,6 +845,11 @@ export default class Select<
   // Consumer Handlers
   // ==============================
 
+  tryScrollIntoView() {
+    if (this.menuListRef && this.focusedOptionRef) {
+      scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
+  }
   onMenuOpen() {
     this.props.onMenuOpen();
   }
@@ -897,7 +883,7 @@ export default class Select<
   blur = this.blurInput;
 
   openMenu(focusOption: 'first' | 'last') {
-    const { selectValue, isFocused } = this.state;
+    const { selectValue } = this.state;
     const focusableOptions = this.buildFocusableOptions();
     let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
@@ -907,9 +893,6 @@ export default class Select<
         openAtIndex = selectedIndex;
       }
     }
-
-    // only scroll if the menu isn't already open
-    this.scrollToFocusedOptionOnUpdate = !(isFocused && this.menuListRef);
 
     this.setState(
       {
@@ -990,7 +973,7 @@ export default class Select<
     } else if (direction === 'last') {
       nextFocus = options.length - 1;
     }
-    this.scrollToFocusedOptionOnUpdate = true;
+
     this.setState({
       focusedOption: options[nextFocus],
       focusedValue: null,
