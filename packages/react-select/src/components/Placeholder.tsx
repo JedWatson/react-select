@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { jsx } from '@emotion/react';
 import {
   CommonPropsAndClassName,

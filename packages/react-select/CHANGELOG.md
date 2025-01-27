@@ -1,5 +1,23 @@
 # react-select
 
+## 5.10.0
+
+### Minor Changes
+
+- [`6d28ed76`](https://github.com/JedWatson/react-select/commit/6d28ed762e5ef47543fc63ce7588db77455d1534) [#5993](https://github.com/JedWatson/react-select/pull/5993) Thanks [@onihani](https://github.com/onihani)! - Export the `FilterOptionOption` type
+
+## 5.9.0
+
+### Minor Changes
+
+- [`01206c33`](https://github.com/JedWatson/react-select/commit/01206c333c481b511e36521e5b568aebd4534b26) [#5984](https://github.com/JedWatson/react-select/pull/5984) Thanks [@Thris3n](https://github.com/Thris3n)! - Add React 19 to peer dependency range
+
+## 5.8.3
+
+### Patch Changes
+
+- [`111efad1`](https://github.com/JedWatson/react-select/commit/111efad170a11dbae96ae436251cd028e702eb72) [#5974](https://github.com/JedWatson/react-select/pull/5974) Thanks [@j2ghz](https://github.com/j2ghz)! - Fix types compatibility with React 19
+
 ## 5.8.2
 
 ### Patch Changes
