@@ -2,6 +2,7 @@ export { default as AccessingInternals } from './AccessingInternals';
 export { default as ControlledMenu } from './ControlledMenu';
 export { default as AnimatedMulti } from './AnimatedMulti';
 export { default as AsyncCallbacks } from './AsyncCallbacks';
+export { default as AsyncClearLoadedOptions } from './AsyncClearLoadedOptions';
 export { default as AsyncCreatable } from './AsyncCreatable';
 export { default as AsyncPromises } from './AsyncPromises';
 export { default as BasicGrouped } from './BasicGrouped';
