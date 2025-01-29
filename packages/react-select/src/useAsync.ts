@@ -33,6 +33,11 @@ export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
    * Async select is not currently waiting for loadOptions to resolve
    */
   isLoading?: boolean;
+  /**
+   * If clearLoadedOptions is truthy, then the loaded data will be
+   * cleared once a new search is inputed.
+   */
+  clearLoadedOptions?: any;
 }
 
 export type AsyncProps<
@@ -53,6 +58,7 @@ export default function useAsync<
   loadOptions: propsLoadOptions,
   options: propsOptions,
   isLoading: propsIsLoading = false,
+  clearLoadedOptions = false,
   onInputChange: propsOnInputChange,
   filterOption = null,
   ...restSelectProps
@@ -161,6 +167,7 @@ export default function useAsync<
       } else {
         const request = (lastRequest.current = {});
         setStateInputValue(inputValue);
+        if (clearLoadedOptions) setLoadedOptions([]);
         setIsLoading(true);
         setPassEmptyOptions(!loadedInputValue);
         loadOptions(inputValue, (options) => {
@@ -183,6 +190,7 @@ export default function useAsync<
       loadedInputValue,
       optionsCache,
       propsOnInputChange,
+      clearLoadedOptions,
     ]
   );
 
