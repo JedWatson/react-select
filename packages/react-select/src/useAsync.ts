@@ -167,7 +167,7 @@ export default function useAsync<
       } else {
         const request = (lastRequest.current = {});
         setStateInputValue(inputValue);
-        if(clearLoadedOptions) setLoadedOptions([]);
+        if (clearLoadedOptions) setLoadedOptions([]);
         setIsLoading(true);
         setPassEmptyOptions(!loadedInputValue);
         loadOptions(inputValue, (options) => {
