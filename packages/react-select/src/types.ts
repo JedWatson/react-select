@@ -75,6 +75,9 @@ export interface CommonProps<
   Group extends GroupBase<Option>
 > {
   clearValue: () => void;
+  closeMenu: () => void;
+  blurInput: () => void;
+  focusInput: () => void;
   cx: CX;
   /**
     Get the styles of a particular part of the select. Pass in the name of the
@@ -88,6 +91,7 @@ export interface CommonProps<
   ) => string | undefined;
   getValue: () => Options<Option>;
   hasValue: boolean;
+  isFocused: boolean;
   isMulti: boolean;
   isRtl: boolean;
   options: OptionsOrGroups<Option, Group>;

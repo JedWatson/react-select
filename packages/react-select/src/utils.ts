@@ -92,11 +92,15 @@ export const cleanCommonProps = <
   const {
     className, // not listed in commonProps documentation, needs to be removed to allow Emotion to generate classNames
     clearValue,
+    closeMenu,
+    blurInput,
+    focusInput,
     cx,
     getStyles,
     getClassNames,
     getValue,
     hasValue,
+    isFocused,
     isMulti,
     isRtl,
     options, // not listed in commonProps documentation

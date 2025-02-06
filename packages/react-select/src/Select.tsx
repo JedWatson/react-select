@@ -883,14 +883,16 @@ export default class Select<
   // Methods
   // ==============================
 
-  focusInput() {
-    if (!this.inputRef) return;
-    this.inputRef.focus();
-  }
-  blurInput() {
-    if (!this.inputRef) return;
-    this.inputRef.blur();
-  }
+  focusInput = () => {
+    if (this.inputRef) {
+      this.inputRef.focus();
+    }
+  };
+  blurInput = () => {
+    if (this.inputRef) {
+      this.inputRef.blur();
+    }
+  };
 
   // aliased for consumers
   focus = this.focusInput;
@@ -1086,6 +1088,9 @@ export default class Select<
       removedValues: selectValue,
     });
   };
+  closeMenu = () => {
+    this.onMenuClose();
+  };
   popValue = () => {
     const { isMulti } = this.props;
     const { selectValue } = this.state;
@@ -1149,6 +1154,9 @@ export default class Select<
   getCommonProps() {
     const {
       clearValue,
+      closeMenu,
+      blurInput,
+      focusInput,
       cx,
       getStyles,
       getClassNames,
@@ -1158,15 +1166,20 @@ export default class Select<
       props,
     } = this;
     const { isMulti, isRtl, options } = props;
+    const { isFocused } = this.state;
     const hasValue = this.hasValue();
 
     return {
       clearValue,
+      closeMenu,
+      blurInput,
+      focusInput,
       cx,
       getStyles,
       getClassNames,
       getValue,
       hasValue,
+      isFocused,
       isMulti,
       isRtl,
       options,
@@ -2034,6 +2047,7 @@ export default class Select<
               options={options}
               Heading={GroupHeading}
               headingProps={{
+                ...commonProps,
                 id: headingId,
                 data: item.data,
               }}
