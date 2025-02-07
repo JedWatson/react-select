@@ -12,3 +12,6 @@ export const getOptionValue = <Option>(option: Option): string =>
 
 export const isOptionDisabled = <Option>(option: Option): boolean =>
   !!(option as { isDisabled?: unknown }).isDisabled;
+
+export const getGroupOptions = <Option, Group extends GroupBase<Option>>(groupOrOption: Option|Group): readonly Option[]|null =>
+  'options' in groupOrOption ? groupOrOption.options as readonly Option[] : null;
