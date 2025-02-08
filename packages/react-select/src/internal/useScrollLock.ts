@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-const STYLE_KEYS = [
-  'boxSizing',
-  'height',
-  'overflow',
-  'position',
-] as const;
+const STYLE_KEYS = ['boxSizing', 'height', 'overflow', 'position'] as const;
 
 const LOCK_STYLES = {
   boxSizing: 'border-box', // account for possible declaration `width: 100%;` on body
@@ -82,7 +77,9 @@ export default function useScrollLock({
 
       // apply the lock styles and padding if this is the first scroll lock
       if (accountForScrollbars && activeScrollLocks < 1) {
-        const currentPadding = parseInt(window.getComputedStyle(document.body).paddingRight.slice(0,-2));
+        const currentPadding = parseInt(
+          window.getComputedStyle(document.body).paddingRight.slice(0, -2)
+        );
         const clientWidth = document.body ? document.body.clientWidth : 0;
         const adjustedPadding =
           window.innerWidth - clientWidth + currentPadding || 0;
