@@ -1747,7 +1747,9 @@ export default class Select<
 
     // aria-describedby allows for multiple IDs to be specified, separated by a space
     if (this.props['aria-describedby'] != null) {
-      ariaAttributes['aria-describedby'] += ` ${this.props['aria-describedby']}`;
+      ariaAttributes[
+        'aria-describedby'
+      ] += ` ${this.props['aria-describedby']}`;
     }
 
     if (!isSearchable) {
