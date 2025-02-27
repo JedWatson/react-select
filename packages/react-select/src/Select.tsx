@@ -78,7 +78,9 @@ export interface Props<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
-  /** HTML ID of an element containing an error message related to the input**/
+  /** HTML ID(s) of the element(s) that describe the input. */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
+  /** HTML ID of an element containing an error message related to the input */
   'aria-errormessage'?: AriaAttributes['aria-errormessage'];
   /** Indicate if the value entered in the field is invalid **/
   'aria-invalid'?: AriaAttributes['aria-invalid'];
@@ -1742,6 +1744,11 @@ export default class Select<
             'aria-describedby': this.getElementId('placeholder'),
           }),
     };
+
+    // aria-describedby allows for multiple IDs to be specified, separated by a space
+    if (this.props['aria-describedby'] != null) {
+      ariaAttributes['aria-describedby'] += ` ${this.props['aria-describedby']}`;
+    }
 
     if (!isSearchable) {
       // use a dummy input to maintain focus/blur functionality
