@@ -78,7 +78,9 @@ export interface Props<
   IsMulti extends boolean,
   Group extends GroupBase<Option>
 > {
-  /** HTML ID of an element containing an error message related to the input**/
+  /** HTML ID(s) of the element(s) that describe the input. */
+  'aria-describedby'?: AriaAttributes['aria-describedby'];
+  /** HTML ID of an element containing an error message related to the input */
   'aria-errormessage'?: AriaAttributes['aria-errormessage'];
   /** Indicate if the value entered in the field is invalid **/
   'aria-invalid'?: AriaAttributes['aria-invalid'];
@@ -1233,6 +1235,25 @@ export default class Select<
     this.setState({ ariaSelection: { value, ...actionMeta } });
   };
 
+  getAriaDescribedByValue = () => {
+    const { ariaSelection } = this.state;
+    const ariaDescribedByIds = [];
+
+    if (this.hasValue() && ariaSelection?.action === 'initial-input-focus') {
+      ariaDescribedByIds.push(this.getElementId('live-region'));
+    }
+
+    if (!this.hasValue()) {
+      ariaDescribedByIds.push(this.getElementId('placeholder'));
+    }
+
+    if (this.props['aria-describedby'] != null) {
+      ariaDescribedByIds.push(this.props['aria-describedby']);
+    }
+
+    return ariaDescribedByIds.join(' ');
+  };
+
   hasValue() {
     const { selectValue } = this.state;
     return selectValue.length > 0;
@@ -1708,7 +1729,7 @@ export default class Select<
       required,
     } = this.props;
     const { Input } = this.getComponents();
-    const { inputIsHidden, ariaSelection } = this.state;
+    const { inputIsHidden } = this.state;
     const { commonProps } = this;
 
     const id = inputId || this.getElementId('input');
@@ -1734,13 +1755,7 @@ export default class Select<
       ...(!isSearchable && {
         'aria-readonly': true,
       }),
-      ...(this.hasValue()
-        ? ariaSelection?.action === 'initial-input-focus' && {
-            'aria-describedby': this.getElementId('live-region'),
-          }
-        : {
-            'aria-describedby': this.getElementId('placeholder'),
-          }),
+      'aria-describedby': this.getAriaDescribedByValue(),
     };
 
     if (!isSearchable) {
