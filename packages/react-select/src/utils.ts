@@ -68,7 +68,7 @@ export const cleanValue = <Option>(
   value: PropsValue<Option>
 ): Options<Option> => {
   if (isArray(value)) return value.filter(Boolean);
-  if (typeof value === 'object' && value !== null) return [value];
+  if (value !== undefined && value !== null) return [value];
   return [];
 };
 
