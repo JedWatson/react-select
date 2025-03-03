@@ -277,6 +277,8 @@ export interface Props<
   form?: string;
   /** Marks the value-holding input as required for form validation */
   required?: boolean;
+  /** Loop options when using keyboard navigation */
+  loopWithArrowKeys?: boolean;
 }
 
 export const defaultProps = {
@@ -320,6 +322,7 @@ export const defaultProps = {
   tabIndex: 0,
   tabSelectsValue: true,
   unstyled: false,
+  loopWithArrowKeys: true,
 };
 
 interface State<
@@ -966,7 +969,7 @@ export default class Select<
   }
 
   focusOption(direction: FocusDirection = 'first') {
-    const { pageSize } = this.props;
+    const { pageSize, loopWithArrowKeys } = this.props;
     const { focusedOption } = this.state;
     const options = this.getFocusableOptions();
 
@@ -978,9 +981,18 @@ export default class Select<
     }
 
     if (direction === 'up') {
-      nextFocus = focusedIndex > 0 ? focusedIndex - 1 : options.length - 1;
+      if (loopWithArrowKeys) {
+        nextFocus = focusedIndex > 0 ? focusedIndex - 1 : options.length - 1;
+      } else {
+        nextFocus = focusedIndex > 0 ? focusedIndex - 1 : focusedIndex;
+      }
     } else if (direction === 'down') {
-      nextFocus = (focusedIndex + 1) % options.length;
+      if (loopWithArrowKeys) {
+        nextFocus = (focusedIndex + 1) % options.length;
+      } else {
+        nextFocus =
+          focusedIndex < options.length - 1 ? focusedIndex + 1 : focusedIndex;
+      }
     } else if (direction === 'pageup') {
       nextFocus = focusedIndex - pageSize;
       if (nextFocus < 0) nextFocus = 0;
