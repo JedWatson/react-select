@@ -1,92 +1,98 @@
-import React, { MouseEventHandler } from 'react';
-
+import React, { MouseEventHandler, useCallback } from 'react';
 import Select, {
   components,
-  MultiValueGenericProps,
   MultiValueProps,
+  MultiValueRemoveProps,
   OnChangeValue,
-  Props,
 } from 'react-select';
-import {
-  SortableContainer,
-  SortableContainerProps,
-  SortableElement,
-  SortEndHandler,
-  SortableHandle,
-} from 'react-sortable-hoc';
 import { ColourOption, colourOptions } from '../data';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import { restrictToParentElement } from '@dnd-kit/modifiers';
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-function arrayMove<T>(array: readonly T[], from: number, to: number) {
-  const slicedArray = array.slice();
-  slicedArray.splice(
-    to < 0 ? array.length + to : to,
-    0,
-    slicedArray.splice(from, 1)[0]
+const MultiValue = (props: MultiValueProps<ColourOption>) => {
+  const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const innerProps = { ...props.innerProps, onMouseDown };
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: props.data.value,
+    });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div style={style} ref={setNodeRef} {...attributes} {...listeners}>
+      <components.MultiValue {...props} innerProps={innerProps} />
+    </div>
   );
-  return slicedArray;
-}
+};
 
-const SortableMultiValue = SortableElement(
-  (props: MultiValueProps<ColourOption>) => {
-    // this prevents the menu from being opened/closed when the user clicks
-    // on a value to begin dragging it. ideally, detecting a click (instead of
-    // a drag) would still focus the control and toggle the menu, but that
-    // requires some magic with refs that are out of scope for this example
-    const onMouseDown: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    const innerProps = { ...props.innerProps, onMouseDown };
-    return <components.MultiValue {...props} innerProps={innerProps} />;
-  }
-);
+const MultiValueRemove = (props: MultiValueRemoveProps<ColourOption>) => {
+  return (
+    <components.MultiValueRemove
+      {...props}
+      innerProps={{
+        onPointerDown: (e) => e.stopPropagation(),
+        ...props.innerProps,
+      }}
+    />
+  );
+};
 
-const SortableMultiValueLabel = SortableHandle(
-  (props: MultiValueGenericProps) => <components.MultiValueLabel {...props} />
-);
-
-const SortableSelect = SortableContainer(Select) as React.ComponentClass<
-  Props<ColourOption, true> & SortableContainerProps
->;
-
-export default function MultiSelectSort() {
-  const [selected, setSelected] = React.useState<readonly ColourOption[]>([
+const MultiSelectSort = () => {
+  const [selected, setSelected] = React.useState<ColourOption[]>([
     colourOptions[4],
     colourOptions[5],
   ]);
 
   const onChange = (selectedOptions: OnChangeValue<ColourOption, true>) =>
-    setSelected(selectedOptions);
+    setSelected([...selectedOptions]);
 
-  const onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
-    const newValue = arrayMove(selected, oldIndex, newIndex);
-    setSelected(newValue);
-    console.log(
-      'Values sorted:',
-      newValue.map((i) => i.value)
-    );
-  };
+  const onDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!active || !over) return;
+
+    setSelected((items) => {
+      const oldIndex = items.findIndex((item) => item.value === active.id);
+      const newIndex = items.findIndex((item) => item.value === over.id);
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  }, [setSelected]);
 
   return (
-    <SortableSelect
-      useDragHandle
-      // react-sortable-hoc props:
-      axis="xy"
-      onSortEnd={onSortEnd}
-      distance={4}
-      // small fix for https://github.com/clauderic/react-sortable-hoc/pull/352:
-      getHelperDimensions={({ node }) => node.getBoundingClientRect()}
-      // react-select props:
-      isMulti
-      options={colourOptions}
-      value={selected}
-      onChange={onChange}
-      components={{
-        // @ts-ignore We're failing to provide a required index prop to SortableElement
-        MultiValue: SortableMultiValue,
-        MultiValueLabel: SortableMultiValueLabel,
-      }}
-      closeMenuOnSelect={false}
-    />
+    <DndContext modifiers={[restrictToParentElement]} onDragEnd={onDragEnd} collisionDetection={closestCenter}>
+      <SortableContext
+        items={selected.map((o) => o.value)}
+        strategy={horizontalListSortingStrategy}
+      >
+        <Select
+          distance={4}
+          isMulti
+          options={colourOptions}
+          value={selected}
+          onChange={onChange}
+          components={{
+            // @ts-ignore We're failing to provide a required index prop to SortableElement
+            MultiValue,
+            MultiValueRemove,
+          }}
+          closeMenuOnSelect={false}
+        />
+      </SortableContext>
+    </DndContext>
   );
-}
+};
+
+export default MultiSelectSort;
