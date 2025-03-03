@@ -1,5 +1,11 @@
 # react-select
 
+## 5.10.1
+
+### Patch Changes
+
+- [`c5706a0d`](https://github.com/JedWatson/react-select/commit/c5706a0d2b90f7a29bf12b760b048262ae8cc24c) [#6013](https://github.com/JedWatson/react-select/pull/6013) Thanks [@jonahShaf](https://github.com/jonahShaf)! - Distribute license file
+
 ## 5.10.0
 
 ### Minor Changes
