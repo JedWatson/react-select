@@ -4,6 +4,7 @@ import ExampleWrapper from '../../ExampleWrapper';
 import md from '../../markdown/renderer';
 import {
   AsyncCallbacks,
+  AsyncClearLoadedOptions,
   AsyncMulti,
   AsyncPromises,
   DefaultOptions,
@@ -81,6 +82,20 @@ export default function Async() {
         raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
       >
         <AsyncPromises />
+      </ExampleWrapper>
+    )}
+
+    ## clearLoadedOptions
+
+    The clearLoadedOptions prop determines if the loaded options will be cleared once a new search is inputed.
+
+    ${(
+      <ExampleWrapper
+        label="Async with clearLoadedOptions as true"
+        urlPath="docs/examples/AsyncClearLoadedOptions.tsx"
+        raw={require('!!raw-loader!../../examples/AsyncClearLoadedOptions.tsx')}
+      >
+        <AsyncClearLoadedOptions />
       </ExampleWrapper>
     )}
   `}
