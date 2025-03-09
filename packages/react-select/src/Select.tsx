@@ -255,6 +255,8 @@ export interface Props<
   pageSize: number;
   /** Placeholder for the select value */
   placeholder: ReactNode;
+  /** Limits the number of rendered options in the dropdown */
+  resultLimit?: number;
   /** Status to relay to screen readers */
   screenReaderStatus: (obj: { count: number }) => string;
   /**
@@ -1977,6 +1979,7 @@ export default class Select<
       noOptionsMessage,
       onMenuScrollToTop,
       onMenuScrollToBottom,
+      resultLimit,
     } = this.props;
 
     if (!menuIsOpen) return null;
@@ -2020,34 +2023,36 @@ export default class Select<
     let menuUI: ReactNode;
 
     if (this.hasOptions()) {
-      menuUI = this.getCategorizedOptions().map((item) => {
-        if (item.type === 'group') {
-          const { data, options, index: groupIndex } = item;
-          const groupId = `${this.getElementId('group')}-${groupIndex}`;
-          const headingId = `${groupId}-heading`;
+      menuUI = this.getCategorizedOptions()
+        .slice(0, resultLimit && resultLimit > 0 ? resultLimit : undefined)
+        .map((item) => {
+          if (item.type === 'group') {
+            const { data, options, index: groupIndex } = item;
+            const groupId = `${this.getElementId('group')}-${groupIndex}`;
+            const headingId = `${groupId}-heading`;
 
-          return (
-            <Group
-              {...commonProps}
-              key={groupId}
-              data={data}
-              options={options}
-              Heading={GroupHeading}
-              headingProps={{
-                id: headingId,
-                data: item.data,
-              }}
-              label={this.formatGroupLabel(item.data)}
-            >
-              {item.options.map((option) =>
-                render(option, `${groupIndex}-${option.index}`)
-              )}
-            </Group>
-          );
-        } else if (item.type === 'option') {
-          return render(item, `${item.index}`);
-        }
-      });
+            return (
+              <Group
+                {...commonProps}
+                key={groupId}
+                data={data}
+                options={options}
+                Heading={GroupHeading}
+                headingProps={{
+                  id: headingId,
+                  data: item.data,
+                }}
+                label={this.formatGroupLabel(item.data)}
+              >
+                {item.options.map((option) =>
+                  render(option, `${groupIndex}-${option.index}`)
+                )}
+              </Group>
+            );
+          } else if (item.type === 'option') {
+            return render(item, `${item.index}`);
+          }
+        });
     } else if (isLoading) {
       const message = loadingMessage({ inputValue });
       if (message === null) return null;
