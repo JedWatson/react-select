@@ -290,7 +290,7 @@ export const menuCSS = <
   [alignToControl(placement)]: '100%',
   position: 'absolute',
   width: '100%',
-  zIndex: 1,
+  zIndex: 20000,
   ...(unstyled
     ? {}
     : {
