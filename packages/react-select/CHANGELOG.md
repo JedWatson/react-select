@@ -1,5 +1,11 @@
 # react-select
 
+## 5.10.2
+
+### Patch Changes
+
+- [`bf0c8615`](https://github.com/JedWatson/react-select/commit/bf0c8615f8574264883f984c0d2ff36ff9dcdcb7) [#6051](https://github.com/JedWatson/react-select/pull/6051) Thanks [@jnyholm-sc](https://github.com/jnyholm-sc)! - fix: hydration problem caused by isAppleDevice
+
 ## 5.10.1
 
 ### Patch Changes
