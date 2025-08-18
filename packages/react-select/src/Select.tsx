@@ -342,6 +342,7 @@ interface State<
   inputIsHiddenAfterUpdate: boolean | null | undefined;
   prevProps: Props<Option, IsMulti, Group> | void;
   instancePrefix: string;
+  isAppleDevice: boolean;
 }
 
 interface CategorizedOption<Option> {
@@ -646,6 +647,7 @@ export default class Select<
     inputIsHiddenAfterUpdate: undefined,
     prevProps: undefined,
     instancePrefix: '',
+    isAppleDevice: false,
   };
 
   // Misc. Instance Properties
@@ -659,7 +661,6 @@ export default class Select<
   openAfterFocus = false;
   scrollToFocusedOptionOnUpdate = false;
   userIsDragging?: boolean;
-  isAppleDevice = isAppleDevice();
 
   // Refs
   // ------------------------------
@@ -816,6 +817,10 @@ export default class Select<
       this.focusedOptionRef
     ) {
       scrollIntoView(this.menuListRef, this.focusedOptionRef);
+    }
+    if (isAppleDevice()) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ isAppleDevice: true });
     }
   }
   componentDidUpdate(prevProps: Props<Option, IsMulti, Group>) {
@@ -1745,7 +1750,7 @@ export default class Select<
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-required': required,
       role: 'combobox',
-      'aria-activedescendant': this.isAppleDevice
+      'aria-activedescendant': this.state.isAppleDevice
         ? undefined
         : this.state.focusedOptionId || '',
 
@@ -2010,7 +2015,7 @@ export default class Select<
         onMouseOver: onHover,
         tabIndex: -1,
         role: 'option',
-        'aria-selected': this.isAppleDevice ? undefined : isSelected, // is not supported on Apple devices
+        'aria-selected': this.state.isAppleDevice ? undefined : isSelected, // is not supported on Apple devices
       };
 
       return (
@@ -2203,7 +2208,7 @@ export default class Select<
         isFocused={isFocused}
         selectValue={selectValue}
         focusableOptions={focusableOptions}
-        isAppleDevice={this.isAppleDevice}
+        isAppleDevice={this.state.isAppleDevice}
       />
     );
   }
