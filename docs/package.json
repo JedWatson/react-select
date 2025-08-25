@@ -12,7 +12,7 @@
     "@atlaskit/spinner": "^15.0.6",
     "@atlaskit/tooltip": "^17.1.2",
     "@babel/runtime": "^7.12.0",
-    "@emotion/react": "^11.8.1",
+    "@emotion/react": "^11.14.0",
     "@magical-types/convert-type": "^0.1.4",
     "@magical-types/pretty": "^0.3.5",
     "@magical-types/serialization": "^0.2.1",
