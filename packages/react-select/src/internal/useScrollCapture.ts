@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, UIEvent } from 'react';
 import { supportsPassiveEvents } from '../utils';
 
 const cancelScroll = (event: WheelEvent | TouchEvent) => {
@@ -25,9 +25,16 @@ export default function useScrollCapture({
   const isTop = useRef(false);
   const touchStart = useRef(0);
   const scrollTarget = useRef<HTMLElement | null>(null);
+  const previousScrollTop = useRef(0);
 
   const handleEventDelta = useCallback(
-    (event: WheelEvent | TouchEvent, delta: number) => {
+    (
+      event:
+        | WheelEvent
+        | TouchEvent
+        | UIEvent<HTMLElement, UIEvent<Element, UIEvent>>,
+      delta: number
+    ) => {
       if (scrollTarget.current === null) return;
 
       const { scrollTop, scrollHeight, clientHeight } = scrollTarget.current;
@@ -73,9 +80,11 @@ export default function useScrollCapture({
     [onBottomArrive, onBottomLeave, onTopArrive, onTopLeave]
   );
 
-  const onWheel = useCallback(
-    (event: WheelEvent) => {
-      handleEventDelta(event, event.deltaY);
+  const onScroll = useCallback(
+    (event: UIEvent<HTMLElement, UIEvent<Element, UIEvent>>) => {
+      const deltaY = event.currentTarget.scrollTop - previousScrollTop.current;
+      previousScrollTop.current = event.currentTarget.scrollTop;
+      handleEventDelta(event, deltaY);
     },
     [handleEventDelta]
   );
@@ -97,11 +106,11 @@ export default function useScrollCapture({
       if (!el) return;
 
       const notPassive = supportsPassiveEvents ? { passive: false } : false;
-      el.addEventListener('wheel', onWheel, notPassive);
+      el.addEventListener('scroll', onScroll, notPassive);
       el.addEventListener('touchstart', onTouchStart, notPassive);
       el.addEventListener('touchmove', onTouchMove, notPassive);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   const stopListening = useCallback(
@@ -109,11 +118,11 @@ export default function useScrollCapture({
       // bail early if no element is available to detach from
       if (!el) return;
 
-      el.removeEventListener('wheel', onWheel, false);
+      el.removeEventListener('scroll', onScroll, false);
       el.removeEventListener('touchstart', onTouchStart, false);
       el.removeEventListener('touchmove', onTouchMove, false);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   useEffect(() => {
