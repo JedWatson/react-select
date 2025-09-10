@@ -92,6 +92,8 @@ export interface Props<
   ariaLiveMessages?: AriaLiveMessages<Option, IsMulti, Group>;
   /** Focus the control when it is mounted */
   autoFocus?: boolean;
+  /** Focus an option when no inputValue is given */
+  autoFocusOption?: boolean;
   /** Remove the currently focused option when the user presses backspace when Select isClearable or isMulti */
   backspaceRemovesValue: boolean;
   /** Remove focus from the input when the user selects an option (handy for dismissing the keyboard on touch devices) */
@@ -281,6 +283,7 @@ export interface Props<
 
 export const defaultProps = {
   'aria-live': 'polite',
+  autoFocusOption: true,
   backspaceRemovesValue: true,
   blurInputOnSelect: isTouchCapable(),
   captureMenuScroll: !isTouchCapable(),
@@ -529,11 +532,17 @@ function getNextFocusedOption<
   Option,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
->(state: State<Option, IsMulti, Group>, options: Options<Option>) {
+>(
+  props: Props<Option, IsMulti, Group>,
+  state: State<Option, IsMulti, Group>,
+  options: Options<Option>,
+) {
   const { focusedOption: lastFocusedOption } = state;
-  return lastFocusedOption && options.indexOf(lastFocusedOption) > -1
-    ? lastFocusedOption
-    : options[0];
+  const { autoFocusOption } = props;
+  if (lastFocusedOption && options.indexOf(lastFocusedOption) > -1) {
+    return lastFocusedOption;
+  }
+  return (!props.inputValue && !autoFocusOption) ? null : options[0];
 }
 
 const getFocusedOptionId = <Option,>(
@@ -740,7 +749,7 @@ export default class Select<
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
-      const focusedOption = getNextFocusedOption(state, focusableOptions);
+      const focusedOption = getNextFocusedOption(props, state, focusableOptions);
       const focusedOptionId = getFocusedOptionId(
         focusableOptionsWithIds,
         focusedOption
@@ -903,6 +912,7 @@ export default class Select<
 
   openMenu(focusOption: 'first' | 'last') {
     const { selectValue, isFocused } = this.state;
+    const { autoFocusOption } = this.props;
     const focusableOptions = this.buildFocusableOptions();
     let openAtIndex = focusOption === 'first' ? 0 : focusableOptions.length - 1;
 
@@ -920,7 +930,7 @@ export default class Select<
       {
         inputIsHiddenAfterUpdate: false,
         focusedValue: null,
-        focusedOption: focusableOptions[openAtIndex],
+        focusedOption: autoFocusOption ? focusableOptions[openAtIndex] : null,
         focusedOptionId: this.getFocusedOptionId(focusableOptions[openAtIndex]),
       },
       () => this.onMenuOpen()
