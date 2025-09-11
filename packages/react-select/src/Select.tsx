@@ -535,14 +535,14 @@ function getNextFocusedOption<
 >(
   props: Props<Option, IsMulti, Group>,
   state: State<Option, IsMulti, Group>,
-  options: Options<Option>,
+  options: Options<Option>
 ) {
   const { focusedOption: lastFocusedOption } = state;
   const { autoFocusOption } = props;
   if (lastFocusedOption && options.indexOf(lastFocusedOption) > -1) {
     return lastFocusedOption;
   }
-  return (!props.inputValue && !autoFocusOption) ? null : options[0];
+  return !props.inputValue && !autoFocusOption ? null : options[0];
 }
 
 const getFocusedOptionId = <Option,>(
@@ -749,7 +749,11 @@ export default class Select<
       const focusedValue = clearFocusValueOnUpdate
         ? getNextFocusedValue(state, selectValue)
         : null;
-      const focusedOption = getNextFocusedOption(props, state, focusableOptions);
+      const focusedOption = getNextFocusedOption(
+        props,
+        state,
+        focusableOptions
+      );
       const focusedOptionId = getFocusedOptionId(
         focusableOptionsWithIds,
         focusedOption
