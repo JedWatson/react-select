@@ -2,6 +2,7 @@
 import {
   createContext,
   JSX,
+  MutableRefObject,
   ReactElement,
   ReactNode,
   Ref,
@@ -255,7 +256,7 @@ interface PlacerProps {
 }
 
 interface ChildrenProps {
-  ref: Ref<HTMLDivElement>;
+  ref: MutableRefObject<HTMLDivElement | null>;
   placerProps: PlacerProps;
 }
 

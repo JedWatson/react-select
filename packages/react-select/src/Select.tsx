@@ -671,6 +671,10 @@ export default class Select<
   getFocusedOptionRef: RefCallback<HTMLDivElement> = (ref) => {
     this.focusedOptionRef = ref;
   };
+  menuRef: HTMLDivElement | null = null;
+  getMenuRef: RefCallback<HTMLDivElement> = (ref) => {
+    this.menuRef = ref;
+  };
   menuListRef: HTMLDivElement | null = null;
   getMenuListRef: RefCallback<HTMLDivElement> = (ref) => {
     this.menuListRef = ref;
@@ -1463,6 +1467,8 @@ export default class Select<
     if (
       this.controlRef &&
       !this.controlRef.contains(event.target as Node) &&
+      this.menuRef &&
+      !this.menuRef.contains(event.target as Node) &&
       this.menuListRef &&
       !this.menuListRef.contains(event.target as Node)
     ) {
@@ -2076,7 +2082,10 @@ export default class Select<
           <Menu
             {...commonProps}
             {...menuPlacementProps}
-            innerRef={ref}
+            innerRef={(instance) => {
+              ref.current = instance;
+              this.getMenuRef(instance);
+            }}
             innerProps={{
               onMouseDown: this.onMenuMouseDown,
               onMouseMove: this.onMenuMouseMove,
