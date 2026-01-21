@@ -77,9 +77,15 @@ const Group = <
     theme,
     selectProps,
   } = props;
+
+    const headingId =
+    headingProps?.id ||
+    `${selectProps?.instanceId || "rs"}-group-${String(label).replace(/\s+/g, "-").toLowerCase()}`;
+    
   return (
-    <div {...getStyleProps(props, 'group', { group: true })} {...innerProps}>
-      <Heading
+    <div {...getStyleProps(props, 'group', { group: true })} {...innerProps}
+    role="group" aria-labeledby={headingId}>
+      <Heading id={headingId}
         {...headingProps}
         selectProps={selectProps}
         theme={theme}
