@@ -127,6 +127,7 @@
     }
   },
   "resolutions": {
-    "csstype": "^3.0.2"
+    "csstype": "^3.0.2",
+    "yaml": "^1.10.3"
   }
 }
