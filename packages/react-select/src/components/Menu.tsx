@@ -618,16 +618,20 @@ export const MenuPortal = <
   const [computedPosition, setComputedPosition] =
     useState<ComputedPosition | null>(null);
 
+  const computedPositionRef = useRef(computedPosition);
+  computedPositionRef.current = computedPosition;
+
   const updateComputedPosition = useCallback(() => {
     if (!controlElement) return;
 
     const rect = getBoundingClientObj(controlElement);
     const scrollDistance = menuPosition === 'fixed' ? 0 : window.pageYOffset;
     const offset = rect[placement] + scrollDistance;
+    const current = computedPositionRef.current;
     if (
-      offset !== computedPosition?.offset ||
-      rect.left !== computedPosition?.rect.left ||
-      rect.width !== computedPosition?.rect.width
+      offset !== current?.offset ||
+      rect.left !== current?.rect.left ||
+      rect.width !== current?.rect.width
     ) {
       setComputedPosition({ offset, rect });
     }
@@ -635,9 +639,6 @@ export const MenuPortal = <
     controlElement,
     menuPosition,
     placement,
-    computedPosition?.offset,
-    computedPosition?.rect.left,
-    computedPosition?.rect.width,
   ]);
 
   useLayoutEffect(() => {
