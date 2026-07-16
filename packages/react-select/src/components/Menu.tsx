@@ -237,9 +237,9 @@ export interface MenuPlacementProps {
 export interface MenuProps<
   Option = unknown,
   IsMulti extends boolean = boolean,
-  Group extends GroupBase<Option> = GroupBase<Option>
-> extends CommonPropsAndClassName<Option, IsMulti, Group>,
-    MenuPlacementProps {
+  Group extends GroupBase<Option> = GroupBase<Option>,
+>
+  extends CommonPropsAndClassName<Option, IsMulti, Group>, MenuPlacementProps {
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: Ref<HTMLDivElement>;
   innerProps: JSX.IntrinsicElements['div'];
@@ -262,9 +262,9 @@ interface ChildrenProps {
 export interface MenuPlacerProps<
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
-> extends CommonProps<Option, IsMulti, Group>,
-    MenuPlacementProps {
+  Group extends GroupBase<Option>,
+>
+  extends CommonProps<Option, IsMulti, Group>, MenuPlacementProps {
   /** The children to be rendered. */
   children: (childrenProps: ChildrenProps) => ReactElement;
 }
@@ -278,7 +278,7 @@ const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 export const menuCSS = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   {
     placement,
@@ -303,16 +303,15 @@ export const menuCSS = <
       }),
 });
 
-const PortalPlacementContext =
-  createContext<{
-    setPortalPlacement: (placement: CoercedMenuPlacement) => void;
-  } | null>(null);
+const PortalPlacementContext = createContext<{
+  setPortalPlacement: (placement: CoercedMenuPlacement) => void;
+} | null>(null);
 
 // NOTE: internal only
 export const MenuPlacer = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   props: MenuPlacerProps<Option, IsMulti, Group>
 ) => {
@@ -397,7 +396,7 @@ export default Menu;
 export interface MenuListProps<
   Option = unknown,
   IsMulti extends boolean = boolean,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** Set the max height of the Menu component  */
   maxHeight: number;
@@ -413,7 +412,7 @@ export interface MenuListProps<
 export const menuListCSS = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   {
     maxHeight,
@@ -437,7 +436,7 @@ export const menuListCSS = <
 export const MenuList = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   props: MenuListProps<Option, IsMulti, Group>
 ) => {
@@ -463,7 +462,7 @@ export const MenuList = <
 const noticeCSS = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   {
     theme: {
@@ -487,7 +486,7 @@ export const loadingMessageCSS = noticeCSS;
 export interface NoticeProps<
   Option = unknown,
   IsMulti extends boolean = boolean,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   /** The children to be rendered. */
   children: ReactNode;
@@ -498,7 +497,7 @@ export interface NoticeProps<
 export const NoOptionsMessage = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >({
   children = 'No options',
   innerProps,
@@ -524,7 +523,7 @@ export const NoOptionsMessage = <
 export const LoadingMessage = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >({
   children = 'Loading...',
   innerProps,
@@ -554,7 +553,7 @@ export const LoadingMessage = <
 export interface MenuPortalProps<
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 > extends CommonPropsAndClassName<Option, IsMulti, Group> {
   appendTo: HTMLElement | undefined;
   children: ReactNode; // ideally Menu<MenuProps>
@@ -590,7 +589,7 @@ interface ComputedPosition {
 export const MenuPortal = <
   Option,
   IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Group extends GroupBase<Option>,
 >(
   props: MenuPortalProps<Option, IsMulti, Group>
 ) => {
@@ -618,27 +617,24 @@ export const MenuPortal = <
   const [computedPosition, setComputedPosition] =
     useState<ComputedPosition | null>(null);
 
+  const computedPositionRef = useRef(computedPosition);
+  computedPositionRef.current = computedPosition;
+
   const updateComputedPosition = useCallback(() => {
     if (!controlElement) return;
 
     const rect = getBoundingClientObj(controlElement);
     const scrollDistance = menuPosition === 'fixed' ? 0 : window.pageYOffset;
     const offset = rect[placement] + scrollDistance;
+    const current = computedPositionRef.current;
     if (
-      offset !== computedPosition?.offset ||
-      rect.left !== computedPosition?.rect.left ||
-      rect.width !== computedPosition?.rect.width
+      offset !== current?.offset ||
+      rect.left !== current?.rect.left ||
+      rect.width !== current?.rect.width
     ) {
       setComputedPosition({ offset, rect });
     }
-  }, [
-    controlElement,
-    menuPosition,
-    placement,
-    computedPosition?.offset,
-    computedPosition?.rect.left,
-    computedPosition?.rect.width,
-  ]);
+  }, [controlElement, menuPosition, placement]);
 
   useLayoutEffect(() => {
     updateComputedPosition();
