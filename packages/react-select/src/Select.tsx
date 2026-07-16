@@ -242,9 +242,9 @@ export interface Props<
   /** Handle the menu closing */
   onMenuClose: () => void;
   /** Fired when the user scrolls to the top of the menu */
-  onMenuScrollToTop?: (event: WheelEvent | TouchEvent) => void;
+  onMenuScrollToTop?: (event: Event) => void;
   /** Fired when the user scrolls to the bottom of the menu */
-  onMenuScrollToBottom?: (event: WheelEvent | TouchEvent) => void;
+  onMenuScrollToBottom?: (event: Event) => void;
   /** Allows control of whether the menu is opened when the Select is focused */
   openMenuOnFocus: boolean;
   /** Allows control of whether the menu is opened when the Select is clicked */

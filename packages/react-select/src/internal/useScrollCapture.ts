@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { supportsPassiveEvents } from '../utils';
 
-const cancelScroll = (event: WheelEvent | TouchEvent) => {
+const cancelScroll = (event: Event) => {
   if (event.cancelable) event.preventDefault();
   event.stopPropagation();
 };
 
 interface Options {
   readonly isEnabled: boolean;
-  readonly onBottomArrive?: (event: WheelEvent | TouchEvent) => void;
-  readonly onBottomLeave?: (event: WheelEvent | TouchEvent) => void;
-  readonly onTopArrive?: (event: WheelEvent | TouchEvent) => void;
-  readonly onTopLeave?: (event: WheelEvent | TouchEvent) => void;
+  readonly onBottomArrive?: (event: Event) => void;
+  readonly onBottomLeave?: (event: Event) => void;
+  readonly onTopArrive?: (event: Event) => void;
+  readonly onTopLeave?: (event: Event) => void;
 }
 
 export default function useScrollCapture({
@@ -25,9 +25,10 @@ export default function useScrollCapture({
   const isTop = useRef(false);
   const touchStart = useRef(0);
   const scrollTarget = useRef<HTMLElement | null>(null);
+  const previousScrollTop = useRef(0);
 
   const handleEventDelta = useCallback(
-    (event: WheelEvent | TouchEvent, delta: number) => {
+    (event: Event, delta: number) => {
       if (scrollTarget.current === null) return;
 
       const { scrollTop, scrollHeight, clientHeight } = scrollTarget.current;
@@ -73,16 +74,24 @@ export default function useScrollCapture({
     [onBottomArrive, onBottomLeave, onTopArrive, onTopLeave]
   );
 
-  const onWheel = useCallback(
-    (event: WheelEvent) => {
-      handleEventDelta(event, event.deltaY);
+  const onScroll = useCallback(
+    (event: Event) => {
+      const target = event.currentTarget;
+
+      if (target instanceof HTMLElement) {
+        const deltaY = target.scrollTop - previousScrollTop.current;
+        previousScrollTop.current = target.scrollTop;
+        handleEventDelta(event, deltaY);
+      }
     },
     [handleEventDelta]
   );
+
   const onTouchStart = useCallback((event: TouchEvent) => {
     // set touch start so we can calculate touchmove delta
     touchStart.current = event.changedTouches[0].clientY;
   }, []);
+
   const onTouchMove = useCallback(
     (event: TouchEvent) => {
       const deltaY = touchStart.current - event.changedTouches[0].clientY;
@@ -92,28 +101,28 @@ export default function useScrollCapture({
   );
 
   const startListening = useCallback(
-    (el) => {
+    (el: HTMLElement | null) => {
       // bail early if no element is available to attach to
       if (!el) return;
 
       const notPassive = supportsPassiveEvents ? { passive: false } : false;
-      el.addEventListener('wheel', onWheel, notPassive);
+      el.addEventListener('scroll', onScroll, notPassive);
       el.addEventListener('touchstart', onTouchStart, notPassive);
       el.addEventListener('touchmove', onTouchMove, notPassive);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   const stopListening = useCallback(
-    (el) => {
+    (el: HTMLElement | null) => {
       // bail early if no element is available to detach from
       if (!el) return;
 
-      el.removeEventListener('wheel', onWheel, false);
+      el.removeEventListener('scroll', onScroll, false);
       el.removeEventListener('touchstart', onTouchStart, false);
       el.removeEventListener('touchmove', onTouchMove, false);
     },
-    [onTouchMove, onTouchStart, onWheel]
+    [onTouchMove, onTouchStart, onScroll]
   );
 
   useEffect(() => {
