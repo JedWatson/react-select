@@ -92,10 +92,18 @@ const baseCSS = <
         ':hover': {
           color: isFocused ? colors.neutral80 : colors.neutral40,
         },
+        border: 'none',
+        background: 'none',
+        ':focus': {
+          borderColor: !isFocused ? colors.primary : 'none',
+          outline: 'unset',
+          boxShadow: !isFocused ? `0 0 0 2px ${colors.primary} inset` : 'unset',
+        },
       }),
 });
 
 export const dropdownIndicatorCSS = baseCSS;
+
 export const DropdownIndicator = <
   Option,
   IsMulti extends boolean,
@@ -128,6 +136,10 @@ export interface ClearIndicatorProps<
   innerProps: JSX.IntrinsicElements['div'];
   /** The focused state of the select. */
   isFocused: boolean;
+  /** Handle clearing the value and focus*/
+  handleClearingValue: () => void;
+  /** Enabled clear indictor to be acessible via keyboard and screen-reader */
+  enableAccessibleClearIndicator?: boolean;
 }
 
 export const clearIndicatorCSS = baseCSS;
@@ -138,15 +150,37 @@ export const ClearIndicator = <
 >(
   props: ClearIndicatorProps<Option, IsMulti, Group>
 ) => {
-  const { children, innerProps } = props;
+  const {
+    children,
+    innerProps,
+    enableAccessibleClearIndicator,
+    handleClearingValue: onClearValue,
+  } = props;
+
+  const clearIndicatorStyle = getStyleProps(props, 'clearIndicator', {
+    indicator: true,
+    'clear-indicator': true,
+  });
+
+  if (enableAccessibleClearIndicator) {
+    return (
+      <div {...innerProps} aria-hidden={false}>
+        <button
+          aria-label="clear"
+          {...clearIndicatorStyle}
+          onClick={(e) => {
+            e.preventDefault();
+            onClearValue();
+          }}
+        >
+          {children || <CrossIcon />}
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div
-      {...getStyleProps(props, 'clearIndicator', {
-        indicator: true,
-        'clear-indicator': true,
-      })}
-      {...innerProps}
-    >
+    <div {...clearIndicatorStyle} {...innerProps}>
       {children || <CrossIcon />}
     </div>
   );
