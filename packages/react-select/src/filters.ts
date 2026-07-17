@@ -7,7 +7,7 @@ export interface FilterOptionOption<Option> {
   readonly data: Option;
 }
 
-interface Config<Option> {
+export interface Config<Option> {
   readonly ignoreCase?: boolean;
   readonly ignoreAccents?: boolean;
   readonly stringify?: (option: FilterOptionOption<Option>) => string;
