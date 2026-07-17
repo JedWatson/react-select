@@ -45,7 +45,7 @@ export const SelectContainer = <
 >(
   props: ContainerProps<Option, IsMulti, Group>
 ) => {
-  const { children, innerProps, isDisabled, isRtl } = props;
+  const { children, innerProps, isDisabled, isRtl, selectProps } = props;
   return (
     <div
       {...getStyleProps(props, 'container', {
@@ -53,6 +53,7 @@ export const SelectContainer = <
         '--is-rtl': isRtl,
       })}
       {...innerProps}
+      data-testid={selectProps['data-testid']}
     >
       {children}
     </div>

@@ -137,6 +137,8 @@ export interface Props<
   components: SelectComponentsConfig<Option, IsMulti, Group>;
   /** Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
   controlShouldRenderValue: boolean;
+  /** Testing id applied to the outer Select container */
+  'data-testid'?: string;
   /** Delimiter used to join multiple values into a single HTML Input value */
   delimiter?: string;
   /** Clear all values when the user presses escape AND the menu is closed */
