@@ -50,6 +50,7 @@ const LiveRegion = <
   const {
     ariaLiveMessages,
     getOptionLabel,
+    getOptionValue,
     inputValue,
     isMulti,
     isOptionDisabled,
@@ -115,7 +116,9 @@ const LiveRegion = <
     const isSelected = !!(
       focusedOption &&
       selectValue &&
-      selectValue.includes(focusedOption)
+      selectValue.some(
+        (option) => getOptionValue(option) === getOptionValue(focusedOption)
+      )
     );
 
     if (focused && messages.onFocus) {
@@ -138,6 +141,7 @@ const LiveRegion = <
     focusedOption,
     focusedValue,
     getOptionLabel,
+    getOptionValue,
     isOptionDisabled,
     messages,
     focusableOptions,
