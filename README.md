@@ -81,6 +81,7 @@ Common props you may want to specify include:
 - `placeholder` - change the text displayed when no option is selected
 - `noOptionsMessage` - ({ inputValue: string }) => string | null - Text to display when there are no options
 - `value` - control the current value
+- `loopWithArrowKeys` - loop options when using keyboard navigation, default `true
 
 See the [props documentation](https://www.react-select.com/props) for complete documentation on the props react-select supports.
 
