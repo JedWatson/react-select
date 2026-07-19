@@ -9,6 +9,7 @@ export { default as BasicMulti } from './BasicMulti';
 export { default as BasicSingle } from './BasicSingle';
 export { default as CustomAriaLive } from './CustomAriaLive';
 export { default as CustomControl } from './CustomControl';
+export { default as CustomDummyInput } from './CustomDummyInput';
 export { default as CreatableAdvanced } from './CreatableAdvanced';
 export { default as CreatableInputOnly } from './CreatableInputOnly';
 export { default as CreateFilter } from './CreateFilter';

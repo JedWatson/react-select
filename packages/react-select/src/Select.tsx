@@ -15,7 +15,7 @@ import { MenuPlacer } from './components/Menu';
 import LiveRegion from './components/LiveRegion';
 
 import { createFilter, FilterOptionOption } from './filters';
-import { DummyInput, ScrollManager, RequiredInput } from './internal/index';
+import { ScrollManager, RequiredInput } from './internal/index';
 import { AriaLiveMessages, AriaSelection } from './accessibility/index';
 import { isAppleDevice } from './accessibility/helpers';
 
@@ -1712,7 +1712,7 @@ export default class Select<
       menuIsOpen,
       required,
     } = this.props;
-    const { Input } = this.getComponents();
+    const { DummyInput, Input } = this.getComponents();
     const { inputIsHidden, ariaSelection } = this.state;
     const { commonProps } = this;
 
@@ -1752,6 +1752,7 @@ export default class Select<
       // use a dummy input to maintain focus/blur functionality
       return (
         <DummyInput
+          {...commonProps}
           id={id}
           innerRef={this.getInputRef}
           onBlur={this.onInputBlur}

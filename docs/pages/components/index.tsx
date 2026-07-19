@@ -16,6 +16,7 @@ import {
   CustomMultiValueRemove,
   CustomMultiValueLabel,
   CustomControl,
+  CustomDummyInput,
   CustomGroup,
   CustomInput,
   CustomOption,
@@ -47,6 +48,7 @@ export default function Components() {
         The following components are customisable and switchable:
           * ClearIndicator
           * Control
+          * DummyInput
           * DropdownIndicator
           * DownChevron
           * CrossIcon
@@ -336,6 +338,16 @@ export default function Components() {
             raw={require('!!raw-loader!../../examples/CustomInput.tsx')}
           >
             <CustomInput />
+          </ExampleWrapper>
+        )}
+
+        ${(
+          <ExampleWrapper
+            label="Custom DummyInput Example"
+            urlPath="docs/examples/CustomDummyInput.tsx"
+            raw={require('!!raw-loader!../../examples/CustomDummyInput.tsx')}
+          >
+            <CustomDummyInput />
           </ExampleWrapper>
         )}
 

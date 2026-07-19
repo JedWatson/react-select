@@ -7,6 +7,7 @@ import {
   ValueContainerProps,
 } from './components/containers';
 import { ControlProps, css as controlCSS } from './components/Control';
+import { dummyInputCSS, DummyInputProps } from './components/DummyInput';
 import {
   groupCSS,
   groupHeadingCSS,
@@ -57,6 +58,7 @@ export interface StylesProps<
   clearIndicator: ClearIndicatorProps<Option, IsMulti, Group>;
   container: ContainerProps<Option, IsMulti, Group>;
   control: ControlProps<Option, IsMulti, Group>;
+  dummyInput: DummyInputProps<Option, IsMulti, Group>;
   dropdownIndicator: DropdownIndicatorProps<Option, IsMulti, Group>;
   group: GroupProps<Option, IsMulti, Group>;
   groupHeading: GroupHeadingProps<Option, IsMulti, Group>;
@@ -87,6 +89,7 @@ export const defaultStyles: {
   clearIndicator: clearIndicatorCSS,
   container: containerCSS,
   control: controlCSS,
+  dummyInput: dummyInputCSS,
   dropdownIndicator: dropdownIndicatorCSS,
   group: groupCSS,
   groupHeading: groupHeadingCSS,

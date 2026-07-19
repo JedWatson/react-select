@@ -2892,6 +2892,26 @@ test('render custom Input Component', () => {
   expect(container.querySelector('.my-input-component')).toBeInTheDocument();
 });
 
+test('render custom DummyInput Component', () => {
+  const DummyInputComponent = () => (
+    <div className="my-dummy-input-component" />
+  );
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      isSearchable={false}
+      components={{ DummyInput: DummyInputComponent }}
+    />
+  );
+
+  expect(
+    container.querySelector('input.react-select__dummy-input')
+  ).not.toBeInTheDocument();
+  expect(
+    container.querySelector('.my-dummy-input-component')
+  ).toBeInTheDocument();
+});
+
 test('render custom Menu Component', () => {
   const MenuComponent = () => <div className="my-menu-component" />;
   let { container } = render(

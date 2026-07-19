@@ -24,6 +24,7 @@ export type {
   ValueContainerProps,
 } from './components/containers';
 export type { ControlProps } from './components/Control';
+export type { DummyInputProps } from './components/DummyInput';
 export type { GroupProps, GroupHeadingProps } from './components/Group';
 export type {
   ClearIndicatorProps,

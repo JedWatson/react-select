@@ -8,6 +8,7 @@ import {
   CreateFilter,
   ControlledMenu,
   CustomAriaLive,
+  CustomDummyInput,
   CustomFilterOptions,
   CustomGetOptionLabel,
   CustomGetOptionValue,
@@ -161,6 +162,16 @@ export default function Advanced() {
           raw={require('!!raw-loader!../../examples/MenuBuffer.tsx')}
         >
           <MenuBuffer />
+        </ExampleWrapper>
+      )}
+
+      ${(
+        <ExampleWrapper
+          label="Custom DummyInput with non-searchable Select"
+          urlPath="docs/examples/CustomDummyInput.tsx"
+          raw={require('!!raw-loader!../../examples/CustomDummyInput.tsx')}
+        >
+          <CustomDummyInput />
         </ExampleWrapper>
       )}
 

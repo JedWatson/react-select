@@ -23,6 +23,7 @@ import {
 } from './indicators';
 
 import Control, { ControlProps } from './Control';
+import DummyInput, { DummyInputProps } from './DummyInput';
 import Group, { GroupHeading, GroupHeadingProps, GroupProps } from './Group';
 import Input, { InputProps } from './Input';
 import Menu, {
@@ -55,6 +56,7 @@ export interface SelectComponents<
 > {
   ClearIndicator: ComponentType<ClearIndicatorProps<Option, IsMulti, Group>>;
   Control: ComponentType<ControlProps<Option, IsMulti, Group>>;
+  DummyInput: ComponentType<DummyInputProps<Option, IsMulti, Group>>;
   DropdownIndicator: ComponentType<
     DropdownIndicatorProps<Option, IsMulti, Group>
   > | null;
@@ -103,6 +105,7 @@ export type SelectComponentsConfig<
 export const components = {
   ClearIndicator: ClearIndicator,
   Control: Control,
+  DummyInput: DummyInput,
   DropdownIndicator: DropdownIndicator,
   DownChevron: DownChevron,
   CrossIcon: CrossIcon,
