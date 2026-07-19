@@ -2000,7 +2000,7 @@ export default class Select<
         onMouseOver: onHover,
         tabIndex: -1,
         role: 'option',
-        'aria-selected': this.state.isAppleDevice ? undefined : isSelected, // is not supported on Apple devices
+        'aria-selected': isSelected,
       };
 
       return (
