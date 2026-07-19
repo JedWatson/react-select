@@ -11,5 +11,8 @@ export default () => (
     options={colourOptions}
     className="basic-multi-select"
     classNamePrefix="select"
+    dataAttributes={{
+      'data-testid': 'basic-multi-select',
+    }}
   />
 );

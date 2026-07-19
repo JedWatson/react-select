@@ -2318,6 +2318,32 @@ cases(
   }
 );
 
+cases(
+  'accessibility > passes through dataAttributes prop',
+  ({
+    props = {
+      ...BASIC_PROPS,
+      dataAttributes: { 'data-testid': 'test-select' },
+    },
+  }) => {
+    let { container } = render(<Select {...props} />);
+    // The data attributes should be on the outermost div (SelectContainer)
+    const selectContainer = container.querySelector('div[data-testid]');
+    expect(selectContainer).toBeTruthy();
+    expect(selectContainer!.getAttribute('data-testid')).toBe('test-select');
+  },
+  {
+    'single select > should pass dataAttributes prop down to the container': {},
+    'multi select > should pass dataAttributes prop down to the container': {
+      props: {
+        ...BASIC_PROPS,
+        dataAttributes: { 'data-testid': 'test-select' },
+        isMulti: true,
+      },
+    },
+  }
+);
+
 test('accessibility > to show the number of options available in A11yText when the menu is Open', () => {
   let { container, rerender } = render(
     <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />

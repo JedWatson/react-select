@@ -30,6 +30,9 @@ export default () => {
         isSearchable={isSearchable}
         name="color"
         options={colourOptions}
+        dataAttributes={{
+          'data-testid': 'basic-single-select',
+        }}
       />
 
       <div
