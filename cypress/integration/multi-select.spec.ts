@@ -49,7 +49,7 @@ describe('Multi Select', () => {
         .get(selector.multiSelectInput)
         .type('{backspace}', { force: true })
         .get(selector.placeHolderMulti)
-        .should('contain', 'Select...');
+        .should('contain', 'Select…');
     });
 
     it(`Should select different options using - click and enter in view: ${viewport}`, () => {
