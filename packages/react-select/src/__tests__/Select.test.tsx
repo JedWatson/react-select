@@ -1,5 +1,5 @@
 import React, { KeyboardEvent } from 'react';
-import { render, fireEvent, EventType } from '@testing-library/react';
+import { render, fireEvent, EventType, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import cases from 'jest-in-case';
 
@@ -417,6 +417,26 @@ cases(
       },
   }
 );
+
+test('no options message is rendered as a disabled option', () => {
+  const { getByRole } = render(
+    <Select {...BASIC_PROPS} menuIsOpen options={[]} />
+  );
+  const notice = within(getByRole('listbox')).getByRole('option');
+
+  expect(notice).toHaveTextContent('No options');
+  expect(notice).toHaveAttribute('aria-disabled', 'true');
+});
+
+test('loading message is rendered as a disabled option', () => {
+  const { getByRole } = render(
+    <Select {...BASIC_PROPS} menuIsOpen options={[]} isLoading />
+  );
+  const notice = within(getByRole('listbox')).getByRole('option');
+
+  expect(notice).toHaveTextContent('Loading...');
+  expect(notice).toHaveAttribute('aria-disabled', 'true');
+});
 
 cases(
   'value prop',

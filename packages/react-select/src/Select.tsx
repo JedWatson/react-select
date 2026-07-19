@@ -2056,11 +2056,25 @@ export default class Select<
     } else if (isLoading) {
       const message = loadingMessage({ inputValue });
       if (message === null) return null;
-      menuUI = <LoadingMessage {...commonProps}>{message}</LoadingMessage>;
+      menuUI = (
+        <LoadingMessage
+          {...commonProps}
+          innerProps={{ role: 'option', 'aria-disabled': true }}
+        >
+          {message}
+        </LoadingMessage>
+      );
     } else {
       const message = noOptionsMessage({ inputValue });
       if (message === null) return null;
-      menuUI = <NoOptionsMessage {...commonProps}>{message}</NoOptionsMessage>;
+      menuUI = (
+        <NoOptionsMessage
+          {...commonProps}
+          innerProps={{ role: 'option', 'aria-disabled': true }}
+        >
+          {message}
+        </NoOptionsMessage>
+      );
     }
     const menuPlacementProps = {
       minMenuHeight,
