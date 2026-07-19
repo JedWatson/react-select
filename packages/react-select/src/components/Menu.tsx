@@ -324,6 +324,7 @@ export const MenuPlacer = <
     menuPosition,
     menuShouldScrollIntoView,
     theme,
+    options: { length: optionsLength },
   } = props;
 
   const { setPortalPlacement } = useContext(PortalPlacementContext) || {};
@@ -361,6 +362,7 @@ export const MenuPlacer = <
     minMenuHeight,
     setPortalPlacement,
     controlHeight,
+    optionsLength,
   ]);
 
   return children({
