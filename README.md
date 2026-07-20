@@ -32,7 +32,7 @@ Features include:
 
 # Installation and usage
 
-The easiest way to use react-select is to install it from npm and build it into your app with Webpack.
+The easiest way to use react-select is to install it from yarn and build it into your app with Webpack.
 
 ```
 yarn add react-select
