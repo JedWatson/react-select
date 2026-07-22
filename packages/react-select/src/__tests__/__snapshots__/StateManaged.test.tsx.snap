@@ -81,7 +81,7 @@ exports[`defaults > snapshot 1`] = `
 }
 
 .emotion-6 {
-  visibility: visible;
+  visibility: unset;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
