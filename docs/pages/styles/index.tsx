@@ -111,6 +111,8 @@ export default function Styles() {
       </ul>
     </details>
 
+    Note that this list overlaps with the list of customisable and switchable components listed [here](/components).
+
     ## The classNamePrefix prop
 
     If you provide the \`classNamePrefix\` prop to React Select, all inner elements will be given a className with the provided prefix.
