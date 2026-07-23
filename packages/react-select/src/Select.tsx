@@ -1516,7 +1516,11 @@ export default class Select<
   };
   onInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     const { inputValue: prevInputValue } = this.props;
-    if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
+    if (
+      this.menuListRef &&
+      (this.menuListRef.contains(document.activeElement) ||
+        this.menuListRef.contains(event.relatedTarget as Node))
+    ) {
       this.inputRef!.focus();
       return;
     }
