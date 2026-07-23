@@ -2688,6 +2688,24 @@ test('onMenuClose() function prop to be called on blur', () => {
   expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
 });
 
+test('onMenuClose() should not be called when blur is caused by focus moving to an element inside the menu (e.g. a custom Option checkbox)', () => {
+  let onMenuCloseSpy = jest.fn();
+  let { container } = render(
+    <Select
+      {...BASIC_PROPS}
+      menuIsOpen
+      onBlur={jest.fn()}
+      onInputChange={jest.fn()}
+      onMenuClose={onMenuCloseSpy}
+    />
+  );
+  let optionInMenu = container.querySelector('.react-select__option')!;
+  fireEvent.blur(container.querySelector('input.react-select__input')!, {
+    relatedTarget: optionInMenu,
+  });
+  expect(onMenuCloseSpy).not.toHaveBeenCalled();
+});
+
 cases(
   'placeholder',
   ({ props, expectPlaceholder = 'Select...' }) => {
