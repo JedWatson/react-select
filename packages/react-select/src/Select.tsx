@@ -1574,6 +1574,10 @@ export default class Select<
     } = this.props;
     const { focusedOption, focusedValue, selectValue } = this.state;
 
+    // Ignore all keydown events during IME composition (e.g. Vietnamese, Japanese)
+    // to prevent duplicate triggers (ref: https://www.w3.org/TR/uievents/#determine-keydown-keyup-keyCode)
+    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+
     if (isDisabled) return;
 
     if (typeof onKeyDown === 'function') {
