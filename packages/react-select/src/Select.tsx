@@ -1301,6 +1301,7 @@ export default class Select<
   onControlMouseDown = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
+    event.stopPropagation();
     // Event captured by dropdown indicator
     if (event.defaultPrevented) {
       return;

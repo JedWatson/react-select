@@ -86,6 +86,59 @@ cases(
   }
 );
 
+test('closes the menu when a focused parent wraps the select', () => {
+  const onBlurSpy = jest.fn();
+  const onMenuCloseSpy = jest.fn();
+  const parentRef = React.createRef<HTMLDivElement>();
+  const { container, getByRole } = render(
+    <>
+      <div
+        ref={parentRef}
+        tabIndex={0}
+        onMouseDown={() => parentRef.current?.focus()}
+      >
+        <Select
+          {...BASIC_PROPS}
+          onBlur={onBlurSpy}
+          onMenuClose={onMenuCloseSpy}
+        />
+      </div>
+      <button type="button">Outside</button>
+    </>
+  );
+
+  fireEvent.mouseDown(container.querySelector('.react-select__control')!, {
+    button: 0,
+  });
+
+  expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
+  expect(onMenuCloseSpy).not.toHaveBeenCalled();
+
+  userEvent.click(getByRole('button', { name: 'Outside' }));
+
+  expect(
+    container.querySelector('.react-select__menu')
+  ).not.toBeInTheDocument();
+  expect(onBlurSpy).toHaveBeenCalledTimes(1);
+  expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
+
+  fireEvent.mouseDown(
+    container.querySelector('.react-select__dropdown-indicator')!,
+    { button: 0 }
+  );
+
+  expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
+  expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
+
+  userEvent.click(getByRole('button', { name: 'Outside' }));
+
+  expect(
+    container.querySelector('.react-select__menu')
+  ).not.toBeInTheDocument();
+  expect(onBlurSpy).toHaveBeenCalledTimes(2);
+  expect(onMenuCloseSpy).toHaveBeenCalledTimes(2);
+});
+
 test('If menuIsOpen prop is passed Menu should not close on clicking Dropdown Indicator', () => {
   const { container } = render(<Select menuIsOpen {...BASIC_PROPS} />);
   expect(container.querySelector('.react-select__menu')).toBeTruthy();
