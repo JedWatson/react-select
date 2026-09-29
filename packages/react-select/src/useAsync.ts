@@ -33,6 +33,12 @@ export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
    * Async select is not currently waiting for loadOptions to resolve
    */
   isLoading?: boolean;
+  /**
+   * When set to `true`, the `loadOptions` function will be called even when the input is empty (`''`).
+   * This allows consumers to handle empty input searches (e.g., return a default set of results).
+   * If `false` (default), the input will reset without triggering `loadOptions('')`.
+   */
+  allowEmptySearch?: boolean;
 }
 
 export type AsyncProps<
@@ -55,6 +61,7 @@ export default function useAsync<
   isLoading: propsIsLoading = false,
   onInputChange: propsOnInputChange,
   filterOption = null,
+  allowEmptySearch,
   ...restSelectProps
 }: AsyncProps<Option, IsMulti, Group> & AdditionalProps): StateManagerProps<
   Option,
@@ -143,7 +150,7 @@ export default function useAsync<
         actionMeta,
         propsOnInputChange
       );
-      if (!inputValue) {
+      if (!inputValue && !allowEmptySearch) {
         lastRequest.current = undefined;
         setStateInputValue('');
         setLoadedInputValue('');
@@ -183,6 +190,7 @@ export default function useAsync<
       loadedInputValue,
       optionsCache,
       propsOnInputChange,
+      allowEmptySearch,
     ]
   );
 
