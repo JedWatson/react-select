@@ -239,3 +239,34 @@ test.skip('in case of callbacks should handle an error by setting options to an 
   });
   expect(container.querySelectorAll('.react-select__option').length).toBe(0);
 });
+test('announces zero results when async search returns no options', async () => {
+  const { container } = render(
+    <Async
+      classNamePrefix="react-select"
+      menuIsOpen
+      loadOptions={() => Promise.resolve([])}
+    />
+  );
+
+  const input = container.querySelector('input.react-select__input')!;
+
+  // Focus the input before searching.
+  fireEvent.focus(input);
+
+  // Search for a value that returns no options.
+  fireEvent.input(input, {
+    target: { value: 'test' },
+    bubbles: true,
+    cancelable: true,
+  });
+
+  // Verify the accessibility announcement.
+  await waitFor(() => {
+    const results = container.querySelector('#aria-results');
+
+    expect(results).not.toBeNull();
+    expect(results?.textContent).toMatch(
+      /0 results available for search term test/
+    );
+  });
+});
