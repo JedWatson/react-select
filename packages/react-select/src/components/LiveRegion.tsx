@@ -147,7 +147,12 @@ const LiveRegion = <
 
   const ariaResults = useMemo(() => {
     let resultsMsg = '';
-    if (menuIsOpen && options.length && !isLoading && messages.onFilter) {
+    if (
+  menuIsOpen &&
+  (options.length > 0 || inputValue.length > 0) &&
+  !isLoading &&
+  messages.onFilter
+) {
       const resultsMessage = screenReaderStatus({
         count: focusableOptions.length,
       });
