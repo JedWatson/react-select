@@ -923,7 +923,9 @@ export default class Select<
         focusedOption: focusableOptions[openAtIndex],
         focusedOptionId: this.getFocusedOptionId(focusableOptions[openAtIndex]),
       },
-      () => this.onMenuOpen()
+      () => {
+        if (this.state.isFocused) this.onMenuOpen();
+      }
     );
   }
 

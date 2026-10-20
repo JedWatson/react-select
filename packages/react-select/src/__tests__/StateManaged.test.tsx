@@ -495,3 +495,25 @@ test('`required` prop > should validate', () => {
     container.querySelector<HTMLFormElement>('#formTest')?.checkValidity()
   ).toEqual(true);
 });
+
+test('menu should not stay open when a parent steals focus on mousedown', () => {
+  const onBlur = jest.fn();
+  const Wrapper = () => {
+    const ref = React.useRef<HTMLDivElement>(null);
+    return (
+      <div ref={ref} tabIndex={0} onMouseDown={() => ref.current?.focus()}>
+        <Select {...BASIC_PROPS} onBlur={onBlur} />
+      </div>
+    );
+  };
+  const { container } = render(<Wrapper />);
+
+  fireEvent.mouseDown(container.querySelector('.react-select__control')!, {
+    button: 0,
+  });
+
+  expect(onBlur).toHaveBeenCalledTimes(1);
+  expect(
+    container.querySelector('.react-select__menu')
+  ).not.toBeInTheDocument();
+});
