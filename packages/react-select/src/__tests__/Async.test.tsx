@@ -239,3 +239,33 @@ test.skip('in case of callbacks should handle an error by setting options to an 
   });
   expect(container.querySelectorAll('.react-select__option').length).toBe(0);
 });
+
+test('keeps cached options when an older request resolves', () => {
+  const callbacks: ((options: readonly Option[]) => void)[] = [];
+  const { container } = render(
+    <Async
+      classNamePrefix="react-select"
+      cacheOptions
+      menuIsOpen
+      loadOptions={(_inputValue, callback) => {
+        callbacks.push(callback);
+      }}
+    />
+  );
+  const input = container.querySelector('input.react-select__input')!;
+  fireEvent.input(input, { target: { value: 'foo' } });
+  act(() => {
+    callbacks[0]([{ value: 'foo', label: 'foo' }]);
+  });
+  fireEvent.input(input, { target: { value: 'bar' } });
+  fireEvent.input(input, { target: { value: 'foo' } });
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
+    'foo'
+  );
+  act(() => {
+    callbacks[1]([{ value: 'bar', label: 'bar' }]);
+  });
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
+    'foo'
+  );
+});

@@ -153,6 +153,7 @@ export default function useAsync<
         return;
       }
       if (cacheOptions && optionsCache[inputValue]) {
+        lastRequest.current = undefined;
         setStateInputValue(inputValue);
         setLoadedInputValue(inputValue);
         setLoadedOptions(optionsCache[inputValue]);
