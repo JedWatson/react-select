@@ -152,7 +152,10 @@ export default function useAsync<
         setPassEmptyOptions(false);
         return;
       }
-      if (cacheOptions && optionsCache[inputValue]) {
+      if (
+        cacheOptions &&
+        Object.prototype.hasOwnProperty.call(optionsCache, inputValue)
+      ) {
         setStateInputValue(inputValue);
         setLoadedInputValue(inputValue);
         setLoadedOptions(optionsCache[inputValue]);

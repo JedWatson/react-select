@@ -141,6 +141,41 @@ test('to not call loadOptions again for same value when cacheOptions is true', (
   expect(loadOptionsSpy).toHaveBeenCalledTimes(2);
 });
 
+test.each(['constructor', 'toString', 'hasOwnProperty', '__proto__'])(
+  'treats "%s" as a normal search when cacheOptions is true',
+  (word) => {
+    const loadOptionsSpy = jest.fn((inputValue, callback) =>
+      callback([{ value: inputValue, label: `Result for ${inputValue}` }])
+    );
+    const { container } = render(
+      <Async
+        classNamePrefix="react-select"
+        loadOptions={loadOptionsSpy}
+        cacheOptions
+        menuIsOpen
+      />
+    );
+    const input = container.querySelector('input.react-select__input')!;
+    const search = (value: string) =>
+      fireEvent.input(input, {
+        target: { value },
+        bubbles: true,
+        cancelable: true,
+      });
+
+    // first search calls the loader and shows its result
+    search(word);
+    expect(loadOptionsSpy).toHaveBeenCalledTimes(1);
+    expect(container.textContent).toContain(`Result for ${word}`);
+
+    // searching the same text again uses its own cached result
+    search('other');
+    search(word);
+    expect(loadOptionsSpy).toHaveBeenCalledTimes(2);
+    expect(container.textContent).toContain(`Result for ${word}`);
+  }
+);
+
 test('to create new cache for each instance', async () => {
   let loadOptionsOne = jest.fn();
   let { container: containerOne } = render(
