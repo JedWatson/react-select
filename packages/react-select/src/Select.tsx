@@ -1460,11 +1460,15 @@ export default class Select<
     // close the menu if the user taps outside
     // we're checking on event.target here instead of event.currentTarget, because we want to assert information
     // on events on child elements, not the document (which we've attached this handler to).
+    // inside a shadow root, event.target is retargeted to the shadow host, so use the first node of the composed path.
+    const target = (
+      event.composedPath ? event.composedPath()[0] : event.target
+    ) as Node;
     if (
       this.controlRef &&
-      !this.controlRef.contains(event.target as Node) &&
+      !this.controlRef.contains(target) &&
       this.menuListRef &&
-      !this.menuListRef.contains(event.target as Node)
+      !this.menuListRef.contains(target)
     ) {
       this.blurInput();
     }

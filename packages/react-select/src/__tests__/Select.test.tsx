@@ -3395,3 +3395,61 @@ cases(
     },
   }
 );
+
+describe('touch events inside a shadow root', () => {
+  // A listener on `document` sees the shadow host as `event.target` for any
+  // event that started inside the shadow root.
+  const renderInShadowRoot = () => {
+    const host = document.createElement('div');
+    document.body.appendChild(host);
+    const container = document.createElement('div');
+    host.attachShadow({ mode: 'open' }).appendChild(container);
+    render(<Select {...BASIC_PROPS} menuIsOpen />, { container });
+    return { host, container };
+  };
+
+  const touch = (target: Element) => {
+    for (const type of ['touchstart', 'touchend']) {
+      const event = new Event(type, { bubbles: true, composed: true });
+      Object.defineProperty(event, 'touches', {
+        value: { item: () => ({ clientX: 0, clientY: 0 }) },
+      });
+      target.dispatchEvent(event);
+    }
+  };
+
+  let blur: jest.SpyInstance;
+  beforeEach(() => {
+    blur = jest.spyOn(HTMLInputElement.prototype, 'blur');
+  });
+  afterEach(() => {
+    blur.mockRestore();
+    document.body.innerHTML = '';
+  });
+
+  test('tapping an option does not blur the input', () => {
+    const { container } = renderInShadowRoot();
+
+    touch(container.querySelector('.react-select__option')!);
+
+    expect(blur).not.toHaveBeenCalled();
+  });
+
+  test('tapping the control does not blur the input', () => {
+    const { container } = renderInShadowRoot();
+
+    touch(container.querySelector('.react-select__control')!);
+
+    expect(blur).not.toHaveBeenCalled();
+  });
+
+  test('tapping outside the select still blurs the input', () => {
+    renderInShadowRoot();
+    const outside = document.createElement('button');
+    document.body.appendChild(outside);
+
+    touch(outside);
+
+    expect(blur).toHaveBeenCalled();
+  });
+});
