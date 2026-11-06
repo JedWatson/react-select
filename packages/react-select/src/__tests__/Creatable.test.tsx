@@ -345,3 +345,22 @@ cases<CustomOpts>(
     },
   }
 );
+
+test('options that are strings > can create a new string option with getNewOptionData', () => {
+  const onChange = jest.fn();
+  const { container } = render(
+    <Creatable<string>
+      {...BASIC_PROPS}
+      options={['apple']}
+      getOptionLabel={(s) => s}
+      getOptionValue={(s) => s}
+      getNewOptionData={(inputValue) => inputValue}
+      onChange={onChange}
+      inputValue="kiwi"
+      menuIsOpen
+    />
+  );
+  const options = container.querySelectorAll('.react-select__option');
+  fireEvent.click(options[options.length - 1]);
+  expect(onChange).toHaveBeenCalledWith('kiwi', expect.anything());
+});
