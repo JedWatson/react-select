@@ -75,6 +75,74 @@ test('instanceId prop > to have instanceId as id prefix for the select component
   });
 });
 
+test('options that are not objects (numbers) > render and can be selected', () => {
+  const onChange = jest.fn();
+  const { container } = render(
+    <Select<number>
+      {...BASIC_PROPS}
+      options={[1, 2, 3]}
+      getOptionLabel={(n) => `Number ${n}`}
+      getOptionValue={(n) => String(n)}
+      onChange={onChange}
+      menuIsOpen
+    />
+  );
+  const options = container.querySelectorAll('.react-select__option');
+  expect(Array.from(options).map((o) => o.textContent)).toEqual([
+    'Number 1',
+    'Number 2',
+    'Number 3',
+  ]);
+  fireEvent.click(options[1]);
+  expect(onChange).toHaveBeenCalledWith(2, expect.anything());
+});
+
+test('options that are not objects (strings) > render', () => {
+  const { container } = render(
+    <Select<string>
+      {...BASIC_PROPS}
+      options={['apple', 'banana']}
+      getOptionLabel={(s) => s}
+      getOptionValue={(s) => s}
+      menuIsOpen
+    />
+  );
+  expect(container.querySelectorAll('.react-select__option')).toHaveLength(2);
+});
+
+test('options that are not objects (strings) > default filter works on typed text', () => {
+  const { container } = render(
+    <Select<string>
+      {...BASIC_PROPS}
+      options={['apple', 'banana', 'avocado']}
+      getOptionLabel={(s) => s}
+      getOptionValue={(s) => s}
+      inputValue="av"
+      menuIsOpen
+    />
+  );
+  const options = container.querySelectorAll('.react-select__option');
+  expect(Array.from(options).map((o) => o.textContent)).toEqual(['avocado']);
+});
+
+test('options that are not objects (strings) > can sit next to a group', () => {
+  const { container } = render(
+    <Select<string, false, GroupBase<string>>
+      {...BASIC_PROPS}
+      options={['plain', { label: 'Group', options: ['inside'] }]}
+      getOptionLabel={(s) => s}
+      getOptionValue={(s) => s}
+      menuIsOpen
+    />
+  );
+  const options = container.querySelectorAll('.react-select__option');
+  expect(Array.from(options).map((o) => o.textContent)).toEqual([
+    'plain',
+    'inside',
+  ]);
+  expect(container.querySelectorAll('.react-select__group')).toHaveLength(1);
+});
+
 test('hidden input field is not present if name is not passes', () => {
   let { container } = render(
     <Select
