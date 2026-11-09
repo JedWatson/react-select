@@ -51,6 +51,27 @@ const BASIC_PROPS: BasicProps = {
   value: null,
 };
 
+test('keeps the value when a controlled portaled menu is disabled', () => {
+  const onChange = jest.fn();
+  const props = {
+    ...BASIC_PROPS,
+    onChange,
+    value: OPTIONS[0],
+    menuIsOpen: true,
+    menuPortalTarget: document.body,
+    instanceId: 'disabled-portal-test',
+  };
+  const { container, rerender, getByText } = render(<Select {...props} />);
+  rerender(<Select {...props} isDisabled />);
+
+  fireEvent.click(getByText(OPTIONS[1].label));
+
+  expect(onChange).not.toHaveBeenCalled();
+  expect(
+    container.querySelector('.react-select__single-value')
+  ).toHaveTextContent(OPTIONS[0].label);
+});
+
 test('snapshot - defaults', () => {
   const { container } = render(
     <Select
