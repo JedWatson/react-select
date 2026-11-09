@@ -1030,6 +1030,8 @@ export default class Select<
     this.onChange(newValue, { action, option });
   };
   selectOption = (newValue: Option) => {
+    if (this.props.isDisabled) return;
+
     const { blurInputOnSelect, isMulti, name } = this.props;
     const { selectValue } = this.state;
     const deselected = isMulti && this.isOptionSelected(newValue, selectValue);

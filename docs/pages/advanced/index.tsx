@@ -210,6 +210,7 @@ export default function Advanced() {
       ## Portaling
       React-select exposes a menuPortalTarget prop, that lets you portal the select menu to a dom node of your choosing.
       Additionally we expose the menuPortal styles for layering purposes.
+      When the Select is disabled, options cannot be selected even if the application keeps its portaled menu open.
 
       ${(
         <ExampleWrapper
