@@ -36,9 +36,9 @@ export interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
 }
 
 export type AsyncProps<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option = unknown,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = StateManagerProps<Option, IsMulti, Group> &
   AsyncAdditionalProps<Option, Group>;
 

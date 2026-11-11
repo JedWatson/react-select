@@ -11,9 +11,9 @@ import useStateManager, { StateManagerProps } from './useStateManager';
 import useCreatable, { CreatableAdditionalProps } from './useCreatable';
 
 export type CreatableProps<
-  Option,
-  IsMulti extends boolean,
-  Group extends GroupBase<Option>
+  Option = unknown,
+  IsMulti extends boolean = boolean,
+  Group extends GroupBase<Option> = GroupBase<Option>
 > = StateManagerProps<Option, IsMulti, Group> &
   CreatableAdditionalProps<Option, Group>;
 
