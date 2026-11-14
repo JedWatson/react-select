@@ -53,6 +53,7 @@ export const optionCSS = <
   display: 'block',
   fontSize: 'inherit',
   width: '100%',
+  minWidth: 'fit-content',
   userSelect: 'none',
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   ...(unstyled
